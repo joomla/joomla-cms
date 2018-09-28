@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -196,31 +196,25 @@ abstract class ChangeItem
 
 			try
 			{
-				$rows = $this->db->loadObject();
+				$rows = $this->db->loadRowList(0);
 			}
 			catch (\RuntimeException $e)
 			{
-				$rows = false;
-
 				// Still render the error message from the Exception object
 				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				$this->checkStatus = -2;
+
+				return $this->checkStatus;
 			}
 
-			if ($rows !== false)
+			if (count($rows) === $this->checkQueryExpected)
 			{
-				if (count($rows) === $this->checkQueryExpected)
-				{
-					$this->checkStatus = 1;
-				}
-				else
-				{
-					$this->checkStatus = -2;
-				}
+				$this->checkStatus = 1;
+
+				return $this->checkStatus;
 			}
-			else
-			{
-				$this->checkStatus = -2;
-			}
+
+			$this->checkStatus = -2;
 		}
 
 		return $this->checkStatus;

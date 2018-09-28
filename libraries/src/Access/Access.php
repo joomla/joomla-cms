@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -327,7 +327,7 @@ class Access
 	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 * @param   boolean  $reload     Reload the preloaded assets.
 	 *
-	 * @return  bool  True
+	 * @return  boolean  True
 	 *
 	 * @since   1.6
 	 * @note    This function will return void in 4.0.
@@ -1073,7 +1073,7 @@ class Access
 		$user      = \JUser::getInstance($userId);
 		$root_user = \JFactory::getConfig()->get('root_user');
 
-		if ($root_user && ($root_user == $user->username || $root_user == $user->id))
+		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
 		{
 			// Find the super user levels.
 			foreach (self::$viewLevels as $level => $rule)

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,5 +18,5 @@ JText::script('JTOGGLE_SHOW_SIDEBAR');
 	class="j-toggle-sidebar-button hidden-phone hasTooltip"
 	onclick="toggleSidebar(false); return false;"
 	>
-		<span id="j-toggle-sidebar-icon" class="icon-arrow-left-2"></span>
+		<span id="j-toggle-sidebar-icon" class="icon-arrow-left-2" aria-hidden="true"></span>
 </div>

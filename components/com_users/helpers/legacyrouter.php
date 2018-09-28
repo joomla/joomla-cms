@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,42 +74,57 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 			$items = $this->router->menu->getItems('component', 'com_users');
 
 			// Build an array of serialized query strings to menu item id mappings.
-			for ($i = 0, $n = count($items); $i < $n; $i++)
+			foreach ($items as $item)
 			{
-				// Check to see if we have found the resend menu item.
-				if (empty($resend) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'resend')
+				if (empty($item->query['view']))
 				{
-					$resend = $items[$i]->id;
+					continue;
+				}
+
+				// Check to see if we have found the resend menu item.
+				if (empty($resend) && $item->query['view'] === 'resend')
+				{
+					$resend = $item->id;
+
+					continue;
 				}
 
 				// Check to see if we have found the reset menu item.
-				if (empty($reset) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'reset')
+				if (empty($reset) && $item->query['view'] === 'reset')
 				{
-					$reset = $items[$i]->id;
+					$reset = $item->id;
+
+					continue;
 				}
 
 				// Check to see if we have found the remind menu item.
-				if (empty($remind) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'remind')
+				if (empty($remind) && $item->query['view'] === 'remind')
 				{
-					$remind = $items[$i]->id;
+					$remind = $item->id;
+
+					continue;
 				}
 
 				// Check to see if we have found the login menu item.
-				if (empty($login) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'login')
+				if (empty($login) && $item->query['view'] === 'login')
 				{
-					$login = $items[$i]->id;
+					$login = $item->id;
+
+					continue;
 				}
 
 				// Check to see if we have found the registration menu item.
-				if (empty($registration) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'registration')
+				if (empty($registration) && $item->query['view'] === 'registration')
 				{
-					$registration = $items[$i]->id;
+					$registration = $item->id;
+
+					continue;
 				}
 
 				// Check to see if we have found the profile menu item.
-				if (empty($profile) && !empty($items[$i]->query['view']) && $items[$i]->query['view'] === 'profile')
+				if (empty($profile) && $item->query['view'] === 'profile')
 				{
-					$profile = $items[$i]->id;
+					$profile = $item->id;
 				}
 			}
 
@@ -135,7 +150,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'reset':
 					if ($query['Itemid'] = $reset)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -146,7 +161,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'resend':
 					if ($query['Itemid'] = $resend)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -157,7 +172,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'remind':
 					if ($query['Itemid'] = $remind)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -168,7 +183,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'login':
 					if ($query['Itemid'] = $login)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -179,7 +194,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 				case 'registration':
 					if ($query['Itemid'] = $registration)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -194,11 +209,11 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 						$segments[] = $query['view'];
 					}
 
-					unset ($query['view']);
+					unset($query['view']);
 
 					if ($query['Itemid'] = $profile)
 					{
-						unset ($query['view']);
+						unset($query['view']);
 					}
 					else
 					{
@@ -213,7 +228,7 @@ class UsersRouterRulesLegacy implements JComponentRouterRulesInterface
 						$segments[] = $query['user_id'];
 					}
 
-					unset ($query['user_id']);
+					unset($query['user_id']);
 
 					break;
 			}

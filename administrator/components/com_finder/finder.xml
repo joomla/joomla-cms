@@ -2,7 +2,7 @@
 <extension type="component" version="3.1" method="upgrade">
 	<name>com_finder</name>
 	<author>Joomla! Project</author>
-	<copyright>(C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<creationDate>August 2011</creationDate>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>

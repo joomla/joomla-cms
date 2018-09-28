@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -144,7 +144,7 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('Module', '', array());
@@ -196,10 +196,7 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!JSession::checkToken())
-		{
-			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
-		}
+		$this->checkToken();
 
 		if (JFactory::getDocument()->getType() == 'json')
 		{
@@ -226,7 +223,6 @@ class ModulesControllerModule extends JControllerForm
 
 			// Add path of forms directory
 			JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-
 		}
 
 		parent::save($key, $urlVar);
@@ -252,7 +248,7 @@ class ModulesControllerModule extends JControllerForm
 		// Check if user token is valid.
 		if (!JSession::checkToken('get'))
 		{
-			$app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
+			$app->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'), 'error');
 			echo new JResponseJson;
 			$app->close();
 		}

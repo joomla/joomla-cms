@@ -3,7 +3,7 @@
 	<fieldset addfieldpath="/administrator/components/com_categories/models/fields" >
 		<field 
 			name="id" 
-			type="text" 
+			type="number" 
 			label="JGLOBAL_FIELD_ID_LABEL"
 			description="JGLOBAL_FIELD_ID_DESC" 
 			class="readonly" 
@@ -35,6 +35,16 @@
 			description="JFIELD_ALIAS_DESC"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
 			size="40" 
+		/>
+
+		<field
+			name="note"
+			type="text"
+			label="COM_CONTENT_FIELD_NOTE_LABEL"
+			description="COM_CONTENT_FIELD_NOTE_DESC"
+			class="span12"
+			size="40"
+			maxlength="255"
 		/>
 
 		<field 
@@ -226,7 +236,7 @@
 
 		<field 
 			name="hits" 
-			type="text" 
+			type="number" 
 			label="JGLOBAL_HITS"
 			description="COM_CONTENT_FIELD_HITS_DESC" 
 			class="readonly" 

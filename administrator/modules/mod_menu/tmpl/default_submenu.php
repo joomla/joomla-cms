@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use Joomla\CMS\Menu\Node\Separator;
@@ -107,7 +107,7 @@ if ($link = $current->get('link'))
 	$target = $current->get('target') ? 'target="' . $current->get('target') . '"' : '';
 
 	echo '<a' . $linkClass . $dataToggle . ' href="' . $link . '" ' . $target . '>' .
-				JText::_($current->get('title')) . ' &nbsp; ' . $icon . $dropdownCaret . '</a>';
+				JText::_($current->get('title')) . $icon . $dropdownCaret . '</a>';
 }
 // Separator
 else

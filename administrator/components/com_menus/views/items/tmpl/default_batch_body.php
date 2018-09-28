@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -15,6 +15,26 @@ $options = array(
 $published = $this->state->get('filter.published');
 $clientId  = $this->state->get('filter.client_id');
 $menuType  = JFactory::getApplication()->getUserState('com_menus.items.menutype');
+if ($clientId == 1) :
+	JFactory::getDocument()->addScriptDeclaration(
+		'
+			jQuery(document).ready(function($){
+				if ($("#batch-menu-id").length){var batchSelector = $("#batch-menu-id");}
+				if ($("#batch-copy-move").length) {
+					$("#batch-copy-move").hide();
+					batchSelector.on("change", function(){
+						if (batchSelector.val() != 0 || batchSelector.val() != "") {
+							$("#batch-copy-move").show();
+						} else {
+							$("#batch-copy-move").hide();
+						}
+					});
+				}
+			});
+		'
+	);
+endif;
+
 ?>
 <div class="container-fluid">
 	<?php if (strlen($menuType) && $menuType != '*') : ?>

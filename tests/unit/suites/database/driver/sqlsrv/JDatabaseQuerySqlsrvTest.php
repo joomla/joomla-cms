@@ -3,17 +3,17 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Test class for JDatabaseQuerySqlsrv.
-*
-* @package     Joomla.UnitTest
-* @subpackage  Database
-* @since       11.3
-*/
+ *
+ * @package     Joomla.UnitTest
+ * @subpackage  Database
+ * @since       11.3
+ */
 class JDatabaseQuerySqlsrvTest extends TestCase
 {
 	/**
@@ -331,13 +331,13 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$this->_instance
 			->clear()
 			->select('DISTINCT + + + id'
-			. ", - +- +-a . [id_9]"
-			. ", - +- +-a. [id_9]"
-			. ", - +- +-a .[id_9]"
-			. ", - +- +-a.[id_9]"
-			. ", + - + ix"
-			. ", ++ ix"
-		);
+				. ", - +- +-a . [id_9]"
+				. ", - +- +-a. [id_9]"
+				. ", - +- +-a .[id_9]"
+				. ", - +- +-a.[id_9]"
+				. ", + - + ix"
+				. ", ++ ix"
+			);
 
 		$expected = array(
 			'DISTINCT +++ id',
@@ -359,10 +359,10 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$this->_instance
 			->clear()
 			->select('DISTINCT - + + + [a] . id'
-			. ", [a] . [id_9]"
-			. ", c + /**/ + [a].[b]"
-			. ", [a].[b] + c"
-		);
+				. ", [a] . [id_9]"
+				. ", c + /**/ + [a].[b]"
+				. ", [a].[b] + c"
+			);
 
 		$expected = array(
 			'DISTINCT -+++ [a]. id AS [columnAlias0]',
@@ -381,8 +381,8 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 		$this->_instance
 			->clear()
 			->select('DISTINCT +id'
-			. ", ''+a . id_9 'alias'"
-		);
+				. ", ''+a . id_9 'alias'"
+			);
 
 		$expected = array(
 			'DISTINCT + id',

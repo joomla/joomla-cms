@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class PasswordRule extends FormRule
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		$meter            = isset($element['strengthmeter'])  ? ' meter="0"' : '1';
+		$meter            = isset($element['strengthmeter']) ? ' meter="0"' : '1';
 		$threshold        = isset($element['threshold']) ? (int) $element['threshold'] : 66;
 		$minimumLength    = isset($element['minimum_length']) ? (int) $element['minimum_length'] : 4;
 		$minimumIntegers  = isset($element['minimum_integers']) ? (int) $element['minimum_integers'] : 0;

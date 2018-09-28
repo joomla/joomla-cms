@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -441,6 +441,7 @@ class TemplatesModelTemplate extends JModelForm
 			catch (Exception $e)
 			{
 				$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_SOURCE_FILE_NOT_FOUND'), 'error');
+
 				return;
 			}
 
@@ -563,6 +564,7 @@ class TemplatesModelTemplate extends JModelForm
 			$client        = JApplicationHelper::getClientInfo($template->client_id);
 			$componentPath = JPath::clean($client->path . '/components/');
 			$modulePath    = JPath::clean($client->path . '/modules/');
+			$pluginPath    = JPath::clean(JPATH_ROOT . '/plugins/');
 			$layoutPath    = JPath::clean(JPATH_ROOT . '/layouts/');
 			$components    = JFolder::folders($componentPath);
 
@@ -592,6 +594,18 @@ class TemplatesModelTemplate extends JModelForm
 						{
 							$result['components'][$component][] = $this->getOverridesFolder($view, $viewPath);
 						}
+					}
+				}
+			}
+
+			foreach (JFolder::folders($pluginPath) as $pluginGroup)
+			{
+				foreach (JFolder::folders($pluginPath . '/' . $pluginGroup) as $plugin)
+				{
+					if (file_exists($pluginPath . '/' . $pluginGroup . '/' . $plugin . '/tmpl/'))
+					{
+						$pluginLayoutPath = JPath::clean($pluginPath . '/' . $pluginGroup . '/');
+						$result['plugins'][$pluginGroup][] = $this->getOverridesFolder($plugin, $pluginLayoutPath);
 					}
 				}
 			}
@@ -681,6 +695,12 @@ class TemplatesModelTemplate extends JModelForm
 					$htmlPath = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $url);
 				}
 			}
+			elseif (stripos($override, JPath::clean(JPATH_ROOT . '/plugins/')) === 0)
+			{
+				$size       = count($explodeArray);
+				$layoutPath = JPath::clean('plg_' . $explodeArray[$size - 2] . '_' . $explodeArray[$size - 1]);
+				$htmlPath   = JPath::clean($client->path . '/templates/' . $template->element . '/html/' . $layoutPath);
+			}
 			else
 			{
 				$layoutPath = implode('/', array_slice($explodeArray, -2));
@@ -703,6 +723,10 @@ class TemplatesModelTemplate extends JModelForm
 				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
 			elseif (stristr($override, 'com_') != false && stristr($override, 'layouts') == false)
+			{
+				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
+			}
+			elseif (stripos($override, JPath::clean(JPATH_ROOT . '/plugins/')) === 0)
 			{
 				$return = $this->createTemplateOverride(JPath::clean($override . '/tmpl'), $htmlPath);
 			}
@@ -885,6 +909,7 @@ class TemplatesModelTemplate extends JModelForm
 
 				return false;
 			}
+
 			// Check if the format is allowed and will be showed in the backend
 			$check = $this->checkFormat($type);
 
@@ -1423,14 +1448,14 @@ class TemplatesModelTemplate extends JModelForm
 	}
 
 	/**
- 	* Check if the extension is allowed and will be shown in the template manager
- 	*
-	* @param   string  $ext  The extension to check if it is allowed
- 	*
- 	* @return  boolean  true if the extension is allowed false otherwise
- 	*
- 	* @since   3.6.0
-	*/
+	 * Check if the extension is allowed and will be shown in the template manager
+	 *
+	 * @param   string  $ext  The extension to check if it is allowed
+	 *
+	 * @return  boolean  true if the extension is allowed false otherwise
+	 *
+	 * @since   3.6.0
+	 */
 	protected function checkFormat($ext)
 	{
 		if (!isset($this->allowedFormats))

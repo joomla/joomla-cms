@@ -51,7 +51,7 @@
 
 			<field 
 				name="height" 
-				type="text"
+				type="number"
 				label="COM_WRAPPER_FIELD_HEIGHT_LABEL"
 				description="COM_WRAPPER_FIELD_HEIGHT_DESC"
 				default="500"

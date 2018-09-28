@@ -23,7 +23,6 @@
 			type="groupparent"
 			label="COM_USERS_GROUP_FIELD_PARENT_LABEL"
 			description="COM_USERS_GROUP_FIELD_PARENT_DESC"
-			required="true"
 		/>
 
 		<field 

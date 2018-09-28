@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class FinderIndexerTaxonomy
 		$result = $db->loadObject();
 
 		// Check if the database matches the input data.
-		if (!empty($result) && $result->state == $state && $result->access == $access)
+		if ((bool) $result && $result->state == $state && $result->access == $access)
 		{
 			// The data matches, add the item to the cache.
 			static::$branches[$title] = $result;
@@ -145,7 +145,7 @@ class FinderIndexerTaxonomy
 		$result = $db->loadObject();
 
 		// Check if the database matches the input data.
-		if (!empty($result) && $result->state == $state && $result->access == $access)
+		if ((bool) $result && $result->state == $state && $result->access == $access)
 		{
 			// The data matches, add the item to the cache.
 			static::$nodes[$branch][$title] = $result;

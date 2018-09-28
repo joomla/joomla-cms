@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.ldap
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,7 +45,7 @@ class PlgAuthenticationLdap extends JPlugin
 		if (empty($credentials['password']))
 		{
 			$response->status = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JGLOBAL_AUTH_PASS_BLANK');
+			$response->error_message = JText::_('JGLOBAL_AUTH_EMPTY_PASS_NOT_ALLOWED');
 
 			return false;
 		}
@@ -61,7 +61,7 @@ class PlgAuthenticationLdap extends JPlugin
 		if (!$ldap->connect())
 		{
 			$response->status = JAuthentication::STATUS_FAILURE;
-			$response->error_message = JText::_('JGLOBAL_AUTH_NO_CONNECT');
+			$response->error_message = JText::_('JGLOBAL_AUTH_NOT_CONNECT');
 
 			return;
 		}
@@ -84,7 +84,14 @@ class PlgAuthenticationLdap extends JPlugin
 				if ($bindtest)
 				{
 					// Search for users DN
-					$binddata = $ldap->simple_search(str_replace('[search]', $credentials['username'], $this->params->get('search_string')));
+					$binddata = $this->searchByString(
+						str_replace(
+							'[search]',
+							str_replace(';', '\3b', $ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER)),
+							$this->params->get('search_string')
+						),
+						$ldap
+					);
 
 					if (isset($binddata[0], $binddata[0]['dn']))
 					{
@@ -97,29 +104,36 @@ class PlgAuthenticationLdap extends JPlugin
 					else
 					{
 						$response->status = JAuthentication::STATUS_FAILURE;
-						$response->error_message = JText::_('JGLOBAL_AUTH_USER_NOT_FOUND');
+						$response->error_message = JText::_('JGLOBAL_AUTH_NO_USER');
 					}
 				}
 				else
 				{
 					$response->status = JAuthentication::STATUS_FAILURE;
-					$response->error_message = JText::_('JGLOBAL_AUTH_NO_BIND');
+					$response->error_message = JText::_('JGLOBAL_AUTH_NOT_CONNECT');
 				}
 			}	break;
 
 			case 'bind':
 			{
 				// We just accept the result here
-				$success = $ldap->bind($credentials['username'], $credentials['password']);
+				$success = $ldap->bind($ldap->escape($credentials['username'], null, LDAP_ESCAPE_DN), $credentials['password']);
 
 				if ($success)
 				{
-					$userdetails = $ldap->simple_search(str_replace('[search]', $credentials['username'], $this->params->get('search_string')));
+					$userdetails = $this->searchByString(
+						str_replace(
+							'[search]',
+							str_replace(';', '\3b', $ldap->escape($credentials['username'], null, LDAP_ESCAPE_FILTER)),
+							$this->params->get('search_string')
+						),
+						$ldap
+					);
 				}
 				else
 				{
 					$response->status = JAuthentication::STATUS_FAILURE;
-					$response->error_message = JText::_('JGLOBAL_AUTH_BIND_FAILED');
+					$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 				}
 			}	break;
 		}
@@ -130,7 +144,7 @@ class PlgAuthenticationLdap extends JPlugin
 
 			if ($response->error_message === '')
 			{
-				$response->error_message = JText::_('JGLOBAL_AUTH_INCORRECT');
+				$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 			}
 		}
 		else
@@ -161,5 +175,30 @@ class PlgAuthenticationLdap extends JPlugin
 		}
 
 		$ldap->close();
+	}
+
+	/**
+	 * Shortcut method to build a LDAP search based on a semicolon separated string
+	 *
+	 * Note that this method requires that semicolons which should be part of the search term to be escaped
+	 * to correctly split the search string into separate lookups
+	 *
+	 * @param   string      $search  search string of search values
+	 * @param   LdapClient  $ldap    The LDAP client
+	 *
+	 * @return  array  Search results
+	 *
+	 * @since   3.8.2
+	 */
+	private function searchByString($search, LdapClient $ldap)
+	{
+		$results = explode(';', $search);
+
+		foreach ($results as $key => $result)
+		{
+			$results[$key] = '(' . str_replace('\3b', ';', $result) . ')';
+		}
+
+		return $ldap->search($results);
 	}
 }

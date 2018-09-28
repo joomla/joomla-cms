@@ -17,8 +17,6 @@
 			margin-bottom: 15px;
 			width: 100%;
 			list-style: none;
-			-webkit-column-break-inside: avoid;
-			-webkit-backface-visibility: hidden;	
 		}
 	}
 	.menu-links-block {
@@ -28,7 +26,7 @@
 	    padding: 15px;
 	}
 }
-@media (max-width: 767px) {
+@media (max-width: @md-max) {
 	#menu-assignment .menu-links {
 		-webkit-column-count: auto;
 		-moz-column-count: auto;

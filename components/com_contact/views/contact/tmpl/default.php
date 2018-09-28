@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,6 +143,17 @@ $tparams = $this->item->params;
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_links')) : ?>
+		<?php if ($presentation_style === 'sliders') : ?>
+			<?php if (!$accordionStarted) : ?>
+				<?php echo JHtml::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-links')); ?>
+				<?php $accordionStarted = true; ?>
+			<?php endif; ?>
+		<?php elseif ($presentation_style === 'tabs') : ?>
+			<?php if (!$tabSetStarted) : ?>
+				<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'display-links')); ?>
+				<?php $tabSetStarted = true; ?>
+			<?php endif; ?>
+		<?php endif; ?>
 		<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 
