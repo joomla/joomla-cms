@@ -135,9 +135,10 @@
             continue;
           }
 
+          let k = 0;
+
           // Collect transitions
           if (transitions[workflow][-1] !== undefined) {
-            let k = 0;
 
             for (let j = 0; j < transitions[workflow][-1].length; j += 1) {
               if (transitions[workflow][-1][j].to_stage_id !== stage) {
@@ -149,7 +150,6 @@
           }
 
           if (transitions[workflow][stage] !== undefined) {
-            let k = 0;
 
             for (let j = 0; j < transitions[workflow][stage].length; j += 1) {
               if (transitions[workflow][stage][j].to_stage_id !== stage) {
@@ -181,7 +181,7 @@
 
             html += '<div class="form-group col-md-6">';
             html += `<label for="">${articles[`article-${id}`]}</label>`;
-            html += `<select class="custom-select" name="publish_transitions['${id}']">`;
+            html += `<select class="custom-select" name="publish_transitions[${id}]">`;
 
             Object.keys(availableTrans[id]).forEach((key) => {
               html += `<option value="${availableTrans[id][key].value}">${availableTrans[id][key].text}</option>`;
