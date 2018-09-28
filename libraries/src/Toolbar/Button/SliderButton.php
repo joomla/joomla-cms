@@ -12,23 +12,50 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Toolbar\ToolbarButton;
 use Joomla\CMS\Uri\Uri;
 
 /**
  * Renders a button to render an HTML element in a slider container
  *
+ * @method self url(string $value)
+ * @method self height(integer $value)
+ * @method self width(integer $value)
+ * @method self onClose(string $value)
+ * @method integer getHeight()
+ * @method integer getWidth
+ * @method string getUrl
+ * @method string getOnClose
+ *
  * @since  3.0
  */
 class SliderButton extends ToolbarButton
 {
 	/**
-	 * Button type
+	 * Property layout.
 	 *
-	 * @var    string
+	 * @var  string
+	 *
+	 * @since  4.0.0
 	 */
-	protected $_name = 'Slider';
+	protected $layout = 'joomla.toolbar.slider';
+
+	/**
+	 * Prepare options for this button.
+	 *
+	 * @param   array  &$options  The options about this button.
+	 *
+	 * @return  void
+	 *
+	 * @since  4.0.0
+	 */
+	protected function prepareOptions(array &$options)
+	{
+		$options['doTask'] = 'Joomla.setcollapse(\'' . $this->_getCommand($this->getUrl()) . '\', \'' .
+			$this->getName() . '\', \'' . $this->getHeight() . '\');';
+
+		parent::prepareOptions($options);
+	}
 
 	/**
 	 * Fetch the HTML for the button
@@ -50,46 +77,27 @@ class SliderButton extends ToolbarButton
 		// @todo split the irrelevant code, this button doesn't need the showon...
 		HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true));
 
-		// Store all data to the options array for use with Layout
-		$options = array();
-		$options['text']    = Text::_($text);
-		$options['name']    = $name;
-		$options['class']   = $this->fetchIconClass($name);
-		$options['onClose'] = '';
-		$options['id']      = $this->fetchId('Slider', $name);
+		$this->text(Text::_($text))
+			->name($name)
+			->buttonClass($this->fetchIconClass($name))
+			->width($width)
+			->height($height)
+			->url($url)
+			->onClose(!empty($options['onClose']) ? ' rel="{onClose: function() {' . $onClose . '}}"' : '');
 
-		if ($options['id'])
-		{
-			$options['id'] = ' id="' . $options['id'] . '"';
-		}
-
-		$doTask = $this->_getCommand($url);
-		$options['doTask'] = 'Joomla.setcollapse(\'' . $doTask . '\', \'' . $name . '\', \'' . $height . '\');';
-
-		if ($onClose)
-		{
-			$options['onClose'] = ' rel="{onClose: function() {' . $onClose . '}}"';
-		}
-
-		// Instantiate a new LayoutFile instance and render the layout
-		$layout = new FileLayout('joomla.toolbar.slider');
-
-		return $layout->render($options);
+		return $this->renderButton($this->options);
 	}
 
 	/**
 	 * Get the button id
 	 *
-	 * @param   string  $type  Button type
-	 * @param   string  $name  Button name
-	 *
 	 * @return  string	Button CSS Id
 	 *
 	 * @since   3.0
 	 */
-	public function fetchId($type, $name)
+	public function fetchId()
 	{
-		return $this->parent->getName() . '-slider-' . $name;
+		return $this->parent->getName() . '-slider-' . $this->getName();
 	}
 
 	/**
@@ -109,5 +117,25 @@ class SliderButton extends ToolbarButton
 		}
 
 		return $url;
+	}
+
+	/**
+	 * Method to configure available option accessors.
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	protected static function getAccessors(): array
+	{
+		return array_merge(
+			parent::getAccessors(),
+			[
+				'width',
+				'height',
+				'url',
+				'onClose',
+			]
+		);
 	}
 }
