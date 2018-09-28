@@ -351,10 +351,10 @@
 		</field>
 
 		<field
-			name="save_hits"
+			name="record_hits"
 			type="radio"
-			label="COM_CONTENT_FIELD_SAVEHITS_LABEL"
-			description="COM_CONTENT_FIELD_SAVEHITS_DESC"
+			label="COM_CONTENT_FIELD_RECORDHITS_LABEL"
+			description="COM_CONTENT_FIELD_RECORDHITS_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
 			>
