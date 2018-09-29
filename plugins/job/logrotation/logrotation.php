@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
-use Joomla\Registry\Registry;
 
 /**
  * Joomla! Log Rotation plugin
@@ -48,6 +47,14 @@ class PlgJobLogrotation extends JPlugin
 	protected $db;
 
 	/**
+	 * Status.
+	 *
+	 * @var    The status 
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $status;
+
+	/**
 	 * The log check and rotation code event.
 	 *
 	 * @return  void
@@ -57,52 +64,41 @@ class PlgJobLogrotation extends JPlugin
 	public function onExecuteScheduledTask($task = array())
 	{
 
+		$startTime = microtime(true);
 
-
-		$taskParams = json_decode($this->params, true);
-		$now        = time();
-
-		// Sanity check
-		if ((!isset($taskParams['lastrun'])) || (!isset($taskParams['cachetimeout'])) || (!isset($taskParams['unit'])))
+		// Pseudo Lock
+		if (!JPluginHelper::lock($this->_name, $this->_type, $this->status))
 		{
 			return;
 		}
 
-		$last          = (int) $taskParams['lastrun'];
-		$cache_timeout = (int) $taskParams['cachetimeout'];
-		$cache_timeout = 60 * $cache_timeout;
+		// Get the timeout for Joomla! job LogRotation task
+		$now  = time();
+
+		$last = $this->status;
+		$cache_timeout = (int) $this->params->get('cachetimeout', 1);
+		$unit          = (int) $this->params->get('unit', 86400);
+		$cache_timeout = ($unit * $cache_timeout);
 
 		if ((abs($now - $last) < $cache_timeout))
 		{
+			// Release the lock
+			JPluginHelper::unLock($this->_name, $this->_type, false);
 			return;
-		}
-
-		$startTime = microtime(true);
-
-		try
-		{
-			JLog::add(
-				'Running:' . $this->_name . ':', JLog::INFO, 'scheduler'
-			);
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
 		}
 
 		// Execute the job
 		$this->logRotationTask();
 
 		// Update job execution data
-		$this->updateLastRun();
-
-		$endTime    = microtime(true);
-		$timeToLoad = sprintf('%0.2f', $endTime - $startTime);
+		$taskid = JPluginHelper::unLock($this->_name, $this->_type);
 
 		try
 		{
 			JLog::add(
-				'Executed:' . $this->_name . ' took ' . $timeToLoad . ' seconds',
+				JText::sprintf('PLG_JOB_LOGROTATION_END', $this->_name)  . 
+				JText::sprintf('PLG_JOB_LOGROTATION_TASK', $taskid) . 
+				JText::sprintf('PLG_JOB_LOGROTATION_PROCESS_COMPLETE', $timeToLoad),
 				JLog::INFO,
 				'scheduler'
 			);
@@ -110,105 +106,6 @@ class PlgJobLogrotation extends JPlugin
 		catch (RuntimeException $exception)
 		{
 			// Informational log only
-		}
-	}
-
-	/**
-	 * Update last run.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function updateLastRun()
-	{
-		// Update last run status
-		$this->params->set('lastrun', time());
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__extensions'))
-			->set($db->quoteName('params') . ' = ' . $db->quote($this->params))
-			->where($db->quoteName('element') . ' = ' . $db->quote($this->_name))
-			->where($db->quoteName('folder') . ' = ' . $db->quote($this->_type));
-
-		try
-		{
-			// Lock the tables to prevent multiple plugin executions causing a race condition
-			$db->lockTable('#__extensions');
-		}
-		catch (JDatabaseException $e)
-		{
-			// If we can't lock the tables it's too risky to continue execution
-			return;
-		}
-
-		try
-		{
-			// Update the plugin parameters
-			$result = $db->setQuery($query)->execute();
-
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
-		}
-		catch (JDatabaseException $exc)
-		{
-			// If we failed to execute
-			$db->unlockTables();
-			$result = false;
-		}
-
-		try
-		{
-			// Unlock the tables after writing
-			$db->unlockTables();
-		}
-		catch (JDatabaseException $e)
-		{
-			// If we can't unlock the tables assume we have somehow failed
-			$result = false;
-		}
-
-		// Abort on failure
-		if (!$result)
-		{
-			return;
-		}
-	}
-
-	/**
-	 * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
-	 *
-	 * @param   array  $clearGroups   The cache groups to clean
-	 * @param   array  $cacheClients  The cache clients (site, admin) to clean
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
-	{
-		$conf = JFactory::getConfig();
-
-		foreach ($clearGroups as $group)
-		{
-			foreach ($cacheClients as $client_id)
-			{
-				try
-				{
-					$options = array(
-						'defaultgroup' => $group,
-						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
-					);
-
-					$cache = JCache::getInstance('callback', $options);
-					$cache->clean();
-				}
-				catch (Exception $e)
-				{
-					// Ignore it
-				}
-			}
 		}
 	}
 
