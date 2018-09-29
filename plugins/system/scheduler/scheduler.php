@@ -115,7 +115,7 @@ class PlgSystemScheduler extends JPlugin
 		try
 		{
 			JLog::add(
-				JText::sprintf('PLG_SYSTEM_SCHEDULER_END', $taskid) . '  ' . 
+				JText::sprintf('PLG_SYSTEM_SCHEDULER_END', $taskid) . ' ' .
 				JText::sprintf('PLG_SYSTEM_SCHEDULER_PROCESS_COMPLETE', $timeToLoad), JLog::INFO, 'scheduler'
 			);
 		}
