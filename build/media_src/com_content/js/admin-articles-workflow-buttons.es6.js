@@ -6,7 +6,7 @@
 (() => {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', () => {
     const dropDownBtn = document.getElementById('toolbar-dropdown-group'),
       publishBtn = dropDownBtn.getElementsByClassName('button-publish')[0],
       unpublishBtn = dropDownBtn.getElementsByClassName('button-unpublish')[0],
@@ -25,91 +25,9 @@
       countChecked = 0;
 
     // TODO: remove jQuery dependency, when we have a new modal script
-    window.jQuery(modal).on('hide.bs.modal', function () {
+    window.jQuery(modal).on('hide.bs.modal', () => {
       modalcontent.innerHTML = '';
     });
-
-    publishBtn.addEventListener('click', function (e) {
-      if (this.classList.contains('disabled')) {
-        e.stopPropagation();
-
-        Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_PUBlISH')]});
-      }
-      else {
-        checkTransition(e, 'publish');
-      }
-    });
-
-    unpublishBtn.addEventListener('click', function (e) {
-      if (this.classList.contains('disabled')) {
-        e.stopPropagation();
-
-        Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_UNPUBlISH')]});
-      }
-      else {
-        checkTransition(e, 'unpublish');
-      }
-    });
-
-    archiveBtn.addEventListener('click', function (e) {
-      if (this.classList.contains('disabled')) {
-        e.stopPropagation();
-
-        Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_ARCHIVE')]});
-      }
-      else {
-        checkTransition(e, 'archive');
-      }
-    });
-
-    trashBtn.addEventListener('click', function (e) {
-      if (this.classList.contains('disabled')) {
-        e.stopPropagation();
-
-        Joomla.renderMessages({'error': [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_TRASH')]});
-      }
-      else {
-        checkTransition(e, 'trash');
-      }
-    });
-
-    // listen to click event to get selected rows
-    articleList.addEventListener("click", function () {
-      Object.keys(articleListRows).forEach((i) => {
-        let checkedBox = articleListRows[i].querySelectorAll('input[type=checkbox]')[0];
-
-        if (checkedBox.checked) {
-          const parentTr = checkedBox.closest('tr');
-          checkForAttributes(parentTr);
-          countChecked += 1;
-        }
-      });
-      disableButtons();
-      countChecked = 0;
-    });
-
-    // check for common attributes for which the conditions for a transition are possible or not
-    // and save this information in a boolean variable.
-    function checkForAttributes(row) {
-      publishBool = row.getAttribute('data-condition-publish') > 0 && (countChecked === 0 || publishBool);
-      unpublishBool = row.getAttribute('data-condition-unpublish') > 0 && (countChecked === 0 || unpublishBool);
-      archiveBool = row.getAttribute('data-condition-archive') > 0 && (countChecked === 0 || archiveBool);
-      trashBool = row.getAttribute('data-condition-trash') > 0 && (countChecked === 0 || trashBool);
-    }
-
-    function setOrRemDisabled(btn, set) {
-      (set === true)
-        ? btn.classList.remove('disabled')
-        : btn.classList.add('disabled');
-    }
-
-    // disable or enable Buttons of transitions depending on the boolean variables
-    function disableButtons() {
-      setOrRemDisabled(publishBtn, publishBool);
-      setOrRemDisabled(unpublishBtn, unpublishBool);
-      setOrRemDisabled(archiveBtn, archiveBool);
-      setOrRemDisabled(trashBtn, trashBool);
-    }
 
     function checkTransition(e, task) {
       // Let's check for n:1 connections
@@ -193,6 +111,100 @@
 
         // TODO: remove jQuery dependency, when we have a new modal script
         window.jQuery(modal).modal();
+      }
+    }
+
+    publishBtn.addEventListener('click', (e) => {
+      if (e.target.classList.contains('disabled')) {
+        e.stopPropagation();
+
+        Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_PUBlISH')] });
+      }
+      else {
+        checkTransition(e, 'publish');
+      }
+    });
+
+    unpublishBtn.addEventListener('click', (e) => {
+      if (e.target.classList.contains('disabled')) {
+        e.stopPropagation();
+
+        Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_UNPUBlISH')] });
+      }
+      else {
+        checkTransition(e, 'unpublish');
+      }
+    });
+
+    archiveBtn.addEventListener('click', (e) => {
+      if (e.target.classList.contains('disabled')) {
+        e.stopPropagation();
+
+        Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_ARCHIVE')] });
+      }
+      else {
+        checkTransition(e, 'archive');
+      }
+    });
+
+    trashBtn.addEventListener('click', (e) => {
+      if (e.target.classList.contains('disabled')) {
+        e.stopPropagation();
+
+        Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_TRASH')] });
+      }
+      else {
+        checkTransition(e, 'trash');
+      }
+    });
+
+    // disable or enable Buttons of transitions depending on the boolean variables
+    function disableButtons() {
+      setOrRemDisabled(publishBtn, publishBool);
+      setOrRemDisabled(unpublishBtn, unpublishBool);
+      setOrRemDisabled(archiveBtn, archiveBool);
+      setOrRemDisabled(trashBtn, trashBool);
+    }
+
+    // check for common attributes for which the conditions for a transition are possible or not
+    // and save this information in a boolean variable.
+    function checkForAttributes(row) {
+      publishBool = row.getAttribute('data-condition-publish') > 0 && (countChecked === 0 || publishBool);
+      unpublishBool = row.getAttribute('data-condition-unpublish') > 0 && (countChecked === 0 || unpublishBool);
+      archiveBool = row.getAttribute('data-condition-archive') > 0 && (countChecked === 0 || archiveBool);
+      trashBool = row.getAttribute('data-condition-trash') > 0 && (countChecked === 0 || trashBool);
+    }
+
+    // listen to click event to get selected rows
+    articleList.addEventListener('click', () => {
+      Object.keys(articleListRows).forEach((i) => {
+        const checkedBox = articleListRows[i].querySelectorAll('input[type=checkbox]')[0];
+
+        if (checkedBox.checked) {
+          const parentTr = checkedBox.closest('tr');
+          checkForAttributes(parentTr);
+          countChecked += 1;
+        }
+      });
+      disableButtons();
+      countChecked = 0;
+    });
+
+    // check for common attributes for which the conditions for a transition are possible or not
+    // and save this information in a boolean variable.
+    function checkForAttributes(row) {
+      publishBool = row.getAttribute('data-condition-publish') > 0 && (countChecked === 0 || publishBool);
+      unpublishBool = row.getAttribute('data-condition-unpublish') > 0 && (countChecked === 0 || unpublishBool);
+      archiveBool = row.getAttribute('data-condition-archive') > 0 && (countChecked === 0 || archiveBool);
+      trashBool = row.getAttribute('data-condition-trash') > 0 && (countChecked === 0 || trashBool);
+    }
+
+    function setOrRemDisabled(btn, set) {
+      if (set) {
+        btn.classList.remove('disabled');
+      }
+      else {
+        btn.classList.add('disabled');
       }
     }
   });
