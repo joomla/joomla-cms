@@ -25,7 +25,7 @@
       countChecked = 0;
 
     // TODO: remove jQuery dependency, when we have a new modal script
-    jQuery(modal).on('hide.bs.modal', function () {
+    window.jQuery(modal).on('hide.bs.modal', function () {
       modalcontent.innerHTML = '';
     });
 
@@ -75,7 +75,7 @@
 
     // listen to click event to get selected rows
     articleList.addEventListener("click", function () {
-      for (let i = 0; i < artListRowLength; ++i) {
+      Object.keys(articleListRows).forEach((i) => {
         let checkedBox = articleListRows[i].querySelectorAll('input[type=checkbox]')[0];
 
         if (checkedBox.checked) {
@@ -83,18 +83,24 @@
           checkForAttributes(parentTr);
           countChecked += 1;
         }
-      }
+      });
       disableButtons();
       countChecked = 0;
     });
 
-    // check for common attributes for which the conditions for a transition are possible or not and save this
-    // information in a boolean variable.
+    // check for common attributes for which the conditions for a transition are possible or not
+    // and save this information in a boolean variable.
     function checkForAttributes(row) {
       publishBool = row.getAttribute('data-condition-publish') > 0 && (countChecked === 0 || publishBool);
       unpublishBool = row.getAttribute('data-condition-unpublish') > 0 && (countChecked === 0 || unpublishBool);
       archiveBool = row.getAttribute('data-condition-archive') > 0 && (countChecked === 0 || archiveBool);
       trashBool = row.getAttribute('data-condition-trash') > 0 && (countChecked === 0 || trashBool);
+    }
+
+    function setOrRemDisabled(btn, set) {
+      (set === true)
+        ? btn.classList.remove('disabled')
+        : btn.classList.add('disabled');
     }
 
     // disable or enable Buttons of transitions depending on the boolean variables
@@ -105,41 +111,34 @@
       setOrRemDisabled(trashBtn, trashBool);
     }
 
-    function setOrRemDisabled(btn, set) {
-      (!set)
-        ? btn.classList.add('disabled')
-        : btn.classList.remove('disabled');
-    }
-
     function checkTransition(e, task) {
       // Let's check for n:1 connections
       const transitions = Joomla.getOptions('articles.transitions')[task];
-      let availableTrans = {},
-        showModal = false;
+      let availableTrans = {};
+      let showModal = false;
 
       if (transitions === undefined) {
         return;
       }
 
-      for (let i = 0; i < artListRowLength; ++i) {
+      Object.keys(articleListRows).forEach((i) => {
         const checkedBox = articleListRows[i].querySelectorAll('input[type=checkbox]')[0];
 
         if (checkedBox.checked) {
-          const parentTr = checkedBox.closest('tr'),
-                stage = parseInt(parentTr.getAttribute('data-stage_id')),
-                workflow = parseInt(parentTr.getAttribute('data-workflow_id'));
+          const parentTr = checkedBox.closest('tr');
+          const stage = parseInt(parentTr.getAttribute('data-stage_id'));
+          const workflow = parseInt(parentTr.getAttribute('data-workflow_id'));
 
           availableTrans[checkedBox.value] = [];
 
           if (transitions[workflow] === undefined) {
-            continue;
+            return;
           }
 
           let k = 0;
 
           // Collect transitions
           if (transitions[workflow][-1] !== undefined) {
-
             for (let j = 0; j < transitions[workflow][-1].length; j += 1) {
               if (transitions[workflow][-1][j].to_stage_id !== stage) {
                 availableTrans[checkedBox.value][k] = transitions[workflow][-1][j];
@@ -150,7 +149,6 @@
           }
 
           if (transitions[workflow][stage] !== undefined) {
-
             for (let j = 0; j < transitions[workflow][stage].length; j += 1) {
               if (transitions[workflow][stage][j].to_stage_id !== stage) {
                 availableTrans[checkedBox.value][k] = transitions[workflow][stage][j];
@@ -167,7 +165,7 @@
             delete availableTrans[checkedBox.value];
           }
         }
-      }
+      });
 
       if (showModal) {
         e.stopPropagation();
@@ -176,12 +174,10 @@
         let html = '';
 
         Object.keys(availableTrans).forEach((id) => {
-
           if (articles[`article-${id}`] !== undefined) {
-
             html += '<div class="form-group col-md-6">';
-            html += `<label for="">${articles[`article-${id}`]}</label>`;
-            html += `<select class="custom-select" name="publish_transitions[${id}]">`;
+            html += `<label for="publish_transitions_${id}">${articles[`article-${id}`]}</label>`;
+            html += `<select id="publish_transitions_${id}" class="custom-select" name="publish_transitions[${id}]">`;
 
             Object.keys(availableTrans[id]).forEach((key) => {
               html += `<option value="${availableTrans[id][key].value}">${availableTrans[id][key].text}</option>`;
@@ -196,7 +192,7 @@
         modalcontent.innerHTML = html;
 
         // TODO: remove jQuery dependency, when we have a new modal script
-        jQuery(modal).modal();
+        window.jQuery(modal).modal();
       }
     }
   });
