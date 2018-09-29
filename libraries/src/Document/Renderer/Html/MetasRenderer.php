@@ -49,6 +49,11 @@ class MetasRenderer extends DocumentRenderer
 			HTMLHelper::_('behavior.core');
 		}
 
+		// Attach Assets
+		/** @var \Joomla\CMS\WebAsset\WebAssetRegistry $wa */
+		$wa = Factory::getContainer()->get('webasset');
+		$wa->attach($this->_doc);
+
 		// Trigger the onBeforeCompileHead event
 		$app = Factory::getApplication();
 		$app->triggerEvent('onBeforeCompileHead');

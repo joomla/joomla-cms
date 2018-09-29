@@ -18,10 +18,12 @@
     },
     "template.atum.ltr": {
       "name": "template.atum.ltr",
+      "dependencies": ["template.atum.base"],
       "css": ["template.min.css"]
     },
     "template.atum.rtl": {
       "name": "template.atum.rtl",
+      "dependencies": ["template.atum.base"],
       "css": ["template-rtl.min.css"]
     },
     "bootstrap.css": {
