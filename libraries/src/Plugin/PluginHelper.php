@@ -371,9 +371,9 @@ abstract class PluginHelper
 	/**
 	 * Pseudo Lock the row.
 	 *
-	 * @param   string  $name     The plugin name.
-	 * @param   string  $type     The plugin type, relates to the subdirectory in the plugins directory.
-	 * @param   string  $lastrun  The plugin last run time.
+	 * @param   string  $name      The plugin name.
+	 * @param   string  $type      The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string  &$lastrun  The plugin last run time.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -497,7 +497,7 @@ abstract class PluginHelper
 		{
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__extensions'))
-				->set($db->qn('checked_out_time') .' = '. $db->quote(\JFactory::getDate()->toSql()))
+				->set($db->qn('checked_out_time') . ' = ' . $db->quote(\JFactory::getDate()->toSql()))
 				->where($db->quoteName('element') . ' = ' . $db->quote($name))
 				->where($db->quoteName('folder') . ' = ' . $db->quote($type));
 		}
