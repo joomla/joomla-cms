@@ -150,8 +150,21 @@ abstract class JHtmlBootstrap
 	 */
 	public static function framework($debug = null)
 	{
+		// Only load once
+		if (!empty(static::$loaded[__METHOD__]))
+		{
+			return;
+		}
+
+		$debug = (isset($debug) && $debug != JDEBUG) ? $debug : JDEBUG;
+
+		// Load the needed scripts
 		Factory::getContainer()->get('webasset')
-			->enableAsset('bootstrap-init');
+			->enableAsset('core')
+			->enableAsset('bootstrap.js.bundle');
+		HTMLHelper::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+
+		static::$loaded[__METHOD__] = true;
 	}
 
 	/**

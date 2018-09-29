@@ -126,7 +126,6 @@ class WebAssetRegistry
 		// Core registry files
 		$this->addRegistryFile('media/vendor/joomla.asset.json');
 		$this->addRegistryFile('media/system/joomla.asset.json');
-		$this->addRegistryFile('media/legacy/joomla.asset.json');
 
 		// Add for active component
 		$option = $app->input->get('option');
