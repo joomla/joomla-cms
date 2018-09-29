@@ -7,22 +7,21 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const dropDownBtn = document.getElementById('toolbar-dropdown-group'),
-      publishBtn = dropDownBtn.getElementsByClassName('button-publish')[0],
-      unpublishBtn = dropDownBtn.getElementsByClassName('button-unpublish')[0],
-      archiveBtn = dropDownBtn.getElementsByClassName('button-archive')[0],
-      trashBtn = dropDownBtn.getElementsByClassName('button-trash')[0],
-      articleList = document.querySelector('#articleList'),
-      articleListRows = articleList.querySelectorAll('tbody tr'),
-      artListRowLength = articleListRows.length,
-      modal = document.getElementById('stageModal'),
-      modalcontent = document.getElementById('stageModal-content');
+    const dropDownBtn = document.getElementById('toolbar-dropdown-group');
+    const publishBtn = dropDownBtn.getElementsByClassName('button-publish')[0];
+    const unpublishBtn = dropDownBtn.getElementsByClassName('button-unpublish')[0];
+    const archiveBtn = dropDownBtn.getElementsByClassName('button-archive')[0];
+    const trashBtn = dropDownBtn.getElementsByClassName('button-trash')[0];
+    const articleList = document.querySelector('#articleList');
+    const articleListRows = articleList.querySelectorAll('tbody tr');
+    const modal = document.getElementById('stageModal');
+    const modalcontent = document.getElementById('stageModal-content');
 
-    let publishBool = false,
-      unpublishBool = false,
-      archiveBool = false,
-      trashBool = false,
-      countChecked = 0;
+    let publishBool = false;
+    let unpublishBool = false;
+    let archiveBool = false;
+    let trashBool = false;
+    let countChecked = 0;
 
     // TODO: remove jQuery dependency, when we have a new modal script
     window.jQuery(modal).on('hide.bs.modal', () => {
@@ -44,8 +43,8 @@
 
         if (checkedBox.checked) {
           const parentTr = checkedBox.closest('tr');
-          const stage = parseInt(parentTr.getAttribute('data-stage_id'));
-          const workflow = parseInt(parentTr.getAttribute('data-workflow_id'));
+          const stage = parseInt(parentTr.getAttribute('data-stage_id'), 10);
+          const workflow = parseInt(parentTr.getAttribute('data-workflow_id'), 10);
 
           availableTrans[checkedBox.value] = [];
 
@@ -158,6 +157,15 @@
       }
     });
 
+    function setOrRemDisabled(btn, set) {
+      if (set) {
+        btn.classList.remove('disabled');
+      }
+      else {
+        btn.classList.add('disabled');
+      }
+    }
+
     // disable or enable Buttons of transitions depending on the boolean variables
     function disableButtons() {
       setOrRemDisabled(publishBtn, publishBool);
@@ -189,23 +197,5 @@
       disableButtons();
       countChecked = 0;
     });
-
-    // check for common attributes for which the conditions for a transition are possible or not
-    // and save this information in a boolean variable.
-    function checkForAttributes(row) {
-      publishBool = row.getAttribute('data-condition-publish') > 0 && (countChecked === 0 || publishBool);
-      unpublishBool = row.getAttribute('data-condition-unpublish') > 0 && (countChecked === 0 || unpublishBool);
-      archiveBool = row.getAttribute('data-condition-archive') > 0 && (countChecked === 0 || archiveBool);
-      trashBool = row.getAttribute('data-condition-trash') > 0 && (countChecked === 0 || trashBool);
-    }
-
-    function setOrRemDisabled(btn, set) {
-      if (set) {
-        btn.classList.remove('disabled');
-      }
-      else {
-        btn.classList.add('disabled');
-      }
-    }
   });
 })();
