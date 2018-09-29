@@ -2,7 +2,7 @@
 <extension version="3.9" type="plugin" group="system" method="upgrade">
 	<name>plg_system_scheduler</name>
 	<author>Joomla! Project</author>
-	<creationDate>June 2018</creationDate>
+	<creationDate>July 2018</creationDate>
 	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
