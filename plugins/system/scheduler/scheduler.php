@@ -48,7 +48,7 @@ class PlgSystemScheduler extends JPlugin
 
 		$app = JFactory::getApplication();
 
-		//WebCron check
+		// WebCron check
 		if ($this->params->get('webcron', 0))
 		{
 			$webcronkey = $app->input->get('webcronkey', '', 'cmd');
@@ -115,7 +115,8 @@ class PlgSystemScheduler extends JPlugin
 		try
 		{
 			JLog::add(
-				JText::sprintf('PLG_SYSTEM_SCHEDULER_END', $taskid) . '  '. JText::sprintf('PLG_SYSTEM_SCHEDULER_PROCESS_COMPLETE', $timeToLoad), JLog::INFO, 'scheduler'
+				JText::sprintf('PLG_SYSTEM_SCHEDULER_END', $taskid) . '  ' . 
+				JText::sprintf('PLG_SYSTEM_SCHEDULER_PROCESS_COMPLETE', $timeToLoad), JLog::INFO, 'scheduler'
 			);
 		}
 		catch (RuntimeException $exception)
