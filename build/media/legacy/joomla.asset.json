@@ -11,7 +11,7 @@
         "bootstrap.js.bundle"
       ],
       "js": [
-        "legacy/bootstrap-init.min.js"
+        "media/legacy/js/bootstrap-init.min.js"
       ]
     }
   }

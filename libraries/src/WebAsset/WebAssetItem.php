@@ -131,7 +131,7 @@ class WebAssetItem
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $resolvePaths = [];
+	protected $resolvedPaths = [];
 
 	/**
 	 * Class constructor
@@ -363,9 +363,9 @@ class WebAssetItem
 	 */
 	protected function resolvePath($path, $type)
 	{
-		if (!empty($this->resolvePaths[$path]))
+		if (!empty($this->resolvedPaths[$path]))
 		{
-			return $this->resolvePaths[$path];
+			return $this->resolvedPaths[$path];
 		}
 
 		if ($type !== 'script' && $type !== 'stylesheet')
@@ -386,12 +386,12 @@ class WebAssetItem
 			);
 		}
 
-		$this->resolvePaths[$path] = [
+		$this->resolvedPaths[$path] = [
 			'external' => $external,
 			'fullPath' => $file ? $file : false,
 		];
 
-		return $this->resolvePaths[$path];
+		return $this->resolvedPaths[$path];
 	}
 
 	/**
@@ -405,7 +405,7 @@ class WebAssetItem
 	 */
 	protected function isPathExternal($path)
 	{
-		return strpos($path, 'http') === 0 || strpos($path, '//') === 0;
+		return strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0 || strpos($path, '//') === 0;
 	}
 
 	/**

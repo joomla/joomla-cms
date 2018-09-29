@@ -7,7 +7,7 @@
     "core": {
       "name": "core",
       "js": [
-        "system/core.min.js"
+        "media/system/js/core.min.js"
       ]
     },
     "keepalive": {
@@ -16,7 +16,7 @@
         "core"
       ],
       "js": [
-        "system/keepalive.min.js"
+        "media/system/js/keepalive.min.js"
       ]
     },
     "multiselect": {
@@ -25,7 +25,7 @@
         "core"
       ],
       "js": [
-        "system/multiselect.min.js"
+        "media/system/js/multiselect.min.js"
       ]
     },
     "searchtools": {
@@ -34,7 +34,7 @@
         "core"
       ],
       "js": [
-        "system/searchtools.min.js"
+        "media/system/js/searchtools.min.js"
       ]
     },
     "showon": {
@@ -43,7 +43,7 @@
         "core"
       ],
       "js": [
-        "system/showon.min.js"
+        "media/system/js/showon.min.js"
       ]
     }
   }

@@ -343,21 +343,15 @@ class WebAssetRegistry
 			// Add StyleSheets of the asset
 			foreach ($paths['stylesheet'] as $path => $attr)
 			{
-				$version = $attr['__isExternal'] ? false : 'auto';
-
-				unset($attr['__pathOrigin'], $attr['__isExternal']);
-
-				$doc->addStyleSheet($path, ['version' => $version], $attr);
+				unset($attr['__isExternal'], $attr['__pathOrigin']);
+				$doc->addStyleSheet($path, ['version' => 'auto'], $attr);
 			}
 
 			// Add Scripts of the asset
 			foreach ($paths['script'] as $path => $attr)
 			{
-				$version = $attr['__isExternal'] ? false : 'auto';
-
-				unset($attr['__pathOrigin'], $attr['__isExternal']);
-
-				$doc->addScript($path, ['version' => $version], $attr);
+				unset($attr['__isExternal'], $attr['__pathOrigin']);
+				$doc->addScript($path, ['version' => 'auto'], $attr);
 			}
 		}
 

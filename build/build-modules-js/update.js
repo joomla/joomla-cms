@@ -234,7 +234,7 @@ const copyFiles = (options) => {
 
           // Check for external path
           if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-            itemPath = `vendor/${vendorName}/${itemPath}`;
+            itemPath = `media/vendor/${vendorName}/js/${itemPath}`;
           }
           registryItem.js.push(itemPath);
 
@@ -248,7 +248,7 @@ const copyFiles = (options) => {
 
           // Check for external path
           if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-            itemPath = `vendor/${vendorName}/${itemPath}`;
+            itemPath = `media/vendor/${vendorName}/css/${itemPath}`;
           }
           registryItem.css.push(itemPath);
 
