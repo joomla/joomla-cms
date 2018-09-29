@@ -15,10 +15,12 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 
 /** @var JDocumentHtml $this */
+/** @var Joomla\CMS\WebAsset\WebAssetRegistry $wa */
 
 $app   = Factory::getApplication();
 $lang  = Factory::getLanguage();
 $input = $app->input;
+$wa    = Factory::getContainer()->get('webasset');
 
 // Detecting Active Variables
 $option      = $input->get('option', '');
@@ -32,8 +34,6 @@ $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Enable assets
-/** @var \Joomla\CMS\WebAsset\WebAssetRegistry $wa */
-$wa = Factory::getContainer()->get('webasset');
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS

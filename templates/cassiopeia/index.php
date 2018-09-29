@@ -15,9 +15,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 /** @var JDocumentHtml $this */
+/** @var Joomla\CMS\WebAsset\WebAssetRegistry $wa */
 
 $app  = Factory::getApplication();
 $lang = Factory::getLanguage();
+$wa   = Factory::getContainer()->get('webasset');
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -30,8 +32,6 @@ $menu     = $app->getMenu()->getActive();
 $pageclass = $menu->params->get('pageclass_sfx');
 
 // Enable assets
-/** @var \Joomla\CMS\WebAsset\WebAssetRegistry $wa */
-$wa = Factory::getContainer()->get('webasset');
 $wa->enableAsset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS
