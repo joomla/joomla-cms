@@ -28,7 +28,7 @@ class WebAssetRegistry
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	const DATAFILE_NEW = 1;
+	const REGISTRY_FILE_NEW = 1;
 
 	/**
 	 * Mark already parsed registry file
@@ -37,7 +37,7 @@ class WebAssetRegistry
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	const DATAFILE_PARSED = 2;
+	const REGISTRY_FILE_PARSED = 2;
 
 	/**
 	 * Mark a broken/not-existing registry file
@@ -46,7 +46,7 @@ class WebAssetRegistry
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	const DATAFILE_INVALID = -1;
+	const REGISTRY_FILE_INVALID = -1;
 
 	/**
 	 * Files with Asset info. File path should be relative.
@@ -515,7 +515,7 @@ class WebAssetRegistry
 			return $this;
 		}
 
-		$this->dataFiles[$path] = is_file(JPATH_ROOT . '/' . $path) ? static::DATAFILE_NEW : static::DATAFILE_INVALID;
+		$this->dataFiles[$path] = is_file(JPATH_ROOT . '/' . $path) ? static::REGISTRY_FILE_NEW : static::REGISTRY_FILE_INVALID;
 
 		return $this;
 	}
@@ -530,7 +530,7 @@ class WebAssetRegistry
 	protected function parseRegistryFiles()
 	{
 		// Filter new asset data files and parse each
-		$constantIsNew = static::DATAFILE_NEW;
+		$constantIsNew = static::REGISTRY_FILE_NEW;
 		$files = array_filter(
 			$this->dataFiles,
 			function($state) use ($constantIsNew)
@@ -544,7 +544,7 @@ class WebAssetRegistry
 			$this->parseRegistryFile($path);
 
 			// Mark as parsed (not new)
-			$this->dataFiles[$path] = static::DATAFILE_PARSED;
+			$this->dataFiles[$path] = static::REGISTRY_FILE_PARSED;
 		}
 	}
 
@@ -577,7 +577,7 @@ class WebAssetRegistry
 
 		// Keep source info
 		$assetSource = [
-			'dataFile' => $path,
+			'registryFile' => $path,
 		];
 
 		// Prepare WebAssetItem instances
