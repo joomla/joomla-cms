@@ -10,6 +10,8 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Plugin helper class
  *
@@ -364,5 +366,175 @@ abstract class PluginHelper
 		}
 
 		return static::$plugins;
+	}
+
+	/**
+	 * Pseudo Lock the row.
+	 * @param   string   $name     The plugin name.
+	 * @param   string   $type     The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string   $lastrun  The plugin last run time.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function lock($name, $type, &$lastrun)
+	{
+		// Prevent multiple execution
+		$db = \JFactory::getDbo();
+
+		$query = $db->getQuery(true)
+			->update($db->quoteName('#__extensions'))
+			->set($db->qn('checked_out_time') .' = '. $db->q('1918-01-01 00:00:00'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($name))
+			->where($db->quoteName('folder') . ' = ' . $db->quote($type))
+			->where($db->quoteName('checked_out_time') . ' != ' . $db->q('1918-01-01 00:00:00'));
+
+		try
+		{
+			// Lock the tables to prevent multiple plugin executions causing a race condition
+			$db->lockTable('#__extensions');
+		}
+		catch (JDatabaseException $e)
+		{
+			// If we can't lock the tables it's too risky to continue execution
+			return false;
+		}
+
+		$db->setQuery($query);
+
+		try
+		{
+			// Update the plugin parameters
+			$db->execute();
+		
+		}
+		catch (JDatabaseException $exc)
+		{
+			// If we failed to execute
+			$db->unlockTables();
+			return false;
+		}
+
+		$result = (int) $db->getAffectedRows();
+		if ($result === 0)
+		{
+			return false;
+		}
+
+		try
+		{
+			// Unlock the tables after writing
+			$db->unlockTables();
+		}
+		catch (JDatabaseException $e)
+		{
+			// If we can't unlock the tables assume we have somehow failed
+			return false;
+		}
+			
+		$query = $db->getQuery(true)
+			->select($db->quoteName('params'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($name))
+			->where($db->quoteName('folder') . ' = ' . $db->quote($type))
+			->where($db->quoteName('checked_out_time') . ' = ' . $db->q('1918-01-01 00:00:00'));
+
+		$db->setQuery($query);
+		$params = $db->loadColumn();
+		$taskParams = json_decode($params[0], true);
+		$lastrun = $taskParams['lastrun'];
+
+		return true;
+	}
+
+	/**
+	 * Pseudo unLock the row.
+	 * @param   string  $name    The plugin name.
+	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string  $unlock  The unlock type.
+	 *
+	 * @return  string  The task id.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function unLock($name, $type, $unlock = true)
+	{
+
+		$taskid = null;
+		$db = \JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('params'))
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('element') . ' = ' . $db->quote($name))
+			->where($db->quoteName('folder') . ' = ' . $db->quote($type))
+			->where($db->quoteName('checked_out_time') . ' = ' . $db->q('1918-01-01 00:00:00'));
+
+		$db->setQuery($query);
+		$params = $db->loadColumn();
+
+		if ($unlock)
+		{
+			// Update last run and taskid 
+			$taskParams = json_decode($params[0], true);
+			$taskid = $taskParams['taskid'];
+
+			$taskid++;
+			$registry = new Registry($taskParams);
+			$registry->set('taskid', $taskid);
+			$registry->set('lastrun', time());
+
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__extensions'))
+				->set($db->quoteName('params') . ' = ' . $db->quote($registry->toString('JSON')))
+				->set($db->qn('checked_out_time') .' = '. $db->quote(\JFactory::getDate()->toSql()))
+				->where($db->quoteName('element') . ' = ' . $db->quote($name))
+				->where($db->quoteName('folder') . ' = ' . $db->quote($type));
+		}  
+		else
+		{
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__extensions'))
+				->set($db->qn('checked_out_time') .' = '. $db->quote(\JFactory::getDate()->toSql()))
+				->where($db->quoteName('element') . ' = ' . $db->quote($name))
+				->where($db->quoteName('folder') . ' = ' . $db->quote($type));
+		}
+
+		try
+		{
+			// Lock the tables to prevent multiple plugin executions causing a race condition
+			$db->lockTable('#__extensions');
+		}
+		catch (JDatabaseException $e)
+		{
+			// If we can't lock the tables it's too risky to continue execution
+			return false;
+		}
+
+		try
+		{
+			// Update the plugin parameters
+			$result = $db->setQuery($query)->execute();
+		}
+		catch (JDatabaseException $exc)
+		{
+			// If we failed to execute
+			$db->unlockTables();
+			return false;
+		}
+
+		try
+		{
+			// Unlock the tables after writing
+			$db->unlockTables();
+		}
+		catch (JDatabaseException $e)
+		{
+			// If we can't unlock the tables assume we have somehow failed
+			return false;
+		}
+
+		return $taskid;
+
 	}
 }
