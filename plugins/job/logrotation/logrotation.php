@@ -58,7 +58,7 @@ class PlgJobLogrotation extends JPlugin
 	 * The log check and rotation code event.
 	 *
 	 * @param   array  $task  An array of options
-	 *.
+	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
