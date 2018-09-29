@@ -20,19 +20,6 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
-					name="cachetimeout"
-					type="integer"
-					label="PLG_JOB_LOGROTATION_CACHETIMEOUT_LABEL"
-					description="PLG_JOB_LOGROTATION_CACHETIMEOUT_DESC"
-					first="0"
-					last="120"
-					step="1"
-					default="30"
-					filter="int"
-					validate="number"
-				/>
-
-				<field
 					name="logstokeep"
 					type="integer"
 					label="PLG_JOB_LOGROTATION_LOGSTOKEEP_LABEL"
@@ -46,16 +33,43 @@
 				/>
 
 				<field
+					name="cachetimeout"
+					type="integer"
+					label="PLG_JOB_LOGROTATION_CACHETIMEOUT_LABEL"
+					description="PLG_JOB_LOGROTATION_CACHETIMEOUT_DESC"
+					first="0"
+					last="120"
+					step="1"
+					default="30"
+					filter="int"
+					validate="number"
+				/>
+
+				<field
 					name="lastrun"
 					type="hidden"
 					default="0"
 					filter="integer"
 				/>
+
 				<field
 					name="unit"
-					type="hidden"
+					type="list"
+					label="PLG_JOB_LOGROTATION_UNIT_LABEL"
+					description="PLG_JOB_LOGROTATION_UNIT_DESC"
 					default="86400"
 					filter="integer"
+				>
+					<option value="60">JMINUTE</option>
+					<option value="3600">JHOUR</option>
+					<option value="86400">JDAY</option>
+				</field>
+
+				<field
+					name="taskid"
+					type="hidden"
+					default="0"
+					size="15"
 				/>
 			</fieldset>
 		</fields>
