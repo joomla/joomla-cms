@@ -57,6 +57,8 @@ class PlgJobLogrotation extends JPlugin
 	/**
 	 * The log check and rotation code event.
 	 *
+	 * @param   array  $task  An array of options
+	 *.
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -96,8 +98,8 @@ class PlgJobLogrotation extends JPlugin
 		try
 		{
 			JLog::add(
-				JText::sprintf('PLG_JOB_LOGROTATION_END', $this->_name)  . 
-				JText::sprintf('PLG_JOB_LOGROTATION_TASK', $taskid) . 
+				JText::sprintf('PLG_JOB_LOGROTATION_END', $this->_name) .
+				JText::sprintf('PLG_JOB_LOGROTATION_TASK', $taskid) .
 				JText::sprintf('PLG_JOB_LOGROTATION_PROCESS_COMPLETE', $timeToLoad),
 				JLog::INFO,
 				'scheduler'
