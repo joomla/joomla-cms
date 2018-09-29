@@ -31,8 +31,47 @@
 					filter="int"
 					validate="number"
 				/>
+
+				<field
+					name="webcron"
+					type="radio"
+					label="PLG_SYSTEM_SCHEDULER_WEBCRON_LABEL"
+					description="PLG_SYSTEM_SCHEDULER_WEBCRON_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="webcronkey"
+					type="text"
+					label="PLG_SYSTEM_SCHEDULER_WEBCRONKEY_LABEL"
+					description="PLG_SYSTEM_SCHEDULER_WEBCRONKEY_DESC"
+					default="mywebcronactiovationkey"
+					size="30"
+					showon="webcron:1"
+				/>
+
 				<field
 					name="lastrun"
+					type="hidden"
+					default="0"
+					size="15"
+				/>
+
+				<field
+					name="unit"
+					type="hidden"
+					default="60"
+					filter="integer"
+					validate="number"
+				/>
+
+				<field
+					name="taskid"
 					type="hidden"
 					default="0"
 					size="15"
