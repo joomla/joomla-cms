@@ -370,9 +370,10 @@ abstract class PluginHelper
 
 	/**
 	 * Pseudo Lock the row.
-	 * @param   string   $name     The plugin name.
-	 * @param   string   $type     The plugin type, relates to the subdirectory in the plugins directory.
-	 * @param   string   $lastrun  The plugin last run time.
+	 *
+	 * @param   string  $name     The plugin name.
+	 * @param   string  $type     The plugin type, relates to the subdirectory in the plugins directory.
+	 * @param   string  $lastrun  The plugin last run time.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -385,7 +386,7 @@ abstract class PluginHelper
 
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__extensions'))
-			->set($db->qn('checked_out_time') .' = '. $db->q('1918-01-01 00:00:00'))
+			->set($db->qn('checked_out_time') . ' = ' . $db->q('1918-01-01 00:00:00'))
 			->where($db->quoteName('element') . ' = ' . $db->quote($name))
 			->where($db->quoteName('folder') . ' = ' . $db->quote($type))
 			->where($db->quoteName('checked_out_time') . ' != ' . $db->q('1918-01-01 00:00:00'));
@@ -450,6 +451,7 @@ abstract class PluginHelper
 
 	/**
 	 * Pseudo unLock the row.
+	 *
 	 * @param   string  $name    The plugin name.
 	 * @param   string  $type    The plugin type, relates to the subdirectory in the plugins directory.
 	 * @param   string  $unlock  The unlock type.
@@ -487,7 +489,7 @@ abstract class PluginHelper
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__extensions'))
 				->set($db->quoteName('params') . ' = ' . $db->quote($registry->toString('JSON')))
-				->set($db->qn('checked_out_time') .' = '. $db->quote(\JFactory::getDate()->toSql()))
+				->set($db->qn('checked_out_time') . ' = ' . $db->quote(\JFactory::getDate()->toSql()))
 				->where($db->quoteName('element') . ' = ' . $db->quote($name))
 				->where($db->quoteName('folder') . ' = ' . $db->quote($type));
 		}  
