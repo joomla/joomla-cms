@@ -17,7 +17,7 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -31,6 +31,9 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['relative' => true, 'version' 
 					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table">
+					<caption id="captionTable" class="sr-only">
+						<?php echo Text::_('COM_FINDER_FILTERS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					</caption>
 					<thead>
 						<tr>
 							<td style="width:1%" class="text-center">

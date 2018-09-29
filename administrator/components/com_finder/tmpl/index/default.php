@@ -20,7 +20,7 @@ $lang      = JFactory::getLanguage();
 
 JText::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -31,6 +31,9 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<table class="table">
+					<caption id="captionTable" class="sr-only">
+						<?php echo Text::_('COM_FINDER_INDEX_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					</caption>				
 					<thead>
 						<tr>
 							<td style="width:1%" class="text-center">

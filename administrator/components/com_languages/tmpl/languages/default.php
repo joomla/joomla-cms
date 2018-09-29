@@ -25,11 +25,12 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $saveOrder = $listOrder == 'a.ordering';
 
-if ($saveOrder)
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_languages&task=languages.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-	HTMLHelper::_('sortablelist.sortable', 'contentList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	HTMLHelper::_('draggablelist.draggable');
 }
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_languages&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -43,6 +44,9 @@ if ($saveOrder)
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="contentList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_LANGUAGES_CONTENT_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
@@ -80,7 +84,7 @@ if ($saveOrder)
 								</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php endif; ?>>
 						<?php
 						foreach ($this->items as $i => $item) :
 							$canCreate = $user->authorise('core.create',     'com_languages');

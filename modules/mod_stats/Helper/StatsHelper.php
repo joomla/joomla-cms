@@ -130,7 +130,7 @@ class StatsHelper
 		if ($counter)
 		{
 			$query->clear()
-				->select('SUM(' . $db->quotename('hits') . ') AS count_hits')
+				->select('SUM(' . $db->quoteName('hits') . ') AS count_hits')
 				->from($db->quoteName('#__content'))
 				->leftJoin(
 					$db->quoteName('#__workflow_stages', 'ws')

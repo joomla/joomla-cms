@@ -45,10 +45,11 @@ else
 	$orderingColumn = 'created';
 }
 
-if ($saveOrder)
+
+if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_content&task=featured.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
-	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	HTMLHelper::_('draggablelist.draggable');
 }
 
 $js = <<<JS
@@ -87,6 +88,9 @@ Factory::getDocument()->addScriptDeclaration($js);
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="articleList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
@@ -131,7 +135,7 @@ Factory::getDocument()->addScriptDeclaration($js);
 								</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php endif; ?>>
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;

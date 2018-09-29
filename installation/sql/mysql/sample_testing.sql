@@ -410,6 +410,12 @@ INSERT INTO `#__contentitem_tag_map` (`type_alias`, `core_content_id`, `content_
 ('com_content.article', 2, 71, 4, '2013-10-15 14:58:28', 1);
 
 --
+-- Creating Associations for existing content
+--
+INSERT INTO `#__workflow_associations` (`item_id`, `stage_id`, `extension`)
+SELECT `id`, CASE WHEN `state` = -2 THEN 3 WHEN `state` = 0 THEN 1 WHEN `state` = 2 THEN 4 ELSE 2 END, 'com_content' FROM `#__content`;
+
+--
 -- Dumping data for table `#__menu`
 --
 
