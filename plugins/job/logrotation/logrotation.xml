@@ -28,7 +28,7 @@
 					last="10"
 					step="1"
 					default="1"
-					filter="int"
+					filter="integer"
 					validate="number"
 				/>
 
@@ -41,7 +41,7 @@
 					last="120"
 					step="1"
 					default="30"
-					filter="int"
+					filter="integer"
 					validate="number"
 				/>
 
