@@ -29,20 +29,10 @@ $sitename = $app->get('sitename');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu->params->get('pageclass_sfx');
 
-// Add JavaScript Frameworks
-HTMLHelper::_('bootstrap.framework');
-
-// Add template js
-HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
-
-// Load custom Javascript file
-HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
-
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
-
-// Load custom CSS file
-HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+// Enable assets
+/** @var \Joomla\CMS\WebAsset\WebAssetRegistry $wa */
+$wa = Factory::getContainer()->get('webasset');
+$wa->enableAsset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));

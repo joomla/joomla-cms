@@ -19,12 +19,18 @@
     "template.atum.ltr": {
       "name": "template.atum.ltr",
       "dependencies": ["template.atum.base"],
-      "css": ["template.min.css"]
+      "css": [
+        "template.min.css",
+        "user.css"
+      ]
     },
     "template.atum.rtl": {
       "name": "template.atum.rtl",
       "dependencies": ["template.atum.base"],
-      "css": ["template-rtl.min.css"]
+      "css": [
+        "template.min.css",
+        "user.css"
+      ]
     },
     "bootstrap.css": {
       "name": "bootstrap.css",
