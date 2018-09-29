@@ -20,12 +20,12 @@ class PlgSystemScheduler extends JPlugin
 {
 
 	/**
-	 * Start time for the process
+	 * Status for the process
 	 *
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $time = null;
+	protected $status;
 
 	/**
 	 * Load plugin language files automatically
@@ -46,93 +46,67 @@ class PlgSystemScheduler extends JPlugin
 	{
 		$startTime = microtime(true);
 
-		// Get the timeout for Joomla! system scheduler
-		/** @var \Joomla\Registry\Registry $params */
-		$cache_timeout = (int) $this->params->get('cachetimeout', 1);
-		$cache_timeout = 60 * $cache_timeout;
+		$app = JFactory::getApplication();
 
-		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
-		// timestamp. If the difference is greater than the cache timeout we shall not execute again.
-		$now  = time();
-		$last = (int) $this->params->get('lastrun', 0);
+		//WebCron check
+		if ($this->params->get('webcron', 0))
+		{
+			$webcronkey = $app->input->get('webcronkey', '', 'cmd');
 
-		if ((abs($now - $last) < $cache_timeout))
+			if ($webcronkey !== $this->params->get('webcronkey', ''))
+			{
+				return;
+			}
+		}
+
+		// Pseudo Lock
+		if (!JPluginHelper::lock($this->_name, $this->_type, $this->status))
 		{
 			return;
 		}
+		// Get the timeout for Joomla! system scheduler
+		/** @var \Joomla\Registry\Registry $params */
+		$cache_timeout = (int) $this->params->get('cachetimeout', 1);
+		$unit          = (int) $this->params->get('unit', 60);
+		$cache_timeout = ($unit * $cache_timeout);
+
+		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
+		// timestamp. If the difference is greater than the cache timeout we shall not execute again.
+		$now    = time();
+		$last = $this->status;
 
 		// Log events
 		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_web.php';
-
+		
 		JLog::addLogger($options, JLog::INFO, array('scheduler'));
+
+		if ((abs($now - $last) < $cache_timeout))
+		{
+			JPluginHelper::unLock($this->_name, $this->_type, false);
+
+			return;
+		}
 
 		try
 		{
 			JLog::add(
-				'Starting Scheduler', JLog::INFO, 'scheduler'
+				JText::_('PLG_SYSTEM_SCHEDULER_START'), 
+				JLog::INFO, 
+				'scheduler'
 			);
+			
 		}
 		catch (RuntimeException $exception)
 		{
 			// Informational log only
-		};
-
-		// Update last run status
-		$this->params->set('lastrun', $now);
-
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->update($db->quoteName('#__extensions'))
-			->set($db->quoteName('params') . ' = ' . $db->quote($this->params->toString('JSON')))
-			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('scheduler'));
-
-		try
-		{
-			// Lock the tables to prevent multiple plugin executions causing a race condition
-			$db->lockTable('#__extensions');
-		}
-		catch (Exception $e)
-		{
-			// If we can't lock the tables it's too risky to continue execution
-			return;
 		}
 
-		try
-		{
-			// Update the plugin parameters
-			$result = $db->setQuery($query)->execute();
+		// Trigger jobs
+		$this->triggerJobs();
 
-			$this->clearCacheGroups(array('com_plugins'), array(0, 1));
-		}
-		catch (Exception $exc)
-		{
-			// If we failed to execute
-			$db->unlockTables();
-			$result = false;
-		}
-
-		try
-		{
-			// Unlock the tables after writing
-			$db->unlockTables();
-		}
-		catch (JDatabaseException $e)
-		{
-			// If we can't unlock the tables assume we have somehow failed
-			$result = false;
-		}
-
-		// Abort on failure
-		if (!$result)
-		{
-			return;
-		}
-
-		// Trigger all job plugin events
-		$this->Trigger();
+		// Update job execution data
+		$taskid = JPluginHelper::unLock($this->_name, $this->_type);
 
 		// Log the time it took to run
 		$endTime    = microtime(true);
@@ -141,7 +115,7 @@ class PlgSystemScheduler extends JPlugin
 		try
 		{
 			JLog::add(
-				'Ending Scheduler:' . JText::sprintf('SCHEDULER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), JLog::INFO, 'scheduler'
+				JText::sprintf('PLG_SYSTEM_SCHEDULER_END', $taskid) . '  '. JText::sprintf('PLG_SYSTEM_SCHEDULER_PROCESS_COMPLETE', $timeToLoad), JLog::INFO, 'scheduler'
 			);
 		}
 		catch (RuntimeException $exception)
@@ -157,7 +131,7 @@ class PlgSystemScheduler extends JPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function Trigger()
+	private function triggerJobs()
 	{
 		// Unleash hell
 		JPluginHelper::importPlugin('job');
@@ -166,41 +140,4 @@ class PlgSystemScheduler extends JPlugin
 		// Trigger the ExecuteTask event
 		$dispatcher->trigger('onExecuteScheduledTask', array());	
 	}	
-
-	/**
-	 * Clears cache groups. We use it to clear the plugins cache after we update the last run timestamp.
-	 *
-	 * @param   array  $clearGroups   The cache groups to clean
-	 * @param   array  $cacheClients  The cache clients (site, admin) to clean
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
-	{
-		$conf = JFactory::getConfig();
-
-		foreach ($clearGroups as $group)
-		{
-			foreach ($cacheClients as $client_id)
-			{
-				try
-				{
-					$options = array(
-						'defaultgroup' => $group,
-						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
-							$conf->get('cache_path', JPATH_SITE . '/cache')
-					);
-
-					$cache = JCache::getInstance('callback', $options);
-					$cache->clean();
-				}
-				catch (Exception $e)
-				{
-					// Ignore it
-				}
-			}
-		}
-	}
 }
