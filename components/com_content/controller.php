@@ -108,7 +108,7 @@ class ContentController extends JControllerLegacy
 			// Get/Create the model
 			if ($model = $this->getModel($vName))
 			{
-				if (ComponentHelper::getParams('com_content')->get('record_hits', 1) === 1)
+				if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1)
 				{
 					$model->hit();
 				}
