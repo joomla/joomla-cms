@@ -44,14 +44,13 @@ define('JDEBUG', $config->debug);
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-use Joomla\Registry\Registry;
 
 // Load Library language
 $lang = JFactory::getLanguage();
 
-// Try the finder_cli file in the current language (without allowing the loading of the file in the default language)
+// Try the scheduler_cli file in the current language (without allowing the loading of the file in the default language)
 $lang->load('scheduler_cli', JPATH_SITE, null, false, false)
-// Fallback to the finder_cli file in the default language
+// Fallback to the scheduler_cli file in the default language
 || $lang->load('scheduler_cli', JPATH_SITE, null, true);
 
 /**
@@ -108,7 +107,7 @@ class SchedulerCli extends JApplicationCli
 		$_SERVER['HTTP_HOST'] = 'domain.com';
 		JFactory::getApplication('site');
 
-		$this->Trigger();
+		$this->triggerJobs();
 
 		// Total reporting.
 		$this->out(JText::sprintf('SCHEDULER_CLI_PROCESS_COMPLETE', round(microtime(true) - $this->time, 3)), true);
@@ -136,7 +135,7 @@ class SchedulerCli extends JApplicationCli
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function Trigger()
+	private function triggerJobs()
 	{		
 		// Unleash hell
 		JPluginHelper::importPlugin('job');
