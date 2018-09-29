@@ -126,6 +126,7 @@ class WebAssetRegistry
 		// Core registry files
 		$this->addRegistryFile('media/vendor/joomla.asset.json');
 		$this->addRegistryFile('media/system/joomla.asset.json');
+		$this->addRegistryFile('media/legacy/joomla.asset.json');
 
 		// Add for active component
 		$option = $app->input->get('option');
@@ -136,7 +137,8 @@ class WebAssetRegistry
 
 		// Add for active template
 		$template = $app->getTemplate();
-		$this->addRegistryFile('templates/' . $template . '/joomla.asset.json');
+		$client   = $app->isClient('site') ? '' : 'administrator/';
+		$this->addRegistryFile($client . 'templates/' . $template . '/joomla.asset.json');
 	}
 
 	/**
