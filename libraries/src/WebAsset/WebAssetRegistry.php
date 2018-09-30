@@ -11,16 +11,21 @@ namespace Joomla\CMS\WebAsset;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 
 /**
  * Web Asset Factory class
  *
  * @since  __DEPLOY_VERSION__
  */
-class WebAssetRegistry
+class WebAssetRegistry implements DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
 	/**
 	 * Mark the new registry file
 	 *
@@ -139,6 +144,9 @@ class WebAssetRegistry
 		$template = $app->getTemplate();
 		$client   = $app->isClient('site') ? '' : 'administrator/';
 		$this->addRegistryFile($client . 'templates/' . $template . '/joomla.asset.json');
+
+		// Set up Dispatcher
+		$this->setDispatcher($app->getDispatcher());
 	}
 
 	/**
@@ -264,8 +272,10 @@ class WebAssetRegistry
 			throw new \RuntimeException('Asset "' . $name . '" do not exists');
 		}
 
+		$oldState = $asset->getState();
+
 		// Asset already has the requested state
-		if ($asset->getState() === $state)
+		if ($oldState === $state)
 		{
 			return $this;
 		}
@@ -279,6 +289,17 @@ class WebAssetRegistry
 			$this->lastItemWeight = $this->lastItemWeight + 1;
 			$asset->setWeight($this->lastItemWeight);
 		}
+
+		// Trigger the event
+		$event = AbstractEvent::create(
+			'onWebAssetStateChanged',
+			[
+				'subject'  => $asset,
+				'oldState' => $oldState,
+				'newState' => $state,
+			]
+		);
+		$this->getDispatcher()->dispatch($event->getName(), $event);
 
 		return $this;
 	}
@@ -322,13 +343,18 @@ class WebAssetRegistry
 	 */
 	public function attach(Document $doc)
 	{
-		$app = Factory::getApplication();
-
 		// Resolve Dependency
 		$this->resolveDependency();
 
 		// Trigger the event
-		$app->triggerEvent('onBeforeAttachWebAssets', array($this, $doc));
+		$event = AbstractEvent::create(
+			'onWebAssetBeforeAttach',
+			[
+				'subject'  => $this,
+				'document' => $doc,
+			]
+		);
+		$this->getDispatcher()->dispatch($event->getName(), $event);
 
 		$assets = $this->getActiveAssets();
 
