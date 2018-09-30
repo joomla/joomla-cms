@@ -57,6 +57,9 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="itemList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 						<tr>
 							<?php if ($menuType) : ?>
