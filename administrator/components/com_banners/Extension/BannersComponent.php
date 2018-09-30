@@ -72,6 +72,6 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	 */
 	protected function getStateColumnForSection(string $section = null)
 	{
-		return 'published as state';
+		return 'published';
 	}
 }

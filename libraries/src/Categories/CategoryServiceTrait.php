@@ -78,7 +78,8 @@ trait CategoryServiceTrait
 			return;
 		}
 
-		$db = Factory::getDbo();
+		$db    = Factory::getDbo();
+		$state = $this->getStateColumnForSection($section);
 
 		foreach ($items as $item)
 		{
@@ -87,7 +88,7 @@ trait CategoryServiceTrait
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
-			$query->select('state, count(*) AS count')
+			$query->select($state . ' as state, count(*) AS count')
 				->from($db->quoteName($sectionTable))
 				->where('catid = ' . (int) $item->id)
 				->group('state');
@@ -162,7 +163,7 @@ trait CategoryServiceTrait
 			$item->count_unpublished = 0;
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
-			$query->select($state . ', count(*) AS count')
+			$query->select($state . ' as state, count(*) AS count')
 				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
 				->where('ct.type_alias =' . $db->quote($extension))
