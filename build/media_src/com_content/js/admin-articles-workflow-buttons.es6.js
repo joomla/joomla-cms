@@ -31,7 +31,7 @@
     function checkTransition(e, task) {
       // Let's check for n:1 connections
       const transitions = Joomla.getOptions('articles.transitions')[task];
-      let availableTrans = {};
+      const availableTrans = {};
       let showModal = false;
 
       if (transitions === undefined) {
@@ -121,8 +121,7 @@
       }
       else {
         checkTransition(e, 'publish');
-      }
-    });
+      }});
 
     unpublishBtn.addEventListener('click', (e) => {
       if (e.target.classList.contains('disabled')) {
@@ -132,8 +131,7 @@
       }
       else {
         checkTransition(e, 'unpublish');
-      }
-    });
+      }});
 
     archiveBtn.addEventListener('click', (e) => {
       if (e.target.classList.contains('disabled')) {
@@ -143,8 +141,7 @@
       }
       else {
         checkTransition(e, 'archive');
-      }
-    });
+      }});
 
     trashBtn.addEventListener('click', (e) => {
       if (e.target.classList.contains('disabled')) {
@@ -154,8 +151,7 @@
       }
       else {
         checkTransition(e, 'trash');
-      }
-    });
+      }});
 
     function setOrRemDisabled(btn, set) {
       if (set) {
