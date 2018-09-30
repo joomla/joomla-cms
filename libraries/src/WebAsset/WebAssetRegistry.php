@@ -294,7 +294,8 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		$event = AbstractEvent::create(
 			'onWebAssetStateChanged',
 			[
-				'subject'  => $asset,
+				'subject'  => $this,
+				'asset'    => $asset,
 				'oldState' => $oldState,
 				'newState' => $state,
 			]
