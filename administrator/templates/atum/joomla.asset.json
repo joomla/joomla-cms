@@ -28,7 +28,7 @@
       "name": "template.atum.rtl",
       "dependencies": ["template.atum.base"],
       "css": [
-        "template.min.css",
+        "template-rtl.min.css",
         "user.css"
       ]
     },
