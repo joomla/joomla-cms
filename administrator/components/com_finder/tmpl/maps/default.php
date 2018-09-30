@@ -31,7 +31,10 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table">
-					<thead>
+					<caption id="captionTable" class="sr-only">
+						<?php echo Text::_('COM_FINDER_MAPS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					</caption>
+						<thead>
 						<tr>
 							<td style="width:1%" class="text-center">
 								<?php echo JHtml::_('grid.checkall'); ?>
