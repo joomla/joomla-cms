@@ -121,7 +121,8 @@
       }
       else {
         checkTransition(e, 'publish');
-      }});
+      }
+    });
 
     unpublishBtn.addEventListener('click', (e) => {
       if (e.target.classList.contains('disabled')) {
@@ -131,7 +132,8 @@
       }
       else {
         checkTransition(e, 'unpublish');
-      }});
+      }
+    });
 
     archiveBtn.addEventListener('click', (e) => {
       if (e.target.classList.contains('disabled')) {
@@ -141,7 +143,8 @@
       }
       else {
         checkTransition(e, 'archive');
-      }});
+      }
+    });
 
     trashBtn.addEventListener('click', (e) => {
       if (e.target.classList.contains('disabled')) {
@@ -151,7 +154,8 @@
       }
       else {
         checkTransition(e, 'trash');
-      }});
+      }
+    });
 
     function setOrRemDisabled(btn, set) {
       if (set) {
