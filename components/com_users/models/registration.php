@@ -43,18 +43,16 @@ class UsersModelRegistration extends JModelForm
 	}
 
 	/**
-	 * Method to activate a user account.
+	 * Method to get the user ID from the given token
 	 *
 	 * @param   string  $token  The activation token.
 	 *
-	 * @return  mixed    False on failure, user object on success.
+	 * @return  mixed   False on failure, id of the user on success
 	 *
-	 * @since   1.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function activate($token)
+	public function getUserIdFromToken($token)
 	{
-		$config = JFactory::getConfig();
-		$userParams = JComponentHelper::getParams('com_users');
 		$db = $this->getDbo();
 
 		// Get the user id based on the token.
@@ -68,7 +66,7 @@ class UsersModelRegistration extends JModelForm
 
 		try
 		{
-			$userId = (int) $db->loadResult();
+			return (int) $db->loadResult();
 		}
 		catch (RuntimeException $e)
 		{
@@ -76,6 +74,22 @@ class UsersModelRegistration extends JModelForm
 
 			return false;
 		}
+	}
+
+	/**
+	 * Method to activate a user account.
+	 *
+	 * @param   string  $token  The activation token.
+	 *
+	 * @return  mixed    False on failure, user object on success.
+	 *
+	 * @since   1.6
+	 */
+	public function activate($token)
+	{
+		$config     = JFactory::getConfig();
+		$userParams = JComponentHelper::getParams('com_users');
+		$userId     = $this->getUserIdFromToken($token);
 
 		// Check for a valid user id.
 		if (!$userId)
@@ -131,7 +145,8 @@ class UsersModelRegistration extends JModelForm
 			);
 
 			// Get all admin users
-			$query->clear()
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = 1')

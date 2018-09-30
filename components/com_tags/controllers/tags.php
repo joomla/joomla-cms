@@ -34,6 +34,7 @@ class TagsControllerTags extends JControllerLegacy
 			'flanguage' => $app->input->get('flanguage', null, 'word'),
 			'published' => $app->input->get('published', 1, 'int'),
 			'parent_id' => $app->input->get('parent_id', 0, 'int'),
+			'access'    => $user->getAuthorisedViewLevels(),
 		);
 
 		if ((!$user->authorise('core.edit.state', 'com_tags')) && (!$user->authorise('core.edit', 'com_tags')))
