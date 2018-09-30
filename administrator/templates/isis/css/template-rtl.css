@@ -7553,7 +7553,7 @@ textarea.noResize {
 .subform-table-layout table .btn-group {
 	margin: 0 7px;
 }
-@media (max-width: 1024px) {
+@media (max-width: 1199px) {
 	.subform-table-layout .subform-repeatable {
 		padding-right: 0;
 	}
@@ -7592,7 +7592,7 @@ textarea.noResize {
 	.subform-table-layout td {
 		border: none;
 		position: relative;
-		padding-left: 50%;
+		padding-left: 15px;
 	}
 	.subform-table-layout tbody td:first-of-type {
 		padding-top: 15px;
