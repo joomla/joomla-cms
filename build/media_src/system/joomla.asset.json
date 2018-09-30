@@ -45,6 +45,16 @@
       "js": [
         "media/system/js/showon.min.js"
       ]
+    },
+    "fields.validate": {
+      "name": "fields.validate",
+      "dependencies": [
+        "core",
+        "punycode"
+      ],
+      "js": [
+        "media/system/js/fields/validate.min.js"
+      ]
     }
   }
 }
