@@ -382,7 +382,9 @@ class WebAssetItem
 		if (!$external)
 		{
 			// Get the file path
-			$file = HTMLHelper::_($type, $path,
+			$file = HTMLHelper::_(
+				$type,
+				$path,
 				[
 					'pathOnly' => true,
 					'relative' => !$this->isPathAbsolute($path)
