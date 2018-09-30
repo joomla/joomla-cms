@@ -136,14 +136,15 @@ class WebAssetItem
 	/**
 	 * Class constructor
 	 *
-	 * @param   string  $name   The asset name
-	 * @param   array   $data   The Asset information
+	 * @param   string  $name  The asset name
+	 * @param   array   $data  The Asset information
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($name, array $data = [])
 	{
-		$this->name        = strtolower($name); // No fancy Camels or Elephants
+		// No fancy Camels or Elephants
+		$this->name        = strtolower($name);
 		$this->version     = !empty($data['version'])     ? $data['version']     : null;
 		$this->assetSource = !empty($data['assetSource']) ? $data['assetSource'] : null;
 
@@ -152,14 +153,16 @@ class WebAssetItem
 		// Check for Scripts and StyleSheets, and their attributes
 		if (!empty($data['js']))
 		{
-			foreach ($data['js'] as $js) {
+			foreach ($data['js'] as $js)
+			{
 				$this->js[$js] = empty($attributes[$js]) ? [] : $attributes[$js];
 			}
 		}
 
 		if (!empty($data['css']))
 		{
-			foreach ($data['css'] as $css) {
+			foreach ($data['css'] as $css)
+			{
 				$this->css[$css] = empty($attributes[$css]) ? [] : $attributes[$css];
 			}
 		}
@@ -265,7 +268,7 @@ class WebAssetItem
 	/**
 	 * Get CSS files
 	 *
-	 * @param   boolean   $resolvePath  Whether need to search for real path
+	 * @param   boolean  $resolvePath  Whether need to search for real path
 	 *
 	 * @return array
 	 *
@@ -302,7 +305,7 @@ class WebAssetItem
 	/**
 	 * Get JS files
 	 *
-	 * @param   boolean   $resolvePath  Whether need to search for real path
+	 * @param   boolean  $resolvePath  Whether need to search for real path
 	 *
 	 * @return array
 	 *
@@ -354,8 +357,8 @@ class WebAssetItem
 	/**
 	 * Resolve path
 	 *
-	 * @param  string   $path  The path to resolve
-	 * @param  string   $type  The resolver method
+	 * @param   string  $path  The path to resolve
+	 * @param   string  $type  The resolver method
 	 *
 	 * @return array
 	 *
@@ -379,7 +382,8 @@ class WebAssetItem
 		if (!$external)
 		{
 			// Get the file path
-			$file = HTMLHelper::_($type, $path, [
+			$file = HTMLHelper::_($type, $path,
+				[
 					'pathOnly' => true,
 					'relative' => !$this->isPathAbsolute($path)
 				]

@@ -254,8 +254,8 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	/**
 	 * Change the asset State
 	 *
-	 * @param   string    $name   Asset name
-	 * @param   integer   $state  New state
+	 * @param   string   $name   Asset name
+	 * @param   integer  $state  New state
 	 *
 	 * @return  self
 	 *
@@ -308,7 +308,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	/**
 	 * Activate the Asset item
 	 *
-	 * @param $name
+	 * @param   string  $name  The asset name
 	 *
 	 * @return self
 	 *
@@ -322,7 +322,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	/**
 	 * Deactivate the Asset item
 	 *
-	 * @param $name
+	 * @param   string  $name  The asset name
 	 *
 	 * @return self
 	 *
@@ -514,8 +514,8 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	/**
 	 * Prepare new Asset instance.
 	 *
-	 * @param   string  $name         Asset name
-	 * @param   array   $data         Asset information
+	 * @param   string  $name  Asset name
+	 * @param   array   $data  Asset information
 	 *
 	 * @return  WebAssetItem
 	 *
@@ -635,7 +635,8 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		$assets = $this->assets;
 		$result = [];
 
-		foreach ($assets as $asset) {
+		foreach ($assets as $asset)
+		{
 			$result[$asset->getName()] = [
 				'deps'  => implode(', ', $asset->getDependencies()),
 				'state' => $asset->getState(),
