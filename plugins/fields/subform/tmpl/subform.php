@@ -16,7 +16,7 @@ foreach ($field->value as $row)
 {
 	echo '<li>';
 	$buffer = array();
-	foreach ((array)$row as $key => $value)
+	foreach (((array) $row) as $key => $value)
 	{
 		$buffer[] = ($key . ': ' . $value);
 	}

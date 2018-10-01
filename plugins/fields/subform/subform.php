@@ -14,7 +14,7 @@ JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRA
 /**
  * Fields subform Plugin
  *
- * @since __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class PlgFieldsSubform extends FieldsPlugin
 {
@@ -28,6 +28,16 @@ class PlgFieldsSubform extends FieldsPlugin
 	 */
 	protected $renderCache = array();
 
+	/**
+	 * Handles the onContentPrepareForm event. Adds form definitions to relevant forms.
+	 *
+	 * @param   JForm         $form  The form to manipulate
+	 * @param   array|object  $data  The data of the form
+	 *
+	 * @return  void
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
 		$path = $this->getFormPath($form, $data);
@@ -37,11 +47,11 @@ class PlgFieldsSubform extends FieldsPlugin
 		}
 
 		// Load our own form definition
-		$xml = new DOMDocument();
+		$xml = new DOMDocument;
 		$xml->load($path);
 
 		// Get the options subform
-		$xmlxpath = new DOMXPath($xml);
+		$xmlxpath   = new DOMXPath($xml);
 		$hiddenform = $xmlxpath->evaluate(
 			'/form/fields[@name="fieldparams"]/fieldset[@name="fieldparams"]/field[@name="options"]/form'
 		);
@@ -72,7 +82,7 @@ class PlgFieldsSubform extends FieldsPlugin
 			try
 			{
 				// Try to load the XML definition file into a DOMDocument
-				$subxml = new DOMDocument();
+				$subxml = new DOMDocument;
 				$subxml->load($path);
 				$subxmlxpath = new DOMXPath($subxml);
 
@@ -115,11 +125,11 @@ class PlgFieldsSubform extends FieldsPlugin
 	 * Manipulates the $field->value before the field is being passed to
 	 * onCustomFieldsPrepareField.
 	 *
-	 * @param string $context
-	 * @param object $item
-	 * @param \stdClass $field
+	 * @param   string     $context  The context
+	 * @param   object     $item     The item
+	 * @param   \stdClass  $field    The field
 	 *
-	 * @return void
+	 * @return  void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -145,11 +155,11 @@ class PlgFieldsSubform extends FieldsPlugin
 	 * and joining all those rendered subfields. Additionally stores the value
 	 * and raw value of all rendered subfields into $field->subfield_rows.
 	 *
-	 * @param string $context
-	 * @param object $item
-	 * @param \stdClass $field
+	 * @param   string     $context  The context
+	 * @param   object     $item     The item
+	 * @param   \stdClass  $field    The field
 	 *
-	 * @return string
+	 * @return  string
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -191,20 +201,25 @@ class PlgFieldsSubform extends FieldsPlugin
 		{
 			$rows = array($field->value);
 		}
+
 		// Iterate over each row of the data
 		foreach ($rows as $row)
 		{
 			// The rendered values for this row, indexed by the name of the subfield
 			$row_values = new \stdClass;
+
 			// Holds for all subfields (indexed by their name) for this row their rendered and raw value.
-			$row_subfields = new \stdClass();
+			$row_subfields = new \stdClass;
+
 			// For each row, iterate over all the subfields
 			foreach ($this->getSubfieldsFromField($field) as $_subfield)
 			{
 				// Clone this virtual subfield to not interfere with the other rows
 				$subfield = (clone $_subfield);
+
 				// Just to be sure, unset this subfields value (and rawvalue)
 				$subfield->rawvalue = $subfield->value = '';
+
 				// If we have data for this field in the current row
 				if (isset($row[$subfield->name]))
 				{
@@ -229,7 +244,7 @@ class PlgFieldsSubform extends FieldsPlugin
 					else
 					{
 						// Render this virtual subfield
-						$subfield->value = \JEventDispatcher::getInstance()->trigger(
+						$subfield->value                                         = \JEventDispatcher::getInstance()->trigger(
 							'onCustomFieldsPrepareField',
 							array($context, $item, $subfield)
 						);
@@ -243,13 +258,15 @@ class PlgFieldsSubform extends FieldsPlugin
 
 				// Store this subfields rendered value into our $row_values object
 				$row_values->{$subfield->name} = $subfield->value;
+
 				// Store the value and rawvalue of this subfield into our $row_subfields object
-				$row_subfields->{$subfield->name} = new \stdClass();
-				$row_subfields->{$subfield->name}->value = $subfield->value;
+				$row_subfields->{$subfield->name}           = new \stdClass;
+				$row_subfields->{$subfield->name}->value    = $subfield->value;
 				$row_subfields->{$subfield->name}->rawvalue = $subfield->rawvalue;
 			}
 			// Store all the rendered subfield values of this row
 			$final_values[] = $row_values;
+
 			// Store all the rendered and raw subfield values of this row
 			$subfield_rows[] = $row_subfields;
 		}
@@ -272,11 +289,11 @@ class PlgFieldsSubform extends FieldsPlugin
 	 * Returns a DOMElement which is the child of $orig_parent and represents
 	 * the form XML definition for this subform field.
 	 *
-	 * @param \stdClass $field
-	 * @param DOMElement $orig_parent
-	 * @param JForm $form
+	 * @param   \stdClass   $field        The field
+	 * @param   DOMElement  $orig_parent  The original parent element
+	 * @param   JForm       $form         The form
 	 *
-	 * @return \DOMElement
+	 * @return  \DOMElement
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -304,6 +321,7 @@ class PlgFieldsSubform extends FieldsPlugin
 		$parent_fieldset = $parent_field->appendChild(new DOMElement('form'));
 		$parent_fieldset->setAttribute('hidden', 'true');
 		$parent_fieldset->setAttribute('name', ($field->name . '_modal'));
+
 		// If this subform should be repeatable, set some attributes on the modal
 		if ($field_params->get('repeat', '1') == '1')
 		{
@@ -327,9 +345,9 @@ class PlgFieldsSubform extends FieldsPlugin
 	/**
 	 * Returns an array of all options configured for this field.
 	 *
-	 * @param \stdClass $field
+	 * @param   \stdClass  $field  The field
 	 *
-	 * @return \stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -350,9 +368,9 @@ class PlgFieldsSubform extends FieldsPlugin
 	/**
 	 * Returns the configured params for a given subform field.
 	 *
-	 * @param \stdClass $field
+	 * @param   \stdClass  $field  The field
 	 *
-	 * @return Joomla\Registry\Registry
+	 * @return  \Joomla\Registry\Registry
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -363,15 +381,16 @@ class PlgFieldsSubform extends FieldsPlugin
 		{
 			$params->merge($field->fieldparams);
 		}
+
 		return $params;
 	}
 
 	/**
 	 * Returns an array of all subfields for this subform field.
 	 *
-	 * @param stdClass $field
+	 * @param   \stdClass  $field  The field
 	 *
-	 * @return \stdClass[]
+	 * @return  \stdClass[]
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
@@ -382,15 +401,15 @@ class PlgFieldsSubform extends FieldsPlugin
 		foreach ($this->getOptionsFromField($field) as $option)
 		{
 			/* @TODO Better solution to this? */
-			$subfield = (clone $field);
-			$subfield->id = null;
-			$subfield->title = $option->label;
-			$subfield->name = $option->name;
-			$subfield->type = $option->type;
-			$subfield->required = '0';
+			$subfield                = (clone $field);
+			$subfield->id            = null;
+			$subfield->title         = $option->label;
+			$subfield->name          = $option->name;
+			$subfield->type          = $option->type;
+			$subfield->required      = '0';
 			$subfield->default_value = $option->default_value;
-			$subfield->label = $option->label;
-			$subfield->description = $option->description;
+			$subfield->label         = $option->label;
+			$subfield->description   = $option->description;
 
 			$result[] = $subfield;
 		}
@@ -401,8 +420,10 @@ class PlgFieldsSubform extends FieldsPlugin
 	/**
 	 * Recursively prefixes the 'name' attribute of $node with $prefix
 	 *
-	 * @param DOMElement $node
-	 * @param string $prefix
+	 * @param   \DOMElement  $node    The node
+	 * @param   string       $prefix  The prefix
+	 *
+	 * @return  void
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */

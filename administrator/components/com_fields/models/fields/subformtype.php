@@ -13,8 +13,8 @@ JFormHelper::loadFieldClass('list');
 /**
  * Fields Subformtype
  *
- * @see \JFormFieldType
- * @since __DEPLOY_VERSION__
+ * @see    \JFormFieldType
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldSubformtype extends JFormFieldList
 {
