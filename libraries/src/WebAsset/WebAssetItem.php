@@ -185,6 +185,18 @@ class WebAssetItem
 	}
 
 	/**
+	 * Return Asset version
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getVersion(): ?string
+	{
+		return $this->version;
+	}
+
+	/**
 	 * Return dependency
 	 *
 	 * @return  array

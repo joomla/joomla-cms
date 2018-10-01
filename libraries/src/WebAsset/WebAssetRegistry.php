@@ -119,6 +119,15 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	protected $lastItemWeight = 1;
 
 	/**
+	 * Whether append asset version to asset path
+	 *
+	 * @var    bool
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $useVersioning = true;
+
+	/**
 	 * Get an existing Asset from a registry, by asset name.
 	 * Return asset object or false if asset does not exists.
 	 *
@@ -341,14 +350,16 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			foreach ($paths['stylesheet'] as $path => $attr)
 			{
 				unset($attr['__isExternal'], $attr['__pathOrigin']);
-				$doc->addStyleSheet($path, ['version' => 'auto'], $attr);
+				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
+				$doc->addStyleSheet($path, ['version' => $version], $attr);
 			}
 
 			// Add Scripts of the asset
 			foreach ($paths['script'] as $path => $attr)
 			{
 				unset($attr['__isExternal'], $attr['__pathOrigin']);
-				$doc->addScript($path, ['version' => 'auto'], $attr);
+				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
+				$doc->addScript($path, ['version' => $version], $attr);
 			}
 		}
 
@@ -613,5 +624,21 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Whether append asset version to asset path
+	 *
+	 * @param   bool  $useVersioning   Boolean flag
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function useVersioning(bool $useVersioning): self
+	{
+		$this->useVersioning = $useVersioning;
+
+		return $this;
 	}
 }
