@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 // Initialise related data.
-\JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 $menuTypes = MenusHelper::getMenuLinks();
 
 HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto', 'relative' => true));

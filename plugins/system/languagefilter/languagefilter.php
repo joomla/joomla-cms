@@ -25,8 +25,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filesystem\Folder;
-
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Joomla! Language Filter Plugin.
