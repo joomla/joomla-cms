@@ -636,7 +636,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	/**
 	 * Whether append asset version to asset path
 	 *
-	 * @param   bool  $useVersioning   Boolean flag
+	 * @param   bool  $useVersioning  Boolean flag
 	 *
 	 * @return  self
 	 *

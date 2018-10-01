@@ -998,7 +998,7 @@ class Document
 	/**
 	 * Set WebAsset manager
 	 *
-	 * @param  WebAssetRegistry  $webAsset  The WebAsset instance
+	 * @param   WebAssetRegistry  $webAsset  The WebAsset instance
 	 *
 	 * @return  Document
 	 *
