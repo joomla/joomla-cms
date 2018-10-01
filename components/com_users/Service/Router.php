@@ -24,7 +24,7 @@ use Joomla\CMS\Menu\AbstractMenu;
  *
  * @since  3.2
  */
-class UsersRouter extends RouterView
+class Router extends RouterView
 {
 	/**
 	 * Users Component router constructor
