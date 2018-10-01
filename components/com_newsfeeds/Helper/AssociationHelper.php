@@ -7,20 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Newsfeeds\Site\Helper;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
-
-JLoader::register('NewsfeedsHelper', JPATH_ADMINISTRATOR . '/components/com_newsfeeds/helpers/newsfeeds.php');
-JLoader::register('NewsfeedsHelperRoute', JPATH_SITE . '/components/com_newsfeeds/helpers/route.php');
 
 /**
  * Newsfeeds Component Association Helper
  *
  * @since  3.0
  */
-abstract class NewsfeedsHelperAssociation extends CategoryAssociationHelper
+abstract class AssociationHelper extends CategoryAssociationHelper
 {
 	/**
 	 * Method to get the associations for a given item
@@ -42,13 +42,13 @@ abstract class NewsfeedsHelperAssociation extends CategoryAssociationHelper
 		{
 			if ($id)
 			{
-				$associations = \Joomla\CMS\Language\Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
+				$associations = Associations::getAssociations('com_newsfeeds', '#__newsfeeds', 'com_newsfeeds.item', $id);
 
 				$return = array();
 
 				foreach ($associations as $tag => $item)
 				{
-					$return[$tag] = NewsfeedsHelperRoute::getNewsfeedRoute($item->id, (int) $item->catid, $item->language);
+					$return[$tag] = Route::getNewsfeedRoute($item->id, (int) $item->catid, $item->language);
 				}
 
 				return $return;
