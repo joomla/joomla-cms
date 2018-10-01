@@ -37,6 +37,9 @@ if ($saveOrder && !empty($this->items))
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if ($this->total > 0) : ?>
 			<table class="table" id="moduleList">
+				<caption id="captionTable" class="sr-only">
+					<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				</caption>
 				<thead>
 					<tr>
 						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">

@@ -292,7 +292,18 @@ class ConfigurationModel extends BaseInstallationModel
 
 		$db->setQuery($query);
 
-		if ($db->loadResult())
+		try
+		{
+			$result = $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		if ($result)
 		{
 			$query->clear()
 				->update($db->quoteName('#__users'))

@@ -31,6 +31,9 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?></joomla-alert>
 				<?php else : ?>
 				<table class="table">
+					<caption id="captionTable" class="sr-only">
+						<?php echo Text::_('COM_FINDER_FILTERS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					</caption>
 					<thead>
 						<tr>
 							<td style="width:1%" class="text-center">
