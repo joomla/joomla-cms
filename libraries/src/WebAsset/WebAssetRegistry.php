@@ -45,7 +45,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	const REGISTRY_FILE_PARSED = 2;
 
 	/**
-	 * Mark a broken/not-existing registry file
+	 * Mark a broken/non-existing registry file
 	 *
 	 * @var integer
 	 *
@@ -111,7 +111,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	protected $assets = [];
 
 	/**
-	 * Weight of the most heavier and active asset
+	 * Weight off the heaviest and active asset
 	 *
 	 * @var float
 	 *
@@ -161,7 +161,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 */
 	public function getAsset($name)
 	{
-		// Check if there any new file was added
+		// Check if any new file was added
 		$this->parseRegistryFiles();
 
 		if (!empty($this->assets[$name]))
@@ -334,7 +334,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	}
 
 	/**
-	 * Attach an active assets to the Document
+	 * Attach active assets to the document
 	 *
 	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
 	 *
@@ -363,7 +363,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		$jsBackup = $doc->_scripts;
 		$doc->_scripts = [];
 
-		// Attach an active assets do the document
+		// Attach active assets to the document
 		foreach ($assets as $asset)
 		{
 			$paths = $asset->getAssetFiles();
@@ -444,7 +444,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 
 			$depItem->setWeight($weight);
 
-			// Prevent duplicated work if Dependency already was activated
+			// Prevent duplicated work if Dependency was already activated
 			if (!$oldState)
 			{
 				$this->resolveItemDependency($depItem);

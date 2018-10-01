@@ -238,7 +238,7 @@ const copyFiles = (options) => {
           }
           registryItem.js.push(itemPath);
 
-          // Check if there any attribute to this file, then update the path
+          // Check if there are any attribute to this file, then update the path
           if (assetInfo.attribute && assetInfo.attribute[assetJS]) {
             registryItem.attribute[itemPath] = assetInfo.attribute[assetJS]
           }
@@ -252,7 +252,7 @@ const copyFiles = (options) => {
           }
           registryItem.css.push(itemPath);
 
-          // Check if there any attribute to this file, then update the path
+          // Check if there are any attribute to this file, then update the path
           if (assetInfo.attribute && assetInfo.attribute[assetCSS]) {
             registryItem.attribute[itemPath] = assetInfo.attribute[assetCSS]
           }

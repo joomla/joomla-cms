@@ -99,7 +99,7 @@ class WebAssetItem
 	protected $assetSource;
 
 	/**
-	 * List of JavaScript files, ant it's attributes.
+	 * List of JavaScript files, and its attributes.
 	 * The key is file path, the value is array of attributes.
 	 *
 	 * @var    array
@@ -108,7 +108,7 @@ class WebAssetItem
 	protected $js = [];
 
 	/**
-	 * List of StyleSheet files, ant it's attributes
+	 * List of StyleSheet files, and its attributes
 	 * The key is file path, the value is array of attributes.
 	 *
 	 * @var    array
@@ -305,7 +305,7 @@ class WebAssetItem
 	/**
 	 * Get JS files
 	 *
-	 * @param   boolean  $resolvePath  Whether need to search for real path
+	 * @param   boolean  $resolvePath  Whether we need to search for real path
 	 *
 	 * @return array
 	 *
