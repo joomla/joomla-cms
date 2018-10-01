@@ -7,9 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Contact\Site\Service;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
@@ -17,26 +20,48 @@ use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
 use Joomla\CMS\Menu\AbstractMenu;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Routing class from com_contact
  *
  * @since  3.3
  */
-class ContactRouter extends RouterView
+class Router extends RouterView
 {
 	protected $noIDs = false;
 
 	/**
-	 * Search Component router constructor
+	 * The category factory
 	 *
-	 * @param   CMSApplication  $app   The application object
-	 * @param   AbstractMenu    $menu  The menu object to work with
+	 * @var CategoryFactoryInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct($app = null, $menu = null)
+	private $categoryFactory;
+
+	/**
+	 * The db
+	 *
+	 * @var DatabaseInterface
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $db;
+
+	/**
+	 * Content Component router constructor
+	 *
+	 * @param   SiteApplication           $app              The application object
+	 * @param   AbstractMenu              $menu             The menu object to work with
+	 * @param   CategoryFactoryInterface  $categoryFactory  The category object
+	 * @param   DatabaseInterface         $db               The database object
+	 */
+	public function __construct(SiteApplication $app, AbstractMenu $menu, CategoryFactoryInterface $categoryFactory, DatabaseInterface $db)
 	{
+		$this->categoryFactory = $categoryFactory;
+		$this->db              = $db;
+
 		$params = ComponentHelper::getParams('com_contact');
 		$this->noIDs = (bool) $params->get('sef_ids');
 		$categories = new RouterViewConfiguration('categories');
@@ -67,7 +92,7 @@ class ContactRouter extends RouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$category = Categories::getInstance($this->getName())->get($id);
+		$category = $this->categoryFactory->createCategory()->get($id);
 
 		if ($category)
 		{
@@ -113,14 +138,13 @@ class ContactRouter extends RouterView
 	{
 		if (!strpos($id, ':'))
 		{
-			$db = Factory::getDbo();
-			$dbquery = $db->getQuery(true);
+			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($dbquery->quoteName('alias'))
 				->from($dbquery->quoteName('#__contact_details'))
 				->where('id = ' . $dbquery->quote((int) $id));
-			$db->setQuery($dbquery);
+			$this->db->setQuery($dbquery);
 
-			$id .= ':' . $db->loadResult();
+			$id .= ':' . $this->db->loadResult();
 		}
 
 		if ($this->noIDs)
@@ -145,7 +169,7 @@ class ContactRouter extends RouterView
 	{
 		if (isset($query['id']))
 		{
-			$category = Categories::getInstance($this->getName(), array('access' => false))->get($query['id']);
+			$category = $this->categoryFactory->createCategory(['access' => false])->get($query['id']);
 
 			if ($category)
 			{
@@ -197,15 +221,14 @@ class ContactRouter extends RouterView
 	{
 		if ($this->noIDs)
 		{
-			$db = Factory::getDbo();
-			$dbquery = $db->getQuery(true);
+			$dbquery = $this->db->getQuery(true);
 			$dbquery->select($dbquery->quoteName('id'))
 				->from($dbquery->quoteName('#__contact_details'))
 				->where('alias = ' . $dbquery->quote($segment))
 				->where('catid = ' . $dbquery->quote($query['id']));
-			$db->setQuery($dbquery);
+			$this->db->setQuery($dbquery);
 
-			return (int) $db->loadResult();
+			return (int) $this->db->loadResult();
 		}
 
 		return (int) $segment;
