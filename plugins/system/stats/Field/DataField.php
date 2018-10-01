@@ -7,19 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\System\Stats\Field;
+
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Factory;
-
-JLoader::register('PlgSystemStatsFormFieldBase', __DIR__ . '/base.php');
 
 /**
  * Unique ID Field class for the Stats Plugin.
  *
  * @since  3.5
  */
-class PlgSystemStatsFormFieldData extends PlgSystemStatsFormFieldBase
+class DataField extends AbstractStatsField
 {
 	/**
 	 * The form field type.
