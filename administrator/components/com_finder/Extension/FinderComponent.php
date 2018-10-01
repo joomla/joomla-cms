@@ -20,7 +20,7 @@ use Joomla\CMS\Extension\MVCComponent;
  *
  * @since  __DEPLOY_VERSION__
  */
-class RouterComponent extends MVCComponent implements RouterServiceInterface
+class FinderComponent extends MVCComponent implements RouterServiceInterface
 {
 	use RouterServiceTrait;
 }

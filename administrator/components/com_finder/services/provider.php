@@ -16,7 +16,7 @@ use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\Extension\Service\Provider\RouterFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
-use Joomla\Component\Finder\Administrator\Extension\RouterComponent;
+use Joomla\Component\Finder\Administrator\Extension\FinderComponent;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -46,7 +46,7 @@ return new class implements ServiceProviderInterface
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new RouterComponent($container->get(DispatcherFactoryInterface::class));
+				$component = new FinderComponent($container->get(DispatcherFactoryInterface::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
 				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
 
