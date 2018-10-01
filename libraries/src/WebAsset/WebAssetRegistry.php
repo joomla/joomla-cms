@@ -311,7 +311,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function attach(Document $doc): self
+	public function attachActiveAssetsToDocument(Document $doc): self
 	{
 		// Resolve Dependency
 		$this->resolveDependency();

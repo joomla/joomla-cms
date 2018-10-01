@@ -50,9 +50,8 @@ class MetasRenderer extends DocumentRenderer
 		}
 
 		// Attach Assets
-		/** @var \Joomla\CMS\WebAsset\WebAssetRegistry $wa */
-		$wa = Factory::getContainer()->get('webasset');
-		$wa->attach($this->_doc);
+		$wa = $this->_doc->getWebAssetManager();
+		$wa->attachActiveAssetsToDocument($this->_doc);
 
 		// Trigger the onBeforeCompileHead event
 		$app = Factory::getApplication();
