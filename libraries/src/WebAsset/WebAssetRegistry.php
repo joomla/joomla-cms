@@ -155,11 +155,11 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @param   string  $name  Asset name
 	 *
-	 * @return  WebAssetItem|bool
+	 * @return  WebAssetItem|null
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getAsset($name)
+	public function getAsset(string $name): ?WebAssetItem
 	{
 		// Check if any new file was added
 		$this->parseRegistryFiles();
@@ -169,7 +169,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			return $this->assets[$name];
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
@@ -179,7 +179,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getActiveAssets()
+	public function getActiveAssets(): array
 	{
 		$assets = array_filter(
 			$this->assets,
@@ -202,7 +202,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getAssetsByState($state = WebAssetItem::ASSET_STATE_ACTIVE)
+	public function getAssetsByState(int $state = WebAssetItem::ASSET_STATE_ACTIVE): array
 	{
 		$assets = array_filter(
 			$this->assets,
@@ -225,7 +225,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addAsset(WebAssetItem $asset)
+	public function addAsset(WebAssetItem $asset): self
 	{
 		$this->assets[$asset->getName()] = $asset;
 
@@ -241,7 +241,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeAsset($name)
+	public function removeAsset(string $name): self
 	{
 		if (!empty($this->assets[$name]))
 		{
@@ -263,7 +263,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setAssetState($name, $state = WebAssetItem::ASSET_STATE_ACTIVE)
+	public function setAssetState(string $name, int $state = WebAssetItem::ASSET_STATE_ACTIVE): self
 	{
 		$asset = $this->getAsset($name);
 
@@ -314,7 +314,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function enableAsset($name)
+	public function enableAsset(string $name): self
 	{
 		return $this->setAssetState($name, WebAssetItem::ASSET_STATE_ACTIVE);
 	}
@@ -328,7 +328,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function disableAsset($name)
+	public function disableAsset(string $name): self
 	{
 		return $this->setAssetState($name, WebAssetItem::ASSET_STATE_INACTIVE);
 	}
@@ -342,7 +342,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function attach(Document $doc)
+	public function attach(Document $doc): self
 	{
 		// Resolve Dependency
 		$this->resolveDependency();
@@ -398,7 +398,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function resolveDependency()
+	protected function resolveDependency(): self
 	{
 		$assets = $this->getAssetsByState(WebAssetItem::ASSET_STATE_ACTIVE);
 
@@ -422,7 +422,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function resolveItemDependency(WebAssetItem $asset)
+	protected function resolveItemDependency(WebAssetItem $asset): self
 	{
 		foreach ($this->getDependenciesForAsset($asset) as $depItem)
 		{
@@ -465,7 +465,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getDependenciesForAsset(WebAssetItem $asset)
+	protected function getDependenciesForAsset(WebAssetItem $asset): array
 	{
 		$assets = [];
 
@@ -493,7 +493,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function sortByWeight(array $assets)
+	protected function sortByWeight(array $assets): array
 	{
 		uasort(
 			$assets,
@@ -521,7 +521,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createAsset($name, array $data = [])
+	public function createAsset(string $name, array $data = []): WebAssetItem
 	{
 		return new WebAssetItem($name, $data);
 	}
@@ -535,7 +535,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function addRegistryFile($path)
+	public function addRegistryFile(string $path): self
 	{
 		$path = Path::clean($path);
 
@@ -556,7 +556,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function parseRegistryFiles()
+	protected function parseRegistryFiles(): void
 	{
 		// Filter new asset data files and parse each
 		$constantIsNew = static::REGISTRY_FILE_NEW;
@@ -588,7 +588,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function parseRegistryFile($path)
+	protected function parseRegistryFile($path): void
 	{
 		$data = file_get_contents(JPATH_ROOT . '/' . $path);
 		$data = $data ? json_decode($data, true) : null;
@@ -626,11 +626,11 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	/**
 	 * Dump available assets to simple array, with some basic info
 	 *
-	 * @return  @array
+	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function debugAssets()
+	public function debugAssets(): array
 	{
 		$assets = $this->assets;
 		$result = [];

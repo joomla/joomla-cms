@@ -8,10 +8,9 @@
 
 namespace Joomla\CMS\WebAsset;
 
-use Joomla\CMS\Document\Document;
-use Joomla\CMS\HTML\HTMLHelper;
-
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Web Asset Item class
@@ -141,7 +140,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct($name, array $data = [])
+	public function __construct(string $name, array $data = [])
 	{
 		// No fancy Camels or Elephants
 		$this->name        = strtolower($name);
@@ -180,7 +179,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -192,7 +191,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDependencies()
+	public function getDependencies(): array
 	{
 		return $this->dependencies;
 	}
@@ -206,9 +205,9 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setState($state)
+	public function setState(int $state): self
 	{
-		$this->state = (int) $state;
+		$this->state = $state;
 
 		return $this;
 	}
@@ -220,7 +219,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getState()
+	public function getState(): int
 	{
 		return $this->state;
 	}
@@ -232,7 +231,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function isActive()
+	public function isActive(): bool
 	{
 		return $this->state !== self::ASSET_STATE_INACTIVE;
 	}
@@ -246,9 +245,9 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setWeight($weight)
+	public function setWeight(float $weight): self
 	{
-		$this->weight = (float) $weight;
+		$this->weight = $weight;
 
 		return $this;
 	}
@@ -260,7 +259,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getWeight()
+	public function getWeight(): float
 	{
 		return $this->weight;
 	}
@@ -274,7 +273,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getStylesheetFiles($resolvePath = true)
+	public function getStylesheetFiles($resolvePath = true): array
 	{
 		if ($resolvePath)
 		{
@@ -311,7 +310,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getScriptFiles($resolvePath = true)
+	public function getScriptFiles($resolvePath = true): array
 	{
 		if ($resolvePath)
 		{
@@ -346,7 +345,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getAssetFiles()
+	public function getAssetFiles(): array
 	{
 		return [
 			'script'     => $this->getScriptFiles(true),
@@ -364,7 +363,7 @@ class WebAssetItem
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function resolvePath($path, $type)
+	protected function resolvePath(string $path, string $type): array
 	{
 		if (!empty($this->resolvedPaths[$path]))
 		{
@@ -409,7 +408,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function isPathExternal($path)
+	protected function isPathExternal(string $path): bool
 	{
 		return strpos($path, 'http://') === 0 || strpos($path, 'https://') === 0 || strpos($path, '//') === 0;
 	}
@@ -423,7 +422,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function isPathAbsolute($path)
+	protected function isPathAbsolute(string $path): bool
 	{
 		// We have a full path or not
 		return is_file(JPATH_ROOT . '/' . $path);
