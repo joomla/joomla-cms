@@ -202,6 +202,9 @@ class MenuRules implements RulesInterface
 			$attributes[] = 'language';
 			$values[]     = array($language, '*');
 
+			$attributes[] = 'access';
+			$values[]     = null;
+
 			$items = $this->router->menu->getItems($attributes, $values);
 
 			foreach ($items as $item)
