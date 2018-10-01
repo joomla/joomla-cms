@@ -13,8 +13,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData);
 
-
-
 /**
  * Layout variables
  * ---------------------
