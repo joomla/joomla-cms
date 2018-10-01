@@ -391,17 +391,6 @@ abstract class PluginHelper
 			->where($db->quoteName('folder') . ' = ' . $db->quote($type))
 			->where($db->quoteName('checked_out_time') . ' != ' . $db->q('1918-01-01 00:00:00'));
 
-		try
-		{
-			// Lock the tables to prevent multiple plugin executions causing a race condition
-			$db->lockTable('#__extensions');
-		}
-		catch (JDatabaseException $e)
-		{
-			// If we can't lock the tables it's too risky to continue execution
-			return false;
-		}
-
 		$db->setQuery($query);
 
 		try
@@ -413,24 +402,12 @@ abstract class PluginHelper
 		catch (JDatabaseException $exc)
 		{
 			// If we failed to execute
-			$db->unlockTables();
 			return false;
 		}
 
 		$result = (int) $db->getAffectedRows();
 		if ($result === 0)
 		{
-			return false;
-		}
-
-		try
-		{
-			// Unlock the tables after writing
-			$db->unlockTables();
-		}
-		catch (JDatabaseException $e)
-		{
-			// If we can't unlock the tables assume we have somehow failed
 			return false;
 		}
 			
@@ -504,35 +481,18 @@ abstract class PluginHelper
 
 		try
 		{
-			// Lock the tables to prevent multiple plugin executions causing a race condition
-			$db->lockTable('#__extensions');
-		}
-		catch (JDatabaseException $e)
-		{
-			// If we can't lock the tables it's too risky to continue execution
-			return false;
-		}
-
-		try
-		{
 			// Update the plugin parameters
 			$result = $db->setQuery($query)->execute();
 		}
 		catch (JDatabaseException $exc)
 		{
 			// If we failed to execute
-			$db->unlockTables();
 			return false;
 		}
 
-		try
+		$result = (int) $db->getAffectedRows();
+		if ($result === 0)
 		{
-			// Unlock the tables after writing
-			$db->unlockTables();
-		}
-		catch (JDatabaseException $e)
-		{
-			// If we can't unlock the tables assume we have somehow failed
 			return false;
 		}
 
