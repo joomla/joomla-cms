@@ -14,8 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
 
-\JLoader::register('PluginsHelper', JPATH_ADMINISTRATOR . '/components/com_plugins/helpers/plugins.php');
-
 FormHelper::loadFieldClass('list');
 
 /**

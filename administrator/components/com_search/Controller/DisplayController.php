@@ -39,8 +39,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		\JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
-
 		// Load the submenu.
 		SearchHelper::addSubmenu($this->input->get('view', 'searches'));
 
