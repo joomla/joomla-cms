@@ -18,8 +18,7 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
-
-\JLoader::register('\MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Helper for mod_languages
@@ -65,7 +64,7 @@ abstract class LanguagesHelper
 		{
 			if ($active)
 			{
-				$associations = \MenusHelper::getAssociations($active->id);
+				$associations = MenusHelper::getAssociations($active->id);
 			}
 
 			$component = $app->bootComponent($app->input->get('option'));
