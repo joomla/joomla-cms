@@ -2287,11 +2287,10 @@ class Installer extends \JAdapter
 		$data['version'] = (string) $xml->version;
 		$data['description'] = (string) $xml->description;
 		$data['group'] = (string) $xml->group;
-		$data['namespace'] = (string) $xml->namespace;
 
 		if ($xml->files && count($xml->files->children()))
 		{
-			$filename = File::getName($path);
+			$filename = basename($path);
 			$data['filename'] = File::stripExt($filename);
 
 			foreach ($xml->files->children() as $oneFile)

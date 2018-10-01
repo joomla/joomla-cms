@@ -324,7 +324,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$workflowStage = (string) $this->getState('filter.state');
+		$workflowStage = (string) $this->getState('filter.stage');
 
 		if (is_numeric($workflowStage))
 		{
@@ -572,33 +572,6 @@ class ArticlesModel extends ListModel
 		}
 
 		return $this->cache[$store];
-	}
-
-	/**
-	 * Build a list of authors
-	 *
-	 * @return  \stdClass[]
-	 *
-	 * @since   1.6
-	 */
-	public function getAuthors()
-	{
-		// Create a new query object.
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		// Construct the query
-		$query->select('u.id AS value, u.name AS text')
-			->from('#__users AS u')
-			->join('INNER', '#__content AS c ON c.created_by = u.id')
-			->group('u.id, u.name')
-			->order('u.name');
-
-		// Setup the query
-		$db->setQuery($query);
-
-		// Return the result
-		return $db->loadObjectList();
 	}
 
 	/**

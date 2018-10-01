@@ -104,8 +104,6 @@ class ModulesController extends BaseController
 			$redirect = '&return=' . $returnUri;
 		}
 
-		\JLoader::register('ModulesDispatcher', JPATH_ADMINISTRATOR . '/components/com_modules/dispatcher.php');
-
 		/** @var AdministratorApplication $app */
 		$app = Factory::getContainer()->get(AdministratorApplication::class);
 		$app->loadLanguage($this->app->getLanguage());

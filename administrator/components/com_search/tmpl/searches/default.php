@@ -30,15 +30,18 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 		<table class="table">
+			<caption id="captionTable" class="sr-only">
+				<?php echo Text::_('COM_SEARCH_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+			</caption>
 			<thead>
 				<tr>
-					<th scope="col" class="nowrap">
+					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap">
+					<th scope="col" style="width:15%">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="nowrap text-center">
+					<th scope="col" style="width:1%" class="text-center">
 						<?php echo Text::_('COM_SEARCH_HEADING_RESULTS'); ?>
 					</th>
 				</tr>

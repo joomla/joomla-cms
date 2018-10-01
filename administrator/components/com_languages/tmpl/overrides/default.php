@@ -53,6 +53,9 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="overrideList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_LANGUAGES_OVERRIDES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">
@@ -64,7 +67,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" class="nowrap d-none d-md-table-cell">
+								<th scope="col" class="d-none d-md-table-cell">
 									<?php echo Text::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
 								</th>
 								<th scope="col" class="d-none d-md-table-cell">

@@ -71,7 +71,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
 			<div class="row">
 				<div class="col-md-6">
-					<?php echo $this->form->renderField('images'); ?>
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>

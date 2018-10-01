@@ -14,6 +14,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 
 /**
  * Content search plugin.
@@ -62,7 +63,6 @@ class PlgSearchContent extends CMSPlugin
 		$tag        = Factory::getLanguage()->getTag();
 
 		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-		JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
 
 		$searchText = $text;
 

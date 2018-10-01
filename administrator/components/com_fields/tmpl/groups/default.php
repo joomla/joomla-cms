@@ -61,29 +61,32 @@ if ($saveOrder && !empty($this->items))
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="groupList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_FIELDS_GROUPS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="nowrap text-center">
+								<th scope="col" style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.state', $listDirn, $listOrder); ?>
 								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th scope="col" style="width:5%" class="nowrap d-none d-md-table-cell">
+									<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:1%" class="nowrap d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
@@ -96,7 +99,7 @@ if ($saveOrder && !empty($this->items))
 								<?php $canEditOwn = $user->authorise('core.edit.own', $component . '.fieldgroup.' . $item->id) && $item->created_by == $userId; ?>
 								<?php $canChange  = $user->authorise('core.edit.state', $component . '.fieldgroup.' . $item->id) && $canCheckin; ?>
 								<tr class="row<?php echo $i % 2; ?>" item-id="<?php echo $item->id ?>">
-									<td class="order nowrap text-center d-none d-md-table-cell">
+									<td class="order text-center d-none d-md-table-cell">
 										<?php $iconClass = ''; ?>
 										<?php if (!$canChange) : ?>
 											<?php $iconClass = ' inactive'; ?>
@@ -141,11 +144,11 @@ if ($saveOrder && !empty($this->items))
 										<?php echo $this->escape($item->access_level); ?>
 									</td>
 									<?php if (Multilanguage::isEnabled()) : ?>
-										<td class="small nowrap d-none d-md-table-cell">
+										<td class="small d-none d-md-table-cell">
 											<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 										</td>
 									<?php endif; ?>
-									<td class="text-center d-none d-md-table-cell">
+									<td class="d-none d-md-table-cell">
 										<span><?php echo (int) $item->id; ?></span>
 									</td>
 								</tr>

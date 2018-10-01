@@ -43,24 +43,27 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 		<table class="table table-sm">
+			<caption id="captionTable" class="sr-only">
+				<?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+			</caption>
 			<thead>
 				<tr>
-					<th scope="col" class="nowrap">
+					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:25%" class="nowrap">
+					<th scope="col" style="width:25%">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_USERNAME', 'a.username', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="nowrap text-center">
+					<th scope="col" style="width:1%" class="text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ENABLED', 'a.block', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:1%" class="nowrap text-center">
+					<th scope="col" style="width:1%" class="text-center">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 					</th>
-					<th scope="col" style="width:25%" class="nowrap">
+					<th scope="col" style="width:25%">
 						<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 					</th>
-					<th scope="col" style="width:1%" class="nowrap">
+					<th scope="col" style="width:1%">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</tr>
