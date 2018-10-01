@@ -60,9 +60,9 @@
 					default="86400"
 					filter="integer"
 				>
-					<option value="60">JMINUTE</option>
-					<option value="3600">JHOUR</option>
-					<option value="86400">JDAY</option>
+				<option value="60">JMINUTE</option>
+				<option value="3600">JHOUR</option>
+				<option value="86400">JDAY</option>
 				</field>
 
 				<field
