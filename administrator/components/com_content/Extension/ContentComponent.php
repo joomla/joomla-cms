@@ -38,7 +38,7 @@ use Joomla\CMS\Component\Router\RouterServiceTrait;
  * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends MVCComponent implements
-	BootableExtensionInterface, CategoriesServiceInterface, FieldsServiceInterface,
+	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface,
 	AssociationServiceInterface, WorkflowServiceInterface, RouterServiceInterface
 {
 	use CategoryServiceTrait;
