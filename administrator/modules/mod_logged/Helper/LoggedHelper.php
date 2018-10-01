@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\Query\LimitableInterface;
 
 /**
  * Helper for mod_logged
@@ -41,7 +42,12 @@ abstract class LoggedHelper
 			->from('#__session AS s')
 			->join('LEFT', '#__users AS u ON s.userid = u.id')
 			->where('s.guest = 0');
-		$query->setLimit(0, $params->get('count', 5));
+
+		if ($query instanceof LimitableInterface)
+		{
+			$query->setLimit($params->get('count', 5), 0);
+		}
+
 		$db->setQuery($query);
 
 		try
