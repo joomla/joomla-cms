@@ -109,8 +109,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
-
 		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 		$user  = Factory::getUser();
 
