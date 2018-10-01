@@ -62,7 +62,7 @@ abstract class JHtmlJGrid
 		{
 			$title = $enabled ? $active_title : $inactive_title;
 			$title = $translate ? Text::_($title) : $title;
-			$title = HTMLHelper::_('tooltipText', $title, '', 0);
+			$title = html_entity_decode(HTMLHelper::_('tooltipText', $title, '', 0));
 		}
 
 		if ($enabled)
