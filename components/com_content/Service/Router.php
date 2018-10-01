@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Content\Site\Router;
+namespace Joomla\Component\Content\Site\Service;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
@@ -27,18 +27,18 @@ use Joomla\Database\DatabaseInterface;
  *
  * @since  3.3
  */
-class ContentRouter extends RouterView
+class Router extends RouterView
 {
 	protected $noIDs = false;
 
 	/**
-	 * The category
+	 * The category factory
 	 *
-	 * @var Categories
+	 * @var CategoryFactoryInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $category;
+	private $categoryFactory;
 
 	/**
 	 * The db
@@ -52,15 +52,15 @@ class ContentRouter extends RouterView
 	/**
 	 * Content Component router constructor
 	 *
-	 * @param   SiteApplication    $app       The application object
-	 * @param   AbstractMenu       $menu      The menu object to work with
-	 * @param   Categories         $category  The category object
-	 * @param   DatabaseInterface  $db        The database object
+	 * @param   SiteApplication           $app              The application object
+	 * @param   AbstractMenu              $menu             The menu object to work with
+	 * @param   CategoryFactoryInterface  $categoryFactory  The category object
+	 * @param   DatabaseInterface         $db               The database object
 	 */
-	public function __construct(SiteApplication $app, AbstractMenu $menu, Categories $category, DatabaseInterface $db)
+	public function __construct(SiteApplication $app, AbstractMenu $menu, CategoryFactoryInterface $categoryFactory, DatabaseInterface $db)
 	{
-		$this->category = $category;
-		$this->db       = $db;
+		$this->categoryFactory = $categoryFactory;
+		$this->db              = $db;
 
 		$params = ComponentHelper::getParams('com_content');
 		$this->noIDs = (bool) $params->get('sef_ids');
@@ -96,8 +96,7 @@ class ContentRouter extends RouterView
 	 */
 	public function getCategorySegment($id, $query)
 	{
-		$this->category->setOptions(array('access' => true));
-		$category = $this->category->get($id);
+		$category = $this->categoryFactory->createCategory(['access' => true])->get($id);
 
 		if ($category)
 		{
@@ -189,9 +188,7 @@ class ContentRouter extends RouterView
 	{
 		if (isset($query['id']))
 		{
-			$this->category->setOptions(array('access' => false));
-
-			$category = $this->category->get($query['id']);
+			$category = $this->categoryFactory->createCategory(['access' => false])->get($query['id']);
 
 			if ($category)
 			{

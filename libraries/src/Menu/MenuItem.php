@@ -123,7 +123,7 @@ class MenuItem extends \stdClass
 	 * @since  3.7.0
 	 * @note   This field is protected to require reading this field to proxy through the getter to convert the params to a Registry instance
 	 */
-	protected $params;
+	public $params;
 
 	/**
 	 * Indicates if this menu item is the home or default page

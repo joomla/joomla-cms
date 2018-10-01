@@ -2,27 +2,48 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Content\Administrator\Service\Provider;
+namespace Joomla\CMS\Extension\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Categories\CategoryFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\CMS\Component\Router\RouterFactoryInterface;
-use Joomla\CMS\Categories\Categories;
 use Joomla\Database\DatabaseInterface;
 
 /**
- * Service provider for the service dispatcher factory.
+ * Service provider for the service router factory.
  *
  * @since  __DEPLOY_VERSION__
  */
 class RouterFactory implements ServiceProviderInterface
 {
+	/**
+	 * The module namespace
+	 *
+	 * @var  string
+	 *
+	 * @since   4.0.0
+	 */
+	private $namespace;
+
+	/**
+	 * DispatcherFactory constructor.
+	 *
+	 * @param   string  $namespace  The namespace
+	 *
+	 * @since   4.0.0
+	 */
+	public function __construct(string $namespace)
+	{
+		$this->namespace = $namespace;
+	}
+
 	/**
 	 * Registers the service provider with a DI container.
 	 *
@@ -38,8 +59,9 @@ class RouterFactory implements ServiceProviderInterface
 			RouterFactoryInterface::class,
 			function (Container $container)
 			{
-				return new \Joomla\Component\Content\Site\Router\RouterFactory(
-					$container->get(Categories::class)[''],
+				return new \Joomla\CMS\Component\Router\RouterFactory(
+					$this->namespace,
+					$container->get(CategoryFactoryInterface::class),
 					$container->get(DatabaseInterface::class)
 				);
 			}
