@@ -33,13 +33,21 @@ class WebAsset implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->alias('webasset', WebAssetRegistry::class)
-			->alias('WebAsset', WebAssetRegistry::class)
-			->alias('WebAssetRegistry', WebAssetRegistry::class)
 			->share(
 				WebAssetRegistry::class,
 				function (Container $container)
 				{
-					return new WebAssetRegistry;
+					$registry = new WebAssetRegistry;
+
+					// Set up Dispatcher
+					$registry->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+
+					// Add Core registry files
+					$registry->addRegistryFile('media/system/joomla.asset.json')
+						->addRegistryFile('media/vendor/joomla.asset.json')
+						->addRegistryFile('media/legacy/joomla.asset.json');
+
+					return $registry;
 				},
 				true
 			);

@@ -14,6 +14,7 @@ use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\WebAsset\WebAssetRegistry;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
@@ -247,6 +248,14 @@ class Document
 	protected $preloadTypes = ['preload', 'dns-prefetch', 'preconnect', 'prefetch', 'prerender'];
 
 	/**
+	 * Web Asset instance
+	 *
+	 * @var    WebAssetRegistry
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $webAssetManager = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
@@ -311,6 +320,15 @@ class Document
 		else
 		{
 			$this->setPreloadManager(new PreloadManager);
+		}
+
+		if (array_key_exists('webAsset', $options))
+		{
+			$this->setWebAssetManager($options['webAsset']);
+		}
+		else
+		{
+			$this->setWebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webasset'));
 		}
 	}
 
@@ -975,6 +993,34 @@ class Document
 	public function getPreloadManager(): PreloadManagerInterface
 	{
 		return $this->preloadManager;
+	}
+
+	/**
+	 * Set WebAsset manager
+	 *
+	 * @param  WebAssetRegistry  $webAsset  The WebAsset instance
+	 *
+	 * @return  Document
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setWebAssetManager(WebAssetRegistry $webAsset): self
+	{
+		$this->webAssetManager = $webAsset;
+
+		return $this;
+	}
+
+	/**
+	 * Return WebAsset manager
+	 *
+	 * @return  WebAssetRegistry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getWebAssetManager(): WebAssetRegistry
+	{
+		return $this->webAssetManager;
 	}
 
 	/**

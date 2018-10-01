@@ -15,12 +15,11 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 
 /** @var JDocumentHtml $this */
-/** @var Joomla\CMS\WebAsset\WebAssetRegistry $wa */
 
 $app   = Factory::getApplication();
 $lang  = Factory::getLanguage();
 $input = $app->input;
-$wa    = Factory::getContainer()->get('webasset');
+$wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
 $option      = $input->get('option', '');

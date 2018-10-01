@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -118,36 +117,6 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $lastItemWeight = 1;
-
-	/**
-	 * Class constructor
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	public function __construct()
-	{
-		$app = Factory::getApplication();
-
-		// Core registry files
-		$this->addRegistryFile('media/system/joomla.asset.json');
-		$this->addRegistryFile('media/vendor/joomla.asset.json');
-		$this->addRegistryFile('media/legacy/joomla.asset.json');
-
-		// Add for active component
-		$option = $app->input->get('option');
-		if ($option)
-		{
-			$this->addRegistryFile('media/' . $option . '/joomla.asset.json');
-		}
-
-		// Add for active template
-		$template = $app->getTemplate();
-		$client   = $app->isClient('site') ? '' : 'administrator/';
-		$this->addRegistryFile($client . 'templates/' . $template . '/joomla.asset.json');
-
-		// Set up Dispatcher
-		$this->setDispatcher($app->getDispatcher());
-	}
 
 	/**
 	 * Get an existing Asset from a registry, by asset name.
