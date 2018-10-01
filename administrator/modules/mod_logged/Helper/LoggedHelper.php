@@ -41,7 +41,8 @@ abstract class LoggedHelper
 			->from('#__session AS s')
 			->join('LEFT', '#__users AS u ON s.userid = u.id')
 			->where('s.guest = 0');
-		$db->setQuery($query, 0, $params->get('count', 5));
+		$query->setLimit(0, $params->get('count', 5));
+		$db->setQuery($query);
 
 		try
 		{
