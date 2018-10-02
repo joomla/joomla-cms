@@ -425,8 +425,28 @@ class ContentControllerArticle extends JControllerForm
 			$viewName = $this->input->getString('view', $this->default_view);
 			$model = $this->getModel($viewName);
 
-			if ($model->storeVote($id, $user_rating))
+			JPluginHelper::importPlugin('content');
+
+			$dispatcher = JEventDispatcher::getInstance();
+			$result = $dispatcher->trigger('onRatingBeforeSave', array ('com_content.article', &$id, &$user_rating));
+
+			if (in_array(false, $result, true))
 			{
+				// Plugin can prevent rating being saved by returning false.
+				$this->setRedirect($url);
+                return;
+			}
+
+            if ($model->storeVote($id, $user_rating))
+			{
+    			$result = $dispatcher->trigger('onRatingAfterSave', array ('com_content.article', &$id, &$user_rating));
+				if (in_array(false, $result, true))
+				{
+					// Plugin can suppress default success message by returning false.
+					$this->setRedirect($url);
+                    return;
+				}
+
 				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
 			}
 			else
