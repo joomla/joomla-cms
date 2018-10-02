@@ -59,9 +59,16 @@ class RouterFactory implements ServiceProviderInterface
 			RouterFactoryInterface::class,
 			function (Container $container)
 			{
+				$categoryFactory = null;
+
+				if ($container->has(CategoryFactoryInterface::class))
+				{
+					$categoryFactory = $container->get(CategoryFactoryInterface::class);
+				}
+
 				return new \Joomla\CMS\Component\Router\RouterFactory(
 					$this->namespace,
-					$container->get(CategoryFactoryInterface::class),
+					$categoryFactory,
 					$container->get(DatabaseInterface::class)
 				);
 			}
