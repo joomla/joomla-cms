@@ -1,33 +1,37 @@
 <?php
 /**
- * @package     Joomla.Site
+ * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Finder\Administrator\Service\HTML;
 
-JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+
+defined('_JEXEC') or die;
 
 /**
  * Query HTML behavior class for Finder.
  *
  * @since  2.5
  */
-abstract class JHtmlQuery
+class Query
 {
 	/**
 	 * Method to get the explained (human-readable) search query.
 	 *
-	 * @param   FinderIndexerQuery  $query  A FinderIndexerQuery object to explain.
+	 * @param   \FinderIndexerQuery  $query  A FinderIndexerQuery object to explain.
 	 *
 	 * @return  mixed  String if there is data to explain, null otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public static function explained(FinderIndexerQuery $query)
+	public static function explained(\FinderIndexerQuery $query)
 	{
 		$parts = array();
 
@@ -36,7 +40,7 @@ abstract class JHtmlQuery
 		{
 			if ($token->required && (!isset($token->derived) || $token->derived == false))
 			{
-				$parts[] = '<span class="query-required">' . JText::sprintf('COM_FINDER_QUERY_TOKEN_REQUIRED', $token->term) . '</span>';
+				$parts[] = '<span class="query-required">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_REQUIRED', $token->term) . '</span>';
 			}
 		}
 
@@ -45,7 +49,7 @@ abstract class JHtmlQuery
 		{
 			if (!$token->required && (!isset($token->derived) || $token->derived == false))
 			{
-				$parts[] = '<span class="query-optional">' . JText::sprintf('COM_FINDER_QUERY_TOKEN_OPTIONAL', $token->term) . '</span>';
+				$parts[] = '<span class="query-optional">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_OPTIONAL', $token->term) . '</span>';
 			}
 		}
 
@@ -54,37 +58,37 @@ abstract class JHtmlQuery
 		{
 			if (!isset($token->derived) || $token->derived === false)
 			{
-				$parts[] = '<span class="query-excluded">' . JText::sprintf('COM_FINDER_QUERY_TOKEN_EXCLUDED', $token->term) . '</span>';
+				$parts[] = '<span class="query-excluded">' . Text::sprintf('COM_FINDER_QUERY_TOKEN_EXCLUDED', $token->term) . '</span>';
 			}
 		}
 
 		// Process the start date.
 		if ($query->date1)
 		{
-			$date = JFactory::getDate($query->date1)->format(JText::_('DATE_FORMAT_LC'));
-			$datecondition = JText::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when1));
-			$parts[] = '<span class="query-start-date">' . JText::sprintf('COM_FINDER_QUERY_START_DATE', $datecondition, $date) . '</span>';
+			$date = Factory::getDate($query->date1)->format(Text::_('DATE_FORMAT_LC'));
+			$datecondition = Text::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when1));
+			$parts[] = '<span class="query-start-date">' . Text::sprintf('COM_FINDER_QUERY_START_DATE', $datecondition, $date) . '</span>';
 		}
 
 		// Process the end date.
 		if ($query->date2)
 		{
-			$date = JFactory::getDate($query->date2)->format(JText::_('DATE_FORMAT_LC'));
-			$datecondition = JText::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when2));
-			$parts[] = '<span class="query-end-date">' . JText::sprintf('COM_FINDER_QUERY_END_DATE', $datecondition, $date) . '</span>';
+			$date = Factory::getDate($query->date2)->format(Text::_('DATE_FORMAT_LC'));
+			$datecondition = Text::_('COM_FINDER_QUERY_DATE_CONDITION_' . strtoupper($query->when2));
+			$parts[] = '<span class="query-end-date">' . Text::sprintf('COM_FINDER_QUERY_END_DATE', $datecondition, $date) . '</span>';
 		}
 
 		// Process the taxonomy filters.
 		if (!empty($query->filters))
 		{
 			// Get the filters in the request.
-			$t = JFactory::getApplication()->input->request->get('t', array(), 'array');
+			$t = Factory::getApplication()->input->request->get('t', array(), 'array');
 
 			// Process the taxonomy branches.
 			foreach ($query->filters as $branch => $nodes)
 			{
 				// Process the taxonomy nodes.
-				$lang = JFactory::getLanguage();
+				$lang = Factory::getLanguage();
 
 				foreach ($nodes as $title => $id)
 				{
@@ -93,7 +97,7 @@ abstract class JHtmlQuery
 
 					if ($lang->hasKey($key))
 					{
-						$title = JText::_($key);
+						$title = Text::_($key);
 					}
 
 					// Don't include the node if it is not in the request.
@@ -104,26 +108,26 @@ abstract class JHtmlQuery
 
 					// Add the node to the explanation.
 					$parts[] = '<span class="query-taxonomy">'
-						. JText::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, JText::_(FinderHelperLanguage::branchSingular($branch)))
+						. Text::sprintf('COM_FINDER_QUERY_TAXONOMY_NODE', $title, Text::_(FinderHelperLanguage::branchSingular($branch)))
 						. '</span>';
 				}
 			}
 		}
 
 		// Build the interpreted query.
-		return count($parts) ? JText::sprintf('COM_FINDER_QUERY_TOKEN_INTERPRETED', implode(JText::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts)) : null;
+		return count($parts) ? Text::sprintf('COM_FINDER_QUERY_TOKEN_INTERPRETED', implode(Text::_('COM_FINDER_QUERY_TOKEN_GLUE'), $parts)) : null;
 	}
 
 	/**
 	 * Method to get the suggested search query.
 	 *
-	 * @param   FinderIndexerQuery  $query  A FinderIndexerQuery object.
+	 * @param   \FinderIndexerQuery  $query  A FinderIndexerQuery object.
 	 *
 	 * @return  mixed  String if there is a suggestion, false otherwise.
 	 *
 	 * @since   2.5
 	 */
-	public static function suggested(FinderIndexerQuery $query)
+	public static function suggested(\FinderIndexerQuery $query)
 	{
 		$suggested = false;
 
