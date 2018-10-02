@@ -478,7 +478,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 			$allowImgPaste = true;
 			$isSubDir      = '';
-			$session       = Factory::getSession();
+			$session       = $this->app->getSession();
 			$uploadUrl     = Uri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
 				. $session->getName() . '=' . $session->getId()
 				. '&' . Session::getFormToken() . '=1'
