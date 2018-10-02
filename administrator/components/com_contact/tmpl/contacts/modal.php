@@ -26,8 +26,6 @@ if ($app->isClient('site'))
 
 JLoader::register('ContactHelperRoute', JPATH_ROOT . '/components/com_contact/helpers/route.php');
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 HTMLHelper::_('script', 'com_contact/admin-contacts-modal.min.js', array('version' => 'auto', 'relative' => true));

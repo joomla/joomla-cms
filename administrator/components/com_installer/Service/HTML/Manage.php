@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Installer\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
@@ -16,7 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  2.5
  */
-abstract class InstallerHtmlManage
+class Manage
 {
 	/**
 	 * Returns a published state on a grid.
@@ -32,7 +34,7 @@ abstract class InstallerHtmlManage
 	 *
 	 * @since   2.5
 	 */
-	public static function state($value, $i, $enabled = true, $checkbox = 'cb')
+	public function state($value, $i, $enabled = true, $checkbox = 'cb')
 	{
 		$states = array(
 			2 => array(

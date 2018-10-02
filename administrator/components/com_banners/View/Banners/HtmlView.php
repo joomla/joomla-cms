@@ -85,9 +85,6 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		$this->sidebar = \JHtmlSidebar::render();
 
 		// We do not need to filter by language when multilingual is disabled

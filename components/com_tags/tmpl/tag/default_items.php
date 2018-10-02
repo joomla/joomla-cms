@@ -15,8 +15,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
-
 HTMLHelper::_('behavior.core');
 
 HTMLHelper::_('script', 'com_tags/tag-default.js', ['version' => 'auto', 'relative' => true]);
