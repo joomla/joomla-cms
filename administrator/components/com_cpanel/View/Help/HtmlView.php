@@ -46,7 +46,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::title(Text::_('Help'), 'info help_header');
 		ToolbarHelper::help('screen.cpanel');
 
-		$user  = Factory::getUser();
+		$user = Factory::getUser();
 
 		// Load mod_menu language first as strings define some variables
 		Factory::getLanguage()->load(
@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
 		$customForum = $params->get('forum_url') ? $params->get('forum_url') : '';
 
 		// Language forum link
-		$forumId   = (int) Text::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
+		$forumId = (int) Text::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
 
 		if (empty($forumId))
 		{
