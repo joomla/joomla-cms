@@ -38,7 +38,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	/**
 	 * Contents array
 	 *
-	 * @var    Array
+	 * @var    array
 	 * @since  3.9.0
 	 */
 	protected $contents = array();
