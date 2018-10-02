@@ -16,6 +16,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Access\Access;
+use Joomla\Component\Users\Administrator\Service\HTML\Users;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('behavior.tabstate');
@@ -137,15 +138,15 @@ $loggeduser = Factory::getUser();
 								<td class="text-center">
 									<?php $self = $loggeduser->id == $item->id; ?>
 									<?php if ($canChange) : ?>
-										<?php echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', !$self); ?>
+										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', !$self); ?>
 									<?php else : ?>
-										<?php echo HTMLHelper::_('jgrid.state', JHtmlUsers::blockStates($self), $item->block, $i, 'users.', false);; ?>
+										<?php echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.blockStates', $self), $item->block, $i, 'users.', false);; ?>
 									<?php endif; ?>
 								</td>
 								<td class="text-center d-none d-md-table-cell">
 									<?php
 									$activated = empty( $item->activation) ? 0 : 1;
-									echo HTMLHelper::_('jgrid.state', JHtmlUsers::activateStates(), $activated, $i, 'users.', (boolean) $activated);
+									echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>
 								<td>

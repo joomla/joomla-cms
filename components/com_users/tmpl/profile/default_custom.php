@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-HTMLHelper::register('users.spacer', array('JHtmlUsers', 'spacer'));
-
 $fieldsets = $this->form->getFieldsets();
 
 if (isset($fieldsets['core']))
