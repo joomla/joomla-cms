@@ -25,8 +25,6 @@ if ($app->isClient('site'))
 	HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
 }
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
-
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
