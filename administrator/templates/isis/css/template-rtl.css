@@ -7766,9 +7766,6 @@ ul.manager .height-50 .icon-folder-2 {
 	line-height: 35px;
 	font-size: 30px;
 }
-#imageForm {
-	margin: -25px 0 0;
-}
 #imageForm .well {
 	margin-bottom: 5px;
 }
@@ -8047,6 +8044,7 @@ body.modal-open {
 	padding: 0;
 	width: 100%;
 	height: auto;
+	max-height: none;
 }
 .modal-body .container-fluid {
 	padding-top: 15px;
@@ -8065,7 +8063,7 @@ body.modal-open {
 	}
 }
 .container-popup {
-	padding: 28px 10px 10px 10px;
+	padding: 10px;
 }
 body .navbar,
 body .navbar-fixed-top {

@@ -3,6 +3,17 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+@media only screen and (min-width: 768px) {
+	#imageForm .control-group,
+	#uploadform .control-group {
+	    margin-bottom: 0;
+	}
+}
+
+#uploadform.well {
+    margin-bottom: -26px;
+}
+
 img {
 	border: 0 none;
 }
@@ -32,7 +43,7 @@ iframe {
 }
 
 iframe#imageframe {
-	height: 200px;
+	height: 350px;
 }
 
 a:hover {
