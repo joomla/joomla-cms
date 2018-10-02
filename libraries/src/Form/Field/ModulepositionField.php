@@ -139,9 +139,6 @@ class ModulepositionField extends \JFormFieldText
 	 */
 	protected function getInput()
 	{
-		// Load the modal behavior script.
-		HTMLHelper::_('behavior.modal', 'a.modal');
-
 		// Build the script.
 		$script = array();
 		$script[] = '	function jSelectPosition_' . $this->id . '(name) {';

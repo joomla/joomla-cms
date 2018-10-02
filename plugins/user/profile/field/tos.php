@@ -54,8 +54,6 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 		// Set required to true as this field is not displayed at all if not required.
 		$this->required = true;
 
-		HTMLHelper::_('behavior.modal');
-
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasTooltip' : '';
 		$class = $class . ' required';
