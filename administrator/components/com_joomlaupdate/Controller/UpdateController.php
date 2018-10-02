@@ -494,8 +494,8 @@ class UpdateController extends BaseController
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
 
-		/** @var JoomlaupdateModelDefault $model */
-		$model = $this->getModel('default');
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		$model = $this->getModel('Update');
 		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
 		$this->app = Factory::getApplication();

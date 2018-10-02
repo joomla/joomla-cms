@@ -25,7 +25,7 @@ $root     = $menuTree->reset();
 
 if ($root->hasChildren())
 {
-	echo '<div class="main-nav-container" role="navigation" aria-label="Main menu">';
+	echo '<div class="main-nav-container" role="navigation" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
 	echo '<ul id="menu" class="' . $class . '" role="menu">' . "\n";
 	echo '<li role="menuitem">';
 	echo '<a id="menu-collapse" href="#">';

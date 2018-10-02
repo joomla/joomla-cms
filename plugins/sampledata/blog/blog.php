@@ -395,7 +395,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 		// Get previously entered categories ids

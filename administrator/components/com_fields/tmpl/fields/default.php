@@ -18,9 +18,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.multiselect');
 
 $app       = Factory::getApplication();
@@ -57,6 +54,9 @@ if ($saveOrder && !empty($this->items))
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="fieldList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_FIELDS_FIELDS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">

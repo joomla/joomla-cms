@@ -16,8 +16,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();
@@ -44,6 +42,9 @@ if ($saveOrder && !empty($this->items))
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="contentList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_LANGUAGES_CONTENT_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">

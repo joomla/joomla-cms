@@ -21,7 +21,6 @@ use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Workflow\WorkflowServiceTrait;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
@@ -37,8 +36,7 @@ use Joomla\CMS\Factory;
  * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends MVCComponent implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoryServiceInterface, FieldsServiceInterface,
-	AssociationServiceInterface, WorkflowServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface, WorkflowServiceInterface
 {
 	use CategoryServiceTrait;
 	use AssociationServiceTrait;

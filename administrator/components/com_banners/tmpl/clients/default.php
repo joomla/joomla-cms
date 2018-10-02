@@ -15,8 +15,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.multiselect');
 
 $purchaseTypes = array(
@@ -35,10 +33,12 @@ $params     = $this->state->params ?? new JObject;
 ?>
 <form action="<?php echo Route::_('index.php?option=com_banners&view=clients'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
+		<?php if (!empty($this->sidebar)) : ?>
+            <div id="j-sidebar-container" class="col-md-2">
+				<?php echo $this->sidebar; ?>
+            </div>
+		<?php endif; ?>
+        <div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php
 				// Search tools bar
@@ -48,6 +48,9 @@ $params     = $this->state->params ?? new JObject;
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_BANNERS_CLIENTS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">
