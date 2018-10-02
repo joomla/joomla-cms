@@ -26,9 +26,6 @@ if ($app->isClient('site'))
 
 JLoader::register('ContentHelperRoute', JPATH_ROOT . '/components/com_content/helpers/route.php');
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 
