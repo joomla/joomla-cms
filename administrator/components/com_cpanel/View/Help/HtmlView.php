@@ -13,9 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Registry\Registry;
 
 /**
  * HTML View class for the Cpanel component
@@ -45,6 +47,32 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::help('screen.cpanel');
 
 		$user  = Factory::getUser();
+
+		// Load mod_menu language first as strings define some variables
+		Factory::getLanguage()->load(
+			'mod_menu',
+			JPATH_ADMINISTRATOR,
+			Factory::getLanguage()->getTag(),
+			null, false, true
+		);
+
+		// Get mod_menu params
+		$module = ModuleHelper::getModule('mod_menu');
+		$params = new Registry($module->params);
+
+		// Do we have a custom forum url?
+		$customForum = $params->get('forum_url') ? $params->get('forum_url') : '';
+
+		// Language forum link
+		$forumId   = (int) Text::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
+
+		if (empty($forumId))
+		{
+			$forumId = 511;
+		}
+
+		$forum_url = 'https://forum.joomla.org/viewforum.php?f=' . $forumId;
+
 		$links = [
 			// System configuration
 			'help' => [
@@ -62,14 +90,14 @@ class HtmlView extends BaseHtmlView
 				'icon'    => 'info'
 			],
 			'help_forum' => [
-				'link'    => '#',
+				'link'    => $customForum,
 				'title'   => 'MOD_MENU_HELP_SUPPORT_CUSTOM_FORUM',
 				'label'   => 'MOD_MENU_HELP_SUPPORT_CUSTOM_FORUM',
 				'desc'    => 'MOD_MENU_HELP_SUPPORT_CUSTOM_FORUM',
 				'icon'    => 'info'
 			],
 			'help_official_language' => [
-				'link'    => '#',
+				'link'    => $forum_url,
 				'title'   => 'MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM',
 				'label'   => 'MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM',
 				'desc'    => 'MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM',
@@ -153,13 +181,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
-
-		Factory::getLanguage()->load(
-			'mod_menu',
-			JPATH_ADMINISTRATOR,
-			Factory::getLanguage()->getTag(),
-			true
-		);
 
 		return parent::display($tpl);
 	}
