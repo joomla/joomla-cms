@@ -7,10 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Messages\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\HTML\HTMLHelper;
 
 /**
@@ -18,7 +19,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  1.6
  */
-class JHtmlMessages
+class Messages
 {
 	/**
 	 * Get the HTML code of the state switcher
@@ -31,7 +32,7 @@ class JHtmlMessages
 	 *
 	 * @since   3.4
 	 */
-	public static function status($i, $value = 0, $canChange = false)
+	public function status($i, $value = 0, $canChange = false)
 	{
 		// Array of image, task, title, action.
 		$states = array(
