@@ -16,21 +16,21 @@ use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Workflow\WorkflowServiceTrait;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Component\Router\RouterServiceInterface;
-use Joomla\CMS\Component\Router\RouterServiceTrait;
 
 /**
  * Component class for com_content
@@ -38,8 +38,8 @@ use Joomla\CMS\Component\Router\RouterServiceTrait;
  * @since  __DEPLOY_VERSION__
  */
 class ContentComponent extends MVCComponent implements
-	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface,
-	AssociationServiceInterface, WorkflowServiceInterface, RouterServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface,
+	WorkflowServiceInterface, RouterServiceInterface
 {
 	use CategoryServiceTrait;
 	use AssociationServiceTrait;
