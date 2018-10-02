@@ -11,7 +11,8 @@
 }
 
 .subhead-collapse {
-	margin-bottom: 19px;
+	margin-bottom: 18px;
+	z-index: 100;
 }
 
 .subhead-collapse.collapse {
@@ -43,6 +44,13 @@
 		margin-right: -20px;
 		padding-left: 10px;
 		padding-right: 10px;
+	}
+}
+@media (min-width: @md) { 
+	.subhead-collapse.sticky {
+		position: static;
+		position: sticky;
+		top: 30px;
 	}
 }
 
