@@ -244,10 +244,9 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		$jVersion       = new Version;
 		$currentVersion = $jVersion->getShortVersion();
 
-		$jConfig  = Factory::getConfig();
-		$sitename = $jConfig->get('sitename');
-		$mailFrom = $jConfig->get('mailfrom');
-		$fromName = $jConfig->get('fromname');
+		$sitename = $this->app->get('sitename');
+		$mailFrom = $this->app->get('mailfrom');
+		$fromName = $this->app->get('fromname');
 
 		$substitutions = array(
 			'[NEWVERSION]'  => $newVersion,
