@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Languages\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
@@ -17,7 +19,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  1.6
  */
-abstract class JHtmlLanguages
+class Languages
 {
 	/**
 	 * Method to generate an information about the default language.
@@ -26,7 +28,7 @@ abstract class JHtmlLanguages
 	 *
 	 * @return  string	HTML code.
 	 */
-	public static function published($published)
+	public function published($published)
 	{
 		if (!$published)
 		{
@@ -44,7 +46,7 @@ abstract class JHtmlLanguages
 	 *
 	 * @return  string	HTML code.
 	 */
-	public static function id($rowNum, $language)
+	public function id($rowNum, $language)
 	{
 		return '<input'
 			. ' type="radio"'
@@ -61,7 +63,7 @@ abstract class JHtmlLanguages
 	 *
 	 * @return  array of client objects.
 	 */
-	public static function clients()
+	public function clients()
 	{
 		return array(
 			HTMLHelper::_('select.option', 0, Text::_('JSITE')),
@@ -76,7 +78,7 @@ abstract class JHtmlLanguages
 	 *
 	 * @since   1.6
 	 */
-	public static function publishedOptions()
+	public function publishedOptions()
 	{
 		// Build the active state filter options.
 		$options   = array();

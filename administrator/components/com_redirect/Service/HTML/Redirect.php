@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Redirect\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
@@ -17,7 +19,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  1.6
  */
-class JHtmlRedirect
+class Redirect
 {
 	/**
 	 * Display the published or unpublished state of an item.
@@ -30,14 +32,14 @@ class JHtmlRedirect
 	 *
 	 * @since   1.6
 	 *
-	 * @throws  InvalidArgumentException
+	 * @throws  \InvalidArgumentException
 	 */
-	public static function published($value = 0, $i = null, $canChange = true)
+	public function published($value = 0, $i = null, $canChange = true)
 	{
 		// Note: $i is required but has to be an optional argument in the function call due to argument order
 		if (null === $i)
 		{
-			throw new InvalidArgumentException('$i is a required argument in JHtmlRedirect::published');
+			throw new \InvalidArgumentException('$i is a required argument in JHtmlRedirect::published');
 		}
 
 		// Array of image, task, title, action

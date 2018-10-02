@@ -132,9 +132,6 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		return parent::display($tpl);
 	}
 

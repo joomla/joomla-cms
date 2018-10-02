@@ -9,8 +9,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Helper;
 
-use Joomla\CMS\Helper\ContentHelper;
-
 defined('_JEXEC') or die;
 
 /**

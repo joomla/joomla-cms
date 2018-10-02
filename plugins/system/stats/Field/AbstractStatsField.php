@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Plugin\System\Stats\Field;
+
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormField;
@@ -17,7 +19,7 @@ use Joomla\CMS\Factory;
  *
  * @since  3.5
  */
-abstract class PlgSystemStatsFormFieldBase extends FormField
+abstract class AbstractStatsField extends FormField
 {
 	/**
 	 * Get the layouts paths
