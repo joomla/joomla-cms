@@ -7,9 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Users\Site\Service;
+
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
 use Joomla\CMS\Component\Router\Rules\MenuRules;
@@ -22,15 +24,15 @@ use Joomla\CMS\Menu\AbstractMenu;
  *
  * @since  3.2
  */
-class UsersRouter extends RouterView
+class Router extends RouterView
 {
 	/**
 	 * Users Component router constructor
 	 *
-	 * @param   CMSApplication  $app   The application object
-	 * @param   AbstractMenu    $menu  The menu object to work with
+	 * @param   SiteApplication  $app   The application object
+	 * @param   AbstractMenu     $menu  The menu object to work with
 	 */
-	public function __construct($app = null, $menu = null)
+	public function __construct(SiteApplication $app, AbstractMenu $menu)
 	{
 		$this->registerView(new RouterViewConfiguration('login'));
 		$profile = new RouterViewConfiguration('profile');
