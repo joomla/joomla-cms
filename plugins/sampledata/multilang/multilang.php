@@ -99,7 +99,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * First step to enable the Language filter plugin.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -145,7 +145,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Second step to add a language switcher module
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -189,7 +189,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Third step to make sure all content languages are published
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -228,7 +228,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Fourth step to create Menus and list all categories menu items
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -292,7 +292,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Fifth step to add menu modules
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -336,7 +336,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Sixth step to add workflow, categories, articles and blog menu items
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -387,7 +387,6 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		foreach ($siteLanguages as $siteLang)
 		{
-
 			if (!$tableCategory = $this->addCategory($siteLang, $tableWorkflow->id))
 			{
 				$response            = array();
@@ -442,7 +441,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Seventh step to disable the mainmenu module whose home page is set to All languages.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -596,7 +595,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		return true;
 	}
 
-		/**
+	/**
 	 * Enable the Language Switcher Module.
 	 *
 	 * @return  boolean
@@ -1291,7 +1290,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		return $data;
 	}
 
-		/**
+	/**
 	 * Get installed languages data.
 	 *
 	 * @param   integer  $client_id  The client ID to retrieve data for.
