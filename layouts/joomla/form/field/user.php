@@ -50,9 +50,6 @@ extract($displayData);
 
 if (!$readonly)
 {
-	// @TODO remove jQuery dependency once modal moves to webcomponents
-	HTMLHelper::_('jquery.framework');
-
 	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
 }
 

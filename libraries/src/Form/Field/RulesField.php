@@ -159,7 +159,7 @@ class RulesField extends FormField
 		$this->isGlobalConfig = $component === 'root.1';
 
 		// Get the actions for the asset.
-		$this->actions = Access::getActions($component, $section);
+		$this->actions = Access::getActionsFromFile(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', $section);
 
 		// Iterate over the children and add to the actions.
 		foreach ($this->element->children() as $el)

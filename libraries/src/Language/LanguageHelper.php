@@ -422,8 +422,6 @@ class LanguageHelper
 	 */
 	public static function saveToIniFile($filename, array $strings)
 	{
-		\JLoader::register('\JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
-
 		// Escape double quotes.
 		foreach ($strings as $key => $string)
 		{

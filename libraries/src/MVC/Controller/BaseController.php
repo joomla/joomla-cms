@@ -245,10 +245,9 @@ class BaseController implements ControllerInterface
 	 *
 	 * @return  static
 	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 4.0
-	 * @throws  \Exception if the controller cannot be loaded.
+	 * @since       3.0
+	 * @deprecated  5.0 Get the controller through the MVCFactory instead
+	 * @throws      \Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
@@ -256,6 +255,14 @@ class BaseController implements ControllerInterface
 		{
 			return self::$instance;
 		}
+
+		@trigger_error(
+			sprintf(
+				'%1$s::getInstance() is deprecated. Load it through the MVC factory.',
+				self::class
+			),
+			E_USER_DEPRECATED
+		);
 
 		$app   = Factory::getApplication();
 		$input = $app->input;

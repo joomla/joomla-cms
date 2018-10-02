@@ -146,7 +146,7 @@ abstract class JHtmlJGrid
 		$inactive_class = array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (array_key_exists(6, $state) ? $state[6] : '');
 
 		return static::action(
-			$i, $task, $prefix, $text, $active_title, $inactive_title, $tip,
+			$i, $task, $prefix, $active_title, $inactive_title, $tip,
 			$active_class, $inactive_class, $enabled, $translate, $checkbox,
 			$formId
 		);
@@ -390,7 +390,7 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		return static::action($i, $task, $prefix, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
+		return static::action($i, $task, $prefix, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
 	}
 
 	/**
@@ -420,6 +420,6 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		return static::action($i, $task, $prefix, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);
+		return static::action($i, $task, $prefix, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);
 	}
 }
