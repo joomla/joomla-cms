@@ -8817,7 +8817,8 @@ ul.treeselect ul.dropdown-menu li {
 .pagination-toolbar a {
 	line-height: 26px;
 }
-.pull-right > .dropdown-menu {
+.pull-right > .dropdown-menu,
+.dropdown-reverse {
 	left: auto;
 	right: 0;
 }
@@ -10101,4 +10102,8 @@ a.grid_true {
 	box-shadow: 3px 0 0 #3071a9;
 	border-right: 0;
 	border-left: 1px solid rgba(0,0,0,0.08);
+}
+.dropdown-reverse {
+	left: 0;
+	right: auto;
 }
