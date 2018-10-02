@@ -54,18 +54,18 @@ abstract class JHtmlJquery
 			$debug = (boolean) Factory::getConfig()->get('debug');
 		}
 
-		HTMLHelper::_('script', 'vendor/jquery/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		HTMLHelper::_('script', 'vendor/jquery/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug), ['defer' => false]);
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			HTMLHelper::_('script', 'legacy/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true));
+			HTMLHelper::_('script', 'legacy/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true), ['defer' => false]);
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			HTMLHelper::_('script', 'vendor/jquery-migrate/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+			HTMLHelper::_('script', 'vendor/jquery-migrate/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug), ['defer' => false]);
 		}
 
 		static::$loaded[__METHOD__] = true;

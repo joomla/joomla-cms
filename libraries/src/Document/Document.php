@@ -534,6 +534,11 @@ class Document
 			$attribs['type'] = 'text/javascript';
 		}
 
+		if(!isset($attribs['defer']))
+		{
+			$attribs['defer'] = true;
+		}
+
 		$this->_scripts[$url]            = isset($this->_scripts[$url]) ? array_replace($this->_scripts[$url], $attribs) : $attribs;
 		$this->_scripts[$url]['options'] = isset($this->_scripts[$url]['options']) ? array_replace($this->_scripts[$url]['options'], $options) : $options;
 
