@@ -56,12 +56,12 @@ HTMLHelper::_('formbehavior.chosen', '.chosen-custom-value');
 
         <div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo HTMLHelper::_('batch.language'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo HTMLHelper::_('batch.access'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
 			</div>
 		</div>
 	</div>
