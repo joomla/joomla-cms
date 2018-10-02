@@ -73,7 +73,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php if (!$item->element) : ?>
 										<strong>X</strong>
 									<?php else : ?>
-										<?php echo HTMLHelper::_('InstallerHtml.Updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
+										<?php echo HTMLHelper::_('updatesites.state', $item->enabled, $i, $item->enabled < 2, 'cb'); ?>
 									<?php endif; ?>
 								</td>
 								<th scope="row">

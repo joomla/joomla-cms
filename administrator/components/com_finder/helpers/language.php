@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Finder language helper class.
  *
- * @since  2.5
+ * @since       2.5
+ * @deprecated  5.0 Use \Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage instead
  */
 class FinderHelperLanguage extends \Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage
 {
-
 }
