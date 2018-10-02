@@ -41,7 +41,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  3.8.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
@@ -49,7 +49,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	 * Database driver
 	 *
 	 * @var    \Joomla\Database\DatabaseInterface
-	 * @since  3.8.6
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
 
