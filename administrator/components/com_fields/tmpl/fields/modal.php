@@ -35,7 +35,9 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<div class="alert alert-warning alert-no-items">
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 		<?php else : ?>
 			<table class="table" id="moduleList">
 				<caption id="captionTable" class="sr-only">
