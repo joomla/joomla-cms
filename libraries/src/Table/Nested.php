@@ -1363,7 +1363,7 @@ class Nested extends Table
 	 *
 	 * @return  integer  1 + value of root rgt on success, false on failure
 	 *
-	 * @since   11.1
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException on database error.
 	 */
 	protected function _gatherRebuildConditions($parent, $lft = 0, $level = 0, $path = '')
