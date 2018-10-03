@@ -274,19 +274,6 @@ class TextField extends FormField
 	}
 
 	/**
-	 * Method to get the field suggestions.
-	 *
-	 * @return  array  The field option objects.
-	 *
-	 * @since       3.2
-	 * @deprecated  4.0  Use getOptions instead
-	 */
-	protected function getSuggestions()
-	{
-		return $this->getOptions();
-	}
-
-	/**
 	 * Method to get the data to be passed to the layout for rendering.
 	 *
 	 * @return  array
@@ -306,7 +293,7 @@ class TextField extends FormField
 		 * Get the field options for the datalist.
 		 * Note: getSuggestions() is deprecated and will be changed to getOptions() with 4.0.
 		 */
-		$options  = (array) $this->getSuggestions();
+		$options  = (array) $this->getOptions();
 
 		$extraData = array(
 			'maxLength'   => $maxLength,

@@ -18,8 +18,6 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
-\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
-
 /**
  * View class for a list of featured articles.
  *
@@ -86,7 +84,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		\ContentHelper::addSubmenu('featured');
+		\Joomla\Component\Content\Administrator\Helper\ContentHelper::addSubmenu('featured');
 
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
