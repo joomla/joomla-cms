@@ -60,7 +60,6 @@
 	$.fieldMedia.prototype.modalOpen = function() {
 		var $iframe = $('<iframe>', {
 			name: 'field-media-modal',
-			id: 'field-media-modal',
 			src: this.options.url.replace('{field-media-id}', this.$input.attr('id')),
 			width: this.options.modalWidth,
 			height: this.options.modalHeight
