@@ -434,7 +434,8 @@ class ContentControllerArticle extends JControllerForm
 			{
 				// Plugin can prevent rating being saved by returning false.
 				$this->setRedirect($url);
-                return;
+
+				return;
 			}
 
             if ($model->storeVote($id, $user_rating))
@@ -444,7 +445,8 @@ class ContentControllerArticle extends JControllerForm
 				{
 					// Plugin can suppress default success message by returning false.
 					$this->setRedirect($url);
-                    return;
+
+					return;
 				}
 
 				$this->setRedirect($url, JText::_('COM_CONTENT_ARTICLE_VOTE_SUCCESS'));
