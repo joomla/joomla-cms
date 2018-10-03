@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Uri\Uri;
+
 /** @var JDocumentHtml $this */
 
 $app = JFactory::getApplication();
@@ -58,7 +60,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 			<?php echo JText::_('JOFFLINE_MESSAGE'); ?>
 		</p>
 	<?php endif; ?>
-	<form action="<?php echo JRoute::_('index.php', true); ?>" method="post" id="form-login">
+	<form action="<?php echo JRoute::_('index.php?option=com_users&view=login'); ?>" method="post" id="form-login">
 	<fieldset class="input">
 		<p id="form-login-username">
 			<label for="username"><?php echo JText::_('JGLOBAL_USERNAME'); ?></label>
@@ -77,9 +79,10 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 		<p id="submit-buton">
 			<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN'); ?>" />
 		</p>
-		<input type="hidden" name="option" value="com_users" />
 		<input type="hidden" name="task" value="user.login" />
-		<input type="hidden" name="return" value="<?php echo base64_encode(JUri::base()); ?>" />
+		<?php $uri = new Uri('index.php'); ?>
+		<?php $uri->setQuery($app->getRouter()->getVars()); ?>
+		<input type="hidden" name="return" value="<?php echo base64_encode($uri->tostring()); ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</fieldset>
 	</form>
