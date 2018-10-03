@@ -56,5 +56,7 @@ Factory::getDocument()->addScriptOptions(
 		<?php endforeach; ?>
 	</ul>
 <?php else : ?>
-	<joomla-alert type="warning"><?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?></joomla-alert>
+	<div class="alert alert-warning">
+		<?php echo JText::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
+	</div>
 <?php endif; ?>
