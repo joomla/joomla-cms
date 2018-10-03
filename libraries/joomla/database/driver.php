@@ -1173,6 +1173,10 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 			{
 				$this->serverType = 'postgresql';
 			}
+			elseif (stristr($name, 'pgsql') !== false)
+			{
+				$this->serverType = 'postgresql';
+			}
 			elseif (stristr($name, 'oracle') !== false)
 			{
 				$this->serverType = 'oracle';
@@ -2087,6 +2091,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @return  boolean  The old debugging level.
 	 *
 	 * @since   11.1
+	 * @deprecated  4.0  This will be removed in Joomla 4 without replacement
 	 */
 	public function setDebug($level)
 	{

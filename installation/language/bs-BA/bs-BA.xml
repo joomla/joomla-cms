@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.7"
+	version="3.8"
 	client="installation">
 	<name>Bosanski (BA)</name>
-	<version>3.7.0</version>
-	<creationDate>October 2016</creationDate>
+	<version>3.8.11</version>
+	<creationDate>Jul 2018</creationDate>
 	<author>Bosnian Translation Team</author>
  	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

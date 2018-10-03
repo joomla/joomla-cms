@@ -1,6 +1,10 @@
 /* Changes to tables where data type conflicts exist with MySQL (mainly dealing with null values */
 ALTER TABLE "#__modules" ALTER COLUMN "content" SET DEFAULT '';
-ALTER TABLE "#__updates" ALTER COLUMN "data" SET DEFAULT '';
+--
+-- The following statement has to be disabled because it conflicts with
+-- a later change added with Joomla! 3.8.8 to repair the update of database schema changes
+--
+-- ALTER TABLE "#__updates" ALTER COLUMN "data" SET DEFAULT '';
 
 /* Tags database schema */
 

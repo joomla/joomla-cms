@@ -39,24 +39,49 @@ $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 <div class="row-fluid">
 	<div class="subform-repeatable-wrapper subform-layout">
 		<div class="subform-repeatable"
-			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
-			data-repeatable-element="div.subform-repeatable-group" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
+			data-bt-add="a.group-add-<?php echo $unique_subform_id; ?>"
+			data-bt-remove="a.group-remove-<?php echo $unique_subform_id; ?>"
+			data-bt-move="a.group-move-<?php echo $unique_subform_id; ?>"
+			data-repeatable-element="div.subform-repeatable-group-<?php echo $unique_subform_id; ?>"
+			data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>"
+		>
+
 			<?php if (!empty($buttons['add'])) : ?>
 			<div class="btn-toolbar">
 				<div class="btn-group">
-					<a class="group-add btn btn-mini button btn-success" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"><span class="icon-plus" aria-hidden="true"></span> </a>
+					<a class="btn btn-mini button btn-success group-add-<?php echo $unique_subform_id; ?>" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>">
+						<span class="icon-plus" aria-hidden="true"></span>
+					</a>
 				</div>
 			</div>
 			<?php endif; ?>
 		<?php
 		foreach ($forms as $k => $form) :
-			echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
+			echo $this->sublayout(
+				$sublayout,
+				array(
+					'form' => $form,
+					'basegroup' => $fieldname,
+					'group' => $fieldname . $k,
+					'buttons' => $buttons,
+					'unique_subform_id' => $unique_subform_id,
+				)
+			);
 		endforeach;
 		?>
 		<?php if ($multiple) : ?>
-		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
-		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)); ?>
-		</script>
+			<template class="subform-repeatable-template-section"><?php echo trim(
+				$this->sublayout(
+					$sublayout,
+					array(
+						'form' => $tmpl,
+						'basegroup' => $fieldname,
+						'group' => $fieldname . 'X',
+						'buttons' => $buttons,
+						'unique_subform_id' => $unique_subform_id,
+					)
+				)
+			); ?></template>
 		<?php endif; ?>
 		</div>
 	</div>

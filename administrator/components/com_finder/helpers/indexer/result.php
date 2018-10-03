@@ -324,14 +324,11 @@ class FinderIndexerResult
 	public function addInstruction($group, $property)
 	{
 		// Check if the group exists. We can't add instructions for unknown groups.
-		if (array_key_exists($group, $this->instructions))
+		// Check if the property exists in the group.
+		if (array_key_exists($group, $this->instructions) && !in_array($property, $this->instructions[$group], true))
 		{
-			// Check if the property exists in the group.
-			if (!in_array($property, $this->instructions[$group]))
-			{
-				// Add the property to the group.
-				$this->instructions[$group][] = $property;
-			}
+			// Add the property to the group.
+			$this->instructions[$group][] = $property;
 		}
 	}
 

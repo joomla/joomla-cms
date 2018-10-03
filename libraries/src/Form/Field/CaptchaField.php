@@ -30,6 +30,13 @@ class CaptchaField extends FormField
 	protected $type = 'Captcha';
 
 	/**
+	 * The captcha base instance of our type.
+	 *
+	 * @var Captcha
+	 */
+	protected $_captcha;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.
@@ -109,6 +116,8 @@ class CaptchaField extends FormField
 		if ($plugin === 0 || $plugin === '0' || $plugin === '' || $plugin === null)
 		{
 			$this->hidden = true;
+
+			return false;
 		}
 		else
 		{
@@ -124,6 +133,26 @@ class CaptchaField extends FormField
 
 		$this->namespace = $this->element['namespace'] ? (string) $this->element['namespace'] : $this->form->getName();
 
+		try
+		{
+			// Get an instance of the captcha class that we are using
+			$this->_captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace));
+
+			/**
+			 * Give the captcha instance a possibility to react on the setup-process,
+			 * e.g. by altering the XML structure of the field, for example hiding the label
+			 * when using invisible captchas.
+			 */
+			$this->_captcha->setupField($this, $element);
+		}
+		catch (\RuntimeException $e)
+		{
+			$this->_captcha = null;
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
 		return $result;
 	}
 
@@ -136,18 +165,19 @@ class CaptchaField extends FormField
 	 */
 	protected function getInput()
 	{
-		if ($this->hidden)
+		if ($this->hidden || $this->_captcha == null)
 		{
 			return '';
 		}
-		else
-		{
-			if (($captcha = Captcha::getInstance($this->plugin, array('namespace' => $this->namespace))) == null)
-			{
-				return '';
-			}
-		}
 
-		return $captcha->display($this->name, $this->id, $this->class);
+		try
+		{
+			return $this->_captcha->display($this->name, $this->id, $this->class);
+		}
+		catch (\RuntimeException $e)
+		{
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+		return '';
 	}
 }

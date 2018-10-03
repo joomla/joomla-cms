@@ -73,6 +73,6 @@ abstract class ModLoggedHelper
 	 */
 	public static function getTitle($params)
 	{
-		return JText::plural('MOD_LOGGED_TITLE', $params->get('count'));
+		return JText::plural('MOD_LOGGED_TITLE', $params->get('count', 5));
 	}
 }

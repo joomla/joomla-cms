@@ -40,20 +40,28 @@ class PostgresqlChangeItem extends ChangeItem
 	{
 		// Initialize fields in case we can't create a check query
 		$this->checkStatus = -1; // change status to skipped
+
 		$result = null;
+		$splitIntoWords = "~'[^']*'(*SKIP)(*F)|\s+~";
+		$splitIntoActions = "~'[^']*'(*SKIP)(*F)|\([^)]*\)(*SKIP)(*F)|,~";
 
 		// Remove any newlines
 		$this->updateQuery = str_replace("\n", '', $this->updateQuery);
+
+		// Remove trailing whitespace and semicolon
+		$this->updateQuery = rtrim($this->updateQuery, "; \t\n\r\0\x0B");
 
 		// Fix up extra spaces around () and in general
 		$find = array('#((\s*)\(\s*([^)\s]+)\s*)(\))#', '#(\s)(\s*)#');
 		$replace = array('($3)', '$1');
 		$updateQuery = preg_replace($find, $replace, $this->updateQuery);
-		$wordArray = explode(' ', $updateQuery);
+		$wordArray = preg_split($splitIntoWords, $updateQuery, null, PREG_SPLIT_NO_EMPTY);
+
+		$totalWords = count($wordArray);
 
 		// First, make sure we have an array of at least 6 elements
 		// if not, we can't make a check query for this one
-		if (count($wordArray) < 6)
+		if ($totalWords < 6)
 		{
 			// Done with method
 			return;
@@ -64,93 +72,164 @@ class PostgresqlChangeItem extends ChangeItem
 
 		if ($command === 'ALTER TABLE')
 		{
+			// Check only the last action
+			$actions = ltrim(substr($updateQuery, strpos($updateQuery, $wordArray[2]) + strlen($wordArray[2])));
+			$actions = preg_split($splitIntoActions, $actions);
+
+			// Get the last action
+			$lastActionArray = preg_split($splitIntoWords, end($actions), null, PREG_SPLIT_NO_EMPTY);
+
+			// Replace all actions by the last one
+			array_splice($wordArray, 3, $totalWords, $lastActionArray);
+
 			$alterCommand = strtoupper($wordArray[3] . ' ' . $wordArray[4]);
 
 			if ($alterCommand === 'ADD COLUMN')
 			{
-				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name='
-				. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
+				$result = 'SELECT column_name'
+					. ' FROM information_schema.columns'
+					. ' WHERE table_name='
+					. $this->fixQuote($wordArray[2])
+					. ' AND column_name=' . $this->fixQuote($wordArray[5]);
 
 				$this->queryType = 'ADD_COLUMN';
-				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+				$this->msgElements = array(
+					$this->fixQuote($wordArray[2]),
+					$this->fixQuote($wordArray[5])
+				);
 			}
 			elseif ($alterCommand === 'DROP COLUMN')
 			{
-				$result = 'SELECT column_name FROM information_schema.columns WHERE table_name='
-				. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5]);
+				$result = 'SELECT column_name'
+					. ' FROM information_schema.columns'
+					. ' WHERE table_name='
+					. $this->fixQuote($wordArray[2])
+					. ' AND column_name=' . $this->fixQuote($wordArray[5]);
 
 				$this->queryType = 'DROP_COLUMN';
 				$this->checkQueryExpected = 0;
-				$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]));
+				$this->msgElements = array(
+					$this->fixQuote($wordArray[2]),
+					$this->fixQuote($wordArray[5])
+				);
 			}
 			elseif ($alterCommand === 'ALTER COLUMN')
 			{
-				if (strtoupper($wordArray[6]) === 'TYPE')
-				{
-					$type = '';
+				$alterAction = strtoupper($wordArray[6]);
 
-					for ($i = 7, $iMax = count($wordArray); $i < $iMax; $i++)
+				if ($alterAction === 'TYPE')
+				{
+					$type = implode(' ', array_slice($wordArray, 7));
+
+					if ($pos = stripos($type, ' USING '))
 					{
-						$type .= $wordArray[$i] . ' ';
+						$type = substr($type, 0, $pos);
 					}
 
 					if ($pos = strpos($type, '('))
 					{
-						$type = substr($type, 0, $pos);
-					}
-
-					if ($pos = strpos($type, ';'))
-					{
-						$type = substr($type, 0, $pos);
-					}
-
-					$result = 'SELECT column_name, data_type FROM information_schema.columns WHERE table_name='
-						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
-						. ' AND data_type=' . $this->fixQuote($type);
-
-					$this->queryType = 'CHANGE_COLUMN_TYPE';
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $type);
-				}
-				elseif (strtoupper($wordArray[7] . ' ' . $wordArray[8]) === 'NOT NULL')
-				{
-					if (strtoupper($wordArray[6]) === 'SET')
-					{
-						// SET NOT NULL
-						$isNullable = $this->fixQuote('NO');
+						$datatype = substr($type, 0, $pos);
 					}
 					else
 					{
-						// DROP NOT NULL
-						$isNullable = $this->fixQuote('YES');
+						$datatype = $type;
 					}
 
-					$result = 'SELECT column_name, data_type, is_nullable FROM information_schema.columns WHERE table_name='
-						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
-						. ' AND is_nullable=' . $isNullable;
+					$result = 'SELECT column_name, data_type '
+						. 'FROM information_schema.columns WHERE table_name='
+						. $this->fixQuote($wordArray[2]) . ' AND column_name='
+						. $this->fixQuote($wordArray[5])
+						. ' AND data_type=' . $this->fixQuote($datatype);
+
+					if ($datatype === 'character varying')
+					{
+						$result .= ' AND character_maximum_length = ' . (int) substr($type, $pos + 1);
+					}
 
 					$this->queryType = 'CHANGE_COLUMN_TYPE';
-					$this->checkQueryExpected = 1;
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullable);
+					$this->msgElements = array(
+						$this->fixQuote($wordArray[2]),
+						$this->fixQuote($wordArray[5]),
+						$type
+					);
 				}
-				elseif (strtoupper($wordArray[7]) === 'DEFAULT')
+				elseif ($alterAction === 'SET')
 				{
-					if (strtoupper($wordArray[6]) === 'SET')
-					{
-						$isNullDef = 'IS NOT NULL';
-					}
-					else
-					{
-						// DROP DEFAULT
-						$isNullDef = 'IS NULL';
-					}
+					$alterType = strtoupper($wordArray[7]);
 
-					$result = 'SELECT column_name, data_type, column_default FROM information_schema.columns WHERE table_name='
-						. $this->fixQuote($wordArray[2]) . ' AND column_name=' . $this->fixQuote($wordArray[5])
-						. ' AND column_default ' . $isNullDef;
+					if ($alterType === 'NOT' && strtoupper($wordArray[8]) === 'NULL')
+					{
+						$result = 'SELECT column_name, data_type, is_nullable'
+							. ' FROM information_schema.columns'
+							. ' WHERE table_name=' . $this->fixQuote($wordArray[2])
+							. ' AND column_name=' . $this->fixQuote($wordArray[5])
+							. ' AND is_nullable=' . $this->fixQuote('NO');
 
-					$this->queryType = 'CHANGE_COLUMN_TYPE';
-					$this->checkQueryExpected = 1;
-					$this->msgElements = array($this->fixQuote($wordArray[2]), $this->fixQuote($wordArray[5]), $isNullDef);
+						$this->queryType = 'CHANGE_COLUMN_TYPE';
+						$this->msgElements = array(
+							$this->fixQuote($wordArray[2]),
+							$this->fixQuote($wordArray[5]),
+							'NOT NULL'
+						);
+					}
+					elseif ($alterType === 'DEFAULT')
+					{
+						$result = 'SELECT column_name, data_type, is_nullable'
+							. ' FROM information_schema.columns'
+							. ' WHERE table_name=' . $this->fixQuote($wordArray[2])
+							. ' AND column_name=' . $this->fixQuote($wordArray[5])
+							. ' AND (CASE (position(' . $this->db->quote('::') . ' in column_default))'
+							. ' WHEN 0 THEN '
+							. ' column_default = ' . $this->db->quote($wordArray[8])
+							. ' ELSE '
+							. ' substring(column_default, 1, (position(' . $this->db->quote('::')
+							. ' in column_default) -1))  = ' . $this->db->quote($wordArray[8])
+							. ' END)';
+
+						$this->queryType = 'CHANGE_COLUMN_TYPE';
+						$this->msgElements = array(
+							$this->fixQuote($wordArray[2]),
+							$this->fixQuote($wordArray[5]),
+							'DEFAULT ' . $wordArray[8]
+						);
+					}
+				}
+				elseif ($alterAction === 'DROP')
+				{
+					$alterType = strtoupper($wordArray[7]);
+
+					if ($alterType === 'DEFAULT')
+					{
+						$result = 'SELECT column_name, data_type, is_nullable , column_default'
+							. ' FROM information_schema.columns'
+							. ' WHERE table_name=' . $this->fixQuote($wordArray[2])
+							. ' AND column_name=' . $this->fixQuote($wordArray[5])
+							. ' AND column_default IS NOT NULL';
+
+						$this->queryType = 'CHANGE_COLUMN_TYPE';
+						$this->checkQueryExpected = 0;
+						$this->msgElements = array(
+							$this->fixQuote($wordArray[2]),
+							$this->fixQuote($wordArray[5]),
+							'NOT DEFAULT'
+						);
+					}
+					elseif ($alterType === 'NOT' && strtoupper($wordArray[8]) === 'NULL')
+					{
+						$result = 'SELECT column_name, data_type, is_nullable , column_default'
+							. ' FROM information_schema.columns'
+							. ' WHERE table_name=' . $this->fixQuote($wordArray[2])
+							. ' AND column_name=' . $this->fixQuote($wordArray[5])
+							. ' AND is_nullable = ' . $this->fixQuote('NO');
+
+						$this->queryType = 'CHANGE_COLUMN_TYPE';
+						$this->checkQueryExpected = 0;
+						$this->msgElements = array(
+							$this->fixQuote($wordArray[2]),
+							$this->fixQuote($wordArray[5]),
+							'NULL'
+						);
+					}
 				}
 			}
 		}

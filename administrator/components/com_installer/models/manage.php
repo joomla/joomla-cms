@@ -79,7 +79,7 @@ class InstallerModelManage extends InstallerModel
 	/**
 	 * Enable/Disable an extension.
 	 *
-	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   array  $eid    Extension ids to un/publish
 	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
@@ -138,6 +138,10 @@ class InstallerModelManage extends InstallerModel
 			{
 				$table->enabled = $value;
 			}
+		
+			$context = $this->option . '.' . $this->name;
+			JPluginHelper::importPlugin('extension');
+			JEventDispatcher::getInstance()->trigger('onExtensionChangeState', array($context, $eid, $value));
 
 			if (!$table->store())
 			{

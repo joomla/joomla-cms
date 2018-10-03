@@ -123,6 +123,12 @@ class UsersController extends JControllerLegacy
 					break;
 			}
 
+			// Make sure we don't send a referer
+			if (in_array($vName, array('remind', 'reset')))
+			{
+				JFactory::getApplication()->setHeader('Referrer-Policy', 'no-referrer', true);
+			}
+
 			// Push the model into the view (as default).
 			$view->setModel($model, true);
 			$view->setLayout($lName);

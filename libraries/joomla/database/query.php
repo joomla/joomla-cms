@@ -1767,7 +1767,7 @@ abstract class JDatabaseQuery
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 * Note: Not all drivers support all units.
 	 *
-	 * @param   mixed   $date      The date to add to. May be date or datetime
+	 * @param   string  $date      The db quoted string representation of the date to add to. May be date or datetime
 	 * @param   string  $interval  The string representation of the appropriate number of units
 	 * @param   string  $datePart  The part of the date to perform the addition on
 	 *
@@ -1778,7 +1778,7 @@ abstract class JDatabaseQuery
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return trim("DATE_ADD('" . $date . "', INTERVAL " . $interval . ' ' . $datePart . ')');
+		return 'DATE_ADD(' . $date . ', INTERVAL ' . $interval . ' ' . $datePart . ')';
 	}
 
 	/**

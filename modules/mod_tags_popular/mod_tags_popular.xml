@@ -22,12 +22,13 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field 
+				<field
 					name="parentTag"
 					type="tag"
 					label="MOD_TAGS_POPULAR_PARENT_TAG_LABEL"
 					description="MOD_TAGS_POPULAR_PARENT_TAG_DESC"
 					multiple="true"
+					filter="int_array"
 				/>
 
 				<field
@@ -36,6 +37,7 @@
 					label="MOD_TAGS_POPULAR_MAX_LABEL"
 					description="MOD_TAGS_POPULAR_MAX_DESC"
 					default="5"
+					filter="integer"
 					first="1"
 					last="20"
 					step="1"
@@ -74,6 +76,7 @@
 					label="JGLOBAL_ORDER_DIRECTION_LABEL"
 					description="JGLOBAL_ORDER_DIRECTION_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JGLOBAL_ORDER_ASCENDING</option>
 					<option value="1">JGLOBAL_ORDER_DESCENDING</option>
@@ -99,6 +102,7 @@
 					description="MOD_TAGS_POPULAR_FIELD_NO_RESULTS_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -149,6 +153,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -160,6 +165,7 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

@@ -445,9 +445,11 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 */
 	public function testQuoteFloat()
 	{
+		// This call `escape()` method from nosqldriver, which is locale aware
 		$this->assertThat(
+			// Below line may generate "'-3.14-'" or "'-3,14-'"
 			$this->db->quote(3.14),
-			$this->equalTo("'-3.14-'"),
+			$this->equalTo("'-" . 3.14 . "-'"),
 			'Tests handling of float with escaping (default).'
 		);
 	}

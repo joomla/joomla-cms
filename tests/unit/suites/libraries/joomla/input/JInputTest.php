@@ -329,6 +329,22 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 		);
 	}
 
+	/**
+	 * Test the JInput::get method disallows access to non-whitelisted globals.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
+	public function testGetDoesNotSupportNonWhitelistedGlobals()
+	{
+		$this->assertThat(
+			$this->class->_phpunit_configuration_file,
+			$this->isNull(),
+			'Access to library defined globals is restricted'
+		);
+	}
+
 	/*
 	 * Protected methods.
 	 */

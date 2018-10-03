@@ -113,8 +113,6 @@ class Categories
 		$options['currentlang'] = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : 0;
 
 		$this->_options = $options;
-
-		return true;
 	}
 
 	/**
@@ -198,6 +196,18 @@ class Categories
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the extension of the category.
+	 *
+	 * @return   string  The extension
+	 *
+	 * @since   3.9.0
+	 */
+	public function getExtension()
+	{
+		return $this->_extension;
 	}
 
 	/**

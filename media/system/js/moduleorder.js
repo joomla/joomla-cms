@@ -7,7 +7,7 @@
 			$linkedField = $field.data('linked-field') ? $field.data('linked-field') : 'jform_position',
 			$linkedFieldEl = $('#' + $linkedField),
 			$originalOrder = $field.data('ordering'),
-			$originalPos = $linkedFieldEl.val(),
+			$originalPos = $linkedFieldEl.chosen().val(),
 			$name = $field.data('name'),
 			$attr = $field.data('client-attr') ? $field.data('client-attr') : '',
 			$id = $field.attr('id') + '_1',
@@ -41,7 +41,7 @@
 
 								// Add chosen to the element
 								var $el = $("#" + $id);
-								if ($el.length && $el.data('chosen') && $.fn.chosen) {
+								if ($el) {
 									$el.chosen('destroy');
 									$el.chosen();
 								}
@@ -61,8 +61,8 @@
 		getNewOrder();
 
 		// Event listener for the linked field
-		$linkedFieldEl.change( function() {
-			$originalPos = $('#' + $linkedField).val();
+		$linkedFieldEl.chosen().change( function() {
+			$originalPos = $('#' + $linkedField).chosen().val();
 			getNewOrder();
 		});
 	});
