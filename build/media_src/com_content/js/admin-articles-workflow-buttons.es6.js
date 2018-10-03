@@ -7,7 +7,7 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const dropDownBtn = document.getElementById('toolbar-dropdown-group');
+    const dropDownBtn = document.getElementById('toolbar-dropdown-status-group');
     const publishBtn = dropDownBtn.getElementsByClassName('button-publish')[0];
     const unpublishBtn = dropDownBtn.getElementsByClassName('button-unpublish')[0];
     const archiveBtn = dropDownBtn.getElementsByClassName('button-archive')[0];
@@ -89,7 +89,6 @@
 
         const articles = Joomla.getOptions('articles.items');
         let html = '';
-
         Object.keys(availableTrans).forEach((id) => {
           if (articles[`article-${id}`] !== undefined) {
             html += '<div class="form-group col-md-6">';
