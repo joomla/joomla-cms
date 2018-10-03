@@ -8,6 +8,10 @@
 
 namespace Joomla\CMS\MVC\View;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -746,8 +750,8 @@ class HtmlView extends \JObject
 	 */
 	protected function _setPath($type, $path)
 	{
-		$component = \JApplicationHelper::getComponentName();
-		$app = \JFactory::getApplication();
+		$component = ApplicationHelper::getComponentName();
+		$app       = Factory::getApplication();
 
 		// Clear out the prior search dirs
 		$this->_path[$type] = array();
@@ -856,7 +860,7 @@ class HtmlView extends \JObject
 	 */
 	public function setDocumentTitle($title)
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check for empty title and add site name if param is set
 		if (empty($title))
@@ -873,5 +877,47 @@ class HtmlView extends \JObject
 		}
 
 		$this->document->setTitle($title);
+	}
+
+	/**
+	 * Method to add some document head data from view's $params property
+	 *
+	 * @param   Registry  $params  The view menu parameters
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function setDocumentHeadData(Registry $params)
+	{
+		$this->setDocumentTitle($params->get('page_title'));
+
+		if ($params->get('menu-meta_description'))
+		{
+			$this->document->setDescription($params->get('menu-meta_description'));
+		}
+
+		if ($params->get('menu-meta_keywords'))
+		{
+			$this->document->setMetadata('keywords', $params->get('menu-meta_keywords'));
+		}
+
+		if ($params->get('robots'))
+		{
+			$this->document->setMetadata('robots', $params->get('robots'));
+		}
+
+		$metaData = $params->get('metadata');
+
+		if (is_array($metaData))
+		{
+			// Remove empty value
+			$metaData = array_filter($metaData);
+
+			foreach ($metaData as $k => $v)
+			{
+				$this->document->setMetadata($k, $v);
+			}
+		}
 	}
 }
