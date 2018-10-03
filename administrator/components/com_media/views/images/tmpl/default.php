@@ -73,7 +73,7 @@ else // XTD Image plugin
 
 		<div class="well">
 			<div class="row-fluid">
-				<div class="span7 control-group">
+				<div class="span8 control-group">
 					<div class="control-label">
 						<label for="folder"><?php echo JText::_('COM_MEDIA_DIRECTORY'); ?></label>
 					</div>
@@ -82,7 +82,7 @@ else // XTD Image plugin
 						<button class="btn" type="button" id="upbutton" title="<?php echo JText::_('COM_MEDIA_DIRECTORY_UP'); ?>"><?php echo JText::_('COM_MEDIA_UP'); ?></button>
 					</div>
 				</div>
-				<div class="span5 control-group">
+				<div class="span4 control-group">
 					<div class="pull-right">
 						<button class="btn btn-success button-save-selected" type="button" <?php if (!empty($onClick)) :
 						// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT'); ?></button>
