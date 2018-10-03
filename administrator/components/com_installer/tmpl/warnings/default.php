@@ -29,10 +29,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 								<p class="m-b-0"><?php echo $message['description']; ?></p>
 							</div>
 						<?php endforeach; ?>
-					<div class="alert alert-info">
-						<h4 class="alert-heading"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
-						<p class="m-b-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
-					</div>
+						<div class="alert alert-info">
+							<h4 class="alert-heading"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
+							<p class="m-b-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
+						</div>
 					<?php else: ?>
 						<div class="alert alert-info">
 							<h4 class="alert-heading"><?php echo Text::_('INFO'); ?></h4>

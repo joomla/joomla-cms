@@ -23,7 +23,7 @@ foreach ($fieldSets as $name => $fieldSet) :
 	?>
 		<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 			<div class="control-group">
-				<div class="control-label">brian<?php echo $field->label; ?></div>
+				<div class="control-label"><?php echo $field->label; ?></div>
 				<div class="controls"><?php echo $field->input; ?></div>
 			</div>
 		<?php endforeach; ?>
