@@ -27,7 +27,6 @@ if ($lang->isRtl())
 			@media (max-width: 767px) {
 				li.imgOutline.thumbnail.height-80.width-80.center {
 					float: right;
-					margin-right: 15px;
 				}
 			}
 		'
@@ -40,7 +39,6 @@ else
 			@media (max-width: 767px) {
 				li.imgOutline.thumbnail.height-80.width-80.center {
 					float: left;
-					margin-left: 15px;
 				}
 			}
 		'
