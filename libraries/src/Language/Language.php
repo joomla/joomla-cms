@@ -10,6 +10,7 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
 use Joomla\String\StringHelper;
 
@@ -296,13 +297,14 @@ class Language
 	 *
 	 * @return  Language  The Language object.
 	 *
-	 * @since   11.1
+	 * @since       11.1
+	 * @deprecated  5.0 Use the language factory instead
 	 */
 	public static function getInstance($lang, $debug = false)
 	{
 		if (!isset(self::$languages[$lang . $debug]))
 		{
-			self::$languages[$lang . $debug] = new static($lang, $debug);
+			self::$languages[$lang . $debug] = Factory::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($lang, $debug);
 		}
 
 		return self::$languages[$lang . $debug];
@@ -352,15 +354,17 @@ class Language
 		{
 			if ($this->debug)
 			{
-				$caller = $this->getCallerInfo();
-				$caller['string'] = $string;
+				$info = [];
+				$info['trace'] = $this->getTrace();
+				$info['key'] = $key;
+				$info['string'] = $string;
 
 				if (!array_key_exists($key, $this->orphans))
 				{
 					$this->orphans[$key] = array();
 				}
 
-				$this->orphans[$key][] = $caller;
+				$this->orphans[$key][] = $info;
 
 				$string = '??' . $string . '??';
 			}
@@ -678,26 +682,6 @@ class Language
 	}
 
 	/**
-	 * Checks if a language exists.
-	 *
-	 * This is a simple, quick check for the directory that should contain language files for the given user.
-	 *
-	 * @param   string  $lang      Language to check.
-	 * @param   string  $basePath  Optional path to check.
-	 *
-	 * @return  boolean  True if the language exists.
-	 *
-	 * @since   11.1
-	 * @deprecated   3.7.0, use LanguageHelper::exists() instead.
-	 */
-	public static function exists($lang, $basePath = JPATH_BASE)
-	{
-		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::exists() instead.', Log::WARNING, 'deprecated');
-
-		return LanguageHelper::exists($lang, $basePath);
-	}
-
-	/**
 	 * Loads a single language file and appends the results to the existing strings
 	 *
 	 * @param   string   $extension  The extension for which a language file should be loaded.
@@ -988,6 +972,18 @@ class Language
 	}
 
 	/**
+	 * Get a back trace.
+	 *
+	 * @return array
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function getTrace()
+	{
+		return \function_exists('debug_backtrace') ?  debug_backtrace() : [];
+	}
+
+	/**
 	 * Determine who called Language or JText.
 	 *
 	 * @return  array  Caller information.
@@ -1225,81 +1221,6 @@ class Language
 	}
 
 	/**
-	 * Returns an associative array holding the metadata.
-	 *
-	 * @param   string  $lang  The name of the language.
-	 *
-	 * @return  mixed  If $lang exists return key/value pair with the language metadata, otherwise return NULL.
-	 *
-	 * @since   11.1
-	 * @deprecated   3.7.0, use LanguageHelper::getMetadata() instead.
-	 */
-	public static function getMetadata($lang)
-	{
-		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::getMetadata() instead.', Log::WARNING, 'deprecated');
-
-		return LanguageHelper::getMetadata($lang);
-	}
-
-	/**
-	 * Returns a list of known languages for an area
-	 *
-	 * @param   string  $basePath  The basepath to use
-	 *
-	 * @return  array  key/value pair with the language file and real name.
-	 *
-	 * @since   11.1
-	 * @deprecated   3.7.0, use LanguageHelper::getKnownLanguages() instead.
-	 */
-	public static function getKnownLanguages($basePath = JPATH_BASE)
-	{
-		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::getKnownLanguages() instead.', Log::WARNING, 'deprecated');
-
-		return LanguageHelper::getKnownLanguages($basePath);
-	}
-
-	/**
-	 * Get the path to a language
-	 *
-	 * @param   string  $basePath  The basepath to use.
-	 * @param   string  $language  The language tag.
-	 *
-	 * @return  string  language related path or null.
-	 *
-	 * @since   11.1
-	 * @deprecated   3.7.0, use LanguageHelper::getLanguagePath() instead.
-	 */
-	public static function getLanguagePath($basePath = JPATH_BASE, $language = null)
-	{
-		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::getLanguagePath() instead.', Log::WARNING, 'deprecated');
-
-		return LanguageHelper::getLanguagePath($basePath, $language);
-	}
-
-	/**
-	 * Set the language attributes to the given language.
-	 *
-	 * Once called, the language still needs to be loaded using Language::load().
-	 *
-	 * @param   string  $lang  Language code.
-	 *
-	 * @return  string  Previous value.
-	 *
-	 * @since   11.1
-	 * @deprecated  4.0 (CMS) - Instantiate a new Language object instead
-	 */
-	public function setLanguage($lang)
-	{
-		Log::add(__METHOD__ . ' is deprecated. Instantiate a new Language object instead.', Log::WARNING, 'deprecated');
-
-		$previous = $this->lang;
-		$this->lang = $lang;
-		$this->metadata = LanguageHelper::getMetadata($this->lang);
-
-		return $previous;
-	}
-
-	/**
 	 * Get the language locale based on current language.
 	 *
 	 * @return  array  The locale according to the language.
@@ -1347,40 +1268,5 @@ class Language
 	public function getWeekEnd()
 	{
 		return $this->metadata['weekEnd'] ?? '0,6';
-	}
-
-	/**
-	 * Searches for language directories within a certain base dir.
-	 *
-	 * @param   string  $dir  directory of files.
-	 *
-	 * @return  array  Array holding the found languages as filename => real name pairs.
-	 *
-	 * @since   11.1
-	 * @deprecated   3.7.0, use LanguageHelper::parseLanguageFiles() instead.
-	 */
-	public static function parseLanguageFiles($dir = null)
-	{
-		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::parseLanguageFiles() instead.', Log::WARNING, 'deprecated');
-
-		return LanguageHelper::parseLanguageFiles($dir);
-	}
-
-	/**
-	 * Parse XML file for language information.
-	 *
-	 * @param   string  $path  Path to the XML files.
-	 *
-	 * @return  array  Array holding the found metadata as a key => value pair.
-	 *
-	 * @since   11.1
-	 * @throws  \RuntimeException
-	 * @deprecated   3.7.0, use LanguageHelper::parseXMLLanguageFile() instead.
-	 */
-	public static function parseXMLLanguageFile($path)
-	{
-		Log::add(__METHOD__ . '() is deprecated, use LanguageHelper::parseXMLLanguageFile() instead.', Log::WARNING, 'deprecated');
-
-		return LanguageHelper::parseXMLLanguageFile($path);
 	}
 }

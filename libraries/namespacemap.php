@@ -8,8 +8,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Class JNamespaceMap
@@ -35,12 +35,7 @@ class JNamespacePsr4Map
 	 */
 	public function exists()
 	{
-		if (!file_exists($this->file))
-		{
-			return false;
-		}
-
-		return true;
+		return file_exists($this->file);
 	}
 
 	/**
@@ -52,9 +47,7 @@ class JNamespacePsr4Map
 	 */
 	public function ensureMapFileExists()
 	{
-		// Ensure that the database is connected (because it isn't in the installer where this function gets called from
-		// CMSApplication
-		if (!$this->exists() && Factory::getDbo()->connected())
+		if (!$this->exists())
 		{
 			$this->create();
 		}
@@ -69,57 +62,16 @@ class JNamespacePsr4Map
 	 */
 	public function create()
 	{
-		$extensions = $this->getNamespacedExtensions();
+		$extensions = $this->getNamespaces('administrator/components');
+		$extensions = array_merge($extensions, $this->getNamespaces('modules'));
+		$extensions = array_merge($extensions, $this->getNamespaces('administrator/modules'));
 
-		$elements = array();
-
-		foreach ($extensions as $extension)
+		foreach (Folder::folders(JPATH_ROOT . '/plugins') as $pluginGroup)
 		{
-			if ($extension->type === 'component')
-			{
-				$element       = $extension->element;
-				$baseNamespace = str_replace("\\", "\\\\", $extension->namespace);
-
-				if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element))
-				{
-					// If a component has a src/ directory use it. Else just use the main component directory
-					$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element);
-
-					if (file_exists(JPATH_ADMINISTRATOR . '/components/' . $element . '/src/'))
-					{
-						$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/components/' . $element . '/src/');
-					}
-				}
-
-				if (file_exists(JPATH_ROOT . '/components/' . $element))
-				{
-					$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element);
-
-					if (file_exists(JPATH_ROOT . '/components/' . $element . '/src/'))
-					{
-						$elements[$baseNamespace . '\\\\Site\\\\'] = array('/components/' . $element . '/src/');
-					}
-				}
-			}
-			elseif ($extension->type === 'module')
-			{
-				// Force the client_id to an integer for non-mysqli where we have strings being returned
-				if ((int) $extension->client_id === 0)
-				{
-					$baseNamespace = str_replace("\\", "\\\\", $extension->namespace);
-					$element       = $extension->element;
-					$elements[$baseNamespace . '\\\\Site\\\\'] = array('/modules/' . $element);
-				}
-				else
-				{
-					$baseNamespace = str_replace("\\", "\\\\", $extension->namespace);
-					$element       = $extension->element;
-					$elements[$baseNamespace . '\\\\Administrator\\\\'] = array('/administrator/modules/' . $element);
-				}
-			}
+			$extensions = array_merge($extensions, $this->getNamespaces('/plugins/' . $pluginGroup));
 		}
 
-		$this->writeNamespaceFile($elements);
+		$this->writeNamespaceFile($extensions);
 
 		return true;
 	}
@@ -135,12 +87,6 @@ class JNamespacePsr4Map
 	{
 		if (!$this->exists())
 		{
-			// We can't continue here
-			if (!Factory::getDbo()->connected())
-			{
-				return false;
-			}
-
 			$this->create();
 		}
 
@@ -170,46 +116,103 @@ class JNamespacePsr4Map
 		$content   = array();
 		$content[] = "<?php";
 		$content[] = 'defined(\'_JEXEC\') or die;';
-		$content[] = 'return array(';
+		$content[] = 'return [';
 
-		foreach ($elements as $namespace => $paths)
+		foreach ($elements as $namespace => $path)
 		{
-			$pathString = '';
-
-			foreach ($paths as $path)
-			{
-				$pathString .= '"' . $path . '",';
-			}
-
-			$content[] = "\t'" . $namespace . "'" . ' => [JPATH_ROOT . ' . $pathString . '],';
+			$content[] = "\t'" . $namespace . "'" . ' => [JPATH_ROOT . "' . $path . '"],';
 		}
 
-		$content[] = ');';
+		$content[] = '];';
 
 		File::write($this->file, implode("\n", $content));
 	}
 
 	/**
-	 * Get all namespaced extensions from the database
+	 * Get an array of namespaces with their respective path for the given extension directory.
 	 *
-	 * @return  mixed|false
+	 * @param   string  $dir  The directory
+	 *
+	 * @return  array
 	 *
 	 * @since   4.0.0
 	 */
-	protected function getNamespacedExtensions()
+	private function getNamespaces(string $dir): array
 	{
-		$db = Factory::getDbo();
+		// If it is not a dir return
+		if (!is_dir(JPATH_ROOT . '/' . $dir))
+		{
+			return [];
+		}
 
-		$query = $db->getQuery(true);
+		// The extensions
+		$extensions = [];
 
-		$query->select($db->quoteName(array('extension_id', 'element', 'namespace', 'type', 'client_id')))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('namespace') . ' IS NOT NULL AND ' . $db->quoteName('namespace') . ' != ' . $db->quote(""));
+		// Loop over the extension type directory
+		foreach (Folder::folders(JPATH_ROOT . '/' . $dir) as $extension)
+		{
+			// If it is a file we can't handle, ignore it
+			if (strpos($extension, 'mod_') !== 0 && strpos($extension, 'com_') !== 0 && strpos($dir, '/plugins/') !== 0)
+			{
+				continue;
+			}
 
-		$db->setQuery($query);
+			// Compile the extension path
+			$extensionPath = JPATH_ROOT . '/' . $dir . '/' . $extension . '/';
 
-		$extensions = $db->loadObjectList();
+			// The extension name
+			$name = str_replace('com_', '', $extension);
 
+			// If there is no manifest file, ignore
+			if (!file_exists($extensionPath . $name . '.xml'))
+			{
+				continue;
+			}
+
+			// Load the manifest file
+			$xml = simplexml_load_file($extensionPath . $name . '.xml');
+
+			// When invalid, ignore
+			if (!$xml)
+			{
+				continue;
+			}
+
+			// The namespace node
+			$namespaceNode = $xml->namespace;
+
+			// The namespace string
+			$namespace = (string) $namespaceNode;
+
+			// Ignore when the string is empty
+			if (!$namespace)
+			{
+				continue;
+			}
+
+			// The namespace path
+			$namespacePath = '/' . $dir . '/' . $extension . '/';
+
+			// Normalize the namespace string
+			$namespace = str_replace('\\', '\\\\', $namespace) . '\\\\';
+
+			// Add the site path when a component
+			if (strpos($extension, 'com_') === 0)
+			{
+				$extensions[$namespace . 'Site\\\\'] = str_replace('administrator/', '', $namespacePath) . $namespaceNode->attributes()->path;
+			}
+
+			// Add the application specific segment when not a plugin
+			if (strpos($dir, '/plugins/') !== 0)
+			{
+				$namespace .=  strpos($namespacePath, 'administrator/') ? 'Administrator\\\\' : 'Site\\\\';
+			}
+
+			// Set the namespace
+			$extensions[$namespace] = $namespacePath . $namespaceNode->attributes()->path;
+		}
+
+		// Return the namespaces
 		return $extensions;
 	}
 }

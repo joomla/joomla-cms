@@ -71,15 +71,6 @@ class HtmlView extends BaseHtmlView
 	protected $captchaEnabled = false;
 
 	/**
-	 * The item object details (a duplicate of $item)
-	 *
-	 * @var         \JObject
-	 * @since       4.0.0
-	 * @deprecated  4.0
-	 */
-	protected $contact;
-
-	/**
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
@@ -387,7 +378,6 @@ class HtmlView extends BaseHtmlView
 		// Escape strings for HTML output
 		$this->pageclass_sfx = htmlspecialchars($item->params->get('pageclass_sfx'));
 
-		$this->contact     = &$item;
 		$this->params      = &$item->params;
 		$this->state       = &$state;
 		$this->item        = &$item;
@@ -472,12 +462,12 @@ class HtmlView extends BaseHtmlView
 				$title = $this->item->name;
 			}
 
-			$path = array(array('title' => $this->contact->name, 'link' => ''));
-			$category = Categories::getInstance('Contact')->get($this->contact->catid);
+			$path = array(array('title' => $this->item->name, 'link' => ''));
+			$category = Categories::getInstance('Contact')->get($this->item->catid);
 
 			while ($category && ($menu->query['option'] !== 'com_contact' || $menu->query['view'] === 'contact' || $id != $category->id) && $category->id > 1)
 			{
-				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($this->contact->catid));
+				$path[] = array('title' => $category->title, 'link' => ContactHelperRoute::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 

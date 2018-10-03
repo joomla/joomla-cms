@@ -297,7 +297,7 @@ abstract class ArticlesCategoryHelper
 
 			if ($item->catid)
 			{
-				$item->displayCategoryLink  = Route::_(\ContentHelperRoute::getCategoryRoute($item->catid));
+				$item->displayCategoryLink  = Route::_(\ContentHelperRoute::getCategoryRoute($item->catid, $item->category_language));
 				$item->displayCategoryTitle = $show_category ? '<a href="' . $item->displayCategoryLink . '">' . $item->category_title . '</a>' : '';
 			}
 			else

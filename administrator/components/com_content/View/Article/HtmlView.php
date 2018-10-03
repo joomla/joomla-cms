@@ -212,7 +212,6 @@ class HtmlView extends BaseHtmlView
 				ToolbarHelper::modal('ModalNewItem_' . $modalId, 'icon-new', 'COM_CONTENT_ADD_NEW_MENU_ITEM');
 
 				// Add the modal field script to the document head.
-				HTMLHelper::_('jquery.framework');
 				HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 				// Load the language files
