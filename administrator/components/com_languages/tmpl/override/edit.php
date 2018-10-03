@@ -13,11 +13,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-
 
 $expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 

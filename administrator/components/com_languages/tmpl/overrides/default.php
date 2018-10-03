@@ -15,7 +15,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $client    = $this->state->get('filter.client') == '0' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
@@ -53,6 +52,9 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 				<?php else : ?>
 					<table class="table" id="overrideList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_LANGUAGES_OVERRIDES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">

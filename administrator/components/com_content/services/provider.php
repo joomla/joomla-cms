@@ -11,11 +11,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Categories\CategoryFactoryInterface;
+use Joomla\CMS\Component\Router\RouterFactoryInterface;
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\CategoryFactory;
 use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
+use Joomla\CMS\Extension\Service\Provider\RouterFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
@@ -46,6 +48,7 @@ return new class implements ServiceProviderInterface
 		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Content'));
+		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Content'));
 
 		$container->set(
 			ComponentInterface::class,
@@ -57,6 +60,7 @@ return new class implements ServiceProviderInterface
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
 				$component->setCategoryFactory($container->get(CategoryFactoryInterface::class));
 				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
+				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
 
 				return $component;
 			}

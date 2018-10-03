@@ -25,8 +25,6 @@ if ($app->isClient('site'))
 	HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
 }
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/html');
-
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('script', 'com_menus/admin-items-modal.min.js', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
@@ -54,6 +52,9 @@ if (!empty($editor))
 			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
 		<?php else : ?>
 			<table class="table table-sm">
+				<caption id="captionTable" class="sr-only">
+					<?php echo Text::_('COM_MENUS_ITEMS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				</caption>
 				<thead>
 					<tr>
 						<th scope="col" style="width:1%" class="text-center">

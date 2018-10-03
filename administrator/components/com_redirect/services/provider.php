@@ -11,10 +11,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
+use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\Component\Redirect\Administrator\Extension\RedirectComponent;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -38,12 +39,14 @@ return new class implements ServiceProviderInterface
 	{
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Redirect'));
 		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Redirect'));
+
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
+				$component = new RedirectComponent($container->get(ComponentDispatcherFactoryInterface::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
+				$component->setRegistry($container->get(Registry::class));
 
 				return $component;
 			}

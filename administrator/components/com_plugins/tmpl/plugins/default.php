@@ -16,9 +16,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('behavior.tabstate');
 
@@ -40,6 +37,9 @@ if ($saveOrder)
 			<joomla-alert type="warning"><?php echo Text::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?></joomla-alert>
 		<?php else : ?>
 			<table class="table" id="pluginList">
+				<caption id="captionTable" class="sr-only">
+					<?php echo Text::_('COM_PLUGINS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+				</caption>
 				<thead>
 					<tr>
 						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
