@@ -210,7 +210,6 @@ class MailModel extends AdminModel
 			}
 		}
 
-
 		// Check for an error
 		if ($rs !== true)
 		{

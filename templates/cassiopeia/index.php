@@ -86,7 +86,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ' ' . $pageclass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
- 	<div class="grid-child container-header full-width">
+	<div class="grid-child container-header full-width">
 		<header class="header">
 			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">

@@ -69,31 +69,31 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 				</tr>
 			</thead>
 			<tbody>
-                <?php $i = 0; ?>
-                <?php foreach ($this->items as $item) : ?>
-                    <tr class="row<?php echo $i % 2; ?>">
-                        <th scope="row">
-                            <a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
-                                data-user-field="<?php echo $this->escape($field); ?>">
-                                <?php echo $this->escape($item->name); ?>
-                            </a>
-                        </th>
-                        <td>
-                            <?php echo $this->escape($item->username); ?>
-                        </td>
-                        <td class="text-center">
-                            <span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
-                        </td>
-                        <td class="text-center">
-                            <span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
-                        </td>
-                        <td>
-                            <?php echo nl2br($item->group_names); ?>
-                        </td>
-                        <td>
-                            <?php echo (int) $item->id; ?>
-                        </td>
-                    </tr>
+				<?php $i = 0; ?>
+				<?php foreach ($this->items as $item) : ?>
+					<tr class="row<?php echo $i % 2; ?>">
+						<th scope="row">
+							<a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
+								data-user-field="<?php echo $this->escape($field); ?>">
+								<?php echo $this->escape($item->name); ?>
+							</a>
+						</th>
+						<td>
+							<?php echo $this->escape($item->username); ?>
+						</td>
+						<td class="text-center">
+							<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
+						</td>
+						<td class="text-center">
+							<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
+						</td>
+						<td>
+							<?php echo nl2br($item->group_names); ?>
+						</td>
+						<td>
+							<?php echo (int) $item->id; ?>
+						</td>
+					</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>
