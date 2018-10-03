@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 
@@ -40,7 +38,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	/**
 	 * Contents array
 	 *
-	 * @var    Array
+	 * @var    array
 	 * @since  3.9.0
 	 */
 	protected $contents = array();

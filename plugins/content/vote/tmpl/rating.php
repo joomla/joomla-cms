@@ -26,6 +26,7 @@ if ($context == 'com_content.categories')
 }
 
 $rating = (int) $row->rating;
+$rcount = (int) $row->rating_count;
 
 // Look for images in template if available
 $starImageOn  = JHtml::_('image', 'system/rating_star.png', JText::_('PLG_VOTE_STAR_ACTIVE'), null, true);
@@ -43,11 +44,13 @@ for ($i = $rating; $i < 5; $i++)
 }
 
 ?>
+<?php if ($rcount) : ?>
 <div class="content_rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
 	<p class="unseen element-invisible">
 		<?php echo JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
-		<meta itemprop="ratingCount" content="<?php echo (int) $row->rating_count; ?>" />
-		<meta itemprop="worstRating" content="0" />
+		<meta itemprop="ratingCount" content="<?php echo $rcount; ?>" />
+		<meta itemprop="worstRating" content="1" />
 	</p>
-	<?php echo $img; ?>
 </div>
+<?php endif; ?>
+<?php echo $img; ?>

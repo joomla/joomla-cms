@@ -197,5 +197,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 
 			return false;
 		}
+
+		return true;
 	}
 }
