@@ -441,6 +441,7 @@ class ContentControllerArticle extends JControllerForm
 			if ($model->storeVote($id, $user_rating))
 			{
 				$result = $dispatcher->trigger('onRatingAfterSave', array ('com_content.article', &$id, &$user_rating));
+
 				if (in_array(false, $result, true))
 				{
 					// Plugin can suppress default success message by returning false.
