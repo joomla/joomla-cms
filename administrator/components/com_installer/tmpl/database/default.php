@@ -32,7 +32,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 					<div class="control-group">
 						<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 						<?php if (empty($this->changeSet)) : ?>
-							<div class="alert alert-warning alert-no-items">
+							<div class="alert alert-warning">
 								<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 							</div>
 						<?php else : ?>

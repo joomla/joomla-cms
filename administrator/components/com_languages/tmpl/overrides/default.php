@@ -49,7 +49,7 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 					</div>
 				</div>
 				<?php if (empty($this->items)) : ?>
-					<div class="alert alert-warning alert-no-items">
+					<div class="alert alert-warning">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else : ?>
