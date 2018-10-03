@@ -102,11 +102,11 @@ class Input extends \Joomla\Input\Input
 	 * @param   array   $vars           Associative array of keys and filter types to apply.
 	 *                                  If empty and datasource is null, all the input data will be returned
 	 *                                  but filtered using the filter given by the parameter defaultFilter in
-	 *                                  JFilterInput::clean.
+	 *                                  InputFilter::clean.
 	 * @param   mixed   $datasource     Array to retrieve data from, or null.
-	 * @param   string  $defaultFilter  Default filter used in JFilterInput::clean if vars is empty and
+	 * @param   string  $defaultFilter  Default filter used in InputFilter::clean if vars is empty and
 	 *                                  datasource is null. If 'unknown', the default case is used in
-	 *                                  JFilterInput::clean.
+	 *                                  InputFilter::clean.
 	 *
 	 * @return  mixed  The filtered input data.
 	 *
@@ -124,11 +124,11 @@ class Input extends \Joomla\Input\Input
 	 * @param   array   $vars           Associative array of keys and filter types to apply.
 	 *                                  If empty and datasource is null, all the input data will be returned
 	 *                                  but filtered using the filter given by the parameter defaultFilter in
-	 *                                  JFilterInput::clean.
+	 *                                  InputFilter::clean.
 	 * @param   mixed   $datasource     Array to retrieve data from, or null.
-	 * @param   string  $defaultFilter  Default filter used in JFilterInput::clean if vars is empty and
+	 * @param   string  $defaultFilter  Default filter used in InputFilter::clean if vars is empty and
 	 *                                  datasource is null. If 'unknown', the default case is used in
-	 *                                  JFilterInput::clean.
+	 *                                  InputFilter::clean.
 	 * @param   bool    $recursion      Flag to indicate a recursive function call.
 	 *
 	 * @return  mixed  The filtered input data.

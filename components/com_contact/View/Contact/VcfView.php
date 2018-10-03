@@ -6,11 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\View\Contact;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\Factory;
 
 /**
  * View to create a VCF for a contact item
@@ -44,7 +46,7 @@ class VcfView extends AbstractView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		\JFactory::getDocument()->setMimeEncoding('text/directory', true);
+		Factory::getDocument()->setMimeEncoding('text/directory', true);
 
 		// Compute lastname, firstname and middlename
 		$item->name = trim($item->name);
@@ -83,7 +85,7 @@ class VcfView extends AbstractView
 
 		$rev = date('c', strtotime($item->modified));
 
-		\JFactory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
+		Factory::getApplication()->setHeader('Content-disposition', 'attachment; filename="' . $card_name . '.vcf"', true);
 
 		$vcard = array();
 		$vcard[] .= 'BEGIN:VCARD';

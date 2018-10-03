@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\View\Menu;
 
 defined('_JEXEC') or die;
@@ -13,6 +14,8 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * The HTML Menus Menu Item View.
@@ -85,12 +88,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->id == 0);
 
-		ToolbarHelper::title(\JText::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
+		ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_MENU_TITLE' : 'COM_MENUS_VIEW_EDIT_MENU_TITLE'), 'list menu');
 
 		$toolbarButtons = [];
 

@@ -27,7 +27,7 @@ class ProviderManager
 	 *
 	 * @since  4.0.0
 	 */
-	private $providers = array();
+	private $providers = [];
 
 	/**
 	 * Returns an associative array of adapters with provider name as the key

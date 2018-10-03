@@ -10,11 +10,22 @@
 		/>
 
 		<field
-			name="published"
-			type="status"
+			name="stage"
+			type="workflowstage"
 			onchange="this.form.submit();"
+			activeonly="true"
+			extension="com_content"
 			>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
+			<option value="">JOPTION_SELECT_STAGE</option>
+		</field>
+
+		<field
+			name="condition"
+			type="workflowcondition"
+			onchange="this.form.submit();"
+			extension="com_content"
+			>
+			<option value="">JOPTION_SELECT_CONDITION</option>
 		</field>
 
 		<field
@@ -60,9 +71,7 @@
 			class="multipleTags"
 			mode="nested"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"
@@ -118,7 +127,6 @@
 		<field
 			name="limit"
 			type="limitbox"
-			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
 		/>

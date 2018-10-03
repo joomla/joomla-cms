@@ -7,6 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Layout\LayoutHelper;
+
 $published = $this->state->get('filter.published');
 ?>
 
@@ -14,12 +17,12 @@ $published = $this->state->get('filter.published');
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.language'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JHtml::_('batch.access'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
 			</div>
 		</div>
 	</div>

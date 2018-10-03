@@ -446,6 +446,7 @@
 				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				class="custom-select"
 				menuitems="true"
 				extension="com_content"
 				view="article"

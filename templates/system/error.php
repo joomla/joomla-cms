@@ -9,28 +9,34 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /** @var JDocumentError $this */
 
 if (!isset($this->error))
 {
-	$this->error = JFactory::getApplication()->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+	$this->error = new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
 	$this->debug = false;
 }
 
-$app = JFactory::getApplication();
+// Load template CSS file
+HTMLHelper::_('stylesheet', 'error.css', ['version' => 'auto', 'relative' => true]);
+
+if ($this->direction === 'rtl')
+{
+	HTMLHelper::_('stylesheet', 'error_rtl.css', ['version' => 'auto', 'relative' => true]);
+}
+
+// Set page title
+$this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'));
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<meta charset="utf-8">
-	<title><?php echo $this->error->getCode(); ?> - <?php echo htmlspecialchars($this->error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></title>
-	<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/error.css" rel="stylesheet">
-	<?php if ($this->direction === 'rtl') : ?>
-		<link href="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/css/error_rtl.css" rel="stylesheet">
-	<?php endif; ?>
-	<?php if ($app->get('debug_lang', '0') == '1' || $app->get('debug', '0') == '1') : ?>
-		<link href="<?php echo JUri::root(true); ?>/media/system/css/debug.css" rel="stylesheet">
-	<?php endif; ?>
+	<jdoc:include type="metas" />
+	<jdoc:include type="styles" />
+	<jdoc:include type="scripts" />
 </head>
 <body>
 	<div class="error">
@@ -87,5 +93,7 @@ $app = JFactory::getApplication();
 		</div>
 		</div>
 	</div>
+
+	<jdoc:include type="modules" name="debug" style="none" />
 </body>
 </html>

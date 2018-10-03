@@ -9,9 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JFactory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
-$forumId   = (int) JText::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
+Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+
+$forumId   = (int) Text::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
 
 if (empty($forumId))
 {
@@ -20,4 +23,4 @@ if (empty($forumId))
 
 $forum_url = 'https://forum.joomla.org/viewforum.php?f=' . $forumId;
 
-JFactory::getApplication()->redirect($forum_url);
+Factory::getApplication()->redirect($forum_url);

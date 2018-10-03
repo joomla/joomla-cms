@@ -11,6 +11,9 @@ namespace Joomla\CMS\Helper;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Language\Text;
 
 /**
  * Media helper class
@@ -114,7 +117,7 @@ class MediaHelper
 	 *
 	 * @since   3.7
 	 */
-	private function checkMimeType($mime, $component = 'com_media')
+	private function checkMimeType($mime, $component = 'com_media'): bool
 	{
 		$params = ComponentHelper::getParams($component);
 
@@ -149,21 +152,19 @@ class MediaHelper
 	 */
 	public function canUpload($file, $component = 'com_media')
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$params = ComponentHelper::getParams($component);
 
 		if (empty($file['name']))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_UPLOAD_INPUT'), 'error');
 
 			return false;
 		}
 
-		jimport('joomla.filesystem.file');
-
-		if ($file['name'] !== \JFile::makeSafe($file['name']))
+		if ($file['name'] !== File::makeSafe($file['name']))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILENAME'), 'error');
 
 			return false;
 		}
@@ -173,7 +174,7 @@ class MediaHelper
 		if (count($filetypes) < 2)
 		{
 			// There seems to be no extension
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -190,7 +191,7 @@ class MediaHelper
 
 		if (!empty($check))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -207,7 +208,7 @@ class MediaHelper
 
 		if ($filetype == '' || $filetype == false || (!in_array($filetype, $allowable) && !in_array($filetype, $ignored)))
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETYPE'), 'error');
 
 			return false;
 		}
@@ -216,7 +217,7 @@ class MediaHelper
 
 		if ($maxSize > 0 && (int) $file['size'] > $maxSize)
 		{
-			$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+			$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 			return false;
 		}
@@ -241,7 +242,7 @@ class MediaHelper
 						// If the mime type is not allowed we don't upload it and show the mime code error to the user
 						if ($result === false)
 						{
-							$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+							$app->enqueueMessage(Text::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 							return false;
 						}
@@ -249,14 +250,14 @@ class MediaHelper
 					// We can't detect the mime type so it looks like an invalid image
 					else
 					{
-						$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
+						$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_IMG'), 'error');
 
 						return false;
 					}
 				}
 				else
 				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNFILETOOLARGE'), 'error');
 
 					return false;
 				}
@@ -274,7 +275,7 @@ class MediaHelper
 					// If the mime type is not allowed we don't upload it and show the mime code error to the user
 					if ($result === false)
 					{
-						$app->enqueueMessage(\JText::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
+						$app->enqueueMessage(Text::sprintf('JLIB_MEDIA_ERROR_WARNINVALID_MIMETYPE', $mime), 'error');
 
 						return false;
 					}
@@ -282,14 +283,14 @@ class MediaHelper
 				// We can't detect the mime type so it looks like an invalid file
 				else
 				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNINVALID_MIME'), 'error');
 
 					return false;
 				}
 
-				if (!\JFactory::getUser()->authorise('core.manage', $component))
+				if (!Factory::getUser()->authorise('core.manage', $component))
 				{
-					$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
+					$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNNOTADMIN'), 'error');
 
 					return false;
 				}
@@ -314,7 +315,7 @@ class MediaHelper
 			// A tag is '<tagname ', so we need to add < and a space or '<tagname>'
 			if (stripos($xss_check, '<' . $tag . ' ') !== false || stripos($xss_check, '<' . $tag . '>') !== false)
 			{
-				$app->enqueueMessage(\JText::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
+				$app->enqueueMessage(Text::_('JLIB_MEDIA_ERROR_WARNIEXSS'), 'error');
 
 				return false;
 			}

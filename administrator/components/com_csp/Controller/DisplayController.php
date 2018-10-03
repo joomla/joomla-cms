@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Csp\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -14,11 +15,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Csp\Administrator\Helper\ReporterHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Csp display controller.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class DisplayController extends BaseController
 {
@@ -26,7 +28,7 @@ class DisplayController extends BaseController
 	 * The default view.
 	 *
 	 * @var     string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $default_view = 'reports';
 
@@ -38,7 +40,7 @@ class DisplayController extends BaseController
 	 *
 	 * @return  static   This object to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
@@ -49,11 +51,11 @@ class DisplayController extends BaseController
 			$link = HTMLHelper::_(
 				'link',
 				'#plugin' . $httpHeadersId . 'Modal',
-				\JText::_('COM_CSP_SYSTEM_PLUGIN'),
+				Text::_('COM_CSP_SYSTEM_PLUGIN'),
 				'class="alert-link" data-toggle="modal" id="title-' . $httpHeadersId . '"'
 			);
 
-			$this->app->enqueueMessage(\JText::sprintf('COM_CSP_PLUGIN_MODAL_DISABLED', $link), 'error');
+			$this->app->enqueueMessage(Text::sprintf('COM_CSP_PLUGIN_MODAL_DISABLED', $link), 'error');
 		}
 
 		parent::display();

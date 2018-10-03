@@ -10,16 +10,16 @@ namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Form Class for the Joomla Platform.
@@ -616,42 +616,6 @@ class Form
 		}
 
 		return $return;
-	}
-
-	/**
-	 * Method to get a control group with label and input.
-	 *
-	 * @param   string  $name     The name of the field for which to get the value.
-	 * @param   string  $group    The optional dot-separated form group path on which to get the value.
-	 * @param   mixed   $default  The optional default value of the field value is empty.
-	 *
-	 * @return  string  A string containing the html for the control goup
-	 *
-	 * @since      3.2
-	 * @deprecated 3.2.3  Use renderField() instead of getControlGroup
-	 */
-	public function getControlGroup($name, $group = null, $default = null)
-	{
-		Log::add('Form->getControlGroup() is deprecated use Form->renderField().', Log::WARNING, 'deprecated');
-
-		return $this->renderField($name, $group, $default);
-	}
-
-	/**
-	 * Method to get all control groups with label and input of a fieldset.
-	 *
-	 * @param   string  $name  The name of the fieldset for which to get the values.
-	 *
-	 * @return  string  A string containing the html for the control goups
-	 *
-	 * @since      3.2
-	 * @deprecated 3.2.3 Use renderFieldset() instead of getControlGroups
-	 */
-	public function getControlGroups($name)
-	{
-		Log::add('Form->getControlGroups() is deprecated use Form->renderFieldset().', Log::WARNING, 'deprecated');
-
-		return $this->renderFieldset($name);
 	}
 
 	/**

@@ -49,7 +49,7 @@ class AccesslevelField extends \JFormFieldList
 		$attr .= $this->disabled ? ' disabled' : '';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->required ? ' required' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// Initialize JavaScript field attributes.

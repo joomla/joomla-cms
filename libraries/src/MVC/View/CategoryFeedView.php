@@ -10,6 +10,10 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 /**
  * Base feed View class for a category
  *
@@ -28,8 +32,8 @@ class CategoryFeedView extends HtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app      = \JFactory::getApplication();
-		$document = \JFactory::getDocument();
+		$app      = Factory::getApplication();
+		$document = Factory::getDocument();
 
 		$extension      = $app->input->getString('option');
 		$contentType = $extension . '.' . $this->viewName;
@@ -51,7 +55,7 @@ class CategoryFeedView extends HtmlView
 			$titleField = $ucmMapCommon[0]->core_title;
 		}
 
-		$document->link = \JRoute::_(\JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
+		$document->link = Route::_(\JHelperRoute::getCategoryRoute($app->input->getInt('id'), $language = 0, $extension));
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -71,7 +75,7 @@ class CategoryFeedView extends HtmlView
 		// Don't display feed if category id missing or non existent
 		if ($category == false || $category->alias === 'root')
 		{
-			throw new \Exception(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \Exception(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		foreach ($items as $item)
@@ -91,7 +95,7 @@ class CategoryFeedView extends HtmlView
 
 			// URL link to article
 			$router = new \JHelperRoute;
-			$link   = \JRoute::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
+			$link   = Route::_($router->getRoute($item->id, $contentType, null, null, $item->catid));
 
 			// Strip HTML from feed item description text.
 			$description = $item->description;

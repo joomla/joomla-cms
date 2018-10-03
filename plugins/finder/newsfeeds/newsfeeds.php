@@ -267,10 +267,11 @@ class PlgFinderNewsfeeds extends FinderIndexerAdapter
 
 		$item->metadata = new Registry($item->metadata);
 
-		// Build the necessary route and path information.
+		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
+
+		// Build the necessary route and path information.
 		$item->route = NewsfeedsHelperRoute::getNewsfeedRoute($item->slug, $item->catslug, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		/*
 		 * Add the metadata processing instructions based on the newsfeeds

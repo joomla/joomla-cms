@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
@@ -143,7 +144,7 @@ class ExtensionAdapter extends UpdateAdapter
 					else
 					{
 						// Notify the user of the potential update
-						$msg = \JText::sprintf(
+						$msg = Text::sprintf(
 							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
 							$this->currentUpdate->name,
 							$this->currentUpdate->version,
@@ -175,11 +176,11 @@ class ExtensionAdapter extends UpdateAdapter
 							if (!$dbMatch)
 							{
 								// Notify the user of the potential update
-								$dbMsg = \JText::sprintf(
+								$dbMsg = Text::sprintf(
 									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
 									$this->currentUpdate->name,
 									$this->currentUpdate->version,
-									\JText::_($db->name),
+									Text::_($db->name),
 									$dbVersion,
 									$minumumVersion
 								);
@@ -190,11 +191,11 @@ class ExtensionAdapter extends UpdateAdapter
 						else
 						{
 							// Notify the user of the potential update
-							$dbMsg = \JText::sprintf(
+							$dbMsg = Text::sprintf(
 								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								\JText::_($db->name)
+								Text::_($db->name)
 							);
 
 							Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
@@ -330,7 +331,7 @@ class ExtensionAdapter extends UpdateAdapter
 
 			$app = Factory::getApplication();
 			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
-			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
+			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}

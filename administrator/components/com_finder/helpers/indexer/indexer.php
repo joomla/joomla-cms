@@ -17,8 +17,6 @@ JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
-jimport('joomla.filesystem.file');
-
 /**
  * Main indexer class for the Finder indexer package.
  *

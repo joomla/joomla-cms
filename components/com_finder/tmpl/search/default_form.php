@@ -37,19 +37,19 @@ if ($this->params->get('show_autosuggest', 1))
 				<span class="input-group-append">
 				<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_query')) : ?>
 					<button name="Search" type="submit" class="btn btn-primary">
-                        <span class="fa fa-search icon-white" aria-hidden="true"></span>
-                        <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
-                    </button>
+						<span class="fa fa-search icon-white" aria-hidden="true"></span>
+						<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
+					</button>
 				<?php else : ?>
 					<button name="Search" type="submit" class="btn btn-primary disabled">
-                        <span class="fa fa-search icon-white" aria-hidden="true"></span>
-                        <?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
-                    </button>
+						<span class="fa fa-search icon-white" aria-hidden="true"></span>
+						<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
+					</button>
 				<?php endif; ?>
 				<?php if ($this->params->get('show_advanced', 1)) : ?>
 					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary" aria-hidden="true">
 						<span class="fa fa-search-plus" aria-hidden="true"></span>
-                        <?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
+						<?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
 				<?php endif; ?>
 				</span>
 			</div>
@@ -61,7 +61,14 @@ if ($this->params->get('show_autosuggest', 1))
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
 				<div class="com-finder__tips card card-outline-secondary mb-3">
 					<div class="card-body">
-						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_INTRO'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_AND'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_NOT'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_OR'); ?>
+						<?php if ($this->params->get('tuplecount', 1) > 1) : ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_PHRASE'); ?>
+						<?php endif; ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_OUTRO'); ?>
 					</div>
 				</div>
 			<?php endif; ?>

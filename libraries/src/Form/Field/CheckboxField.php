@@ -10,7 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 
 /**
@@ -137,7 +136,7 @@ class CheckboxField extends FormField
 		$class     = !empty($this->class) ? ' class="form-check-input ' . $this->class . '"' : ' class="form-check-input"';
 		$disabled  = $this->disabled ? ' disabled' : '';
 		$value     = !empty($this->default) ? $this->default : '1';
-		$required  = $this->required ? ' required aria-required="true"' : '';
+		$required  = $this->required ? ' required' : '';
 		$autofocus = $this->autofocus ? ' autofocus' : '';
 		$checked   = $this->checked || !empty($this->value) ? ' checked' : '';
 
@@ -145,12 +144,10 @@ class CheckboxField extends FormField
 		$onclick  = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
 		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
-		$html = '<div class="form-check">';
-		$html .= '<label class="form-check-label">';
+		$html = '<div class="form-check form-check-inline">';
 		$html .= '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
 				. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
 				. $required . $autofocus . '>';
-		$html .= '</label>';
 		$html .= '</div>';
 
 		return $html;

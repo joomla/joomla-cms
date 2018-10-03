@@ -10,6 +10,9 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 /**
  * Categories view base class.
  *
@@ -56,7 +59,7 @@ class CategoriesView extends HtmlView
 		$items  = $this->get('Items');
 		$parent = $this->get('Parent');
 
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -68,14 +71,14 @@ class CategoriesView extends HtmlView
 
 		if ($items === false)
 		{
-			$app->enqueueMessage(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
+			$app->enqueueMessage(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
 			return false;
 		}
 
 		if ($parent == false)
 		{
-			$app->enqueueMessage(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
+			$app->enqueueMessage(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 'error');
 
 			return false;
 		}
@@ -106,7 +109,7 @@ class CategoriesView extends HtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 
 		// Because the application sets a default page title, we need to get it from the menu item itself
@@ -118,7 +121,7 @@ class CategoriesView extends HtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_($this->pageHeading));
+			$this->params->def('page_heading', Text::_($this->pageHeading));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -129,11 +132,11 @@ class CategoriesView extends HtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);

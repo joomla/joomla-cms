@@ -14,8 +14,11 @@ use Joomla\Application\AbstractWebApplication;
 use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Version;
 use Joomla\Event\DispatcherAwareInterface;
@@ -259,7 +262,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadDocument(Document $document = null)
 	{
-		$this->document = $document ?? \JFactory::getDocument();
+		$this->document = $document ?? Factory::getDocument();
 
 		return $this;
 	}
@@ -279,7 +282,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 */
 	public function loadLanguage(Language $language = null)
 	{
-		$this->language = $language ?? \JFactory::getLanguage();
+		$this->language = $language ?? Factory::getLanguage();
 
 		return $this;
 	}
@@ -291,14 +294,14 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * but for many applications it will make sense to override this method and create a session,
 	 * if required, based on more specific needs.
 	 *
-	 * @param   \JSession  $session  An optional session object. If omitted, the session is created.
+	 * @param   Session  $session  An optional session object. If omitted, the session is created.
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
 	 * @since   11.3
 	 * @deprecated  5.0  The session should be injected as a service.
 	 */
-	public function loadSession(\JSession $session = null)
+	public function loadSession(Session $session = null)
 	{
 		$this->getLogger()->warning(__METHOD__ . '() is deprecated.  Inject the session as a service instead.', array('category' => 'deprecated'));
 
@@ -358,17 +361,17 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 
 		if ($siteUri != '')
 		{
-			$uri = \JUri::getInstance($siteUri);
+			$uri = Uri::getInstance($siteUri);
 			$path = $uri->toString(array('path'));
 		}
 		// No explicit base URI was set so we need to detect it.
 		else
 		{
 			// Start with the requested URI.
-			$uri = \JUri::getInstance($this->get('uri.request'));
+			$uri = Uri::getInstance($this->get('uri.request'));
 
 			// If we are working from a CGI SAPI with the 'cgi.fix_pathinfo' directive disabled we use PHP_SELF.
-			if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+			if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 			{
 				// We aren't expecting PATH_INFO within PHP_SELF so this should work.
 				$path = dirname($_SERVER['PHP_SELF']);

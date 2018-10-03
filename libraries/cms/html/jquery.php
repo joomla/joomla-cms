@@ -9,6 +9,9 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Utility class for jQuery JavaScript behaviors
  *
@@ -48,21 +51,21 @@ abstract class JHtmlJquery
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$debug = (boolean) JFactory::getConfig()->get('debug');
+			$debug = (boolean) Factory::getConfig()->get('debug');
 		}
 
-		JHtml::_('script', 'vendor/jquery/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		HTMLHelper::_('script', 'vendor/jquery/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			JHtml::_('script', 'legacy/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true));
+			HTMLHelper::_('script', 'legacy/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true));
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			JHtml::_('script', 'vendor/jquery-migrate/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+			HTMLHelper::_('script', 'vendor/jquery-migrate/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 		}
 
 		static::$loaded[__METHOD__] = true;
@@ -102,7 +105,7 @@ abstract class JHtmlJquery
 			// Only attempt to load the component if it's supported in core and hasn't already been loaded
 			if (in_array($component, $supported) && empty(static::$loaded[__METHOD__][$component]))
 			{
-				JHtml::_(
+				HTMLHelper::_(
 					'script',
 					'vendor/jquery-ui/jquery.ui.' . $component . '.min.js',
 					array(
@@ -139,9 +142,9 @@ abstract class JHtmlJquery
 		}
 
 		static::framework();
-		JHtml::_('form.csrf', $name);
+		HTMLHelper::_('form.csrf', $name);
 
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 
 		$doc->addScriptDeclaration(
 <<<JS

@@ -60,7 +60,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'alpha4-dev';
+	const EXTRA_VERSION = 'alpha5-dev';
 
 	/**
 	 * Development status.
@@ -84,7 +84,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '15-May-2018';
+	const RELDATE = '22-July-2018';
 
 	/**
 	 * Release time.
@@ -92,7 +92,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '10:29';
+	const RELTIME = '22:58';
 
 	/**
 	 * Release timezone.
@@ -227,7 +227,7 @@ final class Version
 	 */
 	public function generateMediaVersion(): string
 	{
-		return md5($this->getLongVersion() . \JFactory::getConfig()->get('secret') . (new \JDate)->toSql());
+		return md5($this->getLongVersion() . Factory::getConfig()->get('secret') . (new \JDate)->toSql());
 	}
 
 	/**

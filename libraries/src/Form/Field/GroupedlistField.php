@@ -151,7 +151,7 @@ class GroupedlistField extends FormField
 		$attr .= !empty($this->class) ? ' class="custom-select ' . $this->class . '"' : ' class="custom-select"';
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->required ? ' required' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".

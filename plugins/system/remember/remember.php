@@ -111,7 +111,7 @@ class PlgSystemRemember extends CMSPlugin
 	 *
 	 * @return    boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.6
 	 */
 	public function onUserBeforeSave($user, $isnew, $data)
 	{
@@ -122,7 +122,7 @@ class PlgSystemRemember extends CMSPlugin
 		}
 
 		// Irrelevant, because password was not changed by user
-		if ($data['password_clear'] == '')
+		if (empty($data['password_clear']))
 		{
 			return true;
 		}

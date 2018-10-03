@@ -10,14 +10,14 @@ namespace Joomla\CMS\Filesystem;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
-use Joomla\CMS\Filesystem\Wrapper\FolderWrapper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Wrapper\FolderWrapper;
+use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 
 /**
  * A File handling class
@@ -318,77 +318,6 @@ class File
 	}
 
 	/**
-	 * Read the contents of a file
-	 *
-	 * @param   string   $filename   The full file path
-	 * @param   boolean  $incpath    Use include path
-	 * @param   integer  $amount     Amount of file to read
-	 * @param   integer  $chunksize  Size of chunks to read
-	 * @param   integer  $offset     Offset of the file
-	 *
-	 * @return  mixed  Returns file contents or boolean False if failed
-	 *
-	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the native file_get_contents() instead.
-	 */
-	public static function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use native file_get_contents() syntax.', Log::WARNING, 'deprecated');
-
-		$data = null;
-
-		if ($amount && $chunksize > $amount)
-		{
-			$chunksize = $amount;
-		}
-
-		if (false === $fh = fopen($filename, 'rb', $incpath))
-		{
-			Log::add(Text::sprintf('JLIB_FILESYSTEM_ERROR_READ_UNABLE_TO_OPEN_FILE', $filename), Log::WARNING, 'jerror');
-
-			return false;
-		}
-
-		clearstatcache();
-
-		if ($offset)
-		{
-			fseek($fh, $offset);
-		}
-
-		if ($fsize = @ filesize($filename))
-		{
-			if ($amount && $fsize > $amount)
-			{
-				$data = fread($fh, $amount);
-			}
-			else
-			{
-				$data = fread($fh, $fsize);
-			}
-		}
-		else
-		{
-			$data = '';
-
-			/*
-			 * While it's:
-			 * 1: Not the end of the file AND
-			 * 2a: No Max Amount set OR
-			 * 2b: The length of the data is less than the max amount we want
-			 */
-			while (!feof($fh) && (!$amount || strlen($data) < $amount))
-			{
-				$data .= fread($fh, $chunksize);
-			}
-		}
-
-		fclose($fh);
-
-		return $data;
-	}
-
-	/**
 	 * Write contents to a file
 	 *
 	 * @param   string   $file         The full file path
@@ -522,7 +451,7 @@ class File
 	 * @param   string   $dest             The path (including filename) to move the uploaded file to
 	 * @param   boolean  $use_streams      True to use streams
 	 * @param   boolean  $allow_unsafe     Allow the upload of unsafe files
-	 * @param   boolean  $safeFileOptions  Options to JFilterInput::isSafeFile
+	 * @param   boolean  $safeFileOptions  Options to InputFilter::isSafeFile
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -540,7 +469,7 @@ class File
 				'size'     => '',
 			);
 
-			$isSafe = JFilterInput::isSafeFile($descriptor, $safeFileOptions);
+			$isSafe = InputFilter::isSafeFile($descriptor, $safeFileOptions);
 
 			if (!$isSafe)
 			{
@@ -638,33 +567,5 @@ class File
 		$pathObject = new PathWrapper;
 
 		return is_file($pathObject->clean($file));
-	}
-
-	/**
-	 * Returns the name, without any path.
-	 *
-	 * @param   string  $file  File path
-	 *
-	 * @return  string  filename
-	 *
-	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use basename() instead.
-	 */
-	public static function getName($file)
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use native basename() syntax.', Log::WARNING, 'deprecated');
-
-		// Convert back slashes to forward slashes
-		$file = str_replace('\\', '/', $file);
-		$slash = strrpos($file, '/');
-
-		if ($slash !== false)
-		{
-			return substr($file, $slash + 1);
-		}
-		else
-		{
-			return $file;
-		}
 	}
 }

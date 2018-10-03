@@ -10,11 +10,11 @@ namespace Joomla\CMS\Log\Logger;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Log\LogEntry;
 use Joomla\CMS\Log\Logger;
-
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
 
 /**
  * Joomla! Formatted Text File Log class
@@ -73,7 +73,7 @@ class FormattedtextLogger extends Logger
 		// The name of the text file path defaults to that which is set in configuration if not explicitly given.
 		if (empty($this->options['text_file_path']))
 		{
-			$this->options['text_file_path'] = \JFactory::getConfig()->get('log_path', JPATH_ADMINISTRATOR . '/logs');
+			$this->options['text_file_path'] = Factory::getConfig()->get('log_path', JPATH_ADMINISTRATOR . '/logs');
 		}
 
 		// False to treat the log file as a php file.
@@ -154,7 +154,7 @@ class FormattedtextLogger extends Logger
 		// Write the new entry to the file.
 		$line .= "\n";
 
-		if (!\JFile::append($this->path, $line))
+		if (!File::append($this->path, $line))
 		{
 			throw new \RuntimeException('Cannot write to log file.');
 		}
@@ -205,18 +205,18 @@ class FormattedtextLogger extends Logger
 	protected function initFile()
 	{
 		// We only need to make sure the file exists
-		if (\JFile::exists($this->path))
+		if (File::exists($this->path))
 		{
 			return;
 		}
 
 		// Make sure the folder exists in which to create the log file.
-		\JFolder::create(dirname($this->path));
+		Folder::create(dirname($this->path));
 
 		// Build the log file header.
 		$head = $this->generateFileHeader();
 
-		if (!\JFile::write($this->path, $head))
+		if (!File::write($this->path, $head))
 		{
 			throw new \RuntimeException('Cannot write to log file.');
 		}

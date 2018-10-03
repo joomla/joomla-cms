@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory as CmsFactory;
+use Joomla\CMS\Log\Log;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
@@ -330,7 +332,7 @@ class Document
 
 		if (empty(self::$instances[$signature]))
 		{
-			self::$instances[$signature] = \JFactory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
+			self::$instances[$signature] = CmsFactory::getContainer()->get(FactoryInterface::class)->createDocument($type, $attributes);
 		}
 
 		return self::$instances[$signature];
@@ -501,7 +503,7 @@ class Document
 		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
 		{
-			\JLog::add('The addScript method signature used has changed, use (url, options, attributes) instead.', \JLog::WARNING, 'deprecated');
+			Log::add('The addScript method signature used has changed, use (url, options, attributes) instead.', Log::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
@@ -553,7 +555,7 @@ class Document
 	 */
 	public function addScriptVersion($url, $options = array(), $attribs = array())
 	{
-		\JLog::add('The method is deprecated, use addScript(url, attributes, options) instead.', \JLog::WARNING, 'deprecated');
+		Log::add('The method is deprecated, use addScript(url, attributes, options) instead.', Log::WARNING, 'deprecated');
 
 		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
@@ -684,7 +686,7 @@ class Document
 		// B/C before 3.7.0
 		if (is_string($options))
 		{
-			\JLog::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', \JLog::WARNING, 'deprecated');
+			Log::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', Log::WARNING, 'deprecated');
 
 			$argList = func_get_args();
 			$options = array();
@@ -744,7 +746,7 @@ class Document
 	 */
 	public function addStyleSheetVersion($url, $options = array(), $attribs = array())
 	{
-		\JLog::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', \JLog::WARNING, 'deprecated');
+		Log::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', Log::WARNING, 'deprecated');
 
 		// B/C before 3.7.0
 		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
@@ -1020,7 +1022,7 @@ class Document
 	}
 
 	/**
-	 * Return the title of the page.
+	 * Return the description of the document.
 	 *
 	 * @return  string
 	 *
@@ -1281,7 +1283,7 @@ class Document
 	 */
 	public function render($cache = false, $params = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = CmsFactory::getApplication();
 
 		if ($mdate = $this->getModifiedDate())
 		{
@@ -1367,7 +1369,7 @@ class Document
 		// Check if the manager's provider has links, if so add the Link header
 		if ($links = $this->getPreloadManager()->getLinkProvider()->getLinks())
 		{
-			\JFactory::getApplication()->setHeader('Link', (new HttpHeaderSerializer)->serialize($links));
+			CmsFactory::getApplication()->setHeader('Link', (new HttpHeaderSerializer)->serialize($links));
 		}
 	}
 }

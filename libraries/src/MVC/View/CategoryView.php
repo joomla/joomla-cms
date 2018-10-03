@@ -10,6 +10,10 @@ namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 /**
  * Base HTML View class for the a Category list
  *
@@ -107,8 +111,8 @@ class CategoryView extends HtmlView
 	 */
 	public function commonCategoryDisplay()
 	{
-		$app    = \JFactory::getApplication();
-		$user   = \JFactory::getUser();
+		$app    = Factory::getApplication();
+		$user   = Factory::getUser();
 		$params = $app->getParams();
 
 		// Get some data from the models
@@ -125,12 +129,12 @@ class CategoryView extends HtmlView
 
 		if ($category == false)
 		{
-			throw new \InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		if ($parent == false)
 		{
-			throw new \InvalidArgumentException(\JText::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
+			throw new \InvalidArgumentException(Text::_('JGLOBAL_CATEGORY_NOT_FOUND'), 404);
 		}
 
 		// Check whether category access level allows access.
@@ -138,7 +142,7 @@ class CategoryView extends HtmlView
 
 		if (!in_array($category->access, $groups))
 		{
-			throw new \Exception(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \Exception(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		// Check whether category access level allows access.
@@ -146,7 +150,7 @@ class CategoryView extends HtmlView
 
 		if (!in_array($category->access, $groups))
 		{
-			throw new \RuntimeException(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		$items      = $this->get('Items');
@@ -180,21 +184,21 @@ class CategoryView extends HtmlView
 				// For some plugins.
 				!empty($itemElement->description) ? $itemElement->text = $itemElement->description : $itemElement->text = null;
 
-				\JFactory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
+				Factory::getApplication()->triggerEvent('onContentPrepare', [$this->extension . '.category', &$itemElement, &$itemElement->params, 0]);
 
-				$results = \JFactory::getApplication()->triggerEvent(
+				$results = Factory::getApplication()->triggerEvent(
 					'onContentAfterTitle',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
 				$itemElement->event->afterDisplayTitle = trim(implode("\n", $results));
 
-				$results = \JFactory::getApplication()->triggerEvent(
+				$results = Factory::getApplication()->triggerEvent(
 					'onContentBeforeDisplay',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
 				$itemElement->event->beforeDisplayContent = trim(implode("\n", $results));
 
-				$results = \JFactory::getApplication()->triggerEvent(
+				$results = Factory::getApplication()->triggerEvent(
 					'onContentAfterDisplay',
 					[$this->extension . '.category', &$itemElement, &$itemElement->core_params, 0]
 				);
@@ -222,17 +226,20 @@ class CategoryView extends HtmlView
 		// If it is the active menu item, then the view and category id will match
 		$active = $app->getMenu()->getActive();
 
-		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
+		if ($active
+			&& $active->component == $this->extension
+			&& isset($active->query['view'], $active->query['id'])
+			&& $active->query['view'] == 'category'
+			&& $active->query['id'] == $this->category->id)
 		{
-			if ($layout = $category->params->get('category_layout'))
+			if (isset($active->query['layout']))
 			{
-				$this->setLayout($layout);
+				$this->setLayout($active->query['layout']);
 			}
 		}
-		elseif (isset($active->query['layout']))
+		elseif ($layout = $category->params->get('category_layout'))
 		{
-			// We need to set the layout in case this is an alternative menu item (with an alternative layout)
-			$this->setLayout($active->query['layout']);
+			$this->setLayout($layout);
 		}
 
 		$this->category->tags = new \JHelperTags;
@@ -264,7 +271,7 @@ class CategoryView extends HtmlView
 	 */
 	protected function prepareDocument()
 	{
-		$app           = \JFactory::getApplication();
+		$app           = Factory::getApplication();
 		$menus         = $app->getMenu();
 		$this->pathway = $app->getPathway();
 		$title         = null;
@@ -278,7 +285,7 @@ class CategoryView extends HtmlView
 		}
 		else
 		{
-			$this->params->def('page_heading', \JText::_($this->defaultPageTitle));
+			$this->params->def('page_heading', Text::_($this->defaultPageTitle));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -289,11 +296,11 @@ class CategoryView extends HtmlView
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = \JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
@@ -327,9 +334,9 @@ class CategoryView extends HtmlView
 		{
 			$link    = '&format=feed&limitstart=';
 			$attribs = array('type' => 'application/rss+xml', 'title' => 'RSS 2.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=rss'), 'alternate', 'rel', $attribs);
 			$attribs = array('type' => 'application/atom+xml', 'title' => 'Atom 1.0');
-			$this->document->addHeadLink(\JRoute::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
+			$this->document->addHeadLink(Route::_($link . '&type=atom'), 'alternate', 'rel', $attribs);
 		}
 	}
 }

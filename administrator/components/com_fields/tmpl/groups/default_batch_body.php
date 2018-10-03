@@ -8,19 +8,22 @@
  */
 defined('_JEXEC') or die;
 
-JHtml::_('formbehavior.chosen', '.advancedSelect');
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
 ?>
 
 <div class="container">
 	<div class="row">
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.language', array()); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo JLayoutHelper::render('joomla.html.batch.access', array()); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.access', array()); ?>
 			</div>
 		</div>
 	</div>

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
 defined('_JEXEC') or die;
@@ -15,7 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 use Joomla\Component\Newsfeeds\Site\Model\CategoryModel;
 use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Document\Feed\FeedFactory;
+use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
@@ -73,15 +74,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  4.0.0
 	 */
 	protected $params;
-
-	/**
-	 * Clone of the $item property
-	 *
-	 * @var         object
-	 * @since       4.0.0
-	 * @deprecated  4.0
-	 */
-	protected $newsfeed;
 
 	/**
 	 * Execute and display a template script.
@@ -195,15 +187,12 @@ class HtmlView extends BaseHtmlView
 		// Get the current menu item
 		$params = $app->getParams();
 
-		// Get the newsfeed
-		$newsfeed = $item;
-
 		$params->merge($item->params);
 
 		try
 		{
 			$feed = new FeedFactory;
-			$this->rssDoc = $feed->getFeed($newsfeed->link);
+			$this->rssDoc = $feed->getFeed($item->link);
 		}
 		catch (\InvalidArgumentException $e)
 		{
@@ -230,10 +219,9 @@ class HtmlView extends BaseHtmlView
 		$this->pageclass_sfx = htmlspecialchars($params->get('pageclass_sfx'));
 
 		$this->params = $params;
-		$this->newsfeed = $newsfeed;
-		$this->state = $state;
-		$this->item = $item;
-		$this->user = $user;
+		$this->state  = $state;
+		$this->item   = $item;
+		$this->user   = $user;
 
 		if (!empty($msg))
 		{

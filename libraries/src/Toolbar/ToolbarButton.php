@@ -21,12 +21,20 @@ use Joomla\Utilities\ArrayHelper;
  * @method self buttonClass(string $value)
  * @method self attributes(array $value)
  * @method self onclick(array $value)
+ * @method self listCheck(bool $value)
+ * @method self listCheckMessage(string $value)
+ * @method self form(string $value)
+ * @method self formValidation(bool $value)
  * @method string  getText()
  * @method string  getTask()
  * @method string  getIcon()
  * @method string  getButtonClass()
  * @method array   getAttributes()
  * @method string  getOnclick()
+ * @method bool    getListCheck()
+ * @method string  getListCheckMessage()
+ * @method string  getForm()
+ * @method bool    getFormValidation()
  *
  * @since  4.0.0
  */
@@ -121,7 +129,7 @@ abstract class ToolbarButton
 		else
 		{
 			$options['tagName'] = 'button';
-			$options['btnClass'] = ($options['button_class'] ?? 'btn btn-sm btn-outline-primary');
+			$options['btnClass'] = ($options['button_class'] ?? 'btn btn-primary');
 			$options['attributes']['type'] = 'button';
 		}
 	}
@@ -186,7 +194,7 @@ abstract class ToolbarButton
 		$options['htmlAttributes'] = ArrayHelper::toString($options['attributes']);
 		$options['btnClass'] = 'button-' . $this->getName() . ' ' . ($options['btnClass'] ?? '');
 
-		// Instantiate a new JLayoutFile instance and render the layout
+		// Instantiate a new LayoutFile instance and render the layout
 		$layout = new FileLayout($this->layout);
 
 		return $layout->render($options);
@@ -502,7 +510,11 @@ abstract class ToolbarButton
 			'icon',
 			'attributes',
 			'onclick',
-			'buttonClass' => 'button_class'
+			'buttonClass' => 'button_class',
+			'listCheck',
+			'listCheckMessage',
+			'form',
+			'formValidation'
 		];
 	}
 }

@@ -11,14 +11,14 @@ namespace Joomla\Module\Languages\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
-
-\JLoader::register('\MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Helper for mod_languages
@@ -64,16 +64,25 @@ abstract class LanguagesHelper
 		{
 			if ($active)
 			{
-				$associations = \MenusHelper::getAssociations($active->id);
+				$associations = MenusHelper::getAssociations($active->id);
 			}
 
-			// Load component associations
-			$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
-			\JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
+			$component = $app->bootComponent($app->input->get('option'));
 
-			if (class_exists($class) && is_callable(array($class, 'getAssociations')))
+			if ($component instanceof AssociationServiceInterface)
 			{
-				$cassociations = call_user_func(array($class, 'getAssociations'));
+				$cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
+			}
+			else
+			{
+				// Load component associations
+				$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
+				\JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
+
+				if (class_exists($class) && is_callable(array($class, 'getAssociations')))
+				{
+					$cassociations = call_user_func(array($class, 'getAssociations'));
+				}
 			}
 		}
 
@@ -120,7 +129,7 @@ abstract class LanguagesHelper
 				{
 					if (isset($cassociations[$language->lang_code]))
 					{
-						$language->link = Route::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
+						$language->link = Route::_($cassociations[$language->lang_code]);
 					}
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{

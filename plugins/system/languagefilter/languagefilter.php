@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
@@ -24,8 +25,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filesystem\Folder;
-
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Joomla! Language Filter Plugin.
@@ -643,8 +643,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$lang_code = $this->default_lang;
 				}
 
-				jimport('joomla.filesystem.folder');
-
 				// The language has been deleted/disabled or the related content language does not exist/has been unpublished
 				// or the related home page does not exist/has been unpublished
 				if (!array_key_exists($lang_code, $this->lang_codes)
@@ -779,12 +777,22 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 			// Load component associations.
 			$option = $this->app->input->get('option');
-			$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
-			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			$component = $this->app->bootComponent($option);
+
+			if ($component instanceof AssociationServiceInterface)
 			{
-				$cassociations = call_user_func(array($cName, 'getAssociations'));
+				$cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
+			}
+			else
+			{
+				$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
+				JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+
+				if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+				{
+					$cassociations = call_user_func(array($cName, 'getAssociations'));
+				}
 			}
 
 			// For each language...
@@ -811,7 +819,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 					// Component association
 					case (isset($cassociations[$i])):
-						$language->link = Route::_($cassociations[$i] . '&lang=' . $language->sef);
+						$language->link = Route::_($cassociations[$i]);
 						break;
 
 					// Menu items association

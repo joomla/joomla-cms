@@ -9,6 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\OutputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+
 /**
  * Utility class for JavaScript behaviors
  *
@@ -59,16 +67,16 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JHtml::_('form.csrf');
-		JHtml::_('script', 'system/core.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('form.csrf');
+		HTMLHelper::_('script', 'system/core.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Add core and base uri paths so javascript scripts can use them.
-		JFactory::getDocument()->addScriptOptions(
+		Factory::getDocument()->addScriptOptions(
 			'system.paths',
 			[
-				'root' => JUri::root(true),
-				'rootFull' => JUri::root(),
-				'base' => JUri::base(true),
+				'root' => Uri::root(true),
+				'rootFull' => Uri::root(),
+				'base' => Uri::base(true),
 			]
 		);
 
@@ -91,7 +99,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function formvalidation()
 	{
-		JLog::add('The use of formvalidation is deprecated use formvalidator instead.', JLog::WARNING, 'deprecated');
+		Log::add('The use of formvalidation is deprecated use formvalidator instead.', Log::WARNING, 'deprecated');
 
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -127,13 +135,13 @@ abstract class JHtmlBehavior
 		static::core();
 
 		// Add validate.js language strings
-		JText::script('JLIB_FORM_CONTAINS_INVALID_FIELDS');
-		JText::script('JLIB_FORM_FIELD_REQUIRED_VALUE');
-		JText::script('JLIB_FORM_FIELD_REQUIRED_CHECK');
-		JText::script('JLIB_FORM_FIELD_INVALID_VALUE');
+		Text::script('JLIB_FORM_CONTAINS_INVALID_FIELDS');
+		Text::script('JLIB_FORM_FIELD_REQUIRED_VALUE');
+		Text::script('JLIB_FORM_FIELD_REQUIRED_CHECK');
+		Text::script('JLIB_FORM_FIELD_INVALID_VALUE');
 
-		JHtml::_('script', 'vendor/punycode/punycode.js', array('version' => 'auto', 'relative' => true));
-		JHtml::_('script', 'system/fields/validate.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'vendor/punycode/punycode.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'system/fields/validate.min.js', array('version' => 'auto', 'relative' => true));
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -170,8 +178,8 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		JHtml::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
-		JHtml::_('script', 'vendor/awesomplete/awesomplete.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'vendor/awesomplete/awesomplete.js', array('version' => 'auto', 'relative' => true));
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -254,10 +262,10 @@ abstract class JHtmlBehavior
 		// Include core
 		static::core();
 
-		JHtml::_('script', 'system/multiselect.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'system/multiselect.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Pass the required options to the javascript
-		JFactory::getDocument()->addScriptOptions('js-multiselect', ['formName' => $id]);
+		Factory::getDocument()->addScriptOptions('js-multiselect', ['formName' => $id]);
 
 		// Set static array
 		static::$loaded[__METHOD__][$id] = true;
@@ -296,15 +304,15 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		JLog::add('JHtmlBehavior::calendar is deprecated as the static assets are being loaded in the relative layout.', JLog::WARNING, 'deprecated');
+		Log::add('JHtmlBehavior::calendar is deprecated as the static assets are being loaded in the relative layout.', Log::WARNING, 'deprecated');
 
-		$document = JFactory::getDocument();
-		$tag      = JFactory::getLanguage()->getTag();
-		$attribs  = array('title' => JText::_('JLIB_HTML_BEHAVIOR_GREEN'), 'media' => 'all');
+		$document = Factory::getDocument();
+		$tag      = Factory::getLanguage()->getTag();
+		$attribs  = array('title' => Text::_('JLIB_HTML_BEHAVIOR_GREEN'), 'media' => 'all');
 
-		JHtml::_('stylesheet', 'system/calendar-jos.css', array('version' => 'auto', 'relative' => true), $attribs);
-		JHtml::_('script', $tag . '/calendar.js', array('version' => 'auto', 'relative' => true));
-		JHtml::_('script', $tag . '/calendar-setup.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('stylesheet', 'system/calendar-jos.css', array('version' => 'auto', 'relative' => true), $attribs);
+		HTMLHelper::_('script', $tag . '/calendar.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', $tag . '/calendar-setup.js', array('version' => 'auto', 'relative' => true));
 
 		$translation = static::calendartranslation();
 
@@ -334,11 +342,11 @@ abstract class JHtmlBehavior
 		}
 
 		// Include jQuery
-		JHtml::_('jquery.framework');
+		HTMLHelper::_('jquery.framework');
 
-		JHtml::_('script', 'vendor/minicolors/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
-		JHtml::_('stylesheet', 'vendor/minicolors/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
-		JFactory::getDocument()->addScriptDeclaration("
+		HTMLHelper::_('script', 'vendor/minicolors/jquery.minicolors.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('stylesheet', 'vendor/minicolors/jquery.minicolors.css', array('version' => 'auto', 'relative' => true));
+		Factory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('.minicolors').each(function() {
 						jQuery(this).minicolors({
@@ -380,11 +388,11 @@ abstract class JHtmlBehavior
 		}
 
 		// Include jQuery
-		JHtml::_('jquery.framework');
+		HTMLHelper::_('jquery.framework');
 
-		JHtml::_('script', 'system/js/fields/simplecolors.min.js', array('version' => 'auto', 'relative' => true));
-		JHtml::_('stylesheet', 'system/js/fields/simplecolors.css', array('version' => 'auto', 'relative' => true));
-		JFactory::getDocument()->addScriptDeclaration("
+		HTMLHelper::_('script', 'system/js/fields/simplecolors.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('stylesheet', 'system/js/fields/simplecolors.css', array('version' => 'auto', 'relative' => true));
+		Factory::getDocument()->addScriptDeclaration("
 				jQuery(document).ready(function (){
 					jQuery('select.simplecolors').simplecolors();
 				});
@@ -409,7 +417,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		$app            = JFactory::getApplication();
+		$app            = Factory::getApplication();
 		$sessionHandler = $app->get('session_handler', 'database');
 
 		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
@@ -428,16 +436,16 @@ abstract class JHtmlBehavior
 		}
 
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		$uri = 'index.php' . ($app->isClient('site') || !JFactory::getUser()->guest ? '?option=com_ajax&format=json' : '');
+		$uri = 'index.php' . ($app->isClient('site') || !Factory::getUser()->guest ? '?option=com_ajax&format=json' : '');
 
 		// Include core
 		static::core();
 
 		// Add keepalive script options.
-		JFactory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => JRoute::_($uri)));
+		Factory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => Route::_($uri)));
 
 		// Add script.
-		JHtml::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
 
 		static::$loaded[__METHOD__] = true;
 
@@ -482,16 +490,16 @@ abstract class JHtmlBehavior
 		static::core();
 
 		// Include jQuery
-		JHtml::_('jquery.framework');
+		HTMLHelper::_('jquery.framework');
 
-		JHtml::_('script', 'legacy/highlighter.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'legacy/highlighter.min.js', array('version' => 'auto', 'relative' => true));
 
 		foreach ($terms as $i => $term)
 		{
-			$terms[$i] = JFilterOutput::stringJSSafe($term);
+			$terms[$i] = OutputFilter::stringJSSafe($term);
 		}
 
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$document->addScriptDeclaration("
 			jQuery(function ($) {
 				var start = document.getElementById('" . $start . "');
@@ -527,7 +535,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function noframes()
 	{
-		JLog::add(__METHOD__ . ' is deprecated, add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.', JLog::WARNING, 'deprecated');
+		Log::add(__METHOD__ . ' is deprecated, add a X-Frame-Options HTTP Header with the SAMEORIGIN value instead.', Log::WARNING, 'deprecated');
 
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -539,7 +547,7 @@ abstract class JHtmlBehavior
 		static::core();
 
 		// Include jQuery
-		JHtml::_('jquery.framework');
+		HTMLHelper::_('jquery.framework');
 
 		$js = 'jQuery(function () {
 			if (top == self) {
@@ -553,11 +561,11 @@ abstract class JHtmlBehavior
 			// Firefox fix
 			jQuery("input[autofocus]").focus();
 		})';
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 		$document->addStyleDeclaration('html { display:none }');
 		$document->addScriptDeclaration($js);
 
-		JFactory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
+		Factory::getApplication()->setHeader('X-Frame-Options', 'SAMEORIGIN');
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -570,13 +578,13 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since       1.5
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JHtml::getJSObject() instead.
+	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use HTMLHelper::getJSObject() instead.
 	 */
 	protected static function _getJSObject($array = array())
 	{
-		JLog::add('JHtmlBehavior::_getJSObject() is deprecated. JHtml::getJSObject() instead..', JLog::WARNING, 'deprecated');
+		Log::add('JHtmlBehavior::_getJSObject() is deprecated. HTMLHelper::getJSObject() instead..', Log::WARNING, 'deprecated');
 
-		return JHtml::getJSObject($array);
+		return HTMLHelper::getJSObject($array);
 	}
 
 	/**
@@ -597,16 +605,6 @@ abstract class JHtmlBehavior
 	 */
 	public static function tabstate()
 	{
-		if (isset(self::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// @TODO remove the dependencies, deprecate this and incorporate the functionality in the tabs custom element!
-		JHtml::_('jquery.framework');
-		JHtml::_('behavior.polyfill', ['wgxpath']);
-		JHtml::_('script', 'legacy/tabs-state.min.js', ['version' => 'auto', 'relative' => true]);
-		self::$loaded[__METHOD__] = true;
 	}
 
 	/**
@@ -640,7 +638,7 @@ abstract class JHtmlBehavior
 			$scriptOptions = array('version' => 'auto', 'relative' => true);
 			$scriptOptions = $conditionalBrowser !== null ? array_replace($scriptOptions, array('conditional' => $conditionalBrowser)) : $scriptOptions;
 
-			JHtml::_('script', 'vendor/polyfills/polyfill-' . $polyfillType . '.js', $scriptOptions);
+			HTMLHelper::_('script', 'vendor/polyfills/polyfill-' . $polyfillType . '.js', $scriptOptions);
 
 			// Set static array
 			static::$loaded[__METHOD__][$sig] = true;
@@ -666,7 +664,7 @@ abstract class JHtmlBehavior
 
 		$jsscript = 1;
 
-		// To keep the code simple here, run strings through JText::_() using array_map()
+		// To keep the code simple here, run strings through Text::_() using array_map()
 		$callback = array('JText', '_');
 		$weekdays_full = array_map(
 			$callback, array(
@@ -693,39 +691,39 @@ abstract class JHtmlBehavior
 		);
 
 		// This will become an object in Javascript but define it first in PHP for readability
-		$today = " " . JText::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
+		$today = " " . Text::_('JLIB_HTML_BEHAVIOR_TODAY') . " ";
 		$text = array(
-			'INFO'           => JText::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
+			'INFO'           => Text::_('JLIB_HTML_BEHAVIOR_ABOUT_THE_CALENDAR'),
 			'ABOUT'          => "DHTML Date/Time Selector\n"
 				. "(c) dynarch.com 20022005 / Author: Mihai Bazon\n"
 				. "For latest version visit: http://www.dynarch.com/projects/calendar/\n"
 				. "Distributed under GNU LGPL.  See http://gnu.org/licenses/lgpl.html for details."
 				. "\n\n"
-				. JText::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION')
-				. JText::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT')
-				. JText::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT')
-				. JText::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE'),
+				. Text::_('JLIB_HTML_BEHAVIOR_DATE_SELECTION')
+				. Text::_('JLIB_HTML_BEHAVIOR_YEAR_SELECT')
+				. Text::_('JLIB_HTML_BEHAVIOR_MONTH_SELECT')
+				. Text::_('JLIB_HTML_BEHAVIOR_HOLD_MOUSE'),
 			'ABOUT_TIME'      => "\n\n"
 				. "Time selection:\n"
 				. " Click on any of the time parts to increase it\n"
 				. " or Shiftclick to decrease it\n"
 				. " or click and drag for faster selection.",
-			'PREV_YEAR'       => JText::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU'),
-			'PREV_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU'),
-			'GO_TODAY'        => JText::_('JLIB_HTML_BEHAVIOR_GO_TODAY'),
-			'NEXT_MONTH'      => JText::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
-			'SEL_DATE'        => JText::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
-			'DRAG_TO_MOVE'    => JText::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
+			'PREV_YEAR'       => Text::_('JLIB_HTML_BEHAVIOR_PREV_YEAR_HOLD_FOR_MENU'),
+			'PREV_MONTH'      => Text::_('JLIB_HTML_BEHAVIOR_PREV_MONTH_HOLD_FOR_MENU'),
+			'GO_TODAY'        => Text::_('JLIB_HTML_BEHAVIOR_GO_TODAY'),
+			'NEXT_MONTH'      => Text::_('JLIB_HTML_BEHAVIOR_NEXT_MONTH_HOLD_FOR_MENU'),
+			'SEL_DATE'        => Text::_('JLIB_HTML_BEHAVIOR_SELECT_DATE'),
+			'DRAG_TO_MOVE'    => Text::_('JLIB_HTML_BEHAVIOR_DRAG_TO_MOVE'),
 			'PART_TODAY'      => $today,
-			'DAY_FIRST'       => JText::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
-			'WEEKEND'         => JFactory::getLanguage()->getWeekEnd(),
-			'CLOSE'           => JText::_('JLIB_HTML_BEHAVIOR_CLOSE'),
-			'TODAY'           => JText::_('JLIB_HTML_BEHAVIOR_TODAY'),
-			'TIME_PART'       => JText::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
+			'DAY_FIRST'       => Text::_('JLIB_HTML_BEHAVIOR_DISPLAY_S_FIRST'),
+			'WEEKEND'         => Factory::getLanguage()->getWeekEnd(),
+			'CLOSE'           => Text::_('JLIB_HTML_BEHAVIOR_CLOSE'),
+			'TODAY'           => Text::_('JLIB_HTML_BEHAVIOR_TODAY'),
+			'TIME_PART'       => Text::_('JLIB_HTML_BEHAVIOR_SHIFT_CLICK_OR_DRAG_TO_CHANGE_VALUE'),
 			'DEF_DATE_FORMAT' => "%Y%m%d",
-			'TT_DATE_FORMAT'  => JText::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
-			'WK'              => JText::_('JLIB_HTML_BEHAVIOR_WK'),
-			'TIME'            => JText::_('JLIB_HTML_BEHAVIOR_TIME'),
+			'TT_DATE_FORMAT'  => Text::_('JLIB_HTML_BEHAVIOR_TT_DATE_FORMAT'),
+			'WK'              => Text::_('JLIB_HTML_BEHAVIOR_WK'),
+			'TIME'            => Text::_('JLIB_HTML_BEHAVIOR_TIME'),
 		);
 
 		return 'Calendar._DN = ' . json_encode($weekdays_full) . ';'

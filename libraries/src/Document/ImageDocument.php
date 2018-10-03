@@ -10,6 +10,8 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * ImageDocument class, provides an easy interface to output image data
  *
@@ -48,7 +50,7 @@ class ImageDocument extends Document
 	public function render($cache = false, $params = array())
 	{
 		// Get the image type
-		$type = \JFactory::getApplication()->input->get('type', 'png');
+		$type = Factory::getApplication()->input->get('type', 'png');
 
 		switch ($type)
 		{

@@ -12,8 +12,9 @@ namespace Joomla\CMS\Image\Filter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
+use Joomla\CMS\Log\Log;
 
-\JLog::add('JImageFilterNegate is deprecated, use Joomla\Image\Filter\Negate instead.', \JLog::WARNING, 'deprecated');
+Log::add('JImageFilterNegate is deprecated, use Joomla\Image\Filter\Negate instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class to negate the colors of an image.
