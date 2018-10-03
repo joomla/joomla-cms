@@ -63,16 +63,6 @@ class HtmlView extends BaseHtmlView
 		// Do we have a custom forum url?
 		$customForum = $params->get('forum_url') ? $params->get('forum_url') : '';
 
-		// Language forum link
-		$forumId = (int) Text::_('MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM_VALUE');
-
-		if (empty($forumId))
-		{
-			$forumId = 511;
-		}
-
-		$forum_url = 'https://forum.joomla.org/viewforum.php?f=' . $forumId;
-
 		$links = [
 			// System configuration
 			'help' => [
@@ -97,7 +87,7 @@ class HtmlView extends BaseHtmlView
 				'icon'    => 'info'
 			],
 			'help_official_language' => [
-				'link'    => $forum_url,
+				'link'    => 'index.php?option=com_admin&amp;view=help&amp;layout=langforum',
 				'title'   => 'MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM',
 				'label'   => 'MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM',
 				'desc'    => 'MOD_MENU_HELP_SUPPORT_OFFICIAL_LANGUAGE_FORUM',
