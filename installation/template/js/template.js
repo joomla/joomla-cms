@@ -34,7 +34,7 @@
 	Joomla.goToPage = function(page, fromSubmit) {
 		if (!fromSubmit) {
 			Joomla.removeMessages();
-            document.body.appendChild(document.createElement('joomla-core-loader'));
+			document.body.appendChild(document.createElement('joomla-core-loader'));
 		}
 
 		if (page) {
@@ -52,7 +52,7 @@
 	Joomla.submitform = function(form) {
 		var data = Joomla.serialiseForm(form);
 
-        document.body.appendChild(document.createElement('joomla-core-loader'));
+		document.body.appendChild(document.createElement('joomla-core-loader'));
 		Joomla.removeMessages();
 
 		Joomla.request({
@@ -69,19 +69,19 @@
 
 				if (response.error) {
 					Joomla.renderMessages({'error': [response.message]});
-                    var el = document.querySelector('joomla-core-loader')
-                    el.parentNode.removeChild(el);
+					var el = document.querySelector('joomla-core-loader')
+					el.parentNode.removeChild(el);
 				} else {
-                    var el = document.querySelector('joomla-core-loader')
-                    el.parentNode.removeChild(el);
+					var el = document.querySelector('joomla-core-loader')
+					el.parentNode.removeChild(el);
 					if (response.data && response.data.view) {
 						Install.goToPage(response.data.view, true);
 					}
 				}
 			},
 			onError  : function (xhr) {
-                var el = document.querySelector('joomla-core-loader')
-                el.parentNode.removeChild(el);
+				var el = document.querySelector('joomla-core-loader')
+				el.parentNode.removeChild(el);
 				busy = false;
 				try {
 					var r = JSON.parse(xhr.responseText);
@@ -193,8 +193,8 @@
 					Joomla.renderMessages(response.messages);
 					Joomla.goToPage(response.data.view, true);
 				} else {
-                    var el = document.querySelector('joomla-core-loader')
-                    el.parentNode.removeChild(el);
+					var el = document.querySelector('joomla-core-loader')
+					el.parentNode.removeChild(el);
 					Joomla.install(tasks, form);
 				}
 			},

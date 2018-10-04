@@ -15,7 +15,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
 
 Text::script('MOD_SAMPLEDATA_CONFIRM_START');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');

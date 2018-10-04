@@ -84,8 +84,33 @@ if ((string) $readonly == '1'
 
 if ($enabledCF === true)
 {
+	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
+
+
 	$attr .= ' data-cat-id="' . $catId . '" data-form-id="' . $formId . '" data-section="' . $section . '"';
 	$attr .= ' onchange="Joomla.categoryHasChanged(this)"';
+
+	// Preload spindle-wheel when we need to submit form due to category selector changed
+	\Joomla\CMS\Factory::getDocument()->addScriptDeclaration(
+<<<JS
+document.addEventListener('DOMContentLoaded', function() {
+	var element = document.querySelector('#$id');
+	if (!element.value != element.getAttribute('data-cat-id')) {
+		element.value = element.getAttribute('data-cat-id');
+	}
+
+	Joomla.categoryHasChanged = function (el) {
+		if (el.value == el.getAttribute('data-cat-id')) {
+			return;
+		}
+
+		document.body.appendChild(document.createElement('joomla-core-loader'));
+		document.querySelector('input[name=task]').value = el.getAttribute('data-section') + '.reload';
+		element.form.submit();
+	};
+});
+JS
+	);
 }
 else
 {
@@ -129,31 +154,7 @@ else
 		$options[0]->lft       = '1';
 	}
 
-	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
-
 	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
 echo implode($html);
-
-// Preload spindle-wheel when we need to submit form due to category selector changed
-\Joomla\CMS\Factory::getDocument()->addScriptDeclaration(
-<<<JS
-document.addEventListener('DOMContentLoaded', function() {
-	var element = document.querySelector('#$id');
-	if (!element.value != element.getAttribute('data-cat-id')) {
-		element.value = element.getAttribute('data-cat-id');
-	}
-
-	Joomla.categoryHasChanged = function (el) {
-		if (el.value == el.getAttribute('data-cat-id')) {
-			return;
-		}
-
-		document.body.appendChild(document.createElement('joomla-core-loader'));
-		document.querySelector('input[name=task]').value = el.getAttribute('data-section') + '.reload';
-		element.form.submit();
-	};
-});
-JS
-);
