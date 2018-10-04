@@ -395,7 +395,7 @@ final class SiteApplication extends CMSApplication
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = Factory::getConfig()->get('sef');
+		$options['mode'] = Factory::getApplication()->get('sef');
 
 		return parent::getRouter($name, $options);
 	}

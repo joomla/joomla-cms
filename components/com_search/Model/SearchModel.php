@@ -60,12 +60,10 @@ class SearchModel extends BaseDatabaseModel
 	{
 		parent::__construct();
 
-		// Get configuration
-		$app    = Factory::getApplication();
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		// Get the pagination request variables
-		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $config->get('list_limit'), 'uint'));
+		$this->setState('limit', $app->getUserStateFromRequest('com_search.limit', 'limit', $app->get('list_limit'), 'uint'));
 		$this->setState('limitstart', $app->input->get('limitstart', 0, 'uint'));
 
 		// Get parameters.

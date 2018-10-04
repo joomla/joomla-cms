@@ -120,7 +120,7 @@ class LanguageModel extends AdminModel
 		// Set a valid accesslevel in case '0' is stored due to a bug in the installation SQL (was fixed with PR 2714).
 		if ($table->access == '0')
 		{
-			$table->access = (int) Factory::getConfig()->get('access');
+			$table->access = (int) Factory::getApplication()->get('access');
 		}
 
 		$properties = $table->getProperties(1);
