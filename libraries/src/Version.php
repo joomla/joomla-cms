@@ -60,7 +60,7 @@ final class Version
 	 * @var    string
 	 * @since  3.8.0
 	 */
-	const EXTRA_VERSION = 'beta4-dev';
+	const EXTRA_VERSION = 'rc-dev';
 
 	/**
 	 * Release version.
@@ -78,7 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-	const DEV_LEVEL = '0-beta4-dev';
+	const DEV_LEVEL = '0-rc-dev';
 
 	/**
 	 * Development status.
@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '26-September-2018';
+	const RELDATE = '3-October-2018';
 
 	/**
 	 * Release time.
