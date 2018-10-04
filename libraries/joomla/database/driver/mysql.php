@@ -138,6 +138,17 @@ class JDatabaseDriverMysql extends JDatabaseDriverMysqli
 	 */
 	public function escape($text, $extra = false)
 	{
+		if (is_int($text))
+		{
+			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
 		$this->connect();
 
 		$result = mysql_real_escape_string($text, $this->getConnection());

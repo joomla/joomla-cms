@@ -147,9 +147,15 @@ class JDatabaseDriverSqlite extends JDatabaseDriverPdo
 	 */
 	public function escape($text, $extra = false)
 	{
-		if (is_int($text) || is_float($text))
+		if (is_int($text))
 		{
 			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
 		}
 
 		return SQLite3::escapeString($text);

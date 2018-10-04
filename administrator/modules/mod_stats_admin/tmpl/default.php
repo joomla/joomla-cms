@@ -8,9 +8,37 @@
  */
 
 defined('_JEXEC') or die;
+
+JHtml::_('jquery.framework');
+JFactory::getDocument()->addScriptDeclaration('
+	jQuery(document).ready(function($) {
+		$("a.js-revert").on("click", function(e) {
+			e.preventDefault();
+			e.stopPropagation();
+
+			var activeTab = [];
+			activeTab.push("#" + e.target.href.split("#")[1]);
+			var path = window.location.pathname;
+			localStorage.removeItem(e.target.href.replace(/&return=[a-zA-Z0-9%]+/, "").replace(/&[a-zA-Z-_]+=[0-9]+/, ""));
+			localStorage.setItem(path + e.target.href.split("index.php")[1].split("#")[0], JSON.stringify(activeTab));
+			return window.location.href = e.target.href.split("#")[0];
+		});
+	});
+');
 ?>
-<ul class="list-striped list-condensed stats-module<?php echo $moduleclass_sfx ?>">
+<div class="row-striped">
 	<?php foreach ($list as $item) : ?>
-		<li><span class="icon-<?php echo $item->icon; ?>" title="<?php echo $item->title; ?>" aria-hidden="true"></span> <?php echo $item->title; ?> <?php echo $item->data; ?></li>
+		<div class="row-fluid">
+			<div class="span4">
+				<span class="icon-<?php echo $item->icon; ?>" aria-hidden="true"></span> <?php echo $item->title; ?>
+			</div>
+			<div class="span8">
+				<?php if (isset($item->link)) : ?>
+					<a class="btn btn-info btn-small js-revert" href="<?php echo $item->link; ?>"><?php echo $item->data; ?></a>
+				<?php else : ?>
+					<?php echo $item->data; ?>
+				<?php endif; ?>
+			</div>
+		</div>
 	<?php endforeach; ?>
-</ul>
+</div>

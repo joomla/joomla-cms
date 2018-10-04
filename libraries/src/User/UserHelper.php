@@ -300,18 +300,20 @@ abstract class UserHelper
 	/**
 	 * Hashes a password using the current encryption.
 	 *
-	 * @param   string  $password  The plaintext password to encrypt.
+	 * @param   string   $password   The plaintext password to encrypt.
+	 * @param   integer  $algorithm  The hashing algorithm to use, represented by `PASSWORD_*` constants.
+	 * @param   array    $options    The options for the algorithm to use.
 	 *
 	 * @return  string  The encrypted password.
 	 *
 	 * @since   3.2.1
 	 */
-	public static function hashPassword($password)
+	public static function hashPassword($password, $algorithm = PASSWORD_BCRYPT, array $options = array())
 	{
 		// \JCrypt::hasStrongPasswordSupport() includes a fallback for us in the worst case
 		\JCrypt::hasStrongPasswordSupport();
 
-		return password_hash($password, PASSWORD_BCRYPT);
+		return password_hash($password, $algorithm, $options);
 	}
 
 	/**
@@ -329,6 +331,8 @@ abstract class UserHelper
 	 */
 	public static function verifyPassword($password, $hash, $user_id = 0)
 	{
+		$passwordAlgorithm = PASSWORD_BCRYPT;
+
 		// If we are using phpass
 		if (strpos($hash, '$P$') === 0)
 		{
@@ -339,6 +343,16 @@ abstract class UserHelper
 
 			$rehash = true;
 		}
+		// Check for Argon2id hashes
+		elseif (strpos($hash, '$argon2id') === 0)
+		{
+			// This implementation is not supported through any existing polyfills
+			$match = password_verify($password, $hash);
+
+			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2ID);
+
+			$passwordAlgorithm = PASSWORD_ARGON2ID;
+		}
 		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
@@ -346,6 +360,8 @@ abstract class UserHelper
 			$match = password_verify($password, $hash);
 
 			$rehash = password_needs_rehash($hash, PASSWORD_ARGON2I);
+
+			$passwordAlgorithm = PASSWORD_ARGON2I;
 		}
 		// Check for bcrypt hashes
 		elseif (strpos($hash, '$2') === 0)
@@ -386,7 +402,7 @@ abstract class UserHelper
 		if ((int) $user_id > 0 && $match && $rehash)
 		{
 			$user = new User($user_id);
-			$user->password = static::hashPassword($password);
+			$user->password = static::hashPassword($password, $passwordAlgorithm);
 			$user->save();
 		}
 
@@ -741,7 +757,7 @@ abstract class UserHelper
 		$query
 			->update($db->quoteName('#__user_keys'))
 			->set($db->quoteName('invalid') . ' = 1')
-			->where($db->quotename('user_id') . ' = ' . $db->quote($userId));
+			->where($db->quoteName('user_id') . ' = ' . $db->quote($userId));
 
 		$db->setQuery($query)->execute();
 

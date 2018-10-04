@@ -50,11 +50,11 @@ class MenusViewMenutypes extends JViewLegacy
 				$tmp[JText::_($item->title)] = $item;
 			}
 
-			ksort($tmp);
+			uksort($tmp, 'strcasecmp');
 			$sortedTypes[JText::_($name)] = $tmp;
 		}
 
-		ksort($sortedTypes);
+		uksort($sortedTypes, 'strcasecmp');
 
 		$this->types = $sortedTypes;
 
@@ -89,7 +89,7 @@ class MenusViewMenutypes extends JViewLegacy
 	/**
 	 * Method to add system link types to the link types array
 	 *
-	 * @param   array  &$types  The list of link types
+	 * @param   array  $types  The list of link types
 	 *
 	 * @return  void
 	 *

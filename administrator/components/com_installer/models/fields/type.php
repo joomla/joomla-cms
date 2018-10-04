@@ -14,7 +14,7 @@ JLoader::register('InstallerHelper', JPATH_ADMINISTRATOR . '/components/com_inst
 JFormHelper::loadFieldClass('list');
 
 /**
- * Type field.
+ * Form field for a list of extension types.
  *
  * @since  3.5
  */

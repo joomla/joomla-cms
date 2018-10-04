@@ -28,6 +28,7 @@
 					label="MOD_POPULAR_FIELD_COUNT_LABEL"
 					description="MOD_POPULAR_FIELD_COUNT_DESC"
 					default="5"
+					filter="integer"
 				/>
 
 				<field
@@ -38,6 +39,7 @@
 					id="catid"
 					extension="com_content"
 					default=""
+					filter="integer"
 					>
 					<option value="">JOPTION_ANY_CATEGORY</option>
 				</field>
@@ -60,7 +62,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
@@ -78,6 +80,7 @@
 					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

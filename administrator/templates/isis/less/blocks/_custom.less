@@ -21,8 +21,10 @@
 .pagination-toolbar a {
 	line-height: 26px;
 }
-/* Toolbar dropdown */
-.pull-right > .dropdown-menu {
+
+/* Dropdown */
+.pull-right > .dropdown-menu,
+.dropdown-reverse {
 	left: auto;
 	right: 0;
 }
@@ -291,4 +293,14 @@ textarea:focus, input:focus, .uneditable-input:focus {
 /* Overrid font-weight 200 */
 .lead, .navbar .brand, .hero-unit, .hero-unit .lead {
 	font-weight: 400;
+}
+
+/* Stick permissions tab */
+@media (min-width: @xl) {
+	#permissions {
+		.tab-content {
+			position: sticky;
+			top: 90px;
+		}
+	}
 }

@@ -42,7 +42,7 @@ libraries/src/Updater/*  @mbabker @rdeutz @wilsonge @zero-24
 build/jenkins/*  @mbabker @rdeutz
 build/travis/*  @mbabker @rdeutz
 tests/codeception/*  @rdeutz
-tests/javascript/*  @dgt41 @rdeutz
+tests/javascript/*  @dgrammatiko @rdeutz
 tests/unit/*  @mbabker @rdeutz
 .appveyor.yml  @mbabker @rdeutz
 .drone.yml  @rdeutz
@@ -50,11 +50,11 @@ tests/unit/*  @mbabker @rdeutz
 .travis.yml  @mbabker @rdeutz
 appveyor-phpunit.xml  @mbabker @rdeutz
 codeception.yml  @rdeutz
-karma.conf.js  @dgt41 @rdeutz
+karma.conf.js  @dgrammatiko @rdeutz
 phpunit.xml.dist  @mbabker @rdeutz
 RoboFile.dist.ini  @rdeutz
 RoboFile.php  @rdeutz
 travis-phpunit.xml  @mbabker @rdeutz
 
 # Core JS
-media/*/js/*  @dgt41
+media/*/js/*  @dgrammatiko

@@ -9,13 +9,37 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Multilanguage;
+
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 // Create some shortcuts.
-$params    = &$this->item->params;
-$n         = count($this->items);
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$params     = &$this->item->params;
+$n          = count($this->items);
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
+$langFilter = false;
+
+// Tags filtering based on language filter 
+if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled()))
+{ 
+	$tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
+
+	switch ($tagfilter)
+	{
+		case 'current_language' :
+			$langFilter = JFactory::getApplication()->getLanguage()->getTag();
+			break;
+
+		case 'all' :
+			$langFilter = false;
+			break;
+
+		default :
+			$langFilter = $tagfilter;
+	}
+}
 
 // Check for at least one editable article
 $isEditable = false;
@@ -47,16 +71,21 @@ $tableClass = $this->params->get('show_headings') != 1 ? ' table-noheader' : '';
 		<legend class="hide"><?php echo JText::_('COM_CONTENT_FORM_FILTER_LEGEND'); ?></legend>
 		<?php if ($this->params->get('filter_field') !== 'hide') : ?>
 			<div class="btn-group">
-				<?php if ($this->params->get('filter_field') !== 'tag') : ?>
+				<?php if ($this->params->get('filter_field') === 'tag') : ?>
+					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();">
+						<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
+						<?php echo JHtml::_('select.options', JHtml::_('tag.options', array('filter.published' => array(1), 'filter.language' => $langFilter), true), 'value', 'text', $this->state->get('filter.tag')); ?>
+					</select>
+				<?php elseif ($this->params->get('filter_field') === 'month') : ?>
+					<select name="filter-search" id="filter-search" onchange="document.adminForm.submit();">
+						<option value=""><?php echo JText::_('JOPTION_SELECT_MONTH'); ?></option>
+						<?php echo JHtml::_('select.options', JHtml::_('content.months', $this->state), 'value', 'text', $this->state->get('list.filter')); ?>
+					</select>
+				<?php else : ?>
 					<label class="filter-search-lbl element-invisible" for="filter-search">
 						<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL') . '&#160;'; ?>
 					</label>
 					<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo JText::_('COM_CONTENT_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo JText::_('COM_CONTENT_' . $this->params->get('filter_field') . '_FILTER_LABEL'); ?>" />
-				<?php else : ?>
-					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
-						<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
-						<?php echo JHtml::_('select.options', JHtml::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
-					</select>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>

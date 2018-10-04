@@ -30,6 +30,7 @@
 					label="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_DESC"
 					extension="com_content"
+					filter="integer"
 					published=""
 					required="true"
 					select="true"
@@ -45,6 +46,7 @@
 					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -57,6 +59,7 @@
 					description="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -69,6 +72,7 @@
 					description="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -80,6 +84,7 @@
 					label="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -100,6 +105,7 @@
 					label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -129,6 +135,7 @@
 					label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_DESC"
 					default="4"
+					filter="integer"
 					>
 					<option value="1">JH1</option>
 					<option value="2">JH2</option>
@@ -151,6 +158,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -162,6 +170,7 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

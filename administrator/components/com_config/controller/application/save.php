@@ -71,15 +71,15 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
-		// Save the posted data in the session.
-		$this->app->setUserState('com_config.config.global.data', $data);
-
 		// Check for validation errors.
 		if ($return === false)
 		{
 			/*
 			 * The validate method enqueued all messages for us, so we just need to redirect back.
 			 */
+
+			// Save the posted data in the session.
+			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
@@ -89,9 +89,6 @@ class ConfigControllerApplicationSave extends JControllerBase
 		$data   = $return;
 		$return = $model->save($data);
 
-		// Save the validated data in the session.
-		$this->app->setUserState('com_config.config.global.data', $data);
-
 		// Check the return value.
 		if ($return === false)
 		{
@@ -99,12 +96,18 @@ class ConfigControllerApplicationSave extends JControllerBase
 			 * The save method enqueued all messages for us, so we just need to redirect back.
 			 */
 
+			// Save the validated data in the session.
+			$this->app->setUserState('com_config.config.global.data', $data);
+
 			// Save failed, go back to the screen and display a notice.
 			$this->app->redirect(JRoute::_('index.php?option=com_config&controller=config.display.application', false));
 		}
 
 		// Set the success message.
 		$this->app->enqueueMessage(JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
+
+		// Clear the data from the session.
+		$this->app->setUserState('com_config.config.global.data', null);
 
 		// Set the redirect based on the task.
 		switch ($this->options[3])

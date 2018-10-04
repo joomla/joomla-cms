@@ -24,11 +24,21 @@ use Joomla\CMS\Filter\InputFilter;
  * @property-read   Input   $post
  * @property-read   Input   $request
  * @property-read   Input   $server
+ * @property-read   Input   $env
  * @property-read   Files   $files
  * @property-read   Cookie  $cookie
  */
 class Input extends \Joomla\Input\Input
 {
+	/**
+	 * Container with allowed superglobals
+	 *
+	 * @var    array
+	 * @since  3.8.9
+	 * @deprecated  5.0  Use Joomla\Input\Input instead
+	 */
+	private static $allowedGlobals = array('REQUEST', 'GET', 'POST', 'FILES', 'SERVER', 'ENV');
+
 	/**
 	 * Input objects
 	 *
@@ -85,7 +95,7 @@ class Input extends \Joomla\Input\Input
 
 		$superGlobal = '_' . strtoupper($name);
 
-		if (isset($GLOBALS[$superGlobal]))
+		if (in_array(strtoupper($name), self::$allowedGlobals, true) && isset($GLOBALS[$superGlobal]))
 		{
 			$this->inputs[$name] = new Input($GLOBALS[$superGlobal], $this->options);
 

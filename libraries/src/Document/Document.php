@@ -612,7 +612,7 @@ class Document
 
 		if ($merge && is_array($options))
 		{
-			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
+			$this->scriptOptions[$key] = array_replace_recursive($this->scriptOptions[$key], $options);
 		}
 		else
 		{

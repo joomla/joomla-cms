@@ -37,7 +37,7 @@ $dispatcher = JEventDispatcher::getInstance();
 		</div>
 
 		<div class="imgPreview nowrap small">
-			<a href="<?php echo COM_MEDIA_BASEURL, '/', rawurlencode($img->path_relative); ?>" title="<?php echo $this->escape($img->name); ?>" class="preview truncate">
+			<a href="<?php echo COM_MEDIA_BASEURL . '/' . str_replace('%2F', '/', rawurlencode($img->path_relative)); ?>" title="<?php echo $this->escape($img->name); ?>" class="preview truncate">
 				<span class="icon-search" aria-hidden="true"></span><?php echo $this->escape($img->name); ?>
 			</a>
 		</div>

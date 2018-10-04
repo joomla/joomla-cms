@@ -1004,7 +1004,7 @@ class JApplication extends BaseApplication
 			// but fires the query less than half the time.
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
+				->where($db->quoteName('time') . ' < ' . (int) ($time - $session->getExpire()));
 
 			$db->setQuery($query);
 			$db->execute();
@@ -1055,7 +1055,7 @@ class JApplication extends BaseApplication
 			{
 				$query->insert($db->quoteName('#__session'))
 					->columns($db->quoteName('session_id') . ', ' . $db->quoteName('client_id') . ', ' . $db->quoteName('time'))
-					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . $db->quote((int) time()));
+					->values($db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . time());
 				$db->setQuery($query);
 			}
 			else
@@ -1067,7 +1067,7 @@ class JApplication extends BaseApplication
 					)
 					->values(
 						$db->quote($session->getId()) . ', ' . (int) $this->getClientId() . ', ' . (int) $user->get('guest') . ', ' .
-						$db->quote((int) $session->get('session.timer.start')) . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
+						(int) $session->get('session.timer.start') . ', ' . (int) $user->get('id') . ', ' . $db->quote($user->get('username'))
 					);
 
 				$db->setQuery($query);

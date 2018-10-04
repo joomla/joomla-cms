@@ -120,6 +120,12 @@ class ContenthistoryModelHistory extends JModelList
 		{
 			if ($table->load($pk))
 			{
+				if ($table->keep_forever === "1")
+				{
+					unset($pks[$i]);
+					continue;
+				}
+
 				if ($this->canEdit($table))
 				{
 					if (!$table->delete($pk))

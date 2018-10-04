@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHtml::_('behavior.core');
 JHtml::_('formbehavior.chosen', 'select');
 
-$n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
@@ -55,7 +54,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<div class="clearfix"></div>
 		</fieldset>
 	<?php endif; ?>
-	<?php if ($this->items === false || $n === 0) : ?>
+	<?php if (empty($this->items)) : ?>
 		<p><?php echo JText::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 		<table class="category table table-striped table-bordered table-hover">
@@ -81,13 +80,13 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php endif; ?>
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-					<?php if ($this->items[$i]->core_state == 0) : ?>
+					<?php if ($item->core_state == 0) : ?>
 						<tr class="system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else : ?>
 						<tr class="cat-list-row<?php echo $i % 2; ?>">
 					<?php endif; ?>
 						<td <?php if ($this->params->get('show_headings')) echo "headers=\"categorylist_header_title\""; ?> class="list-title">
-							<a href="<?php echo JRoute::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
+							<a href="<?php echo JRoute::_($item->link); ?>">
 								<?php echo $this->escape($item->core_title); ?>
 							</a>
 							<?php if ($item->core_state == 0) : ?>
@@ -109,9 +108,7 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-	<?php endif; ?>
-	<?php // Add pagination links ?>
-	<?php if (!empty($this->items)) : ?>
+		<?php // Add pagination links ?>
 		<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 			<div class="pagination">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>

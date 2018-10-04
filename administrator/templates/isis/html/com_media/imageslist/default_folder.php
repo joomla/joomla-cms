@@ -17,7 +17,7 @@ $input = JFactory::getApplication()->input;
 			<span class="icon-folder-2"></span>
 		</div>
 		<div class="small">
-			<?php echo JHtml::_('string.truncate', $this->_tmp_folder->name, 10, false); ?>
+			<?php echo JHtml::_('string.truncate', $this->escape($this->_tmp_folder->name), 10, false); ?>
 		</div>
 	</a>
 </li>

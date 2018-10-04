@@ -41,6 +41,7 @@
 					description="MOD_VERSION_PRODUCT_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -51,7 +52,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
+					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
 				/>
 
 				<field
