@@ -88,7 +88,7 @@ class ApplicationHelper
 	 */
 	public static function stringURLSafe($string, $language = '')
 	{
-		if (Factory::getConfig()->get('unicodeslugs') == 1)
+		if (Factory::getApplication()->get('unicodeslugs') == 1)
 		{
 			$output = OutputFilter::stringURLUnicodeSlug($string);
 		}
