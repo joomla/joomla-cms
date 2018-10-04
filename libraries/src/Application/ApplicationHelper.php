@@ -71,7 +71,7 @@ class ApplicationHelper
 	 */
 	public static function getHash($seed)
 	{
-		return md5(Factory::getConfig()->get('secret') . $seed);
+		return md5(Factory::getApplication()->get('secret') . $seed);
 	}
 
 	/**
