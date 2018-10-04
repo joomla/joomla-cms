@@ -77,8 +77,7 @@
 
           if (availableTrans[checkedBox.value].length > 1) {
             showModal = true;
-          }
-          else {
+          } else {
             delete availableTrans[checkedBox.value];
           }
         }
@@ -117,8 +116,7 @@
         e.stopPropagation();
 
         Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_PUBlISH')] });
-      }
-      else {
+      } else {
         checkTransition(e, 'publish');
       }
     });
@@ -128,8 +126,7 @@
         e.stopPropagation();
 
         Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_UNPUBlISH')] });
-      }
-      else {
+      } else {
         checkTransition(e, 'unpublish');
       }
     });
@@ -139,8 +136,7 @@
         e.stopPropagation();
 
         Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_ARCHIVE')] });
-      }
-      else {
+      } else {
         checkTransition(e, 'archive');
       }
     });
@@ -150,8 +146,7 @@
         e.stopPropagation();
 
         Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_TRASH')] });
-      }
-      else {
+      } else {
         checkTransition(e, 'trash');
       }
     });
@@ -159,8 +154,7 @@
     function setOrRemDisabled(btn, set) {
       if (set) {
         btn.classList.remove('disabled');
-      }
-      else {
+      } else {
         btn.classList.add('disabled');
       }
     }
