@@ -17,44 +17,65 @@
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
-      "toolbar-button"
+      "toolbar-button",
+      "core-loader"
     ],
     "webcomponents": {
+      "core-loader": {
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
+      },
+      "field-user": {
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
+      },
       "field-media": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
+      },
+      "field-permissions": {
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
+      },
+      "hidden-mail": {
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
+      },
+      "toolbar-button": {
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
       },
       "field-switcher": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
       },
       "field-simple-color": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
       },
       "field-send-test-mail": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
       },
       "editor-codemirror": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
       },
       "editor-none": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
       },
       "field-module-order": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
       },
       "field-hidden-mail": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
       },
       "field-subform": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
+        "css": "system/webcomponents/css",
+        "js": "system/webcomponents/js"
       }
     },
     "vendors": {

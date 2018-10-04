@@ -34,7 +34,7 @@
 	Joomla.goToPage = function(page, fromSubmit) {
 		if (!fromSubmit) {
 			Joomla.removeMessages();
-			Joomla.loadingLayer("show");
+			document.body.appendChild(document.createElement('joomla-core-loader'));
 		}
 
 		if (page) {
@@ -52,7 +52,7 @@
 	Joomla.submitform = function(form) {
 		var data = Joomla.serialiseForm(form);
 
-		Joomla.loadingLayer("show");
+		document.body.appendChild(document.createElement('joomla-core-loader'));
 		Joomla.removeMessages();
 
 		Joomla.request({
@@ -69,16 +69,19 @@
 
 				if (response.error) {
 					Joomla.renderMessages({'error': [response.message]});
-					Joomla.loadingLayer("hide");
+					var el = document.querySelector('joomla-core-loader')
+					el.parentNode.removeChild(el);
 				} else {
-					Joomla.loadingLayer("hide");
+					var el = document.querySelector('joomla-core-loader')
+					el.parentNode.removeChild(el);
 					if (response.data && response.data.view) {
 						Install.goToPage(response.data.view, true);
 					}
 				}
 			},
 			onError  : function (xhr) {
-				Joomla.loadingLayer("hide");
+				var el = document.querySelector('joomla-core-loader')
+				el.parentNode.removeChild(el);
 				busy = false;
 				try {
 					var r = JSON.parse(xhr.responseText);
@@ -140,9 +143,6 @@
 			document.formvalidator.attachToForm(form);
 		});
 
-		// Create and append the loading layer.
-		Joomla.loadingLayer("load");
-
 		// Check for FTP credentials
 		Joomla.installation = Joomla.installation || {};
 
@@ -178,7 +178,7 @@
 
 		var task = tasks.shift();
 		var data = Joomla.serialiseForm(form);
-		Joomla.loadingLayer("show");
+        document.body.appendChild(document.createElement('joomla-core-loader'));
 
 		Joomla.request({
 			method: "POST",
@@ -193,7 +193,8 @@
 					Joomla.renderMessages(response.messages);
 					Joomla.goToPage(response.data.view, true);
 				} else {
-					Joomla.loadingLayer('hide');
+					var el = document.querySelector('joomla-core-loader')
+					el.parentNode.removeChild(el);
 					Joomla.install(tasks, form);
 				}
 			},

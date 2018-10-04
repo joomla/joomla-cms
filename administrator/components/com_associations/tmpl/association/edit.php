@@ -17,8 +17,9 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('jquery.framework');
 
-HTMLHelper::_('script', 'com_associations/sidebyside.js', false, true);
-HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', array(), true);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-core-loader.min.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_associations/sidebyside.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['relative' => true, 'version' => 'auto']);
 
 $options = array(
 			'layout'   => $this->app->input->get('layout', '', 'string'),
