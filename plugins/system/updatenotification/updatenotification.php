@@ -19,7 +19,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Component\Installer\Administrator\Model\UpdateModel;
 use Joomla\CMS\Log\Log;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
@@ -141,7 +140,8 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		}
 
 		// Get the update model and retrieve the Joomla! core updates
-		$model = new UpdateModel(array('ignore_request' => true));
+		$model = Factory::getApplication()->bootComponent('com_installer')
+			->createMVCFactory(Factory::getApplication())->createModel('Update', 'Administrator', ['ignore_request' => true]);
 		$model->setState('filter.extension_id', $eid);
 		$updates = $model->getItems();
 
