@@ -32,7 +32,7 @@ class TransitionTable extends Table
 	{
 		parent::__construct('#__workflow_transitions', 'id', $db);
 
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**

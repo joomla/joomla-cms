@@ -109,7 +109,7 @@ class HtmlView extends BaseHtmlView
 			'btn-success'
 		);
 		ToolbarHelper::divider();
-		ToolbarHelper::cancel('application.cancel');
+		ToolbarHelper::cancel('application.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_SITE_GLOBAL_CONFIGURATION');
 	}

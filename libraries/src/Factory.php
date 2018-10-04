@@ -281,7 +281,7 @@ abstract class Factory
 	 */
 	public static function getUser($id = null)
 	{
-		$instance = self::getSession()->get('user');
+		$instance = self::getApplication()->getSession()->get('user');
 
 		if (is_null($id))
 		{

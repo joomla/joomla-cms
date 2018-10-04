@@ -644,11 +644,11 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
 			'result'       => true,
 		];
 
@@ -664,7 +664,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 
 		// Trigger the onContentCleanCache event.
-		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		$app->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**
