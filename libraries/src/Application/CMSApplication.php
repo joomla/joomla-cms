@@ -671,8 +671,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  boolean  True if this application is administrator.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
+	 * @since       3.2
+	 * @deprecated  5.0 Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
@@ -684,8 +684,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  boolean  True if this application is site.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
+	 * @since       3.2
+	 * @deprecated  5.0 Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
