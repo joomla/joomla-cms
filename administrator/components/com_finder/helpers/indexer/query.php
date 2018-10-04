@@ -743,7 +743,7 @@ class FinderIndexerQuery
 		$input  = StringHelper::strtolower($input);
 		$input  = preg_replace('#\s+#mi', ' ', $input);
 		$input  = trim($input);
-		$debug  = JFactory::getConfig()->get('debug_lang');
+		$debug  = JFactory::getApplication()->get('debug_lang');
 		$params = ComponentHelper::getParams('com_finder');
 
 		/*

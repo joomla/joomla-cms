@@ -28,7 +28,9 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
+					</div>
 				<?php else : ?>
 				<table class="table">
 					<caption id="captionTable" class="sr-only">
