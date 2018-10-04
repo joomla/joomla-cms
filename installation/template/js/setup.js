@@ -12,7 +12,7 @@
 Joomla.setlanguage = function(form) {
 	var data = Joomla.serialiseForm(form);
 
-	Joomla.loadingLayer("show");
+    document.body.appendChild(document.createElement('joomla-core-loader'));
 	Joomla.removeMessages();
 
 	Joomla.request({
@@ -30,14 +30,17 @@ Joomla.setlanguage = function(form) {
 
 			if (response.error) {
 				Joomla.renderMessages({'error': [response.message]});
-				Joomla.loadingLayer("hide");
+				var el = document.querySelector('joomla-core-loader')
+				el.parentNode.removeChild(el);
 			} else {
-				Joomla.loadingLayer("hide");
+                var el = document.querySelector('joomla-core-loader')
+                el.parentNode.removeChild(el);
 				Joomla.goToPage(response.data.view, true);
 			}
 		},
 		onError:   function(xhr){
-			Joomla.loadingLayer("hide");
+            var el = document.querySelector('joomla-core-loader')
+            el.parentNode.removeChild(el);
 			try {
 				var r = JSON.parse(xhr.responseText);
 				Joomla.replaceTokens(r.token);
@@ -71,7 +74,7 @@ Joomla.checkInputs = function() {
 
 
 Joomla.checkDbCredentials = function() {
-	Joomla.loadingLayer("show");
+    document.body.appendChild(document.createElement('joomla-core-loader'));
 
 	var form = document.getElementById('adminForm'),
 		data = Joomla.serialiseForm(form);
@@ -89,7 +92,8 @@ Joomla.checkDbCredentials = function() {
 			}
 
 			Joomla.replaceTokens(response.token);
-			Joomla.loadingLayer("hide");
+            var el = document.querySelector('joomla-core-loader')
+            el.parentNode.removeChild(el);
 
 			if (response.error) {
 				Joomla.renderMessages({'error': [response.message]});
@@ -102,7 +106,8 @@ Joomla.checkDbCredentials = function() {
 		onError:   function(xhr){
 			Joomla.renderMessages([['', Joomla.JText._('JLIB_DATABASE_ERROR_DATABASE_CONNECT', 'A Database error occurred.')]]);
 			//Install.goToPage('summary');
-			Joomla.loadingLayer('hide');
+            var el = document.querySelector('joomla-core-loader')
+            el.parentNode.removeChild(el);
 			try {
 				var r = JSON.parse(xhr.responseText);
 				Joomla.replaceTokens(r.token);

@@ -10,19 +10,19 @@ const UglyCss = require('uglifycss');
 const UglifyJS = require('uglify-es');
 const rootPath = require('./rootpath.js')._();
 
-const createJsFiles = (element, es6File) => {
+const createJsFiles = (element, es6File, options) => {
   const b = browserify();
   const c = browserify();
 
-  fs.writeFileSync(`${rootPath}/media/system/webcomponents/js/joomla-${element}.js`, es6File, { encoding: 'utf8' });
+  fs.writeFileSync(`${rootPath}/media/${options.settings.webcomponents[element]['js']}/joomla-${element}.js`, es6File, { encoding: 'utf8' });
 
   // And the minified version
-  fs.writeFileSync(`${rootPath}/media/system/webcomponents/js/joomla-${element}.min.js`, UglifyJS.minify(es6File).code, { encoding: 'utf8' });
+  fs.writeFileSync(`${rootPath}/media/${options.settings.webcomponents[element]['js']}/joomla-${element}.min.js`, UglifyJS.minify(es6File).code, { encoding: 'utf8' });
 
   // Transpile a copy for ES5
-  fs.writeFileSync(`${rootPath}/media/system/webcomponents/js/joomla-${element}-es5.js`, '');
-  const bundleFs = fs.createWriteStream(`${rootPath}/media/system/webcomponents/js/joomla-${element}-es5.js`);
-  const bundleFsMin = fs.createWriteStream(`${rootPath}/media/system/webcomponents/js/joomla-${element}-es5.min.js`);
+  fs.writeFileSync(`${rootPath}/media/${options.settings.webcomponents[element]['js']}/joomla-${element}-es5.js`, '');
+  const bundleFs = fs.createWriteStream(`${rootPath}/media/${options.settings.webcomponents[element]['js']}/joomla-${element}-es5.js`);
+  const bundleFsMin = fs.createWriteStream(`${rootPath}/media/${options.settings.webcomponents[element]['js']}/joomla-${element}-es5.min.js`);
 
   b.add(`${rootPath}/build/media/webcomponents/js/${element}/${element}.js`);
   c.add(`${rootPath}/build/media/webcomponents/js/${element}/${element}.js`);
@@ -31,19 +31,31 @@ const createJsFiles = (element, es6File) => {
 };
 
 const compile = (options) => {
-  // Make sure that the dist paths exist
-  if (!fs.existsSync(`${rootPath}/media/system/webcomponents`)) {
-    fsExtra.mkdirSync(`${rootPath}/media/system/webcomponents`);
-  }
-  if (!fs.existsSync(`${rootPath}/media/system/webcomponents/js`)) {
-    fsExtra.mkdirSync(`${rootPath}/media/system/webcomponents/js`);
-  }
+    // Make sure that the dist paths exist
+    if (!fs.existsSync(`${rootPath}/media/system/webcomponents`)) {
+        fsExtra.mkdirSync(`${rootPath}/media/system/webcomponents`);
+    }
+    if (!fs.existsSync(`${rootPath}/media/system/webcomponents/js`)) {
+        fsExtra.mkdirSync(`${rootPath}/media/system/webcomponents/js`);
+    }
 
-  if (!fs.existsSync(`${rootPath}/media/system/webcomponents/css`)) {
-    fs.mkdirSync(`${rootPath}/media/system/webcomponents/css`);
-  }
+    if (!fs.existsSync(`${rootPath}/media/system/webcomponents/css`)) {
+        fs.mkdirSync(`${rootPath}/media/system/webcomponents/css`);
+    }
 
   options.settings.elements.forEach((element) => {
+    console.log(element)
+    console.log(options.settings.webcomponents[element]['css']);
+    console.log(options.settings.webcomponents[element]['js']);
+    // Make sure that the dist paths exist
+    if (!fs.existsSync(`${rootPath}/media/${options.settings.webcomponents[element]['js']}`)) {
+        fsExtra.mkdirSync(`${rootPath}/media/${options.settings.webcomponents[element]['js']}`);
+    }
+
+    if (!fs.existsSync(`${rootPath}/media/${options.settings.webcomponents[element]['css']}`)) {
+        fs.mkdirSync(`${rootPath}/media/${options.settings.webcomponents[element]['css']}`);
+    }
+
     // Copy the ES6 file
     let es6File = fs.readFileSync(`${rootPath}/build/media/webcomponents/js/${element}/${element}.js`, 'utf8');
     // Check if there is a css file
@@ -86,23 +98,23 @@ const compile = (options) => {
                   if (typeof res === 'object' && res.css) {
                     es6File = es6File.replace('{{CSS_CONTENTS_PLACEHOLDER}}', UglyCss.processString(res.css.toString()));
 
-                    createJsFiles(element, es6File);
+                    createJsFiles(element, es6File, options);
                   }
                 } else {
                   if (typeof res === 'object' && res.css) {
                     fs.writeFileSync(
-                      `${rootPath}/media/system/webcomponents/css/joomla-${element}.css`,
+                      `${rootPath}/media/${options.settings.webcomponents[element]['css']}/joomla-${element}.css`,
                       res.css.toString(),
                       { encoding: 'UTF-8' },
                     );
                     fs.writeFileSync(
-                      `${rootPath}/media/system/webcomponents/css/joomla-${element}.min.css`,
+                      `${rootPath}/media/${options.settings.webcomponents[element]['css']}/joomla-${element}.min.css`,
                       UglyCss.processString(res.css.toString(), { expandVars: false }),
                       { encoding: 'UTF-8' },
                     );
                   }
 
-                  createJsFiles(element, es6File);
+                  createJsFiles(element, es6File, options);
                 }
               })
 
@@ -120,7 +132,7 @@ const compile = (options) => {
         }
       });
     } else {
-      createJsFiles(element, es6File);
+      createJsFiles(element, es6File, options);
     }
   });
 };

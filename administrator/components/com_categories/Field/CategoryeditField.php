@@ -43,6 +43,14 @@ class CategoryeditField extends \JFormFieldList
 	public $type = 'CategoryEdit';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected $layout = 'joomla.form.field.category';
+
+	/**
 	 * Method to attach a JForm object to the field.
 	 *
 	 * @param   \SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
@@ -62,7 +70,7 @@ class CategoryeditField extends \JFormFieldList
 
 		if ($return)
 		{
-			$this->allowAdd = $this->element['allowAdd'] ?? '';
+			$this->allowAdd = isset($this->element['allowAdd']) ? (boolean) $this->element['allowAdd'] : false;
 		}
 
 		return $return;
@@ -82,7 +90,7 @@ class CategoryeditField extends \JFormFieldList
 		switch ($name)
 		{
 			case 'allowAdd':
-				return $this->$name;
+				return (bool) $this->$name;
 		}
 
 		return parent::__get($name);
@@ -347,88 +355,30 @@ class CategoryeditField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$class = array();
-		$attr = '';
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
+	}
 
-		// Initialize some field attributes.
-		$class[] = !empty($this->class) ? $this->class : '';
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since 4.0
+	 */
+	protected function getLayoutData()
+	{
+		$data  = parent::getLayoutData();
 
-		if ($this->allowAdd)
-		{
-			$customGroupText = Text::_('JGLOBAL_CUSTOM_CATEGORY');
+		$extraData = [
+			'allowAdd' => $this->allowAdd,
+			'options' => $this->getOptions(),
+			'enabledCF' => (boolean) $this->element['custom-fields-enabled'],
+			'catId' => $this->element['custom-fields-cat-id'],
+			'formId' => $this->element['custom-fields-form-id'],
+			'section' => $this->element['custom-fields-section'],
+		];
 
-			$class[] = 'chosen-custom-value';
-			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
-					. 'data-no_results_text="' . Text::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
-					. 'data-placeholder="' . Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
-		}
-
-		if ($class)
-		{
-			$attr .= 'class="' . implode(' ', $class) . '"';
-		}
-
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
-
-		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1'
-			|| (string) $this->readonly == 'true'
-			|| (string) $this->disabled == '1'
-			|| (string) $this->disabled == 'true')
-		{
-			$attr .= ' disabled="disabled"';
-		}
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Get the field options.
-		$options = (array) $this->getOptions();
-
-		// Create a read-only list (no name) with hidden input(s) to store the value(s).
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
-		{
-			$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-
-			// E.g. form field type tag sends $this->value as array
-			if ($this->multiple && is_array($this->value))
-			{
-				if (!count($this->value))
-				{
-					$this->value[] = '';
-				}
-
-				foreach ($this->value as $value)
-				{
-					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-				}
-			}
-			else
-			{
-				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
-			}
-		}
-		else
-		{
-			// Create a regular list.
-			if (count($options) === 0)
-			{
-				// All Categories have been deleted, so we need a new category (This will create on save if selected).
-				$options[0]            = new \stdClass;
-				$options[0]->value     = 'Uncategorised';
-				$options[0]->text      = 'Uncategorised';
-				$options[0]->level     = '1';
-				$options[0]->published = '1';
-				$options[0]->lft       = '1';
-			}
-
-			$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
-		}
-
-		return implode($html);
+		return array_merge($data, $extraData);
 	}
 }
