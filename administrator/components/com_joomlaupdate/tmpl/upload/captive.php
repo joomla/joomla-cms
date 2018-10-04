@@ -26,7 +26,7 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_HEAD'); ?>
 	</h4>
 	<p>
-		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_BODY', Factory::getConfig()->get('sitename')); ?>
+		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPLOAD_CAPTIVE_INTRO_BODY', Factory::getApplication()->get('sitename')); ?>
 	</p>
 </div>
 

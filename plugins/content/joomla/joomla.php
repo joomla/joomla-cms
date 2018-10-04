@@ -89,7 +89,7 @@ class PlgContentJoomla extends CMSPlugin
 		// Messaging for new items
 
 		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = Factory::getConfig()->get('debug_lang');
+		$debug = Factory::getApplication()->get('debug_lang');
 		$result = true;
 
 		foreach ($users as $user_id)
@@ -460,7 +460,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		// Messaging for changed items
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = JFactory::getConfig()->get('debug_lang');
+		$debug = JFactory::getApplication()->get('debug_lang');
 		$result = true;
 
 		$article = new ArticleTable($db);
