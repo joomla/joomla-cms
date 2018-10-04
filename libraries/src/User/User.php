@@ -349,7 +349,7 @@ class User extends CMSObject
 			$this->isRoot = false;
 
 			// Check for the configuration file failsafe.
-			$rootUser = Factory::getConfig()->get('root_user');
+			$rootUser = Factory::getApplication()->get('root_user');
 
 			// The root_user variable can be a numeric user ID or a username.
 			if (is_numeric($rootUser) && $this->id > 0 && $this->id == $rootUser)

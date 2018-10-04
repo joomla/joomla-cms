@@ -117,8 +117,7 @@ class WarningsModel extends ListModel
 			}
 		}
 
-		$config = Factory::getConfig();
-		$tmp_path = $config->get('tmp_path');
+		$tmp_path = Factory::getApplication()->get('tmp_path');
 
 		if (!$tmp_path)
 		{

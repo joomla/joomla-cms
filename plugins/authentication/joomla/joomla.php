@@ -17,7 +17,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\Component\Users\Administrator\Model\UserModel;
 
 /**
  * Joomla Authentication plugin
@@ -112,7 +111,8 @@ class PlgAuthenticationJoomla extends CMSPlugin
 				return;
 			}
 
-			$model = new UserModel(array('ignore_request' => true));
+			$model = Factory::getApplication()->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+				->createModel('User', 'Administrator', ['ignore_request' => true]);
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))

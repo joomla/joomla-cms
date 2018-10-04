@@ -175,7 +175,7 @@ abstract class RelatedItemsHelper
 					$related = $articles->getItems();
 				}
 
-				unset ($temp);
+				unset($temp);
 			}
 		}
 
