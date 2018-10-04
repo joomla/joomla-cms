@@ -350,7 +350,13 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$this->getDbo()->setQuery($query, $limitstart, $limit);
+		if (is_string($query))
+		{
+			$query = $this->getDbo()->getQuery(true)->setQuery($query);
+		}
+
+		$query->setLimit($limit, $limitstart);
+		$this->getDbo()->setQuery($query);
 
 		return $this->getDbo()->loadObjectList();
 	}
