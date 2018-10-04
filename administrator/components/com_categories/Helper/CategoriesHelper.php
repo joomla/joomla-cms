@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Categories\Administrator\Model\CategoryModel;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
 
@@ -149,7 +148,9 @@ class CategoriesHelper
 	 */
 	public static function createCategory($data)
 	{
-		$categoryModel = new CategoryModel(array('ignore_request' => true));
+		$categoryModel = Factory::getApplication()->bootComponent('com_categories')
+			->createMVCFactory(Factory::getApplication())
+			->createModel('Category', 'Administrator', ['ignore_request' => true]);
 		$categoryModel->save($data);
 
 		$catid = $categoryModel->getState('category.id');
