@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Installer\Administrator\Model\InstallModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -214,7 +213,8 @@ class TemplateController extends BaseController
 
 			// Call installation model
 			$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
-			$installModel = new InstallModel;
+			$installModel = $this->app->bootComponent('com_installer')->createMVCFactory($this->app)
+				->createModel('Install', 'Administrator');
 			Factory::getLanguage()->load('com_installer');
 
 			if (!$installModel->install())

@@ -11,6 +11,7 @@
 		<field
 			name="published"
 			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
 			filter="1,0,-2,*"
 			onchange="this.form.submit();"
 			>
@@ -19,6 +20,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			label="JOPTION_SELECT_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -28,6 +30,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.ordering ASC"
 			>
@@ -56,6 +59,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>
