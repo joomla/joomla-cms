@@ -94,7 +94,7 @@ class UsersControllerLevel extends JControllerForm
 	public function delete()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->get('cid', array(), 'array');
 

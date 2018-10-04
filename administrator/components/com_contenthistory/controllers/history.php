@@ -27,7 +27,7 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -89,7 +89,7 @@ class ContenthistoryControllerHistory extends JControllerAdmin
 	 */
 	public function keep()
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');

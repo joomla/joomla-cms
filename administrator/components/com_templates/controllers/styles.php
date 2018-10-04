@@ -26,7 +26,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function duplicate()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -77,7 +77,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function setDefault()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -114,7 +114,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function unsetDefault()
 	{
 		// Check for request forgeries
-		$this->checkToken('request');
+		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->get->get('cid', array(), 'array');
 		$pks = ArrayHelper::toInteger($pks);

@@ -76,20 +76,11 @@ if (!empty($list))
 		{
 			case 'year' :
 			case 'month_year' :
-				$list = ModArticlesCategoryHelper::groupByDate(
-					$list,
-					$article_grouping,
-					$article_grouping_direction,
-					$params->get('month_year_format', 'F Y'),
-					$params->get('date_grouping_field', 'created')
-				);
+				$list = ModArticlesCategoryHelper::groupByDate($list, $article_grouping, $article_grouping_direction, $params->get('month_year_format', 'F Y'));
 				break;
 			case 'author' :
 			case 'category_title' :
 				$list = ModArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
-				break;
-			case 'tags' :
-				$list = ModArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
 				break;
 			default:
 				break;

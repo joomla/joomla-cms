@@ -59,7 +59,7 @@ class MediawikiCli extends CliApplication
 	{
 		// Get the version data for the script
 		$minorVersion = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
-		$namespace    = 'Help' . str_replace('.', '', $minorVersion) . ':';
+		$namespace    = 'Help' . $minorVersion . ':';
 
 		// Set up options for JMediawiki
 		$options = new Registry;

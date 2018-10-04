@@ -40,7 +40,7 @@ class JFormRuleEmailTest extends TestCase
 		$xml = simplexml_load_string('<form><field name="email1" /><field name="email2" unique="true" /></form>');
 
 		// Test fail conditions.
-		$this->assertInstanceOf('UnexpectedValueException', $rule->test($xml->field[0], 'ThisIsNotALoveSong'));
+		$this->assertFalse($rule->test($xml->field[0], 'ThisIsNotALoveSong'));
 	}
 
 
@@ -82,15 +82,11 @@ class JFormRuleEmailTest extends TestCase
 	{
 		$rule = new JFormRuleEmail;
 		$xml = simplexml_load_string('<form><field name="email1" /></form>');
-
-		if ($expectedResult === true)
-		{
-			$this->assertTrue($rule->test($xml->field[0], $emailAddress));
-		}
-		else
-		{
-			$this->assertInstanceOf('UnexpectedValueException', $rule->test($xml->field[0], $emailAddress));
-		}
+		$this->assertThat(
+			$rule->test($xml->field[0], $emailAddress),
+			$this->equalTo($expectedResult),
+			$emailAddress . ' should have returned ' . ($expectedResult ? 'true' : 'false') . ' but did not'
+		);
 	}
 
 	/**
@@ -124,15 +120,11 @@ class JFormRuleEmailTest extends TestCase
 	{
 		$rule = new JFormRuleEmail;
 		$xml = simplexml_load_string('<form><field name="email1" multiple="multiple" /></form>');
-
-		if ($expectedResult === true)
-		{
-			$this->assertTrue($rule->test($xml->field[0], $emailAddress));
-		}
-		else
-		{
-			$this->assertInstanceOf('UnexpectedValueException', $rule->test($xml->field[0], $emailAddress));
-		}
+		$this->assertThat(
+			$rule->test($xml->field[0], $emailAddress),
+			$this->equalTo($expectedResult),
+			$emailAddress . ' should have returned ' . ($expectedResult ? 'true' : 'false') . ' but did not'
+		);
 	}
 
 	/**
@@ -169,14 +161,10 @@ class JFormRuleEmailTest extends TestCase
 	{
 		$rule = new JFormRuleEmail;
 		$xml = simplexml_load_string('<form><field name="email1" tld="tld" /></form>');
-
-		if ($expectedResult === true)
-		{
-			$this->assertTrue($rule->test($xml->field[0], $emailAddress));
-		}
-		else
-		{
-			$this->assertInstanceOf('UnexpectedValueException', $rule->test($xml->field[0], $emailAddress));
-		}
+		$this->assertThat(
+			$rule->test($xml->field[0], $emailAddress),
+			$this->equalTo($expectedResult),
+			$emailAddress . ' should have returned ' . ($expectedResult ? 'true' : 'false') . ' but did not'
+		);
 	}
 }

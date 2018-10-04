@@ -288,61 +288,10 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testLoadByPsr4()
 	{
-		// Clear the namespaces array for this test
-		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
-
 		// Register namespace at first. Odd leading and trailing backslashes must be automatically removed from namespace
 		JLoader::registerNamespace('\\DummyNamespace\\', JPATH_TEST_STUBS . '/DummyNamespace', $reset = true, $prepend = false, $type = 'psr4');
 
 		$this->assertThat(JLoader::loadByPsr4('DummyNamespace\DummyClass'), $this->isTrue(), 'Tests that the class file was loaded.');
-	}
-
-	/**
-	 * Tests the JLoader::loadByPsr4 method does not allow loading a file outside the namespace root.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.8.9
-	 */
-	public function testLoadByPsr4DisallowsSnoopingOutsideRoot()
-	{
-		$this->assertThat(JLoader::loadByPsr4('Joomla\\CMS\\../cms'), $this->isFalse(), 'Tests that the class file was not loaded.');
-	}
-
-	/**
-	 * Tests the JLoader::loadByPsr0 method does not allow loading a file outside the namespace root.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.8.9
-	 */
-	public function testLoadByPsr0DisallowsSnoopingOutsideRoot()
-	{
-		// Clear the namespaces array for this test
-		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
-
-		$path = JPATH_TEST_STUBS . '/discover2';
-		JLoader::registerNamespace('discover', $path);
-
-		$this->assertThat(JLoader::loadByPsr0('discover3\\../../FormInspectors'), $this->isFalse(), 'Tests that the class file was not loaded.');
-	}
-
-	/**
-	 * Tests the JLoader::_autoload method does not allow loading a file outside the path root.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.8.9
-	 */
-	public function testAutoloadDisallowsSnoopingOutsideRoot()
-	{
-		$this->assertThat(JLoader::_autoload('JClass/../../Import'), $this->isFalse(), 'Tests that the class file was not loaded.');
-
-		// This scenario is skipped because there is a conundrum validating we doesn't traverse out of the libraries/cms directory to include libraries/cms.php
-		if (false)
-		{
-			$this->assertThat(JLoader::_autoload('JClass/../../Cms'), $this->isFalse(), 'Tests that the class file was not loaded.');
-		}
 	}
 
 	/**
@@ -501,9 +450,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testRegisterNamespace()
 	{
-		// Clear the namespaces array for this test
-		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
-
 		// Try with a valid path.
 		$path = JPATH_TEST_STUBS . '/discover1';
 		JLoader::registerNamespace('discover', $path);
@@ -530,9 +476,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testRegisterNamespaceResetPath()
 	{
-		// Clear the namespaces array for this test
-		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
-
 		// Insert a first path.
 		$path = JPATH_TEST_STUBS . '/discover1';
 		JLoader::registerNamespace('discover', $path);
@@ -556,9 +499,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testRegisterNamespaceException()
 	{
-		// Clear the namespaces array for this test
-		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
-
 		JLoader::registerNamespace('Color', 'dummy');
 	}
 
@@ -571,9 +511,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testRegisterNamespaceTrimming()
 	{
-		// Clear the namespaces array for this test
-		TestReflection::setValue('JLoader', 'namespaces', array('psr0' => array(), 'psr4' => array()));
-
 		// Try registering namespace with leading backslash.
 		$path = JPATH_TEST_STUBS . '/discover1';
 		JLoader::registerNamespace('\\discover1', $path);
@@ -721,7 +658,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$foundLoad = false;
 		$foundAutoload = false;
 		$foundLoadByPsr0 = false;
-		$foundLoadByPsr4 = false;
 		$foundLoadByAlias = false;
 
 		// We search the list of autoload functions to see if our methods are there.
@@ -744,11 +680,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 					$foundLoadByPsr0 = true;
 				}
 
-				if ($loader[1] === 'loadByPsr4')
-				{
-					$foundLoadByPsr4 = true;
-				}
-
 				if ($loader[1] === 'loadByAlias')
 				{
 					$foundLoadByAlias = true;
@@ -768,9 +699,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		// Assert the PSR-0 loader is found.
 		$this->assertTrue($foundLoadByPsr0);
-
-		// Assert the PSR-4 loader is found.
-		$this->assertTrue($foundLoadByPsr4);
 
 		// Assert the Alias loader is found.
 		$this->assertTrue($foundLoadByAlias);
@@ -875,7 +803,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 		$loaders = spl_autoload_functions();
 
 		$foundLoadPsr0 = false;
-		$foundLoadPsr4 = false;
 		$foundLoadAlias = false;
 
 		// We search the list of autoload functions to see if our method is here.
@@ -888,11 +815,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 					$foundLoadPsr0 = true;
 				}
 
-				if ($loader[1] === 'loadByPsr4')
-				{
-					$foundLoadPsr4 = true;
-				}
-
 				if ($loader[1] === 'loadByAlias')
 				{
 					$foundLoadAlias = true;
@@ -902,9 +824,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 
 		// We expect to find it.
 		$this->assertTrue($foundLoadPsr0);
-
-		// We expect to find it.
-		$this->assertTrue($foundLoadPsr4);
 
 		// We expect to find it.
 		$this->assertTrue($foundLoadAlias);
@@ -929,7 +848,6 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 				&& ($loader[1] === 'load'
 				|| $loader[1] === '_autoload'
 				|| $loader[1] === 'loadByPsr0'
-				|| $loader[1] === 'loadByPsr4'
 				|| $loader[1] === 'loadByAlias'))
 			{
 				spl_autoload_unregister($loader);

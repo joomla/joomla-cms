@@ -72,7 +72,19 @@ class Asset extends Nested
 	 */
 	public function loadByName($name)
 	{
-		return $this->load(array('name' => $name));
+		$query = $this->_db->getQuery(true)
+			->select($this->_db->quoteName('id'))
+			->from($this->_db->quoteName('#__assets'))
+			->where($this->_db->quoteName('name') . ' = ' . $this->_db->quote($name));
+		$this->_db->setQuery($query);
+		$assetId = (int) $this->_db->loadResult();
+
+		if (empty($assetId))
+		{
+			return false;
+		}
+
+		return $this->load($assetId);
 	}
 
 	/**

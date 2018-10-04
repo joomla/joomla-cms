@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: https://codemirror.net/LICENSE
+// Distributed under an MIT license: http://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -54,13 +54,11 @@ CodeMirror.defineMode("julia", function(config, parserConf) {
     return inGenerator(state, '[')
   }
 
-  function inGenerator(state, bracket, depth) {
+  function inGenerator(state, bracket) {
+    var curr = currentScope(state),
+        prev = currentScope(state, 1);
     if (typeof(bracket) === "undefined") { bracket = '('; }
-    if (typeof(depth)   === "undefined") { depth   = 0;   }
-    var scope = currentScope(state, depth);
-    if ((depth == 0 && scope === "if" && inGenerator(state, bracket, depth + 1)) ||
-        (scope === "for" && inGenerator(state, bracket, depth + 1)) ||
-        (scope === bracket)) {
+    if (curr === bracket || (prev === bracket && curr === "for")) {
       return true;
     }
     return false;
@@ -121,16 +119,16 @@ CodeMirror.defineMode("julia", function(config, parserConf) {
       state.scopes.push('(');
     }
 
+    var scope = currentScope(state);
+
     if (inArray(state) && ch === ']') {
-      if (currentScope(state) === "if") { state.scopes.pop(); }
-      while (currentScope(state) === "for") { state.scopes.pop(); }
+      if (scope === "for") { state.scopes.pop(); }
       state.scopes.pop();
       state.leavingExpr = true;
     }
 
     if (inGenerator(state) && ch === ')') {
-      if (currentScope(state) === "if") { state.scopes.pop(); }
-      while (currentScope(state) === "for") { state.scopes.pop(); }
+      if (scope === "for") { state.scopes.pop(); }
       state.scopes.pop();
       state.leavingExpr = true;
     }
@@ -145,14 +143,12 @@ CodeMirror.defineMode("julia", function(config, parserConf) {
     }
 
     var match;
-    if (match = stream.match(openers)) {
+    if (match = stream.match(openers, false)) {
       state.scopes.push(match[0]);
-      return "keyword";
     }
 
-    if (stream.match(closers)) {
+    if (stream.match(closers, false)) {
       state.scopes.pop();
-      return "keyword";
     }
 
     // Handle type annotations

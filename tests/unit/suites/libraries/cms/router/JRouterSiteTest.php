@@ -1192,11 +1192,6 @@ class JRouterSiteTest extends TestCaseDatabase
 				'mode'     => JROUTER_MODE_SEF,
 				'expected' => 'test?start=42'
 			),
-			'limitstart_zero' => array(
-				'url'      => 'test?limitstart=0',
-				'mode'     => JROUTER_MODE_SEF,
-				'expected' => 'test?start=0'
-			),
 		);
 	}
 

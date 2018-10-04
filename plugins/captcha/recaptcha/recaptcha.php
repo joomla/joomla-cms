@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
-
 /**
- * Recaptcha Plugin
- * Based on the official recaptcha library( https://packagist.org/packages/google/recaptcha )
+ * Recaptcha Plugin.
+ * Based on the official recaptcha library( https://developers.google.com/recaptcha/docs/php )
  *
  * @since  2.5
  */
@@ -28,32 +26,15 @@ class PlgCaptchaRecaptcha extends JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
-	 * Reports the privacy related capabilities for this plugin to site administrators.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.9.0
-	 */
-	public function onPrivacyCollectAdminCapabilities()
-	{
-		$this->loadLanguage();
-
-		return array(
-			JText::_('PLG_CAPTCHA_RECAPTCHA') => array(
-				JText::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
-			)
-		);
-	}
-
-	/**
 	 * Initialise the captcha
 	 *
 	 * @param   string  $id  The id of the field.
 	 *
 	 * @return  Boolean	True on success, false otherwise
 	 *
-	 * @since   2.5
-	 * @throws  \RuntimeException
+	 * @throws  Exception
+	 *
+	 * @since  2.5
 	 */
 	public function onInit($id = 'dynamic_recaptcha_1')
 	{
@@ -61,15 +42,15 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		if ($pubkey === '')
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
+			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
 		if ($this->params->get('version', '1.0') === '1.0')
 		{
 			JHtml::_('jquery.framework');
 
-			$theme  = $this->params->get('theme', 'clean');
-			$file   = 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
+			$theme	= $this->params->get('theme', 'clean');
+			$file	= 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
 			JHtml::_('script', $file);
 			JFactory::getDocument()->addScriptDeclaration('jQuery( document ).ready(function()
@@ -92,7 +73,8 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @param   string  $name   The name of the field. Not Used.
 	 * @param   string  $id     The id of the field.
-	 * @param   string  $class  The class of the field.
+	 * @param   string  $class  The class of the field. This should be passed as
+	 *                          e.g. 'class="required"'.
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
@@ -100,28 +82,18 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
-		$dom = new \DOMDocument('1.0', 'UTF-8');
-		$ele = $dom->createElement('div');
-		$ele->setAttribute('id', $id);
-
 		if ($this->params->get('version', '1.0') === '1.0')
 		{
-			$ele->setAttribute('class', $class);
+			return '<div id="' . $id . '" ' . $class . '></div>';
 		}
 		else
 		{
-			$ele->setAttribute('class', ((trim($class) == '') ? 'g-recaptcha' : ($class . ' g-recaptcha')));
-			$ele->setAttribute('data-sitekey', $this->params->get('public_key', ''));
-			$ele->setAttribute('data-theme', $this->params->get('theme2', 'light'));
-			$ele->setAttribute('data-size', $this->params->get('size', 'normal'));
-			$ele->setAttribute('data-tabindex', $this->params->get('tabindex', '0'));
-			$ele->setAttribute('data-callback', $this->params->get('callback', ''));
-			$ele->setAttribute('data-expired-callback', $this->params->get('expired_callback', ''));
-			$ele->setAttribute('data-error-callback', $this->params->get('error_callback', ''));
+			return '<div id="' . $id . '" ' . str_replace('class="', 'class="g-recaptcha ', $class)
+					. ' data-sitekey="' . $this->params->get('public_key', '')
+					. '" data-theme="' . $this->params->get('theme2', 'light')
+					. '" data-size="' . $this->params->get('size', 'normal')
+					. '"></div>';
 		}
-
-		$dom->appendChild($ele);
-		return $dom->saveHTML($ele);
 	}
 
 	/**
@@ -131,12 +103,11 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  True if the answer is correct, false otherwise
 	 *
-	 * @since   2.5
-	 * @throws  \RuntimeException
+	 * @since  2.5
 	 */
 	public function onCheckAnswer($code = null)
 	{
-		$input      = \JFactory::getApplication()->input;
+		$input      = JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '1.0');
 		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
@@ -159,19 +130,25 @@ class PlgCaptchaRecaptcha extends JPlugin
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'));
+			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'));
+
+			return false;
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'));
+			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'));
+
+			return false;
 		}
 
 		// Discard spam submissions
 		if ($spam)
 		{
-			throw new \RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'));
+			$this->_subject->setError(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'));
+
+			return false;
 		}
 
 		return $this->getResponse($privatekey, $remoteip, $response, $challenge);
@@ -183,12 +160,11 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 * @param   string  $privatekey  The private key for authentication.
 	 * @param   string  $remoteip    The remote IP of the visitor.
 	 * @param   string  $response    The response received from Google.
-	 * @param   string  $challenge   The challenge field from the reCaptcha. Only for 1.0
+	 * @param   string  $challenge   The challenge field from the reCaptcha. Only for 1.0.
 	 *
 	 * @return bool True if response is good | False if response is bad.
 	 *
 	 * @since   3.4
-	 * @throws  \RuntimeException
 	 */
 	private function getResponse($privatekey, $remoteip, $response, $challenge = null)
 	{
@@ -218,14 +194,20 @@ class PlgCaptchaRecaptcha extends JPlugin
 				}
 				break;
 			case '2.0':
-				$reCaptcha = new \ReCaptcha\ReCaptcha($privatekey, new HttpBridgePostRequestMethod);
-				$response = $reCaptcha->verify($response, $remoteip);
+				require_once 'recaptchalib.php';
 
-				if (!$response->isSuccess())
+				$reCaptcha = new JReCaptcha($privatekey);
+				$response  = $reCaptcha->verifyResponse($remoteip, $response);
+
+				if (!isset($response->success) || !$response->success)
 				{
-					foreach ($response->getErrorCodes() as $error)
+					// @todo use exceptions here
+					if (is_array($response->errorCodes))
 					{
-						throw new \RuntimeException($error);
+						foreach ($response->errorCodes as $error)
+						{
+							$this->_subject->setError($error);
+						}
 					}
 
 					return false;

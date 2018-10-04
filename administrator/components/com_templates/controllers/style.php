@@ -36,7 +36,10 @@ class TemplatesControllerStyle extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$this->checkToken();
+		if (!JSession::checkToken())
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+		}
 
 		$document = JFactory::getDocument();
 

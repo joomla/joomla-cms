@@ -31,24 +31,7 @@ class JHtmlIconsTest extends TestCase
 		// We need to mock the application
 		$this->saveFactoryState();
 
-		$mockApp = $this->getMockCmsApp();
-		$mockApp->expects($this->any())
-			->method('getName')
-			->willReturn('administrator');
-
-		$mockApp->expects($this->any())
-			->method('isClient')
-			->with('administrator')
-			->willReturn(true);
-
-		JFactory::$application = $mockApp;
-
-		$mockRouter = $this->getMockBuilder('Joomla\\CMS\\Router\\Router')->getMock();
-		$mockRouter->expects($this->any())
-			->method('build')
-			->willReturn(new \JUri);
-
-		TestReflection::setValue('JRoute', '_router', array('site' => $mockRouter));
+		JFactory::$application = $this->getMockCmsApp();
 	}
 
 	/**
@@ -61,8 +44,6 @@ class JHtmlIconsTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-		TestReflection::setValue('JRoute', '_router', array());
-
 		// Restore the factory state
 		$this->restoreFactoryState();
 

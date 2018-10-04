@@ -94,7 +94,7 @@ final class MetadataManager
 		$values = array(
 			$this->db->quote($session->getId()),
 			(int) $user->guest,
-			(int) $time,
+			$this->db->quote((int) $time),
 			(int) $user->id,
 			$this->db->quote($user->username),
 		);
@@ -141,7 +141,7 @@ final class MetadataManager
 	{
 		$query = $this->db->getQuery(true)
 			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('time') . ' < ' . (int) $time);
+			->where($this->db->quoteName('time') . ' < ' . $this->db->quote($time));
 
 		$this->db->setQuery($query);
 

@@ -56,7 +56,7 @@ class MenusControllerItems extends JControllerAdmin
 	 */
 	public function rebuild()
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=items');
 
@@ -88,7 +88,7 @@ class MenusControllerItems extends JControllerAdmin
 	 */
 	public function saveorder()
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		try
 		{
@@ -131,7 +131,7 @@ class MenusControllerItems extends JControllerAdmin
 	public function setDefault()
 	{
 		// Check for request forgeries
-		$this->checkToken('request');
+		JSession::checkToken('request') or die(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
 
@@ -191,7 +191,7 @@ class MenusControllerItems extends JControllerAdmin
 	public function publish()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid = JFactory::getApplication()->input->get('cid', array(), 'array');
@@ -273,7 +273,7 @@ class MenusControllerItems extends JControllerAdmin
 	public function checkin()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids = JFactory::getApplication()->input->post->get('cid', array(), 'array');
 

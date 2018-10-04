@@ -216,7 +216,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
-							$ip = str_replace(array('/', '-'), ' ', $ip);
+							$ip = str_replace('/', ' ', $ip);
+							$ip = str_replace('-', ' ', $ip);
 						}
 
 						// Tokenize a string of content and add it to the database.

@@ -29,26 +29,8 @@ class JFormFieldRulesTest extends TestCaseDatabase
 
 		$this->saveFactoryState();
 
-		$mockApp = $this->getMockCmsApp();
-		$mockApp->expects($this->any())
-			->method('getName')
-			->willReturn('administrator');
-
-		$mockApp->expects($this->any())
-			->method('isClient')
-			->with('administrator')
-			->willReturn(true);
-
-		JFactory::$application = $mockApp;
-
+		JFactory::$application = $this->getMockCmsApp();
 		JFactory::$session = $this->getMockSession();
-
-		$mockRouter = $this->getMockBuilder('Joomla\\CMS\\Router\\Router')->getMock();
-		$mockRouter->expects($this->any())
-			->method('build')
-			->willReturn(new \JUri);
-
-		TestReflection::setValue('JRoute', '_router', array('site' => $mockRouter));
 	}
 
 	/**
@@ -59,8 +41,6 @@ class JFormFieldRulesTest extends TestCaseDatabase
 	 */
 	protected function tearDown()
 	{
-		TestReflection::setValue('JRoute', '_router', array());
-
 		$this->restoreFactoryState();
 
 		parent::tearDown();

@@ -17,9 +17,8 @@ use Joomla\CMS\Cache\Exception\CacheConnectingException;
 /**
  * Memcache cache storage handler
  *
- * @link        https://secure.php.net/manual/en/book.memcache.php
- * @since       11.1
- * @deprecated  4.0  Use the Memcached handler instead
+ * @link   https://secure.php.net/manual/en/book.memcache.php
+ * @since  11.1
  */
 class MemcacheStorage extends CacheStorage
 {

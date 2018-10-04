@@ -108,8 +108,20 @@ function colorIsLight($color)
 	return $yiq >= 200;
 }
 
-// Sticky toolbar
-$stickyBar = $stickyToolbar ? ' sticky' : '';
+// Pass some values to javascript
+$offset = 20;
+
+if ($displayHeader || !$statusFixed)
+{
+	$offset = 30;
+}
+
+$stickyBar = 0;
+
+if ($stickyToolbar)
+{
+	$stickyBar = 'true';
+}
 
 // Template color
 if ($navbar_color)
@@ -253,7 +265,7 @@ if ($this->params->get('linkColor'))
 	<!-- Subheader -->
 	<a class="btn btn-subhead" data-toggle="collapse" data-target=".subhead-collapse"><?php echo JText::_('TPL_ISIS_TOOLBAR'); ?>
 		<span class="icon-wrench"></span></a>
-	<div class="subhead-collapse collapse<?php echo $stickyBar; ?>">
+	<div class="subhead-collapse collapse" id="isisJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>">
 		<div class="subhead">
 			<div class="container-fluid">
 				<div id="container-collapse" class="container-collapse"></div>

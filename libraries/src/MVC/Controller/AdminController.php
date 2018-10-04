@@ -111,7 +111,7 @@ class AdminController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -161,6 +161,21 @@ class AdminController extends BaseController
 	}
 
 	/**
+	 * Display is not supported by this controller.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
+	 *
+	 * @return  \JControllerLegacy  A \JControllerLegacy object to support chaining.
+	 *
+	 * @since   1.6
+	 */
+	public function display($cachable = false, $urlparams = array())
+	{
+		return $this;
+	}
+
+	/**
 	 * Method to publish a list of items
 	 *
 	 * @return  void
@@ -170,7 +185,7 @@ class AdminController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		\JSession::checkToken() or die(\JText::_('JINVALID_TOKEN'));
 
 		// Get items to publish from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -247,7 +262,7 @@ class AdminController extends BaseController
 	public function reorder()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 		$inc = $this->getTask() === 'orderup' ? -1 : 1;
@@ -283,7 +298,7 @@ class AdminController extends BaseController
 	public function saveorder()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Get the input
 		$pks = $this->input->post->get('cid', array(), 'array');
@@ -327,7 +342,7 @@ class AdminController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 

@@ -79,8 +79,19 @@ class UsersModelDebugUser extends JModelList
 				foreach ($actions as $action)
 				{
 					$name = $action[0];
+					$level = $action[1];
 
-					$asset->checks[$name] = $user->authorise($name, $asset->name);
+					// Check that we check this action for the level of the asset.
+					if ($level === null || $level >= $asset->level)
+					{
+						// We need to test this action.
+						$asset->checks[$name] = $user->authorise($name, $asset->name);
+					}
+					else
+					{
+						// We ignore this action.
+						$asset->checks[$name] = 'skip';
+					}
 				}
 			}
 		}

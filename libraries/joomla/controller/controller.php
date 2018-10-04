@@ -14,8 +14,7 @@ use Joomla\Application\AbstractApplication;
 /**
  * Joomla Platform Controller Interface
  *
- * @since       12.1
- * @deprecated  5.0 Use the default MVC library
+ * @since  12.1
  */
 interface JController extends Serializable
 {

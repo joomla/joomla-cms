@@ -26,7 +26,7 @@ class MessagesControllerConfig extends JControllerLegacy
 	public function save()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app   = JFactory::getApplication();
 		$model = $this->getModel('Config', 'MessagesModel');

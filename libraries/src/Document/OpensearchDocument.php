@@ -135,7 +135,7 @@ class OpensearchDocument extends Document
 		$osns = 'http://a9.com/-/spec/opensearch/1.1/';
 
 		// Create the root element
-		$elOs = $xml->createElementNs($osns, 'OpenSearchDescription');
+		$elOs = $xml->createElementNs($osns, 'OpensearchDescription');
 
 		$elShortName = $xml->createElementNs($osns, 'ShortName');
 		$elShortName->appendChild($xml->createTextNode(htmlspecialchars($this->_shortName)));

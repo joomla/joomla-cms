@@ -67,8 +67,7 @@ foreach ($fields as $field)
 		continue;
 	}
 
-	$layout = $field->params->get('layout', 'render');
-	echo FieldsHelper::render($context, 'field.' . $layout, array('field' => $field));
+	echo FieldsHelper::render($context, 'field.render', array('field' => $field));
 }
 
 if (!$isMail)

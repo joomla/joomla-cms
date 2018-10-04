@@ -15,9 +15,8 @@ use Joomla\CMS\Cache\CacheStorage;
 /**
  * XCache cache storage handler
  *
- * @link        https://xcache.lighttpd.net/
- * @since       11.1
- * @deprecated  4.0  The XCache PHP extension is not compatible with PHP 7
+ * @link   http://xcache.lighttpd.net/
+ * @since  11.1
  */
 class XcacheStorage extends CacheStorage
 {

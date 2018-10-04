@@ -14,8 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
- * @since       11.1
- * @deprecated  5.0 Will be removed without replacement
+ * @since  11.1
  */
 class JAdapter extends JObject
 {

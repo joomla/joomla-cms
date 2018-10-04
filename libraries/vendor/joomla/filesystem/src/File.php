@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -56,10 +56,10 @@ class File
 	/**
 	 * Copies a file
 	 *
-	 * @param   string   $src         The path to the source file
-	 * @param   string   $dest        The path to the destination file
-	 * @param   string   $path        An optional base path to prefix to the file names
-	 * @param   boolean  $useStreams  True to use streams
+	 * @param   string   $src          The path to the source file
+	 * @param   string   $dest         The path to the destination file
+	 * @param   string   $path         An optional base path to prefix to the file names
+	 * @param   boolean  $use_streams  True to use streams
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -67,7 +67,7 @@ class File
 	 * @throws  FilesystemException
 	 * @throws  \UnexpectedValueException
 	 */
-	public static function copy($src, $dest, $path = null, $useStreams = false)
+	public static function copy($src, $dest, $path = null, $use_streams = false)
 	{
 		// Prepend a base path if it exists
 		if ($path)
@@ -82,14 +82,9 @@ class File
 			throw new \UnexpectedValueException(__METHOD__ . ': Cannot find or read file: ' . $src);
 		}
 
-		if ($useStreams)
+		if ($use_streams)
 		{
-			$stream = Stream::getStream();
-
-			if (!$stream->copy($src, $dest, null, false))
-			{
-				throw new FilesystemException(sprintf('%1$s(%2$s, %3$s): %4$s', __METHOD__, $src, $dest, $stream->getError()));
-			}
+			Stream::getStream()->copy($src, $dest);
 
 			return true;
 		}
@@ -119,12 +114,6 @@ class File
 		foreach ($files as $file)
 		{
 			$file = Path::clean($file);
-			$filename = basename($file);
-
-			if (!Path::canChmod($file))
-			{
-				throw new FilesystemException(__METHOD__ . ': Failed deleting inaccessible file ' . $filename);
-			}
 
 			// Try making the file writable first. If it's read-only, it can't be deleted
 			// on Windows, even if the parent folder is writable
@@ -134,6 +123,8 @@ class File
 			// as long as the owner is either the webserver or the ftp
 			if (!@ unlink($file))
 			{
+				$filename = basename($file);
+
 				throw new FilesystemException(__METHOD__ . ': Failed deleting ' . $filename);
 			}
 		}
@@ -144,17 +135,17 @@ class File
 	/**
 	 * Moves a file
 	 *
-	 * @param   string   $src         The path to the source file
-	 * @param   string   $dest        The path to the destination file
-	 * @param   string   $path        An optional base path to prefix to the file names
-	 * @param   boolean  $useStreams  True to use streams
+	 * @param   string   $src          The path to the source file
+	 * @param   string   $dest         The path to the destination file
+	 * @param   string   $path         An optional base path to prefix to the file names
+	 * @param   boolean  $use_streams  True to use streams
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
-	public static function move($src, $dest, $path = '', $useStreams = false)
+	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
 		if ($path)
 		{
@@ -168,14 +159,9 @@ class File
 			return 'Cannot find source file.';
 		}
 
-		if ($useStreams)
+		if ($use_streams)
 		{
-			$stream = Stream::getStream();
-
-			if (!$stream->move($src, $dest, null, false))
-			{
-				throw new FilesystemException(__METHOD__ . ': ' . $stream->getError());
-			}
+			Stream::getStream()->move($src, $dest);
 
 			return true;
 		}
@@ -191,15 +177,15 @@ class File
 	/**
 	 * Write contents to a file
 	 *
-	 * @param   string   $file        The full file path
-	 * @param   string   $buffer      The buffer to write
-	 * @param   boolean  $useStreams  Use streams
+	 * @param   string   $file         The full file path
+	 * @param   string   &$buffer      The buffer to write
+	 * @param   boolean  $use_streams  Use streams
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.0
 	 */
-	public static function write($file, &$buffer, $useStreams = false)
+	public static function write($file, &$buffer, $use_streams = false)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
 
@@ -209,7 +195,7 @@ class File
 			Folder::create(dirname($file));
 		}
 
-		if ($useStreams)
+		if ($use_streams)
 		{
 			$stream = Stream::getStream();
 
@@ -223,22 +209,22 @@ class File
 
 		$file = Path::clean($file);
 
-		return \is_int(file_put_contents($file, $buffer));
+		return is_int(file_put_contents($file, $buffer));
 	}
 
 	/**
 	 * Moves an uploaded file to a destination folder
 	 *
-	 * @param   string   $src         The name of the php (temporary) uploaded file
-	 * @param   string   $dest        The path (including filename) to move the uploaded file to
-	 * @param   boolean  $useStreams  True to use streams
+	 * @param   string   $src          The name of the php (temporary) uploaded file
+	 * @param   string   $dest         The path (including filename) to move the uploaded file to
+	 * @param   boolean  $use_streams  True to use streams
 	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   1.0
 	 * @throws  FilesystemException
 	 */
-	public static function upload($src, $dest, $useStreams = false)
+	public static function upload($src, $dest, $use_streams = false)
 	{
 		// Ensure that the path is valid and clean
 		$dest = Path::clean($dest);
@@ -246,19 +232,14 @@ class File
 		// Create the destination directory if it does not exist
 		$baseDir = dirname($dest);
 
-		if (!is_dir($baseDir))
+		if (!file_exists($baseDir))
 		{
 			Folder::create($baseDir);
 		}
 
-		if ($useStreams)
+		if ($use_streams)
 		{
-			$stream = Stream::getStream();
-
-			if (!$stream->upload($src, $dest, null, false))
-			{
-				throw new FilesystemException(sprintf('%1$s(%2$s, %3$s): %4$s', __METHOD__, $src, $dest, $stream->getError()));
-			}
+			Stream::getStream()->upload($src, $dest);
 
 			return true;
 		}

@@ -167,7 +167,7 @@ JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
 										<?php echo JText::_('COM_MENUS_MODULES'); ?>
 										<span class="caret"></span>
 									</button>
-									<ul class="dropdown-menu dropdown-reverse">
+									<ul class="dropdown-menu">
 										<?php foreach ($this->modules[$item->menutype] as &$module) : ?>
 											<li>
 												<?php if ($user->authorise('core.edit', 'com_modules.module.' . (int) $module->id)) : ?>

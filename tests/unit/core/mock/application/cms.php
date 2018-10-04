@@ -26,7 +26,6 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 		// Collect all the relevant methods in JApplicationCms (work in progress).
 		$methods = array(
 			'getMenu',
-			'getName',
 			'getPathway',
 			'getTemplate',
 			'getLanguageFilter',
@@ -76,7 +75,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 * @param   array     $options      A set of options to configure the mock.
 	 * @param   array     $constructor  An array containing constructor arguments to inject into the mock.
 	 *
-	 * @return  JApplicationCms|PHPUnit_Framework_MockObject_MockObject
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   3.2
 	 */

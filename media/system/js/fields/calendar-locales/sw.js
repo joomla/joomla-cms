@@ -15,5 +15,5 @@
 	minYear : 1900,
 	maxYear : 2100,
 	exit: "Funga",
-	clear: "Safisha"
+	save: "Safisha"
 };

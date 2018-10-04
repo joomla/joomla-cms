@@ -14,8 +14,7 @@ use Joomla\Application\AbstractApplication;
 /**
  * Joomla Platform Base Controller Class
  *
- * @since       12.1
- * @deprecated  5.0 Use the default MVC library
+ * @since  12.1
  */
 abstract class JControllerBase implements JController
 {

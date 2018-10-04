@@ -122,7 +122,6 @@ class Browser
 		'ViolaBot',
 		'webbandit',
 		'www.almaden.ibm.com/cs/crawler',
-		'yandex.com/bots',
 		'ZyBorg',
 	);
 

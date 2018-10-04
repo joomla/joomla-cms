@@ -13,6 +13,11 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\String\StringHelper;
 
 /**
+ * Allows for quoting in language .ini files.
+ */
+define('_QQ_', '"');
+
+/**
  * Languages/translation handler class
  *
  * @since  11.1
@@ -192,7 +197,19 @@ class Language
 		$this->metadata = LanguageHelper::getMetadata($this->lang);
 		$this->setDebug($debug);
 
-		$this->override = $this->parse(JPATH_BASE . '/language/overrides/' . $lang . '.override.ini');
+		$filename = JPATH_BASE . "/language/overrides/$lang.override.ini";
+
+		if (file_exists($filename) && $contents = $this->parse($filename))
+		{
+			if (is_array($contents))
+			{
+				// Sort the underlying heap by key values to optimize merging
+				ksort($contents, SORT_STRING);
+				$this->override = $contents;
+			}
+
+			unset($contents);
+		}
 
 		// Look for a language specific localise class
 		$class = str_replace('-', '_', $lang . 'Localise');
@@ -315,14 +332,11 @@ class Language
 
 		if (isset($this->strings[$key]))
 		{
-			$string = $this->strings[$key];
+			$string = $this->debug ? '**' . $this->strings[$key] . '**' : $this->strings[$key];
 
 			// Store debug information
 			if ($this->debug)
 			{
-				$value = \JFactory::getApplication()->get('debug_lang_const') == 0 ? $key : $string;
-				$string = '**' . $value . '**';
-
 				$caller = $this->getCallerInfo();
 
 				if (!array_key_exists($key, $this->used))
@@ -757,7 +771,7 @@ class Language
 	 *
 	 * This method will not note the successful loading of a file - use load() instead.
 	 *
-	 * @param   string  $fileName   The name of the file.
+	 * @param   string  $filename   The name of the file.
 	 * @param   string  $extension  The name of the extension.
 	 *
 	 * @return  boolean  True if new strings have been added to the language
@@ -765,14 +779,19 @@ class Language
 	 * @see     Language::load()
 	 * @since   11.1
 	 */
-	protected function loadLanguage($fileName, $extension = 'unknown')
+	protected function loadLanguage($filename, $extension = 'unknown')
 	{
 		$this->counter++;
 
-		$result  = false;
-		$strings = $this->parse($fileName);
+		$result = false;
+		$strings = false;
 
-		if ($strings !== array())
+		if (file_exists($filename))
+		{
+			$strings = $this->parse($filename);
+		}
+
+		if (is_array($strings) && count($strings))
 		{
 			$this->strings = array_replace($this->strings, $strings, $this->override);
 			$result = true;
@@ -784,7 +803,7 @@ class Language
 			$this->paths[$extension] = array();
 		}
 
-		$this->paths[$extension][$fileName] = $result;
+		$this->paths[$extension][$filename] = $result;
 
 		return $result;
 	}
@@ -792,20 +811,51 @@ class Language
 	/**
 	 * Parses a language file.
 	 *
-	 * @param   string  $fileName  The name of the file.
+	 * @param   string  $filename  The name of the file.
 	 *
 	 * @return  array  The array of parsed strings.
 	 *
 	 * @since   11.1
 	 */
-	protected function parse($fileName)
+	protected function parse($filename)
 	{
-		$strings = \JLanguageHelper::parseIniFile($fileName, $this->debug);
-
-		// Debug the ini file if needed.
-		if ($this->debug === true && file_exists($fileName))
+		// Capture hidden PHP errors from the parsing.
+		if ($this->debug)
 		{
-			$this->debugFile($fileName);
+			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
+			$php_errormsg = null;
+
+			$trackErrors = ini_get('track_errors');
+			ini_set('track_errors', true);
+		}
+
+		// This was required for https://github.com/joomla/joomla-cms/issues/17198 but not sure what server setup
+		// issue it is solving
+		$disabledFunctions = explode(',', ini_get('disable_functions'));
+		$isParseIniFileDisabled = in_array('parse_ini_file', array_map('trim', $disabledFunctions));
+
+		if (!function_exists('parse_ini_file') || $isParseIniFileDisabled)
+		{
+			$contents = file_get_contents($filename);
+			$contents = str_replace('_QQ_', '"\""', $contents);
+			$strings = @parse_ini_string($contents);
+		}
+		else
+		{
+			$strings = @parse_ini_file($filename);
+		}
+
+		if (!is_array($strings))
+		{
+			$strings = array();
+		}
+
+		// Restore error tracking to what it was before.
+		if ($this->debug)
+		{
+			ini_set('track_errors', $trackErrors);
+
+			$this->debugFile($filename);
 		}
 
 		return $strings;

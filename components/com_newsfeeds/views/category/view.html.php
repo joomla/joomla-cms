@@ -47,9 +47,6 @@ class NewsfeedsViewCategory extends JViewCategory
 	{
 		$this->commonCategoryDisplay();
 
-		// Flag indicates to not add limitstart=0 to URL
-		$this->pagination->hideEmptyLimitstart = true;
-
 		// Prepare the data.
 		// Compute the newsfeed slug.
 		foreach ($this->items as $item)

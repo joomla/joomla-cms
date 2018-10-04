@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since       11.3
- * @deprecated  4.0  Use PDO PostgreSQL instead
+ * @since  11.3
  */
 class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
@@ -689,9 +688,9 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * $query->select($query->dateAdd());
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 *
-	 * @param   string  $date      The db quoted string representation of the date to add to
-	 * @param   string  $interval  The string representation of the appropriate number of units
-	 * @param   string  $datePart  The part of the date to perform the addition on
+	 * @param   datetime  $date      The date to add to
+	 * @param   string    $interval  The string representation of the appropriate number of units
+	 * @param   string    $datePart  The part of the date to perform the addition on
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
@@ -703,11 +702,11 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	{
 		if (substr($interval, 0, 1) != '-')
 		{
-			return "timestamp " . $date . " + interval '" . $interval . " " . $datePart . "'";
+			return "timestamp '" . $date . "' + interval '" . $interval . " " . $datePart . "'";
 		}
 		else
 		{
-			return "timestamp " . $date . " - interval '" . ltrim($interval, '-') . " " . $datePart . "'";
+			return "timestamp '" . $date . "' - interval '" . ltrim($interval, '-') . " " . $datePart . "'";
 		}
 	}
 
@@ -734,10 +733,10 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 * Return correct rand() function for Postgresql.
 	 *
 	 * Ensure that the rand() function is Postgresql compatible.
-	 *
+	 * 
 	 * Usage:
 	 * $query->Rand();
-	 *
+	 * 
 	 * @return  string  The correct rand function.
 	 *
 	 * @since   3.5

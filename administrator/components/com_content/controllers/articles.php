@@ -50,7 +50,7 @@ class ContentControllerArticles extends JControllerAdmin
 	public function featured()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$user   = JFactory::getUser();
 		$ids    = $this->input->get('cid', array(), 'array');

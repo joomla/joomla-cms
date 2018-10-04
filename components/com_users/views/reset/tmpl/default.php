@@ -24,10 +24,19 @@ JHtml::_('behavior.formvalidator');
 	<form id="user-registration" action="<?php echo JRoute::_('index.php?option=com_users&task=reset.request'); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
-				<?php if (isset($fieldset->label)) : ?>
-					<p><?php echo JText::_($fieldset->label); ?></p>
-				<?php endif; ?>
-				<?php echo $this->form->renderFieldset($fieldset->name); ?>
+				<p><?php echo JText::_($fieldset->label); ?></p>
+				<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field) : ?>
+					<?php if ($field->hidden === false) : ?>
+						<div class="control-group">
+							<div class="control-label">
+								<?php echo $field->label; ?>
+							</div>
+							<div class="controls">
+								<?php echo $field->input; ?>
+							</div>
+						</div>
+					<?php endif; ?>
+				<?php endforeach; ?>
 			</fieldset>
 		<?php endforeach; ?>
 		<div class="control-group">

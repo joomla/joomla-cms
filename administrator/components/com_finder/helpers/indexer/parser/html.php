@@ -98,8 +98,6 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	 * @param   string  $endTag    String representing the end tag.
 	 *
 	 * @return  string with blocks removed.
-	 *
-	 * @since   3.4
 	 */
 	private function removeBlocks($input, $startTag, $endTag)
 	{

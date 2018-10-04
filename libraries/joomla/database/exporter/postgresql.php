@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL export driver.
  *
- * @since       12.1
- * @deprecated  4.0  Use PDO PostgreSQL instead
+ * @since  12.1
  *
  * @property-read  JDatabaseDriverPostgresql  $db  The database connector to use for exporting structure and/or data.
  */

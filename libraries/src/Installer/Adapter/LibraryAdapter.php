@@ -106,15 +106,7 @@ class LibraryAdapter extends InstallerAdapter
 		{
 			$manifest = array();
 			$manifest['src'] = $this->parent->getPath('manifest');
-			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . $this->element . '.xml';
-
-			$destFolder = dirname($manifest['dest']);
-
-			if (!is_dir($destFolder) && !@mkdir($destFolder))
-			{
-				// Install failed, rollback changes
-				throw new \RuntimeException(\JText::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
-			}
+			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
 
 			if (!$this->parent->copyFiles(array($manifest), true))
 			{
@@ -158,7 +150,8 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			$element  = (string) $this->getManifest()->libraryname;
+			$manifestPath = \JPath::clean($this->parent->getPath('manifest'));
+			$element = preg_replace('/\.xml/', '', basename($manifestPath));
 		}
 
 		return $element;
@@ -182,7 +175,7 @@ class LibraryAdapter extends InstallerAdapter
 			$this->parent->setPath('source', JPATH_PLATFORM . '/' . $this->getElement());
 		}
 
-		$extension = 'lib_' . str_replace('/', '_', $this->getElement());
+		$extension = 'lib_' . $this->getElement();
 		$librarypath = (string) $this->getManifest()->libraryname;
 		$source = $path ?: JPATH_PLATFORM . '/' . $librarypath;
 
@@ -464,15 +457,6 @@ class LibraryAdapter extends InstallerAdapter
 		$this->parent->removeFiles($xml->media);
 		$this->parent->removeFiles($xml->languages);
 
-		$elementParts = explode('/', $row->element);
-
-		// Delete empty vendor folders
-		if (2 === count($elementParts))
-		{
-			@rmdir(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
-			@rmdir(JPATH_PLATFORM . '/' . $elementParts[0]);
-		}
-
 		$row->delete($row->extension_id);
 		unset($row);
 
@@ -489,29 +473,20 @@ class LibraryAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
+		$file_list = \JFolder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
 
-
-		$mainFolder = JPATH_MANIFESTS . '/libraries';
-		$folder = new \RecursiveDirectoryIterator($mainFolder);
-		$iterator = new \RegexIterator(
-			new \RecursiveIteratorIterator($folder),
-			'/\.xml$/i',
-			\RecursiveRegexIterator::GET_MATCH
-		);
-
-		foreach ($iterator as $file => $pattern)
+		foreach ($file_list as $file)
 		{
-			$element = str_replace(array($mainFolder . DIRECTORY_SEPARATOR, '.xml'), '', $file);
-			$manifestCache = Installer::parseXMLInstallFile($file);
-
+			$manifest_details = Installer::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
+			$file = \JFile::stripExt($file);
 			$extension = Table::getInstance('extension');
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
-			$extension->set('element', $element);
+			$extension->set('element', $file);
 			$extension->set('folder', '');
-			$extension->set('name', $element);
+			$extension->set('name', $file);
 			$extension->set('state', -1);
-			$extension->set('manifest_cache', json_encode($manifestCache));
+			$extension->set('manifest_cache', json_encode($manifest_details));
 			$extension->set('params', '{}');
 			$results[] = $extension;
 		}

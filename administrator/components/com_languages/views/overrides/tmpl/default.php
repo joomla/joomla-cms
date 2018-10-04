@@ -13,15 +13,15 @@ JHtml::_('formbehavior.chosen', 'select');
 JHtml::_('bootstrap.tooltip');
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-$client    = $this->state->get('filter.client') == 'site' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
+$client    = $this->state->get('filter.client') == '0' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$oppositeClient   = $this->state->get('filter.client') == 'administrator' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
-$oppositeFileName = constant('JPATH_' . strtoupper($this->state->get('filter.client') === 'site' ? 'administrator' : 'site'))
+$opposite_client   = $this->state->get('filter.client') == '1' ? JText::_('JSITE') : JText::_('JADMINISTRATOR');
+$opposite_filename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site'))
 	. '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
-$oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
+$opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
@@ -33,8 +33,19 @@ $oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
 <?php else : ?>
 	<div id="j-main-container">
 <?php endif; ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
-        <div class="clearfix"></div>
+		<div id="filter-bar" class="btn-toolbar clearfix">
+			<div class="filter-search btn-group pull-left">
+				<input type="text" name="filter_search" id="filter_search" placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>" value="<?php echo $this->escape($this->state->get('filter.search')); ?>" class="hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_LANGUAGES_VIEW_OVERRIDES_FILTER_SEARCH_DESC'); ?>" />
+			</div>
+			<div class="btn-group pull-left">
+				<button type="submit" class="btn hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_SUBMIT'); ?>"><span class="icon-search" aria-hidden="true"></span></button>
+				<button type="button" class="btn hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JSEARCH_FILTER_CLEAR'); ?>" onclick="document.getElementById('filter_search').value='';this.form.submit();"><span class="icon-remove" aria-hidden="true"></span></button>
+			</div>
+			<div class="btn-group pull-right hidden-phone">
+				<label for="limit" class="element-invisible"><?php echo JText::_('JFIELD_PLG_SEARCH_SEARCHLIMIT_DESC'); ?></label>
+				<?php echo $this->pagination->getLimitBox(); ?>
+			</div>
+		</div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
@@ -47,10 +58,10 @@ $oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
 							<?php echo JHtml::_('grid.checkall'); ?>
 						</th>
 						<th width="30%" class="left">
-							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_KEY', 'key', $listDirn, $listOrder); ?>
 						</th>
 						<th class="left hidden-phone">
-							<?php echo JHtml::_('searchtools.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
+							<?php echo JHtml::_('grid.sort', 'COM_LANGUAGES_VIEW_OVERRIDES_TEXT', 'text', $listDirn, $listOrder); ?>
 						</th>
 						<th class="nowrap hidden-phone">
 							<?php echo JText::_('COM_LANGUAGES_FIELD_LANG_TAG_LABEL'); ?>
@@ -90,9 +101,9 @@ $oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
 						</td>
 						<td class="hidden-phone">
 							<?php echo $client; ?><?php
-							if (isset($oppositeStrings[$key]) && $oppositeStrings[$key] === $text)
+							if (isset($opposite_strings[$key]) && ($opposite_strings[$key] == $text))
 							{
-								echo '/' . $oppositeClient;
+								echo '/' . $opposite_client;
 							}
 							?>
 						</td>
@@ -105,6 +116,8 @@ $oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
 
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />
+		<input type="hidden" name="filter_order" value="<?php echo $listOrder; ?>" />
+		<input type="hidden" name="filter_order_Dir" value="<?php echo $listDirn; ?>" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
 </form>

@@ -28,7 +28,7 @@ class ModulesControllerModules extends JControllerAdmin
 	public function duplicate()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 		$pks = ArrayHelper::toInteger($pks);

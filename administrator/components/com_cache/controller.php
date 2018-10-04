@@ -72,7 +72,7 @@ class CacheController extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$cid = $this->input->post->get('cid', array(), 'array');
 
@@ -107,7 +107,7 @@ class CacheController extends JControllerLegacy
 	public function deleteAll()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app        = JFactory::getApplication();
 		$model      = $this->getModel('cache');
@@ -149,7 +149,7 @@ class CacheController extends JControllerLegacy
 	public function purge()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		if (!$this->getModel('cache')->purge())
 		{

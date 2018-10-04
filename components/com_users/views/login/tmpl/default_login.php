@@ -35,9 +35,27 @@ JHtml::_('behavior.formvalidator');
 	<?php endif; ?>
 	<form action="<?php echo JRoute::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="form-validate form-horizontal well">
 		<fieldset>
-			<?php echo $this->form->renderFieldset('credentials'); ?>
+			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
+				<?php if (!$field->hidden) : ?>
+					<div class="control-group">
+						<div class="control-label">
+							<?php echo $field->label; ?>
+						</div>
+						<div class="controls">
+							<?php echo $field->input; ?>
+						</div>
+					</div>
+				<?php endif; ?>
+			<?php endforeach; ?>
 			<?php if ($this->tfa) : ?>
-				<?php echo $this->form->renderField('secretkey'); ?>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getField('secretkey')->label; ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getField('secretkey')->input; ?>
+					</div>
+				</div>
 			<?php endif; ?>
 			<?php if (JPluginHelper::isEnabled('system', 'remember')) : ?>
 				<div class="control-group">

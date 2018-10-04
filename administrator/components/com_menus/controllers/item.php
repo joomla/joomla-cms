@@ -135,7 +135,7 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('Item', '', array());
 
@@ -156,7 +156,7 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
 		$context = 'com_menus.edit.item';
@@ -251,7 +251,7 @@ class MenusControllerItem extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app      = JFactory::getApplication();
 		$model    = $this->getModel('Item', '', array());
@@ -509,7 +509,7 @@ class MenusControllerItem extends JControllerForm
 	 */
 	public function setType()
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$app = JFactory::getApplication();
 

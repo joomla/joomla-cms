@@ -58,7 +58,7 @@ class AssociationsControllerAssociation extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		list($extensionName, $typeName) = explode('.', $this->input->get('itemtype', '', 'string'));
 

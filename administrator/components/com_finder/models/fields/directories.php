@@ -17,8 +17,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Renders a list of directories.
  *
- * @since       2.5
- * @deprecated  4.0  Use JFormFieldFolderlist
+ * @since  2.5
  */
 class JFormFieldDirectories extends JFormFieldList
 {

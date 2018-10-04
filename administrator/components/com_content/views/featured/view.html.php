@@ -20,8 +20,6 @@ class ContentViewFeatured extends JViewLegacy
 	 * The item authors
 	 *
 	 * @var  stdClass
-	 *
-	 * @deprecated  4.0  To be removed with Hathor
 	 */
 	protected $authors;
 

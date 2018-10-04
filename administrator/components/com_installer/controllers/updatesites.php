@@ -50,7 +50,7 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 	public function publish()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
@@ -90,7 +90,7 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -115,7 +115,7 @@ class InstallerControllerUpdatesites extends JControllerLegacy
 	public function rebuild()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Rebuild the update sites.
 		$this->getModel('Updatesites')->rebuild();

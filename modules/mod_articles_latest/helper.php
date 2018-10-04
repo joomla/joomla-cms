@@ -73,10 +73,6 @@ abstract class ModArticlesLatestHelper
 				$model->setState('filter.author_id.include', false);
 				break;
 
-			case 'created_by' :
-				$model->setState('filter.author_id', $params->get('author', array()));
-				break;
-
 			case '0' :
 				break;
 
@@ -88,20 +84,18 @@ abstract class ModArticlesLatestHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
-		// Featured switch
-		$featured = $params->get('show_featured', '');
-
-		if ($featured === '')
+		//  Featured switch
+		switch ($params->get('show_featured'))
 		{
-			$model->setState('filter.featured', 'show');
-		}
-		elseif ($featured)
-		{
-			$model->setState('filter.featured', 'only');
-		}
-		else
-		{
-			$model->setState('filter.featured', 'hide');
+			case '1' :
+				$model->setState('filter.featured', 'only');
+				break;
+			case '0' :
+				$model->setState('filter.featured', 'hide');
+				break;
+			default :
+				$model->setState('filter.featured', 'show');
+				break;
 		}
 
 		// Set ordering

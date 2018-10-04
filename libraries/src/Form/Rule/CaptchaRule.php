@@ -54,16 +54,26 @@ class CaptchaRule extends FormRule
 		{
 			return true;
 		}
-
-		try
+		else
 		{
 			$captcha = Captcha::getInstance((string) $plugin, array('namespace' => (string) $namespace));
-			return $captcha->checkAnswer($value);
 		}
-		catch (\RuntimeException $e)
+
+		// Test the value.
+		if (!$captcha->checkAnswer($value))
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			$error = $captcha->getError();
+
+			if ($error instanceof \Exception)
+			{
+				return $error;
+			}
+			else
+			{
+				return new \JException($error);
+			}
 		}
-		return false;
+
+		return true;
 	}
 }

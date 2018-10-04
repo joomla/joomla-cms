@@ -482,25 +482,8 @@ class FormHelper
 			$compareEqual     = strpos($showOnPart, '!:') === false;
 			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
-			if (strpos($showOnPartBlocks[0], '.') !== false)
-			{
-				if ($formControl)
-				{
-					$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
-				}
-				else
-				{
-					$groupParts = explode('.', $showOnPartBlocks[0]);
-					$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
-				}
-			}
-			else
-			{
-				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
-			}
-
 			$showOnData[] = array(
-				'field'  => $field,
+				'field'  => $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
 				'values' => explode(',', $showOnPartBlocks[1]),
 				'sign'   => $compareEqual === true ? '=' : '!=',
 				'op'     => $op,

@@ -259,17 +259,6 @@ abstract class PluginHelper
 				{
 					$className = 'Plg' . str_replace('-', '', $plugin->type) . $plugin->name;
 
-					if ($plugin->type == 'editors-xtd')
-					{
-						// This type doesn't follow the convention
-						$className = 'PlgEditorsXtd' . $plugin->name;
-
-						if (!class_exists($className))
-						{
-							$className = 'PlgButton' . $plugin->name;
-						}
-					}
-
 					if (class_exists($className))
 					{
 						// Load the plugin from the database.

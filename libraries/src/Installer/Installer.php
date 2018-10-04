@@ -954,10 +954,6 @@ class Installer extends \JAdapter
 		{
 			$dbDriver = 'mysql';
 		}
-		elseif ($db->getServerType() === 'postgresql')
-		{
-			$dbDriver = 'postgresql';
-		}
 
 		$update_count = 0;
 
@@ -970,10 +966,6 @@ class Installer extends \JAdapter
 			if ($fDriver === 'mysqli' || $fDriver === 'pdomysql')
 			{
 				$fDriver = 'mysql';
-			}
-			elseif ($fDriver === 'pgsql')
-			{
-				$fDriver = 'postgresql';
 			}
 
 			if ($fCharset === 'utf8' && $fDriver == $dbDriver)
@@ -1004,7 +996,7 @@ class Installer extends \JAdapter
 				if (count($queries) === 0)
 				{
 					// No queries to process
-					continue;
+					return 0;
 				}
 
 				// Process each query in the $queries array (split out of sql file).
@@ -1060,10 +1052,6 @@ class Installer extends \JAdapter
 				if ($db->getServerType() === 'mysql')
 				{
 					$dbDriver = 'mysql';
-				}
-				elseif ($db->getServerType() === 'postgresql')
-				{
-					$dbDriver = 'postgresql';
 				}
 
 				$schemapath = '';
@@ -1133,10 +1121,6 @@ class Installer extends \JAdapter
 				{
 					$dbDriver = 'mysql';
 				}
-				elseif ($db->getServerType() === 'postgresql')
-				{
-					$dbDriver = 'postgresql';
-				}
 
 				$schemapath = '';
 
@@ -1150,10 +1134,6 @@ class Installer extends \JAdapter
 					if ($uDriver === 'mysqli' || $uDriver === 'pdomysql')
 					{
 						$uDriver = 'mysql';
-					}
-					elseif ($uDriver === 'pgsql')
-					{
-						$uDriver = 'postgresql';
 					}
 
 					if ($uDriver == $dbDriver)

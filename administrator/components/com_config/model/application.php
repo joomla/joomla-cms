@@ -97,7 +97,6 @@ class ConfigModelApplication extends ConfigModelForm
 	public function save($data)
 	{
 		$app = JFactory::getApplication();
-		$dispatcher = JEventDispatcher::getInstance();
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(
@@ -395,21 +394,8 @@ class ConfigModelApplication extends ConfigModelForm
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
 
-		$result = $dispatcher->trigger('onApplicationBeforeSave', array($config));
-
-		// Store the data.
-		if (in_array(false, $result, true))
-		{
-			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
-		}
-
 		// Write the configuration file.
-		$result = $this->writeConfigFile($config);
-
-		// Trigger the after save event.
-		$dispatcher->trigger('onApplicationAfterSave', array($config));
-
-		return $result;
+		return $this->writeConfigFile($config);
 	}
 
 	/**
@@ -424,8 +410,6 @@ class ConfigModelApplication extends ConfigModelForm
 	 */
 	public function removeroot()
 	{
-		$dispatcher = JEventDispatcher::getInstance();
-
 		// Get the previous configuration.
 		$prev = new JConfig;
 		$prev = ArrayHelper::fromObject($prev);
@@ -434,21 +418,8 @@ class ConfigModelApplication extends ConfigModelForm
 		unset($prev['root_user']);
 		$config = new Registry($prev);
 
-		$result = $dispatcher->trigger('onApplicationBeforeSave', array($config));
-
-		// Store the data.
-		if (in_array(false, $result, true))
-		{
-			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
-		}
-
 		// Write the configuration file.
-		$result = $this->writeConfigFile($config);
-
-		// Trigger the after save event.
-		$dispatcher->trigger('onApplicationAfterSave', array($config));
-
-		return $result;
+		return $this->writeConfigFile($config);
 	}
 
 	/**

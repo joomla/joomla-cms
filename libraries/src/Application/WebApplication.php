@@ -621,14 +621,8 @@ class WebApplication extends BaseApplication
 			}
 		}
 
-		// Trigger the onBeforeRespond event.
-		$this->triggerEvent('onBeforeRespond');
-
 		// Set appropriate headers
 		$this->respond();
-
-		// Trigger the onAfterRespond event.
-		$this->triggerEvent('onAfterRespond');
 
 		//  Close the application after the redirect.
 		$this->close();

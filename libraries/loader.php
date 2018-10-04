@@ -543,13 +543,7 @@ abstract class JLoader
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = realpath($path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1));
-
-					// We do not allow files outside the namespace root to be loaded
-					if (strpos($classFilePath, realpath($path)) !== 0)
-					{
-						continue;
-					}
+					$classFilePath = $path . DIRECTORY_SEPARATOR . substr_replace($classPath, '', 0, strlen($nsPath) + 1);
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
@@ -611,13 +605,7 @@ abstract class JLoader
 				// Loop through paths registered to this namespace until we find a match.
 				foreach ($paths as $path)
 				{
-					$classFilePath = realpath($path . DIRECTORY_SEPARATOR . $classPath);
-
-					// We do not allow files outside the namespace root to be loaded
-					if (strpos($classFilePath, realpath($path)) !== 0)
-					{
-						continue;
-					}
+					$classFilePath = $path . DIRECTORY_SEPARATOR . $classPath;
 
 					// We check for class_exists to handle case-sensitive file systems
 					if (file_exists($classFilePath) && !class_exists($class, false))
@@ -730,10 +718,10 @@ abstract class JLoader
 		foreach ($lookup as $base)
 		{
 			// Generate the path based on the class name parts.
-			$path = realpath($base . '/' . implode('/', array_map('strtolower', $parts)) . '.php');
+			$path = $base . '/' . implode('/', array_map('strtolower', $parts)) . '.php';
 
-			// Load the file if it exists and is in the lookup path.
-			if (strpos($path, realpath($base)) === 0 && file_exists($path))
+			// Load the file if it exists.
+			if (file_exists($path))
 			{
 				$found = (bool) include_once $path;
 
@@ -751,10 +739,10 @@ abstract class JLoader
 			if ($partsCount === 1)
 			{
 				// Generate the path based on the class name parts.
-				$path = realpath($base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php');
+				$path = $base . '/' . implode('/', array_map('strtolower', array($parts[0], $parts[0]))) . '.php';
 
-				// Load the file if it exists and is in the lookup path.
-				if (strpos($path, realpath($base)) === 0 && file_exists($path))
+				// Load the file if it exists.
+				if (file_exists($path))
 				{
 					$found = (bool) include_once $path;
 

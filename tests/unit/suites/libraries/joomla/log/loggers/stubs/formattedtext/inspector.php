@@ -29,6 +29,4 @@ class JLogLoggerFormattedTextInspector extends JLogLoggerFormattedtext
 	public $fields;
 
 	public $path;
-
-	public $defer;
 }

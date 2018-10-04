@@ -12,13 +12,15 @@ defined('_JEXEC') or die;
 /**
  * Config Component Controller
  *
- * @since  1.5
+ * @since       1.5
+ * @deprecated  4.0
  */
 class ConfigController extends JControllerLegacy
 {
 	/**
 	 * @var    string  The default view.
 	 * @since  1.6
+	 * @deprecated  4.0
 	 */
 	protected $default_view = 'application';
 
@@ -31,11 +33,25 @@ class ConfigController extends JControllerLegacy
 	 * @return  ConfigController  This object to support chaining.
 	 *
 	 * @since   1.5
+	 * @deprecated  4.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'application');
+
+		try
+		{
+			JLog::add(
+				sprintf('%s is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.', __CLASS__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		if (ucfirst($vName) == 'Application')
 		{

@@ -28,13 +28,18 @@ class ModRandomImageHelper
 	 */
 	public static function getRandomImage(&$params, $images)
 	{
-		$width  = $params->get('width', 100);
-		$height = $params->get('height', null);
+		$width  = $params->get('width');
+		$height = $params->get('height');
 
 		$i      = count($images);
 		$random = mt_rand(0, $i - 1);
 		$image  = $images[$random];
 		$size   = getimagesize(JPATH_BASE . '/' . $image->folder . '/' . $image->name);
+
+		if ($width == '')
+		{
+			$width = 100;
+		}
 
 		if ($size[0] < $width)
 		{
@@ -43,7 +48,7 @@ class ModRandomImageHelper
 
 		$coeff = $size[0] / $size[1];
 
-		if ($height === null)
+		if ($height == '')
 		{
 			$height = (int) ($width / $coeff);
 		}

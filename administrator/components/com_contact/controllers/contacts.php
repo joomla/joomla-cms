@@ -43,7 +43,7 @@ class ContactControllerContacts extends JControllerAdmin
 	public function featured()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('featured' => 1, 'unfeatured' => 0);

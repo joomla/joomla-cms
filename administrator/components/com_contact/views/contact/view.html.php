@@ -139,11 +139,6 @@ class ContactViewContact extends JViewLegacy
 				JToolbarHelper::versions('com_contact.contact', $this->item->id);
 			}
 
-			if (JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
-			{
-				JToolbarHelper::custom('contact.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
-			}
-
 			JToolbarHelper::cancel('contact.cancel', 'JTOOLBAR_CLOSE');
 		}
 

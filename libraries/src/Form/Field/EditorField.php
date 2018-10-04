@@ -329,19 +329,10 @@ class EditorField extends \JFormFieldTextarea
 	 *
 	 * @return  string  The JEditor object output.
 	 *
-	 * @since       1.6
-	 * @deprecated  4.0  Will be removed without replacement
-	 * @see         Editor::save()
+	 * @since   1.6
 	 */
 	public function save()
 	{
-		$editor = $this->getEditor();
-
-		if (!method_exists($editor, 'save'))
-		{
-			return '';
-		}
-
-		return $editor->save($this->id);
+		return $this->getEditor()->save($this->id);
 	}
 }

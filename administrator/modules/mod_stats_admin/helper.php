@@ -32,10 +32,10 @@ class ModStatsHelper
 		$rows  = array();
 		$query = $db->getQuery(true);
 
-		$serverinfo = $params->get('serverinfo', 0);
-		$siteinfo   = $params->get('siteinfo', 0);
-		$counter    = $params->get('counter', 0);
-		$increase   = $params->get('increase', 0);
+		$serverinfo = $params->get('serverinfo');
+		$siteinfo   = $params->get('siteinfo');
+		$counter    = $params->get('counter');
+		$increase   = $params->get('increase');
 
 		$i = 0;
 
@@ -114,7 +114,6 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
-				$rows[$i]->link  = JRoute::_('index.php?option=com_users');
 				$i++;
 			}
 
@@ -124,7 +123,6 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
-				$rows[$i]->link  = JRoute::_('index.php?option=com_content&view=articles&filter[published]=1');
 				$i++;
 			}
 		}
@@ -173,7 +171,6 @@ class ModStatsHelper
 					$rows[$i]->title = $row['title'];
 					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
 					$rows[$i]->data  = $row['data'];
-					$rows[$i]->link  = isset($row['link']) ? $row['link'] : null;
 					$i++;
 				}
 			}

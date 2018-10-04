@@ -582,7 +582,7 @@ abstract class HTMLHelper
 		}
 
 		// If only path is required
-		if ($returnPath === 1)
+		if ($returnPath)
 		{
 			return $file;
 		}

@@ -144,7 +144,7 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	public function batch($model = null)
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Module', '', array());
@@ -196,7 +196,10 @@ class ModulesControllerModule extends JControllerForm
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		$this->checkToken();
+		if (!JSession::checkToken())
+		{
+			JFactory::getApplication()->redirect('index.php', JText::_('JINVALID_TOKEN'));
+		}
 
 		if (JFactory::getDocument()->getType() == 'json')
 		{
@@ -248,7 +251,7 @@ class ModulesControllerModule extends JControllerForm
 		// Check if user token is valid.
 		if (!JSession::checkToken('get'))
 		{
-			$app->enqueueMessage(JText::_('JINVALID_TOKEN_NOTICE'), 'error');
+			$app->enqueueMessage(JText::_('JINVALID_TOKEN'), 'error');
 			echo new JResponseJson;
 			$app->close();
 		}

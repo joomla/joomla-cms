@@ -35,13 +35,6 @@ class BannersModelBanner extends JModelLegacy
 	 */
 	public function click()
 	{
-		$item = $this->getItem();
-
-		if (empty($item))
-		{
-			throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
-		}
-
 		$id = $this->getState('banner.id');
 
 		// Update click count
@@ -61,6 +54,8 @@ class BannersModelBanner extends JModelLegacy
 		{
 			JError::raiseError(500, $e->getMessage());
 		}
+
+		$item = $this->getItem();
 
 		// Track clicks
 		$trackClicks = $item->track_clicks;

@@ -58,7 +58,7 @@ class MenusControllerMenus extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$user = JFactory::getUser();
 		$app  = JFactory::getApplication();
@@ -113,7 +113,7 @@ class MenusControllerMenus extends JControllerLegacy
 	 */
 	public function rebuild()
 	{
-		$this->checkToken();
+		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 
