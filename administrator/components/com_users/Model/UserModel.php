@@ -1157,7 +1157,7 @@ class UserModel extends AdminModel
 	 */
 	public function getOtpConfigEncryptionKey()
 	{
-		return Factory::getConfig()->get('secret');
+		return Factory::getApplication()->get('secret');
 	}
 
 	/**
