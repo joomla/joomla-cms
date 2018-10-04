@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Component\Messages\Administrator\Model\MessageModel;
 use Joomla\Component\Content\Administrator\Table\ArticleTable;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Utilities\ArrayHelper;
@@ -105,7 +104,8 @@ class PlgContentJoomla extends CMSPlugin
 					'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
 					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
-				$model_message = new MessageModel;
+				$model_message = Factory::getApplication()->bootComponent('com_messages')
+					->createMVCFactory(Factory::getApplication())->createModel('Message', 'Administrator');
 				$result = $model_message->save($message);
 			}
 		}
@@ -518,7 +518,8 @@ class PlgContentJoomla extends CMSPlugin
 						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title)
 					);
 
-					$model_message = new MessageModel;
+					$model_message = Factory::getApplication()->bootComponent('com_messages')
+						->createMVCFactory(Factory::getApplication())->createModel('Message', 'Administrator');
 					$result = $model_message->save($message);
 				}
 			}
