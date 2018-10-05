@@ -138,9 +138,9 @@ class Uri extends \Joomla\Uri\Uri
 		// Get the base request path.
 		if (empty(static::$base))
 		{
-			$app = Factory::getApplication();
+			$config = Factory::getConfig();
 			$uri = static::getInstance();
-			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $app->get('live_site')) : $app->get('live_site');
+			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
 
 			if (trim($live_site) != '')
 			{
