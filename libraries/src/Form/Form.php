@@ -1300,7 +1300,7 @@ class Form
 					}
 
 					// Get the server timezone setting.
-					$offset = Factory::getConfig()->get('offset');
+					$offset = Factory::getApplication()->get('offset');
 
 					// Return an SQL formatted datetime string in UTC.
 					try
