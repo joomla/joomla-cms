@@ -2,22 +2,50 @@
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-// @todo vanillify this script
-window.jQuery(document).ready(($) => {
-  'use strict';
+/**
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
-  const propagate = () => {
-    const $this = $(this);
-    const sub = $this.closest('li').find('.treeselect-sub [type="checkbox"]');
-    sub.prop('checked', this.checked);
-    if ($this.val() === 1) {
-      sub.each(propagate);
+(() => {
+  const disable = (element) => {
+    if (element.getAttribute('disabled')) {
+      console.log('HAS ATTRIBUTE');
+      element.removeAttribute('disabled');
     } else {
-      sub.attr('disabled', this.checked ? 'disabled' : null);
+      element.setAttribute('disabled', 'disabled');
     }
-  };
+  }
 
-  $('.treeselect')
-    .on('click', '[type="checkbox"]', propagate)
-    .find('[type="checkbox"]:checked').each(propagate);
-});
+  const getRootChildren = (element) => element ? element.querySelectorAll('input[type="checkbox"]') : undefined;
+
+  const checkIfRoot = (element) =>  getRootChildren(element.parentElement.nextElementSibling);
+
+  window.addEventListener('load', () => {
+    const checkboxes = document.querySelectorAll('.treeselect input[type="checkbox"]');
+
+    for (let checkbox of checkboxes) {
+      checkbox.addEventListener('click', (event) => {
+        const targetElement = event.target;
+
+        if (Number(targetElement.value) === 1) {
+          checkboxes
+            .filter(checkbox => checkbox !== targetElement)
+            .map(checkbox => disable(checkbox));
+        }
+
+        if (typeof checkIfRoot(targetElement) !== 'undefined') {
+          for (let subCheckbox of checkIfRoot(targetElement)) {
+            disable(subCheckbox);
+          }
+        } else {
+          disable(targetElement);
+        }
+      })
+    }
+  })
+})()
+
+
+
+
