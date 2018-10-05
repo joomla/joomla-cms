@@ -224,7 +224,7 @@ class TextField extends FormField
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = Factory::getConfig()->get($this->fieldname);
+				$value = Factory::getApplication()->get($this->fieldname);
 			}
 
 			// Try with menu configuration

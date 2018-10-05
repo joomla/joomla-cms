@@ -195,8 +195,7 @@ class CalendarField extends FormField
 	 */
 	protected function getInput()
 	{
-		$user   = Factory::getUser();
-		$config = Factory::getConfig();
+		$user = Factory::getUser();
 
 		// Translate the format if requested
 		$translateFormat = (string) $this->element['translateformat'];
@@ -224,7 +223,7 @@ class CalendarField extends FormField
 				{
 					// Get a date object based on the correct timezone.
 					$date = Factory::getDate($this->value, 'UTC');
-					$date->setTimezone(new \DateTimeZone($config->get('offset')));
+					$date->setTimezone(new \DateTimeZone(Factory::getApplication()->get('offset')));
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);

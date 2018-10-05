@@ -135,7 +135,7 @@ class PluginsField extends ListField
 
 			if ($useGlobal)
 			{
-				$globalValue = Factory::getConfig()->get($this->fieldname);
+				$globalValue = Factory::getApplication()->get($this->fieldname);
 			}
 
 			foreach ($options as $i => $item)
