@@ -85,7 +85,7 @@ else // XTD Image plugin
 				<div class="span4 control-group">
 					<div class="pull-right">
 						<button class="btn btn-success button-save-selected" type="button" <?php if (!empty($onClick)) :
-						// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT'); ?></button>
+							// This is for Mootools compatibility ?>onclick="<?php echo $onClick; ?>"<?php endif; ?> data-dismiss="modal"><?php echo JText::_('COM_MEDIA_INSERT'); ?></button>
 						<button class="btn button-cancel" type="button" onclick="window.parent.jQuery('.modal.in').modal('hide');<?php if (!empty($onClick)) :
 							// This is for Mootools compatibility ?>parent.jModalClose();<?php endif ?>" data-dismiss="modal"><?php echo JText::_('JCANCEL'); ?></button>
 					</div>
