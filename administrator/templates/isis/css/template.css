@@ -6995,6 +6995,7 @@ html {
 	height: 100%;
 }
 body {
+	height: 100%;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 	box-sizing: border-box;
@@ -8568,8 +8569,7 @@ td.nowrap.has-context {
 	min-height: 51px;
 }
 .subhead-collapse {
-	margin-bottom: 18px;
-	z-index: 100;
+	margin-bottom: 19px;
 }
 .subhead-collapse.collapse {
 	height: auto;
@@ -8597,13 +8597,6 @@ td.nowrap.has-context {
 		margin-right: -20px;
 		padding-left: 10px;
 		padding-right: 10px;
-	}
-}
-@media (min-width: 768px) {
-	.subhead-collapse.sticky {
-		position: static;
-		position: sticky;
-		top: 30px;
 	}
 }
 .subhead h1 {
