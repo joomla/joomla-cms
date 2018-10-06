@@ -115,7 +115,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<joomla-alert type="danger"><?php echo Text::_('COM_MODULES_ERR_XML'); ?></joomla-alert>
+					<div class="alert alert-danger">
+						<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
+					</div>
 				<?php endif; ?>
 				<?php
 				if ($hasContent)

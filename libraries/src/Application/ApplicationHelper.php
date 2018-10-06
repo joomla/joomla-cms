@@ -71,7 +71,7 @@ class ApplicationHelper
 	 */
 	public static function getHash($seed)
 	{
-		return md5(Factory::getConfig()->get('secret') . $seed);
+		return md5(Factory::getApplication()->get('secret') . $seed);
 	}
 
 	/**
@@ -88,7 +88,7 @@ class ApplicationHelper
 	 */
 	public static function stringURLSafe($string, $language = '')
 	{
-		if (Factory::getConfig()->get('unicodeslugs') == 1)
+		if (Factory::getApplication()->get('unicodeslugs') == 1)
 		{
 			$output = OutputFilter::stringURLUnicodeSlug($string);
 		}

@@ -273,8 +273,7 @@ class User extends Table
 		}
 
 		// Check for root_user != username
-		$config = Factory::getConfig();
-		$rootUser = $config->get('root_user');
+		$rootUser = Factory::getApplication()->get('root_user');
 
 		if (!is_numeric($rootUser))
 		{

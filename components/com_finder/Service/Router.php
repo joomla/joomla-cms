@@ -7,28 +7,32 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Site\Service;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
 use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
+use Joomla\CMS\Menu\AbstractMenu;
 
 /**
  * Routing class from com_finder
  *
  * @since  3.3
  */
-class FinderRouter extends RouterView
+class Router extends RouterView
 {
 	/**
 	 * Finder Component router constructor
 	 *
-	 * @param   CMSApplication  $app   The application object
-	 * @param   AbstractMenu    $menu  The menu object to work with
+	 * @param   SiteApplication  $app   The application object
+	 * @param   AbstractMenu     $menu  The menu object to work with
 	 */
-	public function __construct($app = null, $menu = null)
+	public function __construct(SiteApplication $app, AbstractMenu $menu)
 	{
 		$search = new RouterViewConfiguration('search');
 		$this->registerView($search);

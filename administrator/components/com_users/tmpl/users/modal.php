@@ -40,7 +40,9 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<?php endif; ?>
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<div class="alert alert-warning">
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 		<?php else : ?>
 		<table class="table table-sm">
 			<caption id="captionTable" class="sr-only">

@@ -104,7 +104,7 @@ class Mail extends PHPMailer
 	 */
 	public function Send()
 	{
-		if (Factory::getConfig()->get('mailonline', 1))
+		if (Factory::getApplication()->get('mailonline', 1))
 		{
 			if (($this->Mailer == 'mail') && !function_exists('mail'))
 			{
@@ -512,7 +512,7 @@ class Mail extends PHPMailer
 	public function isSendmail()
 	{
 		// Prefer the Joomla configured sendmail path and default to the configured PHP path otherwise
-		$sendmail = Factory::getConfig()->get('sendmail', ini_get('sendmail_path'));
+		$sendmail = Factory::getApplication()->get('sendmail', ini_get('sendmail_path'));
 
 		// And if we still don't have a path, then use the system default for Linux
 		if (empty($sendmail))
@@ -618,7 +618,7 @@ class Mail extends PHPMailer
 		$replyTo = null, $replyToName = null)
 	{
 		// Create config object
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$this->setSubject($subject);
 		$this->setBody($body);
@@ -670,9 +670,9 @@ class Mail extends PHPMailer
 				return false;
 			}
 		}
-		elseif ($config->get('replyto'))
+		elseif ($app->get('replyto'))
 		{
-			$this->addReplyTo($config->get('replyto'), $config->get('replytoname'));
+			$this->addReplyTo($app->get('replyto'), $app->get('replytoname'));
 		}
 
 		// Add sender to replyTo only if no replyTo received

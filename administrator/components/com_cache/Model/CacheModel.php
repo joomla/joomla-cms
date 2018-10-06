@@ -183,13 +183,13 @@ class CacheModel extends ListModel
 	 */
 	public function getCache()
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = array(
 			'defaultgroup' => '',
-			'storage'      => $conf->get('cache_handler', ''),
+			'storage'      => $app->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE)
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE)
 		);
 
 		return Cache::getInstance('', $options);

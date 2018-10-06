@@ -226,8 +226,7 @@ class InstallModel extends BaseDatabaseModel
 		// Cleanup the install files.
 		if (!is_file($package['packagefile']))
 		{
-			$config = Factory::getConfig();
-			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
+			$package['packagefile'] = $app->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
 		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -414,8 +413,7 @@ class InstallModel extends BaseDatabaseModel
 			return false;
 		}
 
-		$config   = Factory::getConfig();
-		$tmp_dest = $config->get('tmp_path');
+		$tmp_dest = Factory::getApplication()->get('tmp_path');
 
 		// Unpack the downloaded package file.
 		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file, true);

@@ -557,7 +557,7 @@ class LanguageAdapter extends InstallerAdapter
 				'image'        => strtolower(str_replace('-', '_', $this->tag)),
 				'published'    => 0,
 				'ordering'     => 0,
-				'access'       => (int) Factory::getConfig()->get('access', 1),
+				'access'       => (int) Factory::getApplication()->get('access', 1),
 				'description'  => '',
 				'metakey'      => '',
 				'metadesc'     => '',

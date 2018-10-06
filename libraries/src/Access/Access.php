@@ -999,7 +999,7 @@ class Access
 
 		// Check for the recovery mode setting and return early.
 		$user      = \JUser::getInstance($userId);
-		$root_user = Factory::getConfig()->get('root_user');
+		$root_user = Factory::getApplication()->get('root_user');
 
 		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
 		{

@@ -12,6 +12,7 @@
 		<field
 			name="state"
 			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
 			filter="0,1"
 			onchange="this.form.submit();"
 			>
@@ -21,6 +22,7 @@
 		<field
 			name="branch"
 			type="branches"
+			label="COM_FINDER_MAPS_SELECT_BRANCH"
 			default="0"
 			onchange="this.form.submit();"
 		/>
@@ -28,6 +30,7 @@
 		<field
 			name="level"
 			type="integer"
+			label="JOPTION_SELECT_MAX_LEVELS"
 			first="1"
 			last="2"
 			step="1"
@@ -42,6 +45,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="d.branch_title ASC"
 			>
@@ -55,6 +59,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>
