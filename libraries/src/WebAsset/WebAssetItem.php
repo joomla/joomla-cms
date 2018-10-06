@@ -142,8 +142,7 @@ class WebAssetItem
 	 */
 	public function __construct(string $name, array $data = [])
 	{
-		// No fancy Camels or Elephants
-		$this->name        = strtolower($name);
+		$this->name        = $name;
 		$this->version     = !empty($data['version'])     ? $data['version']     : null;
 		$this->assetSource = !empty($data['assetSource']) ? $data['assetSource'] : null;
 

@@ -279,6 +279,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		$event = AbstractEvent::create(
 			'onWebAssetStateChanged',
 			[
+				'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetStateChangedEvent',
 				'subject'  => $this,
 				'asset'    => $asset,
 				'oldState' => $oldState,
@@ -336,6 +337,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		$event = AbstractEvent::create(
 			'onWebAssetBeforeAttach',
 			[
+				'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetBeforeAttachEvent',
 				'subject'  => $this,
 				'document' => $doc,
 			]
