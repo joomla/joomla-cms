@@ -97,10 +97,10 @@ if (is_array($attributes))
 $cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
 
 // The static assets for the calendar
-HTMLHelper::_('script', $localesPath, array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', $helperPath, array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'system/fields/calendar.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', $localesPath, ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', $helperPath, ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'system/fields/calendar.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' => 'auto', 'relative' => true]);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
