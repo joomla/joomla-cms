@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
  *
  * @since       3.0
  *
- * @deprecated  Without replacement
+ * @deprecated  5.0  Without replacement
  */
 abstract class JHtmlFormbehavior
 {
