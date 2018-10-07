@@ -170,7 +170,7 @@ class PluginsField extends ListField
 	 */
 	protected function getInput()
 	{
-		if (count($this->options) === 1 && $this->options[0]->text === JText::_('JOPTION_DO_NOT_USE'))
+		if (count($this->options) === 1 && $this->options[0]->text === Text::_('JOPTION_DO_NOT_USE'))
 		{
 			$this->readonly = true;
 		}
