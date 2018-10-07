@@ -5,18 +5,18 @@
 	.menu-links {
 		margin-top: 15px;
 		margin-left: 0;
-		-webkit-column-count: 3;
-		-moz-column-count: 3;
-		column-count: 3;
+		-webkit-column-count: 4;
+		-moz-column-count: 4;
+		column-count: 4;
 		-moz-column-gap: 15px;
 		-webkit-column-gap: 15px;
 		column-gap: 15px;
 		> li {
-			display: inline-block;
 			vertical-align: top;
 			margin-bottom: 15px;
 			width: 100%;
 			list-style: none;
+			page-break-inside: avoid;
 		}
 	}
 	.menu-links-block {
@@ -24,6 +24,13 @@
 	    border: 1px solid #ddd;
 	    border-radius: 3px;
 	    padding: 15px;
+	}
+}
+@media (max-width: @xl-max) {
+	#menu-assignment .menu-links {
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		column-count: 3;
 	}
 }
 @media (max-width: @md-max) {
