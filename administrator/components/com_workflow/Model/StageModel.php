@@ -261,7 +261,8 @@ class StageModel extends AdminModel
 
 		if ($table->load(array('id' => $pk)))
 		{
-			if (!$table->published)
+			// Only published stages can be set to defailt
+			if ((int) $table->published != 1)
 			{
 				$this->setError(Text::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
 
