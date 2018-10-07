@@ -18,7 +18,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Workflow\Administrator\Model\WorkflowModel;
 
 /**
  * Sampledata - Multilang Plugin
@@ -987,7 +986,8 @@ class PlgSampledataMultilang extends CMSPlugin
 	 */
 	public function addWorkflow()
 	{
-		$workflowModel = new WorkflowModel;
+		$workflowModel =  $this->app->bootComponent('com_workflow')
+			->createMVCFactory($this->app)->createModel('Workflow', 'Administrator');
 
 		$workflow = [
 			'title'       => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_TITLE'),

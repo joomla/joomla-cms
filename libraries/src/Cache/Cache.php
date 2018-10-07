@@ -49,18 +49,18 @@ class Cache
 	 */
 	public function __construct($options)
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$this->_options = array(
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
-			'lifetime'     => (int) $conf->get('cachetime'),
-			'language'     => $conf->get('language', 'en-GB'),
-			'storage'      => $conf->get('cache_handler', ''),
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
+			'lifetime'     => (int) $app->get('cachetime'),
+			'language'     => $app->get('language', 'en-GB'),
+			'storage'      => $app->get('cache_handler', ''),
 			'defaultgroup' => 'default',
 			'locking'      => true,
 			'locktime'     => 15,
 			'checkTime'    => true,
-			'caching'      => ($conf->get('caching') >= 1) ? true : false,
+			'caching'      => ($app->get('caching') >= 1) ? true : false,
 		);
 
 		// Overwrite default options with given options
@@ -802,7 +802,7 @@ class Cache
 	public static function getPlatformPrefix()
 	{
 		// No prefix when Global Config is set to no platfom specific prefix
-		if (!Factory::getConfig()->get('cache_platformprefix', '0'))
+		if (!Factory::getApplication()->get('cache_platformprefix', '0'))
 		{
 			return '';
 		}

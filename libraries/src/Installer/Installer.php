@@ -797,7 +797,7 @@ class Installer extends \JAdapter
 
 			if ($this->extension->state == -1)
 			{
-				$this->abort(Text::_('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE'));
+				$this->abort(Text::sprintf('JLIB_INSTALLER_ABORT_REFRESH_MANIFEST_CACHE', $this->extension->name));
 
 				return false;
 			}

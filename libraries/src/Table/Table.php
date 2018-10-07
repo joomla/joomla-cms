@@ -199,7 +199,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		// If the access property exists, set the default.
 		if ($this->hasField('access'))
 		{
-			$this->access = (int) Factory::getConfig()->get('access');
+			$this->access = (int) Factory::getApplication()->get('access');
 		}
 
 		// Create or set a Dispatcher
@@ -1458,7 +1458,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		}
 
 		// This last check can only be relied on if tracking session metadata
-		if (Factory::getConfig()->get('session_metadata', true))
+		if (Factory::getApplication()->get('session_metadata', true))
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)

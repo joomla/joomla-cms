@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Installer\Administrator\Model\InstallModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -162,7 +161,7 @@ class TemplateController extends BaseController
 		$model = $this->getModel('Template', 'Administrator');
 		$model->setState('new_name', $newName);
 		$model->setState('tmp_prefix', uniqid('template_copy_'));
-		$model->setState('to_path', Factory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+		$model->setState('to_path', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
 		// Process only if we have a new name entered
 		if (strlen($newName) > 0)
@@ -213,8 +212,9 @@ class TemplateController extends BaseController
 			}
 
 			// Call installation model
-			$this->input->set('install_directory', Factory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
-			$installModel = new InstallModel;
+			$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+			$installModel = $this->app->bootComponent('com_installer')->createMVCFactory($this->app)
+				->createModel('Install', 'Administrator');
 			Factory::getLanguage()->load('com_installer');
 
 			if (!$installModel->install())

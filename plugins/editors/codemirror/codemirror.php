@@ -165,7 +165,9 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		// Load the syntax mode.
-		$syntax = $this->params->get('syntax', 'html');
+		$syntax = !empty($params['syntax'])
+			? $params['syntax']
+			: $this->params->get('syntax', 'html');
 		$options->mode = $this->modeAlias[$syntax] ?? $syntax;
 
 		// Load the theme if specified.

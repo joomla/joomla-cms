@@ -31,10 +31,16 @@ HTMLHelper::_('script', 'com_modules/admin-modules-modal.min.js', array('version
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
+$link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1';
+
+if (!empty($editor))
+{
+	$link .= '&editor=' . $editor;
+}
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
@@ -124,6 +130,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
+        <input type="hidden" name="editor" value="<?php echo $editor; ?>" />
 		<?php echo HTMLHelper::_('form.token'); ?>
 
 	</form>
