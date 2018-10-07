@@ -121,9 +121,10 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit_assignment.min.js', array
 				<div style="display:none" id="treeselectmenu">
 					<div class="nav-hover treeselect-menu">
 						<div class="dropdown">
-							<a href="#" data-toggle="dropdown" class="dropdown-toggle btn btn-xs btn-secondary">
+							<button type="button" data-toggle="dropdown" class="dropdown-toggle btn btn-xs btn-secondary">
 								<span class="caret"></span>
-							</a>
+								<span class="sr-only"><?php echo Text::sprintf('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
+							</button>
 							<div class="dropdown-menu">
 								<h5 class="dropdown-header"><?php echo Text::_('COM_MODULES_SUBITEMS'); ?></h5>
 								<div class="dropdown-divider"></div>
