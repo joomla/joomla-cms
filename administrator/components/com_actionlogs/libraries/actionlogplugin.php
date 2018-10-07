@@ -57,7 +57,7 @@ abstract class ActionLogPlugin extends JPlugin
 	 */
 	protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		$user = $this->app->getIdentity();
+		$user = JFactory::getUser();
 
 		foreach ($messages as $index => $message)
 		{
