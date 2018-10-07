@@ -66,9 +66,11 @@ if ($saveOrder)
 								<td style="width:1%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
-									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
-								</th>
+								<?php if ($this->state->get('filter.published') !== '-2') : ?>
+									<th scope="col" style="width:1%" class="text-center hidden-sm-down">
+										<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
+									</th>
+								<?php endif; ?>
 								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
 									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 								</th>
@@ -119,9 +121,11 @@ if ($saveOrder)
 											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange); ?>
 										</div>
 									</td>
-									<td class="text-center">
-										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
-									</td>
+									<?php if ($this->state->get('filter.published') !== '-2') : ?>
+										<td class="text-center">
+											<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
+										</td>
+									<?php endif; ?>
 									<th scope="row">
 										<?php if ($canEdit) : ?>
 											<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
