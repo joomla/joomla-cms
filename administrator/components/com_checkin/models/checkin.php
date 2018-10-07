@@ -94,6 +94,8 @@ class CheckinModelCheckin extends JModelList
 		// This int will hold the checked item count.
 		$results = 0;
 
+		$dispatcher = \JEventDispatcher::getInstance();
+
 		foreach ($ids as $tn)
 		{
 			// Make sure we get the right tables based on prefix.
@@ -120,6 +122,7 @@ class CheckinModelCheckin extends JModelList
 			if ($db->execute())
 			{
 				$results = $results + $db->getAffectedRows();
+				$dispatcher->trigger('onAfterCheckin', array($tn));
 			}
 		}
 
