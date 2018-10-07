@@ -66,14 +66,14 @@ if ($saveOrder)
 								<td style="width:1%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
+								</th>
 								<?php if ($this->state->get('filter.published') !== '-2') : ?>
 									<th scope="col" style="width:1%" class="text-center hidden-sm-down">
-										<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
+										<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
-									<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
-								</th>
 								<th scope="col" style="width:10%" class="hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_WORKFLOW_NAME', 's.title', $listDirn, $listOrder); ?>
 								</th>
