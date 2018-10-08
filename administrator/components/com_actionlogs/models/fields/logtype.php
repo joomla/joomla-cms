@@ -56,6 +56,6 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 			$options[] = (object) array_merge($tmp, (array) $option);
 		}
 
-		return array_merge(parent::getOptions(), ArrayHelper::sortObjects($options, 'text', 1, true, Factory::getLanguage()->getLocale()));
+		return array_merge(parent::getOptions(), ArrayHelper::sortObjects($options, 'text', 1, false, Factory::getLanguage()->getLocale()));
 	}
 }
