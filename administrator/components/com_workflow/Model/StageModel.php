@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Model class for stage
@@ -262,7 +263,7 @@ class StageModel extends AdminModel
 		if ($table->load(array('id' => $pk)))
 		{
 			// Only published stages can be set to default
-			if ((int) $table->published != 1)
+			if ( $table->published != ContentComponent::CONDITION_PUBLISHED)
 			{
 				$this->setError(Text::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
 

@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 HTMLHelper::_('behavior.tooltip');
 HTMLHelper::_('behavior.multiselect');
@@ -69,7 +70,7 @@ if ($saveOrder)
 								<th scope="col" style="width:1%" class="text-center hidden-sm-down">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 's.condition', $listDirn, $listOrder); ?>
 								</th>
-								<?php if ($this->state->get('filter.published') !== '-2') : ?>
+								<?php if ($this->state->get('filter.published') != ContentComponent::CONDITION_TRASHED) : ?>
 									<th scope="col" style="width:1%" class="text-center hidden-sm-down">
 										<?php echo Text::_('COM_WORKFLOW_DEFAULT'); ?>
 									</th>
@@ -121,7 +122,7 @@ if ($saveOrder)
 											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange); ?>
 										</div>
 									</td>
-									<?php if ($this->state->get('filter.published') !== '-2') : ?>
+									<?php if ($this->state->get('filter.published') != ContentComponent::CONDITION_TRASHED) : ?>
 										<td class="text-center">
 											<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
 										</td>
