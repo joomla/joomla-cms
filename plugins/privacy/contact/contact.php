@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 
 /**
@@ -19,30 +18,6 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
  */
 class PlgPrivacyContact extends PrivacyPlugin
 {
-	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.9.0
-	 */
-	protected $db;
-
-	/**
-	 * Affects constructor behaviour. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
-	 * Contacts array
-	 *
-	 * @var    Array
-	 * @since  3.9.0
-	 */
-	protected $contacts = array();
-
 	/**
 	 * Processes an export request for Joomla core user contact data
 	 *
@@ -59,95 +34,37 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 */
 	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
-		if ((!$user) && (!$request->email))
+		if (!$user && !$request->email)
 		{
 			return array();
 		}
 
 		$domains   = array();
-		$domains[] = $this->createContactDomain($request, $user);
+		$domain    = $this->createDomain('user_contact', 'joomla_user_contact_data');
+		$domains[] = $domain;
 
-		// An user may have more than 1 contact linked to them
-		foreach ($this->contacts as $contact)
-		{
-			$domains[] = $this->createContactCustomFieldsDomain($contact);
-		}
-
-		return $domains;
-	}
-
-	/**
-	 * Create the domain for the user contact data
-	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   JUser                $user     The user account associated with this request if available
-	 *
-	 * @return  PrivacyExportDomain
-	 *
-	 * @since   3.9.0
-	 */
-	private function createContactDomain(PrivacyTableRequest $request, JUser $user = null)
-	{
-		$domain = $this->createDomain('user_contact', 'joomla_user_contact_data');
+		$query = $this->db->getQuery(true)
+			->select('*')
+			->from($this->db->quoteName('#__contact_details'))
+			->order($this->db->quoteName('ordering') . ' ASC');
 
 		if ($user)
 		{
-			$query = $this->db->getQuery(true)
-				->select('*')
-				->from($this->db->quoteName('#__contact_details'))
-				->where($this->db->quoteName('user_id') . ' = ' . (int) $user->id)
-				->order($this->db->quoteName('ordering') . ' ASC');
+			$query->where($this->db->quoteName('user_id') . ' = ' . (int) $user->id);
 		}
 		else
 		{
-			$query = $this->db->getQuery(true)
-				->select('*')
-				->from($this->db->quoteName('#__contact_details'))
-				->where($this->db->quoteName('email_to') . ' = ' . $this->db->quote($request->email))
-				->order($this->db->quoteName('ordering') . ' ASC');
+			$query->where($this->db->quoteName('email_to') . ' = ' . $this->db->quote($request->email));
 		}
 
-		$items = $this->db->setQuery($query)->loadAssocList();
+		$items = $this->db->setQuery($query)->loadObjectList();
 
 		foreach ($items as $item)
 		{
-			$domain->addItem($this->createItemFromArray($item));
-			$this->contacts[] = (object) $item;
+			$domain->addItem($this->createItemFromArray((array) $item));
+			$domains[] = $this->createCustomFieldsDomain('com_contact.contact', $item);
 		}
 
-		return $domain;
-	}
-
-	/**
-	 * Create the domain for the contact custom fields
-	 *
-	 * @param   Object  $contact  The contact to process
-	 *
-	 * @return  PrivacyExportDomain
-	 *
-	 * @since   3.9.0
-	 */
-	private function createContactCustomFieldsDomain($contact)
-	{
-		$domain = $this->createDomain('contact_custom_fields', 'joomla_contact_custom_fields_data');
-
-		// Get item's fields, also preparing their value property for manual display
-		$fields = FieldsHelper::getFields('com_contact.contact', $contact);
-
-		foreach ($fields as $field)
-		{
-			$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
-
-			$data = array(
-				'contact_id'  => $contact->id,
-				'field_name'  => $field->name,
-				'field_title' => $field->title,
-				'field_value' => $fieldValue,
-			);
-
-			$domain->addItem($this->createItemFromArray($data));
-		}
-
-		return $domain;
+		return $domains;
 	}
 }
