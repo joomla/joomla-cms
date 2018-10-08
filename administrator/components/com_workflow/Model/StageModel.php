@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Model class for stage
@@ -292,36 +293,136 @@ class StageModel extends AdminModel
 	}
 
 	/**
-	 * Method to change the published state of one or more records.
+	 * Method to change the published state of one or more stages.
 	 *
 	 * @param   array    &$pks   A list of the primary keys to change.
-	 * @param   integer  $value  The value of the published state.
+	 * @param   integer  $value     The target condition
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function publish(&$pks, $value = 1)
+	public function publish(&$pks, $value = ContentComponent::CONDITION_PUBLISHED)
 	{
-		$table = $this->getTable();
+		$db  = $this->getDbo();
 		$pks   = (array) $pks;
 		$app = Factory::getApplication();
-		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', null, 'cmd');
 
-		// Default item existence checks.
-		if ($value != 1)
+		$return = true;
+
+		if ($value != ContentComponent::CONDITION_PUBLISHED)
 		{
-			foreach ($pks as $i => $pk)
+			// Clear pks 
+			$pks = self::checkDefaultStage($pks, $value);
+		}
+
+		if (!empty($pks))
+		{
+			// Change published for all stages
+			$return =  parent::publish($pks, $value);
+		}
+
+		// If the stage is trashed, the transitions to and from this stage must be trashed too
+		if ($return && $value == ContentComponent::CONDITION_TRASHED)
+		{
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
+				->update($db->quoteName('#__workflow_transitions'))
+				->set($db->quoteName('published') . ' = ' . ContentComponent::CONDITION_TRASHED)
+				->where($db->quoteName('from_stage_id') . ' IN (' . implode(',', $pks) . ') OR'  
+					. $db->quoteName('to_stage_id') . ' IN (' . implode(',', $pks) . ')' );
+
+			$db->setQuery($query)->execute();
+		}
+
+		return $return;
+	}
+	
+	/**
+	 * Method to delete one or more stages.
+	 *
+	 * @param   array    &$pks   A list of the primary keys to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function delete(&$pks)
+	{
+		$db  = $this->getDbo();
+		$pks   = (array) $pks;
+		$app = Factory::getApplication();
+
+		// Clear pks
+		$pks = self::checkDefaultStage($pks, ContentComponent::CONDITION_TRASHED);
+
+		if (!empty($pks))
+		{
+			// Change published for all stages where it is possible
+			$return =  parent::delete($pks);
+		}
+
+		if ($return)
+		{
+			// Delete the transitions to and from deleted stages
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__workflow_transitions'))
+				->where($db->quoteName('to_stage_id') . ' = ' . (int) $pk, 'OR')
+				->where($db->quoteName('from_stage_id') . ' = (' . implode($pks). ')');
+
+			$db->setQuery($query)->execute();
+		}
+
+		return $return;
+	}
+	
+	/**
+	 * Method to change the home state of one or more items.
+	 *
+	 * @param   array    $pks     A list of the primary keys of stages.
+	 * @param   integer  $value     The target condition
+	 * 
+	 * @return  array    $pks     A list of the primary keys of stages. 
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function checkDefaultStage($pks, $value)
+	{
+		$db  = $this->getDbo();
+		$pks   = (array) $pks;
+		$app = Factory::getApplication();
+
+		// Check if one of the stages is the default stage
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('id')))
+			->from($db->quoteName('#__workflow_stages'))
+			->where($db->quoteName('default') . ' =1 ')
+			->where($db->quoteName('id') . ' IN ( ' . implode(',' , $pks) . ')');
+
+		$default = $db->setQuery($query)->loadResult();
+
+		if (!empty($default))
+		{
+			if ($value == ContentComponent::CONDITION_TRASHED)
 			{
-				if ($table->load(array('id' => $pk)) && $table->default)
+				$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
+			}
+			elseif ($value == ContentComponent::CONDITION_UNPUBLISHED)
+			{
+				$app->enqueueMessage(Text::_('COM_WORKFLOW_UNPUBLISH_DEFAULT_ERROR'), 'error');
+			}
+			
+			// Remove the default stage from the list of keys
+			foreach($pks as $i => $id)
+			{
+				if ((int) $default == (int) $id)
 				{
-					// Prune items that you can't change.
-					$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
 					unset($pks[$i]);
 				}
 			}
 		}
 
-		return parent::publish($pks, $value);
+		return $pks;
 	}
 }
+

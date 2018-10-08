@@ -37,63 +37,6 @@ class StageTable extends Table
 	}
 
 	/**
-	 * Deletes workflow with transition and stages.
-	 *
-	 * @param   int  $pk  Extension ids to delete.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 *
-	 * @throws  \UnexpectedValueException
-	 */
-	public function delete($pk = null)
-	{
-		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
-		if (!Factory::getUser()->authorise('core.delete', 'com_workflows'))
-		{
-			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
-		}
-
-		$db  = $this->getDbo();
-		$app = Factory::getApplication();
-
-		// Gets the update site names.
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'title')))
-			->from($db->quoteName('#__workflow_stages'))
-			->where($db->quoteName('id') . ' = ' . (int) $pk);
-		$db->setQuery($query);
-		$stage = $db->loadResult();
-
-		if ($stage->default)
-		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $stage->title), 'error');
-
-			return false;
-		}
-
-		// Delete the update site from all tables.
-		try
-		{
-			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__workflow_transitions'))
-				->where($db->quoteName('to_stage_id') . ' = ' . (int) $pk, 'OR')
-				->where($db->quoteName('from_stage_id') . ' = ' . (int) $pk);
-
-			$db->setQuery($query)->execute();
-
-			return parent::delete($pk);
-		}
-		catch (\RuntimeException $e)
-		{
-			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $stage->title, $e->getMessage()), 'error');
-		}
-
-		return false;
-	}
-
-	/**
 	 * Overloaded check function
 	 *
 	 * @return  boolean  True on success
