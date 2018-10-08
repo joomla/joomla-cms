@@ -179,6 +179,12 @@ class ActionlogsHelper
 	 */
 	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
 	{
+		if ($contentType === "form")
+		{
+			// Translate to backend
+			$contentType = "article";
+		}
+
 		// Try to find the component helper.
 		$eName = str_replace('com_', '', $component);
 		$file  = Path::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
