@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Application\ApplicationHelper;
 
 JFormHelper::loadFieldClass('checkboxes');
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
@@ -53,9 +52,11 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 		{
 			ActionlogsHelper::loadTranslationFiles($extension);
 			$option = JHtml::_('select.option', $extension, JText::_($extension));
-			$options[] = (object) array_merge($tmp, (array) $option);
+			$options[ApplicationHelper::stringURLSafe(JText::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
 		}
 
-		return array_merge(parent::getOptions(), ArrayHelper::sortObjects($options, 'text', 1, false, Factory::getLanguage()->getLocale()));
+		ksort($options);
+
+		return array_merge(parent::getOptions(), array_values($options));
 	}
 }
