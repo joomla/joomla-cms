@@ -310,29 +310,29 @@ class StageModel extends AdminModel
 
 		$return = true;
 
-		if ($value != ContentComponent::CONDITION_PUBLISHED)
+		if ($value != (int) ContentComponent::CONDITION_PUBLISHED)
 		{
 			// Clear pks 
-			$pks = self::checkDefaultStage($pks, $value);
+			self::checkDefaultStage($pks, $value);
 		}
 
 		if (!empty($pks))
 		{
 			// Change published for all stages
 			$return =  parent::publish($pks, $value);
-		}
 
-		// If the stage is trashed, the transitions to and from this stage must be trashed too
-		if ($return && $value == ContentComponent::CONDITION_TRASHED)
-		{
-			$db = $this->getDbo();
-			$query = $db->getQuery(true)
-				->update($db->quoteName('#__workflow_transitions'))
-				->set($db->quoteName('published') . ' = ' . ContentComponent::CONDITION_TRASHED)
-				->where($db->quoteName('from_stage_id') . ' IN (' . implode(',', $pks) . ') OR'  
-					. $db->quoteName('to_stage_id') . ' IN (' . implode(',', $pks) . ')' );
+			// If the stage is trashed, the transitions to and from this stage must be trashed too
+			if ($return && $value == (int) ContentComponent::CONDITION_TRASHED)
+			{
+				$db = $this->getDbo();
+				$query = $db->getQuery(true)
+					->update($db->quoteName('#__workflow_transitions'))
+					->set($db->quoteName('published') . ' = ' . ContentComponent::CONDITION_TRASHED)
+					->where($db->quoteName('from_stage_id') . ' IN (' . implode(',', $pks) . ') OR'  
+						. $db->quoteName('to_stage_id') . ' IN (' . implode(',', $pks) . ')' );
 
-			$db->setQuery($query)->execute();
+				$db->setQuery($query)->execute();
+			}
 		}
 
 		return $return;
@@ -354,7 +354,7 @@ class StageModel extends AdminModel
 		$app = Factory::getApplication();
 
 		// Clear pks
-		$pks = self::checkDefaultStage($pks, ContentComponent::CONDITION_TRASHED);
+		self::checkDefaultStage($pks, ContentComponent::CONDITION_TRASHED);
 
 		if (!empty($pks))
 		{
@@ -368,7 +368,7 @@ class StageModel extends AdminModel
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__workflow_transitions'))
 				->where($db->quoteName('to_stage_id') . ' = ' . (int) $pk, 'OR')
-				->where($db->quoteName('from_stage_id') . ' = (' . implode($pks). ')');
+				->whereIn($db->quoteName('from_stage_id'), $pks);
 
 			$db->setQuery($query)->execute();
 		}
@@ -377,16 +377,14 @@ class StageModel extends AdminModel
 	}
 	
 	/**
-	 * Method to change the home state of one or more items.
+	 * Method to handle the default stage
 	 *
 	 * @param   array    $pks     A list of the primary keys of stages.
 	 * @param   integer  $value     The target condition
-	 * 
-	 * @return  array    $pks     A list of the primary keys of stages. 
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function checkDefaultStage($pks, $value)
+	public function checkDefaultStage(&$pks, $value)
 	{
 		$db  = $this->getDbo();
 		$pks   = (array) $pks;
@@ -397,17 +395,17 @@ class StageModel extends AdminModel
 			->select($db->quoteName(array('id')))
 			->from($db->quoteName('#__workflow_stages'))
 			->where($db->quoteName('default') . ' =1 ')
-			->where($db->quoteName('id') . ' IN ( ' . implode(',' , $pks) . ')');
+			->whereIn($db->quoteName('id'), $pks);
 
 		$default = $db->setQuery($query)->loadResult();
 
 		if (!empty($default))
 		{
-			if ($value == ContentComponent::CONDITION_TRASHED)
+			if ($value == (int) ContentComponent::CONDITION_TRASHED)
 			{
 				$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
 			}
-			elseif ($value == ContentComponent::CONDITION_UNPUBLISHED)
+			elseif ($value == (int) ContentComponent::CONDITION_UNPUBLISHED)
 			{
 				$app->enqueueMessage(Text::_('COM_WORKFLOW_UNPUBLISH_DEFAULT_ERROR'), 'error');
 			}
@@ -421,8 +419,6 @@ class StageModel extends AdminModel
 				}
 			}
 		}
-
-		return $pks;
 	}
 }
 
