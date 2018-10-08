@@ -160,15 +160,12 @@
 
 				<field
 					name="register-require_tos"
-					type="list"
+					type="checkbox"
 					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
 					description="PLG_USER_PROFILE_FIELD_TOS_DESC"
 					default="0"
-					filter="integer"
-					>
-					<option	value="2">JOPTION_REQUIRED</option>
-					<option	value="0">JDISABLED</option>
-				</field>
+				        value="2" 
+				/>
 
 				<field
 					name="register_tos_article"
