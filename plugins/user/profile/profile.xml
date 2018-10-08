@@ -164,6 +164,7 @@
 					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
 					description="PLG_USER_PROFILE_FIELD_TOS_DESC"
 					default="0"
+				        value="2" 
 				/>
 
 				<field
