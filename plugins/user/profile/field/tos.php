@@ -9,14 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('radio');
+JFormHelper::loadFieldClass('checkbox');
 
 /**
  * Provides input for TOS
  *
  * @since  2.5.5
  */
-class JFormFieldTos extends JFormFieldRadio
+class JFormFieldTos extends JFormFieldCheckbox
 {
 	/**
 	 * The form field type.
