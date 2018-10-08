@@ -95,9 +95,9 @@ class JFormFieldMenutype extends JFormFieldList
 		$link = JRoute::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-append"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '" ' . $size . $class . ' />';
-		$html[] = '<a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
+		$html[] = '<button type="button" data-target="#menuTypeModal" class="btn btn-primary" data-toggle="modal" title="' . JText::_('JSELECT') . '">'
 			. '<span class="icon-list icon-white" aria-hidden="true"></span> '
-			. JText::_('JSELECT') . '</a></span>';
+			. JText::_('JSELECT') . '</button></span>';
 		$html[] = JHtml::_(
 			'bootstrap.renderModal',
 			'menuTypeModal',
@@ -108,8 +108,8 @@ class JFormFieldMenutype extends JFormFieldList
 				'height'     => '300px',
 				'modalWidth' => '80',
 				'bodyHeight' => '70',
-				'footer'     => '<a type="button" class="btn" data-dismiss="modal" aria-hidden="true">'
-						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+				'footer'     => '<button type="button" class="btn" data-dismiss="modal">'
+						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 			)
 		);
 		$html[] = '<input class="input-small" type="hidden" name="' . $this->name . '" value="'
