@@ -179,10 +179,10 @@ class ActionlogsHelper
 	 */
 	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
 	{
-		if ($contentType === "form")
+		if ($contentType === 'form')
 		{
 			// Translate to backend
-			$contentType = "article";
+			$contentType = 'article';
 		}
 
 		// Try to find the component helper.
