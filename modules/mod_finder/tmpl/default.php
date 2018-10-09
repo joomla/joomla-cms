@@ -15,8 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
-
 // Load the smart search component language file.
 $lang = Factory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);

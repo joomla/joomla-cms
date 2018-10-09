@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -18,7 +19,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * Methods supporting a list of search terms.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SearchesModel extends ListModel
 {
@@ -29,7 +30,7 @@ class SearchesModel extends ListModel
 	 * @param   MVCFactoryInterface  $factory  The factory.
 	 *
 	 * @see     \Joomla\CMS\MVC\Model\BaseDatabaseModel
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
@@ -54,7 +55,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function populateState($ordering = 'a.hits', $direction = 'asc')
 	{
@@ -80,7 +81,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  string  A store id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -96,7 +97,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  \JDatabaseQuery
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getListQuery()
 	{
@@ -131,7 +132,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getItems()
 	{
@@ -153,7 +154,7 @@ class SearchesModel extends ListModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function reset()
 	{

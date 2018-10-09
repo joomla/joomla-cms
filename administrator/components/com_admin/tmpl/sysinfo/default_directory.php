@@ -18,10 +18,10 @@ use Joomla\CMS\HTML\HTMLHelper;
 	<table class="table">
 		<thead>
 			<tr>
-				<th style="width:650px">
+				<th scope="col" style="width:650px">
 					<?php echo Text::_('COM_ADMIN_DIRECTORY'); ?>
 				</th>
-				<th>
+				<th scope="col">
 					<?php echo Text::_('COM_ADMIN_STATUS'); ?>
 				</th>
 			</tr>
@@ -34,9 +34,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 		<tbody>
 			<?php foreach ($this->directory as $dir => $info) : ?>
 				<tr>
-					<td>
+					<th scope="row">
 						<?php echo HTMLHelper::_('directory.message', $dir, $info['message']); ?>
-					</td>
+					</th>
 					<td>
 						<?php echo HTMLHelper::_('directory.writable', $info['writable']); ?>
 					</td>

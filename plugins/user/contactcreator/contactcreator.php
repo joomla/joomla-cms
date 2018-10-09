@@ -93,7 +93,7 @@ class PlgUserContactCreator extends CMSPlugin
 			$contact->user_id  = $user_id;
 			$contact->email_to = $user['email'];
 			$contact->catid    = $categoryId;
-			$contact->access   = (int) Factory::getConfig()->get('access');
+			$contact->access   = (int) Factory::getApplication()->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
 

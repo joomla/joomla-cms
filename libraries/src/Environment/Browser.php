@@ -10,6 +10,8 @@ namespace Joomla\CMS\Environment;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\Log;
+
 /**
  * Browser class, provides capability information about the current web client.
  *
@@ -76,12 +78,12 @@ class Browser
 	 * @since  12.1
 	 */
 	protected $robots = array(
-		/* The most common ones. */
+		// The most common ones.
 		'Googlebot',
 		'msnbot',
 		'Slurp',
 		'Yahoo',
-		/* The rest alphabetically. */
+		// The rest alphabetically.
 		'Arachnoidea',
 		'ArchitextSpider',
 		'Ask Jeeves',
@@ -679,24 +681,5 @@ class Browser
 	public function isMobile()
 	{
 		return $this->mobile;
-	}
-
-	/**
-	 * Determine if we are using a secure (SSL) connection.
-	 *
-	 * @return  boolean  True if using SSL, false if not.
-	 *
-	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the isSSLConnection method on the application object.
-	 */
-	public function isSSLConnection()
-	{
-		\JLog::add(
-			'Browser::isSSLConnection() is deprecated. Use the isSSLConnection method on the application object instead.',
-			\JLog::WARNING,
-			'deprecated'
-		);
-
-		return (isset($_SERVER['HTTPS']) && ($_SERVER['HTTPS'] == 'on')) || getenv('SSL_PROTOCOL_VERSION');
 	}
 }

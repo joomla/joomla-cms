@@ -10,8 +10,10 @@ namespace Joomla\CMS\Uri;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
- * JUri Class
+ * Uri Class
  *
  * This class serves two purposes. First it parses a URI and provides a common interface
  * for the Joomla Platform to access and manipulate a URI.  Second it obtains the URI of
@@ -22,7 +24,7 @@ defined('JPATH_PLATFORM') or die;
 class Uri extends \Joomla\Uri\Uri
 {
 	/**
-	 * @var    Uri[]  An array of JUri instances.
+	 * @var    Uri[]  An array of Uri instances.
 	 * @since  11.1
 	 */
 	protected static $instances = array();
@@ -46,7 +48,7 @@ class Uri extends \Joomla\Uri\Uri
 	protected static $current;
 
 	/**
-	 * Returns the global JUri object, only creating it if it doesn't already exist.
+	 * Returns the global Uri object, only creating it if it doesn't already exist.
 	 *
 	 * @param   string  $uri  The URI to parse.  [optional: if null uses script URI]
 	 *
@@ -136,7 +138,7 @@ class Uri extends \Joomla\Uri\Uri
 		// Get the base request path.
 		if (empty(static::$base))
 		{
-			$config = \JFactory::getConfig();
+			$config = Factory::getConfig();
 			$uri = static::getInstance();
 			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
 
@@ -158,7 +160,7 @@ class Uri extends \Joomla\Uri\Uri
 			{
 				static::$base['prefix'] = $uri->toString(array('scheme', 'host', 'port'));
 
-				if (strpos(php_sapi_name(), 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
+				if (strpos(PHP_SAPI, 'cgi') !== false && !ini_get('cgi.fix_pathinfo') && !empty($_SERVER['REQUEST_URI']))
 				{
 					// PHP-CGI on Apache with "cgi.fix_pathinfo = 0"
 
@@ -260,7 +262,7 @@ class Uri extends \Joomla\Uri\Uri
 		$base = $uri->toString(array('scheme', 'host', 'port', 'path'));
 		$host = $uri->toString(array('scheme', 'host', 'port'));
 
-		// @see JUriTest
+		// @see UriTest
 		if (empty($host) && strpos($uri->path, 'index.php') === 0
 			|| !empty($host) && preg_match('#' . preg_quote(static::base(), '#') . '#', $base)
 			|| !empty($host) && $host === static::getInstance(static::base())->host && strpos($uri->path, 'index.php') !== false

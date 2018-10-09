@@ -10,6 +10,7 @@
 defined('_JEXEC') or die();
 
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Plug-in to show a custom field in eg an article
@@ -55,9 +56,6 @@ class PlgContentFields extends CMSPlugin
 		{
 			return;
 		}
-
-		// Register FieldsHelper
-		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Prepare the text
 		if (isset($item->text))

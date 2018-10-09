@@ -10,11 +10,14 @@ namespace Joomla\CMS\Captcha;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\Event;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -64,7 +67,7 @@ class Captcha implements DispatcherAwareInterface
 	public function __construct($captcha, $options)
 	{
 		$this->_name = $captcha;
-		$this->setDispatcher(\JFactory::getApplication()->getDispatcher());
+		$this->setDispatcher(Factory::getApplication()->getDispatcher());
 		$this->_load($options);
 	}
 
@@ -91,7 +94,7 @@ class Captcha implements DispatcherAwareInterface
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return;
 			}
@@ -122,7 +125,7 @@ class Captcha implements DispatcherAwareInterface
 		}
 		catch (\Exception $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -166,7 +169,7 @@ class Captcha implements DispatcherAwareInterface
 
 		$result = $this->getDispatcher()->dispatch('onInit', $event);
 
-		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results192
+		// TODO REFACTOR ME! This is Ye Olde Way of returning plugin results
 		return $result['result'][0];
 	}
 
@@ -211,12 +214,12 @@ class Captcha implements DispatcherAwareInterface
 	private function _load(array $options = array())
 	{
 		// Build the path to the needed captcha plugin
-		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/captcha/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Require plugin file
@@ -227,7 +230,7 @@ class Captcha implements DispatcherAwareInterface
 
 		if (!$plugin)
 		{
-			throw new \RuntimeException(\JText::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
+			throw new \RuntimeException(Text::sprintf('JLIB_CAPTCHA_ERROR_PLUGIN_NOT_FOUND', $name));
 		}
 
 		// Check for already loaded params

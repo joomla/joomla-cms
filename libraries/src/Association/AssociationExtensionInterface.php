@@ -34,7 +34,7 @@ interface AssociationExtensionInterface
 	 *
 	 * @return  array   Array of associations for the item
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAssociationsForItem($id = 0, $view = null);
 }

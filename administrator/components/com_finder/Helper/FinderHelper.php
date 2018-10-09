@@ -6,9 +6,8 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Finder\Administrator\Helper;
 
-use Joomla\CMS\Helper\ContentHelper;
+namespace Joomla\Component\Finder\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
@@ -63,7 +62,7 @@ class FinderHelper
 	/**
 	 * Gets the finder system plugin extension id.
 	 *
-	 * @return  int  The finder system plugin extension id.
+	 * @return  integer  The finder system plugin extension id.
 	 *
 	 * @since   3.6.0
 	 */
@@ -87,33 +86,5 @@ class FinderHelper
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  \JObject  A JObject containing the allowed actions.
-	 *
-	 * @since   2.5
-	 * @deprecated  3.2  Use \JHelperContent::getActions() instead
-	 */
-	public static function getActions()
-	{
-		// Log usage of deprecated function
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions
-		return ContentHelper::getActions('com_finder');
 	}
 }

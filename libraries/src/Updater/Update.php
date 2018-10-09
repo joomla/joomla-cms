@@ -13,7 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Http\HttpFactory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
 
@@ -23,7 +25,7 @@ use Joomla\Registry\Registry;
  *
  * @since  11.1
  */
-class Update extends \JObject
+class Update extends CMSObject
 {
 	/**
 	 * Update manifest `<name>` element
@@ -508,7 +510,7 @@ class Update extends \JObject
 		if ($response === null || $response->code !== 200)
 		{
 			// TODO: Add a 'mark bad' setting here somehow
-			Log::add(\JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_OPEN_URL', $url), Log::WARNING, 'jerror');
 
 			return false;
 		}

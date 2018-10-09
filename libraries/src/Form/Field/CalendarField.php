@@ -174,8 +174,8 @@ class CalendarField extends FormField
 			$this->filltable    = (string) $this->element['filltable'] ? (string) $this->element['filltable'] : 'true';
 			$this->timeformat   = (int) $this->element['timeformat'] ? (int) $this->element['timeformat'] : 24;
 			$this->singleheader = (string) $this->element['singleheader'] ? (string) $this->element['singleheader'] : 'false';
-			$this->minyear      = (string) $this->element['minyear'] ? (string) $this->element['minyear'] : null;
-			$this->maxyear      = (string) $this->element['maxyear'] ? (string) $this->element['maxyear'] : null;
+			$this->minyear      = strlen((string) $this->element['minyear']) ? (string) $this->element['minyear'] : null;
+			$this->maxyear      = strlen((string) $this->element['maxyear']) ? (string) $this->element['maxyear'] : null;
 
 			if ($this->maxyear < 0 || $this->minyear > 0)
 			{
@@ -195,8 +195,7 @@ class CalendarField extends FormField
 	 */
 	protected function getInput()
 	{
-		$user   = Factory::getUser();
-		$config = Factory::getConfig();
+		$user = Factory::getUser();
 
 		// Translate the format if requested
 		$translateFormat = (string) $this->element['translateformat'];
@@ -224,7 +223,7 @@ class CalendarField extends FormField
 				{
 					// Get a date object based on the correct timezone.
 					$date = Factory::getDate($this->value, 'UTC');
-					$date->setTimezone(new \DateTimeZone($config->get('offset')));
+					$date->setTimezone(new \DateTimeZone(Factory::getApplication()->get('offset')));
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);

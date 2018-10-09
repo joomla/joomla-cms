@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Menu\Administrator\Menu;
 
 defined('_JEXEC') or die;
@@ -31,27 +32,27 @@ class CssMenu
 	/**
 	 * The Menu tree object
 	 *
-	 * @var   Tree
+	 * @var    Tree
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $tree;
 
 	/**
 	 * The module options
 	 *
-	 * @var   Registry
+	 * @var    Registry
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $params;
 
 	/**
 	 * The menu bar state
 	 *
-	 * @var   bool
+	 * @var    bool
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $enabled;
 
@@ -163,7 +164,7 @@ class CssMenu
 	 * @param   array     $items   The menu items array
 	 * @param   Registry  $params  Module options
 	 *
-	 * @return  bool  Whether to show recovery menu
+	 * @return  boolean  Whether to show recovery menu
 	 *
 	 * @since   3.8.0
 	 */
@@ -261,7 +262,7 @@ class CssMenu
 			$item->icon  = $item->icon ?? '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
-			if (($item->scope === 'help' && !$this->params->get('showhelp')) || ($item->scope === 'edit' && !$this->params->get('shownew')))
+			if (($item->scope === 'help' && $this->params->get('showhelp', 1) == 0) || ($item->scope === 'edit' && !$this->params->get('shownew')))
 			{
 				continue;
 			}
@@ -319,6 +320,25 @@ class CssMenu
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
+			elseif ($item->element === 'com_workflow')
+			{
+				parse_str($item->link, $query);
+
+				// Only display Fields menus when enabled in the component
+				$workflow = null;
+
+				if (isset($query['extension']))
+				{
+					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+				}
+
+				if (!$workflow)
+				{
+					continue;
+				}
+
+				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
+			}
 			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
 			{
 				continue;
@@ -360,6 +380,12 @@ class CssMenu
 
 			// Exclude if there are no child items under heading or container
 			if (in_array($item->type, array('heading', 'container')) && empty($item->submenu) && empty($item->components))
+			{
+				continue;
+			}
+
+			// Exclude help menu item if set such in mod_menu
+			if ($this->params->get('showhelp', 1) == 0 && $item->link == 'index.php?option=com_cpanel&view=help')
 			{
 				continue;
 			}

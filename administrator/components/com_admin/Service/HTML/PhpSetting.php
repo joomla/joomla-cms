@@ -56,27 +56,4 @@ class PhpSetting
 	{
 		return !empty($val) ? $val : Text::_('JNONE');
 	}
-
-	/**
-	 * Method to generate an integer from a value
-	 *
-	 * @param   string  $val  a php ini value
-	 *
-	 * @return  string html code
-	 *
-	 * @deprecated  4.0  Use intval() or casting instead.
-	 */
-	public function integer($val)
-	{
-		try
-		{
-			Log::add(sprintf('%s() is deprecated. Use intval() or casting instead.', __METHOD__), Log::WARNING, 'deprecated');
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return (int) $val;
-	}
 }

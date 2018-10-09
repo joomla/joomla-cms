@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Cpanel\Administrator\View\System;
 
 defined('_JEXEC') or die;
@@ -43,7 +44,7 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Set toolbar items for the page
-		ToolbarHelper::title(Text::_('System Panel'), 'cog help_header');
+		ToolbarHelper::title(Text::_('COM_CPANEL_TITLE_SYSTEM_PANEL'), 'cog help_header');
 		ToolbarHelper::help('screen.cpanel');
 
 		$user  = Factory::getUser();
@@ -55,7 +56,7 @@ class HtmlView extends BaseHtmlView
 		// System
 		if ($user->authorise('core.admin'))
 		{
-			$links['MOD_MENU_SYSTEM'] = [
+			$links['COM_CPANEL_SYSTEM_SETUP'] = [
 				// System configuration
 				'com_config' => static::arrayBuilder(
 					'MOD_MENU_CONFIGURATION',
@@ -64,119 +65,7 @@ class HtmlView extends BaseHtmlView
 				),
 			];
 
-			$headerIcons['MOD_MENU_SYSTEM'] = 'cog';
-
-			static::$notEmpty = true;
-		}
-
-		// Install
-		if ($user->authorise('core.manage', 'com_installer'))
-		{
-			// Install
-			$links['MOD_MENU_INSTALL'] = [
-				'com_installer_install' => static::arrayBuilder(
-					'MOD_MENU_INSTALL_EXTENSIONS',
-					'index.php?option=com_installer&view=install',
-					'cog'
-				),
-				'com_installer_discover' => static::arrayBuilder(
-					'MOD_MENU_INSTALL_DISCOVER',
-					'index.php?option=com_installer&view=discover',
-					'cog'
-				),
-				'com_languages_install' => static::arrayBuilder(
-					'MOD_MENU_INSTALL_LANGUAGES',
-					'index.php?option=com_installer&view=languages',
-					'cog'
-				),
-			];
-
-			$headerIcons['MOD_MENU_INSTALL'] = 'download';
-
-			static::$notEmpty = true;
-		}
-
-		// Templates
-		if ($user->authorise('core.manage', 'com_templates'))
-		{
-			// Site
-			$links['MOD_MENU_TEMPLATES'] = [
-				'com_templates' => static::arrayBuilder(
-					'MOD_MENU_TEMPLATE_SITE_TEMPLATES',
-					'index.php?option=com_templates&client_id=0',
-					'edit'
-				),
-				'com_templates_site_styles' => static::arrayBuilder(
-					'MOD_MENU_TEMPLATE_SITE_STYLES',
-					'index.php?option=com_templates&view=styles&client_id=0',
-					'image'
-				),
-				// Admin
-				'com_templates_edit' => static::arrayBuilder(
-					'MOD_MENU_TEMPLATE_ADMIN_TEMPLATES',
-					'index.php?option=com_templates&view=templates&client_id=1',
-					'edit'
-				),
-				'com_templates_admin_styles' => static::arrayBuilder(
-					'MOD_MENU_TEMPLATE_ADMIN_STYLES',
-					'index.php?option=com_templates&view=styles&client_id=1',
-					'image'
-				),
-			];
-
-			$headerIcons['MOD_MENU_TEMPLATES'] = 'image';
-
-			static::$notEmpty = true;
-		}
-
-		// Access
-		if ($user->authorise('core.manage', 'com_users'))
-		{
-			// Site
-			$links['MOD_MENU_ACCESS'] = [
-				'com_users_groups' => static::arrayBuilder(
-					'MOD_MENU_ACCESS_GROUPS',
-					'index.php?option=com_users&view=groups',
-					'image'
-				),
-				'com_users_levels' => static::arrayBuilder(
-					'MOD_MENU_ACCESS_LEVELS',
-					'index.php?option=com_users&view=levels',
-					'image'
-				),
-			];
-
-			$headerIcons['MOD_MENU_ACCESS'] = 'lock';
-
-			static::$notEmpty = true;
-		}
-
-		// Global Configuration - Permissions and Filters
-		if ($user->authorise('core.admin'))
-		{
-			$new = [
-				'com_config_permissions' => static::arrayBuilder(
-					'MOD_MENU_ACCESS_SETTINGS',
-					'index.php?option=com_config#page-permissions',
-					'refresh'
-				),
-				'com_config_filters' => static::arrayBuilder(
-					'MOD_MENU_ACCESS_TEXT_FILTERS',
-					'index.php?option=com_config#page-filters',
-					'refresh'
-				),
-			];
-
-			if (!empty($links['MOD_MENU_ACCESS']))
-			{
-				$links['MOD_MENU_ACCESS'] = array_merge($links['MOD_MENU_ACCESS'], $new);
-			}
-			else
-			{
-				$links['MOD_MENU_ACCESS'] = $new;
-
-				$headerIcons['MOD_MENU_ACCESS'] = 'lock';
-			}
+			$headerIcons['COM_CPANEL_SYSTEM_SETUP'] = 'cog';
 
 			static::$notEmpty = true;
 		}
@@ -221,104 +110,6 @@ class HtmlView extends BaseHtmlView
 				$links['MOD_MENU_MAINTAIN'] = $new;
 
 				$headerIcons['MOD_MENU_MAINTAIN'] = 'refresh';
-			}
-
-			static::$notEmpty = true;
-		}
-
-		// Manage
-		if ($user->authorise('core.manage', 'com_installer'))
-		{
-			$links['MOD_MENU_MANAGE'] = [
-				'com_installer_manage' => static::arrayBuilder(
-					'MOD_MENU_MANAGE_EXTENSIONS',
-					'index.php?option=com_installer&view=manage',
-					'cog'
-				),
-			];
-
-			$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
-
-			static::$notEmpty = true;
-		}
-
-		if ($user->authorise('core.manage', 'com_languages'))
-		{
-			$new = [
-				'com_languages_installed' => static::arrayBuilder(
-					'MOD_MENU_MANAGE_LANGUAGES',
-					'index.php?option=com_languages&view=installed',
-					'cog'
-				),
-				'com_languages_content' => static::arrayBuilder(
-					'MOD_MENU_MANAGE_LANGUAGES_CONTENT',
-					'index.php?option=com_languages&view=languages',
-					'cog'
-				),
-				'com_languages_overrides' => static::arrayBuilder(
-					'MOD_MENU_MANAGE_LANGUAGES_OVERRIDES',
-					'index.php?option=com_languages&view=overrides',
-					'cog'
-				),
-			];
-
-			if (!empty($links['MOD_MENU_MANAGE']))
-			{
-				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
-			}
-			else
-			{
-				$links['MOD_MENU_MANAGE'] = $new;
-
-				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
-			}
-
-			static::$notEmpty = true;
-		}
-
-		if ($user->authorise('core.manage', 'com_plugins'))
-		{
-			$new = [
-				'com_plugins' => static::arrayBuilder(
-					'MOD_MENU_MANAGE_PLUGINS',
-					'index.php?option=com_plugins',
-					'cog'
-				),
-			];
-
-			if (!empty($links['MOD_MENU_MANAGE']))
-			{
-				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
-			}
-			else
-			{
-				$links['MOD_MENU_MANAGE'] = $new;
-
-				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
-			}
-
-			static::$notEmpty = true;
-		}
-
-		if ($user->authorise('core.manage', 'com_redirect'))
-		{
-			$new = [
-				'com_redirect' => static::arrayBuilder(
-					'MOD_MENU_MANAGE_REDIRECTS',
-					'index.php?option=com_redirect',
-					'cog'
-				),
-			];
-
-			if (!empty($links['MOD_MENU_MANAGE']))
-			{
-				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
-			}
-			else
-			{
-				$links['MOD_MENU_MANAGE'] = $new;
-
-				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
 			}
 
 			static::$notEmpty = true;
@@ -412,6 +203,155 @@ class HtmlView extends BaseHtmlView
 			static::$notEmpty = true;
 		}
 
+		// Install
+		if ($user->authorise('core.manage', 'com_installer'))
+		{
+			// Install
+			$links['MOD_MENU_INSTALL'] = [
+				'com_installer_install' => static::arrayBuilder(
+					'MOD_MENU_INSTALL_EXTENSIONS',
+					'index.php?option=com_installer&view=install',
+					'cog'
+				),
+				'com_installer_discover' => static::arrayBuilder(
+					'MOD_MENU_INSTALL_DISCOVER',
+					'index.php?option=com_installer&view=discover',
+					'cog'
+				),
+				'com_languages_install' => static::arrayBuilder(
+					'MOD_MENU_INSTALL_LANGUAGES',
+					'index.php?option=com_installer&view=languages',
+					'cog'
+				),
+			];
+
+			$headerIcons['MOD_MENU_INSTALL'] = 'download';
+
+			static::$notEmpty = true;
+		}
+
+		// Manage
+		if ($user->authorise('core.manage', 'com_installer'))
+		{
+			$links['MOD_MENU_MANAGE'] = [
+				'com_installer_manage' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_EXTENSIONS',
+					'index.php?option=com_installer&view=manage',
+					'cog'
+				),
+			];
+
+			$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
+
+			static::$notEmpty = true;
+		}
+
+		if ($user->authorise('core.manage', 'com_languages'))
+		{
+			$new = [
+				'com_languages_installed' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_LANGUAGES',
+					'index.php?option=com_languages&view=installed',
+					'cog'
+				),
+				'com_languages_content' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_LANGUAGES_CONTENT',
+					'index.php?option=com_languages&view=languages',
+					'cog'
+				),
+				'com_languages_overrides' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_LANGUAGES_OVERRIDES',
+					'index.php?option=com_languages&view=overrides',
+					'cog'
+				),
+			];
+
+			if (!empty($links['MOD_MENU_MANAGE']))
+			{
+				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
+			}
+			else
+			{
+				$links['MOD_MENU_MANAGE'] = $new;
+
+				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
+			}
+
+			static::$notEmpty = true;
+		}
+
+		if ($user->authorise('core.manage', 'com_csp'))
+		{
+			$new = [
+				'com_csp_main' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_CSP',
+					'index.php?option=com_csp',
+					'cog'
+				),
+			];
+
+			if (!empty($links['MOD_MENU_MANAGE']))
+			{
+				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
+			}
+			else
+			{
+				$links['MOD_MENU_MANAGE'] = $new;
+
+				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
+			}
+
+			static::$notEmpty = true;
+		}
+
+		if ($user->authorise('core.manage', 'com_plugins'))
+		{
+			$new = [
+				'com_plugins' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_PLUGINS',
+					'index.php?option=com_plugins',
+					'cog'
+				),
+			];
+
+			if (!empty($links['MOD_MENU_MANAGE']))
+			{
+				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
+			}
+			else
+			{
+				$links['MOD_MENU_MANAGE'] = $new;
+
+				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
+			}
+
+			static::$notEmpty = true;
+		}
+
+		if ($user->authorise('core.manage', 'com_redirect'))
+		{
+			$new = [
+				'com_redirect' => static::arrayBuilder(
+					'MOD_MENU_MANAGE_REDIRECTS',
+					'index.php?option=com_redirect',
+					'cog'
+				),
+			];
+
+			if (!empty($links['MOD_MENU_MANAGE']))
+			{
+				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
+			}
+			else
+			{
+				$links['MOD_MENU_MANAGE'] = $new;
+
+				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
+			}
+
+			static::$notEmpty = true;
+		}
+
 		// Update
 		if ($user->authorise('core.manage', 'com_joomlaupdate'))
 		{
@@ -457,6 +397,91 @@ class HtmlView extends BaseHtmlView
 			static::$notEmpty = true;
 		}
 
+		// Templates
+		if ($user->authorise('core.manage', 'com_templates'))
+		{
+			// Site
+			$links['MOD_MENU_TEMPLATES'] = [
+				'com_templates' => static::arrayBuilder(
+					'MOD_MENU_TEMPLATE_SITE_TEMPLATES',
+					'index.php?option=com_templates&view=templates&client_id=0',
+					'edit'
+				),
+				'com_templates_site_styles' => static::arrayBuilder(
+					'MOD_MENU_TEMPLATE_SITE_STYLES',
+					'index.php?option=com_templates&view=styles&client_id=0',
+					'image'
+				),
+				// Admin
+				'com_templates_edit' => static::arrayBuilder(
+					'MOD_MENU_TEMPLATE_ADMIN_TEMPLATES',
+					'index.php?option=com_templates&view=templates&client_id=1',
+					'edit'
+				),
+				'com_templates_admin_styles' => static::arrayBuilder(
+					'MOD_MENU_TEMPLATE_ADMIN_STYLES',
+					'index.php?option=com_templates&view=styles&client_id=1',
+					'image'
+				),
+			];
+
+			$headerIcons['MOD_MENU_TEMPLATES'] = 'image';
+
+			static::$notEmpty = true;
+		}
+
+		// Access
+		if ($user->authorise('core.manage', 'com_users'))
+		{
+			// Site
+			$links['MOD_MENU_ACCESS'] = [
+				'com_users_groups' => static::arrayBuilder(
+					'MOD_MENU_ACCESS_GROUPS',
+					'index.php?option=com_users&view=groups',
+					'image'
+				),
+				'com_users_levels' => static::arrayBuilder(
+					'MOD_MENU_ACCESS_LEVELS',
+					'index.php?option=com_users&view=levels',
+					'image'
+				),
+			];
+
+			$headerIcons['MOD_MENU_ACCESS'] = 'lock';
+
+			static::$notEmpty = true;
+		}
+
+		// Global Configuration - Permissions and Filters
+		if ($user->authorise('core.admin'))
+		{
+			$new = [
+				'com_config_permissions' => static::arrayBuilder(
+					'MOD_MENU_ACCESS_SETTINGS',
+					'index.php?option=com_config#page-permissions',
+					'refresh'
+				),
+				'com_config_filters' => static::arrayBuilder(
+					'MOD_MENU_ACCESS_TEXT_FILTERS',
+					'index.php?option=com_config#page-filters',
+					'refresh'
+				),
+			];
+
+			if (!empty($links['MOD_MENU_ACCESS']))
+			{
+				$links['MOD_MENU_ACCESS'] = array_merge($links['MOD_MENU_ACCESS'], $new);
+			}
+			else
+			{
+				$links['MOD_MENU_ACCESS'] = $new;
+
+				$headerIcons['MOD_MENU_ACCESS'] = 'lock';
+			}
+
+			static::$notEmpty = true;
+		}
+
 		if (static::$notEmpty)
 		{
 			$this->links = $links;
@@ -486,7 +511,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private static function arrayBuilder($name, $link, $icon): array
 	{

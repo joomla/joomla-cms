@@ -25,8 +25,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Filesystem\Folder;
-
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Joomla! Language Filter Plugin.
@@ -644,8 +643,6 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$lang_code = $this->default_lang;
 				}
 
-				jimport('joomla.filesystem.folder');
-
 				// The language has been deleted/disabled or the related content language does not exist/has been unpublished
 				// or the related home page does not exist/has been unpublished
 				if (!array_key_exists($lang_code, $this->lang_codes)
@@ -822,7 +819,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 					// Component association
 					case (isset($cassociations[$i])):
-						$language->link = Route::_($cassociations[$i] . '&lang=' . $language->sef);
+						$language->link = Route::_($cassociations[$i]);
 						break;
 
 					// Menu items association

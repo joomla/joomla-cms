@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -14,9 +15,13 @@ use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Item Model for a Contact.
@@ -103,7 +108,7 @@ class ContactModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -183,7 +188,7 @@ class ContactModel extends AdminModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -213,7 +218,7 @@ class ContactModel extends AdminModel
 				return false;
 			}
 
-			return \JFactory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
+			return Factory::getUser()->authorise('core.delete', 'com_contact.category.' . (int) $record->catid);
 		}
 	}
 
@@ -231,7 +236,7 @@ class ContactModel extends AdminModel
 		// Check against the category.
 		if (!empty($record->catid))
 		{
-			return \JFactory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
+			return Factory::getUser()->authorise('core.edit.state', 'com_contact.category.' . (int) $record->catid);
 		}
 
 		// Default to component settings if category not known.
@@ -333,7 +338,7 @@ class ContactModel extends AdminModel
 	 */
 	protected function loadFormData()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Check the session for previously entered form data.
 		$data = $app->getUserState('com_contact.edit.contact.data', array());
@@ -365,9 +370,7 @@ class ContactModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = \JFactory::getApplication()->input;
-
-		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+		$input = Factory::getApplication()->input;
 
 		// Cast catid to integer for comparison
 		$catid = (int) $data['catid'];
@@ -375,7 +378,7 @@ class ContactModel extends AdminModel
 		// Check if New Category exists
 		if ($catid > 0)
 		{
-			$catid = \CategoriesHelper::validateCategoryId($data['catid'], 'com_contact');
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_contact');
 		}
 
 		// Save New Category
@@ -389,7 +392,7 @@ class ContactModel extends AdminModel
 			$table['published'] = 1;
 
 			// Create new category and get catid back
-			$data['catid'] = \CategoriesHelper::createCategory($table);
+			$data['catid'] = CategoriesHelper::createCategory($table);
 		}
 
 		// Alter the name for save as copy
@@ -421,7 +424,7 @@ class ContactModel extends AdminModel
 		{
 			if ($data['params'][$link])
 			{
-				$data['params'][$link] = \JStringPunycode::urlToPunycode($data['params'][$link]);
+				$data['params'][$link] = PunycodeHelper::urlToPunycode($data['params'][$link]);
 			}
 		}
 
@@ -439,7 +442,7 @@ class ContactModel extends AdminModel
 	 */
 	protected function prepareTable($table)
 	{
-		$date = \JFactory::getDate()->toSql();
+		$date = Factory::getDate()->toSql();
 
 		$table->name = htmlspecialchars_decode($table->name, ENT_QUOTES);
 
@@ -467,7 +470,7 @@ class ContactModel extends AdminModel
 		{
 			// Set the values
 			$table->modified = $date;
-			$table->modified_by = \JFactory::getUser()->id;
+			$table->modified_by = Factory::getUser()->id;
 		}
 
 		// Increment the content version number.
@@ -569,7 +572,7 @@ class ContactModel extends AdminModel
 
 		if (empty($pks))
 		{
-			$this->setError(\JText::_('COM_CONTACT_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('COM_CONTACT_NO_ITEM_SELECTED'));
 
 			return false;
 		}
@@ -641,6 +644,6 @@ class ContactModel extends AdminModel
 	 */
 	private function canCreateCategory()
 	{
-		return \JFactory::getUser()->authorise('core.create', 'com_contact');
+		return Factory::getUser()->authorise('core.create', 'com_contact');
 	}
 }

@@ -21,19 +21,20 @@ use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelpe
 
 $hideLinks = $app->input->getBool('hidemainmenu');
 
-// Check if the multilangstatus module is present in the site
-if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled())
-{
-	// Publish/Unpublish the module if it exists in the modules table
-	// depending on the status of the languagefilter
-	MultilangstatusAdminHelper::publish();
-}
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
-		<?php if (class_exists(MultilangstatusAdminHelper::class) && Multilanguage::isEnabled() && MultilangstatusAdminHelper::isEnabled()) : ?>
-			<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
-			<?php echo ModuleHelper::renderModule($module); ?>
+		<?php // Check if the multilangstatus module is present and enabled in the site ?>
+		<?php if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled()) : ?>
+			<?php if (Multilanguage::isEnabled()) : ?>
+				<?php // Publish and display the module ?>
+				<?php MultilangstatusAdminHelper::publish(); ?>
+				<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
+				<?php echo ModuleHelper::renderModule($module); ?>
+			<?php else : ?>
+				<?php // Unpublish the module ?>
+				<?php MultilangstatusAdminHelper::publish(); ?>
+			<?php endif; ?>
 		<?php endif; ?>
 
 		<li class="nav-item">

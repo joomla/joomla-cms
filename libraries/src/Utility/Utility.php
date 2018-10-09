@@ -10,6 +10,8 @@ namespace Joomla\CMS\Utility;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * JUtility is a utility functions class
  *
@@ -52,7 +54,7 @@ class Utility
 	 *
 	 * @param   mixed  $custom  A custom upper limit, if the PHP settings are all above this then this will be used
 	 *
-	 * @return  int  Size in number of bytes
+	 * @return  integer  Size in number of bytes
 	 *
 	 * @since   3.7.0
 	 */
@@ -60,7 +62,7 @@ class Utility
 	{
 		if ($custom)
 		{
-			$custom = \JHtml::_('number.bytes', $custom, '');
+			$custom = HTMLHelper::_('number.bytes', $custom, '');
 
 			if ($custom > 0)
 			{
@@ -72,8 +74,8 @@ class Utility
 		 * Read INI settings which affects upload size limits
 		 * and Convert each into number of bytes so that we can compare
 		 */
-		$sizes[] = \JHtml::_('number.bytes', ini_get('post_max_size'), '');
-		$sizes[] = \JHtml::_('number.bytes', ini_get('upload_max_filesize'), '');
+		$sizes[] = HTMLHelper::_('number.bytes', ini_get('post_max_size'), '');
+		$sizes[] = HTMLHelper::_('number.bytes', ini_get('upload_max_filesize'), '');
 
 		// The minimum of these is the limiting factor
 		return min($sizes);

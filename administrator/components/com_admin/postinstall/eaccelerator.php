@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Fileystem\File;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
 
@@ -52,9 +52,6 @@ function admin_postinstall_eaccelerator_action()
 	$data = array_merge($prev, array('cacheHandler' => 'file'));
 
 	$config = new Registry($data);
-
-	jimport('joomla.filesystem.path');
-	jimport('joomla.filesystem.file');
 
 	// Set the configuration file path.
 	$file = JPATH_CONFIGURATION . '/configuration.php';

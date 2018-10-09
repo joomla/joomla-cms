@@ -22,7 +22,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_menus
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MenusComponent extends MVCComponent implements
 	BootableExtensionInterface, AssociationServiceInterface
@@ -41,7 +41,7 @@ class MenusComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

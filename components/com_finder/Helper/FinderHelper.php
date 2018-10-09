@@ -16,7 +16,7 @@ use Joomla\CMS\Component\ComponentHelper;
 /**
  * Helper class for Joomla! Finder components
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FinderHelper
 {
@@ -28,7 +28,7 @@ class FinderHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function logSearch(\FinderIndexerQuery $searchquery, $resultCount = 0)
 	{

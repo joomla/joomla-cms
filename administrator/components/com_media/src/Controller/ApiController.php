@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\MediaHelper;
 use Joomla\CMS\Response\JsonResponse;
@@ -20,9 +21,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Media\Administrator\Exception\FileExistsException;
 use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
-use Joomla\CMS\Language\Text;
-
-\JLoader::import('joomla.filesystem.file');
 
 /**
  * Api Media Controller
@@ -134,7 +132,7 @@ class ApiController extends BaseController
 	public function getFiles()
 	{
 		// Grab options
-		$options              = array();
+		$options              = [];
 		$options['url']       = $this->input->getBool('url', false);
 		$options['temp']      = $this->input->getBool('temp', false);
 		$options['search']    = $this->input->getString('search', '');
@@ -300,14 +298,14 @@ class ApiController extends BaseController
 	 *
 	 * {"success":true,"message":"ok","messages":null,"data":[{"type":"dir","name":"banners","path":"//"}]}
 	 *
-	 * @param   mixed   $data          The data to send
-	 * @param   number  $responseCode  The response code
+	 * @param   mixed    $data          The data to send
+	 * @param   integer  $responseCode  The response code
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	private function sendResponse($data = null, $responseCode = 200)
+	private function sendResponse($data = null, int $responseCode = 200)
 	{
 		// Set the correct content type
 		$this->app->setHeader('Content-Type', 'application/json');
@@ -332,7 +330,7 @@ class ApiController extends BaseController
 	 *
 	 * @since   4.0.0
 	 */
-	public function getModel($name = 'Api', $prefix = 'Administrator', $config = array())
+	public function getModel($name = 'Api', $prefix = 'Administrator', $config = [])
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

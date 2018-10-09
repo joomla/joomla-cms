@@ -2,7 +2,6 @@ const Promise = require('bluebird');
 const fs = require('fs');
 // const fsExtra = require('fs-extra');
 const Recurs = require('recursive-readdir');
-const chalk = require('chalk');
 const UglifyJS = require('uglify-es');
 const transpileEs5 = require('./compile-es6.js');
 const debounce = require('lodash.debounce');
@@ -27,7 +26,7 @@ const uglifyJs = (options, path) => {
     folders.push(`${rootPath}/${path}`);
   } else {
     folders = [
-      `${rootPath}/media`,
+      `${rootPath}/build/media_src`,
       `${rootPath}/administrator/templates/atum/js`,
       `${rootPath}/templates/cassiopeia/js`,
     ];
@@ -39,20 +38,14 @@ const uglifyJs = (options, path) => {
       (files) => {
         files.forEach(
             (file) => {
-            if (file.match(/.es6.js/)) {
+            if (file.match(/\.es6\.js/)) {
               // Transpile the file
               transpileEs5.compileFile(file);
-              fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
-            }
-
-            if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
-              // Write the file
-              fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
             }
           },
           (error) => {
             // eslint-disable-next-line no-console
-            console.error(`${chalk.red('something exploded', error)}`);
+            console.error(`something exploded ${error}`);
           },
         );
       });
@@ -72,12 +65,12 @@ const watchFiles = (options, folders, compileFirst = false) => {
         (files) => {
           files.forEach(
             (file) => {
-              if (file.match(/.js/)) {
+              if (file.match(/\.js/)) {
                 fs.watchFile(file, () => {
                   // eslint-disable-next-line no-console
-                  console.warn(`${chalk.grey(`File: ${file} changed.`)}`);
+                  console.warn(`File: ${file} changed.`);
                   debounce(() => {
-                    if (file.match(/.es6.js/)) {
+                    if (file.match(/\.es6\.js/)) {
                       // Transpile the file
                       transpileEs5.compileFile(file);
                       fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
@@ -86,13 +79,13 @@ const watchFiles = (options, folders, compileFirst = false) => {
                   }, 150)();
 
                   // eslint-disable-next-line no-console
-                  console.log(chalk.bgYellow(`${file} was updated.`));
+                  console.log(`${file} was updated.`);
                 });
               }
             },
             (error) => {
               // eslint-disable-next-line no-console
-              console.error(chalk.red('something exploded', error));
+              console.error(`something exploded ${error}`);
             },
           );
         }
@@ -101,10 +94,10 @@ const watchFiles = (options, folders, compileFirst = false) => {
   );
 
   // eslint-disable-next-line no-console
-  console.log(chalk.magenta('Now watching JS files...'));
+  console.log(`Now watching JS files...`);
 };
 
-const compile = (options, path) => {
+const compileJS = (options, path) => {
   Promise.resolve()
   // Compile the scss files
     .then(() => uglifyJs(options, path))
@@ -112,10 +105,10 @@ const compile = (options, path) => {
   // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
-      console.error(chalk.red(err));
+      console.error(err);
       process.exit(-1);
     });
 };
 
-module.exports.compile = compile;
+module.exports.compileJS = compileJS;
 module.exports.watch = watchFiles;

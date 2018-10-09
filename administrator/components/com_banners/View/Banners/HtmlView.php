@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\View\Banners;
 
 defined('_JEXEC') or die;
@@ -84,9 +85,6 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		$this->sidebar = \JHtmlSidebar::render();
 
 		// We do not need to filter by language when multilingual is disabled
@@ -108,8 +106,6 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
-
 		$canDo = ContentHelper::getActions('com_banners', 'category', $this->state->get('filter.category_id'));
 		$user  = Factory::getUser();
 

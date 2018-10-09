@@ -11,6 +11,7 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -31,12 +32,12 @@ class FileModel extends FormModel
 	 *
 	 * @since   4.0.0
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		PluginHelper::importPlugin('media-action');
 
 		// Get the form.
-		$form = $this->loadForm('com_media.file', 'file', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_media.file', 'file', ['control' => 'jform', 'load_data' => $loadData]);
 
 		if (empty($form))
 		{
@@ -61,6 +62,7 @@ class FileModel extends FormModel
 	{
 		list($adapter, $path) = explode(':', $path, 2);
 
-		return (new ApiModel)->getFile($adapter, $path, ['url' => true, 'content' => true]);
+		return $this->bootComponent('com_media')->createMVCFactory(Factory::getApplication())
+			->createModel('Api', 'Administrator')->getFile($adapter, $path, ['url' => true, 'content' => true]);
 	}
 }

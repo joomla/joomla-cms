@@ -27,6 +27,8 @@ use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Joomla! Installation Application class.
@@ -108,7 +110,7 @@ final class InstallationApplication extends CMSApplication
 		}
 
 		$lang   = Factory::getLanguage();
-		$output = '<h4>' . \JText::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
+		$output = '<h4>' . Text::_('JDEBUG_LANGUAGE_FILES_IN_ERROR') . '</h4>';
 
 		$errorfiles = $lang->getErrorFiles();
 
@@ -125,10 +127,10 @@ final class InstallationApplication extends CMSApplication
 		}
 		else
 		{
-			$output .= '<pre>' . \JText::_('JNONE') . '</pre>';
+			$output .= '<pre>' . Text::_('JNONE') . '</pre>';
 		}
 
-		$output .= '<h4>' . \JText::_('JDEBUG_LANGUAGE_UNTRANSLATED_STRING') . '</h4>';
+		$output .= '<h4>' . Text::_('JDEBUG_LANGUAGE_UNTRANSLATED_STRING') . '</h4>';
 		$output .= '<pre>';
 		$orphans = $lang->getOrphans();
 
@@ -164,7 +166,7 @@ final class InstallationApplication extends CMSApplication
 		}
 		else
 		{
-			$output .= '<pre>' . \JText::_('JNONE') . '</pre>';
+			$output .= '<pre>' . Text::_('JNONE') . '</pre>';
 		}
 
 		$output .= '</pre>';
@@ -210,7 +212,7 @@ final class InstallationApplication extends CMSApplication
 		$this->getDocument()->setBuffer($contents, 'component');
 
 		// Set the document title
-		$document->setTitle(\JText::_('INSTL_PAGE_TITLE'));
+		$document->setTitle(Text::_('INSTL_PAGE_TITLE'));
 	}
 
 	/**
@@ -376,8 +378,8 @@ final class InstallationApplication extends CMSApplication
 		// Read the folder names in the site and admin area.
 		else
 		{
-			$langfiles['site']  = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = \JFolder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+			$langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
+			$langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
 		}
 
 		return $langfiles;

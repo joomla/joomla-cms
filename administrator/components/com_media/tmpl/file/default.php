@@ -21,13 +21,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
 
-HTMLHelper::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
-// @TODO logic to load plugins per media type
-
-$params = ComponentHelper::getParams('com_media');
-
 // Add stylesheets
 HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
+HTMLHelper::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
+
+$params = ComponentHelper::getParams('com_media');
 
 /**
  * @var JForm $form

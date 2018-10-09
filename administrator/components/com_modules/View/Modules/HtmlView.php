@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\View\Modules;
 
 defined('_JEXEC') or die;
@@ -130,9 +131,6 @@ class HtmlView extends BaseHtmlView
 				unset($this->activeFilters['language']);
 			}
 		}
-
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		return parent::display($tpl);
 	}

@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Csp\Administrator\Helper;
 
 defined('_JEXEC') or die;
@@ -15,7 +16,7 @@ use Joomla\CMS\Factory;
 /**
  * Reporter component helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ReporterHelper
 {
@@ -24,7 +25,7 @@ class ReporterHelper
 	 *
 	 * @return  integer  The httpheaders system plugin extension id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getHttpHeadersPluginId()
 	{

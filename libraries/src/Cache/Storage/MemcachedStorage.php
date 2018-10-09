@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\CacheStorage;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
+use Joomla\CMS\Factory;
 
 /**
  * Memcached cache storage handler
@@ -49,7 +50,7 @@ class MemcachedStorage extends CacheStorage
 	{
 		parent::__construct($options);
 
-		$this->_compress = \JFactory::getConfig()->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
+		$this->_compress = Factory::getApplication()->get('memcached_compress', false) ? \Memcached::OPT_COMPRESSION : 0;
 
 		if (static::$_db === null)
 		{
@@ -72,14 +73,14 @@ class MemcachedStorage extends CacheStorage
 			throw new \RuntimeException('Memcached Extension is not available');
 		}
 
-		$config = \JFactory::getConfig();
+		$app = Factory::getApplication();
 
-		$host = $config->get('memcached_server_host', 'localhost');
-		$port = $config->get('memcached_server_port', 11211);
+		$host = $app->get('memcached_server_host', 'localhost');
+		$port = $app->get('memcached_server_port', 11211);
 
 
 		// Create the memcached connection
-		if ($config->get('memcached_persist', true))
+		if ($app->get('memcached_persist', true))
 		{
 			static::$_db = new \Memcached($this->_hash);
 			$servers = static::$_db->getServerList();

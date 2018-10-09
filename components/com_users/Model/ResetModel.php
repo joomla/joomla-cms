@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
@@ -19,6 +20,7 @@ use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Log\Log;
 
 /**
  * Rest model class for Users.
@@ -357,7 +359,7 @@ class ResetModel extends FormModel
 	 */
 	public function processResetRequest($data)
 	{
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		// Get the form.
 		$form = $this->getForm();
@@ -462,14 +464,14 @@ class ResetModel extends FormModel
 		}
 
 		// Assemble the password reset confirmation link.
-		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
+		$mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
 		$link = 'index.php?option=com_users&view=reset&layout=confirm&token=' . $token;
 
 		// Put together the email template data.
 		$data = $user->getProperties();
-		$data['fromname'] = $config->get('fromname');
-		$data['mailfrom'] = $config->get('mailfrom');
-		$data['sitename'] = $config->get('sitename');
+		$data['fromname'] = $app->get('fromname');
+		$data['mailfrom'] = $app->get('mailfrom');
+		$data['sitename'] = $app->get('sitename');
 		$data['link_text'] = Route::_($link, false, $mode);
 		$data['link_html'] = Route::_($link, true, $mode);
 		$data['token'] = $token;
@@ -486,16 +488,36 @@ class ResetModel extends FormModel
 			$data['link_text']
 		);
 
-		// Send the password reset request email.
-		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		// Try to send the password reset request email.
+		try
+		{
+			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $user->email, $subject, $body);
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$return = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$return = false;
+			}
+		}
 
 		// Check for an error.
 		if ($return !== true)
 		{
 			return new \Exception(Text::_('COM_USERS_MAIL_FAILED'), 500);
 		}
-
-		return true;
+		else
+		{
+			return true;
+		}
 	}
 
 	/**

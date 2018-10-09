@@ -160,7 +160,7 @@ class PasswordField extends FormField
 			$this->minUppercase = 0;
 			$this->minLowercase = 0;
 
-			if (Factory::getConfig()->get('db') != '')
+			if (Factory::getApplication()->get('db') != '')
 			{
 				$this->minLength    = (int) ComponentHelper::getParams('com_users')->get('minimum_length', 4);
 				$this->minIntegers  = (int) ComponentHelper::getParams('com_users')->get('minimum_integers', 0);

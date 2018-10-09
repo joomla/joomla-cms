@@ -10,6 +10,8 @@ namespace Joomla\CMS\Response;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * JSON Response class.
  *
@@ -67,7 +69,7 @@ class JsonResponse
 		$this->message = $message;
 
 		// Get the message queue if requested and available
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		if (!$ignoreMessages && $app !== null && is_callable(array($app, 'getMessageQueue')))
 		{

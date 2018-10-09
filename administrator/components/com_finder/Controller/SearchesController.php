@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
@@ -15,7 +16,7 @@ use Joomla\CMS\MVC\Controller\BaseController;
 /**
  * Methods supporting a list of search terms.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SearchesController extends BaseController
 {

@@ -97,10 +97,10 @@ if (is_array($attributes))
 $cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
 
 // The static assets for the calendar
-HTMLHelper::_('script', $localesPath, false, true, false, false, true);
-HTMLHelper::_('script', $helperPath, false, true, false, false, true);
-HTMLHelper::_('script', 'system/fields/calendar.min.js', false, true, false, false, true);
-HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
+HTMLHelper::_('script', $localesPath, ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', $helperPath, ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'system/fields/calendar.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' => 'auto', 'relative' => true]);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>
@@ -128,8 +128,8 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), tru
 				data-show-others="<?php echo $filltable; ?>"
 				data-time-24="<?php echo $timeformat; ?>"
 				data-only-months-nav="<?php echo $singleheader; ?>"
-				<?php echo !empty($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
-				<?php echo !empty($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
+				<?php echo isset($minYear) && strlen($minYear) ? 'data-min-year="' . $minYear . '"' : ''; ?>
+				<?php echo isset($maxYear) && strlen($maxYear) ? 'data-max-year="' . $maxYear . '"' : ''; ?>
 				title="<?php echo JText::_('JLIB_HTML_BEHAVIOR_OPEN_CALENDAR'); ?>"
 			><span class="fa fa-calendar" aria-hidden="true"></span></button>
 		</span>
