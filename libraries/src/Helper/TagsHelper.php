@@ -954,6 +954,13 @@ class TagsHelper extends CMSHelper
 			$query->where('a.published = ' . (int) $filters['published']);
 		}
 
+		// Filter on the access level
+		if (isset($filters['access']) && is_array($filters['access']) && count($filters['access']))
+		{
+			$groups = ArrayHelper::toInteger($filters['access']);
+			$query->where('a.access IN (' . implode(",", $groups) . ')');
+		}
+
 		// Filter by parent_id
 		if (isset($filters['parent_id']) && is_numeric($filters['parent_id']))
 		{

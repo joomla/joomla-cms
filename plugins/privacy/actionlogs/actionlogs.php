@@ -20,22 +20,6 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
 class PlgPrivacyActionlogs extends PrivacyPlugin
 {
 	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.9.0
-	 */
-	protected $db;
-
-	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Processes an export request for Joomla core actionlog data
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
