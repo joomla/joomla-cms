@@ -158,7 +158,7 @@ class FeaturedModel extends ArticlesModel
 		}
 
 		// Filter by workflows stages
-		$workflowStage = (string) $this->getState('filter.state');
+		$workflowStage = (string) $this->getState('filter.stage');
 
 		if (is_numeric($workflowStage))
 		{
@@ -167,19 +167,22 @@ class FeaturedModel extends ArticlesModel
 
 		$condition = (string) $this->getState('filter.condition');
 
-		if (is_numeric($condition))
+		if ($condition !== '*')
 		{
-			$query->where($db->quoteName('ws.condition') . '=' . (int) $condition);
-		}
-		elseif (!is_numeric($workflowStage))
-		{
-			$query->whereIn(
-				$db->quoteName('ws.condition'),
-				[
-					ContentComponent::CONDITION_PUBLISHED,
-					ContentComponent::CONDITION_UNPUBLISHED
-				]
-			);
+			if (is_numeric($condition))
+			{
+				$query->where($db->quoteName('ws.condition') . '=' . (int) $condition);
+			}
+			elseif (!is_numeric($workflowStage))
+			{
+				$query->whereIn(
+					$db->quoteName('ws.condition'),
+					[
+						ContentComponent::CONDITION_PUBLISHED,
+						ContentComponent::CONDITION_UNPUBLISHED
+					]
+				);
+			}
 		}
 
 		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));

@@ -48,8 +48,6 @@ class ContainerAwareToolbarFactory implements ToolbarFactoryInterface, Container
 
 			$file = InputFilter::getInstance()->clean(str_replace('_', DIRECTORY_SEPARATOR, strtolower($type)) . '.php', 'path');
 
-			jimport('joomla.filesystem.path');
-
 			if ($buttonFile = Path::find($dirs, $file))
 			{
 				include_once $buttonFile;

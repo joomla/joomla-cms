@@ -12,7 +12,7 @@ namespace Joomla\Component\Categories\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
@@ -362,7 +362,7 @@ class CategoryModel extends AdminModel
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 			}
 		}
@@ -387,8 +387,6 @@ class CategoryModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$lang = Factory::getLanguage();
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
@@ -425,7 +423,7 @@ class CategoryModel extends AdminModel
 
 		$componentInterface = Factory::getApplication()->bootComponent($component);
 
-		if ($componentInterface instanceof CategoriesServiceInterface)
+		if ($componentInterface instanceof CategoryServiceInterface)
 		{
 			$componentInterface->prepareForm($form, $data);
 		}
@@ -833,7 +831,7 @@ class CategoryModel extends AdminModel
 		{
 			$query->select('MAX(ordering)')
 				->from('#__content')
-				->where($db->qn('catid') . ' = ' . $db->q($id));
+				->where($db->quoteName('catid') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 
@@ -843,8 +841,8 @@ class CategoryModel extends AdminModel
 			$query->clear();
 
 			$query->update('#__content')
-				->set($db->qn('ordering') . ' = ' . $max . ' - ' . $db->qn('ordering'))
-				->where($db->qn('catid') . ' = ' . $db->q($id));
+				->set($db->quoteName('ordering') . ' = ' . $max . ' - ' . $db->quoteName('ordering'))
+				->where($db->quoteName('catid') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 
@@ -1305,7 +1303,7 @@ class CategoryModel extends AdminModel
 
 		$componentObject = $this->bootComponent($component);
 
-		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
+		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoryServiceInterface)
 		{
 			$assoc = true;
 

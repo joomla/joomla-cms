@@ -9,7 +9,6 @@
 
 namespace Joomla\Component\Users\Administrator\Helper;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -25,73 +24,13 @@ defined('_JEXEC') or die;
  *
  * @since  1.6
  */
-class UsersHelper
+class UsersHelper extends ContentHelper
 {
 	/**
 	 * @var    CMSObject  A cache for the available actions.
 	 * @since  1.6
 	 */
 	protected static $actions;
-
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName)
-	{
-		HTMLHelper::_('sidebar.addEntry',
-			Text::_('COM_USERS_SUBMENU_USERS'),
-			'index.php?option=com_users&view=users',
-			$vName == 'users'
-		);
-
-		// Groups and Levels are restricted to core.admin
-		$canDo = ContentHelper::getActions('com_users');
-
-		if ($canDo->get('core.admin'))
-		{
-			HTMLHelper::_('sidebar.addEntry',
-				Text::_('COM_USERS_SUBMENU_GROUPS'),
-				'index.php?option=com_users&view=groups',
-				$vName == 'groups'
-			);
-			HTMLHelper::_('sidebar.addEntry',
-				Text::_('COM_USERS_SUBMENU_LEVELS'),
-				'index.php?option=com_users&view=levels',
-				$vName == 'levels'
-			);
-		}
-
-		if (ComponentHelper::isEnabled('com_fields') && ComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
-		{
-			HTMLHelper::_('sidebar.addEntry',
-				Text::_('JGLOBAL_FIELDS'),
-				'index.php?option=com_fields&context=com_users.user',
-				$vName == 'fields.fields'
-			);
-			HTMLHelper::_('sidebar.addEntry',
-				Text::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_fields&view=groups&context=com_users.user',
-				$vName == 'fields.groups'
-			);
-		}
-
-		HTMLHelper::_('sidebar.addEntry',
-			Text::_('COM_USERS_SUBMENU_NOTES'),
-			'index.php?option=com_users&view=notes',
-			$vName == 'notes'
-		);
-		HTMLHelper::_('sidebar.addEntry',
-			Text::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-			'index.php?option=com_categories&extension=com_users',
-			$vName == 'categories'
-		);
-	}
 
 	/**
 	 * Get a list of filter options for the blocked state of a user.
@@ -259,10 +198,10 @@ class UsersHelper
 			$item->count_published = 0;
 			$query = $db->getQuery(true);
 			$query->select('published as state, count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
+				->from($db->quoteName('#__contentitem_tag_map') . 'AS ct ')
 				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
-				->join('LEFT', $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id')
+				->where('ct.type_alias =' . $db->quote($extension))
+				->join('LEFT', $db->quoteName('#__categories') . ' AS c ON ct.content_item_id=c.id')
 				->group('c.published');
 
 			$db->setQuery($query);

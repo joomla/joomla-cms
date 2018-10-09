@@ -133,10 +133,11 @@
 					name="filter_tag"
 					type="tag"
 					label="JTAG"
-				       	description="JTAG_FIELD_SELECT_DESC"
-					>
-					<option value="">JNONE</option>
-				</field>
+					description="JTAG_FIELD_SELECT_DESC"
+					mode="nested"
+					multiple="true"
+					class="multipleTags"
+				/>
 
 				<field
 					name="filteringspacer2"
@@ -483,6 +484,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
 				/>
 
 				<field

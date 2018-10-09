@@ -48,27 +48,6 @@ class Access
 	protected static $assetRulesIdentities = array();
 
 	/**
-	 * Array of permissions for an asset type
-	 * (Array Key = Asset ID)
-	 * Also includes the rules string for the asset
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
-	 */
-	protected static $assetPermissionsById = array();
-
-	/**
-	 * Array of permissions for an asset type
-	 * (Array Key = Asset Name)
-	 *
-	 * @var    array
-	 * @since  11.1
-	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
-	 */
-	protected static $assetPermissionsByName = array();
-
-	/**
 	 * Array of the permission parent ID mappings
 	 *
 	 * @var    array
@@ -152,10 +131,6 @@ class Access
 		self::$groupsByUser                    = array();
 		self::$preloadedAssets                 = array();
 		self::$rootAssetId                     = null;
-
-		// The following properties are deprecated since 3.7.0 and will be removed in 4.0.
-		self::$assetPermissionsById   = array();
-		self::$assetPermissionsByName = array();
 	}
 
 	/**
@@ -281,46 +256,6 @@ class Access
 	}
 
 	/**
-	 * Method to retrieve the list of Asset IDs and their Parent Asset IDs
-	 * and store them for later usage in getAssetRules().
-	 *
-	 * @param   string  $assetType  The asset type, or the asset name, or the extension of the asset
-	 *                              (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
-	 *
-	 * @return  array  List of asset ids (includes parent asset id information).
-	 *
-	 * @since   1.6
-	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
-	 */
-	protected static function &preloadPermissionsParentIdMapping($assetType)
-	{
-		// Get the extension name from the $assetType provided
-		$extensionName = self::getExtensionNameFromAsset($assetType);
-
-		if (!isset(self::$assetPermissionsParentIdMapping[$extensionName]))
-		{
-			// Get the database connection object.
-			$db = Factory::getDbo();
-
-			// Get a fresh query object:
-			$query    = $db->getQuery(true);
-
-			// Build the database query:
-			$query->select('a.id, a.parent_id');
-			$query->from('#__assets AS a');
-			$query->where('(a.name LIKE ' . $db->quote($extensionName . '.%') . ' OR a.name = ' . $db->quote($extensionName) . ' OR a.id = 1)');
-
-			// Get the Name Permission Map List
-			$db->setQuery($query);
-			$parentIdMapping = $db->loadObjectList('id');
-
-			self::$assetPermissionsParentIdMapping[$extensionName] = &$parentIdMapping;
-		}
-
-		return self::$assetPermissionsParentIdMapping[$extensionName];
-	}
-
-	/**
 	 * Method to retrieve the Asset Rule strings for this particular
 	 * Asset Type and stores them for later usage in getAssetRules().
 	 * Stores 2 arrays: one where the list has the Asset ID as the key
@@ -330,7 +265,7 @@ class Access
 	 *                               (e.g. 'com_content.article', 'com_menus.menu.2', 'com_contact').
 	 * @param   boolean  $reload     Reload the preloaded assets.
 	 *
-	 * @return  bool  True
+	 * @return  boolean  True
 	 *
 	 * @since   1.6
 	 * @note    This function will return void in 4.0.
@@ -343,38 +278,30 @@ class Access
 		// If asset is a component, make sure that all the component assets are preloaded.
 		if ((isset(self::$preloadedAssetTypes[$extensionName]) || isset(self::$preloadedAssetTypes[$assetType])) && !$reload)
 		{
-			return true;
+			return;
 		}
 
 		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('Before Access::preloadPermissions (' . $extensionName . ')');
 
 		// Get the database connection object.
 		$db         = Factory::getDbo();
-		$extraQuery = $db->qn('name') . ' = ' . $db->q($extensionName) . ' OR ' . $db->qn('parent_id') . ' = 0';
+		$extraQuery = $db->quoteName('name') . ' = ' . $db->quote($extensionName) . ' OR ' . $db->quoteName('parent_id') . ' = 0';
 
 		// Get a fresh query object.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
-			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' LIKE ' . $db->q($extensionName . '.%') . ' OR ' . $extraQuery);
+			->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('name') . ' LIKE ' . $db->quote($extensionName . '.%') . ' OR ' . $extraQuery);
 
 		// Get the permission map for all assets in the asset extension.
 		$assets = $db->setQuery($query)->loadObjectList();
 
 		self::$assetPermissionsParentIdMapping[$extensionName] = array();
 
-		// B/C Populate the old class properties. They are deprecated since 3.7.0 and will be removed in 4.0.
-		self::$assetPermissionsById[$assetType]   = array();
-		self::$assetPermissionsByName[$assetType] = array();
-
 		foreach ($assets as $asset)
 		{
 			self::$assetPermissionsParentIdMapping[$extensionName][$asset->id] = $asset;
 			self::$preloadedAssets[$asset->id]                                 = $asset->name;
-
-			// B/C Populate the old class properties. They are deprecated since 3.7.0 and will be removed in 4.0.
-			self::$assetPermissionsById[$assetType][$asset->id]     = $asset;
-			self::$assetPermissionsByName[$assetType][$asset->name] = $asset;
 		}
 
 		// Mark asset type and it's extension name as preloaded.
@@ -382,8 +309,6 @@ class Access
 		self::$preloadedAssetTypes[$extensionName] = true;
 
 		!JDEBUG ?: \JProfiler::getInstance('Application')->mark('After Access::preloadPermissions (' . $extensionName . ')');
-
-		return true;
 	}
 
 	/**
@@ -424,9 +349,9 @@ class Access
 
 		// Get the asset info for all assets in asset names list.
 		$query = $db->getQuery(true)
-			->select($db->qn(array('id', 'name', 'rules', 'parent_id')))
-			->from($db->qn('#__assets'))
-			->where($db->qn('name') . ' IN (' . implode(',', $db->quote($components)) . ')');
+			->select($db->quoteName(array('id', 'name', 'rules', 'parent_id')))
+			->from($db->quoteName('#__assets'))
+			->where($db->quoteName('name') . ' IN (' . implode(',', $db->quote($components)) . ')');
 
 		// Get the Name Permission Map List
 		$assets = $db->setQuery($query)->loadObjectList();
@@ -660,28 +585,28 @@ class Access
 
 		// Build the database query to get the rules for the asset.
 		$query = $db->getQuery(true)
-			->select($db->qn(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
-			->select($db->qn(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
-			->from($db->qn('#__assets', 'a'));
+			->select($db->quoteName(($recursive ? 'b.rules' : 'a.rules'), 'rules'))
+			->select($db->quoteName(($recursive ? array('b.id', 'b.name', 'b.parent_id') : array('a.id', 'a.name', 'a.parent_id'))))
+			->from($db->quoteName('#__assets', 'a'));
 
 		// If the asset identifier is numeric assume it is a primary key, else lookup by name.
-		$assetString     = is_numeric($assetKey) ? $db->qn('a.id') . ' = ' . $assetKey : $db->qn('a.name') . ' = ' . $db->q($assetKey);
+		$assetString     = is_numeric($assetKey) ? $db->quoteName('a.id') . ' = ' . $assetKey : $db->quoteName('a.name') . ' = ' . $db->quote($assetKey);
 		$extensionString = '';
 
 		if ($recursiveParentAsset && ($extensionName !== $assetKey || is_numeric($assetKey)))
 		{
-			$extensionString = ' OR ' . $db->qn('a.name') . ' = ' . $db->q($extensionName);
+			$extensionString = ' OR ' . $db->quoteName('a.name') . ' = ' . $db->quote($extensionName);
 		}
 
-		$recursiveString = $recursive ? ' OR ' . $db->qn('a.parent_id') . ' = 0' : '';
+		$recursiveString = $recursive ? ' OR ' . $db->quoteName('a.parent_id') . ' = 0' : '';
 
 		$query->where('(' . $assetString . $extensionString . $recursiveString . ')');
 
 		// If we want the rules cascading up to the global asset node we need a self-join.
 		if ($recursive)
 		{
-			$query->join('LEFT', $db->qn('#__assets', 'b') . ' ON b.lft <= a.lft AND b.rgt >= a.rgt')
-				->order($db->qn('b.lft'));
+			$query->join('LEFT', $db->quoteName('#__assets', 'b') . ' ON b.lft <= a.lft AND b.rgt >= a.rgt')
+				->order($db->quoteName('b.lft'));
 		}
 
 		// Execute the query and load the rules from the result.
@@ -693,9 +618,9 @@ class Access
 			$assets = new Asset($db);
 
 			$query->clear()
-				->select($db->qn(array('id', 'name', 'parent_id', 'rules')))
-				->from($db->qn('#__assets'))
-				->where($db->qn('id') . ' = ' . $db->q($assets->getRootId()));
+				->select($db->quoteName(array('id', 'name', 'parent_id', 'rules')))
+				->from($db->quoteName('#__assets'))
+				->where($db->quoteName('id') . ' = ' . $db->quote($assets->getRootId()));
 
 			$result = $db->setQuery($query)->loadObjectList();
 		}
@@ -1074,7 +999,7 @@ class Access
 
 		// Check for the recovery mode setting and return early.
 		$user      = \JUser::getInstance($userId);
-		$root_user = Factory::getConfig()->get('root_user');
+		$root_user = Factory::getApplication()->get('root_user');
 
 		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
 		{
@@ -1117,37 +1042,6 @@ class Access
 		}
 
 		return $authorised;
-	}
-
-	/**
-	 * Method to return a list of actions for which permissions can be set given a component and section.
-	 *
-	 * @param   string  $component  The component from which to retrieve the actions.
-	 * @param   string  $section    The name of the section within the component from which to retrieve the actions.
-	 *
-	 * @return  array  List of actions available for the given component and section.
-	 *
-	 * @since       11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use Access::getActionsFromFile or Access::getActionsFromData instead.
-	 * @codeCoverageIgnore
-	 */
-	public static function getActions($component, $section = 'component')
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use Access::getActionsFromFile or Access::getActionsFromData instead.', Log::WARNING, 'deprecated');
-
-		$actions = self::getActionsFromFile(
-			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
-			"/access/section[@name='" . $section . "']/"
-		);
-
-		if (empty($actions))
-		{
-			return array();
-		}
-		else
-		{
-			return $actions;
-		}
 	}
 
 	/**

@@ -87,13 +87,13 @@ class CacheStorage
 	 */
 	public function __construct($options = array())
 	{
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
-		$this->_hash        = md5($config->get('secret'));
+		$this->_hash        = md5($app->get('secret'));
 		$this->_application = $options['application'] ?? null;
 		$this->_language    = $options['language'] ?? 'en-GB';
 		$this->_locking     = $options['locking'] ?? true;
-		$this->_lifetime    = ($options['lifetime'] ?? $config->get('cachetime')) * 60;
+		$this->_lifetime    = ($options['lifetime'] ?? $app->get('cachetime')) * 60;
 		$this->_now         = $options['now'] ?? time();
 
 		// Set time threshold value.  If the lifetime is not set, default to 60 (0 is BAD)
@@ -127,7 +127,7 @@ class CacheStorage
 
 		if (!isset($handler))
 		{
-			$handler = Factory::getConfig()->get('cache_handler');
+			$handler = Factory::getApplication()->get('cache_handler');
 
 			if (empty($handler))
 			{

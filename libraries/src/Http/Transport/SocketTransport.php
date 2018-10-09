@@ -301,6 +301,6 @@ class SocketTransport extends AbstractTransport implements TransportInterface
 	 */
 	public static function isSupported()
 	{
-		return function_exists('fsockopen') && is_callable('fsockopen') && !Factory::getConfig()->get('proxy_enable');
+		return function_exists('fsockopen') && is_callable('fsockopen') && !Factory::getApplication()->get('proxy_enable');
 	}
 }

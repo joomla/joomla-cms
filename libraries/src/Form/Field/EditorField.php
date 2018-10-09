@@ -277,7 +277,7 @@ class EditorField extends \JFormFieldTextarea
 				// Get the database object.
 				$db = Factory::getDbo();
 
-				// Iterate over teh types looking for an existing editor.
+				// Iterate over the types looking for an existing editor.
 				foreach ($types as $element)
 				{
 					// Build the query.
@@ -303,7 +303,7 @@ class EditorField extends \JFormFieldTextarea
 			// Create the JEditor instance based on the given editor.
 			if ($editor === null)
 			{
-				$editor = Factory::getConfig()->get('editor');
+				$editor = Factory::getApplication()->get('editor');
 			}
 
 			$this->editor = Editor::getInstance($editor);

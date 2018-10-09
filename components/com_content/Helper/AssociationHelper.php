@@ -15,17 +15,16 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 
-\JLoader::register('ContentHelper', JPATH_ADMINISTRATOR . '/components/com_content/helpers/content.php');
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-\JLoader::register('CategoryHelperAssociation', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/association.php');
 
 /**
  * Content Component Association Helper
  *
  * @since  3.0
  */
-abstract class AssociationHelper extends \CategoryHelperAssociation
+abstract class AssociationHelper extends CategoryAssociationHelper
 {
 	/**
 	 * Method to get the associations for a given item
@@ -62,9 +61,9 @@ abstract class AssociationHelper extends \CategoryHelperAssociation
 
 						$db    = Factory::getDbo();
 						$query = $db->getQuery(true)
-							->select($db->qn('state'))
-							->from($db->qn('#__content'))
-							->where($db->qn('id') . ' = ' . (int) ($assocId))
+							->select($db->quoteName('state'))
+							->from($db->quoteName('#__content'))
+							->where($db->quoteName('id') . ' = ' . (int) ($assocId))
 							->where('access IN (' . $groups . ')');
 						$db->setQuery($query);
 

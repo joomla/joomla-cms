@@ -226,8 +226,10 @@ class ArticlesModel extends ListModel
 
 		// Join over the associations.
 		$query->select($query->quoteName('wa.stage_id', 'stage_id'))
-			->innerJoin($query->quoteName('#__workflow_associations', 'wa'))
-			->where($query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id'));
+			->innerJoin(
+				$query->quoteName('#__workflow_associations', 'wa') 
+				. ' ON ' . $query->quoteName('wa.item_id') . ' = ' . $query->quoteName('a.id')
+			);
 
 		// Join over the workflow stages.
 		$query->select(
@@ -244,8 +246,10 @@ class ArticlesModel extends ListModel
 				]
 			)
 		)
-			->innerJoin($query->quoteName('#__workflow_stages', 'ws'))
-			->where($query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+		->innerJoin(
+			$query->quoteName('#__workflow_stages', 'ws')
+			. ' ON ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id')
+		);
 
 		// Join on voting table
 		$associationsGroupBy = array(
@@ -320,7 +324,7 @@ class ArticlesModel extends ListModel
 		}
 
 		// Filter by published state
-		$workflowStage = (string) $this->getState('filter.state');
+		$workflowStage = (string) $this->getState('filter.stage');
 
 		if (is_numeric($workflowStage))
 		{
@@ -329,19 +333,22 @@ class ArticlesModel extends ListModel
 
 		$condition = (string) $this->getState('filter.condition');
 
-		if (is_numeric($condition))
+		if ($condition !== '*')
 		{
-			$query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
-		}
-		elseif (!is_numeric($workflowStage))
-		{
-			$query->whereIn(
-				$db->quoteName('ws.condition'),
-				[
-					ContentComponent::CONDITION_PUBLISHED,
-					ContentComponent::CONDITION_UNPUBLISHED
-				]
-			);
+			if (is_numeric($condition))
+			{
+				$query->where($db->quoteName('ws.condition') . ' = ' . (int) $condition);
+			}
+			elseif (!is_numeric($workflowStage))
+			{
+				$query->whereIn(
+					$db->quoteName('ws.condition'),
+					[
+						ContentComponent::CONDITION_PUBLISHED,
+						ContentComponent::CONDITION_UNPUBLISHED
+					]
+				);
+			}
 		}
 
 		$query->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'));
@@ -565,33 +572,6 @@ class ArticlesModel extends ListModel
 		}
 
 		return $this->cache[$store];
-	}
-
-	/**
-	 * Build a list of authors
-	 *
-	 * @return  \stdClass[]
-	 *
-	 * @since   1.6
-	 */
-	public function getAuthors()
-	{
-		// Create a new query object.
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
-
-		// Construct the query
-		$query->select('u.id AS value, u.name AS text')
-			->from('#__users AS u')
-			->join('INNER', '#__content AS c ON c.created_by = u.id')
-			->group('u.id, u.name')
-			->order('u.name');
-
-		// Setup the query
-		$db->setQuery($query);
-
-		// Return the result
-		return $db->loadObjectList();
 	}
 
 	/**

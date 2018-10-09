@@ -22,6 +22,7 @@ use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Fields View
@@ -99,7 +100,7 @@ class HtmlView extends BaseHtmlView
 		// Display a warning if the fields system plugin is disabled
 		if (!PluginHelper::isEnabled('system', 'fields'))
 		{
-			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
+			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FieldsHelper::getFieldsPluginId());
 			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
@@ -116,7 +117,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		\FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
+		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
 		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);

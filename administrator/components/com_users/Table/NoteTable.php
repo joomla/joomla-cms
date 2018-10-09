@@ -54,7 +54,7 @@ class NoteTable extends Table
 		if (!((int) $this->review_time))
 		{
 			// Null date.
-			$this->review_time = Factory::getDbo()->getNullDate();
+			$this->review_time = $this->getDbo()->getNullDate();
 		}
 
 		if ($this->id)

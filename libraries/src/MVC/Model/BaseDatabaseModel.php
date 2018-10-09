@@ -122,8 +122,6 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if (!empty($path))
 		{
-			jimport('joomla.filesystem.path');
-
 			foreach ((array) $path as $includePath)
 			{
 				if (!in_array($includePath, $paths[$prefix]))
@@ -188,16 +186,24 @@ abstract class BaseDatabaseModel extends CMSObject
 	 *
 	 * @return  self|boolean   A \JModelLegacy instance or false on failure
 	 *
-	 * @since   3.0
+	 * @since       3.0
+	 * @deprecated  5.0 Get the model through the MVCFactory instead
 	 */
 	public static function getInstance($type, $prefix = '', $config = array())
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s::getInstance() is deprecated. Load it through the MVC factory.',
+				self::class
+			),
+			E_USER_DEPRECATED
+		);
+
 		$type = preg_replace('/[^A-Z0-9_\.-]/i', '', $type);
 		$modelClass = $prefix . ucfirst($type);
 
 		if (!class_exists($modelClass))
 		{
-			jimport('joomla.filesystem.path');
 			$path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 
 			if (!$path)
@@ -638,11 +644,11 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
 			'result'       => true,
 		];
 
@@ -658,7 +664,7 @@ abstract class BaseDatabaseModel extends CMSObject
 		}
 
 		// Trigger the onContentCleanCache event.
-		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		$app->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**

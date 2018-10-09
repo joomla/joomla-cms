@@ -14,8 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
-
 $app = Factory::getApplication();
 
 $this->category->text = $this->category->description;
@@ -132,7 +130,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 				</p>
 			<?php endif; ?>
 			<div class="com-content-category-blog__pagination">
-				<?php echo $this->pagination->getPagesLinks(); ?>				
+				<?php echo $this->pagination->getPagesLinks(); ?>
 			</div>
 		</div>
 	<?php endif; ?>

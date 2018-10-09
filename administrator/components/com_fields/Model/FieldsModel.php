@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
@@ -87,7 +88,7 @@ class FieldsModel extends ListModel
 		$this->setState('filter.context', $context);
 
 		// Split context into component and optional section
-		$parts = \FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context);
 
 		if ($parts)
 		{
@@ -190,7 +191,7 @@ class FieldsModel extends ListModel
 		{
 			$categories = (array) $categories;
 			$categories = ArrayHelper::toInteger($categories);
-			$parts = \FieldsHelper::extract($context);
+			$parts = FieldsHelper::extract($context);
 
 			if ($parts)
 			{

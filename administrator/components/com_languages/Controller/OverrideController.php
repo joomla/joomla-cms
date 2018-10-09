@@ -102,9 +102,6 @@ class OverrideController extends FormController
 			return;
 		}
 
-		// Require helper for filter functions called by \JForm.
-		\JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
-
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
 

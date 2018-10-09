@@ -226,8 +226,7 @@ class InstallModel extends BaseDatabaseModel
 		// Cleanup the install files.
 		if (!is_file($package['packagefile']))
 		{
-			$config = Factory::getConfig();
-			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
+			$package['packagefile'] = $app->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
 		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -318,7 +317,6 @@ class InstallModel extends BaseDatabaseModel
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
-		jimport('joomla.filesystem.file');
 		File::upload($tmp_src, $tmp_dest, false, true);
 
 		// Unpack the downloaded package file.
@@ -392,7 +390,6 @@ class InstallModel extends BaseDatabaseModel
 		// Handle updater XML file case:
 		if (preg_match('/\.xml\s*$/', $url))
 		{
-			jimport('joomla.updater.update');
 			$update = new Update;
 			$update->loadFromXml($url);
 			$package_url = trim($update->get('downloadurl', false)->_data);
@@ -416,8 +413,7 @@ class InstallModel extends BaseDatabaseModel
 			return false;
 		}
 
-		$config   = Factory::getConfig();
-		$tmp_dest = $config->get('tmp_path');
+		$tmp_dest = Factory::getApplication()->get('tmp_path');
 
 		// Unpack the downloaded package file.
 		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file, true);
