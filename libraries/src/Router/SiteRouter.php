@@ -658,7 +658,7 @@ class SiteRouter extends Router
 
 		if ($stage === self::PROCESS_BEFORE)
 		{
-			$this->buildComponentPreprocess($router, $uri);
+			$this->buildComponentPreprocess($this, $uri);
 		}
 
 		if ($stage === self::PROCESS_DURING)
