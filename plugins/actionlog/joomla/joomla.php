@@ -469,6 +469,11 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	{
 		$option = $this->app->input->getCmd('option');
 
+		if ($table->get('module') != null)
+		{
+			$option = 'com_modules';
+		}
+
 		if (!$this->checkLoggable($option))
 		{
 			return;
