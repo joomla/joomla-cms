@@ -15,6 +15,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 {
 	JHtml::_('formbehavior.chosen');
 }
+
 ?>
 <div class="mod-languages<?php echo $moduleclass_sfx; ?>">
 <?php if ($headerText) : ?>
@@ -45,37 +46,45 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 		<?php endforeach; ?>
 		<ul class="<?php echo $params->get('lineheight', 0) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
-			<?php if (!$language->active || $params->get('show_active', 1)) : ?>
+			<?php if (!$language->active) : ?>
 				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
 				<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
-					<?php if ($language->image) : ?>
-						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
-					<?php endif; ?>
-					<?php echo $language->title_native; ?>
-				</a>
-				</li>
+			<?php elseif ($language->active && $params->get('show_active', 1)) : ?>
+					<?php $base = JFactory::getDocument()->getBase(); ?>
+					<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
+					<a href="<?php echo htmlspecialchars($base, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php endif; ?>
+			<?php if ($language->image) : ?>
+				<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
+			<?php endif; ?>
+			<?php echo $language->title_native; ?>
+			</a>
+			</li>
 		<?php endforeach; ?>
 		</ul>
 	</div>
 <?php else : ?>
 	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
 	<?php foreach ($list as $language) : ?>
-		<?php if (!$language->active || $params->get('show_active', 1)) : ?>
+		<?php if (!$language->active) : ?>
 			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
 			<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
-			<?php if ($params->get('image', 1)) : ?>
-				<?php if ($language->image) : ?>
-					<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
-				<?php else : ?>
-					<span class="label"><?php echo strtoupper($language->sef); ?></span>
-				<?php endif; ?>
-			<?php else : ?>
-				<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
-			<?php endif; ?>
-			</a>
-			</li>
+		<?php elseif ($language->active && $params->get('show_active', 1)) : ?>
+			<?php $base = JFactory::getDocument()->getBase(); ?>
+			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
+			<a href="<?php echo htmlspecialchars($base, ENT_QUOTES, 'UTF-8'); ?>">
 		<?php endif; ?>
+		<?php if ($params->get('image', 1)) : ?>
+			<?php if ($language->image) : ?>
+				<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
+			<?php else : ?>
+				<span class="label"><?php echo strtoupper($language->sef); ?></span>
+			<?php endif; ?>
+		<?php else : ?>
+			<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?>
+		<?php endif; ?>
+		</a>
+		</li>
 	<?php endforeach; ?>
 	</ul>
 <?php endif; ?>
