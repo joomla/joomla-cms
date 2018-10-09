@@ -50,7 +50,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
 				<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php elseif ($language->active && $params->get('show_active', 1)) : ?>
-					<?php $base = JFactory::getDocument()->getBase(); ?>
+					<?php $base = JUri::getInstance(); ?>
 					<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
 					<a href="<?php echo htmlspecialchars($base, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php endif; ?>
@@ -70,7 +70,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
 			<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
 		<?php elseif ($language->active && $params->get('show_active', 1)) : ?>
-			<?php $base = JFactory::getDocument()->getBase(); ?>
+			<?php $base = JUri::getInstance(); ?>
 			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
 			<a href="<?php echo htmlspecialchars($base, ENT_QUOTES, 'UTF-8'); ?>">
 		<?php endif; ?>
