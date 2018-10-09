@@ -147,7 +147,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
 
 		// Set unicodeslugs if alias is empty
-		if (trim(str_replace('-', '', $alias) === ''))
+		if (trim(str_replace('-', '', $alias) == ''))
 		{
 			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
 			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
@@ -194,7 +194,7 @@ class PlgSampledataBlog extends CMSPlugin
 		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
 
 		// Set unicodeslugs if alias is empty
-		if (trim(str_replace('-', '', $alias) === ''))
+		if (trim(str_replace('-', '', $alias) == ''))
 		{
 			$unicode = Factory::getConfig()->set('unicodeslugs', 1);
 			$alias = ApplicationHelper::stringURLSafe($categoryTitle);
@@ -281,7 +281,7 @@ class PlgSampledataBlog extends CMSPlugin
 			$article['alias']           = ApplicationHelper::stringURLSafe($article['title']);
 
 			// Set unicodeslugs if alias is empty
-			if (trim(str_replace('-', '', $alias) === ''))
+			if (trim(str_replace('-', '', $alias) == ''))
 			{
 				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
 				$article['alias'] = ApplicationHelper::stringURLSafe($article['title']);
@@ -1028,7 +1028,7 @@ class PlgSampledataBlog extends CMSPlugin
 			$menuItem['alias']           = ApplicationHelper::stringURLSafe($menuItem['title']);
 
 			// Set unicodeslugs if alias is empty
-			if (trim(str_replace('-', '', $menuItem['alias']) === ''))
+			if (trim(str_replace('-', '', $menuItem['alias']) == ''))
 			{
 				$unicode = Factory::getConfig()->set('unicodeslugs', 1);
 				$menuItem['alias'] = ApplicationHelper::stringURLSafe($menuItem['title']);
