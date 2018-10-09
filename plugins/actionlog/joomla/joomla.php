@@ -34,6 +34,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Context aliases
 	 *
 	 * @var array
+	 * @since  3.9.0 
 	 */
 	protected $contextAliases = array('com_content.form' => 'com_content.article');
 
