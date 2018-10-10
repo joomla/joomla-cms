@@ -57,7 +57,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 				</li>
 			<?php elseif ($language->active && $params->get('show_active', 1)) : ?>
 				<?php $base = JUri::getInstance(); ?>
-				<li <?php echo $language->active ? ' class="lang-active"' : ''; ?>>
+				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
 				<a href="<?php echo htmlspecialchars($base, ENT_QUOTES, 'UTF-8'); ?>">
 					<?php if ($language->image) : ?>
 						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif',  '', null, true); ?>
