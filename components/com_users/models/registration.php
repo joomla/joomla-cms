@@ -49,7 +49,7 @@ class UsersModelRegistration extends JModelForm
 	 *
 	 * @return  mixed   False on failure, id of the user on success
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.13
 	 */
 	public function getUserIdFromToken($token)
 	{
