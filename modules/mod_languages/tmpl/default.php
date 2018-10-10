@@ -56,7 +56,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 				</a>
 				</li>
 			<?php elseif ($language->active && !$params->get('show_active', 1)) : ?>
-				<a><li>
+				<li></li>
 			<?php elseif ($language->active && $params->get('show_active', 1)) : ?>
 				<?php $base = JUri::getInstance(); ?>
 				<li <?php echo $language->active ? ' class="lang-active"' : ''; ?>>
@@ -89,7 +89,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 			</a>
 			</li>
 		<?php elseif ($language->active && !$params->get('show_active', 1)) : ?>
-			<a><li>
+			<li></li>
 		<?php elseif ($language->active && $params->get('show_active', 1)) : ?>
 			<?php $base = JUri::getInstance(); ?>
 			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
