@@ -87,7 +87,8 @@ final class SiteApplication extends CMSApplication
 			if ($user->get('id') == 0)
 			{
 				// Set the data
-				$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
+				$id = \JFactory::getApplication()->input->get('Itemid');
+				$this->setUserState('users.login.form.data', array('return' => 'index.php?Itemid=' . $id ));
 
 				$url = \JRoute::_('index.php?option=com_users&view=login', false);
 
