@@ -159,11 +159,6 @@ final class SiteApplication extends CMSApplication
 
 				$document->setMetaData('rights', $this->get('MetaRights'));
 
-				if ($router->getMode() == JROUTER_MODE_SEF)
-				{
-					$document->setBase(htmlspecialchars(\JUri::current()));
-				}
-
 				// Get the template
 				$template = $this->getTemplate(true);
 
