@@ -120,10 +120,9 @@ class ModMenuHelper
 							if (JLanguageMultilang::isEnabled())
 							{
 								$newItem = JFactory::getApplication()->getMenu()->getItem((int) $item->params->get('aliasoptions'));
-								$language = $newItem->language;
 
 								// Use language code if not set to ALL
-								if ($language && $language !== '*')
+								if ($newItem != null && $newItem->language && $newItem->language !== '*')
 								{
 									$item->flink .= '&lang=' . $language;
 								}
