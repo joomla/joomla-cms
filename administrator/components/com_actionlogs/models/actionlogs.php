@@ -86,7 +86,7 @@ class ActionlogsModelActionlogs extends JModelList
 		$query = $db->getQuery(true)
 			->select('a.*, u.name')
 			->from('#__action_logs AS a')
-			->innerJoin('#__users AS u ON a.user_id = u.id');
+			->leftJoin('#__users AS u ON a.user_id = u.id');
 
 		// Get ordering
 		$fullorderCol = $this->state->get('list.fullordering', 'a.id DESC');
