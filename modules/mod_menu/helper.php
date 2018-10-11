@@ -124,7 +124,7 @@ class ModMenuHelper
 								// Use language code if not set to ALL
 								if ($newItem != null && $newItem->language && $newItem->language !== '*')
 								{
-									$item->flink .= '&lang=' . $language;
+									$item->flink .= '&lang=' . $newItem->language;
 								}
 							}
 							break;
