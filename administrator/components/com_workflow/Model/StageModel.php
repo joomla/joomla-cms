@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 /**
  * Model class for stage
@@ -296,13 +295,13 @@ class StageModel extends AdminModel
 	 * Method to change the published state of one or more stages.
 	 *
 	 * @param   array    &$pks   A list of the primary keys to change.
-	 * @param   integer  $value     The target condition
+	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function publish(&$pks, $value = ContentComponent::CONDITION_PUBLISHED)
+	public function publish(&$pks, $value = 1)
 	{
 		$db  = $this->getDbo();
 		$pks   = (array) $pks;
@@ -310,7 +309,7 @@ class StageModel extends AdminModel
 
 		$return = true;
 
-		if ($value != (int) ContentComponent::CONDITION_PUBLISHED)
+		if ($value !== 1)
 		{
 			// Clear pks 
 			self::checkDefaultStage($pks, $value);
@@ -322,12 +321,11 @@ class StageModel extends AdminModel
 			$return =  parent::publish($pks, $value);
 
 			// If the stage is trashed, the transitions to and from this stage must be trashed too
-			if ($return && $value == (int) ContentComponent::CONDITION_TRASHED)
+			if ($return && $value === -2)
 			{
-				$db = $this->getDbo();
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__workflow_transitions'))
-					->set($db->quoteName('published') . ' = ' . ContentComponent::CONDITION_TRASHED)
+					->set($db->quoteName('published') . ' = 1')
 					->where($db->quoteName('from_stage_id') . ' IN (' . implode(',', $pks) . ') OR'  
 						. $db->quoteName('to_stage_id') . ' IN (' . implode(',', $pks) . ')' );
 
@@ -384,7 +382,7 @@ class StageModel extends AdminModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function checkDefaultStage(&$pks, $value)
+	public function checkDefaultStage(&$pks, $value = 1)
 	{
 		$db  = $this->getDbo();
 		$pks   = (array) $pks;
@@ -401,11 +399,11 @@ class StageModel extends AdminModel
 
 		if (!empty($default))
 		{
-			if ($value == (int) ContentComponent::CONDITION_TRASHED)
+			if ($value === -2)
 			{
 				$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
 			}
-			elseif ($value == (int) ContentComponent::CONDITION_UNPUBLISHED)
+			elseif ($value === 0)
 			{
 				$app->enqueueMessage(Text::_('COM_WORKFLOW_UNPUBLISH_DEFAULT_ERROR'), 'error');
 			}
