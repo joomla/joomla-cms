@@ -57,7 +57,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 				</li>
 			<?php elseif ($language->active && $params->get('show_active', 1)) : ?>
 				<?php $base = JUri::getInstance(); ?>
-				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
+				<li class="lang-active">
 				<a href="<?php echo htmlspecialchars($base, ENT_QUOTES, 'UTF-8'); ?>">
 					<?php if ($language->image) : ?>
 						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif',  '', null, true); ?>
@@ -70,10 +70,10 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 		</ul>
 	</div>
 <?php else : ?>
-	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
+	<ul class="<?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>" dir="<?php echo JFactory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 	<?php foreach ($list as $language) : ?>
 		<?php if (!$language->active) : ?>
-			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
+			<li>
 			<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
@@ -88,7 +88,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 			</li>
 		<?php elseif ($language->active && $params->get('show_active', 1)) : ?>
 			<?php $base = JUri::getInstance(); ?>
-			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
+			<li class="lang-active">
 			<a href="<?php echo htmlspecialchars($base, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
