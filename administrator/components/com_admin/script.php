@@ -1534,6 +1534,7 @@ class JoomlaInstallerScript
 			'/administrator/templates/isis/js/bootstrap.min.js',
 			'/administrator/templates/isis/js/jquery.js',
 			'/libraries/joomla/application/web/client.php',
+			'/libraries/simplepie/LICENSE.txt',
 			'/libraries/simplepie/README.txt',
 			'/libraries/simplepie/idn/LICENCE',
 			'/libraries/simplepie/idn/ReadMe.txt',
