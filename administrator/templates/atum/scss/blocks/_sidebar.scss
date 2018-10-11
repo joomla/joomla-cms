@@ -48,7 +48,7 @@
     color: $sidebar-link-color;
 
     &:hover {
-      color: white;
+      color: $white;
       text-decoration: none;
     }
   }
@@ -59,8 +59,8 @@
       background-color: $sidebar-sub-bg;
     }
     > a {
-      padding: 10px 6px;
       display: block;
+      padding: 10px 6px;
 
       &:hover {
         background-color: rgba(0,0,0,.25);
@@ -70,17 +70,17 @@
       background-color: rgba(0,0,0,.25);
 
       &::before {
-        content: '';
         position: absolute;
         top: 0;
         bottom: 0;
         left: 0;
         width: 3px;
+        content: '';
         background-color: var(--primary);
       }
     }
   }
-  
+
   // 2nd level items
   ul {
     padding: 2px 0 5px 32px;
@@ -90,8 +90,8 @@
     }
 
     a {
-      padding: 4px 5px 4px 2px;
       display: block;
+      padding: 4px 5px 4px 2px;
     }
 
     .has-arrow::after {
@@ -146,7 +146,7 @@
     transition-duration: .35s;
     transition-property: height, visibility;
   }
-  
+
   // Dropdown indicator
   .has-arrow::after {
     position: absolute;
@@ -161,7 +161,7 @@
     transform-origin: top;
     top: 21px;
     transition: all .3s ease-out;
-    color: white;
+    color: $white;
   }
 
   .active {
@@ -169,7 +169,7 @@
       transform: rotate(-135deg) translate(0, -50%);
     }
   }
-  
+
   // Parent icons
   .fa {
     position: relative;
@@ -197,8 +197,8 @@
   }
 
   .sidebar-item-title,
-  .has-arrow::after  {
-    display: none
+  .has-arrow::after {
+    display: none;
   }
 
   .main-nav {
@@ -206,5 +206,4 @@
       display: none !important;
     }
   }
-  
 }
