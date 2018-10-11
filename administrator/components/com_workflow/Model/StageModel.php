@@ -263,7 +263,7 @@ class StageModel extends AdminModel
 		if ($table->load(array('id' => $pk)))
 		{
 			// Only published stages can be set to default
-			if ( $table->published != ContentComponent::CONDITION_PUBLISHED)
+			if ($table->published != ContentComponent::CONDITION_PUBLISHED)
 			{
 				$this->setError(Text::_("COM_WORKFLOW_ITEM_MUST_PUBLISHED"));
 
