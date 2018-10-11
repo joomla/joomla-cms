@@ -115,6 +115,19 @@ class ModMenuHelper
 
 						case 'alias':
 							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
+
+							// Get the language of the target menu item when site is multilingual
+							if (JLanguageMultilang::isEnabled())
+							{
+								$newItem = JFactory::getApplication()->getMenu()->getItem((int) $item->params->get('aliasoptions'));
+								$language = $newItem->language;
+
+								// Use language code if not set to ALL
+								if ($language && $language !== '*')
+								{
+									$item->flink = $item->flink . '&lang=' . $language;
+								}
+							}
 							break;
 
 						default:
