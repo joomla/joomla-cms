@@ -298,6 +298,15 @@
           "chosen-sprite.png": "css/chosen-sprite.png",
           "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
         }
+      },
+      "metismenujs": {
+        "name": "metismenujs",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/metismenujs.js": "js/metismenujs.js",
+          "dist/metismenujs.min.js": "js/metismenujs.min.js",
+          "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
+        }
       }
     },
     "errorPages": {

@@ -55,7 +55,7 @@ $iconClass  = '';
 
 if ($current->hasChildren())
 {
-	$linkClass[] = 'collapse-arrow';
+	$linkClass[] = 'has-arrow';
 
 	if ($current->getLevel() > 2)
 	{
@@ -112,12 +112,11 @@ if ($this->enabled && $current->hasChildren())
 	{
 		$id = $current->get('id') ? ' id="menu-' . strtolower($current->get('id')) . '"' : '';
 
-		echo '<ul' . $id . ' class="nav panel-collapse collapse collapse-level-' . $current->getLevel() . '">' . "\n";
+		echo '<ul' . $id . ' class="level-' . $current->getLevel() . '">' . "\n";
 	}
 	else
 	{
-		echo '<ul id="collapse' . $this->tree->getCounter() . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">
-		   <li>' . Text::_($current->get('title')) . '<a href="#" class="close"><span aria-label="' . Text::_('MOD_MENU_ARIA_CLOSE_SUBMENU') . '">×</span></a></li>' . "\n";
+		echo '<ul id="collapse' . $this->tree->getCounter() . '" class="level-1" role="menu" aria-hidden="true">';
 	}
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call

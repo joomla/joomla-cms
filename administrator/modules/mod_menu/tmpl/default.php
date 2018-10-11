@@ -13,11 +13,12 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('script', 'vendor/metismenujs/metismenujs.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
 $doc       = \Joomla\CMS\Factory::getDocument();
 $direction = $doc->direction === 'rtl' ? 'float-right' : '';
-$class     = $enabled ? 'nav navbar-nav nav-stacked main-nav clearfix ' . $direction : 'nav navbar-nav nav-stacked main-nav clearfix disabled ' . $direction;
+$class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
 
 // Recurse through children of root node if they exist
 $menuTree = $menu->getTree();
@@ -28,7 +29,7 @@ if ($root->hasChildren())
 	echo '<div class="main-nav-container" role="navigation" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
 	echo '<ul id="menu" class="' . $class . '" role="menu">' . "\n";
 	echo '<li role="menuitem">';
-	echo '<a id="menu-collapse" href="#">';
+	echo '<a id="menu-collapse" class="menu-collapse" href="#">';
 	echo '<span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>';
 	echo '<span class="sidebar-item-title">' . Text::_('MOD_MENU_TOGGLE_MENU') . '</span>';
 	echo '</a>';
@@ -44,3 +45,6 @@ if ($root->hasChildren())
 		$doc->addStyleDeclaration(implode("\n", $css));
 	}
 }
+
+?>
+
