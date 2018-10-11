@@ -19,7 +19,7 @@ JText::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
 JFactory::getDocument()->addScriptDeclaration('
 	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata",
-		modSampledataIconProgress = "' . JUri::root(true) . '/media/jui/img/ajax-loader.gif";
+		modSampledataIconProgress = "' . JUri::root(true) . '/media/jui/images/ajax-loader.gif";
 ');
 ?>
 <div class="sampledata-container">
