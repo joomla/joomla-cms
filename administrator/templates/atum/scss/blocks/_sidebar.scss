@@ -36,7 +36,7 @@
 .main-nav {
   width: $sidebar-width;
   opacity: 1;
-  
+
   // All list items
   li {
     color: $sidebar-text-color;
@@ -75,7 +75,7 @@
         bottom: 0;
         left: 0;
         width: 3px;
-        content: '';
+        content: "";
         background-color: var(--primary);
       }
     }
