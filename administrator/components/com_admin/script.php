@@ -1446,7 +1446,6 @@ class JoomlaInstallerScript
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
 			'/libraries/composer_autoload.php',
-			'/libraries/fof/LICENSE.txt',
 			'/libraries/joomla/document/error/error.php',
 			'/libraries/joomla/document/feed/feed.php',
 			'/libraries/joomla/document/html/html.php',
