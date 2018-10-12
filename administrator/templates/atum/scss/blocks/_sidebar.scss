@@ -96,17 +96,17 @@
       color: $sidebar-child-link-color;
 
       &:hover {
-        background-color: rgba(0,0,0,.4);
         color: $white;
+        background-color: rgba(0,0,0,.4);
       }
 
       &.active {
-        background-color: var(--primary);
         color: $white;
+        background-color: var(--primary);
       }
 
       &::before {
-        font-family: 'FontAwesome';
+        font-family: "FontAwesome";
         position: absolute;
         top: 8px;
         left: 17px;
@@ -128,20 +128,20 @@
 
       a {
         padding-left: 50px;
+      }
 
-        &::before {
-          left: 34px;
-        }
+      a::before {
+        left: 34px;
       }
     }
   }
 
   .divider {
-    background-color: $sidebar-text-color;
     height: 1px;
     margin: 4px 18px;
-    opacity: .2;
     list-style: none;
+    background-color: $sidebar-text-color;
+    opacity: .2;
   }
 
   .menuitem-group {
