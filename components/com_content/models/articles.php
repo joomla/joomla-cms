@@ -184,8 +184,8 @@ class ContentModelArticles extends JModelList
 
 		// Create a new query object.
 		$db    = $this->getDbo();
-		$nullDate = $db->q($db->getNullDate());
-		$nowDate = $db->q(JFactory::getDate()->toSql());
+		$nullDate = $db->quote($db->getNullDate());
+		$nowDate = $db->quote(JFactory::getDate()->toSql());
 		$query = $db->getQuery(true);
 
 		// Select the required fields from the table.
