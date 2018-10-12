@@ -591,15 +591,14 @@ class FieldsHelper
 	 * Adds Count Items for Category Manager.
 	 *
 	 * @param   stdClass[]  &$items  The fieldgroup objects
-	 * @param   stdClass    $config  Configuration object allowing to use a custom relations table
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   3.7.0
 	 */
-	public static function countItems(&$items, $config = null)
+	public static function countItems(&$items)
 	{
-		$config = $config ?: (object) array(
+		$config = (object) array(
 			'related_tbl'   => 'fields',
 			'state_col'     => 'state',
 			'group_col'     => 'group_id',

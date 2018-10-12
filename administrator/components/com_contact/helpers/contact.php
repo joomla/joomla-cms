@@ -58,15 +58,14 @@ class ContactHelper extends JHelperContent
 	 * Adds Count Items for Category Manager.
 	 *
 	 * @param   stdClass[]  &$items  The category objects
-	 * @param   stdClass    $config  Configuration object allowing to use a custom relations table
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   3.5
 	 */
-	public static function countItems(&$items, $config = null)
+	public static function countItems(&$items)
 	{
-		$config = $config ?: (object) array(
+		$config = (object) array(
 			'related_tbl'   => 'contact_details',
 			'state_col'     => 'published',
 			'group_col'     => 'catid',
@@ -81,18 +80,17 @@ class ContactHelper extends JHelperContent
 	 *
 	 * @param   stdClass[]  &$items     The tag objects
 	 * @param   string      $extension  The name of the active view.
-	 * @param   stdClass    $config     Configuration object allowing to use a custom relations table
 	 *
 	 * @return  stdClass[]
 	 *
 	 * @since   3.6
 	 */
-	public static function countTagItems(&$items, $extension, $config = null)
+	public static function countTagItems(&$items, $extension)
 	{
 		$parts   = explode('.', $extension);
 		$section = count($parts) > 1 ? $parts[1] : null;
 
-		$config = $config ?: (object) array(
+		$config = (object) array(
 			'related_tbl'   => ($section === 'category' ? 'categories' : 'contact_details'),
 			'state_col'     => 'published',
 			'group_col'     => 'tag_id',
