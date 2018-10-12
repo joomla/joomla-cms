@@ -6,12 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
 defined('_JEXEC') or die;
-
 use Joomla\CMS\Menu\Node\Separator;
 use Joomla\CMS\Language\Text;
-
 /**
  * =========================================================================================================
  * IMPORTANT: The scope of this layout file is the `var  \Joomla\Module\Menu\Administrator\Menu\CssMenu` object
@@ -21,7 +18,6 @@ use Joomla\CMS\Language\Text;
 /** @var  \Joomla\Module\Menu\Administrator\Menu\CssMenu  $this */
 $current = $this->tree->getCurrent();
 $class   = '';
-
 // Build the CSS class suffix
 if (!$this->enabled)
 {
@@ -34,7 +30,6 @@ elseif ($current instanceOf Separator)
 elseif ($current->hasChildren())
 {
 	$class = ' class="dropdown-submenu"';
-
 	if ($current->getLevel() == 1)
 	{
 		$class = ' class="parent"';
@@ -44,19 +39,15 @@ elseif ($current->hasChildren())
 		$class = ' class="dropdown scrollable-menu"';
 	}
 }
-
 // Print the item
 echo '<li' . $class . ' role="menuitem">';
-
 // Print a link if it exists
 $linkClass  = [];
 $dataToggle = '';
 $iconClass  = '';
-
 if ($current->hasChildren())
 {
 	$linkClass[] = 'has-arrow';
-
 	if ($current->getLevel() > 2)
 	{
 		$dataToggle  = ' data-toggle="dropdown"';
@@ -66,22 +57,17 @@ else
 {
 	$linkClass[] = 'no-dropdown';
 }
-
 // Implode out $linkClass for rendering
 $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
-
 // Get the menu link
 $link      = $current->get('link');
-
 // Get the menu icon
 $icon      = $this->tree->getIconClass();
 $iconClass = ($icon != '' && $current->getLevel() == 1) ? '<span class="' . $icon . '"></span>' : '';
-
 if ($current->get('link') === '#')
 {
 	$link = '#collapse' . $this->tree->getCounter();
 }
-
 if ($link !== null && $current->get('target') !== null && $current->get('target') !== '')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">"
@@ -104,25 +90,20 @@ else
 {
 	echo '<span>' . Text::_($current->get('title')) . '</span>';
 }
-
 // Recurse through children if they exist
 if ($this->enabled && $current->hasChildren())
 {
 	if ($current->getLevel() > 1)
 	{
 		$id = $current->get('id') ? ' id="menu-' . strtolower($current->get('id')) . '"' : '';
-
-		echo '<ul' . $id . ' class="level-' . $current->getLevel() . '">' . "\n";
+		echo '<ul' . $id . ' class="collapse collapse-level-' . $current->getLevel() . '">' . "\n";
 	}
 	else
 	{
-		echo '<ul id="collapse' . $this->tree->getCounter() . '" class="level-1" role="menu" aria-hidden="true">';
+		echo '<ul id="collapse' . $this->tree->getCounter() . '" class="collapse-level-1 collapse" role="menu" aria-hidden="true">' . "\n";
 	}
-
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
 	$this->renderSubmenu(__FILE__);
-
 	echo "</ul>\n";
 }
-
 echo "</li>\n";

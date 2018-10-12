@@ -29,7 +29,7 @@ if ($root->hasChildren())
 	echo '<div class="main-nav-container" role="navigation" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
 	echo '<ul id="menu" class="' . $class . '" role="menu">' . "\n";
 	echo '<li role="menuitem">';
-	echo '<a id="menu-collapse" class="menu-collapse" href="#">';
+	echo '<a id="menu-collapse" href="#">';
 	echo '<span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>';
 	echo '<span class="sidebar-item-title">' . Text::_('MOD_MENU_TOGGLE_MENU') . '</span>';
 	echo '</a>';

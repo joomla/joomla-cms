@@ -83,7 +83,7 @@
 
   // 2nd level items
   ul {
-    padding: 2px 0 5px 32px;
+    padding: 0 0 0 32px;
 
     li {
       position: relative;
@@ -127,18 +127,17 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: .75rem;
+    list-style: none;
     margin-top: 10px;
   }
 
   .collapse {
     display: none;
-
-    &.in {
-      display: block;
-    }
   }
-
-  .collapse.collapsing {
+  .collapse.in {
+    display: block;
+  }
+  .collapsing {
     position: relative;
     height: 0;
     overflow: hidden;
@@ -186,14 +185,9 @@
 // Sidebar Closed
 .closed {
 
-  .child-open::after {
-    display: none;
-  }
-
   .sidebar-wrapper {
     flex: 1 0 $sidebar-width-closed;
     max-width: $sidebar-width-closed;
-    overflow: hidden;
   }
 
   .sidebar-item-title,
@@ -203,7 +197,9 @@
 
   .main-nav {
     > li > ul {
-      display: none !important;
+      height: 0;
+      padding: 0;
+      visibility: hidden;
     }
   }
 }
