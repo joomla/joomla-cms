@@ -94,7 +94,8 @@ class ContentHelper
 				$query = $db->getQuery(true)
 					->from($db->quoteName('#__contentitem_tag_map', 'ct'))
 					->join('INNER', $related_tbl . ' ON ' . $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id') . ' AND ' .
-						$db->quoteName('ct.type_alias') . ' = ' . $db->quote($config->extension));
+						$db->quoteName('ct.type_alias') . ' = ' . $db->quote($config->extension)
+					);
 				break;
 
 			case 'category_or_group':
