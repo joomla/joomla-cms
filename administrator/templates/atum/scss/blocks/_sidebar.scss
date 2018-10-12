@@ -106,13 +106,13 @@
       }
 
       &::before {
-        font-family: "FontAwesome";
         position: absolute;
         top: 8px;
         left: 17px;
-        content: "\f10c ";
+        font-family: "FontAwesome";
         font-size: .6rem;
         color: $sidebar-text-color;
+        content: "\f10c";
       }
     }
 
