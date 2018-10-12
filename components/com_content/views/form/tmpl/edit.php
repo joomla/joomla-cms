@@ -116,10 +116,10 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php echo $this->form->renderField('state'); ?>
 					<?php echo $this->form->renderField('featured'); ?>
 					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>					
-						<?php echo $this->form->renderField('publish_up'); ?>
-						<?php echo $this->form->renderField('publish_down'); ?>
 						<?php echo $this->form->renderField('featured_up'); ?>
 						<?php echo $this->form->renderField('featured_down'); ?>
+						<?php echo $this->form->renderField('publish_up'); ?>
+						<?php echo $this->form->renderField('publish_down'); ?>
 					<?php endif; ?>
 				<?php endif; ?>
 				<?php echo $this->form->renderField('access'); ?>
