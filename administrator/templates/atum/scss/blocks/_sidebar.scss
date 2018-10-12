@@ -83,15 +83,37 @@
 
   // 2nd level items
   ul {
-    padding: 0 0 0 32px;
+    padding: 0;
 
     li {
       position: relative;
+      list-style-position: none;
     }
 
     a {
       display: block;
-      padding: 4px 5px 4px 2px;
+      padding: 4px 5px 4px 34px;
+      color: $sidebar-child-link-color;
+
+      &:hover {
+        background-color: rgba(0,0,0,.4);
+        color: $white;
+      }
+
+      &.active {
+        background-color: var(--primary);
+        color: $white;
+      }
+
+      &::before {
+        font-family: 'FontAwesome';
+        position: absolute;
+        top: 8px;
+        left: 17px;
+        content: "\f10c ";
+        font-size: .6rem;
+        color: $sidebar-text-color;
+      }
     }
 
     .has-arrow::after {
@@ -100,18 +122,16 @@
       height: .4rem;
       border-color: $sidebar-text-color;
     }
-    
+
     // 3rd level items
     ul {
-      padding-top: 0;
-      padding-left: 16px;
-
-      li {
-        list-style: circle;
-      }
 
       a {
-        color: $sidebar-text-color;
+        padding-left: 50px;
+
+        &::before {
+          left: 34px;
+        }
       }
     }
   }
@@ -119,8 +139,9 @@
   .divider {
     background-color: $sidebar-text-color;
     height: 1px;
-    margin: 4px 20px 5px -14px;
+    margin: 4px 18px;
     opacity: .2;
+    list-style: none;
   }
 
   .menuitem-group {
