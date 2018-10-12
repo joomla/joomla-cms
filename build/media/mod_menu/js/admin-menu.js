@@ -126,7 +126,6 @@ Joomla = window.Joomla || {};
 				allLinks[i].classList.add('active');
 				// Auto Expand First Level
 				if (!allLinks[i].parentNode.classList.contains('parent')) {
-					mainNav.classList.add('CIARAN');
 					var firstLevel = closest(allLinks[i], '.collapse-level-1');
 						if (firstLevel) firstLevel.parentNode.classList.add('active');
 						if (firstLevel) firstLevel.classList.add('in');
