@@ -279,8 +279,8 @@ abstract class PluginHelper
 							$plugin = static::getPlugin($plugin->type, $plugin->name);
 						}
 
-						// Instantiate and register the plugin.
-						new $className($dispatcher, (array) $plugin);
+						// Register the plugin.
+						$dispatcher->attachWithLateInstance($className, (array) $plugin);
 					}
 				}
 			}

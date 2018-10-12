@@ -54,6 +54,14 @@ class JEventDispatcher extends JObject
 	protected static $instance = null;
 
 	/**
+	 * Array of Observer params, it's using only for late instanced observers
+	 *
+	 * @var   array
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected $observerParams = array();
+
+	/**
 	 * Returns the global Event Dispatcher object, only creating it
 	 * if it doesn't already exist.
 	 *
@@ -153,6 +161,15 @@ class JEventDispatcher extends JObject
 				continue;
 			}
 
+			// Instantiate object
+			if (is_string($this->_observers[$key]))
+			{
+				$className = $this->_observers[$key];
+
+				$this->_observers[$key] = new $className($this, $this->observerParams[$key]);
+				unset($this->observerParams[$key]);
+			}
+
 			// Fire the event for an object based observer.
 			if (is_object($this->_observers[$key]))
 			{
@@ -212,11 +229,11 @@ class JEventDispatcher extends JObject
 			}
 
 			// Make sure we haven't already attached this object as an observer
-			$class = get_class($observer);
+			$class = strtolower(get_class($observer));
 
 			foreach ($this->_observers as $check)
 			{
-				if ($check instanceof $class)
+				if (is_string($check) ? $check == $class : $check instanceof $class)
 				{
 					return;
 				}
@@ -240,6 +257,52 @@ class JEventDispatcher extends JObject
 
 			$this->_methods[$method][] = $key;
 		}
+	}
+
+	/**
+	 * Attach with late class Instance
+	 *
+	 * @param   string  $className  Class name
+	 * @param   array   $params     Class params
+	 *
+	 * @return void
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function attachWithLateInstance($className, array $params = [])
+	{
+		if (!is_string($className)
+			|| !is_subclass_of($className, 'JEvent'))
+		{
+			return;
+		}
+
+		foreach ($this->_observers as $check)
+		{
+			if (is_subclass_of($check, $className))
+			{
+				return;
+			}
+		}
+
+		$this->_observers[] = strtolower($className);
+		$methods            = array_diff(get_class_methods($className), get_class_methods('JPlugin'));
+
+		end($this->_observers);
+		$key = key($this->_observers);
+
+		foreach ($methods as $method)
+		{
+			$method = strtolower($method);
+
+			if (!isset($this->_methods[$method]))
+			{
+				$this->_methods[$method] = array();
+			}
+
+			$this->_methods[$method][] = $key;
+		}
+
+		$this->observerParams[$key] = $params;
 	}
 
 	/**
