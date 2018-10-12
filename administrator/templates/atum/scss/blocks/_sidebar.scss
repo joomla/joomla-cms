@@ -63,11 +63,11 @@
       padding: 10px 6px;
 
       &:hover {
-        background-color: rgba(0,0,0,.25);
+        background-color: rgba(0,0,0,.4);
       }
     }
     &.active > a {
-      background-color: rgba(0,0,0,.25);
+      background-color: rgba(0,0,0,.4);
 
       &::before {
         position: absolute;
