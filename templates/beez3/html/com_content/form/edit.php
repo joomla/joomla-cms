@@ -289,6 +289,22 @@ endif;
 						<?php echo $this->form->getInput('publish_down'); ?>
 					</div>
 				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('featured_up'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('featured_up'); ?>
+					</div>
+				</div>
+				<div class="control-group">
+					<div class="control-label">
+						<?php echo $this->form->getLabel('featured_down'); ?>
+					</div>
+					<div class="controls">
+						<?php echo $this->form->getInput('featured_down'); ?>
+					</div>
+				</div>
 				<?php endif; ?>
 			<?php endif; ?>
 			<div class="control-group">
