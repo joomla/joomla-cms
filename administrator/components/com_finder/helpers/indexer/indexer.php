@@ -117,7 +117,10 @@ abstract class FinderIndexer
 
 		$db = $this->db;
 
-		// Set up query template for addTokensToDb
+		/**
+		 * Set up query template for addTokensToDb, we will be cloning this template
+		 * when needed, this is about twice as fast as calling the clear function
+		 */
 		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
 			->columns(
 				array(
@@ -510,41 +513,55 @@ abstract class FinderIndexer
 		// Get the database object.
 		$db = $this->db;
 
-		$query = clone $this->addTokensToDbQueryTemplate;
+		// Get the number of tokens
+		$total = is_array($tokens) ? count($tokens) : 1;
 
-		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
-
-		// Count the number of token values.
-		$values = 0;
-
-		// Break into chunks of no more than 1000 items
-		$chunks = array_chunk($tokens, 1000);
-
-		foreach ($chunks as $tokens)
+		if (is_array($tokens))
 		{
-			// Empty the 'values' clause of previous chunk
-			$query->clear('values');
+			// Break into chunks of no more than 1000 items
+			$chunks = count($tokens) > 1000
+				? array_chunk($tokens, 1000)
+				: array(&$tokens);
 
-			// Iterate through the tokens to create SQL value sets.
-			foreach ($tokens as $token)
+			foreach ($chunks as $tokens)
 			{
-				$query->values(
-					$db->quote($token->term) . ', '
-					. $db->quote($token->stem) . ', '
-					. (int) $token->common . ', '
-					. (int) $token->phrase . ', '
-					. $db->escape((float) $token->weight) . ', '
-					. (int) $context . ', '
-					. $db->quote($token->language)
-				);
-				++$values;
+				$query = clone $this->addTokensToDbQueryTemplate;
+
+				// Iterate through the tokens to create SQL value sets.
+				foreach ($tokens as $token)
+				{
+					$query->values(
+						$db->quote($token->term) . ', '
+						. $db->quote($token->stem) . ', '
+						. (int) $token->common . ', '
+						. (int) $token->phrase . ', '
+						. $db->escape((float) $token->weight) . ', '
+						. (int) $context . ', '
+						. $db->quote($token->language)
+					);
+				}
+
+				$db->setQuery($query)->execute();
 			}
+		}
+		else
+		{
+			$query = clone $this->addTokensToDbQueryTemplate;
+
+			$query->values(
+				$db->quote($tokens->term) . ', '
+				. $db->quote($tokens->stem) . ', '
+				. (int) $tokens->common . ', '
+				. (int) $tokens->phrase . ', '
+				. $db->escape((float) $tokens->weight) . ', '
+				. (int) $context . ', '
+				. $db->quote($tokens->language)
+			);
 
 			$db->setQuery($query)->execute();
 		}
 
-		return $values;
+		return $total;
 	}
 
 	/**
