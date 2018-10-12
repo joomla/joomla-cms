@@ -155,7 +155,22 @@ figcaption {
 	cursor: pointer;
 	vertical-align: middle;
 }
-
+#jform_featured_down_btn {
+	width: 18px;
+	height: 18px;
+	margin-left: 3px;
+	background: url(../images/system/calendar.png) no-repeat;
+	cursor: pointer;
+	vertical-align: middle;
+}
+#jform_featured_up_btn {
+	width: 18px;
+	height: 18px;
+	margin-left: 3px;
+	background: url(../images/system/calendar.png) no-repeat;
+	cursor: pointer;
+	vertical-align: middle;
+}
 
 /* System Messages */
 
