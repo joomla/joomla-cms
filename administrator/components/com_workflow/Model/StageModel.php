@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Model class for stage
@@ -304,7 +305,7 @@ class StageModel extends AdminModel
 	public function publish(&$pks, $value = 1)
 	{
 		$db  = $this->getDbo();
-		$pks   = (array) $pks;
+		$pks   = ArrayHelper::toInteger((array) $pks);
 		$app = Factory::getApplication();
 
 		$return = true;
@@ -348,11 +349,11 @@ class StageModel extends AdminModel
 	public function delete(&$pks)
 	{
 		$db  = $this->getDbo();
-		$pks   = (array) $pks;
+		$pks   = ArrayHelper::toInteger((array) $pks);
 		$app = Factory::getApplication();
 
 		// Clear pks
-		self::checkDefaultStage($pks, ContentComponent::CONDITION_TRASHED);
+		self::checkDefaultStage($pks, -2);
 
 		if (!empty($pks))
 		{
@@ -382,7 +383,7 @@ class StageModel extends AdminModel
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function checkDefaultStage(&$pks, $value = 1)
+	protected function checkDefaultStage(&$pks, $value = 1)
 	{
 		$db  = $this->getDbo();
 		$pks   = (array) $pks;
