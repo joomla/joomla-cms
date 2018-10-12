@@ -107,12 +107,13 @@
 
       &::before {
         position: absolute;
-        top: 8px;
-        left: 17px;
-        font-family: "FontAwesome";
-        font-size: .6rem;
-        color: $sidebar-text-color;
-        content: "\f10c";
+        top: 12px;
+        left: 18px;
+        height: .5rem;
+        width: .5rem;
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTI1NiA4QzExOSA4IDggMTE5IDggMjU2czExMSAyNDggMjQ4IDI0OCAyNDgtMTExIDI0OC0yNDhTMzkzIDggMjU2IDh6bTAgNDQ4Yy0xMTAuNSAwLTIwMC04OS41LTIwMC0yMDBTMTQ1LjUgNTYgMjU2IDU2czIwMCA4OS41IDIwMCAyMDAtODkuNSAyMDAtMjAwIDIwMHoiLz48L3N2Zz4=");
+        content: '';
+        opacity: .5;
       }
     }
 
@@ -136,10 +137,17 @@
     }
   }
 
+  .divider,
+  .menuitem-group {
+    list-style: none;
+    a::before {
+      display: none;
+    }
+  }
+
   .divider {
     height: 1px;
     margin: 4px 18px;
-    list-style: none;
     background-color: $sidebar-text-color;
     opacity: .2;
   }
@@ -148,7 +156,6 @@
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: .75rem;
-    list-style: none;
     margin-top: 10px;
   }
 
