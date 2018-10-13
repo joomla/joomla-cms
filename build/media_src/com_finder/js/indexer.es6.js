@@ -77,7 +77,7 @@
           // eslint-disable-next-line prefer-destructuring
           totalItems = json.totalItems;
           if (document.getElementById('finder-debug-data')) {
-            let debuglist = document.getElementById('finder-debug-data');
+            const debuglist = document.getElementById('finder-debug-data');
             for (let context in json.pluginState) {
               let item = '<dt class="col-sm-3">' + context + '</dt>';
               item += '<dd id="finder-' + context.replace(/\s+/g, '-').toLowerCase() + '" class="col-sm-9"></dd>';
