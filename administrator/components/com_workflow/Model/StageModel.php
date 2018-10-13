@@ -305,7 +305,7 @@ class StageModel extends AdminModel
 	public function publish(&$pks, $value = 1)
 	{
 		$db  = $this->getDbo();
-		$pks   = ArrayHelper::toInteger((array) $pks);
+		$pks = ArrayHelper::toInteger((array) $pks);
 		$app = Factory::getApplication();
 
 		$return = true;
@@ -349,7 +349,7 @@ class StageModel extends AdminModel
 	public function delete(&$pks)
 	{
 		$db  = $this->getDbo();
-		$pks   = ArrayHelper::toInteger((array) $pks);
+		$pks = ArrayHelper::toInteger((array) $pks);
 		$app = Factory::getApplication();
 
 		// Clear pks
