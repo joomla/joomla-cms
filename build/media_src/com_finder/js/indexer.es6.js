@@ -78,11 +78,9 @@
           totalItems = json.totalItems;
           if (document.getElementById('finder-debug-data')) {
             let debuglist = document.getElementById('finder-debug-data');
-            for (var context in json.pluginState) {
+            for (let context in json.pluginState) {
               let item = '<dt class="col-sm-3">' + context + '</dt>';
-              item += '<dd id="finder-' + context.replace(/\s+/g, '-').toLowerCase() + '" class="col-sm-9">';
-              item += json.pluginState[context].offset + ' of ' + json.pluginState[context].total;
-              item += '</dd>';
+              item += '<dd id="finder-' + context.replace(/\s+/g, '-').toLowerCase() + '" class="col-sm-9"></dd>';
               debuglist.insertAdjacentHTML('beforeend', item);
             }
           }
@@ -90,7 +88,7 @@
         offset += json.batchOffset;
         updateProgress(json.header, json.message);
         if (document.getElementById('finder-debug-data')) {
-          for (var context in json.pluginState) {
+          for (let context in json.pluginState) {
             document.getElementById('finder-' + context.replace(/\s+/g, '-').toLowerCase()).innerHTML = json.pluginState[context].offset + ' of ' + json.pluginState[context].total;
           }
         }
