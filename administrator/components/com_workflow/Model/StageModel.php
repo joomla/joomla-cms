@@ -319,7 +319,7 @@ class StageModel extends AdminModel
 		if (!empty($pks))
 		{
 			// Change published for all stages
-			$return =  parent::publish($pks, $value);
+			$return = parent::publish($pks, $value);
 
 			// If the stage is trashed, the transitions to and from this stage must be trashed too
 			if ($return && $value === -2)
@@ -328,7 +328,7 @@ class StageModel extends AdminModel
 					->update($db->quoteName('#__workflow_transitions'))
 					->set($db->quoteName('published') . ' = 1')
 					->where(
-						$db->quoteName('from_stage_id') . ' IN (' . implode(',', $pks) . ') OR'  
+						$db->quoteName('from_stage_id') . ' IN (' . implode(',', $pks) . ') OR '  
 						. $db->quoteName('to_stage_id') . ' IN (' . implode(',', $pks) . ')' 
 						);
 
@@ -360,7 +360,7 @@ class StageModel extends AdminModel
 		if (!empty($pks))
 		{
 			// Change published for all stages where it is possible
-			$return =  parent::delete($pks);
+			$return = parent::delete($pks);
 		}
 
 		if ($return)
