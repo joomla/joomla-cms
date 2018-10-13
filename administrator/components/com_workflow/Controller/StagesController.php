@@ -165,28 +165,6 @@ class StagesController extends AdminController
 	}
 
 	/**
-	 * Check in of one or more records.
-	 *
-	 * @return  boolean  True on success
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function checkin()
-	{
-		$result = parent::checkin();
-
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. '&extension=' . $this->extension
-				. '&workflow_id=' . $this->workflowId, false
-			)
-		);
-
-		return $result;
-	}
-
-	/**
 	 * Deletes and returns correctly.
 	 *
 	 * @return  void

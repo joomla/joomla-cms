@@ -162,11 +162,6 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 		}
 
-		if ($canDo->get('core.admin'))
-		{
-			ToolbarHelper::checkin('stages.checkin', 'JTOOLBAR_CHECKIN', true);
-		}
-
 		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'stages.delete');

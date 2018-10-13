@@ -136,12 +136,7 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::unpublishList('workflows.unpublish');
 			ToolbarHelper::makeDefault('workflows.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 		}
-
-		if ($canDo->get('core.admin'))
-		{
-			ToolbarHelper::checkin('workflows.checkin', 'JTOOLBAR_CHECKIN', true);
-		}
-
+		
 		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 		{
 			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'workflows.delete');
