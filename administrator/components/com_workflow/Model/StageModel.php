@@ -327,8 +327,10 @@ class StageModel extends AdminModel
 				$query = $db->getQuery(true)
 					->update($db->quoteName('#__workflow_transitions'))
 					->set($db->quoteName('published') . ' = 1')
-					->where($db->quoteName('from_stage_id') . ' IN (' . implode(',', $pks) . ') OR'  
-						. $db->quoteName('to_stage_id') . ' IN (' . implode(',', $pks) . ')' );
+					->where(
+						$db->quoteName('from_stage_id') . ' IN (' . implode(',', $pks) . ') OR'  
+						. $db->quoteName('to_stage_id') . ' IN (' . implode(',', $pks) . ')' 
+						);
 
 				$db->setQuery($query)->execute();
 			}
@@ -340,7 +342,7 @@ class StageModel extends AdminModel
 	/**
 	 * Method to delete one or more stages.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to delete.
+	 * @param   array  &$pks  A list of the primary keys to delete.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -378,8 +380,10 @@ class StageModel extends AdminModel
 	/**
 	 * Method to handle the default stage
 	 *
-	 * @param   array    $pks     A list of the primary keys of stages.
-	 * @param   integer  $value     The target condition
+	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   integer  $value  The value of the published state.
+	 *
+	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -410,7 +414,7 @@ class StageModel extends AdminModel
 			}
 			
 			// Remove the default stage from the list of keys
-			foreach($pks as $i => $id)
+			foreach ($pks as $i => $id)
 			{
 				if ((int) $default == (int) $id)
 				{
