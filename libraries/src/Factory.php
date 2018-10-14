@@ -74,7 +74,7 @@ abstract class Factory
 	 * Container for Date instances
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static $dates = array();
 

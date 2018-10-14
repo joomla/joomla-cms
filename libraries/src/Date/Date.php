@@ -217,7 +217,7 @@ class Date extends \DateTime
 	 *
 	 * @return  Date
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function getInstance($date = 'now', $tz = null)
 	{

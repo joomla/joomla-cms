@@ -22,7 +22,7 @@ use Zend\Diactoros\Stream as StreamResponse;
 /**
  * HTTP transport class for using cURL.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class CurlTransport extends AbstractTransport implements TransportInterface
 {
@@ -38,7 +38,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
@@ -229,7 +229,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  InvalidResponseCodeException
 	 */
 	protected function getResponse($content, $info)

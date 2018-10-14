@@ -116,7 +116,7 @@ class Access
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function clearStatics()
 	{
