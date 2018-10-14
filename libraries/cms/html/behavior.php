@@ -578,7 +578,7 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since       1.5
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use HTMLHelper::getJSObject() instead.
+	 * @deprecated  4.0 - Use HTMLHelper::getJSObject() instead.
 	 */
 	protected static function _getJSObject($array = array())
 	{
