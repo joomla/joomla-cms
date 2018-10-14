@@ -190,7 +190,7 @@ class WebAssetItem
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getVersion(): ?string
+	public function getVersion()
 	{
 		return $this->version;
 	}

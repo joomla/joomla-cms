@@ -137,7 +137,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getAsset(string $name): ?WebAssetItem
+	public function getAsset(string $name)
 	{
 		// Check if any new file was added
 		$this->parseRegistryFiles();
@@ -545,7 +545,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function parseRegistryFiles(): void
+	protected function parseRegistryFiles()
 	{
 		// Filter new asset data files and parse each
 		$constantIsNew = static::REGISTRY_FILE_NEW;
@@ -577,7 +577,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function parseRegistryFile($path): void
+	protected function parseRegistryFile($path)
 	{
 		$data = file_get_contents(JPATH_ROOT . '/' . $path);
 		$data = $data ? json_decode($data, true) : null;
