@@ -425,7 +425,7 @@ abstract class JArrayHelper
 	 * @return  array
 	 *
 	 * @link    https://secure.php.net/manual/en/function.array-unique.php
-	 * @since   11.2
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::arrayUnique instead
 	 */
 	public static function arrayUnique($myArray)

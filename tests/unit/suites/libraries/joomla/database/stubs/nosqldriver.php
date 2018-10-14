@@ -399,7 +399,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.2
+	 * @since   1.7.0
 	 */
 	public static function isSupported()
 	{

@@ -23,7 +23,7 @@ class Authentication extends \JObject
 	/**
 	 * This is the status code returned when the authentication is success (permit login)
 	 * @const  STATUS_SUCCESS successful response
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_SUCCESS = 1;
 
@@ -31,14 +31,14 @@ class Authentication extends \JObject
 	/**
 	 * Status to indicate cancellation of authentication (unused)
 	 * @const  STATUS_CANCEL cancelled request (unused)
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_CANCEL = 2;
 
 	/**
 	 * This is the status code returned when the authentication failed (prevent login if no success)
 	 * @const  STATUS_FAILURE failed request
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_FAILURE = 4;
 
@@ -46,21 +46,21 @@ class Authentication extends \JObject
 	/**
 	 * This is the status code returned when the account has expired (prevent login)
 	 * @const  STATUS_EXPIRED an expired account (will prevent login)
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_EXPIRED = 8;
 
 	/**
 	 * This is the status code returned when the account has been denied (prevent login)
 	 * @const  STATUS_DENIED denied request (will prevent login)
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_DENIED = 16;
 
 	/**
 	 * This is the status code returned when the account doesn't exist (not an error)
 	 * @const  STATUS_UNKNOWN unknown account (won't permit or prevent login)
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	const STATUS_UNKNOWN = 32;
 
@@ -324,7 +324,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  AuthenticationResponse[]  Array of authentication response objects
 	 *
-	 * @since  11.2
+	 * @since  1.7.0
 	 */
 	public static function authorise($response, $options = array())
 	{
