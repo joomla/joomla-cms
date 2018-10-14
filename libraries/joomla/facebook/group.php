@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die();
  * Facebook API Group class for the Joomla Platform.
  *
  * @link        http://developers.facebook.com/docs/reference/api/group/
- * @since       13.1
+ * @since       3.2.0
  * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookGroup extends JFacebookObject
@@ -25,7 +25,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getGroup($group)
 	{
@@ -43,7 +43,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getFeed($group, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -59,7 +59,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getMembers($group, $limit = 0, $offset = 0)
 	{
@@ -77,7 +77,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getDocs($group, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -92,7 +92,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  string   The URL to the group's picture.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getPicture($group, $type = null)
 	{
@@ -113,7 +113,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createLink($group, $link, $message = null)
 	{
@@ -136,7 +136,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteLink($link)
 	{
@@ -157,7 +157,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createPost($group, $message = null, $link = null, $picture = null, $name = null, $caption = null,
 		$description = null, $actions = null)
@@ -208,7 +208,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deletePost($post)
 	{
@@ -223,7 +223,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createStatus($group, $message)
 	{
@@ -241,7 +241,7 @@ class JFacebookGroup extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteStatus($status)
 	{

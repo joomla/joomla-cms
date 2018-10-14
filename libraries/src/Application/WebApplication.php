@@ -296,7 +296,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 * @see     WebApplication::loadSession()
 	 * @see     WebApplication::loadDocument()
 	 * @see     WebApplication::loadLanguage()

@@ -157,7 +157,7 @@ class Update extends \JObject
 	 * Extra query for download URLs
 	 *
 	 * @var    string
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $extra_query;
 

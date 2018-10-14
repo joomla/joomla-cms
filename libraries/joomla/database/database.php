@@ -24,7 +24,7 @@ abstract class JDatabase
 	 *
 	 * @since   1.7.0
 	 * @throws  RuntimeException
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 */
 	public function query()
 	{
@@ -41,7 +41,7 @@ abstract class JDatabase
 	 * @return  array  An array of available database connectors.
 	 *
 	 * @since   1.7.0
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 */
 	public static function getConnectors()
 	{
@@ -104,7 +104,7 @@ abstract class JDatabase
 	 * @return  JDatabaseDriver  A database object.
 	 *
 	 * @since       1.7.0
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 */
 	public static function getInstance($options = array())
 	{
@@ -121,7 +121,7 @@ abstract class JDatabase
 	 * @return  array  The queries from the input string separated into an array.
 	 *
 	 * @since   1.7.0
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 */
 	public static function splitSql($query)
 	{

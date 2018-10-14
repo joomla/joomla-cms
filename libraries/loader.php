@@ -577,7 +577,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 *
 	 * @deprecated 4.0 this method will be removed
 	 */

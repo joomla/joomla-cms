@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die();
  * Facebook API Checkin class for the Joomla Platform.
  *
  * @link        http://developers.facebook.com/docs/reference/api/checkin/
- * @since       13.1
+ * @since       3.2.0
  * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookCheckin extends JFacebookObject
@@ -25,7 +25,7 @@ class JFacebookCheckin extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getCheckin($checkin)
 	{
@@ -43,7 +43,7 @@ class JFacebookCheckin extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getComments($checkin, $limit=0, $offset=0, $until=null, $since=null)
 	{
@@ -58,7 +58,7 @@ class JFacebookCheckin extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createComment($checkin, $message)
 	{
@@ -76,7 +76,7 @@ class JFacebookCheckin extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteComment($comment)
 	{
@@ -94,7 +94,7 @@ class JFacebookCheckin extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getLikes($checkin, $limit=0, $offset=0, $until=null, $since=null)
 	{
@@ -108,7 +108,7 @@ class JFacebookCheckin extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createLike($checkin)
 	{
@@ -122,7 +122,7 @@ class JFacebookCheckin extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteLike($checkin)
 	{

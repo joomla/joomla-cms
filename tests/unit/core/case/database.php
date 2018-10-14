@@ -36,7 +36,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 
 	/**
 	 * @var         array  JError handler state stashed away to be restored later.
-	 * @deprecated  13.1
+	 * @deprecated  3.2.0
 	 * @since       3.0.0
 	 */
 	private $_stashedErrorState = array();
@@ -438,7 +438,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  13.1
+	 * @deprecated  3.2.0
 	 * @since       3.0.0
 	 */
 	protected function saveErrorHandlers()

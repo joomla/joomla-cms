@@ -123,7 +123,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
@@ -237,7 +237,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @link    http://www.sqlite.org/lang_datefunc.html
 	 */
 	public function dateAdd($date, $interval, $datePart)

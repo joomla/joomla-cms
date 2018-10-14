@@ -18,7 +18,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 {
 	/**
 	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $dbo;
 
@@ -37,7 +37,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function setUp()
 	{
@@ -68,7 +68,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function seedDateAdd()
 	{
@@ -91,7 +91,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedDateAdd
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDateAdd($date, $interval, $datePart, $expected)
 	{

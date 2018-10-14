@@ -16,14 +16,14 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var         array  The list of errors expected to be encountered during the test.
-	 * @deprecated  13.1
+	 * @deprecated  3.2.0
 	 * @since       3.0.0
 	 */
 	protected $expectedErrors;
 
 	/**
 	 * @var         array  JError handler state stashed away to be restored later.
-	 * @deprecated  13.1
+	 * @deprecated  3.2.0
 	 * @since       3.0.0
 	 */
 	private $_stashedErrorState = array();
@@ -51,7 +51,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  boolean  To not continue with JError processing
 	 *
-	 * @deprecated  13.1
+	 * @deprecated  3.2.0
 	 * @since       3.0.0
 	 */
 	public static function errorCallback($error)
@@ -121,7 +121,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  JException
 	 *
-	 * @deprecated  13.1
+	 * @deprecated  3.2.0
 	 * @since       3.0.0
 	 */
 	public function expectedErrorCallback($error)
@@ -337,7 +337,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  13.1
+	 * @deprecated  3.2.0
 	 * @since       3.0.0
 	 */
 	public function setExpectedError($error = null)
@@ -366,7 +366,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  13.1
+	 * @deprecated  3.2.0
 	 * @since       3.0.0
 	 */
 	protected function restoreErrorHandlers()
@@ -399,7 +399,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  13.1
+	 * @deprecated  3.2.0
 	 * @since       3.0.0
 	 */
 	protected function saveErrorHandlers()

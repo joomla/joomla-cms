@@ -695,7 +695,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @note    Not all drivers support all units. Check appropriate references
 	 * @link    http://www.postgresql.org/docs/9.0/static/functions-datetime.html.
 	 */
