@@ -329,7 +329,7 @@ class FinderIndexerHelper
 		// If language requested is wildcard, use the default language.
 		if ($default === null && $lang === '*')
 		{
-			$default = substr(self::getDefaultLanguage(), 0, 2);
+			$default = strstr(self::getDefaultLanguage(), '-', true);
 			$langCode = $default;
 		}
 
