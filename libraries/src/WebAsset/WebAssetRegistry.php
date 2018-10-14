@@ -254,7 +254,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 
 		if (!$asset)
 		{
-			throw new \RuntimeException('Asset "' . $name . '" do not exists');
+			throw new \RuntimeException('Asset "' . $name . '" does not exist');
 		}
 
 		$oldState = $asset->getState();
