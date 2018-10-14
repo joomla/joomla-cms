@@ -19,19 +19,19 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithub  Object under test.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $object;
 
@@ -130,7 +130,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - forks
 	 *
-	 * @since  11.4
+	 * @since  2.5.0
 	 *
 	 * @return void
 	 */

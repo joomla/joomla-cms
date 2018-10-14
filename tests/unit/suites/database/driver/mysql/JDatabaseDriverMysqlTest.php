@@ -120,7 +120,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testDropTable()
 	{
@@ -137,7 +137,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestEscape
-	 * @since         11.4
+	 * @since         2.5.0
 	 */
 	public function testEscape($text, $extra, $expected)
 	{
@@ -237,7 +237,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetExporter()
 	{
@@ -253,7 +253,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetImporter()
 	{
@@ -269,7 +269,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetNumRows()
 	{
@@ -289,7 +289,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableCreate()
 	{
@@ -305,7 +305,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableColumns()
 	{
@@ -377,7 +377,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableKeys()
 	{
@@ -393,7 +393,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableList()
 	{
@@ -409,7 +409,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetVersion()
 	{
@@ -904,7 +904,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testIsSupported()
 	{

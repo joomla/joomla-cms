@@ -7,13 +7,13 @@ class JGithubPackageIssuesEventsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $client;
 

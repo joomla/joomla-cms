@@ -221,7 +221,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testloadFileGif()
 	{
@@ -243,7 +243,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testloadFilePng()
 	{
@@ -265,7 +265,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 *
 	 * @expectedException  InvalidArgumentException
 	 */
@@ -296,7 +296,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testResize()
 	{
@@ -317,7 +317,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testResizeTransparent()
 	{
@@ -343,7 +343,7 @@ class JImageTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 *
 	 * @expectedException  LogicException
 	 */

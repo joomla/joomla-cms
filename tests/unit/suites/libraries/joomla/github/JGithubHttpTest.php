@@ -19,19 +19,19 @@ class JGithubHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $transport;
 
 	/**
 	 * @var    JGithubHttp  Object under test.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $object;
 
@@ -41,7 +41,7 @@ class JGithubHttpTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function setUp()
 	{
@@ -64,7 +64,7 @@ class JGithubHttpTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function tearDown()
 	{

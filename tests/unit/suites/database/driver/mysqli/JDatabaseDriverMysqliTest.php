@@ -120,7 +120,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testDropTable()
 	{
@@ -137,7 +137,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestEscape
-	 * @since         11.4
+	 * @since         2.5.0
 	 */
 	public function testEscape($text, $extra, $expected)
 	{
@@ -203,7 +203,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetAffectedRows()
 	{
@@ -238,7 +238,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetExporter()
 	{
@@ -254,7 +254,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetImporter()
 	{
@@ -270,7 +270,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetNumRows()
 	{
@@ -290,7 +290,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableCreate()
 	{
@@ -306,7 +306,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableColumns()
 	{
@@ -382,7 +382,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableKeys()
 	{
@@ -398,7 +398,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetTableList()
 	{
@@ -414,7 +414,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetVersion()
 	{
@@ -430,7 +430,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testLoadAssoc()
 	{
@@ -448,7 +448,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testLoadAssocList()
 	{
@@ -470,7 +470,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testLoadColumn()
 	{
@@ -646,7 +646,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testLoadObject()
 	{
@@ -671,7 +671,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testLoadObjectList()
 	{
@@ -724,7 +724,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testLoadResult()
 	{
@@ -745,7 +745,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testLoadRow()
 	{
@@ -766,7 +766,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testLoadRowList()
 	{
@@ -787,7 +787,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testExecute()
 	{
@@ -960,7 +960,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testIsSupported()
 	{

@@ -17,7 +17,7 @@ use Joomla\String\StringHelper;
 /**
  * Base class for a Joomla! Web application.
  *
- * @since  11.4
+ * @since  2.5.0
  * @note   As of 4.0 this class will be abstract
  */
 class WebApplication extends BaseApplication

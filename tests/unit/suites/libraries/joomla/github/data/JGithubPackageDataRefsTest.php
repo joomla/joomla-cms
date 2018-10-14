@@ -19,13 +19,13 @@ class JGithubPackageDataRefsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $client;
 
@@ -37,19 +37,19 @@ class JGithubPackageDataRefsTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @var    JGithubPackageDataRefs  Object under test.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 

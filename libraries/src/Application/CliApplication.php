@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 /**
  * Base class for a Joomla! command line application.
  *
- * @since  11.4
+ * @since  2.5.0
  * @note   As of 4.0 this class will be abstract
  */
 class CliApplication extends BaseApplication

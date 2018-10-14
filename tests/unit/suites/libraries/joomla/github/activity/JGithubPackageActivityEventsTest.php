@@ -18,25 +18,25 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithubPackageActivityEvents  Object under test.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $object;
 
 	/**
 	 * @var string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $response = '[
   {
@@ -71,13 +71,13 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @var string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $owner = 'joomla';
 
 	/**
 	 * @var string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $repo = 'joomla-platform';
 

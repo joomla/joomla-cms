@@ -110,7 +110,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetConnection()
 	{
@@ -145,7 +145,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetCount()
 	{
@@ -162,7 +162,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetDatabase()
 	{
@@ -177,7 +177,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetDateFormat()
 	{
@@ -215,7 +215,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetLog()
 	{
@@ -232,7 +232,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetPrefix()
 	{
@@ -247,7 +247,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetNullDate()
 	{
@@ -350,7 +350,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @covers  JDatabaseDriver::quote
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testQuote()
 	{
@@ -378,7 +378,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testQuoteBooleanTrue()
 	{
@@ -394,7 +394,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testQuoteBooleanFalse()
 	{
@@ -410,7 +410,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testQuoteNull()
 	{
@@ -425,7 +425,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testQuoteInteger()
 	{
@@ -441,7 +441,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testQuoteFloat()
 	{
@@ -459,7 +459,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testQuoteName()
 	{

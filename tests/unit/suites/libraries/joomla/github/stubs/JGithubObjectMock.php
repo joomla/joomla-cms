@@ -28,7 +28,7 @@ class JGithubObjectMock extends JGithubObject
 	 *
 	 * @return  string   The request URL.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function fetchUrl($path, $page = 0, $limit = 0)
 	{

@@ -55,7 +55,7 @@ class Language extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function store($updateNulls = false)
 	{

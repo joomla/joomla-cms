@@ -23,7 +23,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * The name of the database.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	private $_database;
 
@@ -702,7 +702,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function dropTable($table, $ifExists = true);
@@ -976,7 +976,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getDatabase()
 	{
@@ -1833,7 +1833,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver     Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function lockTable($tableName);
@@ -2066,7 +2066,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver    Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function renameTable($oldTable, $newTable, $backup = null, $prefix = null);
@@ -2298,7 +2298,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseDriver  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function unlockTables();

@@ -58,7 +58,7 @@ class JTableExtensionTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getDataSet()
 	{
@@ -74,7 +74,7 @@ class JTableExtensionTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testCheck()
 	{
@@ -100,7 +100,7 @@ class JTableExtensionTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testFind()
 	{
@@ -118,7 +118,7 @@ class JTableExtensionTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testPublish()
 	{

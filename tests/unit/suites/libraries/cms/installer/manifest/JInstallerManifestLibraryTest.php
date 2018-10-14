@@ -45,7 +45,7 @@ class JInstallerManifestLibraryTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'11.4',
+			'2.5.0',
 			$this->object->version
 		);
 
