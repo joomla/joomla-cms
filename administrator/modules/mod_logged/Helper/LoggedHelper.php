@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\Database\Query\LimitableInterface;
 
 /**
  * Helper for mod_logged
