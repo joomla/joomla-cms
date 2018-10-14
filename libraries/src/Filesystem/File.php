@@ -329,7 +329,7 @@ class File
 	 * @return  mixed  Returns file contents or boolean False if failed
 	 *
 	 * @since   1.7.0
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the native file_get_contents() instead.
+	 * @deprecated  4.0 - Use the native file_get_contents() instead.
 	 */
 	public static function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
@@ -648,7 +648,7 @@ class File
 	 * @return  string  filename
 	 *
 	 * @since   1.7.0
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use basename() instead.
+	 * @deprecated  4.0 - Use basename() instead.
 	 */
 	public static function getName($file)
 	{

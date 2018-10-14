@@ -688,7 +688,7 @@ class Browser
 	 * @return  boolean  True if using SSL, false if not.
 	 *
 	 * @since   1.7.0
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the isSSLConnection method on the application object.
+	 * @deprecated  4.0 - Use the isSSLConnection method on the application object.
 	 */
 	public function isSSLConnection()
 	{

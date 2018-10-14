@@ -93,7 +93,7 @@ abstract class Factory
 	 *
 	 * @var    Access
 	 * @since  1.7.0
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 */
 	public static $acl = null;
 
@@ -316,7 +316,7 @@ abstract class Factory
 	 *
 	 * @return  Access object
 	 *
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JAccess directly.
+	 * @deprecated  4.0 - Use JAccess directly.
 	 */
 	public static function getAcl()
 	{
@@ -407,7 +407,7 @@ abstract class Factory
 	 * @see     JXMLElement
 	 * @since   1.7.0
 	 * @note    When JXMLElement is not present a SimpleXMLElement will be returned.
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXML directly.
+	 * @deprecated  4.0 - Use SimpleXML directly.
 	 */
 	public static function getXml($data, $isFile = true)
 	{
@@ -491,7 +491,7 @@ abstract class Factory
 	 *
 	 * @see     Uri
 	 * @since   1.7.0
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JUri directly.
+	 * @deprecated  4.0 - Use JUri directly.
 	 */
 	public static function getUri($uri = 'SERVER')
 	{

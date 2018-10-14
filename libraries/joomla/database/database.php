@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Database connector class.
  *
  * @since       1.7.0
- * @deprecated  13.3 (Platform) & 4.0 (CMS)
+ * @deprecated  4.0
  */
 abstract class JDatabase
 {
@@ -57,7 +57,7 @@ abstract class JDatabase
 	 *
 	 * @return  string  The error message for the most recent query.
 	 *
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 * @since   1.7.0
 	 */
 	public function getErrorMsg($escaped = false)
@@ -80,7 +80,7 @@ abstract class JDatabase
 	 * @return      integer  The error number for the most recent query.
 	 *
 	 * @since       1.7.0
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 */
 	public function getErrorNum()
 	{
@@ -138,7 +138,7 @@ abstract class JDatabase
 	 * @return  string  The error message for the most recent query.
 	 *
 	 * @since   1.7.0
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 */
 	public function stderr($showSQL = false)
 	{
