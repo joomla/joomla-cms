@@ -323,7 +323,7 @@ class Http
 	 *
 	 * @return  Response
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function patch($url, $data, array $headers = null, $timeout = null)
 	{

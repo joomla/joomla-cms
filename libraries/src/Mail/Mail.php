@@ -448,7 +448,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \InvalidArgumentException
 	 */
 	public function addAttachment($path, $name = '', $encoding = 'base64', $type = 'application/octet-stream', $disposition = 'attachment')
@@ -508,7 +508,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function clearAttachments()
 	{
@@ -524,7 +524,7 @@ class Mail extends \PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function removeAttachment($index = 0)
 	{

@@ -502,7 +502,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The query that alter the database query string
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function alterDbCharacterSet($dbName)
@@ -638,7 +638,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The query that creates database
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function createDatabase($options, $utf = true)
@@ -780,7 +780,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The query that alter the database query string
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getAlterDbCharacterSet($dbName)
 	{
@@ -911,7 +911,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The query that creates database
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getCreateDatabaseQuery($options, $utf)
 	{

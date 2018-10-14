@@ -61,7 +61,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getDataSet()
 	{
@@ -164,7 +164,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testGetUserId($username, $expected, $error)
 	{

@@ -40,7 +40,7 @@ class JSessionStorageWincache extends JSessionStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function register()
 	{

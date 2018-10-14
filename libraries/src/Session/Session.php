@@ -77,7 +77,7 @@ class Session implements \IteratorAggregate
 	 * The type of storage for the session.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $storeName;
 
@@ -85,7 +85,7 @@ class Session implements \IteratorAggregate
 	 * Holds the \JInput object
 	 *
 	 * @var    \JInput
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	private $_input = null;
 
@@ -93,7 +93,7 @@ class Session implements \IteratorAggregate
 	 * Holds the event dispatcher object
 	 *
 	 * @var    \JEventDispatcher
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	private $_dispatcher = null;
 
@@ -152,7 +152,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  mixed   The value of the property
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function __get($name)
 	{
@@ -293,7 +293,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  \ArrayIterator
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getIterator()
 	{
@@ -436,7 +436,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function isActive()
 	{
@@ -463,7 +463,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function initialise(Input $input, \JEventDispatcher $dispatcher = null)
 	{
@@ -608,7 +608,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function start()
 	{

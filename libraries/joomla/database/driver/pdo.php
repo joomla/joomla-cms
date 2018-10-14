@@ -503,7 +503,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  string  The query to check the health of the DB.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getConnectedQuery()
 	{

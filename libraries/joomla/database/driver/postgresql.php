@@ -1594,7 +1594,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The query that creates database
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getCreateDatabaseQuery($options, $utf)
 	{

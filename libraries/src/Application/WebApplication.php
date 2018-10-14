@@ -1094,7 +1094,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  boolean  True if using SSL, false if not.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function isSSLConnection()
 	{
@@ -1205,7 +1205,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function afterSessionStart()
 	{

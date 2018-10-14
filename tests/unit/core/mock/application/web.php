@@ -18,7 +18,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 * Mock storage for the response body.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public static $body = array();
 
@@ -180,7 +180,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public static function mockAppendBody($content)
 	{
@@ -194,7 +194,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public static function mockGetBody($asArray = false)
 	{
@@ -208,7 +208,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public static function mockPrependBody($content)
 	{
@@ -222,7 +222,7 @@ class TestMockApplicationWeb extends TestMockApplicationBase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public static function mockSetBody($content)
 	{

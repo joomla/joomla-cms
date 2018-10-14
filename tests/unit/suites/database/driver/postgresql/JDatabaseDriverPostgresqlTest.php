@@ -1041,7 +1041,7 @@ class JDatabaseDriverPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since 12.2
+	 * @since 3.0.1
 	 */
 	public function testSqlValue()
 	{

@@ -46,7 +46,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * used for the opening quote and the second for the closing quote.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $nameQuote = '`';
 
@@ -55,13 +55,13 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 * defined in child classes to hold the appropriate value for the engine.
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $nullDate = '0000-00-00 00:00:00';
 
 	/**
 	 * @var    string  The minimum supported database version.
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected static $dbMinimum = '5.0.4';
 
@@ -291,7 +291,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverMysqli  Returns this object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function dropTable($tableName, $ifExists = true)
@@ -326,7 +326,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  mixed  The collation in use by the database (string) or boolean false if not supported.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function getCollation()
@@ -427,7 +427,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
@@ -467,7 +467,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  array  An array of the column specification for the table.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function getTableKeys($table)
@@ -486,7 +486,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function getTableList()
@@ -536,7 +536,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverMysqli  Returns this object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function lockTable($table)
@@ -675,7 +675,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverMysqli  Returns this object to support chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
@@ -758,7 +758,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function transactionCommit($toSavepoint = false)
@@ -785,7 +785,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function transactionRollback($toSavepoint = false)
@@ -818,7 +818,7 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	public function transactionStart($asSavepoint = false)

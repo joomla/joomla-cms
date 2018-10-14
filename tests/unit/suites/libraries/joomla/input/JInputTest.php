@@ -55,7 +55,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @covers  JInput::count
 	 */
 	public function testCount()

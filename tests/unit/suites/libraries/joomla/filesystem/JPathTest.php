@@ -14,7 +14,7 @@ JLoader::register('JPath', JPATH_PLATFORM . '/joomla/filesystem/path.php');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filesystem
- * @since       12.2
+ * @since       3.0.1
  */
 class JPathTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JPathTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getCleanData()
 	{
@@ -49,7 +49,7 @@ class JPathTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getCleanData
-	 * @since         12.2
+	 * @since         3.0.1
 	 */
 	public function testClean($input, $ds, $expected)
 	{
