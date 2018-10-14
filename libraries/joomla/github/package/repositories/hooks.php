@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/repos/hooks
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesHooks extends JGithubPackage
@@ -23,7 +23,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 * Array containing the allowed hook events
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $events = array(
 		'push',
@@ -53,7 +53,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
@@ -90,7 +90,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function delete($user, $repo, $id)
@@ -119,7 +119,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
@@ -179,7 +179,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function get($user, $repo, $id)
@@ -200,7 +200,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function getList($user, $repo)
@@ -222,7 +222,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function test($user, $repo, $id)

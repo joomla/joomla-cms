@@ -18,7 +18,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * Container for JLoader static values during tests.
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected static $cache = array();
 
@@ -51,7 +51,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -68,7 +68,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -497,7 +497,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespace()
 	{
@@ -526,7 +526,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespaceResetPath()
 	{
@@ -551,7 +551,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException  RuntimeException
 	 */
 	public function testRegisterNamespaceException()
@@ -567,7 +567,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespaceTrimming()
 	{
@@ -702,7 +702,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupDefaultParameters()
 	{
@@ -781,7 +781,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupWithoutClasses()
 	{
@@ -817,7 +817,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupWithoutPrefixes()
 	{
@@ -861,7 +861,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetupPsr0()
 	{
@@ -915,7 +915,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function unregisterLoaders()
 	{

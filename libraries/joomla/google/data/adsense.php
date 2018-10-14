@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Google Adsense data class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataAdsense extends JGoogleData
@@ -25,7 +25,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -45,7 +45,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function getAccount($accountID, $subaccounts = true)
@@ -78,7 +78,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function listAccounts($options = array(), $maxpages = 1)
@@ -106,7 +106,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function listClients($accountID, $options = array(), $maxpages = 1)
@@ -134,7 +134,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function getUnit($accountID, $adclientID, $adunitID)
@@ -171,7 +171,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function listUnitChannels($accountID, $adclientID, $adunitID, $options = array(), $maxpages = 1)
@@ -200,7 +200,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function getChannel($accountID, $adclientID, $channelID)
@@ -236,7 +236,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function listChannels($accountID, $adclientID, $options = array(), $maxpages = 1)
@@ -267,7 +267,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function listChannelUnits($accountID, $adclientID, $channelID, $options = array(), $maxpages = 1)
@@ -297,7 +297,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  UnexpectedValueException
 	 */
 	public function listUrlChannels($accountID, $adclientID, $options = array(), $maxpages = 1)
@@ -328,7 +328,7 @@ class JGoogleDataAdsense extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  InvalidArgumentException
 	 * @throws  UnexpectedValueException
 	 */

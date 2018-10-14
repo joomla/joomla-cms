@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Profile class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterProfile extends JTwitterObject
@@ -31,7 +31,7 @@ class JTwitterProfile extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function updateProfile($name = null, $url = null, $location = null, $description = null, $entities = null, $skip_status = null)
 	{
@@ -96,7 +96,7 @@ class JTwitterProfile extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function updateProfileBackgroundImage($image = null, $tile = false, $entities = null, $skip_status = null, $use = false)
 	{
@@ -154,7 +154,7 @@ class JTwitterProfile extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function updateProfileImage($image = null, $entities = null, $skip_status = null)
 	{
@@ -204,7 +204,7 @@ class JTwitterProfile extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function updateProfileColors($background = null, $link = null, $sidebar_border = null, $sidebar_fill = null, $text = null,
 		$entities = null, $skip_status = null)
@@ -268,7 +268,7 @@ class JTwitterProfile extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSettings()
 	{
@@ -295,7 +295,7 @@ class JTwitterProfile extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function updateSettings($location = null, $sleep_time = false, $start_sleep = null, $end_sleep = null,
 		$time_zone = null, $lang = null)

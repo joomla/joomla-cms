@@ -461,7 +461,7 @@ abstract class Factory
 	 *
 	 * @since   1.7.0
 	 * @throws  \BadMethodCallException
-	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use Editor directly
+	 * @deprecated 4.0 - Use Editor directly
 	 */
 	public static function getEditor($editor = null)
 	{

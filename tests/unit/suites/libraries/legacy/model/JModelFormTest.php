@@ -13,20 +13,20 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JModelFormTest extends TestCase
 {
 	/**
 	 * @var    JModelForm
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $object;
 
 	/**
 	 * Setup each test.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 */

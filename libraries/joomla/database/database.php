@@ -161,7 +161,7 @@ abstract class JDatabase
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.7.0
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JDatabaseDriver::isSupported() instead.
+	 * @deprecated  4.0 - Use JDatabaseDriver::isSupported() instead.
 	 */
 	public static function test()
 	{

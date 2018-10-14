@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class MincesControllerMince extends JControllerForm
 {
@@ -25,7 +25,7 @@ class MincesControllerMince extends JControllerForm
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class MiniesControllerMiny extends JControllerForm
 {
@@ -37,7 +37,7 @@ class MiniesControllerMiny extends JControllerForm
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class MintsControllerMint extends JControllerForm
 {

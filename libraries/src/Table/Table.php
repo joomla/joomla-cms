@@ -90,7 +90,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 * Indicates that the primary keys autoincrement.
 	 *
 	 * @var    boolean
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $_autoincrement = true;
 
@@ -425,7 +425,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function appendPrimaryKeys($query, $pk = null)
 	{
@@ -1153,7 +1153,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  boolean  True if the primary key(s) have been set.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function hasPrimaryKey()
 	{
@@ -1332,7 +1332,7 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 	 *
 	 * @return  array  An array of primary key names and values.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getPrimaryKey(array $keys = array())
 	{

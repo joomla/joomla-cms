@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/controllerform.php';
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JControllerFormTest extends TestCase
 {

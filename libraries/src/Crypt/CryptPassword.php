@@ -59,7 +59,7 @@ interface CryptPassword
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function setDefaultType($type);
@@ -69,7 +69,7 @@ interface CryptPassword
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function getDefaultType();

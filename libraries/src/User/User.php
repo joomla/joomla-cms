@@ -524,7 +524,7 @@ class User extends \JObject
 	 * @return  object   The user parameters object.
 	 *
 	 * @since   1.7.0
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Instead use User::getParam()
+	 * @deprecated  4.0 - Instead use User::getParam()
 	 */
 	public function getParameters()
 	{

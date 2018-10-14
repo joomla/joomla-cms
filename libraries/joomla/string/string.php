@@ -36,7 +36,7 @@ abstract class JString extends StringHelper
 	 *
 	 * @return  array   The splitted string.
 	 *
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JStringNormalise::fromCamelCase()
+	 * @deprecated  4.0 - Use JStringNormalise::fromCamelCase()
 	 * @since   1.7.3
 	 */
 	public static function splitCamelCase($string)

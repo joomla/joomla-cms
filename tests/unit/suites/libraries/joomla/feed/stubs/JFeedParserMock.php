@@ -12,13 +12,13 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class JFeedParserMock extends JFeedParser
 {
 	/**
 	 * @var    mixed  The value to return when the parse method is called.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public static $parseReturn;
 
@@ -28,7 +28,7 @@ class JFeedParserMock extends JFeedParser
 	 * @return  void
 	 *
 	 * @see     JFeedParser::initialise()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function initialise()
 	{
@@ -41,7 +41,7 @@ class JFeedParserMock extends JFeedParser
 	 * @return  mixed
 	 *
 	 * @see     JFeedParser::parse()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function parse()
 	{

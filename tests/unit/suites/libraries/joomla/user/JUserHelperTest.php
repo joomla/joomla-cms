@@ -207,7 +207,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::addUsertoGroup
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddUserToGroup($userId, $groupId, $expected)
 	{
@@ -222,7 +222,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException  RuntimeException
 	 * @covers  JUserHelper::addUsertoGroup
 	 */
@@ -299,7 +299,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::activateUser
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testActivateUser($activation, $expected)
 	{

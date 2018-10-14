@@ -12,14 +12,14 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Google authentication class abstract
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 abstract class JGoogleAuth
 {
 	/**
 	 * @var    \Joomla\Registry\Registry  Options for the Google authentication object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
@@ -28,7 +28,7 @@ abstract class JGoogleAuth
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	abstract public function authenticate();
 
@@ -37,7 +37,7 @@ abstract class JGoogleAuth
 	 *
 	 * @return  boolean  Is authenticated
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	abstract public function isAuthenticated();
 
@@ -51,7 +51,7 @@ abstract class JGoogleAuth
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	abstract public function query($url, $data = null, $headers = null, $method = 'get');
 
@@ -62,7 +62,7 @@ abstract class JGoogleAuth
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -77,7 +77,7 @@ abstract class JGoogleAuth
 	 *
 	 * @return  JGoogleAuth  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{

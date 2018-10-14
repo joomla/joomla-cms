@@ -269,7 +269,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  The inverted array.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::invert instead
 	 */
 	public static function invert($array)

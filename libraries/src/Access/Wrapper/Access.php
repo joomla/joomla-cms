@@ -148,7 +148,7 @@ class Access
 	 *
 	 * @see     StaticAccess::getActions()
 	 * @since   3.4
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use StaticAccess::getActionsFromFile or StaticAccess::getActionsFromData instead.
+	 * @deprecated  4.0  Use StaticAccess::getActionsFromFile or StaticAccess::getActionsFromData instead.
 	 */
 	public function getActions($component, $section = 'component')
 	{

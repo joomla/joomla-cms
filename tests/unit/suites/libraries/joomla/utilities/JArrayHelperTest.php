@@ -378,7 +378,7 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getTestInvertData()
 	{
@@ -1464,7 +1464,7 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getTestInvertData
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testInvert($input, $expected)
 	{

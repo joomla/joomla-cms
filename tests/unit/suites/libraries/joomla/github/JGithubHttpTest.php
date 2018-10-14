@@ -77,7 +77,7 @@ class JGithubHttpTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__Construct()
 	{

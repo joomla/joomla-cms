@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API Images class for the Joomla Platform.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class JMediawikiImages extends JMediawikiObject
 {
@@ -27,7 +27,7 @@ class JMediawikiImages extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getImages(array $titles, $imagelimit = null, $imagecontinue = null, $imimages = null, $imdir = null)
 	{
@@ -70,7 +70,7 @@ class JMediawikiImages extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getImagesUsed(array $titles)
 	{
@@ -101,7 +101,7 @@ class JMediawikiImages extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getImageInfo(array $liprop = null, $lilimit = null, $listart = null, $liend = null, $liurlwidth = null,
 		$liurlheight = null, $limetadataversion = null, $liurlparam = null, $licontinue = null)
@@ -177,7 +177,7 @@ class JMediawikiImages extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function enumerateImages($aifrom = null, $aito = null, $aiprefix = null, $aiminsize = null, $aimaxsize = null, $ailimit = null,
 		$aidir = null, $aisha1 = null, $aisha1base36 = null, array $aiprop = null, $aimime = null)

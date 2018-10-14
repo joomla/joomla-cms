@@ -26,7 +26,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 * The instance of the object to test.
 	 *
 	 * @var    JDatabaseQuerySqlsrv
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 

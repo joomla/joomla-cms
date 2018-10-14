@@ -19,7 +19,7 @@ class JGithubPackageIssuesCommentsTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @var    JHttpResponse  Mock response object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $response;
 
@@ -30,13 +30,13 @@ class JGithubPackageIssuesCommentsTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 

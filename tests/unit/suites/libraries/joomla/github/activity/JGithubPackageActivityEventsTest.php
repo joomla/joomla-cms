@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Github
- * @since       12.3
+ * @since       3.1.4
  */
 class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 {

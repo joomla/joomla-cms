@@ -269,7 +269,7 @@ class JDatabaseDriverSqlsrv extends JDatabaseDriver
 	 *
 	 * @return  string  The quoted input string.
 	 *
-	 * @note    Accepting an array of strings was added in 12.3.
+	 * @note    Accepting an array of strings was added in 3.1.4.
 	 * @since   1.7.0
 	 */
 	public function quote($text, $escape = true)

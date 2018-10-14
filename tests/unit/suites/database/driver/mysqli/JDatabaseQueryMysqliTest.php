@@ -26,7 +26,7 @@ class JDatabaseQueryMysqliTest extends TestCase
 	 * The instance of the object to test.
 	 *
 	 * @var    JDatabaseQueryMysqli
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 

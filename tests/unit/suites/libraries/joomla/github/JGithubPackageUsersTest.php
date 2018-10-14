@@ -31,7 +31,7 @@ class JGithubPackageUsersTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @var    JHttpResponse  Mock response object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $response;
 
@@ -43,7 +43,7 @@ class JGithubPackageUsersTest extends \PHPUnit\Framework\TestCase
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 

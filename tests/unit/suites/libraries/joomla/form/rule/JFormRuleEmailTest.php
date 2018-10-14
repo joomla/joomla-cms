@@ -98,7 +98,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function emailData2()
 	{
@@ -118,7 +118,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testEmailData2($emailAddress, $expectedResult)
 	{
@@ -140,7 +140,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return array
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function emailData3()
 	{
@@ -163,7 +163,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testEmailData3($emailAddress, $expectedResult)
 	{

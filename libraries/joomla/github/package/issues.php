@@ -354,7 +354,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function createLabel($user, $repo, $name, $color)
 	{
@@ -390,7 +390,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function deleteLabel($user, $repo, $label)
 	{
@@ -429,7 +429,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function editLabel($user, $repo, $label, $name, $color)
 	{
@@ -485,7 +485,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLabel($user, $repo, $name)
 	{
@@ -502,7 +502,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLabels($user, $repo)
 	{

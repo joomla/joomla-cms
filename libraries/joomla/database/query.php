@@ -1618,7 +1618,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns a string produced according to the formatting string.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function format($format)
 	{

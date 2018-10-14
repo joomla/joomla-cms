@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class JFeedParserMockNamespace implements JFeedParserNamespace
 {
@@ -24,7 +24,7 @@ class JFeedParserMockNamespace implements JFeedParserNamespace
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function processElementForFeed(JFeed $feed, SimpleXMLElement $el)
 	{
@@ -39,7 +39,7 @@ class JFeedParserMockNamespace implements JFeedParserNamespace
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function processElementForFeedEntry(JFeedEntry $entry, SimpleXMLElement $el)
 	{

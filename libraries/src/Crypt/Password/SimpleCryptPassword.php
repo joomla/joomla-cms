@@ -30,7 +30,7 @@ class SimpleCryptPassword implements CryptPassword
 
 	/**
 	 * @var    string   The default hash type
-	 * @since  12.3
+	 * @since  3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	protected $defaultType = '$2y$';
@@ -178,7 +178,7 @@ class SimpleCryptPassword implements CryptPassword
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function setDefaultType($type)
@@ -194,7 +194,7 @@ class SimpleCryptPassword implements CryptPassword
 	 *
 	 * @return   string  $type  The default type
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function getDefaultType()

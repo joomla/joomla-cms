@@ -194,7 +194,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetDateUnchanged()
 	{
@@ -216,7 +216,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetDateNow()
 	{
@@ -238,7 +238,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetDateUTC1()
 	{
@@ -259,7 +259,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetDateUTC2()
 	{
@@ -280,7 +280,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetUserInstance()
 	{

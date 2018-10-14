@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/issues/milestones/
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageIssuesMilestones extends JGithubPackage
@@ -31,7 +31,7 @@ class JGithubPackageIssuesMilestones extends JGithubPackage
 	 * @param   integer  $limit      The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  array
 	 */
@@ -68,7 +68,7 @@ class JGithubPackageIssuesMilestones extends JGithubPackage
 	 * @throws DomainException
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function get($user, $repo, $milestoneId)
 	{
@@ -102,7 +102,7 @@ class JGithubPackageIssuesMilestones extends JGithubPackage
 	 * @throws DomainException
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function create($user, $repo, $title, $state = null, $description = null, $due_on = null)
 	{
@@ -159,7 +159,7 @@ class JGithubPackageIssuesMilestones extends JGithubPackage
 	 * @throws DomainException
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function edit($user, $repo, $milestoneId, $title = null, $state = null, $description = null, $due_on = null)
 	{
@@ -215,7 +215,7 @@ class JGithubPackageIssuesMilestones extends JGithubPackage
 	 * @throws DomainException
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function delete($user, $repo, $milestoneId)
 	{

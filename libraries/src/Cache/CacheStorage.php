@@ -319,7 +319,7 @@ class CacheStorage
 	 * @return  boolean
 	 *
 	 * @since   1.7.0
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 */
 	public static function test()
 	{

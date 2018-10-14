@@ -14,14 +14,14 @@ use Joomla\Registry\Registry;
 /**
  * Google OAuth authentication class
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleAuthOauth2 extends JGoogleAuth
 {
 	/**
 	 * @var    JOAuth2Client  OAuth client for the Google authentication object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
@@ -31,7 +31,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 * @param   Registry       $options  JGoogleAuth options object.
 	 * @param   JOAuth2Client  $client   OAuth client for Google authentication.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JOAuth2Client $client = null)
 	{
@@ -44,7 +44,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function authenticate()
 	{
@@ -58,7 +58,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  boolean  Is authenticated
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isAuthenticated()
 	{
@@ -75,7 +75,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function query($url, $data = null, $headers = null, $method = 'get')
 	{
@@ -89,7 +89,7 @@ class JGoogleAuthOauth2 extends JGoogleAuth
 	 *
 	 * @return  JOAuth2Client  Google-configured Oauth2 client.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function googlize()
 	{

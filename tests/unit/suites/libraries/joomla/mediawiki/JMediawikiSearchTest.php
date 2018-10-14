@@ -13,37 +13,37 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mediawiki
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JMediawikiSearchTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Mediawiki object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JMediawikiHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JMediawikiSearch  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample xml string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '<a><b></b><c></c></a>';
 
 	/**
 	 * @var    string  Sample xml error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '<message>Generic Error</message>';
 

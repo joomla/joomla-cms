@@ -41,7 +41,7 @@ class ModelMockupJView
  * @package     Joomla.UnitTest
  * @subpackage  View
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JViewLegacyTest extends TestCase
 {

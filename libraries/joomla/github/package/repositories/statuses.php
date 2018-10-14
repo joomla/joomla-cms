@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/repos/statuses
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesStatuses extends JGithubPackage
@@ -32,7 +32,7 @@ class JGithubPackageRepositoriesStatuses extends JGithubPackage
 	 * @throws InvalidArgumentException
 	 * @throws DomainException
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  object
 	 */
@@ -84,7 +84,7 @@ class JGithubPackageRepositoriesStatuses extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getList($user, $repo, $sha)
 	{

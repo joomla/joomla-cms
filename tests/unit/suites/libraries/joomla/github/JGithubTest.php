@@ -160,7 +160,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - milestones
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 *
 	 * @return void
 	 */
@@ -175,7 +175,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - statuses
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 *
 	 * @return void
 	 */
@@ -190,7 +190,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - account
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 *
 	 * @return void
 	 */
@@ -205,7 +205,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - hooks
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 *
 	 * @return void
 	 */

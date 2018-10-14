@@ -60,7 +60,7 @@ abstract class JLoader
 	 * Container for namespace => path map.
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected static $namespaces = array('psr0' => array(), 'psr4' => array());
 
@@ -156,7 +156,7 @@ abstract class JLoader
 	 *
 	 * @return  array  The array of namespace => path values for the autoloader.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function getNamespaces($type = 'psr0')
 	{
@@ -421,7 +421,7 @@ abstract class JLoader
 	 * @throws  RuntimeException
 	 *
 	 * @note    The default argument of $type will be changed in J4 to be 'psr4'
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
 	{
@@ -474,7 +474,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function setup($enablePsr = true, $enablePrefixes = true, $enableClasses = true)
 	{

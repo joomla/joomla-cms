@@ -1125,7 +1125,7 @@ class Access
 	 * @return  array  List of actions available for the given component and section.
 	 *
 	 * @since       1.7.0
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use Access::getActionsFromFile or Access::getActionsFromData instead.
+	 * @deprecated  4.0  Use Access::getActionsFromFile or Access::getActionsFromData instead.
 	 * @codeCoverageIgnore
 	 */
 	public static function getActions($component, $section = 'component')

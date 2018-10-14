@@ -172,7 +172,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * @var    integer  The depth of the current transaction.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $transactionDepth = 0;
 
@@ -1314,7 +1314,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
 	 * @since   1.7.0
-	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use hasUTFSupport() instead
+	 * @deprecated 4.0 - Use hasUTFSupport() instead
 	 */
 	public function getUTFSupport()
 	{
@@ -1567,7 +1567,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @since   1.7.0
 	 * @throws  RuntimeException
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use getIterator() instead
+	 * @deprecated  4.0 - Use getIterator() instead
 	 */
 	public function loadNextObject($class = 'stdClass')
 	{

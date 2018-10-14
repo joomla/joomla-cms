@@ -17,32 +17,32 @@ use Joomla\Registry\Registry;
  * @property-read  JGoogleData    $data    Google API object for data.
  * @property-read  JGoogleEmbed   $embed   Google API object for embed generation.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogle
 {
 	/**
 	 * @var    Registry  Options for the Google object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGoogleAuth  The authentication client object to use in sending authenticated HTTP requests.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $auth;
 
 	/**
 	 * @var    JGoogleData  Google API object for data request.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $data;
 
 	/**
 	 * @var    JGoogleEmbed  Google API object for embed generation.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $embed;
 
@@ -52,7 +52,7 @@ class JGoogle
 	 * @param   Registry     $options  Google options object.
 	 * @param   JGoogleAuth  $auth     The authentication client object.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -69,7 +69,7 @@ class JGoogle
 	 *
 	 * @return  JGoogleData  Google data API object.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function data($name, $options = null, $auth = null)
 	{
@@ -110,7 +110,7 @@ class JGoogle
 	 *
 	 * @return  JGoogleEmbed  Google embed API object.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function embed($name, $options = null)
 	{
@@ -139,7 +139,7 @@ class JGoogle
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -154,7 +154,7 @@ class JGoogle
 	 *
 	 * @return  JGoogle  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{
