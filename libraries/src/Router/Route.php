@@ -24,7 +24,7 @@ class Route
 	 * The route object so we don't have to keep fetching it.
 	 *
 	 * @var    Router
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	private static $_router = null;
 

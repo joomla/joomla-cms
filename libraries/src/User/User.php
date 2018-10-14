@@ -151,7 +151,7 @@ class User extends CMSObject
 	 * Last Reset Time
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public $lastResetTime = null;
 
@@ -159,7 +159,7 @@ class User extends CMSObject
 	 * Count since last Reset Time
 	 *
 	 * @var    int
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public $resetCount = null;
 

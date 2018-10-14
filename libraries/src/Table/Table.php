@@ -62,7 +62,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 * Name of the primary key fields in the table.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $_tbl_keys = array();
 

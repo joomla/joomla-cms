@@ -315,7 +315,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function afterSessionStart(SessionEvent $event)
 	{

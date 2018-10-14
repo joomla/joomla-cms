@@ -376,7 +376,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail|boolean  Returns this object for chaining on success or boolean false on failure when exception throwing is disabled.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \InvalidArgumentException  if the argument array counts do not match
 	 * @throws  phpmailerException 			if setting the attatchment failed and exception throwing is enabled
 	 */
@@ -439,7 +439,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function clearAttachments()
 	{
@@ -455,7 +455,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function removeAttachment($index = 0)
 	{
