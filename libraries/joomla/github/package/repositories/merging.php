@@ -30,7 +30,7 @@ class JGithubPackageRepositoriesMerging extends JGithubPackage
 	 *                                   If omitted, a default message will be used.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since   12.4
+	 * @since   3.3.0
 	 *
 	 * @return  boolean
 	 */

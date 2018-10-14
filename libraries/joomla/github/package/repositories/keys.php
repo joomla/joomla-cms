@@ -25,7 +25,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string  $owner  The name of the owner of the GitHub repository.
 	 * @param   string  $repo   The name of the GitHub repository.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return object
 	 */
@@ -46,7 +46,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string   $repo   The name of the GitHub repository.
 	 * @param   integer  $id     The id of the key.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return object
 	 */
@@ -68,7 +68,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string  $title  The key title.
 	 * @param   string  $key    The key.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return object
 	 */
@@ -97,7 +97,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string   $title  The key title.
 	 * @param   string   $key    The key.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return object
 	 */
@@ -123,7 +123,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string   $repo   The name of the GitHub repository.
 	 * @param   integer  $id     The id of the key.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return boolean
 	 */

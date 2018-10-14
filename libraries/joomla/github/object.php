@@ -109,7 +109,7 @@ abstract class JGithubObject
 	 * @param   boolean        $decode        If the should be response be JSON decoded.
 	 *
 	 * @throws DomainException
-	 * @since  12.4
+	 * @since  3.3.0
 	 *
 	 * @return mixed
 	 */

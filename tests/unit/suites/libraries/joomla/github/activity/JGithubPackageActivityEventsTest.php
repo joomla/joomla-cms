@@ -85,7 +85,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	protected function setUp()
@@ -101,7 +101,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getPublic method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetPublic()
@@ -125,7 +125,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getRepository method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetRepository()
@@ -150,7 +150,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getIssue method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetIssue()
@@ -175,7 +175,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getNetwork method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetNetwork()
@@ -200,7 +200,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getOrg method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetOrg()
@@ -225,7 +225,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getUser method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetUser()
@@ -250,7 +250,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getUserPublic method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetUserPublic()
@@ -275,7 +275,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getByUser method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetByUser()
@@ -300,7 +300,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getByUserPublic method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetByUserPublic()
@@ -325,7 +325,7 @@ class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getUserOrg method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetUserOrg()
