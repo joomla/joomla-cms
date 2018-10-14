@@ -222,10 +222,12 @@ abstract class FieldsPlugin extends JPlugin
 	public function onContentPrepareForm(JForm $form, $data)
 	{
 		$path = $this->getFormPath($form, $data);
+
 		if ($path === null)
 		{
 			return;
 		}
+
 		// Load the specific plugin parameters
 		$form->load(file_get_contents($path), true, '/form/*');
 	}

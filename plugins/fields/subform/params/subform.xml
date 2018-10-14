@@ -7,16 +7,16 @@
 	/>
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
-				<field
-					name="render_values"
-					type="radio"
-					default="1"
-					label="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_LABEL"
-					description="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_DESC"
-					class="btn-group btn-group-yesno"
+			<field
+				name="render_values"
+				type="radio"
+				default="1"
+				label="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_LABEL"
+				description="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_DESC"
+				class="btn-group btn-group-yesno"
 				>
-					<option value="1">JYES</option>
-					<option value="0">JNO</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 
 			<field
@@ -26,7 +26,7 @@
 				description="PLG_FIELDS_SUBFORM_PARAMS_REPEAT_DESC"
 				default="1"
 				class="btn-group btn-group-yesno"
-			>
+				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
 			</field>
@@ -40,7 +40,7 @@
 				icon="list"
 				multiple="true"
 				min="1"
-			>
+				>
 				<form hidden="true" name="options_modal" repeat="true">
 
 					<field
