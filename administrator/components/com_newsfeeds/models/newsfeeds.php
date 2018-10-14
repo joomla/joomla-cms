@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of newsfeed records.
  *
@@ -262,8 +264,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		}
 		elseif (is_array($tagId))
 		{
-			ArrayHelper::toInteger($tagId);
-			$tagId = implode(',', $tagId);
+			$tagId = implode(',', ArrayHelper::toInteger($tagId));
 
 			if (!empty($tagId))
 			{
