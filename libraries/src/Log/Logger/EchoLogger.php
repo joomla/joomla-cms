@@ -33,7 +33,7 @@ class EchoLogger extends Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct(array &$options)
 	{

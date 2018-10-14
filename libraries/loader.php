@@ -36,7 +36,7 @@ abstract class JLoader
 	 * Container for registered library class prefixes and path lookups.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $prefixes = array();
 
@@ -346,7 +346,7 @@ abstract class JLoader
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function registerPrefix($prefix, $path, $reset = false, $prepend = false)
 	{
@@ -721,7 +721,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _load($class, $lookup)
 	{

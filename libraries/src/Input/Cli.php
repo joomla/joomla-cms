@@ -71,7 +71,7 @@ class Cli extends Input
 	 *
 	 * @return  string  The serialized input.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public function serialize()
@@ -95,7 +95,7 @@ class Cli extends Input
 	 *
 	 * @return  Input  The input object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public function unserialize($input)

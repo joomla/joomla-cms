@@ -194,7 +194,7 @@ class Input extends \Joomla\Input\Input
 	 *
 	 * @return  Input  The input object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function unserialize($input)

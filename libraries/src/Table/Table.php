@@ -38,7 +38,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	 * Include paths for searching for Table classes.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_includePaths = array();
 

@@ -23,7 +23,7 @@ class XmlDocument extends Document
 	 * Document name
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $name = 'joomla';
 

@@ -302,7 +302,7 @@ class CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{

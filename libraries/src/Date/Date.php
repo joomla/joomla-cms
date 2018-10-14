@@ -74,7 +74,7 @@ class Date extends \DateTime
 	 * The \DateTimeZone object for usage in rending dates as strings.
 	 *
 	 * @var    \DateTimeZone
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $tz;
 

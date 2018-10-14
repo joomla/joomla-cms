@@ -414,7 +414,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  boolean true when HTML5 is used
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function isHtml5()
 	{
@@ -428,7 +428,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setHtml5($state)
 	{

@@ -27,55 +27,55 @@ class Browser
 {
 	/**
 	 * @var    integer  Major version number
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $majorVersion = 0;
 
 	/**
 	 * @var    integer  Minor version number
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $minorVersion = 0;
 
 	/**
 	 * @var    string  Browser name.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $browser = '';
 
 	/**
 	 * @var    string  Full user agent string.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $agent = '';
 
 	/**
 	 * @var    string  Lower-case user agent string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $lowerAgent = '';
 
 	/**
 	 * @var    string  HTTP_ACCEPT string.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $accept = '';
 
 	/**
 	 * @var    array  Parsed HTTP_ACCEPT string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $acceptParsed = array();
 
 	/**
 	 * @var    string  Platform the browser is running on
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $platform = '';
 
 	/**
 	 * @var    array  Known robots.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $robots = array(
 		// The most common ones.
@@ -129,7 +129,7 @@ class Browser
 
 	/**
 	 * @var    boolean  Is this a mobile browser?
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $mobile = false;
 
@@ -138,7 +138,7 @@ class Browser
 	 * This list of viewable images works for IE and Netscape/Mozilla.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $images = array('jpeg', 'gif', 'png', 'pjpeg', 'x-png', 'bmp');
 
