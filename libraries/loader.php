@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
  * Static class to handle loading of libraries.
  *
  * @package  Joomla.Platform
- * @since    11.1
+ * @since    1.7.0
  */
 abstract class JLoader
 {
@@ -20,7 +20,7 @@ abstract class JLoader
 	 * Container for already imported library paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $classes = array();
 
@@ -28,7 +28,7 @@ abstract class JLoader
 	 * Container for already imported library paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $imported = array();
 
@@ -90,7 +90,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
 	 *                    your files.
 	 */
@@ -140,7 +140,7 @@ abstract class JLoader
 	 *
 	 * @return  array  The array of class => path values for the autoloader.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getClassList()
 	{
@@ -186,7 +186,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
 	 *                    your files.
 	 */
@@ -253,7 +253,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function load($class)
 	{
@@ -304,7 +304,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
 	 *                    your files.
 	 */
@@ -824,7 +824,7 @@ if (!function_exists('jexit'))
 	 * @return  void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	function jexit($message = 0)
 	{
@@ -840,7 +840,7 @@ if (!function_exists('jexit'))
  *
  * @return  boolean  True on success.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
  *                    your files.
  */

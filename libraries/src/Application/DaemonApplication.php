@@ -21,14 +21,14 @@ use Joomla\Registry\Registry;
  *
  * @link   https://secure.php.net/manual/en/book.pcntl.php
  * @link   https://secure.php.net/manual/en/features.commandline.php
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class DaemonApplication extends CliApplication
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
 	 * @link   https://secure.php.net/manual/pcntl.constants.php
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $signals = array(
 		'SIGHUP',
@@ -71,7 +71,7 @@ abstract class DaemonApplication extends CliApplication
 
 	/**
 	 * @var    boolean  True if the daemon is in the process of exiting.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $exiting = false;
 
@@ -83,13 +83,13 @@ abstract class DaemonApplication extends CliApplication
 
 	/**
 	 * @var    integer  The process id of the daemon.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $processId = 0;
 
 	/**
 	 * @var    boolean  True if the daemon is currently running.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $running = false;
 
@@ -108,7 +108,7 @@ abstract class DaemonApplication extends CliApplication
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 *
 	 * @see     JApplicationBase::loadDispatcher()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(\JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
 	{
@@ -148,7 +148,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @see     pcntl_signal()
 	 * @throws  \RuntimeException
 	 */
@@ -216,7 +216,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean  True if daemon is active.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isActive()
 	{
@@ -261,7 +261,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  DaemonApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function loadConfiguration($data)
 	{
@@ -359,7 +359,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function execute()
 	{
@@ -409,7 +409,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function restart()
 	{
@@ -422,7 +422,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stop()
 	{
@@ -435,7 +435,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean  True if identity successfully changed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @see     posix_setuid()
 	 */
 	protected function changeIdentity()
@@ -499,7 +499,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function daemonize()
@@ -631,7 +631,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  integer  The child process id to the parent process, zero to the child process.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function fork()
@@ -668,7 +668,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function gc()
 	{
@@ -686,7 +686,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @see     pcntl_signal()
 	 */
 	protected function setupSignalHandlers()
@@ -724,7 +724,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function shutdown($restart = false)
 	{
@@ -777,7 +777,7 @@ abstract class DaemonApplication extends CliApplication
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function writeProcessIdFile()
 	{

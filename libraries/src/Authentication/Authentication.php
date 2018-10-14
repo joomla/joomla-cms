@@ -21,7 +21,7 @@ use Joomla\Event\DispatcherInterface;
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Authentication extends CMSObject
 {
@@ -80,7 +80,7 @@ class Authentication extends CMSObject
 	 *
 	 * @param   DispatcherInterface  $dispatcher  The event dispatcher we're going to use
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(DispatcherInterface $dispatcher = null)
 	{
@@ -106,7 +106,7 @@ class Authentication extends CMSObject
 	 *
 	 * @return  Authentication  The global Authentication object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance()
 	{
@@ -128,7 +128,7 @@ class Authentication extends CMSObject
 	 * @return  AuthenticationResponse  Response object with status variable filled in for last plugin or first successful plugin.
 	 *
 	 * @see     AuthenticationResponse
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function authenticate($credentials, $options = array())
 	{

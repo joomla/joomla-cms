@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
 /**
  * UpdateAdapter class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class UpdateAdapter extends \JAdapterInstance
 {
@@ -99,7 +99,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getStackLocation()
 	{
@@ -111,7 +111,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getLastTag()
 	{
@@ -125,7 +125,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @return  array  Update_sites and updates discovered
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function findUpdate($options);
 

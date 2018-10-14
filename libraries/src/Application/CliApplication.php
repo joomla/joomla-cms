@@ -57,7 +57,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The application instance.
 	 *
 	 * @var    CliApplication
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $instance;
 
@@ -78,7 +78,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 * @param   Container            $container   Dependency injection container.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(Input $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
 		DispatcherInterface $dispatcher = null, Container $container = null)
@@ -118,7 +118,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  CliApplication
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0 Load the app through the container
 	 * @throws  \RuntimeException
 	 */
@@ -143,7 +143,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function execute()
 	{
