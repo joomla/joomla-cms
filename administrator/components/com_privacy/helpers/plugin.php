@@ -117,15 +117,20 @@ abstract class PrivacyPlugin extends JPlugin
 	/**
 	 * Helper function to create the domain for the items custom fields.
 	 *
-	 * @param   string    $context  The context
-	 * @param   stdClass  $items    The items
+	 * @param   string  $context  The context
+	 * @param   array   $items    The items
 	 *
 	 * @return  PrivacyExportDomain
 	 *
 	 * @since   3.9.0
 	 */
-	protected function createCustomFieldsDomain($context, $items)
+	protected function createCustomFieldsDomain($context, $items = array())
 	{
+		if (!is_array($items))
+		{
+			$items = array($items);
+		}
+
 		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
