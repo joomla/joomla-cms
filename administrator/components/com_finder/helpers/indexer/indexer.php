@@ -513,7 +513,6 @@ abstract class FinderIndexer
 		// Get the database object.
 		$db = $this->db;
 
-
 		// Count the number of token values.
 		$values = 0;
 
