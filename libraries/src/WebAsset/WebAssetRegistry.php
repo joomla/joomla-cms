@@ -129,7 +129,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 
 	/**
 	 * Get an existing Asset from a registry, by asset name.
-	 * Return asset object or false if asset does not exists.
+	 * Return asset object or false if asset does not exist.
 	 *
 	 * @param   string  $name  Asset name
 	 *
@@ -244,7 +244,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  self
 	 *
-	 * @throws  \RuntimeException if asset with given name does not exists
+	 * @throws  \RuntimeException if asset with given name does not exist
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
