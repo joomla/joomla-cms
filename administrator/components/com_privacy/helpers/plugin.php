@@ -118,13 +118,13 @@ abstract class PrivacyPlugin extends JPlugin
 	 * Helper function to create the domain for the items custom fields.
 	 *
 	 * @param   string    $context  The context
-	 * @param   stdClass  $item     The items
+	 * @param   stdClass  $items    The items
 	 *
 	 * @return  PrivacyExportDomain
 	 *
 	 * @since   3.9.0
 	 */
-	protected function createCustomFieldsDomain($context, $item)
+	protected function createCustomFieldsDomain($context, $items)
 	{
 		$parts = FieldsHelper::extract($context);
 
@@ -137,21 +137,24 @@ abstract class PrivacyPlugin extends JPlugin
 
 		$domain = $this->createDomain($type . '_custom_fields', 'joomla_' . $type . '_custom_fields_data');
 
-		// Get item's fields, also preparing their value property for manual display
-		$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item);
-
-		foreach ($fields as $field)
+		foreach ($items as $item)
 		{
-			$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
+			// Get item's fields, also preparing their value property for manual display
+			$fields = FieldsHelper::getFields($parts[0] . '.' . $parts[1], $item);
 
-			$data = array(
-				$type . '_id' => $item->id,
-				'field_name'  => $field->name,
-				'field_title' => $field->title,
-				'field_value' => $fieldValue,
-			);
+			foreach ($fields as $field)
+			{
+				$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
 
-			$domain->addItem($this->createItemFromArray($data));
+				$data = array(
+					$type . '_id' => $item->id,
+					'field_name'  => $field->name,
+					'field_title' => $field->title,
+					'field_value' => $fieldValue,
+				);
+
+				$domain->addItem($this->createItemFromArray($data));
+			}
 		}
 
 		return $domain;
