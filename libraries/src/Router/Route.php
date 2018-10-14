@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Route handling class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Route
 {
@@ -40,7 +40,7 @@ class Route
 	 *
 	 * @return  string  The translated humanly readable URL.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function _($url, $xhtml = true, $ssl = null)
 	{

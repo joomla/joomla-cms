@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.1
+ * @since       1.7.0
  */
 class JDatabaseQueryElementInspector extends JDatabaseQueryElement
 {
@@ -23,7 +23,7 @@ class JDatabaseQueryElementInspector extends JDatabaseQueryElement
 	 *
 	 * @return  mixed   The value of the class property.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __get($property)
 	{
@@ -38,7 +38,7 @@ class JDatabaseQueryElementInspector extends JDatabaseQueryElement
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __set($property, $value)
 	{

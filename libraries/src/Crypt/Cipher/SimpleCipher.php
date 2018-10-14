@@ -133,7 +133,7 @@ class SimpleCipher implements CipherInterface
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	private function _hexToInt($s, $i)
 	{
@@ -213,7 +213,7 @@ class SimpleCipher implements CipherInterface
 	 *
 	 * @return  array  An array of integers.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	private function _hexToIntArray($hex)
 	{
@@ -236,7 +236,7 @@ class SimpleCipher implements CipherInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	private function _intToHex($i)
 	{

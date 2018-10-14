@@ -31,7 +31,7 @@ class JDatabaseQueryPdo extends JDatabaseQuery
 	 *
 	 * @return  string  Returns the cast value.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function castAsChar($value, $len = null)
 	{

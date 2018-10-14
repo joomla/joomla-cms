@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Public cache handler
  *
- * @since  11.1
+ * @since  1.7.0
  * @note   As of 4.0 this class will be abstract
  */
 class CacheController
@@ -22,7 +22,7 @@ class CacheController
 	 * Cache object
 	 *
 	 * @var    Cache
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $cache;
 
@@ -30,7 +30,7 @@ class CacheController
 	 * Array of options
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $options;
 
@@ -39,7 +39,7 @@ class CacheController
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options)
 	{
@@ -64,7 +64,7 @@ class CacheController
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __call($name, $arguments)
 	{
@@ -79,7 +79,7 @@ class CacheController
 	 *
 	 * @return  CacheController
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public static function getInstance($type = 'output', $options = array())
@@ -124,7 +124,7 @@ class CacheController
 	 *
 	 * @return  array  An array with directory elements
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addIncludePath($path = '')
 	{
@@ -152,7 +152,7 @@ class CacheController
 	 *
 	 * @return  mixed  Boolean false on no result, cached object otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0  Implement own method in subclass
 	 */
 	public function get($id, $group = null)
@@ -195,7 +195,7 @@ class CacheController
 	 *
 	 * @return  boolean  True if cache stored
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0  Implement own method in subclass
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)

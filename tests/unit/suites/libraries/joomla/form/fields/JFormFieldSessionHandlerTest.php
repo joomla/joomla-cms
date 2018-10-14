@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('sessionhandler');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldSessionHandlerTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JFormFieldSessionHandlerTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetInput()
 	{

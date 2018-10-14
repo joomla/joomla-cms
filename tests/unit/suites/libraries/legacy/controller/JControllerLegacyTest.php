@@ -23,7 +23,7 @@ class JControllerLegacyTest extends TestCase
 	 * An instance of the test object.
 	 *
 	 * @var    JControllerLegacy
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $class;
 

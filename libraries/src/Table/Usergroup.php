@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Usergroup table class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Usergroup extends Table
 {
@@ -22,7 +22,7 @@ class Usergroup extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($db)
 	{
@@ -34,7 +34,7 @@ class Usergroup extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -75,7 +75,7 @@ class Usergroup extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function rebuild($parent_id = 0, $left = 0)
 	{
@@ -127,7 +127,7 @@ class Usergroup extends Table
 	 *
 	 * @return  boolean  True if successful, false otherwise and an internal error message is set
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -147,7 +147,7 @@ class Usergroup extends Table
 	 *
 	 * @return  mixed  Boolean or Exception.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 * @throws  \UnexpectedValueException on data error.
 	 */

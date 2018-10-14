@@ -16,7 +16,7 @@ use Joomla\CMS\Cache\CacheController;
 /**
  * Joomla! Cache callback type object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class CallbackController extends CacheController
 {
@@ -33,7 +33,7 @@ class CallbackController extends CacheController
 	 *
 	 * @return  mixed  Result of the callback
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0
 	 */
 	public function call()
@@ -56,7 +56,7 @@ class CallbackController extends CacheController
 	 *
 	 * @return  mixed  Result of the callback
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($callback, $args = array(), $id = false, $wrkarounds = false, $woptions = array())
 	{
@@ -205,7 +205,7 @@ class CallbackController extends CacheController
 	 *
 	 * @return  string  MD5 Hash
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _makeId($callback, $args)
 	{

@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('accesslevel');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldAccessLevelTest extends TestCaseDatabase
 {
@@ -39,7 +39,7 @@ class JFormFieldAccessLevelTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetInput()
 	{

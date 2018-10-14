@@ -10,7 +10,7 @@
  * Test class for JLoader.
  *
  * @package  Joomla.UnitTest
- * @since    11.1
+ * @since    1.7.0
  */
 class JLoaderTest extends \PHPUnit\Framework\TestCase
 {
@@ -26,7 +26,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * JLoader is an abstract class of static functions and variables, so will test without instantiation
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $object;
 
@@ -34,7 +34,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * The path to the bogus object for loader testing.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $bogusPath;
 
@@ -42,7 +42,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * The full path (including filename) to the bogus object.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $bogusFullPath;
 
@@ -86,7 +86,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesImport()
 	{
@@ -101,7 +101,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesJimport()
 	{
@@ -433,7 +433,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider casesImport
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testImport($filePath, $base, $libraries, $expect, $message, $useDefaults)
 	{
@@ -459,7 +459,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @dataProvider casesJimport
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testJimport($object, $expect, $message)
 	{
@@ -471,7 +471,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testRegister()
 	{
@@ -944,7 +944,7 @@ class JLoaderTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{

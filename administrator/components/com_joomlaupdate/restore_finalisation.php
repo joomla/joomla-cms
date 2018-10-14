@@ -26,7 +26,7 @@ if (!function_exists('jimport'))
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	function jimport($path, $base = null)
 	{

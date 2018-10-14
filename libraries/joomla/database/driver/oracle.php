@@ -532,7 +532,7 @@ class JDatabaseDriverOracle extends JDatabaseDriverPdo
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function replacePrefix($query, $prefix = '#__')
 	{

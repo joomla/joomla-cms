@@ -14,7 +14,7 @@ require_once __DIR__ . '/stubs/nested.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- * @since       11.1
+ * @since       1.7.0
  */
 class JTableNestedTest extends TestCaseDatabase
 {
@@ -793,7 +793,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 *
 	 * @return void
 	 */

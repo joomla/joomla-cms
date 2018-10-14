@@ -14,7 +14,7 @@ require_once __DIR__ . '/JDatabaseQueryInspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.1
+ * @since       1.7.0
  */
 class JDatabaseQueryTest extends TestCase
 {
@@ -37,7 +37,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function seedNullDateTest()
 	{
@@ -53,7 +53,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function seedQuoteTest()
 	{
@@ -71,7 +71,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__call()
 	{
@@ -105,7 +105,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__get()
 	{
@@ -270,7 +270,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test__toStringSelect()
 	{
@@ -358,7 +358,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testCastAsChar()
 	{
@@ -375,7 +375,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testCharLength()
 	{
@@ -400,7 +400,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testClear_all()
 	{
@@ -454,7 +454,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testClear_clause()
 	{
@@ -514,7 +514,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testClear_type()
 	{
@@ -1056,7 +1056,7 @@ class JDatabaseQueryTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedNullDateTest
-	 * @since         11.1
+	 * @since         1.7.0
 	 */
 	public function testNullDate($quoted, $expected)
 	{
@@ -1159,7 +1159,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since         11.1
+	 * @since         1.7.0
 	 * @dataProvider  seedQuoteTest
 	 */
 	public function testQuote($text, $escape, $expected)
@@ -1188,7 +1188,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testQuoteName()
 	{
@@ -1979,7 +1979,7 @@ class JDatabaseQueryTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{

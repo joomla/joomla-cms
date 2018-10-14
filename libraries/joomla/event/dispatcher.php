@@ -59,7 +59,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  JEventDispatcher  The EventDispatcher object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance()
 	{
@@ -91,7 +91,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function register($event, $handler)
@@ -123,7 +123,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  array  An array of results from each function call.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function trigger($event, $args = array())
 	{

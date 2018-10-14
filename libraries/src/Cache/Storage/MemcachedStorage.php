@@ -123,7 +123,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  string   The cache_id string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getCacheId($id, $group)
 	{

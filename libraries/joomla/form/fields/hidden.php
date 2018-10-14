@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Provides a hidden field
  *
  * @link   http://www.w3.org/TR/html-markup/input.hidden.html#input.hidden
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldHidden extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldHidden extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Hidden';
 
@@ -39,7 +39,7 @@ class JFormFieldHidden extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

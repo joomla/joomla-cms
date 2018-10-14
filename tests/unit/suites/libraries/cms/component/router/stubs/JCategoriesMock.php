@@ -21,7 +21,7 @@ class UnittestCategories extends JCategories
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{

@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormInspector extends JForm
 {
@@ -202,7 +202,7 @@ class JFormInspector extends JForm
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldInspector extends JFormField
 {

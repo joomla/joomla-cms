@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormRuleEmailTest extends TestCase
 {
@@ -49,7 +49,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return array
 	 *
-	 * @since 11.1
+	 * @since 1.7.0
 	 */
 	public function emailData1()
 	{
@@ -76,7 +76,7 @@ class JFormRuleEmailTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 11.1
+	 * @since 1.7.0
 	 */
 	public function testEmailData($emailAddress, $expectedResult)
 	{

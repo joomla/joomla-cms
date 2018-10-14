@@ -15,7 +15,7 @@ jimport('joomla.base.adapterinstance');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Base
- * @since       11.1
+ * @since       1.7.0
  */
 class JAdapterInstanceTest extends TestCase
 {
@@ -26,7 +26,7 @@ class JAdapterInstanceTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{
@@ -44,7 +44,7 @@ class JAdapterInstanceTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function tearDown()
 	{

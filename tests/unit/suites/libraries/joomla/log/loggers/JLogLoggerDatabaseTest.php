@@ -14,7 +14,7 @@ require_once __DIR__ . '/stubs/database/inspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       11.1
+ * @since       1.7.0
  */
 class JLogLoggerDatabaseTest extends TestCaseDatabase
 {

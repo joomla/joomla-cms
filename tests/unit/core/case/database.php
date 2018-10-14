@@ -376,7 +376,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getDataSet()
 	{

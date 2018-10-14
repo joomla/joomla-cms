@@ -18,7 +18,7 @@ use Joomla\CMS\Filesystem\Support\Stringcontroller;
  * This class allows you to use a PHP string in the same way that
  * you would normally use a regular stream wrapper
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class StreamString
 {
@@ -98,7 +98,7 @@ class StreamString
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path)
 	{
@@ -124,7 +124,7 @@ class StreamString
 	 * @return  array
 	 *
 	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-stat.php
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_stat()
 	{
@@ -140,7 +140,7 @@ class StreamString
 	 * @return  array
 	 *
 	 * @link    https://secure.php.net/manual/en/streamwrapper.url-stat.php
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function url_stat($path, $flags = 0)
 	{
@@ -174,7 +174,7 @@ class StreamString
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-read.php
 	 */
@@ -193,7 +193,7 @@ class StreamString
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    Updating the string is not supported.
 	 */
 	public function stream_write($data)
@@ -207,7 +207,7 @@ class StreamString
 	 *
 	 * @return  integer  The position
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_tell()
 	{
@@ -219,7 +219,7 @@ class StreamString
 	 *
 	 * @return  boolean  True if at end of field.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_eof()
 	{
@@ -239,7 +239,7 @@ class StreamString
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_seek($offset, $whence)
 	{
@@ -280,7 +280,7 @@ class StreamString
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    Data storage is not supported
 	 */
 	public function stream_flush()

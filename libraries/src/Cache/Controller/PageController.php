@@ -16,7 +16,7 @@ use Joomla\CMS\Cache\CacheController;
 /**
  * Joomla! Cache page type object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class PageController extends CacheController
 {
@@ -24,7 +24,7 @@ class PageController extends CacheController
 	 * ID property for the cache page object.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_id;
 
@@ -32,7 +32,7 @@ class PageController extends CacheController
 	 * Cache group
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_group;
 
@@ -40,7 +40,7 @@ class PageController extends CacheController
 	 * Cache lock test
 	 *
 	 * @var    \stdClass
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_locktest = null;
 
@@ -52,7 +52,7 @@ class PageController extends CacheController
 	 *
 	 * @return  mixed  Boolean false on no result, cached object otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id = false, $group = 'page')
 	{
@@ -126,7 +126,7 @@ class PageController extends CacheController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
 	{
@@ -187,7 +187,7 @@ class PageController extends CacheController
 	 *
 	 * @return  string  MD5 Hash
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo    Discuss whether this should be coupled to a data hash or a request hash ... perhaps hashed with a serialized request
 	 */
 	protected function _makeId()
@@ -200,7 +200,7 @@ class PageController extends CacheController
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _noChange()
 	{
@@ -219,7 +219,7 @@ class PageController extends CacheController
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _setEtag($etag)
 	{

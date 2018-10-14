@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.1
+ * @since       1.7.0
  */
 class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 {
@@ -21,7 +21,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dataTestEscape()
 	{
@@ -222,7 +222,7 @@ class JDatabaseDriverMysqliTest extends TestCaseDatabaseMysqli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetCollation()
 	{

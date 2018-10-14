@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Profiler
 {
@@ -65,7 +65,7 @@ class Profiler
 	 *
 	 * @param   string  $prefix  Prefix for mark messages
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($prefix = '')
 	{
@@ -83,7 +83,7 @@ class Profiler
 	 *
 	 * @return  Profiler  The Profiler object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($prefix = '')
 	{
@@ -102,7 +102,7 @@ class Profiler
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mark($label)
 	{
@@ -141,7 +141,7 @@ class Profiler
 	 *
 	 * @return  float The current time
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's microtime(1)
 	 */
 	public static function getmicrotime()
@@ -157,7 +157,7 @@ class Profiler
 	 * @return  integer  The memory usage
 	 *
 	 * @link    PHP_MANUAL#memory_get_usage
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's native memory_get_usage()
 	 */
 	public function getMemory()
@@ -173,7 +173,7 @@ class Profiler
 	 *
 	 * @return  array  Array of profiler marks
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getMarks()
 	{
@@ -188,7 +188,7 @@ class Profiler
 	 *
 	 * @return  array  Array of profiler marks
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getBuffer()
 	{

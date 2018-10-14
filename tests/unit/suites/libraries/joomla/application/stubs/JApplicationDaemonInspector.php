@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JApplicationDaemonInspector extends JApplicationDaemon
 {
@@ -135,7 +135,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc()
 	{
@@ -147,7 +147,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function daemonize()
 	{
@@ -159,7 +159,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setupSignalHandlers()
 	{
@@ -171,7 +171,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function fork()
 	{
@@ -183,7 +183,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function writeProcessIdFile()
 	{
@@ -197,7 +197,7 @@ class JApplicationDaemonInspector extends JApplicationDaemon
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function shutdown($restart = false)
 	{

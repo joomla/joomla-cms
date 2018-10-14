@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
@@ -33,7 +33,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  The completed query.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{
@@ -104,7 +104,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function concatenate($values, $separator = null)
 	{

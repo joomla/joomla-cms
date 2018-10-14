@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Field for assigning permissions to groups for a given asset
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldRules extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldRules extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Rules';
 
@@ -131,7 +131,7 @@ class JFormFieldRules extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo:   Add access check.
 	 */
 	protected function getInput()
@@ -441,7 +441,7 @@ class JFormFieldRules extends JFormField
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getUserGroups()
 	{

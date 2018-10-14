@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * This class has many influences from the lib/Browser.php code in
  * version 3 of Horde by Chuck Hagenbuch and Jon Parise.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Browser
 {
@@ -153,7 +153,7 @@ class Browser
 	 * @param   string  $userAgent  The browser string to parse.
 	 * @param   string  $accept     The HTTP_ACCEPT settings to use.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($userAgent = null, $accept = null)
 	{
@@ -169,7 +169,7 @@ class Browser
 	 *
 	 * @return  Browser  The Browser object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($userAgent = null, $accept = null)
 	{
@@ -192,7 +192,7 @@ class Browser
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function match($userAgent = null, $accept = null)
 	{
@@ -433,7 +433,7 @@ class Browser
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _setPlatform()
 	{
@@ -456,7 +456,7 @@ class Browser
 	 *
 	 * @return  string  The user's platform.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getPlatform()
 	{
@@ -469,7 +469,7 @@ class Browser
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function identifyBrowserVersion()
 	{
@@ -492,7 +492,7 @@ class Browser
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setBrowser($browser)
 	{
@@ -504,7 +504,7 @@ class Browser
 	 *
 	 * @return  string  The current browser.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getBrowser()
 	{
@@ -516,7 +516,7 @@ class Browser
 	 *
 	 * @return  integer  The current browser's major version
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getMajor()
 	{
@@ -528,7 +528,7 @@ class Browser
 	 *
 	 * @return  integer  The current browser's minor version.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getMinor()
 	{
@@ -540,7 +540,7 @@ class Browser
 	 *
 	 * @return  string  The current browser's version.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getVersion()
 	{
@@ -552,7 +552,7 @@ class Browser
 	 *
 	 * @return  string  The browser agent string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAgentString()
 	{
@@ -564,7 +564,7 @@ class Browser
 	 *
 	 * @return  string  The HTTP server protocol version.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getHTTPProtocol()
 	{
@@ -590,7 +590,7 @@ class Browser
 	 *
 	 * @return  boolean  True if the browser can display the MIME type.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isViewable($mimetype)
 	{
@@ -643,7 +643,7 @@ class Browser
 	 *
 	 * @return  boolean  Is the given browser the same as the current?
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isBrowser($browser)
 	{
@@ -655,7 +655,7 @@ class Browser
 	 *
 	 * @return  boolean  True if browser is a known robot.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isRobot()
 	{
@@ -675,7 +675,7 @@ class Browser
 	 *
 	 * @return boolean  True if browser is a known mobile version.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function isMobile()
 	{
@@ -687,7 +687,7 @@ class Browser
 	 *
 	 * @return  boolean  True if using SSL, false if not.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use the isSSLConnection method on the application object.
 	 */
 	public function isSSLConnection()

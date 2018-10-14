@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
- * @since       11.1
+ * @since       1.7.0
  */
 class JCryptPasswordSimpleTest extends \PHPUnit\Framework\TestCase
 {

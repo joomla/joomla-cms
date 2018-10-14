@@ -49,7 +49,7 @@ class JApplicationCliTest extends TestCase
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function tearDown()
 	{

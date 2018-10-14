@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class EmailRule extends FormRule
 {
@@ -26,7 +26,7 @@ class EmailRule extends FormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @link   http://www.w3.org/TR/html-markup/input.email.html
 	 */
 	protected $regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
@@ -44,7 +44,7 @@ class EmailRule extends FormRule
 	 *
 	 * @return  mixed  Boolean true if field value is valid, Exception on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{

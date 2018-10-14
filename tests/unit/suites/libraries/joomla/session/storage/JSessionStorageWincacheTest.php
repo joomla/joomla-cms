@@ -10,7 +10,7 @@
 /**
  * Test class for JSessionStorageWincache.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JSessionStorageWincacheTest extends \PHPUnit\Framework\TestCase
 {

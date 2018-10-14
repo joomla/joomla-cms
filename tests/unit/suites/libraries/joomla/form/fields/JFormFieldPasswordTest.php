@@ -15,7 +15,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldPassword-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldPasswordTest extends TestCase
 {

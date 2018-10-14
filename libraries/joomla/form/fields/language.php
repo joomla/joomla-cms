@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('list');
  * Supports a list of installed application languages
  *
  * @see    JFormFieldContentLanguage for a select list of content languages.
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldLanguage extends JFormFieldList
 {
@@ -24,7 +24,7 @@ class JFormFieldLanguage extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Language';
 
@@ -33,7 +33,7 @@ class JFormFieldLanguage extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{

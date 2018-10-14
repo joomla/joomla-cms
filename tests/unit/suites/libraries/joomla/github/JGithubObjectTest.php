@@ -15,7 +15,7 @@ require_once __DIR__ . '/stubs/JGithubObjectMock.php';
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JGithubObjectTest extends \PHPUnit\Framework\TestCase
 {

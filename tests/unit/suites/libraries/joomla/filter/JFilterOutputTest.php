@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filter
- * @since       11.1
+ * @since       1.7.0
  */
 class FilterTestObject
 {
@@ -39,7 +39,7 @@ class FilterTestObject
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filter
- * @since       11.1
+ * @since       1.7.0
  */
 class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 {

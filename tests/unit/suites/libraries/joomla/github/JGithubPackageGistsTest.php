@@ -17,7 +17,7 @@ require_once JPATH_PLATFORM . '/joomla/github/gists.php';
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JGithubPackageGistsTest extends \PHPUnit\Framework\TestCase
 {

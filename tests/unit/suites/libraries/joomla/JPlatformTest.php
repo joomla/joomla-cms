@@ -14,7 +14,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @since       11.1
+ * @since       1.7.0
  */
 class JPlatformTest extends \PHPUnit\Framework\TestCase
 {

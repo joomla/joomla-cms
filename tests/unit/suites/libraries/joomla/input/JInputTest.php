@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Input
- * @since       11.1
+ * @since       1.7.0
  */
 class JInputTest extends \PHPUnit\Framework\TestCase
 {
@@ -81,7 +81,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGet()
 	{
@@ -164,7 +164,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetArray()
 	{
@@ -212,7 +212,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetArrayNested()
 	{
@@ -285,7 +285,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetFromCookie()
 	{
@@ -334,7 +334,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetDoesNotSupportNonWhitelistedGlobals()
 	{
@@ -354,7 +354,7 @@ class JInputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{

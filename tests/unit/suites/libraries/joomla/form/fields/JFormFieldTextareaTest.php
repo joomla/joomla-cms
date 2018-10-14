@@ -15,7 +15,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldTextarea-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldTextareaTest extends TestCase
 {

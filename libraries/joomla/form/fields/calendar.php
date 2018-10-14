@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * Provides a pop up date picker linked to a button.
  * Optionally may be filtered to use user's or server's time zone.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldCalendar extends JFormField
 {
@@ -23,7 +23,7 @@ class JFormFieldCalendar extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Calendar';
 
@@ -186,7 +186,7 @@ class JFormFieldCalendar extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

@@ -494,7 +494,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::setUp()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{
@@ -509,7 +509,7 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function tearDown()
 	{

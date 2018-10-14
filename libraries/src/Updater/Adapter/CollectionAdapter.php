@@ -21,7 +21,7 @@ use Joomla\CMS\Version;
 /**
  * Collection Update Adapter Class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class CollectionAdapter extends UpdateAdapter
 {
@@ -29,7 +29,7 @@ class CollectionAdapter extends UpdateAdapter
 	 * Root of the tree
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $base;
 
@@ -37,7 +37,7 @@ class CollectionAdapter extends UpdateAdapter
 	 * Tree of objects
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $parent = array(0);
 
@@ -45,7 +45,7 @@ class CollectionAdapter extends UpdateAdapter
 	 * Used to control if an item has a child or not
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $pop_parent = 0;
 
@@ -68,7 +68,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getStackLocation()
 	{
@@ -80,7 +80,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  string   parent
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getParent()
 	{
@@ -96,7 +96,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
@@ -198,7 +198,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -225,7 +225,7 @@ class CollectionAdapter extends UpdateAdapter
 	 *
 	 * @return  array  Update_sites and updates discovered
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function findUpdate($options)
 	{

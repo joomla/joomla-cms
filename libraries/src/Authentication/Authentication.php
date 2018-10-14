@@ -15,7 +15,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 /**
  * Authentication class, provides an interface for the Joomla authentication system
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Authentication extends \JObject
 {
@@ -97,7 +97,7 @@ class Authentication extends \JObject
 	/**
 	 * Constructor
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct()
 	{
@@ -115,7 +115,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  Authentication  The global Authentication object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance()
 	{
@@ -132,7 +132,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  mixed    The state of the object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getState()
 	{
@@ -146,7 +146,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function attach($observer)
 	{
@@ -214,7 +214,7 @@ class Authentication extends \JObject
 	 *
 	 * @return  boolean  True if the observer object was detached.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function detach($observer)
 	{
@@ -251,7 +251,7 @@ class Authentication extends \JObject
 	 * @return  AuthenticationResponse  Response object with status variable filled in for last plugin or first successful plugin.
 	 *
 	 * @see     AuthenticationResponse
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function authenticate($credentials, $options = array())
 	{

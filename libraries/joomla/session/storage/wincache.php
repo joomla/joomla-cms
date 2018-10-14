@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * WINCACHE session storage handler for PHP
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageWincache extends JSessionStorage
@@ -22,7 +22,7 @@ class JSessionStorageWincache extends JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function __construct($options = array())

@@ -51,7 +51,7 @@ class JControllerFormTest extends TestCase
 	/**
 	 * Tests the JControllerForm constructor.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @return  void
 	 */
