@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Driver Class
  *
- * @since  12.1
+ * @since  3.0.0
  */
 abstract class JDatabaseIterator implements Countable, Iterator
 {
@@ -20,7 +20,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * The database cursor.
 	 *
 	 * @var    mixed
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $cursor;
 
@@ -28,7 +28,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * The class of object to create.
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $class;
 
@@ -36,7 +36,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * The name of the column to use for the key of the database record.
 	 *
 	 * @var    mixed
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_column;
 
@@ -44,7 +44,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * The current database record.
 	 *
 	 * @var    mixed
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_current;
 
@@ -52,7 +52,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * A numeric or string key for the current database record.
 	 *
 	 * @var    int|string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_key;
 
@@ -60,7 +60,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * The number of fetched records.
 	 *
 	 * @var    integer
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_fetched = 0;
 
@@ -90,7 +90,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	/**
 	 * Database iterator destructor.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __destruct()
 	{
@@ -106,7 +106,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * @return  object
 	 *
 	 * @see     Iterator::current()
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function current()
 	{
@@ -119,7 +119,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * @return  int|string
 	 *
 	 * @see     Iterator::key()
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function key()
 	{
@@ -132,7 +132,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * @return  void
 	 *
 	 * @see     Iterator::next()
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function next()
 	{
@@ -164,7 +164,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * @return  void
 	 *
 	 * @see     Iterator::rewind()
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function rewind()
 	{
@@ -176,7 +176,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 * @return  boolean
 	 *
 	 * @see     Iterator::valid()
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function valid()
 	{
@@ -188,7 +188,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	abstract protected function fetchObject();
 
@@ -197,7 +197,7 @@ abstract class JDatabaseIterator implements Countable, Iterator
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	abstract protected function freeResult();
 }

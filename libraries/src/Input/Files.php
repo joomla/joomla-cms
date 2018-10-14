@@ -36,7 +36,7 @@ class Files extends Input
 	 * @param   array  $options  An optional array of configuration options:
 	 *                           filter : a custom JFilterInput object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Files instead
 	 */
 	public function __construct(array $source = null, array $options = array())

@@ -74,7 +74,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetLanguage()
 	{
@@ -96,7 +96,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetDocument()
 	{
@@ -116,7 +116,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetCache()
 	{
@@ -144,7 +144,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetAcl()
 	{
@@ -160,7 +160,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetUri()
 	{

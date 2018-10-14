@@ -36,7 +36,7 @@ class JGithubPackageRepositoriesCommits extends JGithubPackage
 	 * @param   JDate   $until   ISO 8601 Date - Only commits before this date will be returned.
 	 *
 	 * @throws DomainException
-	 * @since    12.1
+	 * @since    3.0.0
 	 *
 	 * @return  array
 	 */
@@ -73,7 +73,7 @@ class JGithubPackageRepositoriesCommits extends JGithubPackage
 	 * @param   string  $sha   The SHA of the commit to retrieve.
 	 *
 	 * @throws DomainException
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @return  array
 	 */
@@ -106,7 +106,7 @@ class JGithubPackageRepositoriesCommits extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function compare($user, $repo, $base, $head)
 	{

@@ -28,7 +28,7 @@ class JMediawiki
 {
 	/**
 	 * @var    Registry  Options for the MediaWiki object.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $options;
 
@@ -46,7 +46,7 @@ class JMediawiki
 
 	/**
 	 * @var    JMediawikiPages  MediaWiki API object for pages.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $pages;
 
@@ -76,7 +76,7 @@ class JMediawiki
 
 	/**
 	 * @var    JMediawikiSearch  MediaWiki API object for search.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $search;
 

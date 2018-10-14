@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * for the event architecture.
  *
  * @see         JPlugin
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  4.0  The CMS' Event classes will be replaced with the `joomla/event` package
  */
 class JEventDispatcher extends JObject

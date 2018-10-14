@@ -49,7 +49,7 @@ class JViewLegacyTest extends TestCase
 	 * An instance of the test object.
 	 *
 	 * @var     JViewLegacy
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected $class;
 
@@ -440,7 +440,7 @@ class JViewLegacyTest extends TestCase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @return  void
 	 */
@@ -464,7 +464,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @since    12.1
+	 * @since    3.0.0
 	 *
 	 * @return  void
 	 */

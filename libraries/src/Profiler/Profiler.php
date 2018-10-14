@@ -20,37 +20,37 @@ class Profiler
 {
 	/**
 	 * @var    integer  The start time.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $start = 0;
 
 	/**
 	 * @var    string  The prefix to use in the output
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $prefix = '';
 
 	/**
 	 * @var    array  The buffer of profiling messages.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $buffer = null;
 
 	/**
 	 * @var    array  The profiling messages.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $marks = null;
 
 	/**
 	 * @var    float  The previous time marker
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $previousTime = 0.0;
 
 	/**
 	 * @var    float  The previous memory marker
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $previousMem = 0.0;
 
@@ -203,7 +203,7 @@ class Profiler
 	 *
 	 * @return  $this   For chaining
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setStart($startTime = 0, $startMem = 0)
 	{

@@ -62,7 +62,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__callQuote()
 	{
@@ -78,7 +78,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__callQuoteName()
 	{
@@ -94,7 +94,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__callUnknown()
 	{
@@ -192,7 +192,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testSplitSql()
 	{
@@ -262,13 +262,13 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetMinimum()
 	{
 		$this->assertThat(
 			$this->db->getMinimum(),
-			$this->equalTo('12.1'),
+			$this->equalTo('3.0.0'),
 			'getMinimum should return a string with the minimum supported database version number'
 		);
 	}
@@ -278,7 +278,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testIsMinimumVersion()
 	{
@@ -294,7 +294,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testSetDebug()
 	{
@@ -310,7 +310,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testSetQuery()
 	{
@@ -326,7 +326,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testReplacePrefix()
 	{
@@ -519,7 +519,7 @@ class JDatabaseDriverTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testTruncateTable()
 	{

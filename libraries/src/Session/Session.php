@@ -309,7 +309,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True if found and valid, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function checkToken($method = 'post')
 	{

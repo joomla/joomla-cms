@@ -75,7 +75,7 @@ class DaemonApplication extends CliApplication
 
 	/**
 	 * @var    integer  The parent process id.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $parentId = 0;
 
@@ -592,7 +592,7 @@ class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function detach()
@@ -828,7 +828,7 @@ class DaemonApplication extends CliApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function postFork()
 	{

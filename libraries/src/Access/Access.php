@@ -1155,7 +1155,7 @@ class Access
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
@@ -1181,7 +1181,7 @@ class Access
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{

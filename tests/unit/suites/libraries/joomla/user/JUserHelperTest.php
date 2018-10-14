@@ -13,13 +13,13 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  User
- * @since       12.1
+ * @since       3.0.0
 */
 class JUserHelperTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JUserHelper
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $object;
 
@@ -29,7 +29,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{

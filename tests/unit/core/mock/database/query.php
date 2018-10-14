@@ -10,7 +10,7 @@
  * Class to mock JDatabaseQuery.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockDatabaseQuery extends JDatabaseQuery
 {

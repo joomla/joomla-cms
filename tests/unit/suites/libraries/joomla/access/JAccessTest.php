@@ -315,7 +315,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function casesGetActionsFromData()
 	{
@@ -388,7 +388,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @dataProvider  casesGetActionsFromData
 	 */
 	public function testGetActionsFromData($data, $xpath, $expected, $msg)
@@ -401,7 +401,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetActionsFromFile()
 	{
@@ -473,7 +473,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{
@@ -494,7 +494,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function tearDown()
 	{
@@ -508,7 +508,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function _cleanupTestFiles()
 	{
@@ -523,7 +523,7 @@ class JAccessTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function _cleanupFile($path)
 	{

@@ -14,7 +14,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldRange-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       12.1
+ * @since       3.0.0
  */
 class JFormFieldRangeTest extends TestCase
 {

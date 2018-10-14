@@ -334,7 +334,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringYear()
 	{
@@ -353,7 +353,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringMonth()
 	{
@@ -372,7 +372,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringDay()
 	{
@@ -391,7 +391,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringHour()
 	{
@@ -410,7 +410,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringMinute()
 	{
@@ -429,7 +429,7 @@ class JDatabaseQueryPostgresqlTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test__toStringSecond()
 	{

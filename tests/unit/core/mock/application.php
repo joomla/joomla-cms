@@ -10,7 +10,7 @@
  * Class to mock JApplication.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockApplication
 {

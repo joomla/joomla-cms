@@ -16,19 +16,19 @@ use Joomla\CMS\Log\Log;
 /**
  * Crypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class Crypt
 {
 	/**
 	 * @var    CipherInterface  The encryption cipher object.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_cipher;
 
 	/**
 	 * @var    Key  The encryption key[/pair)].
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_key;
 
@@ -39,7 +39,7 @@ class Crypt
 	 * @param   CipherInterface  $cipher  The encryption cipher object.
 	 * @param   Key              $key     The encryption key[/pair)].
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct(CipherInterface $cipher = null, Key $key = null)
 	{
@@ -57,7 +57,7 @@ class Crypt
 	 *
 	 * @return  string  The decrypted data string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function decrypt($data)
@@ -79,7 +79,7 @@ class Crypt
 	 *
 	 * @return  string  The encrypted data string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function encrypt($data)
 	{
@@ -93,7 +93,7 @@ class Crypt
 	 *
 	 * @return  Key
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function generateKey(array $options = array())
 	{
@@ -107,7 +107,7 @@ class Crypt
 	 *
 	 * @return  Crypt
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setKey(Key $key)
 	{
@@ -123,7 +123,7 @@ class Crypt
 	 *
 	 * @return  string  Random binary data
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function genRandomBytes($length = 16)
 	{

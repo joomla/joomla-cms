@@ -29,7 +29,7 @@ class JMediawikiCategories extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = false,
 		array $clcategories = null, $cldir = null)

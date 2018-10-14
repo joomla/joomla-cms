@@ -101,7 +101,7 @@ class HtmlDocument extends Document
 	 * Set to true when the document should be output as HTML5
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.0.0
 	 *
 	 * @note  4.0  Will be replaced by $html5 and the default value will be true.
 	 */
@@ -407,7 +407,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  boolean true when HTML5 is used
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function isHtml5()
 	{
@@ -421,7 +421,7 @@ class HtmlDocument extends Document
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setHtml5($state)
 	{

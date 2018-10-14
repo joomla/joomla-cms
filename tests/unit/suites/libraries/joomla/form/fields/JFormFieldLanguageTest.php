@@ -23,7 +23,7 @@ class JFormFieldLanguageTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getDataSet()
 	{

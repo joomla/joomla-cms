@@ -43,7 +43,7 @@ class BufferStreamHandler
 	 * Buffer hash
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public $buffers = array();
 

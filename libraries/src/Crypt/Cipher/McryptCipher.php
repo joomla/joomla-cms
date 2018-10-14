@@ -17,7 +17,7 @@ use Joomla\CMS\Crypt\Key;
 /**
  * Crypt cipher for mcrypt algorithm encryption, decryption and key generation.
  *
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  4.0   Without replacment use CryptoCipher
  */
 abstract class McryptCipher implements CipherInterface
@@ -25,27 +25,27 @@ abstract class McryptCipher implements CipherInterface
 	/**
 	 * @var    integer  The mcrypt cipher constant.
 	 * @link   https://secure.php.net/manual/en/mcrypt.ciphers.php
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $type;
 
 	/**
 	 * @var    integer  The mcrypt block cipher mode.
 	 * @link   https://secure.php.net/manual/en/mcrypt.constants.php
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $mode;
 
 	/**
 	 * @var    string  The Crypt key type for validation.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $keyType;
 
 	/**
 	 * Constructor.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	public function __construct()
@@ -64,7 +64,7 @@ abstract class McryptCipher implements CipherInterface
 	 *
 	 * @return  string  The decrypted data string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function decrypt($data, Key $key)
@@ -89,7 +89,7 @@ abstract class McryptCipher implements CipherInterface
 	 *
 	 * @return  string  The encrypted data string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function encrypt($data, Key $key)
@@ -113,7 +113,7 @@ abstract class McryptCipher implements CipherInterface
 	 *
 	 * @return  Key
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function generateKey(array $options = array())
@@ -151,7 +151,7 @@ abstract class McryptCipher implements CipherInterface
 	 *
 	 * @link    https://en.wikipedia.org/wiki/PBKDF2
 	 * @link    http://www.ietf.org/rfc/rfc2898.txt
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function pbkdf2($p, $s, $kl, $c = 10000, $a = 'sha256')
 	{

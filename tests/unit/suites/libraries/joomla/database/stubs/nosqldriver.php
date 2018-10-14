@@ -46,16 +46,16 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 
 	/**
 	 * @var    string  The minimum supported database version.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
-	protected static $dbMinimum = '12.1';
+	protected static $dbMinimum = '3.0.0';
 
 	/**
 	 * Connects to the database if needed.
 	 *
 	 * @return  void  Returns void if the database connected successfully.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function connect()
@@ -80,7 +80,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function disconnect()
 	{
@@ -306,7 +306,7 @@ class JDatabaseDriverNosql extends JDatabaseDriver
 	 */
 	public function getVersion()
 	{
-		return '12.1';
+		return '3.0.0';
 	}
 
 	/**

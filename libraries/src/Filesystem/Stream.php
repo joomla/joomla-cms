@@ -99,7 +99,7 @@ class Stream extends CMSObject
 	 * File Handle
 	 *
 	 * @var    resource
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $fh;
 
@@ -107,7 +107,7 @@ class Stream extends CMSObject
 	 * File size
 	 *
 	 * @var    integer
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $filesize;
 
@@ -115,7 +115,7 @@ class Stream extends CMSObject
 	 * Context to use when opening the connection
 	 *
 	 * @var    resource
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $context = null;
 
@@ -123,7 +123,7 @@ class Stream extends CMSObject
 	 * Context options; used to rebuild the context
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $contextOptions;
 
@@ -131,7 +131,7 @@ class Stream extends CMSObject
 	 * The mode under which the file was opened
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $openmode;
 

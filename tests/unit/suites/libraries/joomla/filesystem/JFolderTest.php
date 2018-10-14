@@ -48,7 +48,7 @@ class JFolderTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testFiles()
 	{
@@ -137,7 +137,7 @@ class JFolderTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testFolders()
 	{
@@ -268,7 +268,7 @@ class JFolderTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testMakeSafe()
 	{
@@ -281,7 +281,7 @@ class JFolderTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function _cleanupTestFiles()
 	{
@@ -300,7 +300,7 @@ class JFolderTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function _cleanupFile($path)
 	{

@@ -165,7 +165,7 @@ class Update extends \JObject
 	 * Resource handle for the XML Parser
 	 *
 	 * @var    resource
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $xmlParser;
 
@@ -173,7 +173,7 @@ class Update extends \JObject
 	 * Element call stack
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $stack = array('base');
 
@@ -181,7 +181,7 @@ class Update extends \JObject
 	 * Unused state array
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $stateStore = array();
 
@@ -189,7 +189,7 @@ class Update extends \JObject
 	 * Object containing the current update data
 	 *
 	 * @var    \stdClass
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $currentUpdate;
 
@@ -197,7 +197,7 @@ class Update extends \JObject
 	 * Object containing the latest update data
 	 *
 	 * @var    \stdClass
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $latest;
 

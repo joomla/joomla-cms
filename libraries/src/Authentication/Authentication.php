@@ -68,7 +68,7 @@ class Authentication extends \JObject
 	 * An array of Observer objects to notify
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $observers = array();
 
@@ -76,7 +76,7 @@ class Authentication extends \JObject
 	 * The state of the observable object
 	 *
 	 * @var    mixed
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $state = null;
 
@@ -84,7 +84,7 @@ class Authentication extends \JObject
 	 * A multi dimensional array of [function][] = key for observers
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $methods = array();
 

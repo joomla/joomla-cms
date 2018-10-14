@@ -611,7 +611,7 @@ class JMediawikiPages extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getToken($user, $intoken)
 	{

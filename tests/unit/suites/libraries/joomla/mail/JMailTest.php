@@ -238,7 +238,7 @@ class JMailTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataUseSmtp()
 	{
@@ -271,7 +271,7 @@ class JMailTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataUseSMTP
 	 */

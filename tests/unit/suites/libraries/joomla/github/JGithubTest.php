@@ -145,7 +145,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - commits
 	 *
-	 * @since  12.1
+	 * @since  3.0.0
 	 *
 	 * @return void
 	 */

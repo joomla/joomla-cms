@@ -189,7 +189,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True if a leaf node, false if not or null if the node does not exist.
 	 *
-	 * @note    Since 12.1 this method returns null if the node does not exist.
+	 * @note    Since 3.0.0 this method returns null if the node does not exist.
 	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
@@ -220,7 +220,7 @@ class Nested extends Table
 	 *
 	 * @return  void
 	 *
-	 * @note    Since 12.1 this method returns void and throws an \InvalidArgumentException when an invalid position is passed.
+	 * @note    Since 3.0.0 this method returns void and throws an \InvalidArgumentException when an invalid position is passed.
 	 * @see     Nested::$_validLocations
 	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
@@ -1767,7 +1767,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  void
 	 *
-	 * @note    Since 12.1 this method returns void and will rethrow the database exception.
+	 * @note    Since 3.0.0 this method returns void and will rethrow the database exception.
 	 * @since   1.7.0
 	 * @throws  \Exception on database error.
 	 */

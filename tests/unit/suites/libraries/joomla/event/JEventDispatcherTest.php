@@ -200,7 +200,7 @@ class JEventDispatcherTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test JEventDispatcher::register() with an error.
 	 *
-	 * @since              12.1
+	 * @since              3.0.0
 	 * @expectedException  InvalidArgumentException
 	 *
 	 * @return void

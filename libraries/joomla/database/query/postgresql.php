@@ -465,7 +465,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  Returns string to extract year from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function year($date)
 	{
@@ -482,7 +482,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  Returns string to extract month from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function month($date)
 	{
@@ -499,7 +499,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  Returns string to extract day from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function day($date)
 	{
@@ -516,7 +516,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  Returns string to extract hour from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function hour($date)
 	{
@@ -533,7 +533,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  Returns string to extract minute from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function minute($date)
 	{
@@ -550,7 +550,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  Returns string to extract second from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function second($date)
 	{
@@ -645,7 +645,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  JDatabaseQueryPostgresql  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setLimit($limit = 0, $offset = 0)
 	{
@@ -666,7 +666,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{

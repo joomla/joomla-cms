@@ -26,7 +26,7 @@ class StreamString
 	 * The current string
 	 *
 	 * @var   string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $currentString;
 
@@ -34,7 +34,7 @@ class StreamString
 	 * The path
 	 *
 	 * @var   string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $path;
 
@@ -42,7 +42,7 @@ class StreamString
 	 * The mode
 	 *
 	 * @var   string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $mode;
 
@@ -50,7 +50,7 @@ class StreamString
 	 * Enter description here ...
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $options;
 
@@ -58,7 +58,7 @@ class StreamString
 	 * Enter description here ...
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $openedPath;
 
@@ -66,7 +66,7 @@ class StreamString
 	 * Current position
 	 *
 	 * @var    integer
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $pos;
 
@@ -74,7 +74,7 @@ class StreamString
 	 * Length of the string
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $len;
 
@@ -82,7 +82,7 @@ class StreamString
 	 * Statistics for a file
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 *
 	 * @link   http://us.php.net/manual/en/function.stat.php
 	 */

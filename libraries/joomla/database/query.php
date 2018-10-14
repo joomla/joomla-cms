@@ -32,7 +32,7 @@ abstract class JDatabaseQuery
 
 	/**
 	 * @var    string  The SQL query (if a direct query string was provided).
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $sql = null;
 
@@ -134,19 +134,19 @@ abstract class JDatabaseQuery
 
 	/**
 	 * @var    JDatabaseQueryElement  The call element.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $call = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The exec element.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $exec = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The union element.
-	 * @since  12.1
+	 * @since  3.0.0
 	 * @deprecated  4.0  Will be transformed and moved to $merge variable.
 	 */
 	protected $union = null;
@@ -403,7 +403,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function call($columns)
 	{
@@ -755,7 +755,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function exec($columns)
 	{
@@ -826,7 +826,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract year from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function year($date)
 	{
@@ -843,7 +843,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract month from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function month($date)
 	{
@@ -860,7 +860,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract day from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function day($date)
 	{
@@ -877,7 +877,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract hour from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function hour($date)
 	{
@@ -894,7 +894,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract minute from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function minute($date)
 	{
@@ -911,7 +911,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract second from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function second($date)
 	{
@@ -1315,7 +1315,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setQuery($sql)
 	{
@@ -1514,7 +1514,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/union.html
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function union($query, $distinct = false, $glue = '')
 	{
@@ -1562,7 +1562,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @see     union
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  4.0  Use union() instead.
 	 */
 	public function unionDistinct($query, $glue = '')

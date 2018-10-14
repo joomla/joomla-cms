@@ -24,7 +24,7 @@ class JArchive
 {
 	/**
 	 * @var    array  The array of instantiated archive adapters.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $adapters = array();
 

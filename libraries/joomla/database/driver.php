@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Driver Class
  *
- * @since  12.1
+ * @since  3.0.0
  *
  * @method   string|array  q()   q($text, $escape = true)  Alias for quote method
  * @method   string|array  qn()  qn($name, $as = null)     Alias for quoteName method
@@ -147,14 +147,14 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	/**
 	 * @var         integer  The database error number
 	 * @since       1.7.0
-	 * @deprecated  12.1
+	 * @deprecated  3.0.0
 	 */
 	protected $errorNum = 0;
 
 	/**
 	 * @var         string  The database error message
 	 * @since       1.7.0
-	 * @deprecated  12.1
+	 * @deprecated  3.0.0
 	 */
 	protected $errorMsg;
 
@@ -166,7 +166,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 
 	/**
 	 * @var    string  The minimum supported database version.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $dbMinimum;
 
@@ -614,7 +614,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void  Returns void if the database connected successfully.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function connect();
@@ -676,7 +676,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	abstract public function disconnect();
 
@@ -1036,7 +1036,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  The minimum version number for the database driver.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMinimum()
 	{
@@ -1083,7 +1083,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseExporter  An exporter object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getExporter()
@@ -1109,7 +1109,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseImporter  An importer object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getImporter()
@@ -1242,7 +1242,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  JDatabaseIterator  A new database iterator.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getIterator($column = null, $class = 'stdClass')
@@ -1328,7 +1328,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True if the database engine supports UTF-8 character encoding.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function hasUTFSupport()
 	{
@@ -1433,7 +1433,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  boolean  True if the database version is supported
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function isMinimumVersion()
 	{
@@ -2288,7 +2288,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	abstract public function execute();

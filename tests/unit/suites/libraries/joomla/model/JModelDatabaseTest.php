@@ -14,13 +14,13 @@ JLoader::register('DatabaseModel', __DIR__ . '/stubs/tdatabase.php');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Mapper
- * @since       12.1
+ * @since       3.0.0
  */
 class JModelDatabaseTest extends TestCase
 {
 	/**
 	 * @var    DatabaseModel
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_instance;
 
@@ -56,7 +56,7 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetDb()
 	{
@@ -71,7 +71,7 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testSetDb()
 	{
@@ -86,7 +86,7 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testLoadDb()
 	{
@@ -99,7 +99,7 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{
@@ -117,7 +117,7 @@ class JModelDatabaseTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function tearDown()
 	{

@@ -77,7 +77,7 @@ class JSessionStorageMemcached extends JSessionStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
