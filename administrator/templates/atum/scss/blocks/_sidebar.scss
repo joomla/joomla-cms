@@ -176,18 +176,18 @@
   // Dropdown indicator
   .has-arrow::after {
     position: absolute;
-    content: '';
+    top: 21px;
+    right: 1em;
     width: .5rem;
     height: .5rem;
-    border-width: 1px 0 0 1px;
-    border-style: solid;
+    color: $white;
+    content: '';
     border-color: initial;
-    right: 1em;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    transition: all .3s ease-out;
     transform: rotate(-45deg) translate(0, -50%);
     transform-origin: top;
-    top: 21px;
-    transition: all .3s ease-out;
-    color: $white;
   }
 
   .active {
