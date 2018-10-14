@@ -16,10 +16,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
-use Joomla\Component\Users\Administrator\Model\UserModel;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
@@ -368,7 +366,8 @@ class ContactModel extends FormModel
 		}
 
 		// Get the profile information for the linked user
-		$userModel = new UserModel(array('ignore_request' => true));
+		$userModel = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+			->createModel('User', 'Administrator', ['ignore_request' => true]);
 		$data = $userModel->getItem((int) $contact->user_id);
 
 		PluginHelper::importPlugin('user');
@@ -535,7 +534,8 @@ class ContactModel extends FormModel
 				}
 
 				// Get the profile information for the linked user
-				$userModel = new UserModel(array('ignore_request' => true));
+				$userModel = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+					->createModel('User', 'Administrator', ['ignore_request' => true]);
 				$data = $userModel->getItem((int) $result->user_id);
 
 				PluginHelper::importPlugin('user');

@@ -18,7 +18,7 @@ class FinderIndexerLanguageda extends FinderIndexerLanguage
 {
 	/**
 	 * Language locale of the class
-	 * 
+	 *
 	 * @var    string
 	 * @since  4.0.0
 	 */

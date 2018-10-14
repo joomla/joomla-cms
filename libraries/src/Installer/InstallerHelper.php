@@ -133,7 +133,7 @@ abstract class InstallerHelper
 		// Do the unpacking of the archive
 		try
 		{
-			$archive = new Archive(array('tmp_path' => Factory::getConfig()->get('tmp_path')));
+			$archive = new Archive(array('tmp_path' => Factory::getApplication()->get('tmp_path')));
 			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
@@ -295,8 +295,6 @@ abstract class InstallerHelper
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
-		$config = Factory::getConfig();
-
 		// Does the unpacked extension directory exist?
 		if ($resultdir && is_dir($resultdir))
 		{
@@ -308,10 +306,10 @@ abstract class InstallerHelper
 		{
 			File::delete($package);
 		}
-		elseif (is_file(Path::clean($config->get('tmp_path') . '/' . $package)))
+		elseif (is_file(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			File::delete(Path::clean($config->get('tmp_path') . '/' . $package));
+			File::delete(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package));
 		}
 	}
 }

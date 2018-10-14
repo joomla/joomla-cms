@@ -155,7 +155,8 @@ class PlgSystemUpdatenotification extends CMSPlugin
 		}
 
 		// Get the update model and retrieve the Joomla! core updates
-		$model = $this->app->bootComponent('com_installer')->createMVCFactory($this->app)->createModel('Update', '', ['ignore_request' => true]);
+		$model = $this->app->bootComponent('com_installer')
+			->createMVCFactory($this->app)->createModel('Update', 'Administrator', ['ignore_request' => true]);
 		$model->setState('filter.extension_id', $eid);
 		$updates = $model->getItems();
 
