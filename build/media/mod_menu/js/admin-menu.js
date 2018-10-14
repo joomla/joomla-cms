@@ -81,7 +81,6 @@ Joomla = window.Joomla || {};
 
 		var menuClose = function() {
 			sidebar.querySelector('.collapse').classList.remove('in');
-			sidebar.querySelector('.collapse-arrow').classList.add('collapsed');
 		};
 
 		// Toggle menu
@@ -133,16 +132,6 @@ Joomla = window.Joomla || {};
 			}
 		}
 
-		// If com_cpanel or com_media - close menu
-		if (body.classList.contains('com_cpanel') || body.classList.contains('com_media')) {
-			var menuChildOpen = mainNav.querySelectorAll('.open');
-
-			for (var i = 0; i < menuChildOpen.length; i++) {
-				menuChildOpen[i].classList.remove('open');
-			}
-			mainNav.classList.remove('child-open');
-		}
-
 		// Child open toggle
 		var openToggle = function() {
 			var menuItem = this.parentNode;
@@ -192,14 +181,6 @@ Joomla = window.Joomla || {};
 			});
 		}
 
-		// Set the height of the menu to prevent overlapping
-		var setMenuHeight = function() {
-			var height = document.getElementById('header').offsetHeight + document.getElementById('main-brand').offsetHeight;
-			mainNav.height = window.height - height;
-		};
-
-		setMenuHeight();
-
 		// Remove 'closed' class on resize
 		window.addEventListener('resize', function() {
 			setMenuHeight();
@@ -211,16 +192,6 @@ Joomla = window.Joomla || {};
 			}
 		}
 
-	} else {
-		if (sidebar) {
-			sidebar.style.display = 'none';
-			sidebar.style.width = 0;
-		}
-
-		var wrapperClass = document.getElementsByClassName('wrapper');
-		if (wrapperClass.length) {
-			wrapperClass[0].style.paddingLeft = 0;
-		}
 	}
 
 })(Joomla, document);
