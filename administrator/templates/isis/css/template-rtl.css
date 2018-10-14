@@ -8810,7 +8810,8 @@ ul.treeselect ul.dropdown-menu li {
 .pagination-toolbar a {
 	line-height: 26px;
 }
-.pull-right > .dropdown-menu {
+.pull-right > .dropdown-menu,
+.dropdown-reverse {
 	left: auto;
 	right: 0;
 }
@@ -9109,25 +9110,32 @@ input:focus,
 #menu-assignment .menu-links {
 	margin-top: 15px;
 	margin-left: 0;
-	-webkit-column-count: 3;
-	-moz-column-count: 3;
-	column-count: 3;
+	-webkit-column-count: 4;
+	-moz-column-count: 4;
+	column-count: 4;
 	-moz-column-gap: 15px;
 	-webkit-column-gap: 15px;
 	column-gap: 15px;
 }
 #menu-assignment .menu-links > li {
-	display: inline-block;
 	vertical-align: top;
 	margin-bottom: 15px;
 	width: 100%;
 	list-style: none;
+	page-break-inside: avoid;
 }
 #menu-assignment .menu-links-block {
 	background-color: #fafafa;
 	border: 1px solid #ddd;
 	border-radius: 3px;
 	padding: 15px;
+}
+@media (max-width: 1199px) {
+	#menu-assignment .menu-links {
+		-webkit-column-count: 3;
+		-moz-column-count: 3;
+		column-count: 3;
+	}
 }
 @media (max-width: 767px) {
 	#menu-assignment .menu-links {
@@ -10087,4 +10095,8 @@ a.grid_true {
 	box-shadow: 3px 0 0 #3071a9;
 	border-right: 0;
 	border-left: 1px solid rgba(0,0,0,0.08);
+}
+.dropdown-reverse {
+	left: 0;
+	right: auto;
 }

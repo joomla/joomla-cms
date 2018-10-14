@@ -13,6 +13,8 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
+
 /**
  * This models supports retrieving lists of articles.
  *
@@ -246,13 +248,13 @@ class ContentModelArticles extends JModelList
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
 		// Filter by access level.
-		if ($this->getState('filter.access', true))	
+		if ($this->getState('filter.access', true))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')

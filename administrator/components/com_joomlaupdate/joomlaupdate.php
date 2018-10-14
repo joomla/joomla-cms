@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-if (!JFactory::getUser()->authorise('core.manage', 'com_joomlaupdate'))
+if (!JFactory::getUser()->authorise('core.admin', 'com_joomlaupdate'))
 {
 	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
