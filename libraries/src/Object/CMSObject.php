@@ -26,7 +26,7 @@ class CMSObject
 	 *
 	 * @var    array
 	 * @since  1.7.0
-	 * @deprecated  12.3  JError has been deprecated
+	 * @deprecated  3.1.4  JError has been deprecated
 	 */
 	protected $_errors = array();
 
@@ -52,7 +52,7 @@ class CMSObject
 	 * @return  string  The classname.
 	 *
 	 * @since   1.7.0
-	 * @deprecated 12.3  Classes should provide their own __toString() implementation.
+	 * @deprecated 3.1.4  Classes should provide their own __toString() implementation.
 	 */
 	public function __toString()
 	{
@@ -136,7 +136,7 @@ class CMSObject
 	 * @return  string   Error message
 	 *
 	 * @since   1.7.0
-	 * @deprecated 12.3  JError has been deprecated
+	 * @deprecated 3.1.4  JError has been deprecated
 	 */
 	public function getError($i = null, $toString = true)
 	{
@@ -171,7 +171,7 @@ class CMSObject
 	 * @return  array  Array of error messages.
 	 *
 	 * @since   1.7.0
-	 * @deprecated 12.3  JError has been deprecated
+	 * @deprecated 3.1.4  JError has been deprecated
 	 */
 	public function getErrors()
 	{
@@ -231,7 +231,7 @@ class CMSObject
 	 * @return  void
 	 *
 	 * @since   1.7.0
-	 * @deprecated 12.3  JError has been deprecated
+	 * @deprecated 3.1.4  JError has been deprecated
 	 */
 	public function setError($error)
 	{

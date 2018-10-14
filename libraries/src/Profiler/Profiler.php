@@ -142,7 +142,7 @@ class Profiler
 	 * @return  float The current time
 	 *
 	 * @since   1.7.0
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's microtime(1)
+	 * @deprecated  4.0 - Use PHP's microtime(1)
 	 */
 	public static function getmicrotime()
 	{
@@ -158,7 +158,7 @@ class Profiler
 	 *
 	 * @link    PHP_MANUAL#memory_get_usage
 	 * @since   1.7.0
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's native memory_get_usage()
+	 * @deprecated  4.0 - Use PHP's native memory_get_usage()
 	 */
 	public function getMemory()
 	{

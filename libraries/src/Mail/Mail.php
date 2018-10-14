@@ -491,7 +491,7 @@ class Mail extends PHPMailer
 	 *
 	 * @return  Mail  Returns this object for chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isHtml($ishtml = true)
 	{

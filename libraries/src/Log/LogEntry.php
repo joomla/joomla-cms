@@ -83,7 +83,7 @@ class LogEntry
 	/**
 	 * Call stack and back trace of the logged call.
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $callStack = array();
 
