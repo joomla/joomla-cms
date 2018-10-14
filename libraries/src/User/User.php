@@ -23,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * User class.  Handles all application interaction with a user
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class User extends CMSObject
 {
@@ -31,7 +31,7 @@ class User extends CMSObject
 	 * A cached switch for if this user has root access rights.
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $isRoot = null;
 
@@ -39,7 +39,7 @@ class User extends CMSObject
 	 * Unique id
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $id = null;
 
@@ -47,7 +47,7 @@ class User extends CMSObject
 	 * The user's real name (or nickname)
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $name = null;
 
@@ -55,7 +55,7 @@ class User extends CMSObject
 	 * The login name
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $username = null;
 
@@ -63,7 +63,7 @@ class User extends CMSObject
 	 * The email
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $email = null;
 
@@ -71,7 +71,7 @@ class User extends CMSObject
 	 * MD5 encrypted password
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $password = null;
 
@@ -79,7 +79,7 @@ class User extends CMSObject
 	 * Clear password, only available when a new password is set for a user
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $password_clear = '';
 
@@ -87,7 +87,7 @@ class User extends CMSObject
 	 * Block status
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $block = null;
 
@@ -95,7 +95,7 @@ class User extends CMSObject
 	 * Should this user receive system email
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $sendEmail = null;
 
@@ -103,7 +103,7 @@ class User extends CMSObject
 	 * Date the user was registered
 	 *
 	 * @var    \DateTime
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $registerDate = null;
 
@@ -111,7 +111,7 @@ class User extends CMSObject
 	 * Date of last visit
 	 *
 	 * @var    \DateTime
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $lastvisitDate = null;
 
@@ -119,7 +119,7 @@ class User extends CMSObject
 	 * Activation hash
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $activation = null;
 
@@ -127,7 +127,7 @@ class User extends CMSObject
 	 * User parameters
 	 *
 	 * @var    Registry
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $params = null;
 
@@ -135,7 +135,7 @@ class User extends CMSObject
 	 * Associative array of user names => group ids
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $groups = array();
 
@@ -143,7 +143,7 @@ class User extends CMSObject
 	 * Guest status
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $guest = null;
 
@@ -151,7 +151,7 @@ class User extends CMSObject
 	 * Last Reset Time
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public $lastResetTime = null;
 
@@ -159,7 +159,7 @@ class User extends CMSObject
 	 * Count since last Reset Time
 	 *
 	 * @var    int
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public $resetCount = null;
 
@@ -175,7 +175,7 @@ class User extends CMSObject
 	 * User parameters
 	 *
 	 * @var    Registry
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_params = null;
 
@@ -183,7 +183,7 @@ class User extends CMSObject
 	 * Authorised access groups
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_authGroups = null;
 
@@ -191,7 +191,7 @@ class User extends CMSObject
 	 * Authorised access levels
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_authLevels = null;
 
@@ -199,7 +199,7 @@ class User extends CMSObject
 	 * Authorised access actions
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_authActions = null;
 
@@ -207,13 +207,13 @@ class User extends CMSObject
 	 * Error message
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_errorMsg = null;
 
 	/**
 	 * @var    array  User instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -222,7 +222,7 @@ class User extends CMSObject
 	 *
 	 * @param   integer  $identifier  The primary key of the user to load (optional).
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($identifier = 0)
 	{
@@ -251,7 +251,7 @@ class User extends CMSObject
 	 *
 	 * @return  User  The User object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($identifier = 0)
 	{
@@ -293,7 +293,7 @@ class User extends CMSObject
 	 *
 	 * @return  mixed  The value or the default if it did not exist
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getParam($key, $default = null)
 	{
@@ -308,7 +308,7 @@ class User extends CMSObject
 	 *
 	 * @return  mixed  Set parameter value
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setParam($key, $value)
 	{
@@ -323,7 +323,7 @@ class User extends CMSObject
 	 *
 	 * @return  mixed  Set parameter value
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function defParam($key, $value)
 	{
@@ -339,7 +339,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True if authorised
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function authorise($action, $assetname = null)
 	{
@@ -386,7 +386,7 @@ class User extends CMSObject
 	 *
 	 * @return  array  List of categories that this group can do this action to (empty array if none). Categories must be published.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAuthorisedCategories($component, $action)
 	{
@@ -424,7 +424,7 @@ class User extends CMSObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAuthorisedViewLevels()
 	{
@@ -446,7 +446,7 @@ class User extends CMSObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAuthorisedGroups()
 	{
@@ -485,7 +485,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLastVisit($timestamp = null)
 	{
@@ -520,7 +520,7 @@ class User extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setParameters($params)
 	{
@@ -540,7 +540,7 @@ class User extends CMSObject
 	 * @return  Table  The user table object
 	 *
 	 * @note    At 4.0 this method will no longer be static
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getTable($type = null, $prefix = 'JTable')
 	{
@@ -571,7 +571,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind(&$array)
 	{
@@ -681,7 +681,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function save($updateOnly = false)
@@ -801,7 +801,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete()
 	{
@@ -831,7 +831,7 @@ class User extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function load($id)
 	{

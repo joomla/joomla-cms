@@ -22,7 +22,7 @@ FormHelper::loadFieldClass('list');
 /**
  * Supports a custom SQL select list
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class SQLField extends \JFormFieldList
 {
@@ -30,7 +30,7 @@ class SQLField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $type = 'SQL';
 
@@ -268,7 +268,7 @@ class SQLField extends \JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{

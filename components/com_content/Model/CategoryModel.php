@@ -325,7 +325,7 @@ class CategoryModel extends ListModel
 	 *
 	 * @return  \JPagination  A JPagination object for the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getPagination()
 	{

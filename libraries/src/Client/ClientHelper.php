@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Client helper class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ClientHelper
 {
@@ -29,7 +29,7 @@ class ClientHelper
 	 * @return  array    Client layer configuration options, consisting of at least
 	 *                   these fields: enabled, host, port, user, pass, root
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getCredentials($client, $force = false)
 	{
@@ -90,7 +90,7 @@ class ClientHelper
 	 *
 	 * @return  boolean  True if the given login credentials have been set and are valid
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setCredentials($client, $user, $pass)
 	{
@@ -146,7 +146,7 @@ class ClientHelper
 	 *
 	 * @return  boolean  True if login credentials are available
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function hasCredentials($client)
 	{
@@ -203,7 +203,7 @@ class ClientHelper
 	 *
 	 * @return  boolean  True if credentials are present
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException if credentials invalid
 	 */
 	public static function setCredentialsFromRequest($client)
