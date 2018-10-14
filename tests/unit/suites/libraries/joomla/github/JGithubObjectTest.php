@@ -21,19 +21,19 @@ class JGithubObjectTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithubObject  Object under test.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $object;
 

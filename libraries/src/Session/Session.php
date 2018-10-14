@@ -69,7 +69,7 @@ class Session implements \IteratorAggregate
 	 * Session instances container.
 	 *
 	 * @var    Session
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance;
 

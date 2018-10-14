@@ -62,7 +62,7 @@ class TestMockApplicationBase
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function create($test, $options = array())
 	{

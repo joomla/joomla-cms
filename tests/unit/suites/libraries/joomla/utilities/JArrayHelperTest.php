@@ -1366,7 +1366,7 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @dataProvider  getTestArrayUniqueData
 	 * @covers  JArrayHelper::arrayUnique
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testArrayUnique($input, $expected)
 	{
@@ -1526,7 +1526,7 @@ class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @dataProvider getTestPivotData
 	 * @covers  JArrayHelper::pivot
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testPivot($source, $key, $expected)
 	{

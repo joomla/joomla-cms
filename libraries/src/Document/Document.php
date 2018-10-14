@@ -206,7 +206,7 @@ class Document
 	 * Document instances container.
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 

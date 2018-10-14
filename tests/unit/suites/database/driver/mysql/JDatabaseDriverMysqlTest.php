@@ -66,7 +66,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestLoadNextObject()
 	{
@@ -102,7 +102,7 @@ class JDatabaseDriverMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dataTestLoadNextRow()
 	{

@@ -232,7 +232,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__clone_array()
 	{
@@ -253,7 +253,7 @@ class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__clone_object()
 	{

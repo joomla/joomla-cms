@@ -21,7 +21,7 @@ abstract class JEvent extends JObject
 	 * Event object to observe.
 	 *
 	 * @var    object
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $_subject = null;
 
@@ -30,7 +30,7 @@ abstract class JEvent extends JObject
 	 *
 	 * @param   object  &$subject  The object to observe.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __construct(&$subject)
 	{

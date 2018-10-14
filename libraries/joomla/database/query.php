@@ -681,7 +681,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dump()
 	{
@@ -1474,7 +1474,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __clone()
 	{

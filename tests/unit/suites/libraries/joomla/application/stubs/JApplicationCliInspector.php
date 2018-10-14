@@ -21,7 +21,7 @@ class JApplicationCliInspector extends JApplicationCli
 	 * The exit code if the application was closed otherwise null.
 	 *
 	 * @var     integer
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public $closed;
 
@@ -32,7 +32,7 @@ class JApplicationCliInspector extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function close($code = 0)
 	{
@@ -44,7 +44,7 @@ class JApplicationCliInspector extends JApplicationCli
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function doExecute()
 	{

@@ -70,7 +70,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - gists
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -85,7 +85,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - issues
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -100,7 +100,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - pulls
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -115,7 +115,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - refs
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -220,7 +220,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - failure
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 * @expectedException RuntimeException
 	 *
 	 * @return void
@@ -236,7 +236,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the magic __get method - failure
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 * @expectedException RuntimeException
 	 *
 	 * @return void
@@ -252,7 +252,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the setOption method
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */
@@ -269,7 +269,7 @@ class JGithubTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Tests the getOption method
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 *
 	 * @return void
 	 */

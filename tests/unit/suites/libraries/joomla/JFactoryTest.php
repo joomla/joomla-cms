@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @since       11.3
+ * @since       1.7.3
  */
 class JFactoryTest extends TestCaseDatabase
 {
@@ -22,7 +22,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setUp()
 	{
@@ -38,7 +38,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function tearDown()
 	{
@@ -52,7 +52,7 @@ class JFactoryTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetConfig()
 	{

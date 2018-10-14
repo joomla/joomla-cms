@@ -14,26 +14,26 @@ use Joomla\Registry\Registry;
 /**
  * HTTP client class for connecting to a GitHub instance.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubHttp extends JHttp
 {
 	/**
 	 * @const  integer  Use no authentication for HTTP connections.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	const AUTHENTICATION_NONE = 0;
 
 	/**
 	 * @const  integer  Use basic authentication for HTTP connections.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	const AUTHENTICATION_BASIC = 1;
 
 	/**
 	 * @const  integer  Use OAuth authentication for HTTP connections.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	const AUTHENTICATION_OAUTH = 2;
 
@@ -43,7 +43,7 @@ class JGithubHttp extends JHttp
 	 * @param   Registry        $options    Client options object.
 	 * @param   JHttpTransport  $transport  The HTTP transport object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __construct(Registry $options = null, JHttpTransport $transport = null)
 	{

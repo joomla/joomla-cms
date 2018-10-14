@@ -18,7 +18,7 @@ JLoader::register('MediaViewMediaListItemsHtml', __DIR__ . '/stubs/MediaViewMedi
  *
  * @package     Joomla.UnitTest
  * @subpackage  View
- * @since       11.3
+ * @since       1.7.3
  */
 class ModelMockupJView
 {
@@ -63,7 +63,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::get()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -85,7 +85,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getLayout()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -101,7 +101,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getModel()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -135,7 +135,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getLayoutTemplate()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -151,7 +151,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getName()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -221,7 +221,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setModel()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -265,7 +265,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setLayout()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -287,7 +287,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setLayoutExt()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -303,7 +303,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setEscape()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -323,7 +323,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::addTemplatePath()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -354,7 +354,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::addHelperPath()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -385,7 +385,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::_addPath()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */

@@ -14,14 +14,14 @@ JFormHelper::loadFieldClass('checkboxes');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.3
+ * @since       1.7.3
  */
 class JFormFieldCheckboxesTest extends TestCaseDatabase
 {
 	/**
 	 * Sets up dependencies for the test.
 	 *
-	 * @since       11.3
+	 * @since       1.7.3
 	 *
 	 * @return void
 	 */

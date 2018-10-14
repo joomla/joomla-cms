@@ -159,7 +159,7 @@ class JDatabaseQueryMysqli extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * @return  string  Returns the regex operator.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function regexp($value)
 	{

@@ -143,7 +143,7 @@ class Browser
 
 	/**
 	 * @var    array  Browser instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 

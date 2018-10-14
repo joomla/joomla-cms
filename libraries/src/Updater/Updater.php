@@ -67,7 +67,7 @@ class Updater extends \JAdapter
 
 	/**
 	 * @var    Updater  Updater instance container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance;
 

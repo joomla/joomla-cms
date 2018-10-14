@@ -31,7 +31,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   string   $position  The line index in the diff to comment on.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -67,7 +67,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   integer  $inReplyTo  The id of the comment to reply to.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -99,7 +99,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   integer  $commentId  The id of the comment to delete.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -124,7 +124,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   string   $body       The new body text for the comment.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -154,7 +154,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   integer  $commentId  The comment id to get.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -179,7 +179,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   integer  $limit   The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */

@@ -694,7 +694,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function _autoload($class)
 	{

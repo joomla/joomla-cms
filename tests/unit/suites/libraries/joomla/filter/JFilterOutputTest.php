@@ -146,7 +146,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testStringURLUnicodeSlug()
 	{
@@ -241,7 +241,7 @@ class JFilterOutputTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testStripImages()
 	{

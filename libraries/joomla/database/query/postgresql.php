@@ -12,44 +12,44 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryLimitable
 {
 	/**
 	 * @var    object  The FOR UPDATE element used in "FOR UPDATE"  lock
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $forUpdate = null;
 
 	/**
 	 * @var    object  The FOR SHARE element used in "FOR SHARE"  lock
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $forShare = null;
 
 	/**
 	 * @var    object  The NOWAIT element used in "FOR SHARE" and "FOR UPDATE" lock
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $noWait = null;
 
 	/**
 	 * @var    object  The LIMIT element
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $limit = null;
 
 	/**
 	 * @var    object  The OFFSET element
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $offset = null;
 
 	/**
 	 * @var    object  The RETURNING element of INSERT INTO
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $returning = null;
 
@@ -58,7 +58,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string	The completed query.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __toString()
 	{
@@ -274,7 +274,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  JDatabaseQueryPostgresql  Returns this object to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function clear($clause = null)
 	{
@@ -350,7 +350,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  Returns the cast value.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function castAsChar($value, $len = null)
 	{
@@ -375,7 +375,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  The concatenated values.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -394,7 +394,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  Return string used in query to obtain
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function currentTimestamp()
 	{
@@ -409,7 +409,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  JDatabaseQueryPostgresql  FOR UPDATE query element
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function forUpdate($table_name, $glue = ',')
 	{
@@ -436,7 +436,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  JDatabaseQueryPostgresql  FOR SHARE query element
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function forShare($table_name, $glue = ',')
 	{
@@ -562,7 +562,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  JDatabaseQueryPostgresql  NO WAIT query element
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function noWait ()
 	{
@@ -583,7 +583,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  JDatabaseQueryPostgresql  Returns this object to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function limit($limit = 0)
 	{
@@ -602,7 +602,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  JDatabaseQueryPostgresql  Returns this object to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function offset($offset = 0)
 	{
@@ -621,7 +621,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  JDatabaseQueryPostgresql  Returns this object to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function returning($pkCol)
 	{
@@ -723,7 +723,7 @@ class JDatabaseQueryPostgresql extends JDatabaseQuery implements JDatabaseQueryL
 	 *
 	 * @return  string  Returns the regex operator.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function regexp($value)
 	{

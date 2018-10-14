@@ -104,7 +104,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @return  array  An array of results from each function call.
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static function mockTrigger($event, $args = array())
 	{

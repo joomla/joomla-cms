@@ -100,7 +100,7 @@ class JCryptPasswordSimpleTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @dataProvider  createData
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCreate($password, $type, $salt, $expected, $cost = 10)
 	{

@@ -25,7 +25,7 @@ class JEventDispatcher extends JObject
 	 * An array of Observer objects to notify
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $_observers = array();
 
@@ -33,7 +33,7 @@ class JEventDispatcher extends JObject
 	 * The state of the observable object
 	 *
 	 * @var    mixed
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $_state = null;
 
@@ -41,7 +41,7 @@ class JEventDispatcher extends JObject
 	 * A multi dimensional array of [function][] = key for observers
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $_methods = array();
 
@@ -49,7 +49,7 @@ class JEventDispatcher extends JObject
 	 * Stores the singleton instance of the dispatcher.
 	 *
 	 * @var    JEventDispatcher
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance = null;
 
@@ -76,7 +76,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  mixed    The state of the object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getState()
 	{
@@ -181,7 +181,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function attach($observer)
 	{
@@ -249,7 +249,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  boolean  True if the observer object was detached.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function detach($observer)
 	{

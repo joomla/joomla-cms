@@ -844,7 +844,7 @@ class DaemonApplication extends CliApplication
 	 * @return  integer  The child process exit code.
 	 *
 	 * @see     pcntl_wexitstatus()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function pcntlChildExitStatus($status)
 	{
@@ -860,7 +860,7 @@ class DaemonApplication extends CliApplication
 	 *                   will be created, and a PHP error is raised.
 	 *
 	 * @see     pcntl_fork()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function pcntlFork()
 	{
@@ -879,7 +879,7 @@ class DaemonApplication extends CliApplication
 	 * @return  boolean  True on success.
 	 *
 	 * @see     pcntl_signal()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function pcntlSignal($signal, $handler, $restart = true)
 	{
@@ -897,7 +897,7 @@ class DaemonApplication extends CliApplication
 	 *                   was provided as an option (on wait3-available systems) and no child was available.
 	 *
 	 * @see     pcntl_wait()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function pcntlWait(&$status, $options = 0)
 	{

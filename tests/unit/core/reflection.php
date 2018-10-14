@@ -22,7 +22,7 @@ class TestReflection
 	 *
 	 * @return  mixed  The value of the property.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  InvalidArgumentException if property not available.
 	 */
 	public static function getValue($object, $propertyName)
@@ -62,7 +62,7 @@ class TestReflection
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function invoke($object, $methodName)
 	{
@@ -90,7 +90,7 @@ class TestReflection
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function setValue($object, $propertyName, $value)
 	{

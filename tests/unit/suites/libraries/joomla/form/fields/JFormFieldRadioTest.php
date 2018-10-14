@@ -22,7 +22,7 @@ class JFormFieldRadioTest extends TestCase
 	/**
 	 * Sets up dependencies for the test.
 	 *
-	 * @since       11.3
+	 * @since       1.7.3
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class JFormFieldRadioTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetOptions()
 	{

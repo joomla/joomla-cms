@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.3
+ * @since       1.7.3
  */
 class JDatabaseQuerySqlsrvTest extends TestCase
 {
@@ -513,7 +513,7 @@ class JDatabaseQuerySqlsrvTest extends TestCase
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function mockQuoteName($value)
 	{

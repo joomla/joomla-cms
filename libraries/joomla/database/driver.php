@@ -1927,7 +1927,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  string  Dot-imploded string of quoted parts.
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	protected function quoteNameStr($strArr)
 	{
@@ -2191,7 +2191,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  RuntimeException
 	 */
 	public function truncateTable($table)

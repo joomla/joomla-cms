@@ -24,7 +24,7 @@ abstract class JArrayHelper
 	 * Option to perform case-sensitive sorts.
 	 *
 	 * @var    mixed  Boolean or array of booleans.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortCase;
 
@@ -32,7 +32,7 @@ abstract class JArrayHelper
 	 * Option to set the sort direction.
 	 *
 	 * @var    mixed  Integer or array of integers.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortDirection;
 
@@ -40,7 +40,7 @@ abstract class JArrayHelper
 	 * Option to set the object key to sort on.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortKey;
 
@@ -48,7 +48,7 @@ abstract class JArrayHelper
 	 * Option to perform a language aware sort.
 	 *
 	 * @var    mixed  Boolean or array of booleans.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortLocale;
 
@@ -300,7 +300,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  An array of arrays pivoted either on the value of the keys, or an individual key of an object or array.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::pivot instead
 	 */
 	public static function pivot($source, $key = null)

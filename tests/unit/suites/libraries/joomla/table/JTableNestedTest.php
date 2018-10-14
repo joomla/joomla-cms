@@ -767,7 +767,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function getDataSet()
 	{
@@ -815,7 +815,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function tearDown()
 	{
