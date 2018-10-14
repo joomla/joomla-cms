@@ -15,7 +15,7 @@ use Joomla\CMS\Object\CMSObject;
 /**
  * Access rules class.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class Rules
 {

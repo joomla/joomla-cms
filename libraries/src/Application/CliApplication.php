@@ -30,7 +30,7 @@ use Joomla\Session\SessionInterface;
 /**
  * Base class for a Joomla! command line application.
  *
- * @since       11.4
+ * @since       2.5.0
  * @deprecated  5.0  Use the ConsoleApplication instead
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface

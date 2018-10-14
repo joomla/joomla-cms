@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Rule class.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class Rule
 {

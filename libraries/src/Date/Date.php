@@ -431,7 +431,7 @@ class Date extends \DateTime
 	 * @return  string     The date string in SQL datetime format.
 	 *
 	 * @link    http://dev.mysql.com/doc/refman/5.0/en/datetime.html
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function toSql($local = false, DatabaseDriver $db = null)
 	{

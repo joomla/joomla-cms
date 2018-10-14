@@ -30,7 +30,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Base class for a Joomla! Web application.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
 {
