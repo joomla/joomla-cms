@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\String\StringHelper;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Actionlogs component helper.
@@ -66,6 +65,7 @@ class ActionlogsHelper
 	public static function loadTranslationFiles($extension)
 	{
 		static $cache = array();
+		$extension = strtolower($extension);
 
 		if (isset($cache[$extension]))
 		{
@@ -100,8 +100,14 @@ class ActionlogsHelper
 
 		}
 
-		$lang->load(strtolower($extension), JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load(strtolower($extension), $source, null, false, true);
+		$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load($extension, $source, null, false, true);
+
+		if (!$lang->hasKey(strtoupper($extension)))
+		{
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+				|| $lang->load($extension . '.sys', $source, null, false, true);
+		}
 
 		$cache[$extension] = true;
 	}
