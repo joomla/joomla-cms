@@ -47,8 +47,7 @@ class Route
 		if (!self::$_router)
 		{
 			// Get the router.
-			$app = Factory::getApplication();
-			self::$_router = $app::getRouter();
+			self::$_router = Factory::getContainer()->get(RouterFactoryInterface::class)->createRouter(Factory::getApplication());
 
 			// Make sure that we have our router
 			if (!self::$_router)

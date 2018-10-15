@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Router\RouterFactoryInterface;
 use Joomla\Component\Finder\Site\Helper\FinderHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
@@ -150,7 +151,7 @@ class HtmlView extends BaseHtmlView
 		if (strpos($this->query->input, '"'))
 		{
 			// Get the application router.
-			$router = $app->getRouter();
+			$router = Factory::getContainer()->get(RouterFactoryInterface::class)->createRouter($app);
 
 			// Fix the q variable in the URL.
 			if ($router->getVar('q') !== $this->query->input)

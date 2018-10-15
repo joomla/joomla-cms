@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Router\RouterFactoryInterface;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
@@ -140,7 +141,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 		if ($this->app->isClient('site'))
 		{
-			$router = $this->app->getRouter();
+			$router = Factory::getContainer()->get(RouterFactoryInterface::class)->createRouter($this->app);
 
 			// Attach build rules for language SEF.
 			$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
@@ -757,7 +758,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
 			$server                = Uri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home               = false;
-			$currentInternalUrl    = 'index.php?' . http_build_query($this->app->getRouter()->getVars());
+			$router                = Factory::getContainer()->get(RouterFactoryInterface::class)->createRouter($this->app);
+			$currentInternalUrl    = 'index.php?' . http_build_query($router->getVars());
 
 			if ($active)
 			{

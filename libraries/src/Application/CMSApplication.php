@@ -27,6 +27,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\RouterFactoryInterface;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
@@ -525,7 +526,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 *
 	 * @return  Router
 	 *
-	 * @since   3.2
+	 * @since       3.2
+	 * @deprecated  5.0 Get the router from the RouterFactoryInterface instead
 	 */
 	public static function getRouter($name = null, array $options = array())
 	{
@@ -1012,7 +1014,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Get the full request URI.
 		$uri = clone Uri::getInstance();
 
-		$router = static::getRouter();
+		$router = $this->getContainer()->get(RouterFactoryInterface::class)->createRouter($this);
 		$result = $router->parse($uri, true);
 
 		foreach ($result as $key => $value)

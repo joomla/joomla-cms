@@ -144,7 +144,6 @@ final class SiteApplication extends CMSApplication
 
 		// Set up the params
 		$document = $this->getDocument();
-		$router   = static::getRouter();
 		$params   = $this->getParams();
 
 		// Register the document object with Factory
@@ -396,7 +395,8 @@ final class SiteApplication extends CMSApplication
 	 *
 	 * @return	Router
 	 *
-	 * @since	3.2
+	 * @since       3.2
+	 * @deprecated  5.0 Get the router from the RouterFactoryInterface instead
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{

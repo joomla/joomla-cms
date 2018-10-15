@@ -170,7 +170,8 @@ class AdministratorApplication extends CMSApplication
 	 *
 	 * @return  Router
 	 *
-	 * @since	3.2
+	 * @since       3.2
+	 * @deprecated  5.0 Get the router from the RouterFactoryInterface instead
 	 */
 	public static function getRouter($name = 'administrator', array $options = array())
 	{
