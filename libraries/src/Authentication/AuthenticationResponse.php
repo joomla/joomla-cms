@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Authentication response class, provides an object for storing user and error details
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class AuthenticationResponse
 {
@@ -21,7 +21,7 @@ class AuthenticationResponse
 	 * Response status (see status codes)
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $status = Authentication::STATUS_FAILURE;
 
@@ -29,7 +29,7 @@ class AuthenticationResponse
 	 * The type of authentication that was successful
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $type = '';
 
@@ -37,7 +37,7 @@ class AuthenticationResponse
 	 *  The error message
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $error_message = '';
 
@@ -45,7 +45,7 @@ class AuthenticationResponse
 	 * Any UTF-8 string that the End User wants to use as a username.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $username = '';
 
@@ -53,7 +53,7 @@ class AuthenticationResponse
 	 * Any UTF-8 string that the End User wants to use as a password.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $password = '';
 
@@ -61,7 +61,7 @@ class AuthenticationResponse
 	 * The email address of the End User as specified in section 3.4.1 of [RFC2822]
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $email = '';
 
@@ -69,7 +69,7 @@ class AuthenticationResponse
 	 * UTF-8 string free text representation of the End User's full name.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $fullname = '';
 
@@ -83,7 +83,7 @@ class AuthenticationResponse
 	 * not the month or day, the value returned SHALL be "1980-00-00".
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $birthdate = '';
 
@@ -91,7 +91,7 @@ class AuthenticationResponse
 	 * The End User's gender, "M" for male, "F" for female.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $gender = '';
 
@@ -99,7 +99,7 @@ class AuthenticationResponse
 	 * UTF-8 string free text that SHOULD conform to the End User's country's postal system.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $postcode = '';
 
@@ -107,7 +107,7 @@ class AuthenticationResponse
 	 * The End User's country of residence as specified by ISO3166.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $country = '';
 
@@ -115,7 +115,7 @@ class AuthenticationResponse
 	 * End User's preferred language as specified by ISO639.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $language = '';
 
@@ -123,7 +123,7 @@ class AuthenticationResponse
 	 * ASCII string from TimeZone database
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $timezone = '';
 }

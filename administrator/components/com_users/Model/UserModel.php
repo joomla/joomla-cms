@@ -927,7 +927,8 @@ class UserModel extends AdminModel
 
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
-			$model = new GroupsModel(array('ignore_request' => true));
+			$model = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+				->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 
 			return $model->getItems();
 		}
@@ -1157,7 +1158,7 @@ class UserModel extends AdminModel
 	 */
 	public function getOtpConfigEncryptionKey()
 	{
-		return Factory::getConfig()->get('secret');
+		return Factory::getApplication()->get('secret');
 	}
 
 	/**

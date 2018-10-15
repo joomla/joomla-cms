@@ -625,7 +625,7 @@ class ModuleModel extends AdminModel
 				$data->set('published', $app->input->getInt('published', ((isset($filters['state']) && $filters['state'] !== '') ? $filters['state'] : null)));
 				$data->set('position', $app->input->getInt('position', (!empty($filters['position']) ? $filters['position'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
-				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access'))));
+				$data->set('access', $app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access'))));
 			}
 
 			// Avoid to delete params of a second module opened in a new browser tab while new one is not saved yet.

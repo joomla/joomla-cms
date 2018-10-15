@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Language helper class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class LanguageHelper
 {
@@ -33,7 +33,7 @@ class LanguageHelper
 	 *
 	 * @return  array  List of system languages
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -60,7 +60,7 @@ class LanguageHelper
 	 *
 	 * @return  string  locale or null if not found
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function detectLanguage()
 	{
@@ -110,7 +110,7 @@ class LanguageHelper
 	 *
 	 * @return  array  An array of published languages
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getLanguages($key = 'default')
 	{
@@ -422,8 +422,6 @@ class LanguageHelper
 	 */
 	public static function saveToIniFile($filename, array $strings)
 	{
-		\JLoader::register('\JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
-
 		// Escape double quotes.
 		foreach ($strings as $key => $string)
 		{
