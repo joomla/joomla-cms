@@ -1518,7 +1518,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce-small.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/img/wline.gif',
-			'/media/jui/img/ajax-loader.gif',
 			'/media/mod_languages/images/km_kr.gif',
 			'/media/mod_languages/images/si_LK.gif',
 			'/plugins/editors/codemirror/styles.css',
