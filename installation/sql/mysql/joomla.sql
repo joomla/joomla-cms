@@ -2160,7 +2160,8 @@ CREATE TABLE IF NOT EXISTS `#__action_logs` (
   PRIMARY KEY (`id`)
   KEY (`user_id`),
   KEY (`user_id`, `log_date`),
-  KEY (`user_id`, `extension`)
+  KEY (`user_id`, `extension`),
+	KEY (`extension`, `item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
