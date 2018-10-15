@@ -121,7 +121,7 @@ class JFormFieldTest extends TestCaseDatabase
 
 		$this->assertTrue(is_array($layoutPaths));
 		$this->assertTrue(count($layoutPaths) > 0);
-		$this->assertSame(__DIR__ . '/_testfields', $layoutPaths[0]);
+		$this->assertSame(__DIR__ . DIRECTORY_SEPARATOR . '_testfields', $layoutPaths[0]);
 	}
 
 	/**
