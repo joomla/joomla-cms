@@ -34,7 +34,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 * Context aliases
 	 *
 	 * @var    array
-	 * @since  3.9.0 
+	 * @since  3.9.0
 	 */
 	protected $contextAliases = array('com_content.form' => 'com_content.article');
 
@@ -350,8 +350,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'         => 'install',
 			'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $extensionType,
 			'id'             => $eid,
-			'name'           => (string) $manifest->name,
-			'extension_name' => (string) $manifest->name
+			'name'           => JText::_((string) $manifest->name),
+			'extension_name' => JText::_((string) $manifest->name)
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -408,8 +408,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'         => 'install',
 			'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $extensionType,
 			'id'             => $eid,
-			'name'           => (string) $manifest->name,
-			'extension_name' => (string) $manifest->name
+			'name'           => JText::_((string) $manifest->name),
+			'extension_name' => JText::_((string) $manifest->name)
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -459,8 +459,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'         => 'update',
 			'type'           => 'PLG_ACTIONLOG_JOOMLA_TYPE_' . $extensionType,
 			'id'             => $eid,
-			'name'           => (string) $manifest->name,
-			'extension_name' => (string) $manifest->name
+			'name'           => JText::_((string) $manifest->name),
+			'extension_name' => JText::_((string) $manifest->name)
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
