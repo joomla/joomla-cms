@@ -2144,6 +2144,11 @@ CREATE TABLE "#__action_logs" (
   PRIMARY KEY ("id")
 );
 
+CREATE INDEX "#__action_logs_idx_user_id" ON "#__action_logs" ("user_id"); 
+CREATE INDEX "#__action_logs_idx_user_id_logdate" ON "#__action_logs" ("user_id", "log_date"); 
+CREATE INDEX "#__action_logs_idx_user_id_extension ON "#__action_logs" ("user_id", "extension");
+								    
+--								    
 -- Table: #__action_logs_extensions
 --
 CREATE TABLE "#__action_logs_extensions" (
