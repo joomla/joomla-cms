@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Filesystem
  * @since       3.4
- * @deprecated  4.0 Will be removed without replacement
+ * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
  */
 class FileWrapper
 {
@@ -31,7 +31,7 @@ class FileWrapper
 	 *
 	 * @see         File::getExt()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function getExt($file)
 	{
@@ -47,7 +47,7 @@ class FileWrapper
 	 *
 	 * @see         File::stripExt()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function stripExt($file)
 	{
@@ -63,7 +63,7 @@ class FileWrapper
 	 *
 	 * @see         File::makeSafe()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function makeSafe($file)
 	{
@@ -82,7 +82,7 @@ class FileWrapper
 	 *
 	 * @see         File::copy()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function copy($src, $dest, $path = null, $use_streams = false)
 	{
@@ -98,7 +98,7 @@ class FileWrapper
 	 *
 	 * @see         File::delete()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function delete($file)
 	{
@@ -117,7 +117,7 @@ class FileWrapper
 	 *
 	 * @see         File::move()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function move($src, $dest, $path = '', $use_streams = false)
 	{
@@ -137,7 +137,7 @@ class FileWrapper
 	 *
 	 * @see         File::read()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function read($filename, $incpath = false, $amount = 0, $chunksize = 8192, $offset = 0)
 	{
@@ -155,7 +155,7 @@ class FileWrapper
 	 *
 	 * @see         File::write()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function write($file, &$buffer, $use_streams = false)
 	{
@@ -173,7 +173,7 @@ class FileWrapper
 	 *
 	 * @see         File::upload()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function upload($src, $dest, $use_streams = false)
 	{
@@ -189,7 +189,7 @@ class FileWrapper
 	 *
 	 * @see         File::exists()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function exists($file)
 	{
@@ -205,7 +205,7 @@ class FileWrapper
 	 *
 	 * @see         File::getName()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\File instead
 	 */
 	public function getName($file)
 	{

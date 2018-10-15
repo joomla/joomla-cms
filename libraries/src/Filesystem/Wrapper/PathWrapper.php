@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  * @package     Joomla.Platform
  * @subpackage  Filesystem
  * @since       3.4
- * @deprecated  4.0 Will be removed without replacement
+ * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
  */
 class PathWrapper
 {
@@ -31,7 +31,7 @@ class PathWrapper
 	 *
 	 * @see         Path::canChmod()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function canChmod($path)
 	{
@@ -49,7 +49,7 @@ class PathWrapper
 	 *
 	 * @see         Path::setPermissions()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function setPermissions($path, $filemode = '0644', $foldermode = '0755')
 	{
@@ -65,7 +65,7 @@ class PathWrapper
 	 *
 	 * @see         Path::getPermissions()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function getPermissions($path)
 	{
@@ -82,7 +82,7 @@ class PathWrapper
 	 * @see         Path::check()
 	 * @since       3.4
 	 * @throws      Exception
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function check($path)
 	{
@@ -100,7 +100,7 @@ class PathWrapper
 	 * @see         Path::clean()
 	 * @since       3.4
 	 * @throws      UnexpectedValueException
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function clean($path, $ds = DIRECTORY_SEPARATOR)
 	{
@@ -116,7 +116,7 @@ class PathWrapper
 	 *
 	 * @see         Path::isOwner()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function isOwner($path)
 	{
@@ -133,7 +133,7 @@ class PathWrapper
 	 *
 	 * @see         Path::find()
 	 * @since       3.4
-	 * @deprecated  4.0 Will be removed without replacement
+	 * @deprecated  4.0 Use \Joomla\CMS\Filesystem\Path instead
 	 */
 	public function find($paths, $file)
 	{
