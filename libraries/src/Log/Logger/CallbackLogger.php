@@ -19,7 +19,7 @@ use Joomla\CMS\Log\Logger;
  * This class allows logging to be handled by a callback function.
  * This allows unprecedented flexibility in the way logging can be handled.
  *
- * @since  12.2
+ * @since  3.0.1
  */
 class CallbackLogger extends Logger
 {
@@ -27,7 +27,7 @@ class CallbackLogger extends Logger
 	 * The function to call when an entry is added
 	 *
 	 * @var    callable
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $callback;
 
@@ -36,7 +36,7 @@ class CallbackLogger extends Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \RuntimeException
 	 */
 	public function __construct(array &$options)
@@ -60,7 +60,7 @@ class CallbackLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \RuntimeException
 	 */
 	public function addEntry(LogEntry $entry)

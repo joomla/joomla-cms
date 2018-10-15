@@ -15,9 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.multiselect');
 
 $user      = Factory::getUser();
@@ -35,6 +32,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('selectorFieldName' => 'client_id'))); ?>
 				<?php if ($this->total > 0) : ?>
 					<table class="table" id="template-mgr">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_TEMPLATES_TEMPLATES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<th scope="col" class="col1template d-none d-md-table-cell" style="width:20%">

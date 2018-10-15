@@ -85,7 +85,7 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
@@ -734,7 +734,7 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getStart()
 	{

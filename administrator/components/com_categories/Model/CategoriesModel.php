@@ -359,7 +359,7 @@ class CategoriesModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{

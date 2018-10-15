@@ -13,7 +13,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 HTMLHelper::_('behavior.core');
 
 // Add strings for translations in Javascript.

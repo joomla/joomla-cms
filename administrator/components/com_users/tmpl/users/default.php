@@ -38,9 +38,14 @@ $loggeduser = Factory::getUser();
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table" id="userList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">
@@ -109,7 +114,7 @@ $loggeduser = Factory::getUser();
 										<?php echo HTMLHelper::_('users.addNote', $item->id); ?>
 										<?php if ($item->note_count > 0) : ?>
 										<button type="button" class="btn btn-secondary btn-sm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-											<span class="sr-only">Toggle Dropdown</span>
+											<span class="sr-only"><?php echo Text::_('JGLOBAL_TOGGLE_DROPDOWN'); ?></span>
 										</button>
 										<div class="dropdown-menu">
 											<?php echo HTMLHelper::_('users.filterNotes', $item->note_count, $item->id); ?>

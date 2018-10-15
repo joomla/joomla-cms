@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Stemmer base class.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 abstract class LanguageStemmer
 {
@@ -21,13 +21,13 @@ abstract class LanguageStemmer
 	 * An internal cache of stemmed tokens.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $cache = array();
 
 	/**
 	 * @var    array  LanguageStemmer instances.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $instances = array();
 
@@ -38,7 +38,7 @@ abstract class LanguageStemmer
 	 *
 	 * @return  LanguageStemmer  A LanguageStemmer instance.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException on invalid stemmer.
 	 */
 	public static function getInstance($adapter)
@@ -72,7 +72,7 @@ abstract class LanguageStemmer
 	 *
 	 * @return  string  The root token.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	abstract public function stem($token, $lang);
 }
