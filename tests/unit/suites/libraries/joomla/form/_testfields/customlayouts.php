@@ -33,7 +33,7 @@ class JFormFieldCustomlayouts extends JFormField
 	protected function getLayoutPaths()
 	{
 		return array_merge(
-			[__DIR__],
+			array(__DIR__),
 			parent::getLayoutPaths()
 		);
 	}
