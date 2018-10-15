@@ -20,7 +20,7 @@ use Joomla\Filter\InputFilter as BaseInputFilter;
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class InputFilter extends BaseInputFilter
 {
@@ -42,7 +42,7 @@ class InputFilter extends BaseInputFilter
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0, ask the database driver = -1
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
 	{
@@ -95,7 +95,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  InputFilter  The InputFilter object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
 	{
@@ -135,7 +135,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($source, $type = 'string')
 	{

@@ -18,7 +18,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Extension table
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Extension extends Table
 {
@@ -27,7 +27,7 @@ class Extension extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -40,7 +40,7 @@ class Extension extends Table
 	 * @return  boolean  True if the object is ok
 	 *
 	 * @see     Table::check()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -76,7 +76,7 @@ class Extension extends Table
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     Table::bind()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -102,7 +102,7 @@ class Extension extends Table
 	 *
 	 * @return  string  The database query result
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function find($options = array())
 	{
@@ -133,7 +133,7 @@ class Extension extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
 	{

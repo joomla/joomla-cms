@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * TODO: Test these methods as the regex work is first run and not tested thoroughly
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class MailHelper
 {
@@ -27,7 +27,7 @@ abstract class MailHelper
 	 *
 	 * @return  string  Cleaned string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function cleanLine($value)
 	{
@@ -43,7 +43,7 @@ abstract class MailHelper
 	 *
 	 * @return  string  Cleaned multi-line string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function cleanText($value)
 	{
@@ -57,7 +57,7 @@ abstract class MailHelper
 	 *
 	 * @return  string  Cleaned email body string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function cleanBody($body)
 	{
@@ -72,7 +72,7 @@ abstract class MailHelper
 	 *
 	 * @return  string  Cleaned email subject string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function cleanSubject($subject)
 	{
@@ -86,7 +86,7 @@ abstract class MailHelper
 	 *
 	 * @return  mixed   email address string or boolean false if injected headers are present.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function cleanAddress($address)
 	{
@@ -105,7 +105,7 @@ abstract class MailHelper
 	 *
 	 * @return  boolean  True if string has the correct format; false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function isEmailAddress($email)
 	{

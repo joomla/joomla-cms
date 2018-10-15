@@ -28,7 +28,7 @@ class PlgEditorCodemirror extends CMSPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $autoloadLanguage = true;
 
