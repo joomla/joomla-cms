@@ -9,25 +9,189 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Controller for single contact view
  *
- * @since  1.5.19
+ * @since  __DEPLOY_VERSION__
  */
 class ContactControllerContact extends JControllerForm
 {
 	/**
+	 * The URL view item variable.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $view_item = 'form';
+
+	/**
+	 * The URL view list variable.
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $view_list = 'categories';
+
+	/**
+	 * Method override to check if you can add a new record.
+	 *
+	 * @param   array $data An array of input data.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function allowAdd($data = array())
+	{
+		if ($categoryId = ArrayHelper::getValue($data, 'catid', $this->input->getInt('catid'), 'int'))
+		{
+			$user = JFactory::getUser();
+
+			// If the category has been passed in the data or URL check it.
+			return $user->authorise('core.create', 'com_contact.category.' . $categoryId);
+		}
+
+		// In the absence of better information, revert to the component permissions.
+		return parent::allowAdd();
+	}
+
+	/**
+	 * Method override to check if you can edit an existing record.
+	 *
+	 * @param   array  $data An array of input data.
+	 * @param   string $key  The name of the key for the primary key; default is id.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		$recordId = (int) isset($data[$key]) ? $data[$key] : 0;
+
+		if (!$recordId)
+		{
+			return false;
+		}
+
+		// Need to do a lookup from the model.
+		$record     = $this->getModel()->getItem($recordId);
+		$categoryId = (int) $record->catid;
+
+		if ($categoryId)
+		{
+			$user = JFactory::getUser();
+
+			// The category has been set. Check the category permissions.
+			if ($user->authorise('core.edit', $this->option . '.category.' . $categoryId))
+			{
+				return true;
+			}
+
+			// Fallback on edit.own.
+			if ($user->authorise('core.edit.own', $this->option . '.category.' . $categoryId))
+			{
+				return ($record->created_by == $user->id);
+			}
+		}
+		else
+		{
+			// Since there is no asset tracking, revert to the component permissions.
+			return parent::allowEdit($data, $key);
+		}
+
+		return false;
+	}
+
+	/**
+	 * Gets the URL arguments to append to an item redirect.
+	 *
+	 * @param   integer $recordId The primary key id for the item.
+	 * @param   string  $urlVar   The name of the URL variable for the id.
+	 *
+	 * @return  string    The arguments to append to the redirect URL.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getRedirectToItemAppend($recordId = null, $urlVar = null)
+	{
+		// Need to override the parent method completely.
+		$tmpl = $this->input->get('tmpl');
+
+		$append = '';
+
+		// Setup redirect info.
+		if ($tmpl)
+		{
+			$append .= '&tmpl=' . $tmpl;
+		}
+
+		$append .= '&layout=edit';
+
+		if ($recordId)
+		{
+			$append .= '&' . $urlVar . '=' . $recordId;
+		}
+
+		$itemId = $this->input->getInt('Itemid');
+		$return = $this->getReturnPage();
+		$catId  = $this->input->getInt('catid');
+
+		if ($itemId)
+		{
+			$append .= '&Itemid=' . $itemId;
+		}
+
+		if ($catId)
+		{
+			$append .= '&catid=' . $catId;
+		}
+
+		if ($return)
+		{
+			$append .= '&return=' . base64_encode($return);
+		}
+
+		return $append;
+	}
+
+	/**
+	 * Get the return URL.
+	 *
+	 * If a "return" variable has been passed in the request
+	 *
+	 * @return  string    The return URL.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getReturnPage()
+	{
+		$return = $this->input->get('return', null, 'base64');
+
+		if (empty($return) || !JUri::isInternal(base64_decode($return)))
+		{
+			return JUri::base();
+		}
+		else
+		{
+			return base64_decode($return);
+		}
+	}
+
+	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
+	 * @param   string $name   The model name. Optional.
+	 * @param   string $prefix The class prefix. Optional.
+	 * @param   array  $config Configuration array for model. Optional.
 	 *
 	 * @return  JModelLegacy  The model.
 	 *
 	 * @since   1.6.4
 	 */
-	public function getModel($name = '', $prefix = '', $config = array('ignore_request' => true))
+	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, array('ignore_request' => false));
 	}
@@ -58,7 +222,7 @@ class ContactControllerContact extends JControllerForm
 		$contact = $model->getItem($id);
 
 		// Get item params, take menu parameters into account if necessary
-		$active = $app->getMenu()->getActive();
+		$active      = $app->getMenu()->getActive();
 		$stateParams = clone $model->getState()->get('params');
 
 		// If the current view is the active item and a contact view for this contact, then the menu item params take priority
@@ -188,9 +352,9 @@ class ContactControllerContact extends JControllerForm
 	/**
 	 * Method to get a model object, loading it if required.
 	 *
-	 * @param   array     $data                  The data to send in the email.
-	 * @param   stdClass  $contact               The user information to send the email to
-	 * @param   boolean   $copy_email_activated  True to send a copy of the email to the user.
+	 * @param   array    $data                 The data to send in the email.
+	 * @param   stdClass $contact              The user information to send the email to
+	 * @param   boolean  $copy_email_activated True to send a copy of the email to the user.
 	 *
 	 * @return  boolean  True on success sending the email, false on failure.
 	 *

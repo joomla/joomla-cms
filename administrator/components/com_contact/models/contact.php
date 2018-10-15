@@ -58,6 +58,15 @@ class ContactModelContact extends JModelAdmin
 	);
 
 	/**
+	 * Name of the form
+	 *
+	 * @var string
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $formName = 'contact';
+
+	/**
 	 * Batch change a linked user.
 	 *
 	 * @param   integer  $value     The new value matching a User ID.
@@ -175,7 +184,7 @@ class ContactModelContact extends JModelAdmin
 		JForm::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
 		// Get the form.
-		$form = $this->loadForm('com_contact.contact', 'contact', array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_contact.contact', $this->formName, array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{

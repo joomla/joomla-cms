@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_CONTACT_FORM_VIEW_DEFAULT_TITLE">
+		<help
+			key="JHELP_MENUS_MENU_ITEM_CONTACT_CREATE"
+		/>
+		<message>
+			<![CDATA[COM_CONTACT_FORM_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+	<fields name="params">
+
+	</fields>
+</metadata>
