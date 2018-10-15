@@ -894,7 +894,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		// If not, set the user language in the session (that is already saved in a cookie).
 		else
 		{
-			Factory::getSession()->set('plg_system_languagefilter.language', $languageCode);
+			$this->app->getSession()->set('plg_system_languagefilter.language', $languageCode);
 		}
 	}
 
@@ -915,7 +915,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		// Else get the user language from the session.
 		else
 		{
-			$languageCode = Factory::getSession()->get('plg_system_languagefilter.language');
+			$languageCode = $this->app->getSession()->get('plg_system_languagefilter.language');
 		}
 
 		// Let's be sure we got a valid language code. Fallback to null.

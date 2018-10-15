@@ -74,7 +74,7 @@ class ContactModel extends AdminModel
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{

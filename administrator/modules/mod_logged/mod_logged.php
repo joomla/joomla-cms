@@ -19,7 +19,7 @@ if ($params->get('automatic_title', 0))
 }
 
 // Check if session metadata tracking is enabled
-if (Factory::getConfig()->get('session_metadata', true))
+if ($app->get('session_metadata', true))
 {
 	$users = LoggedHelper::getList($params);
 

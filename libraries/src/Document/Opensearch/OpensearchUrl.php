@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Data object representing an OpenSearch URL
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class OpensearchUrl
 {
@@ -23,7 +23,7 @@ class OpensearchUrl
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $type = 'text/html';
 
@@ -33,7 +33,7 @@ class OpensearchUrl
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $rel = 'results';
 
@@ -43,7 +43,7 @@ class OpensearchUrl
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $template;
 }
