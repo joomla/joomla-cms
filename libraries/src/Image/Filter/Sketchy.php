@@ -19,7 +19,7 @@ Log::add('JImageFilterSketchy is deprecated, use Joomla\Image\Filter\Sketchy ins
 /**
  * Image Filter class to make an image appear "sketchy".
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Sketchy instead
  */
 class Sketchy extends ImageFilter
@@ -31,7 +31,7 @@ class Sketchy extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  5.0  Use Joomla\Image\Filter\Sketchy::execute() instead
 	 */
 	public function execute(array $options = array())

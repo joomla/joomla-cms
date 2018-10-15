@@ -18,7 +18,7 @@ FormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Implements a combo box field.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ComboField extends \JFormFieldList
 {
@@ -26,7 +26,7 @@ class ComboField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Combo';
 
@@ -43,7 +43,7 @@ class ComboField extends \JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

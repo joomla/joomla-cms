@@ -20,7 +20,7 @@ use Joomla\CMS\Helper\UserGroupsHelper;
  * Field for assigning permissions to groups for a given asset
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
 class RulesField extends FormField
 {
@@ -28,7 +28,7 @@ class RulesField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Rules';
 
@@ -145,7 +145,7 @@ class RulesField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo:   Add access check.
 	 */
 	protected function getInput()
@@ -258,7 +258,7 @@ class RulesField extends FormField
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getUserGroups()
 	{
