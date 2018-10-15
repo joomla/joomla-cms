@@ -13,7 +13,7 @@ JFormHelper::loadFieldClass('list');
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
- * Field to load a list of all users that have logged actions
+ * Field to load a list of all extensions that have logged actions
  *
  * @since  3.9.0
  */
