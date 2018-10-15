@@ -127,7 +127,7 @@ class PlgSystemCache extends CMSPlugin
 		$results = $this->app->triggerEvent('onPageCacheSetCaching');
 		$caching = !in_array(false, $results, true);
 
-		if ($caching && $user->get('guest') && $app->input->getMethod() == 'GET')
+		if ($caching && $user->get('guest') && $app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
