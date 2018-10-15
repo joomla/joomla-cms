@@ -155,6 +155,7 @@ $doNotPackage = array(
 	'.hound.yml',
 	'.php_cs',
 	'.travis.yml',
+	'crowdin.yml',
 	'README.md',
 	'SECURITY.md',
 	'appveyor-phpunit.xml',
