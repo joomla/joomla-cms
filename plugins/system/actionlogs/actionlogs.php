@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Joomla! Users Actions Logging Plugin.
  *
@@ -52,8 +54,13 @@ class PlgSystemActionLogs extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		// Import actionlog plugin group so that these plugins will be triggered for events
-		JPluginHelper::importPlugin('actionlog');
+		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
+
+		if ($params->get('actions_logging'))
+		{
+			// Import actionlog plugin group so that these plugins will be triggered for events
+			JPluginHelper::importPlugin('actionlog');
+		}
 	}
 
 	/**
