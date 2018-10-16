@@ -40,7 +40,7 @@ class PrivacyTableConsent extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   1.7.0
+	 * @since   3.9.0
 	 */
 	public function store($updateNulls = false)
 	{
