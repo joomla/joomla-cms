@@ -38,8 +38,6 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	 */
 	public function getInput()
 	{
-		$html = '';
-
 		// Including fallback code for HTML5 non supported browsers.
 		JHtml::_('jquery.framework');
 		JHtml::_('script', 'system/html5fallback.js', false, true);
@@ -59,17 +57,17 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 		// Add the script to the document head
 		JFactory::getDocument()->addScriptDeclaration($script);
 
-		$html.= '<div class="well well-small">';
-		$html.= '<div class="form-inline">';
-		$html.= '<span class="small">' . JText::_('JSELECT') . ': ';
-		$html.= '<a id="checkAll" href="javascript://" onclick="eventsCheckAll(true)">' . JText::_('JALL') . '</a>, ';
-		$html.= '<a id="uncheckAll" href="javascript://" onclick="eventsCheckAll(false)">' . JText::_('JNONE') . '</a>';
-		$html.= '</span>';
-		$html.= '</div>';
+		$html = '<div class="well well-small">';
+		$html .= '<div class="form-inline">';
+		$html .= '<span class="small">' . JText::_('JSELECT') . ': ';
+		$html .= '<a id="checkAll" href="javascript://" onclick="eventsCheckAll(true)">' . JText::_('JALL') . '</a>, ';
+		$html .= '<a id="uncheckAll" href="javascript://" onclick="eventsCheckAll(false)">' . JText::_('JNONE') . '</a>';
+		$html .= '</span>';
+		$html .= '</div>';
 
-		$html.= '<div class="clearfix"></div>';
+		$html .= '<div class="clearfix"></div>';
 
-		$html.= '<hr class="hr-condensed" />';
+		$html .= '<hr class="hr-condensed" />';
 
 		/**
 		 * The format of the input tag to be filled in using sprintf.
@@ -86,7 +84,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 		// Get the field options.
 		$options = $this->getOptions();
 
-		$html.= '<fieldset id="' . $this->id . '" class="' . trim($this->class . ' checkboxes') . '">';
+		$html .= '<fieldset id="' . $this->id . '" class="' . trim($this->class . ' checkboxes') . '">';
 
 		foreach ($options as $i => $option)
 		{
@@ -95,14 +93,14 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 			$oid     = $this->id . $i;
 			$value   = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
 
-			$html.= '<label for="' . $oid . '" class="checkbox">';
-			$html.= sprintf($format, $oid, $this->name, $value, ' ' . $checked);
-			$html.= $option->text . '</label>';
+			$html .= '<label for="' . $oid . '" class="checkbox">';
+			$html .= sprintf($format, $oid, $this->name, $value, ' ' . $checked);
+			$html .= $option->text . '</label>';
 		}
 
-		$html.= '</fieldset>';
+		$html .= '</fieldset>';
 
-		$html.= '</div>';
+		$html .= '</div>';
 
 		return $html;
 	}
