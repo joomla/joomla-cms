@@ -269,7 +269,7 @@ class ContentModelArticle extends JModelItem
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
-			$userIP = $_SERVER['REMOTE_ADDR'];
+			$userIP = FOFUtilsIp::getIp();
 
 			// Initialize variables.
 			$db    = $this->getDbo();
