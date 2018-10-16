@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Installer\Installer as JInstaller;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\DispatcherInterface;
-use Joomla\CMS\Installer\Installer as JInstaller;
 
 /**
  * Joomla! namespace map creator / updater.
