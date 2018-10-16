@@ -28,6 +28,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	 * @since  3.9.0
 	 */
 	protected $type = 'LogType';
+
 	/**
 	 * Method to get the field input markup for check boxes.
 	 *
