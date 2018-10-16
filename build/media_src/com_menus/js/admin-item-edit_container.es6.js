@@ -8,44 +8,47 @@
  */
 
 (() => {
-  const disable = (element) => {
-    if (element.getAttribute('disabled')) {
-      console.log('HAS ATTRIBUTE');
-      element.removeAttribute('disabled');
-    } else {
-      element.setAttribute('disabled', 'disabled');
+  const isChecked = element => element.checked;
+
+  const getTreeElements = element => element.querySelectorAll('input[type="checkbox"]');
+
+  const getTreeRoot = element => element.parentElement.nextElementSibling;
+
+  const check = (element) => {
+    element.checked = true;
+  };
+
+  const uncheck = (element) => {
+    element.checked = false;
+  };
+
+  const disable = element => element.setAttribute('disabled', 'disabled');
+
+  const enable = element => element.removeAttribute('disabled');
+
+  const toggleState = (element, rootChecked) => {
+    if (rootChecked === true) {
+      disable(element);
+      check(element);
+
+      return;
     }
-  }
 
-  const getRootChildren = (element) => element ? element.querySelectorAll('input[type="checkbox"]') : undefined;
+    enable(element);
+    uncheck(element);
+  };
+  const switchState = ({ target }) => {
+    const root = getTreeRoot(target);
+    const selfChecked = isChecked(target);
 
-  const checkIfRoot = (element) =>  getRootChildren(element.parentElement.nextElementSibling);
+    if (root) {
+      getTreeElements(root).map(element => toggleState(element, selfChecked));
+    }
+  };
 
   window.addEventListener('load', () => {
-    const checkboxes = document.querySelectorAll('.treeselect input[type="checkbox"]');
-
-    for (let checkbox of checkboxes) {
-      checkbox.addEventListener('click', (event) => {
-        const targetElement = event.target;
-
-        if (Number(targetElement.value) === 1) {
-          checkboxes
-            .filter(checkbox => checkbox !== targetElement)
-            .map(checkbox => disable(checkbox));
-        }
-
-        if (typeof checkIfRoot(targetElement) !== 'undefined') {
-          for (let subCheckbox of checkIfRoot(targetElement)) {
-            disable(subCheckbox);
-          }
-        } else {
-          disable(targetElement);
-        }
-      })
-    }
-  })
-})()
-
-
-
-
+    Array.from(document.querySelectorAll('.treeselect input[type="checkbox"]')).forEach((checkbox) => {
+      checkbox.addEventListener('click', switchState);
+    });
+  });
+})();
