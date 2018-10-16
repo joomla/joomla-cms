@@ -163,7 +163,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			$this->assets,
 			function($asset)
 			{
-                /** @var WebAssetItem $asset */
+				/** @var WebAssetItem $asset */
 				return $asset->isActive();
 			}
 		);
@@ -187,8 +187,8 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			$this->assets,
 			function($asset) use ($state)
 			{
-                /** @var WebAssetItem $asset */
-                return $asset->getState() === $state;
+				/** @var WebAssetItem $asset */
+				return $asset->getState() === $state;
 			}
 		);
 
@@ -490,8 +490,8 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			$assets,
 			function($a, $b)
 			{
-                /** @var WebAssetItem $a */
-                /** @var WebAssetItem $b */
+				/** @var WebAssetItem $a */
+				/** @var WebAssetItem $b */
 				if ($a->getWeight() === $b->getWeight())
 				{
 					return 0;

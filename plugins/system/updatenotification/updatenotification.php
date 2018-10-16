@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Version;
-use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Updater\Updater;
-use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);

@@ -9,24 +9,24 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Router\RouterFactoryInterface;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Router\Router;
-use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
-use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Router\RouterFactoryInterface;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! Language Filter Plugin.
