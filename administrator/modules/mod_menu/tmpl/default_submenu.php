@@ -111,7 +111,7 @@ if ($this->enabled && $current->hasChildren())
 	if ($current->getLevel() > 1)
 	{
 		$id = $current->get('id') ? ' id="menu-' . strtolower($current->get('id')) . '"' : '';
-		
+
 		echo '<ul' . $id . ' class="collapse collapse-level-' . $current->getLevel() . '">' . "\n";
 	}
 	else
