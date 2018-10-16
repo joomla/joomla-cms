@@ -45,6 +45,3 @@ if ($root->hasChildren())
 		$doc->addStyleDeclaration(implode("\n", $css));
 	}
 }
-
-?>
-
