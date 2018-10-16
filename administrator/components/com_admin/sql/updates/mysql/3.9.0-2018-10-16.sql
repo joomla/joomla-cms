@@ -1,0 +1,1 @@
+ALTER TABLE `#__session` ADD INDEX `client_guest` (`client_id`, `guest`);
