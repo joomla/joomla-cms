@@ -303,7 +303,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   3.9.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
