@@ -7,13 +7,13 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     [].slice.call(document.querySelectorAll('input[type="password"]')).forEach((input) => {
-      const inputGroup = input.parentNode;
+      const inputGroup = input.parentNode.querySelector('.input-group-prepend, .input-group-append');
 
       if (!inputGroup) {
         return;
       }
 
-      inputGroup.querySelector('.input-group-prepend, .input-group-append').addEventListener('click', (e) => {
+      inputGroup.addEventListener('click', (e) => {
         const { target } = e;
         const srText = target.previousSibling;
 
