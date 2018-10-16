@@ -34,7 +34,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   3.9.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getInput()
 	{
