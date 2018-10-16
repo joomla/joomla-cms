@@ -129,7 +129,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	{
 		$input      = \JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
-		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$remoteip   = FOFUtilsIp::getIp();
 
 		$response  = $input->get('g-recaptcha-response', '', 'string');
 
