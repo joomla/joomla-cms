@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Media\Administrator\Event\MediaProviderEvent;
 use Joomla\Component\Media\Administrator\Provider\ProviderInterface;
-use Joomla\CMS\Language\Text;
 
 /**
  * FileSystem Local plugin.
