@@ -25,7 +25,7 @@ class JEventDispatcher extends JObject
 	 * An array of Observer objects to notify
 	 *
 	 * @var    array
-	 * @since  1.7.3
+	 * @since  3.0.0
 	 */
 	protected $_observers = array();
 
@@ -33,7 +33,7 @@ class JEventDispatcher extends JObject
 	 * The state of the observable object
 	 *
 	 * @var    mixed
-	 * @since  1.7.3
+	 * @since  3.0.0
 	 */
 	protected $_state = null;
 
@@ -41,7 +41,7 @@ class JEventDispatcher extends JObject
 	 * A multi dimensional array of [function][] = key for observers
 	 *
 	 * @var    array
-	 * @since  1.7.3
+	 * @since  3.0.0
 	 */
 	protected $_methods = array();
 
@@ -49,7 +49,7 @@ class JEventDispatcher extends JObject
 	 * Stores the singleton instance of the dispatcher.
 	 *
 	 * @var    JEventDispatcher
-	 * @since  1.7.3
+	 * @since  3.0.0
 	 */
 	protected static $instance = null;
 
@@ -59,7 +59,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  JEventDispatcher  The EventDispatcher object.
 	 *
-	 * @since   1.7.0
+	 * @since   3.0.0
 	 */
 	public static function getInstance()
 	{
@@ -76,7 +76,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  mixed    The state of the object.
 	 *
-	 * @since   1.7.3
+	 * @since   3.0.0
 	 */
 	public function getState()
 	{
@@ -91,7 +91,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   1.7.0
+	 * @since   3.0.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function register($event, $handler)
@@ -123,7 +123,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  array  An array of results from each function call.
 	 *
-	 * @since   1.7.0
+	 * @since   3.0.0
 	 */
 	public function trigger($event, $args = array())
 	{
@@ -181,7 +181,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   1.7.3
+	 * @since   3.0.0
 	 */
 	public function attach($observer)
 	{
@@ -249,7 +249,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  boolean  True if the observer object was detached.
 	 *
-	 * @since   1.7.3
+	 * @since   3.0.0
 	 */
 	public function detach($observer)
 	{
