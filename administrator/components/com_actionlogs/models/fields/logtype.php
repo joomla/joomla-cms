@@ -61,8 +61,8 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 
 		$html.= '<div class="well well-small">';
 		$html.= '<div class="form-inline">';
-		$html.= '<span class="small">' . JText::_('JSELECT') . ':';
-		$html.= '<a id="checkAll" href="javascript://" onclick="eventsCheckAll(true)">' . JText::_('JALL') . '</a>,';
+		$html.= '<span class="small">' . JText::_('JSELECT') . ': ';
+		$html.= '<a id="checkAll" href="javascript://" onclick="eventsCheckAll(true)">' . JText::_('JALL') . '</a>, ';
 		$html.= '<a id="uncheckAll" href="javascript://" onclick="eventsCheckAll(false)">' . JText::_('JNONE') . '</a>';
 		$html.= '</span>';
 		$html.= '</div>';
