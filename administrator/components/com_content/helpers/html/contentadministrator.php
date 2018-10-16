@@ -97,12 +97,12 @@ abstract class JHtmlContentAdministrator
 	 * @param   integer  $value          The state value
 	 * @param   integer  $i              Row number
 	 * @param   boolean  $canChange      Is user allowed to change?
-	 * @param   string   $featured_up    An optional start featured date.
-	 * @param   string   $featured_down  An optional finish featured date.
+	 * @param   string   $featuredUp     An optional start featured date.
+	 * @param   string   $featuredDown   An optional finish featured date.
 	 *
 	 * @return  string       HTML code
 	 */
-	public static function featured($value = 0, $i, $canChange = true, $featured_up = null, $featured_down = null)
+	public static function featured($value = 0, $i, $canChange = true, $featuredUp = null, $featuredDown = null)
 	{
 		JHtml::_('bootstrap.tooltip');
 
@@ -114,43 +114,43 @@ abstract class JHtmlContentAdministrator
 		$state = ArrayHelper::getValue($states, (int) $value, $states[1]);
 
 		// Special state for dates
-		if (((int) $value == 1) && ($featured_up || $featured_down))
+		if (((int) $value == 1) && ($featuredUp || $featuredDown))
 		{
 			$nullDate = JFactory::getDbo()->getNullDate();
 			$nowDate = JFactory::getDate()->toUnix();
 
 			$tz = JFactory::getUser()->getTimezone();
 
-			$featured_up = ($featured_up != $nullDate) ? JFactory::getDate($featured_up, 'UTC')->setTimeZone($tz) : false;
-			$featured_down = ($featured_down != $nullDate) ? JFactory::getDate($featured_down, 'UTC')->setTimeZone($tz) : false;
+			$featuredUp = ($featuredUp != $nullDate) ? JFactory::getDate($featuredUp, 'UTC')->setTimeZone($tz) : false;
+			$featuredDown = ($featuredDown != $nullDate) ? JFactory::getDate($featuredDown, 'UTC')->setTimeZone($tz) : false;
 
 			// Create tip text, only we have featured up or down settings
 			$tips = array();
 
 			// Add tips and set icon
-			if ($featured_up > $nullDate)
+			if ($featuredUp > $nullDate)
 			{
-				if ($nowDate < $featured_up->toUnix())
+				if ($nowDate < $featuredUp->toUnix())
 				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_START', JHtml::_('date', $featured_up, JText::_('DATE_FORMAT_LC5'), 'UTC'));
+					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_START', JHtml::_('date', $featuredUp, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 					$state[0] = 'pending';
 				}
 				else
 				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_STARTED', JHtml::_('date', $featured_up, JText::_('DATE_FORMAT_LC5'), 'UTC'));
+					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_STARTED', JHtml::_('date', $featuredUp, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 			}
 
-			if ($featured_down > $nullDate)
+			if ($featuredDown > $nullDate)
 			{
-				if ($nowDate > $featured_down->toUnix())
+				if ($nowDate > $featuredDown->toUnix())
 				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISHED', JHtml::_('date', $featured_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
+					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISHED', JHtml::_('date', $featuredDown, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 					$state[0] = 'expired';
 				}
 				else
 				{
-					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISH', JHtml::_('date', $featured_down, JText::_('DATE_FORMAT_LC5'), 'UTC'));
+					$tips[] = JText::sprintf('JLIB_HTML_FEATURED_FINISH', JHtml::_('date', $featuredDown, JText::_('DATE_FORMAT_LC5'), 'UTC'));
 				}
 			}
 
