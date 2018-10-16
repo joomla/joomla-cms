@@ -123,11 +123,14 @@ Joomla = window.Joomla || {};
 		for (var i = 0; i < allLinks.length; i++) {
 			if (currentUrl === allLinks[i].href) {
 				allLinks[i].classList.add('active');
-				// Auto Expand First Level
+				// Auto Expand Levels
 				if (!allLinks[i].parentNode.classList.contains('parent')) {
 					var firstLevel = closest(allLinks[i], '.collapse-level-1');
+					var secondLevel = closest(allLinks[i], '.collapse-level-2');
 						if (firstLevel) firstLevel.parentNode.classList.add('active');
 						if (firstLevel) firstLevel.classList.add('in');
+						if (secondLevel) secondLevel.parentNode.classList.add('active');
+						if (secondLevel) secondLevel.classList.add('in');
 				}
 			}
 		}
