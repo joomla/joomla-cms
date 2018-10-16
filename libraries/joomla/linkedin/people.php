@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API People class for the Joomla Platform.
  *
- * @since  13.1
+ * @since  3.2.0
  */
 class JLinkedinPeople extends JLinkedinObject
 {
@@ -27,7 +27,7 @@ class JLinkedinPeople extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getProfile($id = null, $url = null, $fields = null, $type = 'standard', $language = null)
 	{
@@ -99,7 +99,7 @@ class JLinkedinPeople extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getConnections($fields = null, $start = 0, $count = 500, $modified = null, $modified_since = null)
 	{
@@ -183,7 +183,7 @@ class JLinkedinPeople extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function search($fields = null, $keywords = null, $first_name = null, $last_name = null, $company_name = null,
 		$current_company = null, $title = null, $current_title = null, $school_name = null, $current_school = null, $country_code = null,

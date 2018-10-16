@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  * a given list.
  *
  * @see    JDatabaseDriver
- * @since  11.3
+ * @since  1.7.3
  */
 class JFormFieldDatabaseConnection extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $type = 'DatabaseConnection';
 
@@ -37,7 +37,7 @@ class JFormFieldDatabaseConnection extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @see     JDatabaseDriver::getConnectors()
 	 */
 	protected function getOptions()

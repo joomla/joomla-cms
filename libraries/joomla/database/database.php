@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Database connector class.
  *
- * @since       11.1
- * @deprecated  13.3 (Platform) & 4.0 (CMS)
+ * @since       1.7.0
+ * @deprecated  4.0
  */
 abstract class JDatabase
 {
@@ -22,9 +22,9 @@ abstract class JDatabase
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 */
 	public function query()
 	{
@@ -40,8 +40,8 @@ abstract class JDatabase
 	 *
 	 * @return  array  An array of available database connectors.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @since   1.7.0
+	 * @deprecated  4.0
 	 */
 	public static function getConnectors()
 	{
@@ -57,8 +57,8 @@ abstract class JDatabase
 	 *
 	 * @return  string  The error message for the most recent query.
 	 *
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
-	 * @since   11.1
+	 * @deprecated  4.0
+	 * @since   1.7.0
 	 */
 	public function getErrorMsg($escaped = false)
 	{
@@ -79,8 +79,8 @@ abstract class JDatabase
 	 *
 	 * @return      integer  The error number for the most recent query.
 	 *
-	 * @since       11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
+	 * @since       1.7.0
+	 * @deprecated  4.0
 	 */
 	public function getErrorNum()
 	{
@@ -103,8 +103,8 @@ abstract class JDatabase
 	 *
 	 * @return  JDatabaseDriver  A database object.
 	 *
-	 * @since       11.1
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @since       1.7.0
+	 * @deprecated  4.0
 	 */
 	public static function getInstance($options = array())
 	{
@@ -120,8 +120,8 @@ abstract class JDatabase
 	 *
 	 * @return  array  The queries from the input string separated into an array.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @since   1.7.0
+	 * @deprecated  4.0
 	 */
 	public static function splitSql($query)
 	{
@@ -137,8 +137,8 @@ abstract class JDatabase
 	 *
 	 * @return  string  The error message for the most recent query.
 	 *
-	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
+	 * @since   1.7.0
+	 * @deprecated  4.0
 	 */
 	public function stderr($showSQL = false)
 	{
@@ -160,8 +160,8 @@ abstract class JDatabase
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JDatabaseDriver::isSupported() instead.
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use JDatabaseDriver::isSupported() instead.
 	 */
 	public static function test()
 	{

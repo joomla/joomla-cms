@@ -14,61 +14,61 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for interacting with a Linkedin API instance.
  *
- * @since  13.1
+ * @since  3.2.0
  */
 class JLinkedin
 {
 	/**
 	 * @var    Registry  Options for the Linkedin object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var JLinkedinOAuth The OAuth client.
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    JLinkedinPeople  Linkedin API object for people.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $people;
 
 	/**
 	 * @var    JLinkedinGroups  Linkedin API object for groups.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $groups;
 
 	/**
 	 * @var    JLinkedinCompanies  Linkedin API object for companies.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $companies;
 
 	/**
 	 * @var    JLinkedinJobs  Linkedin API object for jobs.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $jobs;
 
 	/**
 	 * @var    JLinkedinStream  Linkedin API object for social stream.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $stream;
 
 	/**
 	 * @var    JLinkedinCommunications  Linkedin API object for communications.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $communications;
 
@@ -79,7 +79,7 @@ class JLinkedin
 	 * @param   Registry        $options  Linkedin options object.
 	 * @param   JHttp           $client   The HTTP client object.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function __construct(JLinkedinOauth $oauth = null, Registry $options = null, JHttp $client = null)
 	{
@@ -98,7 +98,7 @@ class JLinkedin
 	 *
 	 * @return  JLinkedinObject  Linkedin API object (statuses, users, favorites, etc.).
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
@@ -125,7 +125,7 @@ class JLinkedin
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getOption($key)
 	{
@@ -140,7 +140,7 @@ class JLinkedin
 	 *
 	 * @return  JLinkedin  This object for method chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function setOption($key, $value)
 	{

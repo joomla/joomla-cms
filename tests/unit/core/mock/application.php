@@ -10,7 +10,7 @@
  * Class to mock JApplication.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockApplication
 {
@@ -21,7 +21,7 @@ class TestMockApplication
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function create($test)
 	{

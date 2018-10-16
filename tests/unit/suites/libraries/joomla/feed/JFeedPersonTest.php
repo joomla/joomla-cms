@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class JFeedPersonTest extends TestCase
 {
@@ -21,7 +21,7 @@ class JFeedPersonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testConstruct()
 	{

@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides spacer markup to be used in form layouts.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldSpacer extends JFormField
 {
@@ -21,7 +21,7 @@ class JFormFieldSpacer extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Spacer';
 
@@ -31,7 +31,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
@@ -45,7 +45,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getLabel()
 	{
@@ -98,7 +98,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  The field title.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getTitle()
 	{

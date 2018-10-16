@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PDO Query Building Class.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class JDatabaseQueryPdo extends JDatabaseQuery
 {
@@ -31,7 +31,7 @@ class JDatabaseQueryPdo extends JDatabaseQuery
 	 *
 	 * @return  string  Returns the cast value.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function castAsChar($value, $len = null)
 	{

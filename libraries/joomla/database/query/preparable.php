@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  * to retrieve the stored bounded variables on demand prior to
  * query execution.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 interface JDatabaseQueryPreparable
 {
@@ -33,7 +33,7 @@ interface JDatabaseQueryPreparable
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function bind($key = null, &$value = null, $dataType = PDO::PARAM_STR, $length = 0, $driverOptions = array());
 
@@ -45,7 +45,7 @@ interface JDatabaseQueryPreparable
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function &getBounded($key = null);
 }

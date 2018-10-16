@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleTest extends TestCase
 {

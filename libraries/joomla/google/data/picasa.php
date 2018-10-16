@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPicasa extends JGoogleData
@@ -25,7 +25,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -44,7 +44,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function listAlbums($userID = 'default')
@@ -90,7 +90,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function createAlbum($userID = 'default', $title = '', $access = 'private', $summary = '', $location = '', $time = false, $keywords = array())
 	{
@@ -131,7 +131,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function getAlbum($url)

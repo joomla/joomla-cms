@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * ErrorDocument class, provides an easy interface to parse and display an error page
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ErrorDocument extends Document
 {
@@ -24,7 +24,7 @@ class ErrorDocument extends Document
 	 * Document base URL
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $baseurl = '';
 
@@ -32,7 +32,7 @@ class ErrorDocument extends Document
 	 * Flag if debug mode has been enabled
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $debug = false;
 
@@ -40,7 +40,7 @@ class ErrorDocument extends Document
 	 * Error Object
 	 *
 	 * @var    \Exception|\Throwable
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $error;
 
@@ -48,7 +48,7 @@ class ErrorDocument extends Document
 	 * Name of the template
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $template = null;
 
@@ -56,7 +56,7 @@ class ErrorDocument extends Document
 	 * File name
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_file = null;
 
@@ -64,7 +64,7 @@ class ErrorDocument extends Document
 	 * Error Object
 	 *
 	 * @var    \Exception|\Throwable
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_error;
 
@@ -73,7 +73,7 @@ class ErrorDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of attributes
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -93,7 +93,7 @@ class ErrorDocument extends Document
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setError($error)
 	{
@@ -117,7 +117,7 @@ class ErrorDocument extends Document
 	 *
 	 * @return  string   The rendered data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -187,7 +187,7 @@ class ErrorDocument extends Document
 	 *
 	 * @return  string  The contents of the template
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _loadTemplate($directory, $filename)
 	{
@@ -214,7 +214,7 @@ class ErrorDocument extends Document
 	 *
 	 * @return  string  The contents of the backtrace
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function renderBacktrace()
 	{

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MediaWiki API Categories class for the Joomla Platform.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class JMediawikiCategories extends JMediawikiObject
 {
@@ -29,7 +29,7 @@ class JMediawikiCategories extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getCategories(array $titles, array $clprop = null, array $clshow = null, $cllimit = null, $clcontinue = false,
 		array $clcategories = null, $cldir = null)
@@ -83,7 +83,7 @@ class JMediawikiCategories extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getCategoriesUsed(array $titles)
 	{
@@ -107,7 +107,7 @@ class JMediawikiCategories extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getCategoriesInfo(array $titles, $clcontinue = false)
 	{
@@ -268,7 +268,7 @@ class JMediawikiCategories extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function enumerateCategories($acfrom = null, $acto = null, $acprefix = null, $acdir = null, $acmin = null,
 		$acmax = null, $aclimit = null, array $acprop = null)
@@ -335,7 +335,7 @@ class JMediawikiCategories extends JMediawikiObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getChangeTags(array $tgprop = null, $tglimit = null)
 	{

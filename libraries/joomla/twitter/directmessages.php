@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Direct Messages class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterDirectmessages extends JTwitterObject
@@ -29,7 +29,7 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getDirectMessages($since_id = 0, $max_id =  0, $count = 20, $entities = null, $skip_status = null)
 	{
@@ -85,7 +85,7 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSentDirectMessages($since_id = 0, $max_id =  0, $count = 20, $page = 0, $entities = null)
 	{
@@ -137,7 +137,7 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function sendDirectMessages($user, $text)
@@ -173,7 +173,7 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getDirectMessagesById($id)
 	{
@@ -198,7 +198,7 @@ class JTwitterDirectmessages extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function deleteDirectMessages($id, $entities = null)
 	{

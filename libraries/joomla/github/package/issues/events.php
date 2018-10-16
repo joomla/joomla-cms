@@ -18,7 +18,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/issues/events/
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageIssuesEvents extends JGithubPackage

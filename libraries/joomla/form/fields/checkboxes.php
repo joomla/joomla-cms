@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  * Multiselect may be forced to be true.
  *
  * @see    JFormFieldCheckbox
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldCheckboxes extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldCheckboxes extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Checkboxes';
 
@@ -41,7 +41,7 @@ class JFormFieldCheckboxes extends JFormFieldList
 	 * Flag to tell the field to always be in multiple values mode.
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $forceMultiple = true;
 
@@ -102,7 +102,7 @@ class JFormFieldCheckboxes extends JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

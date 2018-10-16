@@ -32,7 +32,7 @@ jimport('joomla.filesystem.folder');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0 use the Joomla\Archive\Zip class instead
  */
 class JArchiveZip implements JArchiveExtractable
@@ -41,7 +41,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * ZIP compression methods.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_methods = array(
 		0x0 => 'None',
@@ -58,7 +58,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * Beginning of central directory record.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_ctrlDirHeader = "\x50\x4b\x01\x02";
 
@@ -66,7 +66,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * End of central directory record.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_ctrlDirEnd = "\x50\x4b\x05\x06\x00\x00\x00\x00";
 
@@ -74,7 +74,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * Beginning of file contents.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_fileHeader = "\x50\x4b\x03\x04";
 
@@ -82,7 +82,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * ZIP file data buffer
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_data = null;
 
@@ -90,7 +90,7 @@ class JArchiveZip implements JArchiveExtractable
 	 * ZIP file metadata array
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_metadata = null;
 
@@ -102,7 +102,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if successful.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @todo    Finish Implementation
 	 */
@@ -128,7 +128,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws RuntimeException
 	 */
 	public function extract($archive, $destination, array $options = array())
@@ -172,7 +172,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if supported
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function isSupported()
 	{
@@ -184,7 +184,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if php has native ZIP support
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function hasNativeSupport()
 	{
@@ -198,7 +198,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if valid, false if invalid.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function checkZipData(&$data)
 	{
@@ -218,7 +218,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  mixed   True if successful
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	protected function extractCustom($archive, $destination)
@@ -276,7 +276,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	protected function extractNative($archive, $destination)
@@ -339,7 +339,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  boolean True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	private function _readZipInfo(&$data)
@@ -447,7 +447,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  string  Uncompressed file data buffer.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	private function _getFileData($key)
 	{
@@ -484,7 +484,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  int  The current date in a 4-byte DOS format.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _unix2DOSTime($unixtime = null)
 	{
@@ -513,7 +513,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @todo    Review and finish implementation
 	 */
@@ -624,7 +624,7 @@ class JArchiveZip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @todo	Review and finish implementation
 	 */

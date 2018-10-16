@@ -10,7 +10,7 @@
  * Class to mock JApplicationCli.
  *
  * @package  Joomla.Test
- * @since    12.2
+ * @since    3.0.1
  */
 class TestMockApplicationCli extends TestMockApplicationBase
 {
@@ -44,7 +44,7 @@ class TestMockApplicationCli extends TestMockApplicationBase
 	 *
 	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public static function create($test, $options = array())
 	{

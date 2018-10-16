@@ -18,7 +18,7 @@ class JDatabaseQueryMysqliTest extends TestCase
 {
 	/**
 	 * @var    JDatabaseDriver  A mock of the JDatabaseDriver object for testing purposes.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $dbo;
 
@@ -26,7 +26,7 @@ class JDatabaseQueryMysqliTest extends TestCase
 	 * The instance of the object to test.
 	 *
 	 * @var    JDatabaseQueryMysqli
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
@@ -37,7 +37,7 @@ class JDatabaseQueryMysqliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function setUp()
 	{

@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('cachehandler');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldCacheHandlerTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JFormFieldCacheHandlerTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetInput()
 	{

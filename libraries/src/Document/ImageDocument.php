@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * ImageDocument class, provides an easy interface to output image data
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class ImageDocument extends Document
 {
@@ -22,7 +22,7 @@ class ImageDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct($options = array())
 	{
@@ -43,7 +43,7 @@ class ImageDocument extends Document
 	 *
 	 * @return  string  The rendered data
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function render($cache = false, $params = array())
 	{

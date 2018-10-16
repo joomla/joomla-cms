@@ -14,14 +14,14 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for generating Twitter API access token.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterOAuth extends JOAuth1Client
 {
 	/**
 	* @var    Registry  Options for the JTwitterOauth object.
-	* @since  12.3
+	* @since  3.1.4
 	*/
 	protected $options;
 
@@ -33,7 +33,7 @@ class JTwitterOAuth extends JOAuth1Client
 	 * @param   JInput           $input        The input object.
 	 * @param   JApplicationWeb  $application  The application object.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null)
 	{
@@ -53,7 +53,7 @@ class JTwitterOAuth extends JOAuth1Client
 	 *
 	 * @return  boolean  Returns true if the access token is valid and false otherwise.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function verifyCredentials()
 	{
@@ -84,7 +84,7 @@ class JTwitterOAuth extends JOAuth1Client
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function endSession()
 	{
@@ -110,7 +110,7 @@ class JTwitterOAuth extends JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 * @throws DomainException
 	 */
 	public function validateResponse($url, $response)

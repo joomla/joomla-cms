@@ -16,21 +16,21 @@ use Joomla\CMS\Crypt\CryptPassword;
 /**
  * Joomla Platform Password Crypter
  *
- * @since       12.2
+ * @since       3.0.1
  * @deprecated  4.0  Use PHP 5.5's native password hashing API
  */
 class SimpleCryptPassword implements CryptPassword
 {
 	/**
 	 * @var    integer  The cost parameter for hashing algorithms.
-	 * @since  12.2
+	 * @since  3.0.1
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	protected $cost = 10;
 
 	/**
 	 * @var    string   The default hash type
-	 * @since  12.3
+	 * @since  3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	protected $defaultType = '$2y$';
@@ -43,7 +43,7 @@ class SimpleCryptPassword implements CryptPassword
 	 *
 	 * @return  mixed  The hashed password or false if the password is too long.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \InvalidArgumentException
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
@@ -95,7 +95,7 @@ class SimpleCryptPassword implements CryptPassword
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function setCost($cost)
@@ -110,7 +110,7 @@ class SimpleCryptPassword implements CryptPassword
 	 *
 	 * @return  string  The string of random characters.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	protected function getSalt($length)
@@ -130,7 +130,7 @@ class SimpleCryptPassword implements CryptPassword
 	 *
 	 * @return  boolean  True if the password is valid, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function verify($password, $hash)
@@ -178,7 +178,7 @@ class SimpleCryptPassword implements CryptPassword
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function setDefaultType($type)
@@ -194,7 +194,7 @@ class SimpleCryptPassword implements CryptPassword
 	 *
 	 * @return   string  $type  The default type
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function getDefaultType()

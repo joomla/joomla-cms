@@ -36,20 +36,20 @@ use Joomla\Registry\Registry;
  * @property-read  JGithubHooks       $hooks       Deprecated GitHub API object for hooks.
  * @property-read  JGithubMeta        $meta        Deprecated GitHub API object for meta.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithub
 {
 	/**
 	 * @var    Registry  Options for the GitHub object.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $client;
 
@@ -83,7 +83,7 @@ class JGithub
 	 * @param   Registry     $options  GitHub options object.
 	 * @param   JGithubHttp  $client   The HTTP client object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __construct(Registry $options = null, JGithubHttp $client = null)
 	{
@@ -101,7 +101,7 @@ class JGithub
 	 *
 	 * @throws RuntimeException
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @return  JGithubObject  GitHub API object (gists, issues, pulls, etc).
 	 */
 	public function __get($name)
@@ -141,7 +141,7 @@ class JGithub
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getOption($key)
 	{
@@ -156,7 +156,7 @@ class JGithub
 	 *
 	 * @return  JGitHub  This object for method chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setOption($key, $value)
 	{

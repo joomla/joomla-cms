@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL export driver.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseExporterMysql extends JDatabaseExporterMysqli
@@ -22,7 +22,7 @@ class JDatabaseExporterMysql extends JDatabaseExporterMysqli
 	 *
 	 * @return  JDatabaseExporterMysql  Method supports chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()

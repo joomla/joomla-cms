@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Interface
  *
- * @since  11.2
+ * @since  1.7.0
 */
 interface JDatabaseInterface
 {
@@ -21,7 +21,7 @@ interface JDatabaseInterface
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.2
+	 * @since   1.7.0
 	 */
 	public static function isSupported();
 }

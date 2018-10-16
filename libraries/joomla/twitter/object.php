@@ -14,26 +14,26 @@ use Joomla\Registry\Registry;
 /**
  * Twitter API object class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 abstract class JTwitterObject
 {
 	/**
 	 * @var    Registry  Options for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JTwitterOAuth The OAuth client.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $oauth;
 
@@ -44,7 +44,7 @@ abstract class JTwitterObject
 	 * @param   JHttp          $client    The HTTP client object.
 	 * @param   JTwitterOAuth  $oauth     The OAuth client.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
 	{
@@ -61,7 +61,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function checkRateLimit($resource = null, $action = null)
@@ -95,7 +95,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  string  The request URL.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function fetchUrl($path, $parameters = null)
 	{
@@ -134,7 +134,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  array  The JSON response decoded
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getRateLimit($resource)
 	{
@@ -159,7 +159,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function sendRequest($path, $method = 'GET', $data = array(), $headers = array())
@@ -202,7 +202,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -217,7 +217,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  JTwitterObject  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{

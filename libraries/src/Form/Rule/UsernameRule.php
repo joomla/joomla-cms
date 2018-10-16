@@ -17,7 +17,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class UsernameRule extends FormRule
 {
@@ -34,7 +34,7 @@ class UsernameRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{

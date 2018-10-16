@@ -282,7 +282,7 @@ class FtpClient
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function connect($host = '127.0.0.1', $port = 21)
 	{

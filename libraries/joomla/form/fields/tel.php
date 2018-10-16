@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('text');
  * @link   http://www.w3.org/TR/html-markup/input.tel.html
  * @see    JFormRuleTel for telephone number validation
  * @see    JHtmlTel for rendering of telephone numbers
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldTel extends JFormFieldText
 {
@@ -26,7 +26,7 @@ class JFormFieldTel extends JFormFieldText
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Tel';
 

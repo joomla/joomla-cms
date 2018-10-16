@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/issues/comments/
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageIssuesComments extends JGithubPackage
@@ -32,7 +32,7 @@ class JGithubPackageIssuesComments extends JGithubPackage
 	 * @param   integer  $limit    The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -58,7 +58,7 @@ class JGithubPackageIssuesComments extends JGithubPackage
 	 *
 	 * @throws UnexpectedValueException
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -125,7 +125,7 @@ class JGithubPackageIssuesComments extends JGithubPackage
 	 * @param   integer  $commentId  The id of the comment to update.
 	 * @param   string   $body       The new body text for the comment.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws DomainException
 	 *
 	 * @return  object
@@ -157,7 +157,7 @@ class JGithubPackageIssuesComments extends JGithubPackage
 	 * @param   string   $body     The comment body text.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -188,7 +188,7 @@ class JGithubPackageIssuesComments extends JGithubPackage
 	 * @param   integer  $commentId  The id of the comment to delete.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  boolean
 	 */

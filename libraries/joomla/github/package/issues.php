@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/issues
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  *
  * @property-read  JGithubPackageIssuesAssignees   $assignees   GitHub API object for assignees.
@@ -41,7 +41,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 * @param   array    $labels     The labels to associate with this issue.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -95,7 +95,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 * @param   array    $labels     The labels to associate with this issue.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -174,7 +174,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 * @param   integer  $issueId  The issue number.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -210,7 +210,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 * @param   integer  $limit      The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -253,7 +253,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 * @param   integer  $limit      The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -335,7 +335,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function createComment($user, $repo, $issueId, $body)
 	{
@@ -354,7 +354,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function createLabel($user, $repo, $name, $color)
 	{
@@ -372,7 +372,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function deleteComment($user, $repo, $commentId)
 	{
@@ -390,7 +390,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function deleteLabel($user, $repo, $label)
 	{
@@ -409,7 +409,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function editComment($user, $repo, $commentId, $body)
 	{
@@ -429,7 +429,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function editLabel($user, $repo, $label, $name, $color)
 	{
@@ -447,7 +447,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getComment($user, $repo, $commentId)
 	{
@@ -467,7 +467,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getComments($user, $repo, $issueId, $page = 0, $limit = 0)
 	{
@@ -485,7 +485,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLabel($user, $repo, $name)
 	{
@@ -502,7 +502,7 @@ class JGithubPackageIssues extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLabels($user, $repo)
 	{

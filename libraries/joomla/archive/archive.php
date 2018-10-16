@@ -17,14 +17,14 @@ use Joomla\Archive\Archive;
 /**
  * An Archive handling class
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0 use the Joomla\Archive\Archive class instead
  */
 class JArchive
 {
 	/**
 	 * @var    array  The array of instantiated archive adapters.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $adapters = array();
 
@@ -36,7 +36,7 @@ class JArchive
 	 *
 	 * @return  boolean  True for success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  InvalidArgumentException
 	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */
@@ -56,7 +56,7 @@ class JArchive
 	 *
 	 * @return  JArchiveExtractable  Adapter for the requested type
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  UnexpectedValueException
 	 * @deprecated 4.0 use the Joomla\Archive\Archive class instead
 	 */

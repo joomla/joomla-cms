@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 /**
  * Base class for a Joomla! command line application.
  *
- * @since  11.4
+ * @since  2.5.0
  * @note   As of 4.0 this class will be abstract
  */
 class CliApplication extends BaseApplication
@@ -31,7 +31,7 @@ class CliApplication extends BaseApplication
 
 	/**
 	 * @var    CliApplication  The application instance.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $instance;
 
@@ -50,7 +50,7 @@ class CliApplication extends BaseApplication
 	 *                                          will be created based on the application's loadDispatcher() method.
 	 *
 	 * @see     BaseApplication::loadDispatcher()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(Cli $input = null, Registry $config = null, \JEventDispatcher $dispatcher = null)
 	{
@@ -107,7 +107,7 @@ class CliApplication extends BaseApplication
 	 *
 	 * @return  CliApplication
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($name = null)
 	{
@@ -132,7 +132,7 @@ class CliApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function execute()
 	{
@@ -153,7 +153,7 @@ class CliApplication extends BaseApplication
 	 *
 	 * @return  CliApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function loadConfiguration($data)
 	{
@@ -179,7 +179,7 @@ class CliApplication extends BaseApplication
 	 * @return  CliApplication  Instance of $this to allow chaining.
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function out($text = '', $nl = true)
 	{
@@ -231,7 +231,7 @@ class CliApplication extends BaseApplication
 	 * @return  string  The input string from standard input.
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function in()
 	{
@@ -249,7 +249,7 @@ class CliApplication extends BaseApplication
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function fetchConfigurationData($file = '', $class = '\JConfig')
 	{

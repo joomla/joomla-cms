@@ -15,7 +15,7 @@ use Joomla\CMS\Filter\InputFilter;
 /**
  * Joomla! Input CLI Class
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  5.0  Use Joomla\Input\Cli instead
  */
 class Cli extends Input
@@ -24,7 +24,7 @@ class Cli extends Input
 	 * The executable that was called to run the CLI script.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public $executable;
@@ -34,7 +34,7 @@ class Cli extends Input
 	 * with a specific argument name.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public $args = array();
@@ -45,7 +45,7 @@ class Cli extends Input
 	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public function __construct(array $source = null, array $options = array())
@@ -71,7 +71,7 @@ class Cli extends Input
 	 *
 	 * @return  string  The serialized input.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public function serialize()
@@ -95,7 +95,7 @@ class Cli extends Input
 	 *
 	 * @return  Input  The input object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	public function unserialize($input)
@@ -121,7 +121,7 @@ class Cli extends Input
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Cli instead
 	 */
 	protected function parseArguments()

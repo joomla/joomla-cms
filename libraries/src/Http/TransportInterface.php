@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * HTTP transport class interface.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 interface TransportInterface
 {
@@ -25,7 +25,7 @@ interface TransportInterface
 	 *
 	 * @param   Registry  $options  Client options object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __construct(Registry $options);
 
@@ -41,7 +41,7 @@ interface TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null);
 
@@ -50,7 +50,7 @@ interface TransportInterface
 	 *
 	 * @return  boolean  True if available else false
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported();
 }

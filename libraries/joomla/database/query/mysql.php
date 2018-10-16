@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseQueryMysql extends JDatabaseQueryMysqli

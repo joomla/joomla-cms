@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @since       11.3
+ * @since       1.7.3
  */
 class JEventInspector extends JEvent
 {
@@ -53,7 +53,7 @@ class JEventInspector extends JEvent
  *
  * @return string Static string "JEventDispatcherMockFunction executed"
  *
- * @since 11.3
+ * @since 1.7.3
  */
 function JEventMockFunction()
 {

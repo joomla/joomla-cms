@@ -18,13 +18,13 @@ use Joomla\Registry\Registry;
 /**
  * HTTP transport class for using PHP streams.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class StreamTransport implements TransportInterface
 {
 	/**
 	 * @var    Registry  The client options.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $options;
 
@@ -33,7 +33,7 @@ class StreamTransport implements TransportInterface
 	 *
 	 * @param   Registry  $options  Client options object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct(Registry $options)
@@ -65,7 +65,7 @@ class StreamTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function request($method, Uri $uri, $data = null, array $headers = null, $timeout = null, $userAgent = null)
@@ -235,7 +235,7 @@ class StreamTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getResponse(array $headers, $body)
@@ -276,7 +276,7 @@ class StreamTransport implements TransportInterface
 	 *
 	 * @return  boolean  true if available else false
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{

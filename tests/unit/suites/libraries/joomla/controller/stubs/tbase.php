@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Controller
- * @since       12.1
+ * @since       3.0.0
  */
 class BaseController extends JControllerBase
 {
@@ -21,7 +21,7 @@ class BaseController extends JControllerBase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function execute()

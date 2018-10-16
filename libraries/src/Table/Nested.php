@@ -15,7 +15,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Nested extends Table
 {
@@ -23,7 +23,7 @@ class Nested extends Table
 	 * Object property holding the primary key of the parent node.  Provides adjacency list data for nodes.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $parent_id;
 
@@ -31,7 +31,7 @@ class Nested extends Table
 	 * Object property holding the depth level of the node in the tree.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $level;
 
@@ -39,7 +39,7 @@ class Nested extends Table
 	 * Object property holding the left value of the node for managing its placement in the nested sets tree.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $lft;
 
@@ -47,7 +47,7 @@ class Nested extends Table
 	 * Object property holding the right value of the node for managing its placement in the nested sets tree.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $rgt;
 
@@ -55,7 +55,7 @@ class Nested extends Table
 	 * Object property holding the alias of this node used to constuct the full text path, forward-slash delimited.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $alias;
 
@@ -63,7 +63,7 @@ class Nested extends Table
 	 * Object property to hold the location type to use when storing the row.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @see    Nested::$_validLocations
 	 */
 	protected $_location;
@@ -74,7 +74,7 @@ class Nested extends Table
 	 * A combination of location type and reference node describes where to store the current node in the tree.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_location_id;
 
@@ -82,7 +82,7 @@ class Nested extends Table
 	 * An array to cache values in recursive processes.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_cache = array();
 
@@ -90,7 +90,7 @@ class Nested extends Table
 	 * Debug level
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_debug = 0;
 
@@ -117,7 +117,7 @@ class Nested extends Table
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function debug($level)
 	{
@@ -132,7 +132,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    An array of node objects including the start node.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error
 	 */
 	public function getPath($pk = null, $diagnostic = false)
@@ -162,7 +162,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    Boolean false on failure or array of node objects on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function getTree($pk = null, $diagnostic = false)
@@ -189,8 +189,8 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True if a leaf node, false if not or null if the node does not exist.
 	 *
-	 * @note    Since 12.1 this method returns null if the node does not exist.
-	 * @since   11.1
+	 * @note    Since 3.0.0 this method returns null if the node does not exist.
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function isLeaf($pk = null)
@@ -220,9 +220,9 @@ class Nested extends Table
 	 *
 	 * @return  void
 	 *
-	 * @note    Since 12.1 this method returns void and throws an \InvalidArgumentException when an invalid position is passed.
+	 * @note    Since 3.0.0 this method returns void and throws an \InvalidArgumentException when an invalid position is passed.
 	 * @see     Nested::$_validLocations
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function setLocation($referenceId, $position = 'after')
@@ -250,7 +250,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    Boolean true on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function move($delta, $where = '')
 	{
@@ -303,7 +303,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function moveByReference($referenceId, $position = 'after', $pk = null, $recursiveUpdate = true)
@@ -525,7 +525,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete($pk = null, $children = true)
 	{
@@ -670,7 +670,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True if all checks pass.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -713,7 +713,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -904,7 +904,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -1031,7 +1031,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function orderUp($pk)
@@ -1114,7 +1114,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function orderDown($pk)
@@ -1198,7 +1198,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed  The primary id of the root row, or false if not found and the internal error is set.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getRootId()
 	{
@@ -1277,7 +1277,7 @@ class Nested extends Table
 	 *
 	 * @return  integer  1 + value of root rgt on success, false on failure
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	public function rebuild($parentId = null, $leftId = 0, $level = 0, $path = '')
@@ -1368,7 +1368,7 @@ class Nested extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function rebuildPath($pk = null)
 	{
@@ -1442,7 +1442,7 @@ class Nested extends Table
 	 *
 	 * @return  integer  1 + value of root rgt on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \Exception on database error.
 	 */
 	public function saveorder($idArray = null, $lft_array = null)
@@ -1578,7 +1578,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    Boolean false on failure or node object on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 */
 	protected function _getNode($id, $key = null)
@@ -1641,7 +1641,7 @@ class Nested extends Table
 	 *
 	 * @return  mixed    Boolean false on failure or data object on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getTreeRepositionData($referenceNode, $nodeWidth, $position = 'before')
 	{
@@ -1724,7 +1724,7 @@ class Nested extends Table
 	 * @return  void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _logtable($showData = true, $showQuery = true)
 	{
@@ -1767,8 +1767,8 @@ class Nested extends Table
 	 *
 	 * @return  boolean  void
 	 *
-	 * @note    Since 12.1 this method returns void and will rethrow the database exception.
-	 * @since   11.1
+	 * @note    Since 3.0.0 this method returns void and will rethrow the database exception.
+	 * @since   1.7.0
 	 * @throws  \Exception on database error.
 	 */
 	protected function _runQuery($query, $errorMessage)

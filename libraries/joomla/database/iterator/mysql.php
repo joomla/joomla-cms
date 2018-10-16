@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * MySQL database iterator.
  *
  * @link        http://dev.mysql.com/doc/
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseIteratorMysql extends JDatabaseIterator
@@ -23,7 +23,7 @@ class JDatabaseIteratorMysql extends JDatabaseIterator
 	 *
 	 * @return  integer  The number of rows in the result set.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @see     Countable::count()
 	 */
 	public function count()
@@ -36,7 +36,7 @@ class JDatabaseIteratorMysql extends JDatabaseIterator
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchObject()
 	{
@@ -48,7 +48,7 @@ class JDatabaseIteratorMysql extends JDatabaseIterator
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function freeResult()
 	{

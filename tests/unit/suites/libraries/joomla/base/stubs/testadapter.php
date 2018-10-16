@@ -12,7 +12,7 @@
  *
  * @package  Joomla.UnitTest
  *
- * @since    11.1
+ * @since    1.7.0
  */
 class TestTestadapter extends JAdapterInstance
 {

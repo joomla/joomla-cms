@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- * @since       12.1
+ * @since       3.0.0
  */
 class TableDbTestComposite extends JTable
 {
@@ -21,7 +21,7 @@ class TableDbTestComposite extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct($db)
 	{

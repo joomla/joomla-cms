@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Image
- * @since       11.4
+ * @since       2.5.0
  */
 class JImageFilterBrightnessTest extends TestCase
 {
@@ -21,7 +21,7 @@ class JImageFilterBrightnessTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function setUp()
 	{
@@ -41,7 +41,7 @@ class JImageFilterBrightnessTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testExecute()
 	{
@@ -71,7 +71,7 @@ class JImageFilterBrightnessTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 *
 	 * @expectedException  InvalidArgumentException
 	 */

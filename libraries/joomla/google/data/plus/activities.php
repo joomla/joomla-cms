@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPlusActivities extends JGoogleData
@@ -25,7 +25,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -50,7 +50,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function listActivities($userId, $collection, $fields = null, $max = 10, $token = null, $alt = null)
 	{
@@ -104,7 +104,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getActivity($id, $fields = null, $alt = null)
 	{
@@ -148,7 +148,7 @@ class JGoogleDataPlusActivities extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function search($query, $fields = null, $language = null, $max = 10, $order = null, $token = null)
 	{

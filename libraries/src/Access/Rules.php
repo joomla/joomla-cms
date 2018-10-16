@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Access rules class.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class Rules
 {
@@ -21,7 +21,7 @@ class Rules
 	 * A named array.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $data = array();
 
@@ -33,7 +33,7 @@ class Rules
 	 *
 	 * @param   mixed  $input  A JSON format string (probably from the database) or a nested array.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($input = '')
 	{
@@ -62,7 +62,7 @@ class Rules
 	 *
 	 * @return  array  A named array of Rule objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getData()
 	{
@@ -76,7 +76,7 @@ class Rules
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeCollection($input)
 	{
@@ -97,7 +97,7 @@ class Rules
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function merge($actions)
 	{
@@ -132,7 +132,7 @@ class Rules
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeAction($action, $identities)
 	{
@@ -159,7 +159,7 @@ class Rules
 	 *
 	 * @return  mixed   Object or null if there is no information about the action.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function allow($action, $identity)
 	{
@@ -179,7 +179,7 @@ class Rules
 	 *
 	 * @return  \JObject  Allowed actions for the identity or identities
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAllowed($identity)
 	{
@@ -202,7 +202,7 @@ class Rules
 	 *
 	 * @return  string  JSON representation of the actions array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{

@@ -15,7 +15,7 @@ jimport('joomla.filesystem.stream');
 /**
  * Bzip2 format adapter for the JArchive class
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0 use the Joomla\Archive\Bzip2 class instead
  */
 class JArchiveBzip2 implements JArchiveExtractable
@@ -24,7 +24,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 * Bzip2 file data buffer
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_data = null;
 
@@ -37,7 +37,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function extract($archive, $destination, array $options = array())
@@ -157,7 +157,7 @@ class JArchiveBzip2 implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if supported
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function isSupported()
 	{

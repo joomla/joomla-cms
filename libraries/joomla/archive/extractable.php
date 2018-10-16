@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Archieve class interface
  *
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  4.0 use the Joomla\Archive\ExtractableInterface interface instead
  */
 interface JArchiveExtractable
@@ -26,7 +26,7 @@ interface JArchiveExtractable
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function extract($archive, $destination, array $options = array());
 
@@ -35,7 +35,7 @@ interface JArchiveExtractable
 	 *
 	 * @return  boolean  True if supported
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported();
 }

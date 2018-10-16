@@ -10,7 +10,7 @@
  * Class to mock JController.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockController
 {
@@ -21,7 +21,7 @@ class TestMockController
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function create($test)
 	{

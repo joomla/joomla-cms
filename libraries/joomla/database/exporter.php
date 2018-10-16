@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Exporter Class
  *
- * @since  12.1
+ * @since  3.0.0
  */
 abstract class JDatabaseExporter
 {
@@ -20,7 +20,7 @@ abstract class JDatabaseExporter
 	 * The type of output format (xml).
 	 *
 	 * @var    string
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $asFormat = 'xml';
 
@@ -28,7 +28,7 @@ abstract class JDatabaseExporter
 	 * An array of cached data.
 	 *
 	 * @var    array
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $cache = array();
 
@@ -36,7 +36,7 @@ abstract class JDatabaseExporter
 	 * The database connector to use for exporting structure and/or data.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $db = null;
 
@@ -44,7 +44,7 @@ abstract class JDatabaseExporter
 	 * An array input sources (table names).
 	 *
 	 * @var    array
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $from = array();
 
@@ -52,7 +52,7 @@ abstract class JDatabaseExporter
 	 * An array of options for the exporter.
 	 *
 	 * @var    object
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options = null;
 
@@ -61,7 +61,7 @@ abstract class JDatabaseExporter
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function __construct()
 	{
@@ -85,7 +85,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  string
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function __toString()
@@ -110,7 +110,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  JDatabaseExporter  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function asXml()
 	{
@@ -124,7 +124,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  string  An XML string
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  Exception if an error occurs.
 	 */
 	abstract protected function buildXml();
@@ -134,7 +134,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  array  An array of XML lines (strings).
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  Exception if an error occurs.
 	 */
 	abstract protected function buildXmlStructure();
@@ -144,7 +144,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  JDatabaseDriver  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	abstract public function check();
@@ -156,7 +156,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  JDatabaseExporter  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  Exception if input is not a string or array.
 	 */
 	public function from($from)
@@ -184,7 +184,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  string  The name of the table with the database prefix replaced with #__.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function getGenericTableName($table)
 	{
@@ -203,7 +203,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  JDatabaseExporter  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function setDbo(JDatabaseDriver $db)
 	{
@@ -219,7 +219,7 @@ abstract class JDatabaseExporter
 	 *
 	 * @return  JDatabaseExporter  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function withStructure($setting = true)
 	{

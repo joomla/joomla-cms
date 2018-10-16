@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Table class supporting modified pre-order tree traversal behavior.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Asset extends Nested
 {
@@ -21,7 +21,7 @@ class Asset extends Nested
 	 * The primary key of the asset.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $id = null;
 
@@ -29,7 +29,7 @@ class Asset extends Nested
 	 * The unique name of the asset.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $name = null;
 
@@ -37,7 +37,7 @@ class Asset extends Nested
 	 * The human readable title of the asset.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $title = null;
 
@@ -45,7 +45,7 @@ class Asset extends Nested
 	 * The rules for the asset stored in a JSON string
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $rules = null;
 
@@ -54,7 +54,7 @@ class Asset extends Nested
 	 *
 	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($db)
 	{
@@ -68,7 +68,7 @@ class Asset extends Nested
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function loadByName($name)
 	{
@@ -80,7 +80,7 @@ class Asset extends Nested
 	 *
 	 * @return  boolean  True if the instance is sane and able to be stored in the database.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{

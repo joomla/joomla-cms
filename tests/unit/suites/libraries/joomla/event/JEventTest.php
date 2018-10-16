@@ -15,14 +15,14 @@ require_once __DIR__ . '/JEventStub.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @since       11.3
+ * @since       1.7.3
  */
 class JEventTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test JEvent::__construct().
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 *
 	 * @return void
 	 */
@@ -40,7 +40,7 @@ class JEventTest extends \PHPUnit\Framework\TestCase
 	/**
 	 * Test JEvent::update().
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 *
 	 * @return void
 	 */

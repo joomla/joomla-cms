@@ -20,7 +20,7 @@ jimport('joomla.filesystem.file');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0 use the Joomla\Archive\Gzip class instead
  */
 class JArchiveGzip implements JArchiveExtractable
@@ -29,7 +29,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 * Gzip file flags.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_flags = array('FTEXT' => 0x01, 'FHCRC' => 0x02, 'FEXTRA' => 0x04, 'FNAME' => 0x08, 'FCOMMENT' => 0x10);
 
@@ -37,7 +37,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 * Gzip file data buffer
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_data = null;
 
@@ -50,7 +50,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function extract($archive, $destination, array $options = array())
@@ -167,7 +167,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if supported
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function isSupported()
 	{
@@ -179,7 +179,7 @@ class JArchiveGzip implements JArchiveExtractable
 	 *
 	 * @return  integer  Data position marker for archive
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function _getFilePosition()

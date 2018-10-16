@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  View
- * @since       12.1
+ * @since       3.0.0
  */
 class HtmlView extends JViewHtml
 {

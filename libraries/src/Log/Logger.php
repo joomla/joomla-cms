@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * This class is used to be the basis of logger classes to allow for defined functions
  * to exist regardless of the child class.
  *
- * @since  12.2
+ * @since  3.0.1
  */
 abstract class Logger
 {
@@ -24,7 +24,7 @@ abstract class Logger
 	 * Options array for the JLog instance.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $options = array();
 
@@ -32,7 +32,7 @@ abstract class Logger
 	 * Translation array for LogEntry priorities to text strings.
 	 *
 	 * @var    array
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	protected $priorities = array(
 		Log::EMERGENCY => 'EMERGENCY',
@@ -50,7 +50,7 @@ abstract class Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function __construct(array &$options)
 	{
@@ -65,7 +65,7 @@ abstract class Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \RuntimeException
 	 */
 	abstract public function addEntry(LogEntry $entry);
