@@ -187,7 +187,7 @@ abstract class JDatabaseImporter
 			if (in_array($tableName, $tables))
 			{
 				// The table already exists. Now check if there is any difference.
-				if ($queries = $this->getAlterTableSql($xml->database->table_structure))
+				if ($queries = $this->getAlterTableSql($table))
 				{
 					// Run the queries to upgrade the data structure.
 					foreach ($queries as $query)
