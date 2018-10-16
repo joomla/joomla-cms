@@ -1,6 +1,6 @@
 /**
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
- * @license      GNU General Public License version 2 or later; see LICENSE.txt
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 ((document) => {
   'use strict';
@@ -14,7 +14,7 @@
       }
 
       inputGroup.querySelector('.input-group-prepend, .input-group-append').addEventListener('click', (e) => {
-        const {target} = e;
+        const { target } = e;
         const srText = target.previousSibling;
 
         if (target.classList.contains('icon-eye')) {
