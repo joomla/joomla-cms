@@ -9,7 +9,7 @@ Joomla = window.Joomla || {};
 (function(Joomla, document) {
 	'use strict';
 
-	const mm = new MetisMenu("#menu");
+	var mm = new MetisMenu("#menu");
 
 	function closest(element, selector) {
 		var matchesFn;
