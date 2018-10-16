@@ -11,11 +11,11 @@ namespace Joomla\CMS\Installation\Form\Field\Installation;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\Field\RadioField;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Form\Field\RadioField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Install Sample Data field.
