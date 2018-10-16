@@ -63,6 +63,7 @@ class CacheModel extends ListModel
 				'group',
 				'count',
 				'size',
+				'client_id',
 			);
 		}
 

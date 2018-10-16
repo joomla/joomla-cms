@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**

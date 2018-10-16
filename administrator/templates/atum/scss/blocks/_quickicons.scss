@@ -1,6 +1,14 @@
 // Quick Icons
 
 .quick-icons {
+  ul {
+    display: inline;
+    list-style: none;
+  }
+
+  li {
+    float: left;
+  }
 
   a {
     display: inline-flex;

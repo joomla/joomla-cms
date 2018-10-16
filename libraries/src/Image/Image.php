@@ -17,7 +17,7 @@ use Joomla\Image\Image as FrameworkImage;
 /**
  * Class to manipulate an image.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class Image extends FrameworkImage
 {
@@ -34,7 +34,7 @@ class Image extends FrameworkImage
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct($source = null)
@@ -57,7 +57,7 @@ class Image extends FrameworkImage
 	 *
 	 * @return  Image
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \LogicException
 	 */
 	public function crop($width, $height, $left = null, $top = null, $createNew = true)
@@ -151,7 +151,7 @@ class Image extends FrameworkImage
 	 *
 	 * @return  Image
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \LogicException
 	 */
 	public function resize($width, $height, $createNew = true, $scaleMethod = self::SCALE_INSIDE)
@@ -271,7 +271,7 @@ class Image extends FrameworkImage
 	 *
 	 * @return  ImageFilter
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function getFilterInstance($type)

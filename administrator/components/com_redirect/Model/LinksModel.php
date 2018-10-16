@@ -204,6 +204,9 @@ class LinksModel extends ListModel
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
 
+		$params = ComponentHelper::getParams('com_redirect');
+		$state  = (int) $params->get('defaultImportState', 0);
+
 		$columns = array(
 			$db->quoteName('old_url'),
 			$db->quoteName('new_url'),
@@ -232,7 +235,7 @@ class LinksModel extends ListModel
 
 			$query->insert($db->quoteName('#__redirect_links'), false)
 				->values(
-					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
+					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, ' . $state . ', ' .
 					$db->quote(Factory::getDate()->toSql())
 				);
 		}

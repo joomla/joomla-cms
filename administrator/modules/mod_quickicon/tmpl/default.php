@@ -10,11 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 $html = HTMLHelper::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
-	<div class="quick-icons">
-		<?php echo $html; ?>
-	</div>
+	<nav  class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL'); ?>">
+		<ul>
+			<?php echo $html; ?>
+		</ul>
+	</nav>
 <?php endif; ?>

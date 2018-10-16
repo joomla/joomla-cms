@@ -15,11 +15,13 @@ use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
@@ -29,8 +31,6 @@ use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
 use Joomla\Plugin\System\Debug\DebugMonitor;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
