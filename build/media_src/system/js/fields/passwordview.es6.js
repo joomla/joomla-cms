@@ -2,14 +2,10 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license      GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-/**
- * Field switcher
- */
 ((document) => {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', function() {
+  document.addEventListener('DOMContentLoaded', () => {
     [].slice.call(document.querySelectorAll('input[type="password"]')).forEach((input) => {
       const inputGroup = input.parentNode;
 
@@ -18,7 +14,7 @@
       }
 
       inputGroup.querySelector('.input-group-prepend, .input-group-append').addEventListener('click', (e) => {
-        const target = e.target;
+        const {target} = e;
         const srText = target.previousSibling;
 
         if (target.classList.contains('icon-eye')) {
