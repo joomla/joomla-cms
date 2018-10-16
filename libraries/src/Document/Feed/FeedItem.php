@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Data object representing a feed item
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FeedItem
 {
@@ -23,7 +23,7 @@ class FeedItem
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $title;
 
@@ -33,7 +33,7 @@ class FeedItem
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $link;
 
@@ -43,7 +43,7 @@ class FeedItem
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $description;
 
@@ -53,7 +53,7 @@ class FeedItem
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $author;
 
@@ -63,7 +63,7 @@ class FeedItem
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $authorEmail;
 
@@ -73,7 +73,7 @@ class FeedItem
 	 * optional
 	 *
 	 * @var    array or string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $category;
 
@@ -83,7 +83,7 @@ class FeedItem
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $comments;
 
@@ -91,7 +91,7 @@ class FeedItem
 	 * Enclosure element
 	 *
 	 * @var    FeedEnclosure
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $enclosure = null;
 
@@ -101,7 +101,7 @@ class FeedItem
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $guid;
 
@@ -123,7 +123,7 @@ class FeedItem
 	 * 1043082341
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $date;
 
@@ -133,7 +133,7 @@ class FeedItem
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $source;
 
@@ -144,7 +144,7 @@ class FeedItem
 	 *
 	 * @return  FeedItem instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setEnclosure(FeedEnclosure $enclosure)
 	{

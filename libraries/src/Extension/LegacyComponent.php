@@ -11,22 +11,22 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
+use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
-use Joomla\CMS\Categories\CategoryInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
+use Joomla\CMS\Component\Router\RouterInterface;
+use Joomla\CMS\Component\Router\RouterLegacy;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 use Joomla\CMS\Dispatcher\LegacyComponentDispatcher;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
-use Joomla\CMS\Component\Router\RouterServiceInterface;
-use Joomla\CMS\Menu\AbstractMenu;
-use Joomla\CMS\Component\Router\RouterInterface;
-use Joomla\CMS\Component\Router\RouterLegacy;
 
 /**
  * Access to component specific services.

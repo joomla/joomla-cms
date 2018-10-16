@@ -181,6 +181,11 @@ final class SiteApplication extends CMSApplication
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
 
+				// Add Asset registry files
+				$document->getWebAssetManager()
+					->addRegistryFile('media/' . $component . '/joomla.asset.json')
+					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
+
 				break;
 
 			case 'feed':
