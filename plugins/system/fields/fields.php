@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Fields Plugin

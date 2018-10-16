@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! Page Cache Plugin.
