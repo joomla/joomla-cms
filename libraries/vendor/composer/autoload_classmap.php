@@ -107,6 +107,7 @@ return array(
     'Joomla\\Uri\\UriImmutable' => $vendorDir . '/joomla/uri/src/UriImmutable.php',
     'Joomla\\Uri\\UriInterface' => $vendorDir . '/joomla/uri/src/UriInterface.php',
     'Joomla\\Utilities\\ArrayHelper' => $vendorDir . '/joomla/utilities/src/ArrayHelper.php',
+    'Joomla\\Utilities\\IpHelper' => $vendorDir . '/joomla/utilities/src/IpHelper.php',
     'JsonSerializable' => $vendorDir . '/joomla/compat/src/JsonSerializable.php',
     'PHPMailer' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
     'PHPMailerOAuth' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauth.php',
