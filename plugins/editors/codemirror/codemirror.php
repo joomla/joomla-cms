@@ -10,12 +10,12 @@
 // No direct access
 defined('_JEXEC') or die;
 
-use Joomla\Event\Event;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\Event;
 
 /**
  * CodeMirror Editor Plugin.
