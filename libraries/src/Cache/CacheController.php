@@ -84,19 +84,20 @@ class CacheController
 	 *
 	 * @since   1.7.0
 	 * @throws  \RuntimeException
+	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
-		self::addIncludePath(__DIR__ . '/Controller');
-
-		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
-
-		$class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
-
-		if (!class_exists($class))
+		try
 		{
-			$class = 'JCacheController' . ucfirst($type);
+			return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
 		}
+		catch (\RuntimeException $e)
+		{
+		}
+
+		$type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
+		$class = 'JCacheController' . ucfirst($type);
 
 		if (!class_exists($class))
 		{
@@ -113,12 +114,6 @@ class CacheController
 			{
 				throw new \RuntimeException('Unable to load Cache Controller: ' . $type, 500);
 			}
-		}
-
-		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($class))
-		{
-			return Factory::getContainer()->get($class);
 		}
 
 		return new $class($options);
