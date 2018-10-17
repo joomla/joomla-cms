@@ -41,7 +41,7 @@ class MenutypesModel extends BaseDatabaseModel
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState()
 	{
