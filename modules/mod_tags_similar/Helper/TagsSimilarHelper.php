@@ -68,17 +68,17 @@ abstract class TagsSimilarHelper
 
 		$query = $db->getQuery(true)
 			->select(
-			array(
-				$db->quoteName('m.core_content_id'),
-				$db->quoteName('m.content_item_id'),
-				$db->quoteName('m.type_alias'),
-					'COUNT( ' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
-				$db->quoteName('ct.router'),
-				$db->quoteName('cc.core_title'),
-				$db->quoteName('cc.core_alias'),
-				$db->quoteName('cc.core_catid'),
-				$db->quoteName('cc.core_language'),
-				$db->quoteName('cc.core_params')
+				array(
+					$db->quoteName('m.core_content_id'),
+					$db->quoteName('m.content_item_id'),
+					$db->quoteName('m.type_alias'),
+						'COUNT( ' . $db->quoteName('tag_id') . ') AS ' . $db->quoteName('count'),
+					$db->quoteName('ct.router'),
+					$db->quoteName('cc.core_title'),
+					$db->quoteName('cc.core_alias'),
+					$db->quoteName('cc.core_catid'),
+					$db->quoteName('cc.core_language'),
+					$db->quoteName('cc.core_params')
 				)
 		);
 

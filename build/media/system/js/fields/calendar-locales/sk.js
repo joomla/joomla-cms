@@ -2,7 +2,7 @@ window.JoomlaCalLocale = {
 	today : "Dnes",
 	weekend : [0, 6],
 	wk : "týž.",
-	time : "Èas:",
+	time : "Čas:",
 	days : ["Nedeľa", "Pondelok", "Utorok", "Streda", "Štvrtok", "Piatok", "Sobota"],
 	shortDays : ["Ned", "Pon", "Uto", "Str", "Štv", "Pia", "Sob"],
 	months : ["Január", "Február", "Marec", "Apríl", "Máj", "Jún", "Júl", "August", "September", "Október", "November", "December"],
@@ -14,6 +14,6 @@ window.JoomlaCalLocale = {
 	dateType : "gregorian",
 	minYear : 1900,
 	maxYear : 2100,
-	exit: "Zavrie",
-	save: "Vymaza"
+	exit: "Zavrieť",
+	save: "Vymazať"
 };

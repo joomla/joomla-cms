@@ -219,18 +219,18 @@ abstract class CmsModel extends BaseDatabaseModel
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
 		];
 
 		$cache = Cache::getInstance('callback', $options);
 		$cache->clean();
 
 		// Trigger the onContentCleanCache event.
-		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		$app->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**

@@ -17,7 +17,7 @@ use Joomla\Registry\Registry;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class NotequalsRule extends FormRule
 {
@@ -36,7 +36,7 @@ class NotequalsRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  \UnexpectedValueException
 	 */

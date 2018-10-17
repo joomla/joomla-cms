@@ -51,7 +51,7 @@ abstract class JHtmlJquery
 		// If no debugging value is set, use the configuration setting
 		if ($debug === null)
 		{
-			$debug = (boolean) Factory::getConfig()->get('debug');
+			$debug = (boolean) Factory::getApplication()->get('debug');
 		}
 
 		HTMLHelper::_('script', 'vendor/jquery/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));

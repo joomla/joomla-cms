@@ -21,6 +21,7 @@
 		<field
 			name="menuitem"
 			type="menuitem"
+			label="COM_TEMPLATES_OPTION_SELECT_MENU_ITEM"
 			disable="separator,alias,heading,url"
 			showon="client_id:0"
 			onchange="this.form.submit();"
@@ -31,6 +32,7 @@
 		<field
 			name="template"
 			type="templatename"
+			label="JOPTION_SELECT_TEMPLATE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_TEMPLATE</option>
@@ -40,6 +42,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.template ASC"
 			>
@@ -56,6 +59,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

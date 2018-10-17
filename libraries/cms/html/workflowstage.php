@@ -74,7 +74,7 @@ abstract class JHtmlWorkflowstage
 				$workflowStages[$workflowStageKey] = array();
 			}
 
-			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, $stage->workflow_stage_title);
+			$workflowStages[$workflowStageKey][] = HTMLHelper::_('select.option', $stage->workflow_stage_id, Text::_($stage->workflow_stage_title));
 		}
 
 		$prefix[] = array(
