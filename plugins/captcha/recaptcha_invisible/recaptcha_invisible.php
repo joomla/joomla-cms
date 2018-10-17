@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\Utilities\IpHelper; 
 
 /**
  * Invisible reCAPTCHA Plugin.
@@ -129,7 +130,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	{
 		$input      = \JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
-		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$remoteip   = IpHelper::getIp();
 
 		$response  = $input->get('g-recaptcha-response', '', 'string');
 
