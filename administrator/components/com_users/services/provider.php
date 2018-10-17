@@ -15,6 +15,7 @@ use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\Extension\Service\Provider\RouterFactory;
+use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Component\Users\Administrator\Extension\UsersComponent;
 use Joomla\DI\Container;
@@ -49,6 +50,7 @@ return new class implements ServiceProviderInterface
 				$component = new UsersComponent($container->get(DispatcherFactoryInterface::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
 				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
+				$component->setRegistry($container->get(Registry::class));
 
 				return $component;
 			}

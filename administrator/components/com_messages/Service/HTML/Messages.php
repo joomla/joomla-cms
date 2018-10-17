@@ -46,7 +46,7 @@ class Messages
 
 		if ($canChange)
 		{
-			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-xs hasTooltip'
+			$html = '<a href="#" onclick="return Joomla.listItemTask(\'cb' . $i . '\',\'' . $state[1] . '\')" class="btn btn-sm hasTooltip'
 				. ($value == 1 ? ' active' : '') . '" title="' . HTMLHelper::_('tooltipText', $state[3]) . '"><span class="icon-'
 				. $icon . '" aria-hidden="true"></span></a>';
 		}

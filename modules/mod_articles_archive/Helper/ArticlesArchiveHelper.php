@@ -59,7 +59,8 @@ class ArticlesArchiveHelper
 			$query->where('language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
-		$db->setQuery($query, 0, (int) $params->get('count'));
+		$query->setLimit((int) $params->get('count'), 0);
+		$db->setQuery($query);
 
 		try
 		{

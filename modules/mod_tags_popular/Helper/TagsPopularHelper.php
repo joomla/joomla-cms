@@ -136,7 +136,8 @@ abstract class TagsPopularHelper
 			}
 		}
 
-		$db->setQuery($query, 0, $maximum);
+		$query->setLimit($maximum, 0);
+		$db->setQuery($query);
 
 		try
 		{
