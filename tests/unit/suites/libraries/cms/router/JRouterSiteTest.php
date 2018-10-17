@@ -1130,7 +1130,7 @@ class JRouterSiteTest extends TestCaseDatabase
 	 */
 	public function testProcessParseRules()
 	{
-		$uri = new JUri('index.php?start=42');
+		$uri = new JUri('index.php?limit=30&start=42');
 
 		$object = new JRouterSite(
 			array(),
@@ -1144,8 +1144,8 @@ class JRouterSiteTest extends TestCaseDatabase
 
 		$vars = $processParseRulesMethod->invokeArgs($object, array(&$uri));
 
-		$this->assertEquals('index.php', $uri->toString());
-		$this->assertEquals(array('limitstart' => '42'), $vars);
+		$this->assertEquals('index.php?limit=30&limitstart=42', $uri->toString());
+		$this->assertEquals(array(), $vars);
 	}
 
 	/**
