@@ -161,7 +161,7 @@ final class SiteApplication extends CMSApplication
 
 				if ($router->getMode() == JROUTER_MODE_SEF)
 				{
-					$document->setBase(htmlspecialchars(\JUri::current()));
+					$document->setBase(htmlspecialchars(\JUri::base()));
 				}
 
 				// Get the template
