@@ -40,7 +40,7 @@
   };
 
   document.addEventListener('DOMContentLoaded', () => {
-    Array.from(document.querySelectorAll('.treeselect input[type="checkbox"]')).forEach((checkbox) => {
+    [].slice.call(document.querySelectorAll('.treeselect input[type="checkbox"]')).forEach((checkbox) => {
       checkbox.addEventListener('click', switchState);
     });
   });
