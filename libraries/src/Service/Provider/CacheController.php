@@ -33,7 +33,7 @@ class CacheController implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias('cachecontroller.factory', CacheControllerFactoryInterface::class)
+		$container->alias('cache.controller.factory', CacheControllerFactoryInterface::class)
 			->alias(CacheControllerFactory::class, CacheControllerFactoryInterface::class)
 			->share(
 				CacheControllerFactoryInterface::class,
