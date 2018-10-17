@@ -94,7 +94,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 			$value   = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
 
 			$html .= '<label for="' . $oid . '" class="checkbox">';
-			$html .= sprintf($format, $oid, $this->name, $value, ' ' . $checked);
+			$html .= sprintf($format, $oid, $this->name, $value, $checked);
 			$html .= $option->text . '</label>';
 		}
 
