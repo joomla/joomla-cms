@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * RawDocument class, provides an easy interface to parse and display raw output
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class RawDocument extends Document
 {
@@ -22,7 +22,7 @@ class RawDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -43,7 +43,7 @@ class RawDocument extends Document
 	 *
 	 * @return  string  The rendered data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function render($cache = false, $params = array())
 	{

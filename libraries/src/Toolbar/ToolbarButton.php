@@ -8,6 +8,8 @@
 
 namespace Joomla\CMS\Toolbar;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\Utilities\ArrayHelper;

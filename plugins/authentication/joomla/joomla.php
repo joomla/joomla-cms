@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
+use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Helper\AuthenticationHelper;
-use Joomla\CMS\Authentication\Authentication;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla Authentication plugin

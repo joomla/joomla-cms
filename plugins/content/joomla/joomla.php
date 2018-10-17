@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\CoreContent;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
 use Joomla\Utilities\ArrayHelper;
 
 /**

@@ -15,6 +15,10 @@
     background-color: theme-color("primary");
   }
 
+  .btn-secondary + .dropdown-menu  & {
+    background-color: theme-color("secondary");
+  }
+
   .btn-success + .dropdown-menu  & {
     background-color: theme-color("success");
   }

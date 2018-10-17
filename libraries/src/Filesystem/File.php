@@ -22,7 +22,7 @@ use Joomla\CMS\Log\Log;
 /**
  * A File handling class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class File
 {
@@ -33,7 +33,7 @@ class File
 	 *
 	 * @return  string  The file extension
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getExt($file)
 	{
@@ -54,7 +54,7 @@ class File
 	 *
 	 * @return  string  The file name without the extension
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function stripExt($file)
 	{
@@ -68,7 +68,7 @@ class File
 	 *
 	 * @return  string  The sanitised string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function makeSafe($file)
 	{
@@ -90,7 +90,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function copy($src, $dest, $path = null, $use_streams = false)
 	{
@@ -174,7 +174,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function delete($file)
 	{
@@ -249,7 +249,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
@@ -326,7 +326,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function write($file, $buffer, $use_streams = false)
 	{
@@ -455,7 +455,7 @@ class File
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function upload($src, $dest, $use_streams = false, $allow_unsafe = false, $safeFileOptions = array())
 	{
@@ -560,7 +560,7 @@ class File
 	 *
 	 * @return  boolean  True if path is a file
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function exists($file)
 	{
