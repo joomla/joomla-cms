@@ -236,7 +236,7 @@ class TagsModel extends ListModel
 	 *
 	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function checkin($pks = array())
 	{
@@ -325,7 +325,7 @@ class TagsModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{

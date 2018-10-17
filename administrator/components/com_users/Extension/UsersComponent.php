@@ -11,6 +11,8 @@ namespace Joomla\Component\Users\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -22,8 +24,9 @@ use Psr\Container\ContainerInterface;
  *
  * @since  __DEPLOY_VERSION__
  */
-class UsersComponent extends MVCComponent implements BootableExtensionInterface
+class UsersComponent extends MVCComponent implements BootableExtensionInterface, RouterServiceInterface
 {
+	use RouterServiceTrait;
 	use HTMLRegistryAwareTrait;
 
 	/**

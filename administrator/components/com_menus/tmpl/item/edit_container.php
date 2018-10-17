@@ -8,9 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Registry\Registry;
 
 // Initialise related data.
 $menuLinks = MenusHelper::getMenuLinks('main');
@@ -44,7 +45,7 @@ HTMLHelper::_('script', 'legacy/treeselectmenu.min.js', array('version' => 'auto
 		<ul class="treeselect">
 			<?php if (count($menuLinks)) : ?>
 				<?php $prevlevel = 0; ?>
-				<joomla-alert type="info"><?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?></joomla-alert>
+				<div class="alert alert-info"><?php echo Text::_('COM_MENUS_ITEM_FIELD_COMPONENTS_CONTAINER_HIDE_ITEMS_DESC'); ?></div>
 				<li>
 				<?php
 				$params      = new Registry($this->item->params);

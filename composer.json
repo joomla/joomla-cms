@@ -83,7 +83,8 @@
         "symfony/web-link": "3.4.*",
         "symfony/yaml": "3.4.*",
         "wamania/php-stemmer": "^1.2",
-        "maximebf/debugbar": "^1.15"
+        "maximebf/debugbar": "^1.15",
+        "ext-json": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",
