@@ -4,9 +4,9 @@
  */
 
 ((document) => {
-  const isChecked       = element => element.checked;
+  const isChecked = element => element.checked;
   const getTreeElements = element => element.querySelectorAll('input[type="checkbox"]');
-  const getTreeRoot     = element => element.parentElement.nextElementSibling;
+  const getTreeRoot = element => element.parentElement.nextElementSibling;
 
   const check = (element) => {
     element.checked = true;
@@ -17,7 +17,7 @@
   };
 
   const disable = element => element.setAttribute('disabled', 'disabled');
-  const enable  = element => element.removeAttribute('disabled');
+  const enable = element => element.removeAttribute('disabled');
 
   const toggleState = (element, rootChecked) => {
     if (rootChecked === true) {
@@ -31,7 +31,7 @@
     uncheck(element);
   };
   const switchState = ({ target }) => {
-    const root        = getTreeRoot(target);
+    const root = getTreeRoot(target);
     const selfChecked = isChecked(target);
 
     if (root) {
