@@ -49,7 +49,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php if (!$useDefList && $this->print) : ?>
 		<div id="pop-print" class="btn hidden-print">
-			<?php echo HTMLHelper::_('contenticon.print_screen', $this->item, $params); ?>
+			<?php echo HTMLHelper::_('contenticon.print_screen', $params); ?>
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
@@ -78,7 +78,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
 			<div id="pop-print" class="btn hidden-print">
-				<?php echo HTMLHelper::_('contenticon.print_screen', $this->item, $params); ?>
+				<?php echo HTMLHelper::_('contenticon.print_screen', $params); ?>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>
