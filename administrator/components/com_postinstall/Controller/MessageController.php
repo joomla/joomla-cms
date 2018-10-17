@@ -122,7 +122,7 @@ class MessageController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 */
 	public function hideAll()
 	{

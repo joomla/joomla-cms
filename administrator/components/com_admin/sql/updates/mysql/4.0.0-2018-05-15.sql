@@ -41,7 +41,8 @@ CREATE TABLE IF NOT EXISTS `#__workflow_associations` (
   `item_id` int(10) NOT NULL DEFAULT 0 COMMENT 'Extension table id value',
   `stage_id` int(10) NOT NULL COMMENT 'Foreign Key to #__workflow_stages.id',
   `extension` varchar(50) NOT NULL,
-  PRIMARY KEY (`item_id`, `stage_id`, `extension`),
+  PRIMARY KEY (`item_id`, `extension`),
+  KEY `idx_item_stage_extension` (`item_id`, `stage_id`, `extension`)
   KEY `idx_item_id` (`item_id`),
   KEY `idx_stage_id` (`stage_id`),
   KEY `idx_extension` (`extension`)

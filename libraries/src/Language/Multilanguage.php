@@ -11,7 +11,6 @@ namespace Joomla\CMS\Language;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
 
 /**
  * Utitlity class for multilang
@@ -76,21 +75,6 @@ class Multilanguage
 		}
 
 		return (bool) static::$enabled;
-	}
-
-	/**
-	 * Method to return a list of published site languages.
-	 *
-	 * @return  array of language extension objects.
-	 *
-	 * @since   3.5
-	 * @deprecated   3.7.0  Use LanguageHelper::getInstalledLanguages(0) instead.
-	 */
-	public static function getSiteLangs()
-	{
-		Log::add(__METHOD__ . ' is deprecated. Use LanguageHelper::getInstalledLanguages(0) instead.', Log::WARNING, 'deprecated');
-
-		return LanguageHelper::getInstalledLanguages(0);
 	}
 
 	/**

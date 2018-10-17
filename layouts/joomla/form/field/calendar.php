@@ -11,7 +11,6 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 extract($displayData);
@@ -97,10 +96,10 @@ if (is_array($attributes))
 $cssFileExt = ($direction === 'rtl') ? '-rtl.css' : '.css';
 
 // The static assets for the calendar
-HTMLHelper::_('script', $localesPath, false, true, false, false, true);
-HTMLHelper::_('script', $helperPath, false, true, false, false, true);
-HTMLHelper::_('script', 'system/fields/calendar.min.js', false, true, false, false, true);
-HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, array(), true);
+HTMLHelper::_('script', $localesPath, ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', $helperPath, ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'system/fields/calendar.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' => 'auto', 'relative' => true]);
 ?>
 <div class="field-calendar">
 	<?php if (!$readonly && !$disabled) : ?>

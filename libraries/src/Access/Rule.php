@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Rule class.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class Rule
 {
@@ -21,7 +21,7 @@ class Rule
 	 * A named array
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $data = array();
 
@@ -33,7 +33,7 @@ class Rule
 	 *
 	 * @param   mixed  $identities  A JSON format string (probably from the database) or a named array.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($identities)
 	{
@@ -51,7 +51,7 @@ class Rule
 	 *
 	 * @return  array  A named array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getData()
 	{
@@ -65,7 +65,7 @@ class Rule
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeIdentities($identities)
 	{
@@ -91,7 +91,7 @@ class Rule
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeIdentity($identity, $allow)
 	{
@@ -123,7 +123,7 @@ class Rule
 	 *
 	 * @return  mixed  True if allowed, false for an explicit deny, null for an implicit deny.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function allow($identities)
 	{
@@ -165,7 +165,7 @@ class Rule
 	 *
 	 * @return  string  JSON encoded string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{

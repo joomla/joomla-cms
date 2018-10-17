@@ -48,7 +48,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<a class="nav-link dropdown-toggle" href="<?php echo Route::_('index.php?option=com_messages'); ?>" title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
 				<span class="fa fa-envelope-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
-				<?php $countUnread = Factory::getSession()->get('messages.unread'); ?>
+				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
 				<?php if ($countUnread > 0) : ?>
 					<span class="badge badge-pill badge-danger"><?php echo $countUnread; ?></span>
 				<?php endif; ?>
