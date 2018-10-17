@@ -85,7 +85,7 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
@@ -251,7 +251,8 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
+		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias,' .
+				'c.language AS category_language')
 			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
@@ -262,7 +263,8 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Join over the categories to get parent category titles
-		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
+		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias,' .
+				'parent.language as parent_language')
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 		if (PluginHelper::isEnabled('content', 'vote'))
@@ -732,7 +734,7 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getStart()
 	{

@@ -53,7 +53,7 @@ function modChrome_well($module, &$params, &$attribs)
 	{
 		// Permission checks
 		$user           = Factory::getUser();
-		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
+		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id) && $user->authorise('core.manage', 'com_modules');
 
 		$moduleTag      = $params->get('module_tag', 'div');
 		$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
@@ -71,7 +71,7 @@ function modChrome_well($module, &$params, &$attribs)
 		if ($canEdit)
 		{
 			echo '<div class="module-actions">';
-			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
+			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id)
 				. '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
 			echo '</div>';
 		}
@@ -112,7 +112,7 @@ function modChrome_body($module, &$params, &$attribs)
 		if ($canEdit)
 		{
 			echo '<div class="module-actions">';
-			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
+			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id)
 				. '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
 			echo '</div>';
 		}

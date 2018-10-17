@@ -18,7 +18,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('jquery.framework');
 
 $input          = Factory::getApplication()->input;
 $field          = $input->getCmd('field');
@@ -77,16 +76,16 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<th scope="col" style="width:15%">
 						<?php echo Text::_('JDATE'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo Text::_('COM_CONTENTHISTORY_VERSION_NOTE'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap">
+					<th scope="col" style="width:10%">
 						<?php echo Text::_('COM_CONTENTHISTORY_KEEP_VERSION'); ?>
 					</th>
-					<th scope="col" style="width:15%" class="nowrap d-none d-md-table-cell">
+					<th scope="col" style="width:15%" class="d-none d-md-table-cell">
 						<?php echo Text::_('JAUTHOR'); ?>
 					</th>
-					<th scope="col" style="width:10%" class="nowrap text-center">
+					<th scope="col" style="width:10%" class="text-right">
 						<?php echo Text::_('COM_CONTENTHISTORY_CHARACTER_COUNT'); ?>
 					</th>
 				</tr>
@@ -112,13 +111,13 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					</td>
 					<td>
 						<?php if ($item->keep_forever) : ?>
-							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
+							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
 								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')"
 								data-original-title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
 								<?php echo Text::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
 							</a>
 						<?php else : ?>
-							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
+							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
 								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')"
 								data-original-title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
 								<?php echo Text::_('JNO'); ?>
@@ -128,7 +127,7 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					<td class="d-none d-md-table-cell">
 						<?php echo htmlspecialchars($item->editor); ?>
 					</td>
-					<td class="text-center">
+					<td class="text-right">
 						<?php echo number_format((int) $item->character_count, 0, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')); ?>
 					</td>
 				</tr>

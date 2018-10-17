@@ -13,20 +13,16 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-
 
 $expired = ($this->state->get('cache_expired') == 1 ) ? '1' : '';
 
 HTMLHelper::_('stylesheet', 'com_languages/overrider.css', array('version' => 'auto', 'relative' => true));
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'com_languages/overrider.min.js', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_languages&id=' . $this->item->key); ?>" method="post" name="adminForm" id="override-form" class="form-validate">
@@ -96,9 +92,9 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 		<div class="col-md-6">
 			<fieldset>
 				<legend><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_LEGEND'); ?></legend>
-
-				<joomla-alert type="info"><?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?></joomla-alert>
-
+				<div class="alert alert-info">
+					<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_SEARCH_TIP'); ?>
+				</div>
 				<div class="control-group">
 					<div class="input-group">
 						<?php echo $this->form->getInput('searchstring'); ?>

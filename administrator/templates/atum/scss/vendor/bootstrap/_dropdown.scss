@@ -1,7 +1,6 @@
 // Dropdown
 
 .btn-group .dropdown-menu {
-  width: 100%;
   box-shadow: $atum-box-shadow;
 
   [class^='icon-'],
@@ -14,6 +13,10 @@
 .dropdown-item:focus {
   .btn-primary + .dropdown-menu  & {
     background-color: theme-color("primary");
+  }
+
+  .btn-secondary + .dropdown-menu  & {
+    background-color: theme-color("secondary");
   }
 
   .btn-success + .dropdown-menu  & {

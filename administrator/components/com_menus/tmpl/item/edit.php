@@ -16,9 +16,6 @@ use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.formvalidator');
@@ -87,7 +84,7 @@ if ($clientId === 1)
 					<label for="menus_title_translation"><?php echo Text::sprintf('COM_MENUS_TITLE_TRANSLATION', $lang); ?></label>
 				</div>
 				<div class="controls">
-					<input id="menus_title_translation" class="form-control input-xlarge" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
+					<input id="menus_title_translation" class="form-control" value="<?php echo Text::_($this->item->title); ?>" readonly="readonly" type="text">
 				</div>
 			</div>
 		</div>

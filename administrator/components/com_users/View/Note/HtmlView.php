@@ -74,9 +74,6 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		// Get the component HTML helpers
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		parent::display($tpl);
 		$this->addToolbar();
 	}

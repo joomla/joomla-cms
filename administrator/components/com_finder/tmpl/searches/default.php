@@ -26,18 +26,23 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 				<table class="table">
+					<caption id="captionTable" class="sr-only">
+						<?php echo Text::_('COM_FINDER_SEARCHES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					</caption>
 					<thead>
 						<tr>
-							<th scope="col" class="nowrap">
+							<th scope="col">
 								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_HEADING_PHRASE', 'a.searchterm', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:15%" class="nowrap">
+							<th scope="col" style="width:15%">
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 							</th>
-							<th scope="col" style="width:1%" class="nowrap text-center">
+							<th scope="col" style="width:1%" class="text-center">
 								<?php echo JText::_('COM_FINDER_HEADING_RESULTS'); ?>
 							</th>
 						</tr>

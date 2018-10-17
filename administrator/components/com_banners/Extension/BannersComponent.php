@@ -11,8 +11,8 @@ namespace Joomla\Component\Banners\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Categories\CategoriesServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceTrait;
+use Joomla\CMS\Categories\CategoryServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -24,9 +24,9 @@ use Psr\Container\ContainerInterface;
  *
  * @since  4.0.0
  */
-class BannersComponent extends MVCComponent implements BootableExtensionInterface, CategoriesServiceInterface
+class BannersComponent extends MVCComponent implements BootableExtensionInterface, CategoryServiceInterface
 {
-	use CategoriesServiceTrait;
+	use CategoryServiceTrait;
 	use HTMLRegistryAwareTrait;
 
 	/**
@@ -72,6 +72,6 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	 */
 	protected function getStateColumnForSection(string $section = null)
 	{
-		return 'published as state';
+		return 'published';
 	}
 }

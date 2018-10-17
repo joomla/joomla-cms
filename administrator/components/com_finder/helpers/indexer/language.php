@@ -28,7 +28,7 @@ class FinderIndexerLanguage
 
 	/**
 	 * Language locale of the class
-	 * 
+	 *
 	 * @var    string
 	 * @since  4.0.0
 	 */
@@ -36,7 +36,7 @@ class FinderIndexerLanguage
 
 	/**
 	 * Spacer to use between terms
-	 * 
+	 *
 	 * @var    string
 	 * @since  4.0.0
 	 */

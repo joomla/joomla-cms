@@ -17,7 +17,7 @@ use Joomla\CMS\Form\FormField;
  * Provides an input field for files
  *
  * @link   http://www.w3.org/TR/html-markup/input.file.html#input.file
- * @since  11.1
+ * @since  1.7.0
  */
 class FileField extends FormField
 {
@@ -25,7 +25,7 @@ class FileField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'File';
 
@@ -123,7 +123,7 @@ class FileField extends FormField
 	 *
 	 * @note    The field does not include an upload mechanism.
 	 * @see     JFormFieldMedia
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

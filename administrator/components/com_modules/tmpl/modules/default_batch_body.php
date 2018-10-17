@@ -9,10 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 $clientId  = $this->state->get('client_id');
 
@@ -28,13 +29,13 @@ $customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 // Build field
 $attr = array(
 	'id'        => 'batch-position-id',
-	'list.attr' => 'class="chzn-custom-value" '
+	'list.attr' => 'class="chosen-custom-value" '
 		. 'data-custom_group_text="' . $customGroupText . '" '
 		. 'data-no_results_text="' . Text::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
 		. 'data-placeholder="' . Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '
 );
 
-HTMLHelper::_('formbehavior.chosen', '.chzn-custom-value');
+HTMLHelper::_('formbehavior.chosen', '.chosen-custom-value');
 ?>
 
 <p><?php echo Text::_('COM_MODULES_BATCH_TIP'); ?></p>
@@ -56,12 +57,12 @@ HTMLHelper::_('formbehavior.chosen', '.chzn-custom-value');
 
         <div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo HTMLHelper::_('batch.language'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
 			</div>
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo HTMLHelper::_('batch.access'); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
 			</div>
 		</div>
 	</div>

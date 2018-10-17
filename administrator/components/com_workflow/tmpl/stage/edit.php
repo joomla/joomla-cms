@@ -39,7 +39,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 	<div class="row">
 		<div class="col-md-9">
 			<?php echo $this->form->renderField('condition'); ?>
-			<?php echo $this->form->getInput('description'); ?>
+			<?php echo $this->form->renderField('description'); ?>
 		</div>
 		<div class="col-md-3">
 			<div class="card card-block card-light">

@@ -13,7 +13,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Utilities\ArrayHelper;
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-toolbar-button.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-toolbar-button.min.js', ['version' => 'auto', 'relative' => true]);
 
 /**
  * @var  int     $id

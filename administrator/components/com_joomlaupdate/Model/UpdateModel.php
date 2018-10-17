@@ -27,6 +27,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Joomla! update overview Model
@@ -298,8 +299,7 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$config  = Factory::getConfig();
-		$tempdir = $config->get('tmp_path');
+		$tempdir = Factory::getApplication()->get('tmp_path');
 		$target  = $tempdir . '/' . $basename;
 
 		// Do we have a cached file?
@@ -389,7 +389,8 @@ class UpdateModel extends BaseDatabaseModel
 	}
 
 	/**
-	 * Create restoration file.
+	 * Create restoration file and trigger onJoomlaBeforeUpdate event, which find the updated core files
+	 * which have changed during the update, where there are override for.
 	 *
 	 * @param   string  $basename  Optional base path to the file.
 	 *
@@ -399,10 +400,16 @@ class UpdateModel extends BaseDatabaseModel
 	 */
 	public function createRestorationFile($basename = null)
 	{
+		// Load overrides plugin.
+		PluginHelper::importPlugin('installer');
+
 		// Get a password
 		$password = UserHelper::genRandomPassword(32);
 		$app = Factory::getApplication();
 		$app->setUserState('com_joomlaupdate.password', $password);
+
+		// Trigger event before joomla update.
+		$app->triggerEvent('onJoomlaBeforeUpdate');
 
 		// Do we have to use FTP?
 		$method = Factory::getApplication()->getUserStateFromRequest('com_joomlaupdate.method', 'method', 'direct', 'cmd');
@@ -826,7 +833,8 @@ ENDDATA;
 	}
 
 	/**
-	 * Removes the extracted package file.
+	 * Removes the extracted package file and trigger onJoomlaAfterUpdate event, which find the updated core files
+	 * which have changed during the update, where there are override for.
 	 *
 	 * @return  void
 	 *
@@ -834,11 +842,18 @@ ENDDATA;
 	 */
 	public function cleanUp()
 	{
-		// Remove the update package.
-		$config = Factory::getConfig();
-		$tempdir = $config->get('tmp_path');
+		// Load overrides plugin.
+		PluginHelper::importPlugin('installer');
 
-		$file = Factory::getApplication()->getUserState('com_joomlaupdate.file', null);
+		$app = Factory::getApplication();
+
+		// Trigger event after joomla update.
+		$app->triggerEvent('onJoomlaAfterUpdate');
+
+		// Remove the update package.
+		$tempdir = $app->get('tmp_path');
+
+		$file = $app->getUserState('com_joomlaupdate.file', null);
 		$target = $tempdir . '/' . $file;
 
 		if (!@unlink($target))
@@ -925,8 +940,7 @@ ENDDATA;
 		}
 
 		// Build the appropriate paths.
-		$config   = Factory::getConfig();
-		$tmp_dest = tempnam($config->get('tmp_path'), 'ju');
+		$tmp_dest = tempnam(Factory::getApplication()->get('tmp_path'), 'ju');
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.
