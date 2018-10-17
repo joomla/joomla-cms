@@ -88,6 +88,14 @@ class CacheController
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The cache controller should be fetched from the factory.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		try
 		{
 			return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);

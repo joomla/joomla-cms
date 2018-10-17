@@ -317,6 +317,14 @@ abstract class Factory
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The cache controller should be fetched from the factory.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$hash = md5($group . $handler . $storage);
 
 		if (isset(self::$cache[$hash]))
