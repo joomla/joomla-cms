@@ -512,7 +512,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
@@ -612,7 +612,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
