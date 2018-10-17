@@ -513,7 +513,6 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
-	 * @deprecated 4.0  The (url, mime, defer, async) method signature is deprecated, use (url, options, attributes) instead.
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
@@ -614,7 +613,6 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
-	 * @deprecated 4.0  The (url, mime, media, attribs) method signature is deprecated, use (url, options, attributes) instead.
 	 */
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
