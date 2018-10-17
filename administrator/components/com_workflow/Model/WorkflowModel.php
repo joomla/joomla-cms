@@ -345,7 +345,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->published != -2)
+		if (empty($record->id) || $record->published != -2 || $record->core)
 		{
 			return false;
 		}
@@ -365,6 +365,11 @@ class WorkflowModel extends AdminModel
 	protected function canEditState($record)
 	{
 		$user = Factory::getUser();
+
+		if (!empty($record->core))
+		{
+			return false;
+		}
 
 		// Check for existing workflow.
 		if (!empty($record->id))
