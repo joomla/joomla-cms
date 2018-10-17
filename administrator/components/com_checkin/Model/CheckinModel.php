@@ -30,14 +30,6 @@ class CheckinModel extends ListModel
 	protected $total;
 
 	/**
-	 * Unused class variable
-	 *
-	 * @var  object
-	 * @deprecated  4.0
-	 */
-	protected $tables;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.

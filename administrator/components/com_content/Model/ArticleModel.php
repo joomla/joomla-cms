@@ -12,6 +12,7 @@ namespace Joomla\Component\Content\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
@@ -70,7 +71,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -618,7 +619,7 @@ class ArticleModel extends AdminModel
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 			}
 		}
@@ -699,15 +700,13 @@ class ArticleModel extends AdminModel
 			$data['images'] = (string) $registry;
 		}
 
-		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
-
 		// Cast catid to integer for comparison
 		$catid = (int) $data['catid'];
 
 		// Check if New Category exists
 		if ($catid > 0)
 		{
-			$catid = \CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_content');
 		}
 
 		// Save New Category
@@ -721,7 +720,7 @@ class ArticleModel extends AdminModel
 			$table['published'] = 1;
 
 			// Create new category and get catid back
-			$data['catid'] = \CategoriesHelper::createCategory($table);
+			$data['catid'] = CategoriesHelper::createCategory($table);
 		}
 
 		if (isset($data['urls']) && is_array($data['urls']))
@@ -838,7 +837,7 @@ class ArticleModel extends AdminModel
 		{
 			if ($data['alias'] == null)
 			{
-				if (Factory::getConfig()->get('unicodeslugs') == 1)
+				if (Factory::getApplication()->get('unicodeslugs') == 1)
 				{
 					$data['alias'] = \JFilterOutput::stringURLUnicodeSlug($data['title']);
 				}

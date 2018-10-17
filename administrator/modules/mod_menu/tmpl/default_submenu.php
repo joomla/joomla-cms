@@ -84,7 +84,7 @@ if ($current->get('link') === '#')
 
 if ($link !== null && $current->get('target') !== null && $current->get('target') !== '')
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">" 
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">"
 		. $iconClass
 		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
 }
@@ -117,7 +117,7 @@ if ($this->enabled && $current->hasChildren())
 	else
 	{
 		echo '<ul id="collapse' . $this->tree->getCounter() . '" class="nav panel-collapse collapse-level-1 collapse" role="menu" aria-hidden="true">
-		   <li>' . Text::_($current->get('title')) . '<a href="#" class="close"><span aria-label="Close Menu">×</span></a></li>' . "\n";
+		   <li>' . Text::_($current->get('title')) . '<a href="#" class="close"><span aria-label="' . Text::_('MOD_MENU_ARIA_CLOSE_SUBMENU') . '">×</span></a></li>' . "\n";
 	}
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call

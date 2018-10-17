@@ -14,7 +14,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Whosonline\Site\Helper\WhosonlineHelper;
 
 // Check if session metadata tracking is enabled
-if (Factory::getConfig()->get('session_metadata', true))
+if ($app->get('session_metadata', true))
 {
 	$showmode = $params->get('showmode', 0);
 

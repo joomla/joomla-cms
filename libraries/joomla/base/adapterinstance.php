@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Adapter Instance Class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JAdapterInstance extends JObject
 {
@@ -20,7 +20,7 @@ class JAdapterInstance extends JObject
 	 * Parent
 	 *
 	 * @var    JAdapter
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $parent = null;
 
@@ -28,7 +28,7 @@ class JAdapterInstance extends JObject
 	 * Database
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $db = null;
 
@@ -39,7 +39,7 @@ class JAdapterInstance extends JObject
 	 * @param   JDatabaseDriver  $db       Database object
 	 * @param   array            $options  Configuration Options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(JAdapter $parent, JDatabaseDriver $db, array $options = array())
 	{
@@ -58,7 +58,7 @@ class JAdapterInstance extends JObject
 	 *
 	 * @return  JAdapter parent
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getParent()
 	{

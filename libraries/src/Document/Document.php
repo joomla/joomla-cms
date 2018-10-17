@@ -13,12 +13,13 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory as CmsFactory;
+use Joomla\CMS\WebAsset\WebAssetRegistry;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
  * Document class, provides an easy interface to parse and display a document
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Document
 {
@@ -26,7 +27,7 @@ class Document
 	 * Document title
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $title = '';
 
@@ -34,7 +35,7 @@ class Document
 	 * Document description
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $description = '';
 
@@ -42,7 +43,7 @@ class Document
 	 * Document full URL
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $link = '';
 
@@ -50,7 +51,7 @@ class Document
 	 * Document base URL
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $base = '';
 
@@ -58,7 +59,7 @@ class Document
 	 * Contains the document language setting
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $language = 'en-gb';
 
@@ -66,7 +67,7 @@ class Document
 	 * Contains the document direction setting
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $direction = 'ltr';
 
@@ -74,7 +75,7 @@ class Document
 	 * Document generator
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_generator = 'Joomla! - Open Source Content Management';
 
@@ -82,7 +83,7 @@ class Document
 	 * Document modified date
 	 *
 	 * @var    string|Date
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_mdate = '';
 
@@ -90,7 +91,7 @@ class Document
 	 * Tab string
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_tab = "\11";
 
@@ -98,7 +99,7 @@ class Document
 	 * Contains the line end string
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_lineEnd = "\12";
 
@@ -106,7 +107,7 @@ class Document
 	 * Contains the character encoding string
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_charset = 'utf-8';
 
@@ -114,7 +115,7 @@ class Document
 	 * Document mime type
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_mime = '';
 
@@ -122,7 +123,7 @@ class Document
 	 * Document namespace
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_namespace = '';
 
@@ -130,7 +131,7 @@ class Document
 	 * Document profile
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_profile = '';
 
@@ -138,7 +139,7 @@ class Document
 	 * Array of linked scripts
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_scripts = array();
 
@@ -146,7 +147,7 @@ class Document
 	 * Array of scripts placed in the header
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_script = array();
 
@@ -161,7 +162,7 @@ class Document
 	 * Array of linked style sheets
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_styleSheets = array();
 
@@ -169,7 +170,7 @@ class Document
 	 * Array of included style declarations
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_style = array();
 
@@ -177,7 +178,7 @@ class Document
 	 * Array of meta tags
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_metaTags = array();
 
@@ -185,7 +186,7 @@ class Document
 	 * The rendering engine
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_engine = null;
 
@@ -193,7 +194,7 @@ class Document
 	 * The document type
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $_type = null;
 
@@ -201,7 +202,7 @@ class Document
 	 * Array of buffered output
 	 *
 	 * @var    mixed (depends on the renderer)
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $_buffer = null;
 
@@ -209,7 +210,7 @@ class Document
 	 * Document instances container.
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -246,11 +247,19 @@ class Document
 	protected $preloadTypes = ['preload', 'dns-prefetch', 'preconnect', 'prefetch', 'prerender'];
 
 	/**
+	 * Web Asset instance
+	 *
+	 * @var    WebAssetRegistry
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $webAssetManager = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -311,6 +320,15 @@ class Document
 		{
 			$this->setPreloadManager(new PreloadManager);
 		}
+
+		if (array_key_exists('webAsset', $options))
+		{
+			$this->setWebAssetManager($options['webAsset']);
+		}
+		else
+		{
+			$this->setWebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webasset'));
+		}
 	}
 
 	/**
@@ -322,7 +340,7 @@ class Document
 	 *
 	 * @return  static  The document object.
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0 Use the \Joomla\CMS\Document\FactoryInterface instead
 	 */
 	public static function getInstance($type = 'html', $attributes = array())
@@ -360,7 +378,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setType($type)
 	{
@@ -374,7 +392,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getType()
 	{
@@ -386,7 +404,7 @@ class Document
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getBuffer()
 	{
@@ -401,7 +419,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setBuffer($content, $options = array())
 	{
@@ -418,7 +436,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getMetaData($name, $attribute = 'name')
 	{
@@ -453,7 +471,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setMetaData($name, $content, $attribute = 'name')
 	{
@@ -495,6 +513,7 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
+	 * @deprecated 4.0  The (url, mime, defer, async) method signature is deprecated, use (url, options, attributes) instead.
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
@@ -518,7 +537,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addScriptDeclaration($content, $type = 'text/javascript')
 	{
@@ -595,6 +614,7 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   11.1
+	 * @deprecated 4.0  The (url, mime, media, attribs) method signature is deprecated, use (url, options, attributes) instead.
 	 */
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
@@ -626,7 +646,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addStyleDeclaration($content, $type = 'text/css')
 	{
@@ -649,7 +669,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setCharset($type = 'utf-8')
 	{
@@ -663,7 +683,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getCharset()
 	{
@@ -677,7 +697,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLanguage($lang = 'en-gb')
 	{
@@ -691,7 +711,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getLanguage()
 	{
@@ -705,7 +725,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setDirection($dir = 'ltr')
 	{
@@ -719,7 +739,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getDirection()
 	{
@@ -733,7 +753,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setTitle($title)
 	{
@@ -747,7 +767,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTitle()
 	{
@@ -811,13 +831,41 @@ class Document
 	}
 
 	/**
+	 * Set WebAsset manager
+	 *
+	 * @param   WebAssetRegistry  $webAsset  The WebAsset instance
+	 *
+	 * @return  Document
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setWebAssetManager(WebAssetRegistry $webAsset): self
+	{
+		$this->webAssetManager = $webAsset;
+
+		return $this;
+	}
+
+	/**
+	 * Return WebAsset manager
+	 *
+	 * @return  WebAssetRegistry
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getWebAssetManager(): WebAssetRegistry
+	{
+		return $this->webAssetManager;
+	}
+
+	/**
 	 * Sets the base URI of the document
 	 *
 	 * @param   string  $base  The base URI to be set
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setBase($base)
 	{
@@ -831,7 +879,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getBase()
 	{
@@ -845,7 +893,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setDescription($description)
 	{
@@ -859,7 +907,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since    11.1
+	 * @since    1.7.0
 	 */
 	public function getDescription()
 	{
@@ -873,7 +921,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLink($url)
 	{
@@ -887,7 +935,7 @@ class Document
 	 *
 	 * @return string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getLink()
 	{
@@ -901,7 +949,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setGenerator($generator)
 	{
@@ -915,7 +963,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getGenerator()
 	{
@@ -929,7 +977,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function setModifiedDate($date)
@@ -956,7 +1004,7 @@ class Document
 	 *
 	 * @return  string|Date
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getModifiedDate()
 	{
@@ -977,7 +1025,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @link    http://www.w3.org/TR/xhtml-media-types
 	 */
@@ -999,7 +1047,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getMimeEncoding()
 	{
@@ -1013,7 +1061,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLineEnd($style)
 	{
@@ -1040,7 +1088,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _getLineEnd()
 	{
@@ -1054,7 +1102,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setTab($string)
 	{
@@ -1068,7 +1116,7 @@ class Document
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _getTab()
 	{
@@ -1082,7 +1130,7 @@ class Document
 	 *
 	 * @return  RendererInterface
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function loadRenderer($type)
@@ -1097,7 +1145,7 @@ class Document
 	 *
 	 * @return  Document instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function parse($params = array())
 	{
@@ -1112,7 +1160,7 @@ class Document
 	 *
 	 * @return  void  The rendered data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function render($cache = false, $params = array())
 	{

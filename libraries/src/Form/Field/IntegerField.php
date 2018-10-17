@@ -19,7 +19,7 @@ FormHelper::loadFieldClass('list');
  * Form Field class for the Joomla Platform.
  * Provides a select list of integers with specified first, last and step values.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class IntegerField extends \JFormFieldList
 {
@@ -27,7 +27,7 @@ class IntegerField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Integer';
 
@@ -36,7 +36,7 @@ class IntegerField extends \JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{

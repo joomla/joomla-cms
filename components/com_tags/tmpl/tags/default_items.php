@@ -15,8 +15,6 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
-
 HTMLHelper::_('behavior.core');
 
 HTMLHelper::_('script', 'com_tags/tags-default.js', ['version' => 'auto', 'relative' => true]);
@@ -46,7 +44,6 @@ if ($bsspans < 1)
 
 $bscolumns = min($columns, floor(12 / $bsspans));
 $n         = count($this->items);
-
 ?>
 
 <div class="com-tags__items">

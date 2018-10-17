@@ -15,8 +15,6 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.combobox');
 HTMLHelper::_('behavior.keepalive');
@@ -117,7 +115,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<joomla-alert type="danger"><?php echo Text::_('COM_MODULES_ERR_XML'); ?></joomla-alert>
+					<div class="alert alert-danger">
+						<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
+					</div>
 				<?php endif; ?>
 				<?php
 				if ($hasContent)
