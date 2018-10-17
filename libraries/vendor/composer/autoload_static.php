@@ -293,6 +293,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Uri\\UriImmutable' => __DIR__ . '/..' . '/joomla/uri/src/UriImmutable.php',
         'Joomla\\Uri\\UriInterface' => __DIR__ . '/..' . '/joomla/uri/src/UriInterface.php',
         'Joomla\\Utilities\\ArrayHelper' => __DIR__ . '/..' . '/joomla/utilities/src/ArrayHelper.php',
+        'Joomla\\Utilities\\IpHelper' => __DIR__ . '/..' . '/joomla/utilities/src/IpHelper.php',
         'JsonSerializable' => __DIR__ . '/..' . '/joomla/compat/src/JsonSerializable.php',
         'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
         'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',

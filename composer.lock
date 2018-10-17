@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b731a2cd940f3225104efe2c2d504888",
+    "content-hash": "aac8c59b923076a18b9dae72b0859a13",
     "packages": [
         {
             "name": "google/recaptcha",
@@ -849,16 +849,16 @@
         },
         {
             "name": "joomla/utilities",
-            "version": "1.5.0",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/utilities.git",
-                "reference": "7407add476590c1a8e68d804d50b8911aaa26bcd"
+                "reference": "181fe644149ca0bd4a31f12212d3840147552b30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/7407add476590c1a8e68d804d50b8911aaa26bcd",
-                "reference": "7407add476590c1a8e68d804d50b8911aaa26bcd",
+                "url": "https://api.github.com/repos/joomla-framework/utilities/zipball/181fe644149ca0bd4a31f12212d3840147552b30",
+                "reference": "181fe644149ca0bd4a31f12212d3840147552b30",
                 "shasum": ""
             },
             "require": {
@@ -891,7 +891,7 @@
                 "joomla",
                 "utilities"
             ],
-            "time": "2018-03-15T00:42:47+00:00"
+            "time": "2018-10-16T23:36:52+00:00"
         },
         {
             "name": "leafo/lessphp",
