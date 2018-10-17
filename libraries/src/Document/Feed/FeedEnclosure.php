@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Data object representing a feed enclosure
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FeedEnclosure
 {
@@ -23,7 +23,7 @@ class FeedEnclosure
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $url = '';
 
@@ -33,7 +33,7 @@ class FeedEnclosure
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $length = '';
 
@@ -43,7 +43,7 @@ class FeedEnclosure
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $type = '';
 }

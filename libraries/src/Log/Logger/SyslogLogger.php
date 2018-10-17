@@ -22,7 +22,7 @@ use Joomla\CMS\Log\Logger;
  * the Windows based implementations this can be found in the Event Log. For Windows,
  * permissions may prevent PHP from properly outputting messages.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class SyslogLogger extends Logger
 {
@@ -30,7 +30,7 @@ class SyslogLogger extends Logger
 	 * Translation array for LogEntry priorities to SysLog priority names.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $priorities = array(
 		Log::EMERGENCY => 'EMERG',
@@ -48,7 +48,7 @@ class SyslogLogger extends Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(array &$options)
 	{
@@ -110,7 +110,7 @@ class SyslogLogger extends Logger
 	/**
 	 * Destructor.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __destruct()
 	{
@@ -124,7 +124,7 @@ class SyslogLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addEntry(LogEntry $entry)
 	{

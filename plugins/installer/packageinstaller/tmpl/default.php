@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\FilesystemHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Filesystem\FilesystemHelper;
 
 $token   = Session::getFormToken();
 $return  = Factory::getApplication()->input->getBase64('return');

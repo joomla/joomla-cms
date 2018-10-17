@@ -526,19 +526,19 @@ abstract class ModuleHelper
 		}
 
 		$user = Factory::getUser();
-		$conf = Factory::getConfig();
+		$app  = Factory::getApplication();
 
 		/** @var \JCacheControllerCallback $cache */
 		$cache = Factory::getCache($cacheparams->cachegroup, 'callback');
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
+		if ($moduleparams->get('owncache', null) === '0' || $app->get('caching') == 0 || $user->get('id'))
 		{
 			$cache->setCaching(false);
 		}
 
 		// Module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
-		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60) / 60);
+		$cache->setLifeTime($moduleparams->get('cache_time', $app->get('cachetime') * 60) / 60);
 
 		$wrkaroundoptions = array('nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1);
 
@@ -562,7 +562,7 @@ abstract class ModuleHelper
 
 				if (is_array($cacheparams->modeparams))
 				{
-					$input   = Factory::getApplication()->input;
+					$input   = $app->input;
 					$uri     = $input->getArray();
 					$safeuri = new \stdClass;
 					$noHtmlFilter = InputFilter::getInstance();
@@ -613,7 +613,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . Factory::getApplication()->input->getInt('Itemid', null),
+					$module->id . $view_levels . $app->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);

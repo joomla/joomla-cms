@@ -76,7 +76,7 @@ class LoginModel extends BaseDatabaseModel
 	 *
 	 * @return  object  The Module object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getLoginModule($name = 'mod_login', $title = null)
 	{
@@ -125,7 +125,7 @@ class LoginModel extends BaseDatabaseModel
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _load($module)
 	{

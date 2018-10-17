@@ -19,7 +19,7 @@ FormHelper::loadFieldClass('list');
  * Provides radio button inputs
  *
  * @link   http://www.w3.org/TR/html-markup/command.radio.html#command.radio
- * @since  11.1
+ * @since  1.7.0
  */
 class RadioField extends \JFormFieldList
 {
@@ -27,7 +27,7 @@ class RadioField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Radio';
 
@@ -50,7 +50,7 @@ class RadioField extends \JFormFieldList
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -75,7 +75,7 @@ class RadioField extends \JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
