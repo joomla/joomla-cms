@@ -3,12 +3,10 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(() => {
-  const isChecked = element => element.checked;
-
+((document) => {
+  const isChecked       = element => element.checked;
   const getTreeElements = element => element.querySelectorAll('input[type="checkbox"]');
-
-  const getTreeRoot = element => element.parentElement.nextElementSibling;
+  const getTreeRoot     = element => element.parentElement.nextElementSibling;
 
   const check = (element) => {
     element.checked = true;
@@ -19,8 +17,7 @@
   };
 
   const disable = element => element.setAttribute('disabled', 'disabled');
-
-  const enable = element => element.removeAttribute('disabled');
+  const enable  = element => element.removeAttribute('disabled');
 
   const toggleState = (element, rootChecked) => {
     if (rootChecked === true) {
@@ -34,7 +31,7 @@
     uncheck(element);
   };
   const switchState = ({ target }) => {
-    const root = getTreeRoot(target);
+    const root        = getTreeRoot(target);
     const selfChecked = isChecked(target);
 
     if (root) {
@@ -42,9 +39,9 @@
     }
   };
 
-  window.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
     Array.from(document.querySelectorAll('.treeselect input[type="checkbox"]')).forEach((checkbox) => {
       checkbox.addEventListener('click', switchState);
     });
   });
-})();
+})(document);
