@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($list)) : ?>
-	<ul class="archive-module<?php echo $moduleclass_sfx; ?>">
+	<ul class="archive-module<?php echo $moduleclass_sfx; ?> mod-list">
 	<?php foreach ($list as $item) : ?>
 	<li>
 		<a href="<?php echo $item->link; ?>">
