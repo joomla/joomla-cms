@@ -15,7 +15,7 @@ use Joomla\Http\Response as FrameworkResponse;
 /**
  * HTTP response data object class.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Use Joomla\Http\Response instead
  */
 class Response extends FrameworkResponse

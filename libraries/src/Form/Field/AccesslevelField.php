@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * groups can see.
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
 class AccesslevelField extends ListField
 {
@@ -24,7 +24,7 @@ class AccesslevelField extends ListField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Accesslevel';
 

@@ -11,10 +11,9 @@ namespace Joomla\Module\TagsPopular\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\TagsHelper;
 
 /**
  * Helper for mod_tags_popular
@@ -87,7 +86,10 @@ abstract class TagsPopularHelper
 		}
 
 		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
-		->join('INNER', $db->quoteName('#__ucm_content', 'c') . ' ON ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id'));
+			->join(
+				'INNER',
+				$db->quoteName('#__ucm_content', 'c') . ' ON ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
+			);
 
 		$query->where($db->quoteName('m.type_alias') . ' = ' . $db->quoteName('c.core_type_alias'));
 
@@ -133,7 +135,8 @@ abstract class TagsPopularHelper
 			}
 		}
 
-		$db->setQuery($query, 0, $maximum);
+		$query->setLimit($maximum, 0);
+		$db->setQuery($query);
 
 		try
 		{

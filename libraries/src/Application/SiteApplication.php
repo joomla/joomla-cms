@@ -181,6 +181,11 @@ final class SiteApplication extends CMSApplication
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
 
+				// Add Asset registry files
+				$document->getWebAssetManager()
+					->addRegistryFile('media/' . $component . '/joomla.asset.json')
+					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
+
 				break;
 
 			case 'feed':
@@ -395,7 +400,7 @@ final class SiteApplication extends CMSApplication
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = Factory::getConfig()->get('sef');
+		$options['mode'] = Factory::getApplication()->get('sef');
 
 		return parent::getRouter($name, $options);
 	}

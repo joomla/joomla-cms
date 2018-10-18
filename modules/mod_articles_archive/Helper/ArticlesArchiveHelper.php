@@ -12,9 +12,8 @@ namespace Joomla\Module\ArticlesArchive\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
@@ -59,7 +58,8 @@ class ArticlesArchiveHelper
 			$query->where('language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 		}
 
-		$db->setQuery($query, 0, (int) $params->get('count'));
+		$query->setLimit((int) $params->get('count'), 0);
+		$db->setQuery($query);
 
 		try
 		{

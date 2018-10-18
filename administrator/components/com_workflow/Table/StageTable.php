@@ -33,7 +33,7 @@ class StageTable extends Table
 	{
 		parent::__construct('#__workflow_stages', 'id', $db);
 
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**

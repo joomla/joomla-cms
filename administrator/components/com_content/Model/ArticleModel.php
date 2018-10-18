@@ -71,7 +71,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -148,6 +148,20 @@ class ArticleModel extends AdminModel
 			// Get the featured state
 			$featured = $this->table->featured;
 
+			$workflow = $this->getWorkflowByCategory($categoryId);
+
+			if (empty($workflow->id))
+			{
+				$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
+
+				return false;
+			}
+
+			$stageId = (int) $workflow->stage_id;
+
+			// B/C state
+			$this->table->state = (int) $workflow->condition;
+
 			// Check the row.
 			if (!$this->table->check())
 			{
@@ -165,7 +179,12 @@ class ArticleModel extends AdminModel
 			}
 
 			// Get the new item ID
-			$newId = $this->table->get('id');
+			$newId = (int) $this->table->get('id');
+
+			// Add workflow stage
+			$workflow = new Workflow(['extension' => 'com_content']);
+
+			$workflow->createAssociation($newId, $stageId);
 
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
@@ -619,7 +638,7 @@ class ArticleModel extends AdminModel
 				$data->set('catid', $app->input->getInt('catid', (!empty($filters['category_id']) ? $filters['category_id'] : null)));
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set('access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 			}
 		}
@@ -837,7 +856,7 @@ class ArticleModel extends AdminModel
 		{
 			if ($data['alias'] == null)
 			{
-				if (Factory::getConfig()->get('unicodeslugs') == 1)
+				if (Factory::getApplication()->get('unicodeslugs') == 1)
 				{
 					$data['alias'] = \JFilterOutput::stringURLUnicodeSlug($data['title']);
 				}

@@ -393,9 +393,9 @@ class ComponentAdapter extends InstallerAdapter
 		$query->clear()
 			->delete('#__categories')
 			->where('extension = :extension')
-			->where('extension LIKE :extension_wildcard')
+			->where('extension LIKE :wildcard')
 			->bind(':extension', $extensionName)
-			->bind(':extension_wildcard', $extensionNameWithWildcard);
+			->bind(':wildcard', $extensionNameWithWildcard);
 		$db->setQuery($query);
 		$db->execute();
 
