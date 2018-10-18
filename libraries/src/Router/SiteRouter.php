@@ -658,19 +658,7 @@ class SiteRouter extends Router
 
 		if ($stage === self::PROCESS_BEFORE)
 		{
-			// Get the query data
-			$query = $uri->getQuery(true);
-
-			if (!isset($query['option']))
-			{
-				return;
-			}
-
-			// Build the component route
-			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-			$router   = $this->getComponentRouter($component);
-			$query     = $router->preprocess($query);
-			$uri->setQuery($query);
+			$this->buildComponentPreprocess($this, $uri);
 		}
 
 		if ($stage === self::PROCESS_DURING)
@@ -746,6 +734,33 @@ class SiteRouter extends Router
 		}
 
 		return $uri;
+	}
+
+	/**
+	 * Run the component preprocess method
+	 *
+	 * @param   SiteRouter  &$router  Router object
+	 * @param   Uri         &$uri     URI object to process
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function buildComponentPreprocess(&$router, &$uri)
+	{
+		// Get the query data
+		$query = $uri->getQuery(true);
+
+		if (!isset($query['option']))
+		{
+			return;
+		}
+
+		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+		$crouter   = $this->getComponentRouter($component);
+		$query     = $crouter->preprocess($query);
+
+		$uri->setQuery($query);
 	}
 
 	/**
