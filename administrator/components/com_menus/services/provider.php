@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionInterface;
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
+use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\HTML\Registry;
 use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
@@ -42,13 +42,13 @@ return new class implements ServiceProviderInterface
 		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Menus'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Menus'));
+		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Menus'));
 
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new MenusComponent($container->get(DispatcherFactoryInterface::class));
+				$component = new MenusComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
 				$component->setRegistry($container->get(Registry::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));

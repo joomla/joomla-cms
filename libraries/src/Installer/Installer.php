@@ -62,7 +62,7 @@ class Installer extends \JAdapter
 	 * True if existing files can be overwritten
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $overwrite = false;
 
@@ -2240,7 +2240,7 @@ class Installer extends \JAdapter
 	 *
 	 * @return  array  XML metadata.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function parseXMLInstallFile($path)
 	{

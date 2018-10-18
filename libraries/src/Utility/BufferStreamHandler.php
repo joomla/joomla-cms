@@ -19,7 +19,7 @@ BufferStreamHandler::stream_register();
  * This class provides a generic buffer stream.  It can be used to store/retrieve/manipulate
  * string buffers with the standard PHP filesystem I/O methods.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class BufferStreamHandler
 {
@@ -27,7 +27,7 @@ class BufferStreamHandler
 	 * Stream position
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $position = 0;
 
@@ -35,7 +35,7 @@ class BufferStreamHandler
 	 * Buffer name
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $name = null;
 
@@ -43,7 +43,7 @@ class BufferStreamHandler
 	 * Buffer hash
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public $buffers = array();
 
@@ -85,7 +85,7 @@ class BufferStreamHandler
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @see     streamWrapper::stream_open
 	 */
 	public function stream_open($path, $mode, $options, &$opened_path)
@@ -108,7 +108,7 @@ class BufferStreamHandler
 	 *                   the stream is empty.
 	 *
 	 * @see     streamWrapper::stream_read
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_read($count)
 	{
@@ -126,7 +126,7 @@ class BufferStreamHandler
 	 * @return  integer
 	 *
 	 * @see     streamWrapper::stream_write
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_write($data)
 	{
@@ -144,7 +144,7 @@ class BufferStreamHandler
 	 * @return  integer
 	 *
 	 * @see     streamWrapper::stream_tell
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_tell()
 	{
@@ -157,7 +157,7 @@ class BufferStreamHandler
 	 * @return  boolean  True if the pointer is at the end of the stream
 	 *
 	 * @see     streamWrapper::stream_eof
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_eof()
 	{
@@ -174,7 +174,7 @@ class BufferStreamHandler
 	 * @return  boolean  True if updated
 	 *
 	 * @see     streamWrapper::stream_seek
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function stream_seek($offset, $whence)
 	{

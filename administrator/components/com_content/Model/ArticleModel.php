@@ -71,7 +71,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -148,6 +148,20 @@ class ArticleModel extends AdminModel
 			// Get the featured state
 			$featured = $this->table->featured;
 
+			$workflow = $this->getWorkflowByCategory($categoryId);
+
+			if (empty($workflow->id))
+			{
+				$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
+
+				return false;
+			}
+
+			$stageId = (int) $workflow->stage_id;
+
+			// B/C state
+			$this->table->state = (int) $workflow->condition;
+
 			// Check the row.
 			if (!$this->table->check())
 			{
@@ -165,7 +179,12 @@ class ArticleModel extends AdminModel
 			}
 
 			// Get the new item ID
-			$newId = $this->table->get('id');
+			$newId = (int) $this->table->get('id');
+
+			// Add workflow stage
+			$workflow = new Workflow(['extension' => 'com_content']);
+
+			$workflow->createAssociation($newId, $stageId);
 
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;

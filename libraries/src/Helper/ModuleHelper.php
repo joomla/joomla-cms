@@ -183,31 +183,15 @@ abstract class ModuleHelper
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
-		// Load the module
-		if (file_exists($path))
+		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($module, $app);
+
+		// Check if we have a dispatcher
+		if ($dispatcher)
 		{
-			$lang = Factory::getLanguage();
-
-			$coreLanguageDirectory      = JPATH_BASE;
-			$extensionLanguageDirectory = dirname($path);
-
-			$langPaths = $lang->getPaths();
-
-			// Only load the module's language file if it hasn't been already
-			if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
-			{
-				// 1.5 or Core then 1.6 3PD
-				$lang->load($module->module, $coreLanguageDirectory, null, false, true) ||
-					$lang->load($module->module, $extensionLanguageDirectory, null, false, true);
-			}
-
-			$content = '';
 			ob_start();
-			include $path;
-			$module->content = ob_get_contents() . $content;
-			ob_end_clean();
+			$dispatcher->dispatch();
+			$module->content = ob_get_clean();
 		}
 
 		// Load the module chrome functions

@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\Router\RouterFactoryInterface;
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
+use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
 use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
 use Joomla\CMS\Extension\Service\Provider\RouterFactory;
 use Joomla\CMS\HTML\Registry;
@@ -40,14 +40,14 @@ return new class implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Finder'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Finder'));
+		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Finder'));
 		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Finder'));
 
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new FinderComponent($container->get(DispatcherFactoryInterface::class));
+				$component = new FinderComponent($container->get(ComponentDispatcherFactoryInterface::class));
 				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
 				$component->setRouterFactory($container->get(RouterFactoryInterface::class));
 				$component->setRegistry($container->get(Registry::class));
