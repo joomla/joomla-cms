@@ -14,7 +14,6 @@ use Joomla\CMS\Extension\PluginInterface;
 use Joomla\CMS\Factory;
 use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
-use Joomla\Event\DispatcherInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Event\SubscriberInterface;
