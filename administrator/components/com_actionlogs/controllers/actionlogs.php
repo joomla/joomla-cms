@@ -116,6 +116,9 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		
 		$model = $this->getModel();
 
 		if ($model->purge())
