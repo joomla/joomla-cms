@@ -1829,7 +1829,13 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			// Determine if there is checkin support for the table.
 			if ($this->hasField('checked_out') || $this->hasField('checked_out_time'))
 			{
-				$query->where('(' . $this->_db->quoteName($checkedOutField) . ' = 0 OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId . ')');
+				$query->where(
+					'('
+						. $this->_db->quoteName($checkedOutField) . ' = 0'
+						. ' OR ' . $this->_db->quoteName($checkedOutField) . ' = ' . (int) $userId
+						. ' OR ' . $this->_db->quoteName($checkedOutField) . ' IS NULL'
+					. ')'
+				);
 				$checkin = true;
 			}
 			else

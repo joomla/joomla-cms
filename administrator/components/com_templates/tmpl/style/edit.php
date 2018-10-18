@@ -35,9 +35,9 @@ $user = Factory::getUser();
 
 		<div class="row">
 			<div class="col-md-9">
-				<h3>
+				<h2>
 					<?php echo Text::_($this->item->template); ?>
-				</h3>
+				</h2>
 				<div class="info-labels">
 					<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
 						<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>

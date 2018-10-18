@@ -83,7 +83,7 @@ div.calendar-container table td.title { /* This holds the current "month, year" 
 	background-color: #f4f4f4;
 }
 
-.calendar-container table tbody td.selected { /* Cell showing today date */
+.calendar-container table tbody td.day.selected { /* Cell showing today date */
 	background: #3071a9;
 	color: #fff;
 	border: 0;

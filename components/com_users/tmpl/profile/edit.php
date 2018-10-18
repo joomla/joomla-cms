@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('bootstrap.tooltip');
 
 // Load user_profile plugin language
 $lang = Factory::getLanguage();
