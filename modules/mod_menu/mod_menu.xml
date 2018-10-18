@@ -11,9 +11,7 @@
 	<description>MOD_MENU_XML_DESCRIPTION</description>
 	<namespace>Joomla\Module\Menu</namespace>
 	<files>
-		<folder>Dispatcher</folder>
-		<folder>Helper</folder>
-		<folder>services</folder>
+		<filename module="mod_menu">mod_menu.php</filename>
 		<folder>tmpl</folder>
 		<filename>helper.php</filename>
 	</files>
