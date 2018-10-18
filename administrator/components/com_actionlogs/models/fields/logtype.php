@@ -46,7 +46,7 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 			// Checks/Uncheck all checkboxes
 			function eventsCheckAll(value)
 			{
-				events = document.querySelectorAll('.checkboxes input');
+				events = document.querySelectorAll('#" . $this->id . ".checkboxes input');
 
 				for (i = 0; i < events.length; i++) {
 					events[i].checked = value;
