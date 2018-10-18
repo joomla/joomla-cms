@@ -84,7 +84,7 @@ class Cache
 	 * @param   string  $type     The cache object type to instantiate
 	 * @param   array   $options  The array of options
 	 *
-	 * @return  CacheController
+	 * @return  CacheControllerInterface
 	 *
 	 * @since       1.7.0
 	 * @deprecated  5.0 Use the cache controller factory instead

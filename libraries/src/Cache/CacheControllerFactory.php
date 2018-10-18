@@ -34,7 +34,7 @@ class CacheControllerFactory implements CacheControllerFactoryInterface
 
 		$class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
 
-		if ($type == '')
+		if ($type == '' && !class_exists($class))
 		{
 			$class = CacheController::class;
 		}

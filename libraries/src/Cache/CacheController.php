@@ -79,7 +79,7 @@ class CacheController implements CacheControllerInterface
 	 * @param   string  $type     The cache object type to instantiate; default is output.
 	 * @param   array   $options  Array of options
 	 *
-	 * @return  CacheController
+	 * @return  CacheControllerInterface
 	 *
 	 * @since   1.7.0
 	 * @throws  \RuntimeException
