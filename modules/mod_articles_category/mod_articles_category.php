@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper;
-use Joomla\CMS\Factory;
 
 $input = Factory::getApplication()->input;
 
@@ -54,7 +54,7 @@ $cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
 
 $cacheparams               = new \stdClass;
 $cacheparams->cachemode    = 'id';
-$cacheparams->class        = 'Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper';
+$cacheparams->class        = ArticlesCategoryHelper::class;
 $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = $cacheid;

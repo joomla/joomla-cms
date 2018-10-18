@@ -63,7 +63,7 @@ echo HTMLHelper::_(
 );
 
 ?>
-<button type="button" onclick="jQuery('#versionsModal').modal('show')" class="btn btn-secondary" data-toggle="modal" title="<?php echo $label; ?>">
+<button type="button" onclick="document.getElementById('versionsModal').open()" class="btn btn-secondary" data-toggle="modal" title="<?php echo $label; ?>">
 	<span class="fa fa-code-fork" aria-hidden="true"></span>
 	<?php echo $label; ?>
 </button>

@@ -12,27 +12,29 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Filesystem\Stream;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageFactoryInterface;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\Mail;
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
-use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
-use Psr\Log\LoggerInterface;
 
 /**
  * Joomla Platform Factory class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class Factory
 {
@@ -40,7 +42,7 @@ abstract class Factory
 	 * Global application object
 	 *
 	 * @var    CMSApplicationInterface
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $application = null;
 
@@ -48,7 +50,7 @@ abstract class Factory
 	 * Global cache object
 	 *
 	 * @var    Cache
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $cache = null;
 
@@ -56,7 +58,7 @@ abstract class Factory
 	 * Global configuration object
 	 *
 	 * @var    \JConfig
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	public static $config = null;
@@ -73,7 +75,7 @@ abstract class Factory
 	 * Container for Date instances
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static $dates = array();
 
@@ -81,7 +83,7 @@ abstract class Factory
 	 * Global session object
 	 *
 	 * @var    Session
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $session = null;
 
@@ -89,7 +91,7 @@ abstract class Factory
 	 * Global language object
 	 *
 	 * @var   Language
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $language = null;
 
@@ -97,15 +99,15 @@ abstract class Factory
 	 * Global document object
 	 *
 	 * @var    Document
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $document = null;
 
 	/**
 	 * Global database object
 	 *
-	 * @var    \JDatabaseDriver
-	 * @since  11.1
+	 * @var    DatabaseDriver
+	 * @since  1.7.0
 	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	public static $database = null;
@@ -114,7 +116,7 @@ abstract class Factory
 	 * Global mailer object
 	 *
 	 * @var    Mail
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $mailer = null;
 
@@ -123,7 +125,7 @@ abstract class Factory
 	 *
 	 * @return  CMSApplicationInterface object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \Exception
 	 */
 	public static function getApplication()
@@ -148,7 +150,7 @@ abstract class Factory
 	 * @return  Registry
 	 *
 	 * @see     Registry
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
@@ -209,7 +211,7 @@ abstract class Factory
 	 * @return  Session object
 	 *
 	 * @see     Session
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	public static function getSession(array $options = array())
@@ -234,7 +236,7 @@ abstract class Factory
 	 * @return  Language object
 	 *
 	 * @see     Language
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getLanguage()
 	{
@@ -254,7 +256,7 @@ abstract class Factory
 	 * @return  Document object
 	 *
 	 * @see     Document
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getDocument()
 	{
@@ -276,11 +278,11 @@ abstract class Factory
 	 * @return  User object
 	 *
 	 * @see     User
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUser($id = null)
 	{
-		$instance = self::getSession()->get('user');
+		$instance = self::getApplication()->getSession()->get('user');
 
 		if (is_null($id))
 		{
@@ -309,11 +311,20 @@ abstract class Factory
 	 *
 	 * @return  \Joomla\CMS\Cache\CacheController object
 	 *
-	 * @see     JCache
-	 * @since   11.1
+	 * @see         Cache
+	 * @since       1.7.0
+	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The cache controller should be fetched from the factory.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$hash = md5($group . $handler . $storage);
 
 		if (isset(self::$cache[$hash]))
@@ -330,7 +341,7 @@ abstract class Factory
 			$options['storage'] = $storage;
 		}
 
-		$cache = Cache::getInstance($handler, $options);
+		$cache = self::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($handler, $options);
 
 		self::$cache[$hash] = $cache;
 
@@ -345,15 +356,15 @@ abstract class Factory
 	 * @return  DatabaseDriver
 	 *
 	 * @see     DatabaseDriver
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getDbo()
 	{
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('JDatabaseDriver'))
+			if (self::getContainer()->exists('DatabaseDriver'))
 			{
-				self::$database = self::getContainer()->get('JDatabaseDriver');
+				self::$database = self::getContainer()->get('DatabaseDriver');
 			}
 			else
 			{
@@ -372,7 +383,7 @@ abstract class Factory
 	 * @return  \JMail object
 	 *
 	 * @see     JMail
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getMailer()
 	{
@@ -395,7 +406,7 @@ abstract class Factory
 	 * @return  Date object
 	 *
 	 * @see     Date
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
@@ -449,7 +460,7 @@ abstract class Factory
 	 * @return  Registry
 	 *
 	 * @see     Registry
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')
@@ -501,6 +512,7 @@ abstract class Factory
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\CacheController)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
@@ -508,11 +520,13 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Document)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Form)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Logger)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Language)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Menu)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Pathway)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar);
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAsset);
 
 		return $container;
 	}
@@ -524,7 +538,7 @@ abstract class Factory
 	 *
 	 * @return  Session object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	protected static function createSession(array $options = array())
@@ -563,10 +577,10 @@ abstract class Factory
 	/**
 	 * Create a database object
 	 *
-	 * @return  \JDatabaseDriver
+	 * @return  DatabaseDriver
 	 *
-	 * @see     \JDatabaseDriver
-	 * @since   11.1
+	 * @see     DatabaseDriver
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	protected static function createDbo()
@@ -593,7 +607,7 @@ abstract class Factory
 
 		try
 		{
-			$db = \JDatabaseDriver::getInstance($options);
+			$db = DatabaseDriver::getInstance($options);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -614,7 +628,7 @@ abstract class Factory
 	 * @return  \JMail object
 	 *
 	 * @see     \JMail
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function createMailer()
 	{
@@ -679,14 +693,14 @@ abstract class Factory
 	 * @return  Language object
 	 *
 	 * @see     Language
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function createLanguage()
 	{
 		$conf = self::getConfig();
 		$locale = $conf->get('language');
 		$debug = $conf->get('debug_lang');
-		$lang = Language::getInstance($locale, $debug);
+		$lang = self::getContainer()->get(LanguageFactoryInterface::class)->createLanguage($locale, $debug);
 
 		return $lang;
 	}
@@ -697,7 +711,7 @@ abstract class Factory
 	 * @return  Document object
 	 *
 	 * @see     Document
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function createDocument()
 	{
@@ -731,12 +745,10 @@ abstract class Factory
 	 * @return  \JStream
 	 *
 	 * @see     \JStream
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getStream($use_prefix = true, $use_network = true, $ua = 'Joomla', $uamask = false)
 	{
-		\JLoader::import('joomla.filesystem.stream');
-
 		// Setup the context; Joomla! UA and overwrite
 		$context = array();
 		$version = new Version;
@@ -767,11 +779,11 @@ abstract class Factory
 				$prefix = JPATH_ROOT . '/';
 			}
 
-			$retval = new \JStream($prefix, JPATH_ROOT, $context);
+			$retval = new Stream($prefix, JPATH_ROOT, $context);
 		}
 		else
 		{
-			$retval = new \JStream('', '', $context);
+			$retval = new Stream('', '', $context);
 		}
 
 		return $retval;

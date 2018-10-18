@@ -10,6 +10,8 @@ namespace Joomla\CMS\Component\Router;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Base component routing class
  *
@@ -49,7 +51,7 @@ abstract class RouterBase implements RouterInterface
 		}
 		else
 		{
-			$this->app = \JFactory::getApplication();
+			$this->app = Factory::getApplication();
 		}
 
 		if ($menu)

@@ -12,9 +12,10 @@ namespace Joomla\Component\Content\Site\Dispatcher;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Dispatcher\ComponentDispatcher;
+use Joomla\CMS\Language\Text;
 
 /**
- * Dispatcher class for com_content
+ * ComponentDispatcher class for com_content
  *
  * @since  4.0.0
  */
@@ -45,14 +46,13 @@ class Dispatcher extends ComponentDispatcher
 
 			if (!$hasAccess)
 			{
-				$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'warning');
+				$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'warning');
 
 				return;
 			}
 		}
 
 		\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-		\JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
 
 		parent::dispatch();
 	}

@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', ['version' => 'auto', 'relative' => true]);
 
@@ -36,8 +36,10 @@ Factory::getDocument()->addScriptOptions(
 						<span class="fa fa-<?php echo $item->icon; ?>" aria-hidden="true"></span>
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
-					<a href="#" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
-					<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?></a>
+					<button type="button" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
+						<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
+						<span class="sr-only"><?php echo $item->title; ?></span>
+					</button>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
 			</li>
@@ -54,5 +56,7 @@ Factory::getDocument()->addScriptOptions(
 		<?php endforeach; ?>
 	</ul>
 <?php else : ?>
-	<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+	<div class="alert alert-warning">
+		<?php echo JText::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
+	</div>
 <?php endif; ?>

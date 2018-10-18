@@ -14,9 +14,10 @@ use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\Router\RouterInterface;
 use Joomla\CMS\Component\Router\RouterLegacy;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\AbstractMenu;
-use Joomla\Cms\Uri\Uri as JUri;
+use Joomla\CMS\Uri\Uri;
 use Joomla\String\StringHelper;
 
 /**
@@ -100,7 +101,7 @@ class SiteRouter extends Router
 	 * Force to SSL
 	 *
 	 * @param   Router  &$router  Router object
-	 * @param   JUri    &$uri     URI object to process
+	 * @param   Uri     &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -120,7 +121,7 @@ class SiteRouter extends Router
 	 * Do some initial cleanup before parsing the URL
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -139,7 +140,7 @@ class SiteRouter extends Router
 		 */
 		try
 		{
-			$baseUri = \JUri::base(true);
+			$baseUri = Uri::base(true);
 		}
 		catch (\RuntimeException $e)
 		{
@@ -173,7 +174,7 @@ class SiteRouter extends Router
 	 * Parse the format of the request
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -196,7 +197,7 @@ class SiteRouter extends Router
 	 * Convert a sef route to an internal URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -331,7 +332,7 @@ class SiteRouter extends Router
 	 * Convert a raw route to an internal URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -373,7 +374,7 @@ class SiteRouter extends Router
 	 * Convert limits for pagination
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -393,7 +394,7 @@ class SiteRouter extends Router
 	 * Do some initial processing for building a URL
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -423,7 +424,7 @@ class SiteRouter extends Router
 	 * Run the component preprocess method
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -459,7 +460,7 @@ class SiteRouter extends Router
 	 * Build the SEF route
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -514,7 +515,7 @@ class SiteRouter extends Router
 	 * Convert limits for pagination
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -533,7 +534,7 @@ class SiteRouter extends Router
 	 * Build the format of the request
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -556,7 +557,7 @@ class SiteRouter extends Router
 	 * Create a uri based on a full or partial URL string
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -584,7 +585,7 @@ class SiteRouter extends Router
 	 * Add the basepath to the URI
 	 *
 	 * @param   SiteRouter  &$router  Router object
-	 * @param   JUri        &$uri     URI object to process
+	 * @param   Uri         &$uri     URI object to process
 	 *
 	 * @return  void
 	 *
@@ -593,7 +594,7 @@ class SiteRouter extends Router
 	public function buildBase(&$router, &$uri)
 	{
 		// Add basepath to the uri
-		$uri->setPath(JUri::base(true) . '/' . $uri->getPath());
+		$uri->setPath(Uri::base(true) . '/' . $uri->getPath());
 	}
 
 	/**
@@ -609,34 +610,16 @@ class SiteRouter extends Router
 	{
 		if (!isset($this->componentRouters[$component]))
 		{
-			$compname = ucfirst(substr($component, 4));
-			$class = $compname . 'Router';
+			$componentInstance = $this->app->bootComponent($component);
 
-			if (!class_exists($class))
+			if ($componentInstance instanceof RouterServiceInterface)
 			{
-				// Use the component routing handler if it exists
-				$path = JPATH_SITE . '/components/' . $component . '/router.php';
-
-				// Use the custom routing handler if it exists
-				if (file_exists($path))
-				{
-					require_once $path;
-				}
-			}
-
-			if (class_exists($class))
-			{
-				$reflection = new \ReflectionClass($class);
-
-				if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
-				{
-					$this->componentRouters[$component] = new $class($this->app, $this->menu);
-				}
+				$this->componentRouters[$component] = $componentInstance->createRouter($this->app, $this->menu);
 			}
 
 			if (!isset($this->componentRouters[$component]))
 			{
-				$this->componentRouters[$component] = new RouterLegacy($compname);
+				$this->componentRouters[$component] = new RouterLegacy(ucfirst(substr($component, 4)));
 			}
 		}
 

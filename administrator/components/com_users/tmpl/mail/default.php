@@ -9,17 +9,23 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.core');
-JText::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT', true);
-JText::script('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP', true);
-JText::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE', true);
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Component\ComponentHelper;
 
-JHtml::_('script', 'com_users/admin-users-mail.min.js', array('version' => 'auto', 'relative' => true));
 
-$comUserParams = JComponentHelper::getParams('com_users');
+HTMLHelper::_('behavior.core');
+Text::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_SUBJECT', true);
+Text::script('COM_USERS_MAIL_PLEASE_SELECT_A_GROUP', true);
+Text::script('COM_USERS_MAIL_PLEASE_FILL_IN_THE_MESSAGE', true);
+
+HTMLHelper::_('script', 'com_users/admin-users-mail.min.js', array('version' => 'auto', 'relative' => true));
+
+$comUserParams = ComponentHelper::getParams('com_users');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm">
 	<div class="row">
 		<div class="col-md-9">
 			<fieldset class="adminform">
@@ -51,7 +57,7 @@ $comUserParams = JComponentHelper::getParams('com_users');
 				</div>
 			</fieldset>
 			<input type="hidden" name="task" value="">
-			<?php echo JHtml::_('form.token'); ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
 		<div class="col-md-3">
 			<div class="card card-light">

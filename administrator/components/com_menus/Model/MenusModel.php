@@ -6,10 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -241,7 +243,8 @@ class MenusModel extends ListModel
 	 */
 	public function &getModules()
 	{
-		$model = new MenuModel(array('ignore_request' => true));
+		$model = $this->bootComponent('com_menus')->createMVCFactory(Factory::getApplication())
+			->createModel('Menu', 'Administrator', ['ignore_request' => true]);
 		$result = $model->getModules();
 
 		return $result;

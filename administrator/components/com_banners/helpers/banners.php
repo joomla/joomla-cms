@@ -12,7 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Banners component helper.
  *
- * @since  1.6
+ * @since       1.6
+ *
+ * @deprecated  5.0 Use \Joomla\Component\Banners\Administrator\Helper\BannersHelper instead
  */
 class BannersHelper extends \Joomla\Component\Banners\Administrator\Helper\BannersHelper
 {

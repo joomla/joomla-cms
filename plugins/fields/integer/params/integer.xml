@@ -16,21 +16,18 @@
 				name="first"
 				type="number"
 				label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"
-				size="5"
 			/>
 
 			<field
 				name="last"
 				type="number"
 				label="PLG_FIELDS_INTEGER_PARAMS_LAST_LABEL"
-				size="5"
 			/>
 
 			<field
 				name="step"
 				type="number"
 				label="PLG_FIELDS_INTEGER_PARAMS_STEP_LABEL"
-				size="5"
 			/>
 		</fieldset>
 	</fields>

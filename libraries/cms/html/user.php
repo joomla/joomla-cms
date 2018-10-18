@@ -9,6 +9,10 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Utility class working with users
  *
@@ -33,7 +37,7 @@ abstract class JHtmlUser
 		{
 			$options[$i]->value = $options[$i]->id;
 			$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->title;
-			$groups[] = JHtml::_('select.option', $options[$i]->value, $options[$i]->text);
+			$groups[] = HTMLHelper::_('select.option', $options[$i]->value, $options[$i]->text);
 		}
 
 		// Exclude super admin groups if requested
@@ -43,7 +47,7 @@ abstract class JHtmlUser
 
 			foreach ($groups as $group)
 			{
-				if (!JAccess::checkGroup($group->value, 'core.admin'))
+				if (!Access::checkGroup($group->value, 'core.admin'))
 				{
 					$filteredGroups[] = $group;
 				}
@@ -64,7 +68,7 @@ abstract class JHtmlUser
 	 */
 	public static function userlist()
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.name AS text')
 			->from('#__users AS a')

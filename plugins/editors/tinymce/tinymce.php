@@ -9,18 +9,18 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Event\Event;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Event\Event;
 
 /**
  * TinyMCE Editor Plugin
@@ -478,7 +478,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 			$allowImgPaste = true;
 			$isSubDir      = '';
-			$session       = Factory::getSession();
+			$session       = $this->app->getSession();
 			$uploadUrl     = Uri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
 				. $session->getName() . '=' . $session->getId()
 				. '&' . Session::getFormToken() . '=1'
@@ -524,7 +524,7 @@ class PlgEditorTinymce extends CMSPlugin
 		if ($custom_button)
 		{
 			$separator = strpos($custom_button, ',') !== false ? ',' : ' ';
-			$toolbar2  = array_merge($toolbar2, explode($separator, $custom_button));
+			$toolbar1  = array_merge($toolbar1, explode($separator, $custom_button));
 		}
 
 		// Build the final options set

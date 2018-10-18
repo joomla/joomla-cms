@@ -6,12 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -121,11 +125,11 @@ class CategoryeditField extends \JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published'] ?: array(0, 1);
+		$published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array(0, 1);
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
-		$jinput = \JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 
 		// Load the category options for a given extension.
 
@@ -148,8 +152,8 @@ class CategoryeditField extends \JFormFieldList
 			? (int) reset($oldCat)
 			: (int) $oldCat;
 
-		$db   = \JFactory::getDbo();
-		$user = \JFactory::getUser();
+		$db   = Factory::getDbo();
+		$user = Factory::getUser();
 
 		$query = $db->getQuery(true)
 			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft, a.language')
@@ -181,14 +185,7 @@ class CategoryeditField extends \JFormFieldList
 		}
 
 		// Filter on the published state
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif (is_array($published))
-		{
-			$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
-		}
+		$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 
 		// Filter categories on User Access Level
 		// Filter by access level on categories.
@@ -225,7 +222,7 @@ class CategoryeditField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
@@ -236,7 +233,7 @@ class CategoryeditField extends \JFormFieldList
 			{
 				if ($options[$i]->level == 0)
 				{
-					$options[$i]->text = \JText::_('JGLOBAL_ROOT_PARENT');
+					$options[$i]->text = Text::_('JGLOBAL_ROOT_PARENT');
 				}
 			}
 
@@ -322,11 +319,11 @@ class CategoryeditField extends \JFormFieldList
 			if ($row->parent_id == '1')
 			{
 				$parent = new \stdClass;
-				$parent->text = \JText::_('JGLOBAL_ROOT_PARENT');
+				$parent->text = Text::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}
 
-			array_unshift($options, \JHtml::_('select.option', '0', \JText::_('JGLOBAL_ROOT')));
+			array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('JGLOBAL_ROOT')));
 		}
 
 		// Merge any additional options in the XML definition.
@@ -352,12 +349,12 @@ class CategoryeditField extends \JFormFieldList
 
 		if ($this->allowAdd)
 		{
-			$customGroupText = \JText::_('JGLOBAL_CUSTOM_CATEGORY');
+			$customGroupText = Text::_('JGLOBAL_CUSTOM_CATEGORY');
 
-			$class[] = 'chzn-custom-value';
+			$class[] = 'chosen-custom-value';
 			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
-					. 'data-no_results_text="' . \JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
-					. 'data-placeholder="' . \JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
+					. 'data-no_results_text="' . Text::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
+					. 'data-placeholder="' . Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
 		}
 
 		if ($class)
@@ -367,7 +364,7 @@ class CategoryeditField extends \JFormFieldList
 
 		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
 		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->required ? ' required' : '';
 		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
@@ -388,7 +385,7 @@ class CategoryeditField extends \JFormFieldList
 		// Create a read-only list (no name) with hidden input(s) to store the value(s).
 		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
-			$html[] = \JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
 
 			// E.g. form field type tag sends $this->value as array
 			if ($this->multiple && is_array($this->value))
@@ -422,7 +419,7 @@ class CategoryeditField extends \JFormFieldList
 				$options[0]->lft       = '1';
 			}
 
-			$html[] = \JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+			$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
 		}
 
 		return implode($html);

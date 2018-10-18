@@ -12,7 +12,8 @@ defined('_JEXEC') or die;
 /**
  * Menus component helper.
  *
- * @since  1.6
+ * @since       1.6
+ * @deprecated  5.0 Use \Joomla\Component\Menus\Administrator\Helper\MenusHelper instead
  */
 class MenusHelper extends \Joomla\Component\Menus\Administrator\Helper\MenusHelper
 {

@@ -58,7 +58,6 @@
 				type="number"
 				label="JGLOBAL_NUM_LEADING_ARTICLES_LABEL"
 				useglobal="true"
-				size="3"
 			/>
 
 			<field 
@@ -66,7 +65,6 @@
 				type="number"
 				label="JGLOBAL_NUM_INTRO_ARTICLES_LABEL"
 				useglobal="true"
-				size="3"
 			/>
 
 			<field 
@@ -74,7 +72,6 @@
 				type="number"
 				label="JGLOBAL_NUM_COLUMNS_LABEL"
 				useglobal="true"
-				size="3"
 			/>
 
 			<field 
@@ -82,7 +79,6 @@
 				type="number"
 				label="JGLOBAL_NUM_LINKS_LABEL"
 				useglobal="true"
-				size="3"
 			/>
 
 			<field

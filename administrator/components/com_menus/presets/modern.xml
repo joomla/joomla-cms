@@ -219,8 +219,23 @@
 			title="MOD_MENU_COM_CONTENT_FEATURED"
 			type="component"
 			element="com_content"
-			link="index.php?option=com_content&amp;view=featured"
+			link="index.php?option=com_content&amp;view=featured">
+		</menuitem>
+		<menuitem
+			title="MOD_MENU_COM_CONTENT_WORKFLOW"
+			type="component"
+			element="com_workflow"
+			link="index.php?option=com_workflow&amp;extension=com_content">
+		</menuitem>
+		<menuitem
+			type="separator"
 		/>
+		<menuitem
+			title="MOD_MENU_COM_CONTENT_WORKFLOW"
+			type="component"
+			element="com_workflow"
+			link="index.php?option=com_workflow&amp;extension=com_content">
+		</menuitem>
 		<menuitem
 			type="separator"
 		/>

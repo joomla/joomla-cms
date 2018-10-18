@@ -36,11 +36,6 @@ JLoader::setup();
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
-// Register the extension root paths.
-JLoader::registerExtensionRootFolder('', JPATH_SITE);
-JLoader::registerExtensionRootFolder('Site', JPATH_SITE);
-JLoader::registerExtensionRootFolder('Administrator', JPATH_ADMINISTRATOR);
-
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
@@ -87,9 +82,3 @@ JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 // @deprecated  4.0
 JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
 JLoader::registerAlias('JSite', 'JApplicationSite');
-
-// Can be removed when the move of all core fields to namespace is finished
-\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/joomla/form/fields');
-\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/joomla/form/rule');
-\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/cms/form/field');
-\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/cms/form/rule');

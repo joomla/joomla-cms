@@ -39,7 +39,9 @@ use Joomla\CMS\Language\Text;
 			</a>
 		</li>
 	</ul>
-	<joomla-alert type="warning"><?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?></joomla-alert>
+	<div class="alert alert-warning">
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP1_WARN'); ?>
+	</div>
 </fieldset>
 
 <fieldset>
@@ -51,7 +53,7 @@ use Joomla\CMS\Language\Text;
 		<p>
 			<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_TEXT') ?>
 		</p>
-		<table class="table table-striped">
+		<table class="table">
 			<tr>
 				<td>
 					<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_ACCOUNT') ?>
@@ -79,7 +81,9 @@ use Joomla\CMS\Language\Text;
 		</p>
 	</div>
 
-	<joomla-alert type="info"><?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?></joomla-alert>
+	<div class="alert alert-info">
+		<?php echo Text::_('PLG_TWOFACTORAUTH_TOTP_STEP2_RESET'); ?>
+	</div>
 </fieldset>
 
 <?php if ($new_totp): ?>

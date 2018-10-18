@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 if (!count($images))
 {
@@ -20,7 +20,7 @@ if (!count($images))
 }
 ?>
 
-<div class="random-image">
+<div class="mod-randomimage random-image">
 <?php if ($link) : ?>
 <a href="<?php echo $link; ?>">
 <?php endif; ?>

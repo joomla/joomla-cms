@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Sampledata - Blog Plugin
@@ -73,8 +73,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$data->name        = $this->_name;
 		$data->title       = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_TITLE');
 		$data->description = Text::_('PLG_SAMPLEDATA_BLOG_OVERVIEW_DESC');
-		$data->icon        = 'broadcast';
-		$data->steps       = 3;
+		$data->icon        = 'wifi';
+		$data->steps       = 4;
 
 		return $data;
 	}
@@ -110,8 +110,38 @@ class PlgSampledataBlog extends CMSPlugin
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
+		// Create a sample workflow
+		$workflowModel = $this->app->bootComponent('com_workflow')
+			->createMVCFactory($this->app)->createModel('Workflow', 'Administrator');
+
+		$workflow = [
+			'title'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_TITLE'),
+			'description' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_DESCRIPTION'),
+			'published'   => 1,
+			'extension'   => 'com_content'
+		];
+
+		try
+		{
+			if (!$workflowModel->save($workflow))
+			{
+				throw new Exception($workflowModel->getError());
+			}
+		}
+		catch (Exception $e)
+		{
+			$response            = array();
+			$response['success'] = false;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
+
+			return $response;
+		}
+
+		$workflow_id = (int) $workflowModel->getItem()->id;
+
 		// Create "blog" category.
-		$categoryModel = new \Joomla\Component\Categories\Administrator\Model\CategoryModel;
+		$categoryModel = $this->app->bootComponent('com_categories')
+			->createMVCFactory($this->app)->createModel('Category', 'Administrator');
 		$catIds        = array();
 		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
 		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
@@ -137,7 +167,7 @@ class PlgSampledataBlog extends CMSPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '',
+			'params'          => '{"workflow_id": "' . $workflow_id . '"}',
 		);
 
 		try
@@ -184,7 +214,7 @@ class PlgSampledataBlog extends CMSPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '',
+			'params'          => '{"workflow_id": "' . $workflow_id . '"}',
 		);
 
 		try
@@ -260,7 +290,6 @@ class PlgSampledataBlog extends CMSPlugin
 
 			$article['language']        = $language;
 			$article['associations']    = array();
-			$article['state']           = 1;
 			$article['featured']        = 0;
 			$article['images']          = '';
 			$article['metakey']         = '';
@@ -282,7 +311,7 @@ class PlgSampledataBlog extends CMSPlugin
 				return $response;
 			}
 
-			// Get ID from category we just added
+			// Get ID from article we just added
 			$ids[] = $articleModel->getItem()->id;
 		}
 
@@ -367,7 +396,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 		// Get previously entered categories ids
@@ -948,6 +976,21 @@ class PlgSampledataBlog extends CMSPlugin
 		$response            = array();
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP3_SUCCESS');
+
+		return $response;
+	}
+
+	/**
+	 * Final step to show completion of sampledata.
+	 *
+	 * @return  array or void  Will be converted into the JSON response to the module.
+	 *
+	 * @since  4.0.0
+	 */
+	public function onAjaxSampledataApplyStep4()
+	{
+		$response['success'] = true;
+		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
 
 		return $response;
 	}

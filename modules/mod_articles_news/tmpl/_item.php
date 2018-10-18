@@ -8,11 +8,10 @@
  */
 
 defined('_JEXEC') or die;
-
-$item_heading = $params->get('item_heading', 'h4');
 ?>
 <?php if ($params->get('item_title')) : ?>
 
+	<?php $item_heading = $params->get('item_heading', 'h4'); ?>
 	<<?php echo $item_heading; ?> class="newsflash-title">
 	<?php if ($item->link !== '' && $params->get('link_titles')) : ?>
 		<a href="<?php echo $item->link; ?>">
@@ -22,7 +21,6 @@ $item_heading = $params->get('item_heading', 'h4');
 		<?php echo $item->title; ?>
 	<?php endif; ?>
 	</<?php echo $item_heading; ?>>
-
 <?php endif; ?>
 
 <?php if (!$params->get('intro_only')) : ?>

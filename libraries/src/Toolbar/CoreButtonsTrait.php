@@ -9,6 +9,7 @@
 namespace Joomla\CMS\Toolbar;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
@@ -44,20 +45,33 @@ trait CoreButtonsTrait
 	/**
 	 * Writes a preview button for a given option (opens a popup window).
 	 *
-	 * @param   string  $url   The name of the popup file (excluding the file extension)
-	 * @param   string  $text  The text of button.
+	 * @param   string  $url        The name of the popup file (excluding the file extension)
+	 * @param   string  $text       The text of button.
+	 * @param   bool    $newWindow  Whether to option the preview in _blank or just a modal
 	 *
-	 * @return  PopupButton
+	 * @return  PopupButton|LinkButton
 	 *
 	 * @since   4.0.0
 	 */
-	public function preview(string $url, string $text = 'JGLOBAL_PREVIEW'): PopupButton
+	public function preview(string $url, string $text = 'JGLOBAL_PREVIEW', $newWindow = false)
 	{
-		return $this->popupButton('preview', $text)
-			->url($url)
-			->iframeWidth(640)
-			->iframeHeight(480)
-			->icon('icon-eye');
+		if ($newWindow === true)
+		{
+			$button = $this->linkButton('link', $text)
+				->url($url)
+				->attributes(['target' => '_blank'])
+				->icon('icon-eye');
+		}
+		else
+		{
+			$button = $this->popupButton('preview', $text)
+				->url($url)
+				->iframeWidth(640)
+				->iframeHeight(480)
+				->icon('icon-eye');
+		}
+
+		return $button;
 	}
 
 	/**
@@ -337,7 +351,8 @@ trait CoreButtonsTrait
 	public function apply(string $task, string $text = 'JTOOLBAR_APPLY'): StandardButton
 	{
 		return $this->standardButton('apply', $text)
-			->task($task);
+			->task($task)
+			->formValidation(true);
 	}
 
 	/**
@@ -354,7 +369,8 @@ trait CoreButtonsTrait
 	public function save(string $task, string $text = 'JTOOLBAR_SAVE'): StandardButton
 	{
 		return $this->standardButton('save', $text)
-			->task($task);
+			->task($task)
+			->formValidation(true);
 	}
 
 	/**
@@ -371,7 +387,8 @@ trait CoreButtonsTrait
 	public function save2new(string $task, string $text = 'JTOOLBAR_SAVE_AND_NEW'): StandardButton
 	{
 		return $this->standardButton('save-new', $text)
-			->task($task);
+			->task($task)
+			->formValidation(true);
 	}
 
 	/**
@@ -389,7 +406,8 @@ trait CoreButtonsTrait
 	public function save2copy(string $task, string $text = 'JTOOLBAR_SAVE_AS_COPY'): StandardButton
 	{
 		return $this->standardButton('save-copy', $text)
-			->task($task);
+			->task($task)
+			->formValidation(true);
 	}
 
 	/**
@@ -470,9 +488,9 @@ trait CoreButtonsTrait
 		$contentTypeTable = Table::getInstance('Contenttype');
 		$typeId           = $contentTypeTable->getTypeId($typeAlias);
 
-		// Options array for JLayout
+		// Options array for Layout
 		$options              = array();
-		$options['title']     = \JText::_($text);
+		$options['title']     = Text::_($text);
 		$options['height']    = $height;
 		$options['width']     = $width;
 		$options['itemId']    = $itemId;

@@ -12,8 +12,9 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -45,8 +46,12 @@ class MetasRenderer extends DocumentRenderer
 
 		if ($this->_doc->getScriptOptions())
 		{
-			\JHtml::_('behavior.core');
+			HTMLHelper::_('behavior.core');
 		}
+
+		// Attach Assets
+		$wa = $this->_doc->getWebAssetManager();
+		$wa->attachActiveAssetsToDocument($this->_doc);
 
 		// Trigger the onBeforeCompileHead event
 		$app = Factory::getApplication();

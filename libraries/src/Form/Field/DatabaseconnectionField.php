@@ -10,9 +10,9 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -21,8 +21,8 @@ FormHelper::loadFieldClass('list');
  * Provides a list of available database connections, optionally limiting to
  * a given list.
  *
- * @see    JDatabaseDriver
- * @since  11.3
+ * @see    DatabaseDriver
+ * @since  1.7.3
  */
 class DatabaseconnectionField extends \JFormFieldList
 {
@@ -30,7 +30,7 @@ class DatabaseconnectionField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $type = 'Databaseconnection';
 
@@ -38,12 +38,12 @@ class DatabaseconnectionField extends \JFormFieldList
 	 * Method to get the list of database options.
 	 *
 	 * This method produces a drop down list of available databases supported
-	 * by JDatabaseDriver classes that are also supported by the application.
+	 * by DatabaseDriver classes that are also supported by the application.
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.3
-	 * @see     JDatabaseDriver::getConnectors()
+	 * @since   1.7.3
+	 * @see     DatabaseDriver::getConnectors()
 	 */
 	protected function getOptions()
 	{

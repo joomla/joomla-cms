@@ -6,13 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Logged\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 
 /**
@@ -39,8 +40,10 @@ abstract class LoggedHelper
 			->select('s.time, s.client_id, u.id, u.name, u.username')
 			->from('#__session AS s')
 			->join('LEFT', '#__users AS u ON s.userid = u.id')
-			->where('s.guest = 0');
-		$db->setQuery($query, 0, $params->get('count', 5));
+			->where('s.guest = 0')
+			->setLimit($params->get('count', 5), 0);
+
+		$db->setQuery($query);
 
 		try
 		{

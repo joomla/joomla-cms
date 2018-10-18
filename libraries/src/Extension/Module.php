@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,10 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Dispatcher\DispatcherInterface;
+use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\ModuleDispatcherInterface;
+use Joomla\Input\Input;
 
 /**
  * Access to module specific services.
@@ -24,7 +26,7 @@ class Module implements ModuleInterface
 	/**
 	 * The dispatcher factory.
 	 *
-	 * @var DispatcherFactoryInterface
+	 * @var ModuleDispatcherFactoryInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -33,26 +35,28 @@ class Module implements ModuleInterface
 	/**
 	 * Module constructor.
 	 *
-	 * @param   DispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
+	 * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __construct(DispatcherFactoryInterface $dispatcherFactory)
+	public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory)
 	{
 		$this->dispatcherFactory = $dispatcherFactory;
 	}
 
 	/**
-	 * Returns the dispatcher for the given application, null if none exists.
+	 * Returns the dispatcher for the given application, module and input.
 	 *
+	 * @param   \stdClass                $module       The module
 	 * @param   CMSApplicationInterface  $application  The application
+	 * @param   Input                    $input        The input object, defaults to the one in the application
 	 *
-	 * @return  ModuleDispatcherInterface
+	 * @return  DispatcherInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getDispatcher(CMSApplicationInterface $application): ModuleDispatcherInterface
+	public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{
-		return $this->dispatcherFactory->createDispatcher($application);
+		return $this->dispatcherFactory->createDispatcher($module, $application, $input);
 	}
 }

@@ -60,7 +60,7 @@ $alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 HTMLHelper::_('webcomponent',
 	'system/webcomponents/joomla-field-switcher.min.js',
-	['relative' => true, 'version' => 'auto']
+	['version' => 'auto', 'relative' => true]
 );
 
 // Set the type of switcher
@@ -84,6 +84,16 @@ if (!empty($disabled))
 	$attribs[] = 'disabled';
 }
 
+if (!empty($onclick))
+{
+	$attribs[] = 'onclick="' . $onclick . '()"';
+}
+
+if (!empty($onchange))
+{
+	$attribs[] = 'onchange="' . $onchange . '()"';
+}
+
 ?>
 <joomla-field-switcher <?php echo implode(' ', $attribs); ?>>
 	<?php foreach ($options as $i => $option) : ?>
@@ -93,11 +103,9 @@ if (!empty($disabled))
 		$active  = ((string) $option->value == $value) ? 'class="active"' : '';
 
 		// Initialize some JavaScript option attributes.
-		$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-		$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 		$oid        = $id . $i;
 		$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes = array_filter(array($checked, $active, null, $onchange, $onclick));
+		$attributes = array_filter(array($checked, $active, null));
 		?>
 		<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
 	<?php endforeach; ?>

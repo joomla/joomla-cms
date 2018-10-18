@@ -16,6 +16,10 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 
 /**
  * Controller for global configuration
@@ -53,7 +57,7 @@ class ApplicationController extends BaseController
 	 */
 	public function cancel()
 	{
-		$this->setRedirect(\JRoute::_('index.php?option=com_cpanel'));
+		$this->setRedirect(Route::_('index.php?option=com_cpanel'));
 	}
 
 	/**
@@ -66,19 +70,19 @@ class ApplicationController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken())
+		if (!Session::checkToken())
 		{
-			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'), 'error');
+			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'), 'error');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
-			$this->setRedirect('index.php', \JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 
 		// Set FTP credentials, if given.
-		\JClientHelper::setCredentialsFromRequest('ftp');
+		ClientHelper::setCredentialsFromRequest('ftp');
 
 		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
@@ -90,7 +94,7 @@ class ApplicationController extends BaseController
 		$data = array_replace($oldData, $data);
 
 		// Get request type
-		$saveFormat = \JFactory::getDocument()->getType();
+		$saveFormat = Factory::getDocument()->getType();
 
 		// Handle service requests
 		if ($saveFormat == 'json')
@@ -115,7 +119,7 @@ class ApplicationController extends BaseController
 			 */
 
 			// Redirect back to the edit screen.
-			$this->setRedirect(\JRoute::_('index.php?option=com_config', false));
+			$this->setRedirect(Route::_('index.php?option=com_config', false));
 		}
 
 		// Attempt to save the configuration.
@@ -133,22 +137,22 @@ class ApplicationController extends BaseController
 			 */
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(\JRoute::_('index.php?option=com_config', false));
+			$this->app->redirect(Route::_('index.php?option=com_config', false));
 		}
 
 		// Set the success message.
-		$this->app->enqueueMessage(\JText::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
+		$this->app->enqueueMessage(Text::_('COM_CONFIG_SAVE_SUCCESS'), 'message');
 
 		// Set the redirect based on the task.
 		switch ($this->input->getCmd('task'))
 		{
 			case 'apply':
-				$this->setRedirect(\JRoute::_('index.php?option=com_config', false));
+				$this->setRedirect(Route::_('index.php?option=com_config', false));
 				break;
 
 			case 'save':
 			default:
-				$this->setRedirect(\JRoute::_('index.php', false));
+				$this->setRedirect(Route::_('index.php', false));
 				break;
 		}
 	}
@@ -163,15 +167,15 @@ class ApplicationController extends BaseController
 	public function removeroot()
 	{
 		// Check for request forgeries.
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
-			$this->setRedirect('index.php', \JText::_('JINVALID_TOKEN'), 'error');
+			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'), 'error');
 		}
 
 		// Check if the user is authorized to do this.
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
-			$this->setRedirect('index.php', \JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 		}
 
 		// Initialise model.
@@ -187,11 +191,11 @@ class ApplicationController extends BaseController
 		catch (\RuntimeException $e)
 		{
 			// Save failed, go back to the screen and display a notice.
-			$this->setRedirect('index.php', \JText::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
+			$this->setRedirect('index.php', Text::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
 		}
 
 		// Set the redirect based on the task.
-		$this->setRedirect(\JRoute::_('index.php'), \JText::_('COM_CONFIG_SAVE_SUCCESS'));
+		$this->setRedirect(Route::_('index.php'), Text::_('COM_CONFIG_SAVE_SUCCESS'));
 	}
 
 	/**
@@ -211,7 +215,7 @@ class ApplicationController extends BaseController
 		// Check if user token is valid.
 		if (!Session::checkToken('get'))
 		{
-			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'), 'error');
+			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
 			echo new JsonResponse;
 			$this->app->close();
 		}
@@ -219,7 +223,7 @@ class ApplicationController extends BaseController
 		// Check if the user is authorized to do this.
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
-			$this->app->enqueueMessage(\JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$this->app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'error');
 			echo new JsonResponse;
 			$this->app->close();
 		}
@@ -247,9 +251,9 @@ class ApplicationController extends BaseController
 		$this->app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
-			$this->app->enqueueMessage(\JText::_('JINVALID_TOKEN'), 'error');
+			$this->app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
 			echo new JsonResponse;
 			$this->app->close();
 		}

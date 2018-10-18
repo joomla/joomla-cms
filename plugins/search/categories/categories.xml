@@ -25,7 +25,6 @@
 					type="number"
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
 					default="50"
-					size="5"
 				/>
 
 				<field

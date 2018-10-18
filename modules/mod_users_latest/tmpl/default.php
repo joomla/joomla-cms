@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($names)) : ?>
-	<ul class="latestusers" >
+	<ul class="mod-userslatest latestusers" >
 	<?php foreach ($names as $name) : ?>
 		<li>
 			<?php echo $name->username; ?>

@@ -6,12 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Admin\Administrator\View\Profile;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
 
 /**
  * View class to allow users edit their own profile.
@@ -82,9 +85,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', 1);
+		Factory::getApplication()->input->set('hidemainmenu', 1);
 
-		ToolbarHelper::title(\JText::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user user-profile');
+		ToolbarHelper::title(Text::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user user-profile');
 
 		ToolbarHelper::saveGroup(
 			[

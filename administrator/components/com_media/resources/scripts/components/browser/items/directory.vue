@@ -1,5 +1,5 @@
 <template>
-    <div class="media-browser-item-directory">
+    <div class="media-browser-item-directory" @mouseleave="showActions = false">
         <div class="media-browser-item-preview"
              @dblclick.stop.prevent="onPreviewDblClick()">
             <div class="file-background">
@@ -11,7 +11,7 @@
         <div class="media-browser-item-info">
             {{ item.name }}
         </div>
-        <a href="#" class="media-browser-select" 
+        <a href="#" class="media-browser-select"
           @click.stop="toggleSelect()"
           :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')">
         </a>
@@ -29,7 +29,7 @@
                 </a>
                 <a href="#" class="action-delete"
                   :aria-label="translate('COM_MEDIA_ACTION_DELETE')">
-                    <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="deleteItem()"></span>
+                    <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>
                 </a>
             </div>
         </div>
@@ -53,10 +53,11 @@
             onPreviewDblClick() {
                 this.navigateTo(this.item.path);
             },
-           /* Delete an item */
-           deleteItem() {
-	           this.$store.dispatch('deleteItem', this.item);
-           },
+            /* Opening confirm delete modal */
+            openConfirmDeleteModal(){
+	            this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+	            this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
+            },
            /* Rename an item */
            openRenameModal() {
 	           this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);

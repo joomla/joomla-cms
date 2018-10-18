@@ -75,7 +75,7 @@ $attributes = array(
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
-	$required ? 'required aria-required="true"' : '',
+	$required ? 'required' : '',
 	$autofocus ? 'autofocus' : '',
 	!empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
 	!empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',
@@ -94,9 +94,9 @@ $attributes = array(
 			id="<?php echo $id; ?>"
 			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 			<?php echo implode(' ', $attributes); ?>>
-		<span class="input-group-addon">
-			<span class="fa fa-eye" aria-hidden="true"></span>
+		<span class="input-group-append">
 			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+			<span class="input-group-text icon-eye" aria-hidden="true"></span>
 		</span>
 	</div>
 </div>

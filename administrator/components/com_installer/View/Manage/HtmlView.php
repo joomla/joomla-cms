@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\View\Manage;
 
 defined('_JEXEC') or die;
@@ -13,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Extension Manager Manage View
@@ -49,9 +51,6 @@ class HtmlView extends InstallerViewDefault
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
-
-		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Display the view.
 		parent::display($tpl);

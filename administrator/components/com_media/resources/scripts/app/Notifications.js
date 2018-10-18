@@ -3,7 +3,7 @@ class Notifications {
     /* Send and success notification */
     success(message, options) {
         notifications.notify(message, Object.assign({
-            level: 'success',
+            type: 'success',
             dismiss: true
         }, options));
     }
@@ -11,7 +11,7 @@ class Notifications {
     /* Send an error notification */
     error(message, options) {
         notifications.notify(message, Object.assign({
-            level: 'danger',
+            type: 'danger',
             dismiss: true
         }, options));
     }
@@ -24,7 +24,7 @@ class Notifications {
     /* Send a notification */
     notify(message, options) {
         const alert = document.createElement('joomla-alert');
-        alert.setAttribute('level', options.level || 'info');
+        alert.setAttribute('type', options.type || 'info');
         alert.setAttribute('dismiss', options.dismiss || true);
         alert.setAttribute('auto-dismiss', options.autoDismiss || true);
         alert.innerHTML = Joomla.JText._(message, message) || '';

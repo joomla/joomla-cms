@@ -11,9 +11,10 @@ namespace Joomla\Component\Config\Site\View\Templates;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Templates\Administrator\Model\StyleModel;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
+use Joomla\CMS\Factory;
 
 /**
  * View to edit a template style.
@@ -55,20 +56,20 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
-		$app   = \JFactory::getApplication();
+		$app   = Factory::getApplication();
 
 		$app->input->set('id', $app->getTemplate(true)->id);
 
-		$view = new \Joomla\Component\Templates\Administrator\View\Style\JsonView;
+		/** @var MVCFactory $factory */
+		$factory = $app->bootComponent('com_templates')->createMVCFactory($app);
 
-		// Get/Create the model
-		$model = new StyleModel;
-		$view->setModel($model, true);
+		$view = $factory->createView('Style', 'Administrator', 'Json');
+		$view->setModel($factory->createModel('Style', 'Administrator'), true);
 
-		$view->document = \JFactory::getDocument();
+		$view->document = Factory::getDocument();
 
 		$json = $view->display();
 

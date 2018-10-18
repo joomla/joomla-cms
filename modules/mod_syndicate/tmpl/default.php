@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 ?>
-<a href="<?php echo $link; ?>" class="syndicate-module">
+<a href="<?php echo $link; ?>" class="mod-syndicate syndicate-module">
 	<?php echo HTMLHelper::_('image', 'system/livemarks.png', 'feed-image', null, true); ?>
 	<?php if ($params->get('display_text', 1)) : ?>
 		<span>

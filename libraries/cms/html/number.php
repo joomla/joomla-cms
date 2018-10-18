@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * HTML helper class for rendering numbers.
  *
@@ -106,7 +108,7 @@ abstract class JHtmlNumber
 		}
 
 		return number_format(
-			round($oBytes / pow($base, $i), (int) $precision), (int) $precision, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR')
+			round($oBytes / pow($base, $i), (int) $precision), (int) $precision, Text::_('DECIMALS_SEPARATOR'), Text::_('THOUSANDS_SEPARATOR')
 		) . ' ' . $suffix;
 	}
 }

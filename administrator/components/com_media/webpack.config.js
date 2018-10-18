@@ -10,7 +10,7 @@ module.exports = {
     output: {
         path: path.resolve(__dirname, './../../../media/com_media/js'),
         publicPath: '/',
-        filename: 'mediamanager.js'
+        filename: 'mediamanager.min.js'
     },
     module: {
         rules: [
@@ -48,7 +48,7 @@ module.exports = {
     },
     plugins: [
         new ExtractTextPlugin({
-            filename: './../../../media/com_media/css/mediamanager.css',
+            filename: './../../../media/com_media/css/mediamanager.min.css',
             allChunks: true,
         }),
     ],

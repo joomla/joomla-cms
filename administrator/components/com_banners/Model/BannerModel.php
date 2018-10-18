@@ -6,12 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Factory;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
  * Banner model.
@@ -67,7 +71,7 @@ class BannerModel extends AdminModel
 	protected function batchClient($value, $pks, $contexts)
 	{
 		// Set the variables
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		/** @var \Joomla\Component\Banners\Administrator\Table\Banner $table */
 		$table = $this->getTable();
@@ -76,7 +80,7 @@ class BannerModel extends AdminModel
 		{
 			if (!$user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -108,7 +112,7 @@ class BannerModel extends AdminModel
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	2.5
+	 * @since   2.5
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -133,7 +137,7 @@ class BannerModel extends AdminModel
 					return false;
 				}
 
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 				return false;
 			}
@@ -141,15 +145,15 @@ class BannerModel extends AdminModel
 
 		if (empty($categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 			return false;
 		}
 
 		// Check that the user has create permission for the component
-		if (!\JFactory::getUser()->authorise('core.create', 'com_banners.category.' . $categoryId))
+		if (!Factory::getUser()->authorise('core.create', 'com_banners.category.' . $categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 			return false;
 		}
@@ -174,7 +178,7 @@ class BannerModel extends AdminModel
 				}
 
 				// Not fatal error
-				$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+				$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 				continue;
 			}
 
@@ -244,7 +248,7 @@ class BannerModel extends AdminModel
 
 			if (!empty($record->catid))
 			{
-				return \JFactory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
+				return Factory::getUser()->authorise('core.delete', 'com_banners.category.' . (int) $record->catid);
 			}
 
 			return parent::canDelete($record);
@@ -265,7 +269,7 @@ class BannerModel extends AdminModel
 		// Check against the category.
 		if (!empty($record->catid))
 		{
-			return \JFactory::getUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
+			return Factory::getUser()->authorise('core.edit.state', 'com_banners.category.' . (int) $record->catid);
 		}
 
 		// Default to component settings if category not known.
@@ -336,7 +340,7 @@ class BannerModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$app  = \JFactory::getApplication();
+		$app  = Factory::getApplication();
 		$data = $app->getUserState('com_banners.edit.banner.data', array());
 
 		if (empty($data))
@@ -383,13 +387,13 @@ class BannerModel extends AdminModel
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 				}
 			}
 		}
 
 		// Attempt to change the state of the records.
-		if (!$table->stick($pks, $value, \JFactory::getUser()->id))
+		if (!$table->stick($pks, $value, Factory::getUser()->id))
 		{
 			$this->setError($table->getError());
 
@@ -427,8 +431,8 @@ class BannerModel extends AdminModel
 	 */
 	protected function prepareTable($table)
 	{
-		$date = \JFactory::getDate();
-		$user = \JFactory::getUser();
+		$date = Factory::getDate();
+		$user = Factory::getUser();
 
 		if (empty($table->id))
 		{
@@ -493,9 +497,7 @@ class BannerModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$input = \JFactory::getApplication()->input;
-
-		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
+		$input = Factory::getApplication()->input;
 
 		// Cast catid to integer for comparison
 		$catid = (int) $data['catid'];
@@ -503,7 +505,7 @@ class BannerModel extends AdminModel
 		// Check if New Category exists
 		if ($catid > 0)
 		{
-			$catid = \CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_banners');
 		}
 
 		// Save New Category
@@ -517,7 +519,7 @@ class BannerModel extends AdminModel
 			$table['published'] = 1;
 
 			// Create new category and get catid back
-			$data['catid'] = \CategoriesHelper::createCategory($table);
+			$data['catid'] = CategoriesHelper::createCategory($table);
 		}
 
 		// Alter the name for save as copy
@@ -550,12 +552,12 @@ class BannerModel extends AdminModel
 	/**
 	 * Is the user allowed to create an on the fly category?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.1
 	 */
 	private function canCreateCategory()
 	{
-		return \JFactory::getUser()->authorise('core.create', 'com_banners');
+		return Factory::getUser()->authorise('core.create', 'com_banners');
 	}
 }

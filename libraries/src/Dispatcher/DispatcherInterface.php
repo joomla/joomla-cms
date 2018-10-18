@@ -19,7 +19,7 @@ defined('_JEXEC') or die;
 interface DispatcherInterface
 {
 	/**
-	 * Dispatches the dispatcher.
+	 * Runs the dispatcher.
 	 *
 	 * @return  void
 	 *

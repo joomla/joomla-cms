@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * System plugin to highlight terms.
@@ -87,5 +87,33 @@ class PlgSystemHighlight extends CMSPlugin
 		$doc->setBuffer($buf, 'component');
 
 		return true;
+	}
+
+	/**
+	 * Method to catch the onFinderResult event.
+	 *
+	 * @param   FinderIndexerResult  $item   The search result
+	 * @param   array                $query  The search query of this result
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onFinderResult($item, $query)
+	{
+		static $params;
+
+		if (is_null($params))
+		{
+			$params = ComponentHelper::getParams('com_finder');
+		}
+
+		// Get the route with highlighting information.
+		if (!empty($query->highlight)
+			&& empty($item->mime)
+			&& $params->get('highlight_terms', 1))
+		{
+			$item->route .= '&highlight=' . base64_encode(json_encode($query->highlight));
+		}
 	}
 }

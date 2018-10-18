@@ -9,13 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\CMS\Layout\LayoutHelper;
+
 ?>
-<div class="category-list">
+<div class="com-content-category category-list">
 
 <?php
 $this->subtemplatename = 'articles';
-echo JLayoutHelper::render('joomla.content.category_default', $this);
+echo LayoutHelper::render('joomla.content.category_default', $this);
 ?>
 
 </div>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<access component="com_workflow">
+	<section name="transition">
+		<action name="core.execute.transition" title="JACTION_EXECUTETRANSITION" description="JACTION_EXECUTETRANSITION_DESC" />
+	</section>
+</access>
