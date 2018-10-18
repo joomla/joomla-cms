@@ -26,7 +26,7 @@ $root     = $menuTree->reset();
 
 if ($root->hasChildren())
 {
-	echo '<div class="main-nav-container" role="navigation" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
+	echo '<nav class="main-nav-container" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
 	echo '<ul id="menu" class="' . $class . '" role="menu">' . "\n";
 	echo '<li role="menuitem">';
 	echo '<a id="menu-collapse" href="#">';
@@ -38,7 +38,7 @@ if ($root->hasChildren())
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
 	$menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
 
-	echo "</ul></div>\n";
+	echo "</ul></nav>\n";
 
 	if ($css = $menuTree->getCss())
 	{
