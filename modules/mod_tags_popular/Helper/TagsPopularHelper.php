@@ -11,10 +11,9 @@ namespace Joomla\Module\TagsPopular\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\TagsHelper;
 
 /**
  * Helper for mod_tags_popular
