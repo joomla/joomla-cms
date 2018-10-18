@@ -30,14 +30,14 @@ class CacheControllerFactory implements CacheControllerFactoryInterface
 	 */
 	public function createCacheController($type = 'output', $options = array()): CacheControllerInterface
 	{
+		if (!$type)
+		{
+			$type = 'output';
+		}
+
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
 		$class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
-
-		if ($type == '' && !class_exists($class))
-		{
-			$class = CacheController::class;
-		}
 
 		// The class should now be loaded
 		if (!class_exists($class))

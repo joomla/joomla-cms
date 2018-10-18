@@ -18,7 +18,7 @@ use Joomla\CMS\Filesystem\Path;
  *
  * @since  1.7.0
  */
-class CacheController implements CacheControllerInterface
+abstract class CacheController implements CacheControllerInterface
 {
 	/**
 	 * Cache object
@@ -81,8 +81,8 @@ class CacheController implements CacheControllerInterface
 	 *
 	 * @return  CacheControllerInterface
 	 *
-	 * @since   1.7.0
-	 * @throws  \RuntimeException
+	 * @since       1.7.0
+	 * @throws      \RuntimeException
 	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function getInstance($type = 'output', $options = array())
@@ -133,7 +133,8 @@ class CacheController implements CacheControllerInterface
 	 *
 	 * @return  array  An array with directory elements
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function addIncludePath($path = '')
 	{
