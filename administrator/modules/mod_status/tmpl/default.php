@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelper;
 
 $hideLinks = $app->input->getBool('hidemainmenu');
