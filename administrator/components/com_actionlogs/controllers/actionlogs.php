@@ -62,7 +62,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	public function exportLogs()
 	{
 		// Check for request forgeries.
-		$this->checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$task = $this->getTask();
 
@@ -117,7 +117,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	public function purge()
 	{
 		// Check for request forgeries.
-		$this->checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 		
 		$model = $this->getModel();
 
