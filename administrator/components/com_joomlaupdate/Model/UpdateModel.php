@@ -278,8 +278,7 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$config  = Factory::getConfig();
-		$tempdir = $config->get('tmp_path');
+		$tempdir = Factory::getApplication()->get('tmp_path');
 		$target  = $tempdir . '/' . $basename;
 
 		// Do we have a cached file?
@@ -701,8 +700,7 @@ ENDDATA;
 		$app->triggerEvent('onJoomlaAfterUpdate');
 
 		// Remove the update package.
-		$config = Factory::getConfig();
-		$tempdir = $config->get('tmp_path');
+		$tempdir = $app->get('tmp_path');
 
 		$file = $app->getUserState('com_joomlaupdate.file', null);
 		$target = $tempdir . '/' . $file;
@@ -791,8 +789,7 @@ ENDDATA;
 		}
 
 		// Build the appropriate paths.
-		$config   = Factory::getConfig();
-		$tmp_dest = tempnam($config->get('tmp_path'), 'ju');
+		$tmp_dest = tempnam(Factory::getApplication()->get('tmp_path'), 'ju');
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.

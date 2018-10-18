@@ -72,9 +72,14 @@ $atum-toolbar-line-height:         2.3rem;
 // Sidebar
 $atum-level-1-bg:                  rgba($black, .65);
 $atum-level-2-bg:                  rgba($black, .05);
+$sidebar-bg:                       #122942;
 $sidebar-width:                    250px;
-$sidebar-width-closed:             64px;
-$main-brand-height:                50px;
+$sidebar-width-closed:             48px;
+$sidebar-sub-bg:                   #1b3654;
+$sidebar-text-color:               #7189a4;
+$sidebar-link-color:               #e3eaf1;
+$sidebar-child-link-color:         #cbd6e2;
+$main-brand-height:                48px;
 
 // Fonts
 $font-family-base:                 Arial, sans-serif;
@@ -88,6 +93,17 @@ $h6-font-size:                     .8571rem;
 $font-size-sm:                     .8rem;
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
+
+// Font weights
+$thin-weight:                      100;
+$extralight-weight:                200;
+$light-weight:                     300;
+$normal-weight:                    400;
+$medium-weight:                    500;
+$semibold-weight:                  600;
+$bold-weight:                      700;
+$extrabold-weight:                 800;
+$black-weight:                     900;
 
 // Text
 $body-color:                       var(--dark);
@@ -114,7 +130,7 @@ $dropdown-spacer:                  0;
 // Tabs
 $nav-tabs-border-width:            0;
 $nav-tabs-border-radius:           0;
-$nav-tabs-link-active-bg:          rgba($black, .1);
+$nav-tabs-link-active-bg:          rgba($black, .2);
 
 // Tables
 $table-border-width:               1px;

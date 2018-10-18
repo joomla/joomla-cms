@@ -11,11 +11,13 @@ namespace Joomla\Module\Quickicon\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_quickicon
@@ -27,6 +29,7 @@ abstract class QuickIconHelper
 	/**
 	 * Stack to hold buttons
 	 *
+	 * @var     array[]
 	 * @since   1.6
 	 */
 	protected static $buttons = array();
@@ -37,14 +40,20 @@ abstract class QuickIconHelper
 	 * This method returns the array by reference so it can be
 	 * used to add custom buttons or remove default ones.
 	 *
-	 * @param   \JObject  $params  The module parameters.
+	 * @param   Registry        $params       The module parameters
+	 * @param   CMSApplication  $application  The application
 	 *
 	 * @return  array  An array of buttons
 	 *
 	 * @since   1.6
 	 */
-	public static function &getButtons($params)
+	public static function &getButtons(Registry $params, CMSApplication $application = null)
 	{
+		if ($application == null)
+		{
+			$application = Factory::getApplication();
+		}
+
 		$key = (string) $params;
 
 		if (!isset(self::$buttons[$key]))
@@ -54,7 +63,7 @@ abstract class QuickIconHelper
 			if ($context === 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
-				Factory::getLanguage()->load('mod_quickicon');
+				$application->getLanguage()->load('mod_quickicon');
 
 				self::$buttons[$key] = array(
 					array(
@@ -95,7 +104,7 @@ abstract class QuickIconHelper
 			// Include buttons defined by published quickicon plugins
 			PluginHelper::importPlugin('quickicon');
 
-			$arrays = (array) Factory::getApplication()->triggerEvent(
+			$arrays = (array) $application->triggerEvent(
 				'onGetIcons',
 				new QuickIconsEvent('onGetIcons', ['context' => $context])
 			);

@@ -56,9 +56,6 @@ class HtmlView extends InstallerViewDefault
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		// Display the view
 		parent::display($tpl);
 	}

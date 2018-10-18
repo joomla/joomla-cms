@@ -23,14 +23,11 @@ class LanguagesHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string  $vName   The name of the active view.
-	 * @param   int     $client  The client id of the active view. Maybe be 0 or 1.
+	 * @param   string  $vName  The name of the active view.
 	 *
 	 * @return  void
-	 *
-	 * @deprecated  4.0 $client parameter is not needed anymore.
 	 */
-	public static function addSubmenu($vName, $client = 0)
+	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
 			Text::_('COM_LANGUAGES_SUBMENU_INSTALLED'),

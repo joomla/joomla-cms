@@ -32,9 +32,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="warning"><?php echo Text::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></joomla-alert>
+						<div class="alert alert-warning">
+							<?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
+						</div>
 					<?php else : ?>
 					<table class="table" id="manageList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_INSTALLER_MANAGE_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">
@@ -82,7 +87,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php if (!$item->element) : ?>
 									<strong>X</strong>
 									<?php else : ?>
-										<?php echo HTMLHelper::_('InstallerHtml.Manage.state', $item->status, $i, $item->status < 2, 'cb'); ?>
+										<?php echo HTMLHelper::_('manage.state', $item->status, $i, $item->status < 2, 'cb'); ?>
 									<?php endif; ?>
 								</td>
 								<th scope="row">

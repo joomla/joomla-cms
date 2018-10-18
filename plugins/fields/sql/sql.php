@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Access\Access;
 use Joomla\CMS\Language\Text;
 
 /**

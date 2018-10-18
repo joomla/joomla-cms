@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Module\Finder\Site\Helper\FinderHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-HTMLHelper::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+use Joomla\Module\Finder\Site\Helper\FinderHelper;
 
 // Load the smart search component language file.
 $lang = Factory::getLanguage();

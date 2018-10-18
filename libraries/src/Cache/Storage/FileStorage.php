@@ -18,7 +18,7 @@ use Joomla\CMS\Log\Log;
 /**
  * File cache storage handler
  *
- * @since  11.1
+ * @since  1.7.0
  * @note   For performance reasons this class does not use the Filesystem package's API
  */
 class FileStorage extends CacheStorage
@@ -27,7 +27,7 @@ class FileStorage extends CacheStorage
 	 * Root path
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_root;
 
@@ -45,7 +45,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @param   array  $options  Optional parameters
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -103,7 +103,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -153,7 +153,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAll()
 	{
@@ -186,7 +186,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($id, $group, $data)
 	{
@@ -235,7 +235,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function remove($id, $group)
 	{
@@ -260,7 +260,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -305,7 +305,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc()
 	{
@@ -332,11 +332,11 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
-		return is_writable(Factory::getConfig()->get('cache_path', JPATH_CACHE));
+		return is_writable(Factory::getApplication()->get('cache_path', JPATH_CACHE));
 	}
 
 	/**
@@ -348,7 +348,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false if locking failed or an object containing properties lock and locklooped
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function lock($id, $group, $locktime)
 	{
@@ -408,7 +408,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -437,7 +437,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean  True if the cache ID is valid
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _checkExpire($id, $group)
 	{
@@ -475,7 +475,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean|string  The path to the data object or boolean false if the cache directory does not exist
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getFilePath($id, $group)
 	{
@@ -506,7 +506,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _deleteFolder($path)
 	{
@@ -595,7 +595,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  string  The cleaned path
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _cleanPath($path, $ds = DIRECTORY_SEPARATOR)
 	{
@@ -624,7 +624,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  array  Files in the given folder.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false,
 		$exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
@@ -714,7 +714,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
 		$excludefilter = array('^\..*'))
