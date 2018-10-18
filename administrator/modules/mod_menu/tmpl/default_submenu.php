@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Menu\Node\Separator;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Menu\Node\Separator;
 
 /**
  * =========================================================================================================
