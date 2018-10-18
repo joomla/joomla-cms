@@ -344,6 +344,10 @@ class PlgSystemActionLogs extends JPlugin
 			{
 				$values[] = $this->db->quoteName('extensions') . ' = ' . $this->db->quote(json_encode($user['actionlogs']['actionlogsExtensions']));
 			}
+			else
+			{
+				$values[] = $this->db->quoteName('extensions') . ' = ' . $this->db->quote(json_encode(array('')));
+			}
 
 			$query = $this->db->getQuery(true)
 				->update($this->db->quoteName('#__action_logs_users'))
