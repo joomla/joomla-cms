@@ -27,7 +27,7 @@ $this->useCoreUI = true;
 
 <form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 
-	<?php echo LayoutHelper::render('joomla.edit.item_title', $this); ?>
+	<h4><?php echo $this->form->getValue('name'); ?></h4>
 
 	<fieldset>
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
