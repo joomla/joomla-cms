@@ -86,11 +86,20 @@ class Cache
 	 *
 	 * @return  CacheController
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
-		return CacheController::getInstance($type, $options);
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The cache controller should be fetched from the factory.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
+		return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
 	}
 
 	/**

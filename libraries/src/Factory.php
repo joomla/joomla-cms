@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
@@ -310,11 +311,20 @@ abstract class Factory
 	 *
 	 * @return  \Joomla\CMS\Cache\CacheController object
 	 *
-	 * @see     JCache
-	 * @since   1.7.0
+	 * @see         Cache
+	 * @since       1.7.0
+	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The cache controller should be fetched from the factory.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$hash = md5($group . $handler . $storage);
 
 		if (isset(self::$cache[$hash]))
@@ -331,7 +341,7 @@ abstract class Factory
 			$options['storage'] = $storage;
 		}
 
-		$cache = Cache::getInstance($handler, $options);
+		$cache = self::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($handler, $options);
 
 		self::$cache[$hash] = $cache;
 
@@ -502,6 +512,7 @@ abstract class Factory
 		$container = (new Container)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Application)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Authentication)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\CacheController)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Config)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Console)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Database)
