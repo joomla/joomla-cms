@@ -23,12 +23,12 @@ class CacheControllerFactory implements CacheControllerFactoryInterface
 	 * @param   string  $type     The cache object type to instantiate
 	 * @param   array   $options  Array of options
 	 *
-	 * @return  CacheController
+	 * @return  CacheControllerInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
-	public function createCacheController($type = 'output', $options = array()): CacheController
+	public function createCacheController($type = 'output', $options = array()): CacheControllerInterface
 	{
 		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
 
