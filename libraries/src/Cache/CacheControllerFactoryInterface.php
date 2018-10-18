@@ -23,10 +23,10 @@ interface CacheControllerFactoryInterface
 	 * @param   string  $type     The cache object type to instantiate
 	 * @param   array   $options  Array of options
 	 *
-	 * @return  CacheControllerInterface
+	 * @return  CacheController
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
-	public function createCacheController($type = 'output', $options = array()): CacheControllerInterface;
+	public function createCacheController($type = 'output', $options = array()): CacheController;
 }

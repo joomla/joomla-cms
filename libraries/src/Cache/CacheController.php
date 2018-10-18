@@ -17,8 +17,9 @@ use Joomla\CMS\Filesystem\Path;
  * Public cache handler
  *
  * @since  1.7.0
+ * @note   As of 4.0 this class will be abstract
  */
-abstract class CacheController implements CacheControllerInterface
+class CacheController
 {
 	/**
 	 * Cache object
