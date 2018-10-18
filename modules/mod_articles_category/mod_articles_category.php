@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper;
-use Joomla\CMS\Factory;
 
 $input = Factory::getApplication()->input;
 

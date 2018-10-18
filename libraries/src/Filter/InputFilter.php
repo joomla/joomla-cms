@@ -10,8 +10,6 @@ namespace Joomla\CMS\Filter;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Filter\InputFilter as BaseInputFilter;
 
 /**
@@ -20,7 +18,7 @@ use Joomla\Filter\InputFilter as BaseInputFilter;
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class InputFilter extends BaseInputFilter
 {
@@ -30,7 +28,7 @@ class InputFilter extends BaseInputFilter
 	 * @var    integer
 	 * @since  3.5
 	 */
-	public $stripUSC = 0;
+	private $stripUSC = 0;
 
 	/**
 	 * Constructor for inputFilter class. Only first parameter is required.
@@ -40,47 +38,16 @@ class InputFilter extends BaseInputFilter
 	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
 	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
-	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0, ask the database driver = -1
+	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
+	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
 	{
 		parent::__construct($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto);
 
 		// Assign member variables
 		$this->stripUSC = $stripUSC;
-
-		/**
-		 * If Unicode Supplementary Characters stripping is not set we have to check with the database driver. If the
-		 * driver does not support USCs (i.e. there is no utf8mb4 support) we will enable USC stripping.
-		 */
-		if ($this->stripUSC === -1)
-		{
-			try
-			{
-				// Get the database driver
-				$db = Factory::getDbo();
-
-				if ($db instanceof UTF8MB4SupportInterface)
-				{
-					// This trick is required to let the driver determine the utf-8 multibyte support
-					$db->connect();
-
-					// And now we can decide if we should strip USCs
-					$this->stripUSC = $db->hasUTF8mb4Support() ? 0 : 1;
-				}
-				else
-				{
-					$this->stripUSC = 1;
-				}
-			}
-			catch (\RuntimeException $e)
-			{
-				// Could not connect to the database. Strip USC to be on the safe side.
-				$this->stripUSC = 1;
-			}
-		}
 	}
 
 	/**
@@ -91,13 +58,13 @@ class InputFilter extends BaseInputFilter
 	 * @param   integer  $tagsMethod  WhiteList method = 0, BlackList method = 1
 	 * @param   integer  $attrMethod  WhiteList method = 0, BlackList method = 1
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
-	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0, ask the database driver = -1
+	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0
 	 *
 	 * @return  InputFilter  The InputFilter object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
+	public static function getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = 0)
 	{
 		$sig = md5(serialize(array($tagsArray, $attrArray, $tagsMethod, $attrMethod, $xssAuto)));
 
@@ -135,7 +102,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($source, $type = 'string')
 	{

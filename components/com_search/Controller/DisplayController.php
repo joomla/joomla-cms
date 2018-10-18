@@ -34,8 +34,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = false)
 	{
-		\JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
-
 		// Force it to be the search view
 		$this->input->set('view', 'search');
 

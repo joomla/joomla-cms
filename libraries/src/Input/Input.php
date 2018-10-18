@@ -17,7 +17,7 @@ use Joomla\CMS\Filter\InputFilter;
  *
  * This is an abstracted input class used to manage retrieving data from the application environment.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  5.0  Use Joomla\Input\Input instead
  *
  * @property-read   Input   $get
@@ -33,7 +33,7 @@ class Input extends \Joomla\Input\Input
 	 * Input objects
 	 *
 	 * @var    Input[]
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	protected $inputs = array();
@@ -44,7 +44,7 @@ class Input extends \Joomla\Input\Input
 	 * @param   array  $source   Source data (Optional, default is $_REQUEST)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function __construct($source = null, array $options = array())
@@ -64,7 +64,7 @@ class Input extends \Joomla\Input\Input
 	 *
 	 * @return  \Joomla\Input\Input  The request input object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function __get($name)
@@ -110,7 +110,7 @@ class Input extends \Joomla\Input\Input
 	 *
 	 * @return  mixed  The filtered input data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function getArray(array $vars = array(), $datasource = null, $defaultFilter = 'unknown')
@@ -194,7 +194,7 @@ class Input extends \Joomla\Input\Input
 	 *
 	 * @return  Input  The input object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  5.0  Use Joomla\Input\Input instead
 	 */
 	public function unserialize($input)

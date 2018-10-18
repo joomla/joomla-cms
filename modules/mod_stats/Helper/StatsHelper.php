@@ -12,8 +12,8 @@ namespace Joomla\Module\Stats\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -130,7 +130,7 @@ class StatsHelper
 		if ($counter)
 		{
 			$query->clear()
-				->select('SUM(' . $db->quotename('hits') . ') AS count_hits')
+				->select('SUM(' . $db->quoteName('hits') . ') AS count_hits')
 				->from($db->quoteName('#__content'))
 				->leftJoin(
 					$db->quoteName('#__workflow_stages', 'ws')

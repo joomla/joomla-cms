@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
 ?>
@@ -22,7 +22,7 @@ HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => '
 	height="<?php echo $height; ?>"
 	scrolling="<?php echo $scroll; ?>"
 	frameborder="<?php echo $frameborder; ?>"
-    title="<?php echo $ititle; ?>"
+	title="<?php echo $ititle; ?>"
 	class="mod-wrapper wrapper">
 	<?php echo Text::_('MOD_WRAPPER_NO_IFRAMES'); ?>
 </iframe>

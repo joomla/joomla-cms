@@ -84,7 +84,7 @@ class InstalledModel extends ListModel
 				'author',
 				'authorEmail',
 				'extension_id',
-				'cliend_id',
+				'client_id',
 			);
 		}
 

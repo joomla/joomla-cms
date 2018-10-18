@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 $params = $this->params;
 ?>
 

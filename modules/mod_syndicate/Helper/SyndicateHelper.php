@@ -11,8 +11,8 @@ namespace Joomla\Module\Syndicate\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Helper for mod_syndicate

@@ -16,7 +16,7 @@ use Joomla\Input\Input;
 /**
  * Joomla Platform Base Controller Class
  *
- * @since  12.1
+ * @since  3.0.0
  */
 abstract class JControllerBase extends AbstractController implements JController
 {
@@ -26,7 +26,7 @@ abstract class JControllerBase extends AbstractController implements JController
 	 * @param   Input                $input  The input object.
 	 * @param   AbstractApplication  $app    The application object.
 	 *
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public function __construct(Input $input = null, AbstractApplication $app = null)
 	{
@@ -54,7 +54,7 @@ abstract class JControllerBase extends AbstractController implements JController
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function loadApplication()
 	{
@@ -66,7 +66,7 @@ abstract class JControllerBase extends AbstractController implements JController
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function loadInput()
 	{

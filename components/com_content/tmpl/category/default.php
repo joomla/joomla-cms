@@ -10,9 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 <div class="com-content-category category-list">
 
