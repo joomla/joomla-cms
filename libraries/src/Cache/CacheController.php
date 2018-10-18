@@ -80,7 +80,7 @@ class CacheController
 	 * @param   string  $type     The cache object type to instantiate; default is output.
 	 * @param   array   $options  Array of options
 	 *
-	 * @return  CacheControllerInterface
+	 * @return  CacheController
 	 *
 	 * @since       1.7.0
 	 * @throws      \RuntimeException

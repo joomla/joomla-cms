@@ -309,7 +309,7 @@ abstract class Factory
 	 * @param   string  $handler  The handler to use
 	 * @param   string  $storage  The storage method
 	 *
-	 * @return  \Joomla\CMS\Cache\CacheControllerInterface object
+	 * @return  \Joomla\CMS\Cache\CacheController object
 	 *
 	 * @see         Cache
 	 * @since       1.7.0
