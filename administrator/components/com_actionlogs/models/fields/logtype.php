@@ -64,9 +64,6 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 		$html .= '<a id="uncheckAll" href="javascript://" onclick="eventsCheckAll(false)">' . JText::_('JNONE') . '</a>';
 		$html .= '</span>';
 		$html .= '</div>';
-
-		$html .= '<div class="clearfix"></div>';
-
 		$html .= '<hr class="hr-condensed" />';
 
 		/**
