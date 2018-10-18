@@ -86,8 +86,11 @@ final class SiteApplication extends CMSApplication
 		{
 			if ($user->get('id') == 0)
 			{
+				$uri = new \JUri('index.php');
+				$uri->setQuery($this->getRouter()->getVars());
+
 				// Set the data
-				$this->setUserState('users.login.form.data', array('return' => \JUri::getInstance()->toString()));
+				$this->setUserState('users.login.form.data', array('return' => $uri->toString()));
 
 				$url = \JRoute::_('index.php?option=com_users&view=login', false);
 

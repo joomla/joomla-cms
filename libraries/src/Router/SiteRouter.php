@@ -602,7 +602,7 @@ class SiteRouter extends Router
 				if ($start !== null)
 				{
 					$uri->delVar('start');
-					$vars['limitstart'] = $start;
+					$uri->setVar('limitstart', $start);
 				}
 			}
 		}
