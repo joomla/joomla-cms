@@ -45,7 +45,7 @@ elseif ($current->hasChildren())
 	}
 }
 
-// Set the correct aria rolw and print the item
+// Set the correct aria role and print the item
 if ($current instanceOf Separator)
 {
 	echo '<li' . $class . ' role="presentation">';
