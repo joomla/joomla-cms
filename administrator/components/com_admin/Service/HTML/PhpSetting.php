@@ -12,7 +12,6 @@ namespace Joomla\Component\Admin\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 
 /**
  * Utility class working with phpsetting
