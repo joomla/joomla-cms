@@ -12,7 +12,6 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Languages controller Class.

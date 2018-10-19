@@ -11,12 +11,11 @@ namespace Joomla\Component\Languages\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
 
 /**
  * Multilang status helper.
