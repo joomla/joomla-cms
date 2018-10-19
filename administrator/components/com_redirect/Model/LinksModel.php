@@ -12,9 +12,9 @@ namespace Joomla\Component\Redirect\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Methods supporting a list of redirect links.

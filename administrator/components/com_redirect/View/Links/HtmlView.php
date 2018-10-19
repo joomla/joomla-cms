@@ -13,14 +13,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Redirect\Administrator\Helper\RedirectHelper;
 
 /**
  * View class for a list of redirection links.
