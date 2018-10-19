@@ -12,12 +12,12 @@ namespace Joomla\Component\Joomlaupdate\Administrator\View\Joomlaupdate;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\Updater\Updater;
+use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
 
 /**
  * Joomla! Update's Default View

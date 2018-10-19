@@ -11,8 +11,8 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Joomla! update selection list helper.

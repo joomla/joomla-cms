@@ -12,22 +12,22 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Updater\Updater;
-use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla! update overview Model

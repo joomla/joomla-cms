@@ -11,10 +11,10 @@ namespace Joomla\Component\Joomlaupdate\Administrator\View\Upload;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Joomla! Update's Update View
