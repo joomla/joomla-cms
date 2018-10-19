@@ -11,8 +11,8 @@ namespace Joomla\Component\Contact\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Categories\CategoryNode;
+use Joomla\CMS\Language\Multilanguage;
 
 /**
  * Contact Component Route Helper

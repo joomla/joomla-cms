@@ -12,13 +12,13 @@ namespace Joomla\Component\Contact\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Contact Table class.
