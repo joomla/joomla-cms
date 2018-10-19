@@ -12,13 +12,13 @@ namespace Joomla\Component\Messages\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
 
 /**
  * Private Message model.

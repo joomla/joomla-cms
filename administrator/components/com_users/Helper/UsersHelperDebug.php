@@ -12,10 +12,10 @@ namespace Joomla\Component\Users\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Users component debugging helper.
