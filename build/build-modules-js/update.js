@@ -317,26 +317,26 @@ const walkSync = function(dir, filelist) {
 };
 
 const uglifyLegacyFiles = () => {
-    // Minify the legacy files
-    console.log('Minifying legacy stylesheets/scripts...');
+	// Minify the legacy files
+	console.log('Minifying legacy stylesheets/scripts...');
 	const files = walkSync(`${rootPath}/media`);
 
 	if (files.length) {
 		files.forEach(
 			(file) => {
-			    if (file.match('/vendor')) {
-			        return;
-                }
-				if (file.match(/.js/) && !file.match(/.min.js/) && !file.toLowerCase().match(/license/)) {
-					console.log(`Processing: ${file}`);
+				if (file.match('/vendor') || file.match('\\vendor')) {
+					return;
+				}
+				if (file.match(/\.js/) && !file.match(/\.min\.js/) && !file.toLowerCase().match(/license/) && !file.toLowerCase().match(/json/) ) {
+          console.log(`Processing: ${file}`);
 					// Create the minified file
-					fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
+					fs.writeFileSync(file.replace(/\.js$/, '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
 				}
 				if (file.match(/\.css/) && !file.match(/\.min\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
 					console.log(`Processing: ${file}`);
 					// Create the minified file
 					fs.writeFileSync(
-						file.replace('.css', '.min.css'),
+						file.replace(/\.css$/, '.min.css'),
 						UglyCss.processFiles([file], { expandVars: false }),
 						{ encoding: 'utf8' },
 					);
