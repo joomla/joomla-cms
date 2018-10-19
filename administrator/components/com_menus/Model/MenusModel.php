@@ -12,9 +12,9 @@ namespace Joomla\Component\Menus\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Menu List Model for Menus.
