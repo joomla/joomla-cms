@@ -11,11 +11,11 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Registry\Registry;
 
 /**
  * Prototype admin model.

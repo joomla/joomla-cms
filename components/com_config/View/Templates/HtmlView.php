@@ -11,10 +11,10 @@ namespace Joomla\Component\Config\Site\View\Templates;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
-use Joomla\CMS\Factory;
 
 /**
  * View to edit a template style.

@@ -11,13 +11,13 @@ namespace Joomla\Component\Config\Administrator\View\Application;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**
  * View for the global configuration

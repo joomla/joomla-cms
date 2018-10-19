@@ -11,10 +11,10 @@ namespace Joomla\Component\Config\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Text Filters form field.

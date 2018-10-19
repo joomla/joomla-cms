@@ -11,9 +11,8 @@ namespace Joomla\Component\Config\Site\View\Modules;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Config\Site\Model\ModulesModel;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * View to edit a module.
