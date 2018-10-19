@@ -11,8 +11,8 @@ namespace Joomla\Component\Workflow\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 
 /**
  * The first example class, this is in the same
