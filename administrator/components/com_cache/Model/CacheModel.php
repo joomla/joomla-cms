@@ -11,14 +11,14 @@ namespace Joomla\Component\Cache\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Cache Model
