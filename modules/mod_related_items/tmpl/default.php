@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
 ?>
 <ul class="mod-relateditems relateditems<?php echo $moduleclass_sfx; ?>">
 <?php foreach ($list as $item) : ?>
