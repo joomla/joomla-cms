@@ -11,14 +11,14 @@ namespace Joomla\Component\Mailto\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
+use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 
 /**
  * Mailer Component Controller.
