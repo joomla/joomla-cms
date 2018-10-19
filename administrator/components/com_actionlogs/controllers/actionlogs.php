@@ -118,7 +118,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	{
 		// Check for request forgeries.
 		$this->checkToken();
-		
+
 		$model = $this->getModel();
 
 		if ($model->purge())
