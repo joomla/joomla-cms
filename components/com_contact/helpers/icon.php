@@ -15,7 +15,7 @@ use Joomla\Registry\Registry;
 /**
  * Contact Component HTML Helper
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 abstract class JHtmlIcon
 {
