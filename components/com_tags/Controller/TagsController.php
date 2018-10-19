@@ -11,8 +11,8 @@ namespace Joomla\Component\Tags\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * The Tags List Controller

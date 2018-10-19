@@ -11,10 +11,10 @@ namespace Joomla\Component\Tags\Site\View\Tags;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 
 /**
  * HTML View class for the Tags component all tags view
