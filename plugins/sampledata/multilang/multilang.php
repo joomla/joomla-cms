@@ -987,7 +987,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	public function addWorkflow()
 	{
 		$workflowModel =  $this->app->bootComponent('com_workflow')
-			->createMVCFactory($this->app)->createModel('Workflow', 'Administrator');
+			->getMVCFactory()->createModel('Workflow', 'Administrator');
 
 		$workflow = [
 			'title'       => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_TITLE'),

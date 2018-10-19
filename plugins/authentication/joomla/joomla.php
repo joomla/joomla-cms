@@ -111,8 +111,8 @@ class PlgAuthenticationJoomla extends CMSPlugin
 				return;
 			}
 
-			$model = Factory::getApplication()->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
-				->createModel('User', 'Administrator', ['ignore_request' => true]);
+			$model = Factory::getApplication()->bootComponent('com_users')
+				->getMVCFactory()->createModel('User', 'Administrator', ['ignore_request' => true]);
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))

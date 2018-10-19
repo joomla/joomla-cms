@@ -332,7 +332,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if ($component instanceof MVCFactoryServiceInterface)
 		{
-			$this->factory = $component->createMVCFactory(Factory::getApplication());
+			$this->factory = $component->getMVCFactory();
 		}
 	}
 

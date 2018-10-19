@@ -366,7 +366,7 @@ class ContactModel extends FormModel
 		}
 
 		// Get the profile information for the linked user
-		$userModel = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+		$userModel = $this->bootComponent('com_users')->getMVCFactory()
 			->createModel('User', 'Administrator', ['ignore_request' => true]);
 		$data = $userModel->getItem((int) $contact->user_id);
 
@@ -534,7 +534,7 @@ class ContactModel extends FormModel
 				}
 
 				// Get the profile information for the linked user
-				$userModel = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+				$userModel = $this->bootComponent('com_users')->getMVCFactory()
 					->createModel('User', 'Administrator', ['ignore_request' => true]);
 				$data = $userModel->getItem((int) $result->user_id);
 

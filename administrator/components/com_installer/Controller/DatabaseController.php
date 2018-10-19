@@ -57,8 +57,8 @@ class DatabaseController extends BaseController
 			$model = $this->getModel('Database');
 			$model->fix($cid);
 
-			$updateModel = $this->app->bootComponent('com_joomlaupdate')->createMVCFactory($this->app)
-				->createModel('Update', 'Administrator', ['ignore_request' => true]);
+			$updateModel = $this->app->bootComponent('com_joomlaupdate')
+				->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 			$updateModel->purge();
 
 			// Refresh versionable assets cache

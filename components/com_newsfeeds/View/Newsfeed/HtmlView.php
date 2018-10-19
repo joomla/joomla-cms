@@ -98,8 +98,8 @@ class HtmlView extends BaseHtmlView
 		if ($item)
 		{
 			// Get Category Model data
-			$categoryModel = $app->bootComponent('com_newsfeeds')->createMVCFactory($app)
-				->createModel('Category', 'Site', ['ignore_request' => true]);
+			$categoryModel = $app->bootComponent('com_newsfeeds')
+				->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => true]);
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesLatest\Site\Helper\ArticlesLatestHelper;
 
-$model = $app->bootComponent('com_content')->createMVCFactory($app)->createModel('Articles', 'Site', ['ignore_request' => true]);
+$model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 $list = ArticlesLatestHelper::getList($params, $model);
 
 require ModuleHelper::getLayoutPath('mod_articles_latest', $params->get('layout', 'default'));

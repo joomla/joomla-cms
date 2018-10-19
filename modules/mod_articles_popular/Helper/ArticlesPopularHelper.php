@@ -37,8 +37,8 @@ abstract class ArticlesPopularHelper
 		$app = Factory::getApplication();
 
 		// Get an instance of the generic articles model
-		$model = $app->bootComponent('com_content')->createMVCFactory($app)
-			->createModel('Articles', 'Site', ['ignore_request' => true]);
+		$model = $app->bootComponent('com_content')
+			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
 		$appParams = $app->getParams();
