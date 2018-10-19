@@ -12,11 +12,11 @@ namespace Joomla\Component\Fields\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Table\Table;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
 
 /**
  * Groups Table
