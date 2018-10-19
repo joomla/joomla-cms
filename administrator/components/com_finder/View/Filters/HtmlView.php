@@ -12,9 +12,9 @@ namespace Joomla\Component\Finder\Administrator\View\Filters;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
 
 /**

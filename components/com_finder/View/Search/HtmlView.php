@@ -11,16 +11,16 @@ namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Finder\Site\Helper\FinderHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Finder\Site\Helper\FinderHelper;
 
 /**
  * Search HTML view class for the Finder package.

@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));

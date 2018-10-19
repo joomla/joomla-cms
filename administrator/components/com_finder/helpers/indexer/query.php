@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
