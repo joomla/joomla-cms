@@ -56,7 +56,8 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 		{
 			if ($id)
 			{
-				if (!isset(static::$filters[$id])) {
+				if (!isset(static::$filters[$id]))
+				{
 					$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
 					$return = array();
@@ -76,11 +77,11 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 								->whereIn($db->qn('access'), $groups);
 							$db->setQuery($query);
 
-							$result = (int)$db->loadResult();
+							$result = (int) $db->loadResult();
 
 							if ($result > 0)
 							{
-								$return[$tag] = \ContentHelperRoute::getArticleRoute((int)$item->id, (int)$item->catid, $item->language);
+								$return[$tag] = \ContentHelperRoute::getArticleRoute((int) $item->id, (int) $item->catid, $item->language);
 							}
 						}
 
