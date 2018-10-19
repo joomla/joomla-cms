@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 
 $pageClass = $this->params->get('pageclass_sfx');
 ?>

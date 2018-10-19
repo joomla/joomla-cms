@@ -11,10 +11,10 @@ namespace Joomla\Component\Newsfeeds\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Newsfeeds Component Newsfeed Model
