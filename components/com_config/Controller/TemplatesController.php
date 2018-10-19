@@ -92,7 +92,8 @@ class TemplatesController extends BaseController
 		$app = $this->app;
 
 		// Access backend com_templates
-		$controllerClass = $app->bootComponent('com_templates')->getMVCFactory()->createController('Style', 'Administrator');
+		$controllerClass = $app->bootComponent('com_templates')
+			->getMVCFactory()->createController('Style', 'Administrator', [], $app, $app->input);
 
 		// Get a document object
 		$document = $app->getDocument();

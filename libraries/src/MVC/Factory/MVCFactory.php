@@ -37,13 +37,13 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string  $namespace    The namespace
+	 * @param   string  $namespace  The namespace
 	 *
 	 * @since   4.0.0
 	 */
 	public function __construct($namespace)
 	{
-		$this->namespace   = $namespace;
+		$this->namespace = $namespace;
 	}
 
 	/**
