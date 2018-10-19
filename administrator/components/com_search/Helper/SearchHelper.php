@@ -11,11 +11,10 @@ namespace Joomla\Component\Search\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Transliterate;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * Search component helper.

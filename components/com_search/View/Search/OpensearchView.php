@@ -12,11 +12,11 @@ namespace Joomla\Component\Search\Site\View\Search;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Document\Opensearch\OpensearchUrl;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Document\Opensearch\OpensearchUrl;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 
 /**
  * OpenSearch View class for the Search component

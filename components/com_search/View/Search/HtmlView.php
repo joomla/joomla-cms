@@ -11,13 +11,13 @@ namespace Joomla\Component\Search\Site\View\Search;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\String\StringHelper;
-use Joomla\Component\Search\Administrator\Helper\SearchHelper;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Search\Administrator\Helper\SearchHelper;
+use Joomla\String\StringHelper;
 
 /**
  * HTML View class for the search component
