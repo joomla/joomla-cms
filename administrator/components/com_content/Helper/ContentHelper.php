@@ -12,12 +12,10 @@ namespace Joomla\Component\Content\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Content component helper.

@@ -12,8 +12,10 @@ namespace Joomla\Component\Content\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
@@ -21,9 +23,6 @@ use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving lists of articles.
