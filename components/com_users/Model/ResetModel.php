@@ -12,15 +12,15 @@ namespace Joomla\Component\Users\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
-use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Rest model class for Users.

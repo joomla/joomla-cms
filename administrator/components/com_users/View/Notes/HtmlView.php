@@ -12,14 +12,14 @@ namespace Joomla\Component\Users\Administrator\View\Notes;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\User\User;
-use Joomla\Registry\Registry;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\User;
+use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\Registry\Registry;
 
 /**
  * User notes list view

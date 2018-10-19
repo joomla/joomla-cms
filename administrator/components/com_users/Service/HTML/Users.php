@@ -12,10 +12,10 @@ namespace Joomla\Component\Users\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Extended Utility class for the Users component.

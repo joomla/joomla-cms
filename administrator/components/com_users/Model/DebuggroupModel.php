@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
 use Joomla\Database\DatabaseQuery;
 
 /**
