@@ -11,15 +11,14 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
 
 /**
- * Namesapce based implementation of the DispatcherFactoryInterface
+ * Namespace based implementation of the ModuleDispatcherFactoryInterface
  *
  * @since  4.0.0
  */
-class DispatcherFactory implements DispatcherFactoryInterface
+class ModuleDispatcherFactory implements ModuleDispatcherFactoryInterface
 {
 	/**
 	 * The extension namespace
@@ -28,34 +27,24 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	 *
 	 * @since   4.0.0
 	 */
-	protected $namespace;
+	private $namespace;
 
 	/**
-	 * The MVC factory
+	 * ModuleDispatcherFactory constructor.
 	 *
-	 * @var  MVCFactoryFactoryInterface
+	 * @param   string  $namespace  The namespace
 	 *
 	 * @since   4.0.0
 	 */
-	private $mvcFactoryFactory;
-
-	/**
-	 * DispatcherFactory constructor.
-	 *
-	 * @param   string                      $namespace          The namespace
-	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory
-	 *
-	 * @since   4.0.0
-	 */
-	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactoryFactory)
+	public function __construct(string $namespace)
 	{
-		$this->namespace         = $namespace;
-		$this->mvcFactoryFactory = $mvcFactoryFactory;
+		$this->namespace = $namespace;
 	}
 
 	/**
 	 * Creates a dispatcher.
 	 *
+	 * @param   \stdClass                $module       The module
 	 * @param   CMSApplicationInterface  $application  The application
 	 * @param   Input                    $input        The input object, defaults to the one in the application
 	 *
@@ -63,7 +52,7 @@ class DispatcherFactory implements DispatcherFactoryInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function createDispatcher(CMSApplicationInterface $application, Input $input = null): DispatcherInterface
+	public function createDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{
 		$name = 'Site';
 
@@ -76,9 +65,9 @@ class DispatcherFactory implements DispatcherFactoryInterface
 
 		if (!class_exists($className))
 		{
-			$className = '\\Joomla\\CMS\\Dispatcher\\ComponentDispatcher';
+			$className = ModuleDispatcher::class;
 		}
 
-		return new $className($application, $input ?: $application->input, $this->mvcFactoryFactory);
+		return new $className($module, $application, $input ?: $application->input);
 	}
 }

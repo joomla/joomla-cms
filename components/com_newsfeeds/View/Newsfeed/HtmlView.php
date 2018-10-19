@@ -11,13 +11,13 @@ namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Feed\FeedFactory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Newsfeeds component

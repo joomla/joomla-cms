@@ -10,8 +10,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\Dispatcher\ModuleDispatcherFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -20,7 +19,7 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  4.0.0
  */
-class DispatcherFactory implements ServiceProviderInterface
+class ModuleDispatcherFactory implements ServiceProviderInterface
 {
 	/**
 	 * The module namespace
@@ -32,7 +31,7 @@ class DispatcherFactory implements ServiceProviderInterface
 	private $namespace;
 
 	/**
-	 * DispatcherFactory constructor.
+	 * ComponentDispatcherFactory constructor.
 	 *
 	 * @param   string  $namespace  The namespace
 	 *
@@ -55,13 +54,10 @@ class DispatcherFactory implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->set(
-			DispatcherFactoryInterface::class,
+			ModuleDispatcherFactoryInterface::class,
 			function (Container $container)
 			{
-				return new \Joomla\CMS\Dispatcher\DispatcherFactory(
-					$this->namespace,
-					$container->get(MVCFactoryFactoryInterface::class)
-				);
+				return new \Joomla\CMS\Dispatcher\ModuleDispatcherFactory($this->namespace);
 			}
 		);
 	}

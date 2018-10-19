@@ -19,14 +19,14 @@ use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
 use Joomla\Input\Input;
 
 /**
- * Base class for a Joomla ComponentDispatcher
+ * Base class for a Joomla Component Dispatcher
  *
  * Dispatchers are responsible for checking ACL of a component if appropriate and
  * choosing an appropriate controller (and if necessary, a task) and executing it.
  *
  * @since  4.0.0
  */
-class ComponentDispatcher implements DispatcherInterface
+class ComponentDispatcher extends Dispatcher
 {
 	/**
 	 * The URL option for the component.
@@ -37,27 +37,11 @@ class ComponentDispatcher implements DispatcherInterface
 	protected $option;
 
 	/**
-	 * The application instance
-	 *
-	 * @var    CMSApplication
-	 * @since  4.0.0
-	 */
-	protected $app;
-
-	/**
-	 * The input instance
-	 *
-	 * @var    Input
-	 * @since  4.0.0
-	 */
-	protected $input;
-
-	/**
 	 * The MVC factory
 	 *
 	 * @var  MVCFactoryFactoryInterface
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private $mvcFactoryFactory;
 
@@ -72,8 +56,8 @@ class ComponentDispatcher implements DispatcherInterface
 	 */
 	public function __construct(CMSApplication $app, Input $input, MVCFactoryFactoryInterface $mvcFactoryFactory)
 	{
-		$this->app               = $app;
-		$this->input             = $input;
+		parent::__construct($app, $input);
+
 		$this->mvcFactoryFactory = $mvcFactoryFactory;
 
 		// If option is not provided, detect it from dispatcher class name, ie ContentDispatcher
@@ -161,18 +145,6 @@ class ComponentDispatcher implements DispatcherInterface
 		$controller = $this->getController($controller, ucfirst($this->app->getName()), $config);
 		$controller->execute($task);
 		$controller->redirect();
-	}
-
-	/**
-	 * The application the dispatcher is working with.
-	 *
-	 * @return  CMSApplication
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getApplication(): CMSApplication
-	{
-		return $this->app;
 	}
 
 	/**

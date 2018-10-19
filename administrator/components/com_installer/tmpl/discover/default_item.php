@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <tr class="<?php echo 'row' . $this->item->index % 2; ?>" <?php echo $this->item->style; ?>>
