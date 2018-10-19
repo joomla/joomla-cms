@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
 <div id="template-manager-resize" class="container-fluid">
