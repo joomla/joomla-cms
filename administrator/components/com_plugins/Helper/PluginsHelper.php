@@ -11,8 +11,8 @@ namespace Joomla\Component\Plugins\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Installer\Installer;
 
