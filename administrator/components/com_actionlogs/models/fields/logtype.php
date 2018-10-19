@@ -96,7 +96,6 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 		}
 
 		$html .= '</fieldset>';
-
 		$html .= '</div>';
 
 		return $html;
