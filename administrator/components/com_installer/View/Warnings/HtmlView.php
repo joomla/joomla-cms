@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Extension Manager Warning View

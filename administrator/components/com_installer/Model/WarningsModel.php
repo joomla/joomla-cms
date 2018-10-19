@@ -11,9 +11,9 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Installer Warnings Model

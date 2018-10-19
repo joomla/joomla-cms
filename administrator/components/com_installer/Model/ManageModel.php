@@ -11,13 +11,13 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Templates\Administrator\Table\StyleTable;
-use Joomla\Database\DatabaseQuery;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Component\Templates\Administrator\Table\StyleTable;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Installer Manage Model

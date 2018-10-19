@@ -12,13 +12,13 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Controller

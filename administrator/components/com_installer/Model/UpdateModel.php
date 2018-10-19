@@ -11,18 +11,18 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\InstallerHelper;
-use Joomla\CMS\Installer\Installer;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Model
