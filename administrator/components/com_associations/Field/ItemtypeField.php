@@ -12,8 +12,8 @@ namespace Joomla\Component\Associations\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormHelper;
-use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 FormHelper::loadFieldClass('groupedlist');
 

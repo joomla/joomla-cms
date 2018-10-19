@@ -11,13 +11,13 @@ namespace Joomla\Component\Associations\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\CMS\Factory;
 
 /**
  * Methods supporting a list of article records.

@@ -11,10 +11,10 @@ namespace Joomla\Component\Associations\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 /**
  * Associations controller class.
