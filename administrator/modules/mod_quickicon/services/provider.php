@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
 use Joomla\CMS\Extension\Service\Provider\Module;
 use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
+use Joomla\DI\Container;
+use Joomla\DI\ServiceProviderInterface;
 
 /**
  * The quickicon module service provider.
