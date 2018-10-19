@@ -11,12 +11,12 @@ namespace Joomla\Component\Categories\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
  * Categories view class for the Category package.

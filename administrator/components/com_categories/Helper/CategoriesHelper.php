@@ -11,10 +11,10 @@ namespace Joomla\Component\Categories\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Categories helper.
