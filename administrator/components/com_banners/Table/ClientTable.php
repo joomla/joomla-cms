@@ -11,10 +11,10 @@ namespace Joomla\Component\Banners\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Table\Table;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Client table
