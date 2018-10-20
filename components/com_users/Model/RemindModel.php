@@ -11,14 +11,14 @@ namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Remind model class for Users.

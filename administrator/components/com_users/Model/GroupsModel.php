@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 
 /**

@@ -11,10 +11,10 @@ namespace Joomla\Component\Postinstall\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
-use Joomla\CMS\Filesystem\File;
 
 /**
  * Postinstall message controller.

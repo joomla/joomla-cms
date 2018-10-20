@@ -11,11 +11,11 @@ namespace Joomla\Component\Postinstall\Administrator\View\Messages;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 
 /**
  * Model class to display postinstall messages

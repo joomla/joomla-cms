@@ -12,9 +12,8 @@ namespace Joomla\Module\ArticlesArchive\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 

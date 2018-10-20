@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');

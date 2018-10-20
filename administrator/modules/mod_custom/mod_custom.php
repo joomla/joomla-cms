@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 
 if ($params->def('prepare_content', 1))
 {

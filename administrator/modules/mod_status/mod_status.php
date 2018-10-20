@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
 
 $user     = Factory::getUser();
 $app      = Factory::getApplication();

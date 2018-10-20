@@ -11,12 +11,12 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Layout\LayoutHelper;
 
 HTMLHelper::_('behavior.tooltip');
 HTMLHelper::_('behavior.multiselect');
@@ -135,7 +135,7 @@ if ($saveOrder)
 										<?php endif; ?>
 									</th>
 									<td class="nowrap">
-										<?php 
+										<?php
 											if ($item->condition == 'JARCHIVED'):
 												$icon = 'icon-archive';
 											elseif ($item->condition == 'JTRASHED'):
@@ -144,7 +144,7 @@ if ($saveOrder)
 												$icon = 'icon-publish';
 											elseif ($item->condition == 'JUNPUBLISHED'):
 												$icon = 'icon-unpublish';
-											endif; 
+											endif;
 										?>
 										<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
 										<?php echo Text::_($item->condition); ?>

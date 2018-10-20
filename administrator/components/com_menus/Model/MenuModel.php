@@ -12,11 +12,11 @@ namespace Joomla\Component\Menus\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Menu Item Model for Menus.

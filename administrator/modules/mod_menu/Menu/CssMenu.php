@@ -11,17 +11,18 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\Menu\Node;
 use Joomla\CMS\Menu\Tree;
-use Joomla\CMS\Menu\MenuHelper;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
 /**
  * Tree based class to render the admin menu
  *
