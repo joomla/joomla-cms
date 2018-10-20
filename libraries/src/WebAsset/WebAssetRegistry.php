@@ -458,9 +458,14 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		}
 
 		// Find items without incoming connections
-		$emptyIncoming = array_keys(array_filter($graphIncoming, function ($el){
-			return !$el;
-		}));
+		$emptyIncoming = array_keys(
+			array_filter(
+				$graphIncoming,
+				function ($el){
+					return !$el;
+				}
+			)
+		);
 
 		// Loop through, and sort the graph
 		while ($emptyIncoming)
@@ -484,7 +489,8 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		}
 
 		// Update a weight for each active asset
-		foreach (array_reverse($result) as $index => $name) {
+		foreach (array_reverse($result) as $index => $name)
+		{
 			$activeAssets[$name]->setWeight($index + 1);
 		}
 
@@ -512,7 +518,10 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		foreach ($asset->getDependencies() as $depName)
 		{
 			// Skip already loaded in recursion
-			if ($recursionRoot->getName() === $depName) continue;
+			if ($recursionRoot->getName() === $depName)
+			{
+				continue;
+			}
 
 			$dep = $this->getAsset($depName);
 
@@ -523,7 +532,10 @@ class WebAssetRegistry implements DispatcherAwareInterface
 
 			$assets[$depName] = $dep;
 
-			if (!$recursively) continue;
+			if (!$recursively)
+			{
+				continue;
+			}
 
 			$parentDeps = $this->getDependenciesForAsset($dep, true, $recursionRoot);
 			$assets     = array_replace($assets, $parentDeps);
