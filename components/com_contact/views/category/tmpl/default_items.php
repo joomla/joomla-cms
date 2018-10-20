@@ -13,76 +13,75 @@ JHtml::_('behavior.core');
 $canDo   = JHelperContent::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
 ?>
-<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm"
-      id="adminForm">
+<form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if ($this->params->get('filter_field') || $this->params->get('show_pagination_limit')) : ?>
-        <fieldset class="filters btn-toolbar">
+		<fieldset class="filters btn-toolbar">
 			<?php if ($this->params->get('filter_field')) : ?>
-                <div class="btn-group">
-                    <label class="filter-search-lbl element-invisible" for="filter-search">
+				<div class="btn-group">
+					<label class="filter-search-lbl element-invisible" for="filter-search">
 						<span class="label label-warning">
 							<?php echo JText::_('JUNPUBLISHED'); ?>
 						</span>
 						<?php echo JText::_('COM_CONTACT_FILTER_LABEL') . '&#160;'; ?>
-                    </label>
-                    <input
-                            type="text"
-                            name="filter-search"
-                            id="filter-search"
-                            value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
-                            class="inputbox"
-                            onchange="document.adminForm.submit();"
-                            title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
-                            placeholder="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
-                    />
-                </div>
+					</label>
+					<input
+							type="text"
+							name="filter-search"
+							id="filter-search"
+							value="<?php echo $this->escape($this->state->get('list.filter')); ?>"
+							class="inputbox"
+							onchange="document.adminForm.submit();"
+							title="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
+							placeholder="<?php echo JText::_('COM_CONTACT_FILTER_SEARCH_DESC'); ?>"
+					/>
+				</div>
 			<?php endif; ?>
 			<?php if ($this->params->get('show_pagination_limit')) : ?>
-                <div class="btn-group pull-right">
-                    <label for="limit" class="element-invisible">
+				<div class="btn-group pull-right">
+					<label for="limit" class="element-invisible">
 						<?php echo JText::_('JGLOBAL_DISPLAY_NUM'); ?>
-                    </label>
+					</label>
 					<?php echo $this->pagination->getLimitBox(); ?>
-                </div>
+				</div>
 			<?php endif; ?>
-        </fieldset>
+		</fieldset>
 	<?php endif; ?>
 	<?php if (empty($this->items)) : ?>
-        <p>
+		<p>
 			<?php echo JText::_('COM_CONTACT_NO_CONTACTS'); ?>
-        </p>
+		</p>
 	<?php else : ?>
-        <ul class="category row-striped">
+		<ul class="category row-striped">
 			<?php foreach ($this->items as $i => $item) : ?>
 				<?php if (in_array($item->access, $this->user->getAuthorisedViewLevels())) : ?>
 					<?php if ($this->items[$i]->published == 0) : ?>
-                        <li class="row-fluid system-unpublished cat-list-row<?php echo $i % 2; ?>">
+						<li class="row-fluid system-unpublished cat-list-row<?php echo $i % 2; ?>">
 					<?php else : ?>
-                        <li class="row-fluid cat-list-row<?php echo $i % 2; ?>" >
+						<li class="row-fluid cat-list-row<?php echo $i % 2; ?>" >
 					<?php endif; ?>
 					<?php if ($this->params->get('show_image_heading')) : ?>
 						<?php $contactWidth = 7; ?>
-                        <div class="span2 col-md-2">
+						<div class="span2 col-md-2">
 							<?php if ($this->items[$i]->image) : ?>
-                                <a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+								<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 									<?php echo JHtml::_(
 										'image',
 										$this->items[$i]->image,
 										JText::_('COM_CONTACT_IMAGE_DETAILS'),
 										array('class' => 'contact-thumbnail img-thumbnail')
 									); ?>
-                                </a>
+								</a>
 							<?php endif; ?>
-                        </div>
+						</div>
 					<?php else : ?>
 						<?php $contactWidth = 9; ?>
 					<?php endif; ?>
-                    <div class="list-title span<?php echo $contactWidth; ?> col-md-<?php echo $contactWidth; ?>">
-                        <a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
+					<div class="list-title span<?php echo $contactWidth; ?> col-md-<?php echo $contactWidth; ?>">
+						<a href="<?php echo JRoute::_(ContactHelperRoute::getContactRoute($item->slug, $item->catid)); ?>">
 							<?php echo $item->name; ?>
-                        </a>
+						</a>
 						<?php if ($this->items[$i]->published == 0) : ?>
-                            <span class="label label-warning">
+							<span class="label label-warning">
 								<?php echo JText::_('JUNPUBLISHED'); ?>
 							</span>
 						<?php endif; ?>
@@ -105,8 +104,8 @@ $canEdit = $canDo->get('core.edit');
 							<?php $location[] = $item->country; ?>
 						<?php endif; ?>
 						<?php echo implode(', ', $location); ?>
-                    </div>
-                    <div class="span3 col-md-3">
+					</div>
+					<div class="span3 col-md-3">
 						<?php if ($this->params->get('show_telephone_headings') && !empty($item->telephone)) : ?>
 							<?php echo JText::sprintf('COM_CONTACT_TELEPHONE_NUMBER', $item->telephone); ?><br/>
 						<?php endif; ?>
@@ -116,15 +115,15 @@ $canEdit = $canDo->get('core.edit');
 						<?php if ($this->params->get('show_fax_headings') && !empty($item->fax)) : ?>
 							<?php echo JText::sprintf('COM_CONTACT_FAX_NUMBER', $item->fax); ?><br/>
 						<?php endif; ?>
-                    </div>
+					</div>
 					<?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by == $userId)) : ?>
-                        <div><?php echo JHtml::_('icon.edit', $item, $this->params); ?></div>
+						<div><?php echo JHtml::_('icon.edit', $item, $this->params); ?></div>
 					<?php endif; ?>
 					<?php echo $item->event->afterDisplayContent; ?>
-                    </li>
+					</li>
 				<?php endif; ?>
 			<?php endforeach; ?>
-        </ul>
+		</ul>
 	<?php endif; ?>
 
 	<?php if ($canDo->get('core.create')) : ?>
@@ -132,19 +131,19 @@ $canEdit = $canDo->get('core.edit');
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_pagination', 2)) : ?>
-        <div class="pagination">
+		<div class="pagination">
 			<?php if ($this->params->def('show_pagination_results', 1)) : ?>
-                <p class="counter">
+				<p class="counter">
 					<?php echo $this->pagination->getPagesCounter(); ?>
-                </p>
+				</p>
 			<?php endif; ?>
 			<?php echo $this->pagination->getPagesLinks(); ?>
-        </div>
+		</div>
 	<?php endif; ?>
-    <div>
-        <input type="hidden" name="filter_order"
-               value="<?php echo $this->escape($this->state->get('list.ordering')); ?>"/>
-        <input type="hidden" name="filter_order_Dir"
-               value="<?php echo $this->escape($this->state->get('list.direction')); ?>"/>
-    </div>
+	<div>
+		<input type="hidden" name="filter_order"
+			   value="<?php echo $this->escape($this->state->get('list.ordering')); ?>"/>
+		<input type="hidden" name="filter_order_Dir"
+			   value="<?php echo $this->escape($this->state->get('list.direction')); ?>"/>
+	</div>
 </form>

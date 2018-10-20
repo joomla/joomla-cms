@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Controller for single contact view
  *
- * @since  __DEPLOY_VERSION__
+ * @since  1.5.19
  */
 class ContactControllerContact extends JControllerForm
 {
@@ -35,6 +35,22 @@ class ContactControllerContact extends JControllerForm
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $view_list = 'categories';
+
+	/**
+	 * Method to get a model object, loading it if required.
+	 *
+	 * @param   string  $name    The model name. Optional.
+	 * @param   string  $prefix  The class prefix. Optional.
+	 * @param   array   $config  Configuration array for model. Optional.
+	 *
+	 * @return  JModelLegacy  The model.
+	 *
+	 * @since   1.6.4
+	 */
+	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
+	{
+		return parent::getModel($name, $prefix, array('ignore_request' => false));
+	}
 
 	/**
 	 * Method to submit the contact form and send an email.
@@ -340,22 +356,6 @@ class ContactControllerContact extends JControllerForm
 		}
 
 		return false;
-	}
-
-	/**
-	 * Method to get a model object, loading it if required.
-	 *
-	 * @param   string  $name    The model name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  JModelLegacy  The model.
-	 *
-	 * @since   1.6.4
-	 */
-	public function getModel($name = 'form', $prefix = '', $config = array('ignore_request' => true))
-	{
-		return parent::getModel($name, $prefix, array('ignore_request' => false));
 	}
 
 	/**

@@ -15,7 +15,7 @@ JHtml::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 $cparams = JComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
-$canDo = JHelperContent::getActions('com_contact', 'category', $this->item->catid);
+$canDo   = JHelperContent::getActions('com_contact', 'category', $this->item->catid);
 $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == JFactory::getUser()->id);
 
 ?>
@@ -39,21 +39,22 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 	<?php endif; ?>
 
 	<?php if ($canEdit) : ?>
-        <div class="icons">
-            <div class="btn-group pull-right">
-                <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $this->item->id; ?>" aria-label="<?php echo JText::_('JUSER_TOOLS'); ?>"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="icon-cog" aria-hidden="true"></span>
-                    <span class="caret" aria-hidden="true"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $this->item->id; ?>">
-                    <li class="edit-icon"> <?php echo JHtml::_('icon.edit', $this->item, $tparams); ?> </li>
-                </ul>
-            </div>
-        </div>
+		<div class="icons">
+			<div class="btn-group pull-right">
+				<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $this->item->id; ?>"
+						aria-label="<?php echo JText::_('JUSER_TOOLS'); ?>"
+						data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="icon-cog" aria-hidden="true"></span>
+					<span class="caret" aria-hidden="true"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $this->item->id; ?>">
+					<li class="edit-icon"> <?php echo JHtml::_('icon.edit', $this->item, $tparams); ?> </li>
+				</ul>
+			</div>
+		</div>
 	<?php endif; ?>
 
-    <?php $show_contact_category = $tparams->get('show_contact_category'); ?>
+	<?php $show_contact_category = $tparams->get('show_contact_category'); ?>
 
 	<?php if ($show_contact_category === 'show_no_link') : ?>
 		<h3>
@@ -121,7 +122,7 @@ $canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->i
 		<?php if ($tparams->get('allow_vcard')) : ?>
 			<?php echo JText::_('COM_CONTACT_DOWNLOAD_INFORMATION_AS'); ?>
 			<a href="<?php echo JRoute::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->contact->id . '&amp;format=vcf'); ?>">
-			<?php echo JText::_('COM_CONTACT_VCARD'); ?></a>
+				<?php echo JText::_('COM_CONTACT_VCARD'); ?></a>
 		<?php endif; ?>
 
 		<?php if ($presentation_style === 'sliders') : ?>
