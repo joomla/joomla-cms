@@ -909,7 +909,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	}
 
 	/**
-	 * On after Cache purge
+	 * On after log action purge
 	 *
 	 * Method is called after user request to clean action log items.
 	 *
