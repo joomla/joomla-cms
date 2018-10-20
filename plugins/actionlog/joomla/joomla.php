@@ -911,7 +911,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	/**
 	 * On after Cache purge
 	 *
-	 * Method is called after user request to clean chaced items.
+	 * Method is called after user request to clean cached items.
 	 *
 	 * @param   array  $group  Holds the group name.
 	 *
