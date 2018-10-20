@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Language\Text;
@@ -115,8 +116,7 @@ else
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
-HTMLHelper::_('stylesheet', 'vendor/choicesjs/choices.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('script', 'vendor/choicesjs/choices.min.js', ['version' => 'auto', 'relative' => true]);
+Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
 HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 
 ?>

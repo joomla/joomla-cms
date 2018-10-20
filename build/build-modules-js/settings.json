@@ -165,6 +165,13 @@
           "assets/styles/css/choices.css": "css/choices.css",
           "assets/styles/css/choices.min.css": "css/choices.min.css"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["choices.min.js"],
+            "css": ["choices.min.css"]
+          }
+         ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
