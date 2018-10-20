@@ -9,15 +9,18 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 // Include the component HTML helpers.
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0));
-JHtml::_('formbehavior.chosen', 'select');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0));
+HTMLHelper::_('formbehavior.chosen', 'select');
 $this->tab_name         = 'com-contact-form';
 $this->ignore_fieldsets = array('details', 'item_associations');
 
@@ -41,11 +44,11 @@ JFactory::getDocument()->addScriptDeclaration('
 		</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_contact&id=' . (int) $this->item->id); ?>" method="post"
+	<form action="<?php echo Route::_('index.php?option=com_contact&id=' . (int) $this->item->id); ?>" method="post"
 		  name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<fieldset>
-			<?php echo JHtml::_('bootstrap.startTabSet', $this->tab_name, array('active' => 'details')); ?>
-			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'details', empty($this->item->id) ? Text::_('COM_CONTACT_NEW_CONTACT') : Text::_('COM_CONTACT_EDIT_CONTACT')); ?>
+			<?php echo HTMLHelper::_('bootstrap.startTabSet', $this->tab_name, array('active' => 'details')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'details', empty($this->item->id) ? Text::_('COM_CONTACT_NEW_CONTACT') : Text::_('COM_CONTACT_EDIT_CONTACT')); ?>
 			<?php echo $this->form->renderField('name'); ?>
 
 			<?php if (is_null($this->item->id)) : ?>
@@ -53,18 +56,18 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php endif; ?>
 
 			<?php echo $this->form->renderFieldset('details'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'misc', Text::_('COM_CONTACT_FIELDSET_MISCELLANEOUS')); ?>
+			<?php echo HTMLHelper::_('bootstrap.addTab', $this->tab_name, 'misc', Text::_('COM_CONTACT_FIELDSET_MISCELLANEOUS')); ?>
 			<?php echo $this->form->renderField('misc'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
 
-			<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
-			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
+			<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
 
 			<input type="hidden" name="task" value=""/>
 			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>"/>
-			<?php echo JHtml::_('form.token'); ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</fieldset>
 		<div class="btn-toolbar">
 			<div class="btn-group">

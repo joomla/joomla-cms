@@ -9,7 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 
 /**
@@ -17,14 +22,14 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class JHtmlIcon
+abstract class HtmlIcon
 {
 	/**
 	 * Method to generate a link to the create item page for the given category
 	 *
-	 * @param   object   $category The category information
-	 * @param   Registry $params   The item parameters
-	 * @param   array    $attribs  Optional attributes for the link
+	 * @param   object    $category  The category information
+	 * @param   Registry  $params    The item parameters
+	 * @param   array     $attribs   Optional attributes for the link
 	 *
 	 * @return  string  The HTML markup for the create item link
 	 *
@@ -32,11 +37,11 @@ abstract class JHtmlIcon
 	 */
 	public static function create($category, $params, $attribs = array())
 	{
-		$uri = JUri::getInstance();
+		$uri = Uri::getInstance();
 
 		$url = 'index.php?option=com_contact&task=contact.add&return=' . base64_encode($uri) . '&id=0&catid=' . $category->id;
 
-		$text = JLayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => false));
+		$text = LayoutHelper::render('joomla.content.icons.create', array('params' => $params, 'legacy' => false));
 
 		// Add the button classes to the attribs array
 		if (isset($attribs['class']))
@@ -48,9 +53,9 @@ abstract class JHtmlIcon
 			$attribs['class'] = 'btn btn-primary';
 		}
 
-		$button = JHtml::_('link', JRoute::_($url), $text, $attribs);
+		$button = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
-		$output = '<span class="hasTooltip" title="' . JHtml::_('tooltipText', 'COM_CONTACT_CREATE_CONTACT') . '">' . $button . '</span>';
+		$output = '<span class="hasTooltip" title="' . HTMLHelper::_('tooltipText', 'COM_CONTACT_CREATE_CONTACT') . '">' . $button . '</span>';
 
 		return $output;
 	}
@@ -61,10 +66,10 @@ abstract class JHtmlIcon
 	 * This icon will not display in a popup window, nor if the contact is trashed.
 	 * Edit access checks must be performed in the calling code.
 	 *
-	 * @param   object   $contact The contact information
-	 * @param   Registry $params  The item parameters
-	 * @param   array    $attribs Optional attributes for the link
-	 * @param   boolean  $legacy  True to use legacy images, false to use icomoon based graphic
+	 * @param   object    $contact  The contact information
+	 * @param   Registry  $params   The item parameters
+	 * @param   array     $attribs  Optional attributes for the link
+	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string   The HTML for the contact edit icon.
 	 *
@@ -72,8 +77,8 @@ abstract class JHtmlIcon
 	 */
 	public static function edit($contact, $params, $attribs = array(), $legacy = false)
 	{
-		$user = JFactory::getUser();
-		$uri  = JUri::getInstance();
+		$user = Factory::getUser();
+		$uri  = Uri::getInstance();
 
 		// Ignore if in a popup window.
 		if ($params && $params->get('popup'))
@@ -93,14 +98,14 @@ abstract class JHtmlIcon
 			&& $contact->checked_out > 0
 			&& $contact->checked_out != $user->get('id'))
 		{
-			$checkoutUser = JFactory::getUser($contact->checked_out);
-			$date         = JHtml::_('date', $contact->checked_out_time);
+			$checkoutUser = Factory::getUser($contact->checked_out);
+			$date         = HTMLHelper::_('date', $contact->checked_out_time);
 			$tooltip      = Text::_('JLIB_HTML_CHECKED_OUT') . ' :: ' . Text::sprintf('COM_CONTACT_CHECKED_OUT_BY', $checkoutUser->name)
 				. ' <br /> ' . $date;
 
-			$text = JLayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
+			$text = LayoutHelper::render('joomla.content.icons.edit_lock', array('tooltip' => $tooltip, 'legacy' => $legacy));
 
-			$output = JHtml::_('link', '#', $text, $attribs);
+			$output = HTMLHelper::_('link', '#', $text, $attribs);
 
 			return $output;
 		}
@@ -117,8 +122,8 @@ abstract class JHtmlIcon
 			$overlib = Text::_('JPUBLISHED');
 		}
 
-		$date   = JHtml::_('date', $contact->created);
-		$author = $contact->created_by_alias ?: JFactory::getUser($contact->created_by)->name;
+		$date   = HTMLHelper::_('date', $contact->created);
+		$author = $contact->created_by_alias ?: Factory::getUser($contact->created_by)->name;
 
 		$overlib .= '&lt;br /&gt;';
 		$overlib .= $date;
@@ -127,17 +132,18 @@ abstract class JHtmlIcon
 
 		$icon = $contact->published ? 'edit' : 'eye-close';
 
-		if (strtotime($contact->publish_up) > strtotime(JFactory::getDate())
-			|| ((strtotime($contact->publish_down) < strtotime(JFactory::getDate())) && $contact->publish_down != JFactory::getDbo()->getNullDate()))
+		if (strtotime($contact->publish_up) > strtotime(Factory::getDate())
+			|| ((strtotime($contact->publish_down) < strtotime(Factory::getDate())) && $contact->publish_down != Factory::getDbo()->getNullDate()))
 		{
 			$icon = 'eye-close';
 		}
 
-		$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="' . JHtml::tooltipText(Text::_('COM_CONTACT_EDIT_CONTACT'), $overlib, 0, 0) . '"></span>';
+		$text = '<span class="hasTooltip icon-' . $icon . ' tip" title="'
+			. HTMLHelper::tooltipText(Text::_('COM_CONTACT_EDIT_CONTACT'), $overlib, 0, 0) . '"></span>';
 		$text .= Text::_('JGLOBAL_EDIT');
 
 		$attribs['title'] = Text::_('JGLOBAL_EDIT_TITLE');
-		$output           = JHtml::_('link', JRoute::_($url), $text, $attribs);
+		$output           = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		return $output;
 	}

@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -57,7 +59,7 @@ class ContactViewForm extends JViewLegacy
 	/**
 	 * Execute and display a template script.
 	 *
-	 * @param   string $tpl The name of the template file to parse; automatically searches through the template paths.
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
@@ -66,8 +68,8 @@ class ContactViewForm extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$user = JFactory::getUser();
-		$app  = JFactory::getApplication();
+		$user = Factory::getUser();
+		$app  = Factory::getApplication();
 
 		// Get model data.
 		$this->state       = $this->get('State');
@@ -82,7 +84,7 @@ class ContactViewForm extends JViewLegacy
 		else
 		{
 			// Since we don't track these assets at the item level, use the category id.
-			$canDo      = JHelperContent::getActions('com_contact', 'category', $this->item->catid);
+			$canDo      = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
 			$authorised = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $user->id);
 		}
 
@@ -94,7 +96,7 @@ class ContactViewForm extends JViewLegacy
 			return false;
 		}
 
-		$this->item->tags = new JHelperTags;
+		$this->item->tags = new Joomla\CMS\Helper\TagsHelper;
 
 		if (!empty($this->item->id))
 		{
@@ -119,9 +121,9 @@ class ContactViewForm extends JViewLegacy
 		$this->params->merge($this->item->params);
 
 		// Propose current language as default when creating new contact
-		if (empty($this->item->id) && JLanguageMultilang::isEnabled())
+		if (empty($this->item->id) && Multilanguage::isEnabled())
 		{
-			$lang = JFactory::getLanguage()->getTag();
+			$lang = Factory::getLanguage()->getTag();
 			$this->form->setFieldAttribute('language', 'default', $lang);
 		}
 
@@ -134,13 +136,14 @@ class ContactViewForm extends JViewLegacy
 	 * Prepares the document
 	 *
 	 * @return  void
+	 *
 	 * @throws Exception
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function _prepareDocument()
 	{
-		$app   = JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 

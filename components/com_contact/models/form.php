@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Associations;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -41,41 +43,12 @@ class ContactModelForm extends ContactModelContact
 	protected $formName = 'form';
 
 	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @return  void
-	 * @throws  Exception
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function populateState()
-	{
-		$app = JFactory::getApplication();
-
-		// Load state from the request.
-		$pk = $app->input->getInt('id');
-		$this->setState('contact.id', $pk);
-
-		$this->setState('contact.catid', $app->input->getInt('catid'));
-
-		$return = $app->input->get('return', null, 'base64');
-		$this->setState('return_page', base64_decode($return));
-
-		// Load the parameters.
-		$params = $app->getParams();
-		$this->setState('params', $params);
-
-		$this->setState('layout', $app->input->getString('layout'));
-	}
-
-	/**
 	 * Method to get contact data.
 	 *
-	 * @param   integer $itemId The id of the contact.
+	 * @param   integer  $itemId  The id of the contact.
 	 *
 	 * @return  mixed  Contact item data object on success, false on failure.
+	 *
 	 * @throws  Exception
 	 *
 	 * @since   __DEPLOY_VERSION__
@@ -97,7 +70,7 @@ class ContactModelForm extends ContactModelContact
 		}
 		catch (Exception $e)
 		{
-			JFactory::getApplication()->enqueueMessage($e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage());
 
 			return false;
 		}
@@ -114,7 +87,7 @@ class ContactModelForm extends ContactModelContact
 
 		if ($itemId)
 		{
-			$value->tags = new JHelperTags;
+			$value->tags = new Joomla\CMS\Helper\TagsHelper;
 			$value->tags->getTagIds($value->id, 'com_contact.contact');
 			$value->metadata['tags'] = $value->tags;
 		}
@@ -125,7 +98,7 @@ class ContactModelForm extends ContactModelContact
 	/**
 	 * Get the return URL.
 	 *
-	 * @return  string    The return URL.
+	 * @return  string  The return URL.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -137,7 +110,7 @@ class ContactModelForm extends ContactModelContact
 	/**
 	 * Method to save the form data.
 	 *
-	 * @param   array $data The form data.
+	 * @param   array  $data  The form data.
 	 *
 	 * @return  boolean  True on success.
 	 *
@@ -147,8 +120,8 @@ class ContactModelForm extends ContactModelContact
 	public function save($data)
 	{
 		// Associations are not edited in frontend ATM so we have to inherit them
-		if (JLanguageAssociations::isEnabled() && !empty($data['id'])
-			&& $associations = JLanguageAssociations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $data['id']))
+		if (Associations::isEnabled() && !empty($data['id'])
+			&& $associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $data['id']))
 		{
 			foreach ($associations as $tag => $associated)
 			{
@@ -159,5 +132,36 @@ class ContactModelForm extends ContactModelContact
 		}
 
 		return parent::save($data);
+	}
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @return  void
+	 *
+	 * @throws  Exception
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function populateState()
+	{
+		$app = Factory::getApplication();
+
+		// Load state from the request.
+		$pk = $app->input->getInt('id');
+		$this->setState('contact.id', $pk);
+
+		$this->setState('contact.catid', $app->input->getInt('catid'));
+
+		$return = $app->input->get('return', null, 'base64');
+		$this->setState('return_page', base64_decode($return));
+
+		// Load the parameters.
+		$params = $app->getParams();
+		$this->setState('params', $params);
+
+		$this->setState('layout', $app->input->getString('layout'));
 	}
 }
