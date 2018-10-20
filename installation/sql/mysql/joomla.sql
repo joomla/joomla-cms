@@ -1690,11 +1690,14 @@ CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
   `request_type` varchar(25) NOT NULL DEFAULT '',
   `confirm_token` varchar(100) NOT NULL DEFAULT '',
   `confirm_token_created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `checked_out` int(11) NOT NULL DEFAULT '0',
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`id`),
-  KEY `idx_checkout` (`checked_out`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__privacy_consents`
+--
 
 CREATE TABLE IF NOT EXISTS `#__privacy_consents` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,

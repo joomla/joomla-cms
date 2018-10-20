@@ -1670,11 +1670,8 @@ CREATE TABLE "#__privacy_requests" (
   "request_type" varchar(25) DEFAULT '' NOT NULL,
   "confirm_token" varchar(100) DEFAULT '' NOT NULL,
   "confirm_token_created_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__privacy_requests_idx_checked_out" ON "#__privacy_requests" ("checked_out");
 
 --
 -- Table structure for table `#__privacy_consents`
