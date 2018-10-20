@@ -124,7 +124,7 @@ $activeRequests = 0;
 						<div class="span9">
 							<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_REQUEST_FORM_MENU_ITEM_PUBLISHED'); ?></div>
 							<?php if ($this->requestFormPublished['link'] !== '') : ?>
-								<small><a href="<?php echo $this->requestFormPublished['link']; ?>"><?php echo $this->requestFormPublished['link']; ?></a></small>
+								<small><a href="<?php echo $this->requestFormPublished['link']; ?>" target="_blank"><?php echo $this->requestFormPublished['link']; ?></a></small>
 							<?php endif; ?>
 						</div>
 					</div>
