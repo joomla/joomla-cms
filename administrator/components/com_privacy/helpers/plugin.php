@@ -140,7 +140,7 @@ abstract class PrivacyPlugin extends JPlugin
 
 		$type = str_replace('com_', '', $parts[0]);
 
-		$domain = $this->createDomain($type . '_custom_fields', 'joomla_' . $type . '_custom_fields_data');
+		$domain = $this->createDomain($type . '_' . $parts[1] . '_custom_fields', 'joomla_' . $type . '_' . $parts[1] . '_custom_fields_data');
 
 		foreach ($items as $item)
 		{
