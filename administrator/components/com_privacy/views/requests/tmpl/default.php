@@ -96,9 +96,9 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 								<?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $item->status); ?>
 							</td>
 							<td>
-                                <?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
-                                    <span class="pull-right label label-important"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
-                                <?php endif; ?>
+								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
+									<span class="pull-right label label-important"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
+								<?php endif; ?>
 								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_VIEW'); ?>">
 									<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
 								</a>
