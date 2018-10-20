@@ -289,8 +289,6 @@ class ActionlogsModelActionlogs extends JModelList
 		try
 		{
 			$db->execute();
-
-			return true;
 		}
 		catch (RuntimeException $e)
 		{
@@ -298,6 +296,11 @@ class ActionlogsModelActionlogs extends JModelList
 
 			return false;
 		}
+
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->trigger('onAfterLogPurge', array());
+
+		return true;
 	}
 
 	/**
@@ -312,13 +315,16 @@ class ActionlogsModelActionlogs extends JModelList
 		try
 		{
 			$this->getDbo()->truncateTable('#__action_logs');
-
-			return true;
 		}
 		catch (Exception $e)
 		{
 			return false;
 		}
+
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->trigger('onAfterLogPurge', array());
+
+		return true;
 	}
 
 	/**
