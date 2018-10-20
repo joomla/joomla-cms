@@ -251,7 +251,7 @@ class CacheModelCache extends JModelList
 	{
 		try
 		{
-			return $this->getCache()->clean($group);
+			$this->getCache()->clean($group);
 		}
 		catch (JCacheExceptionConnecting $exception)
 		{
@@ -261,6 +261,11 @@ class CacheModelCache extends JModelList
 		{
 			return false;
 		}
+
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->trigger('onAfterPurge', array($group));
+
+		return true;
 	}
 
 	/**
@@ -294,7 +299,7 @@ class CacheModelCache extends JModelList
 	{
 		try
 		{
-			return JFactory::getCache('')->gc();
+			JFactory::getCache('')->gc();
 		}
 		catch (JCacheExceptionConnecting $exception)
 		{
@@ -304,5 +309,10 @@ class CacheModelCache extends JModelList
 		{
 			return false;
 		}
+
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->trigger('onAfterPurge', array($group));
+
+		return true;
 	}
 }
