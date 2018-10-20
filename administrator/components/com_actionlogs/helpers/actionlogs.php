@@ -42,7 +42,7 @@ class ActionlogsHelper
 			$row               = array();
 			$row['id']         = $log->id;
 			$row['message']    = strip_tags(static::getHumanReadableLogMessage($log));
-			$row['date']       = JHtml::_('date', $log->log_date, JText::_('DATE_FORMAT_LC6'));
+			$row['date']       = JHtml::_('date', $log->log_date, 'Y-m-d H:i:s T', 'UTC');
 			$row['extension']  = JText::_($extension);
 			$row['name']       = $log->name;
 			$row['ip_address'] = JText::_($log->ip_address);
