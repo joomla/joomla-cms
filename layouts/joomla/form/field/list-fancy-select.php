@@ -53,7 +53,6 @@ $attr = '';
 // Initialize the field attributes.
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
-$attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
@@ -66,6 +65,12 @@ if ($readonly || $disabled)
 $attr2  = '';
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
+
+if ($required)
+{
+	$attr  .= ' required class="required"';
+	$attr2 .= ' required';
+}
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).
 if ($readonly)

@@ -56,7 +56,6 @@ $attr2   = '';
 // Initialize some field attributes.
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
-$attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
@@ -72,6 +71,12 @@ $attr2 .= ' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELEC
 if ($allowCustom)
 {
 	$attr2 .= ' allow-custom';
+}
+
+if ($required)
+{
+	$attr  .= ' required class="required"';
+	$attr2 .= ' required';
 }
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).

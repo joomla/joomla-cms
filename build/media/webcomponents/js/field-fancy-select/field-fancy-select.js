@@ -29,7 +29,7 @@
 
   class JoomlaFieldFancySelect extends HTMLElement {
 
-    // Attribute getters
+    // Properties getters/setters
     get allowCustom()       { return this.hasAttribute('allow-custom'); }
     get remoteSearch()      { return this.hasAttribute('remote-search'); }
     get url()               { return this.getAttribute('url'); }
@@ -38,6 +38,8 @@
     get newItemPrefix()     { return this.getAttribute('new-item-prefix') || ''; }
     get placeholder()       { return this.getAttribute('placeholder'); }
     get searchPlaceholder() { return this.getAttribute('search-placeholder'); }
+    get value()             { return this.choicesInstance.getValue(true); }
+    set value($val)         { this.choicesInstance.setValueByChoice('' + $val); }
 
     connectedCallback() {
       if (!window.Choices) {

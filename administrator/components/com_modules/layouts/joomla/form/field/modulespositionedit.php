@@ -52,7 +52,7 @@ extract($displayData);
 $attributes = array(
 	'class="' . $class . '"',
 	' allow-custom',
-	' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" '
+	' search-placeholder="' . $this->escape(Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ',
 );
 
 $selectAttr = array(
@@ -60,9 +60,14 @@ $selectAttr = array(
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . $this->escape($hint) . '"' : '',
 	$onchange ? ' onchange="' . $onchange . '"' : '',
-	$required ? 'required' : '',
 	$autofocus ? ' autofocus' : '',
 );
+
+if ($required)
+{
+	$selectAttr[] = ' required class="required"';
+	$attributes[] = ' required';
+}
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');

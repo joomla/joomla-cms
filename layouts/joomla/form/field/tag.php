@@ -56,7 +56,6 @@ $attr = '';
 
 // Initialize some field attributes.
 $attr .= $multiple ? ' multiple' : '';
-$attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
@@ -82,6 +81,12 @@ if ($remoteSearch)
 	$attr2 .= ' url="' . Uri::root(true) . '/index.php?option=com_tags&task=tags.searchAjax"';
 	$attr2 .= ' term-key="like"';
 	$attr2 .= ' min-term-length="' . $minTermLength .'"';
+}
+
+if ($required)
+{
+	$attr  .= ' required class="required"';
+	$attr2 .= ' required';
 }
 
 // Create a read-only list (no name) with hidden input(s) to store the value(s).

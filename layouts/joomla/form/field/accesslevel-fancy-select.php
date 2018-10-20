@@ -53,13 +53,18 @@ $attr = '';
 $attr .= $disabled ? ' disabled' : '';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= $multiple ? ' multiple' : '';
-$attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
 
 $attr2  = '';
 $attr2 .= !empty($class) ? ' class="' . $class . '"' : '';
 $attr2 .= ' placeholder="' . $this->escape($hint ?: Text::_('JGLOBAL_TYPE_OR_SELECT_SOME_OPTIONS')) . '" ';
+
+if ($required)
+{
+	$attr  .= ' required class="required"';
+	$attr2 .= ' required';
+}
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
