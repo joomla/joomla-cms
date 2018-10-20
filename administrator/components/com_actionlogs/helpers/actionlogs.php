@@ -22,14 +22,26 @@ class ActionlogsHelper
 	/**
 	 * Method to convert logs objects array to associative array use for CSV export
 	 *
-	 * @param   array  $data  The logs data objects to be exported
+	 * @param   array|Traversable  $data  The logs data objects to be exported
 	 *
 	 * @return  array
 	 *
 	 * @since   3.9.0
+	 * @throws  InvalidArgumentException
 	 */
 	public static function getCsvData($data)
 	{
+		if (!is_iterable($data))
+		{
+			throw new InvalidArgumentException(
+				sprintf(
+					'%s() requires an array or object implementing the Traversable interface, a %s was given.',
+					__METHOD__,
+					gettype($data) === 'object' ? get_class($data) : gettype($data)
+				)
+			);
+		}
+
 		$rows = array();
 
 		// Header row
