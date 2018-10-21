@@ -297,8 +297,7 @@ class ActionlogsModelActionlogs extends JModelList
 			return false;
 		}
 
-		$dispatcher = \JEventDispatcher::getInstance();
-		$dispatcher->trigger('onAfterLogPurge', array());
+		JFactory::getApplication()->triggerEvent('onAfterLogPurge', array());
 
 		return true;
 	}
@@ -321,8 +320,7 @@ class ActionlogsModelActionlogs extends JModelList
 			return false;
 		}
 
-		$dispatcher = \JEventDispatcher::getInstance();
-		$dispatcher->trigger('onAfterLogPurge', array());
+		JFactory::getApplication()->triggerEvent('onAfterLogPurge', array());
 
 		return true;
 	}
