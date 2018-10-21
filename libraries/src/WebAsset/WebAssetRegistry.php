@@ -630,6 +630,11 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			}
 		);
 
+		if (!$files)
+		{
+			return;
+		}
+
 		foreach (array_keys($files) as $path)
 		{
 			$this->parseRegistryFile($path);
