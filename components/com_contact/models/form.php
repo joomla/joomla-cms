@@ -53,7 +53,7 @@ class ContactModelForm extends ContactModelContact
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function &getItem($itemId = null)
+	public function getItem($itemId = null)
 	{
 		$itemId = (int) (!empty($itemId)) ? $itemId : $this->getState('contact.id');
 

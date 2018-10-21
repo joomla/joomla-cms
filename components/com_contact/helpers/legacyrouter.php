@@ -73,7 +73,7 @@ class ContactRouterRulesLegacy implements JComponentRouterRulesInterface
 		$mView = empty($menuItem->query['view']) ? null : $menuItem->query['view'];
 		$mId = empty($menuItem->query['id']) ? null : $menuItem->query['id'];
 
-		if (isset($query['view']))
+		if (isset($query['view']) && $query['view'] != 'form')
 		{
 			$view = $query['view'];
 

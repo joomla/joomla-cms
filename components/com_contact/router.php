@@ -38,6 +38,9 @@ class ContactRouter extends JComponentRouterView
 		$contact->setKey('id')->setParent($category, 'catid');
 		$this->registerView($contact);
 		$this->registerView(new JComponentRouterViewconfiguration('featured'));
+		$form = new JComponentRouterViewconfiguration('form');
+		$form->setKey('id');
+		$this->registerView($form);
 
 		parent::__construct($app, $menu);
 
@@ -129,6 +132,21 @@ class ContactRouter extends JComponentRouterView
 		}
 
 		return array((int) $id => $id);
+	}
+
+	/**
+	 * Method to get the segment(s) for a form
+	 *
+	 * @param   string  $id     ID of the contact form to retrieve the segments for
+	 * @param   array   $query  The request that is built right now
+	 *
+	 * @return  array|string  The segments of this item
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getFormSegment($id, $query)
+	{
+		return $this->getContactSegment($id, $query);
 	}
 
 	/**

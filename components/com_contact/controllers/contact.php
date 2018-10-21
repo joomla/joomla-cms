@@ -368,7 +368,7 @@ class ContactControllerContact extends JControllerForm
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getRedirectToItemAppend($recordId = null, $urlVar = null)
+	protected function getRedirectToItemAppend($recordId = 0, $urlVar = 'id')
 	{
 		// Need to override the parent method completely.
 		$tmpl = $this->input->get('tmpl');
@@ -383,10 +383,7 @@ class ContactControllerContact extends JControllerForm
 
 		$append .= '&layout=edit';
 
-		if ($recordId)
-		{
-			$append .= '&' . $urlVar . '=' . $recordId;
-		}
+		$append .= '&' . $urlVar . '=' . (int) $recordId;
 
 		$itemId = $this->input->getInt('Itemid');
 		$return = $this->getReturnPage();
