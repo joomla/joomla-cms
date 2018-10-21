@@ -23,10 +23,10 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 <?php endif; ?>
 
 <?php if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1)) : ?>
-	<form name="lang" method="post" action="<?php echo JFilterOutput::ampReplace(htmlspecialchars(JUri::current(), ENT_COMPAT, 'UTF-8')); ?>">
+	<form name="lang" method="post" action="<?php echo htmlspecialchars(JUri::current(), ENT_COMPAT, 'UTF-8'); ?>">
 	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
-		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo JFilterOutput::ampReplace(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8')); ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
+		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 		<?php echo $language->title_native; ?></option>
 	<?php endforeach; ?>
 	</select>
@@ -48,7 +48,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 		<?php foreach ($list as $language) : ?>
 			<?php if (!$language->active) : ?>
 				<li>
-				<a href="<?php echo JFilterOutput::ampReplace(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8')); ?>">
+				<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
 					<?php if ($language->image) : ?>
 						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
@@ -58,7 +58,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 			<?php elseif ($params->get('show_active', 1)) : ?>
 				<?php $base = JUri::getInstance(); ?>
 				<li class="lang-active">
-				<a href="<?php echo JFilterOutput::ampReplace(htmlspecialchars($base, ENT_QUOTES, 'UTF-8')); ?>">
+				<a href="<?php echo htmlspecialchars($base, ENT_QUOTES, 'UTF-8'); ?>">
 					<?php if ($language->image) : ?>
 						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif',  '', null, true); ?>
 					<?php endif; ?>
@@ -74,7 +74,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 	<?php foreach ($list as $language) : ?>
 		<?php if (!$language->active) : ?>
 			<li>
-			<a href="<?php echo JFilterOutput::ampReplace(htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8')); ?>">
+			<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
 					<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
@@ -89,7 +89,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 		<?php elseif ($params->get('show_active', 1)) : ?>
 			<?php $base = JUri::getInstance(); ?>
 			<li class="lang-active">
-			<a href="<?php echo JFilterOutput::ampReplace(htmlspecialchars($base, ENT_QUOTES, 'UTF-8')); ?>">
+			<a href="<?php echo htmlspecialchars($base, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
 					<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
