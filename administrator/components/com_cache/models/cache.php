@@ -262,8 +262,7 @@ class CacheModelCache extends JModelList
 			return false;
 		}
 
-		$dispatcher = \JEventDispatcher::getInstance();
-		$dispatcher->trigger('onAfterPurge', array($group));
+		JFactory::getApplication()->triggerEvent('onAfterPurge', array($group));
 
 		return true;
 	}
@@ -310,8 +309,7 @@ class CacheModelCache extends JModelList
 			return false;
 		}
 
-		$dispatcher = \JEventDispatcher::getInstance();
-		$dispatcher->trigger('onAfterPurge', array($group));
+		JFactory::getApplication()->triggerEvent('onAfterPurge', array());
 
 		return true;
 	}
