@@ -22,7 +22,7 @@ use Joomla\Registry\Registry;
  *
  * @since  __DEPLOY_VERSION__
  */
-abstract class HtmlIcon
+abstract class JHtmlIcon
 {
 	/**
 	 * Method to generate a link to the create item page for the given category

@@ -7,10 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 defined('_JEXEC') or die;
 
 JHtml::_('behavior.core');
-$canDo   = JHelperContent::getActions('com_contact', 'category', $this->category->id);
+$canDo   = ContactHelper::getActions('com_contact', 'category', $this->category->id);
 $canEdit = $canDo->get('core.edit');
 ?>
 <form action="<?php echo htmlspecialchars(JUri::getInstance()->toString()); ?>" method="post" name="adminForm" id="adminForm">
@@ -117,7 +119,7 @@ $canEdit = $canDo->get('core.edit');
 						<?php endif; ?>
 					</div>
 					<?php if ($canEdit || ($canDo->get('core.edit.own') && $item->created_by == $userId)) : ?>
-						<div><?php echo JHtml::_('icon.edit', $item, $this->params); ?></div>
+						<div><?php echo HTMLHelper::_('icon.edit', $item, $this->params); ?></div>
 					<?php endif; ?>
 					<?php echo $item->event->afterDisplayContent; ?>
 					</li>
@@ -127,7 +129,7 @@ $canEdit = $canDo->get('core.edit');
 	<?php endif; ?>
 
 	<?php if ($canDo->get('core.create')) : ?>
-		<?php echo JHtml::_('icon.create', $this->category, $this->category->params); ?>
+		<?php echo HTMLHelper::_('icon.create', $this->category, $this->category->params); ?>
 	<?php endif; ?>
 
 	<?php if ($this->params->get('show_pagination', 2)) : ?>

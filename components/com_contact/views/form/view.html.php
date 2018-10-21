@@ -84,7 +84,7 @@ class ContactViewForm extends JViewLegacy
 		else
 		{
 			// Since we don't track these assets at the item level, use the category id.
-			$canDo      = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
+			$canDo      = ContactHelper::getActions('com_contact', 'category', $this->item->catid);
 			$authorised = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $user->id);
 		}
 
