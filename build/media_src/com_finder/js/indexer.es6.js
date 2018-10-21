@@ -79,7 +79,7 @@
           if (document.getElementById('finder-debug-data')) {
             const debuglist = document.getElementById('finder-debug-data');
             for (const context in json.pluginState) {
-              let item = '<dt class="col-sm-3">${context}</dt>';
+              let item = '<dt class="col-sm-3">' + context + '</dt>';
               item += '<dd id="finder-' + context.replace(/\s+/g, '-').toLowerCase() + '" class="col-sm-9"></dd>';
               debuglist.insertAdjacentHTML('beforeend', item);
             }
@@ -90,7 +90,7 @@
         if (document.getElementById('finder-debug-data')) {
           for (const context in json.pluginState) {
             if (json.pluginState.hasOwnProperty(context)) {
-              document.getElementById('finder-' + context.replace(/\s+/g, '-').toLowerCase()).innerHTML = '${json.pluginState[context].offset} of ${json.pluginState[context].total}';
+              document.getElementById('finder-' + context.replace(/\s+/g, '-').toLowerCase()).innerHTML = json.pluginState[context].offset + ' of ' + json.pluginState[context].total;
             }
           }
         }
