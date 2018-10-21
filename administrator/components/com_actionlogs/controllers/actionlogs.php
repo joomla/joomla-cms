@@ -97,9 +97,8 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			}
 
 			fclose($output);
-			$dispatcher = \JEventDispatcher::getInstance();
-			$dispatcher->trigger('onAfterLogExport', array());
-
+			
+			$app->triggerEvent('onAfterLogExport', array());
 			$app->close();
 		}
 		else
