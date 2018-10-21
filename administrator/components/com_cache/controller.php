@@ -138,8 +138,7 @@ class CacheController extends JControllerLegacy
 			$app->enqueueMessage(JText::_('COM_CACHE_MSG_SOME_CACHE_GROUPS_CLEARED'), 'warning');
 		}
 
-		$dispatcher = \JEventDispatcher::getInstance();
-		$dispatcher->trigger('onAfterPurge', array());
+		$app->triggerEvent('onAfterPurge', array());
 		$this->setRedirect('index.php?option=com_cache&view=cache');
 	}
 
