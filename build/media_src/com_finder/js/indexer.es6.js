@@ -78,8 +78,8 @@
           totalItems = json.totalItems;
           if (document.getElementById('finder-debug-data')) {
             const debuglist = document.getElementById('finder-debug-data');
-            for (let context in json.pluginState) {
-              let item = '<dt class="col-sm-3">' + context + '</dt>';
+            for (const context in json.pluginState) {
+              let item = '<dt class="col-sm-3">${context}</dt>';
               item += '<dd id="finder-' + context.replace(/\s+/g, '-').toLowerCase() + '" class="col-sm-9"></dd>';
               debuglist.insertAdjacentHTML('beforeend', item);
             }
@@ -88,8 +88,10 @@
         offset += json.batchOffset;
         updateProgress(json.header, json.message);
         if (document.getElementById('finder-debug-data')) {
-          for (let context in json.pluginState) {
-            document.getElementById('finder-' + context.replace(/\s+/g, '-').toLowerCase()).innerHTML = json.pluginState[context].offset + ' of ' + json.pluginState[context].total;
+          for (const context in json.pluginState) {
+            if (json.pluginState.hasOwnProperty(context)) {
+              document.getElementById('finder-' + context.replace(/\s+/g, '-').toLowerCase()).innerHTML = '${json.pluginState[context].offset} of ${json.pluginState[context].total}';
+            }
           }
         }
         if (offset < totalItems) {
