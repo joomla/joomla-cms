@@ -262,7 +262,7 @@ class CacheModelCache extends JModelList
 			return false;
 		}
 
-		JFactory::getApplication()->triggerEvent('onAfterPurge', array($group));
+		Factory::getApplication()->triggerEvent('onAfterPurge', array($group));
 
 		return true;
 	}
@@ -309,7 +309,7 @@ class CacheModelCache extends JModelList
 			return false;
 		}
 
-		JFactory::getApplication()->triggerEvent('onAfterPurge', array());
+		Factory::getApplication()->triggerEvent('onAfterPurge', array());
 
 		return true;
 	}
