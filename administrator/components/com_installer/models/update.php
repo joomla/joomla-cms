@@ -444,7 +444,8 @@ class InstallerModelUpdate extends JModelList
 
 		// Unpack the downloaded package file
 		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
-		if (!isset($package['type']))
+
+		if ($package === false || !isset($package['type']) || $package['type'] === false)
 		{
 			$app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATE_INVALID_PKG', $url));
 
