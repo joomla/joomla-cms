@@ -297,7 +297,7 @@ class ActionlogsModelActionlogs extends JModelList
 			return false;
 		}
 
-		JFactory::getApplication()->triggerEvent('onAfterLogPurge', array());
+		Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
 
 		return true;
 	}
@@ -320,7 +320,7 @@ class ActionlogsModelActionlogs extends JModelList
 			return false;
 		}
 
-		JFactory::getApplication()->triggerEvent('onAfterLogPurge', array());
+		Factory::getApplication()->triggerEvent('onAfterLogPurge', array());
 
 		return true;
 	}
