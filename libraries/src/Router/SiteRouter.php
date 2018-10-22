@@ -616,6 +616,35 @@ class SiteRouter extends Router
 			{
 				$this->componentRouters[$component] = $componentInstance->createRouter($this->app, $this->menu);
 			}
+			
+			// Keep support for components implementing the new format but don't implement the RouterServiceInterface
+			if (!isset($this->componentRouters[$component]))
+			{
+				$compname = ucfirst(substr($component, 4));
+				$class = $compname . 'Router';
+				
+				if (!class_exists($class))
+				{
+					// Use the component routing handler if it exists
+					$path = JPATH_SITE . '/components/' . $component . '/router.php';
+				
+					// Use the custom routing handler if it exists
+					if (file_exists($path))
+					{
+						require_once $path;
+					}
+				}
+				
+				if (class_exists($class))
+				{
+					$reflection = new \ReflectionClass($class);
+				
+					if (in_array('Joomla\\CMS\\Component\\Router\\RouterInterface', $reflection->getInterfaceNames()))
+					{
+						$this->componentRouters[$component] = new $class($this->app, $this->menu);
+					}
+				}
+			}
 
 			if (!isset($this->componentRouters[$component]))
 			{
