@@ -38,6 +38,7 @@ class InstallerModel extends JModelList
 				'type', 'type_translated',
 				'folder', 'folder_translated',
 				'extension_id',
+				'package_id',
 			);
 		}
 

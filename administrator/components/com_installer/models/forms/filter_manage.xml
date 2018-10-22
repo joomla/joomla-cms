@@ -44,6 +44,14 @@
 			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
 		</field>
+
+		<field
+			name="package_id"
+			type="packagelist"
+			onchange="this.form.submit();"
+			>
+			<option value="">JGLOBAL_FILTER_PACKAGE</option>
+		</field>
 	</fields>
 
 	<fields name="list">

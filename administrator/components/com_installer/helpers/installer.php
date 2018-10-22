@@ -78,7 +78,7 @@ class InstallerHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT type')
+			->select('DISTINCT ' . $db->quoteName('type'))
 			->from('#__extensions');
 		$db->setQuery($query);
 		$types = $db->loadColumn();
@@ -104,7 +104,7 @@ class InstallerHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT folder')
+			->select('DISTINCT ' . $db->quoteName('folder'))
 			->from('#__extensions')
 			->where('folder != ' . $db->quote(''))
 			->order('folder');
@@ -181,6 +181,34 @@ class InstallerHelper
 		$options[] = JHtml::_('select.option', '1', JText::_('JENABLED'));
 		$options[] = JHtml::_('select.option', '2', JText::_('JPROTECTED'));
 		$options[] = JHtml::_('select.option', '3', JText::_('JUNPROTECTED'));
+
+		return $options;
+	}
+
+	/**
+	 * Get a list of filter options for the packages.
+	 *
+	 * @return  array  An array of stdClass objects.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function getPackages()
+	{
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('extension_id', 'name')))
+			->from('#__extensions')
+			->where('type = ' . $db->quote('package'))
+			->order('name');
+		$db->setQuery($query);
+		$packages = $db->loadObjectList();
+
+		$options = array();
+
+		foreach ($packages as $package)
+		{
+			$options[] = JHtml::_('select.option', $package->extension_id, $package->name);
+		}
 
 		return $options;
 	}
