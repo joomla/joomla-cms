@@ -443,6 +443,12 @@ class InstallerModelUpdate extends JModelList
 
 		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		if (!isset($package['type']))
+		{
+		    $app->enqueueMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATE_INVALID_PKG', $url));
+			
+		    return false;
+		}
 
 		// Get an installer instance
 		$installer = JInstaller::getInstance();
