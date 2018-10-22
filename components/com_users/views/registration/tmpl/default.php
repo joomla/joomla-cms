@@ -29,6 +29,12 @@ JHtml::_('behavior.formvalidator');
 					<?php if (isset($fieldset->label)) : ?>
 						<legend><?php echo JText::_($fieldset->label); ?></legend>
 					<?php endif; ?>
+					<?php // If the fieldset has a description set, display it under the legend. ?>
+					<?php if (isset($fieldset->description) && trim($fieldset->description)) : ?>
+						<p>
+							<?php echo $this->escape(JText::_($fieldset->description)); ?>
+						</p>
+					<?php endif; ?>
 					<?php echo $this->form->renderFieldset($fieldset->name); ?>
 				</fieldset>
 			<?php endif; ?>
