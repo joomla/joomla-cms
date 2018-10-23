@@ -913,7 +913,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * Method is called after user request to clean cached items.
 	 *
-	 * @param   array  $group  Holds the group name.
+	 * @param   string  $group  Holds the group name.
 	 *
 	 * @return  void
 	 *
