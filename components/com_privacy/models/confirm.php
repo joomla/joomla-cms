@@ -88,6 +88,7 @@ class PrivacyModelConfirm extends JModelAdmin
 		{
 			// Invalidate the request
 			$table->status = -1;
+			$table->confirm_token = '';
 
 			try
 			{
@@ -116,6 +117,7 @@ class PrivacyModelConfirm extends JModelAdmin
 			array(
 				'id'     => $table->id,
 				'status' => 1,
+				'confirm_token' => '',
 			)
 		);
 
