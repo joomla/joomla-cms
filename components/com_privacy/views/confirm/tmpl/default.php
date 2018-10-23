@@ -27,7 +27,7 @@ JHtml::_('behavior.formvalidator');
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
 				<?php if (!empty($fieldset->label)) : ?>
-					<legend><?php echo JText::_($fieldset->label); ?></legend>
+					<p><?php echo JText::_($fieldset->label); ?></p>
 				<?php endif; ?>
 				<?php echo $this->form->renderFieldset($fieldset->name); ?>
 			</fieldset>
