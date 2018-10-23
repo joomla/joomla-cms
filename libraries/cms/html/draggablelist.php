@@ -74,9 +74,9 @@ abstract class JHtmlDraggablelist
 		HTMLHelper::_('behavior.core');
 
 		// Attach draggable to document
-		HTMLHelper::_('script', 'vendor/dragula/dragula.min.js', array('framework'=>false, 'relative'=>true));
-		HTMLHelper::_('script', 'system/draggable.min.js', array('framework'=>false, 'relative'=>true));
-		HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.min.css', array('framework'=>false, 'relative'=>true, 'pathOnly'=>false));
+		HTMLHelper::_('script', 'vendor/dragula/dragula.min.js', ['framework'=>false, 'relative'=>true]);
+		HTMLHelper::_('script', 'system/draggable.min.js', ['framework'=>false, 'relative'=>true]);
+		HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.min.css', ['framework'=>false, 'relative'=>true, 'pathOnly'=>false]);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;
