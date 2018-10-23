@@ -469,7 +469,7 @@ class File
 		}
 
 		// Ensure that the path is valid and clean
-		$dest = $pathObject->clean($dest);
+		$dest = Path::clean($dest);
 
 		// Create the destination directory if it does not exist
 		$baseDir = dirname($dest);
@@ -503,7 +503,7 @@ class File
 				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Copy the file to the destination directory
 				if (is_uploaded_file($src) && $ftp->store($src, $dest))
@@ -521,7 +521,7 @@ class File
 				if (is_writable($baseDir) && move_uploaded_file($src, $dest))
 				{
 					// Short circuit to prevent file permission errors
-					if ($pathObject->setPermissions($dest))
+					if (Path::setPermissions($dest))
 					{
 						$ret = true;
 					}
