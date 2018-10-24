@@ -2161,11 +2161,11 @@ CREATE TABLE IF NOT EXISTS `#__action_logs` (
   `user_id` int(11) NOT NULL DEFAULT 0,
   `item_id` int(11) NOT NULL DEFAULT 0,
   `ip_address` VARCHAR(40) NOT NULL DEFAULT '0.0.0.0',
-  PRIMARY KEY (`id`)
-  KEY (`user_id`),
-  KEY (`user_id`, `log_date`),
-  KEY (`user_id`, `extension`),
-  KEY (`extension`, `item_id`)
+  PRIMARY KEY (`id`),
+  KEY `idx_user_id` (`user_id`),
+  KEY `idx_user_id_logdate` (`user_id`, `log_date`),
+  KEY `idx_user_id_extension` (`user_id`, `extension`),
+  KEY `idx_extension_item_id` (`extension`, `item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
