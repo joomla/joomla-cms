@@ -138,21 +138,6 @@ class LibraryHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.2
-	 * @deprecated  4.0  Use LibraryHelper::loadLibrary() instead
-	 */
-	protected static function _load($element)
-	{
-		return static::loadLibrary($element);
-	}
-
-	/**
-	 * Load the installed library into the libraries property.
-	 *
-	 * @param   string  $element  The element value for the extension
-	 *
-	 * @return  boolean  True on success
-	 *
 	 * @since   3.7.0
 	 */
 	protected static function loadLibrary($element)

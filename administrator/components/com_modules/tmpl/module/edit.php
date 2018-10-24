@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.combobox');
@@ -66,7 +64,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="col-md-9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
-						<h3>
+						<h2>
 							<?php
 							if ($this->item->xml)
 							{
@@ -77,7 +75,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 								echo Text::_('COM_MODULES_ERR_XML');
 							}
 							?>
-						</h3>
+						</h2>
 						<div class="info-labels">
 							<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
 								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
@@ -117,7 +115,9 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</div>
 					<?php endif; ?>
 				<?php else : ?>
-					<joomla-alert type="danger"><?php echo Text::_('COM_MODULES_ERR_XML'); ?></joomla-alert>
+					<div class="alert alert-danger">
+						<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
+					</div>
 				<?php endif; ?>
 				<?php
 				if ($hasContent)

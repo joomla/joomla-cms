@@ -297,6 +297,7 @@ $doNotPackage = array(
 	'codeception.yml',
 	'composer.json',
 	'composer.lock',
+	'crowdin.yml',
 	'drone-package.json',
 	'Gemfile',
 	'Gemfile.lock',

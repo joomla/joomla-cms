@@ -12,8 +12,8 @@ namespace Joomla\Component\Workflow\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 
 /**
  * Stage table
@@ -33,7 +33,7 @@ class StageTable extends Table
 	{
 		parent::__construct('#__workflow_stages', 'id', $db);
 
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**
