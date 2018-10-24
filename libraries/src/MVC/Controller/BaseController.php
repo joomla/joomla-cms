@@ -578,6 +578,11 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
+		if (!$prefix)
+		{
+			$prefix = $this->app->getName();
+		}
+
 		$model = $this->factory->createModel($name, $prefix, $config);
 
 		if ($model === null)
@@ -608,6 +613,11 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
+		if (!$prefix)
+		{
+			$prefix = $this->app->getName();
+		}
+
 		$config['paths'] = $this->paths['view'];
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}

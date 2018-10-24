@@ -237,7 +237,7 @@ class CategoryModel extends ListModel
 
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
-			$model = $this->bootComponent('com_content')->createMVCFactory(Factory::getApplication())
+			$model = $this->bootComponent('com_content')->getMVCFactory()
 				->createModel('Articles', 'Site', ['ignore_request' => true]);
 			$model->setState('params', Factory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
