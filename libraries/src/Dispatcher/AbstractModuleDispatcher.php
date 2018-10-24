@@ -108,7 +108,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 		$language = $this->app->getLanguage();
 
 		$coreLanguageDirectory      = JPATH_BASE;
-		$extensionLanguageDirectory = dirname(JPATH_BASE . '/modules/' . $this->module->module . '/' .  $this->module->module . '.php');
+		$extensionLanguageDirectory = JPATH_BASE . '/modules/' . $this->module->module;
 
 		$langPaths = $language->getPaths();
 
