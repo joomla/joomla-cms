@@ -12,14 +12,14 @@ namespace Joomla\Component\Users\Administrator\View\Notes;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\User\User;
-use Joomla\Registry\Registry;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\User;
+use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\Registry\Registry;
 
 /**
  * User notes list view
@@ -110,9 +110,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
-
-		// Get the component HTML helpers
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Turn parameters into registry objects
 		foreach ($this->items as $item)

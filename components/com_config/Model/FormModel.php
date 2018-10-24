@@ -11,12 +11,12 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Model\FormModel as BaseForm;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\FormModel as BaseForm;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Prototype form model.

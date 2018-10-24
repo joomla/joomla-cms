@@ -11,14 +11,14 @@ namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Remind model class for Users.
@@ -167,17 +167,17 @@ class RemindModel extends FormModel
 			return false;
 		}
 
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		// Assemble the login link.
 		$link = 'index.php?option=com_users&view=login';
-		$mode = $config->get('force_ssl', 0) == 2 ? 1 : (-1);
+		$mode = $app->get('force_ssl', 0) == 2 ? 1 : (-1);
 
 		// Put together the email template data.
 		$data = ArrayHelper::fromObject($user);
-		$data['fromname'] = $config->get('fromname');
-		$data['mailfrom'] = $config->get('mailfrom');
-		$data['sitename'] = $config->get('sitename');
+		$data['fromname'] = $app->get('fromname');
+		$data['mailfrom'] = $app->get('mailfrom');
+		$data['sitename'] = $app->get('sitename');
 		$data['link_text'] = Route::_($link, false, $mode);
 		$data['link_html'] = Route::_($link, true, $mode);
 

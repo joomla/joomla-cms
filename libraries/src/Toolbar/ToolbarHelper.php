@@ -125,7 +125,7 @@ abstract class ToolbarHelper
 	}
 
 	/**
-	 * Writes a preview button for a given option (opens a popup window).
+	 * Writes a help button for a given option (opens a popup window).
 	 *
 	 * @param   string  $ref        The name of the popup file (excluding the file extension for an xml file).
 	 * @param   bool    $com        Use the help file in the component directory.

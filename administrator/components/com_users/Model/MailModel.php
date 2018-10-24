@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
  * Users mail model.
@@ -209,7 +209,6 @@ class MailModel extends AdminModel
 				$rs = false;
 			}
 		}
-
 
 		// Check for an error
 		if ($rs !== true)

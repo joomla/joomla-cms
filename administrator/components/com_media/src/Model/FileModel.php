@@ -11,6 +11,7 @@ namespace Joomla\Component\Media\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -61,6 +62,7 @@ class FileModel extends FormModel
 	{
 		list($adapter, $path) = explode(':', $path, 2);
 
-		return (new ApiModel)->getFile($adapter, $path, ['url' => true, 'content' => true]);
+		return $this->bootComponent('com_media')->getMVCFactory()->createModel('Api', 'Administrator')
+			->getFile($adapter, $path, ['url' => true, 'content' => true]);
 	}
 }

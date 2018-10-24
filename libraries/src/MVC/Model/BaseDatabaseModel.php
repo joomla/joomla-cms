@@ -19,7 +19,6 @@ use Joomla\CMS\MVC\Factory\MVCFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Utilities\ArrayHelper;
 
@@ -112,7 +111,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		if ($component instanceof MVCFactoryServiceInterface)
 		{
-			$this->setMVCFactory($component->createMVCFactory(Factory::getApplication()));
+			$this->setMVCFactory($component->getMVCFactory());
 		}
 	}
 
@@ -130,7 +129,13 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$this->getDbo()->setQuery($query, $limitstart, $limit);
+		if (is_string($query))
+		{
+			$query = $this->getDbo()->getQuery(true)->setQuery($query);
+		}
+
+		$query->setLimit($limit, $limitstart);
+		$this->getDbo()->setQuery($query);
 
 		return $this->getDbo()->loadObjectList();
 	}
@@ -315,11 +320,11 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 	 */
 	protected function cleanCache($group = null)
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = [
-			'defaultgroup' => $group ?: ($this->option ?? Factory::getApplication()->input->get('option')),
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE),
+			'defaultgroup' => $group ?: ($this->option ?? $app->input->get('option')),
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE),
 			'result'       => true,
 		];
 
@@ -335,7 +340,7 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 		}
 
 		// Trigger the onContentCleanCache event.
-		Factory::getApplication()->triggerEvent($this->event_clean_cache, $options);
+		$app->triggerEvent($this->event_clean_cache, $options);
 	}
 
 	/**

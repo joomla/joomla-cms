@@ -12,8 +12,10 @@
 		<field
 			name="stage"
 			type="workflowstage"
+			label="JOPTION_SELECT_STAGE"
 			onchange="this.form.submit();"
 			activeonly="true"
+			extension="com_content"
 			>
 			<option value="">JOPTION_SELECT_STAGE</option>
 		</field>
@@ -21,6 +23,7 @@
 		<field
 			name="condition"
 			type="workflowcondition"
+			label="JOPTION_SELECT_CONDITION"
 			onchange="this.form.submit();"
 			extension="com_content"
 			>
@@ -30,6 +33,7 @@
 		<field
 			name="category_id"
 			type="category"
+			label="JOPTION_SELECT_CATEGORY"
 			multiple="true"
 			class="multipleCategories"
 			extension="com_content"
@@ -39,6 +43,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			label="JOPTION_SELECT_ACCESS"
 			multiple="true"
 			class="multipleAccessLevels"
 			onchange="this.form.submit();"
@@ -47,6 +52,7 @@
 		<field
 			name="author_id"
 			type="author"
+			label="JOPTION_SELECT_AUTHOR"
 			multiple="true"
 			class="multipleAuthors"
 			onchange="this.form.submit();"
@@ -57,6 +63,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_SELECT_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -66,6 +73,7 @@
 		<field
 			name="tag"
 			type="tag"
+			labl="JOPTION_SELECT_TAG"
 			multiple="true"
 			class="multipleTags"
 			mode="nested"
@@ -75,6 +83,7 @@
 		<field
 			name="level"
 			type="integer"
+			label="JOPTION_SELECT_MAX_LEVELS"
 			first="1"
 			last="10"
 			step="1"
@@ -89,6 +98,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.title ASC"
 			>
@@ -126,6 +136,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

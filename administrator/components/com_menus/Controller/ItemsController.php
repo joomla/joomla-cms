@@ -10,14 +10,14 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * The Menu Item Controller
@@ -89,49 +89,6 @@ class ItemsController extends AdminController
 			$this->setMessage(Text::sprintf('COM_MENUS_ITEMS_REBUILD_FAILED'), 'error');
 
 			return false;
-		}
-	}
-
-	/**
-	 * Save the manual order inputs from the menu items list view
-	 *
-	 * @return      void
-	 *
-	 * @see         \JControllerAdmin::saveorder()
-	 * @deprecated  4.0
-	 */
-	public function saveorder()
-	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
-
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated. Function will be removed in 4.0.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get the arrays from the Request
-		$order = $this->input->post->get('order', null, 'array');
-		$originalOrder = explode(',', $this->input->getString('original_order_values'));
-
-		// Make sure something has changed
-		if (!($order === $originalOrder))
-		{
-			parent::saveorder();
-		}
-		else
-		{
-			// Nothing to reorder
-			$this->setRedirect(Route::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
-
-			return true;
 		}
 	}
 

@@ -14,6 +14,7 @@
 	<field
 		name="menutype"
 		type="menu"
+		label="COM_MENUS_SELECT_MENU"
 		accesstype="manage"
 		clientid=""
 		showAll="false"
@@ -34,6 +35,7 @@
 		<field
 			name="published"
 			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
 			filter="*,0,1,-2"
 			onchange="this.form.submit();"
 			>
@@ -42,6 +44,7 @@
 		<field
 			name="level"
 			type="integer"
+			label="JOPTION_SELECT_MAX_LEVELS"
 			first="1"
 			last="10"
 			step="1"
@@ -55,6 +58,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="a.lft ASC"
@@ -74,6 +78,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

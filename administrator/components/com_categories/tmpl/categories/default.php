@@ -9,20 +9,16 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\String\Inflector;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\String\Inflector;
 
 HTMLHelper::_('behavior.multiselect');
-
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -66,9 +62,14 @@ if ($saveOrder && !empty($this->items))
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table" id="categoryList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_CATEGORIES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
@@ -85,30 +86,26 @@ if ($saveOrder && !empty($this->items))
 								</th>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_published')) : ?>
 									<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-										<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>">
-											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
-										</span>
+										<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?>"></span>
+										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_PUBLISHED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_unpublished')) : ?>
 									<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-										<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>">
-											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
-										</span>
+										<span class="icon-unpublish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?>"></span>
+										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_UNPUBLISHED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_archived')) : ?>
 									<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-										<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>">
-											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
-										</span>
+										<span class="icon-archive hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?>"></span>
+										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_ARCHIVED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
 								<?php if (isset($this->items[0]) && property_exists($this->items[0], 'count_trashed')) : ?>
 									<th scope="col" style="width:3%" class="text-center d-none d-md-table-cell">
-										<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>">
-											<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
-										</span>
+										<span class="icon-trash hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?>"></span>
+										<span class="sr-only"><?php echo Text::_('COM_CATEGORY_COUNT_TRASHED_ITEMS'); ?></span>
 									</th>
 								<?php endif; ?>
 								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
@@ -123,7 +120,7 @@ if ($saveOrder && !empty($this->items))
 									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 									</th>
-								<?php endif; ?>	
+								<?php endif; ?>
 								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
@@ -242,7 +239,7 @@ if ($saveOrder && !empty($this->items))
 									<?php if ($this->assoc) : ?>
 										<td class="d-none d-md-table-cell">
 											<?php if ($item->association) : ?>
-												<?php echo HTMLHelper::_('CategoriesAdministrator.association', $item->id, $extension); ?>
+												<?php echo HTMLHelper::_('categoriesadministrator.association', $item->id, $extension); ?>
 											<?php endif; ?>
 										</td>
 									<?php endif; ?>

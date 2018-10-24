@@ -12,12 +12,10 @@ namespace Joomla\Component\Content\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Content component helper.
@@ -27,75 +25,6 @@ use Joomla\CMS\Component\ComponentHelper;
 class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 {
 	public static $extension = 'com_content';
-
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_ARTICLES'),
-			'index.php?option=com_content&view=articles',
-			$vName == 'articles'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_CONTENT_SUBMENU_CATEGORIES'),
-			'index.php?option=com_categories&extension=com_content',
-			$vName == 'categories'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_CONTENT_SUBMENU_FEATURED'),
-			'index.php?option=com_content&view=featured',
-			$vName == 'featured'
-		);
-
-		if (ComponentHelper::isEnabled('com_workflow') && ComponentHelper::getParams('com_content')->get('workflows_enable', 1))
-		{
-			\JHtmlSidebar::addEntry(
-				Text::_('COM_CONTENT_SUBMENU_WORKFLOWS'),
-				'index.php?option=com_workflow&extension=com_content',
-				$vName == 'workflows'
-			);
-
-			if ($vName == 'stages' || $vName == 'transitions')
-			{
-				$app        = Factory::getApplication();
-				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
-
-				\JHtmlSidebar::addEntry(
-					Text::_('COM_WORKFLOW_STAGES'),
-					'index.php?option=com_workflow&view=stages&workflow_id=' . $workflowID . "&extension=com_content",
-					$vName == 'stages`'
-				);
-
-				\JHtmlSidebar::addEntry(
-					Text::_('COM_WORKFLOW_TRANSITIONS'),
-					'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
-					$vName == 'transitions'
-				);
-			}
-		}
-
-		if (ComponentHelper::isEnabled('com_fields') && ComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
-		{
-			\JHtmlSidebar::addEntry(
-				Text::_('JGLOBAL_FIELDS'),
-				'index.php?option=com_fields&context=com_content.article',
-				$vName == 'fields.fields'
-			);
-			\JHtmlSidebar::addEntry(
-				Text::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_fields&view=groups&context=com_content.article',
-				$vName == 'fields.groups'
-			);
-		}
-	}
 
 	/**
 	 * Check if state can be deleted

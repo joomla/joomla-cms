@@ -329,19 +329,43 @@ class ComponentHelper
 		$file = substr($option, 4);
 
 		// Define component path.
+
 		if (!defined('JPATH_COMPONENT'))
 		{
+		/**
+		 * Defines the path to the active component for the request
+		 *
+		 * Note this constant is application aware and is different for each application (site/admin).
+		 *
+		 * @var    string
+		 * @since  1.5
+		 * @deprecated 5.0 without replacement
+		 */
 			define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
 		}
 
 		if (!defined('JPATH_COMPONENT_SITE'))
 		{
-			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
+		/**
+		 * Defines the path to the site element of the active component for the request
+		 *
+		 * @var    string
+		 * @since  1.5
+		 * @deprecated 5.0 without replacement
+		*/
+		define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
 		if (!defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
-			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
+		/**
+		 * Defines the path to the admin element of the active component for the request
+		 *
+		 * @var    string
+		 * @since  1.5
+		 * @deprecated 5.0 without replacement
+		*/
+		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		// If component is disabled throw error

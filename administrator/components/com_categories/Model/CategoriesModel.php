@@ -12,10 +12,10 @@ namespace Joomla\Component\Categories\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 
 /**
@@ -339,7 +339,7 @@ class CategoriesModel extends ListModel
 
 		$componentObject = $this->bootComponent($component);
 
-		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
+		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoryServiceInterface)
 		{
 			$assoc = true;
 
@@ -359,7 +359,7 @@ class CategoriesModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{
@@ -397,7 +397,7 @@ class CategoriesModel extends ListModel
 
 		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if ($component instanceof CategoriesServiceInterface)
+		if ($component instanceof CategoryServiceInterface)
 		{
 			$component->countItems($items, $section);
 		}

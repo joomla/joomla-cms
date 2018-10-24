@@ -13,13 +13,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\Component\Installer\Administrator\Model\InstallModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -162,7 +162,7 @@ class TemplateController extends BaseController
 		$model = $this->getModel('Template', 'Administrator');
 		$model->setState('new_name', $newName);
 		$model->setState('tmp_prefix', uniqid('template_copy_'));
-		$model->setState('to_path', Factory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+		$model->setState('to_path', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
 		// Process only if we have a new name entered
 		if (strlen($newName) > 0)
@@ -213,8 +213,9 @@ class TemplateController extends BaseController
 			}
 
 			// Call installation model
-			$this->input->set('install_directory', Factory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
-			$installModel = new InstallModel;
+			$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+			$installModel = $this->app->bootComponent('com_installer')
+				->getMVCFactory()->createModel('Install', 'Administrator');
 			Factory::getLanguage()->load('com_installer');
 
 			if (!$installModel->install())
@@ -312,7 +313,7 @@ class TemplateController extends BaseController
 
 			return false;
 		}
-		elseif ($data['filename'] != end($explodeArray))
+		elseif (Path::clean($data['filename'], '/') != end($explodeArray))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 

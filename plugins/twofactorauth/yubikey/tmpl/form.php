@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
 ?>
 <div class="card mb-2">
 	<div class="card-body">
