@@ -57,7 +57,7 @@ class PlgInstallerOverride extends CMSPlugin
 	public function getModel($name = 'Template', $prefix = 'Administrator')
 	{
 		$app = Factory::getApplication();
-		$model = $app->bootComponent('com_templates')->createMVCFactory($app)->createModel($name, $prefix);
+		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel($name, $prefix);
 
 		return $model;
 	}
