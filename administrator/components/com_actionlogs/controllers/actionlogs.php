@@ -74,14 +74,33 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
 		}
 
+		/** @var ActionlogsModelActionlogs $model */
+		$model = $this->getModel();
+
 		// Get the logs data
-		$data = $this->getModel()->getLogsData($pks);
+		$data = $model->getLogDataAsIterator($pks);
 
 		if (count($data))
 		{
-			$date         = new JDate('now', new DateTimeZone('UTC'));
-			$rows         = ActionlogsHelper::getCsvData($data);
-			$filename     = 'logs_' . $date->format('Y-m-d_His_T');
+
+			try
+			{
+				$rows = ActionlogsHelper::getCsvData($data);
+			}
+			catch (InvalidArgumentException $exception)
+			{
+				$this->setMessage(JText::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
+				$this->setRedirect(JRoute::_('index.php?option=com_actionlogs&view=actionlogs', false));
+
+				return;
+			}
+
+			// Destroy the iterator now
+			unset($data);
+
+			$date     = new JDate('now', new DateTimeZone('UTC'));
+			$filename = 'logs_' . $date->format('Y-m-d_His_T');
+
 			$csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
 
 			$app = JFactory::getApplication();

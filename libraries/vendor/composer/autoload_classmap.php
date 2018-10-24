@@ -181,6 +181,7 @@ return array(
     'Symfony\\Polyfill\\Php55\\Php55' => $vendorDir . '/symfony/polyfill-php55/Php55.php',
     'Symfony\\Polyfill\\Php55\\Php55ArrayColumn' => $vendorDir . '/symfony/polyfill-php55/Php55ArrayColumn.php',
     'Symfony\\Polyfill\\Php56\\Php56' => $vendorDir . '/symfony/polyfill-php56/Php56.php',
+    'Symfony\\Polyfill\\Php71\\Php71' => $vendorDir . '/symfony/polyfill-php71/Php71.php',
     'Symfony\\Polyfill\\Php73\\Php73' => $vendorDir . '/symfony/polyfill-php73/Php73.php',
     'Symfony\\Polyfill\\Util\\Binary' => $vendorDir . '/symfony/polyfill-util/Binary.php',
     'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => $vendorDir . '/symfony/polyfill-util/BinaryNoFuncOverload.php',
