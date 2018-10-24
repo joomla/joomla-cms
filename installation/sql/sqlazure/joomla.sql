@@ -3071,6 +3071,29 @@ CREATE TABLE [#__action_logs](
  )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
  ) ON [PRIMARY];
 
+CREATE NONCLUSTERED INDEX [idx_user_id] ON [#__action_logs]
+(
+	[user_id] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_user_id_logdate] ON [#__action_logs]
+(
+	[user_id] ASC,
+        [log_date] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_user_id_extension] ON [#__action_logs]
+(
+	[user_id] ASC,
+        [extension] ASC
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
+CREATE NONCLUSTERED INDEX [idx_extension_itemid] ON [#__action_logs]
+(
+	[extension] ASC,
+        [item_id]
+)WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF);
+
 /****** Object:  Table [#__action_logs_extensions] ******/
 SET QUOTED_IDENTIFIER ON;
 
