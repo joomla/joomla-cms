@@ -282,12 +282,12 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
 		// Use our own jQuery and font-awesome instead of the debug bar shipped version
-        $assetManager = $this->app->getDocument()->getWebAssetManager();
-        $assetManager->enableAsset('jquery-noconflict');
-        $assetManager->enableAsset('font-awesome');
+		$assetManager = $this->app->getDocument()->getWebAssetManager();
+		$assetManager->enableAsset('jquery-noconflict');
+		$assetManager->enableAsset('font-awesome');
 		$debugBarRenderer->disableVendor('jquery');
 		$debugBarRenderer->setEnableJqueryNoConflict(false);
-        $debugBarRenderer->disableVendor('fontawesome');
+		$debugBarRenderer->disableVendor('fontawesome');
 
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')
