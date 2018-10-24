@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Utilities\IpHelper;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
@@ -42,7 +43,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 
 		if ($params->get('ip_logging', 0))
 		{
-			$ip = JFactory::getApplication()->input->server->get('REMOTE_ADDR', null, 'raw');
+			$ip = IpHelper::getIp();
 
 			if (!filter_var($ip, FILTER_VALIDATE_IP))
 			{
