@@ -60,7 +60,7 @@ if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1))
 				<li class="lang-active">
 				<a href="<?php echo htmlspecialchars_decode(htmlspecialchars($base, ENT_QUOTES, 'UTF-8'), ENT_NOQUOTES); ?>">
 					<?php if ($language->image) : ?>
-						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif',  '', null, true); ?>
+						<?php echo JHtml::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
 				<?php echo $language->title_native; ?>
 				</a>
