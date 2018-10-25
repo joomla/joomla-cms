@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 		$view = $factory->createView('Style', 'Administrator', 'Json');
 		$view->setModel($factory->createModel('Style', 'Administrator'), true);
 
-		$view->document = Factory::getDocument();
+		$view->document = $this->document;
 
 		$json = $view->display();
 
