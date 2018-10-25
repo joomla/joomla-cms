@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class StubModelFoobar extends JModelLegacy
 {

@@ -16,7 +16,7 @@ use Joomla\CMS\Table\Asset;
 /**
  * Class that handles all access authorisation routines.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Access
 {
@@ -24,7 +24,7 @@ class Access
 	 * Array of view levels
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $viewLevels = array();
 
@@ -32,7 +32,7 @@ class Access
 	 * Array of rules for the asset
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $assetRules = array();
 
@@ -40,7 +40,7 @@ class Access
 	 * Array of identities for asset rules
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $assetRulesIdentities = array();
 
@@ -50,7 +50,7 @@ class Access
 	 * Also includes the rules string for the asset
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
 	 */
 	protected static $assetPermissionsById = array();
@@ -60,7 +60,7 @@ class Access
 	 * (Array Key = Asset Name)
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @deprecated  3.7.0  No replacement. Will be removed in 4.0.
 	 */
 	protected static $assetPermissionsByName = array();
@@ -69,7 +69,7 @@ class Access
 	 * Array of the permission parent ID mappings
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $assetPermissionsParentIdMapping = array();
 
@@ -77,7 +77,7 @@ class Access
 	 * Array of asset types that have been preloaded
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $preloadedAssetTypes = array();
 
@@ -85,7 +85,7 @@ class Access
 	 * Array of loaded user identities
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $identities = array();
 
@@ -93,7 +93,7 @@ class Access
 	 * Array of user groups.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $userGroups = array();
 
@@ -101,7 +101,7 @@ class Access
 	 * Array of user group paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $userGroupPaths = array();
 
@@ -109,7 +109,7 @@ class Access
 	 * Array of cached groups by user.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $groupsByUser = array();
 
@@ -134,7 +134,7 @@ class Access
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function clearStatics()
 	{
@@ -165,7 +165,7 @@ class Access
 	 *
 	 * @return  boolean|null  True if allowed, false for an explicit deny, null for an implicit deny.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function check($userId, $action, $assetKey = null, $preload = true)
 	{
@@ -474,7 +474,7 @@ class Access
 	 *
 	 * @return  boolean  True if authorised.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function checkGroup($groupId, $action, $assetKey = null, $preload = true)
 	{
@@ -493,7 +493,7 @@ class Access
 	 *
 	 * @return  mixed  True if allowed, false for an explicit deny, null for an implicit deny.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function getGroupPath($groupId)
 	{
@@ -520,7 +520,7 @@ class Access
 	 *
 	 * @return  Rules  Rules object for the asset.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    The non preloading code will be removed in 4.0. All asset rules should use asset preloading.
 	 */
 	public static function getAssetRules($assetKey, $recursive = false, $recursiveParentAsset = true, $preload = true)
@@ -924,7 +924,7 @@ class Access
 	 *
 	 * @return  array    List of user group ids to which the user is mapped.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
@@ -1006,7 +1006,7 @@ class Access
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo    This method should move somewhere else
 	 */
 	public static function getUsersByGroup($groupId, $recursive = false)
@@ -1041,7 +1041,7 @@ class Access
 	 *
 	 * @return  array    List of view levels for which the user is authorised.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getAuthorisedViewLevels($userId)
 	{
@@ -1124,8 +1124,8 @@ class Access
 	 *
 	 * @return  array  List of actions available for the given component and section.
 	 *
-	 * @since       11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS)  Use Access::getActionsFromFile or Access::getActionsFromData instead.
+	 * @since       1.7.0
+	 * @deprecated  4.0  Use Access::getActionsFromFile or Access::getActionsFromData instead.
 	 * @codeCoverageIgnore
 	 */
 	public static function getActions($component, $section = 'component')
@@ -1155,7 +1155,7 @@ class Access
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
@@ -1181,7 +1181,7 @@ class Access
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{

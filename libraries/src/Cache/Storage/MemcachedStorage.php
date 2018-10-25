@@ -18,7 +18,7 @@ use Joomla\CMS\Cache\Exception\CacheConnectingException;
  * Memcached cache storage handler
  *
  * @link   https://secure.php.net/manual/en/book.memcached.php
- * @since  12.1
+ * @since  3.0.0
  */
 class MemcachedStorage extends CacheStorage
 {
@@ -26,7 +26,7 @@ class MemcachedStorage extends CacheStorage
 	 * Memcached connection object
 	 *
 	 * @var    \Memcached
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $_db = null;
 
@@ -34,7 +34,7 @@ class MemcachedStorage extends CacheStorage
 	 * Payload compression level
 	 *
 	 * @var    integer
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $_compress = 0;
 
@@ -43,7 +43,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct($options = array())
 	{
@@ -62,7 +62,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	protected function getConnection()
@@ -123,7 +123,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  string   The cache_id string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getCacheId($id, $group)
 	{
@@ -166,7 +166,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -178,7 +178,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getAll()
 	{
@@ -230,7 +230,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function store($id, $group, $data)
 	{
@@ -269,7 +269,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function remove($id, $group)
 	{
@@ -311,7 +311,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -365,7 +365,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -385,7 +385,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false if locking failed or an object containing properties lock and locklooped
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function lock($id, $group, $locktime)
 	{
@@ -432,7 +432,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -445,7 +445,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function lockindex()
 	{
@@ -478,7 +478,7 @@ class MemcachedStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function unlockindex()
 	{

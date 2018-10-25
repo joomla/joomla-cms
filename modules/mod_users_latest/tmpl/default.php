@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 ?>
 <?php if (!empty($names)) : ?>
-	<ul class="latestusers<?php echo $moduleclass_sfx; ?>" >
+	<ul class="latestusers<?php echo $moduleclass_sfx; ?> mod-list" >
 	<?php foreach ($names as $name) : ?>
 		<li>
 			<?php echo $name->username; ?>

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/issues/labels/
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageIssuesLabels extends JGithubPackage
@@ -26,7 +26,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $repo   The name of the GitHub repository.
 	 *
 	 * @throws DomainException
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  array
 	 */
@@ -49,7 +49,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $name  The label name to get.
 	 *
 	 * @throws DomainException
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  object
 	 */
@@ -73,7 +73,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $color  The label color.
 	 *
 	 * @throws DomainException
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  object
 	 */
@@ -114,7 +114,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $color  The new label color.
 	 *
 	 * @throws DomainException
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  object
 	 */
@@ -147,7 +147,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @throws DomainException
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function delete($owner, $repo, $name)
 	{

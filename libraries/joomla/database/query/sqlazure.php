@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JDatabaseQuerySqlazure extends JDatabaseQuerySqlsrv
 {
@@ -24,7 +24,7 @@ class JDatabaseQuerySqlazure extends JDatabaseQuerySqlsrv
 	 *
 	 * @var    string
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $name_quotes = '';
 }

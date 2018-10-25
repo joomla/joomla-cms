@@ -14,49 +14,49 @@ defined('JPATH_PLATFORM') or die;
  * Utility class to assist in the process of benchmarking the execution
  * of sections of code to understand where time is being spent.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Profiler
 {
 	/**
 	 * @var    integer  The start time.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $start = 0;
 
 	/**
 	 * @var    string  The prefix to use in the output
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $prefix = '';
 
 	/**
 	 * @var    array  The buffer of profiling messages.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $buffer = null;
 
 	/**
 	 * @var    array  The profiling messages.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $marks = null;
 
 	/**
 	 * @var    float  The previous time marker
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $previousTime = 0.0;
 
 	/**
 	 * @var    float  The previous memory marker
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $previousMem = 0.0;
 
 	/**
 	 * @var    array  JProfiler instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -65,7 +65,7 @@ class Profiler
 	 *
 	 * @param   string  $prefix  Prefix for mark messages
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($prefix = '')
 	{
@@ -83,7 +83,7 @@ class Profiler
 	 *
 	 * @return  Profiler  The Profiler object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($prefix = '')
 	{
@@ -102,7 +102,7 @@ class Profiler
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mark($label)
 	{
@@ -141,8 +141,8 @@ class Profiler
 	 *
 	 * @return  float The current time
 	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's microtime(1)
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use PHP's microtime(1)
 	 */
 	public static function getmicrotime()
 	{
@@ -157,8 +157,8 @@ class Profiler
 	 * @return  integer  The memory usage
 	 *
 	 * @link    PHP_MANUAL#memory_get_usage
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use PHP's native memory_get_usage()
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use PHP's native memory_get_usage()
 	 */
 	public function getMemory()
 	{
@@ -173,7 +173,7 @@ class Profiler
 	 *
 	 * @return  array  Array of profiler marks
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getMarks()
 	{
@@ -188,7 +188,7 @@ class Profiler
 	 *
 	 * @return  array  Array of profiler marks
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getBuffer()
 	{
@@ -203,7 +203,7 @@ class Profiler
 	 *
 	 * @return  $this   For chaining
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setStart($startTime = 0, $startMem = 0)
 	{

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/repos/comments
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesComments extends JGithubPackage
@@ -29,7 +29,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getListRepository($user, $repo, $page = 0, $limit = 0)
 	{
@@ -53,7 +53,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getList($user, $repo, $sha, $page = 0, $limit = 0)
 	{
@@ -75,7 +75,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function get($user, $repo, $id)
 	{
@@ -98,7 +98,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function edit($user, $repo, $id, $comment)
 	{
@@ -126,7 +126,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function delete($user, $repo, $id)
 	{
@@ -153,7 +153,7 @@ class JGithubPackageRepositoriesComments extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function create($user, $repo, $sha, $comment, $line, $filepath, $position)
 	{
