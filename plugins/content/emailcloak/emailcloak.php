@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\String\StringHelper;
 
 /**
  * Email cloack plugin class.

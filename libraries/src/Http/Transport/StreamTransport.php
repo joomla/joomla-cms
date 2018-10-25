@@ -22,7 +22,7 @@ use Zend\Diactoros\Stream as StreamResponse;
 /**
  * HTTP transport class for using PHP streams.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class StreamTransport extends AbstractTransport implements TransportInterface
 {
@@ -38,7 +38,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
@@ -208,7 +208,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  InvalidResponseCodeException
 	 */
 	protected function getResponse(array $headers, $body)
@@ -237,7 +237,7 @@ class StreamTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  boolean  true if available else false
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{

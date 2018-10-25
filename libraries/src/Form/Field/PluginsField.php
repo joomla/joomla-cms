@@ -17,7 +17,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class PluginsField extends ListField
 {
@@ -25,7 +25,7 @@ class PluginsField extends ListField
 	 * The field type.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $type = 'Plugins';
 
@@ -111,7 +111,7 @@ class PluginsField extends ListField
 	 *
 	 * @return	array  An array of JHtml options.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getOptions()
 	{

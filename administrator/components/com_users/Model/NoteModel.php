@@ -11,9 +11,9 @@ namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
 
 /**
  * User note model.

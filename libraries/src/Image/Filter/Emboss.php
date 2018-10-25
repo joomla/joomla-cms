@@ -19,7 +19,7 @@ Log::add('JImageFilterEmboss is deprecated, use Joomla\Image\Filter\Emboss inste
 /**
  * Image Filter class to emboss an image.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Emboss instead
  */
 class Emboss extends ImageFilter
@@ -31,7 +31,7 @@ class Emboss extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  5.0  Use Joomla\Image\Filter\Emboss::execute() instead
 	 */
 	public function execute(array $options = array())

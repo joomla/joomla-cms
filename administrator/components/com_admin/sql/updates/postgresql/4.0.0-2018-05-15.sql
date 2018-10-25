@@ -40,8 +40,9 @@ CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
   "item_id" bigint DEFAULT 0 NOT NULL,
   "stage_id" bigint DEFAULT 0 NOT NULL,
   "extension" varchar(50) NOT NULL,
-  PRIMARY KEY ("item_id", "stage_id", "extension")
+  PRIMARY KEY ("item_id", "extension")
 );
+CREATE INDEX "#__workflow_associations_idx_item_stage_extension" ON "#__workflow_associations" ("item_id", "stage_id", "extension");
 CREATE INDEX "#__workflow_associations_idx_item_id" ON "#__workflow_associations" ("item_id");
 CREATE INDEX "#__workflow_associations_idx_stage_id" ON "#__workflow_associations" ("stage_id");
 CREATE INDEX "#__workflow_associations_idx_extension" ON "#__workflow_associations" ("extension");

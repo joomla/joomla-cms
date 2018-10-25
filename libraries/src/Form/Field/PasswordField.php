@@ -20,7 +20,7 @@ use Joomla\CMS\Form\FormField;
  *
  * @link   http://www.w3.org/TR/html-markup/input.password.html#input.password
  * @note   Two password fields may be validated as matching using JFormRuleEquals
- * @since  11.1
+ * @since  1.7.0
  */
 class PasswordField extends FormField
 {
@@ -28,7 +28,7 @@ class PasswordField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Password';
 
@@ -178,7 +178,7 @@ class PasswordField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

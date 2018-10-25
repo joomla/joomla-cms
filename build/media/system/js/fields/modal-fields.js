@@ -110,7 +110,7 @@
 		titleFieldId = titleFieldId || 'jform_title';
 
 		var modalId = element.parentNode.parentNode.parentNode.parentNode.id, submittedTask = task;
-		var iframe  = document.getElementById(modalId + ' iframe');
+		var iframe  = document.getElementById(modalId).getElementsByTagName('iframe')[0];
 
 		// Set frame id.
 		iframe.id = 'Frame_' + modalId;

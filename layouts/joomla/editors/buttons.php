@@ -10,7 +10,6 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
 
 $buttons = $displayData;
 

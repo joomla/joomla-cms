@@ -11,11 +11,11 @@ namespace Joomla\Component\Categories\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormHelper;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
 
