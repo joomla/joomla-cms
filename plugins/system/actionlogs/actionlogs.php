@@ -130,7 +130,7 @@ class PlgSystemActionLogs extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentPrepareData($context, $data)
 	{
@@ -290,7 +290,7 @@ class PlgSystemActionLogs extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterSave($user, $isNew, $success, $msg)
 	{
@@ -381,7 +381,7 @@ class PlgSystemActionLogs extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{

@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * This file should only be included in environments running PHP 5.5 or newer and may potentially cause a parse error on older versions.
  *
- * @since       __DEPLOY_VERSION__
+ * @since       3.9.0
  * @deprecated  Will be inlined back into ActionlogsHelper when PHP 5.5 or newer is the minimum supported PHP version
  * @internal
  */
@@ -27,7 +27,7 @@ class ActionlogsHelperPhp55
 	 *
 	 * @return  Generator
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  InvalidArgumentException
 	 */
 	public static function getCsvAsGenerator($data)

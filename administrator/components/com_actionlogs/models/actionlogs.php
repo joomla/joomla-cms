@@ -270,7 +270,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  JDatabaseIterator
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getLogDataAsIterator($pks = null)
 	{
@@ -289,7 +289,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function getLogDataQuery($pks = null)
 	{
