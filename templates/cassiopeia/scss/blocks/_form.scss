@@ -1,7 +1,7 @@
 // Form
 
 .form-control {
-  max-width: 240px;
+  max-width: $input-max-width;
   background-color: $white-offset;
 
   &.input-xlarge {
@@ -66,7 +66,7 @@ form .form-no-margin {
 }
 
 .custom-select {
-  max-width: 240px;
+  max-width: $input-max-width;
 }
 .form-inline .custom-select {
   width: auto;

@@ -12,10 +12,10 @@ namespace Joomla\Component\Csp\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Csp\Administrator\Helper\ReporterHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Csp display controller.

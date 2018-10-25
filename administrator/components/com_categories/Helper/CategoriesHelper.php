@@ -11,10 +11,10 @@ namespace Joomla\Component\Categories\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 
 /**
  * Categories helper.
@@ -149,8 +149,7 @@ class CategoriesHelper
 	public static function createCategory($data)
 	{
 		$categoryModel = Factory::getApplication()->bootComponent('com_categories')
-			->createMVCFactory(Factory::getApplication())
-			->createModel('Category', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 		$categoryModel->save($data);
 
 		$catid = $categoryModel->getState('category.id');

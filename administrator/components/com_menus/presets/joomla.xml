@@ -91,13 +91,6 @@
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=menus">
-			<menuitem
-					title="MOD_MENU_MENU_MANAGER_NEW_MENU"
-					type="component"
-					element="com_menus"
-					link="index.php?option=com_menus&amp;view=menu&amp;layout=edit"
-					scope="edit"
-			/>
 		</menuitem>
 		<menuitem
 				type="separator"
@@ -131,13 +124,6 @@
 					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
 					icon="{sql:icon}"
 					class="class:menu">
-				<menuitem
-						title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
-						type="component"
-						element="com_menus"
-						link="index.php?option=com_menus&amp;view=item&amp;layout=edit&amp;menutype={sql:menutype}"
-						scope="edit"
-				/>
 			</menuitem>
 		</menuitem>
 		<menuitem

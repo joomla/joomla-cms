@@ -11,25 +11,25 @@ namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\UCM\UCMType;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\UCM\UCMType;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Categories Component Category Model

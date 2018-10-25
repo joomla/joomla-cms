@@ -125,6 +125,38 @@ class ViewController extends CacheController
 	}
 
 	/**
+	 * Store data to cache by ID and group
+	 *
+	 * @param   mixed    $data        The data to store
+	 * @param   string   $id          The cache data ID
+	 * @param   string   $group       The cache data group
+	 * @param   boolean  $wrkarounds  True to use wrkarounds
+	 *
+	 * @return  boolean  True if cache stored
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function store($data, $id, $group = null, $wrkarounds = true)
+	{
+		$locktest = $this->cache->lock($id, $group);
+
+		if ($locktest->locked === false && $locktest->locklooped === true)
+		{
+			// We can not store data because another process is in the middle of saving
+			return false;
+		}
+
+		$result = $this->cache->store(serialize($data), $id, $group);
+
+		if ($locktest->locked === true)
+		{
+			$this->cache->unlock($id, $group);
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Generate a view cache ID.
 	 *
 	 * @param   object  $view    The view object to cache output for
