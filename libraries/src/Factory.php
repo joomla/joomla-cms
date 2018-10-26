@@ -246,7 +246,7 @@ abstract class Factory
 	{
 		@trigger_error(
 			sprintf(
-				'%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getSession().',
+				'%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
 				__METHOD__,
 				__CLASS__
 			),
