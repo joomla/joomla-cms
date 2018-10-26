@@ -11,17 +11,18 @@ namespace Joomla\Module\Menu\Administrator\Menu;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\Menu\Node;
 use Joomla\CMS\Menu\Tree;
-use Joomla\CMS\Menu\MenuHelper;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
 /**
  * Tree based class to render the admin menu
  *
@@ -262,7 +263,7 @@ class CssMenu
 			$item->icon  = $item->icon ?? '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
-			if (($item->scope === 'help' && !$this->params->get('showhelp')) || ($item->scope === 'edit' && !$this->params->get('shownew')))
+			if (($item->scope === 'help' && $this->params->get('showhelp', 1) == 0) || ($item->scope === 'edit' && !$this->params->get('shownew')))
 			{
 				continue;
 			}
@@ -324,7 +325,7 @@ class CssMenu
 			{
 				parse_str($item->link, $query);
 
-				// Only display Fields menus when enabled in the component
+				// Only display Workflow menus when enabled in the component
 				$workflow = null;
 
 				if (isset($query['extension']))
@@ -380,6 +381,12 @@ class CssMenu
 
 			// Exclude if there are no child items under heading or container
 			if (in_array($item->type, array('heading', 'container')) && empty($item->submenu) && empty($item->components))
+			{
+				continue;
+			}
+
+			// Exclude help menu item if set such in mod_menu
+			if ($this->params->get('showhelp', 1) == 0 && $item->link == 'index.php?option=com_cpanel&view=help')
 			{
 				continue;
 			}

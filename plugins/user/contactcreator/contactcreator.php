@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\String\StringHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
+use Joomla\String\StringHelper;
 
 /**
  * Class for Contact Creator
@@ -93,7 +93,7 @@ class PlgUserContactCreator extends CMSPlugin
 			$contact->user_id  = $user_id;
 			$contact->email_to = $user['email'];
 			$contact->catid    = $categoryId;
-			$contact->access   = (int) Factory::getConfig()->get('access');
+			$contact->access   = (int) Factory::getApplication()->get('access');
 			$contact->language = '*';
 			$contact->generateAlias();
 

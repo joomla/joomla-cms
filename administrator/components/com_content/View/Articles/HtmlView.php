@@ -11,16 +11,15 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Administrator\Helper\ContentHelper;
-use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 /**
  * View class for a list of articles.
@@ -29,14 +28,6 @@ use Joomla\CMS\Factory;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
-	 * respectively
-	 *
-	 * @var  \stdClass
-	 */
-	protected $authors;
-
 	/**
 	 * An array of items
 	 *
@@ -104,7 +95,6 @@ class HtmlView extends BaseHtmlView
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
-		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->transitions   = $this->get('Transitions');

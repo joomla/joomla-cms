@@ -9,24 +9,23 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Router\Router;
-use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
-use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
-
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! Language Filter Plugin.
@@ -895,7 +894,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		// If not, set the user language in the session (that is already saved in a cookie).
 		else
 		{
-			Factory::getSession()->set('plg_system_languagefilter.language', $languageCode);
+			$this->app->getSession()->set('plg_system_languagefilter.language', $languageCode);
 		}
 	}
 
@@ -916,7 +915,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		// Else get the user language from the session.
 		else
 		{
-			$languageCode = Factory::getSession()->get('plg_system_languagefilter.language');
+			$languageCode = $this->app->getSession()->get('plg_system_languagefilter.language');
 		}
 
 		// Let's be sure we got a valid language code. Fallback to null.

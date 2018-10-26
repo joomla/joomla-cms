@@ -11,13 +11,10 @@ namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-
-\JLoader::register('ContentModelArticles', __DIR__ . '/articles.php');
 
 /**
  * Frontpage Component Model

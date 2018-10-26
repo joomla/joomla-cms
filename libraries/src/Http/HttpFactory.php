@@ -16,7 +16,7 @@ use Joomla\Http\TransportInterface;
 /**
  * HTTP factory class.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class HttpFactory
 {
@@ -28,7 +28,7 @@ class HttpFactory
 	 *
 	 * @return  Http
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \RuntimeException
 	 */
 	public static function getHttp($options = [], $adapters = null)
@@ -63,7 +63,7 @@ class HttpFactory
 	 *
 	 * @return  TransportInterface|boolean  Interface sub-class or boolean false if no adapters are available
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getAvailableDriver($options = [], $default = null)
 	{
@@ -107,7 +107,7 @@ class HttpFactory
 	 *
 	 * @return  array  An array of available transport handlers
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getHttpTransports()
 	{

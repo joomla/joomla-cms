@@ -11,8 +11,8 @@ namespace Joomla\Module\RandomImage\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\String\StringHelper;
 
 /**
  * Helper for mod_random_image

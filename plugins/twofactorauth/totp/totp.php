@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Encrypt\Totp;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! Two Factor Authentication using Google Authenticator TOTP Plugin
