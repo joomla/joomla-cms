@@ -30,6 +30,8 @@ $saveOrderingUrl = '';
 
 $saveOrder = ($listOrder == 's.ordering');
 
+$isCore = $this->workflow->core;
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_workflow&task=stages.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
@@ -87,10 +89,10 @@ if ($saveOrder)
 							<?php foreach ($this->stages as $i => $item):
 								$edit = Route::_('index.php?option=com_workflow&task=stage.edit&id=' . $item->id . '&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->extension);
 
-								$canEdit    = $user->authorise('core.edit', $this->extension . '.stage.' . $item->id);
+								$canEdit    = $user->authorise('core.edit', $this->extension . '.stage.' . $item->id) && !$isCore;
 								// @TODO set proper checkin fields
 								$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-								$canChange  = $user->authorise('core.edit.stage', $this->extension . '.stage.' . $item->id) && $canCheckin;
+								$canChange  = $user->authorise('core.edit.stage', $this->extension . '.stage.' . $item->id) && $canCheckin && !$isCore;
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
 									<td class="order text-center hidden-sm-down">
