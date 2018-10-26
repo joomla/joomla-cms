@@ -168,8 +168,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			}
 		);
 
-		// Order them by weight and return
-		return $assets ? $this->sortByWeight($assets) : [];
+		return $assets;
 	}
 
 	/**
@@ -192,8 +191,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			}
 		);
 
-		// Order them by weight and return
-		return $assets ? $this->sortByWeight($assets) : [];
+		return $assets;
 	}
 
 	/**
@@ -259,10 +257,10 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			throw new \RuntimeException('Asset "' . $name . '" does not exist');
 		}
 
-		$oldState = $asset->getState();
+		$currentState = $asset->getState();
 
 		// Asset already has the requested state
-		if ($oldState === $state)
+		if ($currentState === $state)
 		{
 			return $this;
 		}
@@ -270,21 +268,17 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		// Change state
 		$asset->setState($state);
 
-		// Update last weight, to keep an order of enabled items
-		if ($asset->isActive())
-		{
-			$this->lastItemWeight = $this->lastItemWeight + 1;
-			$asset->setWeight($this->lastItemWeight);
-		}
+		// Update Dependency
+		$this->updateDependency();
 
 		// Trigger the event
 		$event = AbstractEvent::create(
-			'onWebAssetStateChanged',
+			'onWebAssetStateChangedExternally',
 			[
 				'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetStateChangedEvent',
 				'subject'  => $this,
 				'asset'    => $asset,
-				'oldState' => $oldState,
+				'oldState' => $currentState,
 				'newState' => $state,
 			]
 		);
@@ -333,7 +327,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	public function attachActiveAssetsToDocument(Document $doc): self
 	{
 		// Resolve Dependency
-		$this->resolveDependency();
+		$this->updateDependency()->calculateWeightOfActiveAssets();
 
 		// Trigger the event
 		$event = AbstractEvent::create(
@@ -346,7 +340,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		);
 		$this->getDispatcher()->dispatch($event->getName(), $event);
 
-		$assets = $this->getActiveAssets();
+		$assets = $this->sortAssetsByWeight($this->getActiveAssets());
 
 		// Pre-save existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->_scripts;
@@ -381,29 +375,33 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	}
 
 	/**
-	 * Resolve Dependency for just added assets
+	 * Update Dependencies state for all active Assets
 	 *
 	 * @return  self
 	 *
-	 * @throws  \RuntimeException When Dependency cannot be resolved
-	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function resolveDependency(): self
+	protected function updateDependency(): self
 	{
+		// First, deactivate all Dependency
+		foreach ($this->getAssetsByState(WebAssetItem::ASSET_STATE_DEPENDANCY) as $depItem)
+		{
+			$depItem->setState(WebAssetItem::ASSET_STATE_INACTIVE);
+		}
+
+		// Second, get list of active assets and enable their dependencies
 		$assets = $this->getAssetsByState(WebAssetItem::ASSET_STATE_ACTIVE);
 
 		foreach ($assets as $asset)
 		{
-			$this->resolveItemDependency($asset);
-			$asset->setState(WebAssetItem::ASSET_STATE_RESOLVED);
+			$this->updateItemDependency($asset);
 		}
 
 		return $this;
 	}
 
 	/**
-	 * Resolve Dependency for given asset
+	 * Update Dependencies state for given Asset
 	 *
 	 * @param   WebAssetItem  $asset  Asset instance
 	 *
@@ -413,33 +411,87 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected function resolveItemDependency(WebAssetItem $asset): self
+	protected function updateItemDependency(WebAssetItem $asset): self
 	{
-		foreach ($this->getDependenciesForAsset($asset) as $depItem)
+		foreach ($this->getDependenciesForAsset($asset, true) as $depItem)
 		{
-			$oldState = $depItem->isActive();
-
-			// Make active
-			if (!$oldState)
+			// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
+			if (!$depItem->isActive())
 			{
 				$depItem->setState(WebAssetItem::ASSET_STATE_DEPENDANCY);
 			}
+		}
 
-			// Calculate weight, make it a bit lighter
-			$depWeight   = $depItem->getWeight();
-			$assetWeight = $asset->getWeight();
+		return $this;
+	}
 
-			$depWeight = $depWeight === 0 ? $this->lastItemWeight : $depWeight;
-			$weight    = $depWeight > $assetWeight ? $assetWeight : $depWeight;
-			$weight    = $weight - 0.01;
+	/**
+	 * Calculate weight of active Assets, by its Dependencies
+	 *
+	 * @return  self
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected function calculateWeightOfActiveAssets(): self
+	{
+		// See https://en.wikipedia.org/wiki/Topological_sorting#Kahn.27s_algorithm
+		$result        = [];
+		$graphOutgoing = [];
+		$graphIncoming = [];
+		$activeAssets  = $this->getActiveAssets();
 
-			$depItem->setWeight($weight);
+		// Build Graphs of Outgoing and Incoming connections
+		foreach ($activeAssets as $asset)
+		{
+			$name = $asset->getName();
+			$graphOutgoing[$name] = array_combine($asset->getDependencies(), $asset->getDependencies());
 
-			// Prevent duplicated work if Dependency was already activated
-			if (!$oldState)
+			if (!array_key_exists($name, $graphIncoming))
 			{
-				$this->resolveItemDependency($depItem);
+				$graphIncoming[$name] = [];
 			}
+
+			foreach ($asset->getDependencies() as $depName)
+			{
+				$graphIncoming[$depName][$name] = $name;
+			}
+		}
+
+		// Find items without incoming connections
+		$emptyIncoming = array_keys(
+			array_filter(
+				$graphIncoming,
+				function ($el){
+					return !$el;
+				}
+			)
+		);
+
+		// Loop through, and sort the graph
+		while ($emptyIncoming)
+		{
+			// Add the node without incoming connection to the result
+			$item = array_shift($emptyIncoming);
+			$result[] = $item;
+
+			// Check of each neighbor of the node
+			foreach (array_reverse($graphOutgoing[$item]) as $neighbor)
+			{
+				// Remove incoming connection of already visited node
+				unset($graphIncoming[$neighbor][$item]);
+
+				// If there no more incoming connections add the node to queue
+				if (empty($graphIncoming[$neighbor]))
+				{
+					$emptyIncoming[] = $neighbor;
+				}
+			}
+		}
+
+		// Update a weight for each active asset
+		foreach (array_reverse($result) as $index => $name)
+		{
+			$activeAssets[$name]->setWeight($index + 1);
 		}
 
 		return $this;
@@ -448,7 +500,9 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	/**
 	 * Return dependancy for Asset as array of AssetItem objects
 	 *
-	 * @param   WebAssetItem  $asset  Asset instance
+	 * @param   WebAssetItem  $asset          Asset instance
+	 * @param   boolean       $recursively    Whether to search for dependancy recursively
+	 * @param   WebAssetItem  $recursionRoot  Initial item to prevent loop
 	 *
 	 * @return  WebAssetItem[]
 	 *
@@ -456,12 +510,19 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getDependenciesForAsset(WebAssetItem $asset): array
+	protected function getDependenciesForAsset(WebAssetItem $asset, $recursively = false, WebAssetItem $recursionRoot = null): array
 	{
-		$assets = [];
+		$assets        = [];
+		$recursionRoot = $recursionRoot ?? $asset;
 
 		foreach ($asset->getDependencies() as $depName)
 		{
+			// Skip already loaded in recursion
+			if ($recursionRoot->getName() === $depName)
+			{
+				continue;
+			}
+
 			$dep = $this->getAsset($depName);
 
 			if (!$dep)
@@ -470,21 +531,29 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			}
 
 			$assets[$depName] = $dep;
+
+			if (!$recursively)
+			{
+				continue;
+			}
+
+			$parentDeps = $this->getDependenciesForAsset($dep, true, $recursionRoot);
+			$assets     = array_replace($assets, $parentDeps);
 		}
 
 		return $assets;
 	}
 
 	/**
-	 * Sort assets by it`s weight
+	 * Sort assets by its weight
 	 *
-	 * @param   WebAssetItem[]  $assets  Linked array of assets
+	 * @param   WebAssetItem[]  $assets  Array of assets to sort
 	 *
 	 * @return  WebAssetItem[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function sortByWeight(array $assets): array
+	public function sortAssetsByWeight(array $assets): array
 	{
 		uasort(
 			$assets,
@@ -561,6 +630,11 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			}
 		);
 
+		if (!$files)
+		{
+			return;
+		}
+
 		foreach (array_keys($files) as $path)
 		{
 			$this->parseRegistryFile($path);
@@ -619,20 +693,28 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	/**
 	 * Dump available assets to simple array, with some basic info
 	 *
+	 * @param   bool  $onlyActive  Return only active Assets
+	 *
 	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function debugAssets(): array
+	public function debugAssets(bool $onlyActive = false): array
 	{
-		$assets = $this->assets;
+		// Update dependencies
+		$this->updateDependency()->calculateWeightOfActiveAssets();
+
+		$assets = $onlyActive ? $this->getActiveAssets() : $this->assets;
+		$assets = $this->sortAssetsByWeight($assets);
 		$result = [];
 
 		foreach ($assets as $asset)
 		{
 			$result[$asset->getName()] = [
-				'deps'  => implode(', ', $asset->getDependencies()),
-				'state' => $asset->getState(),
+				'name'   => $asset->getName(),
+				'deps'   => implode(', ', $asset->getDependencies()),
+				'state'  => $asset->getState(),
+				'weight' => $asset->getWeight(),
 			];
 		}
 
