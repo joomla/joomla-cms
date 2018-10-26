@@ -231,8 +231,8 @@ class Icon
 	/**
 	 * Method to generate a link to print an article
 	 *
-	 * @param   Registry  $params   The item parameters
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   Registry  $params  The item parameters
+	 * @param   boolean   $legacy  True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
