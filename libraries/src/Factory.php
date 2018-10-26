@@ -240,7 +240,7 @@ abstract class Factory
 	 *
 	 * @see         Language
 	 * @since       1.7.0
-	 * @deprecated  5.0  Load the language service from the dependency injection container or via $app->getSession()
+	 * @deprecated  5.0  Load the language service from the dependency injection container or via $app->getLanguage()
 	 */
 	public static function getLanguage()
 	{
