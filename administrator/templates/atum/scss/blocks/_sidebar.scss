@@ -16,7 +16,7 @@
   flex-direction: column;
   flex: 1 0 $sidebar-width;
   max-width: $sidebar-width;
-  background-color: $sidebar-bg;
+  background-color: var(--sidebar-bg);
   box-shadow: $atum-box-shadow;
   transition: all .3s ease;
   overflow: hidden;
@@ -39,16 +39,17 @@
 
   // All list items
   li {
-    color: $sidebar-text-color;
+    color: var(--sidebar-text-color);
+    list-style-type: none;
   }
 
   // All links
   a {
     position: relative;
-    color: $sidebar-link-color;
+    color: var(--sidebar-link-color);
 
     &:hover {
-      color: $white;
+      color: var(--sidebar-link-color-hover);
       text-decoration: none;
     }
   }
@@ -56,7 +57,7 @@
   // 1st level items
   > li {
     > ul {
-      background-color: $sidebar-sub-bg;
+      background-color: var(--sidebar-sub-bg);
     }
     > a {
       display: block;
@@ -92,7 +93,7 @@
     a {
       display: block;
       padding: 4px 5px 4px 34px;
-      color: $sidebar-child-link-color;
+      color: var(--sidebar-child-link-color);
 
       &:hover {
         color: $white;
@@ -120,7 +121,7 @@
       top: 16px;
       width: .4rem;
       height: .4rem;
-      border-color: $sidebar-text-color;
+      border-color: var(--sidebar-text-color);
     }
 
     // 3rd level items
@@ -147,7 +148,7 @@
   .divider {
     height: 1px;
     margin: 4px 18px;
-    background-color: $sidebar-text-color;
+    background-color: var(--sidebar-text-color);
     opacity: .2;
   }
 

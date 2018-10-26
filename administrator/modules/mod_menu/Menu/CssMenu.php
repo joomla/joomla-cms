@@ -325,7 +325,7 @@ class CssMenu
 			{
 				parse_str($item->link, $query);
 
-				// Only display Fields menus when enabled in the component
+				// Only display Workflow menus when enabled in the component
 				$workflow = null;
 
 				if (isset($query['extension']))

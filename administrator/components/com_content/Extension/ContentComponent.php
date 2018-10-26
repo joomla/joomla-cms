@@ -12,8 +12,8 @@ namespace Joomla\Component\Content\Administrator\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Component\Router\RouterServiceInterface;

@@ -11,10 +11,10 @@ namespace Joomla\Component\Search\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Search Component Search Model

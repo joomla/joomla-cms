@@ -14,6 +14,7 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Log\Log;
@@ -91,7 +92,7 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 * @since  3.3
 	 */
 	protected $app;
@@ -279,6 +280,14 @@ class PlgSystemDebug extends CMSPlugin
 
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
+
+		// Use our own jQuery and font-awesome instead of the debug bar shipped version
+		$assetManager = $this->app->getDocument()->getWebAssetManager();
+		$assetManager->enableAsset('jquery-noconflict');
+		$assetManager->enableAsset('font-awesome');
+		$debugBarRenderer->disableVendor('jquery');
+		$debugBarRenderer->setEnableJqueryNoConflict(false);
+		$debugBarRenderer->disableVendor('fontawesome');
 
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')

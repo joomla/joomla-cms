@@ -11,12 +11,11 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template styles list controller class.

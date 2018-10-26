@@ -112,7 +112,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Create a sample workflow
 		$workflowModel = $this->app->bootComponent('com_workflow')
-			->createMVCFactory($this->app)->createModel('Workflow', 'Administrator');
+			->getMVCFactory()->createModel('Workflow', 'Administrator');
 
 		$workflow = [
 			'title'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_TITLE'),
@@ -141,7 +141,7 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Create "blog" category.
 		$categoryModel = $this->app->bootComponent('com_categories')
-			->createMVCFactory($this->app)->createModel('Category', 'Administrator');
+			->getMVCFactory()->createModel('Category', 'Administrator');
 		$catIds        = array();
 		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
 		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);

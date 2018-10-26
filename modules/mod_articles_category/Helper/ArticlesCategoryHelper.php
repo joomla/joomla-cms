@@ -41,7 +41,7 @@ abstract class ArticlesCategoryHelper
 	public static function getList(&$params)
 	{
 		$app     = Factory::getApplication();
-		$factory = $app->bootComponent('com_content')->createMVCFactory($app);
+		$factory = $app->bootComponent('com_content')->getMVCFactory();
 
 		// Get an instance of the generic articles model
 		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);

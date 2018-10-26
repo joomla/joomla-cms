@@ -12,9 +12,8 @@ namespace Joomla\Component\Finder\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Methods supporting a list of search terms.

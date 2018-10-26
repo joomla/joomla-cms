@@ -11,14 +11,14 @@ namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving a category, the articles associated with the category,
@@ -237,7 +237,7 @@ class CategoryModel extends ListModel
 
 		if ($this->_articles === null && $category = $this->getCategory())
 		{
-			$model = $this->bootComponent('com_content')->createMVCFactory(Factory::getApplication())
+			$model = $this->bootComponent('com_content')->getMVCFactory()
 				->createModel('Articles', 'Site', ['ignore_request' => true]);
 			$model->setState('params', Factory::getApplication()->getParams());
 			$model->setState('filter.category_id', $category->id);
