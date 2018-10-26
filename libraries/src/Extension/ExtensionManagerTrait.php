@@ -118,7 +118,7 @@ trait ExtensionManagerTrait
 		if (file_exists($path))
 		{
 			// Load the file
-			$provider = require_once $path;
+			$provider = require $path;
 
 			// Check if the extension supports the service provider interface
 			if ($provider instanceof ServiceProviderInterface)
