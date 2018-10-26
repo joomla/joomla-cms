@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\PluginInterface;
+use Joomla\CMS\Factory;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
@@ -37,7 +38,7 @@ return new class implements ServiceProviderInterface
 
 				return new Joomlaupdate(
 					$container->get(DispatcherInterface::class),
-					\Joomla\CMS\Factory::getDocument(),
+					Factory::getApplication()->getDocument(),
 					(array)$plugin
 				);
 			}
