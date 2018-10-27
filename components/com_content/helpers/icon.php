@@ -14,8 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Content Component HTML Helper
  *
- * @since      1.5
- * @deprecated 5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
+ * @since       1.5
+ * @deprecated  5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
  */
 abstract class JHtmlIcon
 {
