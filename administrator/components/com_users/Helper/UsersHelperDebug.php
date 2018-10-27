@@ -121,8 +121,7 @@ class UsersHelperDebug
 							{
 								foreach ($field->children() as $action)
 								{
-									// Actions can have a description. If not, use
-									if (isset($action['description']) && !empty($action['description']) )
+									if (isset($action['description']) && !empty($action['description']))
 									{
 										$descr = (string) $action['description'];
 									}
