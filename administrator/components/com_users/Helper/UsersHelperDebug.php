@@ -88,7 +88,16 @@ class UsersHelperDebug
 			{
 				foreach ($component_actions as &$action)
 				{
-					$actions[$action->title] = array($action->name, $action->description);
+					if (isset($action['description']) && !empty($action['description']))
+					{
+						$descr = (string) $action['description'];
+					}
+					else 
+					{
+						$descr = (string) $action['title'];
+					}
+					
+					$actions[$action->title] = array($action->name, $descr);
 				}
 			}
 		}
@@ -112,9 +121,19 @@ class UsersHelperDebug
 							{
 								foreach ($field->children() as $action)
 								{
+									// Actions can have a description. If not, use
+									if (isset($action['description']) && !empty($action['description']) )
+									{
+										$descr = (string) $action['description'];
+									}
+									else 
+									{
+										$descr = (string) $action['title'];
+									}
+						
 									$actions[(string) $action['title']] = array(
 										(string) $action['name'],
-										(string) $action['description']
+										$descr
 									);
 								}
 
