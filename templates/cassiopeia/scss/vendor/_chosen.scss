@@ -78,7 +78,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
       color: var(--white);
       background: var(--primary);
       border: 0;
-      box-shadow: $atum-box-shadow;
+      box-shadow: $cassiopeia-box-shadow;
       @if $enable-rounded {
         border-radius: $custom-select-border-radius;
       } @else {
