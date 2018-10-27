@@ -15,7 +15,7 @@
    */
   const submitTask = (task) => {
     const form = document.getElementById(formId);
-    if (form && task === 'articles.publish') {
+    if (form) {
       submitForm(task, form);
     }
   };

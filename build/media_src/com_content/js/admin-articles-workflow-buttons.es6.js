@@ -16,6 +16,8 @@
     const articleListRows = articleList.querySelectorAll('tbody tr');
     const modal = document.getElementById('stageModal');
     const modalcontent = document.getElementById('stageModal-content');
+	const modalbutton = document.getElementById('stage-submit-button-id');
+	const buttonDataSelector = 'data-submit-task';
 
     let publishBool = false;
     let unpublishBool = false;
@@ -88,6 +90,9 @@
 
         const articles = Joomla.getOptions('articles.items');
         let html = '';
+
+		modalbutton.setAttribute(buttonDataSelector, 'articles.' + task);
+
         Object.keys(availableTrans).forEach((id) => {
           if (articles[`article-${id}`] !== undefined) {
             html += '<div class="form-group col-md-6">';
