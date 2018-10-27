@@ -90,7 +90,7 @@ trait ExtensionManagerTrait
 	 */
 	private function loadExtension($type, $extensionName, $extensionPath)
 	{
-		$session = $this->getContainer()->get('session');
+		$session = $this->getContainer()->get(\Joomla\CMS\Session\Session::class);
 		$this->extensions = $session->get('loaded_extensions');
 		
 		// Check if the extension is already loaded
