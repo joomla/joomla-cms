@@ -350,7 +350,7 @@ class ContactModelContact extends JModelAdmin
 
 		foreach ($links as $link)
 		{
-			if ($data['params'][$link])
+			if (!empty($data['params'][$link]))
 			{
 				$data['params'][$link] = JStringPunycode::urlToPunycode($data['params'][$link]);
 			}
