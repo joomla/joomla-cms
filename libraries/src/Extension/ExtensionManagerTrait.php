@@ -90,6 +90,9 @@ trait ExtensionManagerTrait
 	 */
 	private function loadExtension($type, $extensionName, $extensionPath)
 	{
+		$session = $this->getContainer()->get('session');
+		$this->extensions = $session->get('loaded_extensions');
+		
 		// Check if the extension is already loaded
 		if (!empty($this->extensions[$type][$extensionName]))
 		{
@@ -118,7 +121,7 @@ trait ExtensionManagerTrait
 		if (file_exists($path))
 		{
 			// Load the file
-			$provider = require $path;
+			$provider = require_once $path;
 
 			// Check if the extension supports the service provider interface
 			if ($provider instanceof ServiceProviderInterface)
@@ -163,6 +166,8 @@ trait ExtensionManagerTrait
 
 		// Cache the extension
 		$this->extensions[$type][$extensionName] = $extension;
+		
+		$session->set('loaded_extensions', $this->extensions);
 
 		return $extension;
 	}
