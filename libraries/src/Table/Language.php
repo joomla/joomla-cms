@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Languages table.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Language extends Table
 {
@@ -22,7 +22,7 @@ class Language extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($db)
 	{
@@ -34,7 +34,7 @@ class Language extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -55,7 +55,7 @@ class Language extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function store($updateNulls = false)
 	{

@@ -15,7 +15,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Abstract class for a renderer
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class DocumentRenderer
 {
@@ -23,7 +23,7 @@ class DocumentRenderer
 	 * Reference to the Document object that instantiated the renderer
 	 *
 	 * @var    Document
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_doc = null;
 
@@ -31,7 +31,7 @@ class DocumentRenderer
 	 * Renderer mime type
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_mime = 'text/html';
 
@@ -40,7 +40,7 @@ class DocumentRenderer
 	 *
 	 * @param   Document  $doc  A reference to the Document object that instantiated the renderer
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(Document $doc)
 	{
@@ -56,7 +56,7 @@ class DocumentRenderer
 	 *
 	 * @return  string  The output of the script
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function render($name, $params = null, $content = null)
 	{
@@ -67,7 +67,7 @@ class DocumentRenderer
 	 *
 	 * @return  string  The contentType
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getContentType()
 	{
@@ -81,7 +81,7 @@ class DocumentRenderer
 	 *
 	 * @return  string   Text with converted links
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _relToAbs($text)
 	{

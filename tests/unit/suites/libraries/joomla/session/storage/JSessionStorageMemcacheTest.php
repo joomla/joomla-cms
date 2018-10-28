@@ -10,7 +10,7 @@
 /**
  * Test class for JSessionStorageMemcache.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JSessionStorageMemcacheTest extends \PHPUnit\Framework\TestCase
 {

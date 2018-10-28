@@ -59,6 +59,7 @@
 					description="PLG_RECAPTCHA_INVISIBLE_TABINDEX_DESC"
 					default="0"
 					min="0"
+					filter="integer"
 				/>
 
 				<field

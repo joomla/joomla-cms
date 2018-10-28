@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * User class.  Handles all application interaction with a user
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class User extends \JObject
 {
@@ -27,7 +27,7 @@ class User extends \JObject
 	 * A cached switch for if this user has root access rights.
 	 *
 	 * @var    boolean
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $isRoot = null;
 
@@ -35,7 +35,7 @@ class User extends \JObject
 	 * Unique id
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $id = null;
 
@@ -43,7 +43,7 @@ class User extends \JObject
 	 * The user's real name (or nickname)
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $name = null;
 
@@ -51,7 +51,7 @@ class User extends \JObject
 	 * The login name
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $username = null;
 
@@ -59,7 +59,7 @@ class User extends \JObject
 	 * The email
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $email = null;
 
@@ -67,7 +67,7 @@ class User extends \JObject
 	 * MD5 encrypted password
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $password = null;
 
@@ -75,7 +75,7 @@ class User extends \JObject
 	 * Clear password, only available when a new password is set for a user
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $password_clear = '';
 
@@ -83,7 +83,7 @@ class User extends \JObject
 	 * Block status
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $block = null;
 
@@ -91,7 +91,7 @@ class User extends \JObject
 	 * Should this user receive system email
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $sendEmail = null;
 
@@ -99,7 +99,7 @@ class User extends \JObject
 	 * Date the user was registered
 	 *
 	 * @var    \DateTime
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $registerDate = null;
 
@@ -107,7 +107,7 @@ class User extends \JObject
 	 * Date of last visit
 	 *
 	 * @var    \DateTime
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $lastvisitDate = null;
 
@@ -115,7 +115,7 @@ class User extends \JObject
 	 * Activation hash
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $activation = null;
 
@@ -123,7 +123,7 @@ class User extends \JObject
 	 * User parameters
 	 *
 	 * @var    Registry
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $params = null;
 
@@ -131,15 +131,15 @@ class User extends \JObject
 	 * Associative array of user names => group ids
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $groups = array();
 
 	/**
 	 * Guest status
 	 *
-	 * @var    boolean
-	 * @since  11.1
+	 * @var    integer
+	 * @since  1.7.0
 	 */
 	public $guest = null;
 
@@ -147,7 +147,7 @@ class User extends \JObject
 	 * Last Reset Time
 	 *
 	 * @var    string
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public $lastResetTime = null;
 
@@ -155,7 +155,7 @@ class User extends \JObject
 	 * Count since last Reset Time
 	 *
 	 * @var    int
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	public $resetCount = null;
 
@@ -171,7 +171,7 @@ class User extends \JObject
 	 * User parameters
 	 *
 	 * @var    Registry
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_params = null;
 
@@ -179,7 +179,7 @@ class User extends \JObject
 	 * Authorised access groups
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_authGroups = null;
 
@@ -187,7 +187,7 @@ class User extends \JObject
 	 * Authorised access levels
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_authLevels = null;
 
@@ -195,7 +195,7 @@ class User extends \JObject
 	 * Authorised access actions
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_authActions = null;
 
@@ -203,7 +203,7 @@ class User extends \JObject
 	 * Error message
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_errorMsg = null;
 
@@ -218,7 +218,7 @@ class User extends \JObject
 
 	/**
 	 * @var    array  User instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -228,7 +228,7 @@ class User extends \JObject
 	 * @param   integer      $identifier  The primary key of the user to load (optional).
 	 * @param   UserWrapper  $userHelper  The UserWrapper for the static methods. [@deprecated 4.0]
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($identifier = 0, UserWrapper $userHelper = null)
 	{
@@ -265,7 +265,7 @@ class User extends \JObject
 	 *
 	 * @return  User  The User object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($identifier = 0, UserWrapper $userHelper = null)
 	{
@@ -313,7 +313,7 @@ class User extends \JObject
 	 *
 	 * @return  mixed  The value or the default if it did not exist
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getParam($key, $default = null)
 	{
@@ -328,7 +328,7 @@ class User extends \JObject
 	 *
 	 * @return  mixed  Set parameter value
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setParam($key, $value)
 	{
@@ -343,7 +343,7 @@ class User extends \JObject
 	 *
 	 * @return  mixed  Set parameter value
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function defParam($key, $value)
 	{
@@ -359,7 +359,7 @@ class User extends \JObject
 	 *
 	 * @return  boolean  True if authorised
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function authorise($action, $assetname = null)
 	{
@@ -406,7 +406,7 @@ class User extends \JObject
 	 *
 	 * @return  array  List of categories that this group can do this action to (empty array if none). Categories must be published.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAuthorisedCategories($component, $action)
 	{
@@ -444,7 +444,7 @@ class User extends \JObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAuthorisedViewLevels()
 	{
@@ -466,7 +466,7 @@ class User extends \JObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAuthorisedGroups()
 	{
@@ -505,7 +505,7 @@ class User extends \JObject
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLastVisit($timestamp = null)
 	{
@@ -523,8 +523,8 @@ class User extends \JObject
 	 *
 	 * @return  object   The user parameters object.
 	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Instead use User::getParam()
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Instead use User::getParam()
 	 */
 	public function getParameters()
 	{
@@ -559,7 +559,7 @@ class User extends \JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setParameters($params)
 	{
@@ -579,7 +579,7 @@ class User extends \JObject
 	 * @return  object  The user table object
 	 *
 	 * @note    At 4.0 this method will no longer be static
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getTable($type = null, $prefix = 'JTable')
 	{
@@ -610,7 +610,7 @@ class User extends \JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind(&$array)
 	{
@@ -720,7 +720,7 @@ class User extends \JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function save($updateOnly = false)
@@ -841,7 +841,7 @@ class User extends \JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete()
 	{
@@ -872,7 +872,7 @@ class User extends \JObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function load($id)
 	{

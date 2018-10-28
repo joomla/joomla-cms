@@ -212,6 +212,24 @@ class PlgSystemPrivacyconsent extends JPlugin
 			{
 				// Do nothing if the save fails
 			}
+
+			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+			$message = array(
+				'action'      => 'consent',
+				'id'          => $userId,
+				'title'       => $data['name'],
+				'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+				'userid'      => $userId,
+				'username'    => $data['username'],
+				'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			);
+
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+			/* @var ActionlogsModelActionlog $model */
+			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+			$model->addLog(array($message), 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
 
 		return true;
@@ -317,7 +335,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Event to specify whether a privacy policy has been published.
 	 *
-	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published" and "editLink"
+	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "articlePublished".
 	 *
 	 * @return  void
 	 *
@@ -336,6 +354,27 @@ class PlgSystemPrivacyconsent extends JPlugin
 		if (!$articleId)
 		{
 			return;
+		}
+
+		// Check if the article exists in database and is published
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'state')))
+			->from($this->db->quoteName('#__content'))
+			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
+		$this->db->setQuery($query);
+
+		$article = $this->db->loadObject();
+
+		// Check if the article exists
+		if (!$article)
+		{
+			return;
+		}
+
+		// Check if the article is published
+		if ($article->state == 1)
+		{
+			$policy['articlePublished'] = true;
 		}
 
 		$policy['published'] = true;

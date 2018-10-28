@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('plugins');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.4
+ * @since       2.5.0
  */
 class JFormFieldPluginsTest extends TestCaseDatabase
 {
@@ -23,7 +23,7 @@ class JFormFieldPluginsTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getDataSet()
 	{
@@ -66,7 +66,7 @@ class JFormFieldPluginsTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testGetInput()
 	{

@@ -17,31 +17,31 @@ defined('JPATH_PLATFORM') or die;
  * for the Joomla Platform to access and manipulate a URI.  Second it obtains the URI of
  * the current executing script from the server regardless of server.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Uri extends \Joomla\Uri\Uri
 {
 	/**
 	 * @var    Uri[]  An array of JUri instances.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $instances = array();
 
 	/**
 	 * @var    array  The current calculated base url segments.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $base = array();
 
 	/**
 	 * @var    array  The current calculated root url segments.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $root = array();
 
 	/**
 	 * @var    string  The current url.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $current;
 
@@ -52,7 +52,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  Uri  The URI object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($uri = 'SERVER')
 	{
@@ -129,7 +129,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  string  The base URI string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function base($pathonly = false)
 	{
@@ -190,7 +190,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  string  The root URI string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function root($pathonly = false, $path = null)
 	{
@@ -216,7 +216,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function current()
 	{
@@ -235,7 +235,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function reset()
 	{
@@ -252,7 +252,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  void
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0  Use {@link \Joomla\Uri\Uri::setPath()}
 	 * @note        Present to proxy calls to the deprecated {@link JUri::_cleanPath()} method.
 	 */
@@ -268,7 +268,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  boolean  True if Internal.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function isInternal($url)
 	{
@@ -296,7 +296,7 @@ class Uri extends \Joomla\Uri\Uri
 	 * @return  string  The resulting query string.
 	 *
 	 * @see     parse_str()
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    The parent method is protected, this exposes it as public for B/C
 	 */
 	public static function buildQuery(array $params)
@@ -311,7 +311,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    The parent method is protected, this exposes it as public for B/C
 	 */
 	public function parse($uri)
@@ -331,7 +331,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  string  Cleaned and resolved URI path.
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0   Use {@link \Joomla\Uri\Uri::cleanPath()} instead
 	 */
 	protected function _cleanPath($path)

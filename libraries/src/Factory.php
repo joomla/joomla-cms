@@ -28,7 +28,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform Factory class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class Factory
 {
@@ -36,7 +36,7 @@ abstract class Factory
 	 * Global application object
 	 *
 	 * @var    CMSApplication
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $application = null;
 
@@ -44,7 +44,7 @@ abstract class Factory
 	 * Global cache object
 	 *
 	 * @var    Cache
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $cache = null;
 
@@ -52,7 +52,7 @@ abstract class Factory
 	 * Global configuraiton object
 	 *
 	 * @var    \JConfig
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $config = null;
 
@@ -60,7 +60,7 @@ abstract class Factory
 	 * Container for Date instances
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static $dates = array();
 
@@ -68,7 +68,7 @@ abstract class Factory
 	 * Global session object
 	 *
 	 * @var    Session
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $session = null;
 
@@ -76,7 +76,7 @@ abstract class Factory
 	 * Global language object
 	 *
 	 * @var   Language
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $language = null;
 
@@ -84,7 +84,7 @@ abstract class Factory
 	 * Global document object
 	 *
 	 * @var    \JDocument
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $document = null;
 
@@ -92,8 +92,8 @@ abstract class Factory
 	 * Global ACL object
 	 *
 	 * @var    Access
-	 * @since  11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS)
+	 * @since  1.7.0
+	 * @deprecated  4.0
 	 */
 	public static $acl = null;
 
@@ -101,7 +101,7 @@ abstract class Factory
 	 * Global database object
 	 *
 	 * @var    \JDatabaseDriver
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $database = null;
 
@@ -109,7 +109,7 @@ abstract class Factory
 	 * Global mailer object
 	 *
 	 * @var    Mail
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public static $mailer = null;
 
@@ -125,7 +125,7 @@ abstract class Factory
 	 * @return  CMSApplication object
 	 *
 	 * @see     JApplication
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \Exception
 	 */
 	public static function getApplication($id = null, array $config = array(), $prefix = 'J')
@@ -158,7 +158,7 @@ abstract class Factory
 	 * @return  Registry
 	 *
 	 * @see     Registry
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
 	{
@@ -185,7 +185,7 @@ abstract class Factory
 	 * @return  Session object
 	 *
 	 * @see     Session
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getSession(array $options = array())
 	{
@@ -205,7 +205,7 @@ abstract class Factory
 	 * @return  Language object
 	 *
 	 * @see     Language
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getLanguage()
 	{
@@ -225,7 +225,7 @@ abstract class Factory
 	 * @return  \JDocument object
 	 *
 	 * @see     \JDocument
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getDocument()
 	{
@@ -247,7 +247,7 @@ abstract class Factory
 	 * @return  User object
 	 *
 	 * @see     User
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getUser($id = null)
 	{
@@ -281,7 +281,7 @@ abstract class Factory
 	 * @return  \Joomla\CMS\Cache\CacheController object
 	 *
 	 * @see     JCache
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getCache($group = '', $handler = 'callback', $storage = null)
 	{
@@ -316,7 +316,7 @@ abstract class Factory
 	 *
 	 * @return  Access object
 	 *
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JAccess directly.
+	 * @deprecated  4.0 - Use JAccess directly.
 	 */
 	public static function getAcl()
 	{
@@ -338,7 +338,7 @@ abstract class Factory
 	 * @return  \JDatabaseDriver
 	 *
 	 * @see     \JDatabaseDriver
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getDbo()
 	{
@@ -358,7 +358,7 @@ abstract class Factory
 	 * @return  \JMail object
 	 *
 	 * @see     JMail
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getMailer()
 	{
@@ -380,7 +380,7 @@ abstract class Factory
 	 *
 	 * @return  mixed  SimplePie parsed object on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \BadMethodCallException
 	 * @deprecated  4.0  Use directly JFeedFactory or supply SimplePie instead. Mehod will be proxied to JFeedFactory beginning in 3.2
 	 */
@@ -405,9 +405,9 @@ abstract class Factory
 	 * @return  mixed    JXMLElement or SimpleXMLElement on success or false on error.
 	 *
 	 * @see     JXMLElement
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    When JXMLElement is not present a SimpleXMLElement will be returned.
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use SimpleXML directly.
+	 * @deprecated  4.0 - Use SimpleXML directly.
 	 */
 	public static function getXml($data, $isFile = true)
 	{
@@ -459,9 +459,9 @@ abstract class Factory
 	 *
 	 * @return  Editor instance of Editor
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \BadMethodCallException
-	 * @deprecated 12.3 (Platform) & 4.0 (CMS) - Use Editor directly
+	 * @deprecated 4.0 - Use Editor directly
 	 */
 	public static function getEditor($editor = null)
 	{
@@ -490,8 +490,8 @@ abstract class Factory
 	 * @return  Uri object
 	 *
 	 * @see     Uri
-	 * @since   11.1
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JUri directly.
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use JUri directly.
 	 */
 	public static function getUri($uri = 'SERVER')
 	{
@@ -509,7 +509,7 @@ abstract class Factory
 	 * @return  Date object
 	 *
 	 * @see     Date
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getDate($time = 'now', $tzOffset = null)
 	{
@@ -563,7 +563,7 @@ abstract class Factory
 	 * @return  Registry
 	 *
 	 * @see     Registry
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')
 	{
@@ -601,7 +601,7 @@ abstract class Factory
 	 *
 	 * @return  Session object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function createSession(array $options = array())
 	{
@@ -634,7 +634,7 @@ abstract class Factory
 	 * @return  \JDatabaseDriver
 	 *
 	 * @see     \JDatabaseDriver
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function createDbo()
 	{
@@ -675,7 +675,7 @@ abstract class Factory
 	 * @return  \JMail object
 	 *
 	 * @see     \JMail
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function createMailer()
 	{
@@ -740,7 +740,7 @@ abstract class Factory
 	 * @return  Language object
 	 *
 	 * @see     Language
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function createLanguage()
 	{
@@ -758,7 +758,7 @@ abstract class Factory
 	 * @return  \JDocument object
 	 *
 	 * @see     \JDocument
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function createDocument()
 	{
@@ -792,7 +792,7 @@ abstract class Factory
 	 * @return  \JStream
 	 *
 	 * @see     \JStream
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getStream($use_prefix = true, $use_network = true, $ua = null, $uamask = false)
 	{

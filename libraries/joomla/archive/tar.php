@@ -22,7 +22,7 @@ jimport('joomla.filesystem.path');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @since       11.1
+ * @since       1.5
  * @deprecated  4.0 use the Joomla\Archive\Tar class instead
  */
 class JArchiveTar implements JArchiveExtractable
@@ -31,7 +31,7 @@ class JArchiveTar implements JArchiveExtractable
 	 * Tar file types.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	private $_types = array(
 		0x0  => 'Unix file',
@@ -49,7 +49,7 @@ class JArchiveTar implements JArchiveExtractable
 	 * Tar file data buffer
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	private $_data = null;
 
@@ -57,7 +57,7 @@ class JArchiveTar implements JArchiveExtractable
 	 * Tar file metadata array
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	private $_metadata = null;
 
@@ -70,7 +70,7 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  RuntimeException if JError class does not exist
 	 */
 	public function extract($archive, $destination, array $options = array())
@@ -138,7 +138,7 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if supported
 	 *
-	 * @since   11.3
+	 * @since   2.5.0
 	 */
 	public static function isSupported()
 	{
@@ -152,7 +152,7 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  RuntimeException if JError class does not exist
 	 */
 	protected function _getTarInfo(& $data)

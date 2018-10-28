@@ -28,6 +28,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'edc6464955a37aa4d5fbf39d40fb6ee7' => __DIR__ . '/..' . '/symfony/polyfill-php55/bootstrap.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
+        'e277be14c90068cf94faed2c43dbe6d8' => __DIR__ . '/..' . '/symfony/polyfill-php71/bootstrap.php',
         '0d59ee240a4cd96ddbb4ff164fccea4d' => __DIR__ . '/..' . '/symfony/polyfill-php73/bootstrap.php',
     );
 
@@ -36,6 +37,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         array (
             'Symfony\\Polyfill\\Util\\' => 22,
             'Symfony\\Polyfill\\Php73\\' => 23,
+            'Symfony\\Polyfill\\Php71\\' => 23,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Php55\\' => 23,
             'Symfony\\Polyfill\\Ctype\\' => 23,
@@ -79,6 +81,10 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Symfony\\Polyfill\\Php73\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
+        ),
+        'Symfony\\Polyfill\\Php71\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-php71',
         ),
         'Symfony\\Polyfill\\Php56\\' => 
         array (
@@ -293,6 +299,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Joomla\\Uri\\UriImmutable' => __DIR__ . '/..' . '/joomla/uri/src/UriImmutable.php',
         'Joomla\\Uri\\UriInterface' => __DIR__ . '/..' . '/joomla/uri/src/UriInterface.php',
         'Joomla\\Utilities\\ArrayHelper' => __DIR__ . '/..' . '/joomla/utilities/src/ArrayHelper.php',
+        'Joomla\\Utilities\\IpHelper' => __DIR__ . '/..' . '/joomla/utilities/src/IpHelper.php',
         'JsonSerializable' => __DIR__ . '/..' . '/joomla/compat/src/JsonSerializable.php',
         'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
         'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
@@ -366,6 +373,7 @@ class ComposerStaticInit205c915b9c7d3e718e7c95793ee67ffe
         'Symfony\\Polyfill\\Php55\\Php55' => __DIR__ . '/..' . '/symfony/polyfill-php55/Php55.php',
         'Symfony\\Polyfill\\Php55\\Php55ArrayColumn' => __DIR__ . '/..' . '/symfony/polyfill-php55/Php55ArrayColumn.php',
         'Symfony\\Polyfill\\Php56\\Php56' => __DIR__ . '/..' . '/symfony/polyfill-php56/Php56.php',
+        'Symfony\\Polyfill\\Php71\\Php71' => __DIR__ . '/..' . '/symfony/polyfill-php71/Php71.php',
         'Symfony\\Polyfill\\Php73\\Php73' => __DIR__ . '/..' . '/symfony/polyfill-php73/Php73.php',
         'Symfony\\Polyfill\\Util\\Binary' => __DIR__ . '/..' . '/symfony/polyfill-util/Binary.php',
         'Symfony\\Polyfill\\Util\\BinaryNoFuncOverload' => __DIR__ . '/..' . '/symfony/polyfill-util/BinaryNoFuncOverload.php',

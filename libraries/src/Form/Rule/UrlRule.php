@@ -19,7 +19,7 @@ use Joomla\Uri\UriHelper;
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class UrlRule extends FormRule
 {
@@ -36,7 +36,7 @@ class UrlRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @link    http://www.w3.org/Addressing/URL/url-spec.txt
 	 * @see	    JString
 	 */

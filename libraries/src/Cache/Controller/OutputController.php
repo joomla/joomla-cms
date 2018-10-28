@@ -16,7 +16,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Joomla Cache output type object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class OutputController extends CacheController
 {
@@ -24,7 +24,7 @@ class OutputController extends CacheController
 	 * Cache data ID
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_id;
 
@@ -32,7 +32,7 @@ class OutputController extends CacheController
 	 * Cache data group
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_group;
 
@@ -40,7 +40,7 @@ class OutputController extends CacheController
 	 * Object to test locked state
 	 *
 	 * @var    \stdClass
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @deprecated  4.0
 	 */
 	protected $_locktest = null;
@@ -53,7 +53,7 @@ class OutputController extends CacheController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0
 	 */
 	public function start($id, $group = null)
@@ -115,7 +115,7 @@ class OutputController extends CacheController
 	 *
 	 * @return  boolean  True if the cache data was stored
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0
 	 */
 	public function end()
@@ -155,7 +155,7 @@ class OutputController extends CacheController
 	 *
 	 * @return  mixed  Boolean false on no result, cached object otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id, $group = null)
 	{
@@ -197,7 +197,7 @@ class OutputController extends CacheController
 	 *
 	 * @return  boolean  True if cache stored
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
 	{

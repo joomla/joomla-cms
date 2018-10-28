@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       12.2
+ * @since       3.0.1
  */
 class JApplicationTest extends TestCase
 {

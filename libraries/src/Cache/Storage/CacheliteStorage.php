@@ -16,7 +16,7 @@ use Joomla\CMS\Cache\CacheStorage;
  * Cache lite storage handler
  *
  * @link   http://pear.php.net/package/Cache_Lite/
- * @since  11.1
+ * @since  1.7.0
  * @deprecated  4.0 Deprecated without replacement
  */
 class CacheliteStorage extends CacheStorage
@@ -25,7 +25,7 @@ class CacheliteStorage extends CacheStorage
 	 * Singleton Cache_Lite instance
 	 *
 	 * @var    \Cache_Lite
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $CacheLiteInstance = null;
 
@@ -33,7 +33,7 @@ class CacheliteStorage extends CacheStorage
 	 * Root path
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_root;
 
@@ -42,7 +42,7 @@ class CacheliteStorage extends CacheStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -73,7 +73,7 @@ class CacheliteStorage extends CacheStorage
 	 *
 	 * @return  \Cache_Lite
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function initCache($cloptions)
 	{
@@ -111,7 +111,7 @@ class CacheliteStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -128,7 +128,7 @@ class CacheliteStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAll()
 	{
@@ -175,7 +175,7 @@ class CacheliteStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($id, $group, $data)
 	{
@@ -211,7 +211,7 @@ class CacheliteStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function remove($id, $group)
 	{
@@ -234,7 +234,7 @@ class CacheliteStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -303,7 +303,7 @@ class CacheliteStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc()
 	{
@@ -340,7 +340,7 @@ class CacheliteStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{

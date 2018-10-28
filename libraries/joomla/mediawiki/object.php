@@ -14,19 +14,19 @@ use Joomla\Registry\Registry;
 /**
  * MediaWiki API object class for the Joomla Platform.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 abstract class JMediawikiObject
 {
 	/**
 	 * @var    Registry  Options for the MediaWiki object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JMediawikiHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
@@ -36,7 +36,7 @@ abstract class JMediawikiObject
      * @param   Registry        $options  Mediawiki options object.
      * @param   JMediawikiHttp  $client   The HTTP client object.
      *
-     * @since   12.3
+     * @since   3.1.4
      */
 	public function __construct(Registry $options = null, JMediawikiHttp $client = null)
 	{
@@ -51,7 +51,7 @@ abstract class JMediawikiObject
 	 *
 	 * @return  string   The request URL.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function fetchUrl($path)
 	{
@@ -80,7 +80,7 @@ abstract class JMediawikiObject
 	 *
 	 * @return  string   request parameter
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function buildParameter(array $params)
 	{
@@ -106,7 +106,7 @@ abstract class JMediawikiObject
 	 *
 	 * @return  Object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @throws  DomainException
 	 */

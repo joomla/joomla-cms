@@ -21,7 +21,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Updater Class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Updater extends \JAdapter
 {
@@ -67,7 +67,7 @@ class Updater extends \JAdapter
 
 	/**
 	 * @var    Updater  Updater instance container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance;
 
@@ -91,7 +91,7 @@ class Updater extends \JAdapter
 	 *
 	 * @return  Updater  An installer object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance()
 	{
@@ -116,7 +116,7 @@ class Updater extends \JAdapter
 	 *
 	 * @return  boolean True if there are updates
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function findUpdates($eid = 0, $cacheTimeout = 0, $minimum_stability = self::STABILITY_STABLE, $includeCurrent = false)
 	{

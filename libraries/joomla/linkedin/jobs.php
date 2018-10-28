@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API Jobs class for the Joomla Platform.
  *
- * @since  13.1
+ * @since  3.2.0
  */
 class JLinkedinJobs extends JLinkedinObject
 {
@@ -24,7 +24,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getJob($id, $fields = null)
 	{
@@ -63,7 +63,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getBookmarked($fields = null)
 	{
@@ -102,7 +102,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function bookmark($id)
 	{
@@ -140,7 +140,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteBookmark($id)
 	{
@@ -175,7 +175,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getSuggested($fields = null, $start = 0, $count = 0)
 	{
@@ -240,7 +240,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function search($fields = null, $keywords = null, $company_name = null, $job_title = null, $country_code = null, $postal_code = null,
 		$distance = null, $facets = null, $facet = null, $start = 0, $count = 0, $sort = null)

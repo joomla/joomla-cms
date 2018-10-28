@@ -30,13 +30,15 @@ $fields = $displayData->get('fields') ?: array(
 	'featured',
 	'sticky',
 	'access',
+	'id',
 	'language',
 	'tags',
 	'note',
 	'version_note',
 );
 
-$hiddenFields = $displayData->get('hidden_fields') ?: array();
+$hiddenFields   = $displayData->get('hidden_fields') ?: array();
+$hiddenFields[] = 'id';
 
 if (!$saveHistory)
 {

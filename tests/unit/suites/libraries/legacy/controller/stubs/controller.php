@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class TestController extends JControllerLegacy
 {
@@ -60,7 +60,7 @@ class TestController extends JControllerLegacy
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class TestTestController extends TestController
 {

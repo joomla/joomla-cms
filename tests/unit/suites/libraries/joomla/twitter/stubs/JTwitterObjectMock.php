@@ -10,7 +10,7 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
- * @since       12.3
+ * @since       3.1.4
  */
 class JTwitterObjectMock extends JTwitterObject
 {
@@ -25,7 +25,7 @@ class JTwitterObjectMock extends JTwitterObject
 	 *
 	 * @return  string   The request URL.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function fetchUrl($path, $page = 0, $limit = 0)
 	{
