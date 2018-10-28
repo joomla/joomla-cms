@@ -304,7 +304,7 @@ class UsersModelProfile extends JModelForm
 		$data['email']    = JStringPunycode::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 
-		// Make sure the activation / reset token is invalidated when the account mail is changed and an token exists.
+		// Make sure the activation / reset token is invalidated when the account mail is changed and a token exists.
 		if ($user->email != $data['email'] && $userId != 0 && !empty($user->activation))
 		{
 			$activation = (object) array(
