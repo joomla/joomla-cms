@@ -424,9 +424,7 @@ class ContactControllerContact extends JControllerForm
 		{
 			return Uri::base();
 		}
-		else
-		{
-			return base64_decode($return);
-		}
+
+		return base64_decode($return);
 	}
 }
