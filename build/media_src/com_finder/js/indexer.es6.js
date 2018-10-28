@@ -89,7 +89,7 @@
         updateProgress(json.header, json.message);
         if (document.getElementById('finder-debug-data')) {
           for (const context in json.pluginState) {
-            if (json.pluginState.hasOwnProperty(context)) {
+            if (Object.prototype.hasOwnProperty.call(json.pluginState, context)) {
               document.getElementById('finder-' + context.replace(/\s+/g, '-').toLowerCase()).innerHTML = json.pluginState[context].offset + ' of ' + json.pluginState[context].total;
             }
           }
