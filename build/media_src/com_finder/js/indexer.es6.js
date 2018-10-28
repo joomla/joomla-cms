@@ -78,21 +78,19 @@
           totalItems = json.totalItems;
           if (document.getElementById('finder-debug-data')) {
             const debuglist = document.getElementById('finder-debug-data');
-            for (const context in json.pluginState) {
+            Object.entries(json.pluginState).forEach((context) => {
               let item = `<dt class="col-sm-3">${context}</dt>`;
               item += `<dd id="finder-${context.replace(/\s+/g, '-').toLowerCase()}" class="col-sm-9"></dd>`;
               debuglist.insertAdjacentHTML('beforeend', item);
-            }
+            });
           }
         }
         offset += json.batchOffset;
         updateProgress(json.header, json.message);
         if (document.getElementById('finder-debug-data')) {
-          for (const context in json.pluginState) {
-            if (Object.prototype.hasOwnProperty.call(json.pluginState, context)) {
-              document.getElementById(`finder-${context.replace(/\s+/g, '-').toLowerCase()}`).innerHTML = `${json.pluginState[context].offset} of ${json.pluginState[context].total}`;
-            }
-          }
+          Object.entries(json.pluginState).forEach((context) => {
+            document.getElementById(`finder-${context.replace(/\s+/g, '-').toLowerCase()}`).innerHTML = `${json.pluginState[context].offset} of ${json.pluginState[context].total}`;
+          });
         }
         if (offset < totalItems) {
           getRequest('indexer.batch');
