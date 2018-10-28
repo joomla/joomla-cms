@@ -204,6 +204,20 @@ class UsersModelUser extends JModelAdmin
 		$pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 		$user = JUser::getInstance($pk);
 
+		// Make sure the activation / reset token is invalidated when the account mail is changed and an token exists.
+		if ($user->email != $data['email'] && $pk != 0 && !empty($user->activation))
+		{
+			$activation = (object) array(
+				'id'         => $pk,
+				'activation' => JUserHelper::hashPassword(JApplicationHelper::getHash(JUserHelper::genRandomPassword())),
+			);
+
+			$this->getDbo()->updateObject('#__users', $activation, 'id');
+
+			// Reload the user record
+			$user->load($pk);
+		}
+
 		$my = JFactory::getUser();
 		$iAmSuperAdmin = $my->authorise('core.admin');
 

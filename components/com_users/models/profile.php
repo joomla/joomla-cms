@@ -304,6 +304,20 @@ class UsersModelProfile extends JModelForm
 		$data['email']    = JStringPunycode::emailToPunycode($data['email1']);
 		$data['password'] = $data['password1'];
 
+		// Make sure the activation / reset token is invalidated when the account mail is changed and an token exists.
+		if ($user->email != $data['email'] && $userId != 0 && !empty($user->activation))
+		{
+			$activation = (object) array(
+				'id'         => $userId,
+				'activation' => JUserHelper::hashPassword(JApplicationHelper::getHash(JUserHelper::genRandomPassword())),
+			);
+
+			$this->getDbo()->updateObject('#__users', $activation, 'id');
+
+			// Reload the user record
+			$user->load($userId);
+		}
+
 		// Unset the username if it should not be overwritten
 		$isUsernameCompliant = $this->getState('user.username.compliant');
 
