@@ -209,7 +209,7 @@ class UsersModelUser extends JModelAdmin
 		{
 			$activation = (object) array(
 				'id'         => $pk,
-				'activation' => JUserHelper::hashPassword(JApplicationHelper::getHash(JUserHelper::genRandomPassword())),
+				'activation' => '',
 			);
 
 			$this->getDbo()->updateObject('#__users', $activation, 'id');
