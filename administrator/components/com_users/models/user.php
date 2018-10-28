@@ -204,7 +204,7 @@ class UsersModelUser extends JModelAdmin
 		$pk   = (!empty($data['id'])) ? $data['id'] : (int) $this->getState('user.id');
 		$user = JUser::getInstance($pk);
 
-		// Make sure the activation / reset token is invalidated when the account mail is changed and an token exists.
+		// Make sure the activation / reset token is invalidated when the account mail is changed and a token exists.
 		if ($user->email != $data['email'] && $pk != 0 && !empty($user->activation))
 		{
 			$activation = (object) array(
