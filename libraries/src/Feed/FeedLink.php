@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Feed Link class.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class FeedLink
 {
@@ -21,7 +21,7 @@ class FeedLink
 	 * The URI to the linked resource.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $uri;
 
@@ -29,7 +29,7 @@ class FeedLink
 	 * The relationship between the feed and the linked resource.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $relation;
 
@@ -37,7 +37,7 @@ class FeedLink
 	 * The resource type.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $type;
 
@@ -45,7 +45,7 @@ class FeedLink
 	 * The language of the resource found at the given URI.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $language;
 
@@ -53,7 +53,7 @@ class FeedLink
 	 * The title of the resource.
 	 *
 	 * @var    string
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $title;
 
@@ -61,7 +61,7 @@ class FeedLink
 	 * The length of the resource in bytes.
 	 *
 	 * @var    integer
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $length;
 
@@ -75,7 +75,7 @@ class FeedLink
 	 * @param   string   $title     The title of the resource.
 	 * @param   integer  $length    The length of the resource in bytes.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \InvalidArgumentException
 	 */
 	public function __construct($uri = null, $relation = null, $type = null, $language = null, $title = null, $length = null)

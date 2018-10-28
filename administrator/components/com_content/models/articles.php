@@ -399,6 +399,8 @@ class ContentModelArticles extends JModelList
 	 * @return  stdClass
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0  To be removed with Hathor
 	 */
 	public function getAuthors()
 	{

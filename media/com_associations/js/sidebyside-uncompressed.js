@@ -154,6 +154,16 @@ jQuery(document).ready(function($) {
 
 	// Attach behaviour to reference frame load event.
 	$('#reference-association').on('load', function() {
+		// Waiting until the reference has loaded before loading the target to avoid race conditions
+		var targetURL = Joomla.getOptions('targetSrc', false);
+
+		if (targetURL)
+		{
+			targetURL = targetURL.split('&amp;').join('&');
+			document.getElementById('target-association').setAttribute('src', targetURL);
+			Joomla.loadOptions({'targetSrc': false});
+			return;
+		}
 
 		// Load Target Pane AFTER reference pane has loaded to prevent session conflict with checkout
 		document.getElementById('target-association').setAttribute('src', document.getElementById('target-association').getAttribute('src'));

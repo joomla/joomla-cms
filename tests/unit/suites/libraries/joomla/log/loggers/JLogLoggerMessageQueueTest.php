@@ -14,13 +14,13 @@ require_once __DIR__ . '/stubs/messagequeue/mock.application.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       11.1
+ * @since       1.7.0
  */
 class JLogLoggerMessageQueueTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var   mixed  The main application object from JFactory while we mock it out.
-	 * @since 11.1
+	 * @since 1.7.0
 	 */
 	protected $app;
 

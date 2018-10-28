@@ -45,12 +45,12 @@ class LanguagesModelInstalled extends JModelList
 	protected $data = null;
 
 	/**
-	 * @var int total number pf languages
+	 * @var int total number of languages
 	 */
 	protected $total = null;
 
 	/**
-	 * @var int total number pf languages installed
+	 * @var int total number of languages installed
 	 * @deprecated 4.0
 	 */
 	protected $langlist = null;

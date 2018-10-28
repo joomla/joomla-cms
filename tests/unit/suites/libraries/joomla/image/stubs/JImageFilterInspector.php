@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Image
- * @since       11.3
+ * @since       1.7.3
  */
 class JImageFilterInspector extends JImageFilter
 {
@@ -25,7 +25,7 @@ class JImageFilterInspector extends JImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function execute(array $options = array())
 	{

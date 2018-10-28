@@ -69,7 +69,7 @@ class JFormFieldLanguageclient extends JFormFieldList
 		ksort($languages);
 
 		// Add the languages to the internal cache.
-		$this->cache = $languages;
+		$this->cache = array_merge(parent::getOptions(), $languages);
 
 		return $this->cache;
 	}

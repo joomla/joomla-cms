@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @since       11.1
+ * @since       1.7.0
  */
 class JFileTest extends \PHPUnit\Framework\TestCase
 {

@@ -17,62 +17,62 @@ use Joomla\String\StringHelper;
 /**
  * Base class for a Joomla! Web application.
  *
- * @since  11.4
+ * @since  2.5.0
  * @note   As of 4.0 this class will be abstract
  */
 class WebApplication extends BaseApplication
 {
 	/**
 	 * @var    string  Character encoding string.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public $charSet = 'utf-8';
 
 	/**
 	 * @var    string  Response mime type.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public $mimeType = 'text/html';
 
 	/**
 	 * @var    \JDate  The body modified date for response headers.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public $modifiedDate;
 
 	/**
 	 * @var    \JApplicationWebClient  The application client object.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public $client;
 
 	/**
 	 * @var    \JDocument  The application document object.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $document;
 
 	/**
 	 * @var    \JLanguage  The application language object.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $language;
 
 	/**
 	 * @var    \JSession  The application session object.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $session;
 
 	/**
 	 * @var    object  The application response object.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $response;
 
 	/**
 	 * @var    WebApplication  The application instance.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance;
 
@@ -188,7 +188,7 @@ class WebApplication extends BaseApplication
 	 *                                           client object.  If the argument is a \JApplicationWebClient object that object will become
 	 *                                           the application's client object, otherwise a default client object is created.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __construct(Input $input = null, Registry $config = null, \JApplicationWebClient $client = null)
 	{
@@ -251,7 +251,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function getInstance($name = null)
 	{
@@ -296,12 +296,12 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
-	 * @deprecated  13.1 (Platform) & 4.0 (CMS)
+	 * @deprecated  4.0
 	 * @see     WebApplication::loadSession()
 	 * @see     WebApplication::loadDocument()
 	 * @see     WebApplication::loadLanguage()
 	 * @see     WebApplication::loadDispatcher()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function initialise($session = null, $document = null, $language = null, $dispatcher = null)
 	{
@@ -333,7 +333,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function execute()
 	{
@@ -382,7 +382,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function render()
 	{
@@ -419,7 +419,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function compress()
 	{
@@ -490,7 +490,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function respond()
 	{
@@ -539,7 +539,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function redirect($url, $status = 303)
 	{
@@ -621,8 +621,14 @@ class WebApplication extends BaseApplication
 			}
 		}
 
+		// Trigger the onBeforeRespond event.
+		$this->triggerEvent('onBeforeRespond');
+
 		// Set appropriate headers
 		$this->respond();
+
+		// Trigger the onAfterRespond event.
+		$this->triggerEvent('onAfterRespond');
 
 		//  Close the application after the redirect.
 		$this->close();
@@ -651,7 +657,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function loadConfiguration($data)
 	{
@@ -676,7 +682,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function allowCache($allow = null)
 	{
@@ -699,7 +705,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setHeader($name, $value, $replace = false)
 	{
@@ -751,7 +757,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  array	 *
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getHeaders()
 	{
@@ -763,7 +769,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function clearHeaders()
 	{
@@ -777,7 +783,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function sendHeaders()
 	{
@@ -833,7 +839,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setBody($content)
 	{
@@ -849,7 +855,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function prependBody($content)
 	{
@@ -865,7 +871,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication  Instance of $this to allow chaining.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function appendBody($content)
 	{
@@ -881,7 +887,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  mixed  The response body either as an array or concatenated string.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getBody($asArray = false)
 	{
@@ -893,7 +899,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  \JDocument  The document object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getDocument()
 	{
@@ -905,7 +911,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  \JLanguage  The language object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getLanguage()
 	{
@@ -917,7 +923,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  \JSession  The session object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getSession()
 	{
@@ -931,7 +937,7 @@ class WebApplication extends BaseApplication
 	 * @return  boolean  True if the connection is valid and normal.
 	 *
 	 * @see     connection_status()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function checkConnectionAlive()
 	{
@@ -945,7 +951,7 @@ class WebApplication extends BaseApplication
 	 * @return  boolean  True if the headers have already been sent.
 	 *
 	 * @see     headers_sent()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function checkHeadersSent()
 	{
@@ -957,7 +963,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  string  The requested URI
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function detectRequestUri()
 	{
@@ -1012,7 +1018,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  mixed   Either an array or object to be loaded into the configuration object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function fetchConfigurationData($file = '', $class = '\JConfig')
@@ -1075,7 +1081,7 @@ class WebApplication extends BaseApplication
 	 * @return  void
 	 *
 	 * @see     header()
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function header($string, $replace = true, $code = null)
 	{
@@ -1088,7 +1094,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  boolean  True if using SSL, false if not.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function isSSLConnection()
 	{
@@ -1106,7 +1112,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function loadDocument(\JDocument $document = null)
 	{
@@ -1126,7 +1132,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function loadLanguage(\JLanguage $language = null)
 	{
@@ -1146,7 +1152,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function loadSession(\JSession $session = null)
 	{
@@ -1199,7 +1205,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function afterSessionStart()
 	{
@@ -1220,7 +1226,7 @@ class WebApplication extends BaseApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function loadSystemUris($requestUri = null)
 	{

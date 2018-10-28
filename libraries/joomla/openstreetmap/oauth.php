@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for generating Openstreetmap API access token.
  *
- * @since       13.1
+ * @since       3.2.0
  * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmapOauth extends JOAuth1Client
@@ -23,7 +23,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 * Options for the JOpenstreetmapOauth object.
 	 *
 	 * @var    Registry
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
@@ -34,7 +34,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 * @param   JHttp     $client   The HTTP client object.
 	 * @param   JInput    $input    The input object
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null)
 	{
@@ -59,7 +59,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 *
 	 * @return  boolean  Returns true if the access token is valid and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function verifyCredentials()
 	{
@@ -74,7 +74,7 @@ class JOpenstreetmapOauth extends JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function validateResponse($url, $response)

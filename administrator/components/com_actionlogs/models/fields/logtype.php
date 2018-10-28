@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+
 JFormHelper::loadFieldClass('checkboxes');
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
@@ -38,29 +40,23 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('a.extension')
-			->from($db->quoteName('#__action_logs_extensions', 'a'));
+			->select($db->quoteName('extension'))
+			->from($db->quoteName('#__action_logs_extensions'));
 
-		$db->setQuery($query);
+		$extensions = $db->setQuery($query)->loadColumn();
 
-		$extensions = $db->loadObjectList();
-
-		$options  = array();
-		$defaults = array();
+		$options = array();
+		$tmp     = array('checked' => true);
 
 		foreach ($extensions as $extension)
 		{
-			$tmp = array(
-				'checked' => true,
-			);
-
-			$defaults[] = $extension;
-
-			ActionlogsHelper::loadTranslationFiles($extension->extension);
-			$option = JHtml::_('select.option', $extension->extension, JText::_($extension->extension));
-			$options[] = (object) array_merge($tmp, (array) $option);
+			ActionlogsHelper::loadTranslationFiles($extension);
+			$option = JHtml::_('select.option', $extension, JText::_($extension));
+			$options[ApplicationHelper::stringURLSafe(JText::_($extension)) . '_' . $extension] = (object) array_merge($tmp, (array) $option);
 		}
 
-		return array_merge(parent::getOptions(), $options);
+		ksort($options);
+
+		return array_merge(parent::getOptions(), array_values($options));
 	}
 }

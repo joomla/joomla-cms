@@ -17,7 +17,7 @@ JLog::add('JResponse is deprecated.', JLog::WARNING, 'deprecated');
  * This class serves to provide the Joomla Platform with a common interface to access
  * response variables.  This includes header and body.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  1.5  Use JApplicationWeb instead
  */
 class JResponse

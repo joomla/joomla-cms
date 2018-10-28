@@ -15,13 +15,19 @@ use Joomla\Registry\Registry;
 // Detect if we have full UTF-8 and unicode PCRE support.
 if (!defined('JCOMPAT_UNICODE_PROPERTIES'))
 {
+	/**
+	 * Flag indicating UTF-8 and PCRE support is present
+	 *
+	 * @var    boolean
+	 * @since  1.6
+	 */
 	define('JCOMPAT_UNICODE_PROPERTIES', (bool) @preg_match('/\pL/u', 'a'));
 }
 
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.6
  */
 class FormRule
 {
@@ -29,7 +35,7 @@ class FormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $regex;
 
@@ -37,7 +43,7 @@ class FormRule
 	 * The regular expression modifiers to use when testing a form field value.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $modifiers;
 
@@ -54,7 +60,7 @@ class FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 * @throws  \UnexpectedValueException if rule is invalid.
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)

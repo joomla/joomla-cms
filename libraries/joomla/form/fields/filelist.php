@@ -18,7 +18,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Supports an HTML select list of files
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldFileList extends JFormFieldList
 {
@@ -26,7 +26,7 @@ class JFormFieldFileList extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'FileList';
 
@@ -182,7 +182,7 @@ class JFormFieldFileList extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{

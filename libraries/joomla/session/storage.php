@@ -13,14 +13,14 @@ defined('JPATH_PLATFORM') or die;
  * Custom session storage handler for PHP
  *
  * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 abstract class JSessionStorage
 {
 	/**
 	 * @var    JSessionStorage[]  JSessionStorage instances container.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -29,7 +29,7 @@ abstract class JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -44,7 +44,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  JSessionStorage
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  JSessionExceptionUnsupported
 	 */
 	public static function getInstance($name = 'none', $options = array())
@@ -91,7 +91,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function register()
 	{
@@ -116,7 +116,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function open($save_path, $session_name)
 	{
@@ -128,7 +128,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function close()
 	{
@@ -143,7 +143,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  string  The session data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function read($id)
 	{
@@ -158,7 +158,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function write($id, $session_data)
 	{
@@ -173,7 +173,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function destroy($id)
 	{
@@ -187,7 +187,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc($maxlifetime = null)
 	{
@@ -199,7 +199,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -211,8 +211,8 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JSessionStorage::isSupported() instead.
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use JSessionStorage::isSupported() instead.
 	 */
 	public static function test()
 	{

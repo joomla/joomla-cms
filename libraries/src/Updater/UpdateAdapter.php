@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
 /**
  * UpdateAdapter class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class UpdateAdapter extends \JAdapterInstance
 {
@@ -29,7 +29,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * Resource handle for the XML Parser
 	 *
 	 * @var    resource
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $xmlParser;
 
@@ -37,7 +37,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * Element call stack
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $stack = array('base');
 
@@ -45,7 +45,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * ID of update site
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $updateSiteId = 0;
 
@@ -53,7 +53,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 * Columns in the extensions table to be updated
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $updatecols = array('NAME', 'ELEMENT', 'TYPE', 'FOLDER', 'CLIENT', 'VERSION', 'DESCRIPTION', 'INFOURL', 'EXTRA_QUERY');
 
@@ -98,7 +98,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getStackLocation()
 	{
@@ -110,7 +110,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getLastTag()
 	{
@@ -124,7 +124,7 @@ abstract class UpdateAdapter extends \JAdapterInstance
 	 *
 	 * @return  array  Update_sites and updates discovered
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	abstract public function findUpdate($options);
 

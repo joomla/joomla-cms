@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('imagelist');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       12.1
+ * @since       3.0.0
  */
 class JFormFieldImageListTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JFormFieldImageListTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetInput()
 	{

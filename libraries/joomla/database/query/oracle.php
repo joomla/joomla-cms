@@ -12,25 +12,25 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Oracle Query Building Class.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {
 	/**
 	 * @var    integer  The offset for the result set.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $offset;
 
 	/**
 	 * @var    integer  The limit for the result set.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $limit;
 
 	/**
 	 * @var    array  Bounded object array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $bounded = array();
 
@@ -48,7 +48,7 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  JDatabaseQueryOracle
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function bind($key = null, &$value = null, $dataType = PDO::PARAM_STR, $length = 0, $driverOptions = array())
 	{
@@ -92,7 +92,7 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function &getBounded($key = null)
 	{
@@ -116,7 +116,7 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  JDatabaseQueryOracle  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function clear($clause = null)
 	{
@@ -145,7 +145,7 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
@@ -190,7 +190,7 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  JDatabaseQueryOracle  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setLimit($limit = 0, $offset = 0)
 	{

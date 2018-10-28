@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  View
- * @since       11.3
+ * @since       1.7.3
  */
 class MediaViewMediaList extends JViewLegacy
 {

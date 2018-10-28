@@ -59,7 +59,7 @@
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_ORDERING_DESC"
-					default="published"
+					default="p_dsc"
 					>
 					<option value="c_dsc">MOD_LATEST_NEWS_VALUE_RECENT_ADDED</option>
 					<option value="m_dsc">MOD_LATEST_NEWS_VALUE_RECENT_MODIFIED</option>
