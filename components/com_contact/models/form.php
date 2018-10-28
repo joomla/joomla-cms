@@ -28,7 +28,6 @@ class ContactModelForm extends ContactModelContact
 	 * Model typeAlias string. Used for version history.
 	 *
 	 * @var  string
-	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public $typeAlias = 'com_contact.contact';
@@ -37,7 +36,6 @@ class ContactModelForm extends ContactModelContact
 	 * Name of the form
 	 *
 	 * @var string
-	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $formName = 'form';

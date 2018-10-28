@@ -61,7 +61,6 @@ class ContactModelContact extends JModelAdmin
 	 * Name of the form
 	 *
 	 * @var string
-	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $formName = 'contact';

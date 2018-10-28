@@ -289,7 +289,7 @@
 			id="published"
 			class="chzn-color-state"
 			size="1"
-		>
+			>
 			<option value="1">JPUBLISHED</option>
 			<option value="0">JUNPUBLISHED</option>
 			<option value="2">JARCHIVED</option>
@@ -303,7 +303,7 @@
 			label="JFEATURED"
 			description="COM_CONTACT_FIELD_FEATURED_DESC"
 			default="0"
-		>
+			>
 			<option value="0">JNO</option>
 			<option value="1">JYES</option>
 		</field>
@@ -348,7 +348,7 @@
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			description="COM_CONTACT_FIELD_LANGUAGE_DESC"
-		>
+			>
 			<option value="*">JALL</option>
 		</field>
 	</fieldset>
