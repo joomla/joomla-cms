@@ -487,7 +487,7 @@ class MenusHelper extends ContentHelper
 				'browserNav'   => $item->browserNav ? 1 : 0,
 				'img'          => $item->class,
 				'access'       => $item->access,
-				'component_id' => array_search($item->element, $components),
+				'component_id' => array_search($item->element, $components) ?: 0,
 				'parent_id'    => $parent,
 				'client_id'    => 1,
 				'published'    => 1,
