@@ -348,14 +348,12 @@ class ContactControllerContact extends JControllerForm
 			{
 				return ($record->created_by == $user->id);
 			}
-		}
-		else
-		{
-			// Since there is no asset tracking, revert to the component permissions.
-			return parent::allowEdit($data, $key);
+
+			return false;
 		}
 
-		return false;
+		// Since there is no asset tracking, revert to the component permissions.
+		return parent::allowEdit($data, $key);
 	}
 
 	/**
