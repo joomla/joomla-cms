@@ -69,6 +69,6 @@ class UserFactory implements UserFactoryInterface
 		$query->setLimit(1, 0);
 		$this->db->setQuery($query);
 
-		return $this->createUserById((int)$this->db->loadResult());
+		return $this->createUserById((int) $this->db->loadResult());
 	}
 }
