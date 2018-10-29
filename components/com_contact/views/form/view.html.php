@@ -160,7 +160,7 @@ class ContactViewForm extends JViewLegacy
 			$this->params->def('page_heading', Text::_('COM_CONTACT_FORM_EDIT_CONTACT'));
 		}
 
-		$title = $this->params->def('page_title', Text::_('COM_CONTACT_FORM_EDIT_CONTAC'));
+		$title = $this->params->def('page_title', Text::_('COM_CONTACT_FORM_EDIT_CONTACT'));
 
 		if ($app->get('sitename_pagetitles', 0) == 1)
 		{
