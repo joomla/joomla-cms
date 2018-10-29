@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
-use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
+use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
+use Joomla\CMS\Extension\Service\Provider\MVCFactory;
 use Joomla\CMS\HTML\Registry;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Installer\Administrator\Extension\InstallerComponent;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -37,15 +37,15 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Installer'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Installer'));
+		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Installer'));
+		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Installer'));
 
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new InstallerComponent($container->get(DispatcherFactoryInterface::class));
-				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
+				$component = new InstallerComponent($container->get(ComponentDispatcherFactoryInterface::class));
+				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
 				$component->setRegistry($container->get(Registry::class));
 
 				return $component;

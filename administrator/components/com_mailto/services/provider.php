@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\MVCComponent;
-use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
-use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
+use Joomla\CMS\Extension\Service\Provider\MVCFactory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -36,14 +36,14 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Mailto'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Mailto'));
+		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Mailto'));
+		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Mailto'));
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new MVCComponent($container->get(DispatcherFactoryInterface::class));
-				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
+				$component = new MVCComponent($container->get(ComponentDispatcherFactoryInterface::class));
+				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
 
 				return $component;
 			}

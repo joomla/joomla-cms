@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Table\CoreContent;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\CoreContent;
+use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\Component\Content\Administrator\Table\ArticleTable;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -104,8 +104,8 @@ class PlgContentJoomla extends CMSPlugin
 					'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
 					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
-				$model_message = Factory::getApplication()->bootComponent('com_messages')
-					->createMVCFactory(Factory::getApplication())->createModel('Message', 'Administrator');
+				$model_message = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()
+					->createModel('Message', 'Administrator');
 				$result = $model_message->save($message);
 			}
 		}
@@ -519,7 +519,7 @@ class PlgContentJoomla extends CMSPlugin
 					);
 
 					$model_message = Factory::getApplication()->bootComponent('com_messages')
-						->createMVCFactory(Factory::getApplication())->createModel('Message', 'Administrator');
+						->getMVCFactory()->createModel('Message', 'Administrator');
 					$result = $model_message->save($message);
 				}
 			}

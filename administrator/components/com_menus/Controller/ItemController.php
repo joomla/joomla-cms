@@ -12,13 +12,13 @@ namespace Joomla\Component\Menus\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 
 /**
  * The Menu ItemModel  Controller
@@ -223,7 +223,7 @@ class ItemController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{

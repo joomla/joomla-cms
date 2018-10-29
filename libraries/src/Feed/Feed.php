@@ -27,13 +27,13 @@ use Joomla\CMS\Date\Date;
  * @property  Date        $updatedDate    The last time the content of the feed changed.
  * @property  string      $uri            Universal, permanent identifier for the feed.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class Feed implements \ArrayAccess, \Countable
 {
 	/**
 	 * @var    array  The entry properties.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $properties = array(
 		'uri' => '',
@@ -46,7 +46,7 @@ class Feed implements \ArrayAccess, \Countable
 
 	/**
 	 * @var    array  The list of feed entry objects.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $entries = array();
 
@@ -57,7 +57,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __get($name)
 	{
@@ -72,7 +72,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __set($name, $value)
 	{
@@ -117,7 +117,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addCategory($name, $uri = '')
 	{
@@ -136,7 +136,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addContributor($name, $email, $uri = null, $type = null)
 	{
@@ -164,7 +164,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addEntry(FeedEntry $entry)
 	{
@@ -205,7 +205,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @return  boolean
 	 *
 	 * @see     ArrayAccess::offsetExists()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function offsetExists($offset)
 	{
@@ -220,7 +220,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @return  mixed  The value at the offset.
 	 *
 	 * @see     ArrayAccess::offsetGet()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function offsetGet($offset)
 	{
@@ -236,7 +236,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @return  boolean
 	 *
 	 * @see     ArrayAccess::offsetSet()
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \InvalidArgumentException
 	 */
 	public function offsetSet($offset, $value)
@@ -265,7 +265,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * @return  void
 	 *
 	 * @see     ArrayAccess::offsetUnset()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function offsetUnset($offset)
 	{
@@ -279,7 +279,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function removeCategory($name)
 	{
@@ -295,7 +295,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function removeContributor(FeedPerson $contributor)
 	{
@@ -321,7 +321,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function removeEntry(FeedEntry $entry)
 	{
@@ -350,7 +350,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAuthor($name, $email, $uri = null, $type = null)
 	{
@@ -366,7 +366,7 @@ class Feed implements \ArrayAccess, \Countable
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function reverseItems()
 	{

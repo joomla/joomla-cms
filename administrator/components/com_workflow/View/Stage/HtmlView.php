@@ -11,10 +11,10 @@ namespace Joomla\Component\Workflow\Administrator\View\Stage;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * View class to add or edit a stage of a workflow

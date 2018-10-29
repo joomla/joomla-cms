@@ -13,13 +13,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * FieldsHelper
@@ -95,8 +95,7 @@ class FieldsHelper
 		{
 			// Load the model
 			self::$fieldsCache = Factory::getApplication()->bootComponent('com_fields')
-				->createMVCFactory(Factory::getApplication())
-				->createModel('Fields', 'Administrator', ['ignore_request' => true]);
+				->getMVCFactory()->createModel('Fields', 'Administrator', ['ignore_request' => true]);
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
@@ -145,8 +144,7 @@ class FieldsHelper
 			if (self::$fieldCache === null)
 			{
 				self::$fieldCache = Factory::getApplication()->bootComponent('com_fields')
-					->createMVCFactory(Factory::getApplication())
-					->createModel('Field', 'Administrator', ['ignore_request' => true]);
+					->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 			}
 
 			$fieldIds = array_map(
@@ -399,8 +397,7 @@ class FieldsHelper
 		}
 
 		$model = Factory::getApplication()->bootComponent('com_fields')
-			->createMVCFactory(Factory::getApplication())
-			->createModel('Groups', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 		$model->setState('filter.context', $context);
 
 		/**
@@ -490,8 +487,7 @@ class FieldsHelper
 		$form->load($xml->saveXML());
 
 		$model = Factory::getApplication()->bootComponent('com_fields')
-			->createMVCFactory(Factory::getApplication())
-			->createModel('Field', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
 		if ((!isset($data->id) || !$data->id) && Factory::getApplication()->input->getCmd('controller') == 'modules'
 			&& Factory::getApplication()->isClient('site'))
@@ -580,8 +576,7 @@ class FieldsHelper
 			{
 				// Inherit from field group display read-only setting
 				$groupModel = $app->bootComponent('com_fields')
-					->createMVCFactory($app)
-					->createModel('Group', 'Administrator', ['ignore_request' => true]);
+					->getMVCFactory()->createModel('Group', 'Administrator', ['ignore_request' => true]);
 				$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
 				$fieldDisplayReadOnly = $groupDisplayReadOnly;
 			}

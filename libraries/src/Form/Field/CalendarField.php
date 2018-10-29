@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
  * Provides a pop up date picker linked to a button.
  * Optionally may be filtered to use user's or server's time zone.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class CalendarField extends FormField
 {
@@ -28,7 +28,7 @@ class CalendarField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Calendar';
 
@@ -191,7 +191,7 @@ class CalendarField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

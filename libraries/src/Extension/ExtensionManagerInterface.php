@@ -27,4 +27,16 @@ interface ExtensionManagerInterface
 	 * @since   4.0.0
 	 */
 	public function bootComponent($component): ComponentInterface;
+
+	/**
+	 * Boots the module with the given name.
+	 *
+	 * @param   string  $module           The module to boot
+	 * @param   string  $applicationName  The application name
+	 *
+	 * @return  ModuleInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function bootModule($module, $applicationName): ModuleInterface;
 }
