@@ -69,7 +69,7 @@ class CssMenu
 	/**
 	 * CssMenu constructor.
 	 *
-	 * @param   CMSApplication  $this->applicationlication  The application
+	 * @param   CMSApplication  $application  The application
 	 *
 	 * @since __DEPLOY_VERSION__
 	 */
