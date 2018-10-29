@@ -300,11 +300,21 @@ abstract class Factory
 	 *
 	 * @return  User object
 	 *
-	 * @see     User
-	 * @since   1.7.0
+	 * @see         User
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
 	 */
 	public static function getUser($id = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$instance = self::getApplication()->getSession()->get('user');
 
 		if (is_null($id))
@@ -559,6 +569,7 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\User)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAsset);
 
 		return $container;
