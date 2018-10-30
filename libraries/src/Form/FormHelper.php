@@ -439,7 +439,7 @@ class FormHelper
 	 *
 	 * @since   3.7.0
 	 */
-	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
+	public static function parseShowOnConditions($showOn, $formControl = null, $group = null, $animate = true)
 	{
 		// Process the showon data.
 		if (!$showOn)
@@ -500,10 +500,11 @@ class FormHelper
 			}
 
 			$showOnData[] = array(
-				'field'  => $field,
-				'values' => explode(',', $showOnPartBlocks[1]),
-				'sign'   => $compareEqual === true ? '=' : '!=',
-				'op'     => $op,
+				'field'   => $field,
+				'values'  => explode(',', $showOnPartBlocks[1]),
+				'sign'    => $compareEqual === true ? '=' : '!=',
+				'op'      => $op,
+				'animate' => $animate,
 			);
 
 			if ($op !== '')
