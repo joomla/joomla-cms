@@ -966,8 +966,10 @@ abstract class FormField
 
 		if ($this->showon)
 		{
+			$animate = $this->getAttribute('showon-animate') !== 'false';
+
 			$options['rel']           = ' data-showon=\'' .
-				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
+				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group, $animate)) . '\'';
 			$options['showonEnabled'] = true;
 		}
 
