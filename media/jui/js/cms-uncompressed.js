@@ -61,6 +61,10 @@ Joomla = window.Joomla || {};
 				fieldName = condition.field;
 				$fields   = $('[name="' + fieldName + '"], [name="' + fieldName + '[]"]');
 
+				if(typeof animate === "undefined" && typeof condition.animate !== "undefined") {
+					animate = condition.animate;
+				}
+
 				condition['valid'] = 0;
 
 				// Test in each of the elements in the field array if condition is valid
@@ -178,11 +182,11 @@ Joomla = window.Joomla || {};
 					}
 
 					// Check current condition for element
-					linkedoptions($target);
+					linkedoptions($target, false);
 
 					// Attach events to referenced element, to check condition on change
 					$fields.on('change', function() {
-						linkedoptions($target, true);
+						linkedoptions($target);
 					});
 				})();
 			}
