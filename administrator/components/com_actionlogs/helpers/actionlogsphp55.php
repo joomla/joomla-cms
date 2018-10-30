@@ -54,7 +54,7 @@ class ActionlogsHelperPhp55
 
 			yield array(
 				'id'         => $log->id,
-				'message'    => strip_tags(ActionlogsHelper::getHumanReadableLogMessage($log)),
+				'message'    => strip_tags(ActionlogsHelper::getHumanReadableLogMessage($log, false)),
 				'date'       => (new JDate($log->log_date, new DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
 				'extension'  => JText::_($extension),
 				'name'       => $log->name,

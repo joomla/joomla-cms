@@ -64,7 +64,7 @@ class ActionlogsHelper
 
 			$rows[] = array(
 				'id'         => $log->id,
-				'message'    => strip_tags(static::getHumanReadableLogMessage($log)),
+				'message'    => strip_tags(static::getHumanReadableLogMessage($log, false)),
 				'date'       => $date->format('Y-m-d H:i:s T'),
 				'extension'  => JText::_($extension),
 				'name'       => $log->name,
@@ -159,13 +159,14 @@ class ActionlogsHelper
 	/**
 	 * Get human readable log message for a User Action Log
 	 *
-	 * @param   stdClass  $log  A User Action log message record
+	 * @param   stdClass  $log            A User Action log message record
+	 * @param   boolean   $generateLinks  Flag to disable link generation when creating a message
 	 *
 	 * @return  string
 	 *
 	 * @since   3.9.0
 	 */
-	public static function getHumanReadableLogMessage($log)
+	public static function getHumanReadableLogMessage($log, $generateLinks = true)
 	{
 		static $links = array();
 
@@ -184,7 +185,7 @@ class ActionlogsHelper
 		foreach ($messageData as $key => $value)
 		{
 			// Convert relative url to absolute url so that it is clickable in action logs notification email
-			if (StringHelper::strpos($value, 'index.php?') === 0)
+			if ($generateLinks && StringHelper::strpos($value, 'index.php?') === 0)
 			{
 				if (!isset($links[$value]))
 				{

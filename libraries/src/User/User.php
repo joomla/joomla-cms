@@ -138,7 +138,7 @@ class User extends \JObject
 	/**
 	 * Guest status
 	 *
-	 * @var    boolean
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	public $guest = null;
