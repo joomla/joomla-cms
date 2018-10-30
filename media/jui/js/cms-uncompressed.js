@@ -141,7 +141,7 @@ Joomla = window.Joomla || {};
 				}
 			}
 
-			if(typeof animate === "undefined") {
+			if (typeof animate === "undefined") {
 				animate = true;
 			}
 
