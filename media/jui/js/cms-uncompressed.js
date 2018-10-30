@@ -61,7 +61,7 @@ Joomla = window.Joomla || {};
 				fieldName = condition.field;
 				$fields   = $('[name="' + fieldName + '"], [name="' + fieldName + '[]"]');
 
-				if(typeof animate === "undefined" && typeof condition.animate !== "undefined") {
+				if (typeof animate === "undefined" && typeof condition.animate !== "undefined") {
 					animate = condition.animate;
 				}
 
