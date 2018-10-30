@@ -431,9 +431,10 @@ class FormHelper
 	/**
 	 * Parse the show on conditions
 	 *
-	 * @param   string  $showOn       Show on conditions.
-	 * @param   string  $formControl  Form name.
-	 * @param   string  $group        The dot-separated form group path.
+	 * @param   string   $showOn       Show on conditions.
+	 * @param   string   $formControl  Form name.
+	 * @param   string   $group        The dot-separated form group path.
+	 * @param   boolean  $animate      Whether to animate when hiding/showing the content.
 	 *
 	 * @return  array   Array with show on conditions.
 	 *
