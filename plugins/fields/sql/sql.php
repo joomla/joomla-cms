@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
@@ -68,7 +67,7 @@ class PlgFieldsSql extends \Joomla\Component\Fields\Administrator\Plugin\FieldsL
 		}
 
 		// If we are not a super admin, don't let the user create a SQL field
-		if (!Access::getAssetRules(1)->allow('core.admin', Factory::getUser()->getAuthorisedGroups()))
+		if (!Access::getAssetRules(1)->allow('core.admin', $this->app->getIdentity()->getAuthorisedGroups()))
 		{
 			$item->setError(Text::_('PLG_FIELDS_SQL_CREATE_NOT_POSSIBLE'));
 
@@ -82,7 +81,7 @@ class PlgFieldsSql extends \Joomla\Component\Fields\Administrator\Plugin\FieldsL
 		{
 			// Set the denied flag on the root group
 			$rules['core.edit']->mergeIdentity(1, false);
-			Factory::getApplication()->enqueueMessage(Text::_('PLG_FIELDS_SQL_RULES_ADAPTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('PLG_FIELDS_SQL_RULES_ADAPTED'), 'warning');
 		}
 
 		return true;
