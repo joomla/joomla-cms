@@ -141,6 +141,10 @@ Joomla = window.Joomla || {};
 				}
 			}
 
+			if(typeof animate === "undefined") {
+				animate = true;
+			}
+
 			// If conditions are satisfied show the target field(s), else hide.
 			// Note that animations don't work on list options other than in Chrome.
 			if (animate && !target.is('option')) {
