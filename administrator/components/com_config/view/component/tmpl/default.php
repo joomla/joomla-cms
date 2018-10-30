@@ -63,12 +63,13 @@ JFactory::getDocument()->addScriptDeclaration(
 						<?php JHtml::_('jquery.framework'); ?>
 						<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
 						<?php
-							$dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions(
-								$fieldSet->showon,
-								$this->formControl,
-								'',
-									$fieldSet->getAttribute('showon-animate') !== 'false'
-							)) . '\'';
+						$conditions = JFormHelper::parseShowOnConditions(
+							$fieldSet->showon,
+							$this->formControl,
+							'',
+							$fieldSet->getAttribute('showon-animate') !== 'false'
+						);
+						$dataShowOn = ' data-showon=\'' . json_encode($conditions) . '\'';
 						?>
 					<?php endif; ?>
 					<?php $label = empty($fieldSet->label) ? 'COM_CONFIG_' . $name . '_FIELDSET_LABEL' : $fieldSet->label; ?>
@@ -93,12 +94,13 @@ JFactory::getDocument()->addScriptDeclaration(
 								<?php JHtml::_('jquery.framework'); ?>
 								<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
 								<?php
-									$dataShowOn = ' data-showon=\'' . json_encode(JFormHelper::parseShowOnConditions(
-										$field->showon,
-										$field->formControl,
-										$field->group,
-										$field->getAttribute('showon-animate') !== 'false'
-									)) . '\'';
+								$conditions = JFormHelper::parseShowOnConditions(
+									$field->showon,
+									$field->formControl,
+									$field->group,
+									$field->getAttribute('showon-animate') !== 'false'
+								);
+								$dataShowOn = ' data-showon=\'' . json_encode($conditions) . '\'';
 								?>
 							<?php endif; ?>
 							<?php if ($field->hidden) : ?>
