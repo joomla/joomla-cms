@@ -118,7 +118,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 		$application = Factory::getApplication();
 
 		$model = $application->bootComponent('com_admin')
-			->createMVCFactory($application)->createModel('Sysinfo', 'Administrator');
+			->getMVCFactory()->createModel('Sysinfo', 'Administrator');
 
 		return [
 			'phpVersion' => PHP_VERSION,

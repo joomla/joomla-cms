@@ -38,22 +38,13 @@ class WebAssetItem
 	const ASSET_STATE_ACTIVE = 1;
 
 	/**
-	 * Mark active asset. Enabled WITH all dependency
-	 *
-	 * @var    integer
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	const ASSET_STATE_RESOLVED = 2;
-
-	/**
 	 * Mark active asset that is enabled as dependency to another asset
 	 *
 	 * @var    integer
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	const ASSET_STATE_DEPENDANCY = 3;
+	const ASSET_STATE_DEPENDANCY = 2;
 
 	/**
 	 * Asset state

@@ -76,8 +76,8 @@ class MenutypeField extends ListField
 			default:
 				$link = $this->form->getValue('link');
 
-				$model = Factory::getApplication()->bootComponent('com_menus')->createMVCFactory(Factory::getApplication())
-					->createModel('Menutypes', 'Administrator', array('ignore_request' => true));
+				$model = Factory::getApplication()->bootComponent('com_menus')
+					->getMVCFactory()->createModel('Menutypes', 'Administrator', array('ignore_request' => true));
 				$model->setState('client_id', $clientId);
 
 				$rlu   = $model->getReverseLookup();

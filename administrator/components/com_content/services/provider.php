@@ -16,10 +16,10 @@ use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Extension\Service\Provider\CategoryFactory;
 use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
-use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
+use Joomla\CMS\Extension\Service\Provider\MVCFactory;
 use Joomla\CMS\Extension\Service\Provider\RouterFactory;
 use Joomla\CMS\HTML\Registry;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\AssociationsHelper;
 use Joomla\DI\Container;
@@ -46,7 +46,7 @@ return new class implements ServiceProviderInterface
 		$container->set(AssociationExtensionInterface::class, new AssociationsHelper);
 
 		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Content'));
-		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Content'));
+		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Content'));
 		$container->registerServiceProvider(new RouterFactory('\\Joomla\\Component\\Content'));
 
@@ -57,7 +57,7 @@ return new class implements ServiceProviderInterface
 				$component = new ContentComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
 				$component->setRegistry($container->get(Registry::class));
-				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
+				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
 				$component->setCategoryFactory($container->get(CategoryFactoryInterface::class));
 				$component->setAssociationExtension($container->get(AssociationExtensionInterface::class));
 				$component->setRouterFactory($container->get(RouterFactoryInterface::class));

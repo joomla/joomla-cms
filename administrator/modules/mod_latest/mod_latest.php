@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\Module\Latest\Administrator\Helper\ModLatestHelper;
 
-$model = $app->bootComponent('com_content')->createMVCFactory($app)->createModel('Articles', 'Administrator', ['ignore_request' => true]);
+$model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Administrator', ['ignore_request' => true]);
 $list = ModLatestHelper::getList($params, $model);
 
 if ($params->get('automatic_title', 0))

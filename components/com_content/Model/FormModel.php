@@ -11,14 +11,14 @@ namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Factory;
 
 /**
  * Content Component Article Model
