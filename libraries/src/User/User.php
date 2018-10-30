@@ -268,7 +268,7 @@ class User extends CMSObject
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			return Factory::getContainer()->get(UserFactoryInterface::class)->createUserByUsername($identifier);
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserByUsername($identifier);
 		}
 		else
 		{
@@ -279,13 +279,13 @@ class User extends CMSObject
 		// Note: don't cache this user because it'll have a new ID on save!
 		if ($id === 0)
 		{
-			return Factory::getContainer()->get(UserFactoryInterface::class)->createUserById($id);
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = Factory::getContainer()->get(UserFactoryInterface::class)->createUserById($id);
+			self::$instances[$id] = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		return self::$instances[$id];

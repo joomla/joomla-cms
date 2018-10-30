@@ -45,7 +45,7 @@ class UserFactory implements UserFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createUserById(int $id): User
+	public function loadUserById(int $id): User
 	{
 		return new User($id);
 	}
@@ -59,7 +59,7 @@ class UserFactory implements UserFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createUserByUsername(string $username): User
+	public function loadUserByUsername(string $username): User
 	{
 		// Initialise some variables
 		$query = $this->db->getQuery(true)
@@ -69,6 +69,6 @@ class UserFactory implements UserFactoryInterface
 		$query->setLimit(1, 0);
 		$this->db->setQuery($query);
 
-		return $this->createUserById((int) $this->db->loadResult());
+		return $this->loadUserById((int) $this->db->loadResult());
 	}
 }
