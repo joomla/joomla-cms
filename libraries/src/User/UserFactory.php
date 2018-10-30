@@ -8,9 +8,9 @@
 
 namespace Joomla\CMS\User;
 
-use Joomla\Database\DatabaseInterface;
-
 defined('_JEXEC') or die;
+
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Default factory for creating User objects
