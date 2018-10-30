@@ -22,12 +22,13 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				<?php JHtml::_('jquery.framework'); ?>
 				<?php JHtml::_('script', 'jui/cms.js', array('version' => 'auto', 'relative' => true)); ?>
 				<?php
-					$dataShowOn = " data-showon='" . json_encode(JFormHelper::parseShowOnConditions(
-						$field->showon,
-						$field->formControl,
-						$field->group,
-						$field->getAttribute('showon-animate') !== 'false'
-					)) . "'";
+				$conditions = JFormHelper::parseShowOnConditions(
+					$field->showon,
+					$field->formControl,
+					$field->group,
+					$field->getAttribute('showon-animate') !== 'false'
+				);
+				$dataShowOn = " data-showon='" . json_encode($conditions) . "'";
 				?>
 			<?php endif; ?>
 			<div class="js-stools-field-filter"<?php echo $dataShowOn; ?>>
