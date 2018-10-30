@@ -26,7 +26,7 @@ interface UserFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createUserById(int $id): User;
+	public function loadUserById(int $id): User;
 
 	/**
 	 * Method to get an instance of a user for the given username.
@@ -37,5 +37,5 @@ interface UserFactoryInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function createUserByUsername(string $username): User;
+	public function loadUserByUsername(string $username): User;
 }
