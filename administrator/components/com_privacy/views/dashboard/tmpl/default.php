@@ -99,6 +99,9 @@ $activeRequests = 0;
 							<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_PRIVACY_POLICY_PUBLISHED'); ?></div>
 							<?php if ($this->privacyPolicyInfo['editLink'] !== '') : ?>
 								<small><a href="<?php echo $this->privacyPolicyInfo['editLink']; ?>"><?php echo JText::_('COM_PRIVACY_EDIT_PRIVACY_POLICY'); ?></a></small>
+							<?php else : ?>
+								<?php $link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $this->privacyConsentPluginId); ?>
+								<small><a href="<?php echo $link; ?>"</a><?php echo JText::_('COM_PRIVACY_EDIT_PRIVACY_CONSENT_PLUGIN'); ?></small>
 							<?php endif; ?>
 						</div>
 					</div>
