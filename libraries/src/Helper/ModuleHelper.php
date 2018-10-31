@@ -10,6 +10,8 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -405,8 +407,9 @@ abstract class ModuleHelper
 
 		try
 		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = Factory::getCache('com_modules', 'callback');
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_modules']);
 
 			$modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
@@ -512,8 +515,9 @@ abstract class ModuleHelper
 		$user = Factory::getUser();
 		$app  = Factory::getApplication();
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = Factory::getCache($cacheparams->cachegroup, 'callback');
+		/** @var CallbackController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+			->createCacheController('callback', ['defaultgroup' => $cacheparams->cachegroup]);
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
 		if ($moduleparams->get('owncache', null) === '0' || $app->get('caching') == 0 || $user->get('id'))
