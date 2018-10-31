@@ -180,8 +180,8 @@ Joomla = window.Joomla || {};
 					// Check current condition for element
 					linkedoptions($target);
 
-					// Attach events to referenced element, to check condition on change
-					$fields.on('change', function() {
+					// Attach events to referenced element, to check condition on change and keyup
+					$fields.on('change keyup', function() {
 						linkedoptions($target, true);
 					});
 				})();
