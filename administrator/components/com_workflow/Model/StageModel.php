@@ -15,6 +15,10 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
+<<<<<<< HEAD
+use Joomla\Utilities\ArrayHelper;
+=======
+>>>>>>> cd7d4c9a8576114973d141b34bdbd3e0eeff96cc
 
 /**
  * Model class for stage
