@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 HTMLHelper::_('script', 'vendor/metismenujs/metismenujs.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 
-$doc       = \Joomla\CMS\Factory::getDocument();
+$doc       = $app->getDocument();
 $direction = $doc->direction === 'rtl' ? 'float-right' : '';
 $class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
 
