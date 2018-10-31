@@ -21,7 +21,7 @@
   if (formTmp) {
     formTmp.style.display = 'block';
     if (!document.querySelector('joomla-alert')) {
-      document.getElementById('mod-login-username').focus();
+        document.getElementById('mod-login-username').focus();
     }
   }
 })();
