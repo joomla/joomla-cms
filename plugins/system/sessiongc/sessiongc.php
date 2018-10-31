@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\MetadataManager;
 
@@ -46,8 +45,6 @@ class PlgSystemSessionGc extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
-		$session = Factory::getSession();
-
 		if ($this->params->get('enable_session_gc', 1))
 		{
 			$probability = $this->params->get('gc_probability', 1);
@@ -57,7 +54,7 @@ class PlgSystemSessionGc extends CMSPlugin
 
 			if ($probability > 0 && $random < $probability)
 			{
-				$session->gc();
+				$this->app->getSession()->gc();
 			}
 		}
 
@@ -71,7 +68,7 @@ class PlgSystemSessionGc extends CMSPlugin
 			if ($probability > 0 && $random < $probability)
 			{
 				$metadataManager = new MetadataManager($this->app, $this->db);
-				$metadataManager->deletePriorTo(time() - $session->getExpire());
+				$metadataManager->deletePriorTo(time() - $this->app->getSession()->getExpire());
 			}
 		}
 	}

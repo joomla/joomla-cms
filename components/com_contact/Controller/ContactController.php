@@ -12,15 +12,15 @@ namespace Joomla\Component\Contact\Site\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\User\User;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
+use Joomla\CMS\User\User;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**

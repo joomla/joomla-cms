@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Categories\CategoryFactoryInterface;
+use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Extension\ComponentInterface;
-use Joomla\CMS\Extension\Service\Provider\DispatcherFactory;
-use Joomla\CMS\Extension\Service\Provider\MVCFactoryFactory;
+use Joomla\CMS\Extension\Service\Provider\CategoryFactory;
+use Joomla\CMS\Extension\Service\Provider\ComponentDispatcherFactory;
+use Joomla\CMS\Extension\Service\Provider\MVCFactory;
 use Joomla\CMS\HTML\Registry;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Component\Banners\Administrator\Extension\BannersComponent;
-use Joomla\Component\Banners\Site\Service\Category;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -39,20 +39,19 @@ return new class implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->set(Categories::class, ['' => new Category]);
-
-		$container->registerServiceProvider(new MVCFactoryFactory('\\Joomla\\Component\\Banners'));
-		$container->registerServiceProvider(new DispatcherFactory('\\Joomla\\Component\\Banners'));
+		$container->registerServiceProvider(new CategoryFactory('\\Joomla\\Component\\Banners'));
+		$container->registerServiceProvider(new MVCFactory('\\Joomla\\Component\\Banners'));
+		$container->registerServiceProvider(new ComponentDispatcherFactory('\\Joomla\\Component\\Banners'));
 
 		$container->set(
 			ComponentInterface::class,
 			function (Container $container)
 			{
-				$component = new BannersComponent($container->get(DispatcherFactoryInterface::class));
+				$component = new BannersComponent($container->get(ComponentDispatcherFactoryInterface::class));
 
 				$component->setRegistry($container->get(Registry::class));
-				$component->setMvcFactoryFactory($container->get(MVCFactoryFactoryInterface::class));
-				$component->setCategories($container->get(Categories::class));
+				$component->setMVCFactory($container->get(MVCFactoryInterface::class));
+				$component->setCategoryFactory($container->get(CategoryFactoryInterface::class));
 
 				return $component;
 			}

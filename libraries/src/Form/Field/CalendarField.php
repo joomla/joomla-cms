@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
  * Provides a pop up date picker linked to a button.
  * Optionally may be filtered to use user's or server's time zone.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class CalendarField extends FormField
 {
@@ -28,7 +28,7 @@ class CalendarField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Calendar';
 
@@ -191,12 +191,11 @@ class CalendarField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
-		$user   = Factory::getUser();
-		$config = Factory::getConfig();
+		$user = Factory::getUser();
 
 		// Translate the format if requested
 		$translateFormat = (string) $this->element['translateformat'];
@@ -224,7 +223,7 @@ class CalendarField extends FormField
 				{
 					// Get a date object based on the correct timezone.
 					$date = Factory::getDate($this->value, 'UTC');
-					$date->setTimezone(new \DateTimeZone($config->get('offset')));
+					$date->setTimezone(new \DateTimeZone(Factory::getApplication()->get('offset')));
 
 					// Transform the date string.
 					$this->value = $date->format('Y-m-d H:i:s', true, false);

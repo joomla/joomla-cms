@@ -33,7 +33,10 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 	public function parse($input)
 	{
 		// Strip invalid UTF-8 characters.
-		$input = iconv('utf-8', 'utf-8//IGNORE', $input);
+		$oldSetting = ini_get('mbstring.substitute_character');
+		ini_set('mbstring.substitute_character', 'none');
+		$input = mb_convert_encoding($input, 'UTF-8', 'UTF-8'); 
+		ini_set('mbstring.substitute_character', $oldSetting);
 
 		// Remove anything between <head> and </head> tags.  Do this first
 		// because there might be <script> or <style> tags nested inside.

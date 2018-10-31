@@ -22,6 +22,7 @@
 		<field
 			name="state"
 			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
 			filter="*,-2,0,1"
 			onchange="this.form.submit();"
 			>
@@ -30,6 +31,7 @@
 		<field
 			name="position"
 			type="ModulesPosition"
+			label="COM_MODULES_OPTION_SELECT_POSITION"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_POSITION</option>
@@ -37,6 +39,7 @@
 		<field
 			name="module"
 			type="ModulesModule"
+			label="COM_MODULES_OPTION_SELECT_MODULE"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MODULES_OPTION_SELECT_MODULE</option>
@@ -44,6 +47,7 @@
 		<field
 			name="menuitem"
 			type="menuitem"
+			label="COM_MODULES_OPTION_SELECT_MENU_ITEM"
 			disable="separator,alias,heading,url"
 			onchange="this.form.submit();"
 			>
@@ -53,6 +57,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			label="JOPTION_SELECT_ACCESS"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_ACCESS</option>
@@ -60,6 +65,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_SELECT_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -70,6 +76,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,-2"
 			onchange="this.form.submit();"
 			default="a.position ASC"
@@ -97,6 +104,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

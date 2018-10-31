@@ -68,13 +68,6 @@
 			/>
 
 			<field 
-				name="num_columns" 
-				type="number"
-				label="JGLOBAL_NUM_COLUMNS_LABEL"
-				useglobal="true"
-			/>
-
-			<field 
 				name="num_links" 
 				type="number"
 				label="JGLOBAL_NUM_LINKS_LABEL"

@@ -10,8 +10,7 @@
 		<field
 			name="published"
 			type="status"
-			label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
-			description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
+			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			filter="-2,0,1"
 			>
@@ -20,8 +19,7 @@
 		<field
 			name="from_stage"
 			type="sql"
-			label="COM_WORKFLOW_FROM_STAGE"
-			description="COM_WORKFLOW_FROM_STAGE_DESC"
+			label="COM_WORKFLOW_SELECT_FROM_STAGE"
 			onchange="this.form.submit();"
 			sql_select="id as value, title as from_stage"
 			sql_from="#__workflow_stages"
@@ -31,8 +29,7 @@
 		<field
 			name="to_stage"
 			type="sql"
-			label="COM_WORKFLOW_TO_STAGE"
-			description="COM_WORKFLOW_TO_STAGE_DESC"
+			label="COM_WORKFLOW_SELECT_TO_STAGE"
 			onchange="this.form.submit();"
 			sql_select="id as value, title as to_stage"
 			sql_from="#__workflow_stages"
@@ -46,7 +43,6 @@
 			name="fullordering"
 			type="list"
 			label="JGLOBAL_SORT_BY"
-			description="JGLOBAL_SORT_BY"
 			default="t.ordering ASC"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
@@ -65,8 +61,7 @@
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_WORKFLOW_LIST_LIMIT"
-			description="COM_WORKFLOW_LIST_LIMIT_DESC"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

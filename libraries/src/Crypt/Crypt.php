@@ -15,7 +15,7 @@ use Joomla\Crypt\Crypt as JCrypt;
 /**
  * Crypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class Crypt extends JCrypt
 {

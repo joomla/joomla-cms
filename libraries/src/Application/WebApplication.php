@@ -30,7 +30,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * Base class for a Joomla! Web application.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 abstract class WebApplication extends AbstractWebApplication implements DispatcherAwareInterface
 {
@@ -40,7 +40,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * The application document object.
 	 *
 	 * @var    Document
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $document;
 
@@ -48,7 +48,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * The application language object.
 	 *
 	 * @var    Language
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $language;
 
@@ -56,7 +56,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 * The application instance.
 	 *
 	 * @var    static
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $instance;
 
@@ -77,7 +77,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *                                        will become the application's response object, otherwise a default response
 	 *                                        object is created.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __construct(Input $input = null, Registry $config = null, WebClient $client = null, ResponseInterface $response = null)
 	{
@@ -103,7 +103,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication
 	 *
-	 * @since       11.3
+	 * @since       1.7.3
 	 * @throws      \RuntimeException
 	 * @deprecated  5.0 Use \Joomla\CMS\Factory::getContainer()->get($name) instead
 	 */
@@ -128,7 +128,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function execute()
 	{
@@ -180,7 +180,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function render()
 	{
@@ -216,7 +216,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  Document  The document object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getDocument()
 	{
@@ -228,7 +228,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  Language  The language object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getLanguage()
 	{
@@ -258,7 +258,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function loadDocument(Document $document = null)
 	{
@@ -278,7 +278,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function loadLanguage(Language $language = null)
 	{
@@ -298,7 +298,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  WebApplication This method is chainable.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  5.0  The session should be injected as a service.
 	 */
 	public function loadSession(Session $session = null)
@@ -315,7 +315,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function afterSessionStart(SessionEvent $event)
 	{
@@ -342,7 +342,7 @@ abstract class WebApplication extends AbstractWebApplication implements Dispatch
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function loadSystemUris($requestUri = null)
 	{

@@ -11,10 +11,10 @@ namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Form\Form;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Rest model class for Users.

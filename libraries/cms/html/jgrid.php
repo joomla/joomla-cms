@@ -27,7 +27,6 @@ abstract class JHtmlJGrid
 	 * @param   integer       $i               The row index
 	 * @param   string        $task            The task to fire
 	 * @param   string|array  $prefix          An optional task prefix or an array of options
-	 * @param   string        $text            An optional text to display [unused - @deprecated 4.0]
 	 * @param   string        $active_title    An optional active tooltip to display if $enable is true
 	 * @param   string        $inactive_title  An optional inactive tooltip to display if $enable is true
 	 * @param   boolean       $tip             An optional setting for tooltip
@@ -42,7 +41,7 @@ abstract class JHtmlJGrid
 	 *
 	 * @since   1.6
 	 */
-	public static function action($i, $task, $prefix = '', $text = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
+	public static function action($i, $task, $prefix = '', $active_title = '', $inactive_title = '', $tip = false, $active_class = '',
 		$inactive_class = '', $enabled = true, $translate = true, $checkbox = 'cb', $formId = null)
 	{
 		if (is_array($prefix))
@@ -72,12 +71,12 @@ abstract class JHtmlJGrid
 
 			if ($formId !== null)
 			{
-				$html[] = 'href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix .
+				$html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix .
 					$task . '\',\'' . $formId . '\')"';
 			}
 			else
 			{
-				$html[] = 'href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
+				$html[] = ' href="javascript:void(0);" onclick="return Joomla.listItemTask(\'' . $checkbox . $i . '\',\'' . $prefix . $task . '\')"';
 			}
 
 			$html[] = $tip ? ' title="' . $title . '"' : '';
@@ -147,7 +146,7 @@ abstract class JHtmlJGrid
 		$inactive_class = array_key_exists('inactive_class', $state) ? $state['inactive_class'] : (array_key_exists(6, $state) ? $state[6] : '');
 
 		return static::action(
-			$i, $task, $prefix, $text, $active_title, $inactive_title, $tip,
+			$i, $task, $prefix, $active_title, $inactive_title, $tip,
 			$active_class, $inactive_class, $enabled, $translate, $checkbox,
 			$formId
 		);
@@ -359,7 +358,7 @@ abstract class JHtmlJGrid
 		$inactive_title = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
 		return static::action(
-			$i, 'checkin', $prefix, Text::_('JLIB_HTML_CHECKED_OUT'), html_entity_decode($active_title, ENT_QUOTES, 'UTF-8'),
+			$i, 'checkin', $prefix, html_entity_decode($active_title, ENT_QUOTES, 'UTF-8'),
 			html_entity_decode($inactive_title, ENT_QUOTES, 'UTF-8'), true, 'checkedout', 'checkedout', $enabled, false, $checkbox,
 			$formId
 		);
@@ -391,7 +390,7 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		return static::action($i, $task, $prefix, $text, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
+		return static::action($i, $task, $prefix, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
 	}
 
 	/**
@@ -421,6 +420,6 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		return static::action($i, $task, $prefix, $text, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);
+		return static::action($i, $task, $prefix, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);
 	}
 }

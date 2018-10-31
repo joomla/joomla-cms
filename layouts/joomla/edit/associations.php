@@ -20,7 +20,6 @@ $options  = array(
 );
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('jquery.framework');
 Text::script('JGLOBAL_ASSOC_NOT_POSSIBLE');
 Text::script('JGLOBAL_ASSOCIATIONS_RESET_WARNING');
 Factory::getDocument()->addScriptOptions('system.associations.edit', $options);

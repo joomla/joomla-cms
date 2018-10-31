@@ -25,7 +25,7 @@ class PlgFieldsUser extends \Joomla\Component\Fields\Administrator\Plugin\Fields
 	 *
 	 * @param   stdClass    $field   The field.
 	 * @param   DOMElement  $parent  The field node parent.
-	 * @param   JForm       $form    The form.
+	 * @param   Form        $form    The form.
 	 *
 	 * @return  DOMElement
 	 *

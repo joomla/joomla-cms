@@ -14,20 +14,20 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Form\Form;
-use Joomla\CMS\Log\Log;
 
 /**
  * Registration model class for Users.
@@ -75,7 +75,7 @@ class RegistrationModel extends FormModel
 	 */
 	public function activate($token)
 	{
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 		$userParams = ComponentHelper::getParams('com_users');
 		$db = $this->getDbo();
 
@@ -133,9 +133,9 @@ class RegistrationModel extends FormModel
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
 			}
 
-			$data['fromname'] = $config->get('fromname');
-			$data['mailfrom'] = $config->get('mailfrom');
-			$data['sitename'] = $config->get('sitename');
+			$data['fromname'] = $app->get('fromname');
+			$data['mailfrom'] = $app->get('mailfrom');
+			$data['sitename'] = $app->get('sitename');
 			$user->setParam('activate', 1);
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_SUBJECT',
@@ -218,9 +218,9 @@ class RegistrationModel extends FormModel
 			// Compile the user activated notification mail values.
 			$data = $user->getProperties();
 			$user->setParam('activate', 0);
-			$data['fromname'] = $config->get('fromname');
-			$data['mailfrom'] = $config->get('mailfrom');
-			$data['sitename'] = $config->get('sitename');
+			$data['fromname'] = $app->get('fromname');
+			$data['mailfrom'] = $app->get('mailfrom');
+			$data['sitename'] = $app->get('sitename');
 			$data['siteurl'] = Uri::base();
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
@@ -502,15 +502,15 @@ class RegistrationModel extends FormModel
 			return false;
 		}
 
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Compile the notification mail values.
 		$data = $user->getProperties();
-		$data['fromname'] = $config->get('fromname');
-		$data['mailfrom'] = $config->get('mailfrom');
-		$data['sitename'] = $config->get('sitename');
+		$data['fromname'] = $app->get('fromname');
+		$data['mailfrom'] = $app->get('mailfrom');
+		$data['sitename'] = $app->get('sitename');
 		$data['siteurl'] = Uri::root();
 
 		// Handle account activation/confirmation emails.

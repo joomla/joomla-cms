@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 /**
  * Client helper class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ClientHelper
 {
@@ -29,7 +29,7 @@ class ClientHelper
 	 * @return  array    Client layer configuration options, consisting of at least
 	 *                   these fields: enabled, host, port, user, pass, root
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getCredentials($client, $force = false)
 	{
@@ -39,19 +39,19 @@ class ClientHelper
 
 		if (!isset($credentials[$client]) || $force)
 		{
-			$config = Factory::getConfig();
+			$app = Factory::getApplication();
 
 			// Fetch the client layer configuration options for the specific client
 			switch ($client)
 			{
 				case 'ftp':
 					$options = array(
-						'enabled' => $config->get('ftp_enable'),
-						'host' => $config->get('ftp_host'),
-						'port' => $config->get('ftp_port'),
-						'user' => $config->get('ftp_user'),
-						'pass' => $config->get('ftp_pass'),
-						'root' => $config->get('ftp_root'),
+						'enabled' => $app->get('ftp_enable'),
+						'host'    => $app->get('ftp_host'),
+						'port'    => $app->get('ftp_port'),
+						'user'    => $app->get('ftp_user'),
+						'pass'    => $app->get('ftp_pass'),
+						'root'    => $app->get('ftp_root'),
 					);
 					break;
 
@@ -90,7 +90,7 @@ class ClientHelper
 	 *
 	 * @return  boolean  True if the given login credentials have been set and are valid
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setCredentials($client, $user, $pass)
 	{
@@ -101,8 +101,8 @@ class ClientHelper
 		switch ($client)
 		{
 			case 'ftp':
-				$config = Factory::getConfig();
-				$options = array('enabled' => $config->get('ftp_enable'), 'host' => $config->get('ftp_host'), 'port' => $config->get('ftp_port'));
+				$app = Factory::getApplication();
+				$options = array('enabled' => $app->get('ftp_enable'), 'host' => $app->get('ftp_host'), 'port' => $app->get('ftp_port'));
 
 				if ($options['enabled'])
 				{
@@ -146,7 +146,7 @@ class ClientHelper
 	 *
 	 * @return  boolean  True if login credentials are available
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function hasCredentials($client)
 	{
@@ -157,8 +157,8 @@ class ClientHelper
 		switch ($client)
 		{
 			case 'ftp':
-				$config = Factory::getConfig();
-				$options = array('enabled' => $config->get('ftp_enable'), 'user' => $config->get('ftp_user'), 'pass' => $config->get('ftp_pass'));
+				$app = Factory::getApplication();
+				$options = array('enabled' => $app->get('ftp_enable'), 'user' => $app->get('ftp_user'), 'pass' => $app->get('ftp_pass'));
 				break;
 
 			default:
@@ -203,7 +203,7 @@ class ClientHelper
 	 *
 	 * @return  boolean  True if credentials are present
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException if credentials invalid
 	 */
 	public static function setCredentialsFromRequest($client)

@@ -10,8 +10,6 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\Registry\Registry;
 
 $item    = $displayData['data'];
 $display = $item->text;

@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
 <table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
@@ -47,7 +47,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 					<?php echo Text::_('JADMINISTRATION'); ?>
 				<?php else : ?>
 					<?php echo Text::_('JSITE'); ?>
-					<a href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-xs" role="button">
+					<a href="<?php echo $user->logoutLink; ?>" class="mr-2 btn btn-danger btn-sm" role="button">
 						<span class="icon-remove icon-white" aria-hidden="true"></span>
 						<?php echo Text::_('JLOGOUT'); ?>
 					</a>

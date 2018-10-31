@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Login\Site\Helper\LoginHelper;
-use Joomla\CMS\Helper\AuthenticationHelper;
-use Joomla\CMS\Factory;
 
 $params->def('greeting', 1);
 

@@ -16,7 +16,7 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Viewlevels table class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ViewLevel extends Table
 {
@@ -25,7 +25,7 @@ class ViewLevel extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -40,7 +40,7 @@ class ViewLevel extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -61,7 +61,7 @@ class ViewLevel extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{

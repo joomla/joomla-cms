@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 HTMLHelper::_('behavior.core');
 
@@ -46,7 +44,6 @@ if ($bsspans < 1)
 
 $bscolumns = min($columns, floor(12 / $bsspans));
 $n         = count($this->items);
-
 ?>
 
 <div class="com-tags__items">

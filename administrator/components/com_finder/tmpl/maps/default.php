@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
@@ -28,10 +28,15 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo JText::_('COM_FINDER_MAPS_NO_CONTENT'); ?>
+					</div>
 				<?php else : ?>
 				<table class="table">
-					<thead>
+					<caption id="captionTable" class="sr-only">
+						<?php echo Text::_('COM_FINDER_MAPS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					</caption>
+						<thead>
 						<tr>
 							<td style="width:1%" class="text-center">
 								<?php echo JHtml::_('grid.checkall'); ?>

@@ -11,10 +11,10 @@ namespace Joomla\Component\Plugins\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
 
 /**
  * Plugins master display controller.

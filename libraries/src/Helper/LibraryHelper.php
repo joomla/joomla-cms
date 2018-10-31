@@ -10,6 +10,8 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -138,21 +140,6 @@ class LibraryHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.2
-	 * @deprecated  4.0  Use LibraryHelper::loadLibrary() instead
-	 */
-	protected static function _load($element)
-	{
-		return static::loadLibrary($element);
-	}
-
-	/**
-	 * Load the installed library into the libraries property.
-	 *
-	 * @param   string  $element  The element value for the extension
-	 *
-	 * @return  boolean  True on success
-	 *
 	 * @since   3.7.0
 	 */
 	protected static function loadLibrary($element)
@@ -170,8 +157,8 @@ class LibraryHelper
 			return $db->loadObject();
 		};
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = Factory::getCache('_system', 'callback');
+		/** @var CallbackController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
 		try
 		{

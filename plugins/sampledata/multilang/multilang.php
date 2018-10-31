@@ -9,16 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Language\Language;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -100,7 +98,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * First step to enable the Language filter plugin.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -146,7 +144,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Second step to add a language switcher module
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -190,7 +188,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Third step to make sure all content languages are published
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -229,7 +227,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Fourth step to create Menus and list all categories menu items
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -293,7 +291,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Fifth step to add menu modules
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -335,9 +333,9 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
-	 * Sixth step to add categories, articles and blog menu items
+	 * Sixth step to add workflow, categories, articles and blog menu items
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -366,11 +364,29 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
+		if (!ComponentHelper::isEnabled('com_workflow'))
+		{
+			$response            = array();
+			$response['success'] = true;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_STEP_SKIPPED', 6, 'com_workflow');
+
+			return $response;
+		}
+
 		$siteLanguages = $this->getInstalledlangsFrontend();
+
+		if (!$tableWorkflow = $this->addWorkflow())
+		{
+			$response            = array();
+			$response['success'] = false;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_WORKFLOW', 6);
+
+			return $response;
+		}
 
 		foreach ($siteLanguages as $siteLang)
 		{
-			if (!$tableCategory = $this->addCategory($siteLang))
+			if (!$tableCategory = $this->addCategory($siteLang, $tableWorkflow->id))
 			{
 				$response            = array();
 				$response['success'] = false;
@@ -381,7 +397,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
 
-			if (!$tableArticle = $this->addArticle($siteLang, $tableCategory->id))
+			if (!$tableArticle = $this->addArticle($siteLang, $tableCategory->id, $tableWorkflow->stageId))
 			{
 				$response            = array();
 				$response['success'] = false;
@@ -424,7 +440,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	/**
 	 * Seventh step to disable the mainmenu module whose home page is set to All languages.
 	 *
-	 * @return  array or void  Will be converted into the JSON response to the module.
+	 * @return  array|void  Will be converted into the JSON response to the module.
 	 *
 	 * @since   4.0.0
 	 */
@@ -578,7 +594,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		return true;
 	}
 
-		/**
+	/**
 	 * Enable the Language Switcher Module.
 	 *
 	 * @return  boolean
@@ -962,15 +978,50 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
+	 * Method to create a workflow for a specific language.
+	 *
+	 * @return  JTable|boolean  Workflow Object. False otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function addWorkflow()
+	{
+		$workflowModel =  $this->app->bootComponent('com_workflow')
+			->getMVCFactory()->createModel('Workflow', 'Administrator');
+
+		$workflow = [
+			'title'       => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_TITLE'),
+			'description' => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_DESCRIPTION'),
+			'published'   => 1,
+			'extension'   => 'com_content'
+		];
+
+		$workflowModel->save($workflow);
+
+		$workflow = $workflowModel->getItem();
+
+		$query = $this->db->getQuery(true)
+				->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__workflow_stages'))
+				->where($this->db->quoteName('workflow_id') . ' = ' . (int) $workflow->id)
+				->where($this->db->quoteName('default') . ' = 1');
+
+		$workflow->stageId = (int) $this->db->setQuery($query)->loadResult();
+
+		return $workflow;
+	}
+
+	/**
 	 * Method to create a category for a specific language.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   stdClass  $workflowId    Workflow ID for this category.
 	 *
 	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-	public function addCategory($itemLanguage)
+	public function addCategory($itemLanguage, $workflowId = 0)
 	{
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -985,7 +1036,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":""}',
+			'params'          => '{"target":"","image":"", "workflow_id":"' . (int) $workflowId . '"}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
@@ -1028,12 +1079,13 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   integer   $categoryId    The id of the category where we want to add the article.
+	 * @param   integer   $stageId       The id of the initial stage.
 	 *
 	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-	private function addArticle($itemLanguage, $categoryId)
+	private function addArticle($itemLanguage, $categoryId, $stageId)
 	{
 		$db = Factory::getDbo();
 
@@ -1057,7 +1109,6 @@ class PlgSampledataMultilang extends CMSPlugin
 										. 'debet libris consulatu.</p>',
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
-			'state'            => 1,
 			'created'          => $currentDate,
 			'created_by'       => (int) $this->getAdminId(),
 			'created_by_alias' => 'Joomla',
@@ -1104,6 +1155,21 @@ class PlgSampledataMultilang extends CMSPlugin
 		try
 		{
 			$db->execute();
+		}
+		catch (JDatabaseExceptionExecuting $e)
+		{
+			return false;
+		}
+
+		$assoc = new stdClass;
+
+		$assoc->item_id = $newId;
+		$assoc->stage_id = $stageId;
+		$assoc->extension = 'com_content';
+
+		try
+		{
+			$db->insertObject('#__workflow_associations', $assoc);
 		}
 		catch (JDatabaseExceptionExecuting $e)
 		{
@@ -1224,7 +1290,7 @@ class PlgSampledataMultilang extends CMSPlugin
 		return $data;
 	}
 
-		/**
+	/**
 	 * Get installed languages data.
 	 *
 	 * @param   integer  $client_id  The client ID to retrieve data for.

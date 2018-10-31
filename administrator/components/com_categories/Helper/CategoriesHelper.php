@@ -11,13 +11,10 @@ namespace Joomla\Component\Categories\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Categories\Administrator\Model\CategoryModel;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * Categories helper.
@@ -77,37 +74,6 @@ class CategoriesHelper
 				}
 			}
 		}
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @param   string   $extension   The extension.
-	 * @param   integer  $categoryId  The category ID.
-	 *
-	 * @return  \JObject
-	 *
-	 * @since   1.6
-	 * @deprecated  3.2  Use ContentHelper::getActions() instead
-	 */
-	public static function getActions($extension, $categoryId = 0)
-	{
-		// Log usage of deprecated function
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated, use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions
-		return ContentHelper::getActions($extension, 'category', $categoryId);
 	}
 
 	/**
@@ -182,7 +148,8 @@ class CategoriesHelper
 	 */
 	public static function createCategory($data)
 	{
-		$categoryModel = new CategoryModel(array('ignore_request' => true));
+		$categoryModel = Factory::getApplication()->bootComponent('com_categories')
+			->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 		$categoryModel->save($data);
 
 		$catid = $categoryModel->getState('category.id');

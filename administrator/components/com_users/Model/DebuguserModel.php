@@ -12,11 +12,11 @@ namespace Joomla\Component\Users\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
-use Joomla\CMS\Factory;
 use Joomla\Database\DatabaseQuery;
 
 /**
@@ -88,7 +88,7 @@ class DebuguserModel extends ListModel
 				foreach ($actions as $action)
 				{
 					$name = $action[0];
-					$level = $action[1];
+					$level = $asset->level;
 
 					// Check that we check this action for the level of the asset.
 					if ($level === null || $level >= $asset->level)

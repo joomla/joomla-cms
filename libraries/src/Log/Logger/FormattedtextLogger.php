@@ -22,7 +22,7 @@ use Joomla\CMS\Log\Logger;
  * This class is designed to use as a base for building formatted text files for output. By
  * default it emulates the Syslog style format output. This is a disk based output format.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FormattedtextLogger extends Logger
 {
@@ -32,7 +32,7 @@ class FormattedtextLogger extends Logger
 	 * All fields must be named in all caps and be within curly brackets eg. {FOOBAR}.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $format = '{DATETIME}	{PRIORITY} {CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
@@ -40,7 +40,7 @@ class FormattedtextLogger extends Logger
 	 * The parsed fields from the format string.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $fields = array();
 
@@ -48,7 +48,7 @@ class FormattedtextLogger extends Logger
 	 * The full filesystem path for the log file.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $path;
 
@@ -57,7 +57,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(array &$options)
 	{
@@ -102,7 +102,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function addEntry(LogEntry $entry)
@@ -165,7 +165,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @return  string  The log file header
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function generateFileHeader()
 	{
@@ -199,7 +199,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function initFile()
@@ -227,7 +227,7 @@ class FormattedtextLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function parseFields()
 	{

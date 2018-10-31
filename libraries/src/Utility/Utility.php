@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 /**
  * JUtility is a utility functions class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Utility
 {
@@ -26,7 +26,7 @@ class Utility
 	 *
 	 * @return  array  Key/Value pairs for the attributes
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function parseAttributes($string)
 	{

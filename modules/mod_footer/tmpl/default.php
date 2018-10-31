@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
 ?>
 <div class="mod-footer">
 	<div class="footer1"><?php echo $lineone; ?></div>

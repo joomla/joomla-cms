@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /**
  * This is a file to add template specific chrome to module rendering.  To use it you would
@@ -71,7 +71,7 @@ function modChrome_well($module, &$params, &$attribs)
 		if ($canEdit)
 		{
 			echo '<div class="module-actions">';
-			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
+			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id)
 				. '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
 			echo '</div>';
 		}
@@ -112,7 +112,7 @@ function modChrome_body($module, &$params, &$attribs)
 		if ($canEdit)
 		{
 			echo '<div class="module-actions">';
-			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
+			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id)
 				. '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
 			echo '</div>';
 		}

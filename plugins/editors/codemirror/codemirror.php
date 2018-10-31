@@ -10,12 +10,12 @@
 // No direct access
 defined('_JEXEC') or die;
 
-use Joomla\Event\Event;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Event\Event;
 
 /**
  * CodeMirror Editor Plugin.
@@ -28,7 +28,7 @@ class PlgEditorCodemirror extends CMSPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $autoloadLanguage = true;
 
@@ -165,7 +165,9 @@ class PlgEditorCodemirror extends CMSPlugin
 		}
 
 		// Load the syntax mode.
-		$syntax = $this->params->get('syntax', 'html');
+		$syntax = !empty($params['syntax'])
+			? $params['syntax']
+			: $this->params->get('syntax', 'html');
 		$options->mode = $this->modeAlias[$syntax] ?? $syntax;
 
 		// Load the theme if specified.

@@ -19,7 +19,7 @@ use Joomla\CMS\Form\FormField;
  *
  * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
  * @see    CheckboxField
- * @since  11.1
+ * @since  1.7.0
  */
 class CheckboxField extends FormField
 {
@@ -27,7 +27,7 @@ class CheckboxField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Checkbox';
 
@@ -128,7 +128,7 @@ class CheckboxField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

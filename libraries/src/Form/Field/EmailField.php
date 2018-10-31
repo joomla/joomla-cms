@@ -20,7 +20,7 @@ FormHelper::loadFieldClass('text');
  *
  * @link   http://www.w3.org/TR/html-markup/input.email.html#input.email
  * @see    JFormRuleEmail
- * @since  11.1
+ * @since  1.7.0
  */
 class EmailField extends \JFormFieldText
 {
@@ -28,7 +28,7 @@ class EmailField extends \JFormFieldText
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Email';
 
@@ -45,7 +45,7 @@ class EmailField extends \JFormFieldText
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

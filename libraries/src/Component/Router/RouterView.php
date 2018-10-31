@@ -10,6 +10,7 @@ namespace Joomla\CMS\Component\Router;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Component\Router\Rules\RulesInterface;
 
 /**
@@ -287,7 +288,7 @@ abstract class RouterView extends RouterBase
 				throw new \Exception('JLIB_APPLICATION_ERROR_ROUTER_GET_NAME', 500);
 			}
 
-			$this->name = strtolower($r[1]);
+			$this->name = str_replace('com_', '', ComponentHelper::getComponentName($this, strtolower($r[1])));
 		}
 
 		return $this->name;

@@ -11,9 +11,9 @@ namespace Joomla\Component\Checkin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Checkin Model
@@ -28,14 +28,6 @@ class CheckinModel extends ListModel
 	 * @var  integer
 	 */
 	protected $total;
-
-	/**
-	 * Unused class variable
-	 *
-	 * @var  object
-	 * @deprecated  4.0
-	 */
-	protected $tables;
 
 	/**
 	 * Constructor.

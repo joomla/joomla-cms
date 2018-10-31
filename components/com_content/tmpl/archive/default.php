@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 ?>
 <div class="com-content-archive archive">
 <?php if ($this->params->get('show_page_heading')) : ?>
@@ -51,7 +49,6 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 	</div>
 	<br>
 	</fieldset>
-
-	<?php echo $this->loadTemplate('items'); ?>
 </form>
+<?php echo $this->loadTemplate('items'); ?>
 </div>

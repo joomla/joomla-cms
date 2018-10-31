@@ -12,8 +12,8 @@ namespace Joomla\Component\Tags\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\RouteHelper;
 
 /**
  * Tags Component Route Helper.

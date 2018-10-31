@@ -11,14 +11,14 @@ namespace Joomla\Component\Contenthistory\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Table\ContentType;
-use Joomla\CMS\Table\ContentHistory;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
+use Joomla\CMS\Table\Table;
 
 /**
  * Categories helper.

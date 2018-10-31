@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.core');
 Text::script('PLG_INSTALLER_PACKAGEINSTALLER_NO_PACKAGE');
@@ -21,8 +21,8 @@ Text::script('PLG_INSTALLER_URLINSTALLER_NO_URL');
 Text::script('COM_INSTALLER_MSG_INSTALL_ENTER_A_URL');
 
 HTMLHelper::_('behavior.tabstate');
-HTMLHelper::_('stylesheet', 'com_installer/installer.css', false, true);
-HTMLHelper::_('script', 'com_installer/installer.js', false, true);
+HTMLHelper::_('stylesheet', 'com_installer/installer.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'com_installer/installer.js', ['version' => 'auto', 'relative' => true]);
 
 $app = Factory::getApplication();
 ?>

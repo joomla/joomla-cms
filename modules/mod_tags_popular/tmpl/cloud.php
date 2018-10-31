@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 $minsize = $params->get('minsize', 1);
@@ -20,7 +19,9 @@ JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/
 <div class="mod-tagspopular-cloud tagspopular tagscloud">
 <?php
 if (!count($list)) : ?>
-	<joomla-alert type="info"><?php echo Text::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?></joomla-alert>
+	<div class="alert alert-info">
+		<?php echo JText::_('MOD_TAGS_POPULAR_NO_ITEMS_FOUND'); ?>
+	</div>
 <?php else :
 	// Find maximum and minimum count
 	$mincount = null;

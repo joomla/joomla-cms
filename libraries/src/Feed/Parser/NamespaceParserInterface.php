@@ -16,7 +16,7 @@ use Joomla\CMS\Feed\FeedEntry;
 /**
  * Feed Namespace interface.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 interface NamespaceParserInterface
 {
@@ -28,7 +28,7 @@ interface NamespaceParserInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function processElementForFeed(Feed $feed, \SimpleXMLElement $el);
 
@@ -40,7 +40,7 @@ interface NamespaceParserInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function processElementForFeedEntry(FeedEntry $entry, \SimpleXMLElement $el);
 }

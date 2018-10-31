@@ -11,11 +11,11 @@ namespace Joomla\Component\Languages\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
 
 /**
  * Languages Override Controller
@@ -101,9 +101,6 @@ class OverrideController extends FormController
 
 			return;
 		}
-
-		// Require helper for filter functions called by \JForm.
-		\JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);

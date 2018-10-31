@@ -9,13 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('bootstrap.tooltip');
 
 // Load user_profile plugin language
 $lang = Factory::getLanguage();
@@ -103,9 +104,13 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 				<legend>
 					<?php echo Text::_('COM_USERS_PROFILE_OTEPS'); ?>
 				</legend>
-				<joomla-alert type="info"><?php echo Text::_('COM_USERS_PROFILE_OTEPS_DESC'); ?></joomla-alert>
+				<div class="alert alert-info">
+					<?php echo Text::_('COM_USERS_PROFILE_OTEPS_DESC'); ?>
+				</div>
 				<?php if (empty($this->otpConfig->otep)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo Text::_('COM_USERS_PROFILE_OTEPS_WAIT_DESC'); ?>
+					</div>
 				<?php else : ?>
 					<?php foreach ($this->otpConfig->otep as $otep) : ?>
 						<span class="col-md-3">

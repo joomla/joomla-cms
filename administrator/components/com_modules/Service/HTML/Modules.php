@@ -14,9 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 /**
  * HTMLHelper module helper class.

@@ -21,7 +21,7 @@ $customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 $attr = array(
 	'id'          => 'jform_position',
 	'list.select' => $this->item['position'],
-	'list.attr'   => 'class="chzn-custom-value custom-select" '
+	'list.attr'   => 'class="chosen-custom-value custom-select" '
 		. 'data-custom_group_text="' . $customGroupText . '" '
 		. 'data-no_results_text="' . Text::_('COM_MODULES_ADD_CUSTOM_POSITION') . '" '
 		. 'data-placeholder="' . Text::_('COM_MODULES_TYPE_OR_SELECT_POSITION') . '" '

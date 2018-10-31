@@ -13,15 +13,13 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Wrapper\FileWrapper;
-use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 /**
  * A Folder handling class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class Folder
 {
@@ -36,7 +34,7 @@ abstract class Folder
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public static function copy($src, $dest, $path = '', $force = false, $use_streams = false)
@@ -44,12 +42,11 @@ abstract class Folder
 		@set_time_limit(ini_get('max_execution_time'));
 
 		$FTPOptions = ClientHelper::getCredentials('ftp');
-		$pathObject = new PathWrapper;
 
 		if ($path)
 		{
-			$src  = $pathObject->clean($path . '/' . $src);
-			$dest = $pathObject->clean($path . '/' . $dest);
+			$src  = Path::clean($path . '/' . $src);
+			$dest = Path::clean($path . '/' . $dest);
 		}
 
 		// Eliminate trailing directory separators, if any
@@ -104,7 +101,7 @@ abstract class Folder
 
 					case 'file':
 						// Translate path for the FTP account
-						$dfid = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
+						$dfid = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dfid), '/');
 
 						if (!$ftp->store($sfid, $dfid))
 						{
@@ -173,7 +170,7 @@ abstract class Folder
 	 *
 	 * @return  boolean  True if successful.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function create($path = '', $mode = 0755)
 	{
@@ -181,8 +178,7 @@ abstract class Folder
 		static $nested = 0;
 
 		// Check to make sure the path valid and clean
-		$pathObject = new PathWrapper;
-		$path = $pathObject->clean($path);
+		$path = Path::clean($path);
 
 		// Check if parent dir exists
 		$parent = dirname($path);
@@ -226,7 +222,7 @@ abstract class Folder
 			$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 			// Translate path to FTP path
-			$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+			$path = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
 			$ret = $ftp->mkdir($path);
 			$ftp->chmod($path, $mode);
 		}
@@ -254,7 +250,7 @@ abstract class Folder
 				// Iterate through open_basedir paths looking for a match
 				foreach ($obdArray as $test)
 				{
-					$test = $pathObject->clean($test);
+					$test = Path::clean($test);
 
 					if (strpos($path, $test) === 0)
 					{
@@ -300,12 +296,11 @@ abstract class Folder
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function delete($path)
 	{
 		@set_time_limit(ini_get('max_execution_time'));
-		$pathObject = new PathWrapper;
 
 		// Sanity check
 		if (!$path)
@@ -319,7 +314,7 @@ abstract class Folder
 		$FTPOptions = ClientHelper::getCredentials('ftp');
 
 		// Check to make sure the path valid and clean
-		$path = $pathObject->clean($path);
+		$path = Path::clean($path);
 
 		// Is this really a folder?
 		if (!is_dir($path))
@@ -334,9 +329,7 @@ abstract class Folder
 
 		if (!empty($files))
 		{
-			$file = new FileWrapper;
-
-			if ($file->delete($files) !== true)
+			if (File::delete($files) !== true)
 			{
 				// File::delete throws an error
 				return false;
@@ -351,9 +344,7 @@ abstract class Folder
 			if (is_link($folder))
 			{
 				// Don't descend into linked directories, just delete the link.
-				$file = new FileWrapper;
-
-				if ($file->delete($folder) !== true)
+				if (File::delete($folder) !== true)
 				{
 					// File::delete throws an error
 					return false;
@@ -381,7 +372,7 @@ abstract class Folder
 		elseif ($FTPOptions['enabled'] == 1)
 		{
 			// Translate path and delete
-			$path = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
+			$path = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $path), '/');
 
 			// FTP connector throws an error
 			$ret = $ftp->delete($path);
@@ -405,17 +396,16 @@ abstract class Folder
 	 *
 	 * @return  mixed  Error message on false or boolean true on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
 		$FTPOptions = ClientHelper::getCredentials('ftp');
-		$pathObject = new PathWrapper;
 
 		if ($path)
 		{
-			$src = $pathObject->clean($path . '/' . $src);
-			$dest = $pathObject->clean($path . '/' . $dest);
+			$src = Path::clean($path . '/' . $src);
+			$dest = Path::clean($path . '/' . $dest);
 		}
 
 		if (!self::exists($src))
@@ -447,8 +437,8 @@ abstract class Folder
 				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
-				$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$src = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest))
@@ -479,13 +469,11 @@ abstract class Folder
 	 *
 	 * @return  boolean  True if path is a folder
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function exists($path)
 	{
-		$pathObject = new PathWrapper;
-
-		return is_dir($pathObject->clean($path));
+		return is_dir(Path::clean($path));
 	}
 
 	/**
@@ -501,14 +489,13 @@ abstract class Folder
 	 *
 	 * @return  array  Files in the given folder.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function files($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
 		$excludefilter = array('^\..*', '.*~'), $naturalSort = false)
 	{
 		// Check to make sure the path valid and clean
-		$pathObject = new PathWrapper;
-		$path = $pathObject->clean($path);
+		$path = Path::clean($path);
 
 		// Is the path a folder?
 		if (!is_dir($path))
@@ -556,14 +543,13 @@ abstract class Folder
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function folders($path, $filter = '.', $recurse = false, $full = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
 		$excludefilter = array('^\..*'))
 	{
 		// Check to make sure the path valid and clean
-		$pathObject = new PathWrapper;
-		$path = $pathObject->clean($path);
+		$path = Path::clean($path);
 
 		// Is the path a folder?
 		if (!is_dir($path))
@@ -605,7 +591,7 @@ abstract class Folder
 	 *
 	 * @return  array  Files.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _items($path, $filter, $recurse, $full, $exclude, $excludefilter_string, $findfiles)
 	{
@@ -677,7 +663,7 @@ abstract class Folder
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function listFolderTree($path, $filter, $maxLevel = 3, $level = 0, $parent = 0)
 	{
@@ -691,13 +677,12 @@ abstract class Folder
 		if ($level < $maxLevel)
 		{
 			$folders    = self::folders($path, $filter);
-			$pathObject = new PathWrapper;
 
 			// First path, index foldernames
 			foreach ($folders as $name)
 			{
 				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
-				$fullName = $pathObject->clean($path . '/' . $name);
+				$fullName = Path::clean($path . '/' . $name);
 				$dirs[] = array(
 					'id' => $id,
 					'parent' => $parent,
@@ -720,7 +705,7 @@ abstract class Folder
 	 *
 	 * @return  string  The sanitised string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function makeSafe($path)
 	{

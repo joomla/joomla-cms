@@ -10,6 +10,7 @@ namespace Joomla\CMS\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Dispatcher\ModuleDispatcherFactory;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
@@ -28,7 +29,7 @@ trait ExtensionManagerTrait
 	 *
 	 * @var array
 	 */
-	private $extensions = [ComponentInterface::class => []];
+	private $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
 
 	/**
 	 * Boots the component with the given name.
@@ -51,13 +52,39 @@ trait ExtensionManagerTrait
 	}
 
 	/**
+	 * Boots the module with the given name.
+	 *
+	 * @param   string  $module           The module to boot
+	 * @param   string  $applicationName  The application name
+	 *
+	 * @return  ModuleInterface
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function bootModule($module, $applicationName): ModuleInterface
+	{
+		// Normalize the module name
+		$module = strtolower(str_replace('mod_', '', $module));
+
+		// Path to to look for services
+		$path = JPATH_SITE . '/modules/mod_' . $module;
+
+		if ($applicationName === 'administrator')
+		{
+			$path = JPATH_ADMINISTRATOR . '/modules/mod_' . $module;
+		}
+
+		return $this->loadExtension(ModuleInterface::class, $module, $path);
+	}
+
+	/**
 	 * Loads the extension.
 	 *
 	 * @param   string  $type           The extension type
 	 * @param   string  $extensionName  The extension name
 	 * @param   string  $extensionPath  The path of the extension
 	 *
-	 * @return  ComponentInterface
+	 * @return  ComponentInterface|ModuleInterface
 	 *
 	 * @since   4.0.0
 	 */
@@ -101,9 +128,17 @@ trait ExtensionManagerTrait
 		}
 
 		// Fallback to legacy
-		if (!$container->has($type) && $type == ComponentInterface::class)
+		if (!$container->has($type))
 		{
-			$container->set($type, new LegacyComponent('com_' . $extensionName));
+			switch ($type)
+			{
+				case ComponentInterface::class:
+					$container->set($type, new LegacyComponent('com_' . $extensionName));
+					break;
+				case ModuleInterface::class:
+					$container->set($type, new Module(new ModuleDispatcherFactory('')));
+					break;
+			}
 		}
 
 		$container->get(DispatcherInterface::class)->dispatch(

@@ -12,7 +12,6 @@ namespace Joomla\Component\Newsfeeds\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Newsfeeds list controller class.

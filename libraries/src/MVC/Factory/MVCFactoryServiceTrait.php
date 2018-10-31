@@ -10,10 +10,8 @@ namespace Joomla\CMS\MVC\Factory;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplicationInterface;
-
 /**
- * Defines the trait for a MVC factory factory service class.
+ * Defines the trait for a MVC factory service class.
  *
  * @since  4.0.0
  */
@@ -22,53 +20,39 @@ trait MVCFactoryServiceTrait
 	/**
 	 * The MVC Factory.
 	 *
-	 * @var MVCFactoryFactoryInterface
+	 * @var MVCFactoryInterface
 	 */
-	private $mvcFactoryFactory;
+	private $mvcFactory;
 
 	/**
-	 * Creates an MVCFactory for the given application.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application
+	 * Get the factory.
 	 *
 	 * @return  MVCFactoryInterface
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
+	 * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
 	 */
-	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
+	public function getMVCFactory(): MVCFactoryInterface
 	{
-		return $this->getMVCFactoryFactory()->createFactory($application);
+		if (!$this->mvcFactory)
+		{
+			throw new \UnexpectedValueException('MVC factory not set in ' . __CLASS__);
+		}
+
+		return $this->mvcFactory;
 	}
 
 	/**
-	 * The MVC Factory to create MVCFactories from.
+	 * The MVC Factory.
 	 *
-	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The factory
+	 * @param   MVCFactoryInterface  $mvcFactory  The factory
 	 *
 	 * @return  void
 	 *
 	 * @since  4.0.0
 	 */
-	public function setMvcFactoryFactory(MVCFactoryFactoryInterface $mvcFactoryFactory)
+	public function setMvcFactory(MVCFactoryInterface $mvcFactory)
 	{
-		$this->mvcFactoryFactory = $mvcFactoryFactory;
-	}
-
-	/**
-	 * Get the factory.
-	 *
-	 * @return  MVCFactoryFactoryInterface
-	 *
-	 * @since   4.0.0
-	 * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
-	 */
-	public function getMVCFactoryFactory()
-	{
-		if (!$this->mvcFactoryFactory)
-		{
-			throw new \UnexpectedValueException('MVC factory factory not set in ' . __CLASS__);
-		}
-
-		return $this->mvcFactoryFactory;
+		$this->mvcFactory = $mvcFactory;
 	}
 }

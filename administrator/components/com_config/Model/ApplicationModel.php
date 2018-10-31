@@ -124,7 +124,7 @@ class ApplicationModel extends FormModel
 			'driver'   => $data['dbtype'],
 			'host'     => $data['host'],
 			'user'     => $data['user'],
-			'password' => Factory::getConfig()->get('password'),
+			'password' => $app->get('password'),
 			'database' => $data['db'],
 			'prefix'   => $data['dbprefix']
 		);
@@ -142,7 +142,7 @@ class ApplicationModel extends FormModel
 		}
 
 		// Check if we can set the Force SSL option
-		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) Factory::getConfig()->get('force_ssl', '0'))
+		if ((int) $data['force_ssl'] !== 0 && (int) $data['force_ssl'] !== (int) $app->get('force_ssl', '0'))
 		{
 			try
 			{

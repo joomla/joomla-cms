@@ -16,13 +16,13 @@ use Joomla\Registry\Registry;
 /**
  * Feed factory class.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class FeedFactory
 {
 	/**
 	 * @var    array  The list of registered parser classes for feeds.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $parsers = array('rss' => 'Joomla\\CMS\\Feed\\Parser\\RssParser', 'feed' => 'Joomla\\CMS\\Feed\\Parser\\AtomParser');
 
@@ -33,7 +33,7 @@ class FeedFactory
 	 *
 	 * @return  Feed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \InvalidArgumentException
 	 * @throws  \RuntimeException
 	 */
@@ -103,7 +103,7 @@ class FeedFactory
 	 *
 	 * @return  FeedFactory
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \InvalidArgumentException
 	 */
 	public function registerParser($tagName, $className, $overwrite = false)
@@ -137,7 +137,7 @@ class FeedFactory
 	 *
 	 * @return  FeedParser
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  \LogicException
 	 */
 	private function _fetchFeedParser($type, \XMLReader $reader)

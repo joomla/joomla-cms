@@ -12,14 +12,13 @@ namespace Joomla\Component\Messages\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\Component\Messages\Administrator\Model\ConfigModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
 
 /**
  * Private Message model.
@@ -317,7 +316,8 @@ class MessageModel extends AdminModel
 		}
 
 		// Load the recipient user configuration.
-		$model  = new ConfigModel(array('ignore_request' => true));
+		$model  = $this->bootComponent('com_messages')
+			->getMVCFactory()->createModel('Config', 'Administrator', ['ignore_request' => true]);
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 
@@ -348,7 +348,7 @@ class MessageModel extends AdminModel
 			// Load the user details (already valid from table check).
 			$fromUser         = User::getInstance($table->user_id_from);
 			$toUser           = User::getInstance($table->user_id_to);
-			$debug            = Factory::getConfig()->get('debug_lang');
+			$debug            = Factory::getApplication()->get('debug_lang');
 			$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);

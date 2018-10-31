@@ -64,7 +64,7 @@ pipeline:
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
-      - node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run
+      - npm run test
 
   system-tests:
       image: joomlaprojects/docker-systemtests:develop

@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
  * Model class for transitions
@@ -143,7 +142,9 @@ class TransitionsModel extends ListModel
 		);
 
 		$select[] = $db->quoteName('f_stage.title', 'from_stage');
+		$select[] = $db->quoteName('f_stage.condition', 'from_condition');
 		$select[] = $db->quoteName('t_stage.title', 'to_stage');
+		$select[] = $db->quoteName('t_stage.condition', 'to_condition');
 		$joinTo = $db->quoteName('#__workflow_stages', 't_stage') .
 			' ON ' . $db->quoteName('t_stage.id') . ' = ' . $db->quoteName('t.to_stage_id');
 

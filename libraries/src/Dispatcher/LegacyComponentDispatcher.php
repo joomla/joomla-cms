@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactory;
 
 /**
  * Base class for a legacy Joomla Dispatcher
@@ -52,29 +51,7 @@ class LegacyComponentDispatcher implements DispatcherInterface
 	 */
 	public function dispatch()
 	{
-		$name = substr($this->app->scope, 4);
-
-		// Will be removed once transition of all components is done
-		if (file_exists(JPATH_COMPONENT . '/dispatcher.php'))
-		{
-			require_once JPATH_COMPONENT . '/dispatcher.php';
-
-			$class = ucwords($name) . 'Dispatcher';
-
-			// Check the class exists and implements the dispatcher interface
-			if (!class_exists($class) || !in_array(DispatcherInterface::class, class_implements($class)))
-			{
-				throw new \LogicException(Text::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $this->app->scope), 500);
-			}
-
-			// Dispatch the component.
-			$dispatcher = new $class($this->app, $this->app->input, new MVCFactoryFactory('Joomla\\Component\\' . ucwords($name)));
-			$dispatcher->dispatch();
-
-			return;
-		}
-
-		$path = JPATH_COMPONENT . '/' . $name . '.php';
+		$path = JPATH_COMPONENT . '/' . substr($this->app->scope, 4) . '.php';
 
 		// If component file doesn't exist throw error
 		if (!file_exists($path))

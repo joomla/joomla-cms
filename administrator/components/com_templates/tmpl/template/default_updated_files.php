@@ -79,10 +79,10 @@ $input = Factory::getApplication()->input;
 				<input type="hidden" name="boxchecked" value="0">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			<?php else : ?>
-				<joomla-alert type="success" role="alert" class="joomla-alert--show">
+				<div class="alert alert-success">
 					<span class="icon-info" aria-hidden="true"></span>
 					<?php echo Text::_('COM_TEMPLATES_OVERRIDE_UPTODATE'); ?>
-				</joomla-alert>
+				</div>
 			<?php endif; ?>
 		</div>
 	</div>

@@ -21,7 +21,7 @@ use Joomla\Registry\Registry;
  *
  * @property-read  Input  $input  The application input object
  *
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  5.0  Application classes should be based on \Joomla\Application\AbstractApplication
  */
 abstract class BaseApplication extends AbstractApplication implements DispatcherAwareInterface
@@ -38,7 +38,7 @@ abstract class BaseApplication extends AbstractApplication implements Dispatcher
 	 *                             config object.  If the argument is a Registry object that object will become
 	 *                             the application's config object, otherwise a default config object is created.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct(Input $input = null, Registry $config = null)
 	{

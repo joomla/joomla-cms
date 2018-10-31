@@ -19,31 +19,31 @@ use Joomla\CMS\Factory;
  * for the Joomla Platform to access and manipulate a URI.  Second it obtains the URI of
  * the current executing script from the server regardless of server.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Uri extends \Joomla\Uri\Uri
 {
 	/**
 	 * @var    Uri[]  An array of Uri instances.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $instances = array();
 
 	/**
 	 * @var    array  The current calculated base url segments.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $base = array();
 
 	/**
 	 * @var    array  The current calculated root url segments.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $root = array();
 
 	/**
 	 * @var    string  The current url.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $current;
 
@@ -54,7 +54,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  Uri  The URI object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getInstance($uri = 'SERVER')
 	{
@@ -131,14 +131,14 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  string  The base URI string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function base($pathonly = false)
 	{
 		// Get the base request path.
 		if (empty(static::$base))
 		{
-			$config = Factory::getConfig();
+			$config = Factory::getContainer()->get('config');
 			$uri = static::getInstance();
 			$live_site = ($uri->isSsl()) ? str_replace('http://', 'https://', $config->get('live_site')) : $config->get('live_site');
 
@@ -192,7 +192,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  string  The root URI string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function root($pathonly = false, $path = null)
 	{
@@ -218,7 +218,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function current()
 	{
@@ -237,7 +237,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function reset()
 	{
@@ -254,7 +254,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  boolean  True if Internal.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function isInternal($url)
 	{
@@ -282,7 +282,7 @@ class Uri extends \Joomla\Uri\Uri
 	 * @return  string  The resulting query string.
 	 *
 	 * @see     parse_str()
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    The parent method is protected, this exposes it as public for B/C
 	 */
 	public static function buildQuery(array $params)
@@ -297,7 +297,7 @@ class Uri extends \Joomla\Uri\Uri
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    The parent method is protected, this exposes it as public for B/C
 	 */
 	public function parse($uri)

@@ -50,24 +50,6 @@
     }
   }
 
-  .login-box-header {
-    padding: 15px 0;
-    background: $white;
-
-    h2 {
-      font-weight: 400;
-      color: var(--primary-dark);
-    }
-  }
-
-  .login-box-body {
-    padding: 60px 50px;
-
-    @include media-breakpoint-only(xs) {
-      padding: 10px;
-    }
-  }
-
   .form-group {
     label {
       display: flex;

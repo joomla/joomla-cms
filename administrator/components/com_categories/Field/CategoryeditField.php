@@ -11,11 +11,11 @@ namespace Joomla\Component\Categories\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormHelper;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -125,7 +125,7 @@ class CategoryeditField extends \JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published'] ?: array(0, 1);
+		$published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array(0, 1);
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
@@ -185,14 +185,7 @@ class CategoryeditField extends \JFormFieldList
 		}
 
 		// Filter on the published state
-		if (is_numeric($published))
-		{
-			$query->where('a.published = ' . (int) $published);
-		}
-		elseif (is_array($published))
-		{
-			$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
-		}
+		$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 
 		// Filter categories on User Access Level
 		// Filter by access level on categories.
@@ -358,7 +351,7 @@ class CategoryeditField extends \JFormFieldList
 		{
 			$customGroupText = Text::_('JGLOBAL_CUSTOM_CATEGORY');
 
-			$class[] = 'chzn-custom-value';
+			$class[] = 'chosen-custom-value';
 			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
 					. 'data-no_results_text="' . Text::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
 					. 'data-placeholder="' . Text::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';

@@ -15,7 +15,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Class to manipulate an image.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Use Joomla\Image\ImageFilter instead.
  */
 abstract class ImageFilter extends \Joomla\Image\ImageFilter
@@ -25,7 +25,7 @@ abstract class ImageFilter extends \Joomla\Image\ImageFilter
 	 *
 	 * @param   resource  $handle  The image resource on which to apply the filter.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  5.0  Use Joomla\Image\ImageFilter instead.
 	 */
 	public function __construct($handle)

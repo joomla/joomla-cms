@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', ['version' => 'auto', 'relative' => true]);
 
@@ -20,7 +20,7 @@ Text::script('MOD_SAMPLEDATA_CONFIRM_START');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
 Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
-Factory::getDocument()->addScriptOptions(
+$app->getDocument()->addScriptOptions(
 	'sample-data',
 	[
 		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif'
@@ -37,7 +37,9 @@ Factory::getDocument()->addScriptOptions(
 						<?php echo htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8'); ?>
 					</div>
 					<button type="button" class="btn btn-primary btn-sm apply-sample-data" data-type="<?php echo $item->name; ?>" data-steps="<?php echo $item->steps; ?>">
-					<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?></button>
+						<?php echo Text::_('JLIB_INSTALLER_INSTALL'); ?>
+						<span class="sr-only"><?php echo $item->title; ?></span>
+					</button>
 				</div>
 				<p class="small mt-1"><?php echo $item->description; ?></p>
 			</li>
@@ -54,5 +56,7 @@ Factory::getDocument()->addScriptOptions(
 		<?php endforeach; ?>
 	</ul>
 <?php else : ?>
-	<joomla-alert type="warning"><?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?></joomla-alert>
+	<div class="alert alert-warning">
+		<?php echo JText::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
+	</div>
 <?php endif; ?>

@@ -12,8 +12,8 @@ namespace Joomla\Component\Media\Administrator\Plugin;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Media Manager Base Plugin for the media actions

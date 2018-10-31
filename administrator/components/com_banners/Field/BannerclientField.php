@@ -12,8 +12,7 @@ namespace Joomla\Component\Banners\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\FormHelper;
-
-\JLoader::register('BannersHelper', JPATH_ADMINISTRATOR . '/components/com_banners/helpers/banners.php');
+use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -41,6 +40,6 @@ class BannerclientField extends \JFormFieldList
 	 */
 	public function getOptions()
 	{
-		return array_merge(parent::getOptions(), \BannersHelper::getClientOptions());
+		return array_merge(parent::getOptions(), BannersHelper::getClientOptions());
 	}
 }

@@ -11,9 +11,9 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Installer Warnings Model
@@ -117,8 +117,7 @@ class WarningsModel extends ListModel
 			}
 		}
 
-		$config = Factory::getConfig();
-		$tmp_path = $config->get('tmp_path');
+		$tmp_path = Factory::getApplication()->get('tmp_path');
 
 		if (!$tmp_path)
 		{

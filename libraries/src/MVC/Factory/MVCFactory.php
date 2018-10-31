@@ -34,34 +34,24 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	private $namespace;
 
 	/**
-	 * The application.
-	 *
-	 * @var    CMSApplicationInterface
-	 * @since  4.0.0
-	 */
-	private $application;
-
-	/**
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string                   $namespace    The namespace
-	 * @param   CMSApplicationInterface  $application  The application
+	 * @param   string  $namespace  The namespace
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($namespace, CMSApplicationInterface $application)
+	public function __construct($namespace)
 	{
-		$this->namespace   = $namespace;
-		$this->application = $application;
+		$this->namespace = $namespace;
 	}
 
 	/**
 	 * Method to load and return a controller object.
 	 *
-	 * @param   string                   $name    The name of the view.
-	 * @param   string                   $prefix  Optional view prefix.
-	 * @param   array                    $config  Optional configuration array for the view.
+	 * @param   string                   $name    The name of the controller
+	 * @param   string                   $prefix  The controller prefix
+	 * @param   array                    $config  The configuration array for the controller
 	 * @param   CMSApplicationInterface  $app     The app
 	 * @param   Input                    $input   The input
 	 *
@@ -70,7 +60,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
-	public function createController($name, $prefix = '', array $config = [], CMSApplicationInterface $app = null, Input $input = null)
+	public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input)
 	{
 		// Clean the parameters
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
@@ -83,7 +73,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 			return null;
 		}
 
-		$controller = new $className($config, $this, $app ?: $this->application, $input ?: $this->application->input);
+		$controller = new $className($config, $this, $app, $input);
 		$this->setFormFactoryOnObject($controller);
 
 		return $controller;
@@ -111,6 +101,19 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		if (!$prefix && !empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
 		{
 			$prefix = 'Administrator';
+		}
+
+		if (!$prefix)
+		{
+			@trigger_error(
+				sprintf(
+					'Calling %s() without a prefix is deprecated.',
+					__METHOD__
+				),
+				E_USER_DEPRECATED
+			);
+
+			$prefix = Factory::getApplication()->getName();
 		}
 
 		$className = $this->getClassName('Model\\' . ucfirst($name) . 'Model', $prefix);
@@ -152,6 +155,19 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 			$prefix = 'Administrator';
 		}
 
+		if (!$prefix)
+		{
+			@trigger_error(
+				sprintf(
+					'Calling %s() without a prefix is deprecated.',
+					__METHOD__
+				),
+				E_USER_DEPRECATED
+			);
+
+			$prefix = Factory::getApplication()->getName();
+		}
+
 		$className = $this->getClassName('View\\' . ucfirst($name) . '\\' . ucfirst($type) . 'View', $prefix);
 
 		if (!$className)
@@ -182,6 +198,19 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		// Clean the parameters
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		if (!$prefix)
+		{
+			@trigger_error(
+				sprintf(
+					'Calling %s() without a prefix is deprecated.',
+					__METHOD__
+				),
+				E_USER_DEPRECATED
+			);
+
+			$prefix = Factory::getApplication()->getName();
+		}
 
 		$className = $this->getClassName('Table\\' . ucfirst($name) . 'Table', $prefix)
 			?: $this->getClassName('Table\\' . ucfirst($name) . 'Table', 'Administrator');
@@ -217,7 +246,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 	{
 		if (!$prefix)
 		{
-			$prefix = $this->application->getName();
+			$prefix = Factory::getApplication();
 		}
 
 		$className = trim($this->namespace, '\\') . '\\' . ucfirst($prefix) . '\\' . $suffix;

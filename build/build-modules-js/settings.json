@@ -13,6 +13,7 @@
       "field-permissions",
       "field-simple-color",
       "field-send-test-mail",
+      "field-subform",
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
@@ -50,6 +51,10 @@
       "field-hidden-mail": {
         "css": "media/system/webcomponents/css",
         "js": "media/system/webcomponents/js"
+      },
+      "field-subform": {
+        "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
       }
     },
     "vendors": {
@@ -66,6 +71,13 @@
           "awesomplete.min.js.map": "js/awesomplete.min.js.map",
           "awesomplete.css.map": "css/awesomplete.css.map"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["awesomplete.min.js"],
+            "css": ["awesomplete.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
@@ -95,6 +107,27 @@
           "dist/css/bootstrap-reboot.min.css.map": "css/bootstrap-reboot.min.css.map",
           "scss": "scss"
         },
+        "provideAssets": [
+          {
+            "name": "bootstrap.js",
+            "js": ["bootstrap.min.js"],
+            "dependencies": ["jquery"]
+          },
+          {
+            "name": "bootstrap.js.bundle",
+            "js": ["bootstrap.bundle.min.js"],
+            "dependencies": ["jquery"]
+          },
+          {
+            "name": "bootstrap.css",
+            "css": ["bootstrap.min.css"]
+          },
+          {
+            "name": "bootstrap.css.grid",
+            "css": ["bootstrap-grid.min.css"],
+            "dependencies": ["bootstrap.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
@@ -108,6 +141,13 @@
           "dist/cropper.css": "css/cropper.css",
           "dist/cropper.min.css": "css/cropper.min.css"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["cropper.min.js"],
+            "css": ["cropper.min.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
@@ -117,6 +157,12 @@
           "dist/diff.js": "js/diff.js",
           "dist/diff.min.js": "js/diff.min.js"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["diff.js"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
@@ -130,6 +176,13 @@
           "dist/dragula.css": "css/dragula.css",
           "dist/dragula.min.css": "css/dragula.min.css"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["dragula.min.js"],
+            "css": ["dragula.min.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "license"
       },
@@ -140,6 +193,12 @@
           "dist/focus-visible.min.js": "js/focus-visible.min.js",
           "dist/focus-visible.min.js.map": "js/focus-visible.min.js.map"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["focus-visible.min.js"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
       },
@@ -154,6 +213,12 @@
           "scss": "scss",
           "fonts": "fonts"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "css": ["font-awesome.min.css"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": ""
       },
@@ -166,8 +231,11 @@
         "filesExtra": {
           "dist/jquery.min.map": "js/jquery.min.map"
         },
-        "include": [
-          "jquery-migrate"
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["jquery.min.js"]
+          }
         ],
         "dependencies": [],
         "licenseFilename": "LICENSE.txt"
@@ -178,6 +246,13 @@
           "dist/jquery-migrate.js": "js/jquery-migrate.js",
           "dist/jquery-migrate.min.js": "js/jquery-migrate.min.js"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["jquery-migrate.min.js"],
+            "dependencies": ["jquery"]
+          }
+        ],
         "dependencies": [
           "jquery"
         ],
@@ -191,7 +266,7 @@
           "dist/js/joomla-alert-es5.js": "js/joomla-alert-es5.js",
           "dist/js/joomla-alert-es5.min.js": "js/joomla-alert-es5.min.js",
           "dist/js/joomla-tab.js": "js/joomla-tab.js",
-          "dist/js/joomla-tab.min.js": "js/joomla-tab.js",
+          "dist/js/joomla-tab.min.js": "js/joomla-tab.min.js",
           "dist/js/joomla-tab-es5.js": "js/joomla-tab-es5.js",
           "dist/js/joomla-tab-es5.min.js": "js/joomla-tab-es5.min.js"
         },
@@ -235,6 +310,12 @@
         "js": {
           "punycode.js": "js/punycode.js"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["punycode.js"]
+          }
+        ],
         "dependencies": [],
         "licenseFilename": "LICENSE-MIT.txt"
       },
@@ -250,6 +331,14 @@
         "filesExtra": {
           "jquery.minicolors.png": "css/jquery.minicolors.png"
         },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["jquery.minicolors.min.js"],
+            "css": ["jquery.minicolors.css"],
+            "dependencies": ["jquery"]
+          }
+        ],
         "dependencies": [
           "jquery"
         ],
@@ -281,6 +370,40 @@
           "dist/css-vars-ponyfill.js": "js/css-vars-ponyfill.js",
           "dist/css-vars-ponyfill.min.js": "js/css-vars-ponyfill.min.js",
           "dist/css-vars-ponyfill.min.js.map": "js/css-vars-ponyfill.min.js.map"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["css-vars-ponyfill.min.js"]
+          }
+        ]
+      },
+      "chosen-js": {
+        "name": "chosen",
+        "js": {
+          "chosen.jquery.js": "js/chosen.jquery.js"
+        },
+        "css": {
+          "chosen.css": "css/chosen.css",
+          "chosen-sprite.png": "css/chosen-sprite.png",
+          "chosen-sprite@2x.png": "css/chosen-sprite@2x.png"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["chosen.jquery.js"],
+            "css": ["chosen.css"],
+            "dependencies": ["jquery"]
+          }
+        ]
+      },
+      "metismenujs": {
+        "name": "metismenujs",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/metismenujs.js": "js/metismenujs.js",
+          "dist/metismenujs.min.js": "js/metismenujs.min.js",
+          "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
         }
       }
     },

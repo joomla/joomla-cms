@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Data object representing a feed image
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FeedImage
 {
@@ -23,7 +23,7 @@ class FeedImage
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $title = '';
 
@@ -33,7 +33,7 @@ class FeedImage
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $url = '';
 
@@ -43,7 +43,7 @@ class FeedImage
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $link = '';
 
@@ -53,7 +53,7 @@ class FeedImage
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $width;
 
@@ -63,7 +63,7 @@ class FeedImage
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $height;
 
@@ -73,7 +73,7 @@ class FeedImage
 	 * optional
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $description;
 }

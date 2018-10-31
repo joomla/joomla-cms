@@ -11,11 +11,11 @@ namespace Joomla\CMS\Installation\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Response\JsonResponse;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 
 /**
  * Default JSON controller class for the Joomla Installer controllers.

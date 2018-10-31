@@ -25,7 +25,7 @@ use Joomla\CMS\Uri\Uri;
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ListField extends FormField
 {
@@ -33,7 +33,7 @@ class ListField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'List';
 
@@ -197,7 +197,7 @@ class ListField extends FormField
 			// Try with global configuration
 			if (is_null($value))
 			{
-				$value = Factory::getConfig()->get($this->fieldname);
+				$value = Factory::getApplication()->get($this->fieldname);
 			}
 
 			// Try with menu configuration

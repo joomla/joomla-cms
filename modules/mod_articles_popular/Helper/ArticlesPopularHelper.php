@@ -11,11 +11,10 @@ namespace Joomla\Module\ArticlesPopular\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -35,11 +34,13 @@ abstract class ArticlesPopularHelper
 	 */
 	public static function getList(&$params)
 	{
+		$app = Factory::getApplication();
+
 		// Get an instance of the generic articles model
-		$model = new ArticlesModel(array('ignore_request' => true));
+		$model = $app->bootComponent('com_content')
+			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
-		$app = Factory::getApplication();
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 

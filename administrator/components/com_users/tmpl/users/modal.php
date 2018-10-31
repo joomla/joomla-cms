@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Layout\LayoutHelper;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
@@ -40,9 +38,14 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 		<?php endif; ?>
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<div class="alert alert-warning">
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 		<?php else : ?>
 		<table class="table table-sm">
+			<caption id="captionTable" class="sr-only">
+				<?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+			</caption>
 			<thead>
 				<tr>
 					<th scope="col">
@@ -66,31 +69,31 @@ $onClick         = "window.parent.jSelectUser(this);window.parent.Joomla.Modal.g
 				</tr>
 			</thead>
 			<tbody>
-                <?php $i = 0; ?>
-                <?php foreach ($this->items as $item) : ?>
-                    <tr class="row<?php echo $i % 2; ?>">
-                        <th scope="row">
-                            <a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
-                                data-user-field="<?php echo $this->escape($field); ?>">
-                                <?php echo $this->escape($item->name); ?>
-                            </a>
-                        </th>
-                        <td>
-                            <?php echo $this->escape($item->username); ?>
-                        </td>
-                        <td class="text-center">
-                            <span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
-                        </td>
-                        <td class="text-center">
-                            <span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
-                        </td>
-                        <td>
-                            <?php echo nl2br($item->group_names); ?>
-                        </td>
-                        <td>
-                            <?php echo (int) $item->id; ?>
-                        </td>
-                    </tr>
+				<?php $i = 0; ?>
+				<?php foreach ($this->items as $item) : ?>
+					<tr class="row<?php echo $i % 2; ?>">
+						<th scope="row">
+							<a class="pointer button-select" href="#" data-user-value="<?php echo $item->id; ?>" data-user-name="<?php echo $this->escape($item->name); ?>"
+								data-user-field="<?php echo $this->escape($field); ?>">
+								<?php echo $this->escape($item->name); ?>
+							</a>
+						</th>
+						<td>
+							<?php echo $this->escape($item->username); ?>
+						</td>
+						<td class="text-center">
+							<span class="<?php echo $enabledStates[(int) $this->escape($item->block)]; ?>"></span>
+						</td>
+						<td class="text-center">
+							<span class="<?php echo $activatedStates[(empty($item->activation) ? 0 : 1)]; ?>"></span>
+						</td>
+						<td>
+							<?php echo nl2br($item->group_names); ?>
+						</td>
+						<td>
+							<?php echo (int) $item->id; ?>
+						</td>
+					</tr>
 				<?php endforeach; ?>
 			</tbody>
 		</table>

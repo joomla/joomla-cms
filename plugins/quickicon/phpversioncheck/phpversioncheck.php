@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
@@ -48,7 +48,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.7.0
 	 */
 	protected $app;
@@ -202,7 +202,7 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 		}
 
 		// Only if authenticated
-		if (Factory::getUser()->guest)
+		if ($this->app->getIdentity()->guest)
 		{
 			return false;
 		}

@@ -34,14 +34,14 @@
     select = this;
     chosenXhr = null;
     options = $.extend({}, defaultOptions, $(select).data(), settings);
-    this.chosen(chosenOptions ? chosenOptions : {});
+    this.jchosen(chosenOptions ? chosenOptions : {});
     return this.each(function() {
-      return $(this).next('.chzn-container').find(".search-field > input, .chzn-search > input").bind('keyup', function() {
+      return $(this).next('.chosen-container').find(".search-field > input, .chosen-search > input").bind('keyup', function() {
         var field, msg, success, untrimmed_val, val;
         untrimmed_val = $(this).val();
         val = $.trim($(this).val());
         msg = val.length < options.minTermLength ? options.keepTypingMsg : options.lookingForMsg + (" '" + val + "'");
-        select.next('.chzn-container').find('.no-results').text(msg);
+        select.next('.chosen-container').find('.no-results').text(msg);
         if (val === $(this).data('prevVal')) {
           return false;
         }
@@ -115,10 +115,10 @@
             }
           });
           if (nbItems) {
-            select.trigger("liszt:updated");
+            select.trigger("chosen:updated");
           } else {
-            select.data().chosen.no_results_clear();
-            select.data().chosen.no_results(field.val());
+            select.data().jchosen.no_results_clear();
+            select.data().jchosen.no_results(field.val());
           }
           if (success != null) {
             success(data);

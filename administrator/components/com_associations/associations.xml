@@ -11,7 +11,7 @@
 	<description>COM_ASSOCIATIONS_XML_DESCRIPTION</description>
 	<namespace>Joomla\Component\Associations</namespace>
 	<media destination="com_associations" folder="media">
-		<folder>css</foldcer>
+		<folder>css</folder>
 		<folder>js</folder>
 	</media>
 	<administration>

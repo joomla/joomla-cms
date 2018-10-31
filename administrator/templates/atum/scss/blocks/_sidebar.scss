@@ -9,48 +9,21 @@
 }
 
 .sidebar-wrapper {
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 1041;
   display: flex;
   flex-direction: column;
-  width: $sidebar-width;
-  max-height: 100vh;
-  background-color: var(--primary-dark);
+  flex: 1 0 $sidebar-width;
+  max-width: $sidebar-width;
+  background-color: var(--sidebar-bg);
   box-shadow: $atum-box-shadow;
   transition: all .3s ease;
-
-  @include media-breakpoint-down(md) {
-
-    .main-nav {
-      max-height: calc(100vh - 147px);
-    }
-  }
+  overflow: hidden;
 
   .main-brand {
     padding: 15px;
     margin-top: auto;
-  }
-
-  .main-nav-container {
-    max-height: calc(100vh - 60px);
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    &::-webkit-scrollbar {
-      width: 5px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: var(--primary-dark);
-      box-shadow: inset 0 0 6px rgba(0, 0, 0, .5);
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background-color: #fff;
-      border-radius: 2px;
-      box-shadow: inset 0 0 2px rgba(0, 0, 0, .3);
-    }
   }
 }
 
@@ -62,243 +35,199 @@
 // Sidebar navigation
 .main-nav {
   width: $sidebar-width;
-  list-style: none;
-  background-color: var(--primary-dark);
   opacity: 1;
 
-  // Parent items
-  > li {
-    background-color: var(--primary-dark);
-    border-bottom: 1px solid rgba($black, .15);
-
-    &:first-of-type {
-      border-top: 1px solid rgba($black, .15);
-    }
-
+  // All list items
+  li {
+    color: var(--sidebar-text-color);
+    list-style-type: none;
   }
 
-  li {
+  // All links
+  a {
+    position: relative;
+    color: var(--sidebar-link-color);
+
+    &:hover {
+      color: var(--sidebar-link-color-hover);
+      text-decoration: none;
+    }
+  }
+
+  // 1st level items
+  > li {
+    > ul {
+      background-color: var(--sidebar-sub-bg);
+    }
+    > a {
+      display: block;
+      padding: 10px 6px;
+
+      &:hover {
+        background-color: rgba(0,0,0,.4);
+      }
+    }
+    &.active > a {
+      background-color: rgba(0,0,0,.4);
+
+      &::before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 3px;
+        content: "";
+        background-color: var(--primary);
+      }
+    }
+  }
+
+  // 2nd level items
+  ul {
+    padding: 0;
+
+    li {
+      position: relative;
+    }
 
     a {
-      position: relative;
       display: block;
-      padding: 15px 0;
-      overflow: hidden;
-      color: $white;
-      text-decoration: none;
-      cursor: pointer;
-      opacity: 1;
+      padding: 4px 5px 4px 34px;
+      color: var(--sidebar-child-link-color);
 
       &:hover {
         color: $white;
-        text-decoration: none;
-        background-color: rgba($black, .2);
+        background-color: rgba(0,0,0,.4);
       }
 
-      &:active,
-      &:focus {
-        text-decoration: none;
-        outline: 0;
-        box-shadow: inset 0 0 0 1px #78aeda;
-      }
-
-    }
-
-    // Parent arrow indicator
-    .collapse-arrow::after {
-      position: absolute;
-      top: 50%;
-      right: 15px;
-      font-family: FontAwesome;
-      font-size: .75rem;
-      color: $white;
-      content: "\f0da";
-      transform: translateY(-50%);
-    }
-
-    &.menuitem-group a:hover {
-      cursor: text;
-      background: none;
-    }
-
-    ul {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 50px;
-      z-index: -3;
-      display: block;
-      width: $sidebar-width;
-      padding: 0;
-      background-color: $atum-sidebar-child-bg;
-      opacity: 0;
-      transition: left .2s ease, opacity .2s ease;
-      transition-delay: 0;
-
-      ul {
-        display: none;
-        opacity: 1;
-      }
-
-      li {
-        text-indent: 15px;
-      }
-    }
-  }
-
-  .close {
-    padding: 2px 10px;
-    font-size: 1.7rem;
-    color: rgba($white, .8);
-    text-indent: 0;
-    text-shadow: none;
-
-    &:hover {
-      background-color: transparent;
-    }
-  }
-
-  .open {
-
-    > a + ul {
-      left: 60px;
-      z-index: 1080;
-      opacity: 1;
-    }
-  }
-
-  li li {
-    line-height: 2.2rem;
-    border: 0;
-    box-shadow: none;
-
-    a {
-      padding: 7px 0;
-      box-shadow: none;
-
-      &:hover {
+      &.active {
+        color: $white;
         background-color: var(--primary);
-        box-shadow: inset 2px 0 2px rgba($black, .1);
+      }
+
+      &::before {
+        position: absolute;
+        top: 12px;
+        left: 18px;
+        width: .5rem;
+        height: .5rem;
+        content: "";
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTI1NiA4QzExOSA4IDggMTE5IDggMjU2czExMSAyNDggMjQ4IDI0OCAyNDgtMTExIDI0OC0yNDhTMzkzIDggMjU2IDh6bTAgNDQ4Yy0xMTAuNSAwLTIwMC04OS41LTIwMC0yMDBTMTQ1LjUgNTYgMjU2IDU2czIwMCA4OS41IDIwMCAyMDAtODkuNSAyMDAtMjAwIDIwMHoiLz48L3N2Zz4=");
+        opacity: .5;
       }
     }
 
-    > span {
-      color: rgba($white, .4);
+    .has-arrow::after {
+      top: 16px;
+      width: .4rem;
+      height: .4rem;
+      border-color: var(--sidebar-text-color);
     }
 
-    &:last-of-type > a {
-      border-bottom: 0;
+    // 3rd level items
+    ul {
+
+      a {
+        padding-left: 50px;
+      }
+
+      a::before {
+        left: 34px;
+      }
+    }
+  }
+
+  .divider,
+  .menuitem-group {
+    list-style: none;
+    a::before {
+      display: none;
+    }
+  }
+
+  .divider {
+    height: 1px;
+    margin: 4px 18px;
+    background-color: var(--sidebar-text-color);
+    opacity: .2;
+  }
+
+  .menuitem-group {
+    margin-top: 10px;
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .collapse {
+    display: none;
+  }
+  .collapse.in {
+    display: block;
+  }
+  .collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition-timing-function: ease;
+    transition-duration: .35s;
+    transition-property: height, visibility;
+  }
+
+  // Dropdown indicator
+  .has-arrow::after {
+    position: absolute;
+    top: 21px;
+    right: 1em;
+    width: .5rem;
+    height: .5rem;
+    color: $white;
+    content: "";
+    border-color: initial;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    transition: all .3s ease-out;
+    transform: rotate(-45deg) translate(0, -50%);
+    transform-origin: top;
+  }
+
+  .active {
+    > .has-arrow::after {
+      transform: rotate(-135deg) translate(0, -50%);
     }
   }
 
   // Parent icons
   .fa {
     position: relative;
-    top: -2px;
+    top: -1px;
     display: inline-block;
-    margin: 0 18px;
-    font-size: 20px;
+    margin: 0 5px;
+    font-size: 1.1rem;
     text-align: center;
     vertical-align: middle;
   }
 
-  // 2nd level item with opened sub-menu
-  .open .collapse-level-1 {
-    display: block;
-  }
-
-  // 2nd level items
-  .collapse-level-1 {
-
-    a::before {
-      display: none;
-    }
-
-    .menuitem-group,
-    > li:first-of-type {
-      margin: 6px 0 0;
-      color: rgba($white, .7);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    li {
-      position: relative;
-      overflow: visible;
-
-      &:hover ul {
-        display: block !important;
-      }
-    }
-  }
-
-  // 3rd level items
-  .collapse-level-2 {
-    position: absolute;
-    top: 0;
-    bottom: auto;
-    left: 100% !important;
-    height: auto;
-    padding: 2px 0;
-    background-color: var(--sidebar-bg);
-    box-shadow: 0 0 8px rgba($black, .2);
-
-    > li > a {
-      color: $white;
-      text-indent: 15px;
-    }
-  }
-
-  .closed & {
-    overflow-x: hidden;
-  }
-}
-
-
-// Child open
-.child-open > li.open {
-
-  a::before {
-    position: absolute;
-    top: 1px;
-    bottom: 1px;
-    left: 0;
-    width: 3px;
-    content: "";
-    background-color: $atum-sidebar-active;
-  }
 }
 
 // Sidebar Closed
 .closed {
 
-  .child-open::after {
+  .sidebar-wrapper {
+    flex: 1 0 $sidebar-width-closed;
+    max-width: $sidebar-width-closed;
+  }
+
+  .sidebar-item-title,
+  .has-arrow::after {
     display: none;
   }
 
-  .sidebar-wrapper {
-    width: $sidebar-width-closed;
-    overflow: hidden;
+  .main-nav {
+    > li > ul {
+      height: 0;
+      padding: 0;
+      visibility: hidden;
+    }
   }
-
-  .parent .collapse-arrow::after {
-    visibility: hidden;
-    transition-delay: 0s !important;
-  }
-
-  .menu-toggle-icon::before {
-    content: "\f054";
-  }
-}
-
-// Edit view
-.layout-edit .sidebar-wrapper .no-dropdown:hover {
-  color: $white;
-  cursor: not-allowed;
-  background: none;
-}
-
-.sidebar-item-title {
-  visibility: visible !important;
-  opacity: 1 !important;
 }

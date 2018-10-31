@@ -11,17 +11,17 @@ namespace Joomla\Component\Users\Administrator\View\Users;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * View class for a list of users.
@@ -118,9 +118,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
-
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		$this->addToolbar();
 		$this->sidebar = HTMLHelper::_('sidebar.render');

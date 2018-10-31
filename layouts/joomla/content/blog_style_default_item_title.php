@@ -10,15 +10,12 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 // Create a shortcut for params.
 $params  = $displayData->params;
 $canEdit = $displayData->params->get('access-edit');
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 ?>
 
 <?php if ($displayData->state == 0 || $params->get('show_title') || ($params->get('show_author') && !empty($displayData->author ))) : ?>
@@ -36,7 +33,7 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 				<?php endif; ?>
 			</h2>
 		<?php endif; ?>
-		
+
 		<?php if ($displayData->state == 0) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 		<?php endif; ?>
@@ -44,7 +41,7 @@ HTMLHelper::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 		<?php if (strtotime($displayData->publish_up) > strtotime(Factory::getDate())) : ?>
 			<span class="badge badge-warning"><?php echo Text::_('JNOTPUBLISHEDYET'); ?></span>
 		<?php endif; ?>
-		
+
 		<?php if ($displayData->publish_down != Factory::getDbo()->getNullDate()
 			&& (strtotime($displayData->publish_down) < strtotime(Factory::getDate()))
 		) : ?>

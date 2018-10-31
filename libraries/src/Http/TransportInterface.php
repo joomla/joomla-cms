@@ -15,7 +15,7 @@ use Joomla\Http\TransportInterface as FrameworkTransportInterface;
 /**
  * HTTP transport class interface.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Implement Joomla\Http\TransportInterface instead
  */
 interface TransportInterface extends FrameworkTransportInterface

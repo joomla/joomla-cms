@@ -11,14 +11,14 @@ namespace Joomla\Component\Cache\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Pagination\Pagination;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Cache\Exception\CacheConnectingException;
 use Joomla\CMS\Cache\Exception\UnsupportedCacheException;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Cache Model
@@ -63,6 +63,7 @@ class CacheModel extends ListModel
 				'group',
 				'count',
 				'size',
+				'client_id',
 			);
 		}
 
@@ -182,13 +183,13 @@ class CacheModel extends ListModel
 	 */
 	public function getCache()
 	{
-		$conf = Factory::getConfig();
+		$app = Factory::getApplication();
 
 		$options = array(
 			'defaultgroup' => '',
-			'storage'      => $conf->get('cache_handler', ''),
+			'storage'      => $app->get('cache_handler', ''),
 			'caching'      => true,
-			'cachebase'    => $conf->get('cache_path', JPATH_CACHE)
+			'cachebase'    => $app->get('cache_path', JPATH_CACHE)
 		);
 
 		return Cache::getInstance('', $options);

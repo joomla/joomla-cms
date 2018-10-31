@@ -18,7 +18,7 @@ use Joomla\String\StringHelper;
 /**
  * OutputFilter
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class OutputFilter extends BaseOutputFilter
 {
@@ -29,7 +29,7 @@ class OutputFilter extends BaseOutputFilter
 	 *
 	 * @return  string  Processed string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function linkXHTMLSafe($input)
 	{
@@ -67,7 +67,7 @@ class OutputFilter extends BaseOutputFilter
 	 *
 	 * @return  string  Processed string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function stringURLSafe($string, $language = '')
 	{

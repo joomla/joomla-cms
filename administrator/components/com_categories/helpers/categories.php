@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Categories helper.
  *
- * @since  1.6
+ * @since       1.6
+ * @deprecated  5.0 Use \Joomla\Component\Categories\Administrator\Helper\CategoriesHelper instead
  */
 class CategoriesHelper extends \Joomla\Component\Categories\Administrator\Helper\CategoriesHelper
 {
-
 }

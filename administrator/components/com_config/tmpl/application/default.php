@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Registry\Registry;
+use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Registry\Registry;
 
 // Load tooltips behavior
 HTMLHelper::_('behavior.formvalidator');

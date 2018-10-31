@@ -289,7 +289,7 @@ class FileAdapter extends InstallerAdapter
 			{
 				$files = Folder::files($folder);
 
-				if (!count($files))
+				if ($files !== false && !count($files))
 				{
 					Folder::delete($folder);
 				}

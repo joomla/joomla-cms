@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
 <fieldset class="adminform">
@@ -86,7 +86,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 					<?php echo Text::_('COM_ADMIN_SESSION_AUTO_START'); ?>
 				</th>
 				<td>
-					<?php echo HTMLHelper::_('phpsetting.integer', $this->php_settings['session.auto_start']); ?>
+					<?php echo (int) $this->php_settings['session.auto_start']; ?>
 				</td>
 			</tr>
 			<tr>
@@ -142,7 +142,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 					<?php echo Text::_('COM_ADMIN_MAX_INPUT_VARS'); ?>
 				</th>
 				<td>
-					<?php echo HTMLHelper::_('phpsetting.integer', $this->php_settings['max_input_vars']); ?>
+					<?php echo (int) $this->php_settings['max_input_vars']; ?>
 				</td>
 			</tr>
 		</tbody>

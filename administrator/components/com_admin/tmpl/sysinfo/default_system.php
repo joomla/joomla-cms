@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
 <fieldset class="adminform">
@@ -47,7 +47,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 				<td>
 					<?php echo $this->info['dbserver']; ?>
 				</td>
-			</tr>			
+			</tr>
 			<tr>
 				<th scope="row">
 					<?php echo Text::_('COM_ADMIN_DATABASE_VERSION'); ?>

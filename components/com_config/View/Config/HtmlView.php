@@ -11,9 +11,9 @@ namespace Joomla\Component\Config\Site\View\Config;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
-use Joomla\CMS\Factory;
 
 /**
  * View for the global configuration

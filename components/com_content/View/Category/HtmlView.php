@@ -11,12 +11,12 @@ namespace Joomla\Component\Content\Site\View\Category;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\CategoryView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Content component

@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
@@ -41,7 +41,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<input type="hidden" name="option" value="com_contact">
 				<input type="hidden" name="task" value="contact.submit">
 				<input type="hidden" name="return" value="<?php echo $this->return_page; ?>">
-				<input type="hidden" name="id" value="<?php echo $this->contact->slug; ?>">
+				<input type="hidden" name="id" value="<?php echo $this->item->slug; ?>">
 				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>

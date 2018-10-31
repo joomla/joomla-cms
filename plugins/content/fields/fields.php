@@ -35,11 +35,11 @@ class PlgContentFields extends CMSPlugin
 	public function onContentPrepare($context, &$item, &$params, $page = 0)
 	{
 		// If the item has a context, overwrite the existing one
-		if ($context == 'com_finder.indexer' && !empty($item->context))
+		if ($context === 'com_finder.indexer' && !empty($item->context))
 		{
 			$context = $item->context;
 		}
-		elseif ($context == 'com_finder.indexer')
+		elseif ($context === 'com_finder.indexer')
 		{
 			// Don't run this plugin when the content is being indexed and we have no real context
 			return;
@@ -119,7 +119,7 @@ class PlgContentFields extends CMSPlugin
 			$layout  = !empty($explode[1]) ? trim($explode[1]) : 'render';
 			$output  = '';
 
-			if ($match[1] == 'field' && $id)
+			if ($match[1] === 'field' && $id)
 			{
 				if (isset($fieldsById[$id]))
 				{

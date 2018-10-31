@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Module\Latest\Administrator\Helper\ModLatestHelper;
 
-$list = ModLatestHelper::getList($params, new ArticlesModel(array('ignore_request' => true)));
+$model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Administrator', ['ignore_request' => true]);
+$list = ModLatestHelper::getList($params, $model);
 
 if ($params->get('automatic_title', 0))
 {

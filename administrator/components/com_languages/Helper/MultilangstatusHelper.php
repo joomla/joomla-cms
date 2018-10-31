@@ -11,12 +11,11 @@ namespace Joomla\Component\Languages\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
+use Joomla\Registry\Registry;
 
 /**
  * Multilang status helper.
@@ -81,56 +80,6 @@ abstract class MultilangstatusHelper
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
-	}
-
-	/**
-	 * Method to return a list of published site languages.
-	 *
-	 * @return  array of language extension objects.
-	 *
-	 * @deprecated  4.0  Use LanguageHelper::getInstalledLanguages(0) instead.
-	 */
-	public static function getSitelangs()
-	{
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated, use LanguageHelper::getInstalledLanguages(0) instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return LanguageHelper::getInstalledLanguages(0);
-	}
-
-	/**
-	 * Method to return a list of language home page menu items.
-	 *
-	 * @return  array of menu objects.
-	 *
-	 * @deprecated  4.0  Use Multilanguage::getSiteHomePages() instead.
-	 */
-	public static function getHomepages()
-	{
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated, use LanguageHelper::getSiteHomePages() instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return Multilanguage::getSiteHomePages();
 	}
 
 	/**

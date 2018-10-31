@@ -10,8 +10,7 @@
 		<field
 			name="published"
 			type="status"
-			label="COM_WORKFLOW_RADIO_CONDITION_LABEL"
-			description="COM_WORKFLOW_RADIO_CONDITION_LABEL_DESC"
+			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			filter="-2,0,1"
 			>
@@ -20,8 +19,7 @@
 		<field
 			name="condition"
 			type="workflowcondition"
-			label="COM_WORKFLOW_CONDITION"
-			description="COM_WORKFLOW_CONDITION_DESC"
+			label="COM_WORKFLOW_SELECT_CONDITION"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_WORKFLOW_SELECT_CONDITION</option>
@@ -32,6 +30,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			statuses="*,0,1,2,-2"
 			onchange="this.form.submit();"
 			default="s.ordering ASC"
@@ -43,16 +42,15 @@
 			<option value="s.published DESC">JSTATUS_DESC</option>
 			<option value="s.title ASC">JGLOBAL_TITLE_ASC</option>
 			<option value="s.title DESC">JGLOBAL_TITLE_DESC</option>
-			<option value="s.condition ASC">COM_WORKFLOW_CONDITION_ASC</option>
-			<option value="s.condition DESC">COM_WORKFLOW_CONDITION_DESC</option>
+			<option value="s.condition ASC">COM_WORKFLOW_CONDITION_SORT_ASC</option>
+			<option value="s.condition DESC">COM_WORKFLOW_CONDITION_SORT_DESC</option>
 			<option value="s.id ASC">JGRID_HEADING_ID_ASC</option>
 			<option value="s.id DESC">JGRID_HEADING_ID_DESC</option>
 		</field>
 		<field
 			name="limit"
 			type="limitbox"
-			label="COM_WORKFLOW_LIST_LIMIT"
-			description="COM_WORKFLOW_LIST_LIMIT_DESC"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

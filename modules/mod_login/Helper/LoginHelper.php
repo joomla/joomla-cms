@@ -11,10 +11,9 @@ namespace Joomla\Module\Login\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_login

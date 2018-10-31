@@ -11,8 +11,8 @@ namespace Joomla\Component\Contact\Site\View\Contact;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\AbstractView;
 
 /**
  * View to create a VCF for a contact item

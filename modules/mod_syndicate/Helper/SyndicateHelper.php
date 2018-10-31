@@ -11,8 +11,9 @@ namespace Joomla\Module\Syndicate\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Document\HtmlDocument;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Helper for mod_syndicate
@@ -24,16 +25,15 @@ class SyndicateHelper
 	/**
 	 * Gets the link
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  module parameters
+	 * @param   Registry      $params    The module parameters
+	 * @param   HtmlDocument  $document  The document
 	 *
 	 * @return  array  The link as a string
 	 *
 	 * @since   1.5
 	 */
-	public static function getLink(&$params)
+	public static function getLink(Registry $params, HtmlDocument $document)
 	{
-		$document = Factory::getDocument();
-
 		foreach ($document->_links as $link => $value)
 		{
 			$value = ArrayHelper::toString($value);

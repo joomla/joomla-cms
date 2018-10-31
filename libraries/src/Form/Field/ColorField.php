@@ -18,7 +18,7 @@ use Joomla\CMS\Form\FormField;
  * This implementation is designed to be compatible with HTML5's `<input type="color">`
  *
  * @link   http://www.w3.org/TR/html-markup/input.color.html
- * @since  11.3
+ * @since  1.7.3
  */
 class ColorField extends FormField
 {
@@ -26,7 +26,7 @@ class ColorField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $type = 'Color';
 
@@ -180,7 +180,7 @@ class ColorField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function getInput()
 	{

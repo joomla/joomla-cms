@@ -159,7 +159,7 @@ class ArchiveModel extends ArticlesModel
 	 *
 	 * @return  array  An array of results.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  \RuntimeException
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)

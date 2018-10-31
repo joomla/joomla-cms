@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * or plain Formattedtext) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Log
 {
@@ -27,7 +27,7 @@ class Log
 	 * All log priorities.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const ALL = 30719;
 
@@ -35,7 +35,7 @@ class Log
 	 * The system is unusable.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const EMERGENCY = 1;
 
@@ -43,7 +43,7 @@ class Log
 	 * Action must be taken immediately.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const ALERT = 2;
 
@@ -51,7 +51,7 @@ class Log
 	 * Critical conditions.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const CRITICAL = 4;
 
@@ -59,7 +59,7 @@ class Log
 	 * Error conditions.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const ERROR = 8;
 
@@ -67,7 +67,7 @@ class Log
 	 * Warning conditions.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const WARNING = 16;
 
@@ -75,7 +75,7 @@ class Log
 	 * Normal, but significant condition.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const NOTICE = 32;
 
@@ -83,7 +83,7 @@ class Log
 	 * Informational message.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const INFO = 64;
 
@@ -91,7 +91,7 @@ class Log
 	 * Debugging message.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const DEBUG = 128;
 
@@ -99,7 +99,7 @@ class Log
 	 * The global Log instance.
 	 *
 	 * @var    Log
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $instance;
 
@@ -107,7 +107,7 @@ class Log
 	 * Container for Logger configurations.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $configurations = array();
 
@@ -115,7 +115,7 @@ class Log
 	 * Container for Logger objects.
 	 *
 	 * @var    Logger[]
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $loggers = array();
 
@@ -123,7 +123,7 @@ class Log
 	 * Lookup array for loggers.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $lookup = array();
 
@@ -138,7 +138,7 @@ class Log
 	/**
 	 * Constructor.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function __construct()
 	{
@@ -156,7 +156,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = array())
 	{
@@ -185,7 +185,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
 	{
@@ -231,7 +231,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function addLoggerInternal(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
 	{
@@ -307,7 +307,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setInstance($instance)
 	{
@@ -324,7 +324,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function addLogEntry(LogEntry $entry)
@@ -376,7 +376,7 @@ class Log
 	 *
 	 * @return  array  The array of loggers to use for the given priority and category values.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function findLoggers($priority, $category)
 	{

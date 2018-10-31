@@ -8,11 +8,11 @@
 
   .btn-primary:not([href]),
   .btn-success:not([href]),
-  .btn-secondary:not([href]), {
-    color: #fff;
+  .btn-secondary:not([href]) {
+    color: var(--white);
 
     &:hover {
-      color: #fff;
+      color: var(--white);
     }
   }
 }
@@ -27,7 +27,7 @@
     margin-right: -15px;
     font-size: 2rem;
     line-height: 1rem;
-    border-left: 1px solid $atum-border-color;
+    border-left: 1px solid var(--border);
   }
 }
 
@@ -37,7 +37,7 @@
 }
 
 .modal-title {
-  font-weight: normal;
+  font-weight: $normal-weight;
   line-height: $modal-header-height;
 }
 

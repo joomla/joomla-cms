@@ -12,16 +12,16 @@ namespace Joomla\Component\Languages\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
 
 /**
  * Languages Component Languages Model
@@ -30,12 +30,6 @@ use Joomla\CMS\Factory;
  */
 class InstalledModel extends ListModel
 {
-	/**
-	 * @var object client object
-	 * @deprecated 4.0
-	 */
-	protected $client = null;
-
 	/**
 	 * @var object user object
 	 */
@@ -60,12 +54,6 @@ class InstalledModel extends ListModel
 	 * @var int total number pf languages
 	 */
 	protected $total = null;
-
-	/**
-	 * @var int total number pf languages installed
-	 * @deprecated 4.0
-	 */
-	protected $langlist = null;
 
 	/**
 	 * @var string language path
@@ -96,7 +84,7 @@ class InstalledModel extends ListModel
 				'author',
 				'authorEmail',
 				'extension_id',
-				'cliend_id',
+				'client_id',
 			);
 		}
 
@@ -301,41 +289,6 @@ class InstalledModel extends ListModel
 	}
 
 	/**
-	 * Method to get installed languages data.
-	 *
-	 * @return  string	An SQL query.
-	 *
-	 * @since   1.6
-	 *
-	 * @deprecated   4.0
-	 */
-	protected function getLanguageList()
-	{
-		// Create a new db object.
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
-		$client = $this->getState('client_id');
-		$type = 'language';
-
-		// Select field element from the extensions table.
-		$query->select($this->getState('list.select', 'a.element'))
-			->from('#__extensions AS a');
-
-		$type = $db->quote($type);
-		$query->where('(a.type = ' . $type . ')')
-			->where('state = 0')
-			->where('enabled = 1')
-			->where('client_id=' . (int) $client);
-
-		// For client_id = 1 do we need to check language table also?
-		$db->setQuery($query);
-
-		$this->langlist = $db->loadColumn();
-
-		return $this->langlist;
-	}
-
-	/**
 	 * Method to get the total number of Languages items.
 	 *
 	 * @return  integer
@@ -448,23 +401,6 @@ class InstalledModel extends ListModel
 		}
 
 		return $this->path;
-	}
-
-	/**
-	 * Method to compare two languages in order to sort them.
-	 *
-	 * @param   object  $lang1  The first language.
-	 * @param   object  $lang2  The second language.
-	 *
-	 * @return  integer
-	 *
-	 * @since   1.6
-	 *
-	 * @deprecated   4.0
-	 */
-	protected function compareLanguages($lang1, $lang2)
-	{
-		return strcmp($lang1->name, $lang2->name);
 	}
 
 	/**

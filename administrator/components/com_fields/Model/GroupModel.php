@@ -11,13 +11,14 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Group Model
@@ -67,6 +68,31 @@ class GroupModel extends AdminModel
 	}
 
 	/**
+<<<<<<< HEAD:administrator/components/com_fields/Model/GroupModel.php
+=======
+	 * Method to get a table object, load it if necessary.
+	 *
+	 * @param   string  $name     The table name. Optional.
+	 * @param   string  $prefix   The class prefix. Optional.
+	 * @param   array   $options  Configuration array for model. Optional.
+	 *
+	 * @return  JTable  A JTable object
+	 *
+	 * @since   3.7.0
+	 * @throws  Exception
+	 */
+	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
+	{
+		if (strpos(JPATH_COMPONENT, 'com_fields') === false)
+		{
+			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
+		}
+
+		return JTable::getInstance($name, $prefix, $options);
+	}
+
+	/**
+>>>>>>> 3.8.7:administrator/components/com_fields/models/group.php
 	 * Abstract method for getting the form from the model.
 	 *
 	 * @param   array    $data      Data for the form.
@@ -279,7 +305,7 @@ class GroupModel extends AdminModel
 				);
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 			}
 		}
@@ -306,6 +332,11 @@ class GroupModel extends AdminModel
 			if (empty($item->id))
 			{
 				$item->context = $this->getState('filter.context');
+			}
+
+			if (property_exists($item, 'params'))
+			{
+				$item->params = new Registry($item->params);
 			}
 
 			// Convert the created and modified dates to local user time for display in the form.

@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
  * Supports a one line text field.
  *
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
- * @since  11.1
+ * @since  1.7.0
  */
 class NoteField extends FormField
 {
@@ -26,7 +26,7 @@ class NoteField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Note';
 
@@ -35,7 +35,7 @@ class NoteField extends FormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getLabel()
 	{
@@ -69,7 +69,7 @@ class NoteField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

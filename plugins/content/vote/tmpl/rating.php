@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Layout variables
@@ -23,7 +23,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  * @var   string   $path     Path to this file
  */
 
-if ($context == 'com_content.categories')
+if ($context === 'com_content.categories')
 {
 	return;
 }

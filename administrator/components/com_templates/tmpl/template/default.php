@@ -12,14 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 
 Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_SHOW_CORE');
 Text::script('COM_TEMPLATES_LAYOUTS_DIFFVIEW_HIDE_CORE');
@@ -34,7 +29,6 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.multiselect', 'updateForm');
-
 
 $input = Factory::getApplication()->input;
 

@@ -12,6 +12,9 @@
 // Alert
 @import "../../../../build/media/system/scss/jalert";
 
+// jQuery Minicolors
+@import "../../../../build/media/system/scss/jquery-minicolors";
+
 // Blocks
 @import "blocks/global"; // Leave this first
 @import "blocks/alerts";
@@ -88,7 +91,7 @@
 }
 
 .row-selected {
-  background-color: $table-row-selected;
+  background-color: var(--row-selected);
 }
 
 // Chosen (TEMPORARY)

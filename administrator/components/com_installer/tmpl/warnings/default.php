@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
 
 ?>
 <div id="installer-warnings" class="clearfix">
@@ -24,20 +24,20 @@ use Joomla\CMS\HTML\HTMLHelper;
 				<div id="j-main-container" class="j-main-container">
 					<?php if (count($this->messages)) : ?>
 						<?php foreach ($this->messages as $message) : ?>
-							<joomla-alert type="warning">
+							<div class="alert alert-warning">
 								<h4 class="alert-heading"><?php echo $message['message']; ?></h4>
 								<p class="m-b-0"><?php echo $message['description']; ?></p>
-							</joomla-alert>
+							</div>
 						<?php endforeach; ?>
-						<joomla-alert type="info">
+						<div class="alert alert-info">
 							<h4 class="alert-heading"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFO'); ?></h4>
 							<p class="m-b-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGFURTHERINFODESC'); ?></p>
-						</joomla-alert>
+						</div>
 					<?php else: ?>
-						<joomla-alert type="info">
+						<div class="alert alert-info">
 							<h4 class="alert-heading"><?php echo Text::_('INFO'); ?></h4>
 							<p class="m-b-0"><?php echo Text::_('COM_INSTALLER_MSG_WARNINGS_NONE'); ?></p>
-						</joomla-alert>
+						</div>
 					<?php endif; ?>
 					<div>
 						<input type="hidden" name="boxchecked" value="0">

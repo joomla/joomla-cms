@@ -22,7 +22,7 @@ use Joomla\Database\DatabaseDriver;
  * table are based on the Syslog style of log output. This is designed to allow quick and
  * easy searching.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class DatabaseLogger extends Logger
 {
@@ -30,7 +30,7 @@ class DatabaseLogger extends Logger
 	 * The name of the database driver to use for connecting to the database.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $driver = 'mysqli';
 
@@ -38,7 +38,7 @@ class DatabaseLogger extends Logger
 	 * The host name (or IP) of the server with which to connect for the logger.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $host = '127.0.0.1';
 
@@ -46,7 +46,7 @@ class DatabaseLogger extends Logger
 	 * The database server user to connect as for the logger.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $user = 'root';
 
@@ -54,7 +54,7 @@ class DatabaseLogger extends Logger
 	 * The password to use for connecting to the database server.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $password = '';
 
@@ -62,7 +62,7 @@ class DatabaseLogger extends Logger
 	 * The name of the database table to use for the logger.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $database = 'logging';
 
@@ -70,7 +70,7 @@ class DatabaseLogger extends Logger
 	 * The database table to use for logging entries.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $table = 'jos_';
 
@@ -78,7 +78,7 @@ class DatabaseLogger extends Logger
 	 * The database driver object for the logger.
 	 *
 	 * @var    DatabaseDriver
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $db;
 
@@ -87,7 +87,7 @@ class DatabaseLogger extends Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(array &$options)
 	{
@@ -127,7 +127,7 @@ class DatabaseLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	public function addEntry(LogEntry $entry)
@@ -149,7 +149,7 @@ class DatabaseLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function connect()

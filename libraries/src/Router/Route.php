@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Route handling class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Route
 {
@@ -24,7 +24,7 @@ class Route
 	 * The route object so we don't have to keep fetching it.
 	 *
 	 * @var    Router
-	 * @since  12.2
+	 * @since  3.0.1
 	 */
 	private static $_router = null;
 
@@ -40,7 +40,7 @@ class Route
 	 *
 	 * @return string The translated humanly readable URL.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function _($url, $xhtml = true, $ssl = null)
 	{

@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 if (Factory::getApplication()->isClient('site'))
 {
@@ -31,15 +31,24 @@ HTMLHelper::_('script', 'com_modules/admin-modules-modal.min.js', array('version
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
+$link      = 'index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . JSession::getFormToken() . '=1';
+
+if (!empty($editor))
+{
+	$link .= '&editor=' . $editor;
+}
 ?>
 <div class="container-popup">
 
-	<form action="<?php echo Route::_('index.php?option=com_modules&view=modules&layout=modal&tmpl=component&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_($link); ?>" method="post" name="adminForm" id="adminForm">
 
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 
 		<?php if ($this->total > 0) : ?>
 		<table class="table" id="moduleList">
+			<caption id="captionTable" class="sr-only">
+				<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+			</caption>
 			<thead>
 				<tr>
 					<th scope="col" style="width:1%" class="text-center">
@@ -121,6 +130,7 @@ $editor    = Factory::getApplication()->input->get('editor', '', 'cmd');
 
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">
+        <input type="hidden" name="editor" value="<?php echo $editor; ?>" />
 		<?php echo HTMLHelper::_('form.token'); ?>
 
 	</form>

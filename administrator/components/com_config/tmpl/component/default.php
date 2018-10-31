@@ -8,10 +8,10 @@
  */
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
 
@@ -27,7 +27,7 @@ Text::script('MESSAGE');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
-HTMLHelper::_('formbehavior.chosen', '.chzn-custom-value', null, array('disable_search_threshold' => 0));
+HTMLHelper::_('formbehavior.chosen', '.chosen-custom-value', null, array('disable_search_threshold' => 0));
 
 // @TODO delete this when custom elements modal is merged
 HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);
@@ -63,9 +63,9 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
 						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
-							<joomla-alert type="info">
+							<div class="alert alert-info">
 								<span class="icon-info" aria-hidden="true"></span> <?php echo Text::_($fieldSet->description); ?>
-							</joomla-alert>
+							</div>
 						<?php endif; ?>
 						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 							<?php
@@ -95,7 +95,10 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 				<?php endforeach; ?>
 			</div>
 			<?php else: ?>
-				<joomla-alert type="info"><span class="icon-info" aria-hidden="true"></span> <?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?></joomla-alert>
+				<div class="alert alert-info">
+					<span class="icon-info" aria-hidden="true"></span>
+					<?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
+				</div>
 			<?php endif; ?>
 
 		</div>

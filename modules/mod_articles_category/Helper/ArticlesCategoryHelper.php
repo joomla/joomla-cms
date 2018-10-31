@@ -11,17 +11,14 @@ namespace Joomla\Module\ArticlesCategory\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
-use Joomla\Component\Content\Site\Model\ArticleModel;
-use Joomla\Component\Content\Site\Model\CategoriesModel;
+use Joomla\String\StringHelper;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -43,11 +40,13 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function getList(&$params)
 	{
+		$app     = Factory::getApplication();
+		$factory = $app->bootComponent('com_content')->getMVCFactory();
+
 		// Get an instance of the generic articles model
-		$articles = new ArticlesModel(array('ignore_request' => true));
+		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
-		$app       = Factory::getApplication();
 		$input     = $app->input;
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
@@ -91,7 +90,7 @@ abstract class ArticlesCategoryHelper
 								if (!$catid)
 								{
 									// Get an instance of the generic article model
-									$article = new ArticleModel(array('ignore_request' => true));
+									$article = $factory->createModel('Article', 'Site', ['ignore_request' => true]);
 
 									$article->setState('params', $appParams);
 									$article->setState('filter.published', 1);
@@ -138,7 +137,7 @@ abstract class ArticlesCategoryHelper
 			if ($params->get('show_child_category_articles', 0) && (int) $params->get('levels', 0) > 0)
 			{
 				// Get an instance of the generic categories model
-				$categories = new CategoriesModel(array('ignore_request' => true));
+				$categories = $factory->createModel('Categories', 'Site', ['ignore_request' => true]);
 				$categories->setState('params', $appParams);
 				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
@@ -199,11 +198,8 @@ abstract class ArticlesCategoryHelper
 				break;
 		}
 
-		// New Parameters
-		if ($params->get('filter_tag', ''))
-		{
-			$articles->setState('filter.tag', $params->get('filter_tag', ''));
-		}
+		// Filter by multiple tags
+		$articles->setState('filter.tag', $params->get('filter_tag', array()));
 
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
 		$articles->setState('filter.author_id', $params->get('created_by', ''));

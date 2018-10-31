@@ -36,7 +36,7 @@ class WhosonlineHelper
 		$user_array  = 0;
 		$guest_array = 0;
 
-		$whereCondition = Factory::getConfig()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+		$whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
 		$query = $db->getQuery(true)
 			->select('guest, client_id')
@@ -89,7 +89,7 @@ class WhosonlineHelper
 	 **/
 	public static function getOnlineUserNames($params)
 	{
-		$whereCondition = Factory::getConfig()->get('shared_session', '0') ? 'IS NULL' : '= 0';
+		$whereCondition = Factory::getApplication()->get('shared_session', '0') ? 'IS NULL' : '= 0';
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
