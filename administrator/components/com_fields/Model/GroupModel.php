@@ -11,12 +11,12 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Factory;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 

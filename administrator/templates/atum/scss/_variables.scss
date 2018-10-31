@@ -43,14 +43,17 @@ $colors: (
   warning-border: darken(theme-color("warning"), 5%),
   danger-border: darken(theme-color("danger"), 5%),
   link-hover: darken(theme-color("primary"), 15%),
-  sidebar-bg: darken(theme-color("primary"), 6%),
+  sidebar-bg: #122942,
+  sidebar-sub-bg: #1b3654,
+  sidebar-text-color: #7189a4,
+  sidebar-link-color: #e3eaf1,
+  sidebar-link-color-hover: var(--white),
+  sidebar-child-link-color: #cbd6e2,
   login-main-bg: darken(theme-color("primary"), 8%),
   login-light-bg: #3b97f9,
   border: $gray-400,
-  sidebar-active: #59afff,
   row-selected: #d9edf7,
   white-offset: #fefefe,
-  sidebar-child-bg: #0f2131,
   focus: #39f,
   table-border: $gray-300,
 );
@@ -72,13 +75,8 @@ $atum-toolbar-line-height:         2.3rem;
 // Sidebar
 $atum-level-1-bg:                  rgba($black, .65);
 $atum-level-2-bg:                  rgba($black, .05);
-$sidebar-bg:                       #122942;
 $sidebar-width:                    250px;
 $sidebar-width-closed:             48px;
-$sidebar-sub-bg:                   #1b3654;
-$sidebar-text-color:               #7189a4;
-$sidebar-link-color:               #e3eaf1;
-$sidebar-child-link-color:         #cbd6e2;
 $main-brand-height:                48px;
 
 // Fonts

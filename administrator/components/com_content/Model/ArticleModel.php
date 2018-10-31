@@ -12,23 +12,23 @@ namespace Joomla\Component\Content\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Category;
+use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Category;
-use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\UCM\UCMType;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-use Joomla\CMS\Form\Form;
 
 /**
  * Item Model for an Article.

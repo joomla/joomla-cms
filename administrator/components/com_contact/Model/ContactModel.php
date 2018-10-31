@@ -11,17 +11,17 @@ namespace Joomla\Component\Contact\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Item Model for a Contact.

@@ -82,21 +82,30 @@ class CacheController
 	 *
 	 * @return  CacheController
 	 *
-	 * @since   1.7.0
-	 * @throws  \RuntimeException
+	 * @since       1.7.0
+	 * @throws      \RuntimeException
+	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function getInstance($type = 'output', $options = array())
 	{
-		self::addIncludePath(__DIR__ . '/Controller');
+		@trigger_error(
+			sprintf(
+				'%s() is deprecated. The cache controller should be fetched from the factory.',
+				__METHOD__
+			),
+			E_USER_DEPRECATED
+		);
 
-		$type = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
-
-		$class = __NAMESPACE__ . '\\Controller\\' . ucfirst($type) . 'Controller';
-
-		if (!class_exists($class))
+		try
 		{
-			$class = 'JCacheController' . ucfirst($type);
+			return Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController($type, $options);
 		}
+		catch (\RuntimeException $e)
+		{
+		}
+
+		$type  = strtolower(preg_replace('/[^A-Z0-9_\.-]/i', '', $type));
+		$class = 'JCacheController' . ucfirst($type);
 
 		if (!class_exists($class))
 		{
@@ -115,12 +124,6 @@ class CacheController
 			}
 		}
 
-		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($class))
-		{
-			return Factory::getContainer()->get($class);
-		}
-
 		return new $class($options);
 	}
 
@@ -131,7 +134,8 @@ class CacheController
 	 *
 	 * @return  array  An array with directory elements
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0 Use the cache controller factory instead
 	 */
 	public static function addIncludePath($path = '')
 	{

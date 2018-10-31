@@ -13,19 +13,19 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
 use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\User;
+use Joomla\Registry\Registry;
 
 /**
  * Profile model class for Users.
@@ -333,7 +333,7 @@ class ProfileModel extends FormModel
 		// Handle the two factor authentication setup
 		if (array_key_exists('twofactor', $data))
 		{
-			$model = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+			$model = $this->bootComponent('com_users')->getMVCFactory()
 				->createModel('User', 'Administrator');
 
 			$twoFactorMethod = $data['twofactor']['method'];
@@ -431,7 +431,7 @@ class ProfileModel extends FormModel
 	{
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
-		$model = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+		$model = $this->bootComponent('com_users')->getMVCFactory()
 			->createModel('User', 'Administrator');
 
 		$otpConfig = $model->getOtpConfig($user_id);
@@ -455,8 +455,8 @@ class ProfileModel extends FormModel
 	{
 		$user_id = (!empty($user_id)) ? $user_id : (int) $this->getState('user.id');
 
-		$model = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
-			->createModel('User', 'Administrator');
+		$model = $this->bootComponent('com_users')
+			->getMVCFactory()->createModel('User', 'Administrator');
 
 		return $model->getOtpConfig($user_id);
 	}
