@@ -14,7 +14,7 @@ use Joomla\Module\Syndicate\Site\Helper\SyndicateHelper;
 
 $params->def('format', 'rss');
 
-$link = SyndicateHelper::getLink($params);
+$link = SyndicateHelper::getLink($params, $app->getDocument());
 
 if ($link === null)
 {
