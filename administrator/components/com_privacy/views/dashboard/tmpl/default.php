@@ -101,7 +101,7 @@ $activeRequests = 0;
 								<small><a href="<?php echo $this->privacyPolicyInfo['editLink']; ?>"><?php echo JText::_('COM_PRIVACY_EDIT_PRIVACY_POLICY'); ?></a></small>
 							<?php else : ?>
 								<?php $link = JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . $this->privacyConsentPluginId); ?>
-								<small><a href="<?php echo $link; ?>"</a><?php echo JText::_('COM_PRIVACY_EDIT_PRIVACY_CONSENT_PLUGIN'); ?></small>
+								<small><a href="<?php echo $link; ?>"><?php echo JText::_('COM_PRIVACY_EDIT_PRIVACY_CONSENT_PLUGIN'); ?></a></small>
 							<?php endif; ?>
 						</div>
 					</div>
