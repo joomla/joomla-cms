@@ -104,6 +104,10 @@ class MenuModel extends FormModel
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
+		
+		// Load the clientId.
+		$clientId = $app->getUserState('com_menus.menus.client_id', 'client_id');
+		$this->setState('client_id', $clientId);
 	}
 
 	/**
