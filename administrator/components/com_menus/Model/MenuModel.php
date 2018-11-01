@@ -181,6 +181,11 @@ class MenuModel extends FormModel
 		if (empty($data))
 		{
 			$data = $this->getItem();
+			
+			if (empty($data->id))
+			{
+				$data->client_id = $this->state->get('client_id', 0);
+			}
 		}
 		else
 		{

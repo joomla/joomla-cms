@@ -34,6 +34,8 @@ Text::script('ERROR');
 
 			echo $this->form->renderField('description');
 
+			echo $this->form->renderField('client_id');
+
 			if ($this->state->get('client_id') == '1') :
 				echo $this->form->renderField('preset');
 			endif;
