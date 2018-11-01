@@ -41,6 +41,10 @@
 			maxlength="255"
 		/>
 		<field
+			name="client_id"
+			type="hidden"
+		/>
+		<field
 			name="preset"
 			type="menuPreset"
 			label="COM_MENUS_FIELD_PRESET_LABEL"
