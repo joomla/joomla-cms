@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -295,7 +296,7 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
-		$db    = Factory::getDbo();
+		$db    = Factory::getContainer()->get(DatabaseInterface::class);
 		$query = $db->getQuery(true);
 
 		// Prepare the query.
