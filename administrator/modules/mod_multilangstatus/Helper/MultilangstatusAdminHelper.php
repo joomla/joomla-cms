@@ -11,8 +11,9 @@ namespace Joomla\Module\Multilangstatus\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Helper class for the multilangstatus module
@@ -24,15 +25,15 @@ class MultilangstatusAdminHelper
 	/**
 	 * Method to check if the module exists and is enabled as extension
 	 *
+	 * @param   CMSApplication     $app  The application
+	 * @param   DatabaseInterface  $db   The database
+	 *
 	 * @return  boolean
 	 *
 	 * @since   4.0.0
 	 */
-	public static function isEnabled()
+	public static function isEnabled(CMSApplication $app, DatabaseInterface $db)
 	{
-		$app   = Factory::getApplication();
-		$db    = Factory::getDbo();
-
 		$query = $db->getQuery(true)
 			->select($db->quoteName('enabled'))
 			->from($db->quoteName('#__extensions'))
@@ -55,15 +56,15 @@ class MultilangstatusAdminHelper
 	/**
 	 * Method to check the state of the module
 	 *
+	 * @param   CMSApplication     $app  The application
+	 * @param   DatabaseInterface  $db   The database
+	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public static function getState()
+	public static function getState(CMSApplication $app, DatabaseInterface $db)
 	{
-		$app   = Factory::getApplication();
-		$db    = Factory::getDbo();
-
 		$query = $db->getQuery(true)
 			->select($db->quoteName('published'))
 			->from($db->quoteName('#__modules'))
@@ -85,17 +86,17 @@ class MultilangstatusAdminHelper
 	/**
 	 * Method to publish/unpublish the module depending on the languagefilter state
 	 *
+	 * @param   CMSApplication     $app  The application
+	 * @param   DatabaseInterface  $db   The database
+	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public static function publish()
+	public static function publish(CMSApplication $app, DatabaseInterface $db)
 	{
-		$app   = Factory::getApplication();
-		$db    = Factory::getDbo();
-
 		// If the module is trashed do not change its status
-		if (self::getState() != -2)
+		if (self::getState($app, $db) != -2)
 		{
 			// Publish the module when the languagefilter is enabled
 			if (Multilanguage::isEnabled())
@@ -128,7 +129,7 @@ class MultilangstatusAdminHelper
 				{
 					$db->setQuery($query)->execute();
 				}
-				catch (Exception $e)
+				catch (\Exception $e)
 				{
 					$app->enqueueMessage($e->getMessage(), 'error');
 
