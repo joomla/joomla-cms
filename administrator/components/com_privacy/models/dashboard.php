@@ -121,7 +121,29 @@ class PrivacyModelDashboard extends JModelLegacy
 
 		if (!$menuItem)
 		{
-			$status['link'] = JRoute::link('site', 'index.php?option=com_privacy&view=request', true, $linkMode);
+			if (JLanguageMultilang::isEnabled())
+			{
+				// Find the Itemid of the home menu item tagged to the site default language
+				$defaultSiteLanguage = JComponentHelper::getParams('com_languages')['site'];
+
+				$db    = $this->getDbo();
+				$query = $db->getQuery(true)
+					->select($db->quoteName('id'))
+					->from($db->quoteName('#__menu'))
+					->where($db->quoteName('client_id') . ' = 0')
+					->where($db->quoteName('home') . ' = 1')
+					->where($db->quoteName('language') . ' = ' . $db->quote($defaultSiteLanguage));
+				$db->setQuery($query);
+
+				$homeId = (int) $db->loadResult();
+				$itemId = $homeId ? '&Itemid=' . $homeId : '';
+			}
+			else
+			{
+				$itemId = '';
+			}
+
+			$status['link'] = JRoute::link('site', 'index.php?option=com_privacy&view=request' . $itemId, true, $linkMode);
 		}
 		else
 		{
