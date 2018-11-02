@@ -1977,7 +1977,6 @@ CREATE INDEX "#__workflows_idx_asset_id" ON "#__workflows" ("asset_id");
 CREATE INDEX "#__workflows_idx_title" ON "#__workflows" ("title");
 CREATE INDEX "#__workflows_idx_extension" ON "#__workflows" ("extension");
 CREATE INDEX "#__workflows_idx_default" ON "#__workflows" ("default");
-CREATE INDEX "#__workflows_idx_core" ON "#__workflows" ("core");
 CREATE INDEX "#__workflows_idx_created" ON "#__workflows" ("created");
 CREATE INDEX "#__workflows_idx_created_by" ON "#__workflows" ("created_by");
 CREATE INDEX "#__workflows_idx_modified" ON "#__workflows" ("modified");
