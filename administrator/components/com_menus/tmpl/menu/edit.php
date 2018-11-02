@@ -36,7 +36,9 @@ Text::script('ERROR');
 
 			echo $this->form->renderField('client_id');
 
-			echo $this->form->renderField('preset');
+			if ($this->state->get('client_id') == '1') :
+				echo $this->form->renderField('preset');
+			endif;
 			?>
 
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>
