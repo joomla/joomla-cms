@@ -96,7 +96,7 @@ class PrivacyModelDashboard extends JModelLegacy
 		$menuItem = $db->loadObject();
 
 		// Check if the menu item exists in database
-		if ($menuItem->id)
+		if ($menuItem)
 		{
 			$status['exists'] = true;
 
@@ -119,7 +119,7 @@ class PrivacyModelDashboard extends JModelLegacy
 
 		$linkMode = JFactory::getApplication()->get('force_ssl', 0) == 2 ? 1 : -1;
 
-		if (!$menuItem->id)
+		if (!$menuItem)
 		{
 			$status['link'] = JRoute::link('site', 'index.php?option=com_privacy&view=request', true, $linkMode);
 		}
