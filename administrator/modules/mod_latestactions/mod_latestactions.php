@@ -22,7 +22,7 @@ $list = ModLatestActionsHelper::getList($params);
 
 if ($params->get('automatic_title', 0))
 {
-	$module->title = ModLatestHelper::getTitle($params);
+	$module->title = ModLatestActionsHelper::getTitle($params);
 }
 
 require JModuleHelper::getLayoutPath('mod_latestactions', $params->get('layout', 'default'));
