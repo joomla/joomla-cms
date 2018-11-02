@@ -1978,7 +1978,6 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   KEY `idx_title` (`title`(191)),
   KEY `idx_extension` (`extension`),
   KEY `idx_default` (`default`),
-  KEY `idx_core` (`core`),
   KEY `idx_created` (`created`),
   KEY `idx_created_by` (`created_by`),
   KEY `idx_modified` (`modified`),
