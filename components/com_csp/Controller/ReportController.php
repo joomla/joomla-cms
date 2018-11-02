@@ -94,7 +94,7 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
-		$table = new ReportTable(Factory::getDbo());
+		$table = $this->app->bootComponent('com_csp')->getMVCFactory()->createTable('Report', 'Administrator');
 
 		$table->bind($report);
 		$table->store();
