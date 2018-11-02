@@ -56,6 +56,8 @@ abstract class ModLatestActionsHelper
 	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
 	 *
 	 * @return  string    The alternate title for the module.
+	 *
+	 * @since   3.9.1
 	 */
 	public static function getTitle($params)
 	{
