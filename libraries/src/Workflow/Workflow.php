@@ -213,7 +213,15 @@ class Workflow
 		if ($success)
 		{
 			$app = Factory::getApplication();
-			$app->triggerEvent('onWorkflowAfterTransition', ['pks' => $pks, 'extension' => $this->extension, 'user' => $app->getIdentity(), 'transition' => $transition]);
+			$app->triggerEvent(
+				'onWorkflowAfterTransition',
+				[
+				 'pks' => $pks,
+				 'extension' => $this->extension,
+				 'user' => $app->getIdentity(),
+				 'transition' => $transition,
+				]
+			);
 		}
 
 		return $success;
