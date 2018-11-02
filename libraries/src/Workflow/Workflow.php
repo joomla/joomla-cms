@@ -216,10 +216,10 @@ class Workflow
 			$app->triggerEvent(
 				'onWorkflowAfterTransition',
 				[
-				 'pks' => $pks,
-				 'extension' => $this->extension,
-				 'user' => $app->getIdentity(),
-				 'transition' => $transition,
+					'pks' => $pks,
+					'extension' => $this->extension,
+					'user' => $app->getIdentity(),
+					'transition' => $transition,
 				]
 			);
 		}
