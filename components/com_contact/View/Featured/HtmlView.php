@@ -11,11 +11,11 @@ namespace Joomla\Component\Contact\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * Featured View class

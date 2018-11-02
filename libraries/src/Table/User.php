@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Users table
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class User extends Table
 {
@@ -28,7 +28,7 @@ class User extends Table
 	 * Associative array of group ids => group ids for the user
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $groups;
 
@@ -37,7 +37,7 @@ class User extends Table
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
@@ -58,7 +58,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function load($userId = null, $reset = true)
 	{
@@ -126,7 +126,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -165,7 +165,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True if satisfactory
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -273,8 +273,7 @@ class User extends Table
 		}
 
 		// Check for root_user != username
-		$config = Factory::getConfig();
-		$rootUser = $config->get('root_user');
+		$rootUser = Factory::getApplication()->get('root_user');
 
 		if (!is_numeric($rootUser))
 		{
@@ -307,7 +306,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -414,7 +413,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete($userId = null)
 	{
@@ -473,7 +472,7 @@ class User extends Table
 	 *
 	 * @return  boolean  False if an error occurs
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLastVisit($timeStamp = null, $userId = null)
 	{

@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -35,7 +35,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="warning"><?php echo Text::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?></joomla-alert>
+						<div class="alert alert-warning">
+							<?php echo JText::_('COM_INSTALLER_MSG_MANAGE_NOEXTENSION'); ?>
+						</div>
 					<?php else : ?>
 					<table class="table" id="manageList">
 						<caption id="captionTable" class="sr-only">

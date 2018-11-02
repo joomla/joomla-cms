@@ -14,7 +14,6 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
-use Joomla\Component\Admin\Administrator\Model\SysInfoModel;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
 use Joomla\Registry\Registry;
 use Psr\Http\Message\ResponseInterface;
@@ -118,10 +117,8 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 		/* @type SiteApplication|AdministratorApplication $application */
 		$application = Factory::getApplication();
 
-		// @todo autoloadability ??
-		\JLoader::register(SysInfoModel::class, JPATH_ADMINISTRATOR . '/components/com_admin/Model/SysinfoModel.php');
-
-		$model = new SysInfoModel;
+		$model = $application->bootComponent('com_admin')
+			->getMVCFactory()->createModel('Sysinfo', 'Administrator');
 
 		return [
 			'phpVersion' => PHP_VERSION,

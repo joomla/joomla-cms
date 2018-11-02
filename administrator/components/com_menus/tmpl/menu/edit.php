@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
@@ -36,7 +36,9 @@ Text::script('ERROR');
 
 			echo $this->form->renderField('client_id');
 
-			echo $this->form->renderField('preset');
+			if ($this->state->get('client_id') == '1') :
+				echo $this->form->renderField('preset');
+			endif;
 			?>
 
 			<?php echo HTMLHelper::_('uitab.endTab'); ?>

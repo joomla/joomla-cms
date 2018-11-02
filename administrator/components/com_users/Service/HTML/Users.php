@@ -7,20 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Users\Administrator\Service\HTML;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Extended Utility class for the Users component.
  *
  * @since  2.5
  */
-class JHtmlUsers
+class Users
 {
 	/**
 	 * Display an image.
@@ -32,7 +34,7 @@ class JHtmlUsers
 	 * @since   2.5
 	 * @throws  \Exception
 	 */
-	public static function image($src)
+	public function image($src)
 	{
 		$src = preg_replace('#[^A-Z0-9\-_\./]#i', '', $src);
 		$file = JPATH_SITE . '/' . $src;
@@ -56,7 +58,7 @@ class JHtmlUsers
 	 *
 	 * @since   2.5
 	 */
-	public static function addNote($userId)
+	public function addNote($userId)
 	{
 		$title = Text::_('COM_USERS_ADD_NOTE');
 
@@ -75,7 +77,7 @@ class JHtmlUsers
 	 *
 	 * @since   2.5
 	 */
-	public static function filterNotes($count, $userId)
+	public function filterNotes($count, $userId)
 	{
 		if (empty($count))
 		{
@@ -98,7 +100,7 @@ class JHtmlUsers
 	 *
 	 * @since   2.5
 	 */
-	public static function notes($count, $userId)
+	public function notes($count, $userId)
 	{
 		if (empty($count))
 		{
@@ -121,7 +123,7 @@ class JHtmlUsers
 	 *
 	 * @since   3.4.1
 	 */
-	public static function notesModal($count, $userId)
+	public function notesModal($count, $userId)
 	{
 		if (empty($count))
 		{
@@ -160,7 +162,7 @@ class JHtmlUsers
 	 *
 	 * @since  3.0
 	 */
-	public static function blockStates( $self = false)
+	public function blockStates( $self = false)
 	{
 		if ($self)
 		{
@@ -219,7 +221,7 @@ class JHtmlUsers
 	 *
 	 * @since  3.0
 	 */
-	public static function activateStates()
+	public function activateStates()
 	{
 		$states = array(
 			1 => array(
@@ -243,5 +245,238 @@ class JHtmlUsers
 		);
 
 		return $states;
+	}
+
+	/**
+	 * Get the sanitized value
+	 *
+	 * @param   mixed  $value  Value of the field
+	 *
+	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
+	 */
+	public function value($value)
+	{
+		if (is_string($value))
+		{
+			$value = trim($value);
+		}
+
+		if (empty($value))
+		{
+			return Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND');
+		}
+
+		elseif (!is_array($value))
+		{
+			return htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+		}
+	}
+
+	/**
+	 * Get the space symbol
+	 *
+	 * @param   mixed  $value  Value of the field
+	 *
+	 * @return  string
+	 *
+	 * @since   1.6
+	 */
+	public function spacer($value)
+	{
+		return '';
+	}
+
+	/**
+	 * Get the sanitized helpsite link
+	 *
+	 * @param   mixed  $value  Value of the field
+	 *
+	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
+	 */
+	public function helpsite($value)
+	{
+		if (empty($value))
+		{
+			return static::value($value);
+		}
+
+		$text = $value;
+
+		if ($xml = simplexml_load_file(JPATH_ADMINISTRATOR . '/help/helpsites.xml'))
+		{
+			foreach ($xml->sites->site as $site)
+			{
+				if ((string) $site->attributes()->url == $value)
+				{
+					$text = (string) $site;
+					break;
+				}
+			}
+		}
+
+		$value = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
+
+		if (strpos($value, 'http') === 0)
+		{
+			return '<a href="' . $value . '">' . $text . '</a>';
+		}
+
+		return '<a href="http://' . $value . '">' . $text . '</a>';
+	}
+
+	/**
+	 * Get the sanitized template style
+	 *
+	 * @param   mixed  $value  Value of the field
+	 *
+	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
+	 */
+	public function templatestyle($value)
+	{
+		if (empty($value))
+		{
+			return static::value($value);
+		}
+		else
+		{
+			$db = Factory::getDbo();
+			$query = $db->getQuery(true)
+				->select('title')
+				->from('#__template_styles')
+				->where('id = ' . $db->quote($value));
+			$db->setQuery($query);
+			$title = $db->loadResult();
+
+			if ($title)
+			{
+				return htmlspecialchars($title, ENT_COMPAT, 'UTF-8');
+			}
+			else
+			{
+				return static::value('');
+			}
+		}
+	}
+
+	/**
+	 * Get the sanitized language
+	 *
+	 * @param   mixed  $value  Value of the field
+	 *
+	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
+	 */
+	public function admin_language($value)
+	{
+		if (empty($value))
+		{
+			return static::value($value);
+		}
+		else
+		{
+			$file = LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR, $value) . '/' . $value . '.xml';
+
+			$result = null;
+
+			if (is_file($file))
+			{
+				$result = LanguageHelper::parseXMLLanguageFile($file);
+			}
+
+			if ($result)
+			{
+				return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
+			}
+			else
+			{
+				return static::value('');
+			}
+		}
+	}
+
+	/**
+	 * Get the sanitized language
+	 *
+	 * @param   mixed  $value  Value of the field
+	 *
+	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
+	 */
+	public function language($value)
+	{
+		if (empty($value))
+		{
+			return static::value($value);
+		}
+		else
+		{
+			$file = LanguageHelper::getLanguagePath(JPATH_SITE, $value) . '/' . $value . '.xml';
+
+			$result = null;
+
+			if (is_file($file))
+			{
+				$result = LanguageHelper::parseXMLLanguageFile($file);
+			}
+
+			if ($result)
+			{
+				return htmlspecialchars($result['name'], ENT_COMPAT, 'UTF-8');
+			}
+			else
+			{
+				return static::value('');
+			}
+		}
+	}
+
+	/**
+	 * Get the sanitized editor name
+	 *
+	 * @param   mixed  $value  Value of the field
+	 *
+	 * @return  mixed  String/void
+	 *
+	 * @since   1.6
+	 */
+	public function editor($value)
+	{
+		if (empty($value))
+		{
+			return static::value($value);
+		}
+		else
+		{
+			$db = Factory::getDbo();
+			$lang = Factory::getLanguage();
+			$query = $db->getQuery(true)
+				->select('name')
+				->from('#__extensions')
+				->where('element = ' . $db->quote($value))
+				->where('folder = ' . $db->quote('editors'));
+			$db->setQuery($query);
+			$title = $db->loadResult();
+
+			if ($title)
+			{
+				$lang->load("plg_editors_$value.sys", JPATH_ADMINISTRATOR, null, false, true)
+				|| $lang->load("plg_editors_$value.sys", JPATH_PLUGINS . '/editors/' . $value, null, false, true);
+				$lang->load($title . '.sys');
+
+				return Text::_($title);
+			}
+			else
+			{
+				return static::value('');
+			}
+		}
 	}
 }

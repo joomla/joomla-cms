@@ -34,7 +34,7 @@ class Module extends Table
 	{
 		parent::__construct('#__modules', 'id', $db);
 
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**

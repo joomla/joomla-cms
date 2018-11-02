@@ -11,4 +11,6 @@ defined('JPATH_BASE') or die;
 
 $data = $displayData;
 ?>
-<joomla-alert type="info"><?php echo $data['options']['noResultsText']; ?></joomla-alert>
+<div class="alert alert-info">
+    <?php echo $data['options']['noResultsText']; ?>
+</div>

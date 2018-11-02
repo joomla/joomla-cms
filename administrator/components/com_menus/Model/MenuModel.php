@@ -12,11 +12,11 @@ namespace Joomla\Component\Menus\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Menu Item Model for Menus.
@@ -104,6 +104,10 @@ class MenuModel extends FormModel
 		// Load the parameters.
 		$params = ComponentHelper::getParams('com_menus');
 		$this->setState('params', $params);
+
+		// Load the clientId.
+		$clientId = $app->getUserState('com_menus.menus.client_id', 'client_id');
+		$this->setState('client_id', $clientId);
 	}
 
 	/**
@@ -177,6 +181,11 @@ class MenuModel extends FormModel
 		if (empty($data))
 		{
 			$data = $this->getItem();
+
+			if (empty($data->id))
+			{
+				$data->client_id = $this->state->get('client_id', 0);
+			}
 		}
 		else
 		{
