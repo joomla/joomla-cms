@@ -106,7 +106,7 @@ class MenuModel extends FormModel
 		$this->setState('params', $params);
 
 		// Load the clientId.
-		$clientId = $app->getUserState('com_menus.menus.client_id', 'client_id');
+		$clientId = $app->getUserStateFromRequest('com_menus.menus.client_id', 'client_id', 0, 'int');
 		$this->setState('client_id', $clientId);
 	}
 
@@ -161,6 +161,11 @@ class MenuModel extends FormModel
 		if (empty($form))
 		{
 			return false;
+		}
+
+		if (!$this->getState('client_id', 0))
+		{
+			$form->removeField('preset');
 		}
 
 		return $form;
