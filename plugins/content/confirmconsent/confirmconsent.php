@@ -82,7 +82,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 		$consentboxText  = (string) $this->params->get('consentbox_text', Text::_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT'));
 		$privacyArticle  = $this->params->get('privacy_article', false);
 
-		// When we have a article lets add the modal and make the title clickable
+		// When we have a article let's add the modal and make the title clickable
 		if ($privacyArticle)
 		{
 			$modalName = 'privacyArticle';
