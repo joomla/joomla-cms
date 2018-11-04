@@ -11,27 +11,22 @@
 	<description>COM_CSP_XML_DESCRIPTION</description>
 	<namespace>Joomla\Component\Csp</namespace>
 	<files folder="site">
-		<filename>dispatcher.php</filename>
-		<filename>router.php</filename>
 		<folder>Controller</folder>
-		<folder>Helper</folder>
-		<folder>helpers</folder>
-		<folder>Model</folder>
 	</files>
 	<administration>
 		<menu img="class:csp">com_csp</menu>
 		<files folder="admin">
 			<filename>access.xml</filename>
-			<filename>csp.php</filename>
-			<filename>dispatcher.php</filename>
+			<filename>config.xml</filename>
+			<filename>csp.xml</filename>
 			<folder>Controller</folder>
+			<folder>forms</folder>
 			<folder>Helper</folder>
-			<folder>helpers</folder>
 			<folder>Model</folder>
-			<folder>models</folder>
+			<folder>services</folder>
 			<folder>Table</folder>
+			<folder>tmpl</folder>
 			<folder>View</folder>
-			<folder>views</folder>
 		</files>
 		<languages folder="admin">
 			<language tag="en-GB">language/en-GB.com_csp.ini</language>

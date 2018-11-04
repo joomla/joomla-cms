@@ -14,6 +14,7 @@
 			type="workflowstage"
 			onchange="this.form.submit();"
 			activeonly="true"
+			extension="com_content"
 			>
 			<option value="">JOPTION_SELECT_STAGE</option>
 		</field>
@@ -30,6 +31,7 @@
 		<field
 			name="category_id"
 			type="category"
+			label="JOPTION_SELECT_CATEGORY"
 			multiple="true"
 			class="multipleCategories"
 			extension="com_content"
@@ -40,6 +42,7 @@
 		<field
 			name="access"
 			type="accesslevel"
+			label="JOPTION_SELECT_ACCESS"
 			multiple="true"
 			class="multipleAccessLevels"
 			onchange="this.form.submit();"
@@ -58,6 +61,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_SELECT_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -90,6 +94,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
 			>
@@ -133,6 +138,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

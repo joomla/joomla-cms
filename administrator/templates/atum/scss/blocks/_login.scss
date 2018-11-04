@@ -1,7 +1,7 @@
 // Login page
 
 .view-login {
-  background: $atum-template-color;
+  background: var(--primary);
   /**
    * Note IDE's will consider this file import to fail in SCSS but this is correct for the final
    * compiled CSS file
@@ -15,8 +15,8 @@
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(45deg,
-            rgba($atum-template-color-dark, .9) 30%,
-            rgba($atum-template-color-light, .2) 100%);
+            rgba(color("primary-dark"), .9) 30%,
+            rgba(color("login-light-bg"), .2) 100%);
   }
 
   .login-initial {
@@ -42,29 +42,11 @@
   }
 
   .login-box {
-    background: darken($atum-template-color-dark, 8%);
-    box-shadow: 0 0 20px rgba($atum-template-color-dark, 1);
+    background: var(--login-main-bg);
+    box-shadow: 0 0 20px var(--primary-dark);
 
     a {
       color: $white;
-    }
-  }
-
-  .login-box-header {
-    padding: 15px 0;
-    background: $white;
-
-    h2 {
-      font-weight: 400;
-      color: $atum-template-color-dark;
-    }
-  }
-
-  .login-box-body {
-    padding: 60px 50px;
-
-    @include media-breakpoint-only(xs) {
-      padding: 10px;
     }
   }
 

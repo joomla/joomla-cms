@@ -16,7 +16,6 @@
 			name="name"
 			type="text"
 			label="JGLOBAL_TITLE"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		/>

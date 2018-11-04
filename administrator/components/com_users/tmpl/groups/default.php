@@ -9,22 +9,18 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Access\Access;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
 $user        = Factory::getUser();
 $listOrder   = $this->escape($this->state->get('list.ordering'));
 $listDirn    = $this->escape($this->state->get('list.direction'));
-$debugGroups = $this->state->get('params')->get('debugGroups', 1);
 
 Text::script('COM_USERS_GROUPS_CONFIRM_DELETE', true);
 
@@ -32,16 +28,23 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
-		<div id="j-sidebar-container" class="col-md-2">
-			<?php echo $this->sidebar; ?>
-		</div>
-		<div class="col-md-10">
+		<?php if (!empty($this->sidebar)) : ?>
+            <div id="j-sidebar-container" class="col-md-2">
+				<?php echo $this->sidebar; ?>
+            </div>
+		<?php endif; ?>
+        <div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table" id="groupList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_USERS_GROUPS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">
@@ -49,6 +52,9 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 								</td>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
+								</th>
+								<th scope="col" style="width:10%" class="text-center">
+									<?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?>
 								</th>
 								<th scope="col" style="width:10%" class="text-center">
 									<span class="icon-publish hasTooltip" aria-hidden="true" title="<?php echo Text::_('COM_USERS_COUNT_ENABLED_USERS'); ?>"></span>
@@ -89,11 +95,13 @@ HTMLHelper::_('script', 'com_users/admin-users-groups.min.js', array('version' =
 									<?php else : ?>
 										<?php echo $this->escape($item->title); ?>
 									<?php endif; ?>
-									<?php if ($debugGroups) : ?>
-										<div class="small"><a href="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
-										<?php echo Text::_('COM_USERS_DEBUG_GROUP'); ?></a></div>
-									<?php endif; ?>
 								</th>
+								<td class="text-center btns">
+									<a href="<?php echo Route::_('index.php?option=com_users&view=debuggroup&group_id=' . (int) $item->id); ?>">
+										<span class="fa fa-list" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('COM_USERS_DEBUG_PERMISSIONS'); ?></span>
+									</a>
+								</td>
 								<td class="text-center btns">
 									<a class="badge <?php echo $item->count_enabled > 0 ? 'badge-success' : 'badge-secondary'; ?>" href="<?php echo Route::_('index.php?option=com_users&view=users&filter[group_id]=' . (int) $item->id . '&filter[state]=0'); ?>">
 										<?php echo $item->count_enabled; ?></a>

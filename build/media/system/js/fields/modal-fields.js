@@ -110,17 +110,18 @@
 		titleFieldId = titleFieldId || 'jform_title';
 
 		var modalId = element.parentNode.parentNode.parentNode.parentNode.id, submittedTask = task;
+		var iframe  = document.getElementById(modalId).getElementsByTagName('iframe')[0];
 
 		// Set frame id.
-		jQuery('#' + modalId + ' iframe').get(0).id = 'Frame_' + modalId;
+		iframe.id = 'Frame_' + modalId;
 
-		var iframeDocument = jQuery('#Frame_' + modalId).contents().get(0);
+		var iframeDocument = iframe.firstChild;
 
 		// If Close (cancel task), close the modal.
 		if (task === 'cancel')
 		{
 			// Submit button on child iframe so we can check out.
-			document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
+			iframe.contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + task);
 
 			Joomla.Modal.getCurrent().close();
 		}
@@ -128,10 +129,10 @@
 		else
 		{
 			// Attach onload event to the iframe.
-			jQuery('#Frame_' + modalId).on('load', function()
+			iframe.addEventListener('load', function()
 			{
 				// Reload iframe document var value.
-				iframeDocument = jQuery(this).contents().get(0);
+				iframeDocument = this.firstChild;
 
 				// Validate the child form and update parent form.
 				if (iframeDocument.getElementById(idFieldId) && iframeDocument.getElementById(idFieldId).value != '0')
@@ -146,7 +147,7 @@
 				}
 
 				// Show the iframe again for future modals or in case of error.
-				jQuery('#' + modalId + ' iframe').removeClass('sr-only');
+				iframe.classList.remove('sr-only');
 			});
 
 			// Submit button on child iframe.
@@ -156,10 +157,10 @@
 				if (task === 'save')
 				{
 					submittedTask = 'apply';
-					jQuery('#' + modalId + ' iframe').addClass('sr-only');
+					iframe.classList.add('sr-only');
 				}
 
-				document.getElementById('Frame_' + modalId).contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);
+				iframe.contentWindow.Joomla.submitbutton(itemType.toLowerCase() + '.' + submittedTask);
 			}
 		}
 

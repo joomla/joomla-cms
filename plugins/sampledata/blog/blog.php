@@ -16,7 +16,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\Component\Workflow\Administrator\Model\WorkflowModel;
 
 /**
  * Sampledata - Blog Plugin
@@ -112,7 +111,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
 		// Create a sample workflow
-		$workflowModel = new WorkflowModel;
+		$workflowModel = $this->app->bootComponent('com_workflow')
+			->getMVCFactory()->createModel('Workflow', 'Administrator');
 
 		$workflow = [
 			'title'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_TITLE'),
@@ -140,7 +140,8 @@ class PlgSampledataBlog extends CMSPlugin
 		$workflow_id = (int) $workflowModel->getItem()->id;
 
 		// Create "blog" category.
-		$categoryModel = new \Joomla\Component\Categories\Administrator\Model\CategoryModel;
+		$categoryModel = $this->app->bootComponent('com_categories')
+			->getMVCFactory()->createModel('Category', 'Administrator');
 		$catIds        = array();
 		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
 		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
@@ -395,7 +396,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 		// Get previously entered categories ids
@@ -413,9 +413,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'show_category_title'     => 0,
 					'num_leading_articles'    => 4,
 					'num_intro_articles'      => 0,
-					'num_columns'             => 1,
 					'num_links'               => 2,
-					'multi_column_order'      => 1,
 					'orderby_sec'             => 'rdate',
 					'order_date'              => 'published',
 					'show_pagination'         => 2,

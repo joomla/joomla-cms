@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 JHtml::_('bootstrap.popover');
 
@@ -20,7 +21,7 @@ $lang      = JFactory::getLanguage();
 
 JText::script('COM_FINDER_INDEX_CONFIRM_PURGE_PROMPT');
 JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
-HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=index'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -31,6 +32,9 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 			<div id="j-main-container" class="j-main-container">
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<table class="table">
+					<caption id="captionTable" class="sr-only">
+						<?php echo Text::_('COM_FINDER_INDEX_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					</caption>
 					<thead>
 						<tr>
 							<td style="width:1%" class="text-center">
@@ -82,8 +86,8 @@ HTMLHelper::_('script', 'com_finder/index.js', ['relative' => true, 'version' =>
 							</td>
 							<td class="text-center d-none d-md-table-cell text-center">
 								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
-                                    <span class="icon-calendar pop hasPopover" aria-hidden="true" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
-                                    <span class="sr-only"><?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?></span>
+									<span class="icon-calendar pop hasPopover" aria-hidden="true" data-placement="left" title="<?php echo JText::_('COM_FINDER_INDEX_DATE_INFO_TITLE'); ?>" data-content="<?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?>"></span>
+									<span class="sr-only"><?php echo JText::sprintf('COM_FINDER_INDEX_DATE_INFO', $item->publish_start_date, $item->publish_end_date, $item->start_date, $item->end_date); ?></span>
 								<?php endif; ?>
 							</td>
 							<td class="small break-word d-none d-md-table-cell">

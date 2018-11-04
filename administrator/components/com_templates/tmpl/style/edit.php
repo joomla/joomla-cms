@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
@@ -37,9 +35,9 @@ $user = Factory::getUser();
 
 		<div class="row">
 			<div class="col-md-9">
-				<h3>
+				<h2>
 					<?php echo Text::_($this->item->template); ?>
-				</h3>
+				</h2>
 				<div class="info-labels">
 					<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FIELD_CLIENT_LABEL'); ?>">
 						<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>

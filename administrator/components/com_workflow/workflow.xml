@@ -14,15 +14,12 @@
         <menu>COM_WORKFLOW</menu>
         <files folder="admin">
             <filename>access.xml</filename>
-            <filename>config.xml</filename>
-            <filename>workflow.php</filename>
-            <filename>dispacher.php</filename>
+            <filename>workflow.xml</filename>
             <folder>Controller</folder>
-            <folder>Field</folder>
             <folder>forms</folder>
             <folder>Helper</folder>
-            <folder>helpers</folder>
             <folder>Model</folder>
+            <folder>services</folder>
             <folder>Table</folder>
             <folder>tmpl</folder>
             <folder>View</folder>

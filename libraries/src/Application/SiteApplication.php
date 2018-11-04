@@ -11,6 +11,8 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -180,6 +182,11 @@ final class SiteApplication extends CMSApplication
 				// Store the template and its params to the config
 				$this->set('theme', $template->template);
 				$this->set('themeParams', $template->params);
+
+				// Add Asset registry files
+				$document->getWebAssetManager()
+					->addRegistryFile('media/' . $component . '/joomla.asset.json')
+					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
 
 				break;
 
@@ -395,7 +402,7 @@ final class SiteApplication extends CMSApplication
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = Factory::getConfig()->get('sef');
+		$options['mode'] = Factory::getApplication()->get('sef');
 
 		return parent::getRouter($name, $options);
 	}
@@ -451,7 +458,8 @@ final class SiteApplication extends CMSApplication
 			$id = (int) $tid;
 		}
 
-		$cache = Factory::getCache('com_templates', '');
+		/** @var OutputController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('output', ['defaultgroup' => 'com_templates']);
 
 		if ($this->getLanguageFilter())
 		{

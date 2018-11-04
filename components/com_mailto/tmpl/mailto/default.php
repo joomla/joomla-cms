@@ -18,7 +18,7 @@ HTMLHelper::_('behavior.keepalive');
 
 Text::script('COM_MAILTO_EMAIL_ERR_NOINFO', true);
 
-HTMLHelper::_('script', 'com_mailto/mailto-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_mailto/mailto-default.js', ['version' => 'auto', 'relative' => true]);
 
 $data = $this->get('data');
 ?>

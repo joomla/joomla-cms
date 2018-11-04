@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.core');
 
-HTMLHelper::_('script', 'com_tags/tag-list.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_tags/tag-list.js', ['version' => 'auto', 'relative' => true]);
 
 $n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));

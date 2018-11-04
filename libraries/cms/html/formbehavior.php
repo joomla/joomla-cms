@@ -87,8 +87,9 @@ abstract class JHtmlFormbehavior
 
 		// Include jQuery
 		HTMLHelper::_('jquery.framework');
-		HTMLHelper::_('script', 'legacy/chosen.min.js', ['version' => 'auto', 'relative' => true]);
-		HTMLHelper::_('stylesheet', 'legacy/chosen.min.css', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('script', 'vendor/chosen/chosen.jquery.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('script', 'legacy/joomla-chosen.min.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('stylesheet', 'vendor/chosen/chosen.css', ['version' => 'auto', 'relative' => true]);
 
 		// Options array to json options string
 		$options_str = json_encode($options, ($debug && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false));
@@ -97,7 +98,7 @@ abstract class JHtmlFormbehavior
 		Factory::getDocument()->addScriptDeclaration(
 			"
 		jQuery(document).ready(function (){
-			jQuery('" . $selector . "').chosen(" . $options_str . ");
+			jQuery('" . $selector . "').jchosen(" . $options_str . ");
 		});
 	"
 		);

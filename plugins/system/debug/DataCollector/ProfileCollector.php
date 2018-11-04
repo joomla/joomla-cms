@@ -10,8 +10,8 @@
 namespace Joomla\Plugin\System\Debug\DataCollector;
 
 use DebugBar\DebugBarException;
-use Joomla\Registry\Registry;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
+use Joomla\Registry\Registry;
 
 /**
  * Collects info about the request duration as well as providing

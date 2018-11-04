@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 $clientId         = $this->item->client_id;
 $state            = 1;
@@ -24,6 +24,7 @@ $customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
 $attr = array(
 	'id'          => 'jform_position',
 	'list.select' => $this->item->position,
+	'list.attr'   => 'class="chosen-custom-value"',
 );
 
 JHtml::_('formbehavior.chosen', '#jform_position');

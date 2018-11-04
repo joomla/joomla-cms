@@ -11,20 +11,20 @@ namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\SectionNotFoundException;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Field Model
@@ -900,7 +900,7 @@ class FieldModel extends AdminModel
 				$data->set('group_id', $app->input->getString('group_id', (!empty($filters['group_id']) ? $filters['group_id'] : null)));
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 
 				// Set the type if available from the request
@@ -979,12 +979,12 @@ class FieldModel extends AdminModel
 			// Setting the context for the category field
 			$componentObject = $this->bootComponent($component);
 
-			if (!$componentObject instanceof CategoriesServiceInterface)
+			if (!$componentObject instanceof CategoryServiceInterface)
 			{
 				throw new SectionNotFoundException;
 			}
 
-			$cat = $componentObject->getCategories();
+			$cat = $componentObject->getCategory();
 
 			if ($cat->get('root')->hasChildren())
 			{

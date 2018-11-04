@@ -5,22 +5,22 @@
   thead {
     th,
     td {
-      white-space: nowrap;
-      font-weight: normal;
+      font-weight: $normal-weight;
       color: $gray-800;
+      white-space: nowrap;
       border-bottom: 2px solid $gray-300;
     }
     td {
       padding: 0;
     }
     a {
-      font-weight: normal;
+      font-weight: $normal-weight;
       color: $gray-800;
     }
   }
 
   tbody {
-    background-color: $white;
+    background-color: var(--white);
   }
 
   th,
@@ -31,10 +31,6 @@
       margin-bottom: 0;
     }
 
-  }
-
-  th {
-    padding: 8px 12px;
   }
 
   td {

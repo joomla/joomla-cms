@@ -20,7 +20,6 @@
 			name="title" 
 			type="text" 
 			label="JGLOBAL_TITLE"
-			class="input-xxlarge"
 			size="40"
 			required="true" />
 
@@ -63,7 +62,6 @@
 			type="transition"
 			component="com_content"
 			label="COM_CONTENT_TRANSITION"
-			class="advancedSelect"
 		>
 		</field>
 

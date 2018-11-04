@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Form\Field\FolderlistField;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Generates the list of directories  available for drag and drop upload.

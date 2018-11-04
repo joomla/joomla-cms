@@ -9,16 +9,13 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Session\Session;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Helper\UserGroupsHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 
 extract($displayData);
@@ -56,7 +53,7 @@ $document = Factory::getDocument();
 // Add Javascript for permission change
 HTMLHelper::_('form.csrf');
 HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-permissions.min.js', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-tab.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load JavaScript message titles
 Text::script('ERROR');
