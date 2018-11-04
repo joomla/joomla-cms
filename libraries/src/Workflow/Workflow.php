@@ -208,7 +208,23 @@ class Workflow
 			$component->updateContentState($pks, $transition->condition);
 		}
 
-		return $this->updateAssociations($pks, $transition->to_stage_id);
+		$success = $this->updateAssociations($pks, $transition->to_stage_id);
+
+		if ($success)
+		{
+			$app = Factory::getApplication();
+			$app->triggerEvent(
+				'onWorkflowAfterTransition',
+				[
+					'pks' => $pks,
+					'extension' => $this->extension,
+					'user' => $app->getIdentity(),
+					'transition' => $transition,
+				]
+			);
+		}
+
+		return $success;
 	}
 
 	/**
