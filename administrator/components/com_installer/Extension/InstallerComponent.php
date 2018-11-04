@@ -21,7 +21,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_installer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class InstallerComponent extends MVCComponent implements
 	BootableExtensionInterface
@@ -39,7 +39,7 @@ class InstallerComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

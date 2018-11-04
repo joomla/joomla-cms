@@ -30,7 +30,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 	 * Cached array of the content item id.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static $filters = array();
 

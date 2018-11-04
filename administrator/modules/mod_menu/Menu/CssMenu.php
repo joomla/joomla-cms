@@ -62,7 +62,7 @@ class CssMenu
 	 *
 	 * @var    bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $application;
 
@@ -71,7 +71,7 @@ class CssMenu
 	 *
 	 * @param   CMSApplication  $application  The application
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function __construct(CMSApplication $application)
 	{

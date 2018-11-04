@@ -107,7 +107,7 @@ class PlgSystemDebug extends CMSPlugin
 
 	/**
 	 * @var DebugBar
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $debugBar;
 
@@ -123,7 +123,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * AJAX marker
 	 *
 	 * @var   bool
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $isAjax = false;
 
@@ -325,7 +325,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function onAjaxDebug()
 	{
@@ -357,7 +357,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return $this
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function setupLogging(): self
 	{
@@ -550,7 +550,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return $this
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function collectLogs(): self
 	{
