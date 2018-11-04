@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Csp\Administrator\Table\ReportTable;
 use Joomla\Registry\Registry;
 
 /**
