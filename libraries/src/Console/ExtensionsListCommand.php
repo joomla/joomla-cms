@@ -178,7 +178,7 @@ class ExtensionsListCommand extends AbstractCommand
 			$extInfo[] = [
 				$extension['name'],
 				$extension['extension_id'],
-				$manifest->version,
+				$manifest ? $manifest->version : '--',
 				$extension['type'],
 				$extension['enabled'] == 1 ? 'Yes' : 'No',
 			];
