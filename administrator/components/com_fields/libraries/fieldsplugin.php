@@ -201,7 +201,7 @@ abstract class FieldsPlugin extends JPlugin
 		// Check if it is allowed to edit the field
 		if (!FieldsHelper::canEditFieldValue($field))
 		{
-			$node->setAttribute('disabled', 'true');
+			$node->setAttribute('readonly', 'true');
 		}
 
 		// Return the node
