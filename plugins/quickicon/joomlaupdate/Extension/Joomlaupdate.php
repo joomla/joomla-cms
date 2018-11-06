@@ -37,6 +37,14 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  3.7.0
+	 */
+	protected $app;
+
+	/**
 	 * The document.
 	 *
 	 * @var Document
@@ -92,7 +100,7 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getContext();
 
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			return;
 		}

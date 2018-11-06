@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Option based categories factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CategoryFactory implements CategoryFactoryInterface
 {
@@ -46,7 +46,7 @@ class CategoryFactory implements CategoryFactoryInterface
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @throws  SectionNotFoundException
 	 */

@@ -16,7 +16,7 @@ use Joomla\CMS\Document\Document;
 /**
  * Event class for WebAsset events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WebAssetBeforeAttachEvent extends AbstractEvent
 {
@@ -28,7 +28,7 @@ class WebAssetBeforeAttachEvent extends AbstractEvent
 	 *
 	 * @throws  BadMethodCallException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($name, array $arguments = array())
 	{
@@ -46,7 +46,7 @@ class WebAssetBeforeAttachEvent extends AbstractEvent
 	 *
 	 * @return  Document
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAsset(): Document
 	{
