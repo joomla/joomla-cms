@@ -168,7 +168,7 @@ class ActionlogsHelper
 	 */
 	public static function getHumanReadableLogMessage($log, $generateLinks = true)
 	{
-    static $links = array();
+		static $links = array();
 
 		$messageData = json_decode($log->message, true);
 
