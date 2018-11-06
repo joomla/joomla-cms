@@ -146,7 +146,7 @@ abstract class JHtmlFormbehavior
 			// Include scripts
 			HTMLHelper::_('behavior.core');
 			HTMLHelper::_('jquery.framework');
-			HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', false, true, false, false, $debug);
+			HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', ['version' => 'auto', 'relative' => true, 'detectDebug' => $debug]);
 
 			Factory::getDocument()->addScriptOptions(
 				'ajax-chosen',
