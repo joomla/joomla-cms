@@ -283,7 +283,7 @@ class Toolbar
 			'Joomla\\CMS\\Toolbar\\Button\\' . ucfirst($type) . 'Button',
 			// @deprecated 3.8.0
 			'JToolbarButton' . ucfirst($type),
-			// @deprecated 12.3 Remove the acceptance of legacy classes starting with JButton.
+			// @deprecated 3.1.4 Remove the acceptance of legacy classes starting with JButton.
 			'JButton' . ucfirst($type)
 		);
 

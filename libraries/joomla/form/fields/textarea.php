@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Supports a multi line area for entry of plain text
  *
  * @link   http://www.w3.org/TR/html-markup/textarea.html#textarea
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldTextarea extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldTextarea extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Textarea';
 
@@ -139,7 +139,7 @@ class JFormFieldTextarea extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

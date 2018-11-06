@@ -26,6 +26,30 @@ use Joomla\CMS\Version;
 abstract class InstallerHelper
 {
 	/**
+	 * Hash not validated identifier.
+	 *
+	 * @var    integer
+	 * @since  3.9.0
+	 */	
+	const HASH_NOT_VALIDATED = 0;
+
+	/**
+	 * Hash validated identifier.
+	 *
+	 * @var    integer
+	 * @since  3.9.0
+	 */
+	const HASH_VALIDATED = 1;
+
+	/**
+	 * Hash not provided identifier.
+	 *
+	 * @var    integer
+	 * @since  3.9.0
+	 */
+	const HASH_NOT_PROVIDED = 2;
+
+	/**
 	 * Downloads a package
 	 *
 	 * @param   string  $url     URL of file to download
@@ -323,7 +347,7 @@ abstract class InstallerHelper
 	 * @return  array  Array of queries
 	 *
 	 * @since   3.1
-	 * @deprecated  13.3  Use \JDatabaseDriver::splitSql() directly
+	 * @deprecated  4.0  Use \JDatabaseDriver::splitSql() directly
 	 * @codeCoverageIgnore
 	 */
 	public static function splitSql($query)
@@ -332,5 +356,43 @@ abstract class InstallerHelper
 		$db = \JFactory::getDbo();
 
 		return $db->splitSql($query);
+	}
+
+	/**
+	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+	 *
+	 * @param   string   $packagefile   Location of the package to be installed
+	 * @param   JUpdate  $updateObject  The Update Object
+	 *
+	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
+	 *
+	 * @since   3.9.0
+	 */
+	public static function isChecksumValid($packagefile, $updateObject)
+	{
+		$hashes     = array('sha256', 'sha384', 'sha512');
+		$hashOnFile = false;
+
+		foreach ($hashes as $hash)
+		{
+			if ($updateObject->get($hash, false))
+			{
+				$hashPackage = hash_file($hash, $packagefile);
+				$hashRemote  = $updateObject->$hash->_data;
+				$hashOnFile  = true;
+
+				if ($hashPackage !== $hashRemote)
+				{
+					return self::HASH_NOT_VALIDATED;
+				}
+			}
+		}
+
+		if ($hashOnFile)
+		{
+			return self::HASH_VALIDATED;
+		}
+
+		return self::HASH_NOT_PROVIDED;
 	}
 }

@@ -28,8 +28,8 @@
 					label="MOD_SYNDICATE_FIELD_DISPLAYTEXT_LABEL"
 					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC"
 					default="1"
-					class="btn-group btn-group-yesno"
 					filter="integer"
+					class="btn-group btn-group-yesno"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -76,6 +76,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="COM_MODULES_FIELD_CACHING_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>

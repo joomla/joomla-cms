@@ -55,6 +55,9 @@ class ContentViewFeatured extends JViewLegacy
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
 
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

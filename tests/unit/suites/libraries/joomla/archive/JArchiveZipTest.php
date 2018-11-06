@@ -14,7 +14,7 @@ require_once __DIR__ . '/JArchiveTestCase.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Archive
- * @since       11.1
+ * @since       1.7.0
  */
 class JArchiveZipTest extends JArchiveTestCase
 {

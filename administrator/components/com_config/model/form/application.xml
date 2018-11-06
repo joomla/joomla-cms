@@ -244,7 +244,7 @@
 			type="databaseconnection"
 			label="COM_CONFIG_FIELD_DATABASE_TYPE_LABEL"
 			description="COM_CONFIG_FIELD_DATABASE_TYPE_DESC"
-			supported="mysql,mysqli,pdomysql,postgresql,sqlsrv,sqlazure"
+			supported="mysql,mysqli,pgsql,pdomysql,postgresql,sqlsrv,sqlazure"
 			filter="string"
 		/>
 
@@ -318,6 +318,20 @@
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="debug_lang_const"
+			type="radio"
+			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
+			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
+			class="btn-group btn-group-yesno"
+			default="1"
+			filter="integer"
+			showon="debug_lang:1"
+			>
+			<option value="0">COM_CONFIG_FIELD_DEBUG_CONST</option>
+			<option value="1">COM_CONFIG_FIELD_DEBUG_VALUE</option>
 		</field>
 
 	</fieldset>

@@ -81,13 +81,13 @@ $doc->addScriptDeclaration(
 	"
 );
 ?>
-<form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo $this->state->folder; ?>" method="post" id="mediamanager-form" name="mediamanager-form">
+<form target="_parent" action="index.php?option=com_media&amp;tmpl=index&amp;folder=<?php echo rawurlencode($this->state->folder); ?>" method="post" id="mediamanager-form" name="mediamanager-form">
 	<div class="muted">
 		<p>
 			<span class="icon-folder"></span>
 			<?php
 				echo $params->get($path, 'images'),
-					($this->state->folder != '') ? '/' . $this->state->folder : '';
+					($this->escape($this->state->folder) != '') ? '/' . $this->escape($this->state->folder) : '';
 			?>
 		</p>
 	</div>

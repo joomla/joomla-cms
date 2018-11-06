@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * SQL Server database driver
  *
  * @link   https://azure.microsoft.com/en-us/documentation/services/sql-database/
- * @since  12.1
+ * @since  3.0.0
  */
 class JDatabaseDriverSqlazure extends JDatabaseDriverSqlsrv
 {
@@ -21,7 +21,7 @@ class JDatabaseDriverSqlazure extends JDatabaseDriverSqlsrv
 	 * The name of the database driver.
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public $name = 'sqlazure';
 }

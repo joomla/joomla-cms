@@ -20,11 +20,11 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 
 <tr>
 	<td>
-		<a  title="<?php echo $this->_tmp_doc->name; ?>">
-			<?php  echo JHtml::_('image', $this->_tmp_doc->icon_16, $this->_tmp_doc->title, null, true, true) ? JHtml::_('image', $this->_tmp_doc->icon_16, $this->_tmp_doc->title, array('width' => 16, 'height' => 16), true) : JHtml::_('image', 'media/con_info.png', $this->_tmp_doc->title, array('width' => 16, 'height' => 16), true);?> </a>
+		<a  title="<?php echo $this->escape($this->_tmp_doc->name); ?>">
+			<?php  echo JHtml::_('image', $this->_tmp_doc->icon_16, $this->escape($this->_tmp_doc->title), null, true, true) ? JHtml::_('image', $this->_tmp_doc->icon_16, $this->_tmp_doc->title, array('width' => 16, 'height' => 16), true) : JHtml::_('image', 'media/con_info.png', $this->escape($this->_tmp_doc->title), array('width' => 16, 'height' => 16), true);?> </a>
 	</td>
-	<td class="description"  title="<?php echo $this->_tmp_doc->name; ?>">
-		<?php echo $this->_tmp_doc->title; ?>
+	<td class="description"  title="<?php echo $this->escape($this->_tmp_doc->name); ?>">
+		<?php echo $this->escape($this->_tmp_doc->title); ?>
 	</td>
 	<td>&#160;
 
@@ -34,8 +34,8 @@ $dispatcher->trigger('onContentBeforeDisplay', array('com_media.file', &$this->_
 	</td>
 <?php if ($user->authorise('core.delete', 'com_media')):?>
 	<td>
-		<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo $this->state->folder; ?>&amp;rm[]=<?php echo $this->_tmp_doc->name; ?>" rel="<?php echo $this->_tmp_doc->name; ?>"><span class="icon-remove hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JACTION_DELETE');?>"></span></a>
-		<input type="checkbox" name="rm[]" value="<?php echo $this->_tmp_doc->name; ?>" />
+		<a class="delete-item" target="_top" href="index.php?option=com_media&amp;task=file.delete&amp;tmpl=index&amp;<?php echo JSession::getFormToken(); ?>=1&amp;folder=<?php echo rawurlencode($this->state->folder); ?>&amp;rm[]=<?php echo $this->escape($this->_tmp_doc->name); ?>" rel="<?php echo $this->escape($this->_tmp_doc->name); ?>"><span class="icon-remove hasTooltip" title="<?php echo JHtml::_('tooltipText', 'JACTION_DELETE');?>"></span></a>
+		<input type="checkbox" name="rm[]" value="<?php echo $this->escape($this->_tmp_doc->name); ?>" />
 	</td>
 <?php endif;?>
 </tr>

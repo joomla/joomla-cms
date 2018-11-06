@@ -51,6 +51,12 @@ function admin_postinstall_joomla40checks_condition()
 		return true;
 	}
 
+	if ($db->name === 'postgresql')
+	{
+		// Using deprecated PostgreSQL driver
+		return true;
+	}
+
 	// PHP minimum version is 7.0
 	return version_compare(PHP_VERSION, '7.0', 'lt');
 }

@@ -347,7 +347,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{
@@ -366,7 +366,7 @@ class CategoriesModelCategories extends JModelList
 	/**
 	 * Method to load the countItems method from the extensions
 	 *
-	 * @param   stdClass[]  &$items     The category items
+	 * @param   stdClass[]  $items      The category items
 	 * @param   string      $extension  The category extension
 	 *
 	 * @return  void

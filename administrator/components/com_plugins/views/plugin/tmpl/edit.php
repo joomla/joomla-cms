@@ -51,7 +51,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<div class="span9">
 				<?php if ($this->item->xml) : ?>
 					<?php if ($this->item->xml->description) : ?>
-						<h3>
+						<h2>
 							<?php
 							if ($this->item->xml)
 							{
@@ -62,7 +62,7 @@ JFactory::getDocument()->addScriptDeclaration("
 								echo JText::_('COM_PLUGINS_XML_ERR');
 							}
 							?>
-						</h3>
+						</h2>
 						<div class="info-labels">
 							<span class="label hasTooltip" title="<?php echo JHtml::_('tooltipText', 'COM_PLUGINS_FIELD_FOLDER_LABEL', 'COM_PLUGINS_FIELD_FOLDER_DESC'); ?>">
 								<?php echo $this->form->getValue('folder'); ?>

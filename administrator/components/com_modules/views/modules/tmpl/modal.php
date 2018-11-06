@@ -95,7 +95,7 @@ if (!empty($editor))
 						<span class="<?php echo $iconStates[$this->escape($item->published)]; ?>" aria-hidden="true"></span>
 					</td>
 					<td class="has-context">
-						<a class="js-module-insert btn btn-small btn-block btn-success" href="#" data-module="<?php echo $this->escape($item->module); ?>" data-title="<?php echo $this->escape($item->title); ?>" data-editor="<?php echo $this->escape($editor); ?>">
+						<a class="js-module-insert btn btn-small btn-block btn-success" href="#" data-module="<?php echo $item->id; ?>" data-editor="<?php echo $this->escape($editor); ?>">
 							<?php echo $this->escape($item->title); ?>
 						</a>
 					</td>

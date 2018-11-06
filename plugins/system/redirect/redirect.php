@@ -295,7 +295,7 @@ class PlgSystemRedirect extends JPlugin
 		{
 			$params = new Registry(JPluginHelper::getPlugin('system', 'redirect')->params);
 
-			if ((bool) $params->get('collect_urls', true))
+			if ((bool) $params->get('collect_urls', 1))
 			{
 				if (!$params->get('includeUrl', 1))
 				{

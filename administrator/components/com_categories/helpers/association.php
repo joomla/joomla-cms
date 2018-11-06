@@ -25,12 +25,13 @@ abstract class CategoryHelperAssociation
 	 *
 	 * @param   integer  $id         Id of the item
 	 * @param   string   $extension  Name of the component
+	 * @param   string   $layout     Category layout
 	 *
 	 * @return  array    Array of associations for the component categories
 	 *
 	 * @since  3.0
 	 */
-	public static function getCategoryAssociations($id = 0, $extension = 'com_content')
+	public static function getCategoryAssociations($id = 0, $extension = 'com_content', $layout = null)
 	{
 		$return = array();
 
@@ -46,11 +47,13 @@ abstract class CategoryHelperAssociation
 			{
 				if (class_exists($helperClassname) && is_callable(array($helperClassname, 'getCategoryRoute')))
 				{
-					$return[$tag] = $helperClassname::getCategoryRoute($item, $tag);
+					$return[$tag] = $helperClassname::getCategoryRoute($item, $tag, $layout);
 				}
 				else
 				{
-					$return[$tag] = 'index.php?option=' . $extension . '&view=category&id=' . $item;
+					$viewLayout = $layout ? '&layout=' . $layout : '';
+
+					$return[$tag] = 'index.php?option=' . $extension . '&view=category&id=' . $item . $viewLayout;
 				}
 			}
 		}

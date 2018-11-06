@@ -16,7 +16,7 @@ include_once 'JFormDataHelper.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldTest extends TestCaseDatabase
 {

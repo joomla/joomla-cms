@@ -59,6 +59,7 @@
 					description="MOD_LANGUAGES_FIELD_DROPDOWN_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -71,6 +72,7 @@
 					description="MOD_LANGUAGES_FIELD_DROPDOWN_IMAGE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="dropdown:1"
 					>
 					<option value="1">JYES</option>
@@ -84,6 +86,7 @@
 					description="MOD_LANGUAGES_FIELD_LINEHEIGHT_DESC"
 					class="btn-group btn-group-yesno"
 					default="0"
+					filter="integer"
 					showon="dropdown:1[AND]dropdownimage:1"
 					>
 					<option value="1">JYES</option>
@@ -97,6 +100,7 @@
 					description="MOD_LANGUAGES_FIELD_USEIMAGE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="dropdown:0"
 					>
 					<option value="1">JYES</option>
@@ -118,6 +122,7 @@
 					description="MOD_LANGUAGES_FIELD_ACTIVE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="dropdownimage:1[OR]dropdown:0"
 					>
 					<option value="1">JYES</option>
@@ -130,8 +135,9 @@
 					label="MOD_LANGUAGES_FIELD_FULL_NAME_LABEL"
 					description="MOD_LANGUAGES_FIELD_FULL_NAME_DESC"
 					class="btn-group btn-group-yesno"
-					showon="dropdown:0[AND]image:0"
 					default="1"
+					filter="integer"
+					showon="dropdown:0[AND]image:0"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -144,6 +150,7 @@
 					description="MOD_LANGUAGES_FIELD_INLINE_DESC"
 					class="btn-group btn-group-yesno"
 					default="1"
+					filter="integer"
 					showon="dropdown:0"
 					>
 					<option value="1">JYES</option>
@@ -160,9 +167,10 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" rows="3"
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
+					rows="3"
 				/>
 
 				<field
@@ -171,6 +179,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					description="MOD_LANGUAGES_FIELD_CACHING_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -182,6 +191,7 @@
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					description="COM_MODULES_FIELD_CACHE_TIME_DESC"
 					default="900"
+					filter="integer"
 				/>
 
 				<field

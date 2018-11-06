@@ -55,11 +55,10 @@ class UsersModelLogin extends JModelForm
 		$app  = JFactory::getApplication();
 		$data = $app->getUserState('users.login.form.data', array());
 
-		$input = $app->input;
-		$method = $input->getMethod();
+		$input = $app->input->getInputForRequestMethod();
 
 		// Check for return URL from the request first
-		if ($return = $input->$method->get('return', '', 'BASE64'))
+		if ($return = $input->get('return', '', 'BASE64'))
 		{
 			$data['return'] = base64_decode($return);
 

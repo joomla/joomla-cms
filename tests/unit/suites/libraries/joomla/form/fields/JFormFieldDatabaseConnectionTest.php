@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('databaseconnection');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.3
+ * @since       1.7.3
  */
 class JFormFieldDatabaseConnectionTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JFormFieldDatabaseConnectionTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetInput()
 	{

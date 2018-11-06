@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi import driver.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JDatabaseImporterMysqli extends JDatabaseImporter
 {
@@ -21,7 +21,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  JDatabaseImporterMysqli  Method supports chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -48,7 +48,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	protected function xmlToCreate(SimpleXMLElement $table)
@@ -92,7 +92,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getAddColumnSql($table, SimpleXMLElement $field)
 	{
@@ -107,7 +107,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getAddKeySql($table, $keys)
 	{
@@ -117,11 +117,11 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	/**
 	 * Get alters for table if there is a difference.
 	 *
-	 * @param   SimpleXMLElement  $structure  The XML structure pf the table.
+	 * @param   SimpleXMLElement  $structure  The XML structure of the table.
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getAlterTableSql(SimpleXMLElement $structure)
 	{
@@ -271,7 +271,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getChangeColumnSql($table, SimpleXMLElement $field)
 	{
@@ -286,7 +286,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getColumnSql(SimpleXMLElement $field)
 	{
@@ -342,7 +342,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getDropKeySql($table, $name)
 	{
@@ -356,7 +356,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getDropPrimaryKeySql($table)
 	{
@@ -370,7 +370,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  array  The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  Exception
 	 */
 	protected function getKeyLookup($keys)
@@ -407,7 +407,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getKeySql($columns)
 	{

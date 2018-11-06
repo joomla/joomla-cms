@@ -30,8 +30,26 @@ class JDocumentOpensearchTest extends TestCase
 		$_SERVER['HTTP_HOST'] = 'localhost';
 		$_SERVER['SCRIPT_NAME'] = '';
 
-		JFactory::$application = $this->getMockCmsApp();
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getName')
+			->willReturn('site');
+
+		$mockApp->expects($this->any())
+			->method('isClient')
+			->with('site')
+			->willReturn(true);
+
+		JFactory::$application = $mockApp;
+
 		JFactory::$config = $this->getMockConfig();
+
+		$mockRouter = $this->getMockBuilder('Joomla\\CMS\\Router\\Router')->getMock();
+		$mockRouter->expects($this->any())
+			->method('build')
+			->willReturn(new \JUri);
+
+		TestReflection::setValue('JRoute', '_router', array('site' => $mockRouter));
 
 		$this->object = new JDocumentOpensearch;
 	}
@@ -42,6 +60,8 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JRoute', '_router', array());
+
 		$this->restoreFactoryState();
 
 		JDocument::$_buffer = null;

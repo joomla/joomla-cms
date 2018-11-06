@@ -92,7 +92,7 @@ class JAdminCssMenu
 		{
 			$items = MenusHelper::getMenuItems($menutype, true);
 
-			if ($this->enabled && $this->params->get('check'))
+			if ($this->enabled && $this->params->get('check', 1))
 			{
 				if ($this->check($items, $this->params))
 				{
@@ -256,7 +256,7 @@ class JAdminCssMenu
 			$item->icon  = isset($item->icon) ? $item->icon : '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
-			if (($item->scope === 'help' && !$this->params->get('showhelp')) || ($item->scope === 'edit' && !$this->params->get('shownew')))
+			if (($item->scope === 'help' && !$this->params->get('showhelp', 1)) || ($item->scope === 'edit' && !$this->params->get('shownew', 1)))
 			{
 				continue;
 			}
@@ -314,7 +314,12 @@ class JAdminCssMenu
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
 			}
-			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
+			// Special case for components which only allow super user access
+			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
+			{
+				continue;
+			}
+			elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin'))
 			{
 				continue;
 			}

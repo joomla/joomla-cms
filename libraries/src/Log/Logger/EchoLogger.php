@@ -16,7 +16,7 @@ use Joomla\CMS\Log\Logger;
 /**
  * Joomla Echo logger class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class EchoLogger extends Logger
 {
@@ -24,7 +24,7 @@ class EchoLogger extends Logger
 	 * Value to use at the end of an echoed log entry to separate lines.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $line_separator = "\n";
 
@@ -33,7 +33,7 @@ class EchoLogger extends Logger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct(array &$options)
 	{
@@ -52,7 +52,7 @@ class EchoLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addEntry(LogEntry $entry)
 	{

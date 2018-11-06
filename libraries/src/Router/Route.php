@@ -16,20 +16,20 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Route handling class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Route
 {
 	/**
 	 * The route object so we don't have to keep fetching it.
 	 *
-	 * @var    Router
-	 * @since  12.2
+	 * @var    Router[]
+	 * @since  3.0.1
 	 */
-	private static $_router = null;
+	private static $_router = array();
 
 	/**
-	 * Translates an internal Joomla URL to a humanly readable URL.
+	 * Translates an internal Joomla URL to a humanly readable URL. This method builds links for the current active client.
 	 *
 	 * @param   string   $url    Absolute or Relative URI to Joomla resource.
 	 * @param   boolean  $xhtml  Replace & by &amp; for XML compliance.
@@ -38,33 +38,68 @@ class Route
 	 *                             1: Make URI secure using global secure site URI.
 	 *                             2: Make URI unsecure using the global unsecure site URI.
 	 *
-	 * @return string The translated humanly readable URL.
+	 * @return  string  The translated humanly readable URL.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function _($url, $xhtml = true, $ssl = null)
 	{
-		if (!self::$_router)
+		try
 		{
-			// Get the router.
-			$app = Factory::getApplication();
-			self::$_router = $app::getRouter();
+			$app    = Factory::getApplication();
+			$client = $app->getName();
 
-			// Make sure that we have our router
-			if (!self::$_router)
-			{
-				return;
-			}
+			return static::link($client, $url, $xhtml, $ssl);
 		}
+		catch (\RuntimeException $e)
+		{
+			// Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
+			return null;
+		}
+	}
 
+	/**
+	 * Translates an internal Joomla URL to a humanly readable URL.
+	 * NOTE: To build link for active client instead of a specific client, you can use <var>JRoute::_()</var>
+	 *
+	 * @param   string   $client  The client name for which to build the link.
+	 * @param   string   $url     Absolute or Relative URI to Joomla resource.
+	 * @param   boolean  $xhtml   Replace & by &amp; for XML compliance.
+	 * @param   integer  $ssl     Secure state for the resolved URI.
+	 *                              0: (default) No change, use the protocol currently used in the request
+	 *                              1: Make URI secure using global secure site URI.
+	 *                              2: Make URI unsecure using the global unsecure site URI.
+	 *
+	 * @return  string  The translated humanly readable URL.
+	 *
+	 * @throws  \RuntimeException
+	 *
+	 * @since   3.9.0
+	 */
+	public static function link($client, $url, $xhtml = true, $ssl = null)
+	{
+		// If we cannot process this $url exit early.
 		if (!is_array($url) && (strpos($url, '&') !== 0) && (strpos($url, 'index.php') !== 0))
 		{
 			return $url;
 		}
 
-		// Build route.
-		$uri = self::$_router->build($url);
+		// Get the router instance, only attempt when a client name is given.
+		if ($client && !isset(self::$_router[$client]))
+		{
+			$app = Factory::getApplication();
 
+			self::$_router[$client] = $app->getRouter($client);
+		}
+
+		// Make sure that we have our router
+		if (!isset(self::$_router[$client]))
+		{
+			throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_ROUTER_LOAD', $client), 500);
+		}
+
+		// Build route.
+		$uri    = self::$_router[$client]->build($url);
 		$scheme = array('path', 'query', 'fragment');
 
 		/*
@@ -80,7 +115,7 @@ class Route
 
 			if (!is_array($host_port))
 			{
-				$uri2 = Uri::getInstance();
+				$uri2      = Uri::getInstance();
 				$host_port = array($uri2->getHost(), $uri2->getPort());
 			}
 

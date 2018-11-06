@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database iterator.
  *
- * @since  13.1
+ * @since       3.2.0
+ * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseIteratorPostgresql extends JDatabaseIterator
 {
@@ -21,7 +22,7 @@ class JDatabaseIteratorPostgresql extends JDatabaseIterator
 	 *
 	 * @return  integer  The number of rows in the result set.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @see     Countable::count()
 	 */
 	public function count()
@@ -34,7 +35,7 @@ class JDatabaseIteratorPostgresql extends JDatabaseIterator
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function fetchObject()
 	{
@@ -46,7 +47,7 @@ class JDatabaseIteratorPostgresql extends JDatabaseIterator
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function freeResult()
 	{

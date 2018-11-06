@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/repos/merging
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesMerging extends JGithubPackage
@@ -30,7 +30,7 @@ class JGithubPackageRepositoriesMerging extends JGithubPackage
 	 *                                   If omitted, a default message will be used.
 	 *
 	 * @throws UnexpectedValueException
-	 * @since   12.4
+	 * @since   3.3.0
 	 *
 	 * @return  boolean
 	 */

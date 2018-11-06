@@ -37,7 +37,7 @@ abstract class ModLatestHelper
 			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down');
 
 		// Set Ordering filter
-		switch ($params->get('ordering'))
+		switch ($params->get('ordering', 'c_dsc'))
 		{
 			case 'm_dsc':
 				$model->setState('list.ordering', 'modified DESC, created');
@@ -52,7 +52,7 @@ abstract class ModLatestHelper
 		}
 
 		// Set Category Filter
-		$categoryId = $params->get('catid');
+		$categoryId = $params->get('catid', null);
 
 		if (is_numeric($categoryId))
 		{
@@ -62,7 +62,7 @@ abstract class ModLatestHelper
 		// Set User Filter.
 		$userId = $user->get('id');
 
-		switch ($params->get('user_id'))
+		switch ($params->get('user_id', '0'))
 		{
 			case 'by_me':
 				$model->setState('filter.author_id', $userId);
@@ -112,9 +112,9 @@ abstract class ModLatestHelper
 	 */
 	public static function getTitle($params)
 	{
-		$who   = $params->get('user_id');
-		$catid = (int) $params->get('catid');
-		$type  = $params->get('ordering') == 'c_dsc' ? '_CREATED' : '_MODIFIED';
+		$who   = $params->get('user_id', '0');
+		$catid = (int) $params->get('catid', null);
+		$type  = $params->get('ordering', 'c_dsc') == 'c_dsc' ? '_CREATED' : '_MODIFIED';
 
 		if ($catid)
 		{
@@ -134,6 +134,10 @@ abstract class ModLatestHelper
 			$title = '';
 		}
 
-		return JText::plural('MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return JText::plural(
+			'MOD_LATEST_TITLE' . $type . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
+			(int) $params->get('count', 5),
+			$title
+		);
 	}
 }

@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 // Include the statistics functions only once
 JLoader::register('ModStatsHelper', __DIR__ . '/helper.php');
 
-$serverinfo      = $params->get('serverinfo');
-$siteinfo        = $params->get('siteinfo');
+$serverinfo      = $params->get('serverinfo', 0);
+$siteinfo        = $params->get('siteinfo', 0);
 $list            = ModStatsHelper::getList($params);
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 

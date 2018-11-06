@@ -14,7 +14,8 @@ use Joomla\Application\AbstractApplication;
 /**
  * Joomla Platform Controller Interface
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 interface JController extends Serializable
 {
@@ -25,7 +26,7 @@ interface JController extends Serializable
 	 *                   finish execution. A controller might return false if some precondition for
 	 *                   the controller to run has not been satisfied.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  LogicException
 	 * @throws  RuntimeException
 	 */
@@ -36,7 +37,7 @@ interface JController extends Serializable
 	 *
 	 * @return  AbstractApplication  The application object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getApplication();
 
@@ -45,7 +46,7 @@ interface JController extends Serializable
 	 *
 	 * @return  JInput  The input object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getInput();
 }

@@ -16,7 +16,7 @@ JFormHelper::loadFieldClass('list');
  * Provides a list of available cache handlers
  *
  * @see    JCache
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldCacheHandler extends JFormFieldList
 {
@@ -24,7 +24,7 @@ class JFormFieldCacheHandler extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'CacheHandler';
 
@@ -33,7 +33,7 @@ class JFormFieldCacheHandler extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{

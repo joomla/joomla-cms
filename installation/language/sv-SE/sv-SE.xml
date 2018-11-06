@@ -2,20 +2,20 @@
 <metafile
 	version="3.9"
 	client="installation">
-	<name>Svenska (SE)</name>
-	<version>3.8.0</version>
-	<creationDate>September 2017</creationDate>
-	<author>Joomla! Project</author>
+	<name>Svenska (Sverige)</name>
+	<version>3.9.0</version>
+	<creationDate>Oktober 2018</creationDate>
+	<author>Swedish Joomla Translation Team - SvenskJoomla</author>
 	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
-	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<license>GNU General Public License version 2 eller senare; Se LICENSE.txt</license>
 	<files>
 		<filename>sv-SE.ini</filename>
 	</files>
 	<metadata>
-		<name>Swedish (Sweden) (sv-SE)</name>
-		<nativeName>Svenska (SE)</nativeName>
+		<name>Swedish (sv-SE)</name>
+		<nativeName>Svenska (Sverige)</nativeName>
 		<tag>sv-SE</tag>
-		<rtl>0</rtl>
+		<rtl>1</rtl>
 	</metadata>
-	<params />
+	<params/>
 </metafile>

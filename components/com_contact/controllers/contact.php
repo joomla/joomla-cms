@@ -51,10 +51,37 @@ class ContactControllerContact extends JControllerForm
 		$id     = (int) $stub;
 
 		// Get the data from POST
-		$data    = $this->input->post->get('jform', array(), 'array');
+		$data = $this->input->post->get('jform', array(), 'array');
+
+		// Get item
+		$model->setState('filter.published', 1);
 		$contact = $model->getItem($id);
 
-		$params->merge($contact->params);
+		// Get item params, take menu parameters into account if necessary
+		$active = $app->getMenu()->getActive();
+		$stateParams = clone $model->getState()->get('params');
+
+		// If the current view is the active item and a contact view for this contact, then the menu item params take priority
+		if ($active && strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id))
+		{
+			// $item->params are the contact params, $temp are the menu item params
+			// Merge so that the menu item params take priority
+			$contact->params->merge($stateParams);
+		}
+		else
+		{
+			// Current view is not a single contact, so the contact params take priority here
+			$stateParams->merge($contact->params);
+			$contact->params = $stateParams;
+		}
+
+		// Check if the contact form is enabled
+		if (!$contact->params->get('show_email_form'))
+		{
+			$this->setRedirect(JRoute::_('index.php?option=com_contact&view=contact&id=' . $stub, false));
+
+			return false;
+		}
 
 		// Check for a valid session cookie
 		if ($params->get('validate_session', 0))
