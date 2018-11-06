@@ -901,7 +901,7 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if ($this->hasField('published'))
+		if ($result && $this->hasField('published'))
 		{
 			$this->recursiveUpdatePublishedColumn($this->$k);
 		}

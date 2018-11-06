@@ -17,7 +17,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 /**
  * Override Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgInstallerOverride extends CMSPlugin
 {
@@ -32,7 +32,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -40,7 +40,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -52,7 +52,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel The model.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getModel($name = 'Template', $prefix = 'Administrator')
 	{
@@ -67,7 +67,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function purge()
 	{
@@ -82,7 +82,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function storeBeforeEventFiles()
 	{
@@ -102,7 +102,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function storeAfterEventFiles()
 	{
@@ -121,7 +121,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   array   A list of changed files.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getUpdatedFiles($action)
 	{
@@ -155,7 +155,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   array  The list of core files.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getOverrideCoreList()
 	{
@@ -173,7 +173,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   boolean  True/False
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function finalize($result)
 	{
@@ -194,7 +194,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onExtensionBeforeUpdate()
 	{
@@ -206,7 +206,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onExtensionAfterUpdate()
 	{
@@ -220,7 +220,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onJoomlaBeforeUpdate()
 	{
@@ -232,7 +232,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onJoomlaAfterUpdate()
 	{
@@ -246,7 +246,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onInstallerBeforeInstaller()
 	{
@@ -258,7 +258,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onInstallerAfterInstaller()
 	{
@@ -275,7 +275,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return   boolean  True/False
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function load($id, $exid)
 	{
@@ -308,7 +308,7 @@ class PlgInstallerOverride extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function saveOverrides($pks)
 	{

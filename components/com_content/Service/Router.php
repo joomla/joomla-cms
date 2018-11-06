@@ -36,7 +36,7 @@ class Router extends RouterView
 	 *
 	 * @var CategoryFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $categoryFactory;
 
@@ -45,7 +45,7 @@ class Router extends RouterView
 	 *
 	 * @var DatabaseInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $db;
 

@@ -982,7 +982,7 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Workflow Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addWorkflow()
 	{
