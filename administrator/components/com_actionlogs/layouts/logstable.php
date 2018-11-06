@@ -34,7 +34,7 @@ $showIpColumn = $displayData['showIpColumn'];
 		<?php foreach ($messages as $message) : ?>
 			<tr>
 				<td><?php echo $message->message; ?></td>
-				<td><?php echo $message->log_date; ?></td>
+				<td><?php echo JHtml::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC'); ?></td>
 				<td><?php echo $message->extension; ?></td>
 				<td><?php echo $displayData['username']; ?></td>
 				<?php if ($showIpColumn) : ?>

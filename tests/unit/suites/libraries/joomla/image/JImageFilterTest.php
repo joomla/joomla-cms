@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Image
- * @since       11.4
+ * @since       2.5.0
  */
 class JImageFilterTest extends TestCase
 {
@@ -21,7 +21,7 @@ class JImageFilterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function setUp()
 	{
@@ -39,7 +39,7 @@ class JImageFilterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 *
 	 * @expectedException  InvalidArgumentException
 	 */
@@ -53,7 +53,7 @@ class JImageFilterTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testConstructor()
 	{

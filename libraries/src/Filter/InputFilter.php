@@ -19,7 +19,7 @@ use Joomla\String\StringHelper;
  * Forked from the php input filter library by: Daniel Morris <dan@rootcube.com>
  * Original Contributors: Gianpaolo Racca, Ghislain Picard, Marco Wandschneider, Chris Tobin and Andrew Eddie.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class InputFilter extends BaseInputFilter
 {
@@ -42,7 +42,7 @@ class InputFilter extends BaseInputFilter
 	 * @param   integer  $xssAuto     Only auto clean essentials = 0, Allow clean blacklisted tags/attr = 1
 	 * @param   integer  $stripUSC    Strip 4-byte unicode characters = 1, no strip = 0, ask the database driver = -1
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
 	{
@@ -94,7 +94,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  InputFilter  The InputFilter object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function &getInstance($tagsArray = array(), $attrArray = array(), $tagsMethod = 0, $attrMethod = 0, $xssAuto = 1, $stripUSC = -1)
 	{
@@ -134,7 +134,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  mixed  'Cleaned' version of input parameter
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($source, $type = 'string')
 	{
@@ -776,7 +776,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::remove() instead
 	 */
 	protected function _remove($source)
@@ -820,7 +820,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  'Cleaned' version of input parameter
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::cleanTags() instead
 	 */
 	protected function _cleanTags($source)
@@ -1092,7 +1092,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  array  Filtered array of attribute pairs
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::cleanAttributes() instead
 	 */
 	protected function _cleanAttributes($attrSet)
@@ -1166,7 +1166,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  Plaintext string
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::decode() instead
 	 */
 	protected function _decode($source)
@@ -1224,7 +1224,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::escapeAttributeValues() instead
 	 */
 	protected function _escapeAttributeValues($source)
@@ -1239,7 +1239,7 @@ class InputFilter extends BaseInputFilter
 	 *
 	 * @return  string  Filtered string
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  4.0 Use InputFilter::stripCSSExpressions() instead
 	 */
 	protected function _stripCSSExpressions($source)

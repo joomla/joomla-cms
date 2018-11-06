@@ -14,26 +14,26 @@ use Joomla\Registry\Registry;
 /**
  * Google+ data class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPlus extends JGoogleData
 {
 	/**
 	 * @var    JGoogleDataPlusPeople  Google+ API object for people.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $people;
 
 	/**
 	 * @var    JGoogleDataPlusActivities  Google+ API object for people.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $activities;
 
 	/**
 	 * @var    JGoogleDataPlusComments  Google+ API object for people.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $comments;
 
@@ -43,7 +43,7 @@ class JGoogleDataPlus extends JGoogleData
 	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -65,7 +65,7 @@ class JGoogleDataPlus extends JGoogleData
 	 *
 	 * @return  JGoogleDataPlus  Google+ API object (people, activities, comments).
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __get($name)
 	{

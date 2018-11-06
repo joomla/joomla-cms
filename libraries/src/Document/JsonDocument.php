@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * JsonDocument class, provides an easy interface to parse and display JSON output
  *
  * @link   http://www.json.org/
- * @since  11.1
+ * @since  1.7.0
  */
 class JsonDocument extends Document
 {
@@ -22,7 +22,7 @@ class JsonDocument extends Document
 	 * Document name
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_name = 'joomla';
 
@@ -31,7 +31,7 @@ class JsonDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -62,7 +62,7 @@ class JsonDocument extends Document
 	 *
 	 * @return  string  The rendered data
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -86,7 +86,7 @@ class JsonDocument extends Document
 	 *
 	 * @return  string
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function getName()
 	{
@@ -100,7 +100,7 @@ class JsonDocument extends Document
 	 *
 	 * @return  JsonDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setName($name = 'joomla')
 	{

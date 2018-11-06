@@ -12,13 +12,13 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Importer Class
  *
- * @since  12.1
+ * @since  3.0.0
  */
 abstract class JDatabaseImporter
 {
 	/**
 	 * @var    array  An array of cached data.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $cache = array();
 
@@ -26,7 +26,7 @@ abstract class JDatabaseImporter
 	 * The database connector to use for exporting structure and/or data.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $db = null;
 
@@ -34,7 +34,7 @@ abstract class JDatabaseImporter
 	 * The input source.
 	 *
 	 * @var    mixed
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $from = array();
 
@@ -42,7 +42,7 @@ abstract class JDatabaseImporter
 	 * The type of input format (XML).
 	 *
 	 * @var    string
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $asFormat = 'xml';
 
@@ -50,7 +50,7 @@ abstract class JDatabaseImporter
 	 * An array of options for the exporter.
 	 *
 	 * @var    object
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options = null;
 
@@ -59,7 +59,7 @@ abstract class JDatabaseImporter
 	 *
 	 * Sets up the default options for the exporter.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function __construct()
 	{
@@ -83,7 +83,7 @@ abstract class JDatabaseImporter
 	 *
 	 * @return  JDatabaseImporter  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function asXml()
 	{
@@ -97,7 +97,7 @@ abstract class JDatabaseImporter
 	 *
 	 * @return  JDatabaseImporter  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	abstract public function check();
@@ -109,7 +109,7 @@ abstract class JDatabaseImporter
 	 *
 	 * @return  JDatabaseImporter  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function from($from)
 	{
@@ -126,7 +126,7 @@ abstract class JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function getDropColumnSql($table, $name)
 	{
@@ -140,7 +140,7 @@ abstract class JDatabaseImporter
 	 *
 	 * @return  string	The real name of the table.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function getRealTableName($table)
 	{
@@ -158,7 +158,7 @@ abstract class JDatabaseImporter
 	 * @return  void
 	 *
 	 * @note    Currently only supports XML format.
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  RuntimeException on error.
 	 */
 	public function mergeStructure()
@@ -215,7 +215,7 @@ abstract class JDatabaseImporter
 	 *
 	 * @return  JDatabaseImporter  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function setDbo(JDatabaseDriver $db)
 	{
@@ -231,7 +231,7 @@ abstract class JDatabaseImporter
 	 *
 	 * @return  JDatabaseImporter  Method supports chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function withStructure($setting = true)
 	{

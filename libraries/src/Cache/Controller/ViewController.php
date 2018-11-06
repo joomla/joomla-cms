@@ -16,7 +16,7 @@ use Joomla\CMS\Cache\CacheController;
 /**
  * Joomla! Cache view type object
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ViewController extends CacheController
 {
@@ -30,7 +30,7 @@ class ViewController extends CacheController
 	 *
 	 * @return  boolean  True if the cache is hit (false else)
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($view, $method = 'display', $id = false, $wrkarounds = true)
 	{
@@ -132,7 +132,7 @@ class ViewController extends CacheController
 	 *
 	 * @return  string  MD5 Hash
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _makeId($view, $method)
 	{

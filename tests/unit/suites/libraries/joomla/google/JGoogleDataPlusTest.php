@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleDataPlusTest extends TestCase
 {
@@ -110,7 +110,7 @@ class JGoogleDataPlusTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetPeople()
 	{
@@ -125,7 +125,7 @@ class JGoogleDataPlusTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetActivities()
 	{
@@ -140,7 +140,7 @@ class JGoogleDataPlusTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetComments()
 	{
@@ -155,7 +155,7 @@ class JGoogleDataPlusTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__GetOther()
 	{

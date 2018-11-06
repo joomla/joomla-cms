@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Favorites class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterFavorites extends JTwitterObject
@@ -30,7 +30,7 @@ class JTwitterFavorites extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getFavorites($user = null, $count = 20, $since_id = 0, $max_id = 0, $entities = null)
 	{
@@ -84,7 +84,7 @@ class JTwitterFavorites extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function createFavorites($id, $entities = null)
 	{
@@ -112,7 +112,7 @@ class JTwitterFavorites extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function deleteFavorites($id, $entities = null)
 	{

@@ -14,14 +14,14 @@ use Joomla\Registry\Registry;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPicasaPhoto extends JGoogleData
 {
 	/**
 	 * @var    SimpleXMLElement  The photo's XML
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $xml;
 
@@ -32,7 +32,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 * @param   Registry          $options  Google options object
 	 * @param   JGoogleAuth       $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(SimpleXMLElement $xml, Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -53,7 +53,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  boolean  Success or failure.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  Exception
 	 * @throws  RuntimeException
 	 * @throws  UnexpectedValueException
@@ -106,7 +106,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Link or false on failure
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLink($type = 'edit')
 	{
@@ -128,7 +128,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Link
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getUrl()
 	{
@@ -140,7 +140,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  array  An array of thumbnails
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getThumbnails()
 	{
@@ -162,7 +162,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Photo title
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getTitle()
 	{
@@ -174,7 +174,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Photo description
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSummary()
 	{
@@ -186,7 +186,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Photo access level
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getAccess()
 	{
@@ -198,7 +198,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  double  Photo time
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getTime()
 	{
@@ -210,7 +210,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo size
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSize()
 	{
@@ -222,7 +222,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo height
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getHeight()
 	{
@@ -234,7 +234,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo width
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getWidth()
 	{
@@ -248,7 +248,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setTitle($title)
 	{
@@ -264,7 +264,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setSummary($summary)
 	{
@@ -280,7 +280,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAccess($access)
 	{
@@ -296,7 +296,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setTime($time)
 	{
@@ -312,7 +312,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function save($match = '*')
 	{
@@ -356,7 +356,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function refresh()
 	{

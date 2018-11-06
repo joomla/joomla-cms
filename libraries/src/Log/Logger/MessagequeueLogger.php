@@ -21,7 +21,7 @@ use Joomla\CMS\Log\Logger;
  * table are based on the Syslog style of log output. This is designed to allow quick and
  * easy searching.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class MessagequeueLogger extends Logger
 {
@@ -32,7 +32,7 @@ class MessagequeueLogger extends Logger
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addEntry(LogEntry $entry)
 	{

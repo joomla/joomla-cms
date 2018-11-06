@@ -58,6 +58,44 @@ class UsersControllerRegistration extends UsersController
 			return false;
 		}
 
+		// Get the User ID
+		$userIdToActivate = $model->getUserIdFromToken($token);
+
+		if (!$userIdToActivate)
+		{
+			JError::raiseError(403, JText::_('COM_USERS_ACTIVATION_TOKEN_NOT_FOUND'));
+
+			return false;
+		}
+
+		// Get the user we want to activate
+		$userToActivate = JFactory::getUser($userIdToActivate);
+
+		// Admin activation is on and admin is activating the account
+		if (($uParams->get('useractivation') == 2) && $userToActivate->getParam('activate', 0))
+		{
+			// If a user admin is not logged in, redirect them to the login page with a error message
+			if (!$user->authorise('core.create', 'com_users'))
+			{
+				$activationUrl = 'index.php?option=com_users&task=registration.activate&token=' . $token;
+				$loginUrl      = 'index.php?option=com_users&view=login&return=' . base64_encode($activationUrl);
+
+				// In case we still run into this in the second step the user does not have the right permissions
+				$message = JText::_('COM_USERS_REGISTRATION_ACL_ADMIN_ACTIVATION_PERMISSIONS');
+
+				// When we are not logged in we should login
+				if ($user->guest)
+				{
+					$message = JText::_('COM_USERS_REGISTRATION_ACL_ADMIN_ACTIVATION');
+				}
+
+				$this->setMessage($message);
+				$this->setRedirect(JRoute::_($loginUrl, false));
+
+				return false;
+			}
+		}
+
 		// Attempt to activate the user.
 		$return = $model->activate($token);
 

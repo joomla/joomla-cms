@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * JGrid class to dynamically generate HTML tables
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0 This class will be removed without any replacement
  */
 class JGrid
@@ -20,35 +20,35 @@ class JGrid
 	/**
 	 * Array of columns
 	 * @var array
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	protected $columns = array();
 
 	/**
 	 * Current active row
 	 * @var int
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	protected $activeRow = 0;
 
 	/**
 	 * Rows of the table (including header and footer rows)
 	 * @var array
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	protected $rows = array();
 
 	/**
 	 * Header and Footer row-IDs
 	 * @var array
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	protected $specialRows = array('header' => array(), 'footer' => array());
 
 	/**
 	 * Associative array of attributes for the table-tag
 	 * @var array
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	protected $options;
 
@@ -57,7 +57,7 @@ class JGrid
 	 *
 	 * @param   array  $options  Associative array of attributes for the table-tag
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function __construct($options = array())
 	{
@@ -69,7 +69,7 @@ class JGrid
 	 *
 	 * @return  string
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function __toString()
 	{
@@ -84,7 +84,7 @@ class JGrid
 	 *
 	 * @return  JGrid This object for chaining
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function setTableOptions($options = array(), $replace = false)
 	{
@@ -105,7 +105,7 @@ class JGrid
 	 *
 	 * @return  array Associative array of attributes
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function getTableOptions()
 	{
@@ -119,7 +119,7 @@ class JGrid
 	 *
 	 * @return  JGrid This object for chaining
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function addColumn($name)
 	{
@@ -133,7 +133,7 @@ class JGrid
 	 *
 	 * @return  array List of internal columns
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function getColumns()
 	{
@@ -147,7 +147,7 @@ class JGrid
 	 *
 	 * @return  JGrid This object for chaining
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function deleteColumn($name)
 	{
@@ -170,7 +170,7 @@ class JGrid
 	 *
 	 * @return  JGrid This object for chaining
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function setColumns($columns)
 	{
@@ -188,7 +188,7 @@ class JGrid
 	 *
 	 * @return  JGrid This object for chaining
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function addRow($options = array(), $special = false)
 	{
@@ -215,7 +215,7 @@ class JGrid
 	 *
 	 * @return array Associative array of attributes
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function getRowOptions()
 	{
@@ -229,7 +229,7 @@ class JGrid
 	 *
 	 * @return JGrid This object for chaining
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function setRowOptions($options)
 	{
@@ -243,7 +243,7 @@ class JGrid
 	 *
 	 * @return  int ID of the currently active row
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function getActiveRow()
 	{
@@ -257,7 +257,7 @@ class JGrid
 	 *
 	 * @return  JGrid This object for chaining
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function setActiveRow($id)
 	{
@@ -277,7 +277,7 @@ class JGrid
 	 *
 	 * @return  JGrid This object for chaining
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function setRowCell($name, $content, $option = array(), $replace = true)
 	{
@@ -304,7 +304,7 @@ class JGrid
 	 *
 	 * @return  array Array of columns of a table row
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function getRow($id = false)
 	{
@@ -330,7 +330,7 @@ class JGrid
 	 *
 	 * @return  array Array of IDs
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function getRows($special = false)
 	{
@@ -356,7 +356,7 @@ class JGrid
 	 *
 	 * @return  JGrid This object for chaining
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function deleteRow($id)
 	{
@@ -386,7 +386,7 @@ class JGrid
 	 *
 	 * @return  string The rendered HTML table
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	public function toString()
 	{
@@ -424,7 +424,7 @@ class JGrid
 	 *
 	 * @return string The rendered table area
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	protected function renderArea($ids, $area = 'tbody', $cell = 'td')
 	{
@@ -459,7 +459,7 @@ class JGrid
 	 *
 	 * @return  string The HTML attribute string
 	 *
-	 * @since 11.3
+	 * @since 1.7.3
 	 */
 	protected function renderAttributes($attributes)
 	{

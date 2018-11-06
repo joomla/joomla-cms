@@ -15,7 +15,7 @@ use Joomla\CMS\Log\Log;
 /**
  * Class to manipulate an image.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0 Use the class \Joomla\Image\Image instead
  */
 class Image extends \Joomla\Image\Image
@@ -25,7 +25,7 @@ class Image extends \Joomla\Image\Image
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct($source = null)
@@ -45,7 +45,7 @@ class Image extends \Joomla\Image\Image
 	 *
 	 * @return  ImageFilter
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function getFilterInstance($type)

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.8"
+	version="3.9"
 	client="installation">
 	<name>Italian -Italy</name>
-	<version>3.8.0</version>
-	<creationDate>September 2017</creationDate>
+	<version>3.9.0</version>
+	<creationDate>October 2018</creationDate>
 	<author>Italian Translation team</author>
 	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>

@@ -49,4 +49,18 @@ abstract class ModLatestActionsHelper
 
 		return $rows;
 	}
+
+	/**
+	 * Get the alternate title for the module
+	 *
+	 * @param   \Joomla\Registry\Registry  $params  The module parameters.
+	 *
+	 * @return  string    The alternate title for the module.
+	 *
+	 * @since   3.9.1
+	 */
+	public static function getTitle($params)
+	{
+		return JText::plural('MOD_LATESTACTIONS_TITLE', $params->get('count', 5));
+	}
 }
