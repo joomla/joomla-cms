@@ -55,6 +55,14 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	private $session;
 
 	/**
+	 * The client identifier.
+	 *
+	 * @var    integer
+	 * @since  4.0
+	 */
+	protected $clientId = null;
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
@@ -108,7 +116,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	protected function doExecute()
 	{
 		parent::doExecute();
-
 		$style = new SymfonyStyle($this->getConsoleInput(), $this->getConsoleOutput());
 
 		$methodMap = [
@@ -330,4 +337,15 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		return $langfiles;
 	}
 
+	/**
+	 * Gets the client id of the current running application.
+	 *
+	 * @return  integer  A client identifier.
+	 *
+	 * @since   4.0
+	 */
+	public function getClientId()
+	{
+		return $this->clientId;
+	}
 }
