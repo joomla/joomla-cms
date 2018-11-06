@@ -215,7 +215,7 @@ class LegacyComponent
 	 *
 	 * @return  RouterInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
 	{
