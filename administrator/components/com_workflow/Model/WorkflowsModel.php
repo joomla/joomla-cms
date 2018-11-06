@@ -3,21 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Model class for workflows
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowsModel extends ListModel
 {
@@ -27,7 +27,7 @@ class WorkflowsModel extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct($config = array())
 	{
@@ -62,7 +62,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function populateState($ordering = 'w.ordering', $direction = 'asc')
 	{
@@ -90,7 +90,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Table\Table  A JTable object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getTable($type = 'Workflow', $prefix = 'Administrator', $config = array())
 	{
@@ -102,7 +102,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getItems()
 	{
@@ -123,7 +123,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function countItems($items)
 	{
@@ -178,7 +178,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  string  The query to database.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getListQuery()
 	{
@@ -247,7 +247,7 @@ class WorkflowsModel extends ListModel
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAuthors()
 	{

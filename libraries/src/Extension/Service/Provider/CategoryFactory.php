@@ -17,7 +17,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the service categories.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CategoryFactory implements ServiceProviderInterface
 {
@@ -49,7 +49,7 @@ class CategoryFactory implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

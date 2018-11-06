@@ -11,8 +11,8 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 
 $app       = Factory::getApplication();
 $form      = $displayData->getForm();
@@ -117,7 +117,7 @@ foreach ($fieldSets as $name => $fieldSet)
 	// Include the description when available
 	if (isset($fieldSet->description) && trim($fieldSet->description))
 	{
-		echo '<joomla-alert type="info">' . $this->escape(Text::_($fieldSet->description)) . '</joomla-alert>';
+		echo '<div class="alert alert-info">' . $this->escape(Text::_($fieldSet->description)) . '</div>';
 	}
 
 	// The name of the fieldset to render

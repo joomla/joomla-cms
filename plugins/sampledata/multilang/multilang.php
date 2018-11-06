@@ -9,16 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\Table;
-use Joomla\Component\Workflow\Administrator\Model\WorkflowModel;
 
 /**
  * Sampledata - Multilang Plugin
@@ -983,11 +982,12 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @return  JTable|boolean  Workflow Object. False otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addWorkflow()
 	{
-		$workflowModel = new WorkflowModel;
+		$workflowModel =  $this->app->bootComponent('com_workflow')
+			->getMVCFactory()->createModel('Workflow', 'Administrator');
 
 		$workflow = [
 			'title'       => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_TITLE'),

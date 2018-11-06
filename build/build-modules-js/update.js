@@ -88,7 +88,7 @@ const copyFiles = (options) => {
     version: options.version,
     description: options.description,
     license: options.license,
-    vendors: {},
+    assets: {},
   };
 
   if (!fsExtra.existsSync(mediaVendorPath)) {
@@ -104,13 +104,6 @@ const copyFiles = (options) => {
     const modulePathRoot = Path.dirname(modulePathJson);
     // eslint-disable-next-line global-require, import/no-dynamic-require
     const moduleOptions = require(modulePathJson);
-
-    const registryItem = {
-      package: packageName,
-      name: vendorName,
-      version: moduleOptions.version,
-      dependencies: vendor.dependencies || [],
-    };
 
     if (packageName === 'codemirror') {
       const itemvendorPath = Path.join(rootPath, `media/vendor/${packageName}`);
@@ -197,15 +190,7 @@ const copyFiles = (options) => {
         if (!vendor[type]) return;
 
         const dest = Path.join(mediaVendorPath, vendorName);
-        const files = copyFilesTo(vendor[type], modulePathRoot, dest, type);
-
-        // Add to registry, in format suported by JHtml
-        if (type === 'js' || type === 'css') {
-          registryItem[type] = [];
-          files.forEach((filePath) => {
-            registryItem[type].push(`vendor/${vendorName}/${Path.basename(filePath)}`);
-          });
-        }
+        copyFilesTo(vendor[type], modulePathRoot, dest, type);
       });
 
       // Copy the license if exists
@@ -229,18 +214,64 @@ const copyFiles = (options) => {
       fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
     }
 
-    registry.vendors[vendorName] = registryItem;
+    // Add provided Assets to a registry, if any
+    if (vendor.provideAssets && vendor.provideAssets.length) {
+      vendor.provideAssets.forEach((assetInfo) => {
+
+        const registryItem = {
+          package: packageName,
+          name:    assetInfo.name || vendorName,
+          version: moduleOptions.version,
+          dependencies: assetInfo.dependencies || [],
+          js:  [],
+          css: [],
+          attribute: {}
+        };
+
+        // Update path for JS and CSS files
+        assetInfo.js && assetInfo.js.length && assetInfo.js.forEach((assetJS) => {
+          let itemPath = assetJS;
+
+          // Check for external path
+          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+            itemPath = `media/vendor/${vendorName}/js/${itemPath}`;
+          }
+          registryItem.js.push(itemPath);
+
+          // Check if there are any attribute to this file, then update the path
+          if (assetInfo.attribute && assetInfo.attribute[assetJS]) {
+            registryItem.attribute[itemPath] = assetInfo.attribute[assetJS]
+          }
+        });
+        assetInfo.css && assetInfo.css.length && assetInfo.css.forEach((assetCSS) => {
+          let itemPath = assetCSS;
+
+          // Check for external path
+          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+            itemPath = `media/vendor/${vendorName}/css/${itemPath}`;
+          }
+          registryItem.css.push(itemPath);
+
+          // Check if there are any attribute to this file, then update the path
+          if (assetInfo.attribute && assetInfo.attribute[assetCSS]) {
+            registryItem.attribute[itemPath] = assetInfo.attribute[assetCSS]
+          }
+        });
+
+        registry.assets[registryItem.name] = registryItem;
+      });
+    }
 
     // eslint-disable-next-line no-console
     console.log(`${packageName} was updated.`);
   }
 
   // Write assets registry
-  // fs.writeFileSync(
-  // Path.join(mediaVendorPath, 'joomla.asset.json'),
-  // JSON.stringify(registry, null, 2),
-  // {encoding: 'UTF-8'}
-  // );
+  fs.writeFileSync(
+    Path.join(mediaVendorPath, 'joomla.asset.json'),
+    JSON.stringify(registry, null, 2),
+    {encoding: 'UTF-8'}
+  );
 };
 
 const recreateMediaFolder = () => {
@@ -286,26 +317,26 @@ const walkSync = function(dir, filelist) {
 };
 
 const uglifyLegacyFiles = () => {
-    // Minify the legacy files
-    console.log('Minifying legacy stylesheets/scripts...');
+	// Minify the legacy files
+	console.log('Minifying legacy stylesheets/scripts...');
 	const files = walkSync(`${rootPath}/media`);
 
 	if (files.length) {
 		files.forEach(
 			(file) => {
-			    if (file.match('/vendor')) {
-			        return;
-                }
-				if (file.match(/.js/) && !file.match(/.min.js/) && !file.toLowerCase().match(/license/)) {
-					console.log(`Processing: ${file}`);
+				if (file.match('/vendor') || file.match('\\vendor')) {
+					return;
+				}
+				if (file.match(/\.js/) && !file.match(/\.min\.js/) && !file.toLowerCase().match(/license/) && !file.toLowerCase().match(/json/) ) {
+          console.log(`Processing: ${file}`);
 					// Create the minified file
-					fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
+					fs.writeFileSync(file.replace(/\.js$/, '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
 				}
 				if (file.match(/\.css/) && !file.match(/\.min\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
 					console.log(`Processing: ${file}`);
 					// Create the minified file
 					fs.writeFileSync(
-						file.replace('.css', '.min.css'),
+						file.replace(/\.css$/, '.min.css'),
 						UglyCss.processFiles([file], { expandVars: false }),
 						{ encoding: 'utf8' },
 					);

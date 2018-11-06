@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+
 ?>
 <?php if ($this->params->get('show_articles')) : ?>
 <div class="com-contact__articles contact-articles">

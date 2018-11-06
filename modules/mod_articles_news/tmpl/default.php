@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+
 ?>
 <div class="mod-articlesnews newsflash">
 	<?php foreach ($list as $item) : ?>

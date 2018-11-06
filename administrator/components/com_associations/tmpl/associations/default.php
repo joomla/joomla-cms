@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -38,7 +38,9 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', fa
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table" id="associationsList">
 						<caption id="captionTable" class="sr-only">
