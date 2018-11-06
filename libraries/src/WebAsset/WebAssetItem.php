@@ -15,7 +15,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 /**
  * Web Asset Item class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WebAssetItem
 {
@@ -24,7 +24,7 @@ class WebAssetItem
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const ASSET_STATE_INACTIVE = 0;
 
@@ -33,7 +33,7 @@ class WebAssetItem
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const ASSET_STATE_ACTIVE = 1;
 
@@ -42,7 +42,7 @@ class WebAssetItem
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const ASSET_STATE_DEPENDANCY = 2;
 
@@ -51,7 +51,7 @@ class WebAssetItem
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $state = self::ASSET_STATE_INACTIVE;
 
@@ -60,7 +60,7 @@ class WebAssetItem
 	 *
 	 * @var    float
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $weight = 0;
 
@@ -68,7 +68,7 @@ class WebAssetItem
 	 * Asset name
 	 *
 	 * @var    string  $name
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $name;
 
@@ -76,7 +76,7 @@ class WebAssetItem
 	 * Asset version
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $version;
 
@@ -84,7 +84,7 @@ class WebAssetItem
 	 * The Asset source info, where the asset comes from.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $assetSource;
 
@@ -93,7 +93,7 @@ class WebAssetItem
 	 * The key is file path, the value is array of attributes.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $js = [];
 
@@ -102,7 +102,7 @@ class WebAssetItem
 	 * The key is file path, the value is array of attributes.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $css = [];
 
@@ -110,7 +110,7 @@ class WebAssetItem
 	 * Asset dependencies
 	 *
 	 * @var    string[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $dependencies = [];
 
@@ -119,7 +119,7 @@ class WebAssetItem
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $resolvedPaths = [];
 
@@ -129,7 +129,7 @@ class WebAssetItem
 	 * @param   string  $name  The asset name
 	 * @param   array   $data  The Asset information
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(string $name, array $data = [])
 	{
@@ -167,7 +167,7 @@ class WebAssetItem
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getName(): string
 	{
@@ -179,7 +179,7 @@ class WebAssetItem
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getVersion()
 	{
@@ -191,7 +191,7 @@ class WebAssetItem
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getDependencies(): array
 	{
@@ -205,7 +205,7 @@ class WebAssetItem
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setState(int $state): self
 	{
@@ -219,7 +219,7 @@ class WebAssetItem
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getState(): int
 	{
@@ -231,7 +231,7 @@ class WebAssetItem
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function isActive(): bool
 	{
@@ -245,7 +245,7 @@ class WebAssetItem
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setWeight(float $weight): self
 	{
@@ -259,7 +259,7 @@ class WebAssetItem
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getWeight(): float
 	{
@@ -273,7 +273,7 @@ class WebAssetItem
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getStylesheetFiles($resolvePath = true): array
 	{
@@ -310,7 +310,7 @@ class WebAssetItem
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getScriptFiles($resolvePath = true): array
 	{
@@ -345,7 +345,7 @@ class WebAssetItem
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAssetFiles(): array
 	{
@@ -363,7 +363,7 @@ class WebAssetItem
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function resolvePath(string $path, string $type): array
 	{
@@ -408,7 +408,7 @@ class WebAssetItem
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function isPathExternal(string $path): bool
 	{
@@ -422,7 +422,7 @@ class WebAssetItem
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function isPathAbsolute(string $path): bool
 	{
