@@ -199,7 +199,7 @@ trait ExtensionManagerTrait
 	 * @param   string  $plugin  The plugin
 	 * @param   string  $type    The type
 	 *
-	 * @return CMSPlugin
+	 * @return  CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
