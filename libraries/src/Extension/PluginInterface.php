@@ -20,7 +20,7 @@ use Joomla\Event\DispatcherAwareInterface;
 interface PluginInterface extends DispatcherAwareInterface
 {
 	/**
-	 * Registers it's listeners.
+	 * Registers its listeners.
 	 *
 	 * @return  void
 	 *
