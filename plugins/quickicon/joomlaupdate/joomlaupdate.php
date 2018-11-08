@@ -80,6 +80,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true);
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
+		Text::script('MESSAGE', true);
 
 		$this->app->getDocument()->addScriptOptions(
 			'js-joomla-update',
