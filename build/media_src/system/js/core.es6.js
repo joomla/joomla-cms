@@ -394,8 +394,11 @@ Joomla.Modal = {
    * @param   {object}  messages JavaScript object containing the messages to render.
    *          Example:
    *          const messages = {
-   *              "message": ["Message one", "Message two"],
-   *              "error": ["Error one", "Error two"]
+   *              "message": ["This will be a green message", "So will this"],
+   *              "error": ["This will be a red message", "So will this"],
+   *              "info": ["This will be a blue message", "So will this"],
+   *              "notice": ["This will be same as info message", "So will this"],
+   *              "my_custom_type": ["This will be same as info message", "So will this"]
    *          };
    * @param  {string} selector The selector of the container where the message will be rendered
    * @param  {bool}   keepOld  If we shall discard old messages
