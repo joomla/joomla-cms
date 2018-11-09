@@ -116,6 +116,10 @@ class ActionlogsHelper
 				$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
 				break;
 
+			case 'pkg':
+				$source = JPATH_SITE;
+				break;
+
 			case 'tpl':
 				$source = JPATH_BASE . '/templates/' . substr($extension, 4);
 				break;
