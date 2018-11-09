@@ -83,7 +83,7 @@ abstract class ChangeItem
 	public $queryType = null;
 
 	/**
-	 * Array with values for use in a Text::sprintf statment indicating what was checked
+	 * Array with values for use in a Text::sprintf statement indicating what was checked
 	 *
 	 * Tells you what the message should be, based on which elements are defined, as follows:
 	 *     For ADD_TABLE: table
