@@ -455,7 +455,7 @@ Joomla.Modal = {
           alertClass = 'info';
         }
 
-        messagesBox.className = `alert ${alertClass}`;
+        messagesBox.className = `alert alert-${alertClass}`;
 
         // Close button
         const buttonWrapper = document.createElement('button');
