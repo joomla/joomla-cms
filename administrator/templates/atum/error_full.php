@@ -96,9 +96,9 @@ $this->addScriptDeclaration('cssVars();')
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
 			<jdoc:include type="modules" name="menu" style="none" />
 			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
-                <a href="https://www.joomla.org" rel="noreferrer noopener" target="_blank">
-                    <img src="<?php echo $logo; ?>" alt="">
-                </a>
+				<a href="https://www.joomla.org" rel="noreferrer noopener" target="_blank">
+					<img src="<?php echo $logo; ?>" alt="">
+				</a>
 			</div>
 		</div>
 		<?php endif; ?>
