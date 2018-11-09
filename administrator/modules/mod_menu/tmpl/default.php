@@ -27,18 +27,20 @@ $root     = $menuTree->reset();
 if ($root->hasChildren())
 {
 	echo '<nav class="main-nav-container" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
-	echo '<ul id="menu" class="' . $class . '" role="menu">' . "\n";
-	echo '<li role="menuitem">';
-	echo '<a id="menu-collapse" href="#">';
-	echo '<span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>';
-	echo '<span class="sidebar-item-title">' . Text::_('MOD_MENU_TOGGLE_MENU') . '</span>';
-	echo '</a>';
-	echo '</li>';
+    echo '<ul id="menu" class="' . $class . '" role="menu">' . "\n";
 
-	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
-	$menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
+    // WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
+    $menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
 
-	echo "</ul></nav>\n";
+    echo '<li class="divider" role="presentation"><span></span></li>';
+    echo '<li role="menuitem">';
+    echo '<a id="menu-collapse" href="#">';
+    echo '<span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>';
+    echo '<span class="sidebar-item-title">' . Text::_('MOD_MENU_TOGGLE_MENU') . '</span>';
+    echo '</a>';
+    echo '</li>';
+
+    echo "</ul></nav>\n";
 
 	if ($css = $menuTree->getCss())
 	{
