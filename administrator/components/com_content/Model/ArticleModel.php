@@ -1043,7 +1043,7 @@ class ArticleModel extends AdminModel
 	protected function getReorderConditions($table)
 	{
 		return [
-			$this->_db->quoteName('catid') .' = ' . (int) $table->catid,
+			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
 		];
 	}
 
