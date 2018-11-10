@@ -89,14 +89,14 @@ class StagesModel extends ListModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   4.0.0
 	 */
 	protected function getReorderConditions($table)
 	{
 		return [
-			'workflow_id = ' . (int) $table->workflow_id
+			$this->_db->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
 		];
 	}
 

@@ -319,13 +319,15 @@ class CategoryModel extends AdminModel
 	 *
 	 * @param   \JTableCategory  $table  Current table instance
 	 *
-	 * @return  array           An array of conditions to add to add to ordering queries.
+	 * @return  array           An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->_db->quote($table->extension);
+		return [
+			$this->_db->quoteName('extension') . ' = ' . $this->_db->quote($table->extension),
+		];
 	}
 
 	/**
