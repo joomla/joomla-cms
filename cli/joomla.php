@@ -17,8 +17,8 @@ const JOOMLA_MINIMUM_PHP = '7.0';
 if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
 {
 	echo 'Sorry, your PHP version is not supported.' . PHP_EOL;
-	echo 'Your host needs to use PHP version ' . JOOMLA_MINIMUM_PHP . ' or newer to run this version of Joomla!';
-	echo 'You are currently running PHP version ' . PHP_VERSION . '.';
+	echo 'Your host needs to use PHP version ' . JOOMLA_MINIMUM_PHP . ' or newer to run this version of Joomla!' . PHP_EOL;
+	echo 'You are currently running PHP version ' . PHP_VERSION . '.' . PHP_EOL;
 
 	exit;
 }
