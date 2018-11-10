@@ -319,7 +319,7 @@ class CategoryModel extends AdminModel
 	 *
 	 * @param   \JTableCategory  $table  Current table instance
 	 *
-	 * @return  array           An array of conditions to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
