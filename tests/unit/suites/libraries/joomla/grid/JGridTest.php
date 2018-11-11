@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Grid
- * @since       11.3
+ * @since       1.7.3
  */
 class JGridInspector extends JGrid
 {
@@ -70,7 +70,7 @@ class JGridInspector extends JGrid
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.3
+ * @since       1.7.3
  */
 class JGridTest extends \PHPUnit\Framework\TestCase
 {

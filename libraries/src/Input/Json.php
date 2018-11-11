@@ -18,14 +18,14 @@ use Joomla\CMS\Filter\InputFilter;
  * This class decodes a JSON string from the raw request data and makes it available via
  * the standard JInput interface.
  *
- * @since       12.2
+ * @since       3.0.1
  * @deprecated  5.0  Use Joomla\Input\Json instead
  */
 class Json extends Input
 {
 	/**
 	 * @var    string  The raw JSON string from the request.
-	 * @since  12.2
+	 * @since  3.0.1
 	 * @deprecated  5.0  Use Joomla\Input\Json instead
 	 */
 	private $_raw;
@@ -36,7 +36,7 @@ class Json extends Input
 	 * @param   array  $source   Source data (Optional, default is the raw HTTP input decoded from JSON)
 	 * @param   array  $options  Array of configuration parameters (Optional)
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @deprecated  5.0  Use Joomla\Input\Json instead
 	 */
 	public function __construct(array $source = null, array $options = array())
@@ -69,7 +69,7 @@ class Json extends Input
 	 *
 	 * @return  string  The raw JSON string from the request.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @deprecated  5.0  Use Joomla\Input\Json instead
 	 */
 	public function getRaw()

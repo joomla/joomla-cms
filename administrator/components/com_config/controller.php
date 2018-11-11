@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Config Component Controller
  *
- * @since       1.5
+ * @since  1.5
  */
 class ConfigController extends JControllerLegacy
 {
@@ -36,19 +36,6 @@ class ConfigController extends JControllerLegacy
 	{
 		// Set the default view name and format from the Request.
 		$vName = $this->input->get('view', 'application');
-
-		try
-		{
-			JLog::add(
-				sprintf('%s is deprecated. Use ConfigControllerApplicationDisplay or ConfigControllerComponentDisplay instead.', __CLASS__),
-				JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (RuntimeException $exception)
-		{
-			// Informational log only
-		}
 
 		if (ucfirst($vName) == 'Application')
 		{

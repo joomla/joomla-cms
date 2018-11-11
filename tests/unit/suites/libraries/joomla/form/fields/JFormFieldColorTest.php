@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('color');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       12.1
+ * @since       3.0.0
  */
 class JFormFieldColorTest extends TestCaseDatabase
 {
@@ -54,7 +54,7 @@ class JFormFieldColorTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetInput()
 	{

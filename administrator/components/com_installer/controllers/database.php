@@ -26,6 +26,9 @@ class InstallerControllerDatabase extends JControllerLegacy
 	 */
 	public function fix()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$model = $this->getModel('database');
 		$model->fix();
 

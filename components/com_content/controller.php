@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Content Component Controller
  *
@@ -23,7 +25,7 @@ class ContentController extends JControllerLegacy
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function __construct($config = array())
 	{
@@ -106,7 +108,10 @@ class ContentController extends JControllerLegacy
 			// Get/Create the model
 			if ($model = $this->getModel($vName))
 			{
-				$model->hit();
+				if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1)
+				{
+					$model->hit();
+				}
 			}
 		}
 

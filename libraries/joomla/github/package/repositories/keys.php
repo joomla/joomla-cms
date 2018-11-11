@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/repos/keys
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesKeys extends JGithubPackage
@@ -25,7 +25,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string  $owner  The name of the owner of the GitHub repository.
 	 * @param   string  $repo   The name of the GitHub repository.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return object
 	 */
@@ -46,7 +46,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string   $repo   The name of the GitHub repository.
 	 * @param   integer  $id     The id of the key.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return object
 	 */
@@ -68,7 +68,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string  $title  The key title.
 	 * @param   string  $key    The key.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return object
 	 */
@@ -97,7 +97,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string   $title  The key title.
 	 * @param   string   $key    The key.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return object
 	 */
@@ -123,7 +123,7 @@ class JGithubPackageRepositoriesKeys extends JGithubPackage
 	 * @param   string   $repo   The name of the GitHub repository.
 	 * @param   integer  $id     The id of the key.
 	 *
-	 * @since 12.4
+	 * @since 3.3.0
 	 *
 	 * @return boolean
 	 */

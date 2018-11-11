@@ -47,7 +47,7 @@ class UseractiveField extends \JFormFieldPredefinedList
 	 *
 	 * @param   Form  $form  The form to attach to the form field object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($form = null)
 	{

@@ -71,7 +71,8 @@ abstract class JHtmlContent
 
 		foreach ($model->countItemsByMonth() as $item)
 		{
-			$items[] = JHtml::_('select.option', $item->d, (new JDate($item->d))->format('F Y') . ' [' . $item->c . ']');
+			$date    = new JDate($item->d);
+			$items[] = JHtml::_('select.option', $item->d, $date->format('F Y') . ' [' . $item->c . ']');
 		}
 
 		return $items;

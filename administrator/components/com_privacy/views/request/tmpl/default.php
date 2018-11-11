@@ -72,7 +72,7 @@ JFactory::getDocument()->addScriptDeclaration($js);
 									<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
 								</td>
 								<td>
-									<?php echo $this->escape($item->log_date); ?>
+									<?php echo JHtml::_('date', $item->log_date, JText::_('DATE_FORMAT_LC6')); ?>
 								</td>
 								<td>
 									<?php echo $item->name; ?>
