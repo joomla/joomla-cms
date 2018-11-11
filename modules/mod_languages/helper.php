@@ -33,7 +33,8 @@ abstract class ModLanguagesHelper
 		$app		= JFactory::getApplication();
 		$menu		= $app->getMenu();
 		$active		= $menu->getActive();
-
+		$input = $app->input;
+		
 		// Get menu home items
 		$homes = array();
 		$homes['*'] = $menu->getDefault('*');
@@ -117,7 +118,44 @@ abstract class ModLanguagesHelper
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{
 						$itemid = $associations[$language->lang_code];
-						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
+						$simulatedAssoc = false;
+						if ($input->get('option') == "com_content" && $input->get('view') == "article")
+						{
+							if(!isset($art_lang))
+							{
+								// and current article's id/alias/lang
+								$ids = explode(':',$input->getString('id'));
+								$art_id = $ids[0];
+								$article = JTable::getInstance("content");
+								$article->load($art_id);
+								$art_alias = $article->get("alias");
+								$art_lang = $article->get("language");
+							}
+							if($art_lang == '*')
+							{
+								if(!isset($menuUrl))
+								{
+									// we retrieve current menu component into $menuComp[1]
+									$menuUrl = $menu->getItem($input->get('Itemid'))->link;
+									preg_match("/option=com_(\w*)/", $menuUrl, $menuComp);
+									// and current query in raw URL for replacement of its vars
+									$uriInst = clone JUri::getInstance();
+									$query = JSite::getRouter()->parse($uriInst);
+									$rawQuery = $uriInst->buildQuery($query);
+								}
+								// replace current URL component with active menu's one for compatibility with overriding component
+								$newUrl = preg_replace("/option=com_(\w*)/", "option=com_" . $menuComp[1], $rawQuery);
+								// replace also: menu item and language. Complete art_id with art slug
+								$newUrl = preg_replace("/Itemid=(\d*)/", "Itemid=" . $itemid, $newUrl);
+								$newUrl = preg_replace("/lang=((?>\w|-)*)/", "lang=" . $language->lang_code, $newUrl);
+								$newUrl = preg_replace("/&id=(\d*)/", "&id=" . $art_id . ":" . $art_alias, $newUrl);
+								
+								$simulatedAssoc = true;
+								$language->link = JRoute::_("index.php?" . $newUrl);
+							}
+						}
+						if($simulatedAssoc == false)
+							$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
 					}
 					elseif ($active && $active->language == '*')
 					{
