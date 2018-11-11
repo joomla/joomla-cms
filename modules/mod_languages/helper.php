@@ -150,7 +150,8 @@ abstract class ModLanguagesHelper
 								// replace also menu item and language, then complete art_id with art slug
 								$newUrl = preg_replace("/Itemid=(\d*)/", "Itemid=" . $itemid, $newUrl);
 								$newUrl = preg_replace("/lang=((?>\w|-)*)/", "lang=" . $language->lang_code, $newUrl);
-								$newUrl = preg_replace("/&id=(\d*)/", "&id=" . $art_id . ":" . $art_alias, $newUrl);
+								if(strpos($newUrl, ":" . $art_alias) == false)
+									$newUrl = preg_replace("/&id=(\d*)/", "&id=" . $art_id . ":" . $art_alias, $newUrl);
 								
 								$simulatedAssoc = true;
 								$language->link = JRoute::_("index.php?" . $newUrl);
