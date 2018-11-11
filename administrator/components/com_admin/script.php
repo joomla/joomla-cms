@@ -427,17 +427,23 @@ class JoomlaInstallerScript
 			$newFieldCount = 0;
 
 			// If this repeatable fields actually had child-fields (normally this is always the case)
-			if (isset($oldFieldparams->fields) && is_array($oldFieldparams->fields))
+			if (isset($oldFieldparams->fields) && is_object($oldFieldparams->fields))
 			{
 				// Iterate over them
-				foreach ($oldFieldparams->fields as $oldField)
+				foreach (get_object_vars($oldFieldparams->fields) as $oldField)
 				{
 					// And convert the repeatable child-fields to child-fields for our subform field
 					$newFieldparams['options'][('option' . $newFieldCount)] = array(
-						'type' => (isset($oldField['fieldtype']) ? $oldField['fieldtype'] : 'text'),
-						'name' => (isset($oldField['fieldname']) ? $oldField['fieldname'] : ('field' . $newFieldCount)),
-						'label' => (isset($oldField['fieldname']) ? $oldField['fieldname'] : ('field' . $newFieldCount)),
+						'type' => (isset($oldField->fieldtype) ? $oldField->fieldtype : 'text'),
+						'name' => (isset($oldField->fieldname) ? $oldField->fieldname : ('field' . $newFieldCount)),
+						'label' => (isset($oldField->fieldname) ? $oldField->fieldname : ('field' . $newFieldCount)),
 					);
+
+					// We currently don't have 'number' types in plg_fields_subform, so convert number to text
+					if ($newFieldparams['options'][('option' . $newFieldCount)]['type'] == 'number')
+					{
+						$newFieldparams['options'][('option' . $newFieldCount)]['type'] = 'text';
+					}
 
 					$newFieldCount++;
 				}
