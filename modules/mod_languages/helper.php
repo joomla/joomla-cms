@@ -137,7 +137,7 @@ abstract class ModLanguagesHelper
 							{
 								if(!isset($menuUrl))
 								{
-									// store current menu component into $menuComp[1] (can be different than current URL component)
+									// Store current menu component into $menuComp[1] (can be different than current URL component)
 									$menuUrl = $menu->getItem($input->get('Itemid'))->link;
 									preg_match("/option=com_(\w*)/", $menuUrl, $menuComp);
 									// retrieves current query in raw URL for replacement of its vars
@@ -145,9 +145,9 @@ abstract class ModLanguagesHelper
 									$query = JSite::getRouter()->parse($uriInst);
 									$rawQuery = $uriInst->buildQuery($query);
 								}
-								// replace current URL component with active menu's one for compatibility with overriding component
+								// Replace current URL component with active menu's one for compatibility with overriding component
 								$newUrl = preg_replace("/option=com_(\w*)/", "option=com_" . $menuComp[1], $rawQuery);
-								// replace also menu item and language, then complete art_id with art slug
+								// Replace also menu item and language, then complete art_id with art slug
 								$newUrl = preg_replace("/Itemid=(\d*)/", "Itemid=" . $itemid, $newUrl);
 								$newUrl = preg_replace("/lang=((?>\w|-)*)/", "lang=" . $language->lang_code, $newUrl);
 								if(strpos($newUrl, ":" . $art_alias) == false)
