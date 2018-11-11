@@ -10,10 +10,10 @@
 			<field
 				name="render_values"
 				type="radio"
-				default="1"
 				label="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_LABEL"
 				description="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_DESC"
 				class="btn-group btn-group-yesno"
+				default="1"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -24,8 +24,8 @@
 				type="radio"
 				label="PLG_FIELDS_SUBFORM_PARAMS_REPEAT_LABEL"
 				description="PLG_FIELDS_SUBFORM_PARAMS_REPEAT_DESC"
-				default="1"
 				class="btn-group btn-group-yesno"
+				default="1"
 				>
 				<option value="1">JYES</option>
 				<option value="0">JNO</option>
@@ -36,10 +36,10 @@
 				type="subform"
 				label="PLG_FIELDS_SUBFORM_PARAMS_OPTIONS_LABEL"
 				description="PLG_FIELDS_SUBFORM_PARAMS_OPTIONS_DESC"
-				layout="joomla.form.field.subform.repeatable"
 				icon="list"
-				multiple="true"
+				layout="joomla.form.field.subform.repeatable"
 				min="1"
+				multiple="true"
 				>
 				<form hidden="true" name="options_modal" repeat="true">
 
@@ -47,8 +47,8 @@
 						name="type"
 						type="subformtype"
 						label="COM_FIELDS_FIELD_TYPE_LABEL"
-						default="text"
 						description="COM_FIELDS_FIELD_TYPE_DESC"
+						default="text"
 						required="true"
 					/>
 
@@ -91,9 +91,9 @@
 					<field
 						name="default_value"
 						type="textarea"
-						filter="raw"
 						label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
 						description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
+						filter="raw"
 					/>
 				</form>
 			</field>

@@ -40,6 +40,7 @@ class JFormFieldSubformtype extends JFormFieldList
 			{
 				continue;
 			}
+
 			$options[] = JHtml::_('select.option', $fieldType['type'], $fieldType['label']);
 		}
 

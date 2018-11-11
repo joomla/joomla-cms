@@ -41,6 +41,7 @@ class PlgFieldsSubform extends FieldsPlugin
 	public function onContentPrepareForm(JForm $form, $data)
 	{
 		$path = $this->getFormPath($form, $data);
+
 		if ($path === null)
 		{
 			return;
@@ -55,6 +56,7 @@ class PlgFieldsSubform extends FieldsPlugin
 		$hiddenform = $xmlxpath->evaluate(
 			'/form/fields[@name="fieldparams"]/fieldset[@name="fieldparams"]/field[@name="options"]/form'
 		);
+
 		if ($hiddenform->length != 1)
 		{
 			// Something is wrong, abort.
@@ -142,6 +144,7 @@ class PlgFieldsSubform extends FieldsPlugin
 		}
 
 		$decoded_value = json_decode($field->value, true);
+
 		if (!$decoded_value || !is_array($decoded_value))
 		{
 			return;
@@ -197,6 +200,7 @@ class PlgFieldsSubform extends FieldsPlugin
 		// Create an array with entries being subform forms, and if not repeatable,
 		// containing only one element.
 		$rows = $field->value;
+
 		if ($field_params->get('repeat', '1') == '0')
 		{
 			$rows = array($field->value);
@@ -250,6 +254,7 @@ class PlgFieldsSubform extends FieldsPlugin
 						);
 						$this->renderCache[$subfield->type][$subfield->rawvalue] = $subfield->value;
 					}
+
 					if (is_array($subfield->value))
 					{
 						$subfield->value = implode(' ', $subfield->value);
@@ -302,6 +307,7 @@ class PlgFieldsSubform extends FieldsPlugin
 		// Call the onCustomFieldsPrepareDom method on FieldsPlugin
 		// This will create a new 'field' DOMElement with type=subform
 		$parent_field = parent::onCustomFieldsPrepareDom($field, $orig_parent, $form);
+
 		if (!$parent_field)
 		{
 			return $parent_field;
@@ -357,6 +363,7 @@ class PlgFieldsSubform extends FieldsPlugin
 
 		// Fetch the options from the plugin
 		$params = $this->getParamsFromField($field);
+
 		foreach ($params->get('options', array()) as $option)
 		{
 			$result[] = (object) $option;
@@ -377,6 +384,7 @@ class PlgFieldsSubform extends FieldsPlugin
 	protected function getParamsFromField(\stdClass $field)
 	{
 		$params = clone($this->params);
+
 		if (isset($field->fieldparams) && is_object($field->fieldparams))
 		{
 			$params->merge($field->fieldparams);

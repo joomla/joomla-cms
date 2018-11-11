@@ -274,6 +274,7 @@ abstract class FieldsPlugin extends JPlugin
 		{
 			return null;
 		}
+
 		return $path;
 	}
 
