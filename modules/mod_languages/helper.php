@@ -118,6 +118,7 @@ abstract class ModLanguagesHelper
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{
 						$itemid = $associations[$language->lang_code];
+
 						// Now dealing with an article view where article lang is * and menu item has associations
 						//  => with a "simulated" association: article view in other languages actually does exist
 						$simulatedAssoc = false;
@@ -140,6 +141,7 @@ abstract class ModLanguagesHelper
 									// Store current menu component into $menuComp[1] (can be different than current URL component)
 									$menuUrl = $menu->getItem($input->get('Itemid'))->link;
 									preg_match("/option=com_(\w*)/", $menuUrl, $menuComp);
+
 									// Retrieves current query in raw URL for replacement of its vars
 									$uriInst = clone JUri::getInstance();
 									$query = JSite::getRouter()->parse($uriInst);
