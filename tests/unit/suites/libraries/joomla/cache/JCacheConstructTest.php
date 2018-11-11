@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @since       11.1
+ * @since       1.7.0
  */
 class JCacheTest_Construct extends \PHPUnit\Framework\TestCase
 {

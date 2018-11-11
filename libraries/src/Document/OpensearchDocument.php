@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
  * Opensearch class, provides an easy interface to display an Opensearch document
  *
  * @link   http://www.opensearch.org/
- * @since  11.1
+ * @since  1.7.0
  */
 class OpensearchDocument extends Document
 {
@@ -28,7 +28,7 @@ class OpensearchDocument extends Document
 	 * required
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_shortName = '';
 
@@ -38,7 +38,7 @@ class OpensearchDocument extends Document
 	 * optional
 	 *
 	 * @var    object
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_images = array();
 
@@ -46,7 +46,7 @@ class OpensearchDocument extends Document
 	 * The url collection
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	private $_urls = array();
 
@@ -55,7 +55,7 @@ class OpensearchDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -120,7 +120,7 @@ class OpensearchDocument extends Document
 	 *
 	 * @return  string  The rendered data
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -188,7 +188,7 @@ class OpensearchDocument extends Document
 	 *
 	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setShortName($name)
 	{
@@ -204,7 +204,7 @@ class OpensearchDocument extends Document
 	 *
 	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addUrl(OpensearchUrl $url)
 	{
@@ -220,7 +220,7 @@ class OpensearchDocument extends Document
 	 *
 	 * @return  OpensearchDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function addImage(OpensearchImage $image)
 	{

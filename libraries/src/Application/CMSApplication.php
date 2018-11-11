@@ -631,8 +631,8 @@ class CMSApplication extends WebApplication
 	 *
 	 * @return  boolean  True if this application is administrator.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
+	 * @since       3.2
+	 * @deprecated  4.0 Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
@@ -644,8 +644,8 @@ class CMSApplication extends WebApplication
 	 *
 	 * @return  boolean  True if this application is site.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
+	 * @since       3.2
+	 * @deprecated  4.0 Use isClient('site') instead.
 	 */
 	public function isSite()
 	{

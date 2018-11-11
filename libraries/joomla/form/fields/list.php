@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldList extends JFormField
 {
@@ -21,7 +21,7 @@ class JFormFieldList extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'List';
 
