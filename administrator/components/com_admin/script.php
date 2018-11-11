@@ -241,6 +241,7 @@ class JoomlaInstallerScript
 
 		$this->uninstallEosPlugin();
 		$this->removeJedUpdateserver();
+		$this->uninstallRepeatableFieldsPlugin();
 	}
 
 	/**
@@ -371,6 +372,98 @@ class JoomlaInstallerScript
 
 			return;
 		}
+	}
+
+	/**
+	 * Uninstalls the plg_fields_repeatable plugin and transforms its custom field instances
+	 * to instances of the plg_fields_subform plugin.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.10.0
+	 */
+	protected function uninstallRepeatableFieldsPlugin()
+	{
+		$db = JFactory::getDbo();
+
+		// Check if the plg_fields_repeatable plugin is present
+		$extensionId = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('plg_fields_repeatable'))
+		)->loadResult();
+
+		// Skip uninstalling when it doesn't exist
+		if (!$extensionId)
+		{
+			return;
+		}
+
+		// Now get a list of all repeatable fields
+		$db->setQuery(
+			$db->getQuery(true)
+				->select('*')
+				->from('#__fields')
+				->where($db->quoteName('type') . ' = ' . $db->quote('repeatable'))
+		)->execute();
+		// Iterate over them
+		foreach ($db->getIterator() as $row)
+		{
+			// Skip broken rows - just a security measure, should not happen
+			if (!isset($row->fieldparams) || !($oldFieldparams = json_decode($row->fieldparams)) || !is_object($oldFieldparams))
+			{
+				continue;
+			}
+
+			// Will hold the new fieldparams for our subform field
+			$newFieldparams = array(
+				'render_values' => '1',
+				'repeat' => '1',
+				'options' => array(),
+			);
+
+			// Small counter for the created child-fields
+			$newFieldCount = 0;
+
+			// If this repeatable fields actually had child-fields (normally this is always the case)
+			if (isset($oldFieldparams->fields) && is_array($oldFieldparams->fields))
+			{
+				// Iterate over them
+				foreach ($oldFieldparams->fields as $oldField)
+				{
+					// And convert the repeatable child-fields to child-fields for our subform field
+					$newFieldparams['options'][('option' . $newFieldCount)] = array(
+						'type' => (isset($oldField['fieldtype']) ? $oldField['fieldtype'] : 'text'),
+						'name' => (isset($oldField['fieldname']) ? $oldField['fieldname'] : ('field' . $newFieldCount)),
+						'label' => (isset($oldField['fieldname']) ? $oldField['fieldname'] : ('field' . $newFieldCount)),
+					);
+
+					$newFieldCount++;
+				}
+			}
+
+			// Write back the changed stuff to the database
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__fields')
+					->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
+					->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
+					->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
+			)->execute();
+		}
+
+		// Now, unprotect the plugin so we can uninstall it
+		$db->setQuery(
+			$db->getQuery(true)
+				->update('#__extensions')
+				->set('protected = 0')
+				->where($db->quoteName('extension_id') . ' = ' . $extensionId)
+		)->execute();
+
+		// And now uninstall the plugin
+		$installer = new JInstaller;
+		$installer->uninstall('plugin', $extensionId);
 	}
 
 	/**
@@ -1984,6 +2077,16 @@ class JoomlaInstallerScript
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
 			'/plugins/captcha/recaptcha/recaptchalib.php',
 
+			/**
+			 * Joomla! 3.9.0 thru 3.10.0
+			 */
+			'administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',
+			'administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',
+			'plugins/fields/repeatable/params/repeatable.xml',
+			'plugins/fields/repeatable/repeatable.php',
+			'plugins/fields/repeatable/repeatable.xml',
+			'plugins/fields/repeatable/tmpl/repeatable.php',
+
 			/*
 			 * Legacy FOF
 			 */
@@ -2250,6 +2353,10 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/support',
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
+			// Joomla! 3.10.0
+			'plugins/fields/repeatable/params',
+			'plugins/fields/repeatable/tmpl',
+			'plugins/fields/repeatable',
 		);
 
 		jimport('joomla.filesystem.file');

@@ -185,7 +185,6 @@ class ExtensionHelper
 		array('plugin', 'list', 'fields', 0),
 		array('plugin', 'media', 'fields', 0),
 		array('plugin', 'radio', 'fields', 0),
-		array('plugin', 'repeatable', 'fields', 0),
 		array('plugin', 'sql', 'fields', 0),
 		array('plugin', 'subform', 'fields', 0),
 		array('plugin', 'text', 'fields', 0),
