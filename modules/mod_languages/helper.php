@@ -118,12 +118,14 @@ abstract class ModLanguagesHelper
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{
 						$itemid = $associations[$language->lang_code];
+						// now dealing with an article view where article lang is * and menu item has associations
+						//  => with a "simulated" association: article view in other languages actually does exist
 						$simulatedAssoc = false;
 						if ($input->get('option') == "com_content" && $input->get('view') == "article")
 						{
 							if(!isset($art_lang))
 							{
-								// and current article's id/alias/lang
+								// retrieve current article's id/alias/lang
 								$ids = explode(':',$input->getString('id'));
 								$art_id = $ids[0];
 								$article = JTable::getInstance("content");
@@ -135,17 +137,17 @@ abstract class ModLanguagesHelper
 							{
 								if(!isset($menuUrl))
 								{
-									// we retrieve current menu component into $menuComp[1]
+									// store current menu component into $menuComp[1] (can be different than current URL component)
 									$menuUrl = $menu->getItem($input->get('Itemid'))->link;
 									preg_match("/option=com_(\w*)/", $menuUrl, $menuComp);
-									// and current query in raw URL for replacement of its vars
+									// retrieves current query in raw URL for replacement of its vars
 									$uriInst = clone JUri::getInstance();
 									$query = JSite::getRouter()->parse($uriInst);
 									$rawQuery = $uriInst->buildQuery($query);
 								}
 								// replace current URL component with active menu's one for compatibility with overriding component
 								$newUrl = preg_replace("/option=com_(\w*)/", "option=com_" . $menuComp[1], $rawQuery);
-								// replace also: menu item and language. Complete art_id with art slug
+								// replace also menu item and language, then complete art_id with art slug
 								$newUrl = preg_replace("/Itemid=(\d*)/", "Itemid=" . $itemid, $newUrl);
 								$newUrl = preg_replace("/lang=((?>\w|-)*)/", "lang=" . $language->lang_code, $newUrl);
 								$newUrl = preg_replace("/&id=(\d*)/", "&id=" . $art_id . ":" . $art_alias, $newUrl);
