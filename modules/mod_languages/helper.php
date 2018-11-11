@@ -118,46 +118,47 @@ abstract class ModLanguagesHelper
 					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{
 						$itemid = $associations[$language->lang_code];
-						// now dealing with an article view where article lang is * and menu item has associations
+						// Now dealing with an article view where article lang is * and menu item has associations
 						//  => with a "simulated" association: article view in other languages actually does exist
 						$simulatedAssoc = false;
 						if ($input->get('option') == "com_content" && $input->get('view') == "article")
 						{
-							if(!isset($art_lang))
+							if (!isset($art_lang))
 							{
-								// retrieve current article's id/alias/lang
-								$ids = explode(':',$input->getString('id'));
+								// Retrieve current article's id/alias/lang
+								$ids = explode(':', $input->getString('id'));
 								$art_id = $ids[0];
 								$article = JTable::getInstance("content");
 								$article->load($art_id);
 								$art_alias = $article->get("alias");
 								$art_lang = $article->get("language");
 							}
-							if($art_lang == '*')
+							if ($art_lang == '*')
 							{
-								if(!isset($menuUrl))
+								if (!isset($menuUrl))
 								{
 									// Store current menu component into $menuComp[1] (can be different than current URL component)
 									$menuUrl = $menu->getItem($input->get('Itemid'))->link;
 									preg_match("/option=com_(\w*)/", $menuUrl, $menuComp);
-									// retrieves current query in raw URL for replacement of its vars
+									// Retrieves current query in raw URL for replacement of its vars
 									$uriInst = clone JUri::getInstance();
 									$query = JSite::getRouter()->parse($uriInst);
 									$rawQuery = $uriInst->buildQuery($query);
 								}
 								// Replace current URL component with active menu's one for compatibility with overriding component
 								$newUrl = preg_replace("/option=com_(\w*)/", "option=com_" . $menuComp[1], $rawQuery);
+								
 								// Replace also menu item and language, then complete art_id with art slug
 								$newUrl = preg_replace("/Itemid=(\d*)/", "Itemid=" . $itemid, $newUrl);
 								$newUrl = preg_replace("/lang=((?>\w|-)*)/", "lang=" . $language->lang_code, $newUrl);
-								if(strpos($newUrl, ":" . $art_alias) == false)
+								if (strpos($newUrl, ":" . $art_alias) == false)
 									$newUrl = preg_replace("/&id=(\d*)/", "&id=" . $art_id . ":" . $art_alias, $newUrl);
 								
 								$simulatedAssoc = true;
 								$language->link = JRoute::_("index.php?" . $newUrl);
 							}
 						}
-						if($simulatedAssoc == false)
+						if ($simulatedAssoc == false)
 							$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
 					}
 					elseif ($active && $active->language == '*')
