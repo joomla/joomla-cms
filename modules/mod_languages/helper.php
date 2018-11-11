@@ -154,14 +154,18 @@ abstract class ModLanguagesHelper
 								$newUrl = preg_replace("/Itemid=(\d*)/", "Itemid=" . $itemid, $newUrl);
 								$newUrl = preg_replace("/lang=((?>\w|-)*)/", "lang=" . $language->lang_code, $newUrl);
 								if (strpos($newUrl, ":" . $art_alias) === false)
+								{
 									$newUrl = preg_replace("/&id=(\d*)/", "&id=" . $art_id . ":" . $art_alias, $newUrl);
+								}
 								
 								$simulatedAssoc = true;
 								$language->link = JRoute::_("index.php?" . $newUrl);
 							}
 						}
 						if (!$simulatedAssoc)
+						{
 							$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
+						}
 					}
 					elseif ($active && $active->language == '*')
 					{
