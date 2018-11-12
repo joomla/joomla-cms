@@ -639,9 +639,10 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Helper function to build an array for each link
 	 *
-	 * @param   string  $name  the name of the link
-	 * @param   string  $link  the url of the link
-	 * @param   string  $icon  the name of the icon
+	 * @param   string  $link   the url of the link
+	 * @param   string  $name   the name of the link
+	 * @param   string  $badge  the information badge
+	 * @param   string  $icon   the name of the icon
 	 *
 	 * @return array
 	 *
