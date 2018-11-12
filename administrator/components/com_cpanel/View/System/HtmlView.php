@@ -464,7 +464,7 @@ class HtmlView extends BaseHtmlView
 
 			if ($joomlaUpdate['hasUpdate'] == true)
 			{
-				$hasUpdate = '•';
+				$hasUpdate = $joomlaUpdate['latest'];
 			}
 
 			$links['MOD_MENU_UPDATE'] = [
