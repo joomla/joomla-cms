@@ -122,7 +122,7 @@ abstract class ModLanguagesHelper
 						// Now dealing with an article view where article lang is * and menu item has associations
 						//  => with a "simulated" association: article view in other languages actually does exist
 						$simulatedAssoc = false;
-						if ($input->get('option') == "com_content" && $input->get('view') == "article")
+						if ($input->get('view') == "article")
 						{
 							if (!isset($art_lang))
 							{
