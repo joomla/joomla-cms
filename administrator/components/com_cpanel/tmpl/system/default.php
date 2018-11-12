@@ -25,7 +25,13 @@ use Joomla\CMS\Language\Text;
 		<ul class="list-group list-group-flush">
 			<?php foreach ($links as $id => $link) : ?>
 				<li class="list-group-item">
-					<a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['title']); ?></a>
+					<a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['title']); ?>
+					<?php if ($link['badge']) : ?>
+						<div class="pull-right badge badge-pill badge-warning">
+							<?php echo Text::_($link['badge']); ?>
+						</div>
+					<?php endif; ?>
+					</a>
 				</li>
 			<?php endforeach; ?>
 		</ul>
