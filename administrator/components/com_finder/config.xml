@@ -70,7 +70,7 @@
 			name="show_search_form"
 			type="radio"
 			label="COM_FINDER_CONFIG_SHOW_SEARCH_FORM_LABEL"
-			description="COM_FINDER_CONFIG_SHOW_SEARCH_FORM_DESCRIPTION"
+			description="COM_FINDER_CONFIG_SHOW_SEARCH_FORM_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
 			>

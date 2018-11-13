@@ -103,7 +103,7 @@
 				name="show_search_form"
 				type="list"
 				label="COM_FINDER_CONFIG_SHOW_SEARCH_FORM_LABEL"
-				description="COM_FINDER_CONFIG_SHOW_SEARCH_FORM_DESCRIPTION"
+				description="COM_FINDER_CONFIG_SHOW_SEARCH_FORM_DESC"
 				default=""
 				useglobal="true"
 				class="chzn-color"
