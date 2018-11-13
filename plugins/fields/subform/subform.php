@@ -336,7 +336,7 @@ class PlgFieldsSubform extends FieldsPlugin
 			$parent_fieldset->setAttribute('repeat', 'true');
 		}
 
-		// Iterate over the configured fields of this subform
+		// Iterate over the configured sub-fields of this subform to call prepareDom on each of those sub-fields
 		foreach ($this->getSubfieldsFromField($field) as $subfield)
 		{
 			// Let the relevant plugins do their work and insert the correct
@@ -410,16 +410,47 @@ class PlgFieldsSubform extends FieldsPlugin
 
 		foreach ($this->getOptionsFromField($field) as $option)
 		{
-			/* @TODO Better solution to this? */
+			// The sub-field starts with a bare copy of our subform field
 			$subfield                = (clone $field);
 			$subfield->id            = null;
 			$subfield->title         = $option->label;
-			$subfield->name          = $option->name;
-			$subfield->type          = $option->type;
-			$subfield->required      = '0';
-			$subfield->default_value = $option->default_value;
-			$subfield->label         = $option->label;
-			$subfield->description   = $option->description;
+			$subfield->fieldparams   = new Joomla\Registry\Registry;
+
+			/**
+			 * In onContentPrepareForm() we added a prefix for all type-dependant options (options for a sub-field
+			 * that were in the fieldparams of that field type). We did this to could support same-named options
+			 * for a sub-field for different types, because we need to construct the XML for the selection of the
+			 * type before we actually know the type. So, now that we have a prefix on the type-specific options, we
+			 * need to remove that prefix again, and add all those options under the fieldparams, so that we then have
+			 * a valid (sub-)field of that type.
+			 */
+			$prefix = ('_type-' . $option->type . '_');
+
+			// Copy all values from the sub-fields options into the subfield
+			foreach (array_keys(get_object_vars($option)) as $key)
+			{
+				// If we have our prefix, copy the value into the fieldparams (and not directly into the subfield)
+				if (strpos($key, $prefix) === 0)
+				{
+					// If this is an array, make sure to remove the prefix also from its elements
+					$this->removeTypePrefixRecursive($option->{$key}, $prefix);
+
+					$subfield->fieldparams->set(
+						substr($key, strlen($prefix)), // Remove the prefix from the key
+						$option->{$key}
+					);
+				}
+				// If we have another type prefix, just ignore it
+				elseif (strpos($key, '_type-') === 0)
+				{
+					continue;
+				}
+				// Else copy the value from the option directly to the subfield
+				else
+				{
+					$subfield->{$key} = &$option->{$key};
+				}
+			}
 
 			$result[] = $subfield;
 		}
@@ -450,6 +481,44 @@ class PlgFieldsSubform extends FieldsPlugin
 			{
 				$this->rewriteNodeNameRecursive($childNode, $prefix);
 			}
+		}
+	}
+
+	/**
+	 * Recursively removes our type prefix from array attribute names.
+	 *
+	 * @param   array   &$var    The object
+	 * @param   string  $prefix  The prefix
+	 *
+	 * @return  void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	protected function removeTypePrefixRecursive(&$var, $prefix)
+	{
+		if (!is_array($var))
+		{
+			return;
+		}
+
+		// Iterate over each key in $var (done this way because we manipulate $var later on, so just to be sure...)
+		foreach (array_keys($var) as $key)
+		{
+			// If that key start with the prefix that shall be removed
+			if (strpos($key, $prefix) === 0)
+			{
+				// Construct the new key without the prefix
+				$new_key = substr($key, strlen($prefix));
+
+				// Insert the new key and delete the old one
+				$var[$new_key] = &$var[$key];
+				unset($var[$key]);
+
+				$key = $new_key;
+			}
+
+			// Now do the recursion
+			$this->removeTypePrefixRecursive($var[$key], $prefix);
 		}
 	}
 }
