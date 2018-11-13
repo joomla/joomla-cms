@@ -76,6 +76,7 @@ class PlgFieldsSubform extends FieldsPlugin
 			}
 			// Check whether the XML definition file for that type exists
 			$path = (JPATH_PLUGINS . '/' . $this->_type . '/' . $fieldType['type'] . '/params/' . $fieldType['type'] . '.xml');
+
 			if (!file_exists($path))
 			{
 				continue;
@@ -90,6 +91,7 @@ class PlgFieldsSubform extends FieldsPlugin
 
 				// XPath all fields from that XML document
 				$fields = $subxmlxpath->evaluate('/form/fields[@name="fieldparams"]/fieldset[@name="fieldparams"]/field');
+
 				for ($i = 0; $i < $fields->length; $i++)
 				{
 					$field = $fields->item($i);

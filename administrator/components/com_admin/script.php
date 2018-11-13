@@ -380,7 +380,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   3.10.0
+	 * @since   __DEPLOY_VERSION_
 	 */
 	protected function uninstallRepeatableFieldsPlugin()
 	{
@@ -407,6 +407,7 @@ class JoomlaInstallerScript
 				->from('#__fields')
 				->where($db->quoteName('type') . ' = ' . $db->quote('repeatable'))
 		)->execute();
+
 		// Iterate over them
 		foreach ($db->getIterator() as $row)
 		{
