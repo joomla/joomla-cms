@@ -245,6 +245,6 @@ class WorkflowController extends FormController
 			$this->input->post->set('jform', $data);
 		}
 
-		parent::save($key, $urlVar);
+		return parent::save($key, $urlVar);
 	}
 }

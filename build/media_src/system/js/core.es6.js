@@ -152,7 +152,7 @@ Joomla.Modal = {
   };
 
   /**
-   * Default function. Can be overriden by the component to add custom logic
+   * Default function. Can be overridden by the component to add custom logic
    *
    * @param  {String}  task            The given task
    * @param  {String}  formSelector    The form selector eg '#adminForm'
