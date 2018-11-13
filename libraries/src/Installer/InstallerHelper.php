@@ -309,6 +309,7 @@ abstract class InstallerHelper
 
 		// Replace special characters with underscores.
 		$filename = preg_replace('/[^a-z0-9\_\-\.]/i', '_', $filename);
+
 		// Replace multiple underscores with just one.
 		$filename = preg_replace('/__+/i', '_', trim($filename, '_'));
 
