@@ -2,7 +2,7 @@
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-((Joomla) => {
+((Joomla, jQuery) => {
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -19,11 +19,11 @@
     }
 
     // @Todo make vanilla, when modals are custom elements
-    jQuery('.modal').on('hidden.bs.modal', function () {
-      setTimeout(function(){ window.parent.location.reload(); },1000);
+    jQuery('.modal').on('hidden.bs.modal', () => {
+      setTimeout(() => { window.parent.location.reload(); }, 1000);
     });
   });
-})(Joomla);
+})(Joomla, window.jQuery);
 
 ((originalFn) => {
   Joomla.submitform = (task, form) => {
