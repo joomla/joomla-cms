@@ -86,9 +86,12 @@ abstract class InstallerHelper
 			return false;
 		}
 
-		if (302 == $response->code && isset($response->headers['Location']))
+		// Convert keys of headers to lowercase, to accomodate for case variations
+		$headers = array_change_key_case($response->headers);
+
+		if (302 == $response->code && !empty($headers['location']))
 		{
-			return self::downloadPackage($response->headers['Location']);
+			return self::downloadPackage($headers['location']);
 		}
 		elseif (200 != $response->code)
 		{
@@ -98,8 +101,8 @@ abstract class InstallerHelper
 		}
 
 		// Parse the Content-Disposition header to get the file name
-		if (isset($response->headers['Content-Disposition'])
-			&& preg_match("/\s*filename\s?=\s?(.*)/", $response->headers['Content-Disposition'], $parts))
+		if (!empty($headers['content-disposition'])
+			&& preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'], $parts))
 		{
 			$flds = explode(';', $parts[1]);
 			$target = trim($flds[0], '"');
