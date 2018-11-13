@@ -431,10 +431,11 @@ Joomla.Modal = {
       if (typeof window.customElements === 'object' && typeof window.customElements.get('joomla-alert') === 'function') {
         messagesBox = document.createElement('joomla-alert');
 
-        if (['notice', 'message', 'error'].indexOf(type) > -1) {
+        if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
           alertClass = (type === 'notice') ? 'info' : type;
           alertClass = (type === 'message') ? 'success' : alertClass;
           alertClass = (type === 'error') ? 'danger' : alertClass;
+          alertClass = (type === 'warning') ? 'warning' : alertClass;
         } else {
           alertClass = 'info';
         }
@@ -450,10 +451,11 @@ Joomla.Modal = {
         messagesBox = document.createElement('div');
 
         // Message class
-        if (['notice', 'message', 'error'].indexOf(type) > -1) {
+        if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
           alertClass = (type === 'notice') ? 'info' : type;
           alertClass = (type === 'message') ? 'success' : alertClass;
           alertClass = (type === 'error') ? 'danger' : alertClass;
+          alertClass = (type === 'warning') ? 'warning' : alertClass;
         } else {
           alertClass = 'info';
         }
