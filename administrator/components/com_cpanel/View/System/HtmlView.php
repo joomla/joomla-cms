@@ -100,18 +100,12 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.manage', 'com_checkin'))
 		{
 			$checkinModel  = new \Joomla\Component\Checkin\Administrator\Model\CheckinModel(['ignore_request' => true]);
-			$checkins      = $checkinModel->getItems();
-			$checkinsCount = '';
-
-			if (count($checkins) > 0)
-			{
-				$checkinsCount = count($checkins);
-			}
+			$checkins      = count($checkinModel->getItems());
 
 			$new = [
 				'com_checkin' => static::arrayBuilder(
 					'MOD_MENU_GLOBAL_CHECKIN',
-					$checkinsCount,
+					$checkins,
 					'index.php?option=com_checkin',
 					'refresh'
 				),
@@ -135,18 +129,12 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
 			$warningsModel   = new \Joomla\Component\Installer\Administrator\Model\WarningsModel(['ignore_request' => true]);
-			$warningMessages = $warningsModel->getItems();
-			$warnings        = '';
-
-			if (count($warningMessages) > 0)
-			{
-				$warnings = count($warningMessages);
-			}
+			$warningMessages = count($warningsModel->getItems());
 
 			$links['MOD_MENU_INFORMATION'] = [
 				'com_installer_warnings' => static::arrayBuilder(
 					'MOD_MENU_INFORMATION_WARNINGS',
-					$warnings,
+					$warningMessages,
 					'index.php?option=com_installer&view=warnings',
 					'refresh'
 				),
@@ -160,18 +148,12 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.manage', 'com_postinstall'))
 		{
 			$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\MessagesModel(['ignore_request' => true]);
-			$messages      = $messagesModel->getItems();
-			$messagesCount = '';
-
-			if (count($messages) > 0)
-			{
-				$messagesCount = count($messages);
-			}
+			$messages      = count($messagesModel->getItems());
 
 			$new = [
 				'com_postinstall' => static::arrayBuilder(
 					'MOD_MENU_INFORMATION_POST_INSTALL_MESSAGES',
-					$messagesCount,
+					$messages,
 					'index.php?option=com_postinstall',
 					'info'
 				),
@@ -220,7 +202,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$databaseModel   = new \Joomla\Component\Installer\Administrator\Model\DatabaseModel(['ignore_request' => true]);
 			$changeSet       = $databaseModel->getItems();
-			$changeSetCount  = '';
 			$changeSetArray  = array();
 
 			foreach ($changeSet as $item)
@@ -228,10 +209,7 @@ class HtmlView extends BaseHtmlView
 				$changeSetArray[] = $item['errorsCount'];
 			}
 
-			if (array_sum($changeSetArray) > 0)
-			{
-				$changeSetCount = array_sum($changeSetArray);
-			}
+			$changeSetCount = array_sum($changeSetArray);
 
 			$new = [
 				'com_installer_database' => static::arrayBuilder(
@@ -260,13 +238,7 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
 			$discoverModel        = new \Joomla\Component\Installer\Administrator\Model\DiscoverModel(['ignore_request' => true]);
-			$discoveredExtensions = $discoverModel->getItems();
-			$discoveredCount      = '';
-
-			if (count($discoveredExtensions) > 0)
-			{
-				$discoveredCount = count($discoveredExtensions);
-			}
+			$discoveredExtensions = count($discoverModel->getItems());
 
 			// Install
 			$links['MOD_MENU_INSTALL'] = [
@@ -278,7 +250,7 @@ class HtmlView extends BaseHtmlView
 				),
 				'com_installer_discover' => static::arrayBuilder(
 					'MOD_MENU_INSTALL_DISCOVER',
-					$discoveredCount,
+					$discoveredExtensions,
 					'index.php?option=com_installer&view=discover',
 					'cog'
 				),
@@ -486,13 +458,7 @@ class HtmlView extends BaseHtmlView
 			Updater::getInstance()->findUpdates();
 
 			$updateModel     = new \Joomla\Component\Installer\Administrator\Model\UpdateModel(['ignore_request' => true]);
-			$extensions      = $updateModel->getItems();
-			$extensionsCount = '';
-
-			if (count($extensions) > 0)
-			{
-				$extensionsCount = count($extensions);
-			}
+			$extensionsCount = count($updateModel->getItems());
 
 			$new = [
 				'com_installer_extensions_update' => static::arrayBuilder(
@@ -639,10 +605,9 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Helper function to build an array for each link
 	 *
-	 * @param   string  $name   the name of the link
-	 * @param   string  $badge  the information badge
-	 * @param   string  $link   the url of the link
-	 * @param   string  $icon   the name of the icon
+	 * @param   string  $name  the name of the link
+	 * @param   string  $link  the url of the link
+	 * @param   string  $icon  the name of the icon
 	 *
 	 * @return array
 	 *
