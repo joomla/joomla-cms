@@ -398,6 +398,7 @@ Joomla.Modal = {
    *              "error": ["This will be a red message", "So will this"],
    *              "info": ["This will be a blue message", "So will this"],
    *              "notice": ["This will be same as info message", "So will this"],
+   *              "warning": ["This will be a orange message", "So will this"],
    *              "my_custom_type": ["This will be same as info message", "So will this"]
    *          };
    * @param  {string} selector The selector of the container where the message will be rendered
