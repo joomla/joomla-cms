@@ -30,7 +30,7 @@ abstract class InstallerHelper
 	 *
 	 * @var    integer
 	 * @since  3.9.0
-	 */
+	 */	
 	const HASH_NOT_VALIDATED = 0;
 
 	/**
@@ -309,9 +309,8 @@ abstract class InstallerHelper
 
 		// Replace special characters with underscores.
 		$filename = preg_replace('/[^a-z0-9\_\-\.]/i', '_', $filename);
-
 		// Replace multiple underscores with just one.
-		$filename = preg_replace('/__+/', '_', trim($filename, '_'));
+		$filename = preg_replace('/__+/i', '_', trim($filename, '_'));
 
 		// Return the cleaned filename or, if it is empty, a unique id.
 		return $filename ?: $default;
