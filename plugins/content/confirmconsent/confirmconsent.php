@@ -78,16 +78,28 @@ class PlgContentConfirmConsent extends CMSPlugin
 		}
 
 		// Get the consent box Text & the selected privacyarticle
-		$consentboxLabel = JText::_('PLG_CONTENT_CONFIRMCONSENT_CONSENTBOX_LABEL');
+		$consentboxLabel = Text::_('PLG_CONTENT_CONFIRMCONSENT_CONSENTBOX_LABEL');
 		$consentboxText  = (string) $this->params->get('consentbox_text', Text::_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT'));
 		$privacyArticle  = $this->params->get('privacy_article', false);
 
-		// When we have a article just add it arround to the text
+		// When we have a article let's add the modal and make the title clickable
 		if ($privacyArticle)
 		{
-			HTMLHelper::_('behavior.modal');
+			$modalName = 'privacyArticle';
+			$modalParams['title']  = $consentboxLabel;
+			$modalParams['url']    = $this->getAssignedArticleUrl($privacyArticle);
+			$modalParams['height'] = 800;
+			$modalParams['width']  = "100%";
+			echo HTMLHelper::_('bootstrap.renderModal', 'modal-' . $modalName, $modalParams);
 
-			$consentboxLabel = $this->getAssignedArticleUrl($privacyArticle, $consentboxLabel);
+			$attribs['data-toggle'] = 'modal';
+
+			$consentboxLabel = HTMLHelper::_(
+				'link',
+				'#modal-' . $modalName,
+				$consentboxLabel,
+				$attribs
+			);
 		}
 
 		$form->load('
@@ -111,14 +123,13 @@ class PlgContentConfirmConsent extends CMSPlugin
 	/**
 	 * Return the url of the assigned article based on the current user language
 	 *
-	 * @param   integer  $articleId        The form to be altered.
-	 * @param   string   $consentboxLabel  The consent box label
+	 * @param   integer  $articleId  The form to be altered.
 	 *
 	 * @return  string  Returns the a tag containing everything for the modal
 	 *
 	 * @since   3.9.0
 	 */
-	private function getAssignedArticleUrl($articleId, $consentboxLabel)
+	private function getAssignedArticleUrl($articleId)
 	{
 		// Get the info from the article
 		$query = $this->db->getQuery(true)
@@ -127,10 +138,6 @@ class PlgContentConfirmConsent extends CMSPlugin
 			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
 		$this->db->setQuery($query);
 
-		$attribs          = array();
-		$attribs['class'] = 'modal';
-		$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
 		try
 		{
 			$article = $this->db->loadObject();
@@ -138,14 +145,9 @@ class PlgContentConfirmConsent extends CMSPlugin
 		catch (JDatabaseExceptionExecuting $e)
 		{
 			// Something at the database layer went wrong
-			return HTMLHelper::_(
-				'link',
-				Route::_(
-					'index.php?option=com_content&view=article&id='
-					. $articleId . '&tmpl=component'
-				),
-				$consentboxLabel,
-				$attribs
+			return Route::_(
+				'index.php?option=com_content&view=article&id='
+				. $articleId . '&tmpl=component'
 			);
 		}
 
@@ -154,16 +156,12 @@ class PlgContentConfirmConsent extends CMSPlugin
 
 		if (!Associations::isEnabled())
 		{
-			return HTMLHelper::_('link',
-				Route::_(
-					ContentHelperRoute::getArticleRoute(
-						$article->id,
-						$article->catid,
-						$article->language
-					) . '&tmpl=component'
-				),
-				$consentboxLabel,
-				$attribs
+			return Route::_(
+				ContentHelperRoute::getArticleRoute(
+					$article->id,
+					$article->catid,
+					$article->language
+				) . '&tmpl=component'
 			);
 		}
 
@@ -172,29 +170,20 @@ class PlgContentConfirmConsent extends CMSPlugin
 
 		if (isset($associatedArticles) && $currentLang !== $article->language && array_key_exists($currentLang, $associatedArticles))
 		{
-			return HTMLHelper::_('link',
-				Route::_(
-					ContentHelperRoute::getArticleRoute(
-						$associatedArticles[$currentLang]->id,
-						$associatedArticles[$currentLang]->catid,
-						$associatedArticles[$currentLang]->language
-					) . '&tmpl=component'
-				),
-				$consentboxLabel,
-				$attribs
+			return Route::_(
+				ContentHelperRoute::getArticleRoute(
+					$associatedArticles[$currentLang]->id,
+					$associatedArticles[$currentLang]->catid,
+					$associatedArticles[$currentLang]->language
+				) . '&tmpl=component'
 			);
 		}
 
 		// Association is enabled but this article is not associated
-		return HTMLHelper::_(
-			'link',
-			Route::_(
-				'index.php?option=com_content&view=article&id='
-					. $article->id . '&catid=' . $article->catid
-					. '&tmpl=component&lang=' . $article->language
-			),
-			$consentboxLabel,
-			$attribs
+		return Route::_(
+			'index.php?option=com_content&view=article&id='
+				. $article->id . '&catid=' . $article->catid
+				. '&tmpl=component&lang=' . $article->language
 		);
 	}
 }
