@@ -99,8 +99,8 @@ class HtmlView extends BaseHtmlView
 
 		if ($user->authorise('core.manage', 'com_checkin'))
 		{
-			$checkinModel  = new \Joomla\Component\Checkin\Administrator\Model\CheckinModel(['ignore_request' => true]);
-			$checkins      = count($checkinModel->getItems());
+			$checkinModel = new \Joomla\Component\Checkin\Administrator\Model\CheckinModel(['ignore_request' => true]);
+			$checkins     = count($checkinModel->getItems());
 
 			$new = [
 				'com_checkin' => static::arrayBuilder(
@@ -200,16 +200,14 @@ class HtmlView extends BaseHtmlView
 
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
-			$databaseModel   = new \Joomla\Component\Installer\Administrator\Model\DatabaseModel(['ignore_request' => true]);
-			$changeSet       = $databaseModel->getItems();
-			$changeSetArray  = array();
+			$databaseModel  = new \Joomla\Component\Installer\Administrator\Model\DatabaseModel(['ignore_request' => true]);
+			$changeSet      = $databaseModel->getItems();
+			$changeSetCount = 0;
 
 			foreach ($changeSet as $item)
 			{
-				$changeSetArray[] = $item['errorsCount'];
+				$changeSetCount += $item['errorsCount'];
 			}
-
-			$changeSetCount = array_sum($changeSetArray);
 
 			$new = [
 				'com_installer_database' => static::arrayBuilder(
@@ -432,12 +430,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$joomlaUpdateModel = new \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel(['ignore_request' => true]);
 			$joomlaUpdate      = $joomlaUpdateModel->getUpdateInformation();
-			$hasUpdate         = '';
-
-			if ($joomlaUpdate['hasUpdate'] == true)
-			{
-				$hasUpdate = $joomlaUpdate['latest'];
-			}
+			$hasUpdate         = $joomlaUpdate['hasUpdate'] ? $joomlaUpdate['latest'] : '';
 
 			$links['MOD_MENU_UPDATE'] = [
 				'com_joomlaupdate' => static::arrayBuilder(
