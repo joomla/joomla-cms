@@ -150,7 +150,12 @@ Joomla = window.Joomla || {};
 				}
 			}
 
-			if (animate && !target.hasClass('no-animate') && !target.hasClass('no-animation')) {
+			animate = animate
+				&& !target.hasClass('no-animation')
+				&& !target.hasClass('no-animate')
+				&& !target.find('.no-animation, .no-animate').length;
+
+			if (animate) {
 				(showfield) ? target.slideDown() : target.slideUp();
 
 				return;
