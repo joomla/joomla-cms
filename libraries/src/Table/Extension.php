@@ -30,6 +30,9 @@ class Extension extends Table
 	public function __construct($db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
+
+		// Set the alias since the column is called enabled
+		$this->setColumnAlias('published', 'enabled');
 	}
 
 	/**

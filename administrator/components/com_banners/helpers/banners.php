@@ -188,7 +188,7 @@ class BannersHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  $items  The banner category objects
+	 * @param   stdClass[]  &$items  The category objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -196,46 +196,13 @@ class BannersHelper extends JHelperContent
 	 */
 	public static function countItems(&$items)
 	{
-		$db = JFactory::getDbo();
+		$config = (object) array(
+			'related_tbl'   => 'banners',
+			'state_col'     => 'state',
+			'group_col'     => 'catid',
+			'relation_type' => 'category_or_group',
+		);
 
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('state, count(*) AS count')
-				->from($db->qn('#__banners'))
-				->where('catid = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-			$banners = $db->loadObjectList();
-
-			foreach ($banners as $banner)
-			{
-				if ($banner->state == 1)
-				{
-					$item->count_published = $banner->count;
-				}
-
-				if ($banner->state == 0)
-				{
-					$item->count_unpublished = $banner->count;
-				}
-
-				if ($banner->state == 2)
-				{
-					$item->count_archived = $banner->count;
-				}
-
-				if ($banner->state == -2)
-				{
-					$item->count_trashed = $banner->count;
-				}
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 }
