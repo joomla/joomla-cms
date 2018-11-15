@@ -53,7 +53,7 @@ class PlgButtonContact extends JPlugin
 			$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
 			$button->name    = 'address';
 
-			//We check if the webclient is a phone
+			// We check if the webclient is a phone
 			if (($client->platform == $client::ANDROID)
 				|| ($client->platform == $client::WINDOWS_PHONE)
 				|| ($client->platform == $client::IPHONE)

@@ -65,7 +65,7 @@ class PlgButtonFields extends JPlugin
 		$button->text    = JText::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
 		$button->name    = 'puzzle';
 
-		//We check if the webclient is a phone
+		// We check if the webclient is a phone
 		$client = JFactory::getApplication()->client;
 		if (($client->platform == $client::ANDROID)
 			|| ($client->platform == $client::WINDOWS_PHONE)

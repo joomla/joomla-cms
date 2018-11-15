@@ -64,7 +64,7 @@ class PlgButtonPagebreak extends JPlugin
 		$button->text    = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
 		$button->name    = 'copy';
 
-		//We check if the webclient is a phone
+		// We check if the webclient is a phone
 		if (($client->platform == $client::ANDROID)
 			|| ($client->platform == $client::WINDOWS_PHONE)
 			|| ($client->platform == $client::IPHONE)

@@ -54,7 +54,7 @@ class PlgButtonMenu extends JPlugin
 		$button->text    = JText::_('PLG_EDITORS-XTD_MENU_BUTTON_MENU');
 		$button->name    = 'share-alt';
 
-		//We check if the webclient is a phone
+		// We check if the webclient is a phone
 		if (($client->platform == $client::ANDROID)
 			|| ($client->platform == $client::WINDOWS_PHONE)
 			|| ($client->platform == $client::IPHONE)

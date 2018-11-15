@@ -56,7 +56,7 @@ class PlgButtonModule extends JPlugin
 			$button->text    = JText::_('PLG_MODULE_BUTTON_MODULE');
 			$button->name    = 'file-add';
 
-			//We check if the webclient is a phone
+			// We check if the webclient is a phone
 			if (($client->platform == $client::ANDROID)
 				|| ($client->platform == $client::WINDOWS_PHONE)
 				|| ($client->platform == $client::IPHONE)
