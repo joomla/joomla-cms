@@ -27,9 +27,9 @@ use Joomla\CMS\Language\Text;
 				<li class="list-group-item">
 					<a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['title']); ?>
 					<?php if ($link['badge']) : ?>
-						<div class="pull-right badge badge-pill badge-warning">
+						<span class="pull-right badge badge-pill badge-warning">
 							<?php echo Text::_($link['badge']); ?>
-						</div>
+						</span>
 					<?php endif; ?>
 					</a>
 				</li>
