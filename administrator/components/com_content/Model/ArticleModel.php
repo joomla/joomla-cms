@@ -470,7 +470,7 @@ class ArticleModel extends AdminModel
 		$itrans = $input->get('publish_transitions', [], 'array');
 
 		// Include the plugins for the change of state event.
-		\JPluginHelper::importPlugin($this->events_map['change_state']);
+		PluginHelper::importPlugin($this->events_map['change_state']);
 
 		$db = $this->getDbo();
 
