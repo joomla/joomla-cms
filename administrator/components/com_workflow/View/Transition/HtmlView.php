@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Transition;
@@ -19,7 +19,7 @@ use Joomla\Component\Workflow\Administrator\Helper\StageHelper;
 /**
  * View class to add or edit Workflow
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -27,7 +27,7 @@ class HtmlView extends BaseHtmlView
 	 * The model state
 	 *
 	 * @var     object
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected $state;
 
@@ -35,7 +35,7 @@ class HtmlView extends BaseHtmlView
 	 * From object to generate fields
 	 *
 	 * @var     \JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $form;
 
@@ -43,7 +43,7 @@ class HtmlView extends BaseHtmlView
 	 * Items array
 	 *
 	 * @var     object
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $item;
 
@@ -51,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	 * That is object of Application
 	 *
 	 * @var     CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -59,7 +59,7 @@ class HtmlView extends BaseHtmlView
 	 * The application input object.
 	 *
 	 * @var    Input
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $input;
 
@@ -67,7 +67,7 @@ class HtmlView extends BaseHtmlView
 	 * The ID of current workflow
 	 *
 	 * @var     integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $workflowID;
 
@@ -78,7 +78,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function display($tpl = null)
 	{
@@ -112,7 +112,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function addToolbar()
 	{

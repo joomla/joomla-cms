@@ -126,7 +126,7 @@ abstract class ToolbarButton
 		{
 			$options['tagName'] = 'button';
 			$options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
-			$options['attributes']['href'] = '#';
+			$options['attributes']['type'] = 'button';
 		}
 		else
 		{

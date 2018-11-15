@@ -32,6 +32,14 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  3.7.0
+	 */
+	protected $app;
+
+	/**
 	 * Returns an icon definition for an icon which looks for extensions updates
 	 * via AJAX and displays a notification when such updates are found.
 	 *
@@ -44,7 +52,7 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			return array();
 		}
@@ -55,13 +63,17 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 			'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token,
 		);
 
-		Factory::getDocument()->addScriptOptions('js-extensions-update', $options);
+		$this->app->getDocument()->addScriptOptions('js-extensions-update', $options);
 
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPTODATE', true);
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND', true);
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true);
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true);
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true);
+		Text::script('MESSAGE', true);
+		Text::script('ERROR', true);
+		Text::script('INFO', true);
+		Text::script('WARNING', true);
 
 		HTMLHelper::_('behavior.core');
 		HTMLHelper::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.min.js', array('version' => 'auto', 'relative' => true));

@@ -3,9 +3,9 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
@@ -19,7 +19,7 @@ use Joomla\String\StringHelper;
 /**
  * Model class for stage
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class StageModel extends AdminModel
 {
@@ -30,7 +30,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function populateState()
 	{
@@ -52,7 +52,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since	__DEPLOY_VERSION__
+	 * @since	4.0.0
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -74,7 +74,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return   boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function save($data)
 	{
@@ -113,7 +113,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function canDelete($record)
 	{
@@ -148,7 +148,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function canEditState($record)
 	{
@@ -174,7 +174,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return \JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -227,7 +227,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return mixed  The data for the form.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function loadFormData()
 	{
@@ -253,7 +253,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setDefault($pk, $value = 1)
 	{
@@ -299,7 +299,7 @@ class StageModel extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function publish(&$pks, $value = 1)
 	{

@@ -19,7 +19,7 @@ use Joomla\Input\Input;
 /**
  * Access to module specific services.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Module implements ModuleInterface
 {
@@ -28,7 +28,7 @@ class Module implements ModuleInterface
 	 *
 	 * @var ModuleDispatcherFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $dispatcherFactory;
 
@@ -37,7 +37,7 @@ class Module implements ModuleInterface
 	 *
 	 * @param   ModuleDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(ModuleDispatcherFactoryInterface $dispatcherFactory)
 	{
@@ -53,7 +53,7 @@ class Module implements ModuleInterface
 	 *
 	 * @return  DispatcherInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface
 	{

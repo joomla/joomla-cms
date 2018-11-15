@@ -17,7 +17,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the application's WebAsset dependency
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WebAsset implements ServiceProviderInterface
 {
@@ -28,7 +28,7 @@ class WebAsset implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

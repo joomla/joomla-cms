@@ -413,9 +413,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'show_category_title'     => 0,
 					'num_leading_articles'    => 4,
 					'num_intro_articles'      => 0,
-					'num_columns'             => 1,
 					'num_links'               => 2,
-					'multi_column_order'      => 1,
 					'orderby_sec'             => 'rdate',
 					'order_date'              => 'published',
 					'show_pagination'         => 2,
@@ -989,6 +987,11 @@ class PlgSampledataBlog extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
+		if ($this->app->input->get('type') != $this->_name)
+		{
+			return;
+		}
+
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
 
