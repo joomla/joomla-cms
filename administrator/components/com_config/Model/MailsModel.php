@@ -138,7 +138,10 @@ class MailsModel extends ListModel
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.mail_id LIKE ' . $search . ' OR a.subject LIKE ' . $search . ' OR a.body LIKE ' . $search . ' OR a.htmlbody LIKE ' . $search . ')');
+				$query->where('(a.mail_id LIKE ' . $search
+					. ' OR a.subject LIKE ' . $search
+					. ' OR a.body LIKE ' . $search
+					. ' OR a.htmlbody LIKE ' . $search . ')');
 			}
 		}
 
