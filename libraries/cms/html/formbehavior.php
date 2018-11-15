@@ -17,7 +17,9 @@ use Joomla\Registry\Registry;
 /**
  * Utility class for form related behaviors
  *
- * @since  3.0
+ * @since       3.0
+ *
+ * @deprecated  5.0  Without replacement
  */
 abstract class JHtmlFormbehavior
 {
@@ -146,7 +148,7 @@ abstract class JHtmlFormbehavior
 			// Include scripts
 			HTMLHelper::_('behavior.core');
 			HTMLHelper::_('jquery.framework');
-			HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', false, true, false, false, $debug);
+			HTMLHelper::_('script', 'legacy/ajax-chosen.min.js', ['version' => 'auto', 'relative' => true, 'detectDebug' => $debug]);
 
 			Factory::getDocument()->addScriptOptions(
 				'ajax-chosen',

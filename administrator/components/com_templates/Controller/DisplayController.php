@@ -50,17 +50,6 @@ class DisplayController extends BaseController
 		// For JSON requests
 		if ($document->getType() == 'json')
 		{
-			/*$view = new \Joomla\Component\Templates\Administrator\View\Style\Json;
-
-			// Get/Create the model
-			$model = new Style;
-			$view->setModel($model, true);
-
-			$view->document = $document;
-
-			return $view->display();
-			*/
-
 			return parent::display();
 		}
 
