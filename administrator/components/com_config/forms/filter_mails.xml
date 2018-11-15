@@ -17,6 +17,16 @@
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
 			<option value="*">JALL</option>
 		</field>
+
+		<field
+			name="extension"
+			type="sql"
+			query="SELECT SUBSTRING(mail_id, 1, POSITION('.' IN mail_id) - 1) AS value, SUBSTRING(mail_id, 1, POSITION('.' IN mail_id) - 1) AS extension FROM #__mail_templates GROUP BY extension ORDER BY extension ASC"
+			translate="true"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_CONFIG_FILTER_OPTION_SELECT_EXTENSION</option>
+		</field>
 	</fields>
 
 	<fields name="list">

@@ -126,6 +126,34 @@ class MailsModel extends ListModel
 		);
 		$query->from($db->quoteName('#__mail_templates') . ' AS a')->group('a.mail_id');
 
+		// Filter by search in title.
+		$search = $this->getState('filter.search');
+
+		if (!empty($search))
+		{
+			if (stripos($search, 'id:') === 0)
+			{
+				$query->where('a.mail_id = ' . $query->q(substr($search, 3)));
+			}
+			else
+			{
+				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
+				$query->where('(a.mail_id LIKE ' . $search . ' OR a.subject LIKE ' . $search . ' OR a.body LIKE ' . $search . ' OR a.htmlbody LIKE ' . $search . ')');
+			}
+		}
+
+		// Filter on the extension.
+		if ($language = $this->getState('filter.extension'))
+		{
+			$query->where('a.mail_id LIKE ' . $db->quote($language . '.%'));
+		}
+
+		// Filter on the language.
+		if ($language = $this->getState('filter.language'))
+		{
+			$query->where('a.language = ' . $db->quote($language));
+		}
+
 		return $query;
 	}
 
