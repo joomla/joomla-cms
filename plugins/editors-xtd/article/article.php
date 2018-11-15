@@ -37,6 +37,7 @@ class PlgButtonArticle extends JPlugin
 	{
 		$input = JFactory::getApplication()->input;
 		$user  = JFactory::getUser();
+		$client = JFactory::getApplication()->client;
 
 		// Can create in any category (component permission) or at least in one category
 		$canCreateRecords = $user->authorise('core.create', 'com_content')
@@ -62,7 +63,19 @@ class PlgButtonArticle extends JPlugin
 		$button->link    = $link;
 		$button->text    = JText::_('PLG_ARTICLE_BUTTON_ARTICLE');
 		$button->name    = 'file-add';
-		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+
+		//We check if the webclient is a phone
+		if (($client->platform == $client::ANDROID)
+			|| ($client->platform == $client::WINDOWS_PHONE)
+			|| ($client->platform == $client::IPHONE)
+			|| ($client->platform == $client::BLACKBERRY))
+		{
+			$button->options = "{handler: 'iframe', size: {x: 300, y: 500}}";
+		}
+		else
+		{
+			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		}
 
 		return $button;
 	}

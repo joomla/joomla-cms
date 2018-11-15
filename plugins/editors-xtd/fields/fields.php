@@ -64,7 +64,20 @@ class PlgButtonFields extends JPlugin
 		$button->link    = $link;
 		$button->text    = JText::_('PLG_EDITORS-XTD_FIELDS_BUTTON_FIELD');
 		$button->name    = 'puzzle';
-		$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+
+		//We check if the webclient is a phone
+		$client = JFactory::getApplication()->client;
+		if (($client->platform == $client::ANDROID)
+			|| ($client->platform == $client::WINDOWS_PHONE)
+			|| ($client->platform == $client::IPHONE)
+			|| ($client->platform == $client::BLACKBERRY))
+		{
+			$button->options = "{handler: 'iframe', size: {x: 300, y: 500}}";
+		}
+		else
+		{
+			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+		}
 
 		return $button;
 	}

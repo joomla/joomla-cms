@@ -40,6 +40,7 @@ class PlgButtonModule extends JPlugin
 		 * Currently uses blank class.
 		 */
 		$user  = JFactory::getUser();
+		$client = JFactory::getApplication()->client;
 
 		if ($user->authorise('core.create', 'com_modules')
 			|| $user->authorise('core.edit', 'com_modules')
@@ -54,7 +55,19 @@ class PlgButtonModule extends JPlugin
 			$button->link    = $link;
 			$button->text    = JText::_('PLG_MODULE_BUTTON_MODULE');
 			$button->name    = 'file-add';
-			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+
+			//We check if the webclient is a phone
+			if (($client->platform == $client::ANDROID)
+				|| ($client->platform == $client::WINDOWS_PHONE)
+				|| ($client->platform == $client::IPHONE)
+				|| ($client->platform == $client::BLACKBERRY))
+			{
+				$button->options = "{handler: 'iframe', size: {x: 300, y: 500}}";
+			}
+			else
+			{
+				$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
+			}
 
 			return $button;
 		}
