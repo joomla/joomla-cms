@@ -66,8 +66,7 @@ JFactory::getDocument()->addScriptDeclaration(
 						$conditions = JFormHelper::parseShowOnConditions(
 							$fieldSet->showon,
 							$this->formControl,
-							'',
-							$fieldSet->getAttribute('showon-animate') !== 'false'
+							''
 						);
 						$dataShowOn = ' data-showon=\'' . json_encode($conditions) . '\'';
 						?>
@@ -97,8 +96,7 @@ JFactory::getDocument()->addScriptDeclaration(
 								$conditions = JFormHelper::parseShowOnConditions(
 									$field->showon,
 									$field->formControl,
-									$field->group,
-									$field->getAttribute('showon-animate') !== 'false'
+									$field->group
 								);
 								$dataShowOn = ' data-showon=\'' . json_encode($conditions) . '\'';
 								?>

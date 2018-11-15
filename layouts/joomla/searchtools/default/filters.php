@@ -25,8 +25,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				$conditions = JFormHelper::parseShowOnConditions(
 					$field->showon,
 					$field->formControl,
-					$field->group,
-					$field->getAttribute('showon-animate') !== 'false'
+					$field->group
 				);
 				$dataShowOn = " data-showon='" . json_encode($conditions) . "'";
 				?>

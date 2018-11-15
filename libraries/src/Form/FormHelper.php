@@ -434,13 +434,12 @@ class FormHelper
 	 * @param   string   $showOn       Show on conditions.
 	 * @param   string   $formControl  Form name.
 	 * @param   string   $group        The dot-separated form group path.
-	 * @param   boolean  $animate      Whether to animate when hiding/showing the content.
 	 *
 	 * @return  array   Array with show on conditions.
 	 *
 	 * @since   3.7.0
 	 */
-	public static function parseShowOnConditions($showOn, $formControl = null, $group = null, $animate = true)
+	public static function parseShowOnConditions($showOn, $formControl = null, $group = null)
 	{
 		// Process the showon data.
 		if (!$showOn)
@@ -505,7 +504,6 @@ class FormHelper
 				'values'  => explode(',', $showOnPartBlocks[1]),
 				'sign'    => $compareEqual === true ? '=' : '!=',
 				'op'      => $op,
-				'animate' => $animate,
 			);
 
 			if ($op !== '')

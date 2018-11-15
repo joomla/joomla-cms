@@ -604,7 +604,7 @@ abstract class FormField
 		{
 			$this->value = (array) json_decode($value);
 		}
-		else 
+		else
 		{
 			$this->value = $value;
 		}
@@ -966,10 +966,8 @@ abstract class FormField
 
 		if ($this->showon)
 		{
-			$animate = $this->getAttribute('showon-animate') !== 'false';
-
 			$options['rel']           = ' data-showon=\'' .
-				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group, $animate)) . '\'';
+				json_encode(FormHelper::parseShowOnConditions($this->showon, $this->formControl, $this->group)) . '\'';
 			$options['showonEnabled'] = true;
 		}
 
