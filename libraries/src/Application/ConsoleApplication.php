@@ -69,7 +69,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null, Container $container = null)
 	{
-		parent::__construct($input, $config);
+		parent::__construct($config);
 
 		$this->setName('Joomla!');
 		$this->setVersion(JVERSION);
