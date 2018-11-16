@@ -148,7 +148,7 @@ class Modules
 		$templateGroups = array();
 
 		// Add an empty value to be able to deselect a module position
-		$option = ModulesHelper::createOption();
+		$option = ModulesHelper::createOption('', Text::_('COM_MODULES_NONE'));
 		$templateGroups[''] = ModulesHelper::createOptionGroup('', array($option));
 
 		// Add positions from templates
@@ -181,8 +181,7 @@ class Modules
 
 		// Add custom position to options
 		$customGroupText = Text::_('COM_MODULES_CUSTOM_POSITION');
-
-		$editPositions = true;
+		$editPositions   = true;
 		$customPositions = ModulesHelper::getPositions($clientId, $editPositions);
 		$templateGroups[$customGroupText] = ModulesHelper::createOptionGroup($customGroupText, $customPositions);
 

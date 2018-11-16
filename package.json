@@ -30,6 +30,7 @@
     "chosen-js": "1.6.2",
     "codemirror": "5.35.0",
     "cropperjs": "1.2.2",
+    "choices.js": "^3.0.4",
     "css-vars-ponyfill": "^1.9.0",
     "diff": "3.4.0",
     "dragula": "3.7.2",
