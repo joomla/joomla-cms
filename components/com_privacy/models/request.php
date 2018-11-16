@@ -234,6 +234,11 @@ class PrivacyModelRequest extends JModelAdmin
 			$id = $this->getState($this->getName() . '.id');
 		}
 
+		// This can happen if a duplicate request was attempted, so the new request was not created, and so doesnt need to be deleted
+		if (!$id){
+			return false;
+		}
+
 		/** @var PrivacyTableRequest $table */
 		$table = $this->getTable();
 
