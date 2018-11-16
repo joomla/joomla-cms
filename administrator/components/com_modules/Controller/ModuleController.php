@@ -235,7 +235,7 @@ class ModuleController extends FormController
 			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
 		}
 
-		parent::save($key, $urlVar);
+		return parent::save($key, $urlVar);
 
 	}
 

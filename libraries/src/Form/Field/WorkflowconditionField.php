@@ -17,7 +17,7 @@ use Joomla\CMS\Workflow\WorkflowServiceInterface;
 /**
  * Workflow States field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowconditionField extends ListField
 {
@@ -25,7 +25,7 @@ class WorkflowconditionField extends ListField
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'Workflowcondition';
 
@@ -33,7 +33,7 @@ class WorkflowconditionField extends ListField
 	 * The component and section separated by ".".
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension = '';
 
@@ -48,7 +48,7 @@ class WorkflowconditionField extends ListField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -74,7 +74,7 @@ class WorkflowconditionField extends ListField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getOptions()
 	{

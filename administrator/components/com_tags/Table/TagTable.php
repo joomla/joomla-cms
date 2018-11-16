@@ -223,7 +223,7 @@ class TagTable extends Nested
 	}
 
 	/**
-	 * Overriden \JTable::store to set modified data and user id.
+	 * Overridden \JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *

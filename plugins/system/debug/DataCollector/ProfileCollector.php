@@ -25,7 +25,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Request start time.
 	 *
 	 * @var   float
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $requestStartTime;
 
@@ -33,7 +33,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Request end time.
 	 *
 	 * @var   float
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $requestEndTime;
 
@@ -41,7 +41,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Started measures.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $startedMeasures = array();
 
@@ -49,7 +49,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Measures.
 	 *
 	 * @var array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $measures = array();
 
@@ -58,7 +58,7 @@ class ProfileCollector extends AbstractDataCollector
 	 *
 	 * @param   Registry  $params  Parameters.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function __construct(Registry $params)
 	{
@@ -81,7 +81,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   string|null  $label      Public name
 	 * @param   string|null  $collector  The source of the collector
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return void
 	 */
 	public function startMeasure($name, $label = null, $collector = null)
@@ -100,7 +100,7 @@ class ProfileCollector extends AbstractDataCollector
 	 *
 	 * @param   string  $name  Group name.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return bool
 	 */
 	public function hasStartedMeasure($name): bool
@@ -114,7 +114,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   string  $name    Measurement name.
 	 * @param   array   $params  Parameters
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @throws DebugBarException
 	 * @return void
 	 */
@@ -147,7 +147,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   array        $params     Parameters.
 	 * @param   string|null  $collector  A collector.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return void
 	 */
 	public function addMeasure($label, $start, $end, array $params = array(), $collector = null)
@@ -172,7 +172,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * @param   \Closure     $closure    A closure.
 	 * @param   string|null  $collector  A collector.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return void
 	 */
 	public function measure($label, \Closure $closure, $collector = null)
@@ -187,7 +187,7 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns an array of all measures
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return array
 	 */
 	public function getMeasures(): array
@@ -198,7 +198,7 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns the request start time
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return float
 	 */
 	public function getRequestStartTime(): float
@@ -209,7 +209,7 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns the request end time
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return float
 	 */
 	public function getRequestEndTime(): float
@@ -220,7 +220,7 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns the duration of a request
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return float
 	 */
 	public function getRequestDuration(): float
@@ -236,7 +236,7 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return array Collected data
 	 */
 	public function collect(): array
@@ -287,7 +287,7 @@ class ProfileCollector extends AbstractDataCollector
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return string
 	 */
 	public function getName(): string
@@ -299,7 +299,7 @@ class ProfileCollector extends AbstractDataCollector
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return array
 	 */
 	public function getWidgets(): array
