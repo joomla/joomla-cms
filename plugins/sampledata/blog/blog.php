@@ -987,6 +987,11 @@ class PlgSampledataBlog extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
+		if ($this->app->input->get('type') != $this->_name)
+		{
+			return;
+		}
+
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
 

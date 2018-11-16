@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  * Caching factory for creating language objects. The requested languages are
  * cached in memory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CachingLanguageFactory extends LanguageFactory
 {
@@ -22,7 +22,7 @@ class CachingLanguageFactory extends LanguageFactory
 	 * Array of Language objects
 	 *
 	 * @var    Language[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private static $languages = array();
 
@@ -34,7 +34,7 @@ class CachingLanguageFactory extends LanguageFactory
 	 *
 	 * @return  Language
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createLanguage($lang, $debug = false): Language
 	{

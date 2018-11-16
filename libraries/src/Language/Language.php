@@ -975,7 +975,7 @@ class Language
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getTrace()
 	{

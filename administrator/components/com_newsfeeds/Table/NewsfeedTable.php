@@ -135,7 +135,7 @@ class NewsfeedTable extends Table
 	}
 
 	/**
-	 * Overriden \JTable::store to set modified data.
+	 * Overridden \JTable::store to set modified data.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *
