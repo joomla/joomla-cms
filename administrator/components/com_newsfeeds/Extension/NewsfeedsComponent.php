@@ -11,8 +11,8 @@ namespace Joomla\Component\Newsfeeds\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Component\Router\RouterServiceInterface;
@@ -26,7 +26,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_newsfeeds
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class NewsfeedsComponent extends MVCComponent implements
 	BootableExtensionInterface, CategoryServiceInterface, AssociationServiceInterface, RouterServiceInterface
@@ -47,7 +47,7 @@ class NewsfeedsComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

@@ -31,7 +31,7 @@ class PlgContentJoomla extends CMSPlugin
 	 * Database Driver Instance
 	 *
 	 * @var    \Joomla\Database\DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -104,8 +104,8 @@ class PlgContentJoomla extends CMSPlugin
 					'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
 					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
-				$model_message = Factory::getApplication()->bootComponent('com_messages')
-					->createMVCFactory(Factory::getApplication())->createModel('Message', 'Administrator');
+				$model_message = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()
+					->createModel('Message', 'Administrator');
 				$result = $model_message->save($message);
 			}
 		}
@@ -224,7 +224,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private function _canDeleteStages($pk)
 	{
@@ -370,7 +370,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  mixed  count of items found or false if db error
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private function _countItemsFromState($extension, $stage_id, $table)
 	{
@@ -519,7 +519,7 @@ class PlgContentJoomla extends CMSPlugin
 					);
 
 					$model_message = Factory::getApplication()->bootComponent('com_messages')
-						->createMVCFactory(Factory::getApplication())->createModel('Message', 'Administrator');
+						->getMVCFactory()->createModel('Message', 'Administrator');
 					$result = $model_message->save($message);
 				}
 			}

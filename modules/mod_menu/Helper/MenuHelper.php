@@ -11,8 +11,10 @@ namespace Joomla\Module\Menu\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 
 /**
@@ -40,7 +42,9 @@ class MenuHelper
 		$levels = Factory::getUser()->getAuthorisedViewLevels();
 		asort($levels);
 		$key    = 'menu_items' . $params . implode(',', $levels) . '.' . $base->id;
-		$cache  = Factory::getCache('mod_menu', '');
+
+		/** @var OutputController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('output', ['defaultgroup' => 'mod_menu']);
 
 		if ($cache->contains($key))
 		{

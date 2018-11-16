@@ -17,7 +17,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
 /**
  * LanguageStringsDataCollector
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LanguageStringsCollector extends AbstractDataCollector implements AssetProvider
 {
@@ -25,14 +25,14 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 	 * Collector name.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $name = 'languageStrings';
 
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array Collected data
 	 */
@@ -47,7 +47,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return string
 	 */
@@ -60,7 +60,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array
 	 */
@@ -87,7 +87,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 	 *  - css: an array of filenames
 	 *  - js: an array of filenames
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return array
 	 */
 	public function getAssets(): array
@@ -103,7 +103,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function getData(): array
 	{
@@ -179,7 +179,7 @@ class LanguageStringsCollector extends AbstractDataCollector implements AssetPro
 	 *
 	 * @return integer
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function getCount(): int
 	{

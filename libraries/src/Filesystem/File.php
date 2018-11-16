@@ -13,8 +13,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Wrapper\FolderWrapper;
-use Joomla\CMS\Filesystem\Wrapper\PathWrapper;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -94,13 +92,11 @@ class File
 	 */
 	public static function copy($src, $dest, $path = null, $use_streams = false)
 	{
-		$pathObject = new PathWrapper;
-
 		// Prepend a base path if it exists
 		if ($path)
 		{
-			$src = $pathObject->clean($path . '/' . $src);
-			$dest = $pathObject->clean($path . '/' . $dest);
+			$src =  Path::clean($path . '/' . $src);
+			$dest = Path::clean($path . '/' . $dest);
 		}
 
 		// Check src path
@@ -136,12 +132,11 @@ class File
 				// If the parent folder doesn't exist we must create it
 				if (!file_exists(dirname($dest)))
 				{
-					$folderObject = new FolderWrapper;
-					$folderObject->create(dirname($dest));
+					Folder::create(dirname($dest));
 				}
 
 				// Translate the destination path for the FTP account
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				if (!$ftp->store($src, $dest))
 				{
@@ -179,7 +174,6 @@ class File
 	public static function delete($file)
 	{
 		$FTPOptions = ClientHelper::getCredentials('ftp');
-		$pathObject = new PathWrapper;
 
 		if (is_array($file))
 		{
@@ -199,7 +193,7 @@ class File
 
 		foreach ($files as $file)
 		{
-			$file = $pathObject->clean($file);
+			$file = Path::clean($file);
 
 			if (!is_file($file))
 			{
@@ -218,7 +212,7 @@ class File
 			}
 			elseif ($FTPOptions['enabled'] == 1)
 			{
-				$file = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+				$file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
 
 				if (!$ftp->delete($file))
 				{
@@ -253,12 +247,10 @@ class File
 	 */
 	public static function move($src, $dest, $path = '', $use_streams = false)
 	{
-		$pathObject = new PathWrapper;
-
 		if ($path)
 		{
-			$src = $pathObject->clean($path . '/' . $src);
-			$dest = $pathObject->clean($path . '/' . $dest);
+			$src = Path::clean($path . '/' . $src);
+			$dest = Path::clean($path . '/' . $dest);
 		}
 
 		// Check src path
@@ -292,8 +284,8 @@ class File
 				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
-				$src = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$src = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $src), '/');
+				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Use FTP rename to simulate move
 				if (!$ftp->rename($src, $dest))
@@ -335,9 +327,7 @@ class File
 		// If the destination directory doesn't exist we need to create it
 		if (!file_exists(dirname($file)))
 		{
-			$folderObject = new FolderWrapper;
-
-			if ($folderObject->create(dirname($file)) == false)
+			if (Folder::create(dirname($file)) == false)
 			{
 				return false;
 			}
@@ -362,7 +352,6 @@ class File
 		else
 		{
 			$FTPOptions = ClientHelper::getCredentials('ftp');
-			$pathObject = new PathWrapper;
 
 			if ($FTPOptions['enabled'] == 1)
 			{
@@ -370,12 +359,12 @@ class File
 				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account and use FTP write buffer to file
-				$file = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
+				$file = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $file), '/');
 				$ret = $ftp->write($file, $buffer);
 			}
 			else
 			{
-				$file = $pathObject->clean($file);
+				$file = Path::clean($file);
 				$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
 			}
 
@@ -480,16 +469,14 @@ class File
 		}
 
 		// Ensure that the path is valid and clean
-		$pathObject = new PathWrapper;
-		$dest = $pathObject->clean($dest);
+		$dest = Path::clean($dest);
 
 		// Create the destination directory if it does not exist
 		$baseDir = dirname($dest);
 
 		if (!file_exists($baseDir))
 		{
-			$folderObject = new FolderWrapper;
-			$folderObject->create($baseDir);
+			Folder::create($baseDir);
 		}
 
 		if ($use_streams)
@@ -516,7 +503,7 @@ class File
 				$ftp = FtpClient::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 
 				// Translate path for the FTP account
-				$dest = $pathObject->clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
+				$dest = Path::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $dest), '/');
 
 				// Copy the file to the destination directory
 				if (is_uploaded_file($src) && $ftp->store($src, $dest))
@@ -534,7 +521,7 @@ class File
 				if (is_writable($baseDir) && move_uploaded_file($src, $dest))
 				{
 					// Short circuit to prevent file permission errors
-					if ($pathObject->setPermissions($dest))
+					if (Path::setPermissions($dest))
 					{
 						$ret = true;
 					}
@@ -564,8 +551,6 @@ class File
 	 */
 	public static function exists($file)
 	{
-		$pathObject = new PathWrapper;
-
-		return is_file($pathObject->clean($file));
+		return is_file(Path::clean($file));
 	}
 }

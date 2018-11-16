@@ -11,14 +11,14 @@ namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Remind model class for Users.
@@ -30,10 +30,10 @@ class RemindModel extends FormModel
 	/**
 	 * Method to get the username remind request form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JFor     A Form object on success, false on failure
+	 * @return  \JForm     A Form object on success, false on failure
 	 *
 	 * @since   1.6
 	 */

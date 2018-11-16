@@ -12,23 +12,23 @@ namespace Joomla\Component\Content\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Category;
+use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Component\Workflow\Administrator\Table\StageTable;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Category;
-use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Language\Associations;
-use Joomla\CMS\Language\LanguageHelper;
-use Joomla\CMS\UCM\UCMType;
-use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
-use Joomla\CMS\Form\Form;
 
 /**
  * Item Model for an Article.
@@ -148,6 +148,20 @@ class ArticleModel extends AdminModel
 			// Get the featured state
 			$featured = $this->table->featured;
 
+			$workflow = $this->getWorkflowByCategory($categoryId);
+
+			if (empty($workflow->id))
+			{
+				$this->setError(Text::_('COM_CONTENT_WORKFLOW_NOT_FOUND'));
+
+				return false;
+			}
+
+			$stageId = (int) $workflow->stage_id;
+
+			// B/C state
+			$this->table->state = (int) $workflow->condition;
+
 			// Check the row.
 			if (!$this->table->check())
 			{
@@ -165,7 +179,12 @@ class ArticleModel extends AdminModel
 			}
 
 			// Get the new item ID
-			$newId = $this->table->get('id');
+			$newId = (int) $this->table->get('id');
+
+			// Add workflow stage
+			$workflow = new Workflow(['extension' => 'com_content']);
+
+			$workflow->createAssociation($newId, $stageId);
 
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
@@ -200,7 +219,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function batchWorkflowStage($value, $pks, $contexts)
 	{
@@ -1017,13 +1036,15 @@ class ArticleModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array('catid = ' . (int) $table->catid);
+		return [
+			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+		];
 	}
 
 	/**
@@ -1265,7 +1286,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function runTransition($pk, $transition_id)
 	{

@@ -34,6 +34,14 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  3.7.0
+	 */
+	protected $app;
+
+	/**
 	 * Returns an array of events this subscriber will listen to.
 	 *
 	 * @return  array
@@ -62,7 +70,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 	{
 		$context = $event->getContext();
 
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !$this->app->getIdentity()->authorise('core.manage', 'com_installer'))
 		{
 			return;
 		}
@@ -72,8 +80,12 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true);
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
 		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
+		Text::script('MESSAGE', true);
+		Text::script('ERROR', true);
+		Text::script('INFO', true);
+		Text::script('WARNING', true);
 
-		Factory::getDocument()->addScriptOptions(
+		$this->app->getDocument()->addScriptOptions(
 			'js-joomla-update',
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
