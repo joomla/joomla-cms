@@ -235,7 +235,8 @@ class PrivacyModelRequest extends JModelAdmin
 		}
 
 		// This can happen if a duplicate request was attempted, so the new request was not created, and so doesnt need to be deleted
-		if (!$id){
+		if (!$id)
+		{
 			return false;
 		}
 
