@@ -218,6 +218,34 @@ class PrivacyModelRequest extends JModelAdmin
 	}
 
 	/**
+	 * Deletes an information request.
+	 *
+	 * @param   integer $id The primary id of the request
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
+	 */
+	public function removeRequest($id = null)
+	{
+		if (null === $id)
+		{
+			$id = $this->getState($this->getName() . '.id');
+		}
+
+		/** @var PrivacyTableRequest $table */
+		$table = $this->getTable();
+
+		if ($table->load($id))
+		{
+			return $table->delete($id);
+		}
+
+		return false;
+	}
+
+	/**
 	 * Method for getting the form from the model.
 	 *
 	 * @param   array    $data      Data for the form.

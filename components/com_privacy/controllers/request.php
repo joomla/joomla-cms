@@ -108,8 +108,14 @@ class PrivacyControllerRequest extends JControllerLegacy
 		}
 		elseif ($return === false)
 		{
-			// Confirm failed.
-			// Go back to the confirm form.
+			/**
+			 * If we were able to createRequest before that method returned false, then clean up
+			 * This can happen if we save the request and then there was a problem sending the email.
+			 */
+			/** @var PrivacyTableRequest $table */
+			$model->removeRequest();
+
+			// Confirm failed and go back to the confirm form.
 			$message = JText::sprintf('COM_PRIVACY_ERROR_CREATING_REQUEST_FAILED', $model->getError());
 			$this->setRedirect(JRoute::_('index.php?option=com_privacy&view=request', false), $message, 'notice');
 
