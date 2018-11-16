@@ -1883,41 +1883,52 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		if (is_string($name))
 		{
-			$quotedName = $this->quoteNameStr(explode('.', $name));
+			$name = $this->quoteNameString($name);
 
-			$quotedAs = '';
-
-			if (!is_null($as))
+			if ($as !== null)
 			{
-				settype($as, 'array');
-				$quotedAs .= ' AS ' . $this->quoteNameStr($as);
+				$name .= ' AS ' . $this->quoteNameString($as);
 			}
 
-			return $quotedName . $quotedAs;
+			return $name;
 		}
-		else
+
+		$fin = array();
+
+		if ($as === null)
 		{
-			$fin = array();
-
-			if (is_null($as))
+			foreach ($name as $str)
 			{
-				foreach ($name as $str)
-				{
-					$fin[] = $this->quoteName($str);
-				}
+				$fin[] = $this->quoteName($str);
 			}
-			elseif (is_array($name) && (count($name) == count($as)))
-			{
-				$count = count($name);
-
-				for ($i = 0; $i < $count; $i++)
-				{
-					$fin[] = $this->quoteName($name[$i], $as[$i]);
-				}
-			}
-
-			return $fin;
 		}
+		elseif (is_array($name) && (count($name) == count($as)))
+		{
+			$count = count($name);
+
+			for ($i = 0; $i < $count; $i++)
+			{
+				$fin[] = $this->quoteName($name[$i], $as[$i]);
+			}
+		}
+
+		return $fin;
+	}
+
+	/**
+	 * Quote string coming from quoteName call.
+	 *
+	 * @param   string  $name  Array of strings coming from quoteName dot-explosion.
+	 *
+	 * @return  string  Dot-imploded string of quoted parts.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function quoteNameString($name)
+	{
+		$q = $this->nameQuote . $this->nameQuote;
+
+		return $q[0] . str_replace('.', "$q[1].$q[0]", $name) . $q[1];
 	}
 
 	/**
@@ -1928,6 +1939,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	 * @return  string  Dot-imploded string of quoted parts.
 	 *
 	 * @since 1.7.3
+	 * @deprecated  4.0  Use quoteNameString instead
 	 */
 	protected function quoteNameStr($strArr)
 	{
