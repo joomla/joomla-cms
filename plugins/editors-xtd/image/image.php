@@ -15,7 +15,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * Editor Image buton
+ * Editor Image button
  *
  * @since  1.5
  */

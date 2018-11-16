@@ -16,12 +16,10 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Module\Search\Site\Helper\SearchHelper;
 
-$app = Factory::getApplication();
-
 if ($params->get('opensearch', 1))
 {
 	$ostitle = $params->get('opensearch_title', Text::_('MOD_SEARCH_SEARCHBUTTON_TEXT') . ' ' . $app->get('sitename'));
-	Factory::getDocument()->addHeadLink(
+	$app->getDocument()->addHeadLink(
 		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('&option=com_search&format=opensearch'), 'search', 'rel',
 		[
 			'title' => htmlspecialchars($ostitle, ENT_COMPAT, 'UTF-8'),
@@ -30,7 +28,7 @@ if ($params->get('opensearch', 1))
 	);
 }
 
-$upper_limit = Factory::getLanguage()->getUpperLimitSearchWord();
+$upper_limit = $app->getLanguage()->getUpperLimitSearchWord();
 $button      = $params->get('button', 0);
 $imagebutton = $params->get('imagebutton', 0);
 $button_text = htmlspecialchars($params->get('button_text', Text::_('MOD_SEARCH_SEARCHBUTTON_TEXT')), ENT_COMPAT, 'UTF-8');

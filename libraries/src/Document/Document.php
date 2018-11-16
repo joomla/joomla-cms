@@ -250,7 +250,7 @@ class Document
 	 * Web Asset instance
 	 *
 	 * @var    WebAssetRegistry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $webAssetManager = null;
 
@@ -835,7 +835,7 @@ class Document
 	 *
 	 * @return  Document
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setWebAssetManager(WebAssetRegistry $webAsset): self
 	{
@@ -849,7 +849,7 @@ class Document
 	 *
 	 * @return  WebAssetRegistry
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getWebAssetManager(): WebAssetRegistry
 	{
