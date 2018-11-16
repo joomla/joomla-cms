@@ -251,7 +251,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 		{
 			if ((bool) $this->params->get('collect_urls', true))
 			{
-				if (!$params->get('includeUrl', 1))
+				if (!$this->params->get('includeUrl', 1))
 				{
 					$url = $urlRel;
 				}

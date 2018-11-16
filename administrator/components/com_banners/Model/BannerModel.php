@@ -11,10 +11,10 @@ namespace Joomla\Component\Banners\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
@@ -408,16 +408,16 @@ class BannerModel extends AdminModel
 	 *
 	 * @param   Table  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array(
-			'catid = ' . (int) $table->catid,
-			'state >= 0'
-		);
+		return [
+			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$this->_db->quoteName('state') . ' >= 0',
+		];
 	}
 
 	/**

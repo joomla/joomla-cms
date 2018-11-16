@@ -19,7 +19,7 @@ Log::add('JImageFilterGrayscale is deprecated, use Joomla\Image\Filter\Grayscale
 /**
  * Image Filter class to transform an image to grayscale.
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  5.0  Use Joomla\Image\Filter\Grayscale instead
  */
 class Grayscale extends ImageFilter
@@ -31,7 +31,7 @@ class Grayscale extends ImageFilter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  5.0  Use Joomla\Image\Filter\Grayscale::execute() instead
 	 */
 	public function execute(array $options = array())

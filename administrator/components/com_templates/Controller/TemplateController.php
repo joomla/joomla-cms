@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
@@ -83,7 +84,7 @@ class TemplateController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function publish()
 	{
@@ -213,8 +214,8 @@ class TemplateController extends BaseController
 
 			// Call installation model
 			$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
-			$installModel = $this->app->bootComponent('com_installer')->createMVCFactory($this->app)
-				->createModel('Install', 'Administrator');
+			$installModel = $this->app->bootComponent('com_installer')
+				->getMVCFactory()->createModel('Install', 'Administrator');
 			Factory::getLanguage()->load('com_installer');
 
 			if (!$installModel->install())
@@ -312,7 +313,7 @@ class TemplateController extends BaseController
 
 			return false;
 		}
-		elseif ($data['filename'] != end($explodeArray))
+		elseif (Path::clean($data['filename'], '/') != end($explodeArray))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
@@ -807,7 +808,7 @@ class TemplateController extends BaseController
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function ajax()
 	{

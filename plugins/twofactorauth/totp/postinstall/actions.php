@@ -21,7 +21,7 @@
  */
 function twofactorauth_postinstall_condition()
 {
-	$db = JFactory::getDbo();
+	$db = JFactory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
 
 	$query = $db->getQuery(true)
 		->select('*')
@@ -47,7 +47,7 @@ function twofactorauth_postinstall_condition()
 function twofactorauth_postinstall_action()
 {
 	// Enable the plugin
-	$db = JFactory::getDbo();
+	$db = JFactory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
 
 	$query = $db->getQuery(true)
 		->update($db->quoteName('#__extensions'))

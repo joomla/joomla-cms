@@ -10,6 +10,8 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
@@ -332,7 +334,7 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		if ($component instanceof MVCFactoryServiceInterface)
 		{
-			$this->factory = $component->createMVCFactory(Factory::getApplication());
+			$this->factory = $component->getMVCFactory();
 		}
 	}
 
@@ -350,7 +352,13 @@ abstract class BaseDatabaseModel extends CMSObject
 	 */
 	protected function _getList($query, $limitstart = 0, $limit = 0)
 	{
-		$this->getDbo()->setQuery($query, $limitstart, $limit);
+		if (is_string($query))
+		{
+			$query = $this->getDbo()->getQuery(true)->setQuery($query);
+		}
+
+		$query->setLimit($limit, $limitstart);
+		$this->getDbo()->setQuery($query);
 
 		return $this->getDbo()->loadObjectList();
 	}
@@ -654,8 +662,8 @@ abstract class BaseDatabaseModel extends CMSObject
 
 		try
 		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = \JCache::getInstance('callback', $options);
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
 			$cache->clean();
 		}
 		catch (\JCacheException $exception)

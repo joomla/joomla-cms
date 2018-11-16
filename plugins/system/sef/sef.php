@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! SEF Plugin.
@@ -119,7 +119,7 @@ class PlgSystemSef extends CMSPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Check for all unknown protocals (a protocol must contain at least one alpahnumeric character followed by a ":").
+		// Check for all unknown protocols (a protocol must contain at least one alpahnumeric character followed by a ":").
 		$protocols  = '[a-zA-Z0-9\-]+:';
 		$attributes = array('href=', 'src=', 'poster=');
 
@@ -156,7 +156,7 @@ class PlgSystemSef extends CMSPlugin
 			$this->checkBuffer($buffer);
 		}
 
-		// Replace all unknown protocals in javascript window open events.
+		// Replace all unknown protocols in javascript window open events.
 		if (strpos($buffer, 'window.open(') !== false)
 		{
 			$regex  = '#onclick="window.open\(\'(?!/|' . $protocols . '|\#)([^/]+[^\']*?\')#m';

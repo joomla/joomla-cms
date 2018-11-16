@@ -11,14 +11,14 @@ namespace Joomla\Module\ArticlesCategory\Site\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\String\StringHelper;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -41,7 +41,7 @@ abstract class ArticlesCategoryHelper
 	public static function getList(&$params)
 	{
 		$app     = Factory::getApplication();
-		$factory = $app->bootComponent('com_content')->createMVCFactory($app);
+		$factory = $app->bootComponent('com_content')->getMVCFactory();
 
 		// Get an instance of the generic articles model
 		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
@@ -198,11 +198,8 @@ abstract class ArticlesCategoryHelper
 				break;
 		}
 
-		// New Parameters
-		if ($params->get('filter_tag', ''))
-		{
-			$articles->setState('filter.tag', $params->get('filter_tag', ''));
-		}
+		// Filter by multiple tags
+		$articles->setState('filter.tag', $params->get('filter_tag', array()));
 
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
 		$articles->setState('filter.author_id', $params->get('created_by', ''));
