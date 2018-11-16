@@ -249,7 +249,20 @@ body {
   float: right;
 }
 
-
 .field-media-input {
   margin-right: 220px;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: left !important;
+}
+
+// Message specific
+joomla-alert .joomla-alert--close, joomla-alert .joomla-alert-button--close {
+    right: 0;
+    left: -1.25rem;
+}
+joomla-alert .joomla-alert--close, joomla-alert .joomla-alert-button--close {
+    float: left;
 }
