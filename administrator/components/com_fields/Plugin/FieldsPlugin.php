@@ -11,7 +11,6 @@ namespace Joomla\Component\Fields\Administrator\Plugin;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
@@ -26,7 +25,21 @@ use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
  */
 abstract class FieldsPlugin extends CMSPlugin
 {
+	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  3.7.0
+	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  4.0.0
+	 */
+	protected $app;
 
 	/**
 	 * Returns the custom fields types.
@@ -69,12 +82,12 @@ abstract class FieldsPlugin extends CMSPlugin
 			// Needed attributes
 			$data['type'] = $layout;
 
-			if (Factory::getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL'))
+			if ($this->app->getLanguage()->hasKey('PLG_FIELDS_' . $key . '_LABEL'))
 			{
 				$data['label'] = Text::sprintf('PLG_FIELDS_' . $key . '_LABEL', strtolower($key));
 
 				// Fix wrongly set parentheses in RTL languages
-				if (Factory::getLanguage()->isRTL())
+				if ($this->app->getLanguage()->isRTL())
 				{
 					$data['label'] = $data['label'] . '&#x200E;';
 				}

@@ -19,7 +19,7 @@ use Joomla\Event\DispatcherAwareTrait;
 /**
  * Web Asset Factory class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WebAssetRegistry implements DispatcherAwareInterface
 {
@@ -30,7 +30,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @var integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const REGISTRY_FILE_NEW = 1;
 
@@ -39,7 +39,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @var integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const REGISTRY_FILE_PARSED = 2;
 
@@ -48,7 +48,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @var integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const REGISTRY_FILE_INVALID = -1;
 
@@ -96,7 +96,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $dataFiles = [];
 
@@ -105,7 +105,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @var array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $assets = [];
 
@@ -114,7 +114,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @var float
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $lastItemWeight = 1;
 
@@ -123,7 +123,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @var    bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $useVersioning = true;
 
@@ -135,7 +135,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  WebAssetItem|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAsset(string $name)
 	{
@@ -155,7 +155,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  WebAssetItem[]  Array with active assets
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getActiveAssets(): array
 	{
@@ -178,7 +178,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  WebAssetItem[]  Array with active assets
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAssetsByState(int $state = WebAssetItem::ASSET_STATE_ACTIVE): array
 	{
@@ -201,7 +201,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addAsset(WebAssetItem $asset): self
 	{
@@ -224,7 +224,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function removeAsset(string $name): self
 	{
@@ -246,7 +246,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @throws  \RuntimeException if asset with given name does not exist
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setAssetState(string $name, int $state = WebAssetItem::ASSET_STATE_ACTIVE): self
 	{
@@ -294,7 +294,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function enableAsset(string $name): self
 	{
@@ -308,7 +308,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function disableAsset(string $name): self
 	{
@@ -322,7 +322,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function attachActiveAssetsToDocument(Document $doc): self
 	{
@@ -379,7 +379,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function updateDependency(): self
 	{
@@ -409,7 +409,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @throws  \RuntimeException When Dependency cannot be resolved
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function updateItemDependency(WebAssetItem $asset): self
 	{
@@ -430,7 +430,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function calculateWeightOfActiveAssets(): self
 	{
@@ -508,7 +508,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @throws  \RuntimeException When Dependency cannot be found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getDependenciesForAsset(WebAssetItem $asset, $recursively = false, WebAssetItem $recursionRoot = null): array
 	{
@@ -551,7 +551,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  WebAssetItem[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function sortAssetsByWeight(array $assets): array
 	{
@@ -581,7 +581,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  WebAssetItem
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createAsset(string $name, array $data = []): WebAssetItem
 	{
@@ -595,7 +595,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function addRegistryFile(string $path): self
 	{
@@ -616,7 +616,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function parseRegistryFiles()
 	{
@@ -653,7 +653,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @throws  \RuntimeException If file is empty or invalid
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function parseRegistryFile($path)
 	{
@@ -697,7 +697,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function debugAssets(bool $onlyActive = false): array
 	{
@@ -728,7 +728,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function useVersioning(bool $useVersioning): self
 	{

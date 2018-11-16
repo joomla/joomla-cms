@@ -352,6 +352,35 @@ class HtmlView extends BaseHtmlView
 			static::$notEmpty = true;
 		}
 
+		if ($user->authorise('core.manage', 'com_modules'))
+		{
+			$new = [
+				'com_modules' => static::arrayBuilder(
+					'MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE',
+					'index.php?option=com_modules&view=modules&client_id=0',
+					'cog'
+				),
+				'com_modules_edit' => static::arrayBuilder(
+					'MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR',
+					'index.php?option=com_modules&view=modules&client_id=1',
+					'cog'
+				),
+			];
+
+			if (!empty($links['MOD_MENU_MANAGE']))
+			{
+				$links['MOD_MENU_MANAGE'] = array_merge($links['MOD_MENU_MANAGE'], $new);
+			}
+			else
+			{
+				$links['MOD_MENU_MANAGE'] = $new;
+
+				$headerIcons['MOD_MENU_MANAGE'] = 'refresh';
+			}
+
+			static::$notEmpty = true;
+		}
+
 		// Update
 		if ($user->authorise('core.manage', 'com_joomlaupdate'))
 		{

@@ -28,7 +28,6 @@
 
 	<field
 		name="parent_id"
-		class="advancedSelect"
 		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
 	/>
