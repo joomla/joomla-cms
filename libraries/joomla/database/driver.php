@@ -1928,7 +1928,7 @@ abstract class JDatabaseDriver extends JDatabase implements JDatabaseInterface
 	{
 		$q = $this->nameQuote . $this->nameQuote;
 
-		return $q[0] . str_replace('.', "$q[1].$q[0]", $name) . $q[1];
+		return $q[0] . str_replace('.', "$q[1].$q[0]", str_replace($q[1], $q[1] . $q[1], $name)) . $q[1];
 	}
 
 	/**
