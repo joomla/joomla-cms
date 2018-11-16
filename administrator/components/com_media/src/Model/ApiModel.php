@@ -203,7 +203,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string   $adapter   The adapter
 	 * @param   string   $name      The name
 	 * @param   string   $path      The folder
-	 * @param   boolean  $override  Should the folder being overriden when it exists
+	 * @param   boolean  $override  Should the folder being overridden when it exists
 	 *
 	 * @return  string
 	 *
@@ -250,7 +250,7 @@ class ApiModel extends BaseDatabaseModel
 	 * @param   string   $name      The name
 	 * @param   string   $path      The folder
 	 * @param   binary   $data      The data
-	 * @param   boolean  $override  Should the file being overriden when it exists
+	 * @param   boolean  $override  Should the file being overridden when it exists
 	 *
 	 * @return  string
 	 *

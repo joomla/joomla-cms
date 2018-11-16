@@ -31,7 +31,7 @@ class PlgContentJoomla extends CMSPlugin
 	 * Database Driver Instance
 	 *
 	 * @var    \Joomla\Database\DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -224,7 +224,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private function _canDeleteStages($pk)
 	{
@@ -370,7 +370,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  mixed  count of items found or false if db error
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private function _countItemsFromState($extension, $stage_id, $table)
 	{

@@ -21,7 +21,7 @@ use Psr\Http\Message\ResponseInterface;
 /**
  * InfoDataCollector
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class InfoCollector extends AbstractDataCollector implements AssetProvider
 {
@@ -29,7 +29,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 * Collector name.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $name = 'info';
 
@@ -37,7 +37,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 * Request ID.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $requestId;
 
@@ -47,7 +47,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 * @param   Registry  $params     Parameters
 	 * @param   string    $requestId  Request ID
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct(Registry $params, $requestId)
 	{
@@ -59,7 +59,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return string
 	 */
 	public function getName(): string
@@ -71,7 +71,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return array
 	 */
 	public function getWidgets(): array
@@ -94,7 +94,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 *  - css: an array of filenames
 	 *  - js: an array of filenames
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return array
 	 */
 	public function getAssets(): array
@@ -108,7 +108,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array Collected data
 	 */
@@ -136,7 +136,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 *
 	 * @param   User  $identity  The identity.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 *
 	 * @return array
 	 */
@@ -160,7 +160,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 *
 	 * @param   ResponseInterface  $response  The response.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 *
 	 * @return array
 	 */
@@ -176,7 +176,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 *
 	 * @param   object  $template  The template.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 *
 	 * @return array
 	 */
@@ -194,7 +194,7 @@ class InfoCollector extends AbstractDataCollector implements AssetProvider
 	 *
 	 * @param   array  $info  General information.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 *
 	 * @return array
 	 */

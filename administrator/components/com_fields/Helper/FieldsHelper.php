@@ -310,7 +310,10 @@ class FieldsHelper
 
 			// Choose the first category available
 			$xml = new \DOMDocument;
+			libxml_use_internal_errors(true);
 			$xml->loadHTML($formField->__get('input'));
+			libxml_clear_errors();
+			libxml_use_internal_errors(false);
 			$options = $xml->getElementsByTagName('option');
 
 			if (!$assignedCatids && $firstChoice = $options->item(0))
