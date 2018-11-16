@@ -5,7 +5,6 @@
 
 Joomla = window.Joomla || {};
 
-
 document.addEventListener('DOMContentLoaded', () => {
   const JoomlaUpdateOptions = Joomla.getOptions('joomlaupdate');
   window.joomlaupdate_password = JoomlaUpdateOptions.password;

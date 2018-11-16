@@ -932,7 +932,9 @@ class ItemModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array('menutype = ' . $this->_db->quote($table->get('menutype')));
+		return [
+			$this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($table->menutype),
+		];
 	}
 
 	/**

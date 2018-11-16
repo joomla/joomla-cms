@@ -15,7 +15,7 @@ defined('_JEXEC') or die;
  *
  * Executes the single entry file of a module.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ModuleDispatcher extends AbstractModuleDispatcher
 {
@@ -24,7 +24,7 @@ class ModuleDispatcher extends AbstractModuleDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{

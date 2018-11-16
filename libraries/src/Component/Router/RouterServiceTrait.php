@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Menu\AbstractMenu;
 /**
  * Trait to implement AssociationServiceInterface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait RouterServiceTrait
 {
@@ -25,7 +25,7 @@ trait RouterServiceTrait
 	 *
 	 * @var RouterFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $routerFactory = null;
 
@@ -37,7 +37,7 @@ trait RouterServiceTrait
 	 *
 	 * @return  RouterInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
 	{
@@ -51,7 +51,7 @@ trait RouterServiceTrait
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setRouterFactory(RouterFactoryInterface $routerFactory)
 	{

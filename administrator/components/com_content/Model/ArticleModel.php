@@ -219,7 +219,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function batchWorkflowStage($value, $pks, $contexts)
 	{
@@ -1036,13 +1036,15 @@ class ArticleModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array('catid = ' . (int) $table->catid);
+		return [
+			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+		];
 	}
 
 	/**
@@ -1284,7 +1286,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function runTransition($pk, $transition_id)
 	{
