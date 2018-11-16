@@ -390,7 +390,7 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		return static::action($i, $task, $prefix, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
+		return static::action($i, $task, $prefix, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
 	}
 
 	/**
@@ -420,6 +420,6 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		return static::action($i, $task, $prefix, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);
+		return static::action($i, $task, $prefix, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);
 	}
 }

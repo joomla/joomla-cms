@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 /** @var JDocumentHtml $this */
 
 $app   = Factory::getApplication();
-$lang  = Factory::getLanguage();
+$lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 

@@ -321,17 +321,16 @@ class PluginModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-		$condition[] = 'type = ' . $this->_db->quote($table->type);
-		$condition[] = 'folder = ' . $this->_db->quote($table->folder);
-
-		return $condition;
+		return [
+			$this->_db->quoteName('type') . ' = ' . $this->_db->quote($table->type),
+			$this->_db->quoteName('folder') . ' = ' . $this->_db->quote($table->folder),
+		];
 	}
 
 	/**

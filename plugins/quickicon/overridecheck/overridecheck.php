@@ -19,7 +19,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Joomla! template override notification plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgQuickiconOverrideCheck extends CMSPlugin
 {
@@ -28,7 +28,7 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 	 *
 	 * @var    boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -58,7 +58,7 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 	 * @return  array  A list of icon definition associative arrays, consisting of the
 	 *                 keys link, image, text and access.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onGetIcons($context)
 	{
@@ -101,7 +101,7 @@ class PlgQuickiconOverrideCheck extends CMSPlugin
 	 *
 	 * @return  integer  The installer override plugin extension id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getOverridePluginId()
 	{
