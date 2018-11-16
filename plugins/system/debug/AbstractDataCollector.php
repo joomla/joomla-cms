@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
 /**
  * AbstractDataCollector
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class AbstractDataCollector extends DataCollector implements Renderable
 {
@@ -24,7 +24,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 * Parameters.
 	 *
 	 * @var   Registry
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $params;
 
@@ -32,7 +32,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 * The default formatter.
 	 *
 	 * @var   DataFormatter
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private static $defaultDataFormatter;
 
@@ -41,7 +41,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 *
 	 * @param   Registry  $params  Parameters.
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function __construct(Registry $params)
 	{
@@ -51,7 +51,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	/**
 	 * Get a data formatter.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return DataFormatter
 	 */
 	public function getDataFormatter(): DataFormatter
@@ -67,7 +67,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	/**
 	 * Returns the default data formater
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return DataFormatter
 	 */
 	public static function getDefaultDataFormatter(): DataFormatter
@@ -87,7 +87,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function formatPath($path): string
 	{
@@ -102,7 +102,7 @@ abstract class AbstractDataCollector extends DataCollector implements Renderable
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function formatCallerInfo(array $call): string
 	{

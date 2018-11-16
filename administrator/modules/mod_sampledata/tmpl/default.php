@@ -20,7 +20,7 @@ Text::script('MOD_SAMPLEDATA_CONFIRM_START');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
 Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
-Factory::getDocument()->addScriptOptions(
+$app->getDocument()->addScriptOptions(
 	'sample-data',
 	[
 		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif'

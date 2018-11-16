@@ -129,7 +129,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @var  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pluginState;
 

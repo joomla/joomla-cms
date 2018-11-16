@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 /**
  * Base class for a Joomla Module Dispatcher.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class AbstractModuleDispatcher extends Dispatcher
 {
@@ -26,7 +26,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	 * The module instance
 	 *
 	 * @var    \stdClass
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $module;
 
@@ -51,7 +51,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{
@@ -83,7 +83,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	 *
 	 * @return  array|false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLayoutData()
 	{
@@ -101,7 +101,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadLanguage()
 	{

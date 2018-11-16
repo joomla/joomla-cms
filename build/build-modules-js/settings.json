@@ -14,6 +14,7 @@
       "field-simple-color",
       "field-send-test-mail",
       "field-subform",
+      "field-fancy-select",
       "editor-codemirror",
       "hidden-mail",
       "editor-none",
@@ -54,6 +55,9 @@
       },
       "field-subform": {
         "css": "media/system/webcomponents/css",
+        "js": "media/system/webcomponents/js"
+      },
+      "field-fancy-select": {
         "js": "media/system/webcomponents/js"
       }
     },
@@ -148,6 +152,26 @@
             "css": ["cropper.min.css"]
           }
         ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "choices.js": {
+        "name": "choicesjs",
+        "js": {
+          "assets/scripts/dist/choices.js": "js/choices.js",
+          "assets/scripts/dist/choices.min.js": "js/choices.min.js"
+        },
+        "css": {
+          "assets/styles/css/choices.css": "css/choices.css",
+          "assets/styles/css/choices.min.css": "css/choices.min.css"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["choices.min.js"],
+            "css": ["choices.min.css"]
+          }
+         ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },
