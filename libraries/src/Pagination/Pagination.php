@@ -784,15 +784,7 @@ class Pagination
 		if (!$this->viewall)
 		{
 			$data->all->base = '0';
-
-			if ($this->hideEmptyLimitstart)
-			{
-				$data->all->link = \JRoute::_($params ?: '&');
-			}
-			else
-			{
-				$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
-			}
+			$data->all->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
 		}
 
 		// Set the start and previous data objects.
@@ -805,7 +797,7 @@ class Pagination
 
 			if ($this->hideEmptyLimitstart)
 			{
-				$data->start->link = \JRoute::_($params ?: '&');
+				$data->start->link = \JRoute::_($params . '&' . $this->prefix . 'limitstart=');
 			}
 			else
 			{
