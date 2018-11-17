@@ -30,7 +30,7 @@ abstract class InstallerHelper
 	 *
 	 * @var    integer
 	 * @since  3.9.0
-	 */	
+	 */
 	const HASH_NOT_VALIDATED = 0;
 
 	/**
@@ -86,9 +86,12 @@ abstract class InstallerHelper
 			return false;
 		}
 
-		if (302 == $response->code && isset($response->headers['Location']))
+		// Convert keys of headers to lowercase, to accomodate for case variations
+		$headers = array_change_key_case($response->headers);
+
+		if (302 == $response->code && !empty($headers['location']))
 		{
-			return self::downloadPackage($response->headers['Location']);
+			return self::downloadPackage($headers['location']);
 		}
 		elseif (200 != $response->code)
 		{
@@ -98,8 +101,8 @@ abstract class InstallerHelper
 		}
 
 		// Parse the Content-Disposition header to get the file name
-		if (isset($response->headers['Content-Disposition'])
-			&& preg_match("/\s*filename\s?=\s?(.*)/", $response->headers['Content-Disposition'], $parts))
+		if (!empty($headers['content-disposition'])
+			&& preg_match("/\s*filename\s?=\s?(.*)/", $headers['content-disposition'], $parts))
 		{
 			$flds = explode(';', $parts[1]);
 			$target = trim($flds[0], '"');
@@ -290,20 +293,31 @@ abstract class InstallerHelper
 	 *
 	 * @param   string  $url  URL to get name from
 	 *
-	 * @return  mixed   String filename or boolean false if failed
+	 * @return  string  Clean version of the filename or a unique id
 	 *
 	 * @since   3.1
 	 */
 	public static function getFilenameFromUrl($url)
 	{
-		if (is_string($url))
-		{
-			$parts = explode('/', $url);
+		$default = uniqid();
 
-			return $parts[count($parts) - 1];
+		if (!is_string($url) || strpos($url, '/') === false)
+		{
+			return $default;
 		}
 
-		return false;
+		// Get last part of the url (after the last slash).
+		$parts    = explode('/', $url);
+		$filename = array_pop($parts);
+
+		// Replace special characters with underscores.
+		$filename = preg_replace('/[^a-z0-9\_\-\.]/i', '_', $filename);
+
+		// Replace multiple underscores with just one.
+		$filename = preg_replace('/__+/', '_', trim($filename, '_'));
+
+		// Return the cleaned filename or, if it is empty, a unique id.
+		return $filename ?: $default;
 	}
 
 	/**

@@ -94,6 +94,17 @@ class JPaginationTest extends TestCase
 	{
 		if (substr($url, 0, 1) === '&')
 		{
+			parse_str($url, $vars);
+
+			foreach ($vars as $key => $var)
+			{
+				if ($var == '')
+				{
+					// Remove empty parameters
+					$url = str_replace("&$key=", '', $url) ?: '&';
+				}
+			}
+
 			$url = 'index.php?' . substr($url, 1);
 		}
 
@@ -311,7 +322,7 @@ class JPaginationTest extends TestCase
 					array(
 						'text' => 'JLIB_HTML_VIEW_ALL',
 						'base' => '0',
-						'link' => 'index.php?limitstart=',
+						'link' => 'index.php',
 						'prefix' => '',
 						'active' => false,
 					),
