@@ -40,7 +40,6 @@ class PlgButtonImage extends JPlugin
 		$app       = JFactory::getApplication();
 		$user      = JFactory::getUser();
 		$extension = $app->input->get('option');
-		$client = JFactory::getApplication()->client;
 
 		// For categories we check the extension (ex: component.section)
 		if ($extension === 'com_categories')
@@ -66,19 +65,7 @@ class PlgButtonImage extends JPlugin
 			$button->link    = $link;
 			$button->text    = JText::_('PLG_IMAGE_BUTTON_IMAGE');
 			$button->name    = 'pictures';
-
-			// We check if the webclient is a phone
-			if (($client->platform == $client::ANDROID)
-				|| ($client->platform == $client::WINDOWS_PHONE)
-				|| ($client->platform == $client::IPHONE)
-				|| ($client->platform == $client::BLACKBERRY))
-			{
-				$button->options = "{handler: 'iframe', size: {x: 300, y: 500}}";
-			}
-			else
-			{
-				$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
-			}
+			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 
 			return $button;
 		}

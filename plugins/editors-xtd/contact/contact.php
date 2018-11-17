@@ -36,7 +36,6 @@ class PlgButtonContact extends JPlugin
 	public function onDisplay($name)
 	{
 		$user  = JFactory::getUser();
-		$client = JFactory::getApplication()->client;
 
 		if ($user->authorise('core.create', 'com_contact')
 			|| $user->authorise('core.edit', 'com_contact')
@@ -52,19 +51,7 @@ class PlgButtonContact extends JPlugin
 			$button->link    = $link;
 			$button->text    = JText::_('PLG_EDITORS-XTD_CONTACT_BUTTON_CONTACT');
 			$button->name    = 'address';
-
-			// We check if the webclient is a phone
-			if (($client->platform == $client::ANDROID)
-				|| ($client->platform == $client::WINDOWS_PHONE)
-				|| ($client->platform == $client::IPHONE)
-				|| ($client->platform == $client::BLACKBERRY))
-			{
-				$button->options = "{handler: 'iframe', size: {x: 300, y: 500}}";
-			}
-			else
-			{
-				$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
-			}
+			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
 
 			return $button;
 		}

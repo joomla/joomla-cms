@@ -37,7 +37,6 @@ class PlgButtonPagebreak extends JPlugin
 	{
 		$input = JFactory::getApplication()->input;
 		$user  = JFactory::getUser();
-		$client = JFactory::getApplication()->client;
 
 		// Can create in any category (component permission) or at least in one category
 		$canCreateRecords = $user->authorise('core.create', 'com_content')
@@ -63,19 +62,7 @@ class PlgButtonPagebreak extends JPlugin
 		$button->link    = $link;
 		$button->text    = JText::_('PLG_EDITORSXTD_PAGEBREAK_BUTTON_PAGEBREAK');
 		$button->name    = 'copy';
-
-		// We check if the webclient is a phone
-		if (($client->platform == $client::ANDROID)
-			|| ($client->platform == $client::WINDOWS_PHONE)
-			|| ($client->platform == $client::IPHONE)
-			|| ($client->platform == $client::BLACKBERRY))
-		{
-			$button->options = "{handler: 'iframe', size: {x: 300, y: 500}}";
-		}
-		else
-		{
-			$button->options = "{handler: 'iframe', size: {x: 800, y: 500}}";
-		}
+		$button->options = "{handler: 'iframe', size: {x: 500, y: 300}}";
 
 		return $button;
 	}
