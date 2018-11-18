@@ -818,7 +818,10 @@ class PlgEditorTinymce extends JPlugin
 					$tempConstructor[] = 'if(modalWidth){modalOptions.width=modalWidth;}';
 					$tempConstructor[] = 'if(modalHeight){modalOptions.height = modalHeight;}';
 					$tempConstructor[] = 'var win=editor.windowManager.open(modalOptions);';
-					$tempConstructor[] = 'win.fullscreen(true);';
+					if (JFactory::getApplication()->client->mobile)
+					{
+						$tempConstructor[] = 'win.fullscreen(true);';
+					}
 
 					if ($onclick && ($button->get('modal') || $href))
 					{
