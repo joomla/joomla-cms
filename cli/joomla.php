@@ -55,6 +55,9 @@ if (file_exists(JPATH_INSTALLATION . '/index.php'))
 	JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
 }
 
+// Registers the Extension Loader
+JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+
 // Boot the DI container
 $container = \Joomla\CMS\Factory::getContainer();
 
