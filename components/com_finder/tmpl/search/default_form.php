@@ -9,13 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /*
 * This segment of code sets up the autocompleter.
 */
 if ($this->params->get('show_autosuggest', 1))
 {
-	JHtml::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
-	JFactory::getDocument()->addScriptOptions('finder-search', array('url' => JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
+	Factory::getDocument()->getWebAssetManager()->enableAsset('awesomplete');
+	Factory::getDocument()->addScriptOptions('finder-search', array('url' => JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 
 ?>

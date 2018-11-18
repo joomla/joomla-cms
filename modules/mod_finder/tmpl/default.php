@@ -44,7 +44,6 @@ else
 	$output .= $input;
 }
 
-HTMLHelper::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
 
 Text::script('MOD_FINDER_SEARCH_VALUE', true);
@@ -54,7 +53,7 @@ Text::script('MOD_FINDER_SEARCH_VALUE', true);
  */
 if ($params->get('show_autosuggest', 1))
 {
-	HTMLHelper::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
+	Factory::getDocument()->getWebAssetManager()->enableAsset('awesomplete');
 	Factory::getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 ?>
