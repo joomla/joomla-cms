@@ -13,13 +13,6 @@ modules/mod_finder/*  @mbabker
 plugins/content/finder/*  @mbabker
 plugins/finder/*  @mbabker
 
-# Language strings
-administrator/language/en-GB/*  @brianteeman
-installation/language/en-GB/*  @brianteeman
-language/en-GB/*  @brianteeman
-README.md  @brianteeman
-README.txt  @brianteeman
-
 # CodeMirror
 media/editors/codemirror/*  @okonomiyaki3000
 plugins/editors/codemirror/*  @okonomiyaki3000
