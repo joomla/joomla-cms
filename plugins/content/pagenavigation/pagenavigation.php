@@ -189,7 +189,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			if (($location + 1) < count($rows))
 			{
-				// The next content item cannot be in an array position greater than the number of array postions.
+				// The next content item cannot be in an array position greater than the number of array positions.
 				$row->next = $rows[$location + 1];
 			}
 
