@@ -289,7 +289,7 @@ class UpdateCoreCommand extends AbstractCommand
 	public function setUpdateModel()
 	{
 		$app = $this->getApplication();
-		$updatemodel = $app->bootComponent('com_joomlaupdate')->createMVCFactory($app)->createModel('Update', 'Administrator');
+		$updatemodel = $app->bootComponent('com_joomlaupdate')->getMVCFactory($app)->createModel('Update', 'Administrator');
 
 		if (is_bool($updatemodel))
 		{

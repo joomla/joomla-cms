@@ -57,6 +57,8 @@ if (file_exists(JPATH_INSTALLATION . '/index.php'))
 
 // Registers the Extension Loader
 JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+$extensionPsr4Loader = new \JNamespacePsr4Map;
+$extensionPsr4Loader->load();
 
 // Boot the DI container
 $container = \Joomla\CMS\Factory::getContainer();
