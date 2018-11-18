@@ -10093,3 +10093,7 @@ a.grid_true {
 	left: 0;
 	right: auto;
 }
+.com_cpanel .well > .row-striped > .row-fluid [class*="span"],
+.com_cpanel .well > .list-striped > .row-fluid [class*="span"] {
+	margin-right: 0;
+}
