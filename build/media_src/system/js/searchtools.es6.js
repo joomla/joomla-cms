@@ -179,13 +179,28 @@
 
       this.checkActiveStatus(this);
 
-      document.body.addEventListener('click', () => {
+      document.body.addEventListener('click', (event) => {
         if (document.body.classList.contains('filters-shown')) {
+
+          // Ignore click inside the filter container
+          if (event.composedPath && typeof event.composedPath === 'function') {
+            // Browser that support composedPath()
+            if (event.composedPath().indexOf(this.filterContainer) !== -1) {
+              return;
+            }
+          } else {
+            let node = event.target;
+            while (node !== document.body) {
+              if (node === this.filterContainer) {
+                return;
+              }
+              node = node.parentNode;
+            }
+          }
+
           this.hideFilters();
         }
       });
-
-      this.filterContainer.addEventListener('click', (e) => { e.stopPropagation(); }, true);
     }
 
     checkFilter(element) {
@@ -212,7 +227,7 @@
           self.checkFilter(i);
 
           if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('liszt:updated');
+            window.jQuery(i).trigger('chosen:updated');
           }
         });
       }
@@ -223,7 +238,7 @@
           self.checkFilter(i);
 
           if (window.jQuery && window.jQuery.chosen) {
-            window.jQuery(i).trigger('liszt:updated');
+            window.jQuery(i).trigger('chosen:updated');
           }
         });
 
@@ -231,7 +246,7 @@
         document.querySelector('#list_limit').value = self.options.defaultLimit;
 
         if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery('#list_limit').trigger('liszt:updated');
+          window.jQuery('#list_limit').trigger('chosen:updated');
         }
       }
 
@@ -389,7 +404,7 @@
         });
 
         if (window.jQuery && window.jQuery.chosen) {
-          window.jQuery(this.orderField).trigger('liszt:updated');
+          window.jQuery(this.orderField).trigger('chosen:updated');
         }
       }
 
@@ -429,7 +444,7 @@
         field.value = newValue;
         // Trigger the chosen update
         if (window.jQuery && window.jQuery.chosen) {
-          field.trigger('liszt:updated');
+          field.trigger('chosen:updated');
         }
       }
     }
@@ -452,6 +467,18 @@
 
       // eslint-disable-next-line no-new
       new Searchtools(element, options);
+    }
+
+    const sort = document.getElementById('sorted');
+
+    if (sort && sort.hasAttribute('data-caption')) {
+      const caption = sort.getAttribute('data-caption');
+      document.getElementById('captionTable').textContent += caption;
+    }
+
+    if (sort && sort.hasAttribute('data-sort')) {
+      const ariasort = sort.getAttribute('data-sort');
+      sort.parentNode.setAttribute('aria-sorted', ariasort);
     }
 
     // Cleanup

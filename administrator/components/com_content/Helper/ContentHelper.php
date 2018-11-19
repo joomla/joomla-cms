@@ -12,12 +12,10 @@ namespace Joomla\Component\Content\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Content component helper.
@@ -29,82 +27,13 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	public static $extension = 'com_content';
 
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_ARTICLES'),
-			'index.php?option=com_content&view=articles',
-			$vName == 'articles'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_CONTENT_SUBMENU_CATEGORIES'),
-			'index.php?option=com_categories&extension=com_content',
-			$vName == 'categories'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_CONTENT_SUBMENU_FEATURED'),
-			'index.php?option=com_content&view=featured',
-			$vName == 'featured'
-		);
-
-		if (ComponentHelper::isEnabled('com_workflow') && ComponentHelper::getParams('com_content')->get('workflows_enable', 1))
-		{
-			\JHtmlSidebar::addEntry(
-				Text::_('COM_CONTENT_SUBMENU_WORKFLOWS'),
-				'index.php?option=com_workflow&extension=com_content',
-				$vName == 'workflows'
-			);
-
-			if ($vName == 'stages' || $vName == 'transitions')
-			{
-				$app        = Factory::getApplication();
-				$workflowID = $app->getUserStateFromRequest('filter.workflow_id', 'workflow_id', 1, 'int');
-
-				\JHtmlSidebar::addEntry(
-					Text::_('COM_WORKFLOW_STAGES'),
-					'index.php?option=com_workflow&view=stages&workflow_id=' . $workflowID . "&extension=com_content",
-					$vName == 'stages`'
-				);
-
-				\JHtmlSidebar::addEntry(
-					Text::_('COM_WORKFLOW_TRANSITIONS'),
-					'index.php?option=com_workflow&view=transitions&workflow_id=' . $workflowID . "&extension=com_content",
-					$vName == 'transitions'
-				);
-			}
-		}
-
-		if (ComponentHelper::isEnabled('com_fields') && ComponentHelper::getParams('com_content')->get('custom_fields_enable', '1'))
-		{
-			\JHtmlSidebar::addEntry(
-				Text::_('JGLOBAL_FIELDS'),
-				'index.php?option=com_fields&context=com_content.article',
-				$vName == 'fields.fields'
-			);
-			\JHtmlSidebar::addEntry(
-				Text::_('JGLOBAL_FIELD_GROUPS'),
-				'index.php?option=com_fields&view=groups&context=com_content.article',
-				$vName == 'fields.groups'
-			);
-		}
-	}
-
-	/**
 	 * Check if state can be deleted
 	 *
 	 * @param   int  $stateID  Id of state to delete
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function canDeleteState($stateID)
 	{
@@ -129,7 +58,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function filterTransitions($transitions, $pk, $workflow_id = 0): array
 	{
@@ -152,7 +81,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function updateContentState($pks, $condition): bool
 	{
@@ -199,6 +128,9 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$data = (array) $data;
 
+		// Make workflows translateable
+		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
+
 		$form->setFieldAttribute('workflow_id', 'default', 'inherit');
 
 		$query = $db->getQuery(true);
@@ -210,7 +142,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$defaulttitle = $db->setQuery($query)->loadResult();
 
-		$option = Text::_('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW_NEW');
+		$option = Text::_('COM_WORKFLOW_INHERIT_WORKFLOW_NEW');
 
 		if (!empty($data['id']))
 		{
@@ -221,7 +153,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 			// Remove the current category, because we search vor inherit from parent
 			array_shift($categories);
 
-			$option = Text::sprintf('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW', $defaulttitle);
+			$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($defaulttitle));
 
 			if (!empty($categories))
 			{
@@ -251,7 +183,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 						if (!is_null($title))
 						{
-							$option = Text::sprintf('COM_CONTENT_WORKFLOW_INHERIT_WORKFLOW', $title);
+							$option = Text::sprintf('COM_WORKFLOW_INHERIT_WORKFLOW', Text::_($title));
 
 							break;
 						}
@@ -264,7 +196,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 
 		$field->addOption($option, ['value' => 'inherit']);
 
-		$field->addOption(Text::sprintf('COM_CONTENT_WORKFLOW_DEFAULT_WORKFLOW', $defaulttitle), ['value' => 'use_default']);
+		$field->addOption(Text::sprintf('COM_WORKFLOW_USE_DEFAULT_WORKFLOW', Text::_($defaulttitle)), ['value' => 'use_default']);
 
 		$field->addOption('- ' . Text::_('COM_CONTENT_WORKFLOWS') . ' -', ['disabled' => 'true']);
 	}

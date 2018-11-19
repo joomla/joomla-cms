@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -35,10 +35,17 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="info"><?php echo Text::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?></joomla-alert>
-						<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+						<div class="alert alert-info">
+							<?php echo Text::_('COM_INSTALLER_MSG_DISCOVER_DESCRIPTION'); ?>
+						</div>
+						<div class="alert alert-warning">
+							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+						</div>
 					<?php else : ?>
 					<table class="table">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_INSTALLER_DISCOVER_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">

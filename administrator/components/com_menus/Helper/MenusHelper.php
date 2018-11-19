@@ -12,48 +12,27 @@ namespace Joomla\Component\Menus\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Menus component helper.
  *
  * @since  1.6
  */
-class MenusHelper
+class MenusHelper extends ContentHelper
 {
 	/**
 	 * Defines the valid request variables for the reverse lookup.
 	 */
 	protected static $_filter = array('option', 'view', 'layout');
-
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_MENUS_SUBMENU_MENUS'),
-			'index.php?option=com_menus&view=menus',
-			$vName == 'menus'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_MENUS_SUBMENU_ITEMS'),
-			'index.php?option=com_menus&view=items',
-			$vName == 'items'
-		);
-	}
 
 	/**
 	 * Gets a standard form of a link for lookups.
@@ -317,7 +296,7 @@ class MenusHelper
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
-		$db    = Factory::getDbo();
+		$db    = Factory::getContainer()->get(DatabaseInterface::class);
 		$query = $db->getQuery(true);
 
 		// Prepare the query.
@@ -509,7 +488,7 @@ class MenusHelper
 				'browserNav'   => $item->browserNav ? 1 : 0,
 				'img'          => $item->class,
 				'access'       => $item->access,
-				'component_id' => array_search($item->element, $components),
+				'component_id' => array_search($item->element, $components) ?: 0,
 				'parent_id'    => $parent,
 				'client_id'    => 1,
 				'published'    => 1,

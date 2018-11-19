@@ -9,15 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\User\User;
+use Joomla\CMS\Helper\AuthenticationHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Helper\AuthenticationHelper;
-use Joomla\CMS\Authentication\Authentication;
-use Joomla\Component\Users\Administrator\Model\UserModel;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla Authentication plugin
@@ -112,7 +111,8 @@ class PlgAuthenticationJoomla extends CMSPlugin
 				return;
 			}
 
-			$model = new UserModel(array('ignore_request' => true));
+			$model = Factory::getApplication()->bootComponent('com_users')
+				->getMVCFactory()->createModel('User', 'Administrator', ['ignore_request' => true]);
 
 			// Load the user's OTP (one time password, a.k.a. two factor auth) configuration
 			if (!array_key_exists('otp_config', $options))

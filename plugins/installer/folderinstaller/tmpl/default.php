@@ -22,7 +22,7 @@ $app = Factory::getApplication();
 		<?php echo Text::_('PLG_INSTALLER_FOLDERINSTALLER_TEXT'); ?>
 	</label>
 	<div class="controls">
-		<input type="text" id="install_directory" name="install_directory" class="form-control input-xlarge"
+		<input type="text" id="install_directory" name="install_directory" class="form-control"
 			value="<?php echo $app->input->get('install_directory', $app->get('tmp_path')); ?>">
 	</div>
 </div>

@@ -17,11 +17,11 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: bold;
+  font-weight: $bold-weight;
 }
 
 h1 {
-  font-weight: normal;
+  font-weight: $normal-weight;
 }
 
 small,
@@ -31,7 +31,8 @@ small,
 
 legend {
   font-size: 1.2rem;
-  font-weight: 700;
+  font-weight: $bold-weight;
+  ;
 }
 
 // focus-visible polyfil rule
@@ -47,7 +48,7 @@ textarea {
 
   &:focus,
   &:-moz-focusring {
-    outline: auto 2px $focus-highlight-color;
+    outline: auto 2px var(--focus);
   }
 }
 // Break up text in cells to prevent overflow

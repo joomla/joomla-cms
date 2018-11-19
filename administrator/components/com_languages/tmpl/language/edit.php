@@ -12,19 +12,16 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.tabstate');
 
-HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
 
-	<?php echo LayoutHelper::render('joomla.edit.item_title', $this); ?>
+	<h2><?php echo $this->form->getValue('title'); ?></h2>
 
 	<fieldset>
 	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>

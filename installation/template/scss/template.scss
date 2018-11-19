@@ -157,8 +157,8 @@ body {
 }
 
 .alert-text {
-  padding: 10px 20px;
   width: 75%;
+  padding: 10px 20px;
 }
 
 .lang-select {
@@ -189,7 +189,7 @@ body {
 // Form
 
 .form-control {
-  background-color: $white-offset;
+  background-color: var(--white-offset);
 
   &.input-full {
     max-width: 100%;

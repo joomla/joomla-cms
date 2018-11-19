@@ -35,7 +35,6 @@
 				name="class"
 				type="textarea"
 				label="COM_FIELDS_FIELD_CLASS_LABEL"
-				class="input-xxlarge"
 				size="40"
 				default="btn-group"
 			/>

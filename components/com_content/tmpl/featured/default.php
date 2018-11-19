@@ -8,9 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-use Joomla\CMS\HTML\HTMLHelper;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
 
 // If the page class is defined, add to class as suffix.
 // It will be a separate class if the user starts it with a space

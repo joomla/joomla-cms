@@ -14,7 +14,7 @@ jQuery(document).ready(function ($) {
 			customTagPrefix = '#new#';
 
 		// Method to add tags pressing enter
-		$(options.selector + '_chzn input').keyup(function(event) {
+		$(options.selector + '_chosen input').keyup(function(event) {
 
 			var tagOption;
 
@@ -22,7 +22,7 @@ jQuery(document).ready(function ($) {
 			if (this.value && this.value.length >= options.minTermLength && (event.which === 13 || event.which === 188)) {
 
 				// Search an highlighted result
-				var highlighted = $(options.selector + '_chzn').find('li.active-result.highlighted').first();
+				var highlighted = $(options.selector + '_chosen').find('li.active-result.highlighted').first();
 
 				// Add the highlighted option
 				if (event.which === 13 && highlighted.text() !== '')
@@ -58,7 +58,7 @@ jQuery(document).ready(function ($) {
 				}
 
 				this.value = '';
-				$(options.selector).trigger('liszt:updated');
+				$(options.selector).trigger('chosen:updated');
 				event.preventDefault();
 			}
 		});

@@ -11,12 +11,12 @@ namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
-use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Filter\InputFilter;
 
 /**
  * Languages Strings Model
@@ -116,7 +116,7 @@ class StringsModel extends BaseDatabaseModel
 	/**
 	 * Method for searching language strings.
 	 *
-	 * @return  array|\Exception  Array of resuls on success, \Exception object otherwise.
+	 * @return  array|\Exception  Array of results on success, \Exception object otherwise.
 	 *
 	 * @since		2.5
 	 */

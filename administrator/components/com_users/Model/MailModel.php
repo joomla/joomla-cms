@@ -13,11 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
  * Users mail model.
@@ -29,7 +29,7 @@ class MailModel extends AdminModel
 	/**
 	 * Method to get the row form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  \JForm	A \JForm object on success, false on failure
@@ -209,7 +209,6 @@ class MailModel extends AdminModel
 				$rs = false;
 			}
 		}
-
 
 		// Check for an error
 		if ($rs !== true)

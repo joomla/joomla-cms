@@ -253,9 +253,9 @@ jQuery(document).ready(function($) {
 			target.find('#jform_associations_' + languageCode + '_name').val(title);
 
 			// - For chosen association selectors (menus).
-			var chznField = target.find('#jform_associations_' + languageCode);
-			chznField.append('<option value=\"'+ referenceId + '\">' + title + '</option>');
-			chznField.val(referenceId);
+			var chosenField = target.find('#jform_associations_' + languageCode);
+            chosenField.append('<option value=\"'+ referenceId + '\">' + title + '</option>');
+            chosenField.val(referenceId);
 
 			var parse, langAssociation;
 
@@ -268,9 +268,9 @@ jQuery(document).ready(function($) {
 					target.find('#jform_associations_' + langAssociation + '_id').val(parse[1]);
 
 					// - For chosen association selectors (menus).
-					chznField = target.find('#jform_associations_' + langAssociation);
-					chznField.append('<option value=\"'+ parse[1] + '\"></option>');
-					chznField.val(parse[1]);
+                    chosenField = target.find('#jform_associations_' + langAssociation);
+                    chosenField.append('<option value=\"'+ parse[1] + '\"></option>');
+                    chosenField.val(parse[1]);
 				}
 			});
 

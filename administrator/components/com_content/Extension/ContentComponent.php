@@ -12,43 +12,45 @@ namespace Joomla\Component\Content\Administrator\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\SiteApplication;
-use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceTrait;
+use Joomla\CMS\Association\AssociationServiceTrait;
+use Joomla\CMS\Categories\CategoryServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceTrait;
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
-use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Workflow\WorkflowServiceTrait;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 use Joomla\Component\Content\Administrator\Service\HTML\AdministratorService;
 use Joomla\Component\Content\Administrator\Service\HTML\Icon;
 use Psr\Container\ContainerInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Component class for com_content
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContentComponent extends MVCComponent implements
-	BootableExtensionInterface, MVCFactoryServiceInterface, CategoriesServiceInterface, FieldsServiceInterface,
-	AssociationServiceInterface, WorkflowServiceInterface
+	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface,
+	WorkflowServiceInterface, RouterServiceInterface
 {
-	use CategoriesServiceTrait;
+	use CategoryServiceTrait;
 	use AssociationServiceTrait;
+	use RouterServiceTrait;
 	use HTMLRegistryAwareTrait;
 	use WorkflowServiceTrait;
 
 	/**
 	 * The trashed condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_NAMES = [
 		self::CONDITION_PUBLISHED   => 'JPUBLISHED',
@@ -60,28 +62,28 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * The archived condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_ARCHIVED = 2;
 
 	/**
 	 * The published condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_PUBLISHED = 1;
 
 	/**
 	 * The unpublished condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_UNPUBLISHED = 0;
 
 	/**
 	 * The trashed condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_TRASHED = -2;
 
@@ -96,7 +98,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{
@@ -116,7 +118,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validateSection($section, $item = null)
 	{
@@ -149,7 +151,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContexts(): array
 	{
@@ -170,7 +172,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
@@ -185,7 +187,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function filterTransitions($transitions, $pk): array
 	{
@@ -200,7 +202,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function countItems(array $items, string $section)
 	{
@@ -346,7 +348,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function updateContentState($pks, $condition): bool
 	{

@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "modified_by" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
  );
-  
-CREATE INDEX "#__workflows_idx_asset_id" ON "#__workflows" ("asset_id"); 
+
+CREATE INDEX "#__workflows_idx_asset_id" ON "#__workflows" ("asset_id");
 CREATE INDEX "#__workflows_idx_title" ON "#__workflows" ("title");
 CREATE INDEX "#__workflows_idx_extension" ON "#__workflows" ("extension");
 CREATE INDEX "#__workflows_idx_default" ON "#__workflows" ("default");
@@ -28,7 +28,7 @@ CREATE INDEX "#__workflows_idx_modified" ON "#__workflows" ("modified");
 CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 
 INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by") VALUES
-(1, 0, 1, 'Joomla! Default', '', 'com_content', 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
+(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
 
 --
 -- Table structure for table "#__workflow_associations"
@@ -38,8 +38,9 @@ CREATE TABLE IF NOT EXISTS "#__workflow_associations" (
   "item_id" bigint DEFAULT 0 NOT NULL,
   "stage_id" bigint DEFAULT 0 NOT NULL,
   "extension" varchar(50) NOT NULL,
-  PRIMARY KEY ("item_id", "stage_id", "extension")
+  PRIMARY KEY ("item_id", "extension")
 );
+CREATE INDEX "#__workflow_associations_idx_item_stage_extension" ON "#__workflow_associations" ("item_id", "stage_id", "extension");
 CREATE INDEX "#__workflow_associations_idx_item_id" ON "#__workflow_associations" ("item_id");
 CREATE INDEX "#__workflow_associations_idx_stage_id" ON "#__workflow_associations" ("stage_id");
 CREATE INDEX "#__workflow_associations_idx_extension" ON "#__workflow_associations" ("extension");
@@ -110,8 +111,8 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 -- Creating extension entry
 --
 
-INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state", "namespace") VALUES
-(35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0, 'Joomla\\Component\\Workflow');
+INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
+(35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0);
 
 --
 -- Creating Associations for existing content

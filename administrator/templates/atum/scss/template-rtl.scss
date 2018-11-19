@@ -202,7 +202,7 @@ body {
       left: 0;
 
       > a {
-        border-right: 1px solid #ccc;
+        border-right: 1px solid var(--border);
         border-left: 0;
         border-top-left-radius: $border-radius;
         border-top-right-radius: 0;
@@ -233,8 +233,8 @@ body {
 
 #helpsite-refresh {
   float: right;
-  margin-right: 4px;
   margin-top: 1px;
+  margin-right: 4px;
 }
 
 .field-calendar {

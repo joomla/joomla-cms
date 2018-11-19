@@ -9,14 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\CMS\Layout\FileLayout;
 
 $pageClass = $this->params->get('pageclass_sfx');
-
 ?>
 <div class="com-newsfeeds-category newsfeed-category">
 	<?php if ($this->params->get('show_page_heading')) : ?>

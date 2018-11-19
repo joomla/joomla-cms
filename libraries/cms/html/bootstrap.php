@@ -159,9 +159,9 @@ abstract class JHtmlBootstrap
 		$debug = (isset($debug) && $debug != JDEBUG) ? $debug : JDEBUG;
 
 		// Load the needed scripts
-		HTMLHelper::_('behavior.core');
-		HTMLHelper::_('jquery.framework');
-		HTMLHelper::_('script', 'vendor/bootstrap/bootstrap.bundle.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
+		Factory::getDocument()->getWebAssetManager()
+			->enableAsset('core')
+			->enableAsset('bootstrap.js.bundle');
 		HTMLHelper::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));
 
 		static::$loaded[__METHOD__] = true;

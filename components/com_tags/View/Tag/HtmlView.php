@@ -12,12 +12,12 @@ namespace Joomla\Component\Tags\Site\View\Tag;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\User\User;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\User;
+use Joomla\Registry\Registry;
 
 /**
  * HTML View class for the Tags component

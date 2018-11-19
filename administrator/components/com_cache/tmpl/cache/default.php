@@ -9,14 +9,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -28,7 +29,10 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (count($this->data) > 0) : ?>
 				<table class="table">
-					<thead>
+					<caption id="captionTable" class="sr-only">
+						<?php echo Text::_('COM_CACHE_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					</caption>
+						<thead>
 						<tr>
 							<td style="width:1%" class="text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
