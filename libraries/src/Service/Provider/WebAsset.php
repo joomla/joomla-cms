@@ -17,7 +17,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the application's WebAsset dependency
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WebAsset implements ServiceProviderInterface
 {
@@ -28,7 +28,7 @@ class WebAsset implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{
@@ -43,8 +43,8 @@ class WebAsset implements ServiceProviderInterface
 					$registry->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
 
 					// Add Core registry files
-					$registry->addRegistryFile('media/system/joomla.asset.json')
-						->addRegistryFile('media/vendor/joomla.asset.json')
+					$registry->addRegistryFile('media/vendor/joomla.asset.json')
+						->addRegistryFile('media/system/joomla.asset.json')
 						->addRegistryFile('media/legacy/joomla.asset.json');
 
 					return $registry;

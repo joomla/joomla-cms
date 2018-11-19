@@ -15,8 +15,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 
-JLoader::register('UsersHelperRoute', JPATH_SITE . '/components/com_users/helpers/route.php');
-
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));

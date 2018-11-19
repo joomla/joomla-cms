@@ -72,22 +72,15 @@ class LegacyComponent
 	}
 
 	/**
-	 * Returns an MVCFactory.
-	 *
-	 * @param   CMSApplicationInterface  $application  The application
+	 * Get the factory.
 	 *
 	 * @return  MVCFactoryInterface
 	 *
-	 * @since  4.0.0
+	 * @since   4.0.0
+	 * @throws  \UnexpectedValueException May be thrown if the factory has not been set.
 	 */
-	public function createMVCFactory(CMSApplicationInterface $application): MVCFactoryInterface
+	public function getMVCFactory(): MVCFactoryInterface
 	{
-		// Will be removed when all extensions are converted to service providers
-		if (file_exists(JPATH_ADMINISTRATOR . '/components/com_' . $this->component . '/dispatcher.php'))
-		{
-			return new MVCFactory('\\Joomla\\Component\\' . ucfirst($this->component), $application);
-		}
-
 		return new LegacyFactory;
 	}
 
@@ -222,7 +215,7 @@ class LegacyComponent
 	 *
 	 * @return  RouterInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
 	{

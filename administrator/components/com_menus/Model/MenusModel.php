@@ -68,7 +68,7 @@ class MenusModel extends ListModel
 		// Load the list items.
 		$items = parent::getItems();
 
-		// If emtpy or an error, just return.
+		// If empty or an error, just return.
 		if (empty($items))
 		{
 			return array();
@@ -243,8 +243,8 @@ class MenusModel extends ListModel
 	 */
 	public function &getModules()
 	{
-		$model = $this->bootComponent('com_menus')->createMVCFactory(Factory::getApplication())
-			->createModel('Menu', 'Administrator', ['ignore_request' => true]);
+		$model = $this->bootComponent('com_menus')
+			->getMVCFactory()->createModel('Menu', 'Administrator', ['ignore_request' => true]);
 		$result = $model->getModules();
 
 		return $result;

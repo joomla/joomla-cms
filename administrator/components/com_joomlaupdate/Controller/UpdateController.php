@@ -383,7 +383,7 @@ class UpdateController extends BaseController
 	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'update');

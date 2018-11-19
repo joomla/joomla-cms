@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Stage table
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class StageTable extends Table
 {
@@ -27,13 +27,70 @@ class StageTable extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__workflow_stages', 'id', $db);
 
 		$this->access = (int) Factory::getApplication()->get('access');
+	}
+
+	/**
+	 * Deletes workflow with transition and stages.
+	 *
+	 * @param   int  $pk  Extension ids to delete.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since  4.0.0
+	 *
+	 * @throws  \UnexpectedValueException
+	 */
+	public function delete($pk = null)
+	{
+		// @TODO: correct ACL check should be done in $model->canDelete(...) not here
+		if (!Factory::getUser()->authorise('core.delete', 'com_workflows'))
+		{
+			throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), 403);
+		}
+
+		$db  = $this->getDbo();
+		$app = Factory::getApplication();
+
+		// Gets the update site names.
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('id', 'title')))
+			->from($db->quoteName('#__workflow_stages'))
+			->where($db->quoteName('id') . ' = ' . (int) $pk);
+		$db->setQuery($query);
+		$stage = $db->loadResult();
+
+		if ($stage->default)
+		{
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_DELETE_DEFAULT', $stage->title), 'error');
+
+			return false;
+		}
+
+		// Delete the update site from all tables.
+		try
+		{
+			$query = $db->getQuery(true)
+				->delete($db->quoteName('#__workflow_transitions'))
+				->where($db->quoteName('to_stage_id') . ' = ' . (int) $pk, 'OR')
+				->where($db->quoteName('from_stage_id') . ' = ' . (int) $pk);
+
+			$db->setQuery($query)->execute();
+
+			return parent::delete($pk);
+		}
+		catch (\RuntimeException $e)
+		{
+			$app->enqueueMessage(Text::sprintf('COM_WORKFLOW_MSG_WORKFLOWS_DELETE_ERROR', $stage->title, $e->getMessage()), 'error');
+		}
+
+		return false;
 	}
 
 	/**
@@ -133,7 +190,7 @@ class StageTable extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _getAssetName()
 	{
@@ -149,7 +206,7 @@ class StageTable extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _getAssetTitle()
 	{
@@ -164,7 +221,7 @@ class StageTable extends Table
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{

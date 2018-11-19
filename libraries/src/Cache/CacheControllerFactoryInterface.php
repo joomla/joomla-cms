@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Interface defining a factory which can create CacheController objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface CacheControllerFactoryInterface
 {
@@ -25,7 +25,7 @@ interface CacheControllerFactoryInterface
 	 *
 	 * @return  CacheController
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	public function createCacheController($type = 'output', $options = array()): CacheController;
