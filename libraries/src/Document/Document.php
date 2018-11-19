@@ -516,6 +516,14 @@ class Document
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
+		if (!isset($attribs['defer']) || $attribs['defer'] == false)
+		{
+			@trigger_error(
+				'Loading a script in none defer mode is deprecated and will not being supported in 5.0 anymore.',
+				E_USER_DEPRECATED
+			);
+		}
+
 		// Default value for type.
 		if (!isset($attribs['type']) && !isset($attribs['mime']))
 		{
