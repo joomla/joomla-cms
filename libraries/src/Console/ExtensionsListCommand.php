@@ -75,6 +75,7 @@ class ExtensionsListCommand extends AbstractCommand
 		if (empty($extensions))
 		{
 			$this->ioStyle->error("Cannot find extensions of the type '$type' specified.");
+
 			return 0;
 		}
 
