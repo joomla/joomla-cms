@@ -120,6 +120,7 @@ class ExtensionsListCommand extends AbstractCommand
 		{
 			$this->setExtensions();
 		}
+
 		return $this->extensions;
 	}
 
