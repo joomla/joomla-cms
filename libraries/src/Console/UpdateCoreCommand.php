@@ -117,7 +117,6 @@ class UpdateCoreCommand extends AbstractCommand
 			$model->purge();
 		}
 
-
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('version');

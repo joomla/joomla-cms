@@ -192,7 +192,6 @@ class SetConfigurationCommand extends AbstractCommand
 			return self::DB_VALIDATION_FAILED;
 		}
 
-
 		if ($this->saveConfiguration($options))
 		{
 			$this->options ?: $this->ioStyle->success('Configuration set');

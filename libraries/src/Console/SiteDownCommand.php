@@ -75,7 +75,6 @@ class SiteDownCommand extends AbstractCommand
 			return self::SITE_DOWN_SUCCESSFUL;
 		}
 
-
 		return self::SITE_DOWN_FAILED;
 	}
 

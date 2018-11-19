@@ -116,7 +116,6 @@ class DatabaseModel extends BaseInstallationModel
 		// Get the options as an object for easier handling.
 		$options = ArrayHelper::toObject($options);
 
-
 		// Load the backend language files so that the DB error messages work.
 		$lang = Factory::getLanguage();
 		$currentLang = $lang->getTag();
@@ -329,7 +328,6 @@ class DatabaseModel extends BaseInstallationModel
 		$options->db_select = false;
 
 		$db = $this->initialise();
-
 
 		if ($db === false)
 		{

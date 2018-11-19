@@ -75,7 +75,6 @@ class SiteUpCommand extends AbstractCommand
 			return self::SITE_UP_SUCCESSFUL;
 		}
 
-
 		return self::SITE_UP_FAILED;
 	}
 

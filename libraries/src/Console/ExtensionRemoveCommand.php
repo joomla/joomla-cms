@@ -51,7 +51,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 		$this->configureIO();
 		$extension_id = (int) $this->cliInput->getArgument('extension_id');
 
-		$extension = $this->getExtension($extension_id);
+		$extension = $this->getExtension();
 
 		if (!$extension->load($extension_id))
 		{
@@ -117,9 +117,8 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	protected function getExtension($extension_id)
+	protected function getExtension()
 	{
-		$row       = Table::getInstance('extension');
-		return $row;
+		return Table::getInstance('extension');
 	}
 }
