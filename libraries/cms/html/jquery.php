@@ -39,6 +39,8 @@ abstract class JHtmlJquery
 	 * @return  void
 	 *
 	 * @since   3.0
+	 *
+	 * @deprecated 5.0  Use $app->getDocument()->getWebAssetManager()->enableAsset('jquery')
 	 */
 	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
@@ -48,24 +50,19 @@ abstract class JHtmlJquery
 			return;
 		}
 
-		// If no debugging value is set, use the configuration setting
-		if ($debug === null)
-		{
-			$debug = (boolean) Factory::getApplication()->get('debug');
-		}
-
-		HTMLHelper::_('script', 'vendor/jquery/jquery.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug), ['defer' => false]);
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
+		$wa->enableAsset('jquery');
 
 		// Check if we are loading in noConflict
 		if ($noConflict)
 		{
-			HTMLHelper::_('script', 'legacy/jquery-noconflict.min.js', array('version' => 'auto', 'relative' => true), ['defer' => false]);
+			$wa->enableAsset('jquery-noconflict');
 		}
 
 		// Check if we are loading Migrate
 		if ($migrate)
 		{
-			HTMLHelper::_('script', 'vendor/jquery-migrate/jquery-migrate.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug), ['defer' => false]);
+			$wa->enableAsset('jquery-migrate');
 		}
 
 		static::$loaded[__METHOD__] = true;

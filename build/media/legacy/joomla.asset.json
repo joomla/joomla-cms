@@ -11,7 +11,12 @@
       ],
       "js": [
         "media/legacy/js/jquery-noconflict.min.js"
-      ]
+      ],
+      "attribute": {
+        "media/legacy/js/jquery-noconflict.min.js": {
+          "defer": false
+        }
+      }
     }
   }
 }

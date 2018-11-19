@@ -258,7 +258,12 @@
         "provideAssets": [
           {
             "name": null,
-            "js": ["jquery.min.js"]
+            "js": ["jquery.min.js"],
+            "attribute": {
+              "jquery.min.js": {
+                "defer": false
+              }
+            }
           }
         ],
         "dependencies": [],
@@ -274,7 +279,12 @@
           {
             "name": null,
             "js": ["jquery-migrate.min.js"],
-            "dependencies": ["jquery"]
+            "dependencies": ["jquery"],
+            "attribute": {
+              "jquery-migrate.min.js": {
+                "defer": false
+              }
+            }
           }
         ],
         "dependencies": [
@@ -398,7 +408,12 @@
         "provideAssets": [
           {
             "name": null,
-            "js": ["css-vars-ponyfill.min.js"]
+            "js": ["css-vars-ponyfill.min.js"],
+            "attribute": {
+              "css-vars-ponyfill.min.js": {
+                "defer": false
+              }
+            }
           }
         ]
       },
