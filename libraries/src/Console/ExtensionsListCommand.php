@@ -176,6 +176,7 @@ class ExtensionsListCommand extends AbstractCommand
 	private function getExtensionsNameAndId($extensions)
 	{
 		$extInfo = [];
+
 		foreach ($extensions as $key => $extension)
 		{
 			$manifest = json_decode($extension['manifest_cache']);
