@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -99,7 +98,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($user->authorise('core.manage', 'com_checkin'))
 		{
-			$checkinModel = new \Joomla\Component\Checkin\Administrator\Model\CheckinModel(['ignore_request' => true]);
+			$checkinModel = $app->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
 			$checkins     = count($checkinModel->getItems());
 
 			$new = [
@@ -128,7 +127,7 @@ class HtmlView extends BaseHtmlView
 		// Information
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
-			$warningsModel   = new \Joomla\Component\Installer\Administrator\Model\WarningsModel(['ignore_request' => true]);
+			$warningsModel   = $app->bootComponent('com_installer')->getMVCFactory()->createModel('Warnings', 'Administrator', ['ignore_request' => true]);
 			$warningMessages = count($warningsModel->getItems());
 
 			$links['MOD_MENU_INFORMATION'] = [
@@ -147,7 +146,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($user->authorise('core.manage', 'com_postinstall'))
 		{
-			$messagesModel = new \Joomla\Component\Postinstall\Administrator\Model\MessagesModel(['ignore_request' => true]);
+			$messagesModel = $app->bootComponent('com_postinstall')->getMVCFactory()->createModel('Messages', 'Administrator', ['ignore_request' => true]);
 			$messages      = count($messagesModel->getItems());
 
 			$new = [
@@ -200,7 +199,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
-			$databaseModel  = new \Joomla\Component\Installer\Administrator\Model\DatabaseModel(['ignore_request' => true]);
+			$databaseModel  = $app->bootComponent('com_installer')->getMVCFactory()->createModel('Database', 'Administrator', ['ignore_request' => true]);
 			$changeSet      = $databaseModel->getItems();
 			$changeSetCount = 0;
 
@@ -235,7 +234,8 @@ class HtmlView extends BaseHtmlView
 		// Install
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
-			$discoverModel        = new \Joomla\Component\Installer\Administrator\Model\DiscoverModel(['ignore_request' => true]);
+			$discoverModel = $app->bootComponent('com_installer')->getMVCFactory()->createModel('Discover', 'Administrator', ['ignore_request' => true]);
+			$discoverModel->discover();
 			$discoveredExtensions = count($discoverModel->getItems());
 
 			// Install
@@ -428,7 +428,7 @@ class HtmlView extends BaseHtmlView
 		// Update
 		if ($user->authorise('core.manage', 'com_joomlaupdate'))
 		{
-			$joomlaUpdateModel = new \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel(['ignore_request' => true]);
+			$joomlaUpdateModel = $app->bootComponent('com_joomlaupdate')->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 			$joomlaUpdate      = $joomlaUpdateModel->getUpdateInformation();
 			$hasUpdate         = $joomlaUpdate['hasUpdate'] ? $joomlaUpdate['latest'] : '';
 
@@ -450,7 +450,7 @@ class HtmlView extends BaseHtmlView
 		{
 			Updater::getInstance()->findUpdates();
 
-			$updateModel     = new \Joomla\Component\Installer\Administrator\Model\UpdateModel(['ignore_request' => true]);
+			$updateModel     = $app->bootComponent('com_installer')->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 			$extensionsCount = count($updateModel->getItems());
 
 			$new = [
