@@ -83,6 +83,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 		else
 		{
 			$this->ioStyle->warning('Invalid response');
+
 			return 2;
 		}
 		return 0;
