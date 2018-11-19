@@ -115,8 +115,6 @@ class ExtensionRemoveCommand extends AbstractCommand
 	/**
 	 * Gets the extension from DB
 	 *
-	 * @param   integer  $extension_id  ID of extension to be removed
-	 *
 	 * @return bool
 	 *
 	 * @since 4.0
