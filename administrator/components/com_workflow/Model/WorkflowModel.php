@@ -401,7 +401,7 @@ class WorkflowModel extends AdminModel
 			if ($table->load($pk) && $value != 1 && $table->default)
 			{
 				$app = Factory::getApplication();
-				
+
 				if ((int) $value === -2)
 				{
 					$app->enqueueMessage(Text::_('COM_WORKFLOW_MSG_DELETE_DEFAULT'), 'error');
@@ -410,7 +410,7 @@ class WorkflowModel extends AdminModel
 				{
 					$app->enqueueMessage(Text::_('COM_WORKFLOW_UNPUBLISH_DEFAULT_ERROR'), 'error');
 				}
-				
+
 				// Prune items that you can't change.
 				unset($pks[$i]);
 				break;
