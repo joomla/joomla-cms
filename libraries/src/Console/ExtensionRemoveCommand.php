@@ -77,6 +77,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 		elseif (strtolower($response) === 'no')
 		{
 			$this->ioStyle->note('Extension not removed.');
+
 			return 0;
 		}
 		else
