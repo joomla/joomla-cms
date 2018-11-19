@@ -66,6 +66,7 @@ class ExtensionsListCommand extends AbstractCommand
 		$this->configureIO();
 		$extensions = $this->getExtensions();
 		$type = $this->cliInput->getOption('type');
+
 		if ($type)
 		{
 			$extensions = $this->filterExtensionsBasedOn($type);
