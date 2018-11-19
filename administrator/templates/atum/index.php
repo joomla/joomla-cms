@@ -43,7 +43,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
-$this->addScriptDeclaration('cssVars();');
+$this->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function(){ cssVars(); });")
 
 ?>
 <!DOCTYPE html>

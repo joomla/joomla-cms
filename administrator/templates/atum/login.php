@@ -54,7 +54,7 @@ $this->setMetaData('theme-color', '#1c3d5c');
 // Set page title
 $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 
-$this->addScriptDeclaration('cssVars();')
+$this->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function(){ cssVars(); });")
 
 ?>
 <!DOCTYPE html>
