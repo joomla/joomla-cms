@@ -11,10 +11,10 @@ namespace Joomla\Component\Content\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
  * Content Component Controller

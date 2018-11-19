@@ -12,9 +12,9 @@ namespace Joomla\Component\Redirect\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
 
 /**
@@ -129,7 +129,7 @@ class LinkTable extends Table
 	}
 
 	/**
-	 * Overriden store method to set dates.
+	 * Overridden store method to set dates.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *

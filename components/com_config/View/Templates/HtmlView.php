@@ -11,10 +11,10 @@ namespace Joomla\Component\Config\Site\View\Templates;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Config\Administrator\Controller\RequestController;
-use Joomla\CMS\Factory;
 
 /**
  * View to edit a template style.
@@ -64,12 +64,12 @@ class HtmlView extends BaseHtmlView
 		$app->input->set('id', $app->getTemplate(true)->id);
 
 		/** @var MVCFactory $factory */
-		$factory = $app->bootComponent('com_templates')->createMVCFactory($app);
+		$factory = $app->bootComponent('com_templates')->getMVCFactory();
 
 		$view = $factory->createView('Style', 'Administrator', 'Json');
 		$view->setModel($factory->createModel('Style', 'Administrator'), true);
 
-		$view->document = Factory::getDocument();
+		$view->document = $this->document;
 
 		$json = $view->display();
 

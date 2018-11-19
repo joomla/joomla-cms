@@ -4,6 +4,7 @@
  */
 (() => {
   'use strict';
+
   const options = window.Joomla.getOptions('xtd-readmore');
 
   window.insertReadmore = (editor) => {

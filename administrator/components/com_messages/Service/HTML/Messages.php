@@ -11,8 +11,8 @@ namespace Joomla\Component\Messages\Administrator\Service\HTML;
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * JHtml administrator messages class.

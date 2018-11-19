@@ -358,7 +358,7 @@ abstract class JHtmlJGrid
 		$inactive_title = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 
 		return static::action(
-			$i, 'checkin', $prefix, Text::_('JLIB_HTML_CHECKED_OUT'), html_entity_decode($active_title, ENT_QUOTES, 'UTF-8'),
+			$i, 'checkin', $prefix, html_entity_decode($active_title, ENT_QUOTES, 'UTF-8'),
 			html_entity_decode($inactive_title, ENT_QUOTES, 'UTF-8'), true, 'checkedout', 'checkedout', $enabled, false, $checkbox,
 			$formId
 		);
@@ -390,7 +390,7 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		return static::action($i, $task, $prefix, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
+		return static::action($i, $task, $prefix, $text, $text, false, 'uparrow', 'uparrow_disabled', $enabled, true, $checkbox, $formId);
 	}
 
 	/**
@@ -420,6 +420,6 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		return static::action($i, $task, $prefix, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);
+		return static::action($i, $task, $prefix, $text, $text, false, 'downarrow', 'downarrow_disabled', $enabled, true, $checkbox, $formId);
 	}
 }

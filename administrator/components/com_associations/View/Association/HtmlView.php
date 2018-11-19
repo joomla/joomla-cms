@@ -11,14 +11,14 @@ namespace Joomla\Component\Associations\Administrator\View\Association;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * View class for a list of articles.

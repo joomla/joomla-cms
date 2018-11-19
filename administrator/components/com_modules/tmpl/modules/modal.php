@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 if (Factory::getApplication()->isClient('site'))
 {
@@ -48,7 +48,7 @@ if (!empty($editor))
 		<table class="table" id="moduleList">
 			<caption id="captionTable" class="sr-only">
 				<?php echo Text::_('COM_MODULES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
-			</caption>		
+			</caption>
 			<thead>
 				<tr>
 					<th scope="col" style="width:1%" class="text-center">

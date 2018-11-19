@@ -17,7 +17,7 @@ use Joomla\CMS\WebAsset\WebAssetRegistry;
 /**
  * Event class for WebAsset events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class AbstractEvent extends AbstractImmutableEvent
 {
@@ -29,7 +29,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
 	 *
 	 * @throws  BadMethodCallException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($name, array $arguments = array())
 	{
@@ -50,7 +50,7 @@ abstract class AbstractEvent extends AbstractImmutableEvent
 	 *
 	 * @throws  BadMethodCallException  if the argument is not of the expected type
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function setSubject($value)
 	{

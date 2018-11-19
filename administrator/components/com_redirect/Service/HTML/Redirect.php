@@ -11,8 +11,8 @@ namespace Joomla\Component\Redirect\Administrator\Service\HTML;
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Utility class for creating HTML Grids.

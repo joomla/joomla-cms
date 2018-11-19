@@ -184,11 +184,6 @@ Joomla = window.Joomla || {};
 			});
 		}
 
-		// Remove 'closed' class on resize
-		window.addEventListener('resize', function() {
-			setMenuHeight();
-		});
-
 		if (Joomla.localStorageEnabled()) {
 			if (localStorage.getItem('adminMenuState') == 'true') {
 				menuClose();
