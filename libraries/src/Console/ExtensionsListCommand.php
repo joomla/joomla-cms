@@ -66,6 +66,7 @@ class ExtensionsListCommand extends AbstractCommand
 		$this->configureIO();
 		$extensions = $this->getExtensions();
 		$type = $this->cliInput->getOption('type');
+
 		if ($type)
 		{
 			$extensions = $this->filterExtensionsBasedOn($type);
@@ -74,6 +75,7 @@ class ExtensionsListCommand extends AbstractCommand
 		if (empty($extensions))
 		{
 			$this->ioStyle->error("Cannot find extensions of the type '$type' specified.");
+
 			return 0;
 		}
 
@@ -81,6 +83,7 @@ class ExtensionsListCommand extends AbstractCommand
 
 		$this->ioStyle->title('Installed extensions.');
 		$this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
+
 		return 0;
 	}
 
@@ -117,6 +120,7 @@ class ExtensionsListCommand extends AbstractCommand
 		{
 			$this->setExtensions();
 		}
+
 		return $this->extensions;
 	}
 
@@ -172,6 +176,7 @@ class ExtensionsListCommand extends AbstractCommand
 	private function getExtensionsNameAndId($extensions)
 	{
 		$extInfo = [];
+
 		foreach ($extensions as $key => $extension)
 		{
 			$manifest = json_decode($extension['manifest_cache']);

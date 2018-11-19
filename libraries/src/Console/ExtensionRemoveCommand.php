@@ -67,6 +67,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 			{
 				$installer = Installer::getInstance();
 				$result    = $installer->uninstall($extension->type, $extension_id);
+
 				if ($result)
 				{
 					$this->ioStyle->success('Extension removed!');
@@ -76,13 +77,16 @@ class ExtensionRemoveCommand extends AbstractCommand
 		elseif (strtolower($response) === 'no')
 		{
 			$this->ioStyle->note('Extension not removed.');
+
 			return 0;
 		}
 		else
 		{
 			$this->ioStyle->warning('Invalid response');
+
 			return 2;
 		}
+
 		return 0;
 	}
 
