@@ -412,7 +412,7 @@ class StageModel extends AdminModel
 			{
 				$app->enqueueMessage(Text::_('COM_WORKFLOW_UNPUBLISH_DEFAULT_ERROR'), 'error');
 			}
-			
+
 			// Remove the default stage from the list of keys
 			foreach ($pks as $i => $id)
 			{
