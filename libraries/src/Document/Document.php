@@ -522,7 +522,7 @@ class Document
 			$attribs['type'] = 'text/javascript';
 		}
 
-		if(!isset($attribs['defer']))
+		if (!isset($attribs['defer']))
 		{
 			$attribs['defer'] = true;
 		}
