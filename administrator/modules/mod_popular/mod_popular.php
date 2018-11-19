@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Popular\Administrator\Helper\PopularHelper;
 
-$model = $app->bootComponent('com_content')->createMVCFactory($app)->createModel('Articles', 'Administrator', ['ignore_request' => true]);
+$model = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Administrator', ['ignore_request' => true]);
 $list = PopularHelper::getList($params, $model);
 
 // Get module data.

@@ -733,29 +733,11 @@
 		/>
 
 		<field
-			name="num_columns"
-			type="number"
-			label="JGLOBAL_NUM_COLUMNS_LABEL"
-			default="2"
-		/>
-
-		<field
 			name="num_links"
 			type="number"
 			label="JGLOBAL_NUM_LINKS_LABEL"
 			default="4"
 		/>
-
-		<field
-			name="multi_column_order"
-			type="list"
-			label="JGLOBAL_MULTI_COLUMN_ORDER_LABEL"
-			default="0"
-			showon="num_columns!:,0,1"
-			>
-			<option value="0">JGLOBAL_DOWN</option>
-			<option value="1">JGLOBAL_ACROSS</option>
-		</field>
 
 		<field
 			name="spacer1"

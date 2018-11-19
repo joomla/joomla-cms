@@ -12,14 +12,14 @@ namespace Joomla\Component\Config\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
 
 /**
  * Controller for global configuration

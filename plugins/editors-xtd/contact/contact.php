@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 
 /**
- * Editor Contact buton
+ * Editor Contact button
  *
  * @since  3.7.0
  */

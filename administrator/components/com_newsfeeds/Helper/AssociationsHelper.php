@@ -12,8 +12,8 @@ namespace Joomla\Component\Newsfeeds\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Association\AssociationExtensionHelper;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Table\Table;
 use Joomla\Component\Newsfeeds\Site\Helper\AssociationHelper;
 
 /**

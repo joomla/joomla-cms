@@ -182,7 +182,6 @@ class ListView extends HtmlView
 
 		// Include the component helpers.
 		\JLoader::register($helperClass, JPATH_COMPONENT . '/helpers/' . $componentName . '.php');
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		if ($this->getLayout() !== 'modal')
 		{

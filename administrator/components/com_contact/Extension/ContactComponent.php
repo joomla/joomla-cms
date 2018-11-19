@@ -11,23 +11,23 @@ namespace Joomla\Component\Contact\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Association\AssociationServiceTrait;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Categories\CategoryServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Contact\Administrator\Service\HTML\AdministratorService;
 use Psr\Container\ContainerInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Component class for com_contact
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContactComponent extends MVCComponent implements
 	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface
@@ -47,7 +47,7 @@ class ContactComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{
@@ -63,7 +63,7 @@ class ContactComponent extends MVCComponent implements
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validateSection($section, $item = null)
 	{
@@ -93,7 +93,7 @@ class ContactComponent extends MVCComponent implements
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContexts(): array
 	{
@@ -115,7 +115,7 @@ class ContactComponent extends MVCComponent implements
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{

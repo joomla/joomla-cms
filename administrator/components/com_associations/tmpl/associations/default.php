@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -30,7 +30,7 @@ $iconStates = array(
 );
 
 Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
-HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', false, true);
+HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
