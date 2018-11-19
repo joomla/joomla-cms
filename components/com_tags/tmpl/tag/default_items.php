@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 HTMLHelper::_('behavior.core');
 

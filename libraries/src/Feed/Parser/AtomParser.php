@@ -19,13 +19,13 @@ use Joomla\CMS\Feed\FeedParser;
  * ATOM Feed Parser class.
  *
  * @link   http://www.atomenabled.org/developers/syndication/
- * @since  12.3
+ * @since  3.1.4
  */
 class AtomParser extends FeedParser
 {
 	/**
 	 * @var    string  The feed format version.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $version;
 
@@ -37,7 +37,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleAuthor(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -53,7 +53,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleContributor(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -68,7 +68,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleGenerator(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -83,7 +83,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleId(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -98,7 +98,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleLink(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -121,7 +121,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleRights(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -136,7 +136,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleSubtitle(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -151,7 +151,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleTitle(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -166,7 +166,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleUpdated(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -179,7 +179,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function initialise()
 	{
@@ -198,7 +198,7 @@ class AtomParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function processFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
 	{

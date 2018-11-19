@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
  * Static class to handle loading of libraries.
  *
  * @package  Joomla.Platform
- * @since    11.1
+ * @since    1.7.0
  */
 abstract class JLoader
 {
@@ -20,7 +20,7 @@ abstract class JLoader
 	 * Container for already imported library paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $classes = array();
 
@@ -28,7 +28,7 @@ abstract class JLoader
 	 * Container for already imported library paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $imported = array();
 
@@ -36,7 +36,7 @@ abstract class JLoader
 	 * Container for registered library class prefixes and path lookups.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $prefixes = array();
 
@@ -60,7 +60,7 @@ abstract class JLoader
 	 * Container for namespace => path map.
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected static $namespaces = array('psr0' => array(), 'psr4' => array());
 
@@ -90,7 +90,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
 	 *                    your files.
 	 */
@@ -140,7 +140,7 @@ abstract class JLoader
 	 *
 	 * @return  array  The array of class => path values for the autoloader.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getClassList()
 	{
@@ -166,7 +166,7 @@ abstract class JLoader
 	 *
 	 * @return  array  The array of namespace => path values for the autoloader.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function getNamespaces($type = 'psr0')
 	{
@@ -186,7 +186,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
 	 *                    your files.
 	 */
@@ -253,7 +253,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function load($class)
 	{
@@ -304,7 +304,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
 	 *                    your files.
 	 */
@@ -346,7 +346,7 @@ abstract class JLoader
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function registerPrefix($prefix, $path, $reset = false, $prepend = false)
 	{
@@ -435,7 +435,7 @@ abstract class JLoader
 	 * @throws  RuntimeException
 	 *
 	 * @note    The default argument of $type will be changed in J4 to be 'psr4'
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function registerNamespace($namespace, $path, $reset = false, $prepend = false, $type = 'psr0')
 	{
@@ -488,7 +488,7 @@ abstract class JLoader
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function setup($enablePsr = true, $enablePrefixes = true, $enableClasses = true)
 	{
@@ -585,7 +585,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 *
 	 * @deprecated 4.0 this method will be removed
 	 */
@@ -696,7 +696,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function _autoload($class)
 	{
@@ -721,7 +721,7 @@ abstract class JLoader
 	 *
 	 * @return  boolean  True if the class was loaded, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private static function _load($class, $lookup)
 	{
@@ -824,7 +824,7 @@ if (!function_exists('jexit'))
 	 * @return  void
 	 *
 	 * @codeCoverageIgnore
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	function jexit($message = 0)
 	{
@@ -840,7 +840,7 @@ if (!function_exists('jexit'))
  *
  * @return  boolean  True on success.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  5.0   Classes should be autoloaded. Use JLoader::registerPrefix() or JLoader::registerNamespace() to register an autoloader for
  *                    your files.
  */

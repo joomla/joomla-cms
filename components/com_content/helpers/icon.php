@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Content Component HTML Helper
  *
- * @since  1.5
+ * @since       1.5
+ * @deprecated  5.0 Use the class \Joomla\Component\Content\Site\Service\HTML\Icon instead
  */
 abstract class JHtmlIcon
 {
@@ -105,7 +106,7 @@ abstract class JHtmlIcon
 	 */
 	public static function print_screen($article, $params, $attribs = array(), $legacy = false)
 	{
-		return self::getIcon()->print_screen($article, $params, $attribs, $legacy);
+		return self::getIcon()->print_screen($params, $legacy);
 	}
 
 	/**

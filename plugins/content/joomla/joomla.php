@@ -130,7 +130,7 @@ class PlgContentJoomla extends CMSPlugin
 		// Messaging for new items
 
 		$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = Factory::getConfig()->get('debug_lang');
+		$debug = Factory::getApplication()->get('debug_lang');
 		$result = true;
 
 		foreach ($users as $user_id)
@@ -146,7 +146,8 @@ class PlgContentJoomla extends CMSPlugin
 					'subject' => $lang->_('COM_CONTENT_NEW_ARTICLE'),
 					'message' => sprintf($lang->_('COM_CONTENT_ON_NEW_CONTENT'), $user->get('name'), $article->title)
 				);
-				$model_message = new MessageModel;
+				$model_message = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()
+					->createModel('Message', 'Administrator');
 				$result = $model_message->save($message);
 			}
 		}
@@ -631,7 +632,7 @@ class PlgContentJoomla extends CMSPlugin
 
 		// Messaging for changed items
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = JFactory::getConfig()->get('debug_lang');
+		$debug = JFactory::getApplication()->get('debug_lang');
 		$result = true;
 
 		$article = new ArticleTable($db);
@@ -689,7 +690,8 @@ class PlgContentJoomla extends CMSPlugin
 						'message' => sprintf($lang->_('PLG_CONTENT_JOOMLA_ON_STAGE_CHANGE_MSG'), $user->name, $article->title)
 					);
 
-					$model_message = new MessageModel;
+					$model_message = Factory::getApplication()->bootComponent('com_messages')
+						->getMVCFactory()->createModel('Message', 'Administrator');
 					$result = $model_message->save($message);
 				}
 			}

@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-HTMLHelper::register('users.spacer', array('JHtmlUsers', 'spacer'));
-
 $fieldsets = $this->form->getFieldsets();
 
 if (isset($fieldsets['core']))
@@ -54,7 +51,7 @@ foreach ($tmp as $customField)
 						</dt>
 						<dd>
 							<?php if (array_key_exists($field->fieldname, $customFields)) : ?>
-                                <?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
+								<?php echo strlen($customFields[$field->fieldname]->value) ? $customFields[$field->fieldname]->value : Text::_('COM_USERS_PROFILE_VALUE_NOT_FOUND'); ?>
 							<?php elseif (HTMLHelper::isRegistered('users.' . $field->id)) : ?>
 								<?php echo HTMLHelper::_('users.' . $field->id, $field->value); ?>
 							<?php elseif (HTMLHelper::isRegistered('users.' . $field->fieldname)) : ?>

@@ -11,7 +11,7 @@ namespace Joomla\CMS\Extension;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\Dispatcher\DispatcherFactoryInterface;
+use Joomla\CMS\Dispatcher\ComponentDispatcherFactoryInterface;
 use Joomla\CMS\Dispatcher\DispatcherInterface;
 
 /**
@@ -24,7 +24,7 @@ class Component implements ComponentInterface
 	/**
 	 * The dispatcher factory.
 	 *
-	 * @var DispatcherFactoryInterface
+	 * @var ComponentDispatcherFactoryInterface
 	 *
 	 * @since  4.0.0
 	 */
@@ -33,11 +33,11 @@ class Component implements ComponentInterface
 	/**
 	 * Component constructor.
 	 *
-	 * @param   DispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
+	 * @param   ComponentDispatcherFactoryInterface  $dispatcherFactory  The dispatcher factory
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(DispatcherFactoryInterface $dispatcherFactory)
+	public function __construct(ComponentDispatcherFactoryInterface $dispatcherFactory)
 	{
 		$this->dispatcherFactory = $dispatcherFactory;
 	}

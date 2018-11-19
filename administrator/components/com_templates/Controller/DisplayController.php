@@ -11,10 +11,10 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Templates manager master display controller.
@@ -50,17 +50,6 @@ class DisplayController extends BaseController
 		// For JSON requests
 		if ($document->getType() == 'json')
 		{
-			/*$view = new \Joomla\Component\Templates\Administrator\View\Style\Json;
-
-			// Get/Create the model
-			$model = new Style;
-			$view->setModel($model, true);
-
-			$view->document = $document;
-
-			return $view->display();
-			*/
-
 			return parent::display();
 		}
 

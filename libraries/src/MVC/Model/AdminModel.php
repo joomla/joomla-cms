@@ -967,7 +967,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array();
+		return [];
 	}
 
 	/**

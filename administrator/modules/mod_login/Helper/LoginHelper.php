@@ -12,12 +12,10 @@ namespace Joomla\Module\Login\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Helper for mod_login
@@ -80,31 +78,5 @@ abstract class LoginHelper
 		{
 			return base64_encode('index.php');
 		}
-	}
-
-	/**
-	 * Creates a list of two factor authentication methods used in com_users
-	 * on user view
-	 *
-	 * @return  array
-	 *
-	 * @deprecated  4.0  Use JAuthenticationHelper::getTwoFactorMethods() instead.
-	 */
-	public static function getTwoFactorMethods()
-	{
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated, use JAuthenticationHelper::getTwoFactorMethods() instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		return AuthenticationHelper::getTwoFactorMethods();
 	}
 }

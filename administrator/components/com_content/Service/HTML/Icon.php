@@ -12,13 +12,15 @@ namespace Joomla\Component\Content\Administrator\Service\HTML;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Factory;
+
 /**
  * Content Component HTML Helper
  *
@@ -98,13 +100,11 @@ class Icon
 	 */
 	public function email($article, $params, $attribs = array(), $legacy = false)
 	{
-		\JLoader::register('MailtoHelper', JPATH_SITE . '/components/com_mailto/helpers/mailto.php');
-
 		$uri      = Uri::getInstance();
 		$base     = $uri->toString(array('scheme', 'host', 'port'));
 		$template = $this->application->getTemplate();
 		$link     = $base . Route::_(\ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
-		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . \MailtoHelper::addLink($link);
+		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
 
 		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
@@ -231,16 +231,14 @@ class Icon
 	/**
 	 * Method to generate a link to print an article
 	 *
-	 * @param   object    $article  Not used, @deprecated for 4.0
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Not used, @deprecated for 4.0
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   Registry  $params  The item parameters
+	 * @param   boolean   $legacy  True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
 	 * @since  4.0.0
 	 */
-	public function print_screen($article, $params, $attribs = array(), $legacy = false)
+	public function print_screen($params, $legacy = false)
 	{
 		$text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
 

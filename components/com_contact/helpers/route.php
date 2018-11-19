@@ -19,5 +19,4 @@ defined('_JEXEC') or die;
  */
 abstract class ContactHelperRoute extends \Joomla\Component\Contact\Site\Helper\Route
 {
-	
 }
