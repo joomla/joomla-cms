@@ -67,6 +67,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 			{
 				$installer = Installer::getInstance();
 				$result    = $installer->uninstall($extension->type, $extension_id);
+
 				if ($result)
 				{
 					$this->ioStyle->success('Extension removed!');
