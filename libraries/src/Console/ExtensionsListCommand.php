@@ -83,6 +83,7 @@ class ExtensionsListCommand extends AbstractCommand
 
 		$this->ioStyle->title('Installed extensions.');
 		$this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
+
 		return 0;
 	}
 
