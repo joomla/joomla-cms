@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-
 /*
 * This segment of code sets up the autocompleter.
 */
