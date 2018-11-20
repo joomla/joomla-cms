@@ -81,7 +81,7 @@ abstract class JHtmlJquery
 		// Set an array containing the supported jQuery UI components handled by this method
 		$supported = array('core', 'sortable');
 
-		$wa = Factory::getDocument()->getWebAssetManager();
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 		foreach ($components as $component)
 		{
