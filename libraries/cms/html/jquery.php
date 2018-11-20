@@ -44,7 +44,7 @@ abstract class JHtmlJquery
 	 */
 	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
-		$wa = Factory::getDocument()->getWebAssetManager();
+		$wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 		$wa->enableAsset('jquery');
 
 		// Check if we are loading in noConflict
