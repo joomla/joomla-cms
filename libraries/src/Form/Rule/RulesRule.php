@@ -103,7 +103,8 @@ class RulesRule extends FormRule
 		if ($elActions)
 		{
 			// Iterate over the asset actions and add to the actions.
-			foreach ($elActions as $item) {
+			foreach ($elActions as $item)
+			{
 				$actions[] = $item->name;
 			}
 		}
