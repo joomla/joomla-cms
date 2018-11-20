@@ -40,7 +40,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 *
-	 * @deprecated 5.0  Use Factory::getDocument()->getWebAssetManager()->enableAsset('jquery');
+	 * @deprecated 5.0  Use $app->getDocument()->getWebAssetManager()->enableAsset('jquery');
 	 */
 	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
