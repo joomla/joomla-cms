@@ -74,7 +74,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 *
-	 * @deprecated 5.0  Use Factory::getDocument()->getWebAssetManager()->enableAsset('jquery.ui.core');
+	 * @deprecated 5.0  Use $app->getDocument()->getWebAssetManager()->enableAsset('jquery.ui.core');
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{
