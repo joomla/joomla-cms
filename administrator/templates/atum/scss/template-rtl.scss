@@ -257,12 +257,3 @@ body {
 .message-alert {
   text-align: left !important;
 }
-
-// Message specific
-joomla-alert .joomla-alert--close, joomla-alert .joomla-alert-button--close {
-  right: 0;
-  left: -1.25rem;
-}
-joomla-alert .joomla-alert--close, joomla-alert .joomla-alert-button--close {
-  float: left;
-}
