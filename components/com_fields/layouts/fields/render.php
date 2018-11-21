@@ -49,7 +49,7 @@ if (empty($fields))
 	return;
 }
 
-$output = [];
+$output = array();
 
 foreach ($fields as $field)
 {
