@@ -37,7 +37,7 @@ use Joomla\CMS\Language\Text;
 					<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_LATEST'); ?>
 				</td>
 				<td>
-					<?php echo  '&#x200E;' . $this->updateInfo['latest']; ?>
+					<?php echo '&#x200E;' . $this->updateInfo['latest']; ?>
 				</td>
 			</tr>
 			<tr>
