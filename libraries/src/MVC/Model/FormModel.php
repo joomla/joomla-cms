@@ -108,7 +108,7 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 			$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->$checkedOutField > 0 && $table->$checkedOutTimeField != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
