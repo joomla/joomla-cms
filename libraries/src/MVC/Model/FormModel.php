@@ -105,7 +105,6 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 			}
 
 			$checkedOutField = $this->getColumnAlias('checked_out');
-			$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 			// Check if this is the user having previously checked out the row.
 			if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
@@ -157,10 +156,11 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 				return true;
 			}
 
-			$user = Factory::getUser();
+			$user            = Factory::getUser();
+			$checkedOutField = $table->getColumnAlias('checked_out');
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->{$table->getColumnAlias('checked_out')} > 0 && $table->{$table->getColumnAlias('checked_out_time')} != $user->get('id'))
+			if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id'))
 			{
 				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 
