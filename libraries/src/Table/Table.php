@@ -1280,7 +1280,6 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
-		
 		// Get column names.
 		$checkedOutField     = $this->getColumnAlias('checked_out');
 		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
