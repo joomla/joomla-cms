@@ -40,7 +40,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 *
-	 * @deprecated 5.0  Use $app->getDocument()->getWebAssetManager()->enableAsset('jquery');
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetRegistry::enableAsset();
 	 */
 	public static function framework($noConflict = true, $debug = null, $migrate = false)
 	{
@@ -74,7 +74,7 @@ abstract class JHtmlJquery
 	 *
 	 * @since   3.0
 	 *
-	 * @deprecated 5.0  Use $app->getDocument()->getWebAssetManager()->enableAsset('jquery.ui.core');
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetRegistry::enableAsset();
 	 */
 	public static function ui(array $components = array('core'), $debug = null)
 	{
