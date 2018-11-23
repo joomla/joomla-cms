@@ -12,22 +12,22 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Authentication\Authentication;
-use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\UserHelper;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Updater\Updater;
-use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\User\UserHelper;
 
 /**
  * Joomla! update overview Model
@@ -299,8 +299,7 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$config  = Factory::getConfig();
-		$tempdir = $config->get('tmp_path');
+		$tempdir = Factory::getApplication()->get('tmp_path');
 		$target  = $tempdir . '/' . $basename;
 
 		// Do we have a cached file?
@@ -852,8 +851,7 @@ ENDDATA;
 		$app->triggerEvent('onJoomlaAfterUpdate');
 
 		// Remove the update package.
-		$config = Factory::getConfig();
-		$tempdir = $config->get('tmp_path');
+		$tempdir = $app->get('tmp_path');
 
 		$file = $app->getUserState('com_joomlaupdate.file', null);
 		$target = $tempdir . '/' . $file;
@@ -942,8 +940,7 @@ ENDDATA;
 		}
 
 		// Build the appropriate paths.
-		$config   = Factory::getConfig();
-		$tmp_dest = tempnam($config->get('tmp_path'), 'ju');
+		$tmp_dest = tempnam(Factory::getApplication()->get('tmp_path'), 'ju');
 		$tmp_src  = $userfile['tmp_name'];
 
 		// Move uploaded file.

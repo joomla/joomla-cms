@@ -12,8 +12,8 @@ namespace Joomla\CMS\Installation\Response;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Session\Session;
 
 /**
  * JSON Response class for the Joomla Installer.

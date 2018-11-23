@@ -9,6 +9,8 @@ Joomla = window.Joomla || {};
 (function(Joomla, document) {
 	'use strict';
 
+	var mm = new MetisMenu("#menu");
+
 	function closest(element, selector) {
 		var matchesFn;
 
@@ -79,7 +81,6 @@ Joomla = window.Joomla || {};
 
 		var menuClose = function() {
 			sidebar.querySelector('.collapse').classList.remove('in');
-			sidebar.querySelector('.collapse-arrow').classList.add('collapsed');
 		};
 
 		// Toggle menu
@@ -122,23 +123,16 @@ Joomla = window.Joomla || {};
 		for (var i = 0; i < allLinks.length; i++) {
 			if (currentUrl === allLinks[i].href) {
 				allLinks[i].classList.add('active');
-				// Auto Expand First Level
+				// Auto Expand Levels
 				if (!allLinks[i].parentNode.classList.contains('parent')) {
-					mainNav.classList.add('child-open');
 					var firstLevel = closest(allLinks[i], '.collapse-level-1');
-						if (firstLevel) firstLevel.parentNode.classList.add('open');
+					var secondLevel = closest(allLinks[i], '.collapse-level-2');
+						if (firstLevel) firstLevel.parentNode.classList.add('active');
+						if (firstLevel) firstLevel.classList.add('in');
+						if (secondLevel) secondLevel.parentNode.classList.add('active');
+						if (secondLevel) secondLevel.classList.add('in');
 				}
 			}
-		}
-
-		// If com_cpanel or com_media - close menu
-		if (body.classList.contains('com_cpanel') || body.classList.contains('com_media')) {
-			var menuChildOpen = mainNav.querySelectorAll('.open');
-
-			for (var i = 0; i < menuChildOpen.length; i++) {
-				menuChildOpen[i].classList.remove('open');
-			}
-			mainNav.classList.remove('child-open');
 		}
 
 		// Child open toggle
@@ -190,35 +184,12 @@ Joomla = window.Joomla || {};
 			});
 		}
 
-		// Set the height of the menu to prevent overlapping
-		var setMenuHeight = function() {
-			var height = document.getElementById('header').offsetHeight + document.getElementById('main-brand').offsetHeight;
-			mainNav.height = window.height - height;
-		};
-
-		setMenuHeight();
-
-		// Remove 'closed' class on resize
-		window.addEventListener('resize', function() {
-			setMenuHeight();
-		});
-
 		if (Joomla.localStorageEnabled()) {
 			if (localStorage.getItem('adminMenuState') == 'true') {
 				menuClose();
 			}
 		}
 
-	} else {
-		if (sidebar) {
-			sidebar.style.display = 'none';
-			sidebar.style.width = 0;
-		}
-
-		var wrapperClass = document.getElementsByClassName('wrapper');
-		if (wrapperClass.length) {
-			wrapperClass[0].style.paddingLeft = 0;
-		}
 	}
 
 })(Joomla, document);

@@ -11,11 +11,11 @@ namespace Joomla\Component\Messages\Administrator\View\Message;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\User;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\User;
 
 /**
  * HTML View class for the Messages component
@@ -84,7 +84,7 @@ class HtmlView extends BaseHtmlView
 			Factory::getApplication()->input->set('hidemainmenu', true);
 			ToolbarHelper::title(Text::_('COM_MESSAGES_WRITE_PRIVATE_MESSAGE'), 'envelope-opened new-privatemessage');
 			ToolbarHelper::save('message.save', 'COM_MESSAGES_TOOLBAR_SEND');
-			ToolbarHelper::cancel('message.cancel');
+			ToolbarHelper::cancel('message.cancel', 'JTOOLBAR_CLOSE');
 			ToolbarHelper::help('JHELP_COMPONENTS_MESSAGING_WRITE');
 		}
 		else

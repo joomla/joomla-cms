@@ -31,9 +31,11 @@
 		<field
 			name="category_id"
 			type="category"
+			label="JOPTION_SELECT_CATEGORY"
 			multiple="true"
-			class="multipleCategories"
 			extension="com_content"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			onchange="this.form.submit();"
 			published="0,1,2"
 		/>
@@ -41,8 +43,10 @@
 		<field
 			name="access"
 			type="accesslevel"
+			label="JOPTION_SELECT_ACCESS"
 			multiple="true"
-			class="multipleAccessLevels"
+			layout="joomla.form.field.accesslevel-fancy-select"
+			hint="JOPTION_SELECT_ACCESS"
 			onchange="this.form.submit();"
 		/>
 
@@ -50,7 +54,8 @@
 			name="author_id"
 			type="author"
 			multiple="true"
-			class="multipleAuthors"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_AUTHOR"
 			onchange="this.form.submit();"
 			>
 			<option value="0">JNONE</option>
@@ -59,6 +64,7 @@
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_SELECT_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -69,8 +75,9 @@
 			name="tag"
 			type="tag"
 			multiple="true"
-			class="multipleTags"
+			hint="JOPTION_SELECT_TAG"
 			mode="nested"
+			custom="false"
 			onchange="this.form.submit();"
 		/>
 
@@ -91,6 +98,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
 			>
@@ -134,6 +142,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

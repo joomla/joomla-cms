@@ -12,8 +12,8 @@ namespace Joomla\Module\RelatedItems\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 
@@ -175,7 +175,7 @@ abstract class RelatedItemsHelper
 					$related = $articles->getItems();
 				}
 
-				unset ($temp);
+				unset($temp);
 			}
 		}
 

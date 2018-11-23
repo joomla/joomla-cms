@@ -11,13 +11,13 @@ namespace Joomla\Component\Modules\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
 
 /**
  * Module controller class.
@@ -235,7 +235,7 @@ class ModuleController extends FormController
 			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
 		}
 
-		parent::save($key, $urlVar);
+		return parent::save($key, $urlVar);
 
 	}
 
