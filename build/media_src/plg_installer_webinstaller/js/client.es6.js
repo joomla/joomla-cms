@@ -28,30 +28,18 @@ if (!Joomla) {
     initialise() {
       webInstallerOptions.loaded = 1;
 
-      if (document.getElementById('myTabContent')) {
-        const webTab = document.getElementById('web');
-        const cancelButton = document.getElementById('uploadform-web-cancel');
+      Joomla.loadingLayer('load', document.getElementById('web'));
 
-        cancelButton.addEventListener('click', () => {
-          document.getElementById('uploadform-web').classList.add('hidden');
+      const cancelButton = document.getElementById('uploadform-web-cancel');
 
-          // jQuery('#jed-container').slideDown(300);
-          if (webInstallerOptions.list && document.querySelector('.list-view')) {
-            document.querySelector('.list-view').click();
-          }
-        });
+      cancelButton.addEventListener('click', () => {
+        document.getElementById('uploadform-web').classList.add('hidden');
 
-        webTab.insertAdjacentHTML('afterbegin', '<div id="appsloading" class="ifw-loading-container"></div>');
-        webTab.style.position = 'absolute';
-
-        jQuery('#appsloading').on('ajaxStart', () => {
-          document.body.classList.add('ifw-busy');
-          document.getElementById('appsloading').classList.remove('hidden');
-        }).on('ajaxStop', () => {
-          document.getElementById('appsloading').classList.add('hidden');
-          document.body.classList.remove('ifw-busy');
-        });
-      }
+        // jQuery('#jed-container').slideDown(300);
+        if (webInstallerOptions.list && document.querySelector('.list-view')) {
+          document.querySelector('.list-view').click();
+        }
+      });
 
       this.loadweb(`${webInstallerOptions.options.base_url}index.php?format=json&option=com_apps&view=dashboard`);
 
@@ -80,27 +68,13 @@ if (!Joomla) {
       }
 
       // jQuery('html, body').animate({ scrollTop: 0 }, 0);
-      if (document.getElementById('myTabContent')) {
-        const element = document.getElementById('appsloading');
-        element.style.position = 'absolute';
-        element.style.left = '0';
-        element.style.top = '0';
-        element.style.width = '100%';
-        element.style.height = '100%';
+      WebInstaller.showLoadingLayer();
 
-        const web = document.getElementById('web');
-        web.style.position = 'relative';
-        web.appendChild(element);
-
-        jQuery('#appsloading').trigger('ajaxStart');
-      }
-
-      // @todo convert to vanilla, (why JSONP?)
+      // @todo convert to vanilla, requires more functionality in Joomla.request
       jQuery.ajax({
         url: requestUrl,
-        dataType: 'jsonp',
+        dataType: 'json',
         cache: true,
-        jsonpCallback: 'jedapps_jsonpcallback',
         timeout: 20000,
         success: (response) => {
           if (document.getElementById('web-loader')) {
@@ -203,9 +177,7 @@ if (!Joomla) {
             document.querySelector('.list-view').click();
           }
 
-          if (document.getElementById('myTabContent')) {
-            jQuery('#appsloading').trigger('ajaxStop');
-          }
+          WebInstaller.hideLoadingLayer();
         },
         error: (request) => {
           const errorContainer = document.getElementById('web-loader-error');
@@ -285,6 +257,14 @@ if (!Joomla) {
       }
     }
 
+    static showLoadingLayer() {
+      Joomla.loadingLayer('show', document.getElementById('web'));
+    }
+
+    static hideLoadingLayer() {
+      Joomla.loadingLayer('hide', document.getElementById('web'));
+    }
+
     static clicker() {
       if (document.querySelector('.grid-view')) {
         document.querySelector('.grid-view').addEventListener('click', () => {
@@ -341,36 +321,47 @@ if (!Joomla) {
     }
   }
 
-  jQuery(($) => {
-    const link = $('#myTabTabs').find('a[href="#web"]');
+  document.addEventListener('DOMContentLoaded', () => {
+    const initialiser = () => {
+      const installerTabs = document.getElementById('myTab');
 
-    if (webInstallerOptions.options.installfromon) {
-      link.click();
-    }
+      // Need to wait for the CE to have inserted the tabs list
+      if (installerTabs.firstElementChild.tagName !== 'UL') {
+        setTimeout(initialiser, 50);
 
-    if (link.hasClass('active')) {
-      if (!instance) {
-        instance = new WebInstaller();
-        instance.initialise();
+        return;
       }
-    }
 
-    link.closest('li').click(() => {
-      if (!instance) {
-        instance = new WebInstaller();
-        instance.initialise();
+      const link = installerTabs.querySelector('#tab-web');
+
+      // Abort if the IFW tab cannot be found
+      if (!link) {
+        return;
       }
-    });
 
-    if (webInstallerOptions.options.installfrom_url !== '') {
-      link.closest('li').click();
-    }
-
-    link.on('shown.bs.tab', () => {
-      if (!instance) {
-        instance = new WebInstaller();
-        instance.initialise();
+      if (webInstallerOptions.options.installfromon) {
+        link.click();
       }
-    });
+
+      if (link.hasAttribute('active')) {
+        if (!instance) {
+          instance = new WebInstaller();
+          instance.initialise();
+        }
+      }
+
+      if (webInstallerOptions.options.installfrom_url !== '') {
+        link.click();
+      }
+
+      link.addEventListener('joomla.tab.shown', () => {
+        if (!instance) {
+          instance = new WebInstaller();
+          instance.initialise();
+        }
+      });
+    };
+
+    setTimeout(initialiser, 50);
   });
 })(window, document, Joomla, window.jQuery);
