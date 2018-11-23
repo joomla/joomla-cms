@@ -19,10 +19,10 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\Update;
 use Joomla\CMS\Updater\Updater;
-use Joomla\CMS\Language\Text;
 
 /**
  * Language Installer model for the Joomla Core Installer.
@@ -1067,7 +1067,7 @@ class LanguagesModel extends BaseInstallationModel
 			'showtitle' => 1,
 			'params'    => '{"menutype":"mainmenu-' . strtolower($itemLanguage->language)
 				. '","startLevel":"0","endLevel":"0","showAllChildren":"0","tag_id":"","class_sfx":"","window_open":"",'
-				. '"layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}',
+				. '"layout":"","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}',
 			'client_id' => 0,
 			'language'  => $itemLanguage->language,
 			'published' => 1,

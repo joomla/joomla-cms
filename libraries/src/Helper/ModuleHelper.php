@@ -10,6 +10,8 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -183,31 +185,15 @@ abstract class ModuleHelper
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
-		// Load the module
-		if (file_exists($path))
+		$dispatcher = $app->bootModule($module->module, $app->getName())->getDispatcher($module, $app);
+
+		// Check if we have a dispatcher
+		if ($dispatcher)
 		{
-			$lang = Factory::getLanguage();
-
-			$coreLanguageDirectory      = JPATH_BASE;
-			$extensionLanguageDirectory = dirname($path);
-
-			$langPaths = $lang->getPaths();
-
-			// Only load the module's language file if it hasn't been already
-			if (!$langPaths || (!isset($langPaths[$coreLanguageDirectory]) && !isset($langPaths[$extensionLanguageDirectory])))
-			{
-				// 1.5 or Core then 1.6 3PD
-				$lang->load($module->module, $coreLanguageDirectory, null, false, true) ||
-					$lang->load($module->module, $extensionLanguageDirectory, null, false, true);
-			}
-
-			$content = '';
 			ob_start();
-			include $path;
-			$module->content = ob_get_contents() . $content;
-			ob_end_clean();
+			$dispatcher->dispatch();
+			$module->content = ob_get_clean();
 		}
 
 		// Load the module chrome functions
@@ -421,8 +407,9 @@ abstract class ModuleHelper
 
 		try
 		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = Factory::getCache('com_modules', 'callback');
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_modules']);
 
 			$modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
@@ -526,19 +513,20 @@ abstract class ModuleHelper
 		}
 
 		$user = Factory::getUser();
-		$conf = Factory::getConfig();
+		$app  = Factory::getApplication();
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = Factory::getCache($cacheparams->cachegroup, 'callback');
+		/** @var CallbackController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+			->createCacheController('callback', ['defaultgroup' => $cacheparams->cachegroup]);
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache', null) === '0' || $conf->get('caching') == 0 || $user->get('id'))
+		if ($moduleparams->get('owncache', null) === '0' || $app->get('caching') == 0 || $user->get('id'))
 		{
 			$cache->setCaching(false);
 		}
 
 		// Module cache is set in seconds, global cache in minutes, setLifeTime works in minutes
-		$cache->setLifeTime($moduleparams->get('cache_time', $conf->get('cachetime') * 60) / 60);
+		$cache->setLifeTime($moduleparams->get('cache_time', $app->get('cachetime') * 60) / 60);
 
 		$wrkaroundoptions = array('nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1);
 
@@ -562,7 +550,7 @@ abstract class ModuleHelper
 
 				if (is_array($cacheparams->modeparams))
 				{
-					$input   = Factory::getApplication()->input;
+					$input   = $app->input;
 					$uri     = $input->getArray();
 					$safeuri = new \stdClass;
 					$noHtmlFilter = InputFilter::getInstance();
@@ -613,7 +601,7 @@ abstract class ModuleHelper
 				$ret = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
-					$module->id . $view_levels . Factory::getApplication()->input->getInt('Itemid', null),
+					$module->id . $view_levels . $app->input->getInt('Itemid', null),
 					$wrkarounds,
 					$wrkaroundoptions
 				);

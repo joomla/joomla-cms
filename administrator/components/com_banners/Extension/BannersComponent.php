@@ -60,18 +60,4 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	{
 		return '#__banners';
 	}
-
-	/**
-	 * Returns the state column for the count items functions for the given section.
-	 *
-	 * @param   string  $section  The section
-	 *
-	 * @return  string|null
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getStateColumnForSection(string $section = null)
-	{
-		return 'published as state';
-	}
 }

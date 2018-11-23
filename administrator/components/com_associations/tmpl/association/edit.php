@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('jquery.framework');
 
-HTMLHelper::_('script', 'com_associations/sidebyside.js', false, true);
-HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', array(), true);
+HTMLHelper::_('script', 'com_associations/sidebyside.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'com_associations/sidebyside.css', ['version' => 'auto', 'relative' => true]);
 
 $options = array(
 			'layout'   => $this->app->input->get('layout', '', 'string'),

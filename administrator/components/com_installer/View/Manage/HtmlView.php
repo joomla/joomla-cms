@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Extension Manager Manage View
@@ -51,9 +50,6 @@ class HtmlView extends InstallerViewDefault
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
-
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Display the view.
 		parent::display($tpl);

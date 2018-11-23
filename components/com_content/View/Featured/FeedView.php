@@ -11,12 +11,12 @@ namespace Joomla\Component\Content\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\Router\Route;
 
 /**
  * Frontpage View class

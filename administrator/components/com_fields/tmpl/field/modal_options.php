@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 echo HTMLHelper::_('bootstrap.startAccordion', 'fieldOptions', array('active' => 'collapse0'));
 

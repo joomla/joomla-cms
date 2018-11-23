@@ -9,13 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Module\Finder\Site\Helper\FinderHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-HTMLHelper::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+use Joomla\Module\Finder\Site\Helper\FinderHelper;
 
 // Load the smart search component language file.
 $lang = Factory::getLanguage();
@@ -46,7 +44,6 @@ else
 	$output .= $input;
 }
 
-HTMLHelper::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
 HTMLHelper::_('script', 'com_finder/finder.js', array('version' => 'auto', 'relative' => true));
 
 Text::script('MOD_FINDER_SEARCH_VALUE', true);
@@ -56,8 +53,8 @@ Text::script('MOD_FINDER_SEARCH_VALUE', true);
  */
 if ($params->get('show_autosuggest', 1))
 {
-	HTMLHelper::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
-	Factory::getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
+	$app->getDocument()->getWebAssetManager()->enableAsset('awesomplete');
+	$app->getDocument()->addScriptOptions('finder-search', array('url' => Route::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 ?>
 

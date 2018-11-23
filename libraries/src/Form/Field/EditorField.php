@@ -303,7 +303,7 @@ class EditorField extends \JFormFieldTextarea
 			// Create the JEditor instance based on the given editor.
 			if ($editor === null)
 			{
-				$editor = Factory::getConfig()->get('editor');
+				$editor = Factory::getApplication()->get('editor');
 			}
 
 			$this->editor = Editor::getInstance($editor);

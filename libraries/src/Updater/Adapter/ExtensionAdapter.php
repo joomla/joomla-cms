@@ -23,7 +23,7 @@ use Joomla\CMS\Version;
 /**
  * Extension class for updater
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ExtensionAdapter extends UpdateAdapter
 {
@@ -36,7 +36,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
 	{
@@ -97,7 +97,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _endElement($parser, $name)
 	{
@@ -268,7 +268,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 * @return  void
 	 *
 	 * @note    This is public because its called externally.
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _characterData($parser, $data)
 	{
@@ -298,7 +298,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function findUpdate($options)
 	{

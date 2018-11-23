@@ -12,10 +12,10 @@ namespace Joomla\Component\Menus\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
 
 /**
  * Menu Item Types Model for Menus.
@@ -41,7 +41,7 @@ class MenutypesModel extends BaseDatabaseModel
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState()
 	{

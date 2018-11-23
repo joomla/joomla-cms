@@ -301,7 +301,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	{
 		$maxAge        = (int) $this->params->get('hsts_maxage', 31536000);
 		$hstsOptions   = array();
-		$hstsOptions[] = $maxAge < 300 ? 'max-age: 300' : 'max-age: ' . $maxAge;
+		$hstsOptions[] = $maxAge < 300 ? 'max-age=300' : 'max-age=' . $maxAge;
 
 		if ($this->params->get('hsts_subdomains', 0))
 		{
