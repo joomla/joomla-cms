@@ -11,13 +11,13 @@ if (version_compare(PHP_VERSION, '5.3.1', '<'))
 	die('Your host needs to use PHP 5.3.1 or higher to run this version of Joomla!');
 }
 
-$dir = __DIR__ === DIRECTORY_SEPARATOR ? '' : __DIR__;
-
 /**
  * Constant that is checked in included files to prevent direct access.
  * define() is used in the installation folder rather than "const" to not error for PHP 5.2 and lower
  */
 define('_JEXEC', 1);
+
+$dir = __DIR__ === DIRECTORY_SEPARATOR ? '' : __DIR__;
 
 if (file_exists($dir . '/defines.php'))
 {
