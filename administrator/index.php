@@ -36,7 +36,7 @@ if (file_exists($dir . '/defines.php'))
 if (!defined('_JDEFINES'))
 {
 	define('JPATH_BASE', $dir);
-	require_once JPATH_BASE.'/includes/defines.php';
+	require_once JPATH_BASE . '/includes/defines.php';
 }
 
 require_once JPATH_BASE . '/includes/framework.php';
