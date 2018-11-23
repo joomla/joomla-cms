@@ -241,24 +241,4 @@ class WorkflowsModel extends ListModel
 
 		return $query;
 	}
-
-	/**
-	 * Build a list of authors
-	 *
-	 * @return  \stdClass[]
-	 *
-	 * @since  4.0.0
-	 */
-	public function getAuthors()
-	{
-		$query = $this->getDbo()->getQuery(true);
-
-		$query->select('u.id AS value, u.name AS text')
-			->from('#__users AS u')
-			->join('INNER', '#__workflows AS c ON c.created_by = u.id')
-			->group('u.id, u.name')
-			->order('u.name');
-
-		return $this->getDbo()->setQuery($query)->loadObjectList();
-	}
 }

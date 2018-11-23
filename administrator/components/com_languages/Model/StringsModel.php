@@ -116,7 +116,7 @@ class StringsModel extends BaseDatabaseModel
 	/**
 	 * Method for searching language strings.
 	 *
-	 * @return  array|\Exception  Array of resuls on success, \Exception object otherwise.
+	 * @return  array|\Exception  Array of results on success, \Exception object otherwise.
 	 *
 	 * @since		2.5
 	 */

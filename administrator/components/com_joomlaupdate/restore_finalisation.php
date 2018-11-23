@@ -69,7 +69,7 @@ namespace
 			// Make sure Joomla!'s code can figure out which files exist and need be removed
 			clearstatcache();
 
-			// Remove obsolete files - prevents errors occuring in some system plugins
+			// Remove obsolete files - prevents errors occurring in some system plugins
 			if (class_exists('JoomlaInstallerScript'))
 			{
 				(new JoomlaInstallerScript)->deleteUnexistingFiles();

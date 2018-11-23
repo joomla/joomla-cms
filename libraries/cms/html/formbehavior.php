@@ -17,7 +17,9 @@ use Joomla\Registry\Registry;
 /**
  * Utility class for form related behaviors
  *
- * @since  3.0
+ * @since       3.0
+ *
+ * @deprecated  5.0  Without replacement
  */
 abstract class JHtmlFormbehavior
 {
