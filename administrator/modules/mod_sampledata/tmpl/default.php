@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('script', 'mod_sampledata/sampledata-process.js', ['version' => 'auto', 'relative' => true]);
 
@@ -20,7 +20,7 @@ Text::script('MOD_SAMPLEDATA_CONFIRM_START');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
 Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
-Factory::getDocument()->addScriptOptions(
+$app->getDocument()->addScriptOptions(
 	'sample-data',
 	[
 		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif'

@@ -56,7 +56,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 * The log of executed SQL statements memory usage (start and stop memory_get_usage) by the database driver.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $memoryLogs = [];
 
@@ -149,7 +149,7 @@ final class DebugMonitor implements QueryMonitorInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getMemoryLogs(): array
 	{

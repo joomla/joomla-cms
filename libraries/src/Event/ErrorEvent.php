@@ -28,7 +28,7 @@ class ErrorEvent extends AbstractEvent
 	 */
 	public function getApplication(): AbstractApplication
 	{
-		return $this->getArgument('application');
+		return $this->arguments['application'];
 	}
 
 	/**

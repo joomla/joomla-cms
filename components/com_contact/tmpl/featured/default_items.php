@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 
 HTMLHelper::_('behavior.core');
 

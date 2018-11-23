@@ -16,7 +16,7 @@ use Joomla\CMS\WebAsset\WebAssetItem;
 /**
  * Event class for WebAsset events
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WebAssetStateChangedEvent extends AbstractEvent
 {
@@ -28,7 +28,7 @@ class WebAssetStateChangedEvent extends AbstractEvent
 	 *
 	 * @throws  BadMethodCallException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($name, array $arguments = array())
 	{
@@ -54,7 +54,7 @@ class WebAssetStateChangedEvent extends AbstractEvent
 	 *
 	 * @return  WebAssetItem
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAsset(): WebAssetItem
 	{
@@ -66,7 +66,7 @@ class WebAssetStateChangedEvent extends AbstractEvent
 	 *
 	 * @return  int
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getOldState(): int
 	{
@@ -78,7 +78,7 @@ class WebAssetStateChangedEvent extends AbstractEvent
 	 *
 	 * @return  int
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getNewState(): int
 	{
