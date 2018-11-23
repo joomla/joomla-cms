@@ -88,7 +88,7 @@ class DebuguserModel extends ListModel
 				foreach ($actions as $action)
 				{
 					$name = $action[0];
-					$level = $action[1];
+					$level = $asset->level;
 
 					// Check that we check this action for the level of the asset.
 					if ($level === null || $level >= $asset->level)

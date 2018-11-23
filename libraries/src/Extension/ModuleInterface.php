@@ -17,7 +17,7 @@ use Joomla\Input\Input;
 /**
  * Access to module specific services.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface ModuleInterface
 {
@@ -30,7 +30,7 @@ interface ModuleInterface
 	 *
 	 * @return  DispatcherInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getDispatcher(\stdClass $module, CMSApplicationInterface $application, Input $input = null): DispatcherInterface;
 }

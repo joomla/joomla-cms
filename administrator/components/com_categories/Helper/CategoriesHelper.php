@@ -149,8 +149,7 @@ class CategoriesHelper
 	public static function createCategory($data)
 	{
 		$categoryModel = Factory::getApplication()->bootComponent('com_categories')
-			->createMVCFactory(Factory::getApplication())
-			->createModel('Category', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true]);
 		$categoryModel->save($data);
 
 		$catid = $categoryModel->getState('category.id');

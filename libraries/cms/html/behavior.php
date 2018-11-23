@@ -68,7 +68,7 @@ abstract class JHtmlBehavior
 		}
 
 		HTMLHelper::_('form.csrf');
-		Factory::getContainer()->get('webasset')->enableAsset('core');
+		Factory::getDocument()->getWebAssetManager()->enableAsset('core');
 
 		// Add core and base uri paths so javascript scripts can use them.
 		Factory::getDocument()->addScriptOptions(
@@ -140,7 +140,7 @@ abstract class JHtmlBehavior
 		Text::script('JLIB_FORM_FIELD_REQUIRED_CHECK');
 		Text::script('JLIB_FORM_FIELD_INVALID_VALUE');
 
-		Factory::getContainer()->get('webasset')->enableAsset('fields.validate');
+		Factory::getDocument()->getWebAssetManager()->enableAsset('fields.validate');
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -169,7 +169,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function combobox()
 	{
-		Factory::getContainer()->get('webasset')->enableAsset('awesomplete');
+		Factory::getDocument()->getWebAssetManager()->enableAsset('awesomplete');
 	}
 
 	/**
@@ -247,7 +247,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		Factory::getContainer()->get('webasset')->enableAsset('multiselect');
+		Factory::getDocument()->getWebAssetManager()->enableAsset('multiselect');
 
 		// Pass the required options to the javascript
 		Factory::getDocument()->addScriptOptions('js-multiselect', ['formName' => $id]);
@@ -426,7 +426,7 @@ abstract class JHtmlBehavior
 		// Add keepalive script options.
 		Factory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => Route::_($uri)));
 
-		Factory::getContainer()->get('webasset')->enableAsset('keepalive');
+		Factory::getDocument()->getWebAssetManager()->enableAsset('keepalive');
 
 		static::$loaded[__METHOD__] = true;
 

@@ -22,7 +22,7 @@ FormHelper::loadFieldClass('list');
 /**
  * Components Category field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TransitionField extends ListField
 {
@@ -30,7 +30,7 @@ class TransitionField extends ListField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'Transition';
 
@@ -38,7 +38,7 @@ class TransitionField extends ListField
 	 * The component and section separated by ".".
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension;
 
@@ -60,7 +60,7 @@ class TransitionField extends ListField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -96,7 +96,7 @@ class TransitionField extends ListField
 	 *
 	 * @return	array  An array of HTMLHelper options.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getOptions()
 	{

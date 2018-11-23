@@ -10,6 +10,8 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Log\Log;
@@ -134,7 +136,9 @@ class LanguageHelper
 			}
 			else
 			{
-				$cache = Factory::getCache('com_languages', '');
+				/** @var OutputController $cache */
+				$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+					->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 				if ($cache->contains('languages'))
 				{
@@ -192,7 +196,9 @@ class LanguageHelper
 
 		if ($installedLanguages === null)
 		{
-			$cache = Factory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('installedlanguages'))
 			{
@@ -345,7 +351,9 @@ class LanguageHelper
 
 		if ($contentLanguages === null)
 		{
-			$cache = Factory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('contentlanguages'))
 			{

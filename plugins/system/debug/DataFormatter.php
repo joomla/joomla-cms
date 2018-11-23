@@ -14,7 +14,7 @@ use DebugBar\DataFormatter\DataFormatter as DebugBarDataFormatter;
 /**
  * DataFormatter
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class DataFormatter extends DebugBarDataFormatter
 {
@@ -26,7 +26,7 @@ class DataFormatter extends DebugBarDataFormatter
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function formatPath($path, $replacement = ''): string
 	{
@@ -40,7 +40,7 @@ class DataFormatter extends DebugBarDataFormatter
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function formatCallerInfo(array $call): string
 	{
@@ -51,11 +51,26 @@ class DataFormatter extends DebugBarDataFormatter
 			// If entry has Class/Method print it.
 			$string .= htmlspecialchars($call['class'] . $call['type'] . $call['function']) . '()';
 		}
+		elseif (isset($call['args']) && is_array($call['args'][0]))
+		{
+			$string .= htmlspecialchars($call['function']) . ' (';
+
+			foreach ($call['args'][0] as $arg)
+			{
+				// Check if the arguments can be used as string
+				if (is_object($arg) && !method_exists($arg, '__toString'))
+				{
+					$arg = get_class($arg);
+				}
+
+				$string .= htmlspecialchars($arg) . ', ';
+			}
+
+			$string = rtrim($string, ', ') . ')';
+		}
 		elseif (isset($call['args']))
 		{
-			// If entry has args is a require/include or a call_user_func_array.
-			$args = \is_array($call['args'][0]) ? '(' . implode(', ', $call['args'][0]) . ')' : ' ' . $call['args'][0];
-			$string .= htmlspecialchars($call['function']) . $args;
+			$string .= htmlspecialchars($call['function']) . ' ' . $call['args'][0];
 		}
 		else
 		{
