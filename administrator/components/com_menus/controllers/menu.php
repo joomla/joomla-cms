@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,18 @@ defined('_JEXEC') or die;
 /**
  * The Menu Type Controller
  *
- * @package     Joomla.Administrator
- * @subpackage  com_menus
- * @since       1.6
+ * @since  1.6
  */
 class MenusControllerMenu extends JControllerForm
 {
 	/**
 	 * Dummy method to redirect back to standard controller
 	 *
-	 * @param   boolean			If true, the view output will be cached
-	 * @param   array  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $cachable   If true, the view output will be cached.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
+	 *
 	 * @since   1.5
 	 */
 	public function display($cachable = false, $urlparams = false)
@@ -35,12 +34,17 @@ class MenusControllerMenu extends JControllerForm
 	/**
 	 * Method to save a menu item.
 	 *
-	 * @return  void
+	 * @param   string  $key     The name of the primary key of the URL variable.
+	 * @param   string  $urlVar  The name of the URL variable if different from the primary key (sometimes required to avoid router collisions).
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   1.6
 	 */
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app      = JFactory::getApplication();
 		$data     = $this->input->post->get('jform', array(), 'array');
@@ -48,19 +52,11 @@ class MenusControllerMenu extends JControllerForm
 		$task     = $this->getTask();
 		$recordId = $this->input->getInt('id');
 
-		if (!$this->checkEditId($context, $recordId))
+		// Prevent using 'main' as menutype as this is reserved for backend menus
+		if (strtolower($data['menutype']) == 'main')
 		{
-			// Somehow the person just went to the form and saved it - we don't allow that.
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $recordId));
-			$this->setMessage($this->getError(), 'error');
-			$this->setRedirect(JRoute::_('index.php?option='.$this->option.'&view='.$this->view_list.$this->getRedirectToListAppend(), false));
-
-			return false;
-		}
-
-		// Make sure we are not trying to modify an administrator menu.
-		if (isset($data['client_id']) && $data['client_id'] == 1){
-			JError::raiseNotice(0, JText::_('COM_MENUS_MENU_TYPE_NOT_ALLOWED'));
+			$msg = JText::_('COM_MENUS_ERROR_MENUTYPE');
+			JFactory::getApplication()->enqueueMessage($msg, 'error');
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
@@ -72,8 +68,9 @@ class MenusControllerMenu extends JControllerForm
 		$data['id'] = $recordId;
 
 		// Get the model and attempt to validate the posted data.
-		$model	= $this->getModel('Menu');
-		$form	= $model->getForm();
+		$model = $this->getModel('Menu');
+		$form  = $model->getForm();
+
 		if (!$form)
 		{
 			JError::raiseError(500, $model->getError());
@@ -81,13 +78,13 @@ class MenusControllerMenu extends JControllerForm
 			return false;
 		}
 
-		$data	= $model->validate($form, $data);
+		$validData = $model->validate($form, $data);
 
 		// Check for validation errors.
-		if ($data === false)
+		if ($validData === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -96,50 +93,77 @@ class MenusControllerMenu extends JControllerForm
 				{
 					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
-				else {
+				else
+				{
 					$app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
+
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.menu.data', $data);
+			$app->setUserState($context . '.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 
 			return false;
+		}
+
+		if (isset($validData['preset']))
+		{
+			$preset = trim($validData['preset']) ?: null;
+
+			unset($validData['preset']);
 		}
 
 		// Attempt to save the data.
-		if (!$model->save($data))
+		if (!$model->save($validData))
 		{
 			// Save the data in the session.
-			$app->setUserState('com_menus.edit.menu.data', $data);
+			$app->setUserState($context . '.data', $validData);
 
 			// Redirect back to the edit screen.
-			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setMessage(JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
 
 			return false;
 		}
 
-		$this->setMessage(JText::_('COM_MENUS_MENU_SAVE_SUCCESS'));
+		// Import the preset selected
+		if (isset($preset) && $data['client_id'] == 1)
+		{
+			try
+			{
+				MenusHelper::installPreset($preset, $data['menutype']);
+
+				$this->setMessage(JText::_('COM_MENUS_PRESET_IMPORT_SUCCESS'));
+			}
+			catch (Exception $e)
+			{
+				// Save was successful but the preset could not be loaded. Let it through with just a warning
+				$this->setMessage(JText::sprintf('COM_MENUS_PRESET_IMPORT_FAILED', $e->getMessage()));
+			}
+		}
+		else
+		{
+			$this->setMessage(JText::_('COM_MENUS_MENU_SAVE_SUCCESS'));
+		}
 
 		// Redirect the user and adjust session state based on the chosen task.
 		switch ($task)
 		{
 			case 'apply':
 				// Set the record data in the session.
-				$recordId = $model->getState($this->context.'.id');
+				$recordId = $model->getState($this->context . '.id');
 				$this->holdEditId($context, $recordId);
 
 				// Redirect back to the edit screen.
-				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit'.$this->getRedirectToItemAppend($recordId), false));
+				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit' . $this->getRedirectToItemAppend($recordId), false));
 				break;
 
 			case 'save2new':
 				// Clear the record id and data from the session.
 				$this->releaseEditId($context, $recordId);
-				$app->setUserState($context.'.data', null);
+				$app->setUserState($context . '.data', null);
 
 				// Redirect back to the edit screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&layout=edit', false));
@@ -148,11 +172,41 @@ class MenusControllerMenu extends JControllerForm
 			default:
 				// Clear the record id and data from the session.
 				$this->releaseEditId($context, $recordId);
-				$app->setUserState($context.'.data', null);
+				$app->setUserState($context . '.data', null);
 
 				// Redirect to the list screen.
 				$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
 				break;
 		}
+	}
+
+	/**
+	 * Method to display a menu as preset xml.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   3.8.0
+	 */
+	public function exportXml()
+	{
+		// Check for request forgeries.
+		$this->checkToken();
+
+		$cid   = $this->input->get('cid', array(), 'array');
+		$model = $this->getModel('Menu');
+		$item  = $model->getItem(reset($cid));
+
+		if (!$item->menutype)
+		{
+			$this->setMessage(JText::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), 'warning');
+
+			$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menus', false));
+
+			return false;
+		}
+
+		$this->setRedirect(JRoute::_('index.php?option=com_menus&view=menu&menutype=' . $item->menutype . '&format=xml', false));
+
+		return true;
 	}
 }

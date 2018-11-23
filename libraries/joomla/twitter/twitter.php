@@ -3,108 +3,109 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for interacting with a Twitter API instance.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
- * @since       12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitter
 {
 	/**
-	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  12.3
+	 * @var    Registry  Options for the JTwitter object.
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
-	 * @var JTwitterOAuth The OAuth client.
-	 * @since 12.3
+	 * @var    JTwitterOAuth The OAuth client.
+	 * @since  3.1.4
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    JTwitterFriends  Twitter API object for friends.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $friends;
 
 	/**
 	 * @var    JTwitterUsers  Twitter API object for users.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $users;
 
 	/**
 	 * @var    JTwitterHelp  Twitter API object for help.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $help;
 
 	/**
 	 * @var    JTwitterStatuses  Twitter API object for statuses.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $statuses;
 
 	/**
 	 * @var    JTwitterSearch  Twitter API object for search.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $search;
 
 	/**
 	 * @var    JTwitterFavorites  Twitter API object for favorites.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $favorites;
 
 	/**
 	 * @var    JTwitterDirectMessages  Twitter API object for direct messages.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $directMessages;
 
 	/**
 	 * @var    JTwitterLists  Twitter API object for lists.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $lists;
 
 	/**
 	 * @var    JTwitterPlaces  Twitter API object for places & geo.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $places;
 
 	/**
 	 * @var    JTwitterTrends  Twitter API object for trends.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $trends;
 
 	/**
 	 * @var    JTwitterBlock  Twitter API object for block.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $block;
 
 	/**
 	 * @var    JTwitterProfile  Twitter API object for profile.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $profile;
 
@@ -112,15 +113,15 @@ class JTwitter
 	 * Constructor.
 	 *
 	 * @param   JTwitterOauth  $oauth    The oauth client.
-	 * @param   JRegistry      $options  Twitter options object.
+	 * @param   Registry       $options  Twitter options object.
 	 * @param   JHttp          $client   The HTTP client object.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	public function __construct(JTwitterOAuth $oauth = null, JRegistry $options = null, JHttp $client = null)
+	public function __construct(JTwitterOAuth $oauth = null, Registry $options = null, JHttp $client = null)
 	{
 		$this->oauth = $oauth;
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
 		// Setup the default API url if not already set.
@@ -134,7 +135,7 @@ class JTwitter
 	 *
 	 * @return  JTwitterObject  Twitter API object (statuses, users, favorites, etc.).
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
@@ -161,7 +162,7 @@ class JTwitter
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -176,7 +177,7 @@ class JTwitter
 	 *
 	 * @return  JTwitter  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{

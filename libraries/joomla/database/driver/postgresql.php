@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,50 +12,64 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database driver
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since       3.0.0
+ * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseDriverPostgresql extends JDatabaseDriver
 {
 	/**
 	 * The database driver name
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0.0
 	 */
 	public $name = 'postgresql';
 
 	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'postgresql';
+
+	/**
 	 * Quote for named objects
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0.0
 	 */
 	protected $nameQuote = '"';
 
 	/**
-	 *  The null/zero date string
+	 * The null/zero date string
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0.0
 	 */
 	protected $nullDate = '1970-01-01 00:00:00';
 
 	/**
-	 * @var    string  The minimum supported database version.
-	 * @since  12.1
+	 * The minimum supported database version.
+	 *
+	 * @var    string
+	 * @since  3.0.0
 	 */
 	protected static $dbMinimum = '8.3.18';
 
 	/**
 	 * Operator used for concatenation
 	 *
-	 * @var string
+	 * @var    string
+	 * @since  3.0.0
 	 */
 	protected $concat_operator = '||';
 
 	/**
 	 * JDatabaseDriverPostgresqlQuery object returned by getQuery
 	 *
-	 * @var JDatabaseDriverPostgresqlQuery
+	 * @var    JDatabaseQueryPostgresql
+	 * @since  3.0.0
 	 */
 	protected $queryObject = null;
 
@@ -64,27 +78,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @since	12.1
+	 * @since	3.0.0
 	 */
-	public function __construct( $options )
+	public function __construct($options)
 	{
 		$options['host'] = (isset($options['host'])) ? $options['host'] : 'localhost';
 		$options['user'] = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
+		$options['port'] = (isset($options['port'])) ? $options['port'] : null;
 
 		// Finalize initialization
 		parent::__construct($options);
-	}
-
-	/**
-	 * Database object destructor
-	 *
-	 * @since 12.1
-	 */
-	public function __destruct()
-	{
-		$this->disconnect();
 	}
 
 	/**
@@ -92,7 +97,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void  Returns void if the database connected successfully.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function connect()
@@ -103,22 +108,65 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Make sure the postgresql extension for PHP is installed and enabled.
-		if (!function_exists('pg_connect'))
+		if (!self::isSupported())
 		{
-			throw new RuntimeException('PHP extension pg_connect is not available.');
+			throw new JDatabaseExceptionUnsupported('The pgsql extension for PHP is not installed or enabled.');
+		}
+
+		/*
+		 * pg_connect() takes the port as separate argument. Therefore, we
+		 * have to extract it from the host string (if provided).
+		 */
+
+		// Check for empty port
+		if (!$this->options['port'])
+		{
+			// Port is empty or not set via options, check for port annotation (:) in the host string
+			$tmp = substr(strstr($this->options['host'], ':'), 1);
+
+			if (!empty($tmp))
+			{
+				// Get the port number
+				if (is_numeric($tmp))
+				{
+					$this->options['port'] = $tmp;
+				}
+
+				// Extract the host name
+				$this->options['host'] = substr($this->options['host'], 0, strlen($this->options['host']) - (strlen($tmp) + 1));
+
+				// This will take care of the following notation: ":5432"
+				if ($this->options['host'] === '')
+				{
+					$this->options['host'] = 'localhost';
+				}
+			}
+			// No port annotation (:) found, setting port to default PostgreSQL port 5432
+			else
+			{
+				$this->options['port'] = '5432';
+			}
 		}
 
 		// Build the DSN for the connection.
-		$dsn = "host={$this->options['host']} dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
+		$dsn = '';
+
+		if (!empty($this->options['host']))
+		{
+			$dsn .= "host={$this->options['host']} port={$this->options['port']} ";
+		}
+
+		$dsn .= "dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
 
 		// Attempt to connect to the server.
 		if (!($this->connection = @pg_connect($dsn)))
 		{
-			throw new RuntimeException('Error connecting to PGSQL database.');
+			throw new JDatabaseExceptionConnecting('Error connecting to PGSQL database.');
 		}
 
 		pg_set_error_verbosity($this->connection, PGSQL_ERRORS_DEFAULT);
-		pg_query('SET standard_conforming_strings=off');
+		pg_query($this->connection, 'SET standard_conforming_strings=off');
+		pg_query($this->connection, 'SET escape_string_warning=off');
 	}
 
 	/**
@@ -126,7 +174,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function disconnect()
 	{
@@ -152,10 +200,21 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function escape($text, $extra = false)
 	{
+		if (is_int($text))
+		{
+			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
 		$this->connect();
 
 		$result = pg_escape_string($this->connection, $text);
@@ -171,11 +230,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Test to see if the PostgreSQL connector is available
 	 *
-	 * @return boolean  True on success, false otherwise.
+	 * @return  boolean  True on success, false otherwise.
+	 *
+	 * @since   3.0.0
 	 */
 	public static function test()
 	{
-		return (function_exists('pg_connect'));
+		return function_exists('pg_connect');
 	}
 
 	/**
@@ -183,7 +244,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return	boolean
 	 *
-	 * @since	12.1
+	 * @since	3.0.0
 	 */
 	public function connected()
 	{
@@ -203,9 +264,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string   $tableName  The name of the database table to drop.
 	 * @param   boolean  $ifExists   Optionally specify that the table must exist before it is dropped.
 	 *
-	 * @return  boolean	true
+	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function dropTable($tableName, $ifExists = true)
@@ -219,11 +280,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
-	 * Get the number of affected rows for the previous executed SQL statement.
+	 * Get the number of affected rows by the last INSERT, UPDATE, REPLACE or DELETE for the previous executed SQL statement.
 	 *
-	 * @return int The number of affected rows in the previous operation
+	 * @return  integer  The number of affected rows in the previous operation
 	 *
-	 * @since 12.1
+	 * @since   3.0.0
 	 */
 	public function getAffectedRows()
 	{
@@ -237,7 +298,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getCollation()
@@ -251,15 +312,28 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		return pg_client_encoding($this->connection);
+	}
+
+	/**
 	 * Get the number of returned rows for the previous executed SQL statement.
+	 * This command is only valid for statements like SELECT or SHOW that return an actual result set.
+	 * To retrieve the number of rows affected by an INSERT, UPDATE, REPLACE or DELETE query, use getAffectedRows().
 	 *
 	 * @param   resource  $cur  An optional database cursor resource to extract the row count from.
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	public function getNumRows( $cur = null )
+	public function getNumRows($cur = null)
 	{
 		$this->connect();
 
@@ -274,19 +348,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getQuery($new = false, $asObj = false)
 	{
 		if ($new)
 		{
-			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryPostgresql'))
-			{
-				throw new RuntimeException('JDatabaseQueryPostgresql Class not found.');
-			}
-
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
 
 			return $this->queryObject;
@@ -311,10 +379,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
 	 *
-	 * @return  char  An empty char because this function is not supported by PostgreSQL.
+	 * @return  string  An empty char because this function is not supported by PostgreSQL.
 	 *
-	 * @since   12.1
-	 * @throws  RuntimeException
+	 * @since   3.0.0
 	 */
 	public function getTableCreate($tables)
 	{
@@ -329,7 +396,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
@@ -341,29 +408,29 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$tableSub = $this->replacePrefix($table);
 
 		$this->setQuery('
-				SELECT a.attname AS "column_name",
-					pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
-					CASE WHEN a.attnotnull IS TRUE
-						THEN \'NO\'
-						ELSE \'YES\'
-					END AS "null",
-					CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL
-						THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
-					END as "Default",
-					CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
-					THEN \'\'
-					ELSE pg_catalog.col_description(a.attrelid, a.attnum)
-					END  AS "comments"
-				FROM pg_catalog.pg_attribute a
-				LEFT JOIN pg_catalog.pg_attrdef adef ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
-				LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
-				WHERE a.attrelid =
-					(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
-						AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
-						nspname = \'public\')
-					)
-				AND a.attnum > 0 AND NOT a.attisdropped
-				ORDER BY a.attnum'
+			SELECT a.attname AS "column_name",
+				pg_catalog.format_type(a.atttypid, a.atttypmod) as "type",
+				CASE WHEN a.attnotnull IS TRUE
+					THEN \'NO\'
+					ELSE \'YES\'
+				END AS "null",
+				CASE WHEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true) IS NOT NULL
+					THEN pg_catalog.pg_get_expr(adef.adbin, adef.adrelid, true)
+				END as "Default",
+				CASE WHEN pg_catalog.col_description(a.attrelid, a.attnum) IS NULL
+				THEN \'\'
+				ELSE pg_catalog.col_description(a.attrelid, a.attnum)
+				END  AS "comments"
+			FROM pg_catalog.pg_attribute a
+			LEFT JOIN pg_catalog.pg_attrdef adef ON a.attrelid=adef.adrelid AND a.attnum=adef.adnum
+			LEFT JOIN pg_catalog.pg_type t ON a.atttypid=t.oid
+			WHERE a.attrelid =
+				(SELECT oid FROM pg_catalog.pg_class WHERE relname=' . $this->quote($tableSub) . '
+					AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE
+					nspname = \'public\')
+				)
+			AND a.attnum > 0 AND NOT a.attisdropped
+			ORDER BY a.attnum'
 		);
 
 		$fields = $this->loadObjectList();
@@ -372,21 +439,43 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->column_name] = preg_replace("/[(0-9)]/", '', $field->type);
+				$result[$field->column_name] = preg_replace('/[(0-9)]/', '', $field->type);
 			}
 		}
 		else
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->column_name] = $field;
+				if (stristr(strtolower($field->type), 'character varying'))
+				{
+					$field->Default = '';
+				}
+
+				if (stristr(strtolower($field->type), 'text'))
+				{
+					$field->Default = '';
+				}
+				// Do some dirty translation to MySQL output.
+				// TODO: Come up with and implement a standard across databases.
+				$result[$field->column_name] = (object) array(
+					'column_name' => $field->column_name,
+					'type' => $field->type,
+					'null' => $field->null,
+					'Default' => $field->Default,
+					'comments' => '',
+					'Field' => $field->column_name,
+					'Type' => $field->type,
+					'Null' => $field->null,
+					// TODO: Improve query above to return primary key info as well
+					// 'Key' => ($field->PK == '1' ? 'PRI' : '')
+				);
 			}
 		}
 
 		/* Change Postgresql's NULL::* type with PHP's null one */
 		foreach ($fields as $field)
 		{
-			if (preg_match("/^NULL::*/", $field->Default))
+			if (preg_match('/^NULL::*/', $field->Default))
 			{
 				$field->Default = null;
 			}
@@ -402,7 +491,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of the column specification for the table.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getTableKeys($table)
@@ -412,25 +501,27 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
 
-		if ( in_array($table, $tableList) )
+		if (in_array($table, $tableList))
 		{
 			// Get the details columns information.
 			$this->setQuery('
-					SELECT indexname AS "idxName", indisprimary AS "isPrimary", indisunique  AS "isUnique",
-						CASE WHEN indisprimary = true THEN
-							( SELECT \'ALTER TABLE \' || tablename || \' ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true)
-								FROM pg_constraint AS const WHERE const.conname= pgClassFirst.relname )
-						ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true)
-						END AS "Query"
-					FROM pg_indexes
-					LEFT JOIN pg_class AS pgClassFirst ON indexname=pgClassFirst.relname
-					LEFT JOIN pg_index AS pgIndex ON pgClassFirst.oid=pgIndex.indexrelid
-					WHERE tablename=' . $this->quote($table) . ' ORDER BY indkey'
+				SELECT indexname AS "idxName", indisprimary AS "isPrimary", indisunique  AS "isUnique",
+					CASE WHEN indisprimary = true THEN
+						( SELECT \'ALTER TABLE \' || tablename || \' ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true)
+							FROM pg_constraint AS const WHERE const.conname= pgClassFirst.relname )
+					ELSE pg_catalog.pg_get_indexdef(indexrelid, 0, true)
+					END AS "Query"
+				FROM pg_indexes
+				LEFT JOIN pg_class AS pgClassFirst ON indexname=pgClassFirst.relname
+				LEFT JOIN pg_index AS pgIndex ON pgClassFirst.oid=pgIndex.indexrelid
+				WHERE tablename=' . $this->quote($table) . ' ORDER BY indkey'
 			);
+
 			$keys = $this->loadObjectList();
 
 			return $keys;
 		}
+
 		return false;
 	}
 
@@ -439,7 +530,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getTableList()
@@ -450,9 +541,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			->select('table_name')
 			->from('information_schema.tables')
 			->where('table_type=' . $this->quote('BASE TABLE'))
-			->where(
-				'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ')'
-			)
+			->where('table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ')')
 			->order('table_name ASC');
 
 		$this->setQuery($query);
@@ -468,7 +557,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of sequences specification for the table.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getTableSequences($table)
@@ -478,12 +567,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
 
-		if ( in_array($table, $tableList) )
+		if (in_array($table, $tableList))
 		{
-			$name = array('s.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type',
-							'info.minimum_value', 'info.maximum_value', 'info.increment', 'info.cycle_option');
-			$as = array('sequence', 'schema', 'table', 'column', 'data_type',
-							'minimum_value', 'maximum_value', 'increment', 'cycle_option');
+			$name = array(
+				's.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type', 'info.minimum_value', 'info.maximum_value',
+				'info.increment', 'info.cycle_option',
+			);
+			$as = array('sequence', 'schema', 'table', 'column', 'data_type', 'minimum_value', 'maximum_value', 'increment', 'cycle_option');
 
 			if (version_compare($this->getVersion(), '9.1.0') >= 0)
 			{
@@ -506,6 +596,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			return $seq;
 		}
+
 		return false;
 	}
 
@@ -514,7 +605,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getVersion()
 	{
@@ -552,7 +643,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function insertid()
 	{
@@ -563,13 +654,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		/* find sequence column name */
 		$colNameQuery = $this->getQuery(true);
 		$colNameQuery->select('column_default')
-						->from('information_schema.columns')
-						->where(
-								"table_name=" . $this->quote(
-									$this->replacePrefix(str_replace('"', '', $table[0]))
-								), 'AND'
-						)
-						->where("column_default LIKE '%nextval%'");
+			->from('information_schema.columns')
+			->where('table_name=' . $this->quote($this->replacePrefix(str_replace('"', '', $table[0]))), 'AND')
+			->where("column_default LIKE '%nextval%'");
 
 		$this->setQuery($colNameQuery);
 		$colName = $this->loadRow();
@@ -590,7 +677,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function lockTable($tableName)
@@ -606,25 +693,25 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function execute()
 	{
 		$this->connect();
 
-		if (!is_resource($this->connection))
-		{
-			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
-			throw new RuntimeException($this->errorMsg, $this->errorNum);
-		}
-
 		// Take a local copy so that we don't modify the original query and cause issues later
 		$query = $this->replacePrefix((string) $this->sql);
 
-		if ($this->limit > 0 || $this->offset > 0)
+		if (!($this->sql instanceof JDatabaseQuery) && ($this->limit > 0 || $this->offset > 0))
 		{
 			$query .= ' LIMIT ' . $this->limit . ' OFFSET ' . $this->offset;
+		}
+
+		if (!is_resource($this->connection))
+		{
+			JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database');
+			throw new JDatabaseExceptionExecuting($query, $this->errorMsg, $this->errorNum);
 		}
 
 		// Increment the query counter.
@@ -643,6 +730,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			JLog::add($query, JLog::DEBUG, 'databasequery');
 
 			$this->timings[] = microtime(true);
+
+			if (is_object($this->cursor))
+			{
+				// Avoid warning if result already freed by third-party library
+				@$this->freeResult();
+			}
+
+			$memoryBefore = memory_get_usage();
 		}
 
 		// Execute the query. Error suppression is used here to prevent warnings/notices that the connection has been lost.
@@ -651,12 +746,30 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		if ($this->debug)
 		{
 			$this->timings[] = microtime(true);
-			$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+
+			if (defined('DEBUG_BACKTRACE_IGNORE_ARGS'))
+			{
+				$this->callStacks[] = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);
+			}
+			else
+			{
+				$this->callStacks[] = debug_backtrace();
+			}
+
+			$this->callStacks[count($this->callStacks) - 1][0]['memory'] = array(
+				$memoryBefore,
+				memory_get_usage(),
+				is_resource($this->cursor) ? $this->getNumRows($this->cursor) : null,
+			);
 		}
 
 		// If an error occurred handle it.
 		if (!$this->cursor)
 		{
+			// Get the error number and message before we execute any more queries.
+			$errorNum = $this->getErrorNumber();
+			$errorMsg = $this->getErrorMessage();
+
 			// Check if the server was disconnected.
 			if (!$this->connected())
 			{
@@ -669,13 +782,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				// If connect fails, ignore that exception and throw the normal exception.
 				catch (RuntimeException $e)
 				{
-					// Get the error number and message.
-					$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-					$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=" . $query;
+					$this->errorNum = $this->getErrorNumber();
+					$this->errorMsg = $this->getErrorMessage();
 
 					// Throw the normal query exception.
-					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-					throw new RuntimeException($this->errorMsg);
+					JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+					throw new JDatabaseExceptionExecuting($query, $this->errorMsg, null, $e);
 				}
 
 				// Since we were able to reconnect, run the query again.
@@ -684,13 +797,14 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			// The server was not disconnected.
 			else
 			{
-				// Get the error number and message.
-				$this->errorNum = (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
-				$this->errorMsg = JText::_('JLIB_DATABASE_QUERY_FAILED') . "\n" . pg_last_error($this->connection) . "\nSQL=" . $query;
+				// Get the error number and message from before we tried to reconnect.
+				$this->errorNum = $errorNum;
+				$this->errorMsg = $errorMsg;
 
 				// Throw the normal query exception.
-				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'databasequery');
-				throw new RuntimeException($this->errorMsg);
+				JLog::add(JText::sprintf('JLIB_DATABASE_QUERY_FAILED', $this->errorNum, $this->errorMsg), JLog::ERROR, 'database-error');
+
+				throw new JDatabaseExceptionExecuting($query, $this->errorMsg);
 			}
 		}
 
@@ -707,7 +821,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
@@ -718,7 +832,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$tableList = $this->getTableList();
 
 		// Origin Table does not exist
-		if ( !in_array($oldTable, $tableList) )
+		if (!in_array($oldTable, $tableList))
 		{
 			// Origin Table not found
 			throw new RuntimeException('Table not found in Postgresql database.');
@@ -727,13 +841,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			/* Rename indexes */
 			$this->setQuery(
-							'SELECT relname
-								FROM pg_class
-								WHERE oid IN (
-									SELECT indexrelid
-									FROM pg_index, pg_class
-									WHERE pg_class.relname=' . $this->quote($oldTable, true) . '
-									AND pg_class.oid=pg_index.indrelid );'
+				'SELECT relname
+					FROM pg_class
+					WHERE oid IN (
+						SELECT indexrelid
+						FROM pg_index, pg_class
+						WHERE pg_class.relname=' . $this->quote($oldTable, true) . '
+						AND pg_class.oid=pg_index.indrelid );'
 			);
 
 			$oldIndexes = $this->loadColumn();
@@ -747,16 +861,16 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 			/* Rename sequence */
 			$this->setQuery(
-							'SELECT relname
-								FROM pg_class
-								WHERE relkind = \'S\'
-								AND relnamespace IN (
-									SELECT oid
-									FROM pg_namespace
-									WHERE nspname NOT LIKE \'pg_%\'
-									AND nspname != \'information_schema\'
-								)
-								AND relname LIKE \'%' . $oldTable . '%\' ;'
+				'SELECT relname
+					FROM pg_class
+					WHERE relkind = \'S\'
+					AND relnamespace IN (
+						SELECT oid
+						FROM pg_namespace
+						WHERE nspname NOT LIKE \'pg_%\'
+						AND nspname != \'information_schema\'
+					)
+					AND relname LIKE \'%' . $oldTable . '%\' ;'
 			);
 
 			$oldSequences = $this->loadColumn();
@@ -782,6 +896,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string  $database  Database name to select.
 	 *
 	 * @return  boolean  Always true
+	 *
+	 * @since   3.0.0
 	 */
 	public function select($database)
 	{
@@ -791,13 +907,18 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Custom settings for UTF support
 	 *
-	 * @return  int  Zero on success, -1 on failure
+	 * @return  integer  Zero on success, -1 on failure
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	public function setUTF()
+	public function setUtf()
 	{
 		$this->connect();
+
+		if (!function_exists('pg_set_client_encoding'))
+		{
+			return -1;
+		}
 
 		return pg_set_client_encoding($this->connection, 'UTF8');
 	}
@@ -811,7 +932,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The quoted string.
 	 *
-	 * @since   11.3
+	 * @since   3.0.0
 	 */
 	public function sqlValue($columns, $field_name, $field_value)
 	{
@@ -828,6 +949,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$val = 'FALSE';
 				}
+
 				break;
 
 			case 'bigint':
@@ -848,6 +970,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				{
 					$field_value = $this->getNullDate();
 				}
+
 				$val = $this->quote($field_value);
 				break;
 
@@ -866,7 +989,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function transactionCommit($toSavepoint = false)
@@ -893,7 +1016,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function transactionRollback($toSavepoint = false)
@@ -927,7 +1050,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function transactionStart($asSavepoint = false)
@@ -960,7 +1083,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -974,7 +1097,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -989,7 +1112,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -1003,7 +1126,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -1019,7 +1142,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  boolean    True on success.
 	 *
-	 * @since   11.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function insertObject($table, &$object, $key = null)
@@ -1038,8 +1161,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				continue;
 			}
 
-			// Ignore any internal fields.
-			if ($k[0] == '_')
+			// Ignore any internal fields or primary keys with value 0.
+			if (($k[0] == '_') || ($k == $key && (($v === 0) || ($v === '0'))))
 			{
 				continue;
 			}
@@ -1065,6 +1188,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$this->setQuery($query);
 
 			$id = $this->loadResult();
+
 			if ($id)
 			{
 				$object->$key = $id;
@@ -1090,17 +1214,19 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
-		return (function_exists('pg_connect'));
+		return function_exists('pg_connect');
 	}
 
 	/**
 	 * Returns an array containing database's table list.
 	 *
-	 * @return	array	The database's table list.
+	 * @return  array  The database's table list.
+	 *
+	 * @since   3.0.0
 	 */
 	public function showTables()
 	{
@@ -1109,10 +1235,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$query = $this->getQuery(true)
 			->select('table_name')
 			->from('information_schema.tables')
-			->where('table_type=' . $this->quote('BASE TABLE'))
-			->where(
-				'table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )'
-			);
+			->where('table_type = ' . $this->quote('BASE TABLE'))
+			->where('table_schema NOT IN (' . $this->quote('pg_catalog') . ', ' . $this->quote('information_schema') . ' )');
 
 		$this->setQuery($query);
 		$tableList = $this->loadColumn();
@@ -1126,9 +1250,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * @param   string  $substring  The string being sought
 	 * @param   string  $string     The string/column being searched
 	 *
-	 * @return int   The position of $substring in $string
+	 * @return  integer  The position of $substring in $string
+	 *
+	 * @since   3.0.0
 	 */
-	public function getStringPositionSQL( $substring, $string )
+	public function getStringPositionSql($substring, $string)
 	{
 		$this->connect();
 
@@ -1142,7 +1268,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Generate a random value
 	 *
-	 * @return float The random generated number
+	 * @return  float  The random generated number
+	 *
+	 * @since   3.0.0
 	 */
 	public function getRandom()
 	{
@@ -1161,9 +1289,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The query that alter the database query string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	public function getAlterDbCharacterSet( $dbName )
+	public function getAlterDbCharacterSet($dbName)
 	{
 		$query = 'ALTER DATABASE ' . $this->quoteName($dbName) . ' SET CLIENT_ENCODING TO ' . $this->quote('UTF8');
 
@@ -1173,14 +1301,12 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Get the query string to create new Database in correct PostgreSQL syntax.
 	 *
-	 * @param   object   $options  object coming from "initialise" function to pass user
-	 * 									and database name to database driver.
-	 * @param   boolean  $utf      True if the database supports the UTF-8 character set,
-	 * 									not used in PostgreSQL "CREATE DATABASE" query.
+	 * @param   object   $options  object coming from "initialise" function to pass user and database name to database driver.
+	 * @param   boolean  $utf      True if the database supports the UTF-8 character set, not used in PostgreSQL "CREATE DATABASE" query.
 	 *
 	 * @return  string	The query that creates database, owned by $options['user']
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getCreateDbQuery($options, $utf)
 	{
@@ -1203,7 +1329,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function replacePrefix($query, $prefix = '#__')
 	{
@@ -1216,10 +1342,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$query = explode('currval', $query);
 
-				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($query); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
+
 				$query = implode('currval', $query);
 			}
 
@@ -1228,10 +1355,11 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$query = explode('nextval', $query);
 
-				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($query); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
+
 				$query = implode('nextval', $query);
 			}
 
@@ -1240,16 +1368,17 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			{
 				$query = explode('setval', $query);
 
-				for ($nIndex = 1; $nIndex < count($query); $nIndex = $nIndex + 2)
+				for ($nIndex = 1, $nIndexMax = count($query); $nIndex < $nIndexMax; $nIndex += 2)
 				{
 					$query[$nIndex] = str_replace($prefix, $this->tablePrefix, $query[$nIndex]);
 				}
+
 				$query = implode('setval', $query);
 			}
 
 			$explodedQuery = explode('\'', $query);
 
-			for ($nIndex = 0; $nIndex < count($explodedQuery); $nIndex = $nIndex + 2)
+			for ($nIndex = 0, $nIndexMax = count($explodedQuery); $nIndex < $nIndexMax; $nIndex += 2)
 			{
 				if (strpos($explodedQuery[$nIndex], $prefix))
 				{
@@ -1274,9 +1403,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	public function releaseTransactionSavepoint( $savepointName )
+	public function releaseTransactionSavepoint($savepointName)
 	{
 		$this->connect();
 		$this->setQuery('RELEASE SAVEPOINT ' . $this->quoteName($this->escape($savepointName)));
@@ -1290,9 +1419,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	public function transactionSavepoint( $savepointName )
+	public function transactionSavepoint($savepointName)
 	{
 		$this->connect();
 		$this->setQuery('SAVEPOINT ' . $this->quoteName($this->escape($savepointName)));
@@ -1305,12 +1434,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
-	 * @since   11.4
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function unlockTables()
 	{
 		$this->transactionCommit();
+
 		return $this;
 	}
 
@@ -1319,24 +1449,32 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   string   $table    The name of the database table to update.
 	 * @param   object   &$object  A reference to an object whose public properties match the table fields.
-	 * @param   string   $key      The name of the primary key.
+	 * @param   array    $key      The name of the primary key.
 	 * @param   boolean  $nulls    True to update null fields or false to ignore them.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
 	{
 		$columns = $this->getTableColumns($table);
-		$fields = array();
-		$where = '';
+		$fields  = array();
+		$where   = array();
+
+		if (is_string($key))
+		{
+			$key = array($key);
+		}
+
+		if (is_object($key))
+		{
+			$key = (array) $key;
+		}
 
 		// Create the base update statement.
-		$query = $this->getQuery(true)
-			->update($table);
-		$stmt = '%s WHERE %s';
+		$statement = 'UPDATE ' . $this->quoteName($table) . ' SET %s WHERE %s';
 
 		// Iterate over the object variables to build the query fields/value pairs.
 		foreach (get_object_vars($object) as $k => $v)
@@ -1348,10 +1486,10 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			}
 
 			// Set the primary key to the WHERE clause instead of a field to update.
-			if ($k == $key)
+			if (in_array($k, $key))
 			{
 				$key_val = $this->sqlValue($columns, $k, $v);
-				$where = $this->quoteName($k) . '=' . $key_val;
+				$where[] = $this->quoteName($k) . '=' . $key_val;
 				continue;
 			}
 
@@ -1386,9 +1524,80 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		}
 
 		// Set the query and execute the update.
-		$query->set(sprintf($stmt, implode(",", $fields), $where));
-		$this->setQuery($query);
+		$this->setQuery(sprintf($statement, implode(',', $fields), implode(' AND ', $where)));
 
 		return $this->execute();
+	}
+
+	/**
+	 * Return the actual SQL Error number
+	 *
+	 * @return  integer  The SQL Error number
+	 *
+	 * @since   3.4.6
+	 *
+	 * @throws  \JDatabaseExceptionExecuting  Thrown if the global cursor is false indicating a query failed
+	 */
+	protected function getErrorNumber()
+	{
+		if ($this->cursor === false)
+		{
+			$this->errorMsg = pg_last_error($this->connection);
+
+			throw new JDatabaseExceptionExecuting($this->sql, $this->errorMsg);
+		}
+
+		return (int) pg_result_error_field($this->cursor, PGSQL_DIAG_SQLSTATE) . ' ';
+	}
+
+	/**
+	 * Return the actual SQL Error message
+	 *
+	 * @return  string  The SQL Error message
+	 *
+	 * @since   3.4.6
+	 */
+	protected function getErrorMessage()
+	{
+		$errorMessage = (string) pg_last_error($this->connection);
+
+		// Replace the Databaseprefix with `#__` if we are not in Debug
+		if (!$this->debug)
+		{
+			$errorMessage = str_replace($this->tablePrefix, '#__', $errorMessage);
+		}
+
+		return $errorMessage;
+	}
+
+	/**
+	 * Get the query strings to alter the character set and collation of a table.
+	 *
+	 * @param   string  $tableName  The name of the table
+	 *
+	 * @return  string[]  The queries required to alter the table's character set and collation
+	 *
+	 * @since   CMS 3.5.0
+	 */
+	public function getAlterTableCharacterSet($tableName)
+	{
+		return array();
+	}
+
+	/**
+	 * Return the query string to create new Database.
+	 * Each database driver, other than MySQL, need to override this member to return correct string.
+	 *
+	 * @param   stdClass  $options  Object used to pass user and database name to database driver.
+	 *                   This object must have "db_name" and "db_user" set.
+	 * @param   boolean   $utf      True if the database supports the UTF-8 character set.
+	 *
+	 * @return  string  The query that creates database
+	 *
+	 * @since   3.0.1
+	 */
+	protected function getCreateDatabaseQuery($options, $utf)
+	{
+		return 'CREATE DATABASE ' . $this->quoteName($options->db_name);
 	}
 }

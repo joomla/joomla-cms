@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,45 +13,76 @@ defined('_JEXEC') or die;
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
 JHtml::_('behavior.framework');
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.modal');
 
-$canDo = MenusHelper::getActions();
-?>
+$assoc = JLanguageAssociations::isEnabled();
 
-<script type="text/javascript">
-	Joomla.submitbutton = function(task, type)
-	{
-		if (task == 'item.setType' || task == 'item.setMenuType')
-		{
-			if (task == 'item.setType')
-			{
-				document.id('item-form').elements['jform[type]'].value = type;
-				document.id('fieldtype').value = 'type';
-			} else {
-				document.id('item-form').elements['jform[menutype]'].value = type;
-			}
-			Joomla.submitform('item.setType', document.id('item-form'));
-		} else if (task == 'item.cancel' || document.formvalidator.isValid(document.id('item-form')))
-		{
-			Joomla.submitform(task, document.id('item-form'));
-		}
-		else
-		{
-			// special case for modal popups validation response
-			$$('#item-form .modal-value.invalid').each(function(field){
-				var idReversed = field.id.split("").reverse().join("");
-				var separatorLocation = idReversed.indexOf('_');
-				var name = idReversed.substr(separatorLocation).split("").reverse().join("")+'name';
-				document.id(name).addClass('invalid');
+// Ajax for parent items
+$script = "
+jQuery(document).ready(function ($){
+	$('#jform_menutype').change(function(){
+		var menutype = $(this).val();
+		$.ajax({
+			url: 'index.php?option=com_menus&task=item.getParentItem&menutype=' + menutype,
+			dataType: 'json'
+		}).done(function(data) {
+			$('#jform_parent_id option').each(function() {
+				if ($(this).val() != '1') {
+					$(this).remove();
+				}
 			});
+			$.each(data, function (i, val) {
+				var option = $('<option>');
+				option.text(val.title).val(val.id);
+				$('#jform_parent_id').append(option);
+			});
+			$('#jform_parent_id').trigger('liszt:updated');
+		});
+	});
+});
+Joomla.submitbutton = function(task, type){
+	if (task == 'item.setType' || task == 'item.setMenuType')
+	{
+		if (task == 'item.setType')
+		{
+			jQuery('#item-form input[name=\"jform[type]\"]').val(type);
+			jQuery('#fieldtype').val('type');
+		} else {
+			jQuery('#item-form input[name=\"jform[menutype]\"]').val(type);
 		}
+		Joomla.submitform('item.setType', document.getElementById('item-form'));
+	} else if (task == 'item.cancel' || document.formvalidator.isValid(document.getElementById('item-form')))
+	{
+		Joomla.submitform(task, document.getElementById('item-form'));
 	}
-</script>
+	else
+	{
+		// special case for modal popups validation response
+		jQuery('#item-form .modal-value.invalid').each(function(){
+			var field = jQuery(this),
+				idReversed = field.attr('id').split('').reverse().join(''),
+				separatorLocation = idReversed.indexOf('_'),
+				nameId = '#' + idReversed.substr(separatorLocation).split('').reverse().join('') + 'name';
+			jQuery(nameId).addClass('invalid');
+		});
+	}
+};
+";
+// Add the script to the document head.
+JFactory::getDocument()->addScriptDeclaration($script);
+
+// In case of modal
+$input = JFactory::getApplication()->input;
+$isModal  = $input->get('layout') == 'modal' ? true : false;
+$layout   = $isModal ? 'modal' : 'edit';
+$tmpl     = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+$clientId = $this->state->get('item.client_id', 0);
+?>
 
 <div class="menuitem-edit">
 
-<form action="<?php echo JRoute::_('index.php?option=com_menus&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+<form action="<?php echo JRoute::_('index.php?option=com_menus&view=item&client_id=' . $clientId . '&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
 
 <div class="col main-section">
 	<fieldset class="adminform">
@@ -70,10 +101,6 @@ $canDo = MenusHelper::getActions();
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif; ?>
 
-				<?php if ($this->item->type == 'alias') : ?>
-					<li> <?php echo $this->form->getLabel('aliastip'); ?></li>
-				<?php endif; ?>
-
 				<?php if ($this->item->type != 'url') : ?>
 					<li><?php echo $this->form->getLabel('alias'); ?>
 					<?php echo $this->form->getInput('alias'); ?></li>
@@ -87,7 +114,7 @@ $canDo = MenusHelper::getActions();
 					<?php echo $this->form->getInput('link'); ?></li>
 				<?php endif ?>
 
-				<?php if ($canDo->get('core.edit.state')) : ?>
+				<?php if ($this->canDo->get('core.edit.state')) : ?>
 					<li><?php echo $this->form->getLabel('published'); ?>
 					<?php echo $this->form->getInput('published'); ?></li>
 				<?php endif ?>
@@ -107,7 +134,7 @@ $canDo = MenusHelper::getActions();
 				<li><?php echo $this->form->getLabel('browserNav'); ?>
 				<?php echo $this->form->getInput('browserNav'); ?></li>
 
-				<?php if ($canDo->get('core.edit.state')) : ?>
+				<?php if ($this->canDo->get('core.edit.state')) : ?>
 					<?php if ($this->item->type == 'component') : ?>
 					<li><?php echo $this->form->getLabel('home'); ?>
 					<?php echo $this->form->getInput('home'); ?></li>
@@ -122,7 +149,10 @@ $canDo = MenusHelper::getActions();
 
 				<li><?php echo $this->form->getLabel('id'); ?>
 				<?php echo $this->form->getInput('id'); ?></li>
-		</ul>
+
+				<li><?php echo $this->form->getLabel('client_id'); ?>
+					<?php echo $this->form->getInput('client_id'); ?></li>
+			</ul>
 
 	</fieldset>
 </div>

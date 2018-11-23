@@ -3,20 +3,16 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.folder');
-
 /**
  * Controller class to set the FTP data for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerRemovefolder extends JControllerBase
 {
@@ -29,35 +25,36 @@ class InstallationControllerRemovefolder extends JControllerBase
 	 */
 	public function execute()
 	{
-		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		// Get the application.
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		$path = JPATH_INSTALLATION;
 
-		// Check whether the folder still exists
+		// Check whether the folder still exists.
 		if (!file_exists($path))
 		{
-			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED'), 500));
+			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_ALREADY_REMOVED', 'installation'), 500));
 		}
 
-		// Check whether we need to use FTP
+		// Check whether we need to use FTP.
 		$useFTP = false;
-		if ((file_exists($path) && !is_writable($path)))
+
+		if (file_exists($path) && !is_writable($path))
 		{
 			$useFTP = true;
 		}
 
-		// Check for safe mode
+		// Check for safe mode.
 		if (ini_get('safe_mode'))
 		{
 			$useFTP = true;
 		}
 
-		// Enable/Disable override
+		// Enable/Disable override.
 		if (!isset($options->ftpEnable) || ($options->ftpEnable != 1))
 		{
 			$useFTP = false;
@@ -65,31 +62,30 @@ class InstallationControllerRemovefolder extends JControllerBase
 
 		if ($useFTP == true)
 		{
-			// Connect the FTP client
-			jimport('joomla.filesystem.path');
-
+			// Connect the FTP client.
 			$ftp = JClientFtp::getInstance($options->ftp_host, $options->ftp_port);
-			$ftp->login($options->ftp_user, $options->ftp_pass);
+			$ftp->login($options->ftp_user, $options->ftp_pass_plain);
 
-			// Translate path for the FTP account
-			$file = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
+			// Translate path for the FTP account.
+			$file   = JPath::clean(str_replace(JPATH_CONFIGURATION, $options->ftp_root, $path), '/');
 			$return = $ftp->delete($file);
 
-			// Delete the extra XML file while we're at it
+			// Delete the extra XML file while we're at it.
 			if ($return)
 			{
 				$file = JPath::clean($options->ftp_root . '/joomla.xml');
+
 				if (file_exists($file))
 				{
 					$return = $ftp->delete($file);
 				}
 			}
 
-			// Rename the robots.txt.dist file to robots.txt
+			// Rename the robots.txt.dist file to robots.txt.
 			if ($return)
 			{
 				$robotsFile = JPath::clean($options->ftp_root . '/robots.txt');
-				$distFile = JPath::clean($options->ftp_root . '/robots.txt.dist');
+				$distFile   = JPath::clean($options->ftp_root . '/robots.txt.dist');
 
 				if (!file_exists($robotsFile) && file_exists($distFile))
 				{
@@ -121,15 +117,15 @@ class InstallationControllerRemovefolder extends JControllerBase
 		// If an error was encountered return an error.
 		if (!$return)
 		{
-			$app->sendJsonResponse(new Exception(JText::_('INSTL_COMPLETE_ERROR_FOLDER_DELETE'), 500));
+			$app->sendJsonResponse(new Exception(JText::sprintf('INSTL_COMPLETE_ERROR_FOLDER_DELETE', 'installation'), 500));
 		}
 
 		// Create a response body.
 		$r = new stdClass;
-		$r->text = JText::_('INSTL_COMPLETE_FOLDER_REMOVED');
+		$r->text = JText::sprintf('INSTL_COMPLETE_FOLDER_REMOVED', 'installation');
 
 		/*
-		 * Send the response
+		 * Send the response.
 		 * This is a hack since by now, the rest of the folder is deleted and we can't make a new request
 		 */
 		$this->sendJsonResponse($r);
@@ -137,7 +133,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 
 	/**
 	 * Method to send a JSON response. The data parameter
-	 * can be a Exception object for when an error has occurred or
+	 * can be an Exception object for when an error has occurred or
 	 * a stdClass for a good response.
 	 *
 	 * @param   mixed  $response  stdClass on success, Exception on failure.
@@ -159,6 +155,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 
 		// Send the JSON response.
 		JLoader::register('InstallationResponseJson', __FILE__);
+
 		echo json_encode(new InstallationResponseJson($response));
 
 		// Close the application.
@@ -169,9 +166,7 @@ class InstallationControllerRemovefolder extends JControllerBase
 /**
  * JSON Response class for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Response
- * @since       3.1
+ * @since  3.1
  */
 class InstallationResponseJson
 {
@@ -187,25 +182,25 @@ class InstallationResponseJson
 		// The old token is invalid so send a new one.
 		$this->token = JSession::getFormToken(true);
 
-		// Get the language and send it's tag along
+		// Get the language and send it's tag along.
 		$this->lang = JFactory::getLanguage()->getTag();
 
 		// Get the message queue
 		$messages = JFactory::getApplication()->getMessageQueue();
 
-		// Build the sorted message list
+		// Build the sorted message list.
 		if (is_array($messages) && count($messages))
 		{
 			foreach ($messages as $msg)
 			{
-				if (isset($msg['type']) && isset($msg['message']))
+				if (isset($msg['type'], $msg['message']))
 				{
 					$lists[$msg['type']][] = $msg['message'];
 				}
 			}
 		}
 
-		// If messages exist add them to the output
+		// If messages exist add them to the output.
 		if (isset($lists) && is_array($lists))
 		{
 			$this->messages = $lists;

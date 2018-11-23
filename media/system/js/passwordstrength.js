@@ -42,15 +42,12 @@ Form.PasswordStrength = new Class({
 		var coord = this.element.getCoordinates();
 		var bar = new Element('div', {
 			styles: {
-				'position': 'absolute',
-				'top': coord.top + coord.height,
-				'left': coord.left,
 				'width': coord.width,
 				'height': this.options.height,
 				'opacity': this.options.opacity,
 				'background-color': this.options.bgcolor
 			}
-		}).inject(document.body, 'bottom');
+		}).inject(this.element, 'after');
 		var meter = new Element('div', {
 			styles: {
 				'width': 0,

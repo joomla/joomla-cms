@@ -1,0 +1,150 @@
+// Sidebar
+
+.sidebar-nav .nav-list {
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.sidebar-nav .nav-list > li > a {
+	color: #555;
+	padding: 3px 25px;
+	margin-left: -26px;
+	margin-right: -26px;
+}
+
+.sidebar-nav .nav-list > li.active > a {
+	color: #fff;
+	margin-right: -26px;
+}
+.sidebar-nav .nav-list > li > a:focus,
+.sidebar-nav .nav-list > li > a:hover {
+	text-decoration: none;
+	color: #fff;
+	background-color: #2d6ca2;
+    text-shadow: none;
+}
+
+/* For collapsible sidebar */
+.j-sidebar-container {
+	position: absolute;
+	display: block;
+	left: -16.5%;
+	width: 16.5%;
+	margin: -18px 0 0 -1px;
+	padding-top: 28px;
+	padding-bottom: 40px;
+	clear: both;
+	background-color: @wellBackground;
+	border-bottom: 1px solid darken(@wellBackground, 7%);
+	border-right: 1px solid darken(@wellBackground, 7%);
+	.border-radius(0 0 @baseBorderRadius 0);
+	&.j-sidebar-hidden {
+		left: -16.5%;
+	}
+	&.j-sidebar-visible {
+		left: 0;
+	}
+	.filter-select {
+		padding: 0 14px;
+	}
+}
+
+.j-toggle-sidebar-header {
+	h3 {
+		font-weight: normal;
+		padding: 0 15px;
+	}
+}
+
+.j-toggle-button-wrapper {
+	position: absolute;
+	display: block;
+	top: 7px;
+	padding: 0;
+	&.j-toggle-hidden {
+		right: -24px;
+	}
+	&.j-toggle-visible {
+		right: 7px;
+	}
+}
+
+.j-toggle-sidebar-button {
+	font-size: 16px;
+	color: @linkColor;
+	text-decoration: none;
+	cursor: pointer;
+	&:hover {
+		color: @linkColorHover;
+	}
+}
+
+#system-message-container,
+#j-main-container {
+	padding: 0 0 0 5px;
+	min-height: 0;
+}
+
+#system-message-container.j-toggle-main,
+#j-main-container.j-toggle-main,
+#system-debug.j-toggle-main {
+	float: right;
+}
+
+@media (min-width: @md) {
+	.j-toggle-transition {
+		.transition(all 0.3s ease);
+	}
+}
+
+@media (max-width: @lg-max) {
+	.j-toggle-button-wrapper.j-toggle-hidden {
+		right: -20px;
+	}
+}
+
+@media (max-width: @md-max) {
+	.j-sidebar-container {
+		position: relative;
+		width: 100%;
+		margin: 0 0 20px 0;
+		padding: 0;
+		background: transparent;
+		border-right: 0;
+		border-bottom: 0;
+	}
+
+	.j-sidebar-container.j-sidebar-hidden {
+		margin-left: 16.5%;
+	}
+
+	.j-sidebar-container.j-sidebar-visible {
+		margin-left: 0;
+	}
+
+	.j-toggle-sidebar-header,
+	.j-toggle-button-wrapper {
+		display: none;
+	}
+
+	.view-login {
+		select {
+			width: 232px;
+		}
+	}
+}
+
+@media (max-width: 420px) {
+	.j-sidebar-container {
+		margin: 0;
+	}
+
+	.view-login {
+		.input-medium {
+			width: 180px;
+		}
+		select {
+			width: 232px
+		}
+	}
+}

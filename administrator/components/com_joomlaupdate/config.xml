@@ -9,25 +9,29 @@
 		<field
 			name="updatesource"
 			type="list"
-			default="lts"
 			label="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DESC"
+			default="default"
 			>
-			<option value="lts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_LTS</option>
-			<option value="sts">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_STS</option>
+			<!-- Note: Changed the values lts to default and sts to next with 3.4.0 -->
+			<!--       Eliminated the 'nochange' option with 3.4.0 -->
+			<!--       All invalid/unsupported/obsolete options equated to default in code with 3.4.0 -->
+			<option value="default">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_DEFAULT</option>
+			<option value="next">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NEXT</option>
 			<option value="testing">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_TESTING</option>
 			<option value="custom">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_CUSTOM</option>
-			<option value="nochange">COM_JOOMLAUPDATE_CONFIG_UPDATESOURCE_NOCHANGE</option>
 		</field>
 
 		<field
 			name="customurl"
 			type="text"
-			default=""
-			length="50"
 			label="COM_JOOMLAUPDATE_CONFIG_CUSTOMURL_LABEL"
 			description="COM_JOOMLAUPDATE_CONFIG_CUSTOMURL_DESC"
-			/>
+			default=""
+			length="50"
+			showon="updatesource:custom"
+		/>
+
 	</fieldset>
 
 	<fieldset
@@ -43,6 +47,8 @@
 			filter="rules"
 			validate="rules"
 			component="com_joomlaupdate"
-			section="component" />
+			section="component"
+		/>
+
 	</fieldset>
 </config>

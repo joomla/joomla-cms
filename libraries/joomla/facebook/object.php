@@ -3,54 +3,52 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('JPATH_PLATFORM') or die;
 
-defined('JPATH_PLATFORM') or die();
-
+use Joomla\Registry\Registry;
 
 /**
  * Facebook API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
- *
- * @since       13.1
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 abstract class JFacebookObject
 {
 	/**
-	 * @var    JRegistry  Options for the Facebook object.
-	 * @since  13.1
+	 * @var    Registry  Options for the Facebook object.
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JFacebookOAuth  The OAuth client.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry       $options  Facebook options object.
+	 * @param   Registry        $options  Facebook options object.
 	 * @param   JHttp           $client   The HTTP client object.
 	 * @param   JFacebookOAuth  $oauth    The OAuth client.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JFacebookOAuth $oauth = null)
+	public function __construct(Registry $options = null, JHttp $client = null, JFacebookOAuth $oauth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);
 		$this->oauth = $oauth;
 	}
@@ -60,15 +58,15 @@ abstract class JFacebookObject
 	 * add appropriate pagination details if necessary and also prepend the API url
 	 * to have a complete URL for the request.
 	 *
-	 * @param   string     $path    URL to inflect.
-	 * @param   integer    $limit   The number of objects per page.
-	 * @param   integer    $offset  The object's number on the page.
-	 * @param   timestamp  $until   A unix timestamp or any date accepted by strtotime.
-	 * @param   timestamp  $since   A unix timestamp or any date accepted by strtotime.
+	 * @param   string   $path    URL to inflect.
+	 * @param   integer  $limit   The number of objects per page.
+	 * @param   integer  $offset  The object's number on the page.
+	 * @param   integer  $until   A unix timestamp or any date accepted by strtotime.
+	 * @param   integer  $since   A unix timestamp or any date accepted by strtotime.
 	 *
 	 * @return  string  The request URL.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function fetchUrl($path, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -111,7 +109,7 @@ abstract class JFacebookObject
 	 *
 	 * @return   mixed  The request response.
 	 *
-	 * @since    13.1
+	 * @since    3.2.0
 	 * @throws   DomainException
 	 */
 	public function sendRequest($path, $data = '', array $headers = null, $limit = 0, $offset = 0, $until = null, $since = null)
@@ -137,7 +135,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function get($object)
 	{
@@ -172,7 +170,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getConnection($object, $connection = null, $extra_fields = '', $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -213,7 +211,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createConnection($object, $connection = null, $parameters = null, array $headers = null)
 	{
@@ -249,7 +247,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteConnection($object, $connection = null, $extra_fields = '')
 	{
@@ -283,7 +281,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  JFacebookObject  This object for method chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function setOAuth($oauth)
 	{
@@ -297,7 +295,7 @@ abstract class JFacebookObject
 	 *
 	 * @return  JFacebookOAuth  The OAuth client
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getOAuth()
 	{

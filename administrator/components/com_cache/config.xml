@@ -2,26 +2,16 @@
 <config>
 	<fieldset
 		name="permissions"
-		label="JConfig_Permissions_Label"
-		description="JConfig_Permissions_Desc"
+		label="JCONFIG_PERMISSIONS_LABEL"
+		description="JCONFIG_PERMISSIONS_DESC"
 		>
-
 		<field
 			name="rules"
 			type="rules"
-			label="JConfig_Permissions_Label"
+			label="JCONFIG_PERMISSIONS_LABEL"
 			filter="rules"
 			validate="rules"
-			component="com_config"
-			section="component">
-			<action
-				name="core.admin"
-				title="JAction_Admin"
-				description="JAction_Manage_Component_Desc" />
-			<action
-				name="core.manage"
-				title="JAction_Manage"
-				description="JAction_Manage_Component_Desc" />
-		</field>
+			component="com_cache"
+			section="component" />
 	</fieldset>
 </config>

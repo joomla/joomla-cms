@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+	<fieldset>
+		<field
+			name="activateMultilanguage"
+			type="radio"
+			label="INSTL_DEFAULTLANGUAGE_ACTIVATE_MULTILANGUAGE"
+			id="activateMultilanguage"
+			class="btn-group"
+			filter="integer"
+			default="0"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="installLocalisedContent"
+			type="radio"
+			label="INSTL_DEFAULTLANGUAGE_INSTALL_LOCALISED_CONTENT"
+			id="installLocalisedContent"
+			class="btn-group"
+			filter="integer"
+			default="1"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+
+		<field
+			name="activatePluginLanguageCode"
+			type="radio"
+			label="INSTL_DEFAULTLANGUAGE_ACTIVATE_LANGUAGE_CODE_PLUGIN"
+			id="activatePluginLanguageCode"
+			class="btn-group"
+			filter="integer"
+			default="0"
+			>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
+		</field>
+	</fieldset>
+</form>

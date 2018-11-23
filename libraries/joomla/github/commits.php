@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Commits class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       12.1
+ * @since       3.0.0
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubCommits extends JGithubObject
 {
@@ -30,9 +29,11 @@ class JGithubCommits extends JGithubObject
 	 *                            For a single parent, an array of one SHA should be provided.
 	 *                            For a merge commit, an array of more than one should be provided.
 	 *
+	 * @deprecated  use data->commits->create()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function create($user, $repo, $message, $tree, array $parents = array())
 	{
@@ -68,9 +69,11 @@ class JGithubCommits extends JGithubObject
 	 * @param   string   $filepath  A relative path to the file to comment on within the commit.
 	 * @param   integer  $position  Line index in the diff to comment on.
 	 *
+	 * @deprecated  use repositories->comments->create()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function createCommitComment($user, $repo, $sha, $comment, $line, $filepath, $position)
 	{
@@ -83,7 +86,7 @@ class JGithubCommits extends JGithubObject
 				'commit_id' => $sha,
 				'line' => (int) $line,
 				'path' => $filepath,
-				'position' => (int) $position
+				'position' => (int) $position,
 			)
 		);
 
@@ -108,9 +111,11 @@ class JGithubCommits extends JGithubObject
 	 * @param   string  $repo  The name of the GitHub repository.
 	 * @param   string  $id    The ID of the comment to edit.
 	 *
+	 * @deprecated  use repositories->comments->delete()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function deleteCommitComment($user, $repo, $id)
 	{
@@ -139,9 +144,11 @@ class JGithubCommits extends JGithubObject
 	 * @param   string  $id       The ID of the comment to edit.
 	 * @param   string  $comment  The text of the comment.
 	 *
+	 * @deprecated  use repositories->comments->edit()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function editCommitComment($user, $repo, $id, $comment)
 	{
@@ -150,7 +157,7 @@ class JGithubCommits extends JGithubObject
 
 		$data = json_encode(
 			array(
-				'body' => $comment
+				'body' => $comment,
 			)
 		);
 
@@ -177,9 +184,11 @@ class JGithubCommits extends JGithubObject
 	 * @param   integer  $page   Page to request
 	 * @param   integer  $limit  Number of results to return per page
 	 *
+	 * @deprecated  use repositories->commits->get()
+	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getCommit($user, $repo, $sha, $page = 0, $limit = 0)
 	{
@@ -207,9 +216,11 @@ class JGithubCommits extends JGithubObject
 	 * @param   string   $repo  The name of the GitHub repository.
 	 * @param   integer  $id    ID of the comment to retrieve
 	 *
+	 * @deprecated  use repositories->comments->get()
+	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getCommitComment($user, $repo, $id)
 	{
@@ -239,9 +250,11 @@ class JGithubCommits extends JGithubObject
 	 * @param   integer  $page   Page to request
 	 * @param   integer  $limit  Number of results to return per page
 	 *
+	 * @deprecated  use repositories->comments->getList()
+	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getCommitComments($user, $repo, $sha, $page = 0, $limit = 0)
 	{
@@ -270,9 +283,11 @@ class JGithubCommits extends JGithubObject
 	 * @param   string  $base  The base of the diff, either a commit SHA or branch.
 	 * @param   string  $head  The head of the diff, either a commit SHA or branch.
 	 *
+	 * @deprecated  use repositories->commits->compare()
+	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getDiff($user, $repo, $base, $head)
 	{
@@ -301,9 +316,11 @@ class JGithubCommits extends JGithubObject
 	 * @param   integer  $page   Page to request
 	 * @param   integer  $limit  Number of results to return per page
 	 *
+	 * @deprecated  use repositories->commits->getList()
+	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getList($user, $repo, $page = 0, $limit = 0)
 	{
@@ -332,9 +349,11 @@ class JGithubCommits extends JGithubObject
 	 * @param   integer  $page   Page to request
 	 * @param   integer  $limit  Number of results to return per page
 	 *
+	 * @deprecated  use repositories->comments->getListRepository()
+	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getListComments($user, $repo, $page = 0, $limit = 0)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API People class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
- * @since       13.1
+ * @since  3.2.0
  */
 class JLinkedinPeople extends JLinkedinObject
 {
@@ -29,7 +27,7 @@ class JLinkedinPeople extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getProfile($id = null, $url = null, $fields = null, $type = 'standard', $language = null)
 	{
@@ -37,7 +35,7 @@ class JLinkedinPeople extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -75,6 +73,7 @@ class JLinkedinPeople extends JLinkedinObject
 
 		// Check if language is specified.
 		$header = array();
+
 		if ($language)
 		{
 			$header = array('Accept-Language' => $language);
@@ -100,7 +99,7 @@ class JLinkedinPeople extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getConnections($fields = null, $start = 0, $count = 500, $modified = null, $modified_since = null)
 	{
@@ -108,7 +107,7 @@ class JLinkedinPeople extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -184,7 +183,7 @@ class JLinkedinPeople extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function search($fields = null, $keywords = null, $first_name = null, $last_name = null, $company_name = null,
 		$current_company = null, $title = null, $current_title = null, $school_name = null, $current_school = null, $country_code = null,
@@ -194,7 +193,7 @@ class JLinkedinPeople extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -290,7 +289,8 @@ class JLinkedinPeople extends JLinkedinObject
 		if ($facet)
 		{
 			$data['facet'] = array();
-			for ($i = 0; $i < count($facet); $i++)
+
+			for ($i = 0, $iMax = count($facet); $i < $iMax; $i++)
 			{
 				if ($facet[$i])
 				{
@@ -298,26 +298,32 @@ class JLinkedinPeople extends JLinkedinObject
 					{
 						$data['facet'][] = 'location,' . $facet[$i];
 					}
+
 					if ($i == 1)
 					{
 						$data['facet'][] = 'industry,' . $facet[$i];
 					}
+
 					if ($i == 2)
 					{
 						$data['facet'][] = 'network,' . $facet[$i];
 					}
+
 					if ($i == 3)
 					{
 						$data['facet'][] = 'language,' . $facet[$i];
 					}
+
 					if ($i == 4)
 					{
 						$data['facet'][] = 'current-company,' . $facet[$i];
 					}
+
 					if ($i == 5)
 					{
 						$data['facet'][] = 'past-company,' . $facet[$i];
 					}
+
 					if ($i == 6)
 					{
 						$data['facet'][] = 'school,' . $facet[$i];

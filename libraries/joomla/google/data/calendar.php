@@ -3,30 +3,31 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google Calendar data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataCalendar extends JGoogleData
 {
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object
+	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
 		parent::__construct($options, $auth);
 
@@ -43,7 +44,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  boolean  Success or failure
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function removeCalendar($calendarID)
@@ -56,6 +57,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -71,7 +73,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function getCalendar($calendarID)
@@ -103,7 +105,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function addCalendar($calendarID, $options = array())
@@ -137,7 +139,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function listCalendars($options = array(), $maxpages = 1)
@@ -164,7 +166,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function editCalendarSettings($calendarID, $options)
@@ -196,7 +198,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  boolean  Success or failure
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function clearCalendar($calendarID)
@@ -209,6 +211,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -224,7 +227,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  boolean  Success or failure
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function deleteCalendar($calendarID)
@@ -237,6 +240,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -253,7 +257,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function createCalendar($title, $options = array())
@@ -287,7 +291,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function editCalendar($calendarID, $options)
@@ -321,7 +325,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  boolean  Success or failure.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function deleteEvent($calendarID, $eventID)
@@ -335,6 +339,7 @@ class JGoogleDataCalendar extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$data->body}`.");
 			}
+
 			return true;
 		}
 		else
@@ -352,7 +357,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function getEvent($calendarID, $eventID, $options = array())
@@ -391,7 +396,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws InvalidArgumentException
 	 * @throws UnexpectedValueException
 	 */
@@ -498,7 +503,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function listRecurrences($calendarID, $eventID, $options = array(), $maxpages = 1)
@@ -527,7 +532,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function listEvents($calendarID, $options = array(), $maxpages = 1)
@@ -556,7 +561,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function moveEvent($calendarID, $eventID, $destID, $notify = false)
@@ -592,7 +597,7 @@ class JGoogleDataCalendar extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function editEvent($calendarID, $eventID, $options, $notify = false)

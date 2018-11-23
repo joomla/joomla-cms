@@ -1,24 +1,15 @@
 <?php
-/**
-* @version $Id$
-* @package utf8
-* @subpackage strings
-*/
-
-//---------------------------------------------------------------
-/**
-* UTF-8 aware substr_replace.
-* Note: requires utf8_substr to be loaded
-* @see http://www.php.net/substr_replace
-* @see utf8_strlen
-* @see utf8_substr
-*/
-function utf8_substr_replace($str, $repl, $start , $length = NULL ) {
-    preg_match_all('/./us', $str, $ar);
-    preg_match_all('/./us', $repl, $rar);
-    if( $length === NULL ) {
-        $length = utf8_strlen($str);
-    }
-    array_splice( $ar[0], $start, $length, $rar[0] );
-    return join('',$ar[0]);
+if (class_exists('JLog'))
+{
+	JLog::add(
+		sprintf(
+			'Using the phputf8 library through files located in %1$s is deprecated, load the files from %2$s instead.',
+			__DIR__,
+			JPATH_LIBRARIES . '/vendor/joomla/string/src/phputf8'
+		),
+		JLog::WARNING,
+		'deprecated'
+	);
 }
+
+require_once JPATH_LIBRARIES . '/vendor/joomla/string/src/phputf8/substr_replace.php';

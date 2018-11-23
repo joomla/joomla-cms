@@ -3,44 +3,45 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google API data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 abstract class JGoogleData
 {
 	/**
-	 * @var    JRegistry  Options for the Google data object.
-	 * @since  12.3
+	 * @var    Registry  Options for the Google data object.
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGoogleAuth  Authentication client for the Google data object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $auth;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry    $options  Google options object.
+	 * @param   Registry     $options  Google options object.
 	 * @param   JGoogleAuth  $auth     Google data http client object.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	public function __construct(JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->auth = isset($auth) ? $auth : new JGoogleAuthOauth2($this->options);
 	}
 
@@ -49,7 +50,7 @@ abstract class JGoogleData
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function authenticate()
 	{
@@ -61,7 +62,7 @@ abstract class JGoogleData
 	 *
 	 * @return  boolean  True if authenticated.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isAuthenticated()
 	{
@@ -75,10 +76,10 @@ abstract class JGoogleData
 	 *
 	 * @return  SimpleXMLElement  XMLElement of parsed data
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
-	protected static function safeXML($data)
+	protected static function safeXml($data)
 	{
 		try
 		{
@@ -86,7 +87,7 @@ abstract class JGoogleData
 		}
 		catch (Exception $e)
 		{
-			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.");
+			throw new UnexpectedValueException("Unexpected data received from Google: `$data`.", $e->getCode(), $e);
 		}
 	}
 
@@ -99,7 +100,7 @@ abstract class JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	protected function listGetData($url, $maxpages = 1, $token = null)
@@ -114,6 +115,7 @@ abstract class JGoogleData
 		{
 			$qurl .= 'pageToken=' . $token;
 		}
+
 		$jdata = $this->query($qurl);
 		$data = json_decode($jdata->body, true);
 
@@ -123,6 +125,7 @@ abstract class JGoogleData
 			{
 				$data['items'] = array_merge($data['items'], $this->listGetData($url, $maxpages - 1, $data['nextPageToken']));
 			}
+
 			return $data['items'];
 		}
 		elseif ($data)
@@ -145,7 +148,7 @@ abstract class JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function query($url, $data = null, $headers = null, $method = 'get')
 	{
@@ -159,7 +162,7 @@ abstract class JGoogleData
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -174,7 +177,7 @@ abstract class JGoogleData
 	 *
 	 * @return  JGoogleData  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{

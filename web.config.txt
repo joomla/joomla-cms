@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+   <location path=".">
    <system.webServer>
+       <directoryBrowse enabled="false" />
        <rewrite>
            <rules>
                <rule name="Joomla! Rule 1" stopProcessing="true">
@@ -17,7 +19,6 @@
                    <match url="(.*)" ignoreCase="false" />
                    <conditions logicalGrouping="MatchAll">
                      <add input="{URL}" pattern="^/index.php" ignoreCase="true" negate="true" />
-                     <add input="{URL}" pattern="/component/|(/[^.]*|\.(php|html?|feed|pdf|vcf|raw))$" />
                      <add input="{REQUEST_FILENAME}" matchType="IsFile" ignoreCase="false" negate="true" />
                      <add input="{REQUEST_FILENAME}" matchType="IsDirectory" ignoreCase="false" negate="true" />
                    </conditions>
@@ -26,4 +27,5 @@
            </rules>
        </rewrite>
    </system.webServer>
+   </location>
 </configuration>

@@ -3,22 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
 defined('JPATH_PLATFORM') or die();
-
 
 /**
  * Facebook API Status class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
- *
- * @see         http://developers.facebook.com/docs/reference/api/status/
- * @since       13.1
+ * @link        http://developers.facebook.com/docs/reference/api/status/
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookStatus extends JFacebookObject
 {
@@ -29,7 +25,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getStatus($status)
 	{
@@ -47,7 +43,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getComments($status, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -62,7 +58,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createComment($status, $message)
 	{
@@ -79,7 +75,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteComment($comment)
 	{
@@ -97,7 +93,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getLikes($status, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -111,7 +107,7 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createLike($status)
 	{
@@ -125,11 +121,10 @@ class JFacebookStatus extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteLike($status)
 	{
 		return $this->deleteConnection($status, 'likes');
 	}
-
 }

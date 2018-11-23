@@ -3,37 +3,38 @@
  * @package     Joomla.Platform
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform Base Model Class
  *
- * @package     Joomla.Platform
- * @subpackage  Model
- * @since       12.1
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 abstract class JModelBase implements JModel
 {
 	/**
 	 * The model state.
 	 *
-	 * @var    JRegistry
-	 * @since  12.1
+	 * @var    Registry
+	 * @since  3.0.0
 	 */
 	protected $state;
 
 	/**
 	 * Instantiate the model.
 	 *
-	 * @param   JRegistry  $state  The model state.
+	 * @param   Registry  $state  The model state.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	public function __construct(JRegistry $state = null)
+	public function __construct(Registry $state = null)
 	{
 		// Setup the model.
 		$this->state = isset($state) ? $state : $this->loadState();
@@ -42,9 +43,9 @@ abstract class JModelBase implements JModel
 	/**
 	 * Get the model state.
 	 *
-	 * @return  JRegistry  The state object.
+	 * @return  Registry  The state object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getState()
 	{
@@ -54,13 +55,13 @@ abstract class JModelBase implements JModel
 	/**
 	 * Set the model state.
 	 *
-	 * @param   JRegistry  $state  The state object.
+	 * @param   Registry  $state  The state object.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	public function setState(JRegistry $state)
+	public function setState(Registry $state)
 	{
 		$this->state = $state;
 	}
@@ -68,12 +69,12 @@ abstract class JModelBase implements JModel
 	/**
 	 * Load the model state.
 	 *
-	 * @return  JRegistry  The state object.
+	 * @return  Registry  The state object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function loadState()
 	{
-		return new JRegistry;
+		return new Registry;
 	}
 }

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,18 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Memcache session storage handler for PHP
  *
- * @package     Joomla.Platform
- * @subpackage  Session
- * @since       11.1
+ * @since       1.7.0
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageMemcache extends JSessionStorage
 {
+	/**
+	 * @var array Container for memcache server conf arrays
+	 */
+	private $_servers = array();
+
 	/**
 	 * Constructor
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException
 	 */
 	public function __construct($options = array())
@@ -33,18 +37,18 @@ class JSessionStorageMemcache extends JSessionStorage
 			throw new RuntimeException('Memcache Extension is not available', 404);
 		}
 
-		parent::__construct($options);
-
 		$config = JFactory::getConfig();
 
 		// This will be an array of loveliness
 		// @todo: multiple servers
 		$this->_servers = array(
 			array(
-				'host' => $config->get('memcache_server_host', 'localhost'),
-				'port' => $config->get('memcache_server_port', 11211)
-			)
+				'host' => $config->get('session_memcache_server_host', 'localhost'),
+				'port' => $config->get('session_memcache_server_port', 11211),
+			),
 		);
+
+		parent::__construct($options);
 	}
 
 	/**
@@ -52,12 +56,20 @@ class JSessionStorageMemcache extends JSessionStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function register()
 	{
-		ini_set('session.save_path', $this->_servers['host'] . ':' . $this->_servers['port']);
-		ini_set('session.save_handler', 'memcache');
+		if (!empty($this->_servers) && isset($this->_servers[0]))
+		{
+			$serverConf = current($this->_servers);
+
+			if (!headers_sent())
+			{
+				ini_set('session.save_path', "{$serverConf['host']}:{$serverConf['port']}");
+				ini_set('session.save_handler', 'memcache');
+			}
+		}
 	}
 
 	/**
@@ -65,10 +77,10 @@ class JSessionStorageMemcache extends JSessionStorage
 	 *
 	 * @return boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	static public function isSupported()
+	public static function isSupported()
 	{
-		return (extension_loaded('memcache') && class_exists('Memcache'));
+		return extension_loaded('memcache') && class_exists('Memcache');
 	}
 }

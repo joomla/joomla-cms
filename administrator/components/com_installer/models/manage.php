@@ -3,20 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once __DIR__ . '/extension.php';
+JLoader::register('InstallerModel', __DIR__ . '/extension.php');
 
 /**
  * Installer Manage Model
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.5
+ * @since  1.5
  */
 class InstallerModelManage extends InstallerModel
 {
@@ -32,7 +30,16 @@ class InstallerModelManage extends InstallerModel
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array('name', 'client_id', 'status', 'type', 'folder', 'extension_id',);
+			$config['filter_fields'] = array(
+				'status',
+				'name',
+				'client_id',
+				'client', 'client_translated',
+				'type', 'type_translated',
+				'folder', 'folder_translated',
+				'package_id',
+				'extension_id',
+			);
 		}
 
 		parent::__construct($config);
@@ -50,38 +57,29 @@ class InstallerModelManage extends InstallerModel
 	 *
 	 * @since   1.6
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = 'name', $direction = 'asc')
 	{
 		$app = JFactory::getApplication();
 
 		// Load the filter state.
-		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
-		$this->setState('filter.search', $search);
-
-		$clientId = $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', '');
-		$this->setState('filter.client_id', $clientId);
-
-		$status = $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '');
-		$this->setState('filter.status', $status);
-
-		$categoryId = $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '');
-		$this->setState('filter.type', $categoryId);
-
-		$group = $this->getUserStateFromRequest($this->context . '.filter.group', 'filter_group', '');
-		$this->setState('filter.group', $group);
+		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+		$this->setState('filter.status', $this->getUserStateFromRequest($this->context . '.filter.status', 'filter_status', '', 'string'));
+		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
+		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
 
 		$this->setState('message', $app->getUserState('com_installer.message'));
 		$this->setState('extension_message', $app->getUserState('com_installer.extension_message'));
 		$app->setUserState('com_installer.message', '');
 		$app->setUserState('com_installer.extension_message', '');
 
-		parent::populateState('name', 'asc');
+		parent::populateState($ordering, $direction);
 	}
 
 	/**
 	 * Enable/Disable an extension.
 	 *
-	 * @param   array  &$eid   Extension ids to un/publish
+	 * @param   array  $eid    Extension ids to un/publish
 	 * @param   int    $value  Publish value
 	 *
 	 * @return  boolean  True on success
@@ -91,58 +89,75 @@ class InstallerModelManage extends InstallerModel
 	public function publish(&$eid = array(), $value = 1)
 	{
 		$user = JFactory::getUser();
-		if ($user->authorise('core.edit.state', 'com_installer'))
+
+		if (!$user->authorise('core.edit.state', 'com_installer'))
 		{
-			$result = true;
-
-			/*
-			 * Ensure eid is an array of extension ids
-			 * TODO: If it isn't an array do we want to set an error and fail?
-			 */
-			if (!is_array($eid))
-			{
-				$eid = array($eid);
-			}
-
-			// Get a table object for the extension type
-			$table = JTable::getInstance('Extension');
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
-
-			// Enable the extension in the table and store it in the database
-			foreach ($eid as $i => $id)
-			{
-				$table->load($id);
-				if ($table->type == 'template')
-				{
-					$style = JTable::getInstance('Style', 'TemplatesTable');
-					if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
-					{
-						JError::raiseNotice(403, JText::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'));
-						unset($eid[$i]);
-						continue;
-					}
-				}
-				if ($table->protected == 1)
-				{
-					$result = false;
-					JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
-				}
-				else
-				{
-					$table->enabled = $value;
-				}
-				if (!$table->store())
-				{
-					$this->setError($table->getError());
-					$result = false;
-				}
-			}
-		}
-		else
-		{
-			$result = false;
 			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+
+			return false;
 		}
+
+		$result = true;
+
+		/*
+		 * Ensure eid is an array of extension ids
+		 * TODO: If it isn't an array do we want to set an error and fail?
+		 */
+		if (!is_array($eid))
+		{
+			$eid = array($eid);
+		}
+
+		// Get a table object for the extension type
+		$table = JTable::getInstance('Extension');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_templates/tables');
+
+		// Enable the extension in the table and store it in the database
+		foreach ($eid as $i => $id)
+		{
+			$table->load($id);
+
+			if ($table->type == 'template')
+			{
+				$style = JTable::getInstance('Style', 'TemplatesTable');
+
+				if ($style->load(array('template' => $table->element, 'client_id' => $table->client_id, 'home' => 1)))
+				{
+					JError::raiseNotice(403, JText::_('COM_INSTALLER_ERROR_DISABLE_DEFAULT_TEMPLATE_NOT_PERMITTED'));
+					unset($eid[$i]);
+					continue;
+				}
+			}
+
+			if ($table->protected == 1)
+			{
+				$result = false;
+				JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			}
+			else
+			{
+				$table->enabled = $value;
+			}
+		
+			$context = $this->option . '.' . $this->name;
+			JPluginHelper::importPlugin('extension');
+			JEventDispatcher::getInstance()->trigger('onExtensionChangeState', array($context, $eid, $value));
+
+			if (!$table->store())
+			{
+				$this->setError($table->getError());
+				$result = false;
+			}
+		}
+
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
+
 		return $result;
 	}
 
@@ -171,6 +186,7 @@ class InstallerModelManage extends InstallerModel
 		{
 			$result |= $installer->refreshManifestCache($id);
 		}
+
 		return $result;
 	}
 
@@ -186,88 +202,88 @@ class InstallerModelManage extends InstallerModel
 	public function remove($eid = array())
 	{
 		$user = JFactory::getUser();
-		if ($user->authorise('core.delete', 'com_installer'))
+
+		if (!$user->authorise('core.delete', 'com_installer'))
 		{
+			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
 
-			$failed = array();
+			return false;
+		}
 
-			/*
-			 * Ensure eid is an array of extension ids in the form id => client_id
-			 * TODO: If it isn't an array do we want to set an error and fail?
-			 */
-			if (!is_array($eid))
-			{
-				$eid = array($eid => 0);
-			}
+		/*
+		 * Ensure eid is an array of extension ids in the form id => client_id
+		 * TODO: If it isn't an array do we want to set an error and fail?
+		 */
+		if (!is_array($eid))
+		{
+			$eid = array($eid => 0);
+		}
 
-			// Get an installer object for the extension type
-			$installer = JInstaller::getInstance();
-			$row = JTable::getInstance('extension');
+		// Get an installer object for the extension type
+		$installer = JInstaller::getInstance();
+		$row = JTable::getInstance('extension');
 
-			// Uninstall the chosen extensions
-			foreach ($eid as $id)
-			{
-				$id = trim($id);
-				$row->load($id);
-				if ($row->type && $row->type != 'language')
-				{
-					$result = $installer->uninstall($row->type, $id);
+		// Uninstall the chosen extensions
+		$msgs = array();
+		$result = false;
 
-					// Build an array of extensions that failed to uninstall
-					if ($result === false)
-					{
-						$failed[] = $id;
-					}
-				}
-				else
-				{
-					$failed[] = $id;
-				}
-			}
+		foreach ($eid as $id)
+		{
+			$id = trim($id);
+			$row->load($id);
+			$result = false;
 
 			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
 			$rowtype = JText::_($langstring);
+
 			if (strpos($rowtype, $langstring) !== false)
 			{
 				$rowtype = $row->type;
 			}
 
-			if (count($failed))
+			if ($row->type)
 			{
-				if ($row->type == 'language')
-				{
+				$result = $installer->uninstall($row->type, $id);
 
-					// One should always uninstall a language package, not a single language
-					$msg = JText::_('COM_INSTALLER_UNINSTALL_LANGUAGE');
-					$result = false;
-				}
-				else
+				// Build an array of extensions that failed to uninstall
+				if ($result === false)
 				{
-
 					// There was an error in uninstalling the package
-					$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
-					$result = false;
-				}
-			}
-			else
-			{
+					$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 
-				// Package uninstalled sucessfully
-				$msg = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
+					continue;
+				}
+
+				// Package uninstalled successfully
+				$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_SUCCESS', $rowtype);
 				$result = true;
+
+				continue;
 			}
-			$app = JFactory::getApplication();
-			$app->enqueueMessage($msg);
-			$this->setState('action', 'remove');
-			$this->setState('name', $installer->get('name'));
-			$app->setUserState('com_installer.message', $installer->message);
-			$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
-			return $result;
+
+			// There was an error in uninstalling the package
+			$msgs[] = JText::sprintf('COM_INSTALLER_UNINSTALL_ERROR', $rowtype);
 		}
-		else
-		{
-			JError::raiseWarning(403, JText::_('JERROR_CORE_DELETE_NOT_PERMITTED'));
-		}
+
+		$msg = implode('<br />', $msgs);
+		$app = JFactory::getApplication();
+		$app->enqueueMessage($msg);
+		$this->setState('action', 'remove');
+		$this->setState('name', $installer->get('name'));
+		$app->setUserState('com_installer.message', $installer->message);
+		$app->setUserState('com_installer.extension_message', $installer->get('extension_message'));
+
+		// Clear the cached extension data and menu cache
+		$this->cleanCache('_system', 0);
+		$this->cleanCache('_system', 1);
+		$this->cleanCache('com_modules', 0);
+		$this->cleanCache('com_modules', 1);
+		$this->cleanCache('com_plugins', 0);
+		$this->cleanCache('com_plugins', 1);
+		$this->cleanCache('mod_menu', 0);
+		$this->cleanCache('mod_menu', 1);
+
+		return $result;
 	}
 
 	/**
@@ -279,15 +295,18 @@ class InstallerModelManage extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$status = $this->getState('filter.status');
-		$type = $this->getState('filter.type');
-		$client = $this->getState('filter.client_id');
-		$group = $this->getState('filter.group');
-		$query = JFactory::getDbo()->getQuery(true)
+		$query = $this->getDbo()->getQuery(true)
 			->select('*')
-			->select('2*protected+(1-protected)*enabled as status')
+			->select('2*protected+(1-protected)*enabled AS status')
 			->from('#__extensions')
-			->where('state=0');
+			->where('state = 0');
+
+		// Process select filters.
+		$status   = $this->getState('filter.status');
+		$type     = $this->getState('filter.type');
+		$clientId = $this->getState('filter.client_id');
+		$folder   = $this->getState('filter.folder');
+
 		if ($status != '')
 		{
 			if ($status == '2')
@@ -301,28 +320,34 @@ class InstallerModelManage extends InstallerModel
 			else
 			{
 				$query->where('protected = 0')
-					->where('enabled=' . (int) $status);
+					->where('enabled = ' . (int) $status);
 			}
 		}
+
 		if ($type)
 		{
-			$query->where('type=' . $this->_db->quote($type));
-		}
-		if ($client != '')
-		{
-			$query->where('client_id=' . (int) $client);
-		}
-		if ($group != '' && in_array($type, array('plugin', 'library', '')))
-		{
-			$query->where('folder=' . $this->_db->quote($group == '*' ? '' : $group));
+			$query->where('type = ' . $this->_db->quote($type));
 		}
 
-		// Filter by search in id
+		if ($clientId != '')
+		{
+			$query->where('client_id = ' . (int) $clientId);
+		}
+
+		if ($folder != '')
+		{
+			$query->where('folder = ' . $this->_db->quote($folder == '*' ? '' : $folder));
+		}
+
+		// Process search filter (extension id).
 		$search = $this->getState('filter.search');
+
 		if (!empty($search) && stripos($search, 'id:') === 0)
 		{
 			$query->where('extension_id = ' . (int) substr($search, 3));
 		}
+
+		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
 
 		return $query;
 	}

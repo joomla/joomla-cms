@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Plugins component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_plugins
- * @since       1.6
+ * @since  1.6
  */
 class PluginsHelper
 {
@@ -23,7 +21,9 @@ class PluginsHelper
 	/**
 	 * Configure the Linkbar.
 	 *
-	 * @param   string    The name of the active view.
+	 * @param   string  $vName  The name of the active view.
+	 *
+	 * @return  void
 	 */
 	public static function addSubmenu($vName)
 	{
@@ -34,21 +34,27 @@ class PluginsHelper
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @return  JObject
+	 *
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		$user = JFactory::getUser();
-		$result = new JObject;
-		$assetName = 'com_plugins';
-
-		$actions = JAccess::getActions($assetName);
-
-		foreach ($actions as $action)
+		// Log usage of deprecated function.
+		try
 		{
-			$result->set($action->name, $user->authorise($action->name, $assetName));
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
 		}
 
-		return $result;
+		// Get list of actions.
+		return JHelperContent::getActions('com_plugins');
 	}
 
 	/**
@@ -67,7 +73,7 @@ class PluginsHelper
 	}
 
 	/**
-	 * Returns an array of standard published state filter options.
+	 * Returns a list of folders filter options.
 	 *
 	 * @return  string    The HTML code for the select tag
 	 */
@@ -94,12 +100,49 @@ class PluginsHelper
 		return $options;
 	}
 
+	/**
+	 * Returns a list of elements filter options.
+	 *
+	 * @return  string    The HTML code for the select tag
+	 */
+	public static function elementOptions()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(element) AS value, element AS text')
+			->from('#__extensions')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->order('element');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Parse the template file.
+	 *
+	 * @param   string  $templateBaseDir  Base path to the template directory.
+	 * @param   string  $templateDir      Template directory.
+	 *
+	 * @return  JObject
+	 */
 	public function parseXMLTemplateFile($templateBaseDir, $templateDir)
 	{
 		$data = new JObject;
 
-		// Check of the xml file exists
+		// Check of the xml file exists.
 		$filePath = JPath::clean($templateBaseDir . '/templates/' . $templateDir . '/templateDetails.xml');
+
 		if (is_file($filePath))
 		{
 			$xml = JInstaller::parseXMLInstallFile($filePath);

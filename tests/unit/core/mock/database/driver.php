@@ -2,15 +2,15 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Class to mock JDatabaseDriver.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockDatabaseDriver
 {
@@ -18,25 +18,27 @@ class TestMockDatabaseDriver
 	 * A query string or object.
 	 *
 	 * @var    mixed
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
-	public static $lastQuery = null;
+	public static $lastQuery;
 
 	/**
-	 * Creates and instance of the mock JDatabase object.
+	 * Creates and instance of the mock JDatabaseDriver object.
 	 *
-	 * @param   object  $test        A test object.
-	 * @param   string  $nullDate    A null date string for the driver.
-	 * @param   string  $dateFormat  A date format for the driver.
+	 * @param   PHPUnit_Framework_TestCase  $test          A test object.
+	 * @param   string                      $driver        Optional driver to create a sub-class of JDatabaseDriver.
+	 * @param   array                       $extraMethods  An array of additional methods to add to the mock.
+	 * @param   string                      $nullDate      A null date string for the driver.
+	 * @param   string                      $dateFormat    A date format for the driver.
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
-	public static function create($test, $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
+	public static function create($test, $driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
-		// Collect all the relevant methods in JDatabase.
-		$methods = array(
+		// Collect all the relevant methods in JDatabaseDriver.
+		$methods = array_merge($extraMethods, array(
 			'connect',
 			'connected',
 			'disconnect',
@@ -49,6 +51,7 @@ class TestMockDatabaseDriver
 			'freeResult',
 			'getAffectedRows',
 			'getCollation',
+			'getConnectionCollation',
 			'getConnectors',
 			'getDateFormat',
 			'getErrorMsg',
@@ -92,19 +95,15 @@ class TestMockDatabaseDriver
 			'transactionStart',
 			'unlockTables',
 			'updateObject',
-		);
+		));
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JDatabaseDriver',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JDatabaseDriver' . $driver)
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
@@ -135,9 +134,9 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  string
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
-	public function mockEscape($text)
+	public static function mockEscape($text)
 	{
 		return "_{$text}_";
 	}
@@ -147,9 +146,9 @@ class TestMockDatabaseDriver
 	 *
 	 * @param   boolean  $new  True to get a new query, false to get the last query.
 	 *
-	 * @return  void
+	 * @return  JDatabaseQuery
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockGetQuery($new = false)
 	{
@@ -171,7 +170,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockQuote($value, $escape = true)
 	{
@@ -195,7 +194,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  string  The value passed wrapped in MySQL quotes.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockQuoteName($value)
 	{
@@ -209,7 +208,7 @@ class TestMockDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function mockSetQuery($query)
 	{

@@ -3,21 +3,33 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * Controller class to e-mail the configuration info for the Joomla Installer.
+ * Controller class to email the configuration info for the Joomla Installer.
  *
- * @package     Joomla.Installation
- * @subpackage  Controller
- * @since       3.1
+ * @since  3.1
  */
 class InstallationControllerInstallEmail extends JControllerBase
 {
+	/**
+	 * Constructor.
+	 *
+	 * @since   3.2
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+
+		// Overrides application config and set the configuration.php file so the send function will work
+		JFactory::$config = null;
+		JFactory::getConfig(JPATH_SITE . '/configuration.php');
+	}
+
 	/**
 	 * Execute the controller.
 	 *
@@ -28,11 +40,11 @@ class InstallationControllerInstallEmail extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
-		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		// Check for request forgeries. - @TODO - Restore this check
+		// JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
 
 		// Get the setup model.
 		$model = new InstallationModelSetup;
@@ -56,7 +68,7 @@ class InstallationControllerInstallEmail extends JControllerBase
 
 		if ($options['summary_email_passwords'])
 		{
-			$body[] = array(JText::_('INSTL_ADMIN_PASSWORD_LABEL'), $options['admin_password']);
+			$body[] = array(JText::_('INSTL_ADMIN_PASSWORD_LABEL'), $options['admin_password_plain']);
 		}
 
 		$body[] = $this->emailTitle(JText::_('INSTL_DATABASE'));
@@ -66,7 +78,7 @@ class InstallationControllerInstallEmail extends JControllerBase
 
 		if ($options['summary_email_passwords'])
 		{
-			$body[] = array(JText::_('INSTL_DATABASE_PASSWORD_LABEL'), $options['db_pass']);
+			$body[] = array(JText::_('INSTL_DATABASE_PASSWORD_LABEL'), $options['db_pass_plain']);
 		}
 
 		$body[] = array(JText::_('INSTL_DATABASE_NAME_LABEL'), $options['db_name']);
@@ -79,7 +91,7 @@ class InstallationControllerInstallEmail extends JControllerBase
 
 			if ($options['summary_email_passwords'])
 			{
-				$body[] = array( JText::_('INSTL_FTP_PASSWORD_LABEL'), $options['ftp_pass']);
+				$body[] = array( JText::_('INSTL_FTP_PASSWORD_LABEL'), $options['ftp_pass_plain']);
 			}
 
 			$body[] = array(JText::_('INSTL_FTP_HOST_LABEL'), $options['ftp_host']);
@@ -116,23 +128,25 @@ class InstallationControllerInstallEmail extends JControllerBase
 		$mail->setBody($body);
 
 		$r = new stdClass;
-		$r->view = 'install';
+		$r->view = 'complete';
 
 		try
 		{
-			$mail->Send();
+			if (!$mail->Send())
+			{
+				$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'error');
+			}
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'notice');
-			$r->view = 'complete';
+			$app->enqueueMessage(JText::_('INSTL_EMAIL_NOT_SENT'), 'error');
 		}
 
 		$app->sendJsonResponse($r);
 	}
 
 	/**
-	 * Prepares a title line for the e-mail
+	 * Prepares a title line for the email
 	 *
 	 * @param   string  $title  The title pre-formatting
 	 *

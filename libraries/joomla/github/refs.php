@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       11.3
+ * @since       1.7.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubRefs extends JGithubObject
 {
@@ -26,9 +25,11 @@ class JGithubRefs extends JGithubObject
 	 * @param   string  $ref   The name of the fully qualified reference.
 	 * @param   string  $sha   The SHA1 value to set this reference to.
 	 *
+	 * @deprecated  use data->refs->create()
+	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function create($user, $repo, $ref, $sha)
 	{
@@ -39,7 +40,7 @@ class JGithubRefs extends JGithubObject
 		$data = json_encode(
 			array(
 				'ref' => $ref,
-				'sha' => $sha
+				'sha' => $sha,
 			)
 		);
 
@@ -66,9 +67,11 @@ class JGithubRefs extends JGithubObject
 	 * @param   string  $sha    The SHA1 value to set the reference to.
 	 * @param   string  $force  Whether the update should be forced. Default to false.
 	 *
+	 * @deprecated  use data->refs->edit()
+	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function edit($user, $repo, $ref, $sha, $force = false)
 	{
@@ -110,9 +113,11 @@ class JGithubRefs extends JGithubObject
 	 * @param   string  $repo  The name of the GitHub repository.
 	 * @param   string  $ref   The reference to get.
 	 *
+	 * @deprecated  use data->refs->get()
+	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function get($user, $repo, $ref)
 	{
@@ -142,9 +147,11 @@ class JGithubRefs extends JGithubObject
 	 * @param   integer  $page       Page to request
 	 * @param   integer  $limit      Number of results to return per page
 	 *
+	 * @deprecated  use data->refs->getList()
+	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getList($user, $repo, $namespace = '', $page = 0, $limit = 0)
 	{

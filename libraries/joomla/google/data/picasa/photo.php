@@ -3,24 +3,25 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPicasaPhoto extends JGoogleData
 {
 	/**
 	 * @var    SimpleXMLElement  The photo's XML
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $xml;
 
@@ -28,12 +29,12 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 * Constructor.
 	 *
 	 * @param   SimpleXMLElement  $xml      XML from Google
-	 * @param   JRegistry         $options  Google options object
+	 * @param   Registry          $options  Google options object
 	 * @param   JGoogleAuth       $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	public function __construct(SimpleXMLElement $xml, JRegistry $options = null, JGoogleAuth $auth = null)
+	public function __construct(SimpleXMLElement $xml, Registry $options = null, JGoogleAuth $auth = null)
 	{
 		$this->xml = $xml;
 
@@ -52,8 +53,10 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  boolean  Success or failure.
 	 *
-	 * @since   12.3
-	 * @throws UnexpectedValueException
+	 * @since   3.1.4
+	 * @throws  Exception
+	 * @throws  RuntimeException
+	 * @throws  UnexpectedValueException
 	 */
 	public function delete($match = '*')
 	{
@@ -75,8 +78,9 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
+
 				throw $e;
 			}
 
@@ -84,6 +88,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			{
 				throw new UnexpectedValueException("Unexpected data received from Google: `{$jdata->body}`.");
 			}
+
 			$this->xml = null;
 
 			return true;
@@ -101,7 +106,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Link or false on failure
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLink($type = 'edit')
 	{
@@ -114,6 +119,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 				return (string) $link->attributes()->href;
 			}
 		}
+
 		return false;
 	}
 
@@ -122,9 +128,9 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Link
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	public function getURL()
+	public function getUrl()
 	{
 		return (string) $this->xml->children()->content->attributes()->src;
 	}
@@ -134,7 +140,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  array  An array of thumbnails
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getThumbnails()
 	{
@@ -147,6 +153,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			$height = (int) $item->attributes()->height;
 			$thumbs[$width] = array('url' => $url, 'w' => $width, 'h' => $height);
 		}
+
 		return $thumbs;
 	}
 
@@ -155,7 +162,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Photo title
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getTitle()
 	{
@@ -167,7 +174,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Photo description
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSummary()
 	{
@@ -179,7 +186,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  string  Photo access level
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getAccess()
 	{
@@ -191,7 +198,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  double  Photo time
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getTime()
 	{
@@ -203,7 +210,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo size
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSize()
 	{
@@ -215,7 +222,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo height
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getHeight()
 	{
@@ -227,7 +234,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  int  Photo width
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getWidth()
 	{
@@ -241,7 +248,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setTitle($title)
 	{
@@ -257,7 +264,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setSummary($summary)
 	{
@@ -273,7 +280,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAccess($access)
 	{
@@ -289,7 +296,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaPhoto  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setTime($time)
 	{
@@ -305,7 +312,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function save($match = '*')
 	{
@@ -322,18 +329,19 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 			try
 			{
 				$headers = array('GData-Version' => 2, 'Content-type' => 'application/atom+xml', 'If-Match' => $match);
-				$jdata = $this->query($url, $this->xml->asXML(), $headers, 'put');
+				$jdata = $this->query($url, $this->xml->asXml(), $headers, 'put');
 			}
 			catch (Exception $e)
 			{
 				if (strpos($e->getMessage(), 'Error code 412 received requesting data: Mismatch: etags') === 0)
 				{
-					throw new RuntimeException("Etag match failed: `$match`.");
+					throw new RuntimeException("Etag match failed: `$match`.", $e->getCode(), $e);
 				}
+
 				throw $e;
 			}
 
-			$this->xml = $this->safeXML($jdata->body);
+			$this->xml = $this->safeXml($jdata->body);
 
 			return $this;
 		}
@@ -348,7 +356,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function refresh()
 	{
@@ -356,7 +364,7 @@ class JGoogleDataPicasaPhoto extends JGoogleData
 		{
 			$url = $this->getLink();
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
-			$this->xml = $this->safeXML($jdata->body);
+			$this->xml = $this->safeXml($jdata->body);
 
 			return $this;
 		}

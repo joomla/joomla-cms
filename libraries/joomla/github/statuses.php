@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubStatuses extends JGithubObject
 {
@@ -28,9 +27,11 @@ class JGithubStatuses extends JGithubObject
 	 * @param   string  $targetUrl    Optional target URL.
 	 * @param   string  $description  Optional description for the status.
 	 *
+	 * @deprecated  use repositories->statuses->create()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function create($user, $repo, $sha, $state, $targetUrl = null, $description = null)
 	{
@@ -44,7 +45,7 @@ class JGithubStatuses extends JGithubObject
 
 		// Build the request data.
 		$data = array(
-			'state' => $state
+			'state' => $state,
 		);
 
 		if (!is_null($targetUrl))
@@ -78,9 +79,11 @@ class JGithubStatuses extends JGithubObject
 	 * @param   string  $repo  The name of the GitHub repository.
 	 * @param   string  $sha   SHA1 for which to get the statuses.
 	 *
+	 * @deprecated  use repositories->statuses->getList()
+	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getList($user, $repo, $sha)
 	{

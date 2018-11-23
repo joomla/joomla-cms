@@ -1,64 +1,64 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  Oauth
+ * @subpackage  OAuth2
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
-jimport('joomla.environment.response');
+
+use Joomla\Registry\Registry;
 
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.
  *
- * @package     Joomla.Platform
- * @subpackage  Oauth
- * @since       12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/oauth2` framework package that will be bundled instead
  */
 class JOAuth2Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth2Client object.
-	 * @since  12.3
+	 * @var    Registry  Options for the JOAuth2Client object.
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $http;
 
 	/**
 	 * @var    JInput  The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $input;
 
 	/**
 	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $application;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry        $options      JOAuth2Client options object
+	 * @param   Registry         $options      JOAuth2Client options object
 	 * @param   JHttp            $http         The HTTP client object
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	public function __construct(JRegistry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
+	public function __construct(Registry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->http = isset($http) ? $http : new JHttp($this->options);
-		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
+		$this->input = isset($input) ? $input : $this->application->input;
 	}
 
 	/**
@@ -66,7 +66,8 @@ class JOAuth2Client
 	 *
 	 * @return  string  The access token
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws  RuntimeException
 	 */
 	public function authenticate()
 	{
@@ -80,8 +81,7 @@ class JOAuth2Client
 
 			if ($response->code >= 200 && $response->code < 400)
 			{
-
-				if ($response->headers['Content-Type'] == 'application/json')
+				if (strpos($response->headers['Content-Type'], 'application/json') === 0)
 				{
 					$token = array_merge(json_decode($response->body, true), array('created' => time()));
 				}
@@ -105,6 +105,7 @@ class JOAuth2Client
 		{
 			$this->application->redirect($this->createUrl());
 		}
+
 		return false;
 	}
 
@@ -113,7 +114,7 @@ class JOAuth2Client
 	 *
 	 * @return  boolean  Is authenticated
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isAuthenticated()
 	{
@@ -138,7 +139,8 @@ class JOAuth2Client
 	 *
 	 * @return  JHttpResponse  The HTTP response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws  InvalidArgumentException
 	 */
 	public function createUrl()
 	{
@@ -191,7 +193,7 @@ class JOAuth2Client
 	/**
 	 * Send a signed Oauth request.
 	 *
-	 * @param   string  $url      The URL forf the request.
+	 * @param   string  $url      The URL for the request.
 	 * @param   mixed   $data     The data to include in the request
 	 * @param   array   $headers  The headers to send with the request
 	 * @param   string  $method   The method with which to send the request
@@ -199,7 +201,9 @@ class JOAuth2Client
 	 *
 	 * @return  string  The URL.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws  InvalidArgumentException
+	 * @throws  RuntimeException
 	 */
 	public function query($url, $data = null, $headers = array(), $method = 'get', $timeout = null)
 	{
@@ -211,6 +215,7 @@ class JOAuth2Client
 			{
 				return false;
 			}
+
 			$token = $this->refreshToken($token['refresh_token']);
 		}
 
@@ -228,6 +233,7 @@ class JOAuth2Client
 			{
 				$url .= '?';
 			}
+
 			$url .= $this->getOption('getparam') ? $this->getOption('getparam') : 'access_token';
 			$url .= '=' . $token['access_token'];
 		}
@@ -253,6 +259,7 @@ class JOAuth2Client
 		{
 			throw new RuntimeException('Error code ' . $response->code . ' received requesting data: ' . $response->body . '.');
 		}
+
 		return $response;
 	}
 
@@ -263,7 +270,7 @@ class JOAuth2Client
 	 *
 	 * @return  mixed  The option value
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -278,7 +285,7 @@ class JOAuth2Client
 	 *
 	 * @return  JOAuth2Client  This object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{
@@ -292,7 +299,7 @@ class JOAuth2Client
 	 *
 	 * @return  array  The access token
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getToken()
 	{
@@ -306,7 +313,7 @@ class JOAuth2Client
 	 *
 	 * @return  JOAuth2Client  This object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setToken($value)
 	{
@@ -315,6 +322,7 @@ class JOAuth2Client
 			$value['expires_in'] = $value['expires'];
 			unset($value['expires']);
 		}
+
 		$this->setOption('accesstoken', $value);
 
 		return $this;
@@ -327,7 +335,9 @@ class JOAuth2Client
 	 *
 	 * @return  array  The new access token
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws  Exception
+	 * @throws  RuntimeException
 	 */
 	public function refreshToken($token = null)
 	{
@@ -344,8 +354,10 @@ class JOAuth2Client
 			{
 				throw new RuntimeException('No refresh token is available.');
 			}
+
 			$token = $token['refresh_token'];
 		}
+
 		$data['grant_type'] = 'refresh_token';
 		$data['refresh_token'] = $token;
 		$data['client_id'] = $this->getOption('clientid');
@@ -354,7 +366,7 @@ class JOAuth2Client
 
 		if ($response->code >= 200 || $response->code < 400)
 		{
-			if ($response->headers['Content-Type'] == 'application/json')
+			if (strpos($response->headers['Content-Type'], 'application/json') === 0)
 			{
 				$token = array_merge(json_decode($response->body, true), array('created' => time()));
 			}

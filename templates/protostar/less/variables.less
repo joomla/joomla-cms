@@ -38,7 +38,7 @@
 
 // Links
 // -------------------------
-@linkColor:             #08c;
+@linkColor:             #005e8d;
 @linkColorHover:        darken(@linkColor, 15%);
 
 
@@ -48,13 +48,13 @@
 @serifFontFamily:       Georgia, "Times New Roman", Times, serif;
 @monoFontFamily:        Monaco, Menlo, Consolas, "Courier New", monospace;
 
-/* >>> JUI >>> */
+// > Joomla JUI
 @baseFontSize:          13px;
-/* <<< JUI <<< */
+// < Joomla JUI
 @baseFontFamily:        @sansFontFamily;
-/* >>> JUI >>> */
+// > Joomla JUI
 @baseLineHeight:        18px;
-/* <<< JUI <<< */
+// < Joomla JUI
 @altFontFamily:         @serifFontFamily;
 
 @headingsFontFamily:    inherit; // empty to use BS default, @baseFontFamily
@@ -67,9 +67,9 @@
 // Based on 14px font-size and 20px line-height
 
 @fontSizeLarge:         @baseFontSize * 1.25; // ~18px
-/* >>> JUI >>> */
+// > Joomla JUI
 @fontSizeSmall:         ceil(@baseFontSize * 0.90); // ~12px
-/* <<< JUI <<< */
+// < Joomla JUI
 @fontSizeMini:          @baseFontSize * 0.75; // ~11px
 
 @paddingLarge:          11px 19px; // 44px
@@ -148,12 +148,11 @@
 // Used for a bird's eye view of components dependent on the z-axis
 // Try to avoid customizing these :)
 @zindexDropdown:          1000;
-@zindexPopover:           1010;
 @zindexTooltip:           1030;
 @zindexFixedNavbar:       1030;
 @zindexModalBackdrop:     1040;
 @zindexModal:             1050;
-
+@zindexPopover:           1060;
 
 // Sprite icons path
 // -------------------------
@@ -281,7 +280,7 @@
 @gridColumnWidth:         60px;
 @gridGutterWidth:         20px;
 @gridRowWidth:            (@gridColumns * @gridColumnWidth) + (@gridGutterWidth * (@gridColumns - 1));
-/* >>> JUI >>> */
+// > Joomla JUI
 // 1200px min
 @gridColumnWidth1200:     60px;
 @gridGutterWidth1200:     20px;
@@ -305,4 +304,4 @@
 // 768px-979px
 @fluidGridColumnWidth768:      6.382978723%;
 @fluidGridGutterWidth768:      2.127659574%;
-/* <<< JUI <<< */
+// < Joomla JUI

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL import driver.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       11.1
+ * @since       1.7.0
+ * @deprecated  4.0  Use MySQLi or PDO MySQL instead
  */
 class JDatabaseImporterMysql extends JDatabaseImporterMysqli
 {
@@ -23,7 +22,7 @@ class JDatabaseImporterMysql extends JDatabaseImporterMysqli
 	 *
 	 * @return  JDatabaseImporterMysql  Method supports chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -39,22 +38,6 @@ class JDatabaseImporterMysql extends JDatabaseImporterMysqli
 		{
 			throw new Exception('JPLATFORM_ERROR_NO_TABLES_SPECIFIED');
 		}
-
-		return $this;
-	}
-
-	/**
-	 * Sets the database connector to use for exporting structure and/or data from MySQL.
-	 *
-	 * @param   JDatabaseDriverMysql  $db  The database connector.
-	 *
-	 * @return  JDatabaseImporterMysql  Method supports chaining.
-	 *
-	 * @since   11.1
-	 */
-	public function setDbo(JDatabaseDriverMysql $db)
-	{
-		$this->db = $db;
 
 		return $this;
 	}

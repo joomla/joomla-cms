@@ -3,26 +3,27 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for interact with Openstreetmap API.
  *
- * @package     Joomla.Platform
- * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmap
 {
 	/**
 	 * Options for the Openstreetmap object.
 	 *
-	 * @var    JRegistry
-	 * @since  13.1
+	 * @var    Registry
+	 * @since  3.2.0
 	 */
 	protected $options;
 
@@ -30,7 +31,7 @@ class JOpenstreetmap
 	 * The HTTP client object to use in sending HTTP requests.
 	 *
 	 * @var    JHttp
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
@@ -38,7 +39,7 @@ class JOpenstreetmap
 	 * The OAuth client.
 	 *
 	 * @var   JOpenstreetmapOauth
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	protected $oauth;
 
@@ -46,7 +47,7 @@ class JOpenstreetmap
 	 * Openstreetmap API object for changesets.
 	 *
 	 * @var    JOpenstreetmapChangesets
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $changesets;
 
@@ -54,15 +55,15 @@ class JOpenstreetmap
 	 * Openstreetmap API object for elements.
 	 *
 	 * @var    JOpenstreetmapElements
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $elements;
 
 	/**
 	 * Openstreetmap API object for GPS.
 	 *
-	 * @var   JOpenstreetmapGps
-	 * @since  13.1
+	 * @var    JOpenstreetmapGps
+	 * @since  3.2.0
 	 */
 	protected $gps;
 
@@ -70,7 +71,7 @@ class JOpenstreetmap
 	 * Openstreetmap API object for info.
 	 *
 	 * @var    JOpenstreetmapInfo
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $info;
 
@@ -78,7 +79,7 @@ class JOpenstreetmap
 	 * Openstreetmap API object for user.
 	 *
 	 * @var    JOpenstreetmapUser
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $user;
 
@@ -86,21 +87,21 @@ class JOpenstreetmap
 	 * Constructor.
 	 *
 	 * @param   JOpenstreetmapOauth  $oauth    Openstreetmap oauth client
-	 * @param   JRegistry            $options  Openstreetmap options object
+	 * @param   Registry             $options  Openstreetmap options object
 	 * @param   JHttp                $client   The HTTP client object
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
-	public function __construct(JOpenstreetmapOauth $oauth = null, JRegistry $options = null, JHttp $client = null)
+	public function __construct(JOpenstreetmapOauth $oauth = null, Registry $options = null, JHttp $client = null)
 	{
 		$this->oauth = $oauth;
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client  = isset($client) ? $client : new JHttp($this->options);
 
 		// Setup the default API url if not already set.
-		$this->options->def('api.url', 'http://api.openstreetmap.org/api/0.6/');
+		$this->options->def('api.url', 'https://api.openstreetmap.org/api/0.6/');
 
-		// $this->options->def('api.url', 'http://api06.dev.openstreetmap.org/api/0.6/');
+		// $this->options->def('api.url', 'https://api06.dev.openstreetmap.org/api/0.6/');
 	}
 
 	/**
@@ -110,7 +111,7 @@ class JOpenstreetmap
 	 *
 	 * @return  JOpenstreetmapObject  Openstreetmap API object
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
@@ -137,7 +138,7 @@ class JOpenstreetmap
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getOption($key)
 	{
@@ -152,7 +153,7 @@ class JOpenstreetmap
 	 *
 	 * @return  JOpenstreetmap  This object for method chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function setOption($key, $value)
 	{

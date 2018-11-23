@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API Companies class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
- * @since       13.1
+ * @since  3.2.0
  */
 class JLinkedinCompanies extends JLinkedinObject
 {
@@ -28,7 +26,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  RuntimeException
 	 */
 	public function getCompanies($id = null, $name = null, $domain = null, $fields = null)
@@ -44,7 +42,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -96,7 +94,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getUpdates($id, $type = null, $count = 0, $start = 0)
 	{
@@ -104,7 +102,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -157,7 +155,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function search($fields = null, $keywords = null, $hq = false, $facets = null, $facet = null, $start = 0, $count = 0, $sort = null)
 	{
@@ -165,7 +163,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -201,7 +199,8 @@ class JLinkedinCompanies extends JLinkedinObject
 		if ($facet)
 		{
 			$data['facet'] = array();
-			for ($i = 0; $i < count($facet); $i++)
+
+			for ($i = 0, $iMax = count($facet); $i < $iMax; $i++)
 			{
 				if ($facet[$i])
 				{
@@ -209,22 +208,27 @@ class JLinkedinCompanies extends JLinkedinObject
 					{
 						$data['facet'][] = 'location,' . $facet[$i];
 					}
+
 					if ($i == 1)
 					{
 						$data['facet'][] = 'industry,' . $facet[$i];
 					}
+
 					if ($i == 2)
 					{
 						$data['facet'][] = 'network,' . $facet[$i];
 					}
+
 					if ($i == 3)
 					{
 						$data['facet'][] = 'company-size,' . $facet[$i];
 					}
+
 					if ($i == 4)
 					{
 						$data['facet'][] = 'num-followers-range,' . $facet[$i];
 					}
+
 					if ($i == 5)
 					{
 						$data['facet'][] = 'fortune,' . $facet[$i];
@@ -267,7 +271,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getFollowed($fields = null)
 	{
@@ -275,7 +279,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -305,7 +309,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function follow($id)
 	{
@@ -313,7 +317,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -343,7 +347,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function unfollow($id)
 	{
@@ -351,7 +355,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -378,7 +382,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getSuggested($fields = null, $start = 0, $count = 0)
 	{
@@ -386,7 +390,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -431,7 +435,7 @@ class JLinkedinCompanies extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getProducts($id, $fields = null, $start = 0, $count = 0)
 	{
@@ -439,7 +443,7 @@ class JLinkedinCompanies extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base

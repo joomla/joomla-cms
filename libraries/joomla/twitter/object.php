@@ -3,51 +3,52 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Twitter API object class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
- * @since       12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 abstract class JTwitterObject
 {
 	/**
-	 * @var    JRegistry  Options for the Twitter object.
-	 * @since  12.3
+	 * @var    Registry  Options for the Twitter object.
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
-	 * @var JTwitterOAuth The OAuth client.
-	 * @since 12.3
+	 * @var    JTwitterOAuth The OAuth client.
+	 * @since  3.1.4
 	 */
 	protected $oauth;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry      &$options  Twitter options object.
-	 * @param   JTwitterHttp   $client    The HTTP client object.
+	 * @param   Registry       &$options  Twitter options object.
+	 * @param   JHttp          $client    The HTTP client object.
 	 * @param   JTwitterOAuth  $oauth     The OAuth client.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
-	public function __construct(JRegistry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
+	public function __construct(Registry &$options = null, JHttp $client = null, JTwitterOAuth $oauth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);
 		$this->oauth = $oauth;
 	}
@@ -60,7 +61,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function checkRateLimit($resource = null, $action = null)
@@ -79,7 +80,7 @@ abstract class JTwitterObject
 		{
 			// The IP has exceeded the Twitter API rate limit
 			throw new RuntimeException('This server has exceed the Twitter API rate limit for the given period.  The limit will reset at '
-						. $rate_limit->resources->$resource->$property->reset
+				. $rate_limit->resources->$resource->$property->reset
 			);
 		}
 	}
@@ -94,7 +95,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  string  The request URL.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function fetchUrl($path, $parameters = null)
 	{
@@ -133,7 +134,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  array  The JSON response decoded
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getRateLimit($resource)
 	{
@@ -158,7 +159,8 @@ abstract class JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
+	 * @throws  RuntimeException
 	 */
 	public function sendRequest($path, $method = 'GET', $data = array(), $headers = array())
 	{
@@ -180,7 +182,7 @@ abstract class JTwitterObject
 			{
 				// The IP has exceeded the Twitter API media rate limit
 				throw new RuntimeException('This server has exceed the Twitter API media rate limit for the given period.  The limit will reset in '
-						. $response_headers['x-mediaratelimit-reset'] . 'seconds.'
+					. $response_headers['x-mediaratelimit-reset'] . 'seconds.'
 				);
 			}
 		}
@@ -200,7 +202,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -215,7 +217,7 @@ abstract class JTwitterObject
 	 *
 	 * @return  JTwitterObject  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{

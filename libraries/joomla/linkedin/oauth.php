@@ -3,40 +3,39 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Joomla Platform class for generating Linkedin API access token.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
- *
- * @since       13.1
+ * @since  3.2.0
  */
 class JLinkedinOauth extends JOAuth1Client
 {
 	/**
-	* @var    JRegistry  Options for the JLinkedinOauth object.
-	* @since  13.1
+	* @var    Registry  Options for the JLinkedinOauth object.
+	* @since  3.2.0
 	*/
 	protected $options;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry  $options  JLinkedinOauth options object.
-	 * @param   JHttp      $client   The HTTP client object.
-	 * @param   JInput     $input    The input object
+	 * @param   Registry  $options  JLinkedinOauth options object.
+	 * @param   JHttp     $client   The HTTP client object.
+	 * @param   JInput    $input    The input object
 	 *
-	 * @since 13.1
+	 * @since   3.2.0
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null)
+	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 
 		$this->options->def('accessTokenURL', 'https://www.linkedin.com/uas/oauth/accessToken');
 		$this->options->def('authenticateURL', 'https://www.linkedin.com/uas/oauth/authenticate');
@@ -52,7 +51,7 @@ class JLinkedinOauth extends JOAuth1Client
 	 *
 	 * @return  boolean  Returns true if the access token is valid and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function verifyCredentials()
 	{
@@ -60,7 +59,7 @@ class JLinkedinOauth extends JOAuth1Client
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		$data['format'] = 'json';
@@ -90,7 +89,7 @@ class JLinkedinOauth extends JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since  13.1
+	 * @since  3.2.0
 	 * @throws DomainException
 	 */
 	public function validateResponse($url, $response)
@@ -120,8 +119,8 @@ class JLinkedinOauth extends JOAuth1Client
 	 *
 	 * @return  JLinkedinOauth  This object for method chaining
 	 *
-	 * @see     https://developer.linkedin.com/documents/authentication
-	 * @since   13.1
+	 * @link    https://developer.linkedin.com/documents/authentication
+	 * @since   3.2.0
 	 */
 	public function setScope($scope)
 	{
@@ -135,7 +134,7 @@ class JLinkedinOauth extends JOAuth1Client
 	 *
 	 * @return  string String or an array of string containing permissions.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getScope()
 	{

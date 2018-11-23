@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides spacer markup to be used in form layouts.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  1.7.0
  */
 class JFormFieldSpacer extends JFormField
 {
@@ -23,7 +21,7 @@ class JFormFieldSpacer extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Spacer';
 
@@ -33,7 +31,7 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
@@ -47,19 +45,19 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getLabel()
 	{
 		$html = array();
-		$class = $this->element['class'] ? (string) $this->element['class'] : '';
-
+		$class = !empty($this->class) ? ' class="' . $this->class . '"' : '';
 		$html[] = '<span class="spacer">';
 		$html[] = '<span class="before"></span>';
-		$html[] = '<span class="' . $class . '">';
+		$html[] = '<span' . $class . '>';
+
 		if ((string) $this->element['hr'] == 'true')
 		{
-			$html[] = '<hr class="' . $class . '" />';
+			$html[] = '<hr' . $class . ' />';
 		}
 		else
 		{
@@ -80,13 +78,14 @@ class JFormFieldSpacer extends JFormField
 			if (!empty($this->description))
 			{
 				JHtml::_('bootstrap.tooltip');
-				$label .= ' title="' . JHtml::tooltipText(trim($text, ':'), JText::_($this->description), 0) . '"';
+				$label .= ' title="' . JHtml::_('tooltipText', trim($text, ':'), JText::_($this->description), 0) . '"';
 			}
 
 			// Add the label text and closing tag.
 			$label .= '>' . $text . '</label>';
 			$html[] = $label;
 		}
+
 		$html[] = '</span>';
 		$html[] = '<span class="after"></span>';
 		$html[] = '</span>';
@@ -99,10 +98,26 @@ class JFormFieldSpacer extends JFormField
 	 *
 	 * @return  string  The field title.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getTitle()
 	{
 		return $this->getLabel();
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   array  $options  Options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control group
+	 *
+	 * @since   3.7.3
+	 */
+	public function renderField($options = array())
+	{
+		$options['class'] = empty($options['class']) ? 'field-spacer' : $options['class'] . ' field-spacer';
+
+		return parent::renderField($options);
 	}
 }

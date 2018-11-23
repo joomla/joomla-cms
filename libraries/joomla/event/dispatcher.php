@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Event
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,11 +15,9 @@ defined('JPATH_PLATFORM') or die;
  * This is the Observable part of the Observer design pattern
  * for the event architecture.
  *
- * @package     Joomla.Platform
- * @subpackage  Event
- * @link        http://docs.joomla.org/Tutorial:Plugins Plugin tutorials
  * @see         JPlugin
- * @since       12.1
+ * @since       3.0.0
+ * @deprecated  4.0  The CMS' Event classes will be replaced with the `joomla/event` package
  */
 class JEventDispatcher extends JObject
 {
@@ -27,7 +25,7 @@ class JEventDispatcher extends JObject
 	 * An array of Observer objects to notify
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  3.0.0
 	 */
 	protected $_observers = array();
 
@@ -35,7 +33,7 @@ class JEventDispatcher extends JObject
 	 * The state of the observable object
 	 *
 	 * @var    mixed
-	 * @since  11.3
+	 * @since  3.0.0
 	 */
 	protected $_state = null;
 
@@ -43,7 +41,7 @@ class JEventDispatcher extends JObject
 	 * A multi dimensional array of [function][] = key for observers
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  3.0.0
 	 */
 	protected $_methods = array();
 
@@ -51,7 +49,7 @@ class JEventDispatcher extends JObject
 	 * Stores the singleton instance of the dispatcher.
 	 *
 	 * @var    JEventDispatcher
-	 * @since  11.3
+	 * @since  3.0.0
 	 */
 	protected static $instance = null;
 
@@ -61,7 +59,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  JEventDispatcher  The EventDispatcher object.
 	 *
-	 * @since   11.1
+	 * @since   3.0.0
 	 */
 	public static function getInstance()
 	{
@@ -78,7 +76,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  mixed    The state of the object.
 	 *
-	 * @since   11.3
+	 * @since   3.0.0
 	 */
 	public function getState()
 	{
@@ -93,7 +91,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   3.0.0
 	 * @throws  InvalidArgumentException
 	 */
 	public function register($event, $handler)
@@ -125,7 +123,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  array  An array of results from each function call.
 	 *
-	 * @since   11.1
+	 * @since   3.0.0
 	 */
 	public function trigger($event, $args = array())
 	{
@@ -183,7 +181,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   3.0.0
 	 */
 	public function attach($observer)
 	{
@@ -197,14 +195,13 @@ class JEventDispatcher extends JObject
 			// Make sure we haven't already attached this array as an observer
 			foreach ($this->_observers as $check)
 			{
-				if (is_array($check) && $check['event'] == $observer['event'] && $check['handler'] == $observer['handler'])
+				if (is_array($check) && $check['event'] === $observer['event'] && $check['handler'] === $observer['handler'])
 				{
 					return;
 				}
 			}
 
 			$this->_observers[] = $observer;
-			end($this->_observers);
 			$methods = array($observer['event']);
 		}
 		else
@@ -229,6 +226,7 @@ class JEventDispatcher extends JObject
 			$methods = array_diff(get_class_methods($observer), get_class_methods('JPlugin'));
 		}
 
+		end($this->_observers);
 		$key = key($this->_observers);
 
 		foreach ($methods as $method)
@@ -251,7 +249,7 @@ class JEventDispatcher extends JObject
 	 *
 	 * @return  boolean  True if the observer object was detached.
 	 *
-	 * @since   11.3
+	 * @since   3.0.0
 	 */
 	public function detach($observer)
 	{

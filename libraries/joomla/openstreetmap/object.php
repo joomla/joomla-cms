@@ -3,26 +3,27 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
 
+use Joomla\Registry\Registry;
+
 /**
  * Openstreetmap API object class for the Joomla Platform
  *
- * @package     Joomla.Platform
- * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 abstract class JOpenstreetmapObject
 {
 	/**
 	 * Options for the Openstreetmap object.
 	 *
-	 * @var    JRegistry
-	 * @since  13.1
+	 * @var    Registry
+	 * @since  3.2.0
 	 */
 	protected $options;
 
@@ -30,7 +31,7 @@ abstract class JOpenstreetmapObject
 	 * The HTTP client object to use in sending HTTP requests.
 	 *
 	 * @var    JHttp
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
@@ -38,22 +39,22 @@ abstract class JOpenstreetmapObject
 	 * The OAuth client.
 	 *
 	 * @var    JOpenstreetmapOauth
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   JRegistry            &$options  Openstreetmap options object.
+	 * @param   Registry             &$options  Openstreetmap options object.
 	 * @param   JHttp                $client    The HTTP client object.
 	 * @param   JOpenstreetmapOauth  $oauth     Openstreetmap oauth client
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
-	public function __construct(JRegistry &$options = null, JHttp $client = null, JOpenstreetmapOauth $oauth = null)
+	public function __construct(Registry &$options = null, JHttp $client = null, JOpenstreetmapOauth $oauth = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : new JHttp($this->options);
 		$this->oauth = $oauth;
 	}
@@ -65,7 +66,7 @@ abstract class JOpenstreetmapObject
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getOption($key)
 	{
@@ -80,7 +81,7 @@ abstract class JOpenstreetmapObject
 	 *
 	 * @return  JOpenstreetmapObject  This object for method chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function setOption($key, $value)
 	{
@@ -99,7 +100,7 @@ abstract class JOpenstreetmapObject
 	 *
 	 * @return  SimpleXMLElement  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function sendRequest($path, $method = 'GET', $headers = array(), $data = '')
@@ -119,7 +120,7 @@ abstract class JOpenstreetmapObject
 		// Validate the response code.
 		if ($response->code != 200)
 		{
-			$error = htmlspecialchars($response->body);
+			$error = htmlspecialchars($response->body, ENT_COMPAT, 'UTF-8');
 
 			throw new DomainException($error, $response->code);
 		}

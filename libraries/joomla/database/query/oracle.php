@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,27 +12,25 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Oracle Query Building Class.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  3.0.0
  */
 class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {
 	/**
-	 * @var integer
-	 * @since 12.1
-	 */
-	protected $limit;
-
-	/**
-	 * @var integer
-	 * @since 12.1
+	 * @var    integer  The offset for the result set.
+	 * @since  3.0.0
 	 */
 	protected $offset;
 
 	/**
-	 * @var mixed
-	 * @since 12.1
+	 * @var    integer  The limit for the result set.
+	 * @since  3.0.0
+	 */
+	protected $limit;
+
+	/**
+	 * @var    array  Bounded object array
+	 * @since  3.0.0
 	 */
 	protected $bounded = array();
 
@@ -48,9 +46,9 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 * @param   integer         $length         The length of the variable. Usually required for OUTPUT parameters.
 	 * @param   array           $driverOptions  Optional driver options to be used.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  JDatabaseQueryOracle
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function bind($key = null, &$value = null, $dataType = PDO::PARAM_STR, $length = 0, $driverOptions = array())
 	{
@@ -94,7 +92,7 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function &getBounded($key = null)
 	{
@@ -116,9 +114,9 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @param   string  $clause  Optionally, the name of the clause to clear, or nothing to clear the whole query.
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return  JDatabaseQueryOracle  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function clear($clause = null)
 	{
@@ -147,20 +145,20 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
 		// Check if we need to mangle the query.
 		if ($limit || $offset)
 		{
-			$query = "SELECT joomla2.*
+			$query = 'SELECT joomla2.*
 		              FROM (
 		                  SELECT joomla1.*, ROWNUM AS joomla_db_rownum
 		                  FROM (
-		                      " . $query . "
+		                      ' . $query . '
 		                  ) joomla1
-		              ) joomla2";
+		              ) joomla2';
 
 			// Check if the limit value is greater than zero.
 			if ($limit > 0)
@@ -190,9 +188,9 @@ class JDatabaseQueryOracle extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 * @param   integer  $limit   The limit for the result set
 	 * @param   integer  $offset  The offset for the result set
 	 *
-	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 * @return  JDatabaseQueryOracle  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setLimit($limit = 0, $offset = 0)
 	{

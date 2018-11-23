@@ -3,25 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-include_once __DIR__ . '/../default/view.php';
+JLoader::register('InstallerViewDefault', dirname(__DIR__) . '/default/view.php');
 
 /**
- * Extension Manager Manage View
+ * Extension Manager Database View
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       1.6
+ * @since  1.6
  */
 class InstallerViewDatabase extends InstallerViewDefault
 {
 	/**
-	 * Display the view
+	 * Display the view.
 	 *
 	 * @param   string  $tpl  Template
 	 *
@@ -31,7 +29,10 @@ class InstallerViewDatabase extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
+		// Set variables
+		$app = JFactory::getApplication();
+
+		// Get data from the model.
 		$this->state = $this->get('State');
 		$this->changeSet = $this->get('Items');
 		$this->errors = $this->changeSet->check();
@@ -39,22 +40,33 @@ class InstallerViewDatabase extends InstallerViewDefault
 		$this->schemaVersion = $this->get('SchemaVersion');
 		$this->updateVersion = $this->get('UpdateVersion');
 		$this->filterParams  = $this->get('DefaultTextFilters');
-		$this->schemaVersion = ($this->schemaVersion) ?  $this->schemaVersion : JText::_('JNONE');
-		$this->updateVersion = ($this->updateVersion) ?  $this->updateVersion : JText::_('JNONE');
+		$this->schemaVersion = $this->schemaVersion ?: JText::_('JNONE');
+		$this->updateVersion = $this->updateVersion ?: JText::_('JNONE');
 		$this->pagination = $this->get('Pagination');
 		$this->errorCount = count($this->errors);
 
-		if (!(strncmp($this->schemaVersion, JVERSION, 5) === 0))
+		if ($this->schemaVersion != $this->changeSet->getSchema())
 		{
 			$this->errorCount++;
 		}
+
 		if (!$this->filterParams)
 		{
 			$this->errorCount++;
 		}
-		if (($this->updateVersion != JVERSION))
+
+		if (version_compare($this->updateVersion, JVERSION) != 0)
 		{
 			$this->errorCount++;
+		}
+
+		if ($this->errorCount === 0)
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_OK'), 'notice');
+		}
+		else
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_MSG_DATABASE_ERRORS'), 'warning');
 		}
 
 		parent::display($tpl);
@@ -70,9 +82,9 @@ class InstallerViewDatabase extends InstallerViewDefault
 	protected function addToolbar()
 	{
 		/*
-		 * Set toolbar items for the page
+		 * Set toolbar items for the page.
 		 */
-		JToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false, false);
+		JToolbarHelper::custom('database.fix', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DATABASE_FIX', false);
 		JToolbarHelper::divider();
 		parent::addToolbar();
 		JToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DATABASE');

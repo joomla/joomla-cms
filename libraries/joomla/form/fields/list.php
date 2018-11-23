@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,9 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @package     Joomla.Platform
- * @subpackage  Form
- * @since       11.1
+ * @since  1.7.0
  */
 class JFormFieldList extends JFormField
 {
@@ -23,7 +21,7 @@ class JFormFieldList extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'List';
 
@@ -33,7 +31,7 @@ class JFormFieldList extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   3.7.0
 	 */
 	protected function getInput()
 	{
@@ -41,34 +39,60 @@ class JFormFieldList extends JFormField
 		$attr = '';
 
 		// Initialize some field attributes.
-		$attr .= $this->element['class'] ? ' class="' . (string) $this->element['class'] . '"' : '';
+		$attr .= !empty($this->class) ? ' class="' . $this->class . '"' : '';
+		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
+		$attr .= $this->multiple ? ' multiple' : '';
+		$attr .= $this->required ? ' required aria-required="true"' : '';
+		$attr .= $this->autofocus ? ' autofocus' : '';
 
 		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->element['readonly'] == 'true' || (string) $this->element['disabled'] == 'true')
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true' || (string) $this->disabled == '1'|| (string) $this->disabled == 'true')
 		{
 			$attr .= ' disabled="disabled"';
 		}
 
-		$attr .= $this->element['size'] ? ' size="' . (int) $this->element['size'] . '"' : '';
-		$attr .= $this->multiple ? ' multiple="multiple"' : '';
-		$attr .= $this->required ? ' required="required" aria-required="true"' : '';
-
 		// Initialize JavaScript field attributes.
-		$attr .= $this->element['onchange'] ? ' onchange="' . (string) $this->element['onchange'] . '"' : '';
+		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Get the field options.
 		$options = (array) $this->getOptions();
 
-		// Create a read-only list (no name) with a hidden input to store the value.
-		if ((string) $this->element['readonly'] == 'true')
+		// Create a read-only list (no name) with hidden input(s) to store the value(s).
+		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
 		{
 			$html[] = JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-			$html[] = '<input type="hidden" name="' . $this->name . '" value="' . $this->value . '"/>';
+
+			// E.g. form field type tag sends $this->value as array
+			if ($this->multiple && is_array($this->value))
+			{
+				if (!count($this->value))
+				{
+					$this->value[] = '';
+				}
+
+				foreach ($this->value as $value)
+				{
+					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"/>';
+				}
+			}
+			else
+			{
+				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '"/>';
+			}
 		}
-		// Create a regular list.
 		else
+		// Create a regular list passing the arguments in an array.
 		{
-			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+			$listoptions = array();
+			$listoptions['option.key'] = 'value';
+			$listoptions['option.text'] = 'text';
+			$listoptions['list.select'] = $this->value;
+			$listoptions['id'] = $this->id;
+			$listoptions['list.translate'] = false;
+			$listoptions['option.attr'] = 'optionattr';
+			$listoptions['list.attr'] = trim($attr);
+
+			$html[] = JHtml::_('select.genericlist', $options, $this->name, $listoptions);
 		}
 
 		return implode($html);
@@ -79,40 +103,177 @@ class JFormFieldList extends JFormField
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   3.7.0
 	 */
 	protected function getOptions()
 	{
-		$options = array();
+		$fieldname = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname);
+		$options   = array();
 
-		foreach ($this->element->children() as $option)
+		foreach ($this->element->xpath('option') as $option)
 		{
-
-			// Only add <option /> elements.
-			if ($option->getName() != 'option')
+			// Filter requirements
+			if ($requires = explode(',', (string) $option['requires']))
 			{
-				continue;
+				// Requires multilanguage
+				if (in_array('multilanguage', $requires) && !JLanguageMultilang::isEnabled())
+				{
+					continue;
+				}
+
+				// Requires associations
+				if (in_array('associations', $requires) && !JLanguageAssociations::isEnabled())
+				{
+					continue;
+				}
+
+				// Requires adminlanguage
+				if (in_array('adminlanguage', $requires) && !JModuleHelper::isAdminMultilang())
+				{
+					continue;
+				}
+
+				// Requires vote plugin
+				if (in_array('vote', $requires) && !JPluginHelper::isEnabled('content', 'vote'))
+				{
+					continue;
+				}
 			}
 
-			// Create a new option object based on the <option /> element.
-			$tmp = JHtml::_(
-				'select.option', (string) $option['value'],
-				JText::alt(trim((string) $option), preg_replace('/[^a-zA-Z0-9_\-]/', '_', $this->fieldname)), 'value', 'text',
-				((string) $option['disabled'] == 'true')
+			$value = (string) $option['value'];
+			$text  = trim((string) $option) != '' ? trim((string) $option) : $value;
+
+			$disabled = (string) $option['disabled'];
+			$disabled = ($disabled == 'true' || $disabled == 'disabled' || $disabled == '1');
+			$disabled = $disabled || ($this->readonly && $value != $this->value);
+
+			$checked = (string) $option['checked'];
+			$checked = ($checked == 'true' || $checked == 'checked' || $checked == '1');
+
+			$selected = (string) $option['selected'];
+			$selected = ($selected == 'true' || $selected == 'selected' || $selected == '1');
+
+			$tmp = array(
+					'value'    => $value,
+					'text'     => JText::alt($text, $fieldname),
+					'disable'  => $disabled,
+					'class'    => (string) $option['class'],
+					'selected' => ($checked || $selected),
+					'checked'  => ($checked || $selected),
 			);
 
-			// Set some option attributes.
-			$tmp->class = (string) $option['class'];
+			// Set some event handler attributes. But really, should be using unobtrusive js.
+			$tmp['onclick']  = (string) $option['onclick'];
+			$tmp['onchange'] = (string) $option['onchange'];
 
-			// Set some JavaScript option attributes.
-			$tmp->onclick = (string) $option['onclick'];
-
+			if ((string) $option['showon'])
+			{
+				$tmp['optionattr'] = " data-showon='" .
+					json_encode(
+						JFormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+						)
+					. "'";
+			}
 			// Add the option object to the result set.
-			$options[] = $tmp;
+			$options[] = (object) $tmp;
+		}
+
+		if ($this->element['useglobal'])
+		{
+			$tmp        = new stdClass;
+			$tmp->value = '';
+			$tmp->text  = JText::_('JGLOBAL_USE_GLOBAL');
+			$component  = JFactory::getApplication()->input->getCmd('option');
+
+			// Get correct component for menu items
+			if ($component == 'com_menus')
+			{
+				$link      = $this->form->getData()->get('link');
+				$uri       = new JUri($link);
+				$component = $uri->getVar('option', 'com_menus');
+			}
+
+			$params = JComponentHelper::getParams($component);
+			$value  = $params->get($this->fieldname);
+
+			// Try with global configuration
+			if (is_null($value))
+			{
+				$value = JFactory::getConfig()->get($this->fieldname);
+			}
+
+			// Try with menu configuration
+			if (is_null($value) && JFactory::getApplication()->input->getCmd('option') == 'com_menus')
+			{
+				$value = JComponentHelper::getParams('com_menus')->get($this->fieldname);
+			}
+
+			if (!is_null($value))
+			{
+				$value = (string) $value;
+
+				foreach ($options as $option)
+				{
+					if ($option->value === $value)
+					{
+						$value = $option->text;
+
+						break;
+					}
+				}
+
+				$tmp->text = JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', $value);
+			}
+
+			array_unshift($options, $tmp);
 		}
 
 		reset($options);
 
 		return $options;
+	}
+
+	/**
+	 * Method to add an option to the list field.
+	 *
+	 * @param   string  $text        Text/Language variable of the option.
+	 * @param   array   $attributes  Array of attributes ('name' => 'value' format)
+	 *
+	 * @return  JFormFieldList  For chaining.
+	 *
+	 * @since   3.7.0
+	 */
+	public function addOption($text, $attributes = array())
+	{
+		if ($text && $this->element instanceof SimpleXMLElement)
+		{
+			$child = $this->element->addChild('option', $text);
+
+			foreach ($attributes as $name => $value)
+			{
+				$child->addAttribute($name, $value);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to get the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   3.7.0
+	 */
+	public function __get($name)
+	{
+		if ($name == 'options')
+		{
+			return $this->getOptions();
+		}
+
+		return parent::__get($name);
 	}
 }

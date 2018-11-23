@@ -1,76 +1,75 @@
 <?php
 /**
  * @package     Joomla.Platform
- * @subpackage  OAuth
+ * @subpackage  OAuth1
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die();
-jimport('joomla.environment.response');
+
+use Joomla\Registry\Registry;
 
 /**
  * Joomla Platform class for interacting with an OAuth 1.0 and 1.0a server.
  *
- * @package     Joomla.Platform
- * @subpackage  OAuth
- *
- * @since       13.1
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/oauth1` framework package that will be bundled instead
  */
 abstract class JOAuth1Client
 {
 	/**
-	 * @var    JRegistry  Options for the JOAuth1Client object.
-	 * @since  13.1
+	 * @var    Registry  Options for the JOAuth1Client object.
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
-	 * @var array  Contains access token key, secret and verifier.
-	 * @since 13.1
+	 * @var    array  Contains access token key, secret and verifier.
+	 * @since  3.2.0
 	 */
 	protected $token = array();
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $input;
 
 	/**
-	 * @var   JApplicationWeb  The application object to send HTTP headers for redirects.
-	 * @since 13.1
+	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
+	 * @since  3.2.0
 	 */
 	protected $application;
 
 	/**
 	 * @var   string  Selects which version of OAuth to use: 1.0 or 1.0a.
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	protected $version;
 
 	/**
 	 * Constructor.
 	 *
-	 * @param   JRegistry        $options      OAuth1Client options object.
+	 * @param   Registry         $options      OAuth1Client options object.
 	 * @param   JHttp            $client       The HTTP client object.
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
 	 * @param   string           $version      Specify the OAuth version. By default we are using 1.0a.
 	 *
-	 * @since 13.1
+	 * @since   3.2.0
 	 */
-	public function __construct(JRegistry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null,
+	public function __construct(Registry $options = null, JHttp $client = null, JInput $input = null, JApplicationWeb $application = null,
 		$version = null)
 	{
-		$this->options = isset($options) ? $options : new JRegistry;
+		$this->options = isset($options) ? $options : new Registry;
 		$this->client = isset($client) ? $client : JHttpFactory::getHttp($this->options);
 		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
@@ -80,11 +79,10 @@ abstract class JOAuth1Client
 	/**
 	 * Method to for the oauth flow.
 	 *
-	 * @return void
+	 * @return  array  Contains access token key, secret and verifier.
 	 *
-	 * @since  13.1
-	 *
-	 * @throws DomainException
+	 * @since   3.2.0
+	 * @throws  DomainException
 	 */
 	public function authenticate()
 	{
@@ -153,9 +151,9 @@ abstract class JOAuth1Client
 	/**
 	 * Method used to get a request token.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	private function _generateRequestToken()
@@ -164,7 +162,7 @@ abstract class JOAuth1Client
 		if ($this->getOption('callback'))
 		{
 			$parameters = array(
-				'oauth_callback' => $this->getOption('callback')
+				'oauth_callback' => $this->getOption('callback'),
 			);
 		}
 		else
@@ -194,9 +192,9 @@ abstract class JOAuth1Client
 	/**
 	 * Method used to authorise the application.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  13.1
+	 * @since   3.2.0
 	 */
 	private function _authorise()
 	{
@@ -217,15 +215,15 @@ abstract class JOAuth1Client
 	/**
 	 * Method used to get an access token.
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since  13.1
+	 * @since   3.2.0
 	 */
 	private function _generateAccessToken()
 	{
 		// Set the parameters.
 		$parameters = array(
-			'oauth_token' => $this->token['key']
+			'oauth_token' => $this->token['key'],
 		);
 
 		if (strcmp($this->version, '1.0a') === 0)
@@ -251,9 +249,9 @@ abstract class JOAuth1Client
 	 * @param   mixed   $data        The POST request data.
 	 * @param   array   $headers     An array of name-value pairs to include in the header of the request
 	 *
-	 * @return  object  The JHttpResponse object.
+	 * @return  JHttpResponse
 	 *
-	 * @since 13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function oauthRequest($url, $method, $parameters, $data = array(), $headers = array())
@@ -264,7 +262,7 @@ abstract class JOAuth1Client
 			'oauth_signature_method' => 'HMAC-SHA1',
 			'oauth_version' => '1.0',
 			'oauth_nonce' => $this->generateNonce(),
-			'oauth_timestamp' => time()
+			'oauth_timestamp' => time(),
 		);
 
 		$parameters = array_merge($parameters, $defaults);
@@ -324,8 +322,8 @@ abstract class JOAuth1Client
 	 *
 	 * @return  void
 	 *
-	 * @since  13.1
-	 * @throws DomainException
+	 * @since   3.2.0
+	 * @throws  DomainException
 	 */
 	abstract public function validateResponse($url, $response);
 
@@ -336,7 +334,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  The header.
 	 *
-	 * @since 13.1
+	 * @since   3.2.0
 	 */
 	private function _createHeader($parameters)
 	{
@@ -365,7 +363,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  The formed URL.
 	 *
-	 * @since  13.1
+	 * @since   3.2.0
 	 */
 	public function toUrl($url, $parameters)
 	{
@@ -413,9 +411,9 @@ abstract class JOAuth1Client
 	 * @param   string  $method      The request method.
 	 * @param   array   $parameters  Array containing request parameters.
 	 *
-	 * @return  void
+	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	private function _signRequest($url, $method, $parameters)
 	{
@@ -438,9 +436,9 @@ abstract class JOAuth1Client
 	 * @param   string  $method      The request method.
 	 * @param   array   $parameters  Array containing request parameters.
 	 *
-	 * @return string  The base string.
+	 * @return  string  The base string.
 	 *
-	 * @since 13.1
+	 * @since   3.2.0
 	 */
 	private function _baseString($url, $method, $parameters)
 	{
@@ -473,8 +471,8 @@ abstract class JOAuth1Client
 		$base = array(
 			$method,
 			$url,
-			$params
-			);
+			$params,
+		);
 
 		// Return the base string.
 		return implode('&', $this->safeEncode($base));
@@ -488,7 +486,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  $data encoded in a way compatible with OAuth.
 	 *
-	 * @since 13.1
+	 * @since   3.2.0
 	 */
 	public function safeEncode($data)
 	{
@@ -515,12 +513,12 @@ abstract class JOAuth1Client
 	 *
 	 * @return  string  The current nonce.
 	 *
-	 * @since 13.1
+	 * @since   3.2.0
 	 */
 	public static function generateNonce()
 	{
 		$mt = microtime();
-		$rand = mt_rand();
+		$rand = JCrypt::genRandomBytes();
 
 		// The md5s look nicer than numbers.
 		return md5($mt . $rand);
@@ -529,9 +527,9 @@ abstract class JOAuth1Client
 	/**
 	 * Prepares the OAuth signing key.
 	 *
-	 * @return string  The prepared signing key.
+	 * @return  string  The prepared signing key.
 	 *
-	 * @since 13.1
+	 * @since   3.2.0
 	 */
 	private function _prepareSigningKey()
 	{
@@ -544,7 +542,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	abstract public function verifyCredentials();
 
@@ -555,7 +553,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  mixed  The option value
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getOption($key)
 	{
@@ -570,7 +568,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  JOAuth1Client  This object for method chaining
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function setOption($key, $value)
 	{
@@ -584,7 +582,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  array  The oauth token key and secret.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getToken()
 	{
@@ -598,7 +596,7 @@ abstract class JOAuth1Client
 	 *
 	 * @return  JOAuth1Client  This object for method chaining.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function setToken($token)
 	{

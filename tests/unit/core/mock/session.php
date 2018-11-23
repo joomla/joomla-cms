@@ -2,15 +2,15 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Class to mock JSession.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockSession
 {
@@ -18,7 +18,7 @@ class TestMockSession
 	 * An array of options.
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $options = array();
 
@@ -30,9 +30,9 @@ class TestMockSession
 	 *
 	 * @return  mixed  The value of the option, or the default if not found.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
-	public function getOption($name, $default = null)
+	public static function getOption($name, $default = null)
 	{
 		return isset(self::$options[$name]) ? self::$options[$name] : $default;
 	}
@@ -40,16 +40,16 @@ class TestMockSession
 	/**
 	 * Creates an instance of the mock JSession object.
 	 *
-	 * @param   object  $test     A test object.
-	 * @param   array   $options  An array of optional configuration values.
-	 *                            getId : the value to be returned by the mock getId method
-	 *                            get.user.id : the value to assign to the user object id returned by get('user')
-	 *                            get.user.name : the value to assign to the user object name returned by get('user')
-	 *                            get.user.username : the value to assign to the user object username returned by get('user')
+	 * @param   PHPUnit_Framework_TestCase  $test     A test object.
+	 * @param   array                       $options  An array of optional configuration values.
+	 *                                                getId : the value to be returned by the mock getId method
+	 *                                                get.user.id : the value to assign to the user object id returned by get('user')
+	 *                                                get.user.name : the value to assign to the user object name returned by get('user')
+	 *                                                get.user.username : the value to assign to the user object username returned by get('user')
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function create($test, $options = array())
 	{
@@ -81,17 +81,13 @@ class TestMockSession
 			'set',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JSession',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JSession')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
@@ -113,20 +109,18 @@ class TestMockSession
 	/**
 	 * Mocking the get method.
 	 *
-	 * @param   string  $key  The key to get.
+	 * @param   string  $key      The key to get.
+	 * @param   mixed   $default  The default value for the value.
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
-	public function mockGet($key)
+	public static function mockGet($key, $default = null)
 	{
 		switch ($key)
 		{
 			case 'user':
-				// Attempt to load JUser.
-				class_exists('JUser');
-
 				$user = new JUser;
 
 				$user->id = (int) self::getOption('get.user.id', 0);
@@ -137,6 +131,6 @@ class TestMockSession
 				return $user;
 		}
 
-		return null;
+		return $default;
 	}
 }

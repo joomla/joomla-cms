@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Database Factory class
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       12.1
+ * @since  3.0.0
  */
 class JDatabaseFactory
 {
@@ -22,7 +20,7 @@ class JDatabaseFactory
 	 * Contains the current JDatabaseFactory instance
 	 *
 	 * @var    JDatabaseFactory
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_instance = null;
 
@@ -40,7 +38,7 @@ class JDatabaseFactory
 	 *
 	 * @return  JDatabaseDriver  A database driver object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getDriver($name = 'mysqli', $options = array())
@@ -56,7 +54,7 @@ class JDatabaseFactory
 		// If the class still doesn't exist we have nothing left to do but throw an exception.  We did our best.
 		if (!class_exists($class))
 		{
-			throw new RuntimeException(sprintf('Unable to load Database Driver: %s', $options['driver']));
+			throw new JDatabaseExceptionUnsupported(sprintf('Unable to load Database Driver: %s', $options['driver']));
 		}
 
 		// Create our new JDatabaseDriver connector based on the options given.
@@ -66,7 +64,7 @@ class JDatabaseFactory
 		}
 		catch (RuntimeException $e)
 		{
-			throw new RuntimeException(sprintf('Unable to connect to the Database: %s', $e->getMessage()));
+			throw new JDatabaseExceptionConnecting(sprintf('Unable to connect to the Database: %s', $e->getMessage()), $e->getCode(), $e);
 		}
 
 		return $instance;
@@ -80,7 +78,7 @@ class JDatabaseFactory
 	 *
 	 * @return  JDatabaseExporter  An exporter object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getExporter($name, JDatabaseDriver $db = null)
@@ -92,7 +90,7 @@ class JDatabaseFactory
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException('Database Exporter not found.');
+			throw new JDatabaseExceptionUnsupported('Database Exporter not found.');
 		}
 
 		$o = new $class;
@@ -113,7 +111,7 @@ class JDatabaseFactory
 	 *
 	 * @return  JDatabaseImporter  An importer object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getImporter($name, JDatabaseDriver $db = null)
@@ -125,7 +123,7 @@ class JDatabaseFactory
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException('Database importer not found.');
+			throw new JDatabaseExceptionUnsupported('Database importer not found.');
 		}
 
 		$o = new $class;
@@ -143,7 +141,7 @@ class JDatabaseFactory
 	 *
 	 * @return  JDatabaseFactory
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getInstance()
 	{
@@ -158,7 +156,7 @@ class JDatabaseFactory
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getQuery($name, JDatabaseDriver $db = null)
@@ -170,7 +168,7 @@ class JDatabaseFactory
 		if (!class_exists($class))
 		{
 			// If it doesn't exist we are at an impasse so throw an exception.
-			throw new RuntimeException('Database Query class not found');
+			throw new JDatabaseExceptionUnsupported('Database Query class not found');
 		}
 
 		return new $class($db);
@@ -183,7 +181,7 @@ class JDatabaseFactory
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function setInstance(JDatabaseFactory $instance = null)
 	{

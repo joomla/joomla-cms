@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset name="default" label="COM_USERS_RESET_REQUEST_LABEL">
-		<field name="email" type="text"
-			class="validate-username"
+		<field 
+			name="email"
+			type="text"
+			label="COM_USERS_FIELD_PASSWORD_RESET_LABEL"
 			description="COM_USERS_FIELD_PASSWORD_RESET_DESC"
-			filter="email"			label="COM_USERS_FIELD_PASSWORD_RESET_LABEL"
+			class="validate-username"
+			filter="email"
 			required="true"
 			size="30"
 		/>

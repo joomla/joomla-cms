@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Users component helper.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_users
- * @since       1.6
+ * @since  1.6
  */
 class UsersHelper
 {
@@ -42,7 +40,7 @@ class UsersHelper
 		);
 
 		// Groups and Levels are restricted to core.admin
-		$canDo = self::getActions();
+		$canDo = JHelperContent::getActions('com_users');
 
 		if ($canDo->get('core.admin'))
 		{
@@ -56,19 +54,33 @@ class UsersHelper
 				'index.php?option=com_users&view=levels',
 				$vName == 'levels'
 			);
-			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTES'),
-				'index.php?option=com_users&view=notes',
-				$vName == 'notes'
-			);
+		}
 
-			$extension = JFactory::getApplication()->input->getString('extension');
+		if (JComponentHelper::isEnabled('com_fields') && JComponentHelper::getParams('com_users')->get('custom_fields_enable', '1'))
+		{
 			JHtmlSidebar::addEntry(
-				JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
-				'index.php?option=com_categories&extension=com_users',
-				$vName == 'categories' || $extension == 'com_users'
+				JText::_('JGLOBAL_FIELDS'),
+				'index.php?option=com_fields&context=com_users.user',
+				$vName == 'fields.fields'
+			);
+			JHtmlSidebar::addEntry(
+				JText::_('JGLOBAL_FIELD_GROUPS'),
+				'index.php?option=com_fields&view=groups&context=com_users.user',
+				$vName == 'fields.groups'
 			);
 		}
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_USERS_SUBMENU_NOTES'),
+			'index.php?option=com_users&view=notes',
+			$vName == 'notes'
+		);
+
+		JHtmlSidebar::addEntry(
+			JText::_('COM_USERS_SUBMENU_NOTE_CATEGORIES'),
+			'index.php?option=com_categories&extension=com_users',
+			$vName == 'categories'
+		);
 	}
 
 	/**
@@ -76,25 +88,26 @@ class UsersHelper
 	 *
 	 * @return  JObject
 	 *
-	 * @since   1.6
-	 * @todo    Refactor to work with notes
+	 * @deprecated  3.2  Use JHelperContent::getActions() instead
 	 */
 	public static function getActions()
 	{
-		if (empty(self::$actions))
+		// Log usage of deprecated function
+		try
 		{
-			$user = JFactory::getUser();
-			self::$actions = new JObject;
-
-			$actions = JAccess::getActions('com_users');
-
-			foreach ($actions as $action)
-			{
-				self::$actions->set($action->name, $user->authorise($action->name, 'com_users'));
-			}
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
 		}
 
-		return self::$actions;
+		// Get list of actions
+		return JHelperContent::getActions('com_users');
 	}
 
 	/**
@@ -140,30 +153,12 @@ class UsersHelper
 	 */
 	public static function getGroups()
 	{
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('a.id AS value')
-			->select('a.title AS text')
-			->select('COUNT(DISTINCT b.id) AS level')
-			->from('#__usergroups as a')
-			->join('LEFT', '#__usergroups  AS b ON a.lft > b.lft AND a.rgt < b.rgt')
-			->group('a.id, a.title, a.lft, a.rgt')
-			->order('a.lft ASC');
-		$db->setQuery($query);
-
-		try
-		{
-			$options = $db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			JError::raiseNotice(500, $e->getMessage());
-			return null;
-		}
+		$options = JHelperUsergroups::getInstance()->getAll();
 
 		foreach ($options as &$option)
 		{
-			$option->text = str_repeat('- ', $option->level).$option->text;
+			$option->value = $option->id;
+			$option->text = str_repeat('- ', $option->level) . $option->title;
 		}
 
 		return $options;
@@ -188,6 +183,122 @@ class UsersHelper
 			JHtml::_('select.option', 'past_year', JText::_('COM_USERS_OPTION_RANGE_PAST_YEAR')),
 			JHtml::_('select.option', 'post_year', JText::_('COM_USERS_OPTION_RANGE_POST_YEAR')),
 		);
+
 		return $options;
+	}
+
+	/**
+	 * Creates a list of two factor authentication methods used in com_users
+	 * on user view
+	 *
+	 * @return  array
+	 *
+	 * @since   3.2.0
+	 */
+	public static function getTwoFactorMethods()
+	{
+		FOFPlatform::getInstance()->importPlugin('twofactorauth');
+		$identities = FOFPlatform::getInstance()->runPlugins('onUserTwofactorIdentify', array());
+
+		$options = array(
+			JHtml::_('select.option', 'none', JText::_('JGLOBAL_OTPMETHOD_NONE'), 'value', 'text'),
+		);
+
+		if (!empty($identities))
+		{
+			foreach ($identities as $identity)
+			{
+				if (!is_object($identity))
+				{
+					continue;
+				}
+
+				$options[] = JHtml::_('select.option', $identity->method, $identity->title, 'value', 'text');
+			}
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Get a list of the User Groups for Viewing Access Levels
+	 *
+	 * @param   string  $rules  User Groups in JSON format
+	 *
+	 * @return  string  $groups  Comma separated list of User Groups
+	 *
+	 * @since   3.6
+	 */
+	public static function getVisibleByGroups($rules)
+	{
+		$rules = json_decode($rules);
+
+		if (!$rules)
+		{
+			return false;
+		}
+
+		$rules = implode(',', $rules);
+
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('a.title AS text')
+			->from('#__usergroups as a')
+			->where('a.id IN (' . $rules . ')');
+		$db->setQuery($query);
+
+		$groups = $db->loadColumn();
+		$groups = implode(', ', $groups);
+
+		return $groups;
+	}
+
+	/**
+	 * Returns a valid section for users. If it is not valid then null
+	 * is returned.
+	 *
+	 * @param   string  $section  The section to get the mapping for
+	 *
+	 * @return  string|null  The new section
+	 *
+	 * @since   3.7.0
+	 */
+	public static function validateSection($section)
+	{
+		if (JFactory::getApplication()->isClient('site'))
+		{
+			switch ($section)
+			{
+				case 'registration':
+				case 'profile':
+					$section = 'user';
+			}
+		}
+
+		if ($section != 'user')
+		{
+			// We don't know other sections
+			return null;
+		}
+
+		return $section;
+	}
+
+	/**
+	 * Returns valid contexts
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public static function getContexts()
+	{
+		JFactory::getLanguage()->load('com_users', JPATH_ADMINISTRATOR);
+
+		$contexts = array(
+			'com_users.user' => JText::_('COM_USERS'),
+		);
+
+		return $contexts;
 	}
 }

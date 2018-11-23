@@ -2,15 +2,15 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Class to mock JEventDispatcher.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockDispatcher
 {
@@ -18,7 +18,7 @@ class TestMockDispatcher
 	 * Keeps track of mock handlers.
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static $handlers = array();
 
@@ -26,19 +26,19 @@ class TestMockDispatcher
 	 * Keeps track of triggers.
 	 *
 	 * @var    array
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static $triggered = array();
 
 	/**
-	 * Creates and instance of the mock JLanguage object.
+	 * Creates and instance of the mock JEventDispatcher object.
 	 *
-	 * @param   object   $test      A test object.
-	 * @param   boolean  $defaults  True to create the default mock handlers and triggers.
+	 * @param   PHPUnit_Framework_TestCase  $test        A test object.
+	 * @param   boolean                     $defaults  True to create the default mock handlers and triggers.
 	 *
-	 * @return  object
+	 * @return  PHPUnit_Framework_MockObject_MockObject
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function create($test, $defaults = true)
 	{
@@ -46,24 +46,20 @@ class TestMockDispatcher
 		self::$handlers = array();
 		self::$triggered = array();
 
-		// Collect all the relevant methods in JDatabase.
+		// Collect all the relevant methods in JEventDispatcher.
 		$methods = array(
 			'register',
 			'trigger',
 			'test',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JEventDispatcher',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JEventDispatcher')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		// Mock selected methods.
 		$test->assignMockReturns(
@@ -97,9 +93,9 @@ class TestMockDispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
-	public function mockRegister($event, $handler, $return = null)
+	public static function mockRegister($event, $handler, $return = null)
 	{
 		if (empty(self::$handlers[$event]))
 		{
@@ -117,9 +113,9 @@ class TestMockDispatcher
 	 *
 	 * @return  array  An array of results from each function call.
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
-	public function mockTrigger($event, $args = array())
+	public static function mockTrigger($event, $args = array())
 	{
 		if (isset(self::$handlers[$event]))
 		{
@@ -131,5 +127,4 @@ class TestMockDispatcher
 
 		return array();
 	}
-
 }

@@ -3,22 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
 defined('JPATH_PLATFORM') or die();
-
 
 /**
  * Facebook API Video class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Facebook
- *
- * @see         http://developers.facebook.com/docs/reference/api/video/
- * @since       13.1
+ * @link        http://developers.facebook.com/docs/reference/api/video/
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookVideo extends JFacebookObject
 {
@@ -29,7 +25,7 @@ class JFacebookVideo extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getVideo($video)
 	{
@@ -47,7 +43,7 @@ class JFacebookVideo extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getComments($video, $limit=0, $offset=0, $until=null, $since=null)
 	{
@@ -62,7 +58,7 @@ class JFacebookVideo extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createComment($video, $message)
 	{
@@ -80,7 +76,7 @@ class JFacebookVideo extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteComment($comment)
 	{
@@ -98,7 +94,7 @@ class JFacebookVideo extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getLikes($video, $limit=0, $offset=0, $until=null, $since=null)
 	{
@@ -112,7 +108,7 @@ class JFacebookVideo extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createLike($video)
 	{
@@ -126,7 +122,7 @@ class JFacebookVideo extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteLike($video)
 	{
@@ -140,7 +136,7 @@ class JFacebookVideo extends JFacebookObject
 	 *
 	 * @return  string  URL of the picture.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getPicture($video)
 	{

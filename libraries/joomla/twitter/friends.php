@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Friends class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Twitter
- * @since       12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterFriends extends JTwitterObject
 {
@@ -30,7 +29,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getFriendIds($user, $cursor = null, $string_ids = null, $count = 0)
@@ -86,7 +85,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getFriendshipDetails($user_a, $user_b)
@@ -143,7 +142,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getFollowerIds($user, $cursor = null, $string_ids = null, $count = 0)
@@ -201,7 +200,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getFriendshipsIncoming($cursor = null, $string_ids = null)
 	{
@@ -239,7 +238,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getFriendshipsOutgoing($cursor = null, $string_ids = null)
 	{
@@ -275,7 +274,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function follow($user, $follow = false)
@@ -315,7 +314,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function unfollow($user)
@@ -350,7 +349,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getFriendshipsLookup($screen_name = null, $id = null)
@@ -363,10 +362,12 @@ class JTwitterFriends extends JTwitterObject
 		{
 			$data['user_id'] = $id;
 		}
+
 		if ($screen_name)
 		{
 			$data['screen_name'] = $screen_name;
 		}
+
 		if ($id == null && $screen_name == null)
 		{
 			// We don't have a valid entry
@@ -389,7 +390,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function updateFriendship($user, $device = null, $retweets = null)
@@ -435,7 +436,7 @@ class JTwitterFriends extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getFriendshipNoRetweetIds($string_ids = null)
 	{

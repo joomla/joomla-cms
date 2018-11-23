@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -12,12 +12,55 @@ defined('_JEXEC') or die;
 /**
  * Filter view class for Finder.
  *
- * @package     Joomla.Administrator
- * @subpackage  com_finder
- * @since       2.5
+ * @since  2.5
  */
 class FinderViewFilter extends JViewLegacy
 {
+	/**
+	 * The filter object
+	 *
+	 * @var  FinderTableFilter
+	 *
+	 * @since  3.6.2
+	 */
+	protected $filter;
+
+	/**
+	 * The JForm object
+	 *
+	 * @var  JForm
+	 *
+	 * @since  3.6.2
+	 */
+	protected $form;
+
+	/**
+	 * The active item
+	 *
+	 * @var  JObject|boolean
+	 *
+	 * @since  3.6.2
+	 */
+	protected $item;
+
+	/**
+	 * The model state
+	 *
+	 * @var  mixed
+	 *
+	 * @since  3.6.2
+	 */
+	protected $state;
+
+	/**
+	 * The total indexed items
+	 *
+	 * @var  integer
+	 *
+	 * @since  3.8.0
+	 */
+	protected $total;
+
 	/**
 	 * Method to display the view.
 	 *
@@ -34,12 +77,12 @@ class FinderViewFilter extends JViewLegacy
 		$this->item = $this->get('Item');
 		$this->form = $this->get('Form');
 		$this->state = $this->get('State');
+		$this->total = $this->get('Total');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -48,7 +91,7 @@ class FinderViewFilter extends JViewLegacy
 		// Configure the toolbar.
 		$this->addToolbar();
 
-		parent::display($tpl);
+		return parent::display($tpl);
 	}
 
 	/**
@@ -62,14 +105,15 @@ class FinderViewFilter extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$user = JFactory::getUser();
-		$userId = $user->get('id');
 		$isNew = ($this->item->filter_id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
-		$canDo = FinderHelper::getActions();
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == JFactory::getUser()->id);
+		$canDo = JHelperContent::getActions('com_finder');
 
 		// Configure the toolbar.
-		JToolbarHelper::title(JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'), 'finder');
+		JToolbarHelper::title(
+			$isNew ? JText::_('COM_FINDER_FILTER_NEW_TOOLBAR_TITLE') : JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'),
+			'zoom-in finder'
+		);
 
 		// Set the actions for new and existing records.
 		if ($isNew)
@@ -81,33 +125,34 @@ class FinderViewFilter extends JViewLegacy
 				JToolbarHelper::save('filter.save');
 				JToolbarHelper::save2new('filter.save2new');
 			}
+
 			JToolbarHelper::cancel('filter.cancel');
 		}
 		else
 		{
 			// Can't save the record if it's checked out.
-			if (!$checkedOut)
+			// Since it's an existing record, check the edit permission.
+			if (!$checkedOut && $canDo->get('core.edit'))
 			{
-				// Since it's an existing record, check the edit permission.
-				if ($canDo->get('core.edit'))
-				{
-					JToolbarHelper::apply('filter.apply');
-					JToolbarHelper::save('filter.save');
+				JToolbarHelper::apply('filter.apply');
+				JToolbarHelper::save('filter.save');
 
-					// We can save this record, but check the create permission to see if we can return to make a new one.
-					if ($canDo->get('core.create'))
-					{
-						JToolbarHelper::save2new('filter.save2new');
-					}
+				// We can save this record, but check the create permission to see if we can return to make a new one.
+				if ($canDo->get('core.create'))
+				{
+					JToolbarHelper::save2new('filter.save2new');
 				}
 			}
+
 			// If an existing item, can save as a copy
 			if ($canDo->get('core.create'))
 			{
 				JToolbarHelper::save2copy('filter.save2copy');
 			}
+
 			JToolbarHelper::cancel('filter.cancel', 'JTOOLBAR_CLOSE');
 		}
+
 		JToolbarHelper::divider();
 		JToolbarHelper::help('JHELP_COMPONENTS_FINDER_MANAGE_SEARCH_FILTERS_EDIT');
 	}

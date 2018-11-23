@@ -1,0 +1,1 @@
+ALTER TABLE "#__extensions" ALTER COLUMN "enabled" SET DEFAULT 0;

@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Hooks class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubHooks extends JGithubObject
 {
@@ -22,11 +21,22 @@ class JGithubHooks extends JGithubObject
 	 * Array containing the allowed hook events
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $events = array(
-						'push', 'issues', 'issue_comment', 'commit_comment', 'pull_request', 'gollum', 'watch', 'download', 'fork', 'fork_apply',
-						'member', 'public', 'status'
+		'push',
+		'issues',
+		'issue_comment',
+		'commit_comment',
+		'pull_request',
+		'gollum',
+		'watch',
+		'download',
+		'fork',
+		'fork_apply',
+		'member',
+		'public',
+		'status',
 	);
 
 	/**
@@ -39,9 +49,11 @@ class JGithubHooks extends JGithubObject
 	 * @param   array    $events  The events the hook will be triggered for.
 	 * @param   boolean  $active  Flag to determine if the hook is active
 	 *
+	 * @deprecated  use repositories->hooks->create()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
@@ -76,9 +88,11 @@ class JGithubHooks extends JGithubObject
 	 * @param   string   $repo  The name of the GitHub repository.
 	 * @param   integer  $id    ID of the hook to delete.
 	 *
+	 * @deprecated  use repositories->hooks->delete()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function delete($user, $repo, $id)
@@ -105,9 +119,11 @@ class JGithubHooks extends JGithubObject
 	 * @param   array    $removeEvents  Events to remove from the hook.
 	 * @param   boolean  $active        Flag to determine if the hook is active
 	 *
+	 * @deprecated  use repositories->hooks->edit()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
@@ -138,6 +154,7 @@ class JGithubHooks extends JGithubObject
 				throw new RuntimeException('Your remove_events array contains an unauthorized event.');
 			}
 		}
+
 		// Build the request path.
 		$path = '/repos/' . $user . '/' . $repo . '/hooks/' . $id;
 
@@ -148,7 +165,8 @@ class JGithubHooks extends JGithubObject
 				'events' => $events,
 				'add_events' => $addEvents,
 				'remove_events' => $removeEvents,
-				'active' => $active)
+				'active' => $active,
+			)
 		);
 
 		return $this->processResponse(
@@ -163,9 +181,11 @@ class JGithubHooks extends JGithubObject
 	 * @param   string   $repo  The name of the GitHub repository.
 	 * @param   integer  $id    ID of the hook to retrieve
 	 *
+	 * @deprecated  use repositories->hooks->get()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function get($user, $repo, $id)
@@ -186,9 +206,11 @@ class JGithubHooks extends JGithubObject
 	 * @param   integer  $page   Page to request
 	 * @param   integer  $limit  Number of results to return per page
 	 *
+	 * @deprecated  use repositories->hooks->getList()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function getList($user, $repo, $page = 0, $limit = 0)
@@ -208,9 +230,11 @@ class JGithubHooks extends JGithubObject
 	 * @param   string   $repo  The name of the GitHub repository.
 	 * @param   integer  $id    ID of the hook to delete
 	 *
+	 * @deprecated  use repositories->hooks->test()
+	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function test($user, $repo, $id)

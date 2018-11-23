@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API Jobs class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  Linkedin
- * @since       13.1
+ * @since  3.2.0
  */
 class JLinkedinJobs extends JLinkedinObject
 {
@@ -26,7 +24,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getJob($id, $fields = null)
 	{
@@ -34,7 +32,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -65,7 +63,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getBookmarked($fields = null)
 	{
@@ -73,7 +71,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -104,7 +102,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function bookmark($id)
 	{
@@ -112,7 +110,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -142,7 +140,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteBookmark($id)
 	{
@@ -150,7 +148,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -177,7 +175,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getSuggested($fields = null, $start = 0, $count = 0)
 	{
@@ -185,7 +183,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -242,7 +240,7 @@ class JLinkedinJobs extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function search($fields = null, $keywords = null, $company_name = null, $job_title = null, $country_code = null, $postal_code = null,
 		$distance = null, $facets = null, $facet = null, $start = 0, $count = 0, $sort = null)
@@ -251,7 +249,7 @@ class JLinkedinJobs extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -311,7 +309,8 @@ class JLinkedinJobs extends JLinkedinObject
 		if ($facet)
 		{
 			$data['facet'] = array();
-			for ($i = 0; $i < count($facet); $i++)
+
+			for ($i = 0, $iMax = count($facet); $i < $iMax; $i++)
 			{
 				if ($facet[$i])
 				{
@@ -319,22 +318,27 @@ class JLinkedinJobs extends JLinkedinObject
 					{
 						$data['facet'][] = 'company,' . $this->oauth->safeEncode($facet[$i]);
 					}
+
 					if ($i == 1)
 					{
 						$data['facet'][] = 'date-posted,' . $facet[$i];
 					}
+
 					if ($i == 2)
 					{
 						$data['facet'][] = 'location,' . $facet[$i];
 					}
+
 					if ($i == 3)
 					{
 						$data['facet'][] = 'job-function,' . $this->oauth->safeEncode($facet[$i]);
 					}
+
 					if ($i == 4)
 					{
 						$data['facet'][] = 'industry,' . $facet[$i];
 					}
+
 					if ($i == 5)
 					{
 						$data['facet'][] = 'salary,' . $facet[$i];

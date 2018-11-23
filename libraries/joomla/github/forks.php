@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Forks class for the Joomla Platform.
  *
- * @package     Joomla.Platform
- * @subpackage  GitHub
- * @since       11.3
+ * @since       1.7.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubForks extends JGithubObject
 {
@@ -25,9 +24,11 @@ class JGithubForks extends JGithubObject
 	 * @param   string  $repo  The name of the GitHub repository.
 	 * @param   string  $org   The organization to fork the repo into. By default it is forked to the current user.
 	 *
+	 * @deprecated  use repositories->forks->create()
+	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  DomainException
 	 */
 	public function create($user, $repo, $org = '')
@@ -68,9 +69,11 @@ class JGithubForks extends JGithubObject
 	 * @param   integer  $page   Page to request
 	 * @param   integer  $limit  Number of results to return per page
 	 *
+	 * @deprecated  use repositories->forks->getList()
+	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  DomainException
 	 */
 	public function getList($user, $repo, $page = 0, $limit = 0)

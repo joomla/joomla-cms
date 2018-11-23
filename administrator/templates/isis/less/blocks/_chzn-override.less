@@ -1,0 +1,201 @@
+.chzn-container {
+    .chzn-drop {
+        border-radius: 0 0 3px 3px;
+    }
+}
+
+// Fluid width
+.control-group .chzn-container {
+    max-width: 100%;
+    .chzn-choices li.search-field,
+    .chzn-choices li.search-field input { // Fix for #13594
+        width: 100% !important; 
+    }
+}
+
+.chzn-container-single {
+    .chzn-single {
+        background-color: @white;
+        background-clip: inherit;
+        background-image: none;
+        border: 1px solid @inputBorder;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 3px;
+        box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+        height: auto;
+        line-height: 26px;
+        div {
+            background-color: @btnBackground;
+            border-left: 1px solid @inputBorder;
+            bottom: 0;
+            height: auto;
+            text-align: center;
+            width: 28px;
+            b {
+                background-image: none;
+                display: inline-block;
+                &:after {
+                    content: '\E011';
+                    font-family: IcoMoon;
+                }
+            }
+        }       
+        abbr {
+            background: none;
+            right: 36px;
+            top: 0;
+            &:before {
+                font-family: IcoMoon;
+                content: '\0049';
+                font-size: 10px;
+                line-height: 26px;
+            }
+            &:hover {
+                color: #000;
+            }
+        }
+    }
+    .chzn-search {
+        &:after {
+            content: '\0053';
+            font-family: IcoMoon;
+            position: relative;
+            right: 20px;
+            top: 2px;
+        }
+        input[type="text"] {
+            background: none;
+            border-radius: @inputBorderRadius;
+            border: 1px solid @inputBorder;
+            box-shadow: none;
+            height: 25px;
+            &:focus {
+                border-color: @inputBorderHighlight;
+            }
+        }
+    } 
+    .chzn-drop {
+        background-clip: padding-box;
+        border-color: @inputBorderHighlight;
+        border-radius: 0 0 3px 3px;
+    }
+}
+.chzn-container-active {
+    .chzn-single {
+        color: @inputBorderHighlight;
+    }
+    &.chzn-with-drop {
+        .chzn-single {
+            background-image: none;
+            border: 1px solid @inputBorderHighlight;
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+            div {
+                background-color: @btnBackground;
+                border-bottom: 1px solid @inputBorder;
+                border-bottom-left-radius: @inputBorderRadius;
+                border-left: 1px solid @inputBorder;
+                b {
+                    &:after {
+                        content: '\E00F';
+                        font-family: IcoMoon;
+                    }
+                }
+            }
+        }
+    }
+    &.chzn-container-multi {
+        .chzn-choices {
+            border: 1px solid @inputBorderHighlight;
+            box-shadow: none;
+        }
+    }
+}
+.chzn-container .chzn-results {
+    background-color: @white;
+    border-radius: 0 0 @inputBorderRadius @inputBorderRadius;
+    margin: 0;
+    padding: 0;
+    li.highlighted {
+        background-color: @inputBorderHighlight;
+        background-image: none;
+    }
+}
+.chzn-color[rel="value_"] div {
+    background-color: @btnBackground;
+    border-left: 1px solid @inputBorder;
+}
+.chzn-color-state.chzn-single,
+.chzn-color.chzn-single[rel="value_0"],
+.chzn-color.chzn-single[rel="value_1"],
+.chzn-color-state.chzn-single[rel="value_-1"],
+.chzn-color-state.chzn-single[rel="value_-2"],
+.chzn-color.chzn-single[rel="value_hide"],
+.chzn-color.chzn-single[rel="value_show_no_link"],
+.chzn-color.chzn-single[rel="value_show_with_link"] {
+    div {
+        background-color: transparent !important;
+        border: none !important;
+    }
+} 
+.chzn-container-active .chzn-choices {
+    border: 1px solid @inputBorderHighlight;
+}
+.chzn-container-multi {
+    .chzn-choices {
+        background-image: none;
+        border-radius: @inputBorderRadius;
+        border: 1px solid @inputBorder;
+        li.search-choice {
+            background-color: @inputBorderHighlight;
+            background-image: none;
+            border: 0;
+            box-shadow: none;
+            color: #fff;
+            line-height: 20px;
+            padding: 0 7px;
+            .search-choice-close {
+                color: #f5f5f5;
+                display: inline-block;
+                margin-left: 5px;
+                position: relative;
+                top: 0;
+                left: 0;
+                background-image: none;
+                font-size: inherit;
+                &:hover {
+                    text-decoration: none;
+                }
+                &:before {
+                    font-family: IcoMoon;
+                    content: '\004A';
+                    position: relative;
+                    right: 1px;
+                    top: 0;
+                }
+            }
+        }
+    }
+}
+.js-stools .js-stools-container-bar .js-stools-field-filter .chzn-container {
+    margin: 1px 0;
+    padding: 0 !important;
+}
+
+/* Chosen color styles */
+.chzn-color.chzn-single[rel="value_1"],
+.chzn-color-reverse.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_1"],
+.chzn-color.chzn-single[rel="value_show_no_link"],
+.chzn-color.chzn-single[rel="value_show_with_link"] {
+	.buttonBackground(@btnSuccessBackground, @btnSuccessBackgroundHighlight);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	color: #ffffff;
+}
+
+.chzn-color-state.chzn-single[rel="value_0"],
+.chzn-color-state.chzn-single[rel="value_-2"] {
+    .buttonBackground(@btnDangerBackground, @btnDangerBackgroundHighlight);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+	color: #ffffff;
+}

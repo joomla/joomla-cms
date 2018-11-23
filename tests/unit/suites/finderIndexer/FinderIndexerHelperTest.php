@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/helper.php';
@@ -39,28 +39,24 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexerHelper::parse
 	 */
 	public function testParse()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			'Test string to parse with the txt parser',
 			FinderIndexerHelper::parse('Test string to parse with the txt parser', 'txt'),
-			$this->stringContains('Test string to parse with the txt parser'),
 			'Tests that FinderIndexerHelper::parse() returns the string given with the txt parser.'
 		);
 	}
 
 	/**
-	 * @todo   Implement testTokenize().
-	 */
-	public function testTokenize()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.'
-		);
-	}
-
-	/**
-	 * @todo   Implement testStem().
+	 * Tests the stem method
+	 *
+	 * @return  void
+	 *
+	 * @since   3.0
+	 * @covers  FinderIndexerHelper::stem
 	 */
 	public function testStem()
 	{
@@ -76,12 +72,13 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerHelper::addContentType
 	 */
 	public function testAddContentType()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			4,
 			FinderIndexerHelper::addContentType('Article'),
-			$this->equalTo('4'),
 			'Tests that addContentType returns the ID for an already existing type.'
 		);
 
@@ -100,6 +97,7 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.1
+	 * @covers  FinderIndexerHelper::isCommon
 	 */
 	public function testIsCommon()
 	{
@@ -120,12 +118,13 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexerHelper::getDefaultLanguage
 	 */
 	public function testGetDefaultLanguage()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			'en-GB',
 			FinderIndexerHelper::getDefaultLanguage(),
-			$this->StringContains('en-GB'),
 			'The default language is en-GB'
 		);
 	}
@@ -136,40 +135,14 @@ class FinderIndexerHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.0
+	 * @covers  FinderIndexerHelper::getPrimaryLanguage
 	 */
 	public function testGetPrimaryLanguage()
 	{
-		$this->assertThat(
+		$this->assertEquals(
+			'en',
 			FinderIndexerHelper::getPrimaryLanguage('en-GB'),
-			$this->StringContains('en'),
 			'The primary language is en'
 		);
-	}
-
-	/**
-	 * @todo   Implement testGetContentPath().
-	 */
-	public function testGetContentPath()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testGetContentExtras().
-	 */
-	public function testGetContentExtras()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
-	}
-
-	/**
-	 * @todo   Implement testPrepareContent().
-	 */
-	public function testPrepareContent()
-	{
-		// Remove the following lines when you implement this test.
-		$this->markTestIncomplete('This test has not been implemented yet.');
 	}
 }
