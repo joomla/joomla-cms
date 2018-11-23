@@ -11,11 +11,11 @@ namespace Joomla\Component\Config\Administrator\View\Component;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Config\Administrator\Helper\ConfigHelper;
 
 /**
  * View for the component configuration
@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 			'btn-success'
 		);
 		ToolbarHelper::divider();
-		ToolbarHelper::cancel('component.cancel');
+		ToolbarHelper::cancel('component.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_' . $this->currentComponent . '_OPTIONS');
 	}

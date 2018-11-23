@@ -854,8 +854,7 @@ abstract class HTMLHelper
 	public static function date($input = 'now', $format = null, $tz = true, $gregorian = false)
 	{
 		// Get some system objects.
-		$config = Factory::getConfig();
-		$user   = Factory::getUser();
+		$user = Factory::getUser();
 
 		// UTC date converted to user time zone.
 		if ($tz === true)
@@ -873,7 +872,7 @@ abstract class HTMLHelper
 			$date = Factory::getDate($input, 'UTC');
 
 			// Set the correct time zone based on the server configuration.
-			$date->setTimezone(new \DateTimeZone($config->get('offset')));
+			$date->setTimezone(new \DateTimeZone(Factory::getApplication()->get('offset')));
 		}
 		// No date conversion.
 		elseif ($tz === null)

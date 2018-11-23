@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 FormHelper::loadFieldClass('groupedlist');
 
@@ -176,7 +177,7 @@ class MenuitemField extends \JFormFieldGroupedList
 		$menuType = $this->menuType;
 
 		// Get the menu items.
-		$items = \MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language, $this->clientId);
+		$items = MenusHelper::getMenuLinks($menuType, 0, 0, $this->published, $this->language, $this->clientId);
 
 		// Build group for a specific menu type.
 		if ($menuType)

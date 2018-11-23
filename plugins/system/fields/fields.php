@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Fields Plugin
@@ -40,7 +40,7 @@ class PlgSystemFields extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 */
 	public function onContentNormaliseRequestData($context, $data, Form $form)
 	{
@@ -84,7 +84,7 @@ class PlgSystemFields extends CMSPlugin
 		}
 
 		// Create correct context for category
-		if ($context == 'com_categories.category')
+		if ($context === 'com_categories.category')
 		{
 			$context = $item->extension . '.categories';
 
@@ -361,7 +361,7 @@ class PlgSystemFields extends CMSPlugin
 		}
 
 		// If we have a category, set the catid field to fetch only the fields which belong to it
-		if ($parts[1] == 'categories' && !isset($item->catid))
+		if ($parts[1] === 'categories' && !isset($item->catid))
 		{
 			$item->catid = $item->id;
 		}
@@ -388,13 +388,13 @@ class PlgSystemFields extends CMSPlugin
 		{
 			$app = Factory::getApplication();
 
-			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language == '*')
+			if ($app->isClient('site') && Multilanguage::isEnabled() && isset($item->language) && $item->language === '*')
 			{
 				$lang = $app->getLanguage()->getTag();
 
 				foreach ($fields as $key => $field)
 				{
-					if ($field->language == '*' || $field->language == $lang)
+					if ($field->language === '*' || $field->language == $lang)
 					{
 						continue;
 					}

@@ -11,6 +11,8 @@ namespace Joomla\Component\Finder\Administrator\Extension;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\Router\RouterServiceInterface;
+use Joomla\CMS\Component\Router\RouterServiceTrait;
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\HTML\HTMLRegistryAwareTrait;
@@ -22,10 +24,11 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_finder
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class FinderComponent extends MVCComponent implements BootableExtensionInterface
+class FinderComponent extends MVCComponent implements BootableExtensionInterface, RouterServiceInterface
 {
+	use RouterServiceTrait;
 	use HTMLRegistryAwareTrait;
 
 	/**
@@ -39,7 +42,7 @@ class FinderComponent extends MVCComponent implements BootableExtensionInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

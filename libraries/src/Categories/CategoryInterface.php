@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * The category interface.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface CategoryInterface
 {
@@ -25,7 +25,7 @@ interface CategoryInterface
 	 *
 	 * @return  CategoryNode|null  CategoryNode object or null if $id is not valid
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function get($id = 'root', $forceload = false);
 }

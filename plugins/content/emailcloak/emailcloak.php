@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\String\StringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\String\StringHelper;
 
 /**
  * Email cloack plugin class.
@@ -54,7 +54,7 @@ class PlgContentEmailcloak extends CMSPlugin
 	 *
 	 * @return  string	A regular expression that matches a link containing the parameters.
 	 */
-	protected function _getPattern ($link, $text)
+	protected function _getPattern($link, $text)
 	{
 		$pattern = '~(?:<a ([^>]*)href\s*=\s*"mailto:' . $link . '"([^>]*))>' . $text . '</a>~i';
 
@@ -90,7 +90,7 @@ class PlgContentEmailcloak extends CMSPlugin
 		}
 
 		$mode = (int) $this->params->def('mode', 1);
-		$mode =  $mode === 1 ? true : false;
+		$mode = $mode === 1 ? true : false;
 
 		// Example: any@example.org
 		$searchEmail = '([\w\.\'\-\+]+\@(?:[a-z0-9\.\-]+\.)+(?:[a-zA-Z0-9\-]{2,10}))';

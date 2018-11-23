@@ -50,7 +50,7 @@ abstract class JHtmlBehavior
 		}
 
 		HTMLHelper::_('form.csrf');
-		HTMLHelper::_('script', 'system/core.min.js', array('version' => 'auto', 'relative' => true));
+		Factory::getDocument()->getWebAssetManager()->enableAsset('core');
 
 		// Add core and base uri paths so javascript scripts can use them.
 		Factory::getDocument()->addScriptOptions(
@@ -94,8 +94,7 @@ abstract class JHtmlBehavior
 		Text::script('JLIB_FORM_FIELD_REQUIRED_CHECK');
 		Text::script('JLIB_FORM_FIELD_INVALID_VALUE');
 
-		HTMLHelper::_('script', 'vendor/punycode/punycode.js', array('version' => 'auto', 'relative' => true));
-		HTMLHelper::_('script', 'system/fields/validate.min.js', array('version' => 'auto', 'relative' => true));
+		Factory::getDocument()->getWebAssetManager()->enableAsset('fields.validate');
 
 		static::$loaded[__METHOD__] = true;
 	}
@@ -124,18 +123,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function combobox()
 	{
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		// Include core
-		static::core();
-
-		HTMLHelper::_('stylesheet', 'vendor/awesomplete/awesomplete.css', array('version' => 'auto', 'relative' => true));
-		HTMLHelper::_('script', 'vendor/awesomplete/awesomplete.js', array('version' => 'auto', 'relative' => true));
-
-		static::$loaded[__METHOD__] = true;
+		Factory::getDocument()->getWebAssetManager()->enableAsset('awesomplete');
 	}
 
 	/**
@@ -186,10 +174,7 @@ abstract class JHtmlBehavior
 			return;
 		}
 
-		// Include core
-		static::core();
-
-		HTMLHelper::_('script', 'system/multiselect.min.js', array('version' => 'auto', 'relative' => true));
+		Factory::getDocument()->getWebAssetManager()->enableAsset('multiselect');
 
 		// Pass the required options to the javascript
 		Factory::getDocument()->addScriptOptions('js-multiselect', ['formName' => $id]);
@@ -250,14 +235,10 @@ abstract class JHtmlBehavior
 		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
 		$uri = 'index.php' . ($app->isClient('site') || !Factory::getUser()->guest ? '?option=com_ajax&format=json' : '');
 
-		// Include core
-		static::core();
-
 		// Add keepalive script options.
 		Factory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => Route::_($uri)));
 
-		// Add script.
-		HTMLHelper::_('script', 'system/keepalive.js', array('version' => 'auto', 'relative' => true));
+		Factory::getDocument()->getWebAssetManager()->enableAsset('keepalive');
 
 		static::$loaded[__METHOD__] = true;
 

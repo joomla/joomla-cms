@@ -14,12 +14,15 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Log\LogEntry;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Plugin\System\Debug\DataCollector\InfoCollector;
 use Joomla\Plugin\System\Debug\DataCollector\LanguageErrorsCollector;
@@ -29,8 +32,6 @@ use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
 use Joomla\Plugin\System\Debug\DebugMonitor;
-use Joomla\Database\DatabaseDriver;
-use Joomla\Database\Event\ConnectionEvent;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
@@ -91,7 +92,7 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 * @since  3.3
 	 */
 	protected $app;
@@ -106,7 +107,7 @@ class PlgSystemDebug extends CMSPlugin
 
 	/**
 	 * @var DebugBar
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $debugBar;
 
@@ -122,7 +123,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * AJAX marker
 	 *
 	 * @var   bool
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $isAjax = false;
 
@@ -280,6 +281,14 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
+		// Use our own jQuery and font-awesome instead of the debug bar shipped version
+		$assetManager = $this->app->getDocument()->getWebAssetManager();
+		$assetManager->enableAsset('jquery-noconflict');
+		$assetManager->enableAsset('font-awesome');
+		$debugBarRenderer->disableVendor('jquery');
+		$debugBarRenderer->setEnableJqueryNoConflict(false);
+		$debugBarRenderer->disableVendor('fontawesome');
+
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')
 		{
@@ -316,7 +325,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function onAjaxDebug()
 	{
@@ -348,7 +357,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return $this
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function setupLogging(): self
 	{
@@ -541,7 +550,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return $this
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function collectLogs(): self
 	{

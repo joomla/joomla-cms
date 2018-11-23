@@ -19,7 +19,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Class that handles all access authorisation routines.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Access
 {
@@ -27,7 +27,7 @@ class Access
 	 * Array of view levels
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $viewLevels = array();
 
@@ -35,7 +35,7 @@ class Access
 	 * Array of rules for the asset
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $assetRules = array();
 
@@ -43,7 +43,7 @@ class Access
 	 * Array of identities for asset rules
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $assetRulesIdentities = array();
 
@@ -51,7 +51,7 @@ class Access
 	 * Array of the permission parent ID mappings
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $assetPermissionsParentIdMapping = array();
 
@@ -59,7 +59,7 @@ class Access
 	 * Array of asset types that have been preloaded
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $preloadedAssetTypes = array();
 
@@ -67,7 +67,7 @@ class Access
 	 * Array of loaded user identities
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $identities = array();
 
@@ -75,7 +75,7 @@ class Access
 	 * Array of user groups.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $userGroups = array();
 
@@ -83,7 +83,7 @@ class Access
 	 * Array of user group paths.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $userGroupPaths = array();
 
@@ -91,7 +91,7 @@ class Access
 	 * Array of cached groups by user.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $groupsByUser = array();
 
@@ -116,7 +116,7 @@ class Access
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function clearStatics()
 	{
@@ -143,7 +143,7 @@ class Access
 	 *
 	 * @return  boolean|null  True if allowed, false for an explicit deny, null for an implicit deny.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function check($userId, $action, $assetKey = null, $preload = true)
 	{
@@ -402,7 +402,7 @@ class Access
 	 *
 	 * @return  boolean  True if authorised.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function checkGroup($groupId, $action, $assetKey = null, $preload = true)
 	{
@@ -421,7 +421,7 @@ class Access
 	 *
 	 * @return  mixed  True if allowed, false for an explicit deny, null for an implicit deny.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function getGroupPath($groupId)
 	{
@@ -448,7 +448,7 @@ class Access
 	 *
 	 * @return  Rules  Rules object for the asset.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    The non preloading code will be removed in 4.0. All asset rules should use asset preloading.
 	 */
 	public static function getAssetRules($assetKey, $recursive = false, $recursiveParentAsset = true, $preload = true)
@@ -852,7 +852,7 @@ class Access
 	 *
 	 * @return  array    List of user group ids to which the user is mapped.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getGroupsByUser($userId, $recursive = true)
 	{
@@ -862,14 +862,7 @@ class Access
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
 			// TODO: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
-			if (class_exists('ComponentHelper'))
-			{
-				$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-			}
-			else
-			{
-				$guestUsergroup = 1;
-			}
+			$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 			// Guest user (if only the actually assigned group is requested)
 			if (empty($userId) && !$recursive)
@@ -934,7 +927,7 @@ class Access
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo    This method should move somewhere else
 	 */
 	public static function getUsersByGroup($groupId, $recursive = false)
@@ -969,7 +962,7 @@ class Access
 	 *
 	 * @return  array    List of view levels for which the user is authorised.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getAuthorisedViewLevels($userId)
 	{
@@ -999,7 +992,7 @@ class Access
 
 		// Check for the recovery mode setting and return early.
 		$user      = \JUser::getInstance($userId);
-		$root_user = Factory::getConfig()->get('root_user');
+		$root_user = Factory::getApplication()->get('root_user');
 
 		if (($user->username && $user->username == $root_user) || (is_numeric($root_user) && $user->id > 0 && $user->id == $root_user))
 		{
@@ -1052,7 +1045,7 @@ class Access
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getActionsFromFile($file, $xpath = "/access/section[@name='component']/")
 	{
@@ -1078,7 +1071,7 @@ class Access
 	 *
 	 * @return  boolean|array   False if case of error or the list of actions available.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getActionsFromData($data, $xpath = "/access/section[@name='component']/")
 	{

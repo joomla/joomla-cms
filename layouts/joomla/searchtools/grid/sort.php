@@ -9,7 +9,6 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $data = $displayData;
@@ -29,21 +28,21 @@ endif;
 ?>
 
 <a href="" onclick="return false;" class="js-stools-column-order<?php echo $selected; ?> js-stools-button-sort"
-    <?php echo $id; ?>
-    data-order="<?php echo $data->order; ?>" 
-    data-direction="<?php echo strtoupper($data->direction); ?>"
-    data-caption="<?php echo $caption; ?>"
-    <?php if (!empty($sort)) : ?>
-        data-sort="<?php echo $sort; ?>
-    <?php endif; ?>">
-    <?php if (!empty($data->title)) : ?>
-        <span>
-            <?php echo Text::_($data->title); ?>
-        </span>
-    <?php endif; ?>
-    <span class="<?php echo $icon; ?>" aria-hidden="true"></span>
-    <span class="sr-only">
-        <?php echo Text::_('JGLOBAL_SORT_BY'); ?>
-        <?php echo (!empty($data->title)) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING'); ?>
-    </span>
+	<?php echo $id; ?>
+	data-order="<?php echo $data->order; ?>"
+	data-direction="<?php echo strtoupper($data->direction); ?>"
+	data-caption="<?php echo $caption; ?>"
+	<?php if (!empty($sort)) : ?>
+		data-sort="<?php echo $sort; ?>
+	<?php endif; ?>">
+	<?php if (!empty($data->title)) : ?>
+		<span>
+			<?php echo Text::_($data->title); ?>
+		</span>
+	<?php endif; ?>
+	<span class="<?php echo $icon; ?>" aria-hidden="true"></span>
+	<span class="sr-only">
+		<?php echo Text::_('JGLOBAL_SORT_BY'); ?>
+		<?php echo (!empty($data->title)) ? Text::_($data->title) : Text::_('JGRID_HEADING_ORDERING'); ?>
+	</span>
 </a>
