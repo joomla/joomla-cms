@@ -17,7 +17,7 @@ use Joomla\CMS\Uri\Uri;
 /** @var JDocumentHtml $this */
 
 $app  = Factory::getApplication();
-$lang = Factory::getLanguage();
+$lang = $app->getLanguage();
 $wa   = $this->getWebAssetManager();
 
 // Detecting Active Variables

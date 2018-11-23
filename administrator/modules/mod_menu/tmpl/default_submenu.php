@@ -82,7 +82,7 @@ $link      = $current->get('link');
 
 // Get the menu icon
 $icon      = $this->tree->getIconClass();
-$iconClass = ($icon != '' && $current->getLevel() == 1) ? '<span class="' . $icon . ' aria-hidden="true"></span>' : '';
+$iconClass = ($icon != '' && $current->getLevel() == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
 
 if ($link !== null && $current->get('target') !== null && $current->get('target') !== '')
 {
