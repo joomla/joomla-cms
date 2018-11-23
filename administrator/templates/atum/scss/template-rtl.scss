@@ -123,13 +123,13 @@ body {
 
   .has-arrow::after {
     left: 1rem;
-    right:inherit;
+    right: inherit;
     -webkit-transform: rotate(135deg) translate(0,-50%);
     transform: rotate(135deg) translate(0,-50%);
   }
 
   ul a::before {
-    right:18px;
+    right: 18px;
   }
 
   .active .no-dropdown .sidebar-item-title {
