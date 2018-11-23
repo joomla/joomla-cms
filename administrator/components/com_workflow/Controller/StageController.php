@@ -24,7 +24,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 class StageController extends FormController
 {
 	/**
-	 * The workflow in where the stage belons to
+	 * The workflow in where the stage belongs to
 	 *
 	 * @var    integer
 	 * @since  4.0.0

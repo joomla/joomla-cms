@@ -61,8 +61,8 @@ abstract class JHtmlSortablelist
 		// Depends on jQuery UI
 		HTMLHelper::_('jquery.ui', array('core', 'sortable'));
 
-		HTMLHelper::_('script', 'legacy/sortablelist.min.js', false, true);
-		HTMLHelper::_('stylesheet', 'legacy/sortablelist.css', false, true, false);
+		HTMLHelper::_('script', 'legacy/sortablelist.min.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('stylesheet', 'legacy/sortablelist.css', ['version' => 'auto', 'relative' => true]);
 
 		// Attach sortable to document
 		Factory::getDocument()->addScriptOptions(

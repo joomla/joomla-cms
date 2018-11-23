@@ -70,6 +70,10 @@ class PlgQuickiconExtensionupdate extends CMSPlugin
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE', true);
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON', true);
 		Text::script('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true);
+		Text::script('MESSAGE', true);
+		Text::script('ERROR', true);
+		Text::script('INFO', true);
+		Text::script('WARNING', true);
 
 		HTMLHelper::_('behavior.core');
 		HTMLHelper::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.min.js', array('version' => 'auto', 'relative' => true));

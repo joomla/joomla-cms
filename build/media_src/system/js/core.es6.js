@@ -152,7 +152,7 @@ Joomla.Modal = {
   };
 
   /**
-   * Default function. Can be overriden by the component to add custom logic
+   * Default function. Can be overridden by the component to add custom logic
    *
    * @param  {String}  task            The given task
    * @param  {String}  formSelector    The form selector eg '#adminForm'
@@ -394,8 +394,12 @@ Joomla.Modal = {
    * @param   {object}  messages JavaScript object containing the messages to render.
    *          Example:
    *          const messages = {
-   *              "message": ["Message one", "Message two"],
-   *              "error": ["Error one", "Error two"]
+   *              "message": ["This will be a green message", "So will this"],
+   *              "error": ["This will be a red message", "So will this"],
+   *              "info": ["This will be a blue message", "So will this"],
+   *              "notice": ["This will be same as info message", "So will this"],
+   *              "warning": ["This will be a orange message", "So will this"],
+   *              "my_custom_type": ["This will be same as info message", "So will this"]
    *          };
    * @param  {string} selector The selector of the container where the message will be rendered
    * @param  {bool}   keepOld  If we shall discard old messages
@@ -428,10 +432,11 @@ Joomla.Modal = {
       if (typeof window.customElements === 'object' && typeof window.customElements.get('joomla-alert') === 'function') {
         messagesBox = document.createElement('joomla-alert');
 
-        if (['notice', 'message', 'error'].indexOf(type) > -1) {
+        if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
           alertClass = (type === 'notice') ? 'info' : type;
           alertClass = (type === 'message') ? 'success' : alertClass;
           alertClass = (type === 'error') ? 'danger' : alertClass;
+          alertClass = (type === 'warning') ? 'warning' : alertClass;
         } else {
           alertClass = 'info';
         }
@@ -447,15 +452,16 @@ Joomla.Modal = {
         messagesBox = document.createElement('div');
 
         // Message class
-        if (['notice', 'message', 'error'].indexOf(type) > -1) {
+        if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
           alertClass = (type === 'notice') ? 'info' : type;
           alertClass = (type === 'message') ? 'success' : alertClass;
           alertClass = (type === 'error') ? 'danger' : alertClass;
+          alertClass = (type === 'warning') ? 'warning' : alertClass;
         } else {
           alertClass = 'info';
         }
 
-        messagesBox.className = `alert ${alertClass}`;
+        messagesBox.className = `alert alert-${alertClass}`;
 
         // Close button
         const buttonWrapper = document.createElement('button');

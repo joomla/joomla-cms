@@ -21,7 +21,7 @@ use Joomla\Database\UTF8MB4SupportInterface;
  * The queries are parsed from the update files in the folder
  * `administrator/components/com_admin/sql/updates/<database>`.
  * These updates are run automatically if the site was updated using com_installer.
- * However, it is possible that the program files could be updated without udpating
+ * However, it is possible that the program files could be updated without updating
  * the database (for example, if a user just copies the new files over the top of an
  * existing installation).
  *
@@ -83,7 +83,7 @@ abstract class ChangeItem
 	public $queryType = null;
 
 	/**
-	 * Array with values for use in a Text::sprintf statment indicating what was checked
+	 * Array with values for use in a Text::sprintf statement indicating what was checked
 	 *
 	 * Tells you what the message should be, based on which elements are defined, as follows:
 	 *     For ADD_TABLE: table
