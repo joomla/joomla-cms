@@ -1101,17 +1101,16 @@ class ModuleModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-		$condition[] = 'client_id = ' . (int) $table->client_id;
-		$condition[] = 'position = ' . $this->_db->quote($table->position);
-
-		return $condition;
+		return [
+			$this->_db->quoteName('client_id') . ' = ' . (int) $table->client_id,
+			$this->_db->quoteName('position') . ' = ' . $this->_db->quote($table->position),
+		];
 	}
 
 	/**

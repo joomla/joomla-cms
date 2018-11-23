@@ -10,6 +10,8 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\CMS\Factory;
@@ -330,8 +332,8 @@ abstract class BaseDatabaseModel extends BaseModel implements DatabaseModelInter
 
 		try
 		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = \JCache::getInstance('callback', $options);
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', $options);
 			$cache->clean();
 		}
 		catch (\JCacheException $exception)

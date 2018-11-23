@@ -231,16 +231,14 @@ class Icon
 	/**
 	 * Method to generate a link to print an article
 	 *
-	 * @param   object    $article  Not used, @deprecated for 4.0
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Not used, @deprecated for 4.0
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   Registry  $params  The item parameters
+	 * @param   boolean   $legacy  True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
 	 * @since  4.0.0
 	 */
-	public function print_screen($article, $params, $attribs = array(), $legacy = false)
+	public function print_screen($params, $legacy = false)
 	{
 		$text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
 
