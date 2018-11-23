@@ -132,7 +132,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  string  Returns the a tag containing everything for the modal
 	 *
-	 * @since   3.9.0
+	 * @since   3.9.1
 	 */
 	private function getAssignedArticleUrl($articleId)
 	{
