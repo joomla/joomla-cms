@@ -637,7 +637,7 @@ class BaseController implements ControllerInterface
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');

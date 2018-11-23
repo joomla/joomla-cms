@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Menu\AbstractMenu;
 /**
  * The component router service.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface RouterServiceInterface
 {
@@ -28,7 +28,7 @@ interface RouterServiceInterface
 	 *
 	 * @return  RouterInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface;
 }

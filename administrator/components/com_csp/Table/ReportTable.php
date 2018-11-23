@@ -12,6 +12,7 @@ namespace Joomla\Component\Csp\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseInterface;
 
 /**
  * Report table
@@ -23,11 +24,11 @@ class ReportTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseInterface  $db  Database driver object.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(DatabaseInterface $db)
 	{
 		parent::__construct('#__csp', 'id', $db);
 	}
