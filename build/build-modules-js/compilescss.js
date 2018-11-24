@@ -1,13 +1,14 @@
 const Autoprefixer = require('autoprefixer');
+const CssNano = require('cssnano');
 const Debounce = require('lodash.debounce');
 const Fs = require('fs');
+const MakeDir = require('./make-dir.js');
 const Path = require('path');
 const Postcss = require('postcss');
 const Promise = require('bluebird');
 const Recurs = require('recursive-readdir');
 const RootPath = require('./rootpath.js')._();
 const Sass = require('node-sass');
-const UglyCss = require('uglifycss');
 
 /**
  * A collection of folders to be watched
@@ -39,7 +40,9 @@ const compileCSSFiles = (options, path) => {
     } else if (stats.isFile()) {
       files.push(`${RootPath}/${path}`);
     } else {
-      throw new Error(`Unknown path ${path}`);
+        // eslint-disable-next-line no-console
+        console.error(`Unknown path ${path}`);
+        process.exit(1);
     }
   } else {
     files = [
@@ -79,11 +82,8 @@ const compileCSSFiles = (options, path) => {
     }, (error, result) => {
       if (error) {
         // eslint-disable-next-line no-console
-        console.error(`something exploded ${error.column}`);
-        // eslint-disable-next-line no-console
-        console.error(`something exploded ${error.message}`);
-        // eslint-disable-next-line no-console
-        console.error(`something exploded ${error.line}`);
+        console.error(`something exploded ${error.column}`, error.message, error.line);
+        process.exit(1);
       } else {
         // Auto prefixing
         // eslint-disable-next-line no-console
@@ -92,43 +92,34 @@ const compileCSSFiles = (options, path) => {
         const cleaner = Postcss(
           [
             Autoprefixer({
-              add: false,
               browsers: options.settings.browsers,
             }),
           ],
         );
-        const prefixer = Postcss([Autoprefixer]);
 
         cleaner.process(result.css.toString(), {from: undefined})
-          .then(cleaned => prefixer.process(cleaned.css, {from: undefined}))
           .then((res) => {
             // Ensure the folder exists or create it
-            const currentDir = Path.dirname(cssFile);
-            try{
-              Fs.lstatSync(currentDir).isDirectory()
-            }catch(e){
-              if(e.code === 'ENOENT'){
-                // Directory needs to be created
-                Fs.mkdirSync(currentDir);
-              }
-            }
+            MakeDir.run(Path.dirname(cssFile));
 
             Fs.writeFileSync(
               cssFile,
               res.css.toString(),
               { encoding: 'UTF-8' },
             );
-          })
-          .then(() => {
-            // Uglify it now
-            Fs.writeFileSync(
-              cssFile.replace('.css', '.min.css'),
-              UglyCss.processFiles([cssFile], { expandVars: false }),
-              { encoding: 'UTF-8' },
-            );
 
-            // eslint-disable-next-line no-console
-            console.log(`File: ${cssFile.replace(/.+\//, '')} was updated. `);
+              Postcss([CssNano]).process(res.css.toString(), {from: undefined}).then(cssMin => {
+                  // Ensure the folder exists or create it
+                  MakeDir.run(Path.dirname(cssFile.replace('.css', '.min.css')));
+                  Fs.writeFileSync(
+                      cssFile.replace('.css', '.min.css'),
+                      cssMin.css.toString(),
+                      { encoding: 'UTF-8' },
+                  );
+
+                  // eslint-disable-next-line no-console
+                  console.log(`File: ${cssFile.replace(/.+\//, '')} was updated. `);
+              });
           });
       }
     });
@@ -179,7 +170,9 @@ const compileCSS = (options, path) => {
 
     // Handle errors
     .catch((error) => {
-      throw new Error(`${error}`);
+        // eslint-disable-next-line no-console
+        console.error(`${error}`);
+        process.exit(1);
     });
 };
 

@@ -29,7 +29,9 @@ const cleanVendors = () => {
     if (Fs.existsSync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'))) {
         FsExtra.copySync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), Path.join(RootPath, 'media/vendor/debugbar'));
     } else {
-        throw new Error('You need to run `npm install AFTER the command composer install!!!`. The debug plugin HASN\'T install all the front end assets');
+        // eslint-disable-next-line no-console
+        console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T install all its front end assets');
+        process.exit(1);
     }
 };
 
@@ -380,8 +382,10 @@ const copyAssets = (options) => {
     .then(uglifyLegacyFiles(options))
 
     // Handle errors
-    .catch((err) => {
-        throw new Error(err);
+    .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(`${error}`);
+        process.exit(1);
     });
 };
 

@@ -1,13 +1,12 @@
-/**
- * Helper fn creates dir
- *
- * @param targetDir
- * @param isRelativeToScript
- * @returns {string}
- */
 const Babel = require('@babel/core');
 const Fs = require('fs');
 
+/**
+ *
+ * @param fileContents  the content of the file to be transpiled
+ * @param settings      the settings for the transpiler
+ * @param output        the full pat + filename + extension of the trnspiled file
+ */
 module.exports.run = (fileContents, settings, output) => {
     Babel.transform(fileContents, settings, (error, result) => {
         if (error) {
@@ -15,7 +14,6 @@ module.exports.run = (fileContents, settings, output) => {
             console.error(`${error}`);
             process.exit(1);
         }
-
 
         Fs.writeFile(
             output,

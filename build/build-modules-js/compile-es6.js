@@ -43,21 +43,21 @@ const settings = [
 /**
  * Compiles es6 files to es5.
  *
- * @param filePath
+ * @param file the full path to the file + filename + extension
  */
-const compileFile = (filePath) => {
-  const fileName = filePath.slice(0, -7);
+const compileFile = (file) => {
+  const filePath = file.slice(0, -7);
 
   const outputFiles = [
-    `${fileName.replace('/build/media_src/', '/media/').replace('\\build\\media_src\\', '\\media\\')}.js`,
-    `${fileName.replace('/build/media_src/', '/media/').replace('\\build\\media_src\\', '\\media\\')}.min.js`
+    `${filePath.replace('/build/media_src/', '/media/').replace('\\build\\media_src\\', '\\media\\')}.js`,
+    `${filePath.replace('/build/media_src/', '/media/').replace('\\build\\media_src\\', '\\media\\')}.min.js`
   ];
 
   // Ensure that the directories exist or create them
-  MakeDir.run(Path.dirname(fileName).replace('/build/media_src/', '/media/'));
+  MakeDir.run(Path.dirname(file).replace('/build/media_src/', '/media/'));
 
   // Get the contents of the ES-XXXX file
-  let es6File = Fs.readFileSync(filePath, 'utf8');
+  let es6File = Fs.readFileSync(file, 'utf8');
 
   settings.forEach((setting, index) => {
       Babel.run(es6File, setting, outputFiles[index])

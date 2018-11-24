@@ -1,13 +1,3 @@
-/**
- * Will produce 2 .html files
- * Expects three files:
- *     build/warning_page/template.css
- *     build/warning_page/template.html
- *     build/warning_page/template.js
- *
- * And also specific strings in the languages in the installation folder!
- * Also the base strings are held in build/build-modules-js/settings.json
- */
 const Fs = require('fs');
 const Ini = require('ini');
 const Recurs = require('recursive-readdir');
@@ -22,6 +12,16 @@ const srcPath = `${RootPath}/build/warning_page`;
 let incomplete = 'window.errorLocale = {';
 let unsupported = 'window.errorLocale = {';
 
+/**
+ * Will produce 2 .html files
+ * Expects three files:
+ *     build/warning_page/template.css
+ *     build/warning_page/template.html
+ *     build/warning_page/template.js
+ *
+ * And also specific strings in the languages in the installation folder!
+ * Also the base strings are held in build/build-modules-js/settings.json
+ */
 const buildCheck = (options) => {
   let initTemplate = Fs.readFileSync(`${srcPath}/template.html`, 'utf-8');
   let cssContent = Fs.readFileSync(`${srcPath}/template.css`, 'utf-8');
@@ -86,7 +86,9 @@ const buildCheck = (options) => {
       }
     },
     (error) => {
-      throw new Error(`${error}`);
+        // eslint-disable-next-line no-console
+        console.error(`${error}`);
+        process.exit(1);
     },
   );
 };

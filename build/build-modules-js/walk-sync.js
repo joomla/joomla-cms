@@ -9,7 +9,8 @@ const Path = require('path');
  */
 const walkSync = (dir, filelist) => {
     if (!Array.isArray(filelist)) {
-        throw new Error('Method `walkSync` expects second parameter to be an array!')
+        console.log('Method `walkSync` expects second parameter to be an array!');
+        process.env.exit(1)
     }
 
     const files = Fs.readdirSync(dir);

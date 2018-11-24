@@ -1,15 +1,15 @@
 const Autoprefixer = require('autoprefixer');
-const Babel = require('./babel.js')
+const Babel = require('./babel.js');
+const CssNano = require('cssnano');
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
-const postcss = require('postcss');
+const Postcss = require('postcss');
 const Promise = require('bluebird');
 const Sass = require('node-sass');
-const UglyCss = require('uglifycss');
-const rootPath = require('./rootpath.js')._();
+const RootPath = require('./rootpath.js')._();
 
 const createJsFiles = (element, es6File) => {
-    // Predefine some settings
+    // Define some settings
     const settings = [
         {
             presets: [
@@ -65,10 +65,10 @@ const createJsFiles = (element, es6File) => {
     ];
 
     const outputFiles = [
-        `${rootPath}/media/system/webcomponents/js/joomla-${element}.js`,
-        `${rootPath}/media/system/webcomponents/js/joomla-${element}.min.js`,
-        `${rootPath}/media/system/webcomponents/js/joomla-${element}-es5.js`,
-        `${rootPath}/media/system/webcomponents/js/joomla-${element}-es5.min.js`,
+        `${RootPath}/media/system/webcomponents/js/joomla-${element}.js`,
+        `${RootPath}/media/system/webcomponents/js/joomla-${element}.min.js`,
+        `${RootPath}/media/system/webcomponents/js/joomla-${element}-es5.js`,
+        `${RootPath}/media/system/webcomponents/js/joomla-${element}-es5.min.js`,
     ];
 
     settings.forEach((setting, index) => {
@@ -78,28 +78,28 @@ const createJsFiles = (element, es6File) => {
 
 const compile = (options) => {
     // Make sure that the dist paths exist
-    if (!Fs.existsSync(`${rootPath}/media/system/webcomponents`)) {
-        FsExtra.mkdirSync(`${rootPath}/media/system/webcomponents`);
+    if (!Fs.existsSync(`${RootPath}/media/system/webcomponents`)) {
+        FsExtra.mkdirSync(`${RootPath}/media/system/webcomponents`);
     }
-    if (!Fs.existsSync(`${rootPath}/media/system/webcomponents/js`)) {
-        FsExtra.mkdirSync(`${rootPath}/media/system/webcomponents/js`);
+    if (!Fs.existsSync(`${RootPath}/media/system/webcomponents/js`)) {
+        FsExtra.mkdirSync(`${RootPath}/media/system/webcomponents/js`);
     }
 
-    if (!Fs.existsSync(`${rootPath}/media/system/webcomponents/css`)) {
-        Fs.mkdirSync(`${rootPath}/media/system/webcomponents/css`);
+    if (!Fs.existsSync(`${RootPath}/media/system/webcomponents/css`)) {
+        Fs.mkdirSync(`${RootPath}/media/system/webcomponents/css`);
     }
 
     options.settings.elements.forEach((element) => {
         // Get the contents of the ES-XXXX file
-        let es6File = Fs.readFileSync(`${rootPath}/build/media/webcomponents/js/${element}/${element}.js`, 'utf8');
+        let es6File = Fs.readFileSync(`${RootPath}/build/media/webcomponents/js/${element}/${element}.js`, 'utf8');
         // Check if there is a css file
-        if (Fs.existsSync(`${rootPath}/build/media/webcomponents/scss/${element}/${element}.scss`)) {
-            if (!Fs.existsSync(`${rootPath}/build/media/webcomponents/scss/${element}/${element}.scss`)) {
+        if (Fs.existsSync(`${RootPath}/build/media/webcomponents/scss/${element}/${element}.scss`)) {
+            if (!Fs.existsSync(`${RootPath}/build/media/webcomponents/scss/${element}/${element}.scss`)) {
                 return;
             }
 
             Sass.render({
-                file: `${rootPath}/build/media/webcomponents/scss/${element}/${element}.scss`,
+                file: `${RootPath}/build/media/webcomponents/scss/${element}/${element}.scss`,
             }, (error, result) => {
                 if (error) {
                     // eslint-disable-next-line no-console
@@ -111,41 +111,45 @@ const compile = (options) => {
                 } else {
                     // Auto prefixing
                     // eslint-disable-next-line no-console
+                    console.log(`Creating /media/system/webcomponents/css/joomla-${element}`);
                     console.log(`Prefixing for: ${options.settings.browsers}`);
 
-                    const cleaner = postcss(
+                    const cleaner = Postcss(
                         [
                             Autoprefixer({
-                                add: false,
-                                browsers: options.settings.browsers
+                                env: {
+                                    targets: {
+                                        browsers: [options.settings.browsers]
+                                    },
+                                }
                             }),
                         ],
                     );
 
-                    const prefixer = postcss([Autoprefixer]);
-
                     if (typeof result === 'object' && result.css) {
                         cleaner.process(result.css.toString(), {from: undefined})
-                            .then(cleaned => prefixer.process(cleaned.css, {from: undefined}))
                             .then((res) => {
                                 if (/{{CSS_CONTENTS_PLACEHOLDER}}/.test(es6File)) {
                                     if (typeof res === 'object' && res.css) {
-                                        es6File = es6File.replace('{{CSS_CONTENTS_PLACEHOLDER}}', UglyCss.processString(res.css.toString()));
-
-                                        createJsFiles(element, es6File);
+                                        Postcss([CssNano]).process(res.css.toString(), {from: undefined}).then(cssMin => {
+                                            es6File = es6File.replace('{{CSS_CONTENTS_PLACEHOLDER}}', cssMin.css.toString());
+                                            createJsFiles(element, es6File);
+                                        });
                                     }
                                 } else {
                                     if (typeof res === 'object' && res.css) {
                                         Fs.writeFileSync(
-                                            `${rootPath}/media/system/webcomponents/css/joomla-${element}.css`,
+                                            `${RootPath}/media/system/webcomponents/css/joomla-${element}.css`,
                                             res.css.toString(),
                                             { encoding: 'UTF-8' },
                                         );
-                                        Fs.writeFileSync(
-                                            `${rootPath}/media/system/webcomponents/css/joomla-${element}.min.css`,
-                                            UglyCss.processString(res.css.toString(), { expandVars: false }),
-                                            { encoding: 'UTF-8' },
-                                        );
+                                        Postcss([CssNano]).process(res.css.toString(), {from: undefined}).then(cssMin => {
+                                            Fs.writeFileSync(
+                                                `${RootPath}/media/system/webcomponents/css/joomla-${element}.min.css`,
+                                                cssMin.css.toString(),
+                                                { encoding: 'UTF-8' },
+                                            );
+                                        });
                                     }
 
                                     createJsFiles(element, es6File);

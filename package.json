@@ -58,6 +58,7 @@
     "browserify": "*",
     "commander": "^2.19.0",
     "copy-dir": "^0.4.0",
+    "cssnano": "^4.1.7",
     "eslint": "^5.9.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",

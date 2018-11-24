@@ -85,7 +85,9 @@ const watchFiles = (options, folders, compileFirst = false) => {
               }
             },
             (error) => {
-              throw new Error(`${error}`);
+                // eslint-disable-next-line no-console
+                console.error(`${error}`);
+                process.exit(1);
             },
           );
         }
