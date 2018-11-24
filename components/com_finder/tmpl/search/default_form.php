@@ -14,8 +14,8 @@ defined('_JEXEC') or die;
 */
 if ($this->params->get('show_autosuggest', 1))
 {
-	JHtml::_('script', 'vendor/awesomplete/awesomplete.min.js', array('version' => 'auto', 'relative' => true));
-	JFactory::getDocument()->addScriptOptions('finder-search', array('url' => JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
+	$this->document->getWebAssetManager()->enableAsset('awesomplete');
+	$this->document->addScriptOptions('finder-search', array('url' => JRoute::_('index.php?option=com_finder&task=suggestions.suggest&format=json&tmpl=component')));
 }
 
 ?>
