@@ -580,7 +580,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.1
 	 */
 	private function hasProfiling()
 	{
