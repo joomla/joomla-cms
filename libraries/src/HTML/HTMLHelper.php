@@ -713,6 +713,42 @@ abstract class HTMLHelper
 
 		$includes = static::includeRelativeFiles('js', $file, $options['relative'], $options['detectBrowser'], $options['detectDebug']);
 
+		// Test for es6 support by using "black list"
+		// And use fallback script (.es5.js) for browsers from the "black list"
+		static $es6Supported = null;
+
+		if ($es6Supported === null)
+		{
+			$es6BlackList = [
+				'msie' => 'msie'
+			];
+			$navigator    = Browser::getInstance();
+			$es6Supported = empty($es6BlackList[$navigator->getBrowser()])
+				&& empty($es6BlackList[$navigator->getBrowser().$navigator->getMajor()]);
+		}
+
+		if (!$es6Supported)
+		{
+			foreach ($includes as $i => $include)
+			{
+				if (strpos($file, 'http') === 0 || strpos($file, '//') === 0)
+				{
+					continue;
+				}
+
+				$pathInfo = pathinfo($include);
+				$isMin    = strpos($pathInfo['basename'], '.min.js') === strlen($pathInfo['basename']) - 7;
+				$fileName = $isMin ? basename($pathInfo['basename'], '.min.js') : $pathInfo['filename'];
+				$es5Ext   = $isMin ? '.es5.min.js' : '.es5.js';
+				$es5File  = $pathInfo['dirname'] . '/' . $fileName . $es5Ext;
+
+				if (is_file(JPATH_ROOT . '/' . $es5File))
+				{
+					$includes[$i] = $es5File;
+				}
+			}
+		}
+
 		// If only path is required
 		if ($options['pathOnly'])
 		{
