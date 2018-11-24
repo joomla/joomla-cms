@@ -44,8 +44,9 @@ const uglifyJs = (options, path) => {
             }
           },
           (error) => {
-            // eslint-disable-next-line no-console
-            console.error(`something exploded ${error}`);
+            if (error) {
+              throw error;
+            }
           },
         );
       });

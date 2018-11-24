@@ -275,30 +275,37 @@ const copyFiles = (options) => {
 };
 
 const recreateMediaFolder = () => {
-	// eslint-disable-next-line no-console
-	console.log(`Recreating the media folder...`);
+  // eslint-disable-next-line no-console
+  console.log(`Recreating the media folder...`);
 
-    copydir.sync(Path.join(rootPath, 'build/media'), Path.join(rootPath, 'media'), function(stat, filepath, filename){
-        if (stat === 'directory' && (filename === 'webcomponents' || filename === 'scss')) {
-            return false;
-        }
-        return true;
-    }, function(err){
-        if (!err) {
-            console.log('Legacy media files restored');
-        }
-    });
+  const destDirName = Path.join(rootPath, 'media');
 
-    copydir.sync(Path.join(rootPath, 'build/media_src'), Path.join(rootPath, 'media'), function(stat, filepath, filename){
-        if (stat === 'directory' && filename === 'scss') {
-            return false;
-        }
-        return true;
-    }, function(err){
-        if (!err) {
-            console.log('Media folder structure was created');
-        }
+  copydir.sync(Path.join(rootPath, 'build/media'), destDirName, function(stat, filepath, filename){
+    if (stat === 'directory' && (filename === 'webcomponents' || filename === 'scss')) {
+      return false;
+    }
+    return true;
+  });
+
+  console.log('Folder build/media was copied');
+
+  copydir.sync(Path.join(rootPath, 'build/media_src'), destDirName, function(stat, filepath, filename){
+    if (stat === 'directory' && filename === 'scss') {
+      return false;
+    }
+    return true;
+  });
+
+  console.log('Folder build/media_src was copied');
+
+  // Rename *.es6.js => *.js
+  walkSync(destDirName).forEach((file) => {
+    if (!file.match(/\.es6\.js$/)) return;
+
+    fs.rename(file, file.replace(/\.es6\.js$/, '.js'), (error) => {
+      if (error) throw error;
     });
+  });
 };
 
 // List all files in a directory recursively in a synchronous fashion
