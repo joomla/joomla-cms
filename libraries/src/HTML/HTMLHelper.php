@@ -742,7 +742,8 @@ abstract class HTMLHelper
 				$es5Ext   = $isMin ? '.es5.min.js' : '.es5.js';
 				$es5File  = $pathInfo['dirname'] . '/' . $fileName . $es5Ext;
 
-				if (is_file(JPATH_ROOT . '/' . $es5File))
+				// Check if there ES5 counterpart
+				if (is_file(JPATH_ROOT . substr($es5File, strlen(Uri::root(true)))))
 				{
 					$includes[$i] = $es5File;
 				}
