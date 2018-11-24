@@ -1,59 +1,68 @@
-const Promise = require('bluebird');
-const fs = require('fs');
+const Autoprefixer = require('autoprefixer');
+const Debounce = require('lodash.debounce');
+const Fs = require('fs');
 const Path = require('path');
+const Postcss = require('postcss');
+const Promise = require('bluebird');
 const Recurs = require('recursive-readdir');
+const RootPath = require('./rootpath.js')._();
 const Sass = require('node-sass');
 const UglyCss = require('uglifycss');
-const autoprefixer = require('autoprefixer');
-const postcss = require('postcss');
-const debounce = require('lodash.debounce');
-const rootPath = require('./rootpath.js')._();
 
+/**
+ * A collection of folders to be watched
+ * @type {string[]}
+ */
 const watches = [
-  `${rootPath}/templates/cassiopeia/scss`,
-  `${rootPath}/administrator/templates/atum/scss`,
-  `${rootPath}/media/plg_installer_webinstaller/scss`,
-  `${rootPath}/build/media_src`,
-  `${rootPath}/installation/template/scss/template.scss`,
-  `${rootPath}/installation/template/scss/template-rtl.scss`,
+  `${RootPath}/templates/cassiopeia/scss`,
+  `${RootPath}/administrator/templates/atum/scss`,
+  `${RootPath}/media/plg_installer_webinstaller/scss`,
+  `${RootPath}/build/media_src`,
+  `${RootPath}/installation/template/scss/template.scss`,
+  `${RootPath}/installation/template/scss/template-rtl.scss`,
 ];
 
+/**
+ *
+ * @param {object} options  the options
+ * @param {string} path     the folder that needs to be compiled, optional
+ */
 const compileCSSFiles = (options, path) => {
   let files = [];
   let folders = [];
 
   if (path) {
-    const stats = fs.lstatSync(`${rootPath}/${path}`);
+    const stats = Fs.lstatSync(`${RootPath}/${path}`);
 
     if (stats.isDirectory()) {
-      folders.push(`${rootPath}/${path}`);
+      folders.push(`${RootPath}/${path}`);
     } else if (stats.isFile()) {
-      files.push(`${rootPath}/${path}`);
+      files.push(`${RootPath}/${path}`);
     } else {
       throw new Error(`Unknown path ${path}`);
     }
   } else {
     files = [
-      `${rootPath}/templates/cassiopeia/scss/offline.scss`,
-      `${rootPath}/templates/cassiopeia/scss/template.scss`,
-      `${rootPath}/templates/cassiopeia/scss/template-rtl.scss`,
-      `${rootPath}/administrator/templates/atum/scss/bootstrap.scss`,
-      `${rootPath}/administrator/templates/atum/scss/font-awesome.scss`,
-      `${rootPath}/administrator/templates/atum/scss/template.scss`,
-      `${rootPath}/administrator/templates/atum/scss/template-rtl.scss`,
-      `${rootPath}/build/media_src/plg_installer_webinstaller/scss/client.scss`,
-      `${rootPath}/installation/template/scss/template.scss`,
-      `${rootPath}/installation/template/scss/template-rtl.scss`,
+      `${RootPath}/templates/cassiopeia/scss/offline.scss`,
+      `${RootPath}/templates/cassiopeia/scss/template.scss`,
+      `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
+      `${RootPath}/administrator/templates/atum/scss/bootstrap.scss`,
+      `${RootPath}/administrator/templates/atum/scss/font-awesome.scss`,
+      `${RootPath}/administrator/templates/atum/scss/template.scss`,
+      `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
+      `${RootPath}/build/media_src/plg_installer_webinstaller/scss/client.scss`,
+      `${RootPath}/installation/template/scss/template.scss`,
+      `${RootPath}/installation/template/scss/template-rtl.scss`,
     ];
 
     folders = [
-      `${rootPath}/build/media_src`,
+      `${RootPath}/build/media_src`,
     ];
   }
 
   // Loop to get the files that should be compiled via parameter
   folders.forEach((folder) => {
-    let filesTocompile = fs.readdirSync(folder);
+    let filesTocompile = Fs.readdirSync(folder);
     filesTocompile.forEach((fileTocompile) => {
       if (Path.extname(fileTocompile) === ".scss" && fileTocompile.charAt(0) !== '_') {
         files.push(folder + '/' + fileTocompile);
@@ -80,15 +89,15 @@ const compileCSSFiles = (options, path) => {
         // eslint-disable-next-line no-console
         console.log(`Prefixing for: ${options.settings.browsers}`);
 
-        const cleaner = postcss(
+        const cleaner = Postcss(
           [
-            autoprefixer({
+            Autoprefixer({
               add: false,
               browsers: options.settings.browsers,
             }),
           ],
         );
-        const prefixer = postcss([autoprefixer]);
+        const prefixer = Postcss([Autoprefixer]);
 
         cleaner.process(result.css.toString(), {from: undefined})
           .then(cleaned => prefixer.process(cleaned.css, {from: undefined}))
@@ -96,15 +105,15 @@ const compileCSSFiles = (options, path) => {
             // Ensure the folder exists or create it
             const currentDir = Path.dirname(cssFile);
             try{
-              fs.lstatSync(currentDir).isDirectory()
+              Fs.lstatSync(currentDir).isDirectory()
             }catch(e){
               if(e.code === 'ENOENT'){
                 // Directory needs to be created
-                fs.mkdirSync(currentDir);
+                Fs.mkdirSync(currentDir);
               }
             }
 
-            fs.writeFileSync(
+            Fs.writeFileSync(
               cssFile,
               res.css.toString(),
               { encoding: 'UTF-8' },
@@ -112,7 +121,7 @@ const compileCSSFiles = (options, path) => {
           })
           .then(() => {
             // Uglify it now
-            fs.writeFileSync(
+            Fs.writeFileSync(
               cssFile.replace('.css', '.min.css'),
               UglyCss.processFiles([cssFile], { expandVars: false }),
               { encoding: 'UTF-8' },
@@ -126,11 +135,17 @@ const compileCSSFiles = (options, path) => {
   });
 };
 
+/**
+ * The watch method
+ * @param {object}  options       the options
+ * @param {array}   folders       an array of folders to be watched
+ * @param {boolean} compileFirst
+ */
 const watchFiles = (options, folders, compileFirst = false) => {
   const folderz = folders || watches;
 
   if (compileFirst) {
-    compileFiles(options);
+    compileCSSFiles(options, '');
   }
 
   folderz.forEach((folder) => {
@@ -138,10 +153,10 @@ const watchFiles = (options, folders, compileFirst = false) => {
       (files) => {
         files.forEach((file) => {
             if (file.match(/\.scss/)) {
-              fs.watchFile(file, () => {
+              Fs.watchFile(file, () => {
                 // eslint-disable-next-line no-console
                 console.log(`File: ${file} changed.`);
-                debounce(() => compileFiles(options), 150)();
+                Debounce(() => compileCSSFiles(options, ''), 150)();
               });
             }
           },
@@ -159,14 +174,12 @@ const watchFiles = (options, folders, compileFirst = false) => {
 
 const compileCSS = (options, path) => {
   Promise.resolve()
-  // Compile the scss files
+    // Compile the scss files
     .then(() => compileCSSFiles(options, path))
 
     // Handle errors
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(err);
-      process.exit(-1);
+    .catch((error) => {
+      throw new Error(`${error}`);
     });
 };
 

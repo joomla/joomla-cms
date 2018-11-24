@@ -1,47 +1,48 @@
+const Debounce = require('lodash.debounce');
+const Fs = require('fs');
 const Promise = require('bluebird');
-const fs = require('fs');
-// const fsExtra = require('fs-extra');
 const Recurs = require('recursive-readdir');
+const RootPath = require('./rootpath.js')._();
+const TranspileJs = require('./compile-es6.js');
 const UglifyJS = require('uglify-es');
-const transpileEs5 = require('./compile-es6.js');
-const debounce = require('lodash.debounce');
-const rootPath = require('./rootpath.js')._();
 
 const watches = [
-  `${rootPath}/media`,
-  `${rootPath}/administrator/templates/atum/js`,
-  `${rootPath}/templates/cassiopeia/js`,
+  `${RootPath}/media`,
+  `${RootPath}/administrator/templates/atum/js`,
+  `${RootPath}/templates/cassiopeia/js`,
 ];
 
 const uglifyJs = (options, path) => {
   let folders = [];
   if (path) {
-    const stats = fs.lstatSync(`${rootPath}/${path}`);
+    const stats = Fs.lstatSync(`${RootPath}/${path}`);
 
     if (!stats.isDirectory()) {
       // @todo: allow to compile single file
       throw new Error(`Path should be a directory: ${path}`);
     }
 
-    folders.push(`${rootPath}/${path}`);
+    folders.push(`${RootPath}/${path}`);
   } else {
     folders = [
-      `${rootPath}/build/media_src`,
-      `${rootPath}/administrator/templates/atum/js`,
-      `${rootPath}/templates/cassiopeia/js`,
+      `${RootPath}/build/media_src`,
+      `${RootPath}/administrator/templates/atum/js`,
+      `${RootPath}/templates/cassiopeia/js`,
     ];
   }
 
   // Loop to get some text for the packgage.json
   folders.forEach((folder) => {
-    Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
+    Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf', '*.json']).then(
       (files) => {
         files.forEach(
             (file) => {
-            if (file.match(/\.es6\.js/)) {
-              // Transpile the file
-              transpileEs5.compileFile(file);
-            }
+                if (file.match(/\.es6\.js/)) {
+                    // Transpile the file
+                    TranspileJs.compileFile(file);
+                } else {
+                    Fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(Fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+                }
           },
           (error) => {
             // eslint-disable-next-line no-console
@@ -61,21 +62,21 @@ const watchFiles = (options, folders, compileFirst = false) => {
 
   folderz.forEach(
   	(folder) => {
-      Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
+      Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf', '*.json']).then(
         (files) => {
           files.forEach(
             (file) => {
               if (file.match(/\.js/)) {
-                fs.watchFile(file, () => {
+                Fs.watchFile(file, () => {
                   // eslint-disable-next-line no-console
                   console.warn(`File: ${file} changed.`);
-                  debounce(() => {
+                  Debounce(() => {
                     if (file.match(/\.es6\.js/)) {
                       // Transpile the file
-                      transpileEs5.compileFile(file);
-                      fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+                      TranspileJs.compileFile(file);
+                    } else {
+                        Fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(Fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
                     }
-                    fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
                   }, 150)();
 
                   // eslint-disable-next-line no-console
@@ -84,8 +85,7 @@ const watchFiles = (options, folders, compileFirst = false) => {
               }
             },
             (error) => {
-              // eslint-disable-next-line no-console
-              console.error(`something exploded ${error}`);
+              throw new Error(`${error}`);
             },
           );
         }
@@ -99,14 +99,12 @@ const watchFiles = (options, folders, compileFirst = false) => {
 
 const compileJS = (options, path) => {
   Promise.resolve()
-  // Compile the scss files
+    // Compile the scss files
     .then(() => uglifyJs(options, path))
 
-  // Handle errors
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(err);
-      process.exit(-1);
+    // Handle errors
+    .catch((error) => {
+      throw new Error(`${error}`);
     });
 };
 

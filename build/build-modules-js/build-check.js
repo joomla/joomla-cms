@@ -8,32 +8,32 @@
  * And also specific strings in the languages in the installation folder!
  * Also the base strings are held in build/build-modules-js/settings.json
  */
-const fs = require('fs');
-const ini = require('ini');
+const Fs = require('fs');
+const Ini = require('ini');
 const Recurs = require('recursive-readdir');
-const uglifyCss = require('uglifycss');
-const uglifyJs = require('uglify-es');
-const rootPath = require('./rootpath.js')._();
+const UglifyCss = require('uglifycss');
+const UglifyJs = require('uglify-es');
+const RootPath = require('./rootpath.js')._();
 
-const dir = `${rootPath}/installation/language`;
-const srcPath = `${rootPath}/build/warning_page`;
+const dir = `${RootPath}/installation/language`;
+const srcPath = `${RootPath}/build/warning_page`;
 
 // Set the initial template
 let incomplete = 'window.errorLocale = {';
 let unsupported = 'window.errorLocale = {';
 
 const buildCheck = (options) => {
-  let initTemplate = fs.readFileSync(`${srcPath}/template.html`, 'utf-8');
-  let cssContent = fs.readFileSync(`${srcPath}/template.css`, 'utf-8');
-  let jsContent = fs.readFileSync(`${srcPath}/template.js`, 'utf-8');
+  let initTemplate = Fs.readFileSync(`${srcPath}/template.html`, 'utf-8');
+  let cssContent = Fs.readFileSync(`${srcPath}/template.css`, 'utf-8');
+  let jsContent = Fs.readFileSync(`${srcPath}/template.js`, 'utf-8');
 
-  cssContent = uglifyCss.processString(cssContent, { expandVars: false });
-  jsContent = uglifyJs.minify(jsContent);
+  cssContent = UglifyCss.processString(cssContent, { expandVars: false });
+  jsContent = UglifyJs.minify(jsContent);
 
   Recurs(dir).then(
     (files) => {
       files.forEach((file) => {
-        const languageStrings = ini.parse(fs.readFileSync(file, 'UTF-8'));
+        const languageStrings = Ini.parse(Fs.readFileSync(file, 'UTF-8'));
 
         // Build the variables into json for the unsupported page
         if (languageStrings.MIN_PHP_ERROR_LANGUAGE) {
@@ -69,8 +69,8 @@ const buildCheck = (options) => {
           checkContent = checkContent.replace('{{jsContents}}', jsContent.code);
         }
 
-        fs.writeFile(
-          `${rootPath}${options.settings.errorPages[name].destFile}`,
+        Fs.writeFile(
+          `${RootPath}${options.settings.errorPages[name].destFile}`,
           checkContent,
           (err) => {
             if (err) {
@@ -86,8 +86,7 @@ const buildCheck = (options) => {
       }
     },
     (error) => {
-      // eslint-disable-next-line no-console
-      console.error('something exploded', error);
+      throw new Error(`${error}`);
     },
   );
 };
