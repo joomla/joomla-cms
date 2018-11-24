@@ -1064,8 +1064,8 @@ Joomla.Modal = {
 
     // Feature detect which polyfill needs to be imported.
     let polyfills = [];
-    if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) ||
-      (window.ShadyDOM && window.ShadyDOM.force)) {
+    if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype)
+      || (window.ShadyDOM && window.ShadyDOM.force)) {
       polyfills.push('sd');
     }
     if (!window.customElements || window.customElements.forcePolyfill) {
@@ -1087,8 +1087,8 @@ Joomla.Modal = {
       t2.content.appendChild(document.createElement('div'));
       t.content.appendChild(t2);
       const clone = t.cloneNode(true);
-      return (clone.content.childNodes.length === 0 ||
-        clone.content.firstChild.content.childNodes.length === 0);
+      return (clone.content.childNodes.length === 0
+        || clone.content.firstChild.content.childNodes.length === 0);
     })();
 
     // NOTE: any browser that does not have template or ES6 features
