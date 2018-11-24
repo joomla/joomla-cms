@@ -33,7 +33,7 @@ const uglifyJs = (options, path) => {
 
   // Loop to get some text for the packgage.json
   folders.forEach((folder) => {
-    Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf', '*.json']).then(
+    Recurs(folder, ['*.min.js', '*.map', '*.scss', '*.css', '*.svg', '*.png', '*.swf', '*.json']).then(
       (files) => {
         files.forEach(
             (file) => {
@@ -62,7 +62,7 @@ const watchFiles = (options, folders, compileFirst = false) => {
 
   folderz.forEach(
   	(folder) => {
-      Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf', '*.json']).then(
+      Recurs(folder, ['*.min.js', '*.map', '*.css', 'scss', '*.svg', '*.png', '*.swf', '*.json']).then(
         (files) => {
           files.forEach(
             (file) => {
