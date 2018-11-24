@@ -2377,11 +2377,11 @@ class Installer extends \JAdapter
 		// Add any custom adapters if specified
 		if (count($custom) >= 1)
 		{
-			foreach ($custom as $adapter)
+			foreach ($custom as $name)
 			{
 				// Setup the class name
 				// TODO - Can we abstract this to not depend on the Joomla class namespace without PHP namespaces?
-				$class = $this->_classprefix . ucfirst(trim($adapter));
+				$class = $this->_classprefix . ucfirst(trim($name));
 
 				// If the class doesn't exist we have nothing left to do but look at the next type. We did our best.
 				if (!class_exists($class))
@@ -2389,7 +2389,7 @@ class Installer extends \JAdapter
 					continue;
 				}
 
-				$this->_adapters[$name] = $this->loadAdapter($name, $options);
+				$this->_adapters[strtolower($name)] = $this->loadAdapter($name, $options);
 			}
 		}
 
