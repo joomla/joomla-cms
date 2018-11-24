@@ -84,7 +84,7 @@ class TemplateController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function publish()
 	{
@@ -211,8 +211,8 @@ class TemplateController extends BaseController
 
 			// Call installation model
 			$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
-			$installModel = $this->app->bootComponent('com_installer')->createMVCFactory($this->app)
-				->createModel('Install', 'Administrator');
+			$installModel = $this->app->bootComponent('com_installer')
+				->getMVCFactory()->createModel('Install', 'Administrator');
 			Factory::getLanguage()->load('com_installer');
 
 			if (!$installModel->install())
@@ -805,7 +805,7 @@ class TemplateController extends BaseController
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function ajax()
 	{

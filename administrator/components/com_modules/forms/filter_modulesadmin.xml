@@ -26,7 +26,6 @@
 			name="state"
 			type="status"
 			label="JOPTION_SELECT_PUBLISHED"
-			label="JSTATUS"
 			filter="*,-2,0,1"
 			onchange="this.form.submit();"
 			>

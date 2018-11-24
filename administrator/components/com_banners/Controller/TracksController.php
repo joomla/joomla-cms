@@ -12,10 +12,10 @@ namespace Joomla\Component\Banners\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Session\Session;
 
 /**
  * Tracks list controller class.
@@ -161,7 +161,7 @@ class TracksController extends BaseController
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->document = Factory::getDocument();
+			$view->document = $this->app->getDocument();
 
 			$view->display();
 		}

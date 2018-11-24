@@ -9,15 +9,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
 use Joomla\CMS\Extension\Service\Provider\Module;
 use Joomla\CMS\Extension\Service\Provider\ModuleDispatcherFactory;
+use Joomla\DI\Container;
+use Joomla\DI\ServiceProviderInterface;
 
 /**
  * The quickicon module service provider.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 return new class implements ServiceProviderInterface
 {
@@ -28,7 +28,7 @@ return new class implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

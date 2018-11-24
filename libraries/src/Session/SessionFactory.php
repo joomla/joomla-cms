@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * Factory for creating session API objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SessionFactory implements ContainerAwareInterface
 {
@@ -39,7 +39,7 @@ class SessionFactory implements ContainerAwareInterface
 	 *
 	 * @return  HandlerInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createSessionHandler(array $options): HandlerInterface
 	{
@@ -157,7 +157,7 @@ class SessionFactory implements ContainerAwareInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function configureSessionHandlerOptions(OptionsResolver $resolver)
 	{

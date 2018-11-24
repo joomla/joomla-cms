@@ -42,22 +42,14 @@
 		/>
 		<field
 			name="client_id"
-			type="radio"
-			label="COM_MENUS_MENU_CLIENT_ID_LABEL"
-			id="client_id"
-			default="0"
-			class="switcher switcher-primary"
-			>
-			<option value="0">JSITE</option>
-			<option value="1">JADMINISTRATOR</option>
-		</field>
+			type="hidden"
+		/>
 		<field
 			name="preset"
 			type="menuPreset"
 			label="COM_MENUS_FIELD_PRESET_LABEL"
 			description="COM_MENUS_FIELD_PRESET_DESC"
-			showon="client_id:1"
-		>
+			>
 			<option value="">JNONE</option>
 		</field>
 		<field

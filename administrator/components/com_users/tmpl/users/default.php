@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Access\Access;
-use Joomla\Component\Users\Administrator\Service\HTML\Users;
 
 HTMLHelper::_('behavior.multiselect');
 HTMLHelper::_('behavior.tabstate');
