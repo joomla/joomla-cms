@@ -724,7 +724,7 @@ abstract class HTMLHelper
 			];
 			$navigator    = Browser::getInstance();
 			$es6Supported = empty($es6BlackList[$navigator->getBrowser()])
-				&& empty($es6BlackList[$navigator->getBrowser().$navigator->getMajor()]);
+				&& empty($es6BlackList[$navigator->getBrowser() . $navigator->getMajor()]);
 		}
 
 		if (!$es6Supported)
