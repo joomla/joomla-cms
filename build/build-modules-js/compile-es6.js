@@ -37,7 +37,7 @@ const compileFile = (filePath) => {
       destFileMin = `${destDirName}/${fileName}.es5.min.js`;
 
     // Make sure a destination folder exists
-    fs.mkdirSync(destDirName, {recursive: true});
+    //fs.mkdirSync(destDirName, {recursive: true});
 
     // Write the result
     fs.writeFile(
