@@ -42,7 +42,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 * @var    boolean
 	 * @since  3.9.1
 	 */
-	 protected $forceMultiple = false;
+	protected $forceMultiple = false;
 
 	/**
 	 * The article ID.
