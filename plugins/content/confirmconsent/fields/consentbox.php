@@ -82,7 +82,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 			$modalParams['url']    = $this->getAssignedArticleUrl($consentBoxArticleId);
 			$modalParams['height'] = 800;
 			$modalParams['width']  = "100%";
-			echo HTMLHelper::_('bootstrap.renderModal', 'modal-' . $modalName, $modalParams);
+			$modalHTML = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $modalName, $modalParams);
 
 			$attribs['data-toggle'] = 'modal';
 
@@ -104,7 +104,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 			'position'    => $position,
 		);
 
-		return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
+		return $modalHTML . $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
 	}
 
 	/**
