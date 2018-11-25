@@ -71,6 +71,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		// Forcing the Alias field to display the tip below
 		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
+		$modalHTML           = '';
 		$consentBoxLabel     = $data['label'];
 		$consentBoxArticleId = $data['articleid'];
 
@@ -98,10 +99,10 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
-			'text'        => $data['label'],
-			'for'         => $this->id,
-			'classes'     => explode(' ', $data['labelclass']),
-			'position'    => $position,
+			'text'     => $data['label'],
+			'for'      => $this->id,
+			'classes'  => explode(' ', $data['labelclass']),
+			'position' => $position,
 		);
 
 		return $modalHTML . $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
