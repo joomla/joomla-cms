@@ -233,7 +233,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
 	 *
-	 * @param   string  $value  The value to cast as a char.	 
+	 * @param   string  $value  The value to cast as a char.
 	 *
 	 * @param   string  $len    The lenght of the char.
 	 *
@@ -244,7 +244,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	public function castAsChar($value, $len = null)
 	{
 		if (!$len)
-		{			
+		{
 			return 'CAST(' . $value . ' as NVARCHAR(30))';
 		}
 		else
@@ -685,7 +685,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			if ($i == 0 && stripos(' DISTINCT ALL ', " $column[0] ") !== false)
 			{
 				// This words are reserved, they are not column names
-				array_shift($column);
+				array_shift($columns[$i]);
 				$size--;
 			}
 
