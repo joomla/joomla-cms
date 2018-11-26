@@ -132,12 +132,12 @@ body {
     right: 18px;
   }
 
-  .active .no-dropdown .sidebar-item-title {
+  .no-dropdown .sidebar-item-title {
     margin-right: 28px;
   }
 
   .dropdown-submenu .sidebar-item-title {
-    margin-right: 34px;
+    margin-right: 28px;
   }
 
   .dropdown-submenu .no-dropdown .sidebar-item-title {
@@ -145,7 +145,7 @@ body {
   }
 
   ul ul a::before {
-    right: 34px;
+    right: 36px;
     left: 0;
   }
 }
@@ -269,7 +269,11 @@ body {
   float: right;
 }
 
-
 .field-media-input {
   margin-right: 220px;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: left !important;
 }
