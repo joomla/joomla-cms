@@ -18,13 +18,9 @@ use Joomla\CMS\Router\Route;
 JFormHelper::loadFieldClass('Checkboxes');
 
 /**
- * Form Field class for the Joomla Platform.
- * Single checkbox field.
- * This is a boolean field with null for false and the specified option for true
+ * Consentbox Field class for the Confirm Consent Plugin.
  *
- * @link   http://www.w3.org/TR/html-markup/input.checkbox.html#input.checkbox
- * @see    JFormFieldCheckboxes
- * @since  3.9.0
+ * @since  __DEPLOY_VERSION__
  */
 class JFormFieldConsentBox extends JFormFieldCheckboxes
 {
@@ -32,7 +28,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  3.9.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'ConsentBox';
 
@@ -40,24 +36,93 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 * Flag to tell the field to always be in multiple values mode.
 	 *
 	 * @var    boolean
-	 * @since  3.9.1
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $forceMultiple = false;
 
 	/**
 	 * The article ID.
 	 *
-	 * @var    string
-	 * @since  3.9.1
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $articleid;
+
+	/**
+	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 *
+	 * @param   string  $name   The property name for which to set the value.
+	 * @param   mixed   $value  The value of the property.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __set($name, $value)
+	{
+		switch ($name)
+		{
+			case 'articleid':
+				$this->articleid = (int) $value;
+				break;
+
+			default:
+				parent::__set($name, $value);
+		}
+	}
+
+	/**
+	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 *
+	 * @param   string  $name  The property name for which to get the value.
+	 *
+	 * @return  mixed  The property value or null.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __get($name)
+	{
+		switch ($name)
+		{
+			case 'articleid':
+				return $this->$name;
+		}
+
+		return parent::__get($name);
+	}
+
+	/**
+	 * Method to attach a JForm object to the field.
+	 *
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
+	 * @param   mixed             $value    The form field value to validate.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
+	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
+	 *                                      full field name would end up being "bar[foo]".
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @see     JFormField::setup()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setup(SimpleXMLElement $element, $value, $group = null)
+	{
+		$return = parent::setup($element, $value, $group);
+
+		if ($return)
+		{
+			$this->articleid = (int) $this->element['articleid'];
+		}
+
+		return $return;
+	}
 
 	/**
 	 * Method to get the field label markup.
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   3.9.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getLabel()
 	{
@@ -71,31 +136,18 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		// Forcing the Alias field to display the tip below
 		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
-		$modalHTML           = '';
-		$consentBoxLabel     = $data['label'];
-		$consentBoxArticleId = $data['articleid'];
-
 		// When we have a article let's add the modal and make the title clickable
-		if ($consentBoxArticleId)
+		if ($data['articleid'])
 		{
-			$modalName = 'consentbox-' . $consentBoxArticleId;
-			$modalParams['title']  = Text::_($consentBoxLabel);
-			$modalParams['url']    = $this->getAssignedArticleUrl($consentBoxArticleId);
-			$modalParams['height'] = 800;
-			$modalParams['width']  = "100%";
-			$modalHTML = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $modalName, $modalParams);
-
 			$attribs['data-toggle'] = 'modal';
 
-			$consentBoxLabel = HTMLHelper::_(
+			$data['label'] = HTMLHelper::_(
 				'link',
-				'#modal-' . $modalName,
-				$consentBoxLabel,
+				'#modal-' . $this->id,
+				$data['label'],
 				$attribs
 			);
 		}
-
-		$data['label'] = $consentBoxLabel;
 
 		// Here mainly for B/C with old layouts. This can be done in the layouts directly
 		$extraData = array(
@@ -105,7 +157,33 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 			'position' => $position,
 		);
 
-		return $modalHTML . $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
+		return $this->getRenderer($this->renderLabelLayout)->render(array_merge($data, $extraData));
+	}
+
+	/**
+	 * Method to get a control group with label and input.
+	 *
+	 * @param   array  $options  Options to be passed into the rendering of the field
+	 *
+	 * @return  string  A string containing the html for the control group
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function renderField($options = array())
+	{
+		$modalHtml  = '';
+		$layoutData = $this->getLayoutData();
+
+		if ($this->articleid)
+		{
+			$modalParams['title']  = $layoutData['label'];
+			$modalParams['url']    = $this->getAssignedArticleUrl();
+			$modalParams['height'] = 800;
+			$modalParams['width']  = '100%';
+			$modalHtml = HTMLHelper::_('bootstrap.renderModal', 'modal-' . $this->id, $modalParams);
+		}
+
+		return $modalHtml . parent::renderField($options);
 	}
 
 	/**
@@ -113,14 +191,14 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  array
 	 *
-	 * @since   3.9.1
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getLayoutData()
 	{
 		$data = parent::getLayoutData();
 
 		$extraData = array(
-			'articleid' => (integer) $this->element['articleid'],
+			'articleid' => (integer) $this->articleid,
 		);
 
 		return array_merge($data, $extraData);
@@ -129,13 +207,11 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	/**
 	 * Return the url of the assigned article based on the current user language
 	 *
-	 * @param   integer  $articleId  The form to be altered.
+	 * @return  string  Returns the link to the article
 	 *
-	 * @return  string  Returns the a tag containing everything for the modal
-	 *
-	 * @since   3.9.1
+	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getAssignedArticleUrl($articleId)
+	private function getAssignedArticleUrl()
 	{
 		$db = Factory::getDbo();
 
@@ -143,7 +219,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array('id', 'catid', 'language')))
 			->from($db->quoteName('#__content'))
-			->where($db->quoteName('id') . ' = ' . (int) $articleId);
+			->where($db->quoteName('id') . ' = ' . (int) $this->articleid);
 		$db->setQuery($query);
 
 		try
@@ -155,7 +231,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 			// Something at the database layer went wrong
 			return Route::_(
 				'index.php?option=com_content&view=article&id='
-				. $articleId . '&tmpl=component'
+				. $this->articleid . '&tmpl=component'
 			);
 		}
 
