@@ -49,11 +49,7 @@ final class Version
 	 * @var    integer
 	 * @since  3.8.0
 	 */
-<<<<<<< HEAD
 	const PATCH_VERSION = 0;
-=======
-	const PATCH_VERSION = 2;
->>>>>>> staging
 
 	/**
 	 * Extra release version info.
@@ -82,11 +78,7 @@ final class Version
 	 * @since  3.5
 	 * @deprecated  4.0  Use separated version constants instead
 	 */
-<<<<<<< HEAD
 	const DEV_LEVEL = '0-dev';
-=======
-	const DEV_LEVEL = '2-dev';
->>>>>>> staging
 
 	/**
 	 * Development status.
