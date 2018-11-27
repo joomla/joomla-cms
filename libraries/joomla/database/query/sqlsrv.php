@@ -685,7 +685,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			if ($i == 0 && stripos(' DISTINCT ALL ', " $column[0] ") !== false)
 			{
 				// This words are reserved, they are not column names
-				array_shift($columns[$i]);
+				array_shift($column);
 				$size--;
 			}
 
@@ -810,6 +810,14 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			if ($size === 0)
 			{
 				continue;
+			}
+
+			if ($i == 0 && stripos(' DISTINCT ALL ', " $column[0] ") !== false)
+			{
+				// This words are reserved, they are not column names
+				array_shift($selectColumns[0]);
+				array_shift($column);
+				$size--;
 			}
 
 			if ($size > 2 && $column[$size - 2] === 'AS')
