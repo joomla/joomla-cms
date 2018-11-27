@@ -20,7 +20,7 @@ JFormHelper::loadFieldClass('Checkboxes');
 /**
  * Consentbox Field class for the Confirm Consent Plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.1
  */
 class JFormFieldConsentBox extends JFormFieldCheckboxes
 {
@@ -28,7 +28,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.1
 	 */
 	protected $type = 'ConsentBox';
 
@@ -36,7 +36,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 * Flag to tell the field to always be in multiple values mode.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.1
 	 */
 	protected $forceMultiple = false;
 
@@ -44,7 +44,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 * The article ID.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.1
 	 */
 	protected $articleid;
 
@@ -56,7 +56,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.1
 	 */
 	public function __set($name, $value)
 	{
@@ -78,7 +78,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  mixed  The property value or null.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.1
 	 */
 	public function __get($name)
 	{
@@ -103,7 +103,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 * @return  boolean  True on success.
 	 *
 	 * @see     JFormField::setup()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.1
 	 */
 	public function setup(SimpleXMLElement $element, $value, $group = null)
 	{
@@ -122,7 +122,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.1
 	 */
 	protected function getLabel()
 	{
@@ -167,7 +167,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  string  A string containing the html for the control group
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.1
 	 */
 	public function renderField($options = array())
 	{
@@ -191,7 +191,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.1
 	 */
 	protected function getLayoutData()
 	{
@@ -209,7 +209,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 	 *
 	 * @return  string  Returns the link to the article
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.1
 	 */
 	private function getAssignedArticleUrl()
 	{
