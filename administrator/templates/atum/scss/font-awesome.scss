@@ -6,3 +6,8 @@
 
 // B/C for Icomoon
 @import "../../../../build/media/system/scss/icomoon";
+
+// RTL override
+html[dir=rtl] .pull-right {
+    float: left;
+}
