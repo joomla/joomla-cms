@@ -28,7 +28,7 @@ use Joomla\CMS\Language\Text;
 					<a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['title']); ?>
 					<?php if ($link['badge']) : ?>
 						<span class="pull-right badge badge-pill badge-warning">
-							<?php echo Text::_($link['badge']); ?>
+							<?php echo '&#x200E;' . Text::_($link['badge']); ?>
 						</span>
 					<?php endif; ?>
 					</a>
