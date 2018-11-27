@@ -29,10 +29,15 @@ abstract class ModLanguagesHelper
 	{
 		$user		= JFactory::getUser();
 		$lang		= JFactory::getLanguage();
-		$languages	= JLanguageHelper::getLanguages();
+		$languages	= JLanguageHelper::getLanguages('lang_code');
 		$app		= JFactory::getApplication();
 		$menu		= $app->getMenu();
 		$active		= $menu->getActive();
+
+		$plugin                = \JPluginHelper::getPlugin('system', 'languagefilter');
+		$params                = new \JRegistry($plugin->params);
+		$remove_default_prefix = (boolean) $params->get('remove_default_prefix', 0);
+		$default_lang          = \JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 
 		// Get menu home items
 		$homes = array();
@@ -141,8 +146,53 @@ abstract class ModLanguagesHelper
 					$language->link = JRoute::_('&Itemid=' . $homes['*']->id);
 				}
 			}
+
+			// Remove the sef from the default language if "Remove URL Language Code" is on
+			if ($remove_default_prefix && isset($languages[$default_lang]->link))
+			{
+				$languages[$default_lang]->link
+					= preg_replace('|/' . $languages[$default_lang]->sef . '/|', '/', $languages[$default_lang]->link, 1);
+
+				self::setLanguageCookie($default_lang);
+			}
 		}
 
 		return $languages;
+	}
+
+	/**
+	 * Set the language cookie
+	 *
+	 * @param   string  $languageCode  The language code for which we want to set the cookie
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function setLanguageCookie($languageCode)
+	{
+		$app    = JFactory::getApplication();
+		$plugin = \JPluginHelper::getPlugin('system', 'languagefilter');
+		$params = new \JRegistry($plugin->params);
+
+		// If is set to use language cookie for a year in plugin params, save the user language in a new cookie.
+		if ((int) $params->get('lang_cookie', 0) === 1)
+		{
+			// Create a cookie with one year lifetime.
+			$app->input->cookie->set(
+				JApplicationHelper::getHash('language'),
+				$languageCode,
+				time() + 365 * 86400,
+				$app->get('cookie_path', '/'),
+				$app->get('cookie_domain', ''),
+				$app->isHttpsForced(),
+				true
+			);
+		}
+		// If not, set the user language in the session (that is already saved in a cookie).
+		else
+		{
+			JFactory::getSession()->set('plg_system_languagefilter.language', $languageCode);
+		}
 	}
 }
