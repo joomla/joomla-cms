@@ -151,7 +151,7 @@ abstract class ModLanguagesHelper
 			if ($remove_default_prefix && isset($languages[$default_lang]->link))
 			{
 				$languages[$default_lang]->link
-					= preg_replace('|/' . $languages[$default_lang]->sef . '/|', '/', $languages[$default_lang]->link, 1);
+								= preg_replace('|/' . $languages[$default_lang]->sef . '/|', '/', $languages[$default_lang]->link, 1);
 
 				self::setLanguageCookie($default_lang);
 			}
