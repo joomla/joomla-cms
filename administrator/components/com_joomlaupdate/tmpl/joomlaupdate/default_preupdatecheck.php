@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 ?>
 
 <h2>
-	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK', $this->updateInfo['latest']); ?>
+	<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_COMPATIBILITY_CHECK', '&#x200E;' . $this->updateInfo['latest']); ?>
 </h2>
 
 <div class="row-fluid">
@@ -115,11 +115,11 @@ use Joomla\CMS\Language\Text;
 					</td>
 					<td class="extension-check"
 					    data-extension-id="<?php echo $extension->extension_id; ?>"
-					    data-extension-current-version="<?php echo $extension->version; ?>">
+					    data-extension-current-version="<?php echo $extension->version; ?>" dir="ltr">
 						<img src="../media/system/images/mootree_loader.gif" />
 					</td>
 					<td>
-						<?php echo $extension->version; ?>
+						<?php echo '&#x200E;' . $extension->version; ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>

@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
 $app  = Factory::getApplication();
-$lang = Factory::getLanguage();
+$lang = $app->getLanguage();
 $wa   = $this->getWebAssetManager();
 
 // Detecting Active Variables

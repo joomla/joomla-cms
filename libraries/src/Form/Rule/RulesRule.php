@@ -95,12 +95,18 @@ class RulesRule extends FormRule
 		$component = $element['component'] ? (string) $element['component'] : '';
 
 		// Get the asset actions for the element.
-		$elActions = Access::getActionsFromFile(JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml', $section);
+		$elActions = Access::getActionsFromFile(
+			JPATH_ADMINISTRATOR . '/components/' . $component . '/access.xml',
+			"/access/section[@name='" . $section . "']/"
+		);
 
-		// Iterate over the asset actions and add to the actions.
-		foreach ($elActions as $item)
+		if ($elActions)
 		{
-			$actions[] = $item->name;
+			// Iterate over the asset actions and add to the actions.
+			foreach ($elActions as $item)
+			{
+				$actions[] = $item->name;
+			}
 		}
 
 		// Iterate over the children and add to the actions.

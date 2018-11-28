@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Plugin to enable loading modules into content (e.g. articles)

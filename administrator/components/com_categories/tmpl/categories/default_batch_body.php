@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $published = $this->state->get('filter.published');
@@ -26,7 +26,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.access.', []); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
 			</div>
 		</div>
 	</div>

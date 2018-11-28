@@ -11,7 +11,6 @@ namespace Joomla\CMS\Language;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
 use Joomla\String\StringHelper;
 
 /**
@@ -976,7 +975,7 @@ class Language
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getTrace()
 	{

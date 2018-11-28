@@ -11,8 +11,8 @@ namespace Joomla\Plugin\System\Stats\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Unique ID Field class for the Stats Plugin.

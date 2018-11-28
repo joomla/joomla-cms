@@ -91,13 +91,6 @@
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=menus">
-			<menuitem
-					title="MOD_MENU_MENU_MANAGER_NEW_MENU"
-					type="component"
-					element="com_menus"
-					link="index.php?option=com_menus&amp;view=menu&amp;layout=edit"
-					scope="edit"
-			/>
 		</menuitem>
 		<menuitem
 				type="separator"
@@ -123,7 +116,7 @@
 				sql_where="a.client_id = 0"
 				sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
 				sql_group="a.id, a.title, a.menutype, m.language, l.image"
-				sql_order="a.title ASC">
+				sql_order="a.id DESC">
 			<menuitem
 					title="{sql:title} "
 					type="component"
@@ -131,13 +124,6 @@
 					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
 					icon="{sql:icon}"
 					class="class:menu">
-				<menuitem
-						title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
-						type="component"
-						element="com_menus"
-						link="index.php?option=com_menus&amp;view=item&amp;layout=edit&amp;menutype={sql:menutype}"
-						scope="edit"
-				/>
 			</menuitem>
 		</menuitem>
 		<menuitem
@@ -147,7 +133,7 @@
 				sql_select="title, menutype"
 				sql_from="#__menu_types"
 				sql_where="client_id = 1"
-				sql_order="title ASC">
+				sql_order="id DESC">
 			<menuitem
 					title="{sql:title}"
 					type="component"

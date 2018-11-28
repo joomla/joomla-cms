@@ -11,15 +11,15 @@ namespace Joomla\CMS\Extension\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Categories\CategoryFactoryInterface;
-use Joomla\DI\Container;
-use Joomla\DI\ServiceProviderInterface;
 use Joomla\CMS\Component\Router\RouterFactoryInterface;
 use Joomla\Database\DatabaseInterface;
+use Joomla\DI\Container;
+use Joomla\DI\ServiceProviderInterface;
 
 /**
  * Service provider for the service router factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class RouterFactory implements ServiceProviderInterface
 {
@@ -51,7 +51,7 @@ class RouterFactory implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

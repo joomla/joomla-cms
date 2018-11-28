@@ -9,18 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Menu\Administrator\Menu\CssMenu;
-use Joomla\Registry\Registry;
 
-/** @var  Registry  $params */
-$lang    = Factory::getLanguage();
-$user    = Factory::getUser();
-$input   = Factory::getApplication()->input;
-$enabled = !$input->getBool('hidemainmenu');
+$enabled = !$app->input->getBool('hidemainmenu');
 
-$menu = new CssMenu;
+$menu = new CssMenu($app);
 $menu->load($params, $enabled);
 
 // Render the module layout

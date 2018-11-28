@@ -27,6 +27,14 @@ use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 abstract class AssociationHelper extends CategoryAssociationHelper
 {
 	/**
+	 * Cached array of the content item id.
+	 *
+	 * @var    array
+	 * @since  4.0.0
+	 */
+	protected static $filters = array();
+
+	/**
 	 * Method to get the associations for a given item
 	 *
 	 * @param   integer  $id    Id of the item
@@ -42,41 +50,52 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 		$view   = $view ?? $jinput->get('view');
 		$id     = empty($id) ? $jinput->getInt('id') : $id;
 		$user   = Factory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$groups = $user->getAuthorisedViewLevels();
 
 		if ($view === 'article')
 		{
 			if ($id)
 			{
-				$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
-
-				$return = array();
-
-				foreach ($associations as $tag => $item)
+				if (!isset(static::$filters[$id]))
 				{
-					if ($item->language != Factory::getLanguage()->getTag())
+					$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+
+					$return = array();
+
+					foreach ($associations as $tag => $item)
 					{
-						$arrId   = explode(':', $item->id);
-						$assocId = $arrId[0];
-
-						$db    = Factory::getDbo();
-						$query = $db->getQuery(true)
-							->select($db->quoteName('state'))
-							->from($db->quoteName('#__content'))
-							->where($db->quoteName('id') . ' = ' . (int) ($assocId))
-							->where('access IN (' . $groups . ')');
-						$db->setQuery($query);
-
-						$result = (int) $db->loadResult();
-
-						if ($result > 0)
+						if ($item->language != Factory::getLanguage()->getTag())
 						{
-							$return[$tag] = \ContentHelperRoute::getArticleRoute((int) $item->id, (int) $item->catid, $item->language);
+							$arrId = explode(':', $item->id);
+							$assocId = $arrId[0];
+
+							$db = Factory::getDbo();
+							$query = $db->getQuery(true)
+								->select($db->quoteName('state'))
+								->from($db->quoteName('#__content'))
+								->where($db->quoteName('id') . ' = ' . (int) $assocId)
+								->whereIn($db->qn('access'), $groups);
+							$db->setQuery($query);
+
+							$result = (int) $db->loadResult();
+
+							if ($result > 0)
+							{
+								$return[$tag] = \ContentHelperRoute::getArticleRoute((int) $item->id, (int) $item->catid, $item->language);
+							}
 						}
+
+						static::$filters[$id] = $return;
+					}
+
+
+					if (count($associations) === 0)
+					{
+						static::$filters[$id] = array();
 					}
 				}
 
-				return $return;
+				return static::$filters[$id];
 			}
 		}
 

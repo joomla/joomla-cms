@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Version;
-use Joomla\CMS\Cache\Cache;
-use Joomla\CMS\Table\Table;
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Updater\Updater;
-use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Updater\Updater;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Version;
 
 // Uncomment the following line to enable debug mode (update notification email sent every single time)
 // define('PLG_SYSTEM_UPDATENOTIFICATION_DEBUG', 1);
@@ -41,7 +41,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -49,7 +49,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	 * Database driver
 	 *
 	 * @var    \Joomla\Database\DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -156,7 +156,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 
 		// Get the update model and retrieve the Joomla! core updates
 		$model = $this->app->bootComponent('com_installer')
-			->createMVCFactory($this->app)->createModel('Update', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 		$model->setState('filter.extension_id', $eid);
 		$updates = $model->getItems();
 
