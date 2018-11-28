@@ -814,7 +814,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 
 			if ($i == 0 && stripos(' DISTINCT ALL ', " $column[0] ") !== false)
 			{
-				// This words are reserved, they are not column names
+				// These words are reserved, they are not column names
 				array_shift($selectColumns[0]);
 				array_shift($column);
 				$size--;
