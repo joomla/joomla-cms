@@ -199,7 +199,7 @@ class CategoryNode extends CMSObject implements NodeInterface
 	public $modified_time = null;
 
 	/**
-	 * Nmber of times the category has been viewed
+	 * Number of times the category has been viewed
 	 *
 	 * @var    integer
 	 * @since  1.6

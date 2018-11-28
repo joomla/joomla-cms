@@ -29,8 +29,8 @@ use Joomla\CMS\Language\Text;
 		<?php
 		// Letters 'a' to 'e'
 		foreach (range('a', 'e') as $char) :
-			$link = $this->contact->params->get('link' . $char);
-			$label = $this->contact->params->get('link' . $char . '_name');
+			$link = $this->item->params->get('link' . $char);
+			$label = $this->item->params->get('link' . $char . '_name');
 
 			if (!$link) :
 				continue;

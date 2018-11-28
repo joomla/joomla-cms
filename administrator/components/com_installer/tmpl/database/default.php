@@ -32,9 +32,14 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 					<div class="control-group">
 						<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 						<?php if (empty($this->changeSet)) : ?>
-							<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+							<div class="alert alert-warning">
+								<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+							</div>
 						<?php else : ?>
 							<table class="table">
+								<caption id="captionTable" class="sr-only">
+									<?php echo Text::_('COM_INSTALLER_DATABASE_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+								</caption>
 								<thead>
 									<tr>
 										<td class="text-center" style="width:1%">

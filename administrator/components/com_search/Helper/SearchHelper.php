@@ -11,11 +11,10 @@ namespace Joomla\Component\Search\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Transliterate;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * Search component helper.
@@ -123,34 +122,6 @@ class SearchHelper
 		}
 
 		return $restriction;
-	}
-
-	/**
-	 * Logs a search term.
-	 *
-	 * @param   string  $search_term  The term being searched.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.
-	 */
-	public static function logSearch($search_term)
-	{
-		try
-		{
-			Log::add(
-				sprintf('%s() is deprecated. Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.', __METHOD__),
-				Log::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		\Joomla\CMS\Helper\SearchHelper::logSearch($search_term, 'com_search');
 	}
 
 	/**

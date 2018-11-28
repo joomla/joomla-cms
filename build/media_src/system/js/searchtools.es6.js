@@ -179,13 +179,28 @@
 
       this.checkActiveStatus(this);
 
-      document.body.addEventListener('click', () => {
+      document.body.addEventListener('click', (event) => {
         if (document.body.classList.contains('filters-shown')) {
+
+          // Ignore click inside the filter container
+          if (event.composedPath && typeof event.composedPath === 'function') {
+            // Browser that support composedPath()
+            if (event.composedPath().indexOf(this.filterContainer) !== -1) {
+              return;
+            }
+          } else {
+            let node = event.target;
+            while (node !== document.body) {
+              if (node === this.filterContainer) {
+                return;
+              }
+              node = node.parentNode;
+            }
+          }
+
           this.hideFilters();
         }
       });
-
-      this.filterContainer.addEventListener('click', (e) => { e.stopPropagation(); }, true);
     }
 
     checkFilter(element) {
@@ -452,6 +467,18 @@
 
       // eslint-disable-next-line no-new
       new Searchtools(element, options);
+    }
+
+    const sort = document.getElementById('sorted');
+
+    if (sort && sort.hasAttribute('data-caption')) {
+      const caption = sort.getAttribute('data-caption');
+      document.getElementById('captionTable').textContent += caption;
+    }
+
+    if (sort && sort.hasAttribute('data-sort')) {
+      const ariasort = sort.getAttribute('data-sort');
+      sort.parentNode.setAttribute('aria-sorted', ariasort);
     }
 
     // Cleanup

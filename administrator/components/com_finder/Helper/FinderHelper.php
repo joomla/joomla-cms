@@ -9,8 +9,6 @@
 
 namespace Joomla\Component\Finder\Administrator\Helper;
 
-use Joomla\CMS\Helper\ContentHelper;
-
 defined('_JEXEC') or die;
 
 /**
@@ -88,33 +86,5 @@ class FinderHelper
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  \JObject  A JObject containing the allowed actions.
-	 *
-	 * @since   2.5
-	 * @deprecated  3.2  Use \JHelperContent::getActions() instead
-	 */
-	public static function getActions()
-	{
-		// Log usage of deprecated function
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions
-		return ContentHelper::getActions('com_finder');
 	}
 }

@@ -23,7 +23,7 @@ use Joomla\Registry\Registry;
  * Update class. It is used by Updater::update() to install an update. Use Updater::findUpdates() to find updates for
  * an extension.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Update extends CMSObject
 {
@@ -31,7 +31,7 @@ class Update extends CMSObject
 	 * Update manifest `<name>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $name;
 
@@ -39,7 +39,7 @@ class Update extends CMSObject
 	 * Update manifest `<description>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $description;
 
@@ -47,7 +47,7 @@ class Update extends CMSObject
 	 * Update manifest `<element>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $element;
 
@@ -55,7 +55,7 @@ class Update extends CMSObject
 	 * Update manifest `<type>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type;
 
@@ -63,7 +63,7 @@ class Update extends CMSObject
 	 * Update manifest `<version>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $version;
 
@@ -71,7 +71,7 @@ class Update extends CMSObject
 	 * Update manifest `<infourl>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $infourl;
 
@@ -79,7 +79,7 @@ class Update extends CMSObject
 	 * Update manifest `<client>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $client;
 
@@ -87,7 +87,7 @@ class Update extends CMSObject
 	 * Update manifest `<group>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $group;
 
@@ -95,7 +95,7 @@ class Update extends CMSObject
 	 * Update manifest `<downloads>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $downloads;
 
@@ -111,7 +111,7 @@ class Update extends CMSObject
 	 * Update manifest `<tags>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $tags;
 
@@ -119,7 +119,7 @@ class Update extends CMSObject
 	 * Update manifest `<maintainer>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $maintainer;
 
@@ -127,7 +127,7 @@ class Update extends CMSObject
 	 * Update manifest `<maintainerurl>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $maintainerurl;
 
@@ -135,7 +135,7 @@ class Update extends CMSObject
 	 * Update manifest `<category>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $category;
 
@@ -143,7 +143,7 @@ class Update extends CMSObject
 	 * Update manifest `<relationships>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $relationships;
 
@@ -151,7 +151,7 @@ class Update extends CMSObject
 	 * Update manifest `<targetplatform>` element
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $targetplatform;
 
@@ -159,7 +159,7 @@ class Update extends CMSObject
 	 * Extra query for download URLs
 	 *
 	 * @var    string
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $extra_query;
 
@@ -167,7 +167,7 @@ class Update extends CMSObject
 	 * Resource handle for the XML Parser
 	 *
 	 * @var    resource
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $xmlParser;
 
@@ -175,7 +175,7 @@ class Update extends CMSObject
 	 * Element call stack
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $stack = array('base');
 
@@ -183,7 +183,7 @@ class Update extends CMSObject
 	 * Unused state array
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $stateStore = array();
 
@@ -191,7 +191,7 @@ class Update extends CMSObject
 	 * Object containing the current update data
 	 *
 	 * @var    \stdClass
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $currentUpdate;
 
@@ -199,7 +199,7 @@ class Update extends CMSObject
 	 * Object containing the latest update data
 	 *
 	 * @var    \stdClass
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $latest;
 
@@ -223,7 +223,7 @@ class Update extends CMSObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getStackLocation()
 	{
@@ -235,7 +235,7 @@ class Update extends CMSObject
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getLastTag()
 	{
@@ -252,7 +252,7 @@ class Update extends CMSObject
 	 * @return  void
 	 *
 	 * @note    This is public because it is called externally
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _startElement($parser, $name, $attrs = array())
 	{
@@ -319,7 +319,7 @@ class Update extends CMSObject
 	 * @return  void
 	 *
 	 * @note    This is public because it is called externally
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _endElement($parser, $name)
 	{
@@ -450,7 +450,7 @@ class Update extends CMSObject
 	 * @return  void
 	 *
 	 * @note    This is public because its called externally.
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function _characterData($parser, $data)
 	{
@@ -489,7 +489,7 @@ class Update extends CMSObject
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function loadFromXml($url, $minimum_stability = Updater::STABILITY_STABLE)
 	{
