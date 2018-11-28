@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
 ?>
 
 <div class="com-cpanel-help">
@@ -19,9 +20,11 @@ use Joomla\CMS\Language\Text;
 	</h2>
 	<ul class="list-group list-group-flush">
 		<?php foreach ($this->links as $link) : ?>
-			<li class="list-group-item">
-				<span class="item-title"><a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['label']); ?></a></span>
-			</li>
+			<?php if ($link['link']) : ?>
+				<li class="list-group-item">
+					<span class="item-title"><a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['label']); ?></a></span>
+				</li>
+			<?php endif; ?>
 		<?php endforeach; ?>
 	</ul>
 </div>

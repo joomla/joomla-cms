@@ -13,10 +13,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Configuration setup model for the Joomla Core Installer.
@@ -292,7 +292,18 @@ class ConfigurationModel extends BaseInstallationModel
 
 		$db->setQuery($query);
 
-		if ($db->loadResult())
+		try
+		{
+			$result = $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		if ($result)
 		{
 			$query->clear()
 				->update($db->quoteName('#__users'))

@@ -18,7 +18,6 @@ use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
 use Joomla\Registry\Registry;
 
 /**
@@ -141,9 +140,10 @@ class Editor implements DispatcherAwareInterface
 			return;
 		}
 
-		$event = new Event('onInit');
-
-		$this->getDispatcher()->dispatch('onInit', $event);
+		if (method_exists($this->_editor, 'onInit'))
+		{
+			call_user_func(array($this->_editor, 'onInit'));
+		}
 	}
 
 	/**
@@ -198,19 +198,7 @@ class Editor implements DispatcherAwareInterface
 		$args['author'] = $author;
 		$args['params'] = $params;
 
-		$event = new Event('onDisplay', $args);
-
-		$results = $this->getDispatcher()->dispatch('onDisplay', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
+		return call_user_func_array(array($this->_editor, 'onDisplay'), $args);
 	}
 
 	/**

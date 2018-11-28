@@ -11,11 +11,11 @@ namespace Joomla\Component\Redirect\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Redirect link list controller class.
@@ -139,7 +139,18 @@ class LinksController extends AdminController
 			if (!empty($batch_urls_line))
 			{
 				$params = ComponentHelper::getParams('com_redirect');
-				$batch_urls[] = array_map('trim', explode($params->get('separator', '|'), $batch_urls_line));
+				$separator = $params->get('separator', '|');
+
+				// Basic check to make sure the correct separator is being used
+				if (!\Joomla\String\StringHelper::strpos($batch_urls_line, $separator))
+				{
+					$this->setMessage(Text::sprintf('COM_REDIRECT_NO_SEPARATOR_FOUND', $separator), 'error');
+					$this->setRedirect('index.php?option=com_redirect&view=links');
+
+					return false;
+				}
+
+				$batch_urls[] = array_map('trim', explode($separator, $batch_urls_line));
 			}
 		}
 

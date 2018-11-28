@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 $published = $this->state->get('filter.published');
 $clientId  = $this->state->get('filter.client_id');

@@ -11,12 +11,12 @@ namespace Joomla\Component\Content\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Site\Helper\QueryHelper;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Site\Helper\QueryHelper;
 
 /**
  * Frontpage View class

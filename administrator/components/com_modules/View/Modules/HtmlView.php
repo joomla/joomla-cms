@@ -11,16 +11,16 @@ namespace Joomla\Component\Modules\Administrator\View\Modules;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * View class for a list of modules.
@@ -132,9 +132,6 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		// Include the component HTML helpers.
-		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		return parent::display($tpl);
 	}
 
@@ -187,7 +184,6 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			HTMLHelper::_('bootstrap.renderModal', 'collapseModal');
 			$title = Text::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new FileLayout instance and render the batch button
