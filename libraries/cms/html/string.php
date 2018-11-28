@@ -40,7 +40,7 @@ abstract class JHtmlString
 		{
 			return '...';
 		}
-
+	
 		// Check if HTML tags are allowed.
 		if (!$allowHtml)
 		{
@@ -48,68 +48,78 @@ abstract class JHtmlString
 			$text = str_replace('>', '> ', $text);
 			$text = str_replace(array('&nbsp;', '&#160;'), ' ', $text);
 			$text = StringHelper::trim(preg_replace('#\s+#mui', ' ', $text));
-
+	
 			// Strip the tags from the input and decode entities.
 			$text = strip_tags($text);
 			$text = html_entity_decode($text, ENT_QUOTES, 'UTF-8');
-
+	
 			// Remove remaining extra spaces.
 			$text = str_replace('&nbsp;', ' ', $text);
 			$text = StringHelper::trim(preg_replace('#\s+#mui', ' ', $text));
 		}
-
+	
 		// Whether or not allowing HTML, truncate the item text if it is too long.
 		if ($length > 0 && StringHelper::strlen($text) > $length)
 		{
-			$tmp = trim(StringHelper::substr($text, 0, $length));
-
+			//test if the next character is a space - if it is include it so we don't loose the word
+			if ($text[$length] == ' ')
+			{
+				++$length;
+			}
+			//trim leading spaces, leave trailing ones so as not to loose the last word
+			$tmp = ltrim(StringHelper::substr($text, 0, $length));
+			    
+			//test if all we have is an incomplete tag
 			if ($tmp[0] === '<' && strpos($tmp, '>') === false)
 			{
 				return '...';
 			}
-
+	
 			// $noSplit true means that we do not allow splitting of words.
 			if ($noSplit)
 			{
 				// Find the position of the last space within the allowed length.
-				$offset = StringHelper::strrpos($tmp, ' ');
-				$tmp = StringHelper::substr($tmp, 0, $offset + 1);
-
+				$offset = StringHelper::strrpos($tmp, ' ');	
 				// If there are no spaces and the string is longer than the maximum
 				// we need to just use the ellipsis. In that case we are done.
 				if ($offset === false && strlen($text) > $length)
 				{
 					return '...';
 				}
-
-				if (StringHelper::strlen($tmp) > $length - 3)
-				{
-					$tmp = trim(StringHelper::substr($tmp, 0, StringHelper::strrpos($tmp, ' ')));
-				}
+				$tmp = StringHelper::substr($tmp, 0, $offset + 1);					
 			}
-
+	
 			if ($allowHtml)
 			{
 				// Put all opened tags into an array
 				preg_match_all("#<([a-z][a-z0-9]*)\b.*?(?!/)>#i", $tmp, $result);
 				$openedTags = $result[1];
-
+	
 				// Some tags self close so they do not need a separate close tag.
 				$openedTags = array_diff($openedTags, array('img', 'hr', 'br'));
 				$openedTags = array_values($openedTags);
-
+	
 				// Put all closed tags into an array
 				preg_match_all("#</([a-z][a-z0-9]*)\b(?:[^>]*?)>#iU", $tmp, $result);
 				$closedTags = $result[1];
-
+	
 				$numOpened = count($openedTags);
-
-				// Not all tags are closed so trim the text and finish.
+	
+				// Check if we are within a tag, if we are remove it
+				if (StringHelper::strrpos($tmp, '<') > StringHelper::strrpos($tmp, '>'))
+				{
+					$offset = StringHelper::strrpos($tmp, '<');
+					$tmp = StringHelper::trim(StringHelper::substr($tmp, 0, $offset));
+				}
+				//now we can add the ellipsis
+				$tmp .= '...';
+	
+				// Not all tags are closed so close them and finish.
 				if (count($closedTags) !== $numOpened)
 				{
 					// Closing tags need to be in the reverse order of opening tags.
 					$openedTags = array_reverse($openedTags);
-
+	
 					// Close tags
 					for ($i = 0; $i < $numOpened; $i++)
 					{
@@ -123,28 +133,25 @@ abstract class JHtmlString
 						}
 					}
 				}
-
-				// Check if we are within a tag
-				if (StringHelper::strrpos($tmp, '<') > StringHelper::strrpos($tmp, '>'))
-				{
-					$offset = StringHelper::strrpos($tmp, '<');
-					$tmp = StringHelper::trim(StringHelper::substr($tmp, 0, $offset));
-				}
+	
+			} else {
+				// $allowHtml==false so just add an ellipsis
+				$tmp .= '...';
 			}
-
+	
 			if ($tmp === false || strlen($text) > strlen($tmp))
 			{
-				$text = trim($tmp) . '...';
+				$text = trim($tmp); 
 			}
 		}
-
+	
 		// Clean up any internal spaces created by the processing.
 		$text = str_replace(' </', '</', $text);
 		$text = str_replace(' ...', '...', $text);
-
+	
 		return $text;
 	}
-
+	
 	/**
 	 * Method to extend the truncate method to more complex situations
 	 *
