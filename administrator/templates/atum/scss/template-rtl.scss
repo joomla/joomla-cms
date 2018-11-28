@@ -124,7 +124,6 @@ body {
   .has-arrow::after {
     left: 1rem;
     right: inherit;
-    -webkit-transform: rotate(135deg) translate(0,-50%);
     transform: rotate(135deg) translate(0,-50%);
   }
 
