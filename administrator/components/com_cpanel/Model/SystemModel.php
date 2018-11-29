@@ -118,7 +118,11 @@ class SystemModel extends BaseDatabaseModel
 			}
 
 			$infoSection->addItem(
-				new SystemItem('MOD_MENU_SYSTEM_INFORMATION_DATABASE', 'index.php?option=com_installer&view=database', $changeSetCount === 0 ? '' : $changeSetCount)
+				new SystemItem(
+					'MOD_MENU_SYSTEM_INFORMATION_DATABASE',
+					'index.php?option=com_installer&view=database',
+					$changeSetCount === 0 ? '' : $changeSetCount
+				)
 			);
 		}
 
