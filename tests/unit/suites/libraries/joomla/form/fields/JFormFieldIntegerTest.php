@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('integer');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldIntegersTest extends TestCase
 {
@@ -55,7 +55,7 @@ class JFormFieldIntegersTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetOptions()
 	{

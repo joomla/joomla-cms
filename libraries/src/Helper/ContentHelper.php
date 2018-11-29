@@ -43,6 +43,101 @@ class ContentHelper
 	}
 
 	/**
+	 * Adds Count relations for Category and Tag Managers
+	 *
+	 * @param   stdClass[]  &$items  The category or tag objects
+	 * @param   stdClass    $config  Configuration object allowing to use a custom relations table
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.9.1
+	 */
+	public static function countRelations(&$items, $config)
+	{
+		$db = Factory::getDbo();
+
+		// Allow custom state / condition values and custom column names to support custom components
+		$counter_names = isset($config->counter_names) ? $config->counter_names : array(
+			'-2' => 'count_trashed',
+			'0'  => 'count_unpublished',
+			'1'  => 'count_published',
+			'2'  => 'count_archived',
+		);
+
+		// Index category objects by their ID
+		$records = array();
+
+		foreach ($items as $item)
+		{
+			$records[(int) $item->id] = $item;
+		}
+
+		// The relation query does not return a value for cases without relations of a particular state / condition, set zero as default
+		foreach ($items as $item)
+		{
+			foreach ($counter_names as $n)
+			{
+				$item->{$n} = 0;
+			}
+		}
+
+		// Table alias for related data table below will be 'c', and state / condition column is inside related data table
+		$related_tbl = $db->quoteName('#__' . $config->related_tbl, 'c');
+		$state_col   = $db->quoteName('c.' . $config->state_col);
+
+		// Supported cases
+		switch ($config->relation_type)
+		{
+			case 'tag_assigments':
+				$recid_col = $db->quoteName('ct.' . $config->group_col);
+
+				$query = $db->getQuery(true)
+					->from($db->quoteName('#__contentitem_tag_map', 'ct'))
+					->join('INNER', $related_tbl . ' ON ' . $db->quoteName('ct.content_item_id') . ' = ' . $db->quoteName('c.id') . ' AND ' .
+						$db->quoteName('ct.type_alias') . ' = ' . $db->quote($config->extension)
+					);
+				break;
+
+			case 'category_or_group':
+				$recid_col = $db->quoteName('c.' . $config->group_col);
+
+				$query = $db->getQuery(true)
+					->from($related_tbl);
+				break;
+
+			default:
+				return $items;
+		}
+
+		/**
+		 * Get relation counts for all category objects with single query
+		 * NOTE: 'state IN', allows counting specific states / conditions only, also prevents warnings with custom states / conditions, do not remove
+		 */
+		$query
+			->select($recid_col . ' AS catid, ' . $state_col . ' AS state, COUNT(*) AS count')
+			->where($recid_col . ' IN (' . implode(',', array_keys($records)) . ')')
+			->where($state_col . ' IN (' . implode(',', array_keys($counter_names)) . ')')
+			->group($recid_col . ', ' . $state_col);
+
+		$relationsAll = $db->setQuery($query)->loadObjectList();
+
+		// Loop through the DB data overwritting the above zeros with the found count
+		foreach ($relationsAll as $relation)
+		{
+			// Sanity check in case someone removes the state IN above ... and some views may start throwing warnings
+			if (isset($counter_names[$relation->state]))
+			{
+				$id = (int) $relation->catid;
+				$cn = $counter_names[$relation->state];
+
+				$records[$id]->{$cn} = $relation->count;
+			}
+		}
+
+		return $items;
+	}
+
+	/**
 	 * Gets a list of the actions that can be performed.
 	 *
 	 * @param   integer  $categoryId  The category ID.

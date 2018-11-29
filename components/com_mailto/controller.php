@@ -92,7 +92,7 @@ class MailtoController extends JControllerLegacy
 		{
 			foreach ($headers as $header)
 			{
-				if (strpos($value, $header) !== false)
+				if (is_string($value) && strpos($value, $header) !== false)
 				{
 					JError::raiseError(403, '');
 				}

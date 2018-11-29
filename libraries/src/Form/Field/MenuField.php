@@ -38,7 +38,7 @@ class MenuField extends \JFormFieldGroupedList
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getGroups()

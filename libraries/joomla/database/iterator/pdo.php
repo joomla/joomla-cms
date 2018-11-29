@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PDO database iterator.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class JDatabaseIteratorPdo extends JDatabaseIterator
 {
@@ -21,7 +21,7 @@ class JDatabaseIteratorPdo extends JDatabaseIterator
 	 *
 	 * @return  integer  The number of rows in the result set.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @see     Countable::count()
 	 */
 	public function count()
@@ -41,7 +41,7 @@ class JDatabaseIteratorPdo extends JDatabaseIterator
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchObject()
 	{
@@ -60,7 +60,7 @@ class JDatabaseIteratorPdo extends JDatabaseIterator
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function freeResult()
 	{

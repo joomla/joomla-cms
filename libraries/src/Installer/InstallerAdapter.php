@@ -136,8 +136,11 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		{
 			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
 			$reflection = new \ReflectionClass(get_called_class());
-			$this->type = strtolower(str_replace('Adapter', '', $reflection->getShortName()));
+			$this->type = str_replace('Adapter', '', $reflection->getShortName());
 		}
+
+		// Extension type is stored as lowercase in the database
+		$this->type = strtolower($this->type);
 	}
 
 	/**
@@ -185,9 +188,6 @@ abstract class InstallerAdapter extends \JAdapterInstance
 	 */
 	protected function checkExistingExtension()
 	{
-		// Extension type is stored as lowercase on the #__extensions table field type
-		$this->type = strtolower($this->type);
-
 		try
 		{
 			$this->currentExtensionId = $this->extension->find(

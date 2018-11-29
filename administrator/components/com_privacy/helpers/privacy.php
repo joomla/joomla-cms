@@ -63,7 +63,7 @@ class PrivacyHelper extends JHelperContent
 	 */
 	public static function renderDataAsXml(array $exportData)
 	{
-		$export = new SimpleXMLElement("<data-export />");
+		$export = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><data-export />');
 
 		foreach ($exportData as $domain)
 		{

@@ -36,7 +36,7 @@ JFactory::getDocument()->addScriptDeclaration("
 jQuery(document).ready(function($){
 
 	// Hide all the folder when the page loads
-	$('.folder ul, .component-folder ul, .layout-folder ul').hide();
+	$('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul').hide();
 
 	// Display the tree after loading
 	$('.directory-tree').removeClass('directory-tree');
@@ -45,17 +45,17 @@ jQuery(document).ready(function($){
 	$('.show > ul').show();
 
 	// Stop the default action of anchor tag on a click event
-	$('.folder-url, .component-folder-url, .layout-folder-url').click(function(event){
+	$('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url').click(function(event){
 		event.preventDefault();
 	});
 
 	// Prevent the click event from proliferating
-	$('.file, .component-file-url').bind('click',function(e){
+	$('.file, .component-file-url, .plugin-file-url').bind('click',function(e){
 		e.stopPropagation();
 	});
 
 	// Toggle the child indented list on a click event
-	$('.folder, .component-folder, .layout-folder').bind('click',function(e){
+	$('.folder, .component-folder, .plugin-folder, .layout-folder').bind('click',function(e){
 		$(this).children('ul').toggle();
 		e.stopPropagation();
 	});
@@ -344,7 +344,7 @@ if ($this->type == 'font')
 
 <?php echo JHtml::_('bootstrap.addTab', 'myTab', 'overrides', JText::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row-fluid">
-	<div class="span4">
+	<div class="span3">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_MODULES'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
@@ -361,7 +361,7 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="span3">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_COMPONENTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>
@@ -387,7 +387,33 @@ if ($this->type == 'font')
 			<?php endforeach; ?>
 		</ul>
 	</div>
-	<div class="span4">
+	<div class="span3">
+		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
+		<ul class="nav nav-list">
+			<?php $token = JSession::getFormToken() . '=' . 1; ?>
+			<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
+				<li class="plugin-folder">
+					<a href="#" class="plugin-folder-url">
+						<span class="icon-folder" aria-hidden="true"></span>&nbsp;<?php echo $key; ?>
+					</a>
+					<ul class="nav nav-list">
+						<?php foreach ($group as $plugin) : ?>
+							<li>
+								<?php
+								$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $plugin->path
+										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+								?>
+								<a class="plugin-file-url" href="<?php echo JRoute::_($overrideLinkUrl); ?>">
+									<span class="icon-copy" aria-hidden="true"></span>&nbsp;<?php echo $plugin->name; ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</li>
+			<?php endforeach; ?>
+		</ul>
+	</div>
+	<div class="span3">
 		<legend><?php echo JText::_('COM_TEMPLATES_OVERRIDES_LAYOUTS'); ?></legend>
 		<ul class="nav nav-list">
 			<?php $token = JSession::getFormToken() . '=' . 1; ?>

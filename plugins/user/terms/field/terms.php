@@ -10,9 +10,13 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
-JFormHelper::loadFieldClass('radio');
+FormHelper::loadFieldClass('radio');
 
 /**
  * Provides input for privacyterms
@@ -110,9 +114,9 @@ class JFormFieldterms extends JFormFieldRadio
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
-			if (JLanguageAssociations::isEnabled())
+			if (Associations::isEnabled())
 			{
-				$termsAssociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $termsArticle);
+				$termsAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $termsArticle);
 			}
 
 			$currentLang = Factory::getLanguage()->getTag();
@@ -124,13 +128,13 @@ class JFormFieldterms extends JFormFieldRadio
 					$termsAssociated[$currentLang]->catid,
 					$termsAssociated[$currentLang]->language
 				);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
+				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
 				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
+				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
 		}
 		else

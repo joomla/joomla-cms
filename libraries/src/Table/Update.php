@@ -16,7 +16,7 @@ use Joomla\Registry\Registry;
  * Update table
  * Stores updates temporarily
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Update extends Table
 {
@@ -25,7 +25,7 @@ class Update extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($db)
 	{
@@ -38,7 +38,7 @@ class Update extends Table
 	 * @return  boolean  True if the object is ok
 	 *
 	 * @see     Table::check()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -68,7 +68,7 @@ class Update extends Table
 	 * @return  mixed  Null if operation was satisfactory, otherwise returns an error
 	 *
 	 * @see     Table::bind()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -94,7 +94,7 @@ class Update extends Table
 	 *
 	 * @return  string  Results of query
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function find($options = array())
 	{

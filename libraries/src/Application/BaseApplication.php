@@ -19,7 +19,7 @@ use Joomla\Registry\Registry;
  *
  * @property-read  \JInput  $input  The application input object
  *
- * @since  12.1
+ * @since  3.0.0
  */
 abstract class BaseApplication extends AbstractApplication
 {
@@ -27,7 +27,7 @@ abstract class BaseApplication extends AbstractApplication
 	 * The application dispatcher object.
 	 *
 	 * @var    \JEventDispatcher
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $dispatcher;
 
@@ -35,7 +35,7 @@ abstract class BaseApplication extends AbstractApplication
 	 * The application identity object.
 	 *
 	 * @var    \JUser
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $identity;
 
@@ -49,7 +49,7 @@ abstract class BaseApplication extends AbstractApplication
 	 *                             config object.  If the argument is a Registry object that object will become
 	 *                             the application's config object, otherwise a default config object is created.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct(Input $input = null, Registry $config = null)
 	{
@@ -64,7 +64,7 @@ abstract class BaseApplication extends AbstractApplication
 	 *
 	 * @return  mixed  A \JUser object or null.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getIdentity()
 	{
@@ -79,7 +79,7 @@ abstract class BaseApplication extends AbstractApplication
 	 *
 	 * @return  BaseApplication  The application to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function registerEvent($event, $handler)
 	{
@@ -99,7 +99,7 @@ abstract class BaseApplication extends AbstractApplication
 	 *
 	 * @return  array   An array of results from each function call, or null if no dispatcher is defined.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function triggerEvent($event, array $args = null)
 	{
@@ -122,7 +122,7 @@ abstract class BaseApplication extends AbstractApplication
 	 *
 	 * @return  BaseApplication This method is chainable.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function loadDispatcher(\JEventDispatcher $dispatcher = null)
 	{
@@ -142,7 +142,7 @@ abstract class BaseApplication extends AbstractApplication
 	 *
 	 * @return  BaseApplication This method is chainable.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function loadIdentity(\JUser $identity = null)
 	{

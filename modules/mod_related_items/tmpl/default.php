@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul class="relateditems<?php echo $moduleclass_sfx; ?>">
+<ul class="relateditems<?php echo $moduleclass_sfx; ?> mod-list">
 <?php foreach ($list as $item) : ?>
 <li>
 	<a href="<?php echo $item->route; ?>">
