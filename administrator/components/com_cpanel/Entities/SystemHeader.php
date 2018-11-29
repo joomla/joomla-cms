@@ -46,7 +46,6 @@ class SystemHeader
 	private $items = [];
 
 	/**
-	 *
 	 * SystemHeader constructor.
 	 *
 	 * @param   string  $title  The title of the header
@@ -64,6 +63,8 @@ class SystemHeader
 	 * Method to add an item to the section
 	 *
 	 * @param   SystemItem  $item  The item to add to this section
+	 *
+	 * @return  void
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
