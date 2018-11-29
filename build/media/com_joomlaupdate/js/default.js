@@ -146,6 +146,7 @@ Joomla = window.Joomla || {};
      */
     PreUpdateChecker.setResultView = function (extensionData) {
         var html = '';
+        var direction = (document.dir !== undefined) ? document.dir : document.getElementsByTagName("html")[0].getAttribute("dir");
 
         // Switch the compatibility state
         switch (extensionData.state) {
@@ -155,8 +156,13 @@ Joomla = window.Joomla || {};
                     html = '<span class="badge badge-success">' + Joomla.JText._('JYES') + '</span>';
                 } else {
                     // The compatible version does not match the current version => display warning label.
-                    html = '<span class="badge badge-warning">' + Joomla.JText._('JYES')
-                        + ' (' + extensionData.compatibleVersion + ')</span>';
+                    if (direction === 'rtl') {
+                        html = '<span class="badge badge-warning">' + '(' + extensionData.compatibleVersion + ') '
+                           + Joomla.JText._('JYES') + '</span>';
+                    } else {
+                        html = '<span class="badge badge-warning">' + Joomla.JText._('JYES')
+                            + ' (' + extensionData.compatibleVersion + ')</span>';
+                    }
                 }
                 break;
             case PreUpdateChecker.STATE.INCOMPATIBLE:
