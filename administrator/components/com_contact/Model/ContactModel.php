@@ -11,17 +11,17 @@ namespace Joomla\Component\Contact\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Item Model for a Contact.
@@ -74,7 +74,7 @@ class ContactModel extends AdminModel
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -482,13 +482,15 @@ class ContactModel extends AdminModel
 	 *
 	 * @param   \Joomla\CMS\Table\Table  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array('catid = ' . (int) $table->catid);
+		return [
+			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+		];
 	}
 
 	/**

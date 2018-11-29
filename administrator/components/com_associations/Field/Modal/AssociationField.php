@@ -13,9 +13,9 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal item picker.
@@ -46,7 +46,7 @@ class AssociationField extends FormField
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
 		Factory::getDocument()->addScriptOptions('modal-associations', ['itemId' => $value]);
-		HTMLHelper::_('script', 'com_associations/modal-associations.min.js', false, true);
+		HTMLHelper::_('script', 'com_associations/modal-associations.min.js', ['version' => 'auto', 'relative' => true]);
 
 		// Setup variables for display.
 		$html = array();

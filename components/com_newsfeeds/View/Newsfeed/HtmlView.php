@@ -11,14 +11,13 @@ namespace Joomla\Component\Newsfeeds\Site\View\Newsfeed;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
-use Joomla\Component\Newsfeeds\Site\Model\CategoryModel;
-use Joomla\CMS\Categories\Categories;
-use Joomla\CMS\Feed\FeedFactory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * HTML View class for the Newsfeeds component
@@ -99,7 +98,8 @@ class HtmlView extends BaseHtmlView
 		if ($item)
 		{
 			// Get Category Model data
-			$categoryModel = new CategoryModel(array('ignore_request' => true));
+			$categoryModel = $app->bootComponent('com_newsfeeds')
+				->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => true]);
 			$categoryModel->setState('category.id', $item->catid);
 			$categoryModel->setState('list.ordering', 'a.name');
 			$categoryModel->setState('list.direction', 'asc');

@@ -31,7 +31,7 @@ $info    = $params->get('info_block_position', 0);
 $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 ?>
 <div class="com-content-article item-page<?php echo $this->pageclass_sfx; ?>" itemscope itemtype="https://schema.org/Article">
-	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getConfig()->get('language') : $this->item->language; ?>">
+	<meta itemprop="inLanguage" content="<?php echo ($this->item->language === '*') ? Factory::getApplication()->get('language') : $this->item->language; ?>">
 	<?php if ($this->params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1> <?php echo $this->escape($this->params->get('page_heading')); ?> </h1>
@@ -49,7 +49,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php if (!$useDefList && $this->print) : ?>
 		<div id="pop-print" class="btn hidden-print">
-			<?php echo HTMLHelper::_('contenticon.print_screen', $this->item, $params); ?>
+			<?php echo HTMLHelper::_('contenticon.print_screen', $params); ?>
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
@@ -78,7 +78,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
 			<div id="pop-print" class="btn hidden-print">
-				<?php echo HTMLHelper::_('contenticon.print_screen', $this->item, $params); ?>
+				<?php echo HTMLHelper::_('contenticon.print_screen', $params); ?>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>

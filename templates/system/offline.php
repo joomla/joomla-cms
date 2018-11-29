@@ -70,7 +70,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 				<input type="text" name="secretkey" class="inputbox" alt="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
 			</p>
 		<?php endif; ?>
-		<p id="submit-buton">
+		<p id="submit-button">
 			<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN'); ?>" />
 		</p>
 		<input type="hidden" name="task" value="user.login" />

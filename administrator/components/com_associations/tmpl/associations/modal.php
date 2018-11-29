@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Component\Associations\Administrator\Helper\AssociationsHelper;
 
 $app = Factory::getApplication();
 
@@ -39,7 +39,7 @@ $iconStates = array(
 );
 
 Factory::getDocument()->addScriptOptions('assosiations-modal', ['func' => $function]);
-HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', false, true);
+HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations&layout=modal&tmpl=component&function='
 . $function . '&' . Session::getFormToken() . '=1'); ?>" method="post" name="adminForm" id="adminForm">
@@ -54,12 +54,14 @@ HTMLHelper::_('script', 'com_associations/admin-associations-modal.min.js', fals
 <?php endif; ?>
 <?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 	<?php if (empty($this->items)) : ?>
-		<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+		<div class="alert alert-warning">
+			<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+		</div>
 	<?php else : ?>
 		<table class="table" id="associationsList">
 			<caption id="captionTable" class="sr-only">
 				?php echo Text::_('COM_ASSOCIATIONS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
-			</caption>		
+			</caption>
 			<thead>
 				<tr>
 					<?php if (!empty($this->typeSupports['state'])) : ?>

@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentError $this */
 
@@ -27,7 +27,7 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 $menu     = $app->getMenu()->getActive();
-$pageclass = $menu !== null ? $menu->params->get('pageclass_sfx') : null;
+$pageclass = $menu !== null ? $menu->params->get('pageclass_sfx', '') : '';
 
 // Add JavaScript Frameworks
 HTMLHelper::_('bootstrap.framework');

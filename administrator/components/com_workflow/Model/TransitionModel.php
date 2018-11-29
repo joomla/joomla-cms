@@ -3,23 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Model class for transition
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TransitionModel extends AdminModel
 {
@@ -30,7 +30,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function populateState()
 	{
@@ -50,7 +50,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function canDelete($record)
 	{
@@ -72,7 +72,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function canEditState($record)
 	{
@@ -97,7 +97,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @return   boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function save($data)
 	{
@@ -174,7 +174,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since	__DEPLOY_VERSION__
+	 * @since	4.0.0
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -197,7 +197,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @return \JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -248,7 +248,7 @@ class TransitionModel extends AdminModel
 	 *
 	 * @return mixed  The data for the form.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function loadFormData()
 	{
