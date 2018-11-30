@@ -30,6 +30,7 @@ class BannersTableBanner extends JTable
 	{
 		parent::__construct('#__banners', 'id', $db);
 
+		JTableObserverTags::createObserver($this, array('typeAlias' => 'com_banners.banner'));
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.banner'));
 
 		$this->created = JFactory::getDate()->toSql();

@@ -43,6 +43,15 @@
 		/>
 
 		<field
+			name="tags"
+			type="tag"
+			label="JTAG"
+			description="JTAG_DESC"
+			class="span12"
+			multiple="true"
+		/>
+
+		<field
 			name="state"
 			type="list"
 			label="JSTATUS"

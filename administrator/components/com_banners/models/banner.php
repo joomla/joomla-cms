@@ -265,6 +265,25 @@ class BannersModelBanner extends JModelAdmin
 	}
 
 	/**
+	 * Method to get a single record.
+	 *
+	 * @param   integer  $pk  The id of the primary key.
+	 *
+	 * @return  mixed  Object on success, false on failure.
+	 */
+	public function getItem($pk = null)
+	{
+		if ($item = parent::getItem($pk)) {
+			if (!empty($item->id)) {
+				$item->tags = new JHelperTags;
+				$item->tags->getTagIds($item->id, 'com_banners.banner');
+			}
+		}
+
+		return $item;
+	}
+
+	/**
 	 * Method to stick records.
 	 *
 	 * @param   array    $pks    The ids of the items to publish.
