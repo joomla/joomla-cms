@@ -1066,7 +1066,7 @@ abstract class AdminModel extends FormModel
 				 * Prune items that are already at the given state.  Note: Only models whose table correctly
 				 * sets 'published' column alias (if different than published) will benefit from this
 				 */
-				$published_col = $table->getColumnAlias('published');
+				$publishedColumnName = $table->getColumnAlias('published');
 
 				if (property_exists($table, $published_col) && $table->get($published_col, $value) == $value)
 				{
