@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class representing a section in the system view.
  *
- * @since  1.6
+ * @since  __DEPLOY_VERSION__
  */
 class SystemHeader
 {
