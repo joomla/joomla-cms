@@ -228,10 +228,10 @@ class PlgFieldsSubform extends FieldsPlugin
 				$subfield->rawvalue = $subfield->value = '';
 
 				// If we have data for this field in the current row
-				if (isset($row[$subfield->name]))
+				if (isset($row[$subfield->name]) && $row[$subfield->name])
 				{
 					// Take over the data into our virtual subfield
-					$subfield->rawvalue = $subfield->value = trim($row[$subfield->name]);
+					$subfield->rawvalue = $subfield->value = $row[$subfield->name];
 				}
 
 				// Do we want to render the value of our fields?
@@ -244,9 +244,10 @@ class PlgFieldsSubform extends FieldsPlugin
 					}
 
 					// Lets see if we have a fast in-memory result for this
-					if (isset($this->renderCache[$subfield->type][$subfield->rawvalue]))
+					$renderCache_key = serialize($subfield->rawvalue);
+					if (isset($this->renderCache[$subfield->type][$renderCache_key]))
 					{
-						$subfield->value = $this->renderCache[$subfield->type][$subfield->rawvalue];
+						$subfield->value = $this->renderCache[$subfield->type][$renderCache_key];
 					}
 					else
 					{
@@ -255,7 +256,7 @@ class PlgFieldsSubform extends FieldsPlugin
 							'onCustomFieldsPrepareField',
 							array($context, $item, $subfield)
 						);
-						$this->renderCache[$subfield->type][$subfield->rawvalue] = $subfield->value;
+						$this->renderCache[$subfield->type][$renderCache_key] = $subfield->value;
 					}
 
 					if (is_array($subfield->value))
