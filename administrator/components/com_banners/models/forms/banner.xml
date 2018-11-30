@@ -108,7 +108,8 @@
 
 		<field
 			name="custombannercode"
-			type="textarea"
+			type="editor"
+			editor="codemirror|none"
 			label="COM_BANNERS_FIELD_CUSTOMCODE_LABEL"
 			description="COM_BANNERS_FIELD_CUSTOMCODE_DESC"
 			rows="3"
