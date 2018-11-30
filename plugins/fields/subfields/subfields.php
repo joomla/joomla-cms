@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.Subform
+ * @subpackage  Fields.Subfields
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 JLoader::import('components.com_fields.libraries.fieldsplugin', JPATH_ADMINISTRATOR);
 
 /**
- * Fields subform Plugin
+ * Fields subfields Plugin
  *
  * @since  __DEPLOY_VERSION__
  */
-class PlgFieldsSubform extends FieldsPlugin
+class PlgFieldsSubfields extends FieldsPlugin
 {
 	/**
 	 * Two-dimensional array to hold to do a fast in-memory caching of rendered
@@ -51,7 +51,7 @@ class PlgFieldsSubform extends FieldsPlugin
 		$xml = new DOMDocument;
 		$xml->load($path);
 
-		// Get the options subform
+		// Get this fields options
 		$xmlxpath   = new DOMXPath($xml);
 		$hiddenform = $xmlxpath->evaluate(
 			'/form/fields[@name="fieldparams"]/fieldset[@name="fieldparams"]/field[@name="options"]/form'
@@ -69,9 +69,9 @@ class PlgFieldsSubform extends FieldsPlugin
 
 		foreach ($fieldTypes as $fieldType)
 		{
-			// Skip subform type, we dont want to allow subforms in subforms
+			// Skip our own subfields type, we dont want to allow subfields in subfields
 			// (to ease complexity)
-			if ($fieldType['type'] == 'subform')
+			if ($fieldType['type'] == 'subfields')
 			{
 				continue;
 			}
@@ -157,9 +157,8 @@ class PlgFieldsSubform extends FieldsPlugin
 	}
 
 	/**
-	 * Renders this fields value by rendering all subfields of this subform
-	 * and joining all those rendered subfields. Additionally stores the value
-	 * and raw value of all rendered subfields into $field->subfield_rows.
+	 * Renders this fields value by rendering all subfields and joining all those rendered subfields.
+	 * Additionally stores the value and raw value of all rendered subfields into $field->subfield_rows.
 	 *
 	 * @param   string     $context  The context
 	 * @param   object     $item     The item
@@ -187,21 +186,21 @@ class PlgFieldsSubform extends FieldsPlugin
 		$field_params = $this->getParamsFromField($field);
 
 		/**
-		 * Placeholder to hold all subform rows (if this subform field is repeatable)
-		 * and per array entry a \stdClass object which holds all the rendered values
-		 * of the configured subfields.
+		 * Placeholder to hold all subfield rows (if this field is repeatable).
+		 * Each array entry is a \stdClass object which holds all the rendered values of the configured subfields
+		 * for that specific row (or only one row, if not repeatable).
 		 */
 		$final_values = array();
+
 		/**
-		 * Placeholder to hold all subform rows (if this subform field is repeatable)
-		 * and per array entry a \stdClass object which holds another \stdClass object
-		 * for each configured subfield, which then again holds the rendered value and
-		 * the raw value of each subfield.
+		 * Placeholder to hold all subfield rows (if this field is repeatable).
+		 * Each array entry is a \stdClass object representing a row, having a \stdClass attribute for each
+		 * configured subfield (named after the name of the subfield), which has a `value` and `rawvalue`
+		 * attribute, holding the rendered and raw value of that subfield for that row.
 		 */
 		$subfield_rows = array();
 
-		// Create an array with entries being subform forms, and if not repeatable,
-		// containing only one element.
+		// Create an array with entries being subfields forms, and if not repeatable, containing only one element.
 		$rows = $field->value;
 
 		if ($field_params->get('repeat', '1') == '0')
@@ -296,7 +295,7 @@ class PlgFieldsSubform extends FieldsPlugin
 
 	/**
 	 * Returns a DOMElement which is the child of $orig_parent and represents
-	 * the form XML definition for this subform field.
+	 * the form XML definition for this field.
 	 *
 	 * @param   \stdClass   $field        The field
 	 * @param   DOMElement  $orig_parent  The original parent element
@@ -309,7 +308,6 @@ class PlgFieldsSubform extends FieldsPlugin
 	public function onCustomFieldsPrepareDom($field, DOMElement $orig_parent, JForm $form)
 	{
 		// Call the onCustomFieldsPrepareDom method on FieldsPlugin
-		// This will create a new 'field' DOMElement with type=subform
 		$parent_field = parent::onCustomFieldsPrepareDom($field, $orig_parent, $form);
 
 		if (!$parent_field)
@@ -317,10 +315,14 @@ class PlgFieldsSubform extends FieldsPlugin
 			return $parent_field;
 		}
 
-		// Get the configured parameters for this subform field
+		// Make sure this `field` DOMElement has an attribute type=subform - our parent set this to
+		// subfields, because that is our name. But we want the XML to be a subform.
+		$parent_field->setAttribute('type', 'subform');
+
+		// Get the configured parameters for this field
 		$field_params = $this->getParamsFromField($field);
 
-		// If this subform should be repeatable, set some attributes on the subform element
+		// If this fields should be repeatable, set some attributes on the subform element
 		if ($field_params->get('repeat', '1') == '1')
 		{
 			$parent_field->setAttribute('multiple', 'true');
@@ -332,13 +334,13 @@ class PlgFieldsSubform extends FieldsPlugin
 		$parent_fieldset->setAttribute('hidden', 'true');
 		$parent_fieldset->setAttribute('name', ($field->name . '_modal'));
 
-		// If this subform should be repeatable, set some attributes on the modal
+		// If this field should be repeatable, set some attributes on the modal
 		if ($field_params->get('repeat', '1') == '1')
 		{
 			$parent_fieldset->setAttribute('repeat', 'true');
 		}
 
-		// Iterate over the configured sub-fields of this subform to call prepareDom on each of those sub-fields
+		// Iterate over the configured subfields of this field to call prepareDom on each of those sub-fields
 		foreach ($this->getSubfieldsFromField($field) as $subfield)
 		{
 			// Let the relevant plugins do their work and insert the correct
@@ -377,7 +379,7 @@ class PlgFieldsSubform extends FieldsPlugin
 	}
 
 	/**
-	 * Returns the configured params for a given subform field.
+	 * Returns the configured params for a given field.
 	 *
 	 * @param   \stdClass  $field  The field
 	 *
@@ -398,7 +400,7 @@ class PlgFieldsSubform extends FieldsPlugin
 	}
 
 	/**
-	 * Returns an array of all subfields for this subform field.
+	 * Returns an array of all subfields for a given field.
 	 *
 	 * @param   \stdClass  $field  The field
 	 *
@@ -412,7 +414,7 @@ class PlgFieldsSubform extends FieldsPlugin
 
 		foreach ($this->getOptionsFromField($field) as $option)
 		{
-			// The sub-field starts with a bare copy of our subform field
+			// The subfield starts with a bare copy of our own field
 			$subfield                = (clone $field);
 			$subfield->id            = null;
 			$subfield->title         = $option->label;
@@ -428,7 +430,7 @@ class PlgFieldsSubform extends FieldsPlugin
 			 */
 			$prefix = ('_type-' . $option->type . '_');
 
-			// Copy all values from the sub-fields options into the subfield
+			// Copy all values from the subfields options into the subfield
 			foreach (array_keys(get_object_vars($option)) as $key)
 			{
 				// If we have our prefix, copy the value into the fieldparams (and not directly into the subfield)

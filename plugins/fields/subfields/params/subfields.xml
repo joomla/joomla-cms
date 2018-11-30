@@ -10,8 +10,8 @@
 			<field
 				name="render_values"
 				type="radio"
-				label="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_LABEL"
-				description="PLG_FIELDS_SUBFORM_PARAMS_RENDER_VALUES_DESC"
+				label="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_LABEL"
+				description="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_DESC"
 				class="btn-group btn-group-yesno"
 				default="1"
 				>
@@ -22,8 +22,8 @@
 			<field
 				name="repeat"
 				type="radio"
-				label="PLG_FIELDS_SUBFORM_PARAMS_REPEAT_LABEL"
-				description="PLG_FIELDS_SUBFORM_PARAMS_REPEAT_DESC"
+				label="PLG_FIELDS_SUBFIELDS_PARAMS_REPEAT_LABEL"
+				description="PLG_FIELDS_SUBFIELDS_PARAMS_REPEAT_DESC"
 				class="btn-group btn-group-yesno"
 				default="1"
 				>
@@ -34,8 +34,8 @@
 			<field
 				name="options"
 				type="subform"
-				label="PLG_FIELDS_SUBFORM_PARAMS_OPTIONS_LABEL"
-				description="PLG_FIELDS_SUBFORM_PARAMS_OPTIONS_DESC"
+				label="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_LABEL"
+				description="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_DESC"
 				icon="list"
 				layout="joomla.form.field.subform.repeatable"
 				min="1"
@@ -45,7 +45,7 @@
 
 					<field
 						name="type"
-						type="subformtype"
+						type="subfieldstype"
 						label="COM_FIELDS_FIELD_TYPE_LABEL"
 						description="COM_FIELDS_FIELD_TYPE_DESC"
 						default="text"
@@ -55,8 +55,8 @@
 					<field
 						name="name"
 						type="text"
-						label="PLG_FIELDS_SUBFORM_PARAMS_OPTIONS_NAME_LABEL"
-						description="PLG_FIELDS_SUBFORM_PARAMS_OPTIONS_NAME_DESC"
+						label="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_NAME_LABEL"
+						description="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_NAME_DESC"
 						required="true"
 					/>
 

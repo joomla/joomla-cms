@@ -376,7 +376,7 @@ class JoomlaInstallerScript
 
 	/**
 	 * Uninstalls the plg_fields_repeatable plugin and transforms its custom field instances
-	 * to instances of the plg_fields_subform plugin.
+	 * to instances of the plg_fields_subfields plugin.
 	 *
 	 * @return  void
 	 *
@@ -417,7 +417,7 @@ class JoomlaInstallerScript
 				continue;
 			}
 
-			// Will hold the new fieldparams for our subform field
+			// Will hold the new fieldparams for our subfields field
 			$newFieldparams = array(
 				'render_values' => '1',
 				'repeat' => '1',
@@ -433,14 +433,14 @@ class JoomlaInstallerScript
 				// Iterate over them
 				foreach (get_object_vars($oldFieldparams->fields) as $oldField)
 				{
-					// And convert the repeatable child-fields to child-fields for our subform field
+					// And convert the repeatable child-fields to subfields for our subfields field
 					$newFieldparams['options'][('option' . $newFieldCount)] = array(
 						'type' => (isset($oldField->fieldtype) ? $oldField->fieldtype : 'text'),
 						'name' => (isset($oldField->fieldname) ? $oldField->fieldname : ('field' . $newFieldCount)),
 						'label' => (isset($oldField->fieldname) ? $oldField->fieldname : ('field' . $newFieldCount)),
 					);
 
-					// We currently don't have 'number' types in plg_fields_subform, so convert number to text
+					// We currently don't have 'number' types in plg_fields_subfields, so convert number to text
 					if ($newFieldparams['options'][('option' . $newFieldCount)]['type'] == 'number')
 					{
 						$newFieldparams['options'][('option' . $newFieldCount)]['type'] = 'text';
@@ -454,7 +454,7 @@ class JoomlaInstallerScript
 			$db->setQuery(
 				$db->getQuery(true)
 					->update('#__fields')
-					->set($db->quoteName('type') . ' = ' . $db->quote('subform'))
+					->set($db->quoteName('type') . ' = ' . $db->quote('subfields'))
 					->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
 					->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
 			)->execute();

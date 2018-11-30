@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  Fields.Subform
+ * @subpackage  Fields.Subfields
  *
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 /**
- * One possible way to render a subform field, just by iterating over the rendered values:
+ * One possible way to render subfields, just by iterating over the rendered values:
  */
 echo '<ul>';
 foreach ($field->value as $row)
@@ -59,7 +59,7 @@ echo '</ul>';
  * <?php endforeach; ?>
  * </ul>
  *
- * This means you have better control over how the output of your subform fields
- * really is because you don't rely on the rendered values of the subform fields
+ * This means you have better control over how the output of your subfields
+ * really is because you don't rely on the rendered values of the subfields
  * themselves.
  */

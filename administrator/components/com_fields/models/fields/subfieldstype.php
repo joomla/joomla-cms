@@ -11,14 +11,15 @@ defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Fields Subformtype
+ * Fields Subfieldstype. Represents a list field with the options being all possible
+ * custom field types, except the 'subfields' custom field type.
  *
  * @see    \JFormFieldType
  * @since  __DEPLOY_VERSION__
  */
-class JFormFieldSubformtype extends JFormFieldList
+class JFormFieldSubfieldstype extends JFormFieldList
 {
-	public $type = 'Subformtype';
+	public $type = 'Subfieldstype';
 
 	/**
 	 * Method to get the field options.
@@ -35,8 +36,8 @@ class JFormFieldSubformtype extends JFormFieldList
 
 		foreach ($fieldTypes as $fieldType)
 		{
-			// Skip subform type. We (currently) won't have subforms in subforms.
-			if ($fieldType['type'] == 'subform')
+			// Skip our own subfields type. We won't have subfields in subfields.
+			if ($fieldType['type'] == 'subfields')
 			{
 				continue;
 			}
