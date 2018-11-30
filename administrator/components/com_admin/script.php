@@ -380,7 +380,7 @@ class JoomlaInstallerScript
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION_
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function uninstallRepeatableFieldsPlugin()
 	{

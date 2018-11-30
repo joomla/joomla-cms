@@ -66,6 +66,7 @@ class PlgFieldsSubform extends FieldsPlugin
 
 		// Iterate over all fields which we know (all our wanted subfields).
 		$fieldTypes = FieldsHelper::getFieldTypes();
+
 		foreach ($fieldTypes as $fieldType)
 		{
 			// Skip subform type, we dont want to allow subforms in subforms
