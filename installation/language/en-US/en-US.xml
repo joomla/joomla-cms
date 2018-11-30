@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metafile
-	version="3.7"
+	version="3.9"
 	client="installation">
 	<name>English (United States)</name>
-	<version>3.7.0</version>
-	<creationDate>October 2016</creationDate>
+	<version>3.9.0</version>
+	<creationDate>October 2018</creationDate>
 	<author>Joomla! Project</author>
 	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
@@ -12,7 +12,7 @@
 		<filename>en-US.ini</filename>
 	</files>
 	<metadata>
-		<name>English (en-US)</name>
+		<name>English (US)</name>
 		<nativeName>English (United States)</nativeName>
 		<tag>en-US</tag>
 		<rtl>0</rtl>

@@ -42,6 +42,13 @@ spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true)
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
+// Define the Joomla version if not already defined.
+if (!defined('JVERSION'))
+{
+	$jversion = new JVersion;
+	define('JVERSION', $jversion->getShortVersion());
+}
+
 // Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance
 if (!class_exists('FOFAutoloaderFof'))
 {
@@ -50,13 +57,6 @@ if (!class_exists('FOFAutoloaderFof'))
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
 set_exception_handler(array('JErrorPage', 'render'));
-
-// Define the Joomla version if not already defined.
-if (!defined('JVERSION'))
-{
-	$jversion = new JVersion;
-	define('JVERSION', $jversion->getShortVersion());
-}
 
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))
