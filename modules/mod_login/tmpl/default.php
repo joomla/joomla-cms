@@ -39,7 +39,7 @@ Text::script('JHIDE');
 				</div>
 			<?php else : ?>
 				<label for="modlgn-username"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-				<input class="form-control" id="modlgn-username" type="text" name="username" autocomplete="username" laceholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+				<input class="form-control" id="modlgn-username" type="text" name="username" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 			<?php endif; ?>
 		</div>
 
