@@ -161,6 +161,7 @@
 					>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
+					<option value="2">User created/owned content</option>
 				</field>
 
 				<field
