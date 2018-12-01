@@ -60,31 +60,31 @@ Text::script('JSHOW');
 Text::script('JHIDE');
 
 $attributes = [
-    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-    !$autocomplete ? 'autocomplete="passowrd"' : 'autocomplete="' . $autocomplete . '"',
-    !empty($class) ? 'class="' . $class . '"' : '',
-    $readonly ? 'readonly' : '',
-    $disabled ? 'disabled' : '',
-    !empty($size) ? 'size="' . $size . '"' : '',
-    !empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
-    $required ? 'required' : '',
-    $autofocus ? 'autofocus' : '',
-    'name="' . $name . '"',
-    'type="password"',
-    'id="' . $id . '"',
-    'value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"',
-    'aria-labeledby="' . $id . '-lbl"',
+	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+	!$autocomplete ? 'autocomplete="passowrd"' : 'autocomplete="' . $autocomplete . '"',
+	!empty($class) ? 'class="' . $class . '"' : '',
+	$readonly ? 'readonly' : '',
+	$disabled ? 'disabled' : '',
+	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
+	$required ? 'required' : '',
+	$autofocus ? 'autofocus' : '',
+	'name="' . $name . '"',
+	'type="password"',
+	'id="' . $id . '"',
+	'value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"',
+	'aria-labeledby="' . $id . '-lbl"',
 ];
 
 $parentAttributes = [
-    !empty($minLength) ? 'min-length="' . $minLength . '"' : '',
-    !empty($minIntegers) ? 'min-integers="' . $minIntegers . '"' : '',
-    !empty($minSymbols) ? 'min-symbols="' . $minSymbols . '"' : '',
-    !empty($minUppercase) ? 'min-uppercase="' . $minUppercase . '"' : '',
-    !empty($minLowercase) ? 'min-lowercase="' . $minLowercase . '"' : '',
-    !empty($forcePassword) ? 'min-force="' . $forcePassword . '"' : '',
+	!empty($minLength) ? 'min-length="' . $minLength . '"' : '',
+	!empty($minIntegers) ? 'min-integers="' . $minIntegers . '"' : '',
+	!empty($minSymbols) ? 'min-symbols="' . $minSymbols . '"' : '',
+	!empty($minUppercase) ? 'min-uppercase="' . $minUppercase . '"' : '',
+	!empty($minLowercase) ? 'min-lowercase="' . $minLowercase . '"' : '',
+	!empty($forcePassword) ? 'min-force="' . $forcePassword . '"' : '',
 ];
 ?>
 <joomla-field-password reveal="true" <?php echo implode(' ', $parentAttributes); ?>>
-    <input <?php echo implode(' ', $attributes); ?>>
+	<input <?php echo implode(' ', $attributes); ?>>
 </joomla-field-password>
