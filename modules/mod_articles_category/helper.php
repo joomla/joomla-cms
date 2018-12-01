@@ -191,7 +191,13 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('filter.tag', $params->get('filter_tag', array()));
 
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-		$articles->setState('filter.author_id', $params->get('created_by', array()));
+		if ( $params->get('author_filtering_type', 1) > 1 ){
+			$articles->setState('filter.author_id', JFactory::getUser()->id);
+		}
+		else {
+			//$articles->setState('filter.author_id', $authorised);
+			$articles->setState('filter.author_id', $params->get('created_by', array()));
+		}
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
 		$articles->setState('filter.author_alias', $params->get('created_by_alias', array()));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
