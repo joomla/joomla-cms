@@ -42,12 +42,8 @@
   }
 
   .login-box {
-    background: var(--login-main-bg);
+    background: var(--white);
     box-shadow: 0 0 20px var(--primary-dark);
-
-    a {
-      color: $white;
-    }
   }
 
   .form-group {
@@ -58,7 +54,6 @@
 
       span {
         font-size: .9rem;
-        color: #c6d2de;
       }
     }
   }

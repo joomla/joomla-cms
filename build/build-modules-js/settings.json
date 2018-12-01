@@ -10,6 +10,7 @@
       "field-switcher",
       "field-send-test-mail",
       "field-module-order",
+      "field-password",
       "field-permissions",
       "field-simple-color",
       "field-send-test-mail",
@@ -58,6 +59,9 @@
         "js": "media/system/webcomponents/js"
       },
       "field-fancy-select": {
+        "js": "media/system/webcomponents/js"
+      },
+      "field-password": {
         "js": "media/system/webcomponents/js"
       }
     },

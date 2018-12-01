@@ -17,7 +17,8 @@ use Joomla\CMS\Uri\Uri;
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-password.min.js', ['version' => 'auto', 'relative' => true]);
+
 HTMLHelper::_('script', 'mod_login/admin-login.min.js', ['version' => 'auto', 'relative' => true]);
 
 Text::script('JSHOW');
@@ -27,47 +28,34 @@ Text::script('JHIDE');
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
 		<div class="form-group">
-			<label class="text-white" for="mod-login-username">
+			<label for="mod-login-username">
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 			</label>
-			<div class="input-group">
-				<span class="input-group-prepend">
-					<span class="input-group-text">
-						<span class="fa fa-user" aria-hidden="true"></span>
-					</span>
-				</span>
-				<input
-					name="username"
-					id="mod-login-username"
-					type="text"
-					class="form-control input-full"
-					required="required"
-					autofocus
-				>
-			</div>
+            <input
+                name="username"
+                id="mod-login-username"
+                type="text"
+                class="form-control input-full"
+                required="required"
+                autocomplete="username"
+            >
 		</div>
 		<div class="form-group">
-			<label class="text-white" for="mod-login-password">
+			<label id="mod-login-password-lbl">
 				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 			</label>
-			<div class="input-group">
-				<span class="input-group-prepend">
-					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<span class="input-group-text icon-eye" aria-hidden="true"></span>
-				</span>
-				<input
-					name="passwd"
-					id="mod-login-password"
-					type="password"
-					class="form-control input-full"
-					required="required"
-				>
-			</div>
+<!--				<span class="input-group-prepend">-->
+<!--					<span class="sr-only">--><?php //echo Text::_('JSHOW'); ?><!--</span>-->
+<!--					<span class="input-group-text icon-eye" aria-hidden="true"></span>-->
+<!--				</span>-->
+            <joomla-field-password reveal="true">
+                <input name="passwd" type="password" id="mod-login-password" autocomplete="password" aria-labelledby="mod-login-password-lbl" required>
+            </joomla-field-password>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
 			<div class="form-group">
-				<label class="text-white" for="mod-login-secretkey">
+				<label for="mod-login-secretkey">
 					<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
 				</label>
 				<div class="input-group">
@@ -86,7 +74,7 @@ Text::script('JHIDE');
 		<?php endif; ?>
 		<?php if (!empty($langs)) : ?>
 			<div class="form-group">
-				<label class="text-white" for="lang">
+				<label for="lang">
 					<?php echo Text::_('MOD_LOGIN_LANGUAGE'); ?>
 				</label>
 				<?php echo $langs; ?>

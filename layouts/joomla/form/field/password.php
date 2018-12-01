@@ -50,53 +50,41 @@ extract($displayData);
 if ($meter)
 {
 	HTMLHelper::_('behavior.formvalidator');
-	HTMLHelper::_('script', 'system/fields/passwordstrength.min.js', array('version' => 'auto', 'relative' => true));
-
-	$class = 'js-password-strength ' . $class;
-
-	if ($forcePassword)
-	{
-		$class = $class . ' meteredPassword';
-	}
 }
 
-HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-password.min.js', ['version' => 'auto', 'relative' => true]);
 
 Text::script('JFIELD_PASSWORD_INDICATE_INCOMPLETE');
 Text::script('JFIELD_PASSWORD_INDICATE_COMPLETE');
 Text::script('JSHOW');
 Text::script('JHIDE');
 
-$attributes = array(
-	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	!$autocomplete ? 'autocomplete="off"' : '',
-	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	$readonly ? 'readonly' : '',
-	$disabled ? 'disabled' : '',
-	!empty($size) ? 'size="' . $size . '"' : '',
-	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
-	$required ? 'required' : '',
-	$autofocus ? 'autofocus' : '',
-	!empty($minLength) ? 'data-min-length="' . $minLength . '"' : '',
-	!empty($minIntegers) ? 'data-min-integers="' . $minIntegers . '"' : '',
-	!empty($minSymbols) ? 'data-min-symbols="' . $minSymbols . '"' : '',
-	!empty($minUppercase) ? 'data-min-uppercase="' . $minUppercase . '"' : '',
-	!empty($minLowercase) ? 'data-min-lowercase="' . $minLowercase . '"' : '',
-	!empty($forcePassword) ? 'data-min-force="' . $forcePassword . '"' : '',
-);
+$attributes = [
+    strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
+    !$autocomplete ? 'autocomplete="passowrd"' : 'autocomplete="' . $autocomplete . '"',
+    !empty($class) ? 'class="' . $class . '"' : '',
+    $readonly ? 'readonly' : '',
+    $disabled ? 'disabled' : '',
+    !empty($size) ? 'size="' . $size . '"' : '',
+    !empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
+    $required ? 'required' : '',
+    $autofocus ? 'autofocus' : '',
+    'name="' . $name . '"',
+    'type="password"',
+    'id="' . $id . '"',
+    'value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"',
+    'aria-labeledby="' . $id . '-lbl"',
+];
 
+$parentAttributes = [
+    !empty($minLength) ? 'min-length="' . $minLength . '"' : '',
+    !empty($minIntegers) ? 'min-integers="' . $minIntegers . '"' : '',
+    !empty($minSymbols) ? 'min-symbols="' . $minSymbols . '"' : '',
+    !empty($minUppercase) ? 'min-uppercase="' . $minUppercase . '"' : '',
+    !empty($minLowercase) ? 'min-lowercase="' . $minLowercase . '"' : '',
+    !empty($forcePassword) ? 'min-force="' . $forcePassword . '"' : '',
+];
 ?>
-<div class="password-group">
-	<div class="input-group">
-		<input
-			type="password"
-			name="<?php echo $name; ?>"
-			id="<?php echo $id; ?>"
-			value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-			<?php echo implode(' ', $attributes); ?>>
-		<span class="input-group-append">
-			<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-			<span class="input-group-text icon-eye" aria-hidden="true"></span>
-		</span>
-	</div>
-</div>
+<joomla-field-password reveal="true" <?php echo implode(' ', $parentAttributes); ?>>
+    <input <?php echo implode(' ', $attributes); ?>>
+</joomla-field-password>
