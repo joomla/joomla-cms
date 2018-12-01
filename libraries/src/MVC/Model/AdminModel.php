@@ -1061,7 +1061,21 @@ abstract class AdminModel extends FormModel
 
 					return false;
 				}
+
+				// Prune items that are already at the given state
+				if ($table->get($table->getColumnAlias('published'), $value) == $value)
+				{
+					unset($pks[$i]);
+
+					continue;
+				}
 			}
+		}
+
+		// Check if there are items to change
+		if (!count($pks))
+		{
+			return true;
 		}
 
 		// Attempt to change the state of the records.

@@ -8872,13 +8872,6 @@ ul.treeselect ul.dropdown-menu li {
 	line-height: 2em;
 	color: #333333;
 }
-.upload-queue > li > span,
-.upload-queue > li > a {
-	margin: 0 2px;
-}
-.upload-queue .file-remove {
-	float: right;
-}
 .moor-box {
 	z-index: 3;
 }

@@ -2037,7 +2037,7 @@ class PlgSystemDebug extends JPlugin
 		$app    = JFactory::getApplication();
 		$domain = $app->isClient('site') ? 'site' : 'admin';
 		$input  = $app->input;
-		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql.php';
 
 		// Get the queries from log.
 		$current = '';
@@ -2060,7 +2060,13 @@ class PlgSystemDebug extends JPlugin
 			JFile::delete($file);
 		}
 
+		$head   = array('#');
+		$head[] = '#<?php die(\'Forbidden.\'); ?>';
+		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
+		$head[] = '#Software: ' . \JPlatform::getLongVersion();
+		$head[] = "\n";
+
 		// Write new file.
-		JFile::write($file, $current);
+		JFile::write($file, implode("\n", $head) . $current);
 	}
 }
