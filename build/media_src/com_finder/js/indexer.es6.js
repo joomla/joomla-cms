@@ -79,8 +79,8 @@
           if (document.getElementById('finder-debug-data')) {
             const debuglist = document.getElementById('finder-debug-data');
             Object.entries(json.pluginState).forEach((context) => {
-              let item = `<dt class="col-sm-3">${context}</dt>`;
-              item += `<dd id="finder-${context.replace(/\s+/g, '-').toLowerCase()}" class="col-sm-9"></dd>`;
+              let item = `<dt class="col-sm-3">${context[0]}</dt>`;
+              item += `<dd id="finder-${context[0].replace(/\s+/g, '-').toLowerCase()}" class="col-sm-9"></dd>`;
               debuglist.insertAdjacentHTML('beforeend', item);
             });
           }
@@ -89,7 +89,7 @@
         updateProgress(json.header, json.message);
         if (document.getElementById('finder-debug-data')) {
           Object.entries(json.pluginState).forEach((context) => {
-            document.getElementById(`finder-${context.replace(/\s+/g, '-').toLowerCase()}`).innerHTML = `${json.pluginState[context].offset} of ${json.pluginState[context].total}`;
+            document.getElementById(`finder-${context[0].replace(/\s+/g, '-').toLowerCase()}`).innerHTML = `${json.pluginState[context[0]].offset} of ${json.pluginState[context[0]].total}`;
           });
         }
         if (offset < totalItems) {
