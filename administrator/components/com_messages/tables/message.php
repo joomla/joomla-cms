@@ -28,6 +28,8 @@ class MessagesTableMessage extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**
