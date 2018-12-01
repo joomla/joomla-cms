@@ -34,28 +34,28 @@ Text::script('JHIDE');
 		<div class="mod-login__username form-group">
 			<?php if (!$params->get('usetext')) : ?>
 				<div>
-                    <label for="modlgn-username"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-                    <input class="form-control" id="modlgn-username" type="text" name="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+					<label for="modlgn-username"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
+					<input class="form-control" id="modlgn-username" type="text" name="username" autocomplete="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 				</div>
 			<?php else : ?>
 				<label for="modlgn-username"><?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?></label>
-                <input class="form-control" id="modlgn-username" type="text" name="username" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
+				<input class="form-control" id="modlgn-username" type="text" name="username" autocomplete="username" laceholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 			<?php endif; ?>
 		</div>
 
 		<div class="mod-login__password form-group">
 			<?php if (!$params->get('usetext')) : ?>
 				<div>
-                    <label for="modlgn-passwd"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-                    <joomla-field-password reveal="true">
-                        <input id="modlgn-passwd" type="password" name="password" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
-                    </joomla-field-password>
-                </div>
+					<label for="modlgn-passwd"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
+					<joomla-field-password reveal="true">
+						<input id="modlgn-passwd" type="password" name="password" autocomplete="password" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+					</joomla-field-password>
+				</div>
 			<?php else : ?>
 				<label for="modlgn-passwd"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-                <joomla-field-password reveal="true">
-                    <input id="modlgn-passwd" type="password" name="password" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
-                </joomla-field-password>
+				<joomla-field-password reveal="true">
+					<input id="modlgn-passwd" type="password" name="password" autocomplete="password" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+				</joomla-field-password>
 			<?php endif; ?>
 		</div>
 
@@ -63,7 +63,7 @@ Text::script('JHIDE');
 			<div class="mod-login__twofactor form-group">
 				<?php if (!$params->get('usetext')) : ?>
 					<div>
-                        <label for="modlgn-secretkey" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
+						<label for="modlgn-secretkey" class="sr-only"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
 						<input id="modlgn-secretkey" autocomplete="off" type="text" name="secretkey" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
 					</div>
 				<?php else : ?>

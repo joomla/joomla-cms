@@ -31,26 +31,22 @@ Text::script('JHIDE');
 			<label for="mod-login-username">
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 			</label>
-            <input
-                name="username"
-                id="mod-login-username"
-                type="text"
-                class="form-control input-full"
-                required="required"
-                autocomplete="username"
-            >
+			<input
+				name="username"
+				id="mod-login-username"
+				type="text"
+				class="form-control input-full"
+				required="required"
+				autocomplete="username"
+			>
 		</div>
 		<div class="form-group">
 			<label id="mod-login-password-lbl">
 				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 			</label>
-<!--				<span class="input-group-prepend">-->
-<!--					<span class="sr-only">--><?php //echo Text::_('JSHOW'); ?><!--</span>-->
-<!--					<span class="input-group-text icon-eye" aria-hidden="true"></span>-->
-<!--				</span>-->
-            <joomla-field-password reveal="true">
-                <input name="passwd" type="password" id="mod-login-password" autocomplete="password" aria-labelledby="mod-login-password-lbl" required>
-            </joomla-field-password>
+			<joomla-field-password reveal="true">
+				<input name="passwd" type="password" id="mod-login-password" autocomplete="password" aria-labelledby="mod-login-password-lbl" required>
+			</joomla-field-password>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>

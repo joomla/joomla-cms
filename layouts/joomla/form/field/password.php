@@ -61,7 +61,7 @@ Text::script('JHIDE');
 
 $attributes = [
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	!$autocomplete ? 'autocomplete="passowrd"' : 'autocomplete="' . $autocomplete . '"',
+	!$autocomplete ? 'autocomplete="password"' : 'autocomplete="' . $autocomplete . '"',
 	!empty($class) ? 'class="' . $class . '"' : '',
 	$readonly ? 'readonly' : '',
 	$disabled ? 'disabled' : '',
