@@ -488,6 +488,12 @@ class ConfigModelApplication extends ConfigModelForm
 			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
 
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
+		}
+
 		// Attempt to make the file unwriteable if using FTP.
 		if (!$ftp['enabled'] && JPath::isOwner($file) && !JPath::setPermissions($file, '0444'))
 		{

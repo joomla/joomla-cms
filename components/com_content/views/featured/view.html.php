@@ -30,6 +30,7 @@ class ContentViewFeatured extends JViewLegacy
 
 	protected $link_items = array();
 
+	/** @deprecated  4.0 */
 	protected $columns = 1;
 
 	/**
