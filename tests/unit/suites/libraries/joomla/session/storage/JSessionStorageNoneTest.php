@@ -10,7 +10,7 @@
 /**
  * Test class for JSessionStorageNone.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JSessionStorageNoneTest extends \PHPUnit\Framework\TestCase
 {

@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * This implementation is designed to be compatible with HTML5's `<input type="color">`
  *
  * @link   http://www.w3.org/TR/html-markup/input.color.html
- * @since  11.3
+ * @since  1.7.3
  */
 class JFormFieldColor extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldColor extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $type = 'Color';
 
@@ -176,7 +176,7 @@ class JFormFieldColor extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function getInput()
 	{

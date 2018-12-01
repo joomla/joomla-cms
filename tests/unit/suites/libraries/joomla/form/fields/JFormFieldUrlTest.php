@@ -15,7 +15,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldUrl-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       12.1
+ * @since       3.0.0
  */
 class JFormFieldUrlTest extends TestCaseDatabase
 {
@@ -87,7 +87,7 @@ class JFormFieldUrlTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 *
 	 * @dataProvider  getInputData
 	 */

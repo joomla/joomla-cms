@@ -68,7 +68,7 @@ else
 }
 ?>
 <div class="row-fluid">
-	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
+	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?> form-vertical">
 		<div
 			class="subform-repeatable"
 			data-bt-add="a.group-add-<?php echo $unique_subform_id; ?>"

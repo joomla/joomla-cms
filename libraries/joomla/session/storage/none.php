@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * File session handler for PHP
  *
  * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageNone extends JSessionStorage
@@ -23,7 +23,7 @@ class JSessionStorageNone extends JSessionStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function register()
 	{

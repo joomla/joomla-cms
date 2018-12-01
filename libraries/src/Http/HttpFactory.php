@@ -18,7 +18,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * HTTP factory class.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class HttpFactory
 {
@@ -32,7 +32,7 @@ class HttpFactory
 	 *
 	 * @throws  \RuntimeException
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getHttp(Registry $options = null, $adapters = null)
 	{
@@ -57,7 +57,7 @@ class HttpFactory
 	 *
 	 * @return  TransportInterface Interface sub-class
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getAvailableDriver(Registry $options, $default = null)
 	{
@@ -100,7 +100,7 @@ class HttpFactory
 	 *
 	 * @return  array  An array of available transport handlers
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function getHttpTransports()
 	{

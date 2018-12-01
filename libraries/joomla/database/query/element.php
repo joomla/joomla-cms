@@ -16,25 +16,25 @@ defined('JPATH_PLATFORM') or die;
  * @property-read    array   $elements  An array of elements.
  * @property-read    string  $glue      Glue piece.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JDatabaseQueryElement
 {
 	/**
 	 * @var    string  The name of the element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $name = null;
 
 	/**
 	 * @var    array  An array of elements.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $elements = null;
 
 	/**
 	 * @var    string  Glue piece.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $glue = null;
 
@@ -45,7 +45,7 @@ class JDatabaseQueryElement
 	 * @param   mixed   $elements  String or array.
 	 * @param   string  $glue      The glue for elements.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($name, $elements, $glue = ',')
 	{
@@ -61,7 +61,7 @@ class JDatabaseQueryElement
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{
@@ -82,7 +82,7 @@ class JDatabaseQueryElement
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function append($elements)
 	{
@@ -101,7 +101,7 @@ class JDatabaseQueryElement
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getElements()
 	{
@@ -130,7 +130,7 @@ class JDatabaseQueryElement
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __clone()
 	{

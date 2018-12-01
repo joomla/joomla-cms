@@ -678,8 +678,9 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (490, 0, 'plg_privacy_contact', 'plugin', 'contact', 'privacy', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (491, 0, 'plg_privacy_content', 'plugin', 'content', 'privacy', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (492, 0, 'plg_privacy_message', 'plugin', 'message', 'privacy', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(493, 0, 'plg_privacy_actionlogs', 'plugin', 'actionlogs', 'privacy', 0, 0, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(493, 0, 'plg_privacy_actionlogs', 'plugin', 'actionlogs', 'privacy', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (494, 0, 'plg_captcha_recaptcha_invisible', 'plugin', 'recaptcha_invisible', 'captcha', 0, 0, 1, 0, '', '{"public_key":"","private_key":"","theme":"clean"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(495, 0, 'plg_privacy_consents', 'plugin', 'consents', 'privacy', 0, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (503, 0, 'beez3', 'template', 'beez3', '', 0, 1, 1, 0, '', '{"wrapperSmall":"53","wrapperLarge":"72","sitetitle":"","sitedescription":"","navposition":"center","templatecolor":"nature"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (504, 0, 'hathor', 'template', 'hathor', '', 1, 1, 1, 0, '', '{"showSiteName":"0","colourChoice":"0","boldText":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (506, 0, 'protostar', 'template', 'protostar', '', 0, 1, 1, 0, '', '{"templateColor":"","logoFile":"","googleFont":"1","googleFontName":"Open+Sans","fluidContainer":"0"}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -1670,11 +1671,8 @@ CREATE TABLE "#__privacy_requests" (
   "request_type" varchar(25) DEFAULT '' NOT NULL,
   "confirm_token" varchar(100) DEFAULT '' NOT NULL,
   "confirm_token_created_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "checked_out" integer DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__privacy_requests_idx_checked_out" ON "#__privacy_requests" ("checked_out");
 
 --
 -- Table structure for table `#__privacy_consents`
@@ -2144,6 +2142,12 @@ CREATE TABLE "#__action_logs" (
   PRIMARY KEY ("id")
 );
 
+CREATE INDEX "#__action_logs_idx_user_id" ON "#__action_logs" ("user_id"); 
+CREATE INDEX "#__action_logs_idx_user_id_logdate" ON "#__action_logs" ("user_id", "log_date"); 
+CREATE INDEX "#__action_logs_idx_user_id_extension" ON "#__action_logs" ("user_id", "extension");
+CREATE INDEX "#__action_logs_idx_extension_itemid" ON "#__action_logs" ("extension", "item_id");
+
+--
 -- Table: #__action_logs_extensions
 --
 CREATE TABLE "#__action_logs_extensions" (
@@ -2217,6 +2221,19 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 
 
 SELECT setval('#__action_log_config_id_seq', 20, false);
+
+--
+-- Table structure for table `#__action_logs_users`
+--
+
+CREATE TABLE "#__action_logs_users" (
+  "user_id" integer NOT NULL,
+  "notify" integer NOT NULL,
+  "extensions" text NOT NULL,
+  PRIMARY KEY ("user_id")
+);
+
+CREATE INDEX "#__action_logs_users_idx_notify" ON "#__action_logs_users" ("notify");
 
 --
 -- Table structure for table `#__viewlevels`

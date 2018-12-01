@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 ?>
-<ul class="newsflash-horiz<?php echo $params->get('moduleclass_sfx'); ?>">
+<ul class="newsflash-horiz<?php echo $params->get('moduleclass_sfx'); ?> mod-list">
 	<?php for ($i = 0, $n = count($list); $i < $n; $i ++) : ?>
 		<?php $item = $list[$i]; ?>
 		<li>

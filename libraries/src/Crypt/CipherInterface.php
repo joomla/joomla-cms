@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Crypt cipher interface.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 interface CipherInterface
 {
@@ -25,7 +25,7 @@ interface CipherInterface
 	 *
 	 * @return  string  The decrypted data string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function decrypt($data, Key $key);
 
@@ -37,7 +37,7 @@ interface CipherInterface
 	 *
 	 * @return  string  The encrypted data string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function encrypt($data, Key $key);
 
@@ -48,7 +48,7 @@ interface CipherInterface
 	 *
 	 * @return  Key
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function generateKey(array $options = array());
 }

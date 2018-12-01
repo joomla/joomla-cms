@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Password Hashing Interface
  *
- * @since       12.2
+ * @since       3.0.1
  * @deprecated  4.0  Use PHP 5.5's native password hashing API
  */
 interface CryptPassword
@@ -34,7 +34,7 @@ interface CryptPassword
 	 *
 	 * @return  string  The hashed password.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function create($password, $type = null);
@@ -47,7 +47,7 @@ interface CryptPassword
 	 *
 	 * @return  boolean  True if the password is valid, false otherwise.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function verify($password, $hash);
@@ -59,7 +59,7 @@ interface CryptPassword
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function setDefaultType($type);
@@ -69,7 +69,7 @@ interface CryptPassword
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0  Use PHP 5.5's native password hashing API
 	 */
 	public function getDefaultType();

@@ -29,6 +29,8 @@ class FinderTableFilter extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__finder_filters', 'filter_id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**

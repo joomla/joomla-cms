@@ -32,7 +32,7 @@ class LanguageAdapter extends InstallerAdapter
 	 * Core language pack flag
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $core = false;
 

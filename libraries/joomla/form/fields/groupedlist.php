@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Provides a grouped list select field.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldGroupedList extends JFormField
 {
@@ -21,7 +21,7 @@ class JFormFieldGroupedList extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'GroupedList';
 
@@ -30,7 +30,7 @@ class JFormFieldGroupedList extends JFormField
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  UnexpectedValueException
 	 */
 	protected function getGroups()
@@ -135,7 +135,7 @@ class JFormFieldGroupedList extends JFormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

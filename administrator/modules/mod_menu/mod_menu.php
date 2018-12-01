@@ -22,7 +22,7 @@ $user    = JFactory::getUser();
 $input   = JFactory::getApplication()->input;
 $enabled = !$input->getBool('hidemainmenu');
 
-$menu = new JAdminCssMenu;
+$menu = new JAdminCssMenu($user);
 $menu->load($params, $enabled);
 
 // Render the module layout

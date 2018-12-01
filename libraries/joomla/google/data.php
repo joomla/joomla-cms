@@ -14,20 +14,20 @@ use Joomla\Registry\Registry;
 /**
  * Google API data class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 abstract class JGoogleData
 {
 	/**
 	 * @var    Registry  Options for the Google data object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGoogleAuth  Authentication client for the Google data object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $auth;
 
@@ -37,7 +37,7 @@ abstract class JGoogleData
 	 * @param   Registry     $options  Google options object.
 	 * @param   JGoogleAuth  $auth     Google data http client object.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -50,7 +50,7 @@ abstract class JGoogleData
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function authenticate()
 	{
@@ -62,7 +62,7 @@ abstract class JGoogleData
 	 *
 	 * @return  boolean  True if authenticated.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isAuthenticated()
 	{
@@ -76,7 +76,7 @@ abstract class JGoogleData
 	 *
 	 * @return  SimpleXMLElement  XMLElement of parsed data
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	protected static function safeXml($data)
@@ -100,7 +100,7 @@ abstract class JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	protected function listGetData($url, $maxpages = 1, $token = null)
@@ -148,7 +148,7 @@ abstract class JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function query($url, $data = null, $headers = null, $method = 'get')
 	{
@@ -162,7 +162,7 @@ abstract class JGoogleData
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -177,7 +177,7 @@ abstract class JGoogleData
 	 *
 	 * @return  JGoogleData  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{

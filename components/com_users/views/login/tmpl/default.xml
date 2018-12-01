@@ -95,7 +95,7 @@
 			name="logoutredirectchoice"
 			type="radio"
 			label="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_LABEL"
-			description="COM_USERS_FIELD_LOGIN_REDIRECT_CHOICE_DESC"
+			description="COM_USERS_FIELD_LOGOUT_REDIRECT_CHOICE_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
 			>

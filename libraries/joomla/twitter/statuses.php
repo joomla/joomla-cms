@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Statuses class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterStatuses extends JTwitterObject
@@ -30,7 +30,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getTweetById($id, $trim_user = null, $entities = null, $my_retweet = null)
 	{
@@ -82,7 +82,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getUserTimeline($user, $count = 20, $include_rts = null, $no_replies = null, $since_id = 0, $max_id = 0, $trim_user = null,
@@ -168,7 +168,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function tweet($status, $in_reply_to_status_id = null, $lat = null, $long = null, $place_id = null, $display_coordinates = null,
 		$trim_user = null)
@@ -236,7 +236,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getMentions($count = 20, $include_rts = null, $entities = null, $since_id = 0, $max_id = 0,
@@ -306,7 +306,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getRetweetsOfMe($count = 20, $since_id = 0, $entities = null, $user_entities = null, $max_id = 0, $trim_user = null)
 	{
@@ -366,7 +366,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getRetweeters($id, $count = 20, $cursor = null, $stringify_ids = null)
 	{
@@ -409,7 +409,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getRetweetsById($id, $count = 20, $trim_user = null)
 	{
@@ -441,7 +441,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function deleteTweet($id, $trim_user = null)
 	{
@@ -469,7 +469,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function retweet($id, $trim_user = null)
 	{
@@ -502,7 +502,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function tweetWithMedia($status, $media, $in_reply_to_status_id = null, $lat = null, $long = null, $place_id = null,
@@ -582,7 +582,7 @@ class JTwitterStatuses extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getOembed($id = null, $url = null, $maxwidth = null, $hide_media = null, $hide_thread = null, $omit_script = null,

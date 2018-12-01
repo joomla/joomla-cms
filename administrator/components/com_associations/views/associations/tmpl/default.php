@@ -120,33 +120,35 @@ JFactory::getDocument()->addScriptDeclaration('
 							<span class="<?php echo $iconStates[$this->escape($item->state)]; ?>"></span>
 						</td>
 					<?php endif; ?>
-					<td class="nowrap has-context">
-						<span style="display: none"><?php echo JHtml::_('grid.id', $i, $item->id); ?></span>
-						<?php if (isset($item->level)) : ?>
-							<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
-						<?php endif; ?>
-						<?php if (!$canCheckin && $isCheckout) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
-						<?php endif; ?>
-						<?php if ($canCheckin && $isCheckout) : ?>
-							<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
-						<?php endif; ?>
-						<?php if ($canEdit && !$isCheckout) : ?>
-							<a href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>">
-							<?php echo $this->escape($item->title); ?></a>
-						<?php else : ?>
-							<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
-						<?php endif; ?>
-						<?php if (!empty($this->typeFields['alias'])) : ?>
-							<span class="small">
-								<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-							</span>
-						<?php endif; ?>
-						<?php if (!empty($this->typeFields['catid'])) : ?>
-							<div class="small">
-								<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
-							</div>
-						<?php endif; ?>
+					<td class="has-context">
+						<div class="pull-left break-word">
+							<span style="display: none"><?php echo JHtml::_('grid.id', $i, $item->id); ?></span>
+							<?php if (isset($item->level)) : ?>
+								<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+							<?php endif; ?>
+							<?php if (!$canCheckin && $isCheckout) : ?>
+								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.'); ?>
+							<?php endif; ?>
+							<?php if ($canCheckin && $isCheckout) : ?>
+								<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
+							<?php endif; ?>
+							<?php if ($canEdit && !$isCheckout) : ?>
+								<a href="<?php echo JRoute::_($this->editUri . '&id=' . (int) $item->id); ?>">
+								<?php echo $this->escape($item->title); ?></a>
+							<?php else : ?>
+								<span title="<?php echo JText::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
+							<?php endif; ?>
+							<?php if (!empty($this->typeFields['alias'])) : ?>
+								<span class="small">
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+								</span>
+							<?php endif; ?>
+							<?php if (!empty($this->typeFields['catid'])) : ?>
+								<div class="small">
+									<?php echo JText::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+								</div>
+							<?php endif; ?>
+						</div>
 					</td>
 					<td class="small">
 						<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
