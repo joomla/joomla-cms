@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 JHtml::_('behavior.keepalive');
-JHtml::_('behavior.core');
 JHtml::_('script', 'com_finder/indexer.min.js', array('version' => 'auto', 'relative' => true));
 JFactory::getDocument()->addScriptDeclaration('var msg = "' . Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
 ?>
