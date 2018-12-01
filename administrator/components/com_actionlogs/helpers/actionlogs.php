@@ -95,6 +95,7 @@ class ActionlogsHelper
 		}
 
 		$lang   = JFactory::getLanguage();
+		$source = '';
 
 		switch (substr($extension, 0, 3))
 		{
@@ -113,7 +114,11 @@ class ActionlogsHelper
 
 			case 'plg':
 				$parts = explode('_', $extension, 3);
-				$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
+
+				if (count($parts) > 2)
+				{
+					$source = JPATH_PLUGINS . '/' . $parts[1] . '/' . $parts[2];
+				}
 				break;
 
 			case 'pkg':
