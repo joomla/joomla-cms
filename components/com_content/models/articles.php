@@ -13,6 +13,8 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
+
 /**
  * This models supports retrieving lists of articles.
  *
@@ -72,7 +74,7 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
@@ -246,13 +248,13 @@ class ContentModelArticles extends JModelList
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
 			// Join on voting table
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 							COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
 
 		// Filter by access level.
-		if ($this->getState('filter.access', true))	
+		if ($this->getState('filter.access', true))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
 			$query->where('a.access IN (' . $groups . ')')
@@ -461,8 +463,7 @@ class ContentModelArticles extends JModelList
 			case 'relative':
 				$relativeDate = (int) $this->getState('filter.relative_date', 0);
 				$query->where(
-					$dateField . ' >= DATE_SUB(' . $nowDate . ', INTERVAL ' .
-					$relativeDate . ' DAY)'
+					$dateField . ' >= ' . $query->dateAdd($nowDate, -1 * $relativeDate, 'DAY')
 				);
 				break;
 
@@ -475,9 +476,10 @@ class ContentModelArticles extends JModelList
 		if (is_object($params) && ($params->get('filter_field') !== 'hide') && ($filter = $this->getState('list.filter')))
 		{
 			// Clean filter variable
-			$filter     = StringHelper::strtolower($filter);
-			$hitsFilter = (int) $filter;
-			$filter     = $db->quote('%' . $db->escape($filter, true) . '%', false);
+			$filter      = StringHelper::strtolower($filter);
+			$monthFilter = $filter;
+			$hitsFilter  = (int) $filter;
+			$filter      = $db->quote('%' . $db->escape($filter, true) . '%', false);
 
 			switch ($params->get('filter_field'))
 			{
@@ -490,6 +492,21 @@ class ContentModelArticles extends JModelList
 
 				case 'hits':
 					$query->where('a.hits >= ' . $hitsFilter . ' ');
+					break;
+
+				case 'month':
+					if ($monthFilter != '')
+					{
+						$query->where(
+							$db->quote(date("Y-m-d", strtotime($monthFilter)) . ' 00:00:00') . ' <= CASE WHEN a.publish_up = ' .
+							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+						);
+
+						$query->where(
+							$db->quote(date("Y-m-t", strtotime($monthFilter)) . ' 23:59:59') . ' >= CASE WHEN a.publish_up = ' .
+							$db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END'
+						);
+					}
 					break;
 
 				case 'title':
@@ -703,10 +720,42 @@ class ContentModelArticles extends JModelList
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getStart()
 	{
 		return $this->getState('list.start');
+	}
+
+	/**
+	 * Count Items by Month
+	 *
+	 * @return  mixed  An array of objects on success, false on failure.
+	 *
+	 * @since   3.9.0
+	 */
+	public function countItemsByMonth()
+	{
+		// Create a new query object.
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query
+			->select('DATE(' .
+				$query->concatenate(
+					array(
+						$query->year($query->quoteName('publish_up')),
+						$query->quote('-'),
+						$query->month($query->quoteName('publish_up')),
+						$query->quote('-01')
+					)
+				) . ') as d'
+			)
+			->select('COUNT(*) as c')
+			->from('(' . $this->getListQuery() . ') as b')
+			->group($query->quoteName('d'))
+			->order($query->quoteName('d') . ' desc');
+
+		return $db->setQuery($query)->loadObjectList();
 	}
 }

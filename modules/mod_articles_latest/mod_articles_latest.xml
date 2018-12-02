@@ -59,7 +59,7 @@
 					type="list"
 					label="MOD_LATEST_NEWS_FIELD_ORDERING_LABEL"
 					description="MOD_LATEST_NEWS_FIELD_ORDERING_DESC"
-					default="published"
+					default="p_dsc"
 					>
 					<option value="c_dsc">MOD_LATEST_NEWS_VALUE_RECENT_ADDED</option>
 					<option value="m_dsc">MOD_LATEST_NEWS_VALUE_RECENT_MODIFIED</option>
@@ -78,7 +78,17 @@
 					<option value="0">MOD_LATEST_NEWS_VALUE_ANYONE</option>
 					<option value="by_me">MOD_LATEST_NEWS_VALUE_ADDED_BY_ME</option>
 					<option value="not_me">MOD_LATEST_NEWS_VALUE_NOTADDED_BY_ME</option>
+					<option value="created_by">MOD_LATEST_NEWS_VALUE_CREATED_BY</option>
 				</field>
+
+				<field
+					name="author"
+					type="author"
+					label="MOD_LATEST_NEWS_FIELD_AUTHOR_LABEL"
+					description="MOD_LATEST_NEWS_FIELD_AUTHOR_DESC"
+					multiple="true"
+					showon="user_id:created_by"
+				/>
 			</fieldset>
 
 			<fieldset name="advanced">

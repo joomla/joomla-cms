@@ -30,6 +30,7 @@ class ContentViewFeatured extends JViewLegacy
 
 	protected $link_items = array();
 
+	/** @deprecated  4.0 */
 	protected $columns = 1;
 
 	/**
@@ -54,6 +55,9 @@ class ContentViewFeatured extends JViewLegacy
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
+
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.updater.update');
 
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Installer\InstallerHelper;
 
 /**
  * Installer Update Model
@@ -416,7 +417,7 @@ class InstallerModelUpdate extends JModelList
 
 		$mirror = 0;
 
-		while (!($p_file = JInstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
+		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
 			$name = $sources[$mirror];
 			$url  = $name->url;
@@ -442,11 +443,21 @@ class InstallerModelUpdate extends JModelList
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
+		$package = InstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		// Get an installer instance
 		$installer = JInstaller::getInstance();
 		$update->set('type', $package['type']);
+
+		// Check the package
+		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
+
+		// The validation was not successful. Just a warning for now.
+		// TODO: In Joomla 4 this will abort the installation
+		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
+		{
+			$app->enqueueMessage(JText::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
+		}
 
 		// Install the package
 		if (!$installer->update($package['dir']))
@@ -481,7 +492,7 @@ class InstallerModelUpdate extends JModelList
 			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
-		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
+		InstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
 
 		return $result;
 	}

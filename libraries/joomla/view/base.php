@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform Base View Class
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 abstract class JViewBase implements JView
 {
@@ -20,7 +21,7 @@ abstract class JViewBase implements JView
 	 * The model object.
 	 *
 	 * @var    JModel
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $model;
 
@@ -29,7 +30,7 @@ abstract class JViewBase implements JView
 	 *
 	 * @param   JModel  $model  The model object.
 	 *
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public function __construct(JModel $model)
 	{
@@ -45,7 +46,7 @@ abstract class JViewBase implements JView
 	 * @return  string  The escaped output.
 	 *
 	 * @see     JView::escape()
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function escape($output)
 	{

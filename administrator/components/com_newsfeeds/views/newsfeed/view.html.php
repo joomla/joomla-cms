@@ -117,6 +117,11 @@ class NewsfeedsViewNewsfeed extends JViewLegacy
 			JToolbarHelper::save2copy('newsfeed.save2copy');
 		}
 
+		if (!$isNew && JLanguageAssociations::isEnabled() && JComponentHelper::isEnabled('com_associations'))
+		{
+			JToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+		}
+
 		if (empty($this->item->id))
 		{
 			JToolbarHelper::cancel('newsfeed.cancel');

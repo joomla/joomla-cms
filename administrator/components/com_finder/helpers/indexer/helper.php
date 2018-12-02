@@ -327,9 +327,9 @@ class FinderIndexerHelper
 		$langCode = $lang;
 
 		// If language requested is wildcard, use the default language.
-		if ($lang == '*')
+		if ($default === null && $lang === '*')
 		{
-			$default = $default === null ? substr(self::getDefaultLanguage(), 0, 2) : $default;
+			$default = strstr(self::getDefaultLanguage(), '-', true);
 			$langCode = $default;
 		}
 
@@ -427,7 +427,8 @@ class FinderIndexerHelper
 	 *
 	 * @return  string  The path for the content item.
 	 *
-	 * @since   2.5
+	 * @since       2.5
+	 * @deprecated  4.0
 	 */
 	public static function getContentPath($url)
 	{

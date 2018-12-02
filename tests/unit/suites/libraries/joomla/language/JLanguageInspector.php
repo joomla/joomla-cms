@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
- * @since       12.1
+ * @since       3.0.0
  */
 class JLanguageInspector extends JLanguage
 {
@@ -69,7 +69,7 @@ class JLanguageInspector extends JLanguage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setInstance($instance)
 	{

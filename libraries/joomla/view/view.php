@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform View Interface
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 interface JView
 {
@@ -23,7 +24,7 @@ interface JView
 	 *
 	 * @return  string  The escaped output.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function escape($output);
 
@@ -32,7 +33,7 @@ interface JView
 	 *
 	 * @return  string  The rendered view.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function render();

@@ -55,7 +55,7 @@ class Installer extends \JAdapter
 	 * True if existing files can be overwritten
 	 *
 	 * @var    boolean
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $overwrite = false;
 
@@ -954,6 +954,10 @@ class Installer extends \JAdapter
 		{
 			$dbDriver = 'mysql';
 		}
+		elseif ($db->getServerType() === 'postgresql')
+		{
+			$dbDriver = 'postgresql';
+		}
 
 		$update_count = 0;
 
@@ -966,6 +970,10 @@ class Installer extends \JAdapter
 			if ($fDriver === 'mysqli' || $fDriver === 'pdomysql')
 			{
 				$fDriver = 'mysql';
+			}
+			elseif ($fDriver === 'pgsql')
+			{
+				$fDriver = 'postgresql';
 			}
 
 			if ($fCharset === 'utf8' && $fDriver == $dbDriver)
@@ -1053,6 +1061,10 @@ class Installer extends \JAdapter
 				{
 					$dbDriver = 'mysql';
 				}
+				elseif ($db->getServerType() === 'postgresql')
+				{
+					$dbDriver = 'postgresql';
+				}
 
 				$schemapath = '';
 
@@ -1121,6 +1133,10 @@ class Installer extends \JAdapter
 				{
 					$dbDriver = 'mysql';
 				}
+				elseif ($db->getServerType() === 'postgresql')
+				{
+					$dbDriver = 'postgresql';
+				}
 
 				$schemapath = '';
 
@@ -1134,6 +1150,10 @@ class Installer extends \JAdapter
 					if ($uDriver === 'mysqli' || $uDriver === 'pdomysql')
 					{
 						$uDriver = 'mysql';
+					}
+					elseif ($uDriver === 'pgsql')
+					{
+						$uDriver = 'postgresql';
 					}
 
 					if ($uDriver == $dbDriver)
@@ -2209,7 +2229,7 @@ class Installer extends \JAdapter
 	 *
 	 * @return  array  XML metadata.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function parseXMLInstallFile($path)
 	{

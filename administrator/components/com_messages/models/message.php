@@ -358,9 +358,11 @@ class MessagesModelMessage extends JModelAdmin
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
 			// Build the email subject and message
-			$sitename = JFactory::getApplication()->get('sitename');
+			$app      = JFactory::getApplication();
+			$linkMode = $app->get('force_ssl', 0) >= 1 ? 1 : -1;
+			$sitename = $app->get('sitename');
 			$fromName = $fromUser->get('name');
-			$siteURL  = JUri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
+			$siteURL  = JRoute::link('administrator', 'index.php?option=com_messages&view=message&message_id=' . $table->message_id, false, $linkMode);
 			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
 			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
@@ -408,5 +410,96 @@ class MessagesModelMessage extends JModelAdmin
 		}
 
 		return true;
+	}
+
+	/**
+	 * Sends a message to the site's super users
+	 *
+	 * @param   string  $subject  The message subject
+	 * @param   string  $message  The message
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.0
+	 */
+	public function notifySuperUsers($subject, $message, $fromUser = null)
+	{
+		$db = $this->getDbo();
+
+		try
+		{
+			/** @var JTableAsset $table */
+			$table  = $this->getTable('Asset', 'JTable');
+			$rootId = $table->getRootId();
+
+			/** @var JAccessRule[] $rules */
+			$rules     = JAccess::getAssetRules($rootId)->getData();
+			$rawGroups = $rules['core.admin']->getData();
+
+			if (empty($rawGroups))
+			{
+				$this->setError(JText::_('COM_MESSAGES_ERROR_MISSING_ROOT_ASSET_GROUPS'));
+
+				return false;
+			}
+
+			$groups = array();
+
+			foreach ($rawGroups as $g => $enabled)
+			{
+				if ($enabled)
+				{
+					$groups[] = $db->quote($g);
+				}
+			}
+
+			if (empty($groups))
+			{
+				$this->setError(JText::_('COM_MESSAGES_ERROR_NO_GROUPS_SET_AS_SUPER_USER'));
+
+				return false;
+			}
+
+			$query = $db->getQuery(true)
+				->select($db->quoteName('user_id'))
+				->from($db->quoteName('#__user_usergroup_map'))
+				->where($db->quoteName('group_id') . ' IN(' . implode(',', $groups) . ')');
+
+			$userIDs = $db->setQuery($query)->loadColumn(0);
+
+			if (empty($userIDs))
+			{
+				$this->setError(JText::_('COM_MESSAGES_ERROR_NO_USERS_SET_AS_SUPER_USER'));
+
+				return false;
+			}
+
+			foreach ($userIDs as $id)
+			{
+				/*
+				 * All messages must have a valid from user, we have use cases where an unauthenticated user may trigger this
+				 * so we will set the from user as the to user
+				 */
+				$data = array(
+					'user_id_from' => $id,
+					'user_id_to'   => $id,
+					'subject'      => $subject,
+					'message'      => $message,
+				);
+
+				if (!$this->save($data))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+		catch (Exception $exception)
+		{
+			$this->setError($exception->getMessage());
+
+			return false;
+		}
 	}
 }

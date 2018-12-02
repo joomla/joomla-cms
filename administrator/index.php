@@ -39,7 +39,7 @@ if (!defined('_JDEFINES'))
 
 require_once JPATH_BASE . '/includes/framework.php';
 require_once JPATH_BASE . '/includes/helper.php';
-require_once JPATH_BASE . '/includes/toolbar.php';
+require_once JPATH_BASE . '/includes/subtoolbar.php';
 
 // Set profiler start time and memory usage and mark afterLoad in the profiler.
 JDEBUG ? JProfiler::getInstance('Application')->setStart($startTime, $startMem)->mark('afterLoad') : null;

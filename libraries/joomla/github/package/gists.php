@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/gists
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  *
  * @property-read  JGithubPackageGistsComments  $comments  GitHub API object for gist comments.
@@ -35,7 +35,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   string   $description  The optional description of the gist.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -73,7 +73,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $gistId  The gist number.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -103,7 +103,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   string   $description  The description of the gist.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -156,7 +156,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $gistId  The gist number.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -186,7 +186,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $gistId  The gist number.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -217,7 +217,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $limit  The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -248,7 +248,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $limit  The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -278,7 +278,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $limit  The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -308,7 +308,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $limit  The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -337,7 +337,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $gistId  The gist number.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  boolean  True if the gist is starred.
 	 */
@@ -372,7 +372,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $gistId  The gist number.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -399,7 +399,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   integer  $gistId  The gist number.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -427,7 +427,7 @@ class JGithubPackageGists extends JGithubPackage
 	 * @param   array  $files  The list of file paths or filenames and content.
 	 *
 	 * @throws InvalidArgumentException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -472,7 +472,7 @@ class JGithubPackageGists extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since      11.3
+	 * @since      1.7.3
 	 */
 	public function createComment($gistId, $body)
 	{
@@ -488,7 +488,7 @@ class JGithubPackageGists extends JGithubPackage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function deleteComment($commentId)
 	{
@@ -505,7 +505,7 @@ class JGithubPackageGists extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function editComment($commentId, $body)
 	{
@@ -521,7 +521,7 @@ class JGithubPackageGists extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getComment($commentId)
 	{
@@ -539,7 +539,7 @@ class JGithubPackageGists extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getComments($gistId, $page = 0, $limit = 0)
 	{

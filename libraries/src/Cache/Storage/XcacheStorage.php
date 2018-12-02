@@ -15,8 +15,9 @@ use Joomla\CMS\Cache\CacheStorage;
 /**
  * XCache cache storage handler
  *
- * @link   http://xcache.lighttpd.net/
- * @since  11.1
+ * @link        https://xcache.lighttpd.net/
+ * @since       1.7.0
+ * @deprecated  4.0  The XCache PHP extension is not compatible with PHP 7
  */
 class XcacheStorage extends CacheStorage
 {
@@ -44,7 +45,7 @@ class XcacheStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -70,7 +71,7 @@ class XcacheStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @note    This requires the php.ini setting xcache.admin.enable_auth = Off.
 	 */
 	public function getAll()
@@ -122,7 +123,7 @@ class XcacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($id, $group, $data)
 	{
@@ -143,7 +144,7 @@ class XcacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function remove($id, $group)
 	{
@@ -174,7 +175,7 @@ class XcacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -204,7 +205,7 @@ class XcacheStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{

@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform Model Interface
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 interface JModel
 {
@@ -23,7 +24,7 @@ interface JModel
 	 *
 	 * @return  Registry  The state object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getState();
 
@@ -34,7 +35,7 @@ interface JModel
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setState(Registry $state);
 }

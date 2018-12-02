@@ -44,6 +44,9 @@ class TagsViewTags extends JViewLegacy
 		$this->params = $this->state->get('params');
 		$this->user   = JFactory::getUser();
 
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
+
 		/*
 		 * // Change to catch
 		 * if (count($errors = $this->get('Errors'))) {

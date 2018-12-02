@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Places & Geo class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterPlaces extends JTwitterObject
@@ -24,7 +24,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getPlace($id)
 	{
@@ -52,7 +52,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getGeocode($lat, $long, $accuracy = null, $granularity = null, $max_results = 0, $callback = null)
 	{
@@ -113,7 +113,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function search($lat = null, $long = null, $query = null, $ip = null, $granularity = null, $accuracy = null, $max_results = 0,
@@ -207,7 +207,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSimilarPlaces($lat, $long, $name, $within = null, $attribute = null, $callback = null)
 	{
@@ -256,7 +256,7 @@ class JTwitterPlaces extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function createPlace($lat, $long, $name, $geo_token, $within, $attribute = null, $callback = null)
 	{

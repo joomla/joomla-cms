@@ -342,6 +342,20 @@
 					<option value="month_year">MOD_ARTICLES_CATEGORY_OPTION_MONTHYEAR_VALUE</option>
 					<option value="author">JAUTHOR</option>
 					<option value="category_title">JCATEGORY</option>
+					<option value="tags">JTAG</option>
+				</field>
+
+				<field
+					name="date_grouping_field"
+					type="list"
+					label="MOD_ARTICLES_CATEGORY_FIELD_DATEGROUPINGFIELD_LABEL"
+					description="MOD_ARTICLES_CATEGORY_FIELD_DATEGROUPINGFIELD_DESC"
+					default="created"
+					showon="article_grouping:year,month_year"
+					>
+					<option value="created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE</option>
+					<option value="modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
+					<option value="publish_up">MOD_ARTICLES_CATEGORY_OPTION_STARTPUBLISHING_VALUE</option>
 				</field>
 
 				<field
@@ -451,6 +465,19 @@
 					type="radio"
 					label="JAUTHOR"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWAUTHOR_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
+				</field>
+
+				<field
+					name="show_tags"
+					type="radio"
+					label="JTAG"
+					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWTAGS_DESC"
 					default="0"
 					filter="integer"
 					class="btn-group btn-group-yesno"

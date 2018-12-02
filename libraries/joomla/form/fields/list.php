@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
  * Form Field class for the Joomla Platform.
  * Supports a generic list of options.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldList extends JFormField
 {
@@ -21,7 +21,7 @@ class JFormFieldList extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'List';
 
@@ -81,9 +81,18 @@ class JFormFieldList extends JFormField
 			}
 		}
 		else
-		// Create a regular list.
+		// Create a regular list passing the arguments in an array.
 		{
-			$html[] = JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
+			$listoptions = array();
+			$listoptions['option.key'] = 'value';
+			$listoptions['option.text'] = 'text';
+			$listoptions['list.select'] = $this->value;
+			$listoptions['id'] = $this->id;
+			$listoptions['list.translate'] = false;
+			$listoptions['option.attr'] = 'optionattr';
+			$listoptions['list.attr'] = trim($attr);
+
+			$html[] = JHtml::_('select.genericlist', $options, $this->name, $listoptions);
 		}
 
 		return implode($html);
@@ -157,6 +166,14 @@ class JFormFieldList extends JFormField
 			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
 
+			if ((string) $option['showon'])
+			{
+				$tmp['optionattr'] = " data-showon='" .
+					json_encode(
+						JFormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+						)
+					. "'";
+			}
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}

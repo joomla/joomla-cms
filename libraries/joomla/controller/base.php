@@ -14,7 +14,8 @@ use Joomla\Application\AbstractApplication;
 /**
  * Joomla Platform Base Controller Class
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 abstract class JControllerBase implements JController
 {
@@ -22,7 +23,7 @@ abstract class JControllerBase implements JController
 	 * The application object.
 	 *
 	 * @var    AbstractApplication
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $app;
 
@@ -30,7 +31,7 @@ abstract class JControllerBase implements JController
 	 * The input object.
 	 *
 	 * @var    JInput
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $input;
 
@@ -40,7 +41,7 @@ abstract class JControllerBase implements JController
 	 * @param   JInput               $input  The input object.
 	 * @param   AbstractApplication  $app    The application object.
 	 *
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public function __construct(JInput $input = null, AbstractApplication $app = null)
 	{
@@ -54,7 +55,7 @@ abstract class JControllerBase implements JController
 	 *
 	 * @return  AbstractApplication  The application object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getApplication()
 	{
@@ -66,7 +67,7 @@ abstract class JControllerBase implements JController
 	 *
 	 * @return  JInput  The input object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getInput()
 	{
@@ -78,7 +79,7 @@ abstract class JControllerBase implements JController
 	 *
 	 * @return  string  The serialized controller.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function serialize()
 	{
@@ -92,7 +93,7 @@ abstract class JControllerBase implements JController
 	 *
 	 * @return  JController  Supports chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  UnexpectedValueException if input is not the right class.
 	 */
 	public function unserialize($input)
@@ -116,7 +117,7 @@ abstract class JControllerBase implements JController
 	 *
 	 * @return  AbstractApplication  The application object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function loadApplication()
 	{
@@ -128,7 +129,7 @@ abstract class JControllerBase implements JController
 	 *
 	 * @return  JInput  The input object.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function loadInput()
 	{

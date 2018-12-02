@@ -37,6 +37,16 @@
 			size="40" 
 		/>
 
+		<field
+			name="note"
+			type="text"
+			label="COM_CONTENT_FIELD_NOTE_LABEL"
+			description="COM_CONTENT_FIELD_NOTE_DESC"
+			class="span12"
+			size="40"
+			maxlength="255"
+		/>
+
 		<field 
 			name="version_note" 
 			type="text" 

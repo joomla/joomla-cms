@@ -530,7 +530,6 @@ class JoomlaInstallerScript
 			'/administrator/manifests/packages/pkg_joomla.xml',
 			'/administrator/modules/mod_submenu/helper.php',
 			'/administrator/templates/hathor/css/ie6.css',
-			'/administrator/templates/hathor/html/com_languages/installed/default_ftp.php',
 			'/administrator/templates/hathor/html/mod_submenu/index.html',
 			'/administrator/templates/hathor/html/mod_submenu/default.php',
 			'/components/com_media/controller.php',
@@ -1446,7 +1445,6 @@ class JoomlaInstallerScript
 			'/libraries/classloader.php',
 			'/libraries/ClassLoader.php',
 			'/libraries/composer_autoload.php',
-			'/libraries/fof/LICENSE.txt',
 			'/libraries/joomla/document/error/error.php',
 			'/libraries/joomla/document/feed/feed.php',
 			'/libraries/joomla/document/html/html.php',
@@ -1520,7 +1518,6 @@ class JoomlaInstallerScript
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce-small.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/fonts/tinymce.dev.svg',
 			'/media/editors/tinymce/skins/lightgray/img/wline.gif',
-			'/media/jui/img/ajax-loader.gif',
 			'/media/mod_languages/images/km_kr.gif',
 			'/media/mod_languages/images/si_LK.gif',
 			'/plugins/editors/codemirror/styles.css',
@@ -1560,7 +1557,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_content/views/articles/tmpl/default_batch.php',
 			'/administrator/components/com_installer/controllers/languages.php',
 			'/administrator/components/com_languages/layouts/joomla/searchtools/default.php',
-			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_media/views/medialist/tmpl/thumbs_doc.php',
 			'/administrator/components/com_media/views/medialist/tmpl/thumbs_folder.php',
 			'/administrator/components/com_media/views/medialist/tmpl/thumbs_img.php',
@@ -1972,7 +1968,21 @@ class JoomlaInstallerScript
 			/*
 			 * Joomla! 3.8.0 thru 3.9.0
 			 */
+			'/administrator/includes/toolbar.php',
+			'/libraries/joomla/filesystem/file.php',
+			'/libraries/joomla/filesystem/folder.php',
+			'/libraries/joomla/filesystem/helper.php',
+			'/libraries/joomla/filesystem/meta/language/en-GB/en-GB.lib_joomla_filesystem_patcher.ini',
+			'/libraries/joomla/filesystem/patcher.php',
+			'/libraries/joomla/filesystem/path.php',
+			'/libraries/joomla/filesystem/stream.php',
+			'/libraries/joomla/filesystem/streams/string.php',
+			'/libraries/joomla/filesystem/support/stringcontroller.php',
+			'/libraries/joomla/filesystem/wrapper/file.php',
+			'/libraries/joomla/filesystem/wrapper/folder.php',
+			'/libraries/joomla/filesystem/wrapper/path.php',
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
+			'/plugins/captcha/recaptcha/recaptchalib.php',
 
 			/*
 			 * Legacy FOF
@@ -2118,10 +2128,6 @@ class JoomlaInstallerScript
 			'/administrator/components/com_cache/layouts/joomla/searchtools',
 			'/administrator/components/com_cache/layouts/joomla',
 			'/administrator/components/com_cache/layouts',
-			'/administrator/components/com_languages/layouts/joomla/searchtools/default',
-			'/administrator/components/com_languages/layouts/joomla/searchtools',
-			'/administrator/components/com_languages/layouts/joomla',
-			'/administrator/components/com_languages/layouts',
 			'/administrator/components/com_modules/layouts/joomla/searchtools/default',
 			'/administrator/components/com_modules/layouts/joomla/searchtools',
 			'/administrator/components/com_modules/layouts/joomla',
@@ -2236,6 +2242,14 @@ class JoomlaInstallerScript
 			'/libraries/legacy/view',
 			'/libraries/legacy/web',
 			'/media/editors/tinymce/plugins/jdragdrop',
+			// Joomla! 3.9.0
+			'/libraries/joomla/filesystem/meta/language/en-GB',
+			'/libraries/joomla/filesystem/meta/language',
+			'/libraries/joomla/filesystem/meta',
+			'/libraries/joomla/filesystem/streams',
+			'/libraries/joomla/filesystem/support',
+			'/libraries/joomla/filesystem/wrapper',
+			'/libraries/joomla/filesystem',
 		);
 
 		jimport('joomla.filesystem.file');
@@ -2309,6 +2323,8 @@ class JoomlaInstallerScript
 			'com_postinstall',
 			'com_fields',
 			'com_associations',
+			'com_privacy',
+			'com_actionlogs',
 		);
 
 		foreach ($newComponents as $component)

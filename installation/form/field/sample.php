@@ -46,6 +46,10 @@ class InstallationFormFieldSample extends JFormFieldRadio
 		{
 			$type = 'sqlazure';
 		}
+		elseif ($type === 'pgsql')
+		{
+			$type = 'postgresql';
+		}
 
 		// Get a list of files in the search path with the given filter.
 		$files = JFolder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');

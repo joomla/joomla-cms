@@ -30,6 +30,8 @@ class BannersTableClient extends JTable
 		$this->checked_out_time = $db->getNullDate();
 		parent::__construct('#__banner_clients', 'id', $db);
 
+		$this->setColumnAlias('published', 'state');
+
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_banners.client'));
 	}
 

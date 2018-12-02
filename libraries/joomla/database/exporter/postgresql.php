@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL export driver.
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  4.0  Use PDO PostgreSQL instead
  *
  * @property-read  JDatabaseDriverPostgresql  $db  The database connector to use for exporting structure and/or data.
  */
@@ -23,7 +24,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	 *
 	 * @return  string  An XML string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXml()
@@ -47,7 +48,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	 *
 	 * @return  array  An array of XML lines (strings).
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlStructure()
@@ -105,7 +106,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 	 *
 	 * @return  JDatabaseExporterPostgresql  Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()

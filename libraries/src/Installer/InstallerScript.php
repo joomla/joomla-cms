@@ -123,8 +123,9 @@ class InstallerScript
 		}
 
 		// Extension manifest file version
-		$this->release = $parent->get('manifest')->version;
-		$extensionType = substr($this->extension, 0, 3);
+		$this->extension = $parent->getName();
+		$this->release   = $parent->get('manifest')->version;
+		$extensionType   = substr($this->extension, 0, 3);
 
 		// Modules parameters are located in the module table - else in the extension table
 		if ($extensionType === 'mod')

@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Query Building Class.
  *
- * @since  11.1
+ * @since  1.7.0
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
@@ -26,134 +26,134 @@ abstract class JDatabaseQuery
 {
 	/**
 	 * @var    JDatabaseDriver  The database driver.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $db = null;
 
 	/**
 	 * @var    string  The SQL query (if a direct query string was provided).
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $sql = null;
 
 	/**
 	 * @var    string  The query type.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = '';
 
 	/**
 	 * @var    JDatabaseQueryElement  The query element for a generic query (type = null).
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $element = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The select element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $select = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The delete element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $delete = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The update element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $update = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The insert element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $insert = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The from element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $from = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The join element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $join = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The set element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $set = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The where element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $where = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The group by element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $group = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The having element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $having = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The column list for an INSERT statement.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $columns = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The values list for an INSERT statement.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $values = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The order element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $order = null;
 
 	/**
 	 * @var   object  The auto increment insert field element.
-	 * @since 11.1
+	 * @since 1.7.0
 	 */
 	protected $autoIncrementField = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The call element.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $call = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The exec element.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $exec = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The union element.
-	 * @since  12.1
+	 * @since  3.0.0
 	 * @deprecated  4.0  Will be transformed and moved to $merge variable.
 	 */
 	protected $union = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The unionAll element.
-	 * @since  13.1
+	 * @since  3.2.0
 	 * @deprecated  4.0  Will be transformed and moved to $merge variable.
 	 */
 	protected $unionAll = null;
@@ -172,7 +172,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The aliased method's return value or null.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __call($method, $args)
 	{
@@ -202,7 +202,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @param   JDatabaseDriver  $db  The database driver.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(JDatabaseDriver $db = null)
 	{
@@ -214,7 +214,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string	The completed query.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{
@@ -382,7 +382,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __get($name)
 	{
@@ -403,7 +403,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function call($columns)
 	{
@@ -433,7 +433,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns the cast value.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function castAsChar($value)
 	{
@@ -454,7 +454,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
@@ -468,7 +468,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clear($clause = null)
 	{
@@ -597,7 +597,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function columns($columns)
 	{
@@ -624,7 +624,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -646,7 +646,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function currentTimestamp()
 	{
@@ -661,7 +661,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The format string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dateFormat()
 	{
@@ -681,7 +681,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dump()
 	{
@@ -700,7 +700,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete($table = null)
 	{
@@ -728,7 +728,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
 	public function escape($text, $extra = false)
@@ -755,7 +755,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function exec($columns)
 	{
@@ -790,7 +790,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function from($tables, $subQueryAlias = null)
 	{
@@ -826,7 +826,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract year from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function year($date)
 	{
@@ -843,7 +843,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract month from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function month($date)
 	{
@@ -860,7 +860,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract day from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function day($date)
 	{
@@ -877,7 +877,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract hour from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function hour($date)
 	{
@@ -894,7 +894,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract minute from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function minute($date)
 	{
@@ -911,7 +911,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract second from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function second($date)
 	{
@@ -928,7 +928,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function group($columns)
 	{
@@ -955,7 +955,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function having($conditions, $glue = 'AND')
 	{
@@ -982,7 +982,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function innerJoin($condition)
 	{
@@ -1006,7 +1006,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function insert($table, $incrementField=false)
 	{
@@ -1028,7 +1028,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function join($type, $conditions)
 	{
@@ -1052,7 +1052,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function leftJoin($condition)
 	{
@@ -1073,7 +1073,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  int
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function length($value)
 	{
@@ -1093,7 +1093,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Null or zero representation of a timestamp.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function nullDate($quoted = true)
 	{
@@ -1123,7 +1123,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function order($columns)
 	{
@@ -1149,7 +1149,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function outerJoin($condition)
 	{
@@ -1176,7 +1176,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The quoted input string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
 	public function quote($text, $escape = true)
@@ -1209,7 +1209,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
 	public function quoteName($name, $as = null)
@@ -1232,7 +1232,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function rightJoin($condition)
 	{
@@ -1255,7 +1255,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function select($columns)
 	{
@@ -1286,7 +1286,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function set($conditions, $glue = ',')
 	{
@@ -1315,7 +1315,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setQuery($sql)
 	{
@@ -1336,7 +1336,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function update($table)
 	{
@@ -1357,7 +1357,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function values($values)
 	{
@@ -1386,7 +1386,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function where($conditions, $glue = 'AND')
 	{
@@ -1474,7 +1474,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __clone()
 	{
@@ -1514,7 +1514,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/union.html
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function union($query, $distinct = false, $glue = '')
 	{
@@ -1562,7 +1562,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @see     union
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @deprecated  4.0  Use union() instead.
 	 */
 	public function unionDistinct($query, $glue = '')
@@ -1618,7 +1618,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns a string produced according to the formatting string.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function format($format)
 	{
@@ -1767,18 +1767,18 @@ abstract class JDatabaseQuery
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 * Note: Not all drivers support all units.
 	 *
-	 * @param   mixed   $date      The date to add to. May be date or datetime
+	 * @param   string  $date      The db quoted string representation of the date to add to. May be date or datetime
 	 * @param   string  $interval  The string representation of the appropriate number of units
 	 * @param   string  $datePart  The part of the date to perform the addition on
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
 	 * @link    http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return trim("DATE_ADD('" . $date . "', INTERVAL " . $interval . ' ' . $datePart . ')');
+		return 'DATE_ADD(' . $date . ', INTERVAL ' . $interval . ' ' . $datePart . ')';
 	}
 
 	/**
@@ -1800,7 +1800,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @see     union
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function unionAll($query, $distinct = false, $glue = '')
 	{

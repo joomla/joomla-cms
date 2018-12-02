@@ -78,6 +78,7 @@ class InstallationModelConfiguration extends JModelBase
 		// Debug settings.
 		$registry->set('debug', 0);
 		$registry->set('debug_lang', 0);
+		$registry->set('debug_lang_const', 1);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);

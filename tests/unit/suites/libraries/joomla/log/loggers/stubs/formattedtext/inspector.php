@@ -16,7 +16,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       11.1
+ * @since       1.7.0
  */
 class JLogLoggerFormattedTextInspector extends JLogLoggerFormattedtext
 {
@@ -29,4 +29,6 @@ class JLogLoggerFormattedTextInspector extends JLogLoggerFormattedtext
 	public $fields;
 
 	public $path;
+
+	public $defer;
 }

@@ -29,6 +29,8 @@ class UsersTableNote extends JTable
 	{
 		parent::__construct('#__user_notes', 'id', $db);
 
+		$this->setColumnAlias('published', 'state');
+
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_users.note'));
 	}
 
