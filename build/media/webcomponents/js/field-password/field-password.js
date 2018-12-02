@@ -3,7 +3,7 @@
  * License: MIT
  * Repo: https://github.com/tkjaergaard/Password-Strength
  *
- * Adopted by Dimitris Grammatikogiannis
+ * Adapted by Dimitris Grammatikogiannis
  */
 class PasswordStrength {
   constructor(settings) {
