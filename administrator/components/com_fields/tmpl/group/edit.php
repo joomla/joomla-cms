@@ -20,6 +20,9 @@ HTMLHelper::_('behavior.tabstate');
 
 $app = Factory::getApplication();
 $input = $app->input;
+
+$this->useCoreUI = true;
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_fields&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
