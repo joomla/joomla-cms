@@ -330,7 +330,6 @@ $maxSize = JFilesystemHelper::fileUploadMaxSize();
 				</p>
 			</div>
 		</div>
-
 	</div>
 </div>
 
