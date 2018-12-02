@@ -1163,11 +1163,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		);
 		$this->getDispatcher()->dispatch('onTableBeforeCheckout', $event);
 
-		$checkedOutField = $this->getColumnAlias('checked_out');
-		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
-
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!$this->hasField($checkedOutField) || !$this->hasField($checkedOutTimeField))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			return true;
 		}
@@ -1195,6 +1192,10 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
+
+		// Get column names.
+		$checkedOutField     = $this->getColumnAlias('checked_out');
+		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		// Get the current time in the database format.
 		$time = Factory::getDate()->toSql();
@@ -1250,11 +1251,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		);
 		$this->getDispatcher()->dispatch('onTableBeforeCheckin', $event);
 
-		$checkedOutField = $this->getColumnAlias('checked_out');
-		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
-
 		// If there is no checked_out or checked_out_time field, just return true.
-		if (!$this->hasField($checkedOutField) || !$this->hasField($checkedOutTimeField))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			return true;
 		}
@@ -1282,6 +1280,10 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
+
+		// Get column names.
+		$checkedOutField     = $this->getColumnAlias('checked_out');
+		$checkedOutTimeField = $this->getColumnAlias('checked_out_time');
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
@@ -1374,10 +1376,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		);
 		$this->getDispatcher()->dispatch('onTableBeforeHit', $event);
 
-		$hitsField = $this->getColumnAlias('hits');
-
 		// If there is no hits field, just return true.
-		if (!$this->hasField($hitsField))
+		if (!$this->hasField('hits'))
 		{
 			return true;
 		}
@@ -1405,6 +1405,9 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 				throw new \UnexpectedValueException('Null primary key not allowed.');
 			}
 		}
+
+		// Get column name.
+		$hitsField = $this->getColumnAlias('hits');
 
 		// Check the row in by primary key.
 		$query = $this->_db->getQuery(true)
@@ -1491,16 +1494,14 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	public function getNextOrder($where = '')
 	{
 		// Check if there is an ordering field set
-		$orderingField = $this->getColumnAlias('ordering');
-
-		if (!$this->hasField($orderingField))
+		if (!$this->hasField('ordering'))
 		{
 			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
 		// Get the largest ordering value for a given where clause.
 		$query = $this->_db->getQuery(true)
-			->select('MAX(' . $this->_db->quoteName($orderingField) . ')')
+			->select('MAX(' . $this->_db->quoteName($this->getColumnAlias('ordering')) . ')')
 			->from($this->_tbl);
 
 		if ($where)
@@ -1553,14 +1554,12 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	public function reorder($where = '')
 	{
 		// Check if there is an ordering field set
-		$orderingField = $this->getColumnAlias('ordering');
-
-		if (!$this->hasField($orderingField))
+		if (!$this->hasField('ordering'))
 		{
 			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
-		$quotedOrderingField = $this->_db->quoteName($orderingField);
+		$quotedOrderingField = $this->_db->quoteName($this->getColumnAlias('ordering'));
 
 		$subquery = $this->_db->getQuery(true)
 			->from($this->_tbl)
@@ -1634,13 +1633,12 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 	public function move($delta, $where = '')
 	{
 		// Check if there is an ordering field set
-		$orderingField = $this->getColumnAlias('ordering');
-
-		if (!$this->hasField($orderingField))
+		if (!$this->hasField('ordering'))
 		{
 			throw new \UnexpectedValueException(sprintf('%s does not support ordering.', get_class($this)));
 		}
 
+		$orderingField       = $this->getColumnAlias('ordering');
 		$quotedOrderingField = $this->_db->quoteName($orderingField);
 
 		// If the change is none, do nothing.
