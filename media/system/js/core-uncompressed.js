@@ -20,6 +20,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *                                  Example: function () { return this.element.value; }
 	 * setValue         Type  Function  Should replace the complete data of the editor
 	 *                                  Example: function (text) { return this.element.value = text; }
+	 * getSelection     Type  Function  Should return the selected text from the editor
+	 *                                  Example: function () { return this.selectedText; }
 	 * replaceSelection Type  Function  Should replace the selected text of the editor
 	 *                                  If nothing selected, will insert the data at the cursor
 	 *                                  Example: function (text) { return insertAtCursor(this.element, text); }
