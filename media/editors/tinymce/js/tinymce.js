@@ -84,6 +84,7 @@
 				// Required by Joomla's API for the XTD-Buttons
 				'getValue': function () { return this.instance.getContent(); },
 				'setValue': function (text) { return this.instance.setContent(text); },
+				'getSelection': function () { return this.instance.selection.getContent({format: 'text'}); },
 				'replaceSelection': function (text) { return this.instance.execCommand('mceInsertContent', false, text); },
 				// Some extra instance dependent
 				'id': element.id,
