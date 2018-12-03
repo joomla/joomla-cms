@@ -18,7 +18,7 @@ use Joomla\CMS\Updater\Update;
 	<legend><?php echo Text::_('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATES'); ?></legend>
 	<p><?php echo Text::sprintf($this->langKey, $this->updateSourceKey); ?></p>
 	<div class="alert alert-success">
-		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', JVERSION); ?>
+		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_DEFAULT_NOUPDATESNOTICE', '&#x200E;' . JVERSION); ?>
 	</div>
 	<?php if (is_object($this->updateInfo['object']) && ($this->updateInfo['object'] instanceof Update)) : ?>
 		<table class="table">
