@@ -429,6 +429,7 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.manage', 'com_joomlaupdate'))
 		{
 			$joomlaUpdateModel = $app->bootComponent('com_joomlaupdate')->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
+			$joomlaUpdateModel->refreshUpdates(true);
 			$joomlaUpdate      = $joomlaUpdateModel->getUpdateInformation();
 			$hasUpdate         = $joomlaUpdate['hasUpdate'] ? $joomlaUpdate['latest'] : '';
 
