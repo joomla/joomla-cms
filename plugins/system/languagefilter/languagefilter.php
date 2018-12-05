@@ -723,7 +723,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$this->setLanguageCookie($lang_code);
 
 					// Change the language code.
-					Factory::getLanguage()->setLanguage($lang_code);
+					Factory::getContainer()->get(\Joomla\CMS\Language\LanguageFactoryInterface::class)->createLanguage($lang_code);
 				}
 			}
 			else
