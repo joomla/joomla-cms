@@ -201,6 +201,7 @@ class SystemModel extends BaseDatabaseModel
 		{
 			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $joomlaUpdateModel */
 			$joomlaUpdateModel = $this->bootComponent('com_joomlaupdate')->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
+			$joomlaUpdateModel->refreshUpdates(true);
 			$joomlaUpdate      = $joomlaUpdateModel->getUpdateInformation();
 			$hasUpdate         = $joomlaUpdate['hasUpdate'] ? $joomlaUpdate['latest'] : '';
 
