@@ -24,7 +24,7 @@ $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $format   = $app->input->getCmd('format', 'html');
-$sitename = $app->get('sitename');
+$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
 if ($task === 'edit' || $layout === 'form')
 {

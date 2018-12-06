@@ -72,7 +72,7 @@ class BannersModelDownload extends JModelForm
 	 */
 	protected function loadFormData()
 	{
-		$data = array(
+		$data = (object) array(
 			'basename'   => $this->getState('basename'),
 			'compressed' => $this->getState('compressed'),
 		);

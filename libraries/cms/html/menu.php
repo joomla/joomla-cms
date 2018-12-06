@@ -126,6 +126,12 @@ abstract class JHtmlMenu
 
 				$lookup[$item->menutype][] = &$item;
 
+				// Translate the menu item title when client is administrator
+				if ($clientId === 1)
+				{
+					$item->text = JText::_($item->text);
+				}
+
 				$item->text = str_repeat('- ', $item->level) . $item->text;
 			}
 

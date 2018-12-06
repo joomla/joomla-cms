@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Meta class.
  *
- * @since       13.1
+ * @since       3.2.0
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubMeta extends JGithubObject
@@ -22,7 +22,7 @@ class JGithubMeta extends JGithubObject
 	 *
 	 * @return  array  Authorized IP addresses
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  DomainException
 	 */
 	public function getMeta()

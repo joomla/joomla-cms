@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -66,7 +66,7 @@
         var newNumber = (parseInt(startItem[3], 10) + lookAhead - skipCount);
         var nextNumber = (parseInt(nextItem[3], 10)), itemNumber = nextNumber;
 
-        if (startIndent === nextIndent) {
+        if (startIndent === nextIndent && !isNaN(nextNumber)) {
           if (newNumber === nextNumber) itemNumber = nextNumber + 1;
           if (newNumber > nextNumber) itemNumber = newNumber + 1;
           cm.replaceRange(

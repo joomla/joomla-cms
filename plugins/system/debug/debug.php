@@ -111,13 +111,13 @@ class PlgSystemDebug extends JPlugin
 		parent::__construct($subject, $config);
 
 		// Log the deprecated API.
-		if ($this->params->get('log-deprecated'))
+		if ($this->params->get('log-deprecated', 0))
 		{
 			JLog::addLogger(array('text_file' => 'deprecated.php'), JLog::ALL, array('deprecated'));
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything'))
+		if ($this->params->get('log-everything', 0))
 		{
 			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
 		}
@@ -283,7 +283,7 @@ class PlgSystemDebug extends JPlugin
 
 		$html[] = '<div id="system-debug" class="profiler">';
 
-		$html[] = '<h1>' . JText::_('PLG_DEBUG_TITLE') . '</h1>';
+		$html[] = '<h2>' . JText::_('PLG_DEBUG_TITLE') . '</h2>';
 
 		if (JDEBUG)
 		{
@@ -331,7 +331,7 @@ class PlgSystemDebug extends JPlugin
 				$html[] = $this->display('language_files_loaded');
 			}
 
-			if ($this->params->get('language_strings'))
+			if ($this->params->get('language_strings', 1))
 			{
 				$html[] = $this->display('untranslated_strings');
 			}
@@ -404,7 +404,7 @@ class PlgSystemDebug extends JPlugin
 		}
 
 		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', null);
+		$filterGroups = (array) $this->params->get('filter_groups', array());
 
 		if (!empty($filterGroups))
 		{
@@ -772,7 +772,7 @@ class PlgSystemDebug extends JPlugin
 						sprintf('<span class="label ' . $labelClass . '">%.2f&nbsp;ms</span>', $totalQueryTime)
 					) . '</div>';
 
-				if ($this->params->get('log-executed-sql', '0'))
+				if ($this->params->get('log-executed-sql', 0))
 				{
 					$this->writeToFile();
 				}
@@ -1621,7 +1621,7 @@ class PlgSystemDebug extends JPlugin
 	 */
 	protected function displayUntranslatedStrings()
 	{
-		$stripFirst = $this->params->get('strip-first');
+		$stripFirst = $this->params->get('strip-first', 1);
 		$stripPref  = $this->params->get('strip-prefix');
 		$stripSuff  = $this->params->get('strip-suffix');
 
@@ -2037,7 +2037,7 @@ class PlgSystemDebug extends JPlugin
 		$app    = JFactory::getApplication();
 		$domain = $app->isClient('site') ? 'site' : 'admin';
 		$input  = $app->input;
-		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql';
+		$file   = $app->get('log_path') . '/' . $domain . '_' . $input->get('option') . $input->get('view') . $input->get('layout') . '.sql.php';
 
 		// Get the queries from log.
 		$current = '';
@@ -2060,7 +2060,13 @@ class PlgSystemDebug extends JPlugin
 			JFile::delete($file);
 		}
 
+		$head   = array('#');
+		$head[] = '#<?php die(\'Forbidden.\'); ?>';
+		$head[] = '#Date: ' . gmdate('Y-m-d H:i:s') . ' UTC';
+		$head[] = '#Software: ' . \JPlatform::getLongVersion();
+		$head[] = "\n";
+
 		// Write new file.
-		JFile::write($file, $current);
+		JFile::write($file, implode("\n", $head) . $current);
 	}
 }

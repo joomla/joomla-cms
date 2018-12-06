@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/repos/forks
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesForks extends JGithubPackage
@@ -28,7 +28,7 @@ class JGithubPackageRepositoriesForks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  DomainException
 	 */
 	public function create($user, $repo, $org = '')
@@ -71,7 +71,7 @@ class JGithubPackageRepositoriesForks extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 * @throws  DomainException
 	 */
 	public function getList($user, $repo, $page = 0, $limit = 0)

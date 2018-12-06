@@ -21,7 +21,7 @@ class ConfigControllerModulesDisplay extends ConfigControllerDisplay
 	/**
 	 * Method to display module editing.
 	 *
-	 * @return  bool	True on success, false on failure.
+	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   3.2
 	 */

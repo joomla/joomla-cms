@@ -43,7 +43,7 @@ class NewsfeedsHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The banner category objects
+	 * @param   stdClass[]  &$items  The category objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -51,53 +51,20 @@ class NewsfeedsHelper extends JHelperContent
 	 */
 	public static function countItems(&$items)
 	{
-		$db = JFactory::getDbo();
+		$config = (object) array(
+			'related_tbl'   => 'newsfeeds',
+			'state_col'     => 'published',
+			'group_col'     => 'catid',
+			'relation_type' => 'category_or_group',
+		);
 
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('published AS state, count(*) AS count')
-				->from($db->qn('#__newsfeeds'))
-				->where('catid = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-			$newfeeds = $db->loadObjectList();
-
-			foreach ($newfeeds as $newsfeed)
-			{
-				if ($newsfeed->state == 1)
-				{
-					$item->count_published = $newsfeed->count;
-				}
-
-				if ($newsfeed->state == 0)
-				{
-					$item->count_unpublished = $newsfeed->count;
-				}
-
-				if ($newsfeed->state == 2)
-				{
-					$item->count_archived = $newsfeed->count;
-				}
-
-				if ($newsfeed->state == -2)
-				{
-					$item->count_trashed = $newsfeed->count;
-				}
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 
 	/**
 	 * Adds Count Items for Tag Manager.
 	 *
-	 * @param   stdClass[]  &$items     The newsfeed tag objects
+	 * @param   stdClass[]  &$items     The tag objects
 	 * @param   string      $extension  The name of the active view.
 	 *
 	 * @return  stdClass[]
@@ -106,63 +73,17 @@ class NewsfeedsHelper extends JHelperContent
 	 */
 	public static function countTagItems(&$items, $extension)
 	{
-		$db = JFactory::getDbo();
-		$parts     = explode('.', $extension);
-		$section   = null;
+		$parts   = explode('.', $extension);
+		$section = count($parts) > 1 ? $parts[1] : null;
 
-		if (count($parts) > 1)
-		{
-			$section = $parts[1];
-		}
+		$config = (object) array(
+			'related_tbl'   => ($section === 'category' ? 'categories' : 'newsfeeds'),
+			'state_col'     => 'published',
+			'group_col'     => 'tag_id',
+			'extension'     => $extension,
+			'relation_type' => 'tag_assigments',
+		);
 
-		$join = $db->qn('#__newsfeeds') . ' AS c ON ct.content_item_id=c.id';
-
-		if ($section === 'category')
-		{
-			$join = $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id';
-		}
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('published AS state, count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
-				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
-				->join('LEFT', $join)
-				->group('state');
-
-			$db->setQuery($query);
-			$newsfeeds = $db->loadObjectList();
-
-			foreach ($newsfeeds as $newsfeed)
-			{
-				if ($newsfeed->state == 1)
-				{
-					$item->count_published = $newsfeed->count;
-				}
-
-				if ($newsfeed->state == 0)
-				{
-					$item->count_unpublished = $newsfeed->count;
-				}
-
-				if ($newsfeed->state == 2)
-				{
-					$item->count_archived = $newsfeed->count;
-				}
-
-				if ($newsfeed->state == -2)
-				{
-					$item->count_trashed = $newsfeed->count;
-				}
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 }

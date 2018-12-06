@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
  * Test stub configuration class.
  *
  * @package  Joomla.UnitTest
- * @since    12.1
+ * @since    3.0.0
  */
 class JConfig
 {

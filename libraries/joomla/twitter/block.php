@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Block class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterBlock extends JTwitterObject
@@ -27,7 +27,7 @@ class JTwitterBlock extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getBlocking($stringify_ids = null, $cursor = null)
 	{
@@ -65,7 +65,7 @@ class JTwitterBlock extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function block($user, $entities = null, $skip_status = null)
@@ -117,7 +117,7 @@ class JTwitterBlock extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function unblock($user, $entities = null, $skip_status = null)

@@ -40,7 +40,7 @@ class PlgSystemSef extends JPlugin
 			return;
 		}
 
-		$sefDomain = $this->params->get('domain', '');
+		$sefDomain = $this->params->get('domain', false);
 
 		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
 		if (empty($sefDomain))

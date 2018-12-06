@@ -104,9 +104,13 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @Deprecated 4.0 Use native HTML figure tags.
 	 */
 	public static function caption($selector = 'img.caption')
 	{
+		JLog::add('JHtmlBehavior::caption is deprecated. Use native HTML figure tags.', JLog::WARNING, 'deprecated');
+
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
 		{
@@ -849,7 +853,7 @@ abstract class JHtmlBehavior
 	 * @return  string  JavaScript object notation representation of the array
 	 *
 	 * @since       1.5
-	 * @deprecated  13.3 (Platform) & 4.0 (CMS) - Use JHtml::getJSObject() instead.
+	 * @deprecated  4.0 - Use JHtml::getJSObject() instead.
 	 */
 	protected static function _getJSObject($array = array())
 	{

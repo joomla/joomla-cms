@@ -23,51 +23,63 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	/**
 	 * Method to get the associations for a given item
 	 *
-	 * @param   integer  $id    Id of the item
-	 * @param   string   $view  Name of the view
+	 * @param   integer  $id      Id of the item
+	 * @param   string   $view    Name of the view
+	 * @param   string   $layout  View layout
 	 *
 	 * @return  array   Array of associations for the item
 	 *
 	 * @since  3.0
 	 */
-	public static function getAssociations($id = 0, $view = null)
+	public static function getAssociations($id = 0, $view = null, $layout = null)
 	{
-		$jinput = JFactory::getApplication()->input;
-		$view   = $view === null ? $jinput->get('view') : $view;
-		$id     = empty($id) ? $jinput->getInt('id') : $id;
-		$user   = JFactory::getUser();
-		$groups = implode(',', $user->getAuthorisedViewLevels());
+		$jinput    = JFactory::getApplication()->input;
+		$view      = $view === null ? $jinput->get('view') : $view;
+		$component = $jinput->getCmd('option');
+		$id        = empty($id) ? $jinput->getInt('id') : $id;
+
+		if ($layout === null && $jinput->get('view') == $view && $component == 'com_content')
+		{
+			$layout = $jinput->get('layout', '', 'string');
+		}
 
 		if ($view === 'article')
 		{
 			if ($id)
 			{
-				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+				$user      = JFactory::getUser();
+				$groups    = implode(',', $user->getAuthorisedViewLevels());
+				$db        = JFactory::getDbo();
+				$advClause = array();
+
+				// Filter by user groups
+				$advClause[] = 'c2.access IN (' . $groups . ')';
+
+				// Filter by current language
+				$advClause[] = 'c2.language != ' . $db->quote(JFactory::getLanguage()->getTag());
+
+				if (!$user->authorise('core.edit.state', 'com_content') && !$user->authorise('core.edit', 'com_content'))
+				{
+					// Filter by start and end dates.
+					$nullDate = $db->quote($db->getNullDate());
+					$date = JFactory::getDate();
+
+					$nowDate = $db->quote($date->toSql());
+
+					$advClause[] = '(c2.publish_up = ' . $nullDate . ' OR c2.publish_up <= ' . $nowDate . ')';
+					$advClause[] = '(c2.publish_down = ' . $nullDate . ' OR c2.publish_down >= ' . $nowDate . ')';
+
+					// Filter by published
+					$advClause[] = 'c2.state = 1';
+				}
+
+				$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id, 'id', 'alias', 'catid', $advClause);
 
 				$return = array();
 
 				foreach ($associations as $tag => $item)
 				{
-					if ($item->language != JFactory::getLanguage()->getTag())
-					{
-						$arrId   = explode(':', $item->id);
-						$assocId = $arrId[0];
-
-						$db    = JFactory::getDbo();
-						$query = $db->getQuery(true)
-							->select($db->qn('state'))
-							->from($db->qn('#__content'))
-							->where($db->qn('id') . ' = ' . (int) ($assocId))
-							->where('access IN (' . $groups . ')');
-						$db->setQuery($query);
-
-						$result = (int) $db->loadResult();
-
-						if ($result > 0)
-						{
-							$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language);
-						}
-					}
+					$return[$tag] = ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
 				}
 
 				return $return;
@@ -76,7 +88,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 
 		if ($view === 'category' || $view === 'categories')
 		{
-			return self::getCategoryAssociations($id, 'com_content');
+			return self::getCategoryAssociations($id, 'com_content', $layout);
 		}
 
 		return array();
@@ -87,7 +99,7 @@ abstract class ContentHelperAssociation extends CategoryHelperAssociation
 	 *
 	 * @param   integer  $id  Id of the article
 	 *
-	 * @return  array   An array containing the association URL and the related language object
+	 * @return  array  An array containing the association URL and the related language object
 	 *
 	 * @since  3.7.0
 	 */

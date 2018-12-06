@@ -17,7 +17,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/repos/contents
  *
- * @since       11.3
+ * @since       1.7.3
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesContents extends JGithubPackage

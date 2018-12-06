@@ -71,7 +71,7 @@ class FinderModelMaps extends JModelList
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -323,7 +323,7 @@ class FinderModelMaps extends JModelList
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state. [optional]
 	 *
 	 * @return  boolean  True on success.

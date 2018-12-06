@@ -41,6 +41,30 @@ class PostinstallControllerMessage extends FOFController
 	}
 
 	/**
+	 * Hides all post-installation messages of the specified extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.7
+	 */
+	public function hideAll()
+	{
+		/** @var PostinstallModelMessages $model */
+		$model = $this->getThisModel();
+
+		$eid = (int) $model->getState('eid', '700', 'int');
+
+		if (empty($eid))
+		{
+			$eid = 700;
+		}
+
+		$model->hideMessages($eid);
+
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+	}
+
+	/**
 	 * Executes the action associated with an item.
 	 *
 	 * @return  void

@@ -29,17 +29,16 @@ class UsersControllerUser extends UsersController
 	{
 		$this->checkToken('post');
 
-		$app    = JFactory::getApplication();
-		$input  = $app->input;
-		$method = $input->getMethod();
+		$app   = JFactory::getApplication();
+		$input = $app->input->getInputForRequestMethod();
 
 		// Populate the data array:
 		$data = array();
 
-		$data['return']    = base64_decode($app->input->post->get('return', '', 'BASE64'));
-		$data['username']  = $input->$method->get('username', '', 'USERNAME');
-		$data['password']  = $input->$method->get('password', '', 'RAW');
-		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
+		$data['return']    = base64_decode($input->get('return', '', 'BASE64'));
+		$data['username']  = $input->get('username', '', 'USERNAME');
+		$data['password']  = $input->get('password', '', 'RAW');
+		$data['secretkey'] = $input->get('secretkey', '', 'RAW');
 
 		// Check for a simple menu item id
 		if (is_numeric($data['return']))
@@ -151,9 +150,8 @@ class UsersControllerUser extends UsersController
 		);
 
 		// Perform the log out.
-		$error  = $app->logout(null, $options);
-		$input  = $app->input;
-		$method = $input->getMethod();
+		$error = $app->logout(null, $options);
+		$input = $app->input->getInputForRequestMethod();
 
 		// Check if the log out succeeded.
 		if ($error instanceof Exception)
@@ -162,7 +160,7 @@ class UsersControllerUser extends UsersController
 		}
 
 		// Get the return URL from the request and validate that it is internal.
-		$return = $input->$method->get('return', '', 'BASE64');
+		$return = $input->get('return', '', 'BASE64');
 		$return = base64_decode($return);
 
 		// Check for a simple menu item id

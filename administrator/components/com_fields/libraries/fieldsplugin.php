@@ -152,14 +152,8 @@ abstract class FieldsPlugin extends JPlugin
 			return null;
 		}
 
-		$app = JFactory::getApplication();
-
-		// Detect if the field should be shown at all
-		if ($field->params->get('show_on') == 1 && $app->isClient('administrator'))
-		{
-			return;
-		}
-		elseif ($field->params->get('show_on') == 2 && $app->isClient('site'))
+		// Detect if the field is configured to be displayed on the form
+		if (!FieldsHelper::displayFieldOnForm($field))
 		{
 			return null;
 		}
@@ -171,6 +165,7 @@ abstract class FieldsPlugin extends JPlugin
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
 		$node->setAttribute('label', $field->label);
+		$node->setAttribute('labelclass', $field->params->get('label_class'));
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));

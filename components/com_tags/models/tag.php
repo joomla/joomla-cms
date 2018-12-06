@@ -89,9 +89,14 @@ class TagsModelTag extends JModelList
 		{
 			foreach ($items as $item)
 			{
-				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id='
-					. $item->content_item_id . ':' . $item->core_alias;
+				$item->link = TagsHelperRoute::getItemRoute(
+					$item->content_item_id,
+					$item->core_alias,
+					$item->core_catid,
+					$item->core_language,
+					$item->type_alias,
+					$item->router
+				);
 
 				// Get display date
 				switch ($this->state->params->get('tag_list_show_date'))
@@ -110,13 +115,9 @@ class TagsModelTag extends JModelList
 						break;
 				}
 			}
+		}
 
-			return $items;
-		}
-		else
-		{
-			return false;
-		}
+		return $items;
 	}
 
 	/**
@@ -262,15 +263,15 @@ class TagsModelTag extends JModelList
 		{
 			$this->item = false;
 
-			if (empty($id))
+			if (empty($pk))
 			{
-				$id = $this->getState('tag.id');
+				$pk = $this->getState('tag.id');
 			}
 
 			// Get a level row instance.
 			$table = JTable::getInstance('Tag', 'TagsTable');
 
-			$idsArray = explode(',', $id);
+			$idsArray = explode(',', $pk);
 
 			// Attempt to load the rows into an array.
 			foreach ($idsArray as $id)

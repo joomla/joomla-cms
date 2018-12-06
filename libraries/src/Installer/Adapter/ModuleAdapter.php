@@ -702,7 +702,7 @@ class ModuleAdapter extends InstallerAdapter
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__modules'))
 			->where($db->quoteName('module') . ' = ' . $db->quote($this->extension->element))
-			->where($db->quote('client_id') . ' = ' . $this->extension->client_id);
+			->where($db->quoteName('client_id') . ' = ' . (int) $this->extension->client_id);
 		$db->setQuery($query);
 
 		try

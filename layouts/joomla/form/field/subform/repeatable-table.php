@@ -67,42 +67,67 @@ else
 	);
 }
 ?>
-
 <div class="row-fluid">
-	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
-		<div class="subform-repeatable"
-			data-bt-add="a.group-add" data-bt-remove="a.group-remove" data-bt-move="a.group-move"
-			data-repeatable-element="tr.subform-repeatable-group"
-			data-rows-container="tbody.subform-repeatable-container" data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>">
+	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?> form-vertical">
+		<div
+			class="subform-repeatable"
+			data-bt-add="a.group-add-<?php echo $unique_subform_id; ?>"
+			data-bt-remove="a.group-remove-<?php echo $unique_subform_id; ?>"
+			data-bt-move="a.group-move-<?php echo $unique_subform_id; ?>"
+			data-repeatable-element="tr.subform-repeatable-group-<?php echo $unique_subform_id; ?>"
+			data-rows-container="tbody.rows-container-<?php echo $unique_subform_id; ?>"
+			data-minimum="<?php echo $min; ?>" data-maximum="<?php echo $max; ?>"
+		>
+			<table class="adminlist table table-striped table-bordered">
+				<thead>
+					<tr>
+						<?php echo $table_head; ?>
+						<?php if (!empty($buttons)) : ?>
+							<th style="width:8%;">
+								<?php if (!empty($buttons['add'])) : ?>
+									<div class="btn-group">
+										<a
+											class="btn btn-mini button btn-success group-add-<?php echo $unique_subform_id; ?>"
+											aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"
+										>
+											<span class="icon-plus" aria-hidden="true"></span>
+										</a>
+									</div>
+								<?php endif; ?>
+							</th>
+						<?php endif; ?>
+					</tr>
+				</thead>
+				<tbody class="rows-container-<?php echo $unique_subform_id; ?>">
+					<?php foreach ($forms as $k => $form):
+						echo $this->sublayout(
+							$sublayout,
+							array(
+								'form' => $form,
+								'basegroup' => $fieldname,
+								'group' => $fieldname . $k,
+								'buttons' => $buttons,
+								'unique_subform_id' => $unique_subform_id,
+							)
+						);
+					endforeach; ?>
+				</tbody>
+			</table>
 
-		<table class="adminlist table table-striped table-bordered">
-			<thead>
-				<tr>
-					<?php echo $table_head; ?>
-					<?php if (!empty($buttons)) : ?>
-					<th style="width:8%;">
-					<?php if (!empty($buttons['add'])) : ?>
-						<div class="btn-group">
-							<a class="group-add btn btn-mini button btn-success" aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"><span class="icon-plus" aria-hidden="true"></span> </a>
-						</div>
-					<?php endif; ?>
-					</th>
-					<?php endif; ?>
-				</tr>
-			</thead>
-			<tbody class="subform-repeatable-container">
-			<?php
-			foreach ($forms as $k => $form) :
-				echo $this->sublayout($sublayout, array('form' => $form, 'basegroup' => $fieldname, 'group' => $fieldname . $k, 'buttons' => $buttons));
-			endforeach;
-			?>
-			</tbody>
-		</table>
-		<?php if ($multiple) : ?>
-		<script type="text/subform-repeatable-template-section" class="subform-repeatable-template-section">
-		<?php echo $this->sublayout($sublayout, array('form' => $tmpl, 'basegroup' => $fieldname, 'group' => $fieldname . 'X', 'buttons' => $buttons)); ?>
-		</script>
-		<?php endif; ?>
+			<?php if ($multiple) : ?>
+				<template class="subform-repeatable-template-section"><?php echo trim(
+					$this->sublayout(
+						$sublayout,
+						array(
+							'form' => $tmpl,
+							'basegroup' => $fieldname,
+							'group' => $fieldname . 'X',
+							'buttons' => $buttons,
+							'unique_subform_id' => $unique_subform_id,
+						)
+					)
+				); ?></template>
+			<?php endif; ?>
 		</div>
 	</div>
 </div>

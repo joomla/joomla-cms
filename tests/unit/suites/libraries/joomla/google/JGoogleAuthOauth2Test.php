@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleAuthOauth2Test extends TestCase
 {
@@ -249,7 +249,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 	{
@@ -272,7 +272,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
 	{
@@ -294,7 +294,7 @@ class JGoogleAuthOauth2Test extends TestCase
 	 *
 	 * @return  JHttpResponse
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function getOauthCallback($url, array $headers = null, $timeout = null)
 	{

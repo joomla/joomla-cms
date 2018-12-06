@@ -364,9 +364,13 @@ abstract class JHtmlBootstrap
 
 		$options = JHtml::getJSObject($opt);
 
+		$initFunction = 'function initPopovers (event, container) { ' .
+				'$(container || document).find(' . json_encode($selector) . ').popover(' . $options . ');' .
+			'}';
+
 		// Attach the popover to the document
 		JFactory::getDocument()->addScriptDeclaration(
-			'jQuery(function($){ $(' . json_encode($selector) . ').popover(' . $options . '); });'
+			'jQuery(function($){ initPopovers(); $("body").on("subform-row-add", initPopovers); ' . $initFunction . ' });'
 		);
 
 		static::$loaded[__METHOD__][$selector] = true;
@@ -462,7 +466,7 @@ abstract class JHtmlBootstrap
 			$options = JHtml::getJSObject($opt);
 
 			// Build the script.
-			$script = array('$(' . json_encode($selector) . ').tooltip(' . $options . ')');
+			$script = array('$(container).find(' . json_encode($selector) . ').tooltip(' . $options . ')');
 
 			if ($onShow)
 			{
@@ -484,8 +488,14 @@ abstract class JHtmlBootstrap
 				$script[] = 'on("hidden.bs.tooltip", ' . $onHidden . ')';
 			}
 
+			$initFunction = 'function initTooltips (event, container) { ' .
+				'container = container || document;' .
+				implode('.', $script) . ';' .
+				'}';
+
 			// Attach tooltips to document
-			JFactory::getDocument()->addScriptDeclaration('jQuery(function($){ ' . implode('.', $script) . '; });');
+			JFactory::getDocument()
+				->addScriptDeclaration('jQuery(function($){ initTooltips(); $("body").on("subform-row-add", initTooltips); ' . $initFunction . ' });');
 
 			// Set static array
 			static::$loaded[__METHOD__][$selector] = true;

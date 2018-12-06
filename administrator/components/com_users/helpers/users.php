@@ -254,64 +254,6 @@ class UsersHelper
 	}
 
 	/**
-	 * Adds Count Items for Tag Manager.
-	 *
-	 * @param   stdClass[]  &$items     The user note tag objects
-	 * @param   string      $extension  The name of the active view.
-	 *
-	 * @return  stdClass[]
-	 *
-	 * @since   3.6
-	 */
-	public static function countTagItems(&$items, $extension)
-	{
-		$db = JFactory::getDbo();
-
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('published as state, count(*) AS count')
-				->from($db->qn('#__contentitem_tag_map') . 'AS ct ')
-				->where('ct.tag_id = ' . (int) $item->id)
-				->where('ct.type_alias =' . $db->q($extension))
-				->join('LEFT', $db->qn('#__categories') . ' AS c ON ct.content_item_id=c.id')
-				->group('c.published');
-
-			$db->setQuery($query);
-			$users = $db->loadObjectList();
-
-			foreach ($users as $user)
-			{
-				if ($user->state == 1)
-				{
-					$item->count_published = $user->count;
-				}
-
-				if ($user->state == 0)
-				{
-					$item->count_unpublished = $user->count;
-				}
-
-				if ($user->state == 2)
-				{
-					$item->count_archived = $user->count;
-				}
-
-				if ($user->state == -2)
-				{
-					$item->count_trashed = $user->count;
-				}
-			}
-		}
-
-		return $items;
-	}
-
-	/**
 	 * Returns a valid section for users. If it is not valid then null
 	 * is returned.
 	 *

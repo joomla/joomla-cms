@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Input
- * @since       11.1
+ * @since       1.7.0
  */
 class JInputInspector extends JInput
 {

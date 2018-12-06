@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Authentication\AuthenticationResponse;
 use Joomla\Registry\Registry;
 
 /**
@@ -21,11 +22,11 @@ class PlgAuthenticationGMail extends JPlugin
 	/**
 	 * This method should handle any authentication and report back to the subject
 	 *
-	 * @param   array   $credentials  Array holding the user credentials
-	 * @param   array   $options      Array of extra options
-	 * @param   object  &$response    Authentication response object
+	 * @param   array                   $credentials  Array holding the user credentials
+	 * @param   array                   $options      Array of extra options
+	 * @param   AuthenticationResponse  &$response    Authentication response object
 	 *
-	 * @return  boolean
+	 * @return  void
 	 *
 	 * @since   1.5
 	 */
@@ -121,9 +122,11 @@ class PlgAuthenticationGMail extends JPlugin
 		}
 		catch (Exception $e)
 		{
-			// If there was an error in the request then create a 'false' dummy response.
-			$result = new JHttpResponse;
-			$result->code = false;
+			$response->status        = JAuthentication::STATUS_FAILURE;
+			$response->type          = 'GMail';
+			$response->error_message = JText::sprintf('JGLOBAL_AUTH_FAILED', JText::_('JGLOBAL_AUTH_UNKNOWN_ACCESS_DENIED'));
+
+			return;
 		}
 
 		$code = $result->code;

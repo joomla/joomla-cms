@@ -16,7 +16,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       11.1
+ * @since       1.7.0
  */
 class JLogLoggerDatabaseInspector extends JLogLoggerDatabase
 {
