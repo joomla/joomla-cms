@@ -268,7 +268,7 @@ class JEventDispatcher extends JObject
 	 * @return void
 	 * @since __DEPLOY_VERSION__
 	 */
-	public function attachWithLateInstance($className, array $params = [])
+	public function attachWithLateInstance($className, array $params = array())
 	{
 		if (!is_string($className)
 			|| !is_subclass_of($className, 'JEvent'))
