@@ -266,6 +266,7 @@ class JEventDispatcher extends JObject
 	 * @param   array   $params     Class params
 	 *
 	 * @return void
+	 *
 	 * @since __DEPLOY_VERSION__
 	 */
 	public function attachWithLateInstance($className, array $params = array())
