@@ -17,6 +17,7 @@ use Joomla\CMS\Table\Observer\Tags;
 use Joomla\CMS\Table\Observer\ContentHistory as ContentHistoryObserver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
+use Joomla\Utilities\DomHelper;
 
 /**
  * Content table
@@ -147,7 +148,11 @@ class Content extends Table
 			}
 			else
 			{
-				list ($this->introtext, $this->fulltext) = preg_split($pattern, $array['articletext'], 2);
+				list ($this->introtext, $this->fulltext) = array_map(function ($value)
+				{
+					return DomHelper::fixHtml($value);
+				}
+				, preg_split($pattern, $array['articletext'], 2));
 			}
 		}
 
