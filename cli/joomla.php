@@ -55,11 +55,6 @@ if (file_exists(JPATH_INSTALLATION . '/index.php'))
 	JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
 }
 
-// Registers the Extension Loader
-JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
-$extensionPsr4Loader = new \JNamespacePsr4Map;
-$extensionPsr4Loader->load();
-
 // Boot the DI container
 $container = \Joomla\CMS\Factory::getContainer();
 
@@ -78,4 +73,10 @@ $container->alias('session', 'session.cli')
 
 $app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::class);
 \Joomla\CMS\Factory::$application = $app;
+
+// Registers the Extension Loader
+JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+$extensionPsr4Loader = new \JNamespacePsr4Map;
+$extensionPsr4Loader->load();
+
 $app->execute();
