@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Hash
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,9 +12,9 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
- * @since       11.1
+ * @since       1.7.0
  */
-class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
+class JCryptPasswordSimpleTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Data provider for testCreate method.
@@ -45,7 +45,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function createExceptionData()
 	{
@@ -69,11 +69,11 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  createExceptionData
 	 *
-	 * @since    12.3
+	 * @since    3.1.4
 	 */
 	public function testCreateException($password, $type, $salt, $expected, $cost)
 	{
-		$hasher = $this->getMock('JCryptPasswordSimple', array('getSalt'));
+		$hasher = $this->getMockBuilder('JCryptPasswordSimple')->setMethods(array('getSalt'))->getMock();
 		$hasher->setCost($cost);
 
 		$hasher->expects($this->any())
@@ -100,11 +100,11 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  createData
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCreate($password, $type, $salt, $expected, $cost = 10)
 	{
-		$hasher = $this->getMock('JCryptPasswordSimple', array('getSalt'));
+		$hasher = $this->getMockBuilder('JCryptPasswordSimple')->setMethods(array('getSalt'))->getMock();
 
 		$hasher->setCost($cost);
 
@@ -160,7 +160,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function defaultTypeData()
 	{
@@ -181,7 +181,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetDefaultType($type, $expectation)
 	{
@@ -203,7 +203,7 @@ class JCryptPasswordSimpleTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetDefaultType($type, $expectation)
 	{

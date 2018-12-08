@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/gists/comments/
  *
- * @since  3.3 (CMS)
+ * @since       3.3 (CMS)
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageGistsComments extends JGithubPackage
 {
@@ -25,7 +26,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   string   $body    The comment body text.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -61,7 +62,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   integer  $commentId  The id of the comment to delete.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -89,7 +90,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   string   $body       The new body text for the comment.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -101,7 +102,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'body' => $body
+				'body' => $body,
 			)
 		);
 
@@ -125,7 +126,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   integer  $commentId  The comment id to get.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -156,7 +157,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   integer  $limit   The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */

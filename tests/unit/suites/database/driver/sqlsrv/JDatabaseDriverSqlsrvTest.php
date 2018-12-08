@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       12.1
+ * @since       3.0.0
  */
 class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 {
@@ -20,13 +20,32 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function dataTestEscape()
 	{
 		return array(
-			array("'%_abc123", false, "''%_abc123"),
-			array("'%_abc123", true, "''%[_]abc123"),
+			array("'%_abc123[]", false, "''%_abc123[]"),
+			array("'%_abc123[]", true, "''[%][_]abc123[[]]"),
+			array("binary\000data", false, "binary' + CHAR(0) + N'data"),
+			array(3, false, 3),
+			array(3.14, false, '3.14'),
+		);
+	}
+
+	/**
+	 * Data for the testQuoteName test.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.7.0
+	 */
+	public function dataTestQuoteName()
+	{
+		return array(
+			array('protected`title', null, '[protected`title]'),
+			array('protected"title', null, '[protected"title]'),
+			array('protected]title', null, '[protected]]title]'),
 		);
 	}
 
@@ -35,7 +54,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testDropTable()
 	{
@@ -56,7 +75,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 * @return  void
 	 *
 	 * @dataProvider  dataTestEscape
-	 * @since         12.1
+	 * @since         3.0.0
 	 */
 	public function testEscape($text, $extra, $expected)
 	{
@@ -68,11 +87,65 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	}
 
 	/**
+	 * Tests the escape method 2.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.12
+	 */
+	public function testEscapeNonLocaleAware()
+	{
+		$origin = setLocale(LC_NUMERIC, 0);
+
+		// Test with decimal_point equals to comma
+		setLocale(LC_NUMERIC, 'pl_PL');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Test with C locale
+		setLocale(LC_NUMERIC, 'C');
+
+		$this->assertThat(
+			self::$driver->escape(3.14),
+			$this->equalTo('3.14'),
+			'The string was not escaped properly'
+		);
+
+		// Revert to origin locale
+		setLocale(LC_NUMERIC, $origin);
+	}
+
+	/**
+	 * Test the quoteName method.
+	 *
+	 * @param   string  $text      The column name or alias to be quote.
+	 * @param   string  $asPart    String used for AS query part.
+	 * @param   string  $expected  The expected result.
+	 *
+	 * @return  void
+	 *
+	 * @dataProvider  dataTestQuoteName
+	 * @since         3.7.0
+	 */
+	public function testQuoteName($text, $asPart, $expected)
+	{
+		$this->assertThat(
+			self::$driver->quoteName($text, $asPart),
+			$this->equalTo($expected),
+			'The name was not quoted properly'
+		);
+	}
+
+	/**
 	 * Tests the getAffectedRows method
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetAffectedRows()
 	{
@@ -91,7 +164,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetTableCreate()
 	{
@@ -107,7 +180,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetTableKeys()
 	{
@@ -123,7 +196,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetTableList()
 	{
@@ -139,14 +212,14 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetVersion()
 	{
 		$this->assertThat(
 			self::$driver->getVersion(),
 			$this->isType('string'),
-		'Line:' . __LINE__ . ' The getVersion method should return a string containing the driver version.'
+			'Line:' . __LINE__ . ' The getVersion method should return a string containing the driver version.'
 		);
 	}
 
@@ -155,7 +228,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testLoadAssoc()
 	{
@@ -173,7 +246,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testLoadAssocList()
 	{
@@ -202,7 +275,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testLoadColumn()
 	{
@@ -220,7 +293,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testLoadObject()
 	{
@@ -245,7 +318,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testLoadObjectList()
 	{
@@ -298,7 +371,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testLoadResult()
 	{
@@ -318,7 +391,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testLoadRow()
 	{
@@ -339,7 +412,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testLoadRowList()
 	{
@@ -360,7 +433,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testExecute()
 	{
@@ -376,7 +449,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testRenameTable()
 	{
@@ -397,7 +470,7 @@ class JDatabaseDriverSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testIsSupported()
 	{

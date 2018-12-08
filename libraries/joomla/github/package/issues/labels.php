@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/issues/labels/
  *
- * @since  12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageIssuesLabels extends JGithubPackage
 {
@@ -25,7 +26,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $repo   The name of the GitHub repository.
 	 *
 	 * @throws DomainException
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  array
 	 */
@@ -48,7 +49,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $name  The label name to get.
 	 *
 	 * @throws DomainException
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  object
 	 */
@@ -72,7 +73,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $color  The label color.
 	 *
 	 * @throws DomainException
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  object
 	 */
@@ -85,7 +86,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		$data = json_encode(
 			array(
 				'name'  => $name,
-				'color' => $color
+				'color' => $color,
 			)
 		);
 
@@ -113,7 +114,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @param   string  $color  The new label color.
 	 *
 	 * @throws DomainException
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  object
 	 */
@@ -126,7 +127,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		$data = json_encode(
 			array(
 				'name'  => $name,
-				'color' => $color
+				'color' => $color,
 			)
 		);
 
@@ -146,7 +147,7 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 	 * @throws DomainException
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function delete($owner, $repo, $name)
 	{
@@ -228,7 +229,8 @@ class JGithubPackageIssuesLabels extends JGithubPackage
 		);
 	}
 
-	/** Replace all labels for an issue.
+	/**
+	 * Replace all labels for an issue.
 	 *
 	 * Sending an empty array ([]) will remove all Labels from the Issue.
 	 *

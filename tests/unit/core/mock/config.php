@@ -2,15 +2,15 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Class to mock JConfig.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockConfig
 {
@@ -21,7 +21,7 @@ class TestMockConfig
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public static function create($test)
 	{
@@ -31,17 +31,13 @@ class TestMockConfig
 			'set'
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JConfig',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JConfig')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		return $mockObject;
 	}

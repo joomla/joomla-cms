@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -26,14 +26,17 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 		// Collect all the relevant methods in JApplicationCms (work in progress).
 		$methods = array(
 			'getMenu',
+			'getName',
 			'getPathway',
 			'getTemplate',
 			'getLanguageFilter',
 			'initialiseApp',
+			'isClient',
 			'isAdmin',
 			'isSite',
 			'getUserState',
-			'getUserStateFromRequest'
+			'getUserStateFromRequest',
+			'setUserState',
 		);
 
 		return array_merge($methods, parent::getMethods());
@@ -73,7 +76,7 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 	 * @param   array     $options      A set of options to configure the mock.
 	 * @param   array     $constructor  An array containing constructor arguments to inject into the mock.
 	 *
-	 * @return  PHPUnit_Framework_MockObject_MockObject
+	 * @return  JApplicationCms|PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   3.2
 	 */
@@ -88,17 +91,14 @@ class TestMockApplicationCms extends TestMockApplicationWeb
 		$methods = self::getMethods();
 
 		if (isset($options))
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JApplicationCms',
-			$methods,
-			// Constructor arguments.
-			$constructor,
-			// Mock class name.
-			'',
-			// Call original constructor.
-			true
-		);
+		{
+			// Build the mock object & allow call to original constructor.
+			$mockObject = $test->getMockBuilder('JApplicationCms')
+						->setMethods($methods)
+						->setConstructorArgs($constructor)
+						->setMockClassName('')
+						->getMock();
+		}
 
 		$mockObject = self::addBehaviours($test, $mockObject, $options);
 

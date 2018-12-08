@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,11 +40,11 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Get the languages model.
 		$model = new InstallationModelLanguages;
@@ -67,7 +67,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		else
 		{
 			// Create a response body.
-			$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_ADMIN_SET_DEFAULT', $admin_lang));
+			$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_ADMIN_SET_DEFAULT', $admin_lang), 'message');
 		}
 
 		// Check for request forgeries in the site language
@@ -88,7 +88,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		else
 		{
 			// Create a response body.
-			$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_FRONTEND_SET_DEFAULT', $frontend_lang));
+			$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_FRONTEND_SET_DEFAULT', $frontend_lang), 'message');
 		}
 
 		// Check if user has activated the multilingual site
@@ -98,23 +98,20 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 		{
 			if (!$model->enablePlugin('plg_system_languagefilter'))
 			{
-				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang));
+				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGEFILTER', $frontend_lang), 'warning');
 			}
 
 			// Activate optional ISO code Plugin
 			$activatePluginIsoCode = (int) $data['activatePluginLanguageCode'];
 
-			if ($activatePluginIsoCode)
+			if ($activatePluginIsoCode && !$model->enablePlugin('plg_system_languagecode'))
 			{
-				if (!$model->enablePlugin('plg_system_languagecode'))
-				{
-					$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'));
-				}
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_PLG_LANGUAGECODE'), 'warning');
 			}
 
 			if (!$model->addModuleLanguageSwitcher())
 			{
-				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE'));
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ENABLE_MODULESWHITCHER_LANGUAGECODE'), 'warning');
 			}
 
 			// Add menus
@@ -126,34 +123,28 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 
 			foreach ($siteLanguages as $siteLang)
 			{
-				// Add Language Manager: Content Languages
-				$tableLanguage = JTable::getInstance('Language');
-
-				// Search if just added
-				$return = $tableLanguage->load(array('lang_code' => $siteLang->language));
-
-				if ($return === false)
-				{
-					$sefLangString = $model->getSefString($siteLang, $siteLanguages);
-
-					if (!$model->addLanguage($siteLang, $sefLangString))
-					{
-						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name));
-
-						continue;
-					}
-				}
-
 				if (!$model->addMenuGroup($siteLang))
 				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name));
+					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU', $siteLang->name), 'warning');
 
 					continue;
 				}
 
-				if (!$tableMenuItem = $model->addMenuItem($siteLang))
+				if (!$data['installLocalisedContent'])
 				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name));
+					if (!$tableMenuItem = $model->addFeaturedMenuItem($siteLang))
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
+				}
+
+				if (!$tableMenuItem = $model->addAllCategoriesMenuItem($siteLang))
+				{
+					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
 
 					continue;
 				}
@@ -162,7 +153,7 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 
 				if (!$model->addModuleMenu($siteLang))
 				{
-					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang));
+					$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_MODULE', $frontend_lang), 'warning');
 
 					continue;
 				}
@@ -171,16 +162,25 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 				{
 					if (!$tableCategory = $model->addCategory($siteLang))
 					{
-						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang));
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CATEGORY', $frontend_lang), 'warning');
 
 						continue;
 					}
 
 					$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
 
+					if (!$tableMenuItem = $model->addBlogMenuItem($siteLang, $tableCategory->id))
+					{
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_MENU_ITEM', $siteLang->name), 'warning');
+
+						continue;
+					}
+
+					$groupedAssociations['com_menus.item'][$siteLang->language] = $tableMenuItem->id;
+
 					if (!$tableArticle = $model->addArticle($siteLang, $tableCategory->id))
 					{
-						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang));
+						$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_ARTICLE', $frontend_lang), 'warning');
 
 						continue;
 					}
@@ -191,18 +191,17 @@ class InstallationControllerSetdefaultlanguage extends JControllerBase
 
 			if (!$model->addAssociations($groupedAssociations))
 			{
-				// TODO: Make this a proper string in 3.6.2 (see https://github.com/joomla/joomla-cms/pull/11263)
-				$app->enqueueMessage(JText::_('JERROR'));
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_ADD_ASSOCIATIONS'), 'warning');
 			}
 
 			if (!$model->disableModuleMainMenu())
 			{
-				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_UNPUBLISH_MOD_DEFAULTMENU'));
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_UNPUBLISH_MOD_DEFAULTMENU'), 'warning');
 			}
 
 			if (!$model->enableModule('mod_multilangstatus'))
 			{
-				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_PUBLISH_MOD_MULTILANGSTATUS'));
+				$app->enqueueMessage(JText::_('INSTL_DEFAULTLANGUAGE_COULD_NOT_PUBLISH_MOD_MULTILANGSTATUS'), 'warning');
 			}
 		}
 

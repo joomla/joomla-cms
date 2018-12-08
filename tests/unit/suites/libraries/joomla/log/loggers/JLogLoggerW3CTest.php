@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/w3c/inspector.php';
@@ -14,9 +14,9 @@ require_once __DIR__ . '/stubs/w3c/inspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       11.1
+ * @since       1.7.0
  */
-class JLogLoggerW3CTest extends PHPUnit_Framework_TestCase
+class JLogLoggerW3CTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test the JLogLoggerW3C::addEntry method.
@@ -70,7 +70,7 @@ class JLogLoggerW3CTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getLastLine($path)
 	{

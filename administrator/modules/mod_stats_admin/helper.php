@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,10 +32,10 @@ class ModStatsHelper
 		$rows  = array();
 		$query = $db->getQuery(true);
 
-		$serverinfo = $params->get('serverinfo');
-		$siteinfo   = $params->get('siteinfo');
-		$counter    = $params->get('counter');
-		$increase   = $params->get('increase');
+		$serverinfo = $params->get('serverinfo', 0);
+		$siteinfo   = $params->get('siteinfo', 0);
+		$counter    = $params->get('counter', 0);
+		$increase   = $params->get('increase', 0);
 
 		$i = 0;
 
@@ -83,6 +83,7 @@ class ModStatsHelper
 			$query->select('COUNT(id) AS count_users')
 				->from('#__users');
 			$db->setQuery($query);
+
 			try
 			{
 				$users = $db->loadResult();
@@ -97,6 +98,7 @@ class ModStatsHelper
 				->from('#__content')
 				->where('state = 1');
 			$db->setQuery($query);
+
 			try
 			{
 				$items = $db->loadResult();
@@ -112,6 +114,7 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_USERS');
 				$rows[$i]->icon  = 'users';
 				$rows[$i]->data  = $users;
+				$rows[$i]->link  = JRoute::_('index.php?option=com_users');
 				$i++;
 			}
 
@@ -121,34 +124,8 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES');
 				$rows[$i]->icon  = 'file';
 				$rows[$i]->data  = $items;
+				$rows[$i]->link  = JRoute::_('index.php?option=com_content&view=articles&filter[published]=1');
 				$i++;
-			}
-
-			if (JComponentHelper::isInstalled('com_weblinks'))
-			{
-				$query->clear()
-					->select('COUNT(id) AS count_links')
-					->from('#__weblinks')
-					->where('state = 1');
-				$db->setQuery($query);
-
-				try
-				{
-					$links = $db->loadResult();
-				}
-				catch (RuntimeException $e)
-				{
-					$links = false;
-				}
-
-				if ($links)
-				{
-					$rows[$i]        = new stdClass;
-					$rows[$i]->title = JText::_('MOD_STATS_WEBLINKS');
-					$rows[$i]->icon  = 'out-2';
-					$rows[$i]->data  = $links;
-					$i++;
-				}
 			}
 		}
 
@@ -175,6 +152,30 @@ class ModStatsHelper
 				$rows[$i]->title = JText::_('MOD_STATS_ARTICLES_VIEW_HITS');
 				$rows[$i]->icon  = 'eye';
 				$rows[$i]->data  = number_format($hits + $increase, 0, JText::_('DECIMALS_SEPARATOR'), JText::_('THOUSANDS_SEPARATOR'));
+				$i++;
+			}
+		}
+
+		// Include additional data defined by published system plugins
+		JPluginHelper::importPlugin('system');
+
+		$app    = JFactory::getApplication();
+		$arrays = (array) $app->triggerEvent('onGetStats', array('mod_stats_admin'));
+
+		foreach ($arrays as $response)
+		{
+			foreach ($response as $row)
+			{
+				// We only add a row if the title and data are given
+				if (isset($row['title']) && isset($row['data']))
+				{
+					$rows[$i]        = new stdClass;
+					$rows[$i]->title = $row['title'];
+					$rows[$i]->icon  = isset($row['icon']) ? $row['icon'] : 'info';
+					$rows[$i]->data  = $row['data'];
+					$rows[$i]->link  = isset($row['link']) ? $row['link'] : null;
+					$i++;
+				}
 			}
 		}
 

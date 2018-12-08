@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/database/inspector.php';
@@ -14,7 +14,7 @@ require_once __DIR__ . '/stubs/database/inspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       11.1
+ * @since       1.7.0
  */
 class JLogLoggerDatabaseTest extends TestCaseDatabase
 {
@@ -123,7 +123,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 		$logger = new JLogLoggerDatabaseInspector($config);
 		$logger->connect();
 
-		$this->assertTrue($logger->db instanceof JDatabaseDriver, 'Line: ' . __LINE__);
+		$this->assertInstanceOf('\\JDatabaseDriver', $logger->db, 'Line: ' . __LINE__);
 	}
 
 	/**
@@ -131,7 +131,7 @@ class JLogLoggerDatabaseTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @expectedException RuntimeException
 	 */

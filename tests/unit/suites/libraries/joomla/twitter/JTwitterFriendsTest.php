@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,55 +13,55 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JTwitterFriendsTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $input;
 
 	/**
 	 * @var    JTwitterFriends  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    JTwitterOAuth  Authentication object for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"error":"Generic error"}';
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $friendsRateLimit = '{"resources": {"friends": {
 			"/friends/ids": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"}
@@ -69,7 +69,7 @@ class JTwitterFriendsTest extends TestCase
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $friendshipsRateLimit = '{"resources": {"friendships": {
 			"/friendships/show": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
@@ -82,11 +82,19 @@ class JTwitterFriendsTest extends TestCase
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $followersRateLimit = '{"resources": {"followers": {
 			"/followers/ids": {"remaining":15, "reset":"Mon Jun 25 17:20:53 +0000 2012"}
 			}}}';
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -98,6 +106,7 @@ class JTwitterFriendsTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -111,7 +120,7 @@ class JTwitterFriendsTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->oauth = new JTwitterOAuth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
 
@@ -124,11 +133,26 @@ class JTwitterFriendsTest extends TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
+	}
+
+	/**
 	* Provides test data for request format detection.
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 3.1.4
 	*/
 	public function seedUser()
 	{
@@ -148,7 +172,7 @@ class JTwitterFriendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedUser
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetFriendIds($user)
 	{
@@ -211,7 +235,7 @@ class JTwitterFriendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedUser
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException  DomainException
 	 */
 	public function testGetFriendIdsFailure($user)
@@ -269,7 +293,7 @@ class JTwitterFriendsTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 3.1.4
 	*/
 	public function seedFriendshipDetails()
 	{
@@ -293,7 +317,7 @@ class JTwitterFriendsTest extends TestCase
 	 * @dataProvider seedFriendshipDetails
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testGetFriendshipDetails($user_a, $user_b)
 	{
@@ -363,7 +387,7 @@ class JTwitterFriendsTest extends TestCase
 	 * @dataProvider seedFriendshipDetails
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @expectedException  DomainException
 	 */
 	public function testGetFriendshipDetailsFailure($user_a, $user_b)
@@ -430,7 +454,7 @@ class JTwitterFriendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedUser
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetFollowerIds($user)
 	{
@@ -493,7 +517,7 @@ class JTwitterFriendsTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedUser
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException  DomainException
 	 */
 	public function testGetFollowerIdsFailure($user)
@@ -551,7 +575,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testGetFriendshipsIncoming()
 	{
@@ -594,7 +618,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @expectedException  DomainException
 	 */
 	public function testGetFriendshipsIncomingFailure()
@@ -635,7 +659,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testGetFriendshipsOutgoing()
 	{
@@ -678,7 +702,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @expectedException  DomainException
 	 */
 	public function testGetFriendshipsOutgoingFailure()
@@ -719,7 +743,7 @@ class JTwitterFriendsTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 3.1.4
 	*/
 	public function seedFriendship()
 	{
@@ -740,7 +764,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @dataProvider  seedFriendship
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testFollow($user)
 	{
@@ -786,7 +810,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @dataProvider  seedFriendship
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -828,7 +852,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @dataProvider  seedFriendship
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testUnfollow($user)
 	{
@@ -871,7 +895,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @dataProvider  seedFriendship
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -909,7 +933,7 @@ class JTwitterFriendsTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 3.1.4
 	*/
 	public function seedFriendshipsLookup()
 	{
@@ -931,7 +955,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedFriendshipsLookup
 	 */
 	public function testGetFriendshipsLookup($screen_name, $id)
@@ -986,7 +1010,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @dataProvider seedFriendshipsLookup
 	 * @expectedException  DomainException
 	 */
@@ -1040,7 +1064,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @dataProvider  seedFriendship
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testUpdateFriendship($user)
 	{
@@ -1089,7 +1113,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @dataProvider  seedFriendship
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -1127,7 +1151,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 */
 	public function testGetFriendshipNoRetweetIds()
 	{
@@ -1168,7 +1192,7 @@ class JTwitterFriendsTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since 12.3
+	 * @since 3.1.4
 	 * @expectedException  DomainException
 	 */
 	public function testGetFriendshipNoRetweetIdsFailure()

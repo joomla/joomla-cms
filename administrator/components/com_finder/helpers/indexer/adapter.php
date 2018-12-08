@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -125,8 +125,8 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to instantiate the indexer adapter.
 	 *
-	 * @param   object  &$subject  The object to observe.
-	 * @param   array   $config    An array that holds the plugin configuration.
+	 * @param   object  $subject  The object to observe.
+	 * @param   array   $config   An array that holds the plugin configuration.
 	 *
 	 * @since   2.5
 	 */
@@ -160,7 +160,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to get the adapter state and push it into the indexer.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on error.
@@ -281,7 +281,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 			return true;
 		}
 
-		// Get the url for the content id.
+		// Get the URL for the content id.
 		$item = $this->db->quote($this->getUrl($id, $this->extension, $this->layout));
 
 		// Update the content items.
@@ -312,7 +312,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   integer  $id  The ID of the item to reindex.
 	 *
-	 * @return  boolean  True on success.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -750,7 +750,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * Method to get the page title of any menu item that is linked to the
 	 * content item, if it exists and is set.
 	 *
-	 * @param   string  $url  The url of the item.
+	 * @param   string  $url  The URL of the item.
 	 *
 	 * @return  mixed  The title on success, null if not found.
 	 *
@@ -902,12 +902,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	protected function translateState($item, $category = null)
 	{
 		// If category is present, factor in its states as well
-		if ($category !== null)
+		if ($category !== null && $category == 0)
 		{
-			if ($category == 0)
-			{
-				$item = 0;
-			}
+			$item = 0;
 		}
 
 		// Translate the state

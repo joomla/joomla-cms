@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,37 +13,37 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       12.3
+ * @since       3.1.4
  */
-class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
+class JGithubPackageIssuesMilestonesTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithubPackageIssuesMilestones  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -60,7 +60,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->client = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
 
 		$this->object = new JGithubPackageIssuesMilestones($this->options, $this->client);
 	}
@@ -86,7 +86,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testCreate()
 	{
@@ -118,7 +118,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testCreateFailure()
 	{
@@ -145,7 +145,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testEdit()
 	{
@@ -172,7 +172,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testEditAllParameters()
 	{
@@ -206,7 +206,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testEditFailure()
 	{
@@ -230,7 +230,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testGet()
 	{
@@ -256,7 +256,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testGetFailure()
 	{
@@ -277,7 +277,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testGetList()
 	{
@@ -303,7 +303,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testGetListFailure()
 	{
@@ -324,7 +324,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testDelete()
 	{
@@ -347,7 +347,7 @@ class JGithubPackageIssuesMilestonesTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return void
 	 *
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public function testDeleteFailure()
 	{

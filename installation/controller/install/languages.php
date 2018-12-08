@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,11 +40,11 @@ class InstallationControllerInstallLanguages extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Get array of selected languages
 		$lids = $this->input->get('cid', array(), 'array');
@@ -56,13 +56,17 @@ class InstallationControllerInstallLanguages extends JControllerBase
 		if (!$lids)
 		{
 			// No languages have been selected
-			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'));
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_NO_LANGUAGE_SELECTED'), 'warning');
 		}
 		else
 		{
 			// Install selected languages
 			$model->install($lids);
-			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'));
+
+			// Publish the Content Languages.
+			$model->publishContentLanguages();
+
+			$app->enqueueMessage(JText::_('INSTL_LANGUAGES_MORE_LANGUAGES'), 'notice');
 		}
 
 		// Redirect to the page.

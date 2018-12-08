@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Archive
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -22,7 +22,8 @@ jimport('joomla.filesystem.path');
  * @contributor  Michael Slusarz <slusarz@horde.org>
  * @contributor  Michael Cochrane <mike@graftonhall.co.nz>
  *
- * @since  11.1
+ * @since       1.5
+ * @deprecated  4.0 use the Joomla\Archive\Tar class instead
  */
 class JArchiveTar implements JArchiveExtractable
 {
@@ -30,7 +31,7 @@ class JArchiveTar implements JArchiveExtractable
 	 * Tar file types.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	private $_types = array(
 		0x0  => 'Unix file',
@@ -41,13 +42,14 @@ class JArchiveTar implements JArchiveExtractable
 		0x34 => 'Block special file',
 		0x35 => 'Directory',
 		0x36 => 'FIFO special file',
-		0x37 => 'Contiguous file');
+		0x37 => 'Contiguous file',
+	);
 
 	/**
 	 * Tar file data buffer
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	private $_data = null;
 
@@ -55,7 +57,7 @@ class JArchiveTar implements JArchiveExtractable
 	 * Tar file metadata array
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.5
 	 */
 	private $_metadata = null;
 
@@ -68,7 +70,7 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  RuntimeException if JError class does not exist
 	 */
 	public function extract($archive, $destination, array $options = array())
@@ -136,7 +138,7 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @return  boolean  True if supported
 	 *
-	 * @since   11.3
+	 * @since   2.5.0
 	 */
 	public static function isSupported()
 	{
@@ -150,7 +152,7 @@ class JArchiveTar implements JArchiveExtractable
 	 *
 	 * @return  boolean|JException  True on success, JException instance on failure if JError class exists
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 * @throws  RuntimeException if JError class does not exist
 	 */
 	protected function _getTarInfo(& $data)
@@ -163,14 +165,14 @@ class JArchiveTar implements JArchiveExtractable
 			if (version_compare(PHP_VERSION, '5.5', '>='))
 			{
 				$info = @unpack(
-					"Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor",
+					'Z100filename/Z8mode/Z8uid/Z8gid/Z12size/Z12mtime/Z8checksum/Ctypeflag/Z100link/Z6magic/Z2version/Z32uname/Z32gname/Z8devmajor/Z8devminor',
 					substr($data, $position)
 				);
 			}
 			else
 			{
 				$info = @unpack(
-					"a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor",
+					'a100filename/a8mode/a8uid/a8gid/a12size/a12mtime/a8checksum/Ctypeflag/a100link/a6magic/a2version/a32uname/a32gname/a8devmajor/a8devminor',
 					substr($data, $position)
 				);
 			}
@@ -210,7 +212,8 @@ class JArchiveTar implements JArchiveExtractable
 					'date' => octdec($info['mtime']),
 					'name' => trim($info['filename']),
 					'size' => octdec($info['size']),
-					'type' => isset($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null);
+					'type' => isset($this->_types[$info['typeflag']]) ? $this->_types[$info['typeflag']] : null,
+				);
 
 				if (($info['typeflag'] == 0) || ($info['typeflag'] == 0x30) || ($info['typeflag'] == 0x35))
 				{

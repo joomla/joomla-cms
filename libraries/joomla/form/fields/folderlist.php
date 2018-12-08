@@ -3,19 +3,21 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 jimport('joomla.filesystem.folder');
+jimport('joomla.filesystem.path');
+
 JFormHelper::loadFieldClass('list');
 
 /**
  * Supports an HTML select list of folder
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldFolderList extends JFormFieldList
 {
@@ -23,7 +25,7 @@ class JFormFieldFolderList extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'FolderList';
 
@@ -78,7 +80,7 @@ class JFormFieldFolderList extends JFormFieldList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -103,7 +105,7 @@ class JFormFieldFolderList extends JFormFieldList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -137,7 +139,7 @@ class JFormFieldFolderList extends JFormFieldList
 	 *
 	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -176,7 +178,7 @@ class JFormFieldFolderList extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{
@@ -188,6 +190,8 @@ class JFormFieldFolderList extends JFormFieldList
 		{
 			$path = JPATH_ROOT . '/' . $path;
 		}
+		
+		$path = JPath::clean($path);
 
 		// Prepend some default options based on field attributes.
 		if (!$this->hideNone)

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,13 +13,13 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  User
- * @since       12.1
+ * @since       3.0.0
 */
 class JUserHelperTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JUserHelper
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $object;
 
@@ -29,7 +29,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{
@@ -61,7 +61,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getDataSet()
 	{
@@ -86,8 +86,6 @@ class JUserHelperTest extends TestCaseDatabase
 	 *                    with indices 'code', 'msg', and
 	 *                    'info', empty, if no error occurred
 	 *
-	 * @see ... (link to where the group and error structures are
-	 *      defined)
 	 * @return array
 	 */
 	public function casesGetUserGroups()
@@ -97,7 +95,7 @@ class JUserHelperTest extends TestCaseDatabase
 				1000,
 				array(),
 				array(
-					'code' => 'SOME_ERROR_CODE',
+					'code' => 500,
 					'msg' => 'JLIB_USER_ERROR_UNABLE_TO_LOAD_USER',
 					'info' => ''),
 			),
@@ -166,7 +164,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testGetUserId($username, $expected, $error)
 	{
@@ -209,7 +207,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::addUsertoGroup
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddUserToGroup($userId, $groupId, $expected)
 	{
@@ -224,7 +222,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @expectedException  RuntimeException
 	 * @covers  JUserHelper::addUsertoGroup
 	 */
@@ -301,7 +299,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @covers  JUserHelper::activateUser
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testActivateUser($activation, $expected)
 	{
@@ -325,6 +323,52 @@ class JUserHelperTest extends TestCaseDatabase
 			strpos(JUserHelper::hashPassword('mySuperSecretPassword'), '$P$'),
 			0,
 			'Joomla currently hashes passwords using PHPass, verify the correct prefix is present'
+		);
+	}
+
+	/**
+	 * Testing hashPassword() for argon2i hashing support.
+	 *
+	 * @covers  JUserHelper::hashPassword
+	 * @return  void
+	 *
+	 * @since   3.9.0
+	 * @requires  PHP 7.2
+	 */
+	public function testHashPasswordArgon2i()
+	{
+		if (!defined('PASSWORD_ARGON2I'))
+		{
+			$this->markTestSkipped('Argon2i algorithm not supported.');
+		}
+
+		$this->assertEquals(
+			strpos(JUserHelper::hashPassword('mySuperSecretPassword', PASSWORD_ARGON2I), '$argon2i'),
+			0,
+			'The password is hashed using the specified hashing algorithm'
+		);
+	}
+
+	/**
+	 * Testing hashPassword() for argon2id hashing support.
+	 *
+	 * @covers  JUserHelper::hashPassword
+	 * @return  void
+	 *
+	 * @since   3.9.0
+	 * @requires  PHP 7.3
+	 */
+	public function testHashPasswordArgon2id()
+	{
+		if (!defined('PASSWORD_ARGON2ID'))
+		{
+			$this->markTestSkipped('Argon2id algorithm not supported.');
+		}
+
+		$this->assertEquals(
+			strpos(JUserHelper::hashPassword('mySuperSecretPassword', PASSWORD_ARGON2ID), '$argon2id'),
+			0,
+			'The password is hashed using the specified hashing algorithm'
 		);
 	}
 
@@ -357,6 +401,22 @@ class JUserHelperTest extends TestCaseDatabase
 			JUserHelper::verifyPassword('mySuperSecretPassword', '693560686f4d591d8dd5e34006442061'),
 			'Properly verifies a password hashed with Joomla legacy MD5'
 		);
+
+		$password = 'mySuperSecretPassword';
+
+		// Generate the old style password hash used before phpass was implemented.
+		$salt		= JUserHelper::genRandomPassword(32);
+		$crypted	= JUserHelper::getCryptedPassword($password, $salt);
+		$hashed	        = $crypted . ':' . $salt;
+		$this->assertTrue(
+			JUserHelper::verifyPassword('mySuperSecretPassword', $hashed),
+			'Properly verifies a password which was hashed before phpass was implemented'
+		);
+
+		$this->assertTrue(
+			JUserHelper::verifyPassword('mySuperSecretPassword', 'fb7b0a16d7e0e6706c0f962832e1fdd8:vQnUrofbvGRcBR6l502Bt8nioKj8MObh'),
+			'Properly verifies an existing password hash which was hashed before phpass was implimented'
+		);
 	}
 
 	/**
@@ -366,7 +426,7 @@ class JUserHelperTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @since   3.2
-	 * @see     https://github.com/joomla/joomla-cms/pull/5551
+	 * @link    https://github.com/joomla/joomla-cms/pull/5551
 	 */
 	public function testVerifyPasswordWithNoSalt()
 	{
@@ -392,9 +452,8 @@ class JUserHelperTest extends TestCaseDatabase
 			'Plain text password is returned'
 		);
 
-		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt')) === 13,
-			'Password is hashed to crypt without salt'
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt')), 13, 'Password is hashed to crypt without salt'
 		);
 
 		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt');
@@ -407,9 +466,8 @@ class JUserHelperTest extends TestCaseDatabase
 		$this->assertSame('{crypt}myA38Ex7aHbws', $password, 'Password is hashed to crypt with salt with encryption prefix');
 		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
 
-		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-des')) === 13,
-			'Password is hashed to crypt-des without salt'
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-des')), 13, 'Password is hashed to crypt-des without salt'
 		);
 
 		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-des');
@@ -422,9 +480,8 @@ class JUserHelperTest extends TestCaseDatabase
 		$this->assertSame('{crypt}myA38Ex7aHbws', $password, 'Password is hashed to crypt-des with salt with encryption prefix');
 		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
 
-		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-md5')) === 34,
-			'Password is hashed to crypt-md5 without salt'
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-md5')), 34, 'Password is hashed to crypt-md5 without salt'
 		);
 
 		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-md5');
@@ -437,9 +494,8 @@ class JUserHelperTest extends TestCaseDatabase
 		$this->assertSame('{crypt}myA38Ex7aHbws', $password, 'Password is hashed to crypt-md5 with salt with encryption prefix');
 		$this->assertSame('my', substr($password, 7, 2), 'Password hash uses expected salt');
 
-		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-blowfish')) === 13,
-			'Password is hashed to crypt-blowfish without salt'
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'crypt-blowfish')), 60, 'Password is hashed to crypt-blowfish without salt'
 		);
 
 		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '{crypt}myA38Ex7aHbws', 'crypt-blowfish');
@@ -454,7 +510,7 @@ class JUserHelperTest extends TestCaseDatabase
 
 		$password = JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'aprmd5');
 
-		$this->assertTrue(strlen($password) === 37, 'Password is hashed to APRMD5 without salt');
+		$this->assertSame(strlen($password), 37, 'Password is hashed to APRMD5 without salt');
 		$this->assertSame('$apr1$', substr($password, 0, 6), 'Password hash uses expected prefix');
 
 		$this->assertSame(
@@ -464,9 +520,8 @@ class JUserHelperTest extends TestCaseDatabase
 		);
 
 		// Length should be 81 characters but due to a bug which causes the prefix to always render it adds 8 characters
-		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'sha256')) === 89,
-			'Password is hashed to SHA256 without salt'
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'sha256')), 89, 'Password is hashed to SHA256 without salt'
 		);
 
 		// Due to a bug which causes the prefix to always render it is present here
@@ -512,7 +567,8 @@ class JUserHelperTest extends TestCaseDatabase
 	 */
 	public function testGetCryptedPasswordWithMhash()
 	{
-		if (!function_exists('mhash')) {
+		if (!function_exists('mhash'))
+		{
 			$this->markTestSkipped('The mhash function is not available');
 		}
 
@@ -540,9 +596,8 @@ class JUserHelperTest extends TestCaseDatabase
 			'Password is hashed to MD5-BASE64 with encryption prefix'
 		);
 
-		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'ssha')) === 32,
-			'Password is hashed to SSHA without salt'
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'ssha')), 32, 'Password is hashed to SSHA without salt'
 		);
 
 		$this->assertSame(
@@ -557,9 +612,8 @@ class JUserHelperTest extends TestCaseDatabase
 			'Password is hashed to SSHA with salt with encryption prefix'
 		);
 
-		$this->assertTrue(
-			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'smd5')) === 28,
-			'Password is hashed to SMD5 without salt'
+		$this->assertSame(
+			strlen(JUserHelper::getCryptedPassword('mySuperSecretPassword', '', 'smd5')), 28, 'Password is hashed to SMD5 without salt'
 		);
 
 		$this->assertSame(

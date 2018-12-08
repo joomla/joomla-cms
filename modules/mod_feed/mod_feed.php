@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the feed functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModFeedHelper', __DIR__ . '/helper.php');
 
 $rssurl = $params->get('rssurl', '');
 $rssrtl = $params->get('rssrtl', 0);

@@ -2,15 +2,15 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Class to mock JCache.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 class TestMockCache
 {
@@ -18,7 +18,7 @@ class TestMockCache
 	 * Public cache to inject faux data.
 	 *
 	 * @var    array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public static $cache = array();
 
@@ -30,7 +30,7 @@ class TestMockCache
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function create(TestCase $test, $data = array())
 	{
@@ -42,17 +42,13 @@ class TestMockCache
 			'store',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JCache',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JCache')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		$test->assignMockCallbacks(
 			$mockObject,
@@ -72,7 +68,7 @@ class TestMockCache
 	 *
 	 * @return  mixed  The value of the key or null if it does not exist.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function mockGet($id)
 	{
@@ -87,7 +83,7 @@ class TestMockCache
 	 *
 	 * @return  mixed  The value of the key or null if it does not exist.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function mockStore($value, $id)
 	{

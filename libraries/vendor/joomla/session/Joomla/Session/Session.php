@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -191,7 +191,7 @@ class Session implements \IteratorAggregate
 	 */
 	public static function getInstance($handler, array $options = array ())
 	{
-		if (!is_object(self::$instance))
+		if (!\is_object(self::$instance))
 		{
 			self::$instance = new self($handler, $options);
 		}
@@ -243,7 +243,7 @@ class Session implements \IteratorAggregate
 		// Create a token
 		if ($token === null || $forceNew)
 		{
-			$token = $this->_createToken(12);
+			$token = $this->_createToken();
 			$this->set('session.token', $token);
 		}
 
@@ -594,14 +594,14 @@ class Session implements \IteratorAggregate
 			// Get the Joomla\Input\Cookie object
 			$cookie = $this->input->cookie;
 
-			if (is_null($cookie->get($session_name)))
+			if (\is_null($cookie->get($session_name)))
 			{
 				$session_clean = $this->input->get($session_name, false, 'string');
 
 				if ($session_clean)
 				{
 					session_id($session_clean);
-					$cookie->set($session_name, '', time() - 3600);
+					$cookie->set($session_name, '', 1);
 				}
 			}
 		}
@@ -647,10 +647,9 @@ class Session implements \IteratorAggregate
 		 * must also be unset. If a cookie is used to propagate the session id (default behavior),
 		 * then the session cookie must be deleted.
 		 */
-		if (isset($_COOKIE[session_name()]))
-		{
-			setcookie(session_name(), '', time() - 42000, $this->cookie_path, $this->cookie_domain);
-		}
+		$cookie = session_get_cookie_params();
+
+		$this->input->cookie->set($this->getName(), '', 1, $cookie['path'], $cookie['domain'], $cookie['secure'], true);
 
 		session_unset();
 		session_destroy();
@@ -837,17 +836,7 @@ class Session implements \IteratorAggregate
 	 */
 	protected function createToken($length = 32)
 	{
-		static $chars = '0123456789abcdef';
-		$max = strlen($chars) - 1;
-		$token = '';
-		$name = session_name();
-
-		for ($i = 0; $i < $length; ++$i)
-		{
-			$token .= $chars[(rand(0, $max))];
-		}
-
-		return md5($token . $name);
+		return bin2hex(random_bytes($length));
 	}
 
 	/**
@@ -1001,7 +990,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     http://shiflett.org/articles/the-truth-about-sessions
+	 * @link    http://shiflett.org/articles/the-truth-about-sessions
 	 * @since   1.0
 	 * @deprecated  2.0  Use validate instead
 	 */
@@ -1023,7 +1012,7 @@ class Session implements \IteratorAggregate
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @see     http://shiflett.org/articles/the-truth-about-sessions
+	 * @link    http://shiflett.org/articles/the-truth-about-sessions
 	 * @since   1.3.0
 	 */
 	protected function validate($restart = false)
@@ -1056,7 +1045,7 @@ class Session implements \IteratorAggregate
 		$remoteAddr = $this->input->server->getString('REMOTE_ADDR', '');
 
 		// Check for client address
-		if (in_array('fix_adress', $this->security) && !empty($remoteAddr) && filter_var($remoteAddr, FILTER_VALIDATE_IP) !== false)
+		if (\in_array('fix_adress', $this->security) && !empty($remoteAddr) && filter_var($remoteAddr, FILTER_VALIDATE_IP) !== false)
 		{
 			$ip = $this->get('session.client.address');
 

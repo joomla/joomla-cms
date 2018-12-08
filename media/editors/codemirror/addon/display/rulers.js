@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -13,12 +13,12 @@
 
   CodeMirror.defineOption("rulers", false, function(cm, val) {
     if (cm.state.rulerDiv) {
-      cm.display.lineSpace.removeChild(cm.state.rulerDiv)
+      cm.state.rulerDiv.parentElement.removeChild(cm.state.rulerDiv)
       cm.state.rulerDiv = null
       cm.off("refresh", drawRulers)
     }
     if (val && val.length) {
-      cm.state.rulerDiv = cm.display.lineSpace.insertBefore(document.createElement("div"), cm.display.cursorDiv)
+      cm.state.rulerDiv = cm.display.lineSpace.parentElement.insertBefore(document.createElement("div"), cm.display.lineSpace)
       cm.state.rulerDiv.className = "CodeMirror-rulers"
       drawRulers(cm)
       cm.on("refresh", drawRulers)

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/controllerform.php';
@@ -16,7 +16,7 @@ require_once __DIR__ . '/stubs/controllerform.php';
  * @package     Joomla.UnitTest
  * @subpackage  Component
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JControllerFormTest extends TestCase
 {
@@ -51,7 +51,7 @@ class JControllerFormTest extends TestCase
 	/**
 	 * Tests the JControllerForm constructor.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 *
 	 * @return  void
 	 */

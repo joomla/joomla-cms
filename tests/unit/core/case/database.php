@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 if (!class_exists('PHPUnit_Extensions_Database_TestCase'))
@@ -18,32 +18,32 @@ if (!class_exists('PHPUnit_Extensions_Database_TestCase'))
  * Abstract test case class for database testing.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 {
 	/**
 	 * @var    JDatabaseDriver  The active database driver being used for the tests.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $driver;
 
 	/**
 	 * @var    JDatabaseDriver  The saved database driver to be restored after these tests.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_stash;
 
 	/**
 	 * @var         array  JError handler state stashed away to be restored later.
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated  3.2.0
+	 * @since       3.0.0
 	 */
 	private $_stashedErrorState = array();
 
 	/**
 	 * @var    array  Various JFactory static instances stashed away to be restored later.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_stashedFactoryState = array(
 		'application' => null,
@@ -63,7 +63,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return	bool	To not continue with JError processing
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function errorCallback($error)
 	{
@@ -75,7 +75,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -90,13 +90,10 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 		{
 			// Attempt to instantiate the driver.
 			static::$driver = JDatabaseDriver::getInstance($options);
+			static::$driver->connect();
 
-			// Create a new PDO instance for an SQLite memory database and load the test schema into it.
-			$pdo = new PDO('sqlite::memory:');
-			$pdo->exec(file_get_contents(JPATH_TESTS . '/schema/ddl.sql'));
-
-			// Set the PDO instance to the driver using reflection whizbangery.
-			TestReflection::setValue(static::$driver, 'connection', $pdo);
+			// Get the PDO instance for an SQLite memory database and load the test schema into it.
+			static::$driver->getConnection()->exec(file_get_contents(JPATH_TESTS . '/schema/ddl.sql'));
 		}
 		catch (RuntimeException $e)
 		{
@@ -119,12 +116,17 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$_stash;
-		static::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**
@@ -136,7 +138,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function assignMockCallbacks($mockObject, $array)
 	{
@@ -168,7 +170,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function assignMockReturns($mockObject, $array)
 	{
@@ -185,7 +187,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  JApplication
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockApplication()
 	{
@@ -218,7 +220,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  JConfig
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockConfig()
 	{
@@ -235,7 +237,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  JDatabaseDriver
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockDatabase($driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
@@ -252,7 +254,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  JEventDispatcher
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockDispatcher($defaults = true)
 	{
@@ -267,7 +269,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  JDocument
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockDocument()
 	{
@@ -302,7 +304,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  JLanguage
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockLanguage()
 	{
@@ -323,7 +325,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  JSession
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockSession($options = array())
 	{
@@ -340,7 +342,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  JApplicationWeb
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockWeb($options = array())
 	{
@@ -355,7 +357,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getConnection()
 	{
@@ -374,7 +376,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getDataSet()
 	{
@@ -386,7 +388,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getSetUpOperation()
 	{
@@ -404,7 +406,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  PHPUnit_Extensions_Database_Operation_DatabaseOperation
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getTearDownOperation()
 	{
@@ -417,7 +419,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function restoreFactoryState()
 	{
@@ -436,8 +438,8 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated  3.2.0
+	 * @since       3.0.0
 	 */
 	protected function saveErrorHandlers()
 	{
@@ -457,7 +459,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function saveFactoryState()
 	{
@@ -478,12 +480,11 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setErrorHandlers($errorHandlers)
 	{
 		$mode = null;
-		$options = null;
 
 		foreach ($errorHandlers as $type => $params)
 		{
@@ -511,7 +512,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setErrorCallback($testName)
 	{
@@ -531,7 +532,7 @@ abstract class TestCaseDatabase extends PHPUnit_Extensions_Database_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{

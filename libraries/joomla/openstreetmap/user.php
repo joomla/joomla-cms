@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Openstreetmap API User class for the Joomla Platform
  *
- * @since  13.1
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmapUser extends JOpenstreetmapObject
 {
@@ -21,7 +22,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getDetails()
 	{
@@ -29,7 +30,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -49,7 +50,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getPreferences()
 	{
@@ -57,7 +58,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -79,7 +80,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function replacePreferences($preferences)
 	{
@@ -87,7 +88,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -130,7 +131,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function changePreference($key, $preference)
 	{
@@ -138,7 +139,7 @@ class JOpenstreetmapUser extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base

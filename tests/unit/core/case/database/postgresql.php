@@ -2,33 +2,33 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Abstract test case class for PostgreSQL database testing.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 {
 	/**
 	 * @var    JDatabaseDriverPostgresql  The active database driver being used for the tests.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $driver;
 
 	/**
 	 * @var    array  The JDatabaseDriver options for the connection.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_options = array('driver' => 'postgresql');
 
 	/**
 	 * @var    JDatabaseDriverPostgresql  The saved database driver to be restored after these tests.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $_stash;
 
@@ -39,7 +39,7 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -111,12 +111,17 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$_stash;
-		static::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**
@@ -124,7 +129,7 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getConnection()
 	{
@@ -133,12 +138,12 @@ abstract class TestCaseDatabasePostgresql extends TestCaseDatabase
 
 		if (!empty(self::$_options['host']))
 		{
-		        $dsn .= 'host=' . self::$_options['host'] . ' ';
+			$dsn .= 'host=' . self::$_options['host'] . ';';
 		}
 
 		if (!empty(self::$_options['port']))
 		{
-		        $dsn .= 'port=' . self::$_options['port'] . ' ';
+			$dsn .= 'port=' . self::$_options['port'] . ';';
 		}
 
 		$dsn .= 'dbname=' . self::$_options['database'];

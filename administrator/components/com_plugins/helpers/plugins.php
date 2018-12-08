@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,12 +40,21 @@ class PluginsHelper
 	public static function getActions()
 	{
 		// Log usage of deprecated function.
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions.
-		$result = JHelperContent::getActions('com_plugins');
-
-		return $result;
+		return JHelperContent::getActions('com_plugins');
 	}
 
 	/**
@@ -64,7 +73,7 @@ class PluginsHelper
 	}
 
 	/**
-	 * Returns an array of standard published state filter options.
+	 * Returns a list of folders filter options.
 	 *
 	 * @return  string    The HTML code for the select tag
 	 */
@@ -76,6 +85,34 @@ class PluginsHelper
 			->from('#__extensions')
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->order('folder');
+
+		$db->setQuery($query);
+
+		try
+		{
+			$options = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			JError::raiseWarning(500, $e->getMessage());
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Returns a list of elements filter options.
+	 *
+	 * @return  string    The HTML code for the select tag
+	 */
+	public static function elementOptions()
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('DISTINCT(element) AS value, element AS text')
+			->from('#__extensions')
+			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
+			->order('element');
 
 		$db->setQuery($query);
 

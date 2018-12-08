@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ defined('JPATH_PLATFORM') or die;
  *
  * @documentation https://developer.github.com/v3/pulls
  *
- * @since  11.3
+ * @since       1.7.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  *
  * @property-read  JGithubPackagePullsComments  $comments  GitHub API object for comments.
  */
@@ -23,7 +24,7 @@ class JGithubPackagePulls extends JGithubPackage
 	protected $name = 'Pulls';
 
 	protected $packages = array(
-		'comments'
+		'comments',
 	);
 
 	/**
@@ -40,7 +41,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 * @param   string  $body   The body text for the new pull request.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -55,7 +56,7 @@ class JGithubPackagePulls extends JGithubPackage
 				'title' => $title,
 				'base' => $base,
 				'head' => $head,
-				'body' => $body
+				'body' => $body,
 			)
 		);
 
@@ -86,7 +87,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 * @param   string   $head     The branch (or git ref) where your changes are implemented.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -100,7 +101,7 @@ class JGithubPackagePulls extends JGithubPackage
 			array(
 				'issue' => (int) $issueId,
 				'base' => $base,
-				'head' => $head
+				'head' => $head,
 			)
 		);
 
@@ -129,7 +130,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 * @param   string   $state   The optional new state for the pull request. [open, closed]
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -184,7 +185,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 * @param   integer  $pullId  The pull request number.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -217,7 +218,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 * @param   integer  $limit   The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -250,7 +251,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 * @param   integer  $limit   The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -283,7 +284,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 * @param   integer  $limit  The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */
@@ -320,7 +321,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 * @param   integer  $pullId  The pull request number.  The pull request number.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  boolean  True if the pull request has been merged.
 	 */
@@ -358,7 +359,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 * @param   string   $message  The message that will be used for the merge commit.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -370,7 +371,7 @@ class JGithubPackagePulls extends JGithubPackage
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'commit_message' => $message
+				'commit_message' => $message,
 			)
 		);
 
@@ -407,7 +408,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function createComment($user, $repo, $pullId, $body, $commitId, $filePath, $position)
 	{
@@ -427,7 +428,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function createCommentReply($user, $repo, $pullId, $body, $inReplyTo)
 	{
@@ -445,7 +446,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function deleteComment($user, $repo, $commentId)
 	{
@@ -464,7 +465,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function editComment($user, $repo, $commentId, $body)
 	{
@@ -482,7 +483,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getComment($user, $repo, $commentId)
 	{
@@ -502,7 +503,7 @@ class JGithubPackagePulls extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getComments($user, $repo, $pullId, $page = 0, $limit = 0)
 	{

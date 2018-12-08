@@ -1,0 +1,2 @@
+jQuery((function(o){function a(a,t){t=t||document,o(t).find(".minicolors").each((function(){var a=o(this),t="color"===a.data("validate")?"hex":a.data("format")||"hex";a.minicolors({control:a.data("control")||"hue",format:"rgba"===t?"rgb":t,keywords:a.data("keywords")||"",opacity:"rgba"===t,position:a.data("position")||"default",theme:a.data("theme")||"bootstrap"})}))}a(),o("body").on("subform-row-add",a)}));
+

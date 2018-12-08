@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,31 +12,31 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Github
- * @since       12.3
+ * @since       3.1.4
  */
-class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
+class JGithubPackageActivityEventsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithubPackageActivityEvents  Object under test.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $object;
 
 	/**
 	 * @var string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $response = '[
   {
@@ -71,13 +71,13 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @var string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $owner = 'joomla';
 
 	/**
 	 * @var string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $repo = 'joomla-platform';
 
@@ -85,7 +85,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	protected function setUp()
@@ -93,7 +93,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->client  = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->client  = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
 
 		$this->object = new JGithubPackageActivityEvents($this->options, $this->client);
 	}
@@ -101,7 +101,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getPublic method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetPublic()
@@ -125,7 +125,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getRepository method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetRepository()
@@ -150,7 +150,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getIssue method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetIssue()
@@ -175,7 +175,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getNetwork method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetNetwork()
@@ -200,7 +200,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getOrg method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetOrg()
@@ -225,7 +225,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getUser method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetUser()
@@ -250,7 +250,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getUserPublic method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetUserPublic()
@@ -275,7 +275,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getByUser method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetByUser()
@@ -300,7 +300,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getByUserPublic method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetByUserPublic()
@@ -325,7 +325,7 @@ class JGithubPackageActivityEventsTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getUserOrg method
 	 *
-	 * @since   12.4
+	 * @since   3.3.0
 	 * @return  void
 	 */
 	public function testGetUserOrg()

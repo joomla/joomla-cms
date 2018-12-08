@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Filesystem
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JLoader::register('JPath', JPATH_PLATFORM . '/joomla/filesystem/path.php');
@@ -14,7 +14,7 @@ JLoader::register('JPath', JPATH_PLATFORM . '/joomla/filesystem/path.php');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Filesystem
- * @since       12.2
+ * @since       3.0.1
  */
 class JPathTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JPathTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getCleanData()
 	{
@@ -49,7 +49,7 @@ class JPathTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getCleanData
-	 * @since         12.2
+	 * @since         3.0.1
 	 */
 	public function testClean($input, $ds, $expected)
 	{
@@ -65,7 +65,7 @@ class JPathTest extends TestCase
 	 * @return  void
 	 *
 	 * @expectedException  UnexpectedValueException
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCleanArrayPath()
 	{

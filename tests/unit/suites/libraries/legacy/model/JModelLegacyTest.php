@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/lead.php';
@@ -18,20 +18,20 @@ require_once __DIR__ . '/stubs/constructorexceptiontest.php';
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JModelLegacyTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JModelLegacy
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $fixture;
 
 	/**
 	 * Setup each test.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 */
@@ -44,7 +44,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Method to tear down what was previously setup before each tests.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 */
@@ -65,12 +65,13 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		// Reset JTable::$_includePaths
 		TestReflection::setValue('JTable', '_includePaths', array());
+		parent::tearDownAfterClass();
 	}
 
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -84,7 +85,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -98,7 +99,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -113,7 +114,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -128,7 +129,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -142,7 +143,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -156,7 +157,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the __construct method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -185,7 +186,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Test __constructor method
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -201,7 +202,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the getInstance method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -209,13 +210,13 @@ class JModelLegacyTest extends TestCaseDatabase
 	 */
 	public function testReturningAnInstanceOfAnExistingClassWorks()
 	{
-		$this->assertTrue($this->fixture instanceof TestModelLead);
+		$this->assertInstanceOf('\\TestModelLead', $this->fixture);
 	}
 
 	/**
 	 * Tests the getInstance method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -230,7 +231,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the getInstance method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -247,7 +248,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the setState method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -262,7 +263,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the getState method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -277,7 +278,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 *Tests the getState method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -287,13 +288,13 @@ class JModelLegacyTest extends TestCaseDatabase
 	{
 		$this->fixture->getState();
 		$stateSet = TestReflection::getValue($this->fixture, '__state_set');
-		$this->assertTrue($stateSet === true);
+		$this->assertTrue($stateSet);
 	}
 
 	/**
 	 *Tests the getState method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -308,7 +309,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 *Tests the getState method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -323,7 +324,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the getDbo method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -338,7 +339,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the setDbo method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -347,13 +348,13 @@ class JModelLegacyTest extends TestCaseDatabase
 	public function testSetDbo()
 	{
 		$this->fixture->setDbo(new stdClass);
-		$this->assertTrue($this->fixture->getDbo() instanceof stdClass);
+		$this->assertInstanceOf('\\stdClass', $this->fixture->getDbo());
 	}
 
 	/**
 	 * Tests the getName method
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -368,7 +369,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Ensure that the $name property is directly returned if set
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -386,7 +387,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * This reflects an inconsistency in the current codebase of JModelLegacy and JControllerLegacy
 	 * where classnames aren't treated case sensitive
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -406,7 +407,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 * @expectedException      Exception
 	 * @expectedExceptionCode  500
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -423,7 +424,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 *
 	 * @expectedException  Exception
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -439,7 +440,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	 *
 	 * @expectedException  Exception
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -453,7 +454,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the getTable method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -467,7 +468,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the addIncludePath method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -483,7 +484,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the addTablePath method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -498,7 +499,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the _createFileName method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -515,7 +516,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the _getList method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -534,11 +535,12 @@ class JModelLegacyTest extends TestCaseDatabase
 				$this->equalTo('param1'),
 				$this->equalTo('param2'),
 				$this->equalTo('param3')
-			);
+			)
+			->willReturnSelf();
 
 		$dbMock->method('loadObjectList');
 
-		TestReflection::setValue($this->fixture, '_db', $dbMock);
+		$this->fixture->setDbo($dbMock);
 
 		$method->invokeArgs($this->fixture, array('param1', 'param2', 'param3'));
 	}
@@ -546,7 +548,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the _getList method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -559,12 +561,13 @@ class JModelLegacyTest extends TestCaseDatabase
 
 		$dbMock = $this->getMockDatabase();
 
-		$dbMock->method('setQuery');
+		$dbMock->method('setQuery')
+			->willReturnSelf();
 
 		$dbMock->method('loadObjectList')
 			->willReturn('returnValue');
 
-		TestReflection::setValue($this->fixture, '_db', $dbMock);
+		$this->fixture->setDbo($dbMock);
 
 		$this->assertEquals('returnValue', $method->invokeArgs($this->fixture, array('')));
 	}
@@ -572,7 +575,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the _getListCount method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -589,17 +592,17 @@ class JModelLegacyTest extends TestCaseDatabase
 			->method('setQuery')
 			->with(
 				$this->equalTo('param1')
-			);
+			)
+			->willReturnSelf();
 
 		$dbMock->expects($this->once())
 			->method('execute');
-
 
 		$dbMock->expects($this->once())
 			->method('getNumRows')
 			->willReturn(1);
 
-		TestReflection::setValue($this->fixture, '_db', $dbMock);
+		$this->fixture->setDbo($dbMock);
 
 		$this->assertEquals(1, $method->invokeArgs($this->fixture, array('param1')));
 	}
@@ -607,7 +610,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the _getListCount method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *
@@ -618,7 +621,7 @@ class JModelLegacyTest extends TestCaseDatabase
 		$method = new ReflectionMethod('TestModelLead', '_getListCount');
 		$method->setAccessible(true);
 
-		$queryMock = $this->getMock('JDatabaseQuery', array('select', 'clear'));
+		$queryMock = $this->getMockBuilder('JDatabaseQuery')->setMethods(array('select', 'clear'))->getMock();
 		$queryMock->method('clear')->will($this->returnSelf());
 
 		TestReflection::setValue($queryMock, 'type', 'select');
@@ -629,13 +632,14 @@ class JModelLegacyTest extends TestCaseDatabase
 			->method('setQuery')
 			->with(
 				$this->equalTo($queryMock)
-			);
+			)
+			->willReturnSelf();
 
 		$dbMock->expects($this->once())
 			->method('loadResult')
 			->willReturn(1);
 
-		TestReflection::setValue($this->fixture, '_db', $dbMock);
+		$this->fixture->setDbo($dbMock);
 
 		$this->assertEquals(1, $method->invokeArgs($this->fixture, array($queryMock)));
 	}
@@ -643,7 +647,7 @@ class JModelLegacyTest extends TestCaseDatabase
 	/**
 	 * Tests the _createTable method.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 *

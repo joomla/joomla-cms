@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 // Determine if the configuration file path is writable.
 $path = JPATH_CONFIGURATION . '/configuration.php';
-$useftp = (file_exists($path)) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
+$useftp = file_exists($path) ? !is_writable($path) : !is_writable(JPATH_CONFIGURATION . '/');
 $prev = $useftp ? 'ftp' : 'database';
 ?>
 <?php echo JHtml::_('InstallationHtml.helper.stepbar'); ?>
@@ -98,8 +98,8 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_SITE_OFFLINE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['site_offline']) ? 'success' : 'important'; ?>">
-								<?php echo JText::_(($this->options['site_offline']) ? 'JYES' : 'JNO'); ?>
+							<span class="label label-<?php echo $this->options['site_offline'] ? 'success' : 'important'; ?>">
+								<?php echo JText::_($this->options['site_offline'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
 					</tr>
@@ -117,14 +117,6 @@ $prev = $useftp ? 'ftp' : 'database';
 						</td>
 						<td>
 							<span class="label"><?php echo $this->options['admin_user']; ?></span>
-						</td>
-					</tr>
-					<tr>
-						<td class="item">
-							<?php echo JText::_('INSTL_ADMIN_PASSWORD_LABEL'); ?>
-						</td>
-						<td>
-							<?php echo $this->options['admin_password'] ? '***': ''; ?>
 						</td>
 					</tr>
 				</tbody>
@@ -166,14 +158,6 @@ $prev = $useftp ? 'ftp' : 'database';
 					</tr>
 					<tr>
 						<td class="item">
-							<?php echo JText::_('INSTL_DATABASE_PASSWORD_LABEL'); ?>
-						</td>
-						<td>
-							<?php echo $this->options['db_pass'] ? '***': ''; ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="item">
 							<?php echo JText::_('INSTL_DATABASE_NAME_LABEL'); ?>
 						</td>
 						<td>
@@ -193,8 +177,8 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_DATABASE_OLD_PROCESS_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['db_old'] == 'remove') ? 'important' : 'success'; ?>">
-								<?php echo JText::_(($this->options['db_old'] == 'remove') ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
+							<span class="label label-<?php echo $this->options['db_old'] === 'remove' ? 'important' : 'success'; ?>">
+								<?php echo JText::_($this->options['db_old'] === 'remove' ? 'INSTL_DATABASE_FIELD_VALUE_REMOVE' : 'INSTL_DATABASE_FIELD_VALUE_BACKUP'); ?>
 							</span>
 						</td>
 					</tr>
@@ -219,26 +203,18 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_ENABLE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['ftp_enable']) ? 'success' : 'important'; ?>">
-								<?php echo JText::_(($this->options['ftp_enable']) ? 'JYES' : 'JNO'); ?>
+							<span class="label label-<?php echo $this->options['ftp_enable'] ? 'success' : 'important'; ?>">
+								<?php echo JText::_($this->options['ftp_enable'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
 					</tr>
-					<?php if($this->options['ftp_enable']) : ?>
+					<?php if ($this->options['ftp_enable']) : ?>
 					<tr>
 						<td class="item">
 							<?php echo JText::_('INSTL_FTP_USER_LABEL'); ?>
 						</td>
 						<td>
 							<?php echo $this->options['ftp_user']; ?>
-						</td>
-					</tr>
-					<tr>
-						<td class="item">
-							<?php echo JText::_('INSTL_FTP_PASSWORD_LABEL'); ?>
-						</td>
-						<td>
-							<?php echo $this->options['ftp_pass'] ? '***': ''; ?>
 						</td>
 					</tr>
 					<tr>
@@ -262,8 +238,8 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo JText::_('INSTL_FTP_SAVE_LABEL'); ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($this->options['ftp_save']) ? 'important' : 'success'; ?>">
-								<?php echo JText::_(($this->options['ftp_save']) ? 'JYES' : 'JNO'); ?>
+							<span class="label label-<?php echo $this->options['ftp_save'] ? 'important' : 'success'; ?>">
+								<?php echo JText::_($this->options['ftp_save'] ? 'JYES' : 'JNO'); ?>
 							</span>
 						</td>
 					</tr>
@@ -293,8 +269,8 @@ $prev = $useftp ? 'ftp' : 'database';
 							<?php echo $option->label; ?>
 						</td>
 						<td>
-							<span class="label label-<?php echo ($option->state) ? 'success' : 'important'; ?>">
-								<?php echo JText::_(($option->state) ? 'JYES' : 'JNO'); ?>
+							<span class="label label-<?php echo $option->state ? 'success' : 'important'; ?>">
+								<?php echo JText::_($option->state ? 'JYES' : 'JNO'); ?>
 								<?php if ($option->notice):?>
 								<span class="icon-info-sign icon-white hasTooltip" title="<?php echo $option->notice; ?>"></span>
 								<?php endif;?>
@@ -336,12 +312,12 @@ $prev = $useftp ? 'ftp' : 'database';
 						</td>
 						<td>
 							<span class="label label-success disabled">
-								<?php echo JText::_(($setting->recommended) ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->recommended ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 						<td>
 							<span class="label label-<?php echo ($setting->state === $setting->recommended) ? 'success' : 'warning'; ?>">
-								<?php echo JText::_(($setting->state) ? 'JON' : 'JOFF'); ?>
+								<?php echo JText::_($setting->state ? 'JON' : 'JOFF'); ?>
 							</span>
 						</td>
 					</tr>
@@ -370,9 +346,9 @@ $prev = $useftp ? 'ftp' : 'database';
 
 <script type="text/javascript">
 	jQuery('input[name="jform[summary_email]"]').each(function(index, el) {
-        jQuery(el).on('click', function() {
-            Install.toggle('email_passwords', 'summary_email', 1);
-        });
-        Install.toggle('email_passwords', 'summary_email', 1);
-    });
+		jQuery(el).on('click', function() {
+			Install.toggle('email_passwords', 'summary_email', 1);
+		});
+		Install.toggle('email_passwords', 'summary_email', 1);
+	});
 </script>

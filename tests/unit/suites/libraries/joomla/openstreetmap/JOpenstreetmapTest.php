@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,33 +12,41 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2.0
  */
 class JOpenstreetmapTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JOpenstreetmap  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var JOpenstreetmapOAuth OAuth 1 client
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	protected $oauth;
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -48,13 +56,14 @@ class JOpenstreetmapTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 
 		$this->object = new JOpenstreetmap($this->oauth, $this->options, $this->client);
 	}
@@ -64,9 +73,14 @@ class JOpenstreetmapTest extends TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->client, $this->object);
 	}
 
 	/**
@@ -74,7 +88,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetChangesets()
 	{
@@ -89,7 +103,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetElements()
 	{
@@ -104,7 +118,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetGps()
 	{
@@ -119,7 +133,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetInfo()
 	{
@@ -134,7 +148,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetUser()
 	{
@@ -149,7 +163,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function test__GetOther()
@@ -162,7 +176,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testSetOption()
 	{
@@ -179,7 +193,7 @@ class JOpenstreetmapTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetOption()
 	{

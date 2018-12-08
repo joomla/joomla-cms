@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Cache
- * @since       11.1
+ * @since       1.7.0
  */
 class JCacheStorageMock extends JCacheStorage
 {
@@ -40,15 +40,15 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return  mixed  Boolean  false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		if (isset($this->_storage[$id]))
+		if (isset($this->_storage[$cache_id]))
 		{
-			return $this->_storage[$id];
+			return $this->_storage[$cache_id];
 		}
 
 		return false;
@@ -63,13 +63,13 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($id, $group, $data)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
 
-		return ($this->_storage[$id] = $data);
+		return ($this->_storage[$cache_id] = $data);
 	}
 
 	/**
@@ -80,12 +80,12 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function remove($id, $group)
 	{
 		$cache_id = $this->_getCacheId($id, $group);
-		unset($this->_storage[$id]);
+		unset($this->_storage[$cache_id]);
 	}
 
 	/**
@@ -98,23 +98,11 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return  boolean  True on success, false otherwise
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($group, $mode = null)
 	{
 		return ($this->_storage = array());
-	}
-
-	/**
-	 * Test to see if the storage handler is available.
-	 *
-	 * @return   boolean  True on success, false otherwise
-	 *
-	 * @since    12.1
-	 */
-	public static function isSupported()
-	{
-		return true;
 	}
 
 	/**
@@ -125,7 +113,7 @@ class JCacheStorageMock extends JCacheStorage
 	 *
 	 * @return  string   The cache_id string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getCacheId($id, $group)
 	{

@@ -18,8 +18,8 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="1">JPUBLISHED</option>
+			<option value="0">JDISABLED</option>
+			<option value="1">JENABLED</option>
 		</field>
 		<field
 			name="client_id"

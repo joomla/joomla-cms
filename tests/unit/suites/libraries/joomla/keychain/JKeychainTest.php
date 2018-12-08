@@ -3,31 +3,34 @@
  * @package     Joomla.Platform
  * @subpackage  Keychain
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+jimport('joomla.filesystem.folder');
 
 /**
  * Tests for the Joomla Platform Keychain Class
  *
  * @package     Joomla.UnitTest
  * @subpackage  Keychain
- * @since       12.3
+ * @since       3.1.4
  */
-class JKeychainTest extends PHPUnit_Framework_TestCase
+class JKeychainTest extends \PHPUnit\Framework\TestCase
 {
+	protected static $workDirectory;
+
 	/**
 	 * Set up the system by ensuring some files aren't there.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function setUpBeforeClass()
 	{
-		// Clean up files
-		@unlink(__DIR__ . '/data/web-keychain.dat');
-		@unlink(__DIR__ . '/data/web-passphrase.dat');
+		self::$workDirectory = JPATH_TESTS . "/tmp/keychain/" . uniqid();
+		JFolder::copy(__DIR__ . '/data', self::$workDirectory . '/data');
 
 		parent::setUpBeforeClass();
 	}
@@ -37,13 +40,12 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public static function tearDownAfterClass()
 	{
 		// Clean up files
-		@unlink(__DIR__ . '/data/web-keychain.dat');
-		@unlink(__DIR__ . '/data/web-passphrase.dat');
+		JFolder::delete(self::$workDirectory);
 
 		parent::tearDownAfterClass();
 	}
@@ -53,15 +55,15 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testLoadCLIKeychain()
 	{
 		$keychain = new JKeychain;
 
-		$keychainFile = __DIR__ . '/data/cli-keychain.dat';
-		$passphraseFile = __DIR__ . '/data/cli-passphrase.dat';
-		$publicKeyFile = __DIR__ . '/data/publickey.pem';
+		$keychainFile = self::$workDirectory . '/data/cli-keychain.dat';
+		$passphraseFile = self::$workDirectory . '/data/cli-passphrase.dat';
+		$publicKeyFile = self::$workDirectory . '/data/publickey.pem';
 
 		$keychain->loadKeychain($keychainFile, $passphraseFile, $publicKeyFile);
 
@@ -73,17 +75,17 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCreatePassphraseFile()
 	{
-		$privateKeyFile = __DIR__ . '/data/private.key';
-		$passphraseFile = __DIR__ . '/data/web-passphrase.dat';
+		$privateKeyFile = self::$workDirectory . '/data/private.key';
+		$passphraseFile = self::$workDirectory . '/data/web-passphrase.dat';
 
 		$keychain = new JKeychain;
 		$keychain->createPassphraseFile('testpassphrase', $passphraseFile, $privateKeyFile, 'password');
 
-		$this->assertTrue(file_exists($passphraseFile), 'Test passphrase file exists');
+		$this->assertFileExists($passphraseFile, 'Test passphrase file exists');
 	}
 
 	/**
@@ -94,13 +96,13 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testLoadKeychainNonexistant()
 	{
-		$keychainFile = __DIR__ . '/data/fake-web-keychain.dat';
-		$publicKeyFile = __DIR__ . '/data/publickey.pem';
-		$passphraseFile = __DIR__ . '/data/web-passphrase.dat';
+		$keychainFile = self::$workDirectory . '/data/fake-web-keychain.dat';
+		$publicKeyFile = self::$workDirectory . '/data/publickey.pem';
+		$passphraseFile = self::$workDirectory . '/data/web-passphrase.dat';
 
 		$keychain = new JKeychain;
 
@@ -116,12 +118,12 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testLoadKeychainInvalid()
 	{
-		$publicKeyFile = __DIR__ . '/data/publickey.pem';
-		$passphraseFile = __DIR__ . '/data/web-passphrase.dat';
+		$publicKeyFile = self::$workDirectory . '/data/publickey.pem';
+		$passphraseFile = self::$workDirectory . '/data/web-passphrase.dat';
 
 		$keychain = new JKeychain;
 
@@ -135,19 +137,19 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSaveKeychain()
 	{
-		$keychainFile = __DIR__ . '/data/web-keychain.dat';
-		$publicKeyFile = __DIR__ . '/data/publickey.pem';
-		$passphraseFile = __DIR__ . '/data/web-passphrase.dat';
+		$keychainFile = self::$workDirectory . '/data/web-keychain.dat';
+		$publicKeyFile = self::$workDirectory . '/data/publickey.pem';
+		$passphraseFile = self::$workDirectory . '/data/web-passphrase.dat';
 
 		$keychain = new JKeychain;
 		$keychain->set('dennis', 'liao');
 		$this->assertTrue((bool) $keychain->saveKeychain($keychainFile, $passphraseFile, $publicKeyFile), 'Assert that saveKeychain returns true.');
 
-		$this->assertTrue(file_exists($keychainFile), 'Check that keychain file was created properly.');
+		$this->assertFileExists($keychainFile, 'Check that keychain file was created properly.');
 	}
 
 	/**
@@ -157,13 +159,13 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return   void
 	 *
-	 * @since    12.3
+	 * @since    3.1.4
 	 */
 	public function testLoadKeychain()
 	{
-		$keychainFile = __DIR__ . '/data/web-keychain.dat';
-		$publicKeyFile = __DIR__ . '/data/publickey.pem';
-		$passphraseFile = __DIR__ . '/data/web-passphrase.dat';
+		$keychainFile = self::$workDirectory . '/data/web-keychain.dat';
+		$publicKeyFile = self::$workDirectory . '/data/publickey.pem';
+		$passphraseFile = self::$workDirectory . '/data/web-passphrase.dat';
 
 		$keychain = new JKeychain;
 
@@ -179,13 +181,13 @@ class JKeychainTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return   void
 	 *
-	 * @since    12.3
+	 * @since    3.1.4
 	 */
 	public function testDeleteValue()
 	{
-		$keychainFile = __DIR__ . '/data/web-keychain.dat';
-		$publicKeyFile = __DIR__ . '/data/publickey.pem';
-		$passphraseFile = __DIR__ . '/data/web-passphrase.dat';
+		$keychainFile = self::$workDirectory . '/data/web-keychain.dat';
+		$publicKeyFile = self::$workDirectory . '/data/publickey.pem';
+		$passphraseFile = self::$workDirectory . '/data/web-passphrase.dat';
 
 		$keychain = new JKeychain;
 

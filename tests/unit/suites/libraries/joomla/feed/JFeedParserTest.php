@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JLoader::register('JFeedParserMock', __DIR__ . '/stubs/JFeedParserMock.php');
@@ -16,19 +16,19 @@ JLoader::register('JFeedParserMockNamespace', __DIR__ . '/stubs/JFeedParserMockN
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class JFeedParserTest extends TestCase
 {
 	/**
 	 * @var    JFeedParser
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
 	/**
 	 * @var    XMLReader
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_reader;
 
@@ -37,16 +37,15 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testParse()
 	{
-		// Create the mock so we can verify calls.
-		$parser = $this->getMock(
-			'JFeedParserMock',
-			array('initialise', 'processElement'),
-			array($this->_reader)
-		);
+		// Build the mock so we can verify calls.
+		$parser  = $this->getMockBuilder('JFeedParserMock')
+					->setMethods(array('initialise', 'processElement'))
+					->setConstructorArgs(array($this->_reader))
+					->getMock();
 
 		// Setup some expectations for the mock object.
 		$parser->expects($this->once())->method('initialise');
@@ -56,7 +55,7 @@ class JFeedParserTest extends TestCase
 
 		// Set the XML for the internal reader and move the stream to the <root> element.
 		$xml = '<root xmlns="http://bar.foo" xmlns:namespace="http://foo.bar"><tag1>foobar</tag1><namespace:tag2 attr="value" /></root>';
-		$this->_reader->Xml($xml);
+		$this->_reader->XML($xml);
 
 		// Advance the reader to the first <tag1> element.
 		do
@@ -73,7 +72,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespace()
 	{
@@ -81,7 +80,7 @@ class JFeedParserTest extends TestCase
 		$this->assertAttributeEmpty('namespaces', $this->_instance);
 
 		// Add a new namespace.
-		$mock = $this->getMock('JFeedParserNamespace');
+		$mock = $this->getMockBuilder('JFeedParserNamespace')->getMock();
 		$this->_instance->registerNamespace('foo', $mock);
 
 		$this->assertAttributeEquals(
@@ -105,7 +104,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testProcessElementWithElement()
 	{
@@ -140,7 +139,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testProcessElementWithEntry()
 	{
@@ -179,12 +178,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testFetchNamespace()
 	{
 		// Set a mock namespace into the namespaces for the parser object.
-		$mock = $this->getMock('JFeedParserNamespace');
+		$mock = $this->getMockBuilder('JFeedParserNamespace')->getMock();
 		$namespaces = array('mock' => $mock);
 		TestReflection::setValue($this->_instance, 'namespaces', $namespaces);
 
@@ -203,12 +202,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToNextElement()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->_reader->Xml('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 		$this->_reader->next('root');
 
 		// Ensure that the current node is "root".
@@ -239,12 +238,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToNextElementByName()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->_reader->Xml('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 
 		// Move to the next <node> element, which should be <node test="first">.
 		TestReflection::invoke($this->_instance, 'moveToNextElement', 'node');
@@ -262,12 +261,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToClosingElement()
 	{
 		// Set the XML for the internal reader and move the stream to the <root> element.
-		$this->_reader->Xml('<root><child>foobar</child></root>');
+		$this->_reader->XML('<root><child>foobar</child></root>');
 		$this->_reader->next('root');
 
 		// Ensure that the current node is "root".
@@ -284,12 +283,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToClosingElementWithInternalElements()
 	{
 		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->_reader->Xml('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first"><child>foobar</child></node><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
 		do
@@ -331,12 +330,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{
 		// Set the XML for the internal reader and move the stream to the first <node> element.
-		$this->_reader->Xml('<root><node test="first" /><node test="second"></node></root>');
+		$this->_reader->XML('<root><node test="first" /><node test="second"></node></root>');
 
 		// Advance the reader to the first <node> element.
 		do
@@ -373,8 +372,8 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   12.3
+	 * @see     \PHPUnit\Framework\TestCase::setUp()
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
@@ -392,14 +391,13 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   12.3
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{
-		unset($this->_instance);
-		unset($this->_reader);
+		unset($this->_instance, $this->_reader);
 
-		parent::teardown();
+		parent::tearDown();
 	}
 }

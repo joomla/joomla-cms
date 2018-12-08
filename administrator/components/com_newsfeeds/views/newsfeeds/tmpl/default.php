@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,12 +16,9 @@ JHtml::_('bootstrap.tooltip');
 JHtml::_('behavior.multiselect');
 JHtml::_('formbehavior.chosen', 'select');
 
-$app       = JFactory::getApplication();
 $user      = JFactory::getUser();
-$userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
-$canOrder  = $user->authorise('core.edit.state', 'com_newsfeeds.category');
 $saveOrder = $listOrder == 'a.ordering';
 $assoc     = JLanguageAssociations::isEnabled();
 
@@ -39,7 +36,7 @@ if ($saveOrder)
 	<div id="j-main-container" class="span10">
 	<?php else : ?>
 	<div id="j-main-container">
-	<?php endif;?>
+	<?php endif; ?>
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"></div>
 		<?php if (empty($this->items)) : ?>
@@ -75,7 +72,7 @@ if ($saveOrder)
 						<th width="5%" class="nowrap hidden-phone hidden-tablet">
 							<?php echo JHtml::_('searchtools.sort', 'COM_NEWSFEEDS_HEADING_ASSOCIATION', 'association', $listDirn, $listOrder); ?>
 						</th>
-						<?php endif;?>
+						<?php endif; ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language_title', $listDirn, $listOrder); ?>
 						</th>
@@ -97,9 +94,10 @@ if ($saveOrder)
 					$canCreate  = $user->authorise('core.create',     'com_newsfeeds.category.' . $item->catid);
 					$canEdit    = $user->authorise('core.edit',       'com_newsfeeds.category.' . $item->catid);
 					$canCheckin = $user->authorise('core.manage',     'com_checkin') || $item->checked_out == $user->get('id') || $item->checked_out == 0;
+					$canEditOwn = $user->authorise('core.edit.own',   'com_newsfeeds.category.' . $item->catid) && $item->created_by == $user->id;
 					$canChange  = $user->authorise('core.edit.state', 'com_newsfeeds.category.' . $item->catid) && $canCheckin;
 					?>
-					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid?>">
+					<tr class="row<?php echo $i % 2; ?>" sortable-group-id="<?php echo $item->catid; ?>">
 						<td class="order nowrap center hidden-phone">
 							<?php
 							$iconClass = '';
@@ -109,14 +107,14 @@ if ($saveOrder)
 							}
 							elseif (!$saveOrder)
 							{
-								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::tooltipText('JORDERINGDISABLED');
+								$iconClass = ' inactive tip-top hasTooltip" title="' . JHtml::_('tooltipText', 'JORDERINGDISABLED');
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass ?>">
-								<span class="icon-menu"></span>
+								<span class="icon-menu" aria-hidden="true"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
-								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering;?>" class="width-20 text-area-order" />
+								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order" />
 							<?php endif; ?>
 						</td>
 						<td class="center">
@@ -140,14 +138,14 @@ if ($saveOrder)
 								<?php if ($item->checked_out) : ?>
 									<?php echo JHtml::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'newsfeeds.', $canCheckin); ?>
 								<?php endif; ?>
-								<?php if ($canEdit) : ?>
+								<?php if ($canEdit || $canEditOwn) : ?>
 									<a href="<?php echo JRoute::_('index.php?option=com_newsfeeds&task=newsfeed.edit&id=' . (int) $item->id); ?>">
 										<?php echo $this->escape($item->name); ?></a>
 								<?php else : ?>
 										<?php echo $this->escape($item->name); ?>
 								<?php endif; ?>
 								<span class="small">
-									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias));?>
+									<?php echo JText::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
 								</span>
 								<div class="small">
 									<?php echo JText::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
@@ -169,13 +167,9 @@ if ($saveOrder)
 								<?php echo JHtml::_('newsfeed.association', $item->id); ?>
 							<?php endif; ?>
 						</td>
-						<?php endif;?>
+						<?php endif; ?>
 						<td class="small hidden-phone">
-							<?php if ($item->language == '*'):?>
-								<?php echo JText::alt('JALL', 'language'); ?>
-							<?php else:?>
-								<?php echo $item->language_title ? JHtml::_('image', 'mod_languages/' . $item->language_image . '.gif', $item->language_title, array('title' => $item->language_title), true) . '&nbsp;' . $this->escape($item->language_title) : JText::_('JUNDEFINED'); ?>
-							<?php endif;?>
+							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
 						<td class="hidden-phone">
 							<?php echo (int) $item->id; ?>
@@ -192,12 +186,12 @@ if ($saveOrder)
 					'bootstrap.renderModal',
 					'collapseModal',
 					array(
-						'title' => JText::_('COM_NEWSFEEDS_BATCH_OPTIONS'),
-						'footer' => $this->loadTemplate('batch_footer')
+						'title'  => JText::_('COM_NEWSFEEDS_BATCH_OPTIONS'),
+						'footer' => $this->loadTemplate('batch_footer'),
 					),
 					$this->loadTemplate('batch_body')
 				); ?>
-			<?php endif;?>
+			<?php endif; ?>
 		<?php endif; ?>
 		<input type="hidden" name="task" value="" />
 		<input type="hidden" name="boxchecked" value="0" />

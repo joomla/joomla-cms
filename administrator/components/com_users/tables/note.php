@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * User notes table class
@@ -26,6 +28,8 @@ class UsersTableNote extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__user_notes', 'id', $db);
+
+		$this->setColumnAlias('published', 'state');
 
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_users.note'));
 	}
@@ -50,7 +54,7 @@ class UsersTableNote extends JTable
 		if (!((int) $this->review_time))
 		{
 			// Null date.
-			$this->review_time = JFactory::getDbo()->getNullDate();
+			$this->review_time = $this->_db->getNullDate();
 		}
 
 		if (empty($this->id))
@@ -82,7 +86,7 @@ class UsersTableNote extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state  = (int) $state;
 

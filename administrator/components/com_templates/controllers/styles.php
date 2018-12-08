@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template styles list controller class.
@@ -24,7 +26,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function duplicate()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -35,7 +37,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
-			JArrayHelper::toInteger($pks);
+			$pks = ArrayHelper::toInteger($pks);
 
 			$model = $this->getModel();
 			$model->duplicate($pks);
@@ -75,7 +77,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function setDefault()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$pks = $this->input->post->get('cid', array(), 'array');
 
@@ -86,7 +88,7 @@ class TemplatesControllerStyles extends JControllerAdmin
 				throw new Exception(JText::_('COM_TEMPLATES_NO_TEMPLATE_SELECTED'));
 			}
 
-			JArrayHelper::toInteger($pks);
+			$pks = ArrayHelper::toInteger($pks);
 
 			// Pop off the first element.
 			$id = array_shift($pks);
@@ -112,10 +114,10 @@ class TemplatesControllerStyles extends JControllerAdmin
 	public function unsetDefault()
 	{
 		// Check for request forgeries
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$pks = $this->input->get->get('cid', array(), 'array');
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 
 		try
 		{

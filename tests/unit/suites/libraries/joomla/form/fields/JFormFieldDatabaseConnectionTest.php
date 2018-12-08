@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JFormHelper::loadFieldClass('databaseconnection');
@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('databaseconnection');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.3
+ * @since       1.7.3
  */
 class JFormFieldDatabaseConnectionTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JFormFieldDatabaseConnectionTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetInput()
 	{

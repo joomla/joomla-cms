@@ -3,18 +3,19 @@
  * @package     Joomla.Platform
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * JArrayHelper is an array utility class for doing all sorts of odds and ends with arrays.
  *
- * @since       11.1
+ * @since       1.7.0
  * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper instead
  */
 abstract class JArrayHelper
@@ -23,7 +24,7 @@ abstract class JArrayHelper
 	 * Option to perform case-sensitive sorts.
 	 *
 	 * @var    mixed  Boolean or array of booleans.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortCase;
 
@@ -31,7 +32,7 @@ abstract class JArrayHelper
 	 * Option to set the sort direction.
 	 *
 	 * @var    mixed  Integer or array of integers.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortDirection;
 
@@ -39,7 +40,7 @@ abstract class JArrayHelper
 	 * Option to set the object key to sort on.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortKey;
 
@@ -47,7 +48,7 @@ abstract class JArrayHelper
 	 * Option to perform a language aware sort.
 	 *
 	 * @var    mixed  Boolean or array of booleans.
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected static $sortLocale;
 
@@ -59,34 +60,12 @@ abstract class JArrayHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toInteger instead
 	 */
 	public static function toInteger(&$array, $default = null)
 	{
-		if (is_array($array))
-		{
-			foreach ($array as $i => $v)
-			{
-				$array[$i] = (int) $v;
-			}
-		}
-		else
-		{
-			if ($default === null)
-			{
-				$array = array();
-			}
-			elseif (is_array($default))
-			{
-				self::toInteger($default, null);
-				$array = $default;
-			}
-			else
-			{
-				$array = array((int) $default);
-			}
-		}
+		$array = ArrayHelper::toInteger($array, $default);
 	}
 
 	/**
@@ -98,7 +77,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  object   The object mapped from the given array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toObject instead
 	 */
 	public static function toObject(&$array, $class = 'stdClass', $recursive = true)
@@ -127,7 +106,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  string   The string mapped from the given array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::toString instead
 	 */
 	public static function toString($array = null, $inner_glue = '=', $outer_glue = ' ', $keepOuterKey = false)
@@ -155,7 +134,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array    The array mapped from the given object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::fromObject instead
 	 */
 	public static function fromObject($p_obj, $recurse = true, $regex = null)
@@ -179,7 +158,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  The array mapped from the given object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _fromObject($item, $recurse, $regex)
 	{
@@ -227,7 +206,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  Column of values from the source array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::getColumn instead
 	 */
 	public static function getColumn(&$array, $index)
@@ -256,7 +235,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  mixed  The value from the source array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::getValue instead
 	 */
 	public static function getValue(&$array, $name, $default = null, $type = '')
@@ -290,7 +269,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  The inverted array.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::invert instead
 	 */
 	public static function invert($array)
@@ -305,7 +284,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  boolean  True if the array is an associative array.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::isAssociative instead
 	 */
 	public static function isAssociative($array)
@@ -321,70 +300,21 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  An array of arrays pivoted either on the value of the keys, or an individual key of an object or array.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::pivot instead
 	 */
 	public static function pivot($source, $key = null)
 	{
 		$result = array();
-		$counter = array();
 
-		foreach ($source as $index => $value)
+		if (is_array($source))
 		{
-			// Determine the name of the pivot key, and its value.
-			if (is_array($value))
-			{
-				// If the key does not exist, ignore it.
-				if (!isset($value[$key]))
-				{
-					continue;
-				}
-
-				$resultKey = $value[$key];
-				$resultValue = &$source[$index];
-			}
-			elseif (is_object($value))
-			{
-				// If the key does not exist, ignore it.
-				if (!isset($value->$key))
-				{
-					continue;
-				}
-
-				$resultKey = $value->$key;
-				$resultValue = &$source[$index];
-			}
-			else
-			{
-				// Just a scalar value.
-				$resultKey = $value;
-				$resultValue = $index;
-			}
-
-			// The counter tracks how many times a key has been used.
-			if (empty($counter[$resultKey]))
-			{
-				// The first time around we just assign the value to the key.
-				$result[$resultKey] = $resultValue;
-				$counter[$resultKey] = 1;
-			}
-			elseif ($counter[$resultKey] == 1)
-			{
-				// If there is a second time, we convert the value into an array.
-				$result[$resultKey] = array(
-					$result[$resultKey],
-					$resultValue,
-				);
-				$counter[$resultKey]++;
-			}
-			else
-			{
-				// After the second time, no need to track any more. Just append to the existing array.
-				$result[$resultKey][] = $resultValue;
-			}
+			$result = ArrayHelper::pivot($source, $key);
 		}
-
-		unset($counter);
+		else
+		{
+			JLog::add('This method is typehinted to be an array in \Joomla\Utilities\ArrayHelper::pivot.', JLog::WARNING, 'deprecated');
+		}
 
 		return $result;
 	}
@@ -400,7 +330,7 @@ abstract class JArrayHelper
 	 *
 	 * @return  array  The sorted array of objects
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::sortObjects instead
 	 */
 	public static function sortObjects(&$a, $k, $direction = 1, $caseSensitive = true, $locale = false)
@@ -434,7 +364,7 @@ abstract class JArrayHelper
 	 * @return  integer  Comparison status
 	 *
 	 * @see     JArrayHelper::sortObjects()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _sortObjects(&$a, &$b)
 	{
@@ -466,11 +396,11 @@ abstract class JArrayHelper
 			}
 			elseif ($caseSensitive)
 			{
-				$cmp = JString::strcmp($va, $vb, $locale);
+				$cmp = StringHelper::strcmp($va, $vb, $locale);
 			}
 			else
 			{
-				$cmp = JString::strcasecmp($va, $vb, $locale);
+				$cmp = StringHelper::strcasecmp($va, $vb, $locale);
 			}
 
 			if ($cmp > 0)
@@ -494,29 +424,12 @@ abstract class JArrayHelper
 	 *
 	 * @return  array
 	 *
-	 * @see     https://secure.php.net/manual/en/function.array-unique.php
-	 * @since   11.2
+	 * @link    https://secure.php.net/manual/en/function.array-unique.php
+	 * @since   1.7.0
 	 * @deprecated  4.0 Use Joomla\Utilities\ArrayHelper::arrayUnique instead
 	 */
 	public static function arrayUnique($myArray)
 	{
-		if (!is_array($myArray))
-		{
-			return $myArray;
-		}
-
-		foreach ($myArray as &$myvalue)
-		{
-			$myvalue = serialize($myvalue);
-		}
-
-		$myArray = array_unique($myArray);
-
-		foreach ($myArray as &$myvalue)
-		{
-			$myvalue = unserialize($myvalue);
-		}
-
-		return $myArray;
+		return is_array($myArray) ? ArrayHelper::arrayUnique($myArray) : $myArray;
 	}
 }

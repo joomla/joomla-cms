@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ defined('JPATH_BASE') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Language Form Field class.
+ * Installation Language field.
  *
  * @since  1.6
  */
@@ -69,7 +69,7 @@ class InstallationFormFieldLanguage extends JFormFieldList
 		{
 			foreach ($options as &$option)
 			{
-				$option['text'] = $option['text'] . '&#x200E;';
+				$option['text'] .= '&#x200E;';
 			}
 		}
 

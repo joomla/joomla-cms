@@ -18,8 +18,8 @@
 		<field
 			name="basename"
 			type="text"
-			size="40"
 			label="COM_BANNERS_FIELD_BASENAME_LABEL"
+			size="40"
 		/>
 
 		<field

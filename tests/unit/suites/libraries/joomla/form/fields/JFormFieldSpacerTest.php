@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JFormHelper::loadFieldClass('spacer');
@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('spacer');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldSpacerTest extends TestCase
 {
@@ -119,7 +119,7 @@ class JFormFieldSpacerTest extends TestCase
 		);
 
 		$equals = '<span class="spacer"><span class="before"></span><span>' .
-			'<label id="spacer-lbl" class="hasTooltip" title="&lt;strong&gt;spacer&lt;/strong&gt;">spacer</label></span>' .
+			'<label id="spacer-lbl" class="hasPopover" title="spacer" data-content="spacer">spacer</label></span>' .
 			'<span class="after"></span></span>';
 
 		$this->assertEquals(

@@ -2,33 +2,33 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Abstract test case class for Microsoft SQL Server database testing.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
 abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 {
 	/**
 	 * @var    JDatabaseDriverSqlsrv  The active database driver being used for the tests.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $driver;
 
 	/**
 	 * @var    array  The database driver options for the connection.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $options = array('driver' => 'sqlsrv');
 
 	/**
 	 * @var    JDatabaseDriverSqlsrv  The saved database driver to be restored after these tests.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private static $stash;
 
@@ -39,7 +39,7 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function setUpBeforeClass()
 	{
@@ -108,12 +108,17 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function tearDownAfterClass()
 	{
 		JFactory::$database = self::$stash;
-		static::$driver = null;
+
+		if (static::$driver !== null)
+		{
+			static::$driver->disconnect();
+			static::$driver = null;
+		}
 	}
 
 	/**
@@ -121,7 +126,7 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DB_DefaultDatabaseConnection
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getConnection()
 	{
@@ -130,6 +135,7 @@ abstract class TestCaseDatabaseSqlsrv extends TestCaseDatabase
 
 		// Create the PDO object from the DSN and options.
 		$pdo = new PDO($dsn, self::$options['user'], self::$options['password']);
+		$pdo->exec('create table [jos_dbtest]([id] [int] IDENTITY(1,1) NOT NULL, [title] [nvarchar](50) NOT NULL, [start_date] [datetime] NOT NULL, [description] [nvarchar](max) NOT NULL, CONSTRAINT [PK_jos_dbtest_id] PRIMARY KEY CLUSTERED ([id] ASC) WITH (STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF))');
 
 		return $this->createDefaultDBConnection($pdo, self::$options['database']);
 	}

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       12.1
+ * @since       3.0.0
  */
 class JDatabaseIteratorSqlsrvTest extends TestCaseDatabaseSqlsrv
 {
@@ -21,7 +21,7 @@ class JDatabaseIteratorSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function casesForEachData()
 	{
@@ -52,8 +52,8 @@ class JDatabaseIteratorSqlsrvTest extends TestCaseDatabaseSqlsrv
 				2,
 				0,
 				array(
-					(object) array('title' => 'Testing', 'RowNumber' => '1'),
-					(object) array('title' => 'Testing2', 'RowNumber' => '2')
+					(object) array('title' => 'Testing'),
+					(object) array('title' => 'Testing2')
 				),
 				null
 			),
@@ -120,7 +120,7 @@ class JDatabaseIteratorSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @dataProvider casesForEachData
 	 *
-	 * @since    12.1
+	 * @since    3.0.0
 	 */
 	public function testForEach($select, $from, $column, $class, $limit, $offset, $expected, $exception)
 	{
@@ -145,7 +145,7 @@ class JDatabaseIteratorSqlsrvTest extends TestCaseDatabaseSqlsrv
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testCount()
 	{

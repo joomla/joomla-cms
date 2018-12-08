@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -43,7 +43,7 @@ class NewsfeedsHelper extends JHelperContent
 	/**
 	 * Adds Count Items for Category Manager.
 	 *
-	 * @param   stdClass[]  &$items  The banner category objects
+	 * @param   stdClass[]  &$items  The category objects
 	 *
 	 * @return  stdClass[]
 	 *
@@ -51,46 +51,39 @@ class NewsfeedsHelper extends JHelperContent
 	 */
 	public static function countItems(&$items)
 	{
-		$db = JFactory::getDbo();
+		$config = (object) array(
+			'related_tbl'   => 'newsfeeds',
+			'state_col'     => 'published',
+			'group_col'     => 'catid',
+			'relation_type' => 'category_or_group',
+		);
 
-		foreach ($items as $item)
-		{
-			$item->count_trashed = 0;
-			$item->count_archived = 0;
-			$item->count_unpublished = 0;
-			$item->count_published = 0;
-			$query = $db->getQuery(true);
-			$query->select('published AS state, count(*) AS count')
-				->from($db->qn('#__newsfeeds'))
-				->where('catid = ' . (int) $item->id)
-				->group('state');
-			$db->setQuery($query);
-			$newfeeds = $db->loadObjectList();
+		return parent::countRelations($items, $config);
+	}
 
-			foreach ($newfeeds as $newsfeed)
-			{
-				if ($newsfeed->state == 1)
-				{
-					$item->count_published = $newsfeed->count;
-				}
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The tag objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$parts   = explode('.', $extension);
+		$section = count($parts) > 1 ? $parts[1] : null;
 
-				if ($newsfeed->state == 0)
-				{
-					$item->count_unpublished = $newsfeed->count;
-				}
+		$config = (object) array(
+			'related_tbl'   => ($section === 'category' ? 'categories' : 'newsfeeds'),
+			'state_col'     => 'published',
+			'group_col'     => 'tag_id',
+			'extension'     => $extension,
+			'relation_type' => 'tag_assigments',
+		);
 
-				if ($newsfeed->state == 2)
-				{
-					$item->count_archived = $newsfeed->count;
-				}
-
-				if ($newsfeed->state == -2)
-				{
-					$item->count_trashed = $newsfeed->count;
-				}
-			}
-		}
-
-		return $items;
+		return parent::countRelations($items, $config);
 	}
 }

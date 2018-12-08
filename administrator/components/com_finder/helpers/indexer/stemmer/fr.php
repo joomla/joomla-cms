@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -27,7 +27,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 	 * @var    array
 	 * @since  3.0
 	 */
-	private static $stemRules = null;
+	private static $stemRules;
 
 	/**
 	 * Method to stem a token and return the root.
@@ -48,7 +48,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 		}
 
 		// Check if the language is French or All.
-		if ($lang !== 'fr' && $lang != '*')
+		if ($lang !== 'fr' && $lang !== '*')
 		{
 			return $token;
 		}
@@ -87,7 +87,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 			. chr(244) . chr(251) . chr(249) . chr(231);
 
 		// The rule patterns include all accented words for french language
-		$vars['rule_pattern'] = "/^([a-z" . $vars['accents'] . "]*)(\*){0,1}(\d)([a-z" . $vars['accents'] . "]*)([.|>])/";
+		$vars['rule_pattern'] = '/^([a-z' . $vars['accents'] . ']*)(\*){0,1}(\d)([a-z' . $vars['accents'] . ']*)([.|>])/';
 
 		// French vowels (including y) in ISO-8859-1 encoding
 		$vars['vowels'] = chr(97) . chr(224) . chr(226) . chr(101) . chr(232) . chr(233) . chr(234) . chr(235)
@@ -199,7 +199,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 			}
 
 			// And at least one of these must be a vowel or "y"
-			return (preg_match('/[' . $vars['vowels'] . ']/', utf8_encode($reversed_stem)));
+			return preg_match('/[' . $vars['vowels'] . ']/', utf8_encode($reversed_stem));
 		}
 	}
 
@@ -216,7 +216,6 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 	{
 		$vars = static::getStemRules();
 
-		$intact = true;
 		$reversed_input = strrev(utf8_decode($input));
 		$rule_number = 0;
 
@@ -225,7 +224,7 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 		{
 			$rule_number = self::getFirstRule($reversed_input, $rule_number);
 
-			if ($rule_number == -1)
+			if ($rule_number === -1)
 			{
 				// No other rule can be applied => the stem has been found
 				break;
@@ -234,23 +233,15 @@ class FinderIndexerStemmerFr extends FinderIndexerStemmer
 			$rule = $vars['rules'][$rule_number];
 			preg_match($vars['rule_pattern'], $rule, $matches);
 
-			if (($matches[2] != '*') || ($intact))
+			$reversed_stem = utf8_decode($matches[4]) . substr($reversed_input, $matches[3]);
+
+			if (self::check($reversed_stem))
 			{
-				$reversed_stem = utf8_decode($matches[4]) . substr($reversed_input, $matches[3], strlen($reversed_input) - $matches[3]);
+				$reversed_input = $reversed_stem;
 
-				if (self::check($reversed_stem))
+				if ($matches[5] === '.')
 				{
-					$reversed_input = $reversed_stem;
-
-					if ($matches[5] == '.')
-					{
-						break;
-					}
-				}
-				else
-				{
-					// Go to another rule
-					$rule_number++;
+					break;
 				}
 			}
 			else

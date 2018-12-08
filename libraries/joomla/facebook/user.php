@@ -3,19 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
 defined('JPATH_PLATFORM') or die();
-
 
 /**
  * Facebook API User class for the Joomla Platform.
  *
- * @see    http://developers.facebook.com/docs/reference/api/user/
- * @since  13.1
+ * @link        http://developers.facebook.com/docs/reference/api/user/
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookUser extends JFacebookObject
 {
@@ -26,7 +25,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getUser($user)
 	{
@@ -42,7 +41,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getFriends($user, $limit = 0, $offset = 0)
 	{
@@ -60,7 +59,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getFriendRequests($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -78,7 +77,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getFriendLists($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -96,7 +95,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getFeed($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -116,7 +115,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getHome($user, $filter = null, $location = false, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -143,7 +142,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function hasFriend($current_user, $user)
 	{
@@ -160,7 +159,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getMutualFriends($current_user, $user, $limit = 0, $offset = 0)
 	{
@@ -176,7 +175,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  string   The URL to the user's profile picture.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getPicture($user, $redirect = true, $type = null)
 	{
@@ -204,7 +203,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getFamily($user, $limit = 0, $offset = 0)
 	{
@@ -223,7 +222,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getNotifications($user, $read = null, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -243,7 +242,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function updateNotification($notification)
 	{
@@ -261,7 +260,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getPermissions($user, $limit = 0, $offset = 0)
 	{
@@ -276,7 +275,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deletePermission($user, $permission = '')
 	{
@@ -294,7 +293,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getAlbums($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -307,11 +306,11 @@ class JFacebookUser extends JFacebookObject
 	 * @param   mixed   $user         Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $name         Album name.
 	 * @param   string  $description  Album description.
-	 * @param   json    $privacy      A JSON-encoded object that defines the privacy setting for the album.
+	 * @param   string  $privacy      A JSON-encoded object that defines the privacy setting for the album.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createAlbum($user, $name, $description = null, $privacy = null)
 	{
@@ -335,7 +334,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getCheckins($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -355,7 +354,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createCheckin($user, $place, $coordinates, $tags = null, $message = null, $link = null, $picture = null)
 	{
@@ -382,7 +381,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getLikes($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -397,7 +396,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function likesPage($user, $page)
 	{
@@ -415,7 +414,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getEvents($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -436,7 +435,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createEvent($user, $name, $start_time, $end_time = null, $description = null,
 		$location = null, $location_id = null, $privacy_type = null)
@@ -468,7 +467,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function editEvent($event, $name = null, $start_time = null, $end_time = null, $description = null,
 		$location = null, $location_id = null, $privacy_type = null)
@@ -493,7 +492,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteEvent($event)
 	{
@@ -509,7 +508,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getGroups($user, $limit = 0, $offset = 0)
 	{
@@ -527,7 +526,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getLinks($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -539,11 +538,11 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @param   mixed   $user     Either an integer containing the user ID or a string containing the username.
 	 * @param   string  $link     Link URL.
-	 * @param   strin   $message  Link message.
+	 * @param   string  $message  Link message.
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createLink($user, $link, $message = null)
 	{
@@ -562,7 +561,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  boolean   Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteLink($link)
 	{
@@ -580,7 +579,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getNotes($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -597,7 +596,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createNote($user, $subject, $message)
 	{
@@ -620,7 +619,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getPhotos($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -639,7 +638,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createPhoto($user, $source, $message = null, $place = null, $no_story = null)
 	{
@@ -665,7 +664,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getPosts($user, $location = false, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -699,7 +698,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createPost($user, $message = null, $link = null, $picture = null, $name = null, $caption = null,
 		$description = null, $actions = null, $place = null, $tags = null, $privacy = null, $object_attachment = null)
@@ -728,7 +727,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deletePost($post)
 	{
@@ -746,7 +745,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getStatuses($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -761,7 +760,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createStatus($user, $message)
 	{
@@ -780,7 +779,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteStatus($status)
 	{
@@ -798,7 +797,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getVideos($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -815,7 +814,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createVideo($user, $source, $title = null, $description = null)
 	{
@@ -839,7 +838,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getTagged($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -857,7 +856,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getActivities($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -875,7 +874,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getBooks($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -893,7 +892,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getInterests($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -911,7 +910,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getMovies($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -929,7 +928,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getTelevision($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -947,7 +946,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getMusic($user, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -963,7 +962,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getSubscribers($user, $limit = 0, $offset = 0)
 	{
@@ -979,7 +978,7 @@ class JFacebookUser extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getSubscribedTo($user, $limit = 0, $offset = 0)
 	{

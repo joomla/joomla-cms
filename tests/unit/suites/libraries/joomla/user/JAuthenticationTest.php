@@ -3,18 +3,16 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/user/authentication.php';
 
 /**
  * Tests for the JAuthentication class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @since       11.1
+ * @since       1.7.0
  *
  * @runInSeparateProcess
  */
@@ -22,7 +20,7 @@ class JAuthenticationTest extends TestCase
 {
 	/**
 	 * @var       JAuthentication
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $object;
 
@@ -41,7 +39,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{
@@ -82,8 +80,8 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   1.7.0
 	 */
 	protected function tearDown()
 	{
@@ -106,7 +104,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @return  array  An array of results from each function call.
 	 *
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	public static function mockTrigger($event, $args = array())
 	{
@@ -147,7 +145,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesAuthentication()
 	{
@@ -206,7 +204,7 @@ class JAuthenticationTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider casesAuthentication
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testAuthentication($input, $expect, $message)
 	{
@@ -223,7 +221,7 @@ class JAuthenticationTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function casesAuthorise()
 	{
@@ -280,15 +278,14 @@ class JAuthenticationTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider casesAuthorise
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @covers  JAuthentication::authorise
 	 */
 	public function testAuthorise($input, $expect, $message)
 	{
-		$authentication = JAuthentication::getInstance();
 		$this->assertEquals(
 			$expect,
-			$authentication->authorise($input),
+			JAuthentication::authorise($input),
 			$message
 		);
 	}

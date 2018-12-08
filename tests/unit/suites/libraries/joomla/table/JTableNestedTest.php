@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/nested.php';
@@ -14,13 +14,13 @@ require_once __DIR__ . '/stubs/nested.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- * @since       11.1
+ * @since       1.7.0
  */
 class JTableNestedTest extends TestCaseDatabase
 {
 	/**
 	 * @var    NestedTable
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $class;
 
@@ -29,7 +29,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testCheck()
 	{
@@ -48,7 +48,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testDebug()
 	{
@@ -61,7 +61,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testDelete()
 	{
@@ -82,17 +82,16 @@ class JTableNestedTest extends TestCaseDatabase
 
 		$ids = self::$driver->setQuery('SELECT id FROM #__categories')->loadColumn();
 
-		$this->assertEquals(4, count($ids), 'Checks 3 nodes were deleted.');
+		$this->assertCount(4, $ids, 'Checks 3 nodes were deleted.');
 		$this->assertArrayNotHasKey(103, $ids, 'Checks node 103 was deleted.');
 		$this->assertArrayNotHasKey(203, $ids, 'Checks node 203 was deleted.');
 		$this->assertArrayNotHasKey(204, $ids, 'Checks node 204 was deleted.');
 
 		// We need to confirm the locking is called, so we create a mock.
-		$class = $this->getMock(
-			'NestedTable',
-			array('_lock'),
-			array(self::$driver)
-		);
+		$class  = $this->getMockBuilder('NestedTable')
+					->setMethods(array('_lock'))
+					->setConstructorArgs(array(self::$driver))
+					->getMock();
 
 		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
 		$this->assertFalse($class->delete(1), 'Checks a locked table returns false.');
@@ -103,7 +102,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetPath()
 	{
@@ -122,7 +121,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetRootId()
 	{
@@ -130,17 +129,17 @@ class JTableNestedTest extends TestCaseDatabase
 
 		// Change the id of the root node.
 		self::$driver->setQuery('UPDATE #__categories SET parent_id = 99 WHERE id = 1')->execute();
-		$this->class->resetRootId();
+		NestedTable::resetRootId();
 		$this->assertEquals(1, $this->class->getRootId(), 'Checks for lft = 0 case.');
 
 		// Change the lft of the root node.
 		self::$driver->setQuery('UPDATE #__categories SET lft = 99, alias = ' . self::$driver->q('root') . ' WHERE id = 1')->execute();
-		$this->class->resetRootId();
+		NestedTable::resetRootId();
 		$this->assertEquals(1, $this->class->getRootId(), 'Checks for alias = root case.');
 
 		// Change the alias of the root node.
 		self::$driver->setQuery('UPDATE #__categories SET alias = ' . self::$driver->q('foo') . ' WHERE id = 1')->execute();
-		$this->class->resetRootId();
+		NestedTable::resetRootId();
 		$this->assertFalse($this->class->getRootId(), 'Checks for failure.');
 	}
 
@@ -149,7 +148,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetTree()
 	{
@@ -180,7 +179,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testIsLeaf()
 	{
@@ -194,7 +193,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testMove_right()
 	{
@@ -216,7 +215,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testMove_left()
 	{
@@ -236,7 +235,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testMoveByReference_after()
 	{
@@ -259,7 +258,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testMoveByReference_before()
 	{
@@ -279,7 +278,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testMoveByReference_firstChild()
 	{
@@ -302,7 +301,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testMoveByReference_lastChild()
 	{
@@ -322,7 +321,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testMoveByReference_noReference()
 	{
@@ -339,7 +338,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testMoveByReference_failures()
 	{
@@ -349,11 +348,10 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->assertFalse($this->class->moveByReference(202, 'after'), 'Checks moving to a child.');
 
 		// We need to confirm the locking is called, so we create a mock.
-		$class = $this->getMock(
-			'NestedTable',
-			array('_lock'),
-			array(self::$driver)
-		);
+		$class = $this->getMockBuilder('NestedTable')
+					->setMethods(array('_lock'))
+					->setConstructorArgs(array(self::$driver))
+					->getMock();
 
 		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
 		$this->assertFalse($class->moveByReference(103, 'after', 102), 'Checks a locked table returns false.');
@@ -364,7 +362,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testOrderDown()
 	{
@@ -384,7 +382,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testOrderUp()
 	{
@@ -404,12 +402,25 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testPublish()
 	{
 		// Reset the published state.
 		self::$driver->setQuery('UPDATE #__categories SET published = 0')
+			->execute();
+
+		// This query won't change any column because root.1 is unpublished.
+		$this->assertTrue($this->class->publish(array(101, 102), 1));
+
+		$nodes = self::$driver->setQuery('SELECT id, published FROM #__categories')->loadObjectList('id');
+
+		$this->assertEquals(0, $nodes[101]->published, 'Checks node 101.');
+		$this->assertEquals(0, $nodes[102]->published, 'Checks node 102.');
+		$this->assertEquals(0, $nodes[103]->published, 'Checks node 103.');
+
+		// Set root.1 as published
+		self::$driver->setQuery('UPDATE #__categories SET published = CASE WHEN id = 1 THEN 1 ELSE 0 END')
 			->execute();
 
 		$this->assertTrue($this->class->publish(array(101, 102), 1));
@@ -435,7 +446,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testRebuild()
 	{
@@ -483,7 +494,8 @@ class JTableNestedTest extends TestCaseDatabase
 		// Reset the root node.
 		self::$driver->setQuery('UPDATE #__categories SET parent_id = 99, lft = 99, rgt = 99 WHERE id = 1')
 			->execute();
-		$this->class->resetRootId();
+
+		NestedTable::resetRootId();
 
 		TestReflection::setValue($this->class, '_cache', array());
 		$this->assertFalse($this->class->rebuild(), 'Checks failure where no root node is found.');
@@ -494,7 +506,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testRebuildPath()
 	{
@@ -524,7 +536,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testSaveorder()
 	{
@@ -550,7 +562,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testSetLocation()
 	{
@@ -573,7 +585,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function testSetLocation_exception()
@@ -586,7 +598,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testStore()
 	{
@@ -601,11 +613,10 @@ class JTableNestedTest extends TestCaseDatabase
 		$this->assertEquals(9, $this->class->rgt, 'Check new rgt.');
 
 		// We need to confirm the locking is called, so we create a mock.
-		$class = $this->getMock(
-			'NestedTable',
-			array('_lock'),
-			array(self::$driver)
-		);
+		$class  = $this->getMockBuilder('NestedTable')
+					->setMethods(array('_lock'))
+					->setConstructorArgs(array(self::$driver))
+					->getMock();
 
 		$class->expects($this->any())->method('_lock')->will($this->returnValue(false));
 		$this->assertFalse($class->store(), 'Checks a locked table returns false.');
@@ -616,7 +627,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test_getNode()
 	{
@@ -652,7 +663,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test_getTreeRepositionData()
 	{
@@ -715,7 +726,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function test_runQuery()
 	{
@@ -725,11 +736,10 @@ class JTableNestedTest extends TestCaseDatabase
 		try
 		{
 			// We need to confirm the locking is called, so we create a mock.
-			$class = $this->getMock(
-				'NestedTable',
-				array('_unlock'),
-				array(self::$driver)
-			);
+			$class  = $this->getMockBuilder('NestedTable')
+					->setMethods(array('_unlock'))
+					->setConstructorArgs(array(self::$driver))
+					->getMock();
 
 			// Then override the _unlock method so we can test that it was called.
 			$this->assignMockCallbacks(
@@ -757,7 +767,7 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_XmlDataSet
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function getDataSet()
 	{
@@ -783,13 +793,13 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 *
 	 * @return void
 	 */
 	protected function setUp()
 	{
-		parent::setup();
+		parent::setUp();
 
 // 		$this->saveFactoryState();
 
@@ -805,12 +815,12 @@ class JTableNestedTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	protected function tearDown()
 	{
 // 		$this->restoreFactoryState();
-
+		unset($this->class);
 		parent::tearDown();
 	}
 }

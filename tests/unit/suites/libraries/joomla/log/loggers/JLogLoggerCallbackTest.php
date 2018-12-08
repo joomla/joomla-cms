@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once __DIR__ . '/stubs/callback/inspector.php';
@@ -15,48 +15,22 @@ require_once __DIR__ . '/stubs/callback/helper.php';
  *
  * @package     Joomla.Platform
  * @subpackage  Log
- * @since       12.2
+ * @since       3.0.1
  */
-class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
+class JLogLoggerCallbackTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test the JLogLoggerCallback::__construct method.
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testConstructor01()
 	{
 		// Create a callback function
-		$callback = create_function('$entry', 'return;');
-
-		// Setup the basic configuration.
-		$config = array(
-			'callback' => $callback
-		);
-		$logger = new JLogLoggerCallbackInspector($config);
-
-		// Callback was set.
-		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
-
-		// Callback is callable
-		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
-	}
-
-	/**
-	 * Test the JLogLoggerCallback::__construct method.
-	 *
-	 * @return  null
-	 *
-	 * @since   12.2
-	 */
-	public function testConstructor02()
-	{
-		// Create a callback function (since php 5.3)
 		$callback = function ($entry)
 		{
-			return;
 		};
 
 		// Setup the basic configuration.
@@ -77,7 +51,34 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
+	 */
+	public function testConstructor02()
+	{
+		// Create a callback function (since php 5.3)
+		$callback = function ($entry)
+		{
+		};
+
+		// Setup the basic configuration.
+		$config = array(
+			'callback' => $callback
+		);
+		$logger = new JLogLoggerCallbackInspector($config);
+
+		// Callback was set.
+		$this->assertEquals($logger->callback, $callback, 'Line: ' . __LINE__);
+
+		// Callback is callable
+		$this->assertTrue(is_callable($logger->callback), 'Line: ' . __LINE__);
+	}
+
+	/**
+	 * Test the JLogLoggerCallback::__construct method.
+	 *
+	 * @return  null
+	 *
+	 * @since   3.0.1
 	 */
 	public function testConstructor03()
 	{
@@ -102,7 +103,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testConstructor04()
 	{
@@ -127,7 +128,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testConstructor05()
 	{
@@ -152,7 +153,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testConstructor06()
 	{
@@ -178,7 +179,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @expectedException  RuntimeException
 	 */
 	public function testConstructorForException()
@@ -193,7 +194,7 @@ class JLogLoggerCallbackTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testAddEntry()
 	{

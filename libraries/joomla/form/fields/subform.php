@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,7 +69,7 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -94,7 +94,7 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -121,12 +121,18 @@ class JFormFieldSubform extends JFormField
 				break;
 
 			case 'max':
-				$this->max = max(1, (int) $value);
+				if ($value)
+				{
+					$this->max = max(1, (int) $value);
+				}
 				break;
 
 			case 'groupByFieldset':
-				$value = (string) $value;
-				$this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
+				if ($value !== null)
+				{
+					$value = (string) $value;
+					$this->groupByFieldset = !($value === 'false' || $value === 'off' || $value === '0');
+				}
 				break;
 
 			case 'layout':
@@ -197,6 +203,12 @@ class JFormFieldSubform extends JFormField
 			$this->value = json_decode($this->value, true);
 		}
 
+		if (!$this->formsource && $element->form)
+		{
+			// Set the formsource parameter from the content of the node
+			$this->formsource = $element->form->saveXML();
+		}
+
 		return true;
 	}
 
@@ -209,7 +221,7 @@ class JFormFieldSubform extends JFormField
 	 */
 	protected function getInput()
 	{
-		$value = $this->value ? $this->value : array();
+		$value = $this->value ? (array) $this->value : array();
 
 		// Prepare data for renderer
 		$data    = parent::getLayoutData();
@@ -220,7 +232,7 @@ class JFormFieldSubform extends JFormField
 		try
 		{
 			// Prepare the form template
-			$formname = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
+			$formname = 'subform.' . str_replace(array('jform[', '[', ']'), array('', '.', ''), $control);
 			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
 			$tmpl = JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
 
@@ -261,6 +273,14 @@ class JFormFieldSubform extends JFormField
 		$data['buttons']   = $this->buttons;
 		$data['fieldname'] = $this->fieldname;
 		$data['groupByFieldset'] = $this->groupByFieldset;
+
+		/**
+		 * For each rendering process of a subform element, we want to have a
+		 * separate unique subform id present to could distinguish the eventhandlers
+		 * regarding adding/moving/removing rows from nested subforms from their parents.
+		 */
+		static $unique_subform_id = 0;
+		$data['unique_subform_id'] = ('sr-' . ($unique_subform_id++));
 
 		// Prepare renderer
 		$renderer = $this->getRenderer($this->layout);
@@ -344,5 +364,4 @@ class JFormFieldSubform extends JFormField
 
 		return $name;
 	}
-
 }

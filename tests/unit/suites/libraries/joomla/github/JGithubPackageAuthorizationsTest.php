@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,37 +13,37 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.1
+ * @since       1.7.0
  */
-class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
+class JGithubPackageAuthorizationsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JGithubPackageAuthorization  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -53,16 +53,30 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
+		$this->client = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
 
 		$this->object = new JGithubPackageAuthorization($this->options, $this->client);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options, $this->client, $this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -70,7 +84,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCreate()
 	{
@@ -99,7 +113,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testCreateFailure()
 	{
@@ -140,7 +154,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testDelete()
 	{
@@ -164,7 +178,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testDeleteFailure()
 	{
@@ -200,7 +214,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testEditAddScopes()
 	{
@@ -229,7 +243,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testEditRemoveScopes()
 	{
@@ -258,7 +272,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testEditScopes()
 	{
@@ -287,7 +301,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testEditFailure()
 	{
@@ -328,7 +342,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  RuntimeException
 	 */
@@ -342,7 +356,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGet()
 	{
@@ -366,7 +380,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -389,7 +403,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetList()
 	{
@@ -413,7 +427,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -436,7 +450,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetRateLimit()
 	{
@@ -460,7 +474,7 @@ class JGithubPackageAuthorizationsTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */

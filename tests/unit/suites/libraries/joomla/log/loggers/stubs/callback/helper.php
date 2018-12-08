@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -17,7 +17,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @since       12.2
+ * @since       3.0.1
  */
 class JLogLoggerCallbackTestHelper
 {
@@ -30,7 +30,7 @@ class JLogLoggerCallbackTestHelper
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public static function callback01(JLogEntry $entry)
 	{
@@ -44,7 +44,7 @@ class JLogLoggerCallbackTestHelper
 	 *
 	 * @return  null
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function callback02(JLogEntry $entry)
 	{
@@ -59,7 +59,7 @@ class JLogLoggerCallbackTestHelper
  *
  * @return  null
  *
- * @since   12.2
+ * @since   3.0.1
  */
 function jLogLoggerCallbackTestHelperFunction(JLogEntry $entry)
 {

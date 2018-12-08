@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,13 +14,14 @@ use Joomla\Registry\Registry;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPicasaAlbum extends JGoogleData
 {
 	/**
 	 * @var    SimpleXMLElement  The album's XML
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $xml;
 
@@ -31,7 +32,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 * @param   Registry          $options  Google options object
 	 * @param   JGoogleAuth       $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(SimpleXMLElement $xml, Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -52,7 +53,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  boolean  Success or failure.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  Exception
 	 * @throws  RuntimeException
 	 * @throws  UnexpectedValueException
@@ -105,7 +106,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Link or false on failure
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLink($type = 'edit')
 	{
@@ -127,7 +128,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Album title
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getTitle()
 	{
@@ -139,7 +140,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Album summary
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSummary()
 	{
@@ -151,7 +152,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Album location
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getLocation()
 	{
@@ -163,7 +164,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  string  Album access level
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getAccess()
 	{
@@ -175,7 +176,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  double  Album time
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getTime()
 	{
@@ -189,7 +190,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setTitle($title)
 	{
@@ -205,7 +206,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setSummary($summary)
 	{
@@ -221,7 +222,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setLocation($location)
 	{
@@ -237,7 +238,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAccess($access)
 	{
@@ -253,7 +254,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  JGoogleDataPicasaAlbum  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setTime($time)
 	{
@@ -269,7 +270,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  Exception
 	 */
 	public function save($match = '*')
@@ -314,7 +315,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function refresh()
@@ -338,7 +339,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function listPhotos()
@@ -380,7 +381,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function upload($file, $title = '', $summary = '')
@@ -392,10 +393,10 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 
 			if (!($type = $this->getMime($file)))
 			{
-				throw new RuntimeException("Inappropriate file type.");
+				throw new RuntimeException('Inappropriate file type.');
 			}
 
-			if (!($data = JFile::read($file)))
+			if (!($data = file_get_contents($file)))
 			{
 				throw new RuntimeException("Cannot access file: `$file`");
 			}
@@ -433,7 +434,7 @@ class JGoogleDataPicasaAlbum extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	protected function getMime($file)

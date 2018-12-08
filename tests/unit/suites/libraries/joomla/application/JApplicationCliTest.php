@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -16,7 +16,7 @@ include_once __DIR__ . '/stubs/JApplicationCliInspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       11.3
+ * @since       1.7.3
  */
 class JApplicationCliTest extends TestCase
 {
@@ -24,7 +24,7 @@ class JApplicationCliTest extends TestCase
 	 * An instance of the object to test.
 	 *
 	 * @var    JApplicationCliInspector
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $class;
 
@@ -33,7 +33,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setUp()
 	{
@@ -48,14 +48,14 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   1.7.0
 	 */
 	protected function tearDown()
 	{
 		// Reset the dispatcher instance.
 		TestReflection::setValue('JEventDispatcher', 'instance', null);
-
+		unset($this->class);
 		parent::tearDown();
 	}
 
@@ -64,7 +64,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__construct()
 	{
@@ -83,7 +83,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__constructDependancyInjection()
 	{
@@ -92,12 +92,23 @@ class JApplicationCliTest extends TestCase
 			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
-		$mockInput = $this->getMock('JInputCli', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockInput = $this->getMockBuilder('JInputCli')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
+
 		$mockInput->expects($this->any())
 			->method('test')
 			->willReturn('ok');
 
-		$mockConfig = $this->getMock('\\Joomla\\Registry\\Registry', array('test'), array(null), '', true);
+		$mockConfig = $this->getMockBuilder('\\Joomla\\Registry\\Registry')
+					->setMethods(array('test'))
+					->setConstructorArgs(array(null))
+					->setMockClassName('')
+					->getMock();
 		$mockConfig
 			->expects($this->any())
 			->method('test')
@@ -108,7 +119,10 @@ class JApplicationCliTest extends TestCase
 			->method('test')
 			->willReturn('ok');
 
-		$class = $this->getMock('JApplicationCli', array(), array($mockInput, $mockConfig, $mockDispatcher));
+		$class = $this->getMockBuilder('JApplicationCli')
+					->setMethods(array())
+					->setConstructorArgs(array($mockInput, $mockConfig, $mockDispatcher))
+					->getMock();
 
 		$this->assertEquals('ok', $class->input->test(), 'Tests input injection.');
 		$this->assertEquals('ok', TestReflection::getValue($class, 'config')->test(), 'Tests config injection.');
@@ -119,12 +133,12 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testClose()
 	{
 		// Make sure the application is not already closed.
-		$this->assertSame($this->class->closed, null);
+		$this->assertNull($this->class->closed);
 
 		$this->class->close(3);
 
@@ -137,7 +151,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testExecute()
 	{
@@ -166,7 +180,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getFetchConfigurationData()
 	{
@@ -189,7 +203,7 @@ class JApplicationCliTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getFetchConfigurationData
-	 * @since    11.3
+	 * @since    1.7.3
 	 */
 	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
 	{
@@ -230,7 +244,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGet()
 	{
@@ -247,7 +261,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetInstance()
 	{
@@ -275,7 +289,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadConfiguration()
 	{
@@ -298,7 +312,7 @@ class JApplicationCliTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSet()
 	{

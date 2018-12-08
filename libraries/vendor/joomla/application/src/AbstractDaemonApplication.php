@@ -2,28 +2,29 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\Application;
 
+use Joomla\Input;
 use Joomla\Registry\Registry;
-use Joomla\Input\Cli;
 use Psr\Log\LoggerAwareInterface;
 
 /**
  * Class to turn Cli applications into daemons.  It requires CLI and PCNTL support built into PHP.
  *
- * @see    http://www.php.net/manual/en/book.pcntl.php
- * @see    http://php.net/manual/en/features.commandline.php
- * @since  1.0
+ * @link        https://secure.php.net/manual/en/book.pcntl.php
+ * @link        https://secure.php.net/manual/en/features.commandline.php
+ * @since       1.0
+ * @deprecated  2.0  Deprecated without replacement
  */
 abstract class AbstractDaemonApplication extends AbstractCliApplication implements LoggerAwareInterface
 {
 	/**
 	 * @var    array  The available POSIX signals to be caught by default.
-	 * @see    http://php.net/manual/pcntl.constants.php
+	 * @link   https://secure.php.net/manual/pcntl.constants.php
 	 * @since  1.0
 	 */
 	protected static $signals = array(
@@ -92,17 +93,22 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 	/**
 	 * Class constructor.
 	 *
-	 * @param   Cli       $input   An optional argument to provide dependency injection for the application's
-	 *                             input object.  If the argument is an InputCli object that object will become
-	 *                             the application's input object, otherwise a default input object is created.
-	 * @param   Registry  $config  An optional argument to provide dependency injection for the application's
-	 *                             config object.  If the argument is a Registry object that object will become
-	 *                             the application's config object, otherwise a default config object is created.
+	 * @param   Input\Cli      $input     An optional argument to provide dependency injection for the application's input object.  If the
+	 *                                    argument is an Input\Cli object that object will become the application's input object, otherwise
+	 *                                    a default input object is created.
+	 * @param   Registry       $config    An optional argument to provide dependency injection for the application's config object.  If the
+	 *                                    argument is a Registry object that object will become the application's config object, otherwise
+	 *                                    a default config object is created.
+	 * @param   Cli\CliOutput  $output    An optional argument to provide dependency injection for the application's output object.  If the
+	 *                                    argument is a Cli\CliOutput object that object will become the application's input object, otherwise
+	 *                                    a default output object is created.
+	 * @param   Cli\CliInput   $cliInput  An optional argument to provide dependency injection for the application's CLI input object.  If the
+	 *                                    argument is a Cli\CliInput object that object will become the application's input object, otherwise
+	 *                                    a default input object is created.
 	 *
 	 * @since   1.0
-	 * @throws  \RuntimeException
 	 */
-	public function __construct(Cli $input = null, Registry $config = null)
+	public function __construct(Cli $input = null, Registry $config = null, Cli\CliOutput $output = null, Cli\CliInput $cliInput = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		// @codeCoverageIgnoreStart
@@ -124,7 +130,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 		// @codeCoverageIgnoreEnd
 
 		// Call the parent constructor.
-		parent::__construct($input, $config);
+		parent::__construct($input, $config, $output, $cliInput);
 
 		// Set some system limits.
 		@set_time_limit($this->get('max_execution_time', 0));
@@ -902,7 +908,7 @@ abstract class AbstractDaemonApplication extends AbstractCliApplication implemen
 	/**
 	 * Method to wait on or return the status of a forked child.
 	 *
-	 * @param   integer  &$status  Status information.
+	 * @param   integer  $status   Status information.
 	 * @param   integer  $options  If wait3 is available on your system (mostly BSD-style systems),
 	 *                             you can provide the optional options parameter.
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class MenusControllerMenus extends JControllerLegacy
 	 * Display the view
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached.
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController        This object to support chaining.
 	 *
@@ -58,7 +58,7 @@ class MenusControllerMenus extends JControllerLegacy
 	public function delete()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$user = JFactory::getUser();
 		$app  = JFactory::getApplication();
@@ -92,7 +92,7 @@ class MenusControllerMenus extends JControllerLegacy
 				// Remove the items.
 				if (!$model->delete($cids))
 				{
-					$this->setMessage($model->getError());
+					$this->setMessage($model->getError(), 'error');
 				}
 				else
 				{
@@ -107,13 +107,13 @@ class MenusControllerMenus extends JControllerLegacy
 	/**
 	 * Rebuild the menu tree.
 	 *
-	 * @return  bool    False on failure or error, true on success.
+	 * @return  boolean  False on failure or error, true on success.
 	 *
 	 * @since   1.6
 	 */
 	public function rebuild()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$this->setRedirect('index.php?option=com_menus&view=menus');
 

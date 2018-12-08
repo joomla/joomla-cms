@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/table/extension.php';
 
 /**
  * Test class for JTableExtension.
@@ -15,7 +13,7 @@ require_once JPATH_PLATFORM . '/joomla/table/extension.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- * @since       11.1
+ * @since       1.7.0
  */
 class JTableExtensionTest extends TestCaseDatabase
 {
@@ -51,7 +49,7 @@ class JTableExtensionTest extends TestCaseDatabase
 	protected function tearDown()
 	{
 		$this->restoreFactoryState();
-
+		unset($this->object);
 		parent::tearDown();
 	}
 
@@ -60,7 +58,7 @@ class JTableExtensionTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getDataSet()
 	{
@@ -76,7 +74,7 @@ class JTableExtensionTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testCheck()
 	{
@@ -102,7 +100,7 @@ class JTableExtensionTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testFind()
 	{
@@ -120,7 +118,7 @@ class JTableExtensionTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testPublish()
 	{

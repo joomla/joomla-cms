@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,6 +45,11 @@ class CategoriesModelCategories extends JModelList
 				'path', 'a.path',
 				'tag',
 			);
+		}
+
+		if (JLanguageAssociations::isEnabled())
+		{
+			$config['filter_fields'][] = 'association';
 		}
 
 		parent::__construct($config);
@@ -274,27 +279,27 @@ class CategoriesModelCategories extends JModelList
 		}
 
 		// Group by on Categories for JOIN with component tables to count items
-		$query->group('a.id, 
-				a.title, 
-				a.alias, 
-				a.note, 
-				a.published, 
-				a.access, 
-				a.checked_out, 
-				a.checked_out_time, 
-				a.created_user_id, 
-				a.path, 
-				a.parent_id, 
-				a.level, 
-				a.lft, 
-				a.rgt, 
-				a.language, 
+		$query->group('a.id,
+				a.title,
+				a.alias,
+				a.note,
+				a.published,
+				a.access,
+				a.checked_out,
+				a.checked_out_time,
+				a.created_user_id,
+				a.path,
+				a.parent_id,
+				a.level,
+				a.lft,
+				a.rgt,
+				a.language,
 				l.title,
 				l.image,
-				uc.name, 
-				ag.title, 
+				uc.name,
+				ag.title,
 				ua.name'
-			);
+		);
 
 		return $query;
 	}
@@ -342,7 +347,7 @@ class CategoriesModelCategories extends JModelList
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{
@@ -360,8 +365,8 @@ class CategoriesModelCategories extends JModelList
 
 	/**
 	 * Method to load the countItems method from the extensions
-	 * 
-	 * @param   stdClass[]  &$items     The category items
+	 *
+	 * @param   stdClass[]  $items      The category items
 	 * @param   string      $extension  The category extension
 	 *
 	 * @return  void
@@ -370,7 +375,7 @@ class CategoriesModelCategories extends JModelList
 	 */
 	public function countItems(&$items, $extension)
 	{
-		$parts = explode('.', $extension);
+		$parts = explode('.', $extension, 2);
 		$component = $parts[0];
 		$section = null;
 
@@ -385,14 +390,14 @@ class CategoriesModelCategories extends JModelList
 
 		if (file_exists($file))
 		{
-			require_once $file;
-
-			$prefix = ucfirst(str_replace('com_', '', $component));
+			$prefix = ucfirst($eName);
 			$cName = $prefix . 'Helper';
+
+			JLoader::register($cName, $file);
 
 			if (class_exists($cName) && is_callable(array($cName, 'countItems')))
 			{
-				call_user_func(array($cName, 'countItems'), $items, $section);
+				$cName::countItems($items, $section);
 			}
 		}
 	}

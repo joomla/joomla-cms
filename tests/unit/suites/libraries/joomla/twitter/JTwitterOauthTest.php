@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,51 +12,59 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
- * @since       12.3
+ * @since       3.1.4
  */
 class JTwitterOauthTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JTeitterHttp  Mock http object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $input;
 
 	/**
 	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $application;
 
 	/**
 	 * @var    JTwitterOauth  Authentication object for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"errorCode":401, "message": "Generic error"}';
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -66,6 +74,7 @@ class JTwitterOauthTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -78,7 +87,7 @@ class JTwitterOauthTest extends TestCase
 		$this->options = new JRegistry;
 		$this->input = $this->getMockInput();
 		$this->application = $this->getMockWeb();
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
@@ -92,9 +101,13 @@ class JTwitterOauthTest extends TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->input, $this->application, $this->client, $this->oauth);
 	}
 
 	/**
@@ -102,7 +115,7 @@ class JTwitterOauthTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 3.1.4
 	*/
 	public function seedVerifyCredentials()
 	{
@@ -123,7 +136,7 @@ class JTwitterOauthTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedVerifyCredentials
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testVerifyCredentials($code, $body, $expected)
 	{
@@ -149,7 +162,7 @@ class JTwitterOauthTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testEndSession()
 	{

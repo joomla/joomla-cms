@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
 
 /**
- * Methods supporting a list of user records.
+ * Methods supporting a list of User ACL permissions
  *
  * @since  1.6
  */
@@ -66,6 +66,7 @@ class UsersModelDebugUser extends JModelList
 	public function getItems()
 	{
 		$userId = $this->getState('user_id');
+		$user   = JFactory::getUser($userId);
 
 		if (($assets = parent::getItems()) && $userId)
 		{
@@ -78,19 +79,8 @@ class UsersModelDebugUser extends JModelList
 				foreach ($actions as $action)
 				{
 					$name = $action[0];
-					$level = $action[1];
 
-					// Check that we check this action for the level of the asset.
-					if ($level === null || $level >= $asset->level)
-					{
-						// We need to test this action.
-						$asset->checks[$name] = JAccess::check($userId, $name, $asset->name);
-					}
-					else
-					{
-						// We ignore this action.
-						$asset->checks[$name] = 'skip';
-					}
+					$asset->checks[$name] = $user->authorise($name, $asset->name);
 				}
 			}
 		}

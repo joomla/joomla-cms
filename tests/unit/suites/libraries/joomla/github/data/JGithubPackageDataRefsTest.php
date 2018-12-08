@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,43 +13,43 @@
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.1
+ * @since       1.7.0
  */
-class JGithubPackageDataRefsTest extends PHPUnit_Framework_TestCase
+class JGithubPackageDataRefsTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JHttpResponse  Mock response object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $response;
 
 	/**
 	 * @var    JGithubPackageDataRefs  Object under test.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $errorString = '{"message": "Generic Error"}';
 
@@ -66,8 +66,8 @@ class JGithubPackageDataRefsTest extends PHPUnit_Framework_TestCase
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->client  = $this->getMock('JGithubHttp', array('get', 'post', 'delete', 'patch', 'put'));
-		$this->response = $this->getMock('JHttpResponse');
+		$this->client  = $this->getMockBuilder('JGithubHttp')->setMethods(array('get', 'post', 'delete', 'patch', 'put'))->getMock();
+		$this->response = $this->getMockBuilder('JHttpResponse')->getMock();
 
 		$this->object = new JGithubPackageDataRefs($this->options, $this->client);
 	}

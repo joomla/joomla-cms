@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_contenthistory
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,7 +74,28 @@ class ContenthistoryModelCompare extends JModelItem
 					$object = new stdClass;
 					$object->data = ContenthistoryHelper::prepareData($table);
 					$object->version_note = $table->version_note;
-					$object->save_date = $table->save_date;
+
+					// Let's use custom calendars when present
+					$object->save_date = JHtml::_('date', $table->save_date, JText::_('DATE_FORMAT_LC6'));
+
+					$dateProperties = array (
+						'modified_time',
+						'created_time',
+						'modified',
+						'created',
+						'checked_out_time',
+						'publish_up',
+						'publish_down',
+					);
+
+					foreach ($dateProperties as $dateProperty)
+					{
+						if (array_key_exists($dateProperty, $object->data) && $object->data->$dateProperty->value != '0000-00-00 00:00:00')
+						{
+							$object->data->$dateProperty->value = JHtml::_('date', $object->data->$dateProperty->value, JText::_('DATE_FORMAT_LC6'));
+						}
+					}
+
 					$result[] = $object;
 				}
 

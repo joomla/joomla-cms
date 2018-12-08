@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,6 +26,14 @@ defined('_JEXEC') or die;
 class PlgSystemUpdatenotification extends JPlugin
 {
 	/**
+	 * Load plugin language files automatically
+	 *
+	 * @var    boolean
+	 * @since  3.6.3
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * The update check and notification email code is triggered after the page has fully rendered.
 	 *
 	 * @return  void
@@ -35,12 +43,11 @@ class PlgSystemUpdatenotification extends JPlugin
 	public function onAfterRender()
 	{
 		// Get the timeout for Joomla! updates, as configured in com_installer's component parameters
-		JLoader::import('joomla.application.component.helper');
 		$component = JComponentHelper::getComponent('com_installer');
 
 		/** @var \Joomla\Registry\Registry $params */
 		$params        = $component->params;
-		$cache_timeout = $params->get('cachetimeout', 6, 'int');
+		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
@@ -120,8 +127,8 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		// Unfortunately Joomla! MVC doesn't allow us to autoload classes, hence the need for an ugly require_once
-		require_once JPATH_ADMINISTRATOR . '/components/com_installer/models/update.php';
+		// Unfortunately Joomla! MVC doesn't allow us to autoload classes
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_installer/models', 'InstallerModel');
 
 		// Get the update model and retrieve the Joomla! core updates
 		$model = JModelLegacy::getInstance('Update', 'InstallerModel');
@@ -137,8 +144,8 @@ class PlgSystemUpdatenotification extends JPlugin
 		// Get the available update
 		$update = array_pop($updates);
 
-		// Check the available version. If it's the same as the installed version we have no updates to notify about.
-		if (version_compare($update->version, JVERSION, 'eq'))
+		// Check the available version. If it's the same or less than the installed version we have no updates to notify about.
+		if (version_compare($update->version, JVERSION, 'le'))
 		{
 			return;
 		}
@@ -146,13 +153,13 @@ class PlgSystemUpdatenotification extends JPlugin
 		// If we're here, we have updates. First, get a link to the Joomla! Update component.
 		$baseURL  = JUri::base();
 		$baseURL  = rtrim($baseURL, '/');
-		$baseURL .= (substr($baseURL, -13) != 'administrator') ? '/administrator/' : '/';
+		$baseURL .= (substr($baseURL, -13) !== 'administrator') ? '/administrator/' : '/';
 		$baseURL .= 'index.php?option=com_joomlaupdate';
 		$uri      = new JUri($baseURL);
 
 		/**
 		 * Some third party security solutions require a secret query parameter to allow log in to the administrator
-		 * back-end of the site. The link generated above will be invalid and could probably block the user out of their
+		 * backend of the site. The link generated above will be invalid and could probably block the user out of their
 		 * site, confusing them (they can't understand the third party security solution is not part of Joomla! proper).
 		 * So, we're calling the onBuildAdministratorLoginURL system plugin event to let these third party solutions
 		 * add any necessary secret query parameters to the URL. The plugins are supposed to have a method with the
@@ -184,11 +191,13 @@ class PlgSystemUpdatenotification extends JPlugin
 			return;
 		}
 
-		/* Load the appropriate language. We try to load English (UK), the current user's language and the forced
+		/*
+		 * Load the appropriate language. We try to load English (UK), the current user's language and the forced
 		 * language preference, in this order. This ensures that we'll never end up with untranslated strings in the
 		 * update email which would make Joomla! seem bad. So, please, if you don't fully understand what the
 		 * following code does DO NOT TOUCH IT. It makes the difference between a hobbyist CMS and a professional
-		 * solution! */
+		 * solution! 
+		 */
 		$jLanguage = JFactory::getLanguage();
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, 'en-GB', true, true);
 		$jLanguage->load('plg_system_updatenotification', JPATH_ADMINISTRATOR, null, true, false);
@@ -218,12 +227,13 @@ class PlgSystemUpdatenotification extends JPlugin
 		$fromName = $jConfig->get('fromname');
 
 		$substitutions = array(
-			'[NEWVERSION]' => $newVersion,
-			'[CURVERSION]' => $currentVersion,
-			'[SITENAME]'   => $sitename,
-			'[URL]'        => JUri::base(),
-			'[LINK]'       => $uri->toString(),
-			'\\n'          => "\n",
+			'[NEWVERSION]'  => $newVersion,
+			'[CURVERSION]'  => $currentVersion,
+			'[SITENAME]'    => $sitename,
+			'[URL]'         => JUri::base(),
+			'[LINK]'        => $uri->toString(),
+			'[RELEASENEWS]' => 'https://www.joomla.org/announcements/release-news/',
+			'\\n'           => "\n",
 		);
 
 		foreach ($substitutions as $k => $v)
@@ -258,7 +268,7 @@ class PlgSystemUpdatenotification extends JPlugin
 	private function getSuperUsers($email = null)
 	{
 		// Get a reference to the database object
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Convert the email list to an array
 		if (!empty($email))
@@ -284,15 +294,9 @@ class PlgSystemUpdatenotification extends JPlugin
 
 		try
 		{
-			$query = $db->getQuery(true)
-						->select($db->qn('rules'))
-						->from($db->qn('#__assets'))
-						->where($db->qn('parent_id') . ' = ' . $db->q(0));
-			$db->setQuery($query, 0, 1);
-			$rulesJSON = $db->loadResult();
-			$rules     = json_decode($rulesJSON, true);
-
-			$rawGroups = $rules['core.admin'];
+			$rootId    = JTable::getInstance('Asset', 'JTable')->getRootId();
+			$rules     = JAccess::getAssetRules($rootId)->getData();
+			$rawGroups = $rules['core.admin']->getData();
 			$groups    = array();
 
 			if (empty($rawGroups))
@@ -357,6 +361,7 @@ class PlgSystemUpdatenotification extends JPlugin
 							)
 						)->from($db->qn('#__users'))
 						->where($db->qn('id') . ' IN(' . implode(',', $userIDs) . ')')
+						->where($db->qn('block') . ' = 0')
 						->where($db->qn('sendEmail') . ' = ' . $db->q('1'));
 
 			if (!empty($emails))
@@ -397,7 +402,7 @@ class PlgSystemUpdatenotification extends JPlugin
 				{
 					$options = array(
 						'defaultgroup' => $group,
-						'cachebase'    => ($client_id) ? JPATH_ADMINISTRATOR . '/cache' :
+						'cachebase'    => $client_id ? JPATH_ADMINISTRATOR . '/cache' :
 							$conf->get('cache_path', JPATH_SITE . '/cache')
 					);
 

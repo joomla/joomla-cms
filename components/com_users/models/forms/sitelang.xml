@@ -5,10 +5,9 @@
 			<field
 				name="language"
 				type="language"
-				client="site"
-				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
 				label="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_LABEL"
-				required="true"
+				description="COM_USERS_USER_FIELD_FRONTEND_LANGUAGE_DESC"
+				client="site"
 				filter="cmd"
 				default="active"
 			/>

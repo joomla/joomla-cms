@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  View
- * @since       11.3
+ * @since       1.7.3
  */
 class ContentViewHtml extends JViewLegacy
 {

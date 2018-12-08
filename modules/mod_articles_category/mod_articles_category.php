@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the helper functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModArticlesCategoryHelper', __DIR__ . '/helper.php');
 
 $input = JFactory::getApplication()->input;
 
@@ -49,7 +49,7 @@ switch ($mode)
 		break;
 }
 
-$cacheid = md5(serialize(array ($idbase, $module->module)));
+$cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
 
 $cacheparams               = new stdClass;
 $cacheparams->cachemode    = 'id';
@@ -76,11 +76,20 @@ if (!empty($list))
 		{
 			case 'year' :
 			case 'month_year' :
-				$list = ModArticlesCategoryHelper::groupByDate($list, $article_grouping, $article_grouping_direction, $params->get('month_year_format', 'F Y'));
+				$list = ModArticlesCategoryHelper::groupByDate(
+					$list,
+					$article_grouping,
+					$article_grouping_direction,
+					$params->get('month_year_format', 'F Y'),
+					$params->get('date_grouping_field', 'created')
+				);
 				break;
 			case 'author' :
 			case 'category_title' :
 				$list = ModArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
+				break;
+			case 'tags' :
+				$list = ModArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
 				break;
 			default:
 				break;

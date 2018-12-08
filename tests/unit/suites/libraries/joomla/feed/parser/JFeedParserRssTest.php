@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,19 +12,19 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class JFeedParserRssTest extends TestCase
 {
 	/**
 	 * @var    JFeedParserRss
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
 	/**
 	 * @var    XMLReader
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_reader;
 
@@ -33,7 +33,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function seedInitialise()
 	{
@@ -49,7 +49,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function seedProcessPerson()
 	{
@@ -66,7 +66,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleCategory()
 	{
@@ -90,7 +90,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleCloud()
 	{
@@ -130,7 +130,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleCopyright()
 	{
@@ -151,7 +151,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleDescription()
 	{
@@ -172,7 +172,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleGenerator()
 	{
@@ -193,7 +193,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleImage()
 	{
@@ -227,7 +227,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleLanguage()
 	{
@@ -248,7 +248,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleLastBuildDate()
 	{
@@ -270,7 +270,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleLink()
 	{
@@ -292,7 +292,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleManagingEditor()
 	{
@@ -313,7 +313,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandlePubDate()
 	{
@@ -335,7 +335,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleSkipDays()
 	{
@@ -359,7 +359,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleSkipHours()
 	{
@@ -383,7 +383,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleTitle()
 	{
@@ -404,7 +404,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleTtl()
 	{
@@ -425,7 +425,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testHandleWebmaster()
 	{
@@ -448,12 +448,12 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedInitialise
-	 * @since         12.3
+	 * @since         3.1.4
 	 */
 	public function testInitialise($expected, $xml)
 	{
 		// Set the XML for the internal reader.
-		$this->_reader->Xml($xml);
+		$this->_reader->XML($xml);
 
 		// Advance the reader to the first element.
 		do
@@ -487,7 +487,7 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testProcessFeedEntry()
 	{
@@ -506,19 +506,19 @@ class JFeedParserRssTest extends TestCase
 
 		TestReflection::invoke($this->_instance, 'processFeedEntry', $entry, $el);
 
-		$this->assertEquals('http://example.com/id', $entry->uri);
-		$this->assertEquals('title', $entry->title);
+		$this->assertSame('http://example.com/id', $entry->uri);
+		$this->assertSame('title', $entry->title);
 		$this->assertInstanceOf('JDate', $entry->updatedDate);
 		$this->assertInstanceOf('JDate', $entry->publishedDate);
-		$this->assertEquals('description', $entry->content);
-		$this->assertEquals(array('category' => ''), $entry->categories);
+		$this->assertSame('description', $entry->content);
+		$this->assertSame(array('category' => ''), $entry->categories);
 		$this->assertInstanceOf('JFeedPerson', $entry->author);
-		$this->assertEquals('Webmaster', $entry->author->name);
-		$this->assertEquals('admin@domain.com', $entry->author->email);
-		$this->assertEquals(1, count($entry->links));
+		$this->assertSame('Webmaster', $entry->author->name);
+		$this->assertSame('admin@domain.com', $entry->author->email);
+		$this->assertCount(1, $entry->links);
 		$this->assertInstanceOf('JFeedLink', $entry->links[0]);
-		$this->assertEquals('http://www.w3schools.com/media/3d.wmv', $entry->links[0]->uri);
-		$this->assertEquals('video/wmv', $entry->links[0]->type);
+		$this->assertSame('http://www.w3schools.com/media/3d.wmv', $entry->links[0]->uri);
+		$this->assertSame('video/wmv', $entry->links[0]->type);
 		$this->assertEquals(78645, $entry->links[0]->length);
 	}
 
@@ -532,7 +532,7 @@ class JFeedParserRssTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  seedProcessPerson
-	 * @since         12.3
+	 * @since         3.1.4
 	 */
 	public function testProcessPerson($input, $name, $email)
 	{
@@ -540,8 +540,8 @@ class JFeedParserRssTest extends TestCase
 
 		$this->assertInstanceOf('JFeedPerson', $person);
 
-		$this->assertEquals($name, $person->name);
-		$this->assertEquals($email, $person->email);
+		$this->assertSame($name, $person->name);
+		$this->assertSame($email, $person->email);
 	}
 
 	/**
@@ -549,8 +549,8 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   12.3
+	 * @see     \PHPUnit\Framework\TestCase::setUp()
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
@@ -568,14 +568,13 @@ class JFeedParserRssTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   12.3
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{
-		unset($this->_instance);
-		unset($this->_reader);
+		unset($this->_instance, $this->_reader);
 
-		parent::teardown();
+		parent::tearDown();
 	}
 }

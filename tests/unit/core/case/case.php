@@ -2,35 +2,35 @@
 /**
  * @package    Joomla.Test
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
  * Abstract test case class for unit testing.
  *
  * @package  Joomla.Test
- * @since    12.1
+ * @since    3.0.0
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var         array  The list of errors expected to be encountered during the test.
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated  3.2.0
+	 * @since       3.0.0
 	 */
 	protected $expectedErrors;
 
 	/**
 	 * @var         array  JError handler state stashed away to be restored later.
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated  3.2.0
+	 * @since       3.0.0
 	 */
 	private $_stashedErrorState = array();
 
 	/**
 	 * @var    array  Various JFactory static instances stashed away to be restored later.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	private $_stashedFactoryState = array(
 		'application' => null,
@@ -51,8 +51,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  boolean  To not continue with JError processing
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated  3.2.0
+	 * @since       3.0.0
 	 */
 	public static function errorCallback($error)
 	{
@@ -68,7 +68,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function assignMockCallbacks($mockObject, $array)
 	{
@@ -100,7 +100,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function assignMockReturns($mockObject, $array)
 	{
@@ -121,8 +121,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JException
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated  3.2.0
+	 * @since       3.0.0
 	 */
 	public function expectedErrorCallback($error)
 	{
@@ -157,7 +157,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JApplication
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockApplication()
 	{
@@ -173,7 +173,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 * @param   array  $options      A set of options to configure the mock.
 	 * @param   array  $constructor  An array containing constructor arguments to inject into the mock.
 	 *
-	 * @return  JApplicationCms
+	 * @return  JApplicationCms|PHPUnit_Framework_MockObject_MockObject
 	 *
 	 * @since   3.2
 	 */
@@ -190,7 +190,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JConfig
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockConfig()
 	{
@@ -207,7 +207,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JDatabaseDriver
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockDatabase($driver = '', array $extraMethods = array(), $nullDate = '0000-00-00 00:00:00', $dateFormat = 'Y-m-d H:i:s')
 	{
@@ -224,7 +224,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JEventDispatcher
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockDispatcher($defaults = true)
 	{
@@ -239,7 +239,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JDocument
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockDocument()
 	{
@@ -274,7 +274,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JLanguage
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockLanguage()
 	{
@@ -295,7 +295,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JSession
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockSession($options = array())
 	{
@@ -312,7 +312,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  JApplicationWeb
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getMockWeb($options = array())
 	{
@@ -337,8 +337,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated  3.2.0
+	 * @since       3.0.0
 	 */
 	public function setExpectedError($error = null)
 	{
@@ -366,12 +366,12 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated  3.2.0
+	 * @since       3.0.0
 	 */
 	protected function restoreErrorHandlers()
 	{
-		$this->setErrorhandlers($this->_stashedErrorState);
+		$this->setErrorHandlers($this->_stashedErrorState);
 	}
 
 	/**
@@ -379,7 +379,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function restoreFactoryState()
 	{
@@ -399,8 +399,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @deprecated  13.1
-	 * @since       12.1
+	 * @deprecated  3.2.0
+	 * @since       3.0.0
 	 */
 	protected function saveErrorHandlers()
 	{
@@ -420,7 +420,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function saveFactoryState()
 	{
@@ -442,7 +442,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setErrorHandlers($errorHandlers)
 	{
@@ -475,7 +475,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setErrorCallback($testName)
 	{
@@ -493,8 +493,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   11.1
+	 * @see     \PHPUnit\Framework\TestCase::setUp()
+	 * @since   1.7.0
 	 */
 	protected function setUp()
 	{
@@ -508,8 +508,8 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   1.7.0
 	 */
 	protected function tearDown()
 	{

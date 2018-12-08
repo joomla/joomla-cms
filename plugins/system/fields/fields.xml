@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.7.0" group="system" method="upgrade">
+	<name>plg_system_fields</name>
+	<author>Joomla! Project</author>
+	<creationDate>March 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.7.0</version>
+	<description>PLG_SYSTEM_FIELDS_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="fields">fields.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_system_fields.ini</language>
+		<language tag="en-GB">en-GB.plg_system_fields.sys.ini</language>
+	</languages>
+</extension>

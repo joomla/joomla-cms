@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,25 +12,25 @@ defined('JPATH_PLATFORM') or die;
 /**
  * SQLite Query Building Class.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPreparable, JDatabaseQueryLimitable
 {
 	/**
 	 * @var    integer  The offset for the result set.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $offset;
 
 	/**
 	 * @var    integer  The limit for the result set.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $limit;
 
 	/**
 	 * @var    array  Bounded object array
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $bounded = array();
 
@@ -48,7 +48,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  JDatabaseQuerySqlite
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function bind($key = null, &$value = null, $dataType = PDO::PARAM_STR, $length = 0, $driverOptions = array())
 	{
@@ -92,7 +92,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  mixed
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function &getBounded($key = null)
 	{
@@ -123,7 +123,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
@@ -137,7 +137,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  JDatabaseQuerySqlite  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function clear($clause = null)
 	{
@@ -164,7 +164,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string  The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -191,7 +191,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function processLimit($query, $limit, $offset = 0)
 	{
@@ -215,7 +215,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  JDatabaseQuerySqlite  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setLimit($limit = 0, $offset = 0)
 	{
@@ -237,7 +237,7 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @link    http://www.sqlite.org/lang_datefunc.html
 	 */
 	public function dateAdd($date, $interval, $datePart)
@@ -245,7 +245,9 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 		// SQLite does not support microseconds as a separate unit. Convert the interval to seconds
 		if (strcasecmp($datePart, 'microseconds') == 0)
 		{
-			$interval = .001 * $interval;
+			// Force the dot as a decimal point
+			$interval = str_replace(',', '.', .001 * $interval);
+
 			$datePart = 'seconds';
 		}
 
@@ -272,5 +274,128 @@ class JDatabaseQuerySqlite extends JDatabaseQueryPdo implements JDatabaseQueryPr
 	public function currentTimestamp()
 	{
 		return 'CURRENT_TIMESTAMP';
+	}
+
+	/**
+	 * Magic function to convert the query to a string.
+	 *
+	 * @return  string  The completed query.
+	 *
+	 * @since   1.7.0
+	 */
+	public function __toString()
+	{
+		switch ($this->type)
+		{
+			case 'select':
+				if ($this->selectRowNumber)
+				{
+					$orderBy          = $this->selectRowNumber['orderBy'];
+					$orderColumnAlias = $this->selectRowNumber['orderColumnAlias'];
+
+					$column = "ROW_NUMBER() AS $orderColumnAlias";
+
+					if ($this->select === null)
+					{
+						$query = PHP_EOL . "SELECT 1"
+							. (string) $this->from
+							. (string) $this->where;
+					}
+					else
+					{
+						$tmpOffset    = $this->offset;
+						$tmpLimit     = $this->limit;
+						$this->offset = 0;
+						$this->limit  = 0;
+						$tmpOrder    = $this->order;
+						$this->order = null;
+						$query       = parent::__toString();
+						$column      = "w.*, $column";
+						$this->order = $tmpOrder;
+						$this->offset = $tmpOffset;
+						$this->limit  = $tmpLimit;
+					}
+
+					// Special sqlite query to count ROW_NUMBER
+					$query = PHP_EOL . "SELECT $column"
+						. PHP_EOL . "FROM ($query" . PHP_EOL . "ORDER BY $orderBy"
+						. PHP_EOL . ") AS w,(SELECT ROW_NUMBER(0)) AS r"
+						// Forbid to flatten subqueries.
+						. ((string) $this->order ?: PHP_EOL . 'ORDER BY NULL');
+
+					return $this->processLimit($query, $this->limit, $this->offset);
+				}
+
+				break;
+
+			case 'update':
+				if ($this->join)
+				{
+					$table = $this->update->getElements();
+					$table = $table[0];
+
+					$tableName = explode(' ', $table);
+					$tableName = $tableName[0];
+
+					if ($this->columns === null)
+					{
+						$fields = $this->db->getTableColumns($tableName);
+
+						foreach ($fields as $key => $value)
+						{
+							$fields[$key] = $key;
+						}
+
+						$this->columns = new JDatabaseQueryElement('()', $fields);
+					}
+
+					$fields   = $this->columns->getElements();
+					$elements = $this->set->getElements();
+
+					foreach ($elements as $nameValue)
+					{
+						$setArray = explode(' = ', $nameValue, 2);
+
+						if ($setArray[0][0] === '`')
+						{
+							// Unquote column name
+							$setArray[0] = substr($setArray[0], 1, -1);
+						}
+
+						$fields[$setArray[0]] = $setArray[1];
+					}
+
+					$select = new JDatabaseQuerySqlite($this->db);
+					$select->select(array_values($fields))
+						->from($table);
+
+					$select->join  = $this->join;
+					$select->where = $this->where;
+
+					return 'INSERT OR REPLACE INTO ' . $tableName
+						. ' (' . implode(',', array_keys($fields)) . ')'
+						. (string) $select;
+				}
+		}
+
+		return parent::__toString();
+	}
+
+	/**
+	 * Return the number of the current row.
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.7.0
+	 * @throws  RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias)
+	{
+		$this->validateRowNumber($orderBy, $orderColumnAlias);
+
+		return $this;
 	}
 }

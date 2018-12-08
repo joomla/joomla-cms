@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       12.1
+ * @since       3.0.0
  */
 class JDatabaseIteratorMysqlTest extends TestCaseDatabaseMysql
 {
@@ -21,7 +21,7 @@ class JDatabaseIteratorMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function casesForEachData()
 	{
@@ -120,7 +120,7 @@ class JDatabaseIteratorMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @dataProvider casesForEachData
 	 *
-	 * @since    12.1
+	 * @since    3.0.0
 	 */
 	public function testForEach($select, $from, $column, $class, $limit, $offset, $expected, $exception)
 	{
@@ -144,26 +144,23 @@ class JDatabaseIteratorMysqlTest extends TestCaseDatabaseMysql
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testCount()
 	{
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'));
-		$this->assertEquals(
-			4,
-			count(self::$driver->getIterator())
+		$this->assertCount(
+			4, self::$driver->getIterator()
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 0, 2);
-		$this->assertEquals(
-			2,
-			count(self::$driver->getIterator())
+		$this->assertCount(
+			2, self::$driver->getIterator()
 		);
 
 		self::$driver->setQuery(self::$driver->getQuery(true)->select('title')->from('#__dbtest'), 3, 2);
-		$this->assertEquals(
-			1,
-			count(self::$driver->getIterator())
+		$this->assertCount(
+			1, self::$driver->getIterator()
 		);
 	}
 }

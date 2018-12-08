@@ -3,23 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_content/helpers/route.php';
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_content/models', 'ContentModel');
 
 /**
  * Helper for mod_articles_news
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_news
- *
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModArticlesNewsHelper
 {
@@ -47,6 +44,9 @@ abstract class ModArticlesNewsHelper
 		$model->setState('list.limit', (int) $params->get('count', 5));
 		$model->setState('filter.published', 1);
 
+		// This module does not use tags data
+		$model->setState('load_tags', false);
+
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
 		$authorised = JAccess::getAuthorisedViewLevels(JFactory::getUser()->get('id'));
@@ -58,11 +58,30 @@ abstract class ModArticlesNewsHelper
 		// Filter by language
 		$model->setState('filter.language', $app->getLanguageFilter());
 
+		// Filer by tag
+		$model->setState('filter.tag', $params->get('tag', array()));
+
+		// Featured switch
+		$featured = $params->get('show_featured', '');
+
+		if ($featured === '')
+		{
+			$model->setState('filter.featured', 'show');
+		}
+		elseif ($featured)
+		{
+			$model->setState('filter.featured', 'only');
+		}
+		else
+		{
+			$model->setState('filter.featured', 'hide');
+		}
+
 		// Set ordering
 		$ordering = $params->get('ordering', 'a.publish_up');
 		$model->setState('list.ordering', $ordering);
 
-		if (trim($ordering) == 'rand()')
+		if (trim($ordering) === 'rand()')
 		{
 			$model->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
 		}
@@ -73,6 +92,9 @@ abstract class ModArticlesNewsHelper
 			$model->setState('list.ordering', $ordering);
 		}
 
+		// Check if we should trigger additional plugin events
+		$triggerEvents = $params->get('triggerevents', 1);
+
 		// Retrieve Content
 		$items = $model->getItems();
 
@@ -80,6 +102,8 @@ abstract class ModArticlesNewsHelper
 		{
 			$item->readmore = strlen(trim($item->fulltext));
 			$item->slug     = $item->id . ':' . $item->alias;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug  = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
@@ -97,19 +121,62 @@ abstract class ModArticlesNewsHelper
 
 			$item->introtext = JHtml::_('content.prepare', $item->introtext, '', 'mod_articles_news.content');
 
+			// Remove any images belongs to the text
 			if (!$params->get('image'))
 			{
 				$item->introtext = preg_replace('/<img[^>]*>/', '', $item->introtext);
 			}
 
-			$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 1));
-			$item->afterDisplayTitle = trim(implode("\n", $results));
+			// Show the Intro/Full image field of the article
+			if ($params->get('img_intro_full') !== 'none')
+			{
+				$images = json_decode($item->images);
+				$item->imageSrc = '';
+				$item->imageAlt = '';
+				$item->imageCaption = '';
 
-			$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 1));
-			$item->beforeDisplayContent = trim(implode("\n", $results));
+				if ($params->get('img_intro_full') === 'intro' && !empty($images->image_intro))
+				{
+					$item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
+					$item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
 
-			$results                 = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 1));
-			$item->afterDisplayContent = trim(implode("\n", $results));
+					if ($images->image_intro_caption) 
+					{
+						$item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
+					}
+				}
+				elseif ($params->get('img_intro_full') === 'full' && !empty($images->image_fulltext))
+				{
+					$item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
+					$item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
+
+					if ($images->image_intro_caption) 
+					{
+						$item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
+					}
+				}
+			}
+
+			if ($triggerEvents)
+			{
+				$item->text = '';
+				$app->triggerEvent('onContentPrepare', array ('com_content.article', &$item, &$params, 0));
+
+				$results                 = $app->triggerEvent('onContentAfterTitle', array('com_content.article', &$item, &$params, 0));
+				$item->afterDisplayTitle = trim(implode("\n", $results));
+
+				$results                    = $app->triggerEvent('onContentBeforeDisplay', array('com_content.article', &$item, &$params, 0));
+				$item->beforeDisplayContent = trim(implode("\n", $results));
+
+				$results                   = $app->triggerEvent('onContentAfterDisplay', array('com_content.article', &$item, &$params, 0));
+				$item->afterDisplayContent = trim(implode("\n", $results));
+			}
+			else
+			{
+				$item->afterDisplayTitle    = '';
+				$item->beforeDisplayContent = '';
+				$item->afterDisplayContent  = '';
+			}
 		}
 
 		return $items;

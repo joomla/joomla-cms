@@ -3,44 +3,50 @@
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/linkedin/linkedin.php';
 
 /**
  * Test class for JLinkedin.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
- * @since       13.1
+ * @since       3.2.0
  */
 class JLinkedinTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JLinkedin  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var JTLinkedinrOAuth Facebook OAuth 2 client
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	protected $oauth;
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -50,13 +56,14 @@ class JLinkedinTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 
 		$this->object = new JLinkedin($this->oauth, $this->options, $this->client);
 	}
@@ -66,9 +73,14 @@ class JLinkedinTest extends TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->client, $this->object);
 	}
 
 	/**
@@ -76,7 +88,7 @@ class JLinkedinTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetPeople()
 	{
@@ -91,7 +103,7 @@ class JLinkedinTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetGroups()
 	{
@@ -106,7 +118,7 @@ class JLinkedinTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetCompanies()
 	{
@@ -121,7 +133,7 @@ class JLinkedinTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetJobs()
 	{
@@ -136,7 +148,7 @@ class JLinkedinTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetStream()
 	{
@@ -151,7 +163,7 @@ class JLinkedinTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function test__GetCommunications()
 	{
@@ -166,7 +178,7 @@ class JLinkedinTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  InvalidArgumentException
 	 */
 	public function test__GetOther()
@@ -179,7 +191,7 @@ class JLinkedinTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testSetOption()
 	{
@@ -196,7 +208,7 @@ class JLinkedinTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetOption()
 	{

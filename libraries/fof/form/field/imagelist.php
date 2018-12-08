@@ -2,7 +2,7 @@
 /**
  * @package    FrameworkOnFramework
  * @subpackage form
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -135,7 +135,7 @@ class FOFFormFieldImagelist extends JFormFieldImageList implements FOFFormField
 			$src = '';
 		}
 
-		return JHtml::image($src, $alt, $imgattr);
+		return JHtml::_('image', $src, $alt, $imgattr);
 	}
 
 	/**

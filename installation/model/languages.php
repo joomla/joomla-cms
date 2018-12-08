@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,31 +22,31 @@ class InstallationModelLanguages extends JModelBase
 	 * @var    object  Client object.
 	 * @since  3.1
 	 */
-	protected $client = null;
+	protected $client;
 
 	/**
 	 * @var    array  Languages description.
 	 * @since  3.1
 	 */
-	protected $data = null;
+	protected $data;
 
 	/**
 	 * @var    string  Language path.
 	 * @since  3.1
 	 */
-	protected $path = null;
+	protected $path;
 
 	/**
 	 * @var    integer  Total number of languages installed.
 	 * @since  3.1
 	 */
-	protected $langlist = null;
+	protected $langlist;
 
 	/**
 	 * @var    Admin Id, author of all generated content.
 	 * @since  3.1
 	 */
-	protected $adminId = null;
+	protected $adminId;
 
 	/**
 	 * Constructor: Deletes the default installation config file and recreates it with the good config file.
@@ -131,23 +131,22 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   array  $lids  List of the update_id value of the languages to install.
 	 *
-	 * @return  boolean True if successful
+	 * @return  boolean  True if successful
 	 */
 	public function install($lids)
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
+		$installerBase = new JInstaller;
 
 		// Loop through every selected language.
 		foreach ($lids as $id)
 		{
-			$installer = new JInstaller;
+			$installer = clone $installerBase;
 
 			// Loads the update database object that represents the language.
 			$language = JTable::getInstance('update');
 			$language->load($id);
 
-			// Get the url to the XML manifest file of the selected language.
+			// Get the URL to the XML manifest file of the selected language.
 			$remote_manifest = $this->getLanguageManifest($id);
 
 			if (!$remote_manifest)
@@ -155,19 +154,23 @@ class InstallationModelLanguages extends JModelBase
 				// Could not find the url, the information in the update server may be corrupt.
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
-				$app->enqueueMessage($message);
+
+				JFactory::getApplication()->enqueueMessage($message, 'warning');
+
 				continue;
 			}
 
-			// Based on the language XML manifest get the url of the package to download.
+			// Based on the language XML manifest get the URL of the package to download.
 			$package_url = $this->getPackageUrl($remote_manifest);
 
 			if (!$package_url)
 			{
-				// Could not find the url , maybe the url is wrong in the update server, or there is not internet access.
+				// Could not find the URL, maybe the URL is wrong in the update server, or there is no internet access.
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
-				$app->enqueueMessage($message);
+
+				JFactory::getApplication()->enqueueMessage($message, 'warning');
+
 				continue;
 			}
 
@@ -180,7 +183,9 @@ class InstallationModelLanguages extends JModelBase
 				// There was an error installing the package.
 				$message = JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_INSTALL_LANGUAGE', $language->name);
 				$message .= ' ' . JText::_('INSTL_DEFAULTLANGUAGE_TRY_LATER');
-				$app->enqueueMessage($message);
+
+				JFactory::getApplication()->enqueueMessage($message, 'warning');
+
 				continue;
 			}
 
@@ -213,17 +218,16 @@ class InstallationModelLanguages extends JModelBase
 	{
 		$instance = JTable::getInstance('update');
 		$instance->load($uid);
-		$detailurl = trim($instance->detailsurl);
 
-		return $detailurl;
+		return trim($instance->detailsurl);
 	}
 
 	/**
-	 * Finds the url of the package to download.
+	 * Finds the URL of the package to download.
 	 *
-	 * @param   string  $remote_manifest  Url to the manifest XML file of the remote package.
+	 * @param   string  $remote_manifest  URL to the manifest XML file of the remote package.
 	 *
-	 * @return  string|bool
+	 * @return  string|boolean
 	 *
 	 * @since   3.1
 	 */
@@ -231,17 +235,16 @@ class InstallationModelLanguages extends JModelBase
 	{
 		$update = new JUpdate;
 		$update->loadFromXml($remote_manifest);
-		$package_url = trim($update->get('downloadurl', false)->_data);
 
-		return $package_url;
+		return trim($update->get('downloadurl', false)->_data);
 	}
 
 	/**
 	 * Download a language package from a URL and unpack it in the tmp folder.
 	 *
-	 * @param   string  $url  Url of the package.
+	 * @param   string  $url  URL of the package.
 	 *
-	 * @return  array|bool Package details or false on failure.
+	 * @return  array|boolean  Package details or false on failure.
 	 *
 	 * @since   3.1
 	 */
@@ -262,9 +265,7 @@ class InstallationModelLanguages extends JModelBase
 		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file.
-		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
-
-		return $package;
+		return JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 	}
 
 	/**
@@ -402,10 +403,10 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	protected function getPath()
 	{
-		if (is_null($this->path))
+		if ($this->path === null)
 		{
 			$client     = $this->getClient();
-			$this->path = JLanguage::getLanguagePath($client->path);
+			$this->path = JLanguageHelper::getLanguagePath($client->path);
 		}
 
 		return $this->path;
@@ -439,10 +440,6 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function setDefault($language, $cms_client = 'administrator')
 	{
-		// Get the application.
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		$client = $this->getClient($cms_client);
 
 		$params = JComponentHelper::getParams('com_languages');
@@ -454,7 +451,7 @@ class InstallationModelLanguages extends JModelBase
 		// Load
 		if (!$table->load($id))
 		{
-			$app->enqueueMessage($table->getError(), 'warning');
+			JFactory::getApplication()->enqueueMessage($table->getError(), 'warning');
 
 			return false;
 		}
@@ -464,7 +461,7 @@ class InstallationModelLanguages extends JModelBase
 		// Pre-save checks.
 		if (!$table->check())
 		{
-			$app->enqueueMessage($table->getError(), 'warning');
+			JFactory::getApplication()->enqueueMessage($table->getError(), 'warning');
 
 			return false;
 		}
@@ -472,7 +469,7 @@ class InstallationModelLanguages extends JModelBase
 		// Save the changes.
 		if (!$table->store())
 		{
-			$app->enqueueMessage($table->getError(), 'warning');
+			JFactory::getApplication()->enqueueMessage($table->getError(), 'warning');
 
 			return false;
 		}
@@ -489,10 +486,7 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function getOptions()
 	{
-		$session = JFactory::getSession();
-		$options = $session->get('setup.options', array());
-
-		return $options;
+		return JFactory::getSession()->get('setup.options', array());
 	}
 
 	/**
@@ -506,12 +500,9 @@ class InstallationModelLanguages extends JModelBase
 	 */
 	public function getForm($view = null)
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		if (!$view)
 		{
-			$view = $app->input->getWord('view', 'defaultlanguage');
+			$view = JFactory::getApplication()->input->getWord('view', 'defaultlanguage');
 		}
 
 		// Get the form.
@@ -525,7 +516,7 @@ class InstallationModelLanguages extends JModelBase
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -619,6 +610,7 @@ class InstallationModelLanguages extends JModelBase
 	{
 		JTable::addIncludePath(JPATH_LIBRARIES . '/legacy/table/');
 		$tableModule = JTable::getInstance('Module', 'JTable');
+
 		$moduleData  = array(
 			'id'        => 0,
 			'title'     => 'Language Switcher',
@@ -635,7 +627,7 @@ class InstallationModelLanguages extends JModelBase
 			'client_id' => 0,
 			'language'  => '*',
 			'published' => 1,
-			'rules'     => array()
+			'rules'     => array(),
 		);
 
 		// Bind the data.
@@ -694,11 +686,41 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
+	 * Publish the Installed Content Languages.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.7.0
+	 */
+	public function publishContentLanguages()
+	{
+		$app = JFactory::getApplication();
+
+		// Publish the Content Languages.
+		$tableLanguage = JTable::getInstance('Language');
+
+		$siteLanguages = $this->getInstalledlangs('site');
+
+		// For each content language.
+		foreach ($siteLanguages as $siteLang)
+		{
+			if ($tableLanguage->load(array('lang_code' => $siteLang->language, 'published' => 0)) && !$tableLanguage->publish())
+			{
+				$app->enqueueMessage(JText::sprintf('INSTL_DEFAULTLANGUAGE_COULD_NOT_CREATE_CONTENT_LANGUAGE', $siteLang->name), 'warning');
+
+				continue;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Gets a unique language SEF string.
 	 *
 	 * This function checks other existing language with the same code, if they exist provides a unique SEF name.
 	 * For instance: en-GB, en-US and en-AU will share the same SEF code by default: www.mywebsite.com/en/
-	 * To avoid this conflict, this function creates an specific SEF in case of existing conflict:
+	 * To avoid this conflict, this function creates a specific SEF in case of existing conflict:
 	 * For example: www.mywebsite.com/en-au/
 	 *
 	 * @param   stdClass    $itemLanguage   Language Object.
@@ -707,6 +729,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @return  string
 	 *
 	 * @since   3.2
+	 * @depreacted   4.0 Not used anymore.
 	 */
 	public function getSefString($itemLanguage, $siteLanguages)
 	{
@@ -743,6 +766,7 @@ class InstallationModelLanguages extends JModelBase
 	 * @return  boolean
 	 *
 	 * @since   3.2
+	 * @depreacted   4.0 Not used anymore.
 	 */
 	public function addLanguage($itemLanguage, $sefLangString)
 	{
@@ -771,7 +795,7 @@ class InstallationModelLanguages extends JModelBase
 			'ordering'     => 0,
 			'description'  => '',
 			'metakey'      => '',
-			'metadesc'     => ''
+			'metadesc'     => '',
 		);
 
 		// Bind the data.
@@ -823,7 +847,7 @@ class InstallationModelLanguages extends JModelBase
 			'id'          => 0,
 			'menutype'    => 'mainmenu-' . strtolower($itemLanguage->language),
 			'title'       => 'Main Menu (' . $itemLanguage->language . ')',
-			'description' => 'The main menu for the site in language ' . $itemLanguage->name
+			'description' => 'The main menu for the site in language ' . $itemLanguage->name,
 		);
 
 		// Bind the data.
@@ -848,15 +872,15 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
-	 * Add Menu Item.
+	 * Add Featured Menu Item.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Menu Item Object. False otherwise.
+	 * @return  JTable|boolean  Menu Item Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
-	public function addMenuItem($itemLanguage)
+	public function addFeaturedMenuItem($itemLanguage)
 	{
 		// Add Menu Item.
 		$tableItem = JTable::getInstance('Menu', 'MenusTable');
@@ -887,7 +911,87 @@ class InstallationModelLanguages extends JModelBase
 				. '"show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","menu-anchor_title":"",'
 				. '"menu-anchor_css":"","menu_image":"","show_page_heading":1,"page_title":"","page_heading":"",'
 				. '"pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
-			'language'     => $itemLanguage->language
+			'language'     => $itemLanguage->language,
+		);
+
+		// Bind the data.
+		if (!$tableItem->bind($menuItem))
+		{
+			return false;
+		}
+
+		$tableItem->setLocation($menuItem['parent_id'], 'last-child');
+
+		// Check the data.
+		if (!$tableItem->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableItem->store())
+		{
+			return false;
+		}
+
+		// Rebuild the tree path.
+		if (!$tableItem->rebuildPath($tableItem->id))
+		{
+			return false;
+		}
+
+		return $tableItem;
+	}
+
+	/**
+	 * Add AllCategories Menu Item for new router.
+	 *
+	 * @param   stdClass  $itemLanguage  Language Object.
+	 *
+	 * @return  JTable|boolean  Menu Item Object. False otherwise.
+	 *
+	 * @since   3.8.0
+	 */
+
+	public function addAllCategoriesMenuItem($itemLanguage)
+	{
+		// Add Menu Item.
+		$tableItem = JTable::getInstance('Menu', 'MenusTable');
+
+		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$title = $newlanguage->_('JCATEGORIES');
+		$alias = 'allcategories_' . $itemLanguage->language;
+
+		$menuItem = array(
+			'title'        => $title,
+			'alias'        => $alias,
+			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
+			'type'         => 'component',
+			'link'         => 'index.php?option=com_content&view=categories&id=0',
+			'component_id' => 22,
+			'published'    => 1,
+			'parent_id'    => 1,
+			'level'        => 1,
+			'home'         => 0,
+			'params'       => '{"show_base_description":"","categories_description":"","maxLevelcat":"",'
+				. '"show_empty_categories_cat":"","show_subcat_desc_cat":"","show_cat_num_articles_cat":"",'
+				. '"show_category_title":"","show_description":"","show_description_image":"","maxLevel":"",'
+				. '"show_empty_categories":"","show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"",'
+				. '"num_leading_articles":"","num_intro_articles":"","num_columns":"","num_links":"",'
+				. '"multi_column_order":"","show_subcategory_content":"","orderby_pri":"","orderby_sec":"",'
+				. '"order_date":"","show_pagination_limit":"","filter_field":"","show_headings":"",'
+				. '"list_show_date":"","date_format":"","list_show_hits":"","list_show_author":"","display_num":"10",'
+				. '"show_pagination":"","show_pagination_results":"","show_title":"","link_titles":"",'
+				. '"show_intro":"","show_category":"","link_category":"","show_parent_category":"",'
+				. '"link_parent_category":"","show_author":"","link_author":"","show_create_date":"",'
+				. '"show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"",'
+				. '"show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
+				. '"show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"","feed_summary":"",'
+				. '"menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_image_css":"","menu_text":1,'
+				. '"menu_show":0,"page_title":"","show_page_heading":"","page_heading":"","pageclass_sfx":"",'
+				. '"menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}',
+			'language'     => $itemLanguage->language,
 		);
 
 		// Bind the data.
@@ -948,7 +1052,7 @@ class InstallationModelLanguages extends JModelBase
 			'client_id' => 0,
 			'language'  => $itemLanguage->language,
 			'published' => 1,
-			'rules' => array()
+			'rules' => array(),
 		);
 
 		// Bind the data.
@@ -1047,7 +1151,7 @@ class InstallationModelLanguages extends JModelBase
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 *
-	 * @return  JTable|boolean Category Object. False otherwise.
+	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1058,22 +1162,23 @@ class InstallationModelLanguages extends JModelBase
 		$title = $newlanguage->_('JCATEGORY');
 
 		// Initialize a new category.
-		$category                  = JTable::getInstance('Category');
+		$category = JTable::getInstance('Category');
 
 		$data = array(
-			'extension'    => 'com_content',
-			'title'        => $title . ' (' . strtolower($itemLanguage->language) . ')',
-			'description'  => '',
-			'published'    => 1,
-			'access'       => 1,
-			'params'       => '{"target":"","image":""}',
-			'metadesc'     => '',
-			'metakey'      => '',
-			'metadata'     => '{"page_title":"","author":"","robots":""}',
-			'created_time' => JFactory::getDate()->toSql(),
-			'language'     => $itemLanguage->language,
-			'rules'        => array(),
-			'parent_id'    => 1
+			'extension'       => 'com_content',
+			'title'           => $title . ' (' . strtolower($itemLanguage->language) . ')',
+			'description'     => '',
+			'published'       => 1,
+			'access'          => 1,
+			'params'          => '{"target":"","image":""}',
+			'metadesc'        => '',
+			'metakey'         => '',
+			'metadata'        => '{"page_title":"","author":"","robots":""}',
+			'created_time'    => JFactory::getDate()->toSql(),
+			'created_user_id' => (int) $this->getAdminId(),
+			'language'        => $itemLanguage->language,
+			'rules'           => array(),
+			'parent_id'       => 1,
 		);
 
 		// Set the location in the tree.
@@ -1107,9 +1212,9 @@ class InstallationModelLanguages extends JModelBase
 	 * Create an article in a specific language.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
-	 * @param   int       $categoryId    The id of the category where we want to add the article.
+	 * @param   integer   $categoryId    The id of the category where we want to add the article.
 	 *
-	 * @return  JTable|boolean Article Object. False otherwise.
+	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
 	 * @since   3.2
 	 */
@@ -1119,9 +1224,11 @@ class InstallationModelLanguages extends JModelBase
 
 		$newlanguage = new JLanguage($itemLanguage->language, false);
 		$newlanguage->load('com_content.sys', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
-		$title = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
+		$title       = $newlanguage->_('COM_CONTENT_CONTENT_TYPE_ARTICLE');
+		$currentDate = JFactory::getDate()->toSql();
 
-		$article                   = JTable::getInstance('Content');
+		// Initialize a new article.
+		$article = JTable::getInstance('Content');
 
 		$data = array(
 			'title'            => $title . ' (' . strtolower($itemLanguage->language) . ')',
@@ -1136,10 +1243,10 @@ class InstallationModelLanguages extends JModelBase
 			'images'           => json_encode(array()),
 			'urls'             => json_encode(array()),
 			'state'            => 1,
-			'created'          => JFactory::getDate()->toSql(),
-			'created_by'       => $this->getAdminId(),
+			'created'          => $currentDate,
+			'created_by'       => (int) $this->getAdminId(),
 			'created_by_alias' => 'Joomla',
-			'publish_up'       => JFactory::getDate()->toSql(),
+			'publish_up'       => $currentDate,
 			'publish_down'     => $db->getNullDate(),
 			'version'          => 1,
 			'catid'            => $categoryId,
@@ -1149,7 +1256,7 @@ class InstallationModelLanguages extends JModelBase
 			'language'         => $itemLanguage->language,
 			'featured'         => 1,
 			'attribs'          => array(),
-			'rules'            => array()
+			'rules'            => array(),
 		);
 
 		// Bind the data to the table
@@ -1192,13 +1299,91 @@ class InstallationModelLanguages extends JModelBase
 	}
 
 	/**
+	 * Add Blog Menu Item.
+	 *
+	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   integer   $categoryId    The id of the category displayed by the blog.
+	 *
+	 * @return  JTable|boolean  Menu Item Object. False otherwise.
+	 *
+	 * @since   3.8.0
+	 */
+	public function addBlogMenuItem($itemLanguage, $categoryId)
+	{
+		// Add Menu Item.
+		$tableItem = JTable::getInstance('Menu', 'MenusTable');
+
+		$newlanguage = new JLanguage($itemLanguage->language, false);
+		$newlanguage->load('com_languages', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
+		$title = $newlanguage->_('COM_LANGUAGES_HOMEPAGE');
+		$alias = 'home_' . $itemLanguage->language;
+
+		$menuItem = array(
+			'title'        => $title,
+			'alias'        => $alias,
+			'menutype'     => 'mainmenu-' . strtolower($itemLanguage->language),
+			'type'         => 'component',
+			'link'         => 'index.php?option=com_content&view=category&layout=blog&id=' . $categoryId,
+			'component_id' => 22,
+			'published'    => 1,
+			'parent_id'    => 1,
+			'level'        => 1,
+			'home'         => 1,
+			'params'       => '{"layout_type":"blog","show_category_heading_title_text":"","show_category_title":"",'
+				. '"show_description":"","show_description_image":"","maxLevel":"","show_empty_categories":"",'
+				. '"show_no_articles":"","show_subcat_desc":"","show_cat_num_articles":"","show_cat_tags":"",'
+				. '"page_subheading":"","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3",'
+				. '"num_links":"0","multi_column_order":"1","show_subcategory_content":"","orderby_pri":"",'
+				. '"orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1",'
+				. '"show_featured":"","show_title":"","link_titles":"","show_intro":"","info_block_position":"",'
+				. '"info_block_show_title":"","show_category":"","link_category":"","show_parent_category":"",'
+				. '"link_parent_category":"","show_associations":"","show_author":"","link_author":"",'
+				. '"show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"",'
+				. '"show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"",'
+				. '"show_email_icon":"","show_hits":"","show_tags":"","show_noauth":"","show_feed_link":"1",'
+				. '"feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"",'
+				. '"menu_image_css":"","menu_text":1,"menu_show":1,"page_title":"","show_page_heading":"1",'
+				. '"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":""}',
+			'language'     => $itemLanguage->language,
+		);
+
+		// Bind the data.
+		if (!$tableItem->bind($menuItem))
+		{
+			return false;
+		}
+
+		$tableItem->setLocation($menuItem['parent_id'], 'last-child');
+
+		// Check the data.
+		if (!$tableItem->check())
+		{
+			return false;
+		}
+
+		// Store the data.
+		if (!$tableItem->store())
+		{
+			return false;
+		}
+
+		// Rebuild the tree path.
+		if (!$tableItem->rebuildPath($tableItem->id))
+		{
+			return false;
+		}
+
+		return $tableItem;
+	}
+
+	/**
 	 * Create the language associations.
 	 *
 	 * @param   array  $groupedAssociations  Array of language associations for all items.
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.6.1
 	 */
 	public function addAssociations($groupedAssociations)
 	{
@@ -1233,7 +1418,7 @@ class InstallationModelLanguages extends JModelBase
 	/**
 	 * Retrieve the admin user id.
 	 *
-	 * @return  int|bool One Administrator ID.
+	 * @return  integer|boolean  One Administrator ID.
 	 *
 	 * @since   3.2
 	 */

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Oauth
- * @since       12.3
+ * @since       3.1.4
  */
 class JOAuth2ClientTest extends TestCase
 {
@@ -48,7 +48,15 @@ class JOAuth2ClientTest extends TestCase
 	 *
 	 * @var  int
 	 */
-	private static $closed = null;
+	private static $closed;
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -59,18 +67,37 @@ class JOAuth2ClientTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new Registry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$array = array();
 		$this->input = new JInput($array);
 		$this->application = $this->getMockWeb();
 		$this->object = new JOAuth2Client($this->options, $this->http, $this->input, $this->application);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->input, $this->http, $this->application, $this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -348,7 +375,7 @@ class JOAuth2ClientTest extends TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -371,7 +398,7 @@ function encodedGrantOauthCallback($url, $data, array $headers = null, $timeout 
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -395,7 +422,7 @@ function jsonGrantOauthCallback($url, $data, array $headers = null, $timeout = n
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -417,7 +444,7 @@ function queryOauthCallback($url, $data, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function getOauthCallback($url, array $headers = null, $timeout = null)
 {

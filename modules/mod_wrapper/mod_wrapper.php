@@ -3,14 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  mod_wrapper
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 // Include the wrapper functions only once
-require_once __DIR__ . '/helper.php';
+JLoader::register('ModWrapperHelper', __DIR__ . '/helper.php');
 
 $params = ModWrapperHelper::getParams($params);
 
@@ -22,5 +22,7 @@ $height          = htmlspecialchars($params->get('height'), ENT_COMPAT, 'UTF-8')
 $scroll          = htmlspecialchars($params->get('scrolling'), ENT_COMPAT, 'UTF-8');
 $moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 $frameborder     = htmlspecialchars($params->get('frameborder'), ENT_COMPAT, 'UTF-8');
+$ititle          = $module->title;
+$id              = $module->id;
 
 require JModuleHelper::getLayoutPath('mod_wrapper', $params->get('layout', 'default'));

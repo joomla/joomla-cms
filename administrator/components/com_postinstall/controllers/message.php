@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_postinstall
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,6 +36,30 @@ class PostinstallControllerMessage extends FOFController
 		}
 
 		$model->resetMessages($eid);
+
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
+	}
+
+	/**
+	 * Hides all post-installation messages of the specified extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.7
+	 */
+	public function hideAll()
+	{
+		/** @var PostinstallModelMessages $model */
+		$model = $this->getThisModel();
+
+		$eid = (int) $model->getState('eid', '700', 'int');
+
+		if (empty($eid))
+		{
+			$eid = 700;
+		}
+
+		$model->hideMessages($eid);
 
 		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
 	}

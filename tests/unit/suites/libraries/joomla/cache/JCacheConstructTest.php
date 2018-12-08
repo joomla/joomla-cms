@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,9 +13,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Cache
  *
- * @since       11.1
+ * @since       1.7.0
  */
-class JCacheTest_Construct extends PHPUnit_Framework_TestCase
+class JCacheTest_Construct extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test...
@@ -45,14 +45,12 @@ class JCacheTest_Construct extends PHPUnit_Framework_TestCase
 	{
 		$class = 'JCacheController' . ucfirst($type);
 		$cache = JCache::getInstance($type);
-		$this->assertTrue(
-			($cache instanceof $class),
-			'Expecting= ' . $class . ' Returned= ' . get_class($cache)
+		$this->assertInstanceOf(
+			$class, $cache, 'Expecting= ' . $class . ' Returned= ' . get_class($cache)
 		);
 		$cache2 = JCache::getInstance($type);
-		$this->assertTrue(
-			($cache !== $cache2),
-			'Type: ' . $type . ' Recieved the same instance twice'
+		$this->assertNotSame(
+			$cache, $cache2, 'Type: ' . $type . ' received the same instance twice'
 		);
 	}
 }

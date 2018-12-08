@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ class BannersModelDownload extends JModelForm
 	 */
 	protected function loadFormData()
 	{
-		$data = array(
+		$data = (object) array(
 			'basename'   => $this->getState('basename'),
 			'compressed' => $this->getState('compressed'),
 		);

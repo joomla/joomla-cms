@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JFormHelper::loadFieldClass('password');
@@ -15,7 +15,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldPassword-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldPasswordTest extends TestCase
 {
@@ -198,7 +198,7 @@ class JFormFieldPasswordTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 *
 	 * @dataProvider  getInputData
 	 */
@@ -211,9 +211,11 @@ class JFormFieldPasswordTest extends TestCase
 			TestReflection::setValue($formField, $attr, $value);
 		}
 
+		$replaces = array("\n", "\r"," ", "\t");
+
 		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formField, 'getInput'),
+			str_replace($replaces, '', $expected),
+			str_replace($replaces, '', TestReflection::invoke($formField, 'getInput')),
 			'Line:' . __LINE__ . ' The field with no value and no checked attribute did not produce the right html'
 		);
 	}

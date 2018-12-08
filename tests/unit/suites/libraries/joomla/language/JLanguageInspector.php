@@ -2,18 +2,16 @@
 /**
  * @package     Joomla.UnitTest
  * @subpackage  Event
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/language/language.php';
 
 /**
  * Inspector for the JLanguage class.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
- * @since       12.1
+ * @since       3.0.0
  */
 class JLanguageInspector extends JLanguage
 {
@@ -71,7 +69,7 @@ class JLanguageInspector extends JLanguage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setInstance($instance)
 	{

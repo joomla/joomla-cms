@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 include_once __DIR__ . '/stubs/JApplicationDaemonInspector.php';
@@ -14,7 +14,7 @@ include_once __DIR__ . '/stubs/JApplicationDaemonInspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       11.1
+ * @since       1.7.0
  */
 class JApplicationDaemonTest extends TestCase
 {
@@ -22,7 +22,7 @@ class JApplicationDaemonTest extends TestCase
 	 * An instance of a JApplicationDaemon inspector.
 	 *
 	 * @var    JApplicationDaemonInspector
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $inspector;
 
@@ -31,7 +31,7 @@ class JApplicationDaemonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setUp()
 	{
@@ -58,8 +58,8 @@ class JApplicationDaemonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.3
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   1.7.3
 	 */
 	protected function tearDown()
 	{
@@ -85,8 +85,8 @@ class JApplicationDaemonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDownAfterClass()
-	 * @since   11.3
+	 * @see     \PHPUnit\Framework\TestCase::tearDownAfterClass()
+	 * @since   1.7.3
 	 */
 	public static function tearDownAfterClass()
 	{
@@ -106,7 +106,7 @@ class JApplicationDaemonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSetupSignalHandlers()
 	{
@@ -130,7 +130,7 @@ class JApplicationDaemonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSetupSignalHandlersFailure()
 	{
@@ -155,7 +155,7 @@ class JApplicationDaemonTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testWriteProcessIdFile()
 	{

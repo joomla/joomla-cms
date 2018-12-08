@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  form
- * @copyright   Copyright (C) 2010 - 2015 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -146,7 +146,7 @@ class FOFFormFieldCalendar extends JFormFieldCalendar implements FOFFormField
 					if ((int) $this->value)
 					{
 						// Get a date object based on the correct timezone.
-						$date->setTimezone(new DateTimeZone($user->getParam('timezone', $config->get('offset'))));
+						$date->setTimezone($user->getTimezone());
 					}
 					break;
 

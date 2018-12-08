@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Observer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,6 +16,14 @@ defined('JPATH_PLATFORM') or die;
  */
 class JObserverUpdater implements JObserverUpdaterInterface
 {
+	/**
+	 * Holds the key aliases for observers.
+	 *
+	 * @var    array
+	 * @since  3.9.0
+	 */
+	protected $aliases = array();
+
 	/**
 	 * Generic JObserverInterface observers for this JObservableInterface
 	 *
@@ -46,7 +54,7 @@ class JObserverUpdater implements JObserverUpdaterInterface
 
 	/**
 	 * Adds an observer to the JObservableInterface instance updated by this
-	 * This method can be called fron JObservableInterface::attachObserver
+	 * This method can be called from JObservableInterface::attachObserver
 	 *
 	 * @param   JObserverInterface  $observer  The observer object
 	 *
@@ -56,7 +64,50 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 */
 	public function attachObserver(JObserverInterface $observer)
 	{
-		$this->observers[get_class($observer)] = $observer;
+		$class = get_class($observer);
+
+		// Also register the alias if exists
+		foreach (JLoader::getDeprecatedAliases() as $alias)
+		{
+			$realClass  = trim($alias['new'], '\\');
+
+			// Check if we have an alias for the observer class
+			if ($realClass === $class)
+			{
+				$aliasClass = trim($alias['old'], '\\');
+
+				// Add an alias to known aliases
+				$this->aliases[$aliasClass] = $class;
+			}
+		}
+
+		// Register the real class
+		$this->observers[$class] = $observer;
+	}
+
+	/**
+	 * Removes an observer from the JObservableInterface instance updated by this
+	 * This method can be called from JObservableInterface::attachObserver
+	 *
+	 * @param   String  $observer  The observer class name
+	 *
+	 * @return  void
+	 *
+	 * @since   3.6.0
+	 */
+	public function detachObserver($observer)
+	{
+		$observer = trim($observer, '\\');
+
+		if (isset($this->aliases[$observer]))
+		{
+			$observer = $this->aliases[$observer];
+		}
+
+		if (isset($this->observers[$observer]))
+		{
+			unset($this->observers[$observer]);
+		}
 	}
 
 	/**
@@ -70,6 +121,13 @@ class JObserverUpdater implements JObserverUpdaterInterface
 	 */
 	public function getObserverOfClass($observerClass)
 	{
+		$observerClass = trim($observerClass, '\\');
+
+		if (isset($this->aliases[$observerClass]))
+		{
+			$observerClass = $this->aliases[$observerClass];
+		}
+
 		if (isset($this->observers[$observerClass]))
 		{
 			return $this->observers[$observerClass];

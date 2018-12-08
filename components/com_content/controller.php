@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Content Component Controller
@@ -23,7 +25,7 @@ class ContentController extends JControllerLegacy
 	 * Recognized key values include 'name', 'default_task', 'model_path', and
 	 * 'view_path' (this list is not meant to be comprehensive).
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function __construct($config = array())
 	{
@@ -37,7 +39,7 @@ class ContentController extends JControllerLegacy
 		// Article frontpage Editor article proxying:
 		elseif ($this->input->get('view') === 'articles' && $this->input->get('layout') === 'modal')
 		{
-			JHtml::_('stylesheet', 'system/adminlist.css', array(), true);
+			JHtml::_('stylesheet', 'system/adminlist.css', array('version' => 'auto', 'relative' => true));
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 
@@ -48,7 +50,7 @@ class ContentController extends JControllerLegacy
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached.
-	 * @param   boolean  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   boolean  $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController  This object to support chaining.
 	 *
@@ -70,8 +72,8 @@ class ContentController extends JControllerLegacy
 		$user = JFactory::getUser();
 
 		if ($user->get('id')
-			|| ($this->input->getMethod() == 'POST'
-			&& (($vName == 'category' && $this->input->get('layout') != 'blog') || $vName == 'archive' )))
+			|| ($this->input->getMethod() === 'POST'
+			&& (($vName === 'category' && $this->input->get('layout') !== 'blog') || $vName === 'archive' )))
 		{
 			$cachable = false;
 		}
@@ -95,18 +97,21 @@ class ContentController extends JControllerLegacy
 			'Itemid' => 'INT');
 
 		// Check for edit form.
-		if ($vName == 'form' && !$this->checkEditId('com_content.edit.article', $id))
+		if ($vName === 'form' && !$this->checkEditId('com_content.edit.article', $id))
 		{
 			// Somehow the person just went to the form - we don't allow that.
 			return JError::raiseError(403, JText::sprintf('JLIB_APPLICATION_ERROR_UNHELD_ID', $id));
 		}
 
-		if ($vName == 'article')
+		if ($vName === 'article')
 		{
 			// Get/Create the model
 			if ($model = $this->getModel($vName))
 			{
-				$model->hit();
+				if (ComponentHelper::getParams('com_content')->get('record_hits', 1) == 1)
+				{
+					$model->hit();
+				}
 			}
 		}
 

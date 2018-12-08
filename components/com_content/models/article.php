@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Content Component Article Model
@@ -49,10 +50,12 @@ class ContentModelArticle extends JModelItem
 		$params = $app->getParams();
 		$this->setState('params', $params);
 
-		// TODO: Tune these values based on other permissions.
 		$user = JFactory::getUser();
 
-		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+		// If $pk is set then authorise on complete asset, else on component only
+		$asset = empty($pk) ? 'com_content' : 'com_content.article.' . $pk;
+
+		if ((!$user->authorise('core.edit.state', $asset)) && (!$user->authorise('core.edit', $asset)))
 		{
 			$this->setState('filter.published', 1);
 			$this->setState('filter.archived', 2);
@@ -88,10 +91,7 @@ class ContentModelArticle extends JModelItem
 					->select(
 						$this->getState(
 							'item.select', 'a.id, a.asset_id, a.title, a.alias, a.introtext, a.fulltext, ' .
-							// If badcats is not null, this means that the article is inside an unpublished category
-							// In this case, the state is set to 0 to indicate Unpublished (even if the article state is Published)
-							'CASE WHEN badcats.id is null THEN a.state ELSE 0 END AS state, ' .
-							'a.catid, a.created, a.created_by, a.created_by_alias, ' .
+							'a.state, a.catid, a.created, a.created_by, a.created_by_alias, ' .
 							// Use created if modified is 0
 							'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 							'a.modified_by, a.checked_out, a.checked_out_time, a.publish_up, a.publish_down, ' .
@@ -99,11 +99,13 @@ class ContentModelArticle extends JModelItem
 							'a.metakey, a.metadesc, a.access, a.hits, a.metadata, a.featured, a.language, a.xreference'
 						)
 					);
-				$query->from('#__content AS a');
+				$query->from('#__content AS a')
+					->where('a.id = ' . (int) $pk);
 
 				// Join on category table.
 				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
-					->join('LEFT', '#__categories AS c on c.id = a.catid');
+					->innerJoin('#__categories AS c on c.id = a.catid')
+					->where('c.published > 0');
 
 				// Join on user table.
 				$query->select('u.name AS author')
@@ -121,11 +123,9 @@ class ContentModelArticle extends JModelItem
 
 				// Join on voting table
 				$query->select('ROUND(v.rating_sum / v.rating_count, 0) AS rating, v.rating_count as rating_count')
-					->join('LEFT', '#__content_rating AS v ON a.id = v.content_id')
+					->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 
-					->where('a.id = ' . (int) $pk);
-
-				if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
+				if ((!$user->authorise('core.edit.state', 'com_content.article.' . $pk)) && (!$user->authorise('core.edit', 'com_content.article.' . $pk)))
 				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
@@ -136,14 +136,6 @@ class ContentModelArticle extends JModelItem
 					$query->where('(a.publish_up = ' . $nullDate . ' OR a.publish_up <= ' . $nowDate . ')')
 						->where('(a.publish_down = ' . $nullDate . ' OR a.publish_down >= ' . $nowDate . ')');
 				}
-
-				// Join to check for category published state in parent categories up the tree
-				// If all categories are published, badcats.id will be null, and we just use the article state
-				$subquery = ' (SELECT cat.id as id FROM #__categories AS cat JOIN #__categories AS parent ';
-				$subquery .= 'ON cat.lft BETWEEN parent.lft AND parent.rgt ';
-				$subquery .= 'WHERE parent.extension = ' . $db->quote('com_content');
-				$subquery .= ' AND parent.published <= 0 GROUP BY cat.id)';
-				$query->join('LEFT OUTER', $subquery . ' AS badcats ON badcats.id = c.id');
 
 				// Filter by published state.
 				$published = $this->getState('filter.published');
@@ -164,21 +156,18 @@ class ContentModelArticle extends JModelItem
 				}
 
 				// Check for published state if filter set.
-				if (((is_numeric($published)) || (is_numeric($archived))) && (($data->state != $published) && ($data->state != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
 				{
 					return JError::raiseError(404, JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'));
 				}
 
 				// Convert parameter fields to objects.
-				$registry = new Registry;
-				$registry->loadString($data->attribs);
+				$registry = new Registry($data->attribs);
 
 				$data->params = clone $this->getState('params');
 				$data->params->merge($registry);
 
-				$registry = new Registry;
-				$registry->loadString($data->metadata);
-				$data->metadata = $registry;
+				$data->metadata = new Registry($data->metadata);
 
 				// Technically guest could edit an article, but lets not check that to improve performance a little.
 				if (!$user->get('guest'))
@@ -281,7 +270,7 @@ class ContentModelArticle extends JModelItem
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
-			$userIP = $_SERVER['REMOTE_ADDR'];
+			$userIP = IpHelper::getIp();
 
 			// Initialize variables.
 			$db    = $this->getDbo();
@@ -333,7 +322,7 @@ class ContentModelArticle extends JModelItem
 			}
 			else
 			{
-				if ($userIP != ($rating->lastip))
+				if ($userIP != $rating->lastip)
 				{
 					$query = $db->getQuery(true);
 
@@ -367,7 +356,7 @@ class ContentModelArticle extends JModelItem
 			return true;
 		}
 
-		JError::raiseWarning('SOME_ERROR_CODE', JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
+		JError::raiseWarning(500, JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), "JModelArticle::storeVote($rate)");
 
 		return false;
 	}

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -150,7 +150,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			'installed' => JVERSION,
 			'latest'    => null,
 			'object'    => null,
-			'hasUpdate' => false
+			'hasUpdate' => false,
 		);
 
 		// Fetch the update information from the database.
@@ -228,13 +228,13 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 		if ($db->execute())
 		{
-			$this->_message = JText::_('JLIB_INSTALLER_PURGED_UPDATES');
+			$this->_message = JText::_('COM_JOOMLAUPDATE_CHECKED_UPDATES');
 
 			return true;
 		}
 		else
 		{
-			$this->_message = JText::_('JLIB_INSTALLER_FAILED_TO_PURGE_UPDATES');
+			$this->_message = JText::_('COM_JOOMLAUPDATE_FAILED_TO_CHECK_UPDATES');
 
 			return false;
 		}
@@ -243,7 +243,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	/**
 	 * Downloads the update package to the site.
 	 *
-	 * @return  bool|string False on failure, basename of the file in any other case.
+	 * @return  boolean|string  False on failure, basename of the file in any other case.
 	 *
 	 * @since   2.5.4
 	 */
@@ -251,12 +251,29 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	{
 		$updateInfo = $this->getUpdateInformation();
 		$packageURL = $updateInfo['object']->downloadurl->_data;
-		$basename   = basename($packageURL);
+		$sources    = $updateInfo['object']->get('downloadSources', array());
+		$headers    = get_headers($packageURL, 1);
+
+		// Follow the Location headers until the actual download URL is known
+		while (isset($headers['Location']))
+		{
+			$packageURL = $headers['Location'];
+			$headers    = get_headers($packageURL, 1);
+		}
+
+		// Remove protocol, path and query string from URL
+		$basename = basename($packageURL);
+
+		if (strpos($basename, '?') !== false)
+		{
+			$basename = substr($basename, 0, strpos($basename, '?'));
+		}
 
 		// Find the path to the temp directory and the local package.
-		$config  = JFactory::getConfig();
-		$tempdir = $config->get('tmp_path');
-		$target  = $tempdir . '/' . $basename;
+		$config   = JFactory::getConfig();
+		$tempdir  = $config->get('tmp_path');
+		$target   = $tempdir . '/' . $basename;
+		$response = array();
 
 		// Do we have a cached file?
 		$exists = JFile::exists($target);
@@ -264,7 +281,16 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		if (!$exists)
 		{
 			// Not there, let's fetch it.
-			return $this->downloadPackage($packageURL, $target);
+			$mirror = 0;
+
+			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+			{
+				$name       = $sources[$mirror];
+				$packageURL = $name->url;
+				$mirror++;
+			}
+
+			$response['basename'] = $download;
 		}
 		else
 		{
@@ -273,12 +299,61 @@ class JoomlaupdateModelDefault extends JModelLegacy
 
 			if (empty($filesize))
 			{
-				return $this->downloadPackage($packageURL, $target);
+				$mirror = 0;
+
+				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
+				{
+					$name       = $sources[$mirror];
+					$packageURL = $name->url;
+					$mirror++;
+				}
+
+				$response['basename'] = $download;
 			}
 
 			// Yes, it's there, skip downloading.
-			return $basename;
+			$response['basename'] = $basename;
 		}
+
+		$response['check'] = $this->isChecksumValid($target, $updateInfo['object']);
+
+		return $response;
+	}
+
+	/**
+	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+	 *
+	 * @param   string   $packagefile   Location of the package to be installed
+	 * @param   JUpdate  $updateObject  The Update Object
+	 *
+	 * @return  boolean  False in case the validation did not work; true in any other case.
+	 * 
+	 * @note    This method has been forked from (JInstallerHelper::isChecksumValid) so it
+	 *          does not depend on an up-to-date InstallerHelper at the update time
+	 *
+	 * @since   3.9.0
+	 */
+	private function isChecksumValid($packagefile, $updateObject)
+	{
+		$hashes = array('sha256', 'sha384', 'sha512');
+
+		foreach ($hashes as $hash)
+		{
+			if ($updateObject->get($hash, false))
+			{
+				$hashPackage = hash_file($hash, $packagefile);
+				$hashRemote  = $updateObject->$hash->_data;
+
+				if ($hashPackage !== $hashRemote)
+				{
+					// Return false in case the hash did not match
+					return false;
+				}
+			}
+		}
+
+		// Well nothing was provided or all worked
+		return true;
 	}
 
 	/**
@@ -294,7 +369,15 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	protected function downloadPackage($url, $target)
 	{
 		JLoader::import('helpers.download', JPATH_COMPONENT_ADMINISTRATOR);
-		JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
+
+		try
+		{
+			JLog::add(JText::sprintf('COM_JOOMLAUPDATE_UPDATE_LOG_URL', $url), JLog::INFO, 'Update');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get the handler to download the package
 		try
@@ -312,7 +395,14 @@ class JoomlaupdateModelDefault extends JModelLegacy
 		JFile::delete($target);
 
 		// Download the package
-		$result = $http->get($url);
+		try
+		{
+			$result = $http->get($url);
+		}
+		catch (RuntimeException $e)
+		{
+			return false;
+		}
 
 		if (!$result || ($result->code != 200 && $result->code != 310))
 		{
@@ -376,7 +466,9 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	'kickstart.setup.destdir' => '$siteroot',
 	'kickstart.setup.restoreperms' => '0',
 	'kickstart.setup.filetype' => 'zip',
-	'kickstart.setup.dryrun' => '0'
+	'kickstart.setup.dryrun' => '0',
+	'kickstart.setup.renamefiles' => array(),
+	'kickstart.setup.postrenamefiles' => false
 ENDDATA;
 
 		if ($method != 'direct')
@@ -389,7 +481,7 @@ ENDDATA;
 			$ftp_host = $app->input->get('ftp_host', '');
 			$ftp_port = $app->input->get('ftp_port', '21');
 			$ftp_user = $app->input->get('ftp_user', '');
-			$ftp_pass = $app->input->get('ftp_pass', '', 'raw');
+			$ftp_pass = addcslashes($app->input->get('ftp_pass', '', 'raw'), "'\\");
 			$ftp_root = $app->input->get('ftp_root', '');
 
 			// Is the tempdir really writable?
@@ -415,7 +507,7 @@ ENDDATA;
 			if (!$writable)
 			{
 				$FTPOptions = JClientHelper::getCredentials('ftp');
-				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+				$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 				$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
 				if (!@mkdir($tempdir . '/admintools'))
@@ -450,7 +542,7 @@ ENDDATA;
 				if (!is_writable($tempdir))
 				{
 					$FTPOptions = JClientHelper::getCredentials('ftp');
-					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], null, $FTPOptions['user'], $FTPOptions['pass']);
+					$ftp = JClientFtp::getInstance($FTPOptions['host'], $FTPOptions['port'], array(), $FTPOptions['user'], $FTPOptions['pass']);
 					$dest = JPath::clean(str_replace(JPATH_ROOT, $FTPOptions['root'], $tempdir . '/admintools'), '/');
 
 					if (!@mkdir($tempdir . '/admintools'))
@@ -479,7 +571,7 @@ ENDDATA;
 				else
 				{
 					// Try to find the system temp path.
-					$tmpfile = @tempnam("dummy", "");
+					$tmpfile = @tempnam('dummy', '');
 					$systemp = @dirname($tmpfile);
 					@unlink($tmpfile);
 
@@ -826,7 +918,7 @@ ENDDATA;
 		// Make sure that zlib is loaded so that the package can be unpacked.
 		if (!extension_loaded('zlib'))
 		{
-			throw new RuntimeException(('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB'), 500);
+			throw new RuntimeException('COM_INSTALLER_MSG_INSTALL_WARNINSTALLZLIB', 500);
 		}
 
 		// If there is no uploaded file, we have a problem...
@@ -891,7 +983,7 @@ ENDDATA;
 	 *
 	 * @param   array  $credentials  The credentials to authenticate the user with
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */
@@ -901,7 +993,7 @@ ENDDATA;
 		$username = isset($credentials['username']) ? $credentials['username'] : null;
 		$user     = JFactory::getUser();
 
-		if ($user->username != $username)
+		if (strtolower($user->username) != strtolower($username))
 		{
 			return false;
 		}
@@ -913,8 +1005,6 @@ ENDDATA;
 		}
 
 		// Get the global JAuthentication object.
-		jimport('joomla.user.authentication');
-
 		$authenticate = JAuthentication::getInstance();
 		$response     = $authenticate->authenticate($credentials);
 
@@ -929,7 +1019,7 @@ ENDDATA;
 	/**
 	 * Does the captive (temporary) file we uploaded before still exist?
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   3.6.0
 	 */

@@ -3,14 +3,14 @@
 namespace Psr\Log;
 
 /**
- * Describes a logger instance
+ * Describes a logger instance.
  *
  * The message MUST be a string or object implementing __toString().
  *
  * The message MAY contain placeholders in the form: {foo} where foo
  * will be replaced by the context data in key "foo".
  *
- * The context array can contain arbitrary data, the only assumption that
+ * The context array can contain arbitrary data. The only assumption that
  * can be made by implementors is that if an Exception instance is given
  * to produce a stack trace, it MUST be in a key named "exception".
  *
@@ -23,8 +23,9 @@ interface LoggerInterface
      * System is unusable.
      *
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
+     *
+     * @return void
      */
     public function emergency($message, array $context = array());
 
@@ -35,8 +36,9 @@ interface LoggerInterface
      * trigger the SMS alerts and wake you up.
      *
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
+     *
+     * @return void
      */
     public function alert($message, array $context = array());
 
@@ -46,8 +48,9 @@ interface LoggerInterface
      * Example: Application component unavailable, unexpected exception.
      *
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
+     *
+     * @return void
      */
     public function critical($message, array $context = array());
 
@@ -56,8 +59,9 @@ interface LoggerInterface
      * be logged and monitored.
      *
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
+     *
+     * @return void
      */
     public function error($message, array $context = array());
 
@@ -68,8 +72,9 @@ interface LoggerInterface
      * that are not necessarily wrong.
      *
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
+     *
+     * @return void
      */
     public function warning($message, array $context = array());
 
@@ -77,8 +82,9 @@ interface LoggerInterface
      * Normal but significant events.
      *
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
+     *
+     * @return void
      */
     public function notice($message, array $context = array());
 
@@ -88,8 +94,9 @@ interface LoggerInterface
      * Example: User logs in, SQL logs.
      *
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
+     *
+     * @return void
      */
     public function info($message, array $context = array());
 
@@ -97,18 +104,20 @@ interface LoggerInterface
      * Detailed debug information.
      *
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
+     *
+     * @return void
      */
     public function debug($message, array $context = array());
 
     /**
      * Logs with an arbitrary level.
      *
-     * @param mixed $level
+     * @param mixed  $level
      * @param string $message
-     * @param array $context
-     * @return null
+     * @param array  $context
+     *
+     * @return void
      */
     public function log($level, $message, array $context = array());
 }

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       12.1
+ * @since       3.0.0
  */
 class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 {
@@ -21,7 +21,7 @@ class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function casesForEachData()
 	{
@@ -120,7 +120,7 @@ class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @dataProvider casesForEachData
 	 *
-	 * @since    12.1
+	 * @since    3.0.0
 	 */
 	public function testForEach($select, $from, $column, $class, $limit, $offset, $expected, $exception)
 	{
@@ -133,7 +133,7 @@ class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 		$iterator = self::$driver->getIterator($column, $class);
 
 		// Run the Iterator pattern
-		$this->assertEquals($expected,iterator_to_array($iterator));
+		$this->assertEquals($expected, iterator_to_array($iterator));
 	}
 
 	/**
@@ -141,7 +141,7 @@ class JDatabaseIteratorPostgresqlTest extends TestCaseDatabasePostgresql
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testCount()
 	{

@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleEmbedMapsTest extends TestCase
 {
@@ -48,9 +48,27 @@ class JGoogleEmbedMapsTest extends TestCase
 
 		$this->options = new JRegistry;
 
-		$this->http = $this->getMock('JHttp', array('get'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('get'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->uri = new JUri;
 		$this->object = new JGoogleEmbedMaps($this->options, $this->uri, $this->http);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options, $this->uri, $this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -419,7 +437,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	public function testDeleteMarkersException()
 	{
-		$marker = $this->object->deleteMarker();
+		$this->object->deleteMarker();
 	}
 
 	/**
@@ -729,24 +747,24 @@ class JGoogleEmbedMapsTest extends TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
 	$query = parse_url($url, PHP_URL_QUERY);
-	
+
 	parse_str($query, $params);
-	
+
 	$address = strtolower($params['address']);
 
 	switch ($address)
 	{
 		case 'san francisco':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
 		break;
 
 		case 'palo alto':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'paloalto.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'paloalto.txt');
 		break;
 
 		default:
@@ -771,7 +789,7 @@ function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function mapsGeocode400Callback($url, array $headers = null, $timeout = null)
 {
@@ -793,7 +811,7 @@ function mapsGeocode400Callback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function mapsGeocodeBadJsonCallback($url, array $headers = null, $timeout = null)
 {

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,13 +37,13 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Rebuild the nested set tree.
 	 *
-	 * @return  bool  False on failure or error, true on success.
+	 * @return  boolean  False on failure or error, true on success.
 	 *
 	 * @since   1.6
 	 */
 	public function rebuild()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$extension = $this->input->get('extension');
 		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
@@ -68,7 +68,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	/**
 	 * Save the manual order inputs from the categories list page.
 	 *
-	 * @return      void
+	 * @return      boolean  True on success
 	 *
 	 * @since       1.6
 	 * @see         JControllerAdmin::saveorder()
@@ -76,9 +76,16 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 */
 	public function saveorder()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		JLog::add('CategoriesControllerCategories::saveorder() is deprecated. Function will be removed in 4.0', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(sprintf('%s() is deprecated. Function will be removed in 4.0.', __METHOD__), JLog::WARNING, 'deprecated');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get the arrays from the Request
 		$order = $this->input->post->get('order', null, 'array');
@@ -107,7 +114,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -154,7 +161,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 		// Process parent checkin method.
 		$result = parent::checkin();
 
-		// Overrride the redirect Uri.
+		// Override the redirect Uri.
 		$redirectUri = 'index.php?option=' . $this->option . '&view=' . $this->view_list . '&extension=' . $this->input->get('extension', '', 'CMD');
 		$this->setRedirect(JRoute::_($redirectUri, false), $this->message, $this->messageType);
 

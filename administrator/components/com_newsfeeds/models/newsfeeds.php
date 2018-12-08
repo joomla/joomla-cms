@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of newsfeed records.
@@ -46,9 +48,11 @@ class NewsfeedsModelNewsfeeds extends JModelList
 				'numarticles',
 				'tag',
 				'level', 'c.level',
+				'tag',
 			);
 
 			$assoc = JLanguageAssociations::isEnabled();
+
 			if ($assoc)
 			{
 				$config['filter_fields'][] = 'association';
@@ -130,8 +134,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		$id .= ':' . $this->getState('filter.category_id');
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.language');
-		$id .= ':' . $this->getState('filter.tag');
 		$id .= ':' . $this->getState('filter.level');
+		$id .= ':' . serialize($this->getState('filter.tag'));
 
 		return parent::getStoreId($id);
 	}
@@ -144,37 +148,38 @@ class NewsfeedsModelNewsfeeds extends JModelList
 	protected function getListQuery()
 	{
 		// Create a new query object.
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = JFactory::getUser();
-		$app = JFactory::getApplication();
+		$user  = JFactory::getUser();
+		$app   = JFactory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
-					' a.numarticles, a.cache_time,' .
-					' a.published, a.access, a.ordering, a.language, a.publish_up, a.publish_down'
+				'DISTINCT a.id, a.name, a.alias, a.checked_out, a.checked_out_time, a.catid,' .
+				' a.numarticles, a.cache_time, a.created_by,' .
+				' a.published, a.access, a.ordering, a.language, a.publish_up, a.publish_down'
 			)
 		);
 		$query->from($db->quoteName('#__newsfeeds', 'a'));
 
 		// Join over the language
-		$query->select('l.title AS language_title, l.image AS language_image')
-			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON l.lang_code = a.language');
+		$query->select($db->quoteName('l.title', 'language_title'))
+			->select($db->quoteName('l.image', 'language_image'))
+			->join('LEFT', $db->quoteName('#__languages', 'l') . ' ON ' . $db->qn('l.lang_code') . ' = ' . $db->qn('a.language'));
 
 		// Join over the users for the checked out user.
-		$query->select('uc.name AS editor')
-			->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON uc.id=a.checked_out');
+		$query->select($db->quoteName('uc.name', 'editor'))
+			->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON ' . $db->qn('uc.id') . ' = ' . $db->qn('a.checked_out'));
 
 		// Join over the asset groups.
-		$query->select('ag.title AS access_level')
-			->join('LEFT', $db->quoteName('#__viewlevels', 'ag') . ' ON ag.id = a.access');
+		$query->select($db->quoteName('ag.title', 'access_level'))
+			->join('LEFT', $db->quoteName('#__viewlevels', 'ag') . ' ON ' . $db->qn('ag.id') . ' = ' . $db->qn('a.access'));
 
 		// Join over the categories.
-		$query->select('c.title AS category_title')
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON c.id = a.catid');
+		$query->select($db->quoteName('c.title', 'category_title'))
+			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON ' . $db->qn('c.id') . ' = ' . $db->qn('a.catid'));
 
 		// Join over the associations.
 		$assoc = JLanguageAssociations::isEnabled();
@@ -182,8 +187,8 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		if ($assoc)
 		{
 			$query->select('COUNT(asso2.id)>1 AS association')
-				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_newsfeeds.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->join('LEFT', $db->quoteName('#__associations', 'asso') . ' ON asso.id = a.id AND asso.context = ' . $db->quote('com_newsfeeds.item'))
+				->join('LEFT', $db->quoteName('#__associations', 'asso2') . ' ON asso2.key = asso.key')
 				->group('a.id, l.title, l.image, uc.name, ag.title, c.title');
 		}
 
@@ -196,8 +201,7 @@ class NewsfeedsModelNewsfeeds extends JModelList
 		// Implement View Level Access
 		if (!$user->authorise('core.admin'))
 		{
-			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$query->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
+			$query->where($db->quoteName('a.access') . ' IN (' . implode(',', $user->getAuthorisedViewLevels()) . ')');
 		}
 
 		// Filter by published state.
@@ -248,21 +252,38 @@ class NewsfeedsModelNewsfeeds extends JModelList
 			$query->where($db->quoteName('a.language') . ' = ' . $db->quote($language));
 		}
 
-		// Filter by a single tag.
-		$tagId = $this->getState('filter.tag');
+		// Filter by a single or group of tags.
+		$hasTag = false;
+		$tagId  = $this->getState('filter.tag');
 
 		if (is_numeric($tagId))
 		{
-			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId)
-				->join(
-					'LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
-					. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
-					. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed')
-				);
+			$hasTag = true;
+
+			$query->where($db->quoteName('tagmap.tag_id') . ' = ' . (int) $tagId);
+		}
+		elseif (is_array($tagId))
+		{
+			$tagId = implode(',', ArrayHelper::toInteger($tagId));
+
+			if (!empty($tagId))
+			{
+				$hasTag = true;
+
+				$query->where($db->quoteName('tagmap.tag_id') . ' IN (' . $tagId . ')');
+			}
+		}
+
+		if ($hasTag)
+		{
+			$query->join('LEFT', $db->quoteName('#__contentitem_tag_map', 'tagmap')
+				. ' ON ' . $db->quoteName('tagmap.content_item_id') . ' = ' . $db->quoteName('a.id')
+				. ' AND ' . $db->quoteName('tagmap.type_alias') . ' = ' . $db->quote('com_newsfeeds.newsfeed')
+			);
 		}
 
 		// Add the list ordering clause.
-		$orderCol = $this->state->get('list.ordering', 'a.name');
+		$orderCol  = $this->state->get('list.ordering', 'a.name');
 		$orderDirn = $this->state->get('list.direction', 'ASC');
 
 		if ($orderCol == 'a.ordering' || $orderCol == 'category_title')

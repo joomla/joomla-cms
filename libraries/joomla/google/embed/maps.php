@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,13 +14,14 @@ use Joomla\Registry\Registry;
 /**
  * Google Maps embed class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleEmbedMaps extends JGoogleEmbed
 {
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $http;
 
@@ -31,7 +32,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 * @param   JUri      $uri      URL of the page being rendered
 	 * @param   JHttp     $http     Http client for geocoding requests
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JUri $uri = null, JHttp $http = null)
 	{
@@ -44,7 +45,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The Google Maps API key
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getKey()
 	{
@@ -58,7 +59,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setKey($key)
 	{
@@ -72,7 +73,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The ID
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getMapId()
 	{
@@ -86,7 +87,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setMapId($id)
 	{
@@ -100,7 +101,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The class
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getMapClass()
 	{
@@ -114,7 +115,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setMapClass($class)
 	{
@@ -128,7 +129,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The style
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getMapStyle()
 	{
@@ -142,7 +143,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setMapStyle($style)
 	{
@@ -156,7 +157,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The class
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getMapType()
 	{
@@ -170,7 +171,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setMapType($type)
 	{
@@ -184,7 +185,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The options
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getAdditionalMapOptions()
 	{
@@ -198,7 +199,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAdditionalMapOptions($options)
 	{
@@ -212,7 +213,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The options
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getAdditionalJavascript()
 	{
@@ -226,7 +227,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAdditionalJavascript($script)
 	{
@@ -240,7 +241,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  int  The zoom level
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getZoom()
 	{
@@ -254,7 +255,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setZoom($zoom)
 	{
@@ -268,7 +269,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  mixed  A latitude longitude array or an address string
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getCenter()
 	{
@@ -295,7 +296,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The latitude/longitude of the center or false on failure
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setCenter($location, $title = true, $markeroptions = array(), $markerevents = array())
 	{
@@ -340,7 +341,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps   The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addEventHandler($type, $function)
 	{
@@ -363,7 +364,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The event handler content
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function deleteEventHandler($type = null)
 	{
@@ -386,7 +387,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  array  A list of events
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function listEventHandlers()
 	{
@@ -413,7 +414,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  mixed  The marker or false on failure
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function addMarker($location, $title = null, $options = array(), $events = array())
 	{
@@ -453,7 +454,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  array  A list of markers
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function listMarkers()
 	{
@@ -467,7 +468,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  array The latitude/longitude of the deleted marker
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function deleteMarker($index = null)
 	{
@@ -496,7 +497,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  boolean  True if asynchronous
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isAsync()
 	{
@@ -508,7 +509,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function useAsync()
 	{
@@ -522,7 +523,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedAMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function useSync()
 	{
@@ -536,7 +537,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The ID
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getAsyncCallback()
 	{
@@ -550,7 +551,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAsyncCallback($callback)
 	{
@@ -564,7 +565,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  boolean  True if asynchronous
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function hasSensor()
 	{
@@ -576,7 +577,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function useSensor()
 	{
@@ -590,7 +591,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedAMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function noSensor()
 	{
@@ -604,7 +605,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  Autoload type (onload, jquery, mootools, or false)
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getAutoload()
 	{
@@ -618,7 +619,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbedAMaps  The object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setAutoload($type = 'onload')
 	{
@@ -632,7 +633,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  Javascript code
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getHeader()
 	{
@@ -666,7 +667,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 
 		if (isset($markers) && count($markers))
 		{
-			$setup .= "var marker;";
+			$setup .= 'var marker;';
 
 			foreach ($markers as $marker)
 			{
@@ -702,21 +703,21 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 			$output .= $setup;
 			$output .= '}';
 
-			$onload = "function() {";
+			$onload = 'function() {';
 			$onload .= 'var script = document.createElement("script");';
 			$onload .= 'script.type = "text/javascript";';
-			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "")
+			$onload .= "script.src = '{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : '')
 				. "sensor={$sensor}&callback={$asynccallback}';";
 			$onload .= 'document.body.appendChild(script);';
 			$onload .= '}';
 		}
 		else
 		{
-			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : "") . "sensor={$sensor}'>";
+			$output = "<script type='text/javascript' src='{$scheme}://maps.googleapis.com/maps/api/js?" . ($key ? "key={$key}&" : '') . "sensor={$sensor}'>";
 			$output .= '</script>';
 			$output .= '<script type="text/javascript">';
 
-			$onload = "function() {";
+			$onload = 'function() {';
 			$onload .= $setup;
 			$onload .= '}';
 		}
@@ -746,7 +747,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  string  The body
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getBody()
 	{
@@ -778,7 +779,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 	 *
 	 * @return  array  An array containing Google's geocode data
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function geocodeAddress($address)
 	{
@@ -812,7 +813,7 @@ class JGoogleEmbedMaps extends JGoogleEmbed
 				throw new RuntimeException($data['error_message']);
 			}
 
-			return null;
+			return;
 		}
 
 		return $data['results'][0];

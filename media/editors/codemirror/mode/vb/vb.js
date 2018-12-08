@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -202,7 +202,6 @@ CodeMirror.defineMode("vb", function(conf, parserConf) {
         // Handle '.' connected identifiers
         if (current === '.') {
             style = state.tokenize(stream, state);
-            current = stream.current();
             if (style === 'variable') {
                 return 'variable';
             } else {

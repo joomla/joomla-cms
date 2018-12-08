@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Grid
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Grid
- * @since       11.3
+ * @since       1.7.3
  */
 class JGridInspector extends JGrid
 {
@@ -70,9 +70,9 @@ class JGridInspector extends JGrid
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.3
+ * @since       1.7.3
  */
-class JGridTest extends PHPUnit_Framework_TestCase
+class JGridTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test for JGrid::__construct method.

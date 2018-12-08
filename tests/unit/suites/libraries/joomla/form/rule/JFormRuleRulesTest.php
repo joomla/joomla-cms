@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormRuleRulesTest extends TestCase
 {
@@ -249,7 +249,7 @@ class JFormRuleRulesTest extends TestCase
 	 *
 	 * @return  array  The form field element.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getFieldElement($type = 'item')
 	{
@@ -324,7 +324,7 @@ class JFormRuleRulesTest extends TestCase
 	 *
 	 * @return  array  The data object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getRuleData($type = 'item')
 	{

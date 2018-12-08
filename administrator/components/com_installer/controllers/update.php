@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Controller
@@ -26,26 +28,20 @@ class InstallerControllerUpdate extends JControllerLegacy
 	public function update()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/** @var InstallerModelUpdate $model */
 		$model = $this->getModel('update');
 		$uid   = $this->input->get('cid', array(), 'array');
 
-		JArrayHelper::toInteger($uid, array());
+		$uid = ArrayHelper::toInteger($uid, array());
 
 		// Get the minimum stability.
 		$component     = JComponentHelper::getComponent('com_installer');
 		$params        = $component->params;
-		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
+		$minimum_stability = (int) $params->get('minimum_stability', JUpdater::STABILITY_STABLE);
 
 		$model->update($uid, $minimum_stability);
-
-		if ($model->getState('result', false))
-		{
-			$cache = JFactory::getCache('mod_menu');
-			$cache->clean();
-		}
 
 		$app          = JFactory::getApplication();
 		$redirect_url = $app->getUserState('com_installer.redirect_url');
@@ -80,16 +76,16 @@ class InstallerControllerUpdate extends JControllerLegacy
 	 */
 	public function find()
 	{
-		(JSession::checkToken() or JSession::checkToken('get')) or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		// Get the caching duration.
 		$component     = JComponentHelper::getComponent('com_installer');
 		$params        = $component->params;
-		$cache_timeout = $params->get('cachetimeout', 6, 'int');
+		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Get the minimum stability.
-		$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
+		$minimum_stability = (int) $params->get('minimum_stability', JUpdater::STABILITY_STABLE);
 
 		// Find updates.
 		/** @var InstallerModelUpdate $model */
@@ -117,7 +113,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 	public function purge()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$model = $this->getModel('update');
 		$model->purge();
@@ -146,7 +142,7 @@ class InstallerControllerUpdate extends JControllerLegacy
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo JText::_('JINVALID_TOKEN');
+			echo JText::_('JINVALID_TOKEN_NOTICE');
 			$app->close();
 		}
 
@@ -160,13 +156,13 @@ class InstallerControllerUpdate extends JControllerLegacy
 
 		if ($cache_timeout == 0)
 		{
-			$cache_timeout = $params->get('cachetimeout', 6, 'int');
+			$cache_timeout = (int) $params->get('cachetimeout', 6);
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
 		if ($minimum_stability < 0)
 		{
-			$minimum_stability = $params->get('minimum_stability', JUpdater::STABILITY_STABLE, 'int');
+			$minimum_stability = (int) $params->get('minimum_stability', JUpdater::STABILITY_STABLE);
 		}
 
 		/** @var InstallerModelUpdate $model */

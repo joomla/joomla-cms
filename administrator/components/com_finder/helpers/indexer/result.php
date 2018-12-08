@@ -3,8 +3,8 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -40,10 +40,10 @@ class FinderIndexerResult
 	 */
 	protected $instructions = array(
 		FinderIndexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
-		FinderIndexer::TEXT_CONTEXT => array('summary', 'body'),
-		FinderIndexer::META_CONTEXT => array('meta', 'list_price', 'sale_price'),
-		FinderIndexer::PATH_CONTEXT => array('path', 'alias'),
-		FinderIndexer::MISC_CONTEXT => array('comments')
+		FinderIndexer::TEXT_CONTEXT  => array('summary', 'body'),
+		FinderIndexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
+		FinderIndexer::PATH_CONTEXT  => array('path', 'alias'),
+		FinderIndexer::MISC_CONTEXT  => array('comments'),
 	);
 
 	/**
@@ -273,6 +273,18 @@ class FinderIndexerResult
 	}
 
 	/**
+	 * Method to retrieve all elements.
+	 *
+	 * @return  array  The elements
+	 *
+	 * @since   3.8.3
+	 */
+	public function getElements()
+	{
+		return $this->elements;
+	}
+
+	/**
 	 * Method to set additional element values in the elements array.
 	 *
 	 * @param   string  $name   The name of the element.
@@ -312,14 +324,11 @@ class FinderIndexerResult
 	public function addInstruction($group, $property)
 	{
 		// Check if the group exists. We can't add instructions for unknown groups.
-		if (array_key_exists($group, $this->instructions))
+		// Check if the property exists in the group.
+		if (array_key_exists($group, $this->instructions) && !in_array($property, $this->instructions[$group], true))
 		{
-			// Check if the property exists in the group.
-			if (!in_array($property, $this->instructions[$group]))
-			{
-				// Add the property to the group.
-				$this->instructions[$group][] = $property;
-			}
+			// Add the property to the group.
+			$this->instructions[$group][] = $property;
 		}
 	}
 

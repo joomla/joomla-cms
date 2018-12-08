@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Joomla.UnitTest
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
@@ -9,7 +9,7 @@
  * Mock class for JModel.
  *
  * @package  Joomla.UnitTest
- * @since    12.1
+ * @since    3.0.0
  */
 class JModelMock
 {
@@ -20,7 +20,7 @@ class JModelMock
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function create($test)
 	{
@@ -31,17 +31,13 @@ class JModelMock
 			'setState',
 		);
 
-		// Create the mock.
-		$mockObject = $test->getMock(
-			'JModel',
-			$methods,
-			// Constructor arguments.
-			array(),
-			// Mock class name.
-			'',
-			// Call original constructor.
-			false
-		);
+		// Build the mock object.
+		$mockObject = $test->getMockBuilder('JModel')
+					->setMethods($methods)
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 
 		return $mockObject;
 	}

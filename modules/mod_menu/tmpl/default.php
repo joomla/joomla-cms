@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 $id = '';
 
-if (($tagId = $params->get('tag_id', '')))
+if ($tagId = $params->get('tag_id', ''))
 {
 	$id = ' id="' . $tagId . '"';
 }
 
 // The menu class is deprecated. Use nav instead
 ?>
-<ul class="nav menu<?php echo $class_sfx; ?>"<?php echo $id; ?>>
+<ul class="nav menu<?php echo $class_sfx; ?> mod-list"<?php echo $id; ?>>
 <?php foreach ($list as $i => &$item)
 {
 	$class = 'item-' . $item->id;
@@ -28,8 +28,7 @@ if (($tagId = $params->get('tag_id', '')))
 		$class .= ' default';
 	}
 
-
-	if (($item->id == $active_id) || ($item->type == 'alias' && $item->params->get('aliasoptions') == $active_id))
+	if ($item->id == $active_id || ($item->type === 'alias' && $item->params->get('aliasoptions') == $active_id))
 	{
 		$class .= ' current';
 	}
@@ -38,7 +37,7 @@ if (($tagId = $params->get('tag_id', '')))
 	{
 		$class .= ' active';
 	}
-	elseif ($item->type == 'alias')
+	elseif ($item->type === 'alias')
 	{
 		$aliasToId = $item->params->get('aliasoptions');
 
@@ -52,7 +51,7 @@ if (($tagId = $params->get('tag_id', '')))
 		}
 	}
 
-	if ($item->type == 'separator')
+	if ($item->type === 'separator')
 	{
 		$class .= ' divider';
 	}

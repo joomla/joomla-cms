@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,49 +13,49 @@
 * @package     Joomla.UnitTest
 * @subpackage  Twitter
 *
-* @since       12.3
+* @since       3.1.4
 */
 class JTwitterStatusesTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $input;
 
 	/**
 	 * @var    JTwitterStatuses  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    JTwitterOauth  Authentication object for the Twitter object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $rateLimit = '{"resources": {"statuses": {
 			"/statuses/show/:id": {"remaining":150, "reset":"Mon Jun 25 17:20:53 +0000 2012"},
@@ -69,9 +69,17 @@ class JTwitterStatusesTest extends TestCase
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '{"error":"Generic error"}';
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -83,6 +91,7 @@ class JTwitterStatusesTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -96,7 +105,7 @@ class JTwitterStatusesTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->oauth = new JTwitterOAuth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
 
@@ -109,11 +118,26 @@ class JTwitterStatusesTest extends TestCase
 	}
 
 	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
+	}
+
+	/**
 	 * Tests the getTweetById method
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetTweetById()
 	{
@@ -161,7 +185,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -199,7 +223,7 @@ class JTwitterStatusesTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 3.1.4
 	*/
 	public function seedUser()
 	{
@@ -220,7 +244,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @dataProvider  seedUser
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetUserTimeline($user)
 	{
@@ -290,7 +314,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @dataProvider  seedUser
 	 * @expectedException  DomainException
 	 */
@@ -345,7 +369,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testTweet()
 	{
@@ -387,7 +411,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -416,7 +440,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetMentions()
 	{
@@ -471,7 +495,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -513,7 +537,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetRetweetsOfMe()
 	{
@@ -565,7 +589,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -606,7 +630,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetRetweeters()
 	{
@@ -654,7 +678,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -697,7 +721,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetRetweetsById()
 	{
@@ -742,7 +766,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -784,7 +808,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testDeleteTweet()
 	{
@@ -815,7 +839,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -845,7 +869,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRetweet()
 	{
@@ -877,7 +901,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -908,7 +932,7 @@ class JTwitterStatusesTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 3.1.4
 	*/
 	public function seedTweetWithMedia()
 	{
@@ -926,7 +950,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @dataProvider seedTweetWithMedia
 	 */
 	public function testTweetWithMedia($header)
@@ -979,7 +1003,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @expectedException  DomainException
 	 */
@@ -1010,7 +1034,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testGetOembed()
 	{
@@ -1066,7 +1090,7 @@ class JTwitterStatusesTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 12.3
+	* @since 3.1.4
 	*/
 	public function seedGetoembed()
 	{
@@ -1084,7 +1108,7 @@ class JTwitterStatusesTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @dataProvider seedGetOembed
 	 */
 	public function testGetOembedFailure($url)
@@ -1121,7 +1145,6 @@ class JTwitterStatusesTest extends TestCase
 		}
 		else
 		{
-			$data = array();
 			$this->setExpectedException('RuntimeException');
 
 			$this->object->getOembed(null, null);

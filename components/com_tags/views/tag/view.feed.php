@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,9 +25,26 @@ class TagsViewTag extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		$app            = JFactory::getApplication();
-		$document       = JFactory::getDocument();
-		$document->link = JRoute::_(TagsHelperRoute::getTagRoute($app->input->getInt('id')));
+		$app       = JFactory::getApplication();
+		$document  = JFactory::getDocument();
+		$ids       = $app->input->get('id');
+		$i         = 0;
+		$tagIds    = '';
+		$filter    = new JFilterInput;
+
+		foreach ($ids as $id)
+		{
+			if ($i !== 0)
+			{
+				$tagIds .= '&';
+			}
+
+			$tagIds .= 'id[' . $i . ']=' . $filter->clean($id, 'INT');
+
+			$i++;
+		}
+
+		$document->link = JRoute::_('index.php?option=com_tags&view=tag&' . $tagIds);
 
 		$app->input->set('limit', $app->get('feed_limit'));
 		$siteEmail        = $app->get('mailfrom');
@@ -35,7 +52,7 @@ class TagsViewTag extends JViewLegacy
 		$feedEmail        = $app->get('feed_email', 'none');
 		$document->editor = $fromName;
 
-		if ($feedEmail != "none")
+		if ($feedEmail !== 'none')
 		{
 			$document->editorEmail = $siteEmail;
 		}
@@ -51,25 +68,21 @@ class TagsViewTag extends JViewLegacy
 				$title = $this->escape($item->core_title);
 				$title = html_entity_decode($title, ENT_COMPAT, 'UTF-8');
 
-				// URL link to tagged item
-				// Change to new routing once it is merged
-				$link = JRoute::_($item->link);
-
 				// Strip HTML from feed item description text
 				$description = $item->core_body;
-				$author      = $item->core_created_by_alias ? $item->core_created_by_alias : $item->author;
+				$author      = $item->core_created_by_alias ?: $item->author;
 				$date        = ($item->displayDate ? date('r', strtotime($item->displayDate)) : '');
 
 				// Load individual item creator class
 				$feeditem              = new JFeedItem;
 				$feeditem->title       = $title;
-				$feeditem->link        = $link;
+				$feeditem->link        = JRoute::_($item->link);
 				$feeditem->description = $description;
 				$feeditem->date        = $date;
 				$feeditem->category    = $title;
 				$feeditem->author      = $author;
 
-				if ($feedEmail == 'site')
+				if ($feedEmail === 'site')
 				{
 					$item->authorEmail = $siteEmail;
 				}

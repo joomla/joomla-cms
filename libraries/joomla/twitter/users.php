@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Twitter
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Twitter API Users class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/twitter` package via Composer instead
  */
 class JTwitterUsers extends JTwitterObject
 {
@@ -26,7 +27,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getUsersLookup($screen_name = null, $id = null, $entities = null)
@@ -71,7 +72,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getUserProfileBanner($user)
 	{
@@ -111,7 +112,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function searchUsers($query, $page = 0, $count = 0, $entities = null)
@@ -122,7 +123,7 @@ class JTwitterUsers extends JTwitterObject
 		$data['q'] = rawurlencode($query);
 
 		// Check if page is specified.
-		if ($page > 0 )
+		if ($page > 0)
 		{
 			$data['page'] = $page;
 		}
@@ -154,7 +155,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getUser($user, $entities = null)
@@ -199,7 +200,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getContributees($user, $entities = null, $skip_status = null)
@@ -250,7 +251,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function getContributors($user, $entities = null, $skip_status = null)
@@ -299,7 +300,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSuggestions($lang = null)
 	{
@@ -329,7 +330,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSuggestionsSlug($slug, $lang = null)
 	{
@@ -359,7 +360,7 @@ class JTwitterUsers extends JTwitterObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getSuggestionsSlugMembers($slug)
 	{

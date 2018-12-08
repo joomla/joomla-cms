@@ -1667,7 +1667,7 @@ p.tab-description {
 	float: left;
 }
 #form-login {
-	float: right;
+	float: left;
 	padding: 1.1em;
 	-moz-border-radius: 3px;
 	-webkit-border-radius: 3px;
@@ -1914,6 +1914,21 @@ fieldset.panelform-legacy span.faux-label,
 fieldset.adminform-legacy span.faux-label {
 	min-width: 150px;
 	float: left;
+}
+fieldset.adminform .input-prepend,
+fieldset.adminform .input-append,
+fieldset.panelform .input-prepend,
+fieldset.panelform .input-append {
+	float: left;
+}
+fieldset.adminform .adminformlist .btn.modal,
+fieldset.adminform .input-prepend > *,
+fieldset.adminform .input-append > *,
+fieldset.panelform .adminformlist .btn.modal,
+fieldset.panelform .input-prepend > *,
+fieldset.panelform .input-append > * {
+	float: none;
+	vertical-align: middle;
 }
 fieldset.panelform-legacy label.radiobtn-jno,
 fieldset.panelform-legacy label.radiobtn-jyes,
@@ -3246,6 +3261,9 @@ ul.helpmenu li {
 .menu-article {
 	background-image: url(../images/menu/icon-16-article.png);
 }
+.menu-associations {
+	background-image: url(../images/menu/icon-16-assoc.png);
+}
 .menu-banners {
 	background-image: url(../images/menu/icon-16-banner.png);
 }
@@ -3290,6 +3308,9 @@ ul.helpmenu li {
 }
 .menu-featured {
 	background-image: url(../images/menu/icon-16-featured.png);
+}
+.menu-fields {
+	background-image: url(../images/menu/icon-16-puzzle.png);
 }
 .menu-groups {
 	background-image: url(../images/menu/icon-16-groups.png);
@@ -3578,6 +3599,7 @@ div#database-sliders {
 fieldset.uploadform {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	min-height: 200px;
 }
 #installer-database,
 #installer-discover,
@@ -3675,7 +3697,8 @@ fieldset.uploadform {
 	background-color: #f5f5f5;
 }
 .row-striped .row-fluid {
-	width: 97%;
+	width: 100%;
+	box-sizing: border-box;
 }
 .row-striped .row-fluid [class*="span"] {
 	min-height: 10px;
@@ -3920,4 +3943,7 @@ div.toggle-editor {
 }
 .muted {
 	color: #999;
+}
+.popover-content {
+	min-height: 33px;
 }
