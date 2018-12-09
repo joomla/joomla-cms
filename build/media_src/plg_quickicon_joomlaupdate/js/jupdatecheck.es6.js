@@ -22,15 +22,14 @@
         const updateInfoList = JSON.parse(response);
 
         if (updateInfoList instanceof Array) {
-          const updateInfo = updateInfoList.shift();
-
-          if (updateInfo.version === options.version) {
+          if (updateInfoList.length === 0) {
             // No updates
             link.classList.add('success');
             linkSpans.forEach((span) => {
               span.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
             });
           } else {
+            const updateInfo = updateInfoList.shift();
 
             if (updateInfo.version !== options.version) {
               const messages = {
@@ -52,6 +51,7 @@
                 span.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light"> \u200E ${updateInfo.version}</span>`);
               });
             } else {
+              link.classList.add('success');
               linkSpans.forEach((span) => {
                 span.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
               });
