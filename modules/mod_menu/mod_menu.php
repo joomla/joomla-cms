@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Menu\Site\Helper\MenuHelper;
+
+HTMLHelper::_('script', 'mod_menu/menu.js', array('version' => 'auto', 'relative' => true));
 
 $list       = MenuHelper::getList($params);
 $base       = MenuHelper::getBase($params);
