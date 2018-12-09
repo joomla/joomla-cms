@@ -31,13 +31,13 @@
 })();
 
 // Only define the Joomla namespace if not defined.
-Joomla = window.Joomla || {};
+window.Joomla = window.Joomla || {};
 
 // Only define editors if not defined
-Joomla.editors = Joomla.editors || {};
+window.Joomla.editors = window.Joomla.editors || {};
 
 // An object to hold each editor instance on page, only define if not defined.
-Joomla.editors.instances = Joomla.editors.instances || {
+window.Joomla.editors.instances = window.Joomla.editors.instances || {
   /**
    * *****************************************************************
    * All Editors MUST register, per instance, the following callbacks:
@@ -74,7 +74,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 };
 
 
-Joomla.Modal = {
+window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * *****************************************************************
    * Modals should implement
@@ -100,9 +100,9 @@ Joomla.Modal = {
    */
   current: '',
   setCurrent: (element) => {
-    this.current = element;
+    window.Joomla.current = element;
   },
-  getCurrent: () => this.current,
+  getCurrent: () => window.Joomla.current,
 };
 
 ((Joomla, document) => {
@@ -1064,8 +1064,8 @@ Joomla.Modal = {
 
     // Feature detect which polyfill needs to be imported.
     let polyfills = [];
-    if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) ||
-      (window.ShadyDOM && window.ShadyDOM.force)) {
+    if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype)
+      || (window.ShadyDOM && window.ShadyDOM.force)) {
       polyfills.push('sd');
     }
     if (!window.customElements || window.customElements.forcePolyfill) {
@@ -1087,8 +1087,8 @@ Joomla.Modal = {
       t2.content.appendChild(document.createElement('div'));
       t.content.appendChild(t2);
       const clone = t.cloneNode(true);
-      return (clone.content.childNodes.length === 0 ||
-        clone.content.firstChild.content.childNodes.length === 0);
+      return (clone.content.childNodes.length === 0
+        || clone.content.firstChild.content.childNodes.length === 0);
     })();
 
     // NOTE: any browser that does not have template or ES6 features
