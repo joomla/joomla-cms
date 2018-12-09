@@ -2,7 +2,7 @@
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-class JoomlaEditorNone extends HTMLElement {
+window.customElements.define('joomla-editor-none', class extends HTMLElement {
   constructor() {
     super();
 
@@ -13,6 +13,7 @@ class JoomlaEditorNone extends HTMLElement {
     this.unregisterEditor = this.unregisterEditor.bind(this);
     this.registerEditor = this.registerEditor.bind(this);
     this.childrenChange = this.childrenChange.bind(this);
+    this.getSelection = this.getSelection.bind(this);
 
     // Watch for children changes.
     // eslint-disable-next-line no-return-assign
@@ -37,33 +38,46 @@ class JoomlaEditorNone extends HTMLElement {
   }
 
   /**
+   * Get the selected text
+   */
+  getSelection() {
+    if (document.selection) {
+      // IE support
+      this.editor.focus();
+      return document.selection.createRange();
+    } else if (this.editor.selectionStart || this.editor.selectionStart === 0) {
+      // MOZILLA/NETSCAPE support
+      return this.editor.value.substring(this.editor.selectionStart, this.editor.selectionEnd);
+    } else {
+      return this.editor.value;
+    }
+  }
+
+  /**
    * Register the editor
    */
   registerEditor() {
     if (!window.Joomla
         || !window.Joomla.editors
-        || typeof window.Joomla.editors !== 'object'
-        || window.Joomla.editors === null) {
+        || typeof window.Joomla.editors !== 'object') {
       throw new Error('The Joomla API is not correctly registered.');
     }
 
-    this.editor = this.editor || this.querySelector('textarea');
-
-    Joomla.editors.instances[this.editor.id] = {
-      id: this.editor.id,
-      element: this.editor,
+    window.Joomla.editors.instances[this.editor.id] = {
+      id: () => this.editor.id,
+      element: () => this.editor,
       // eslint-disable-next-line no-return-assign
       getValue: () => this.editor.value,
       // eslint-disable-next-line no-return-assign
       setValue: text => this.editor.value = text,
       // eslint-disable-next-line no-return-assign
-      replaceSelection: (text) => {
+      getSelection: () => { return this.getSelection(); },
+      // eslint-disable-next-line no-return-assign
+      replaceSelection: text => {
         if (this.editor.selectionStart || this.editor.selectionStart === 0) {
-          const startPos = this.editor.selectionStart;
-          const endPos = this.editor.selectionEnd;
-          this.editor.value = this.editor.value.substring(0, startPos)
+          this.editor.value = this.editor.value.substring(0, this.editor.selectionStart)
             + text
-            + this.editor.value.substring(endPos, this.editor.value.length);
+            + this.editor.value.substring(this.editor.selectionEnd, this.editor.value.length);
         } else {
           this.editor.value += text;
         }
@@ -77,7 +91,7 @@ class JoomlaEditorNone extends HTMLElement {
    */
   unregisterEditor() {
     if (this.editor) {
-      delete Joomla.editors.instances[this.editor.id];
+      delete window.Joomla.editors.instances[this.editor.id];
     }
   }
 
@@ -90,9 +104,9 @@ class JoomlaEditorNone extends HTMLElement {
             && this.firstElementChild.tagName
             && this.firstElementChild.tagName.toLowerCase() === 'textarea'
             && this.firstElementChild.getAttribute('id')) {
+      this.editor = this.firstElementChild;
       this.unregisterEditor();
       this.registerEditor();
     }
   }
-}
-customElements.define('joomla-editor-none', JoomlaEditorNone);
+});
