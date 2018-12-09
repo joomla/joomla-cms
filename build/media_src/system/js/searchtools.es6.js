@@ -181,7 +181,6 @@
 
       document.body.addEventListener('click', (event) => {
         if (document.body.classList.contains('filters-shown')) {
-
           // Ignore click inside the filter container
           if (event.composedPath && typeof event.composedPath === 'function') {
             // Browser that support composedPath()
