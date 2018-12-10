@@ -117,10 +117,12 @@ class StageModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->published != -2)
-		{
-			$this->setError(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+		$table = $this->getTable('Workflow', 'Administrator');
 
+		$table->load($record->workflow_id);
+
+		if (empty($record->id) || $record->published != -2 || $table->core)
+		{
 			return false;
 		}
 
@@ -155,6 +157,15 @@ class StageModel extends AdminModel
 		$user = Factory::getUser();
 		$app = Factory::getApplication();
 		$extension = $app->getUserStateFromRequest('com_workflow.state.filter.extension', 'extension', null, 'cmd');
+
+		$table = $this->getTable('Workflow', 'Administrator');
+
+		$table->load($record->workflow_id);
+
+		if ($table->core)
+		{
+			return false;
+		}
 
 		// Check for existing workflow.
 		if (!empty($record->id))
