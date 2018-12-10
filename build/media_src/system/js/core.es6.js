@@ -31,13 +31,13 @@
 })();
 
 // Only define the Joomla namespace if not defined.
-Joomla = window.Joomla || {};
+window.Joomla = window.Joomla || {};
 
 // Only define editors if not defined
-Joomla.editors = Joomla.editors || {};
+window.Joomla.editors = window.Joomla.editors || {};
 
 // An object to hold each editor instance on page, only define if not defined.
-Joomla.editors.instances = Joomla.editors.instances || {
+window.Joomla.editors.instances = window.Joomla.editors.instances || {
   /**
    * *****************************************************************
    * All Editors MUST register, per instance, the following callbacks:
@@ -74,7 +74,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 };
 
 
-Joomla.Modal = {
+window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * *****************************************************************
    * Modals should implement
@@ -100,9 +100,9 @@ Joomla.Modal = {
    */
   current: '',
   setCurrent: (element) => {
-    this.current = element;
+    window.Joomla.current = element;
   },
-  getCurrent: () => this.current,
+  getCurrent: () => window.Joomla.current,
 };
 
 ((Joomla, document) => {
