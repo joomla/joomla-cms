@@ -195,6 +195,7 @@ class WorkflowsModel extends ListModel
 				'w.published',
 				'w.ordering',
 				'w.default',
+				'w.core',
 				'w.created_by',
 				'w.description',
 				'u.name'
