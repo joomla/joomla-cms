@@ -227,7 +227,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			|| $lang !== $this->default_lang
 			|| $lang !== $this->current_lang))
 		{
-			$uri->setPath($uri->getPath() . '/' . $sef . '/');
+			$uri->setPath($uri->getPath() . '/' . $sef);
 		}
 	}
 
@@ -286,6 +286,18 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$path = $uri->getPath();
 			$parts = explode('/', $path);
+
+			if (count($parts) === 1)
+			{
+				// Remove the suffix
+				if ($this->app->get('sef_suffix'))
+				{
+					if ($suffix = pathinfo($parts[0], PATHINFO_EXTENSION))
+					{
+						$parts[0] = str_replace('.' . $suffix, '', $parts[0]);
+					}
+				}
+			}
 
 			$sef = $parts[0];
 
@@ -440,14 +452,30 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($lang_code !== $this->default_lang
 					|| !$this->params->get('remove_default_prefix', 0))
 				{
-					$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
+					if ($path !== '')
+					{
+						$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
+					}
+					else
+					{
+						$path = $this->lang_codes[$lang_code]->sef;
+
+						// Add the suffix
+						if ($this->app->get('sef_suffix'))
+						{
+							$format = $uri->getVar('format', 'html');
+							$uri->delVar('format');
+
+							$path .= ".$format";
+						}
+					}
 				}
 
 				$uri->setPath($path);
 
 				if (!$this->app->get('sef_rewrite'))
 				{
-					$uri->setPath('index.php/' . $uri->getPath());
+					$uri->setPath('index.php' . ($uri->getPath() !== '' ? '/' . $uri->getPath() : ''));
 				}
 
 				$redirectUri = $uri->base() . $uri->toString(array('path', 'query', 'fragment'));
