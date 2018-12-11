@@ -587,7 +587,7 @@ class PlgSystemDebug extends CMSPlugin
 				case 'deprecated':
 					if (!$logDeprecated && !$logDeprecatedCore)
 					{
-						continue;
+						break;
 					}
 					$file = $entry->callStack[2]['file'] ?? '';
 					$line = $entry->callStack[2]['line'] ?? '';
@@ -608,13 +608,13 @@ class PlgSystemDebug extends CMSPlugin
 					{
 						if (!$logDeprecatedCore)
 						{
-							continue;
+							break;
 						}
 						$category .= '-core';
 					}
 					elseif (!$logDeprecated)
 					{
-						continue;
+						break;
 					}
 
 					$message = [
