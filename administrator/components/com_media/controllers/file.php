@@ -116,7 +116,7 @@ class MediaControllerFile extends JControllerLegacy
 
 			// Transform filename to punycode, check extension and transform it to lowercase
 			$fileparts['filename'] = JStringPunycode::toPunycode($fileparts['filename']);
-			$tempExt = (!empty($fileparts['extension'])) ? strtolower($fileparts['extension']) : '';
+			$tempExt = !empty($fileparts['extension']) ? strtolower($fileparts['extension']) : '';
 
 			// Neglect other than non-alphanumeric characters, hyphens & underscores.
 			$safeFileName = preg_replace(array("/[\\s]/", '/[^a-zA-Z0-9_\-]/'), array('_', ''), $fileparts['filename']) . '.' . $tempExt;
