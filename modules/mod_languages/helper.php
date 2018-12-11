@@ -114,7 +114,7 @@ abstract class ModLanguagesHelper
 					{
 						$language->link = JRoute::_($cassociations[$language->lang_code] . '&lang=' . $language->sef);
 					}
-					elseif (isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
+					elseif (!$language->active && isset($associations[$language->lang_code]) && $menu->getItem($associations[$language->lang_code]))
 					{
 						$itemid = $associations[$language->lang_code];
 						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $itemid);
@@ -127,7 +127,10 @@ abstract class ModLanguagesHelper
 					{
 						if ($language->active)
 						{
-							$language->link = JUri::getInstance()->toString(array('path', 'query'));
+							$limitstart = $app->input->get('limitstart');
+
+							// Correct the current URL, if it is damaged, add an additional fix for the limitstart parameter
+							$language->link = JRoute::_('&' . ($limitstart !== null ? 'limitstart=' . $limitstart : ''));
 						}
 						else
 						{

@@ -827,10 +827,11 @@ class PlgSystemLanguageFilter extends JPlugin
 			if (count($languages) > 1)
 			{
 				// Remove the sef from the default language if "Remove URL Language Code" is on
-				if ($remove_default_prefix && isset($languages[$this->default_lang]))
+				if ($remove_default_prefix && isset($languages[$this->default_lang]) && $this->default_lang !== $this->current_lang)
 				{
-					$languages[$this->default_lang]->link
-									= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
+					$sef = $languages[$this->default_lang]->sef;
+
+					$languages[$this->default_lang]->link = preg_replace("~/$sef(?:/|[?#]|$)~", '/', $languages[$this->default_lang]->link, 1);
 				}
 
 				foreach ($languages as $i => &$language)

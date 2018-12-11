@@ -159,7 +159,11 @@ class SiteRouter extends Router
 		// Add the suffix to the uri
 		if ($this->_mode == JROUTER_MODE_SEF && $route)
 		{
-			if ($this->app->get('sef_suffix') && !(substr($route, -9) === 'index.php' || substr($route, -1) === '/'))
+			if (substr($route, -1) === '/')
+			{
+				$route = rtrim($route, '/');
+			}
+			elseif ($this->app->get('sef_suffix') && substr($route, -9) !== 'index.php')
 			{
 				if ($format = $uri->getVar('format', 'html'))
 				{
