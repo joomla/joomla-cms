@@ -222,12 +222,28 @@ class PlgSystemLanguageFilter extends JPlugin
 			$sef = $this->lang_codes[$this->current_lang]->sef;
 		}
 
-		if ($this->mode_sef
-			&& (!$this->params->get('remove_default_prefix', 0)
-			|| $lang !== $this->default_lang
-			|| $lang !== $this->current_lang))
+		if ($this->mode_sef)
 		{
-			$uri->setPath($uri->getPath() . '/' . $sef);
+			// Always add the SEF prefix if lang is not default
+			if ($lang !== $this->default_lang)
+			{
+				$uri->setPath($uri->getPath() . '/' . $sef);
+			}
+			elseif ($this->params->get('remove_default_prefix', 0))
+			{
+				$Itemid = (int) $this->app->getMenu()->getDefault($lang)->id;
+
+				// A special case for the homepage link with the default language
+				if ($Itemid === (int) $uri->getVar('Itemid') && $lang !== $this->current_lang)
+				{
+					$uri->setPath($uri->getPath() . '/' . $sef);
+				}
+			}
+			else
+			{
+				// If lang is default and remove_default_prefix is off
+				$uri->setPath($uri->getPath() . '/' . $sef);
+			}
 		}
 	}
 
@@ -775,15 +791,14 @@ class PlgSystemLanguageFilter extends JPlugin
 
 		if ($this->app->isClient('site') && $this->params->get('alternate_meta', 1) && $doc->getType() === 'html')
 		{
-			$languages             = $this->lang_codes;
-			$homes                 = JLanguageMultilang::getSiteHomePages();
-			$menu                  = $this->app->getMenu();
-			$active                = $menu->getActive();
-			$levels                = JFactory::getUser()->getAuthorisedViewLevels();
-			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
-			$server                = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
-			$is_home               = false;
-			$currentInternalUrl    = 'index.php?' . http_build_query($this->app->getRouter()->getVars());
+			$languages          = $this->lang_codes;
+			$homes              = JLanguageMultilang::getSiteHomePages();
+			$menu               = $this->app->getMenu();
+			$active             = $menu->getActive();
+			$levels             = JFactory::getUser()->getAuthorisedViewLevels();
+			$server             = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+			$is_home            = false;
+			$currentInternalUrl = 'index.php?' . http_build_query($this->app->getRouter()->getVars());
 
 			if ($active)
 			{
@@ -854,13 +869,6 @@ class PlgSystemLanguageFilter extends JPlugin
 			// If there are at least 2 of them, add the rel="alternate" links to the <head>
 			if (count($languages) > 1)
 			{
-				// Remove the sef from the default language if "Remove URL Language Code" is on
-				if ($remove_default_prefix && isset($languages[$this->default_lang]))
-				{
-					$languages[$this->default_lang]->link
-									= preg_replace('|/' . $languages[$this->default_lang]->sef . '/|', '/', $languages[$this->default_lang]->link, 1);
-				}
-
 				foreach ($languages as $i => &$language)
 				{
 					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
