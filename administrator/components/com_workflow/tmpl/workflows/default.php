@@ -144,7 +144,7 @@ $userId = $user->id;
 										</a>
 										<div class="small"><?php echo $item->description; ?></div>
 									<?php else: ?>
-										<?php echo $item->title; ?>
+										<?php echo $this->escape(Text::_($item->title)); ?>
 										<div class="small"><?php echo $item->description; ?></div>
 									<?php endif; ?>
 								</th>
