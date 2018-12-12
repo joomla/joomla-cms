@@ -45,7 +45,7 @@ class JHtmlTemplates
 			if (file_exists($preview))
 			{
 				$html = '<button type="button" data-target="#' . $template . '-Modal" class="thumbnail pull-left hasTooltip" data-toggle="modal"'
-					. 'title="' . JHtml::_('tooltipText', 'COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
+					. ' title="' . JHtml::_('tooltipText', 'COM_TEMPLATES_CLICK_TO_ENLARGE') . '">' . $html . '</button>';
 			}
 		}
 
