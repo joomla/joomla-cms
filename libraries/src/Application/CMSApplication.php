@@ -1075,7 +1075,10 @@ class CMSApplication extends WebApplication
 
 		$active = $this->getMenu()->getActive();
 
-		if ($active !== null && $active->type === 'alias')
+		if ($this->input->getMethod() !== 'POST'
+			&& $active !== null
+			&& $active->type === 'alias'
+			&& $active->params->get('alias_redirect'))
 		{
 			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
 
