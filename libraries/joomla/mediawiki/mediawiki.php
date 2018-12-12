@@ -22,61 +22,61 @@ use Joomla\Registry\Registry;
  * @property-read  JMediawikiImages         $images         MediaWiki API object for images.
  * @property-read  JMediawikiSearch         $search         MediaWiki API object for search.
  *
- * @since  12.3
+ * @since  3.1.4
  */
 class JMediawiki
 {
 	/**
 	 * @var    Registry  Options for the MediaWiki object.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JMediawikiHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $client;
 
 	/**
 	 * @var    JMediawikiSites  MediaWiki API object for Site.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sites;
 
 	/**
 	 * @var    JMediawikiPages  MediaWiki API object for pages.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $pages;
 
 	/**
 	 * @var    JMediawikiUsers  MediaWiki API object for users.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $users;
 
 	/**
 	 * @var    JMediawikiLinks  MediaWiki API object for links.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $links;
 
 	/**
 	 * @var    JMediawikiCategories  MediaWiki API object for categories.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $categories;
 
 	/**
 	 * @var    JMediawikiImages  MediaWiki API object for images.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $images;
 
 	/**
 	 * @var    JMediawikiSearch  MediaWiki API object for search.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $search;
 
@@ -86,7 +86,7 @@ class JMediawiki
      * @param   Registry        $options  MediaWiki options object.
      * @param   JMediawikiHttp  $client   The HTTP client object.
      *
-     * @since   12.3
+     * @since   3.1.4
      */
 	public function __construct(Registry $options = null, JMediawikiHttp $client = null)
 	{
@@ -101,7 +101,7 @@ class JMediawiki
 	 *
 	 * @return  JMediaWikiObject  MediaWiki API object (users, reviews, etc).
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  InvalidArgumentException
 	 */
 	public function __get($name)
@@ -138,7 +138,7 @@ class JMediawiki
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -153,7 +153,7 @@ class JMediawiki
 	 *
 	 * @return  JMediawiki  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{

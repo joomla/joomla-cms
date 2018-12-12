@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Hooks class for the Joomla Platform.
  *
- * @since       12.3
+ * @since       3.1.4
  * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubHooks extends JGithubObject
@@ -21,7 +21,7 @@ class JGithubHooks extends JGithubObject
 	 * Array containing the allowed hook events
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $events = array(
 		'push',
@@ -53,7 +53,7 @@ class JGithubHooks extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
@@ -92,7 +92,7 @@ class JGithubHooks extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function delete($user, $repo, $id)
@@ -123,7 +123,7 @@ class JGithubHooks extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
@@ -185,7 +185,7 @@ class JGithubHooks extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function get($user, $repo, $id)
@@ -210,7 +210,7 @@ class JGithubHooks extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function getList($user, $repo, $page = 0, $limit = 0)
@@ -234,7 +234,7 @@ class JGithubHooks extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function test($user, $repo, $id)

@@ -20,19 +20,19 @@ use Joomla\CMS\Feed\FeedPerson;
  * RSS Feed Parser class.
  *
  * @link   http://cyber.law.harvard.edu/rss/rss.html
- * @since  12.3
+ * @since  3.1.4
  */
 class RssParser extends FeedParser
 {
 	/**
 	 * @var    string  The feed element name for the entry elements.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $entryElementName = 'item';
 
 	/**
 	 * @var    string  The feed format version.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $version;
 
@@ -44,7 +44,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleCategory(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -63,7 +63,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleCloud(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -85,7 +85,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleCopyright(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -100,7 +100,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleDescription(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -115,7 +115,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleGenerator(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -130,7 +130,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleImage(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -160,7 +160,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleLanguage(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -175,7 +175,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleLastBuildDate(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -190,7 +190,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleLink(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -207,7 +207,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleManagingEditor(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -222,7 +222,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleSkipDays(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -246,7 +246,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleSkipHours(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -270,7 +270,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handlePubDate(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -285,7 +285,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleTitle(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -300,7 +300,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleTtl(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -315,7 +315,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function handleWebmaster(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -342,7 +342,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function initialise()
 	{
@@ -362,7 +362,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function processFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
 	{
@@ -412,7 +412,7 @@ class RssParser extends FeedParser
 	 *
 	 * @return  FeedPerson
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function processPerson($data)
 	{

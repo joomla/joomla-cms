@@ -12,7 +12,7 @@
  *
  * @package     Joomla.Platform
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldModal_Foo extends JFormField
 {

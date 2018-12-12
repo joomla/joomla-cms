@@ -33,6 +33,7 @@ $starImageOn  = JHtml::_('image', 'system/rating_star.png', JText::_('PLG_VOTE_S
 $starImageOff = JHtml::_('image', 'system/rating_star_blank.png', JText::_('PLG_VOTE_STAR_INACTIVE'), null, true);
 
 $img = '';
+
 for ($i = 0; $i < $rating; $i++)
 {
 	$img .= $starImageOn;
@@ -44,13 +45,13 @@ for ($i = $rating; $i < 5; $i++)
 }
 
 ?>
-<?php if ($rcount) : ?>
-<div class="content_rating" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
-	<p class="unseen element-invisible">
-		<?php echo JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
-		<meta itemprop="ratingCount" content="<?php echo $rcount; ?>" />
-		<meta itemprop="worstRating" content="1" />
-	</p>
+<div class="content_rating">
+	<?php if ($rcount) : ?>
+		<p class="unseen element-invisible" itemprop="aggregateRating" itemscope itemtype="https://schema.org/AggregateRating">
+			<?php echo JText::sprintf('PLG_VOTE_USER_RATING', '<span itemprop="ratingValue">' . $rating . '</span>', '<span itemprop="bestRating">5</span>'); ?>
+			<meta itemprop="ratingCount" content="<?php echo $rcount; ?>" />
+			<meta itemprop="worstRating" content="1" />
+		</p>
+	<?php endif; ?>
+	<?php echo $img; ?>
 </div>
-<?php endif; ?>
-<?php echo $img; ?>

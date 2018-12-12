@@ -41,7 +41,7 @@ class PrivacyRouter extends JComponentRouterView
 /**
  * Privacy router functions
  *
- * These functions are proxys for the new router interface
+ * These functions are proxies for the new router interface
  * for old SEF extensions.
  *
  * @param   array  &$query  REQUEST query

@@ -26,7 +26,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   string   $body    The comment body text.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -62,7 +62,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   integer  $commentId  The id of the comment to delete.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -90,7 +90,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   string   $body       The new body text for the comment.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -126,7 +126,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   integer  $commentId  The comment id to get.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -157,7 +157,7 @@ class JGithubPackageGistsComments extends JGithubPackage
 	 * @param   integer  $limit   The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */

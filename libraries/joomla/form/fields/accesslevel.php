@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
  * groups can see.
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldAccessLevel extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'AccessLevel';
 
@@ -34,7 +34,7 @@ class JFormFieldAccessLevel extends JFormFieldList
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{

@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('folderlist');
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       12.1
+ * @since       3.0.0
  */
 class JFormFieldFolderListTest extends TestCase
 {
@@ -23,7 +23,7 @@ class JFormFieldFolderListTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function testGetInput()
 	{

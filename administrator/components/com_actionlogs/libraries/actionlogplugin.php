@@ -13,7 +13,7 @@ JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/m
 /**
  * Abstract Action Log Plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 abstract class ActionLogPlugin extends JPlugin
 {
@@ -53,11 +53,11 @@ abstract class ActionLogPlugin extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		$user = $this->app->getIdentity();
+		$user = JFactory::getUser();
 
 		foreach ($messages as $index => $message)
 		{

@@ -17,7 +17,7 @@ use Joomla\CMS\Crypt\Key;
 /**
  * Crypt cipher for Simple encryption, decryption and key generation.
  *
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  4.0 (CMS)
  */
 class SimpleCipher implements CipherInterface
@@ -30,7 +30,7 @@ class SimpleCipher implements CipherInterface
 	 *
 	 * @return  string  The decrypted data string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function decrypt($data, Key $key)
@@ -71,7 +71,7 @@ class SimpleCipher implements CipherInterface
 	 *
 	 * @return  string  The encrypted data string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function encrypt($data, Key $key)
@@ -111,7 +111,7 @@ class SimpleCipher implements CipherInterface
 	 *
 	 * @return  Key
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function generateKey(array $options = array())
 	{
@@ -133,7 +133,7 @@ class SimpleCipher implements CipherInterface
 	 *
 	 * @return  integer
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	private function _hexToInt($s, $i)
 	{
@@ -213,7 +213,7 @@ class SimpleCipher implements CipherInterface
 	 *
 	 * @return  array  An array of integers.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	private function _hexToIntArray($hex)
 	{
@@ -236,7 +236,7 @@ class SimpleCipher implements CipherInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	private function _intToHex($i)
 	{

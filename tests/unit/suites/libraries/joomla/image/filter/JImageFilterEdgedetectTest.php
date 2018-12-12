@@ -12,7 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Image
- * @since       11.4
+ * @since       2.5.0
  */
 class JImageFilterEdgedetectTest extends TestCase
 {
@@ -21,7 +21,7 @@ class JImageFilterEdgedetectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function setUp()
 	{
@@ -41,7 +41,7 @@ class JImageFilterEdgedetectTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	public function testExecute()
 	{

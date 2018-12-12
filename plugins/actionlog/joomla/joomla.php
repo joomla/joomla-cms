@@ -31,6 +31,14 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	protected $loggableExtensions = array();
 
 	/**
+	 * Context aliases
+	 *
+	 * @var    array
+	 * @since  3.9.0 
+	 */
+	protected $contextAliases = array('com_content.form' => 'com_content.article');
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   object  &$subject  The object to observe.
@@ -62,6 +70,11 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
 	{
+		if (isset($this->contextAliases[$context]))
+		{
+			$context = $this->contextAliases[$context];
+		}
+
 		$option = $this->app->input->getCmd('option');
 
 		if (!$this->checkLoggable($option))
@@ -468,6 +481,11 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onExtensionAfterSave($context, $table, $isNew)
 	{
 		$option = $this->app->input->getCmd('option');
+
+		if ($table->get('module') != null)
+		{
+			$option = 'com_modules';
+		}
 
 		if (!$this->checkLoggable($option))
 		{
