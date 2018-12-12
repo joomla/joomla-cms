@@ -64,7 +64,7 @@ class InstallerViewUpdate extends InstallerViewDefault
 
 		if (count($this->items) > 0)
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'notice');
+			JFactory::getApplication()->enqueueMessage(JText::_('COM_INSTALLER_MSG_WARNINGS_UPDATE_NOTICE'), 'warning');
 		}
 
 		parent::display($tpl);
