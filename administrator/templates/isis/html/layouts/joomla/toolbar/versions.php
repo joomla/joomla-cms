@@ -32,12 +32,12 @@ echo JHtml::_(
 		'title'  => JText::_('COM_CONTENTHISTORY_MODAL_TITLE'),
 		'height' => '300px',
 		'width'  => '800px',
-		'footer' => '<a class="btn" type="button" data-dismiss="modal" aria-hidden="true">'
-			. JText::_('JTOOLBAR_CLOSE') . '</a>'
+		'footer' => '<button type="button" class="btn" data-dismiss="modal">'
+			. JText::_('JTOOLBAR_CLOSE') . '</button>'
 	)
 );
 ?>
-<button onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal">
+<button type="button" onclick="jQuery('#versionsModal').modal('show')" class="btn btn-small" data-toggle="modal">
 	<span class="icon-archive" aria-hidden="true"></span><?php echo $title; ?>
 </button>
 

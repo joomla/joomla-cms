@@ -14,7 +14,7 @@ JHtml::_('behavior.core');
 $title = $displayData['title'];
 
 ?>
-<button data-toggle="modal" onclick="{jQuery( '#collapseModal' ).modal('show'); return true;}" class="btn btn-small">
+<button type="button" data-toggle="modal" onclick="{jQuery( '#collapseModal' ).modal('show'); return true;}" class="btn btn-small">
 	<span class="icon-checkbox-partial" aria-hidden="true"></span>
 	<?php echo $title; ?>
 </button>
