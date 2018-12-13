@@ -127,8 +127,10 @@ abstract class ModLanguagesHelper
 					{
 						if ($language->active)
 						{
-							// Correct the active link if needed
-							$language->link = JRoute::_('&');
+							$limitstart = $app->input->get('limitstart');
+
+							// Correct the current URL, if it is damaged, add an additional fix for the limitstart parameter
+							$language->link = JRoute::_('&' . ($limitstart !== null ? 'limitstart=' . $limitstart : ''));
 						}
 						else
 						{
