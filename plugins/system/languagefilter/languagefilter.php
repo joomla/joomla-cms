@@ -257,13 +257,14 @@ class PlgSystemLanguageFilter extends JPlugin
 			&& $lang === $this->default_lang
 			&& $lang === $this->current_lang)
 		{
-			// Remove the /sef/
+			// Remove /sef/ from index.php/sef/
 			$uri->setPath(substr_replace($path, '', 9, strlen($sef) + 1));
 		}
 		elseif ($path === "index.php/$sef/")
 		{
 			// Remove the trailing slash
 			$uri->setPath("index.php/$sef");
+			$uri->skipFormat = true;
 		}
 
 		$uri->delVar('lang');
@@ -309,18 +310,6 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			$path = $uri->getPath();
 			$parts = explode('/', $path);
-
-			if (count($parts) === 1)
-			{
-				// Remove the suffix
-				if ($this->app->get('sef_suffix'))
-				{
-					if ($suffix = pathinfo($parts[0], PATHINFO_EXTENSION))
-					{
-						$parts[0] = str_replace('.' . $suffix, '', $parts[0]);
-					}
-				}
-			}
 
 			$sef = $parts[0];
 
@@ -475,30 +464,15 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($lang_code !== $this->default_lang
 					|| !$this->params->get('remove_default_prefix', 0))
 				{
-					if ($path !== '')
-					{
-						$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
-					}
-					else
-					{
-						$path = $this->lang_codes[$lang_code]->sef;
-
-						// Add the suffix
-						if ($this->app->get('sef_suffix'))
-						{
-							$format = $uri->getVar('format', 'html');
-							$uri->delVar('format');
-
-							$path .= ".$format";
-						}
-					}
+					$path = $this->lang_codes[$lang_code]->sef . ($path !== '' ? '/' . $path : '');
 				}
 
 				$uri->setPath($path);
 
 				if (!$this->app->get('sef_rewrite'))
 				{
-					$uri->setPath('index.php' . ($uri->getPath() !== '' ? '/' . $uri->getPath() : ''));
+					$path = $uri->getPath();
+					$uri->setPath('index.php' . ($path !== '' ? '/' . $path : ''));
 				}
 
 				$redirectUri = $uri->base() . $uri->toString(array('path', 'query', 'fragment'));
@@ -880,19 +854,9 @@ class PlgSystemLanguageFilter extends JPlugin
 				// Remove the sef from the default language if "Remove URL Language Code" is on
 				if ($remove_default_prefix && isset($languages[$this->default_lang]) && $this->default_lang !== $this->current_lang)
 				{
-					$link = $languages[$this->default_lang]->link;
-					$sef  = $languages[$this->default_lang]->sef;
+					$sef = $languages[$this->default_lang]->sef;
 
-					if ($this->app->get('sef_suffix') && strpos($link, "/$sef.html") !== false)
-					{
-						$regex = "~/$sef\.html~";
-					}
-					else
-					{
-						$regex = "~/$sef/~";
-					}
-
-					$languages[$this->default_lang]->link = preg_replace($regex, '/', $link, 1);
+					$languages[$this->default_lang]->link = preg_replace("~/$sef/?\b~", '/', $languages[$this->default_lang]->link, 1);
 				}
 
 				foreach ($languages as $i => &$language)
