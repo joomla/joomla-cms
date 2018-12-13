@@ -50,7 +50,7 @@ use Joomla\CMS\Router\Route;
 						<form action="<?php echo Route::_('index.php?option=com_login&task=logout'); ?>"  method="post" name="adminForm">
 							<?php echo Text::_('JSITE'); ?>
 							<span>
-								<button type="submit" class="mr-2 btn btn-danger btn-sm" role="button">
+								<button type="submit" class="mr-2 btn btn-danger btn-sm">
 								<span class="icon-remove icon-white" aria-hidden="true"></span>
 								<?php echo Text::_('JLOGOUT'); ?>
 								</button>

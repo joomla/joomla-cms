@@ -40,10 +40,10 @@ abstract class LoggedHelper
 	{
 		$user  = $app->getIdentity();
 		$query = $db->getQuery(true)
-			->select('s.time, s.client_id, u.id, u.name, u.username')
-			->from('#__session AS s')
-			->join('LEFT', '#__users AS u ON s.userid = u.id')
-			->where('s.guest = 0')
+			->select($db->quoteName(['s.time','s.client_id', 'u.id', 'u.name', 'u.username']))
+			->from($db->quoteName('#__session','s'))
+			->join('LEFT', $db->quoteName('#__users' , 'u') . 'ON' . $db->quoteName('s.userid') . '=' .  $db->quoteName('u.id'))
+			->where($db->quoteName('s.guest') . '=0')
 			->setLimit($params->get('count', 5), 0);
 
 		$db->setQuery($query);
@@ -55,22 +55,6 @@ abstract class LoggedHelper
 		catch (\RuntimeException $e)
 		{
 			throw $e;
-		}
-
-		foreach ($results as $k => $result)
-		{
-			$results[$k]->logoutLink = '';
-
-			if ($user->authorise('core.manage', 'com_users'))
-			{
-				$results[$k]->editLink   = Route::_('index.php?option=com_users&task=user.edit&id=' . $result->id);
-				$results[$k]->logoutLink = Route::_('index.php?option=com_login&task=logout&uid=' . $result->id . '&' . Session::getFormToken() . '=1');
-			}
-
-			if ($params->get('name', 1) == 0)
-			{
-				$results[$k]->name = $results[$k]->username;
-			}
 		}
 
 		return $results;
