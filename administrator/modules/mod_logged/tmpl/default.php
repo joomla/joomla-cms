@@ -47,7 +47,7 @@ use Joomla\CMS\Router\Route;
 					<?php elseif ($user->client_id) : ?>
 						<?php echo Text::_('JADMINISTRATION'); ?>
 					<?php else : ?>
-						<form action="<?php echo Route::_('index.php?option=com_login&task=logout'); ?>"  method="post" name="adminForm">
+						<form action="<?php echo Route::_('index.php?option=com_login&task=logout'); ?>" method="post" name="adminForm">
 							<?php echo Text::_('JSITE'); ?>
 							<span>
 								<button type="submit" class="mr-2 btn btn-danger btn-sm">
