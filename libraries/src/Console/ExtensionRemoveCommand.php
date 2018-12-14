@@ -49,13 +49,14 @@ class ExtensionRemoveCommand extends AbstractCommand
 	public function execute(): int
 	{
 		$this->configureIO();
-		$extension_id = (int) $this->cliInput->getArgument('extension_id');
+		$extension_id = $this->cliInput->getArgument('extension_id');
 
 		$extension = $this->getExtension();
 
-		if (!$extension->load($extension_id))
+		if ((int) $extension_id === 0 || !$extension->load($extension_id))
 		{
 			$this->ioStyle->error("Extension with ID of $extension_id not found.");
+
 			return 0;
 		}
 
