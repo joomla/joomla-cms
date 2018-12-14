@@ -232,4 +232,26 @@ class TransitionsModel extends ListModel
 
 		return $form;
 	}
+
+	/**
+	 * Returns a workflow object
+	 *
+	 * @return  object  The workflow
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getWorkflow()
+	{
+		$table = $this->getTable('Workflow', 'Administrator');
+
+		$workflowId = (int) $this->getState('filter.workflow_id');
+
+		if ($workflowId > 0)
+		{
+			$table->load($workflowId);
+		}
+
+		return (object) $table->getProperties();
+	}
+
 }
