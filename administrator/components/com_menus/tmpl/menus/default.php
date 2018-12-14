@@ -35,6 +35,7 @@ foreach ($this->items as $item)
 }
 
 Factory::getDocument()->addScriptOptions('menus-default', ['items' => $itemIds]);
+HTMLHelper::_('jquery.framework');
 HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <form action="<?php echo Route::_('index.php?option=com_menus&view=menus'); ?>" method="post" name="adminForm" id="adminForm">
