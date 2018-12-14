@@ -260,7 +260,7 @@ class PlgSystemLanguageFilter extends JPlugin
 			$uri->setPath("index.php/$sef");
 
 			// To prevent creating /en.html instead of /en
-			$uri->skipFormat = true;
+			$uri->setVar('nolangformat', '1');
 		}
 
 		$uri->delVar('lang');

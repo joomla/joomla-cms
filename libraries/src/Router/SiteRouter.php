@@ -161,7 +161,11 @@ class SiteRouter extends Router
 		{
 			if ($this->app->get('sef_suffix') && !(substr($route, -9) === 'index.php' || substr($route, -1) === '/'))
 			{
-				if (($format = $uri->getVar('format', 'html')) && empty($uri->skipFormat))
+				if ($uri->getVar('nolangformat'))
+				{
+					$uri->delVar('nolangformat');
+				}
+				elseif (($format = $uri->getVar('format', 'html')))
 				{
 					$route .= '.' . $format;
 					$uri->delVar('format');
