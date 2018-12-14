@@ -243,26 +243,6 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function postprocessSEFBuildRule(&$router, &$uri)
 	{
-		$lang = $uri->getVar('lang');
-
-		if (isset($this->lang_codes[$lang]))
-		{
-			$sef = $this->lang_codes[$lang]->sef;
-		}
-		else
-		{
-			$sef = $this->lang_codes[$this->current_lang]->sef;
-		}
-
-		if ($uri->getPath() === "index.php/$sef/")
-		{
-			// Remove the trailing slash
-			$uri->setPath("index.php/$sef");
-
-			// To prevent creating /en.html instead of /en
-			$uri->setVar('nolangformat', '1');
-		}
-
 		$uri->delVar('lang');
 	}
 
@@ -460,15 +440,14 @@ class PlgSystemLanguageFilter extends JPlugin
 				if ($lang_code !== $this->default_lang
 					|| !$this->params->get('remove_default_prefix', 0))
 				{
-					$path = $this->lang_codes[$lang_code]->sef . ($path !== '' ? '/' . $path : '');
+					$path = $this->lang_codes[$lang_code]->sef . '/' . $path;
 				}
 
 				$uri->setPath($path);
 
 				if (!$this->app->get('sef_rewrite'))
 				{
-					$path = $uri->getPath();
-					$uri->setPath('index.php' . ($path !== '' ? '/' . $path : ''));
+					$uri->setPath('index.php/' . $uri->getPath());
 				}
 
 				$redirectUri = $uri->base() . $uri->toString(array('path', 'query', 'fragment'));
@@ -852,7 +831,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				{
 					$sef = $languages[$this->default_lang]->sef;
 
-					$languages[$this->default_lang]->link = preg_replace("~/$sef(?:/|(?=[?#]|$))~", '/', $languages[$this->default_lang]->link, 1);
+					$languages[$this->default_lang]->link = preg_replace("~/$sef/~", '/', $languages[$this->default_lang]->link, 1);
 				}
 
 				foreach ($languages as $i => &$language)
