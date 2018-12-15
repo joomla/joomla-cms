@@ -103,7 +103,6 @@ class ExtensionAdapter extends UpdateAdapter
 	{
 		array_pop($this->stack);
 
-		// @todo remove code: echo 'Closing: '. $name .'<br>';
 		switch ($name)
 		{
 			case 'UPDATE':

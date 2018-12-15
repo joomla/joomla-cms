@@ -179,13 +179,27 @@
 
       this.checkActiveStatus(this);
 
-      document.body.addEventListener('click', () => {
+      document.body.addEventListener('click', (event) => {
         if (document.body.classList.contains('filters-shown')) {
+          // Ignore click inside the filter container
+          if (event.composedPath && typeof event.composedPath === 'function') {
+            // Browser that support composedPath()
+            if (event.composedPath().indexOf(this.filterContainer) !== -1) {
+              return;
+            }
+          } else {
+            let node = event.target;
+            while (node !== document.body) {
+              if (node === this.filterContainer) {
+                return;
+              }
+              node = node.parentNode;
+            }
+          }
+
           this.hideFilters();
         }
       });
-
-      this.filterContainer.addEventListener('click', (e) => { e.stopPropagation(); }, true);
     }
 
     checkFilter(element) {

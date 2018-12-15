@@ -11,7 +11,6 @@ namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
@@ -68,7 +67,7 @@ class MenusModel extends ListModel
 		// Load the list items.
 		$items = parent::getItems();
 
-		// If emtpy or an error, just return.
+		// If empty or an error, just return.
 		if (empty($items))
 		{
 			return array();

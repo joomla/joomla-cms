@@ -89,6 +89,13 @@ class WorkflowController extends FormController
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 		$user = Factory::getUser();
 
+		$record = $this->getModel()->getItem($recordId);
+
+		if (!empty($record->id) && $record->core)
+		{
+			return false;
+		}
+
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.workflow.' . $recordId))
 		{
@@ -98,9 +105,6 @@ class WorkflowController extends FormController
 		// Check "edit own" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit.own', $this->extension . '.workflow.' . $recordId))
 		{
-			// Need to do a lookup from the model to get the owner
-			$record = $this->getModel()->getItem($recordId);
-
 			return !empty($record) && $record->created_by == $user->id;
 		}
 
@@ -245,6 +249,6 @@ class WorkflowController extends FormController
 			$this->input->post->set('jform', $data);
 		}
 
-		parent::save($key, $urlVar);
+		return parent::save($key, $urlVar);
 	}
 }
