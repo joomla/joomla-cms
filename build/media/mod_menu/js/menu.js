@@ -12,12 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 var setup_navigation = function(nav, settings) {
   var settings = { menuHoverClass: 'show-menu', dir: 'ltr' };
-	// Add ARIA role to menubar and menu items
-	// nav.setAttribute('role', 'menubar');
-  // nav.querySelectorAll('li').forEach(function(el,i) {
-  //  el.setAttribute('role', 'menuitem');
-  // });
-
 	var top_level_childs = nav.querySelectorAll(':scope > li');
 
 	// Set tabIndex to -1 so that top_level_childs can't receive focus until menu is open
