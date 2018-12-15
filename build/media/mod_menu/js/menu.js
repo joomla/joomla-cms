@@ -92,7 +92,6 @@ var setup_navigation = function(nav, settings) {
       if (!nextLiEl) {
         nextLiEl = curUlEl.children[0];
       }
-      console.log ("key pressed: " + keyName);
       switch (keyName) {
         case 'ArrowLeft':
             event.preventDefault();
@@ -113,7 +112,6 @@ var setup_navigation = function(nav, settings) {
           case 'ArrowUp':
               event.preventDefault();
               var parent = curLiEl.parentElement.parentElement;
-              console.log(parent.nodeName);
               if (parent.nodeName == "LI") {
                 parent.children[0].focus();
               } else {
@@ -125,9 +123,7 @@ var setup_navigation = function(nav, settings) {
             if (curLiEl.classList.contains("parent")) {
               var child = curLiEl.querySelector('ul');
               if (child != null) {
-                console.log("child: " + child);
                 var childLi = child.querySelector('li');
-                console.log("childLi: " + childLi);
                 childLi.children[0].focus();
               }
               else {
