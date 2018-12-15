@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "deaacc2328e7698c3006c275a10799c9",
+    "content-hash": "19de3ee890b8cdee59719917e6e07c44",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -4167,12 +4167,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-projects/joomla-browser.git",
-                "reference": "a8fb79ddbdcdf79eea48686fc719d69e665e1c74"
+                "reference": "9d0d7d85e08672e179a0c916077bc748927ea818"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/a8fb79ddbdcdf79eea48686fc719d69e665e1c74",
-                "reference": "a8fb79ddbdcdf79eea48686fc719d69e665e1c74",
+                "url": "https://api.github.com/repos/joomla-projects/joomla-browser/zipball/9d0d7d85e08672e179a0c916077bc748927ea818",
+                "reference": "9d0d7d85e08672e179a0c916077bc748927ea818",
                 "shasum": ""
             },
             "require": {
@@ -4210,7 +4210,7 @@
                 "acceptance testing",
                 "joomla"
             ],
-            "time": "2018-08-10T11:56:42+00:00"
+            "time": "2018-11-16T08:53:04+00:00"
         },
         {
             "name": "joomla-projects/robo-joomla",
@@ -6693,7 +6693,8 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.0"
+        "php": ">=7.0",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "platform-overrides": {

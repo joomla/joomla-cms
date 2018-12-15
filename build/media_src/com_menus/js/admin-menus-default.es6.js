@@ -18,7 +18,8 @@
       });
     }
 
-    Joomla.Modal.getCurrent().addEventListener('hidden.bs.modal', () => {
+    // @Todo make vanilla, when modals are custom elements
+    window.jQuery('.modal').on('hidden.bs.modal', () => {
       setTimeout(() => { window.parent.location.reload(); }, 1000);
     });
   });

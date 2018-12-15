@@ -24,7 +24,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 class StageController extends FormController
 {
 	/**
-	 * The workflow in where the stage belons to
+	 * The workflow in where the stage belongs to
 	 *
 	 * @var    integer
 	 * @since  4.0.0
@@ -90,6 +90,15 @@ class StageController extends FormController
 	{
 		$user = Factory::getUser();
 
+		$model = $this->getModel('Workflow');
+
+		$workflow = $model->getItem($this->workflowId);
+
+		if ($workflow->core)
+		{
+			return false;
+		}
+
 		return $user->authorise('core.create', $this->extension);
 	}
 
@@ -107,6 +116,19 @@ class StageController extends FormController
 	{
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 		$user = Factory::getUser();
+
+		$model = $this->getModel();
+
+		$item = $model->getItem($recordId);
+
+		$model = $this->getModel('Workflow');
+
+		$workflow = $model->getItem($item->workflow_id);
+
+		if ($workflow->core)
+		{
+			return false;
+		}
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.stage.' . $recordId))

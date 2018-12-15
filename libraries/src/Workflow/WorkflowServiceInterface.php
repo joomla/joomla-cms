@@ -21,7 +21,7 @@ interface WorkflowServiceInterface
 	 * Method to filter transitions by given id of state.
 	 *
 	 * @param   array  $transitions  Array of transitions to filter for
-	 * @param   int    $pk           Id of the state on which the tranistions are performecd
+	 * @param   int    $pk           Id of the state on which the transitions are performed
 	 *
 	 * @return  array
 	 *
@@ -51,4 +51,15 @@ interface WorkflowServiceInterface
 	 * @since   4.0.0
 	 */
 	public static function getConditions($extension): array;
+
+	/**
+	 * Returns a table name for the state association
+	 *
+	 * @param   string  $section  An optional section to differ different areas in the component
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getWorkflowTableBySection(string $section = null) : string;
 }

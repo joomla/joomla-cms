@@ -275,13 +275,15 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   4.0.0
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->getDbo()->quote($table->extension);
+		return [
+			$this->_db->quoteName('extension') . ' = ' . $this->_db->quote($table->extension),
+		];
 	}
 
 	/**
@@ -345,7 +347,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->published != -2)
+		if (empty($record->id) || $record->published != -2 || $record->core)
 		{
 			return false;
 		}
@@ -365,6 +367,11 @@ class WorkflowModel extends AdminModel
 	protected function canEditState($record)
 	{
 		$user = Factory::getUser();
+
+		if (!empty($record->core))
+		{
+			return false;
+		}
 
 		// Check for existing workflow.
 		if (!empty($record->id))

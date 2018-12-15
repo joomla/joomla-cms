@@ -575,7 +575,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
@@ -723,7 +723,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$this->setLanguageCookie($lang_code);
 
 					// Change the language code.
-					Factory::getLanguage()->setLanguage($lang_code);
+					Factory::getContainer()->get(\Joomla\CMS\Language\LanguageFactoryInterface::class)->createLanguage($lang_code);
 				}
 			}
 			else
