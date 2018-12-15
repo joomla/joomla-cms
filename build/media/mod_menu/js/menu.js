@@ -56,7 +56,6 @@ var setup_navigation = function(nav, settings) {
       var ulChild = curEl.querySelector('ul');
       if (ulChild) {
         ulChild.setAttribute('aria-hidden', 'true');
-        ulChild.setAttribute('aria-hidden', 'true');
         ulChild.classList.remove(settings.menuHoverClass);
       }
     });
@@ -151,7 +150,6 @@ function topLevelMouseOver (el, settings) {
 function topLevelMouseOut (el, settings) {
   var ulChild = el.querySelector('ul');
   if (ulChild) {
-    ulChild.setAttribute('aria-hidden', 'true');
     ulChild.setAttribute('aria-hidden', 'true');
     ulChild.classList.remove(settings.menuHoverClass);
   }
