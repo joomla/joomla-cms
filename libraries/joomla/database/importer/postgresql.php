@@ -283,7 +283,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			$field['Start_Value'] = '1';
 		}
 
-		return 'CREATE SEQUENCE ' . (string) $field['Name'] .
+		return 'CREATE SEQUENCE IF NOT EXISTS ' . (string) $field['Name'] .
 			' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . $field['Min_Value'] .
 			' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value'] .
 			(((string) $field['Cycle_option'] == 'NO') ? ' NO' : '') . ' CYCLE' .
@@ -405,9 +405,17 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL') ?
-						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
-					: null;
+
+		if (strpos($field['Default'], "::") != false)
+		{
+			$fDefault = strstr($field['Default'], '::', true);
+		}
+		else
+		{
+			$fDefault = (isset($field['Default']) && (strlen($field['Default']) != 0)) ?
+							preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
+							: null;
+		}
 
 		/* nextval() as default value means that type field is serial */
 		if (strpos($fDefault, 'nextval') !== false)
