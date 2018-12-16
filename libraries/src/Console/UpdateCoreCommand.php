@@ -134,7 +134,6 @@ class UpdateCoreCommand extends AbstractCommand
 		return true;
 	}
 
-
 	/**
 	 * Execute the command.
 	 *
@@ -169,20 +168,18 @@ class UpdateCoreCommand extends AbstractCommand
 		$this->progressBar->advance();
 		$this->progressBar->setMessage('Starting Joomla! update ...');
 
+		$this->progressBar->finish();
+
 		if ($this->updateJoomlaCore($model) && $this->runChecks(true))
 		{
-			$this->progressBar->finish();
 			$this->ioStyle->success('Joomla core updated successfully!');
 
 			return self::UPDATE_SUCCESSFUL;
 		}
-		else
-		{
-			$this->progressBar->finish();
-			$this->ioStyle->note('Update cannot be performed.');
 
-			return self::ERR_UPDATE_FAILED;
-		}
+		$this->ioStyle->note('Update cannot be performed.');
+
+		return self::ERR_UPDATE_FAILED;
 	}
 
 	/**

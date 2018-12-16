@@ -49,10 +49,8 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 
 			return 0;
 		}
-		else
-		{
-			$symfonyStyle->note('New Joomla Version ' . $data['latest'] . ' is available.');
-		}
+
+		$symfonyStyle->note('New Joomla Version ' . $data['latest'] . ' is available.');
 
 		if (!isset($data['object']->downloadurl->_data))
 		{
@@ -106,13 +104,9 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 		if (!$this->updateInfo)
 		{
 			$this->setUpdateInfo();
+		}
 
-			return $this->updateInfo;
-		}
-		else
-		{
-			return $this->updateInfo;
-		}
+		return $this->updateInfo;
 	}
 
 	/**

@@ -11,11 +11,11 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Installer\Installer;
-use Joomla\Console\AbstractCommand;
 use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\Console\AbstractCommand;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Console\Input\InputArgument;
 
 /**
  * Console command for installing extensions
@@ -147,7 +147,7 @@ class ExtensionInstallCommand extends AbstractCommand
 		}
 
 		$tmp_path = $this->getApplication()->get('tmp_path');
-		$tmp_path     = $tmp_path . '/' . basename($path);
+		$tmp_path = $tmp_path . '/' . basename($path);
 		$package  = InstallerHelper::unpack($path, true);
 
 		if ($package['type'] === false)

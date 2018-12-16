@@ -21,7 +21,7 @@ if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	{
 		return;
 	}
-	elseif (file_exists(JPATH_INSTALLATION . '/index.php') && php_sapi_name() !== 'cli')
+	elseif (file_exists(JPATH_INSTALLATION . '/index.php'))
 	{
 		header('Location: ' . substr($_SERVER['REQUEST_URI'], 0, strpos($_SERVER['REQUEST_URI'], 'index.php')) . 'installation/index.php');
 
