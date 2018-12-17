@@ -43,12 +43,6 @@ HTMLHelper::_('script', 'com_modules/admin-module-edit.min.js', array('version' 
 
 $input = Factory::getApplication()->input;
 
-// In case of admin module
-if ($this->item->client_id == 1)
-{
-	$input->set('client_id', 1);
-}
-
 // In case of modal
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
