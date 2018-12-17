@@ -522,12 +522,19 @@ class SiteRouter extends Router
 		}
 
 		// Build the component route
-		$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
-		$itemID    = !empty($query['Itemid']) ? $query['Itemid'] : null;
-		$crouter   = $this->getComponentRouter($component);
-		$parts     = $crouter->build($query);
-		$result    = implode('/', $parts);
-		$tmp       = ($result !== '') ? $result : '';
+		$itemID = !empty($query['Itemid']) ? $query['Itemid'] : null;
+
+		if ($query['option'] !== '')
+		{
+			$component = preg_replace('/[^A-Z0-9_\.-]/i', '', $query['option']);
+			$crouter   = $this->getComponentRouter($component);
+			$parts     = $crouter->build($query);
+			$tmp       = implode('/', $parts);
+		}
+		else
+		{
+			$tmp = '';
+		}
 
 		// Build the application route
 		$built = false;
