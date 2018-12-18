@@ -246,12 +246,24 @@ class EditorField extends \JFormFieldTextarea
 	{
 		// Get an editor object.
 		$editor = $this->getEditor();
-		$readonly = $this->readonly || $this->disabled;
+		$params = array(
+			'autofocus' => $this->autofocus,
+			'readonly'  => $this->readonly || $this->disabled,
+			'syntax'    => (string) $this->element['syntax'],
+		);
 
 		return $editor->display(
-			$this->name, htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'), $this->width, $this->height, $this->columns, $this->rows,
-			$this->buttons ? (is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false, $this->id, $this->asset,
-			$this->form->getValue($this->authorField), array('syntax' => (string) $this->element['syntax'], 'readonly' => $readonly)
+			$this->name,
+			htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8'),
+			$this->width,
+			$this->height,
+			$this->columns,
+			$this->rows,
+			$this->buttons ? (is_array($this->buttons) ? array_merge($this->buttons, $this->hide) : $this->hide) : false,
+			$this->id,
+			$this->asset,
+			$this->form->getValue($this->authorField),
+			$params
 		);
 	}
 

@@ -407,11 +407,11 @@ class ArticlesModel extends ListModel
 		}
 		elseif (is_array($authorId))
 		{
-			$authorId = ArrayHelper::toInteger($authorId);
-			$authorId = implode(',', $authorId);
+			$authorId = array_filter($authorId, 'is_numeric');
 
 			if ($authorId)
 			{
+				$authorId    = implode(',', $authorId);
 				$type        = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
 				$authorWhere = 'a.created_by ' . $type . ' (' . $authorId . ')';
 			}

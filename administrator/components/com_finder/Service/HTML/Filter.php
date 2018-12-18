@@ -192,9 +192,9 @@ class Filter
 
 				// Build a node.
 				$html .= '<div class="form-check">';
-				$html .= '<label class="form-check-label" for="tax-' . $nk . '">';
+				$html .= '<label class="form-check-label">';
 				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $nk . '"' . $checked . '> ' . $nv->title;
+					. $bk . '"' . $checked . '> ' . $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';
 			}
