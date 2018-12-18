@@ -637,6 +637,8 @@ class PlgSystemDebug extends JPlugin
 		$totalTime = 0;
 		$totalMem  = 0;
 		$marks     = array();
+		$bars      = array();
+		$barsMem   = array();
 
 		foreach (JProfiler::getInstance('Application')->getMarks() as $mark)
 		{
@@ -662,8 +664,8 @@ class PlgSystemDebug extends JPlugin
 			);
 		}
 
-		$avgTime = $totalTime / count($marks);
-		$avgMem  = $totalMem / count($marks);
+		$avgTime = $totalTime / max(count($marks), 1);
+		$avgMem  = $totalMem / max(count($marks), 1);
 
 		foreach ($marks as $mark)
 		{
