@@ -46,7 +46,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($debugUsers) : ?>
-							<th width="5%" class="nowrap center">									
+							<th width="5%" class="nowrap center">
 								<?php echo JText::_('COM_USERS_DEBUG_USER'); ?>
 							</th>
 						<?php endif; ?>
