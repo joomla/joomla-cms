@@ -121,7 +121,7 @@ $debugUsers = $this->state->get('params')->get('debugUsers', 1);
 							<?php endif; ?>
 						</td>
 						<?php if ($debugUsers) : ?>
-							<td class="center btns">		 
+							<td class="center btns">
 								<a href="<?php echo JRoute::_('index.php?option=com_users&view=debuguser&user_id=' . (int) $item->id); ?>">
 									<span class="icon-list hasTooltip" aria-hidden="true" title="<?php echo JText::_('COM_USERS_DEBUG_USERS_DESC'); ?>"></span>
 									<span class="element-invisible"><?php echo JText::_('COM_USERS_DEBUG_USERS_DESC'); ?></span>
