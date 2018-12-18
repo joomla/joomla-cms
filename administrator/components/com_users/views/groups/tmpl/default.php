@@ -68,7 +68,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERS_HEADING_GROUP_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
 						<?php if ($debugGroups) : ?>
-							<th width="10%" class="nowrap center">								
+							<th width="10%" class="nowrap center">
 								<?php echo JText::_('COM_USERS_DEBUG_GROUP'); ?>
 							</th>
 						<?php endif; ?>
