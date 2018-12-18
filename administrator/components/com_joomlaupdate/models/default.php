@@ -250,7 +250,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 	public function download()
 	{
 		$updateInfo = $this->getUpdateInformation();
-		$packageURL = $updateInfo['object']->downloadurl->_data;
+		$packageURL = trim($updateInfo['object']->downloadurl->_data);
 		$sources    = $updateInfo['object']->get('downloadSources', array());
 		$headers    = get_headers($packageURL, 1);
 
@@ -286,7 +286,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 			while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 			{
 				$name       = $sources[$mirror];
-				$packageURL = $name->url;
+				$packageURL = trim($name->url);
 				$mirror++;
 			}
 
@@ -304,7 +304,7 @@ class JoomlaupdateModelDefault extends JModelLegacy
 				while (!($download = $this->downloadPackage($packageURL, $target)) && isset($sources[$mirror]))
 				{
 					$name       = $sources[$mirror];
-					$packageURL = $name->url;
+					$packageURL = trim($name->url);
 					$mirror++;
 				}
 

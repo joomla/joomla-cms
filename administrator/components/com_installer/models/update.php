@@ -406,7 +406,7 @@ class InstallerModelUpdate extends JModelList
 			return false;
 		}
 
-		$url     = $update->downloadurl->_data;
+		$url     = trim($update->downloadurl->_data);
 		$sources = $update->get('downloadSources', array());
 
 		if ($extra_query = $update->get('extra_query'))
@@ -420,7 +420,7 @@ class InstallerModelUpdate extends JModelList
 		while (!($p_file = InstallerHelper::downloadPackage($url)) && isset($sources[$mirror]))
 		{
 			$name = $sources[$mirror];
-			$url  = $name->url;
+			$url  = trim($name->url);
 
 			if ($extra_query)
 			{
