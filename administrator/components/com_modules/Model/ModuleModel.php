@@ -844,12 +844,6 @@ class ModuleModel extends AdminModel
 		$client   = ApplicationHelper::getClientInfo($clientId);
 		$formFile = Path::clean($client->path . '/modules/' . $module . '/' . $module . '.xml');
 
-		// Set the correct input when client is administrator
-		if ($clientId == 1)
-		{
-			Factory::getApplication()->input->set('client_id', 1);
-		}
-
 		// Load the core and/or local language file(s).
 		$lang->load($module, $client->path, null, false, true)
 		||	$lang->load($module, $client->path . '/modules/' . $module, null, false, true);

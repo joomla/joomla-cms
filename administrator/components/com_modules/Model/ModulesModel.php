@@ -118,11 +118,10 @@ class ModulesModel extends ListModel
 			$this->setState('client_id', $clientId);
 		}
 
-		// Use a different filter file and input set when client is administrator
+		// Use a different filter file when client is administrator
 		if ($clientId == 1)
 		{
 			$this->filterFormName = 'filter_modulesadmin';
-			$app->input->set('client_id', 1);
 		}
 
 		// Load the parameters.
