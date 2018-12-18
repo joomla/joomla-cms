@@ -71,11 +71,11 @@ echo JHtml::_(
 		'closeButton' => false,
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<a type="button" class="btn" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true">'
-				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-				. '<button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#saveBtn" aria-hidden="true">'
+		'footer'      => '<button type="button" class="btn" data-dismiss="modal" data-target="#closeBtn">'
+				. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+				. '<button type="button" class="btn btn-primary" data-dismiss="modal" data-target="#saveBtn">'
 				. JText::_('JSAVE') . '</button>'
-				. '<button type="button" class="btn btn-success" data-target="#applyBtn" aria-hidden="true">'
+				. '<button type="button" class="btn btn-success" data-target="#applyBtn">'
 				. JText::_('JAPPLY') . '</button>',
 	)
 );
@@ -125,13 +125,13 @@ echo JLayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 			<?php endif; ?>
 			<tr class="<?php echo $no; ?><?php echo $status; ?>row<?php echo $i % 2; ?>" id="tr-<?php echo $module->id; ?>" style="display:table-row">
 				<td id="<?php echo $module->id; ?>">
-					<a href="#moduleEditModal"
-						role="button"
+					<button type="button"
+						data-target="#moduleEditModal"
 						class="btn btn-link module-edit-link"
 						title="<?php echo JText::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
 						id="title-<?php echo $module->id; ?>"
 						data-module-id="<?php echo $module->id; ?>">
-						<?php echo $this->escape($module->title); ?></a>
+						<?php echo $this->escape($module->title); ?></button>
 				</td>
 				<td id="access-<?php echo $module->id; ?>">
 					<?php echo $this->escape($module->access_title); ?>

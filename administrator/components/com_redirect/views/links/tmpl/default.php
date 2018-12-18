@@ -38,12 +38,12 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					'closeButton' => false,
 					'backdrop'    => 'static',
 					'keyboard'    => false,
-					'footer'      => '<button type="button" class="btn" data-dismiss="modal" aria-hidden="true"'
+					'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
 						. ' onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
 						. JText::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-						. '<button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+						. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
 						. JText::_("JSAVE") . '</button>'
-						. '<button type="button" class="btn btn-success" aria-hidden="true" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#applyBtn\').click(); return false;">'
+						. '<button type="button" class="btn btn-success" onclick="jQuery(\'#plugin' . $this->redirectPluginId . 'Modal iframe\').contents().find(\'#applyBtn\').click(); return false;">'
 						. JText::_("JAPPLY") . '</button>'
 				)
 			); ?>
