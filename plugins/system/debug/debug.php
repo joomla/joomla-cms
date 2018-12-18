@@ -664,7 +664,7 @@ class PlgSystemDebug extends JPlugin
 			);
 		}
 
-		$avgTime = $totalTime / max(array(count($marks), 1));
+		$avgTime = $totalTime / max(count($marks), 1);
 		$avgMem  = $totalMem / max(array(count($marks), 1));
 
 		foreach ($marks as $mark)
