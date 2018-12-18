@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 	<table class="table">
 		<thead>
 			<tr>
-				<th scope="col" style="width:650px">
+				<th scope="col" style="width:850px">
 					<?php echo Text::_('COM_ADMIN_DIRECTORY'); ?>
 				</th>
 				<th scope="col">
@@ -29,7 +29,7 @@ use Joomla\CMS\Language\Text;
 			<?php foreach ($this->directory as $dir => $info) : ?>
 				<tr>
 					<th scope="row">
-						<?php echo HTMLHelper::_('directory.message', $dir, $info['message']); ?>
+						<?php echo '&#x200E;' . HTMLHelper::_('directory.message', $dir, $info['message']); ?>
 					</th>
 					<td>
 						<?php echo HTMLHelper::_('directory.writable', $info['writable']); ?>
