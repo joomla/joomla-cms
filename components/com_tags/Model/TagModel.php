@@ -267,16 +267,16 @@ class TagModel extends ListModel
 		{
 			$this->item = false;
 
-			if (empty($id))
+			if (empty($pk))
 			{
-				$id = $this->getState('tag.id');
+				$pk = $this->getState('tag.id');
 			}
 
 			// Get a level row instance.
 			/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
 			$table = $this->getTable();
 
-			$idsArray = explode(',', $id);
+			$idsArray = explode(',', $pk);
 
 			// Attempt to load the rows into an array.
 			foreach ($idsArray as $id)
