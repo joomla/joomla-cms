@@ -135,7 +135,7 @@ class PlgFieldsRepeatable extends FieldsPlugin
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
 			// Handle json encoded values
-			if(!is_array($value))
+			if (!is_array($value))
 			{
 				$value = json_decode($value, true);
 			}
