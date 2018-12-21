@@ -15,6 +15,9 @@ use Joomla\CMS\Language\Text;
 ?>
 <div class="sysinfo">
 	<table class="table">
+		<caption class="sr-only">
+			<?php echo Text::_('COM_ADMIN_SYSTEM_INFORMATION'); ?>
+		</caption>
 		<thead>
 			<tr>
 				<th scope="col" style="width:25%">
