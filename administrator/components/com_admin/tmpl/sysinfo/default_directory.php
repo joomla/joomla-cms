@@ -16,7 +16,7 @@ use Joomla\CMS\Language\Text;
 <div class="sysinfo">
 	<table class="table">
 		<caption class="sr-only">
-			<?php echo Text::_('COM_ADMIN_SYSTEM_INFORMATION'); ?>
+			<?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?>
 		</caption>
 		<thead>
 			<tr>
