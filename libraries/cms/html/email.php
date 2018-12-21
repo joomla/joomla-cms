@@ -99,7 +99,7 @@ abstract class JHtmlEmail
 		";
 
 		// TODO: Use inline script for now
-		$inlineScript = "<script type='text/javascript'>" . $script . "</script>";
+		$inlineScript = "<script>" . $script . "</script>";
 
 		return '<span id="cloak' . $rand . '">' . JText::_('JLIB_HTML_CLOAKING') . '</span>' . $inlineScript;
 	}
