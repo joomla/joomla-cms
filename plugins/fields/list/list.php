@@ -36,7 +36,6 @@ class PlgFieldsList extends FieldsListPlugin
 		{
 			return;
 		}
-	
 		// The field's rawvalue should be an array
 		if (!is_array($field->rawvalue))
 		{
