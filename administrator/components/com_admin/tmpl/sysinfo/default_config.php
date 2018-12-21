@@ -14,7 +14,7 @@ use Joomla\CMS\Language\Text;
 ?>
 <div class="sysinfo">
 	<table class="table">
-		<caption id="captionTable" class="sr-only">
+		<caption class="sr-only">
 			<?php echo Text::_('COM_ADMIN_CONFIGURATION_FILE'); ?>
 		</caption>
 		<thead>
