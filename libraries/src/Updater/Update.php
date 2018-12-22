@@ -545,7 +545,7 @@ class Update extends \JObject
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
-		$constant = '\\Joomla\\CMS\\Update\\Updater::STABILITY_' . strtoupper($tag);
+		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
 		if (defined($constant))
 		{
