@@ -592,6 +592,28 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	}
 
 	/**
+	 * Method to get the last value of a sequence in the database.
+	 *
+	 * @param   string  $sequence  The name of the sequence.
+	 *
+	 * @return  integer  The last value of the sequence.
+	 *
+	 * @since   3.0.0
+	 * @throws  RuntimeException
+	 */
+	public function getSequenceLastValue($sequence)
+	{
+		$query = $this->getQuery(true)
+			->select('last_value')
+			->from($sequence);
+
+		$this->setQuery($query);
+		$lastId = $this->loadResult();
+
+		return $lastId;
+	}
+
+	/**
 	 * Get the version of the database connector.
 	 *
 	 * @return  string  The database connector version.

@@ -287,7 +287,8 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . $field['Min_Value'] .
 			' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value'] .
 			(((string) $field['Cycle_option'] == 'NO') ? ' NO' : '') . ' CYCLE' .
-			' OWNED BY ' . $this->db->quoteName((string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']);
+			' OWNED BY ' . $this->db->quoteName((string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']) . '; ' .
+			"SELECT setval('" . (string) $field['Name'] . "', " . (string) $field['Last_Value'] . ", true)";
 	}
 
 	/**
