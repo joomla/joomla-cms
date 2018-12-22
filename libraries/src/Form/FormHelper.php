@@ -91,6 +91,21 @@ class FormHelper
 	}
 
 	/**
+	 * Method to load a form filter object given a type.
+	 *
+	 * @param   string   $type  The rule type.
+	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+	 *
+	 * @return  FormFilter|boolean  FormRule object on success, false otherwise.
+	 *
+	 * @since   1.7.0
+	 */
+	public static function loadFilterType($type, $new = true)
+	{
+		return self::loadType('filter', $type, $new);
+	}
+
+	/**
 	 * Method to load a form entity object given a type.
 	 * Each type is loaded only once and then used as a prototype for other objects of same type.
 	 * Please, use this method only with those entities which support types (forms don't support them).
