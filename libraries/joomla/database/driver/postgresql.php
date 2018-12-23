@@ -618,9 +618,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	/**
 	 * Method to set the last value of a sequence in the database.
 	 *
-	 * @param	string  $sequence	The name of the sequence.
-	 * @param	integer $last_value	The last value of the sequence.
-	 * @param	boolean	$is_called	Flag to advance the sequence before returning a value
+	 * @param   string   $sequence    The name of the sequence.
+	 * @param   integer  $last_value  The last value of the sequence.
+	 * @param   boolean  $is_called   Flag to advance the sequence before returning a value
 	 *
 	 * @return	boolean	True on success.
 	 *

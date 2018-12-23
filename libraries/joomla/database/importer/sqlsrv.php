@@ -3,31 +3,31 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * MySQLi import driver.
+ * Sqlsrv import driver.
  *
- * @since  1.7.0
+ * @since  __DEPLOY_VERSION__
  */
-class JDatabaseImporterMysqli extends JDatabaseImporter
+class JDatabaseImporterSqlsrv extends JDatabaseImporter
 {
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseImporterMysqli  Method supports chaining.
+	 * @return  JDatabaseImporterSqlsrv  Method supports chaining.
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseDriverMysqli))
+		if (!($this->db instanceof JDatabaseDriverSqlsrv))
 		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
@@ -48,7 +48,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException
 	 */
 	protected function xmlToCreate(SimpleXMLElement $table)
@@ -68,14 +68,6 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			$createTableStatement .= $this->getColumnSQL($field) . ', ';
 		}
 
-		$newLookup = $this->getKeyLookup($table->xpath('key'));
-
-		// Loop through each key in the new structure.
-		foreach ($newLookup as $key)
-		{
-			$createTableStatement .= $this->getKeySQL($key) . ', ';
-		}
-
 		// Remove the comma after the last key
 		$createTableStatement = rtrim($createTableStatement, ', ');
 
@@ -92,7 +84,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getAddColumnSql($table, SimpleXMLElement $field)
 	{
@@ -107,7 +99,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getAddKeySql($table, $keys)
 	{
@@ -117,16 +109,16 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	/**
 	 * Get alters for table if there is a difference.
 	 *
-	 * @param   SimpleXMLElement  $structure  The XML structure of the table.
+	 * @param   SimpleXMLElement  $structure  The XML structure pf the table.
 	 *
 	 * @return  array
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getAlterTableSql(SimpleXMLElement $structure)
 	{
 		$table = $this->getRealTableName($structure['name']);
-		$oldFields = $this->db->getTableColumns($table, false);
+		$oldFields = $this->db->getTableColumns($table);
 		$oldKeys = $this->db->getTableKeys($table);
 		$alters = array();
 
@@ -194,30 +186,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 							&& ((string) $newLookup[$name][$i]['Column_name'] == $oldLookup[$name][$i]->Column_name)
 							&& ((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index)
 							&& ((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation)
-							&& ((string) $newLookup[$name][$i]['Sub_part'] == $oldLookup[$name][$i]->Sub_part)
 							&& ((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type));
-
-						/*
-						Debug.
-						echo '<pre>';
-						echo '<br />Non_unique:   '.
-							((string) $newLookup[$name][$i]['Non_unique'] == $oldLookup[$name][$i]->Non_unique ? 'Pass' : 'Fail').' '.
-							(string) $newLookup[$name][$i]['Non_unique'].' vs '.$oldLookup[$name][$i]->Non_unique;
-						echo '<br />Column_name:  '.
-							((string) $newLookup[$name][$i]['Column_name'] == $oldLookup[$name][$i]->Column_name ? 'Pass' : 'Fail').' '.
-							(string) $newLookup[$name][$i]['Column_name'].' vs '.$oldLookup[$name][$i]->Column_name;
-						echo '<br />Seq_in_index: '.
-							((string) $newLookup[$name][$i]['Seq_in_index'] == $oldLookup[$name][$i]->Seq_in_index ? 'Pass' : 'Fail').' '.
-							(string) $newLookup[$name][$i]['Seq_in_index'].' vs '.$oldLookup[$name][$i]->Seq_in_index;
-						echo '<br />Collation:    '.
-							((string) $newLookup[$name][$i]['Collation'] == $oldLookup[$name][$i]->Collation ? 'Pass' : 'Fail').' '.
-							(string) $newLookup[$name][$i]['Collation'].' vs '.$oldLookup[$name][$i]->Collation;
-						echo '<br />Index_type:   '.
-							((string) $newLookup[$name][$i]['Index_type'] == $oldLookup[$name][$i]->Index_type ? 'Pass' : 'Fail').' '.
-							(string) $newLookup[$name][$i]['Index_type'].' vs '.$oldLookup[$name][$i]->Index_type;
-						echo '<br />Same = '.($same ? 'true' : 'false');
-						echo '</pre>';
-						 */
 
 						if (!$same)
 						{
@@ -272,7 +241,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getChangeColumnSql($table, SimpleXMLElement $field)
 	{
@@ -287,7 +256,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getColumnSql(SimpleXMLElement $field)
 	{
@@ -311,14 +280,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 			else
 			{
 				// TODO Don't quote numeric values.
-				if (strpos($fDefault, 'CURRENT') !== false)
-				{
-					$query .= ' NOT NULL DEFAULT CURRENT_TIMESTAMP()';
-				}
-				else
-				{
-					$query .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
-				}
+				$query .= ' NOT NULL DEFAULT ' . $this->db->quote($fDefault);
 			}
 		}
 		else
@@ -350,7 +312,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getDropKeySql($table, $name)
 	{
@@ -364,7 +326,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getDropPrimaryKeySql($table)
 	{
@@ -378,7 +340,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  array  The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception
 	 */
 	protected function getKeyLookup($keys)
@@ -415,7 +377,7 @@ class JDatabaseImporterMysqli extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getKeySql($columns)
 	{

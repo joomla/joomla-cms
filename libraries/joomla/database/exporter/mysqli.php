@@ -32,7 +32,15 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 		$buffer[] = '<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
 		$buffer[] = ' <database name="">';
 
-		$buffer = array_merge($buffer, $this->buildXmlStructure());
+		if ($this->options->withStructure)
+		{
+			$buffer = array_merge($buffer, $this->buildXmlStructure());
+		}
+
+		if ($this->options->withData)
+		{
+			$buffer = array_merge($buffer, $this->buildXmlData());
+		}
 
 		$buffer[] = ' </database>';
 		$buffer[] = '</mysqldump>';
@@ -75,6 +83,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
 					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
 					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' .
+					' Sub_part="' . $key->Sub_part . '"' .
 					' Comment="' . htmlspecialchars($key->Comment, ENT_COMPAT, 'UTF-8') . '"' . ' />';
 			}
 

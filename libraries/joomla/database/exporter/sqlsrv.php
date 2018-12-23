@@ -3,35 +3,33 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * MySQL export driver for the PDO based MySQL database driver.
+ * Sqlsrv export driver.
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @since       3.4
+ * @since  __DEPLOY_VERSION__
  */
-class JDatabaseExporterPdomysql extends JDatabaseExporter
+class JDatabaseExporterSqlsrv extends JDatabaseExporter
 {
 	/**
 	 * Builds the XML data for the tables to export.
 	 *
 	 * @return  string  An XML string
 	 *
-	 * @since   3.4
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXml()
 	{
-		$buffer   = array();
+		$buffer = array();
 
 		$buffer[] = '<?xml version="1.0"?>';
-		$buffer[] = '<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
+		$buffer[] = '<sqlsrvdump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
 		$buffer[] = ' <database name="">';
 
 		if ($this->options->withStructure)
@@ -45,7 +43,7 @@ class JDatabaseExporterPdomysql extends JDatabaseExporter
 		}
 
 		$buffer[] = ' </database>';
-		$buffer[] = '</mysqldump>';
+		$buffer[] = '</sqlsrvdump>';
 
 		return implode("\n", $buffer);
 	}
@@ -55,7 +53,7 @@ class JDatabaseExporterPdomysql extends JDatabaseExporter
 	 *
 	 * @return  array  An array of XML lines (strings).
 	 *
-	 * @since   3.4
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlStructure()
@@ -69,14 +67,15 @@ class JDatabaseExporterPdomysql extends JDatabaseExporter
 
 			// Get the details columns information.
 			$fields = $this->db->getTableColumns($table, false);
-			$keys   = $this->db->getTableKeys($table);
+			$keys = $this->db->getTableKeys($table);
 
 			$buffer[] = '  <table_structure name="' . $table . '">';
 
 			foreach ($fields as $field)
 			{
-				$buffer[] = '   <field Field="' . $field->Field . '"' . ' Type="' . $field->Type . '"' . ' Null="' . $field->Null . '"' . ' Key="' .
-					$field->Key . '"' . (isset($field->Default) ? ' Default="' . $field->Default . '"' : '') . ' Extra="' . $field->Extra . '"' .
+				$buffer[] = '   <field Field="' . $field->Field . '"' . ' Type="' . $field->Type . '"' . ' Null="' . $field->Null . '"' .
+					(isset($field->Key) ? ' Key="' . $field->Key . '"' : '') .
+					(isset($field->Default) ? ' Default="' . $field->Default . '"' : '') .
 					' />';
 			}
 
@@ -85,7 +84,7 @@ class JDatabaseExporterPdomysql extends JDatabaseExporter
 				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
 					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
 					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' .
-					' Sub_part="' . $key->Sub_part . '"' .
+					' Sub_part ="' . $key->Sub_part . '"' .
 					' Comment="' . htmlspecialchars($key->Comment, ENT_COMPAT, 'UTF-8') . '"' . ' />';
 			}
 
@@ -98,15 +97,15 @@ class JDatabaseExporterPdomysql extends JDatabaseExporter
 	/**
 	 * Checks if all data and options are in order prior to exporting.
 	 *
-	 * @return  JDatabaseExporterPdomysql  Method supports chaining.
+	 * @return  JDatabaseExporterSqlsrv  Method supports chaining.
 	 *
-	 * @since   3.4
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
 	{
 		// Check if the db connector has been set.
-		if (!($this->db instanceof JDatabaseDriverPdomysql))
+		if (!($this->db instanceof JDatabaseDriverSqlsrv))
 		{
 			throw new Exception('JPLATFORM_ERROR_DATABASE_CONNECTOR_WRONG_TYPE');
 		}
