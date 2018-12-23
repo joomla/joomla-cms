@@ -96,7 +96,7 @@ class DbImporterCli extends JApplicationCli
 		foreach ($tables as $table)
 		{
 			$task_i_time = microtime(true);
-			$percorso    = $ipath . $table;
+			$percorso    = $ipath . '/' . $table;
 
 			// Check file
 			if (!JFile::exists($percorso))
