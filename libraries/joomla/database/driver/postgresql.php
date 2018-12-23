@@ -598,11 +598,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  integer  The last value of the sequence.
 	 *
-	 * @since   3.0.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  RuntimeException
 	 */
 	public function getSequenceLastValue($sequence)
 	{
+		$this->connect();
+
 		$query = $this->getQuery(true)
 			->select('last_value')
 			->from($sequence);
@@ -611,6 +613,33 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$lastId = $this->loadResult();
 
 		return $lastId;
+	}
+
+	/**
+	 * Method to set the last value of a sequence in the database.
+	 *
+	 * @param	string  $sequence	The name of the sequence.
+	 * @param	integer $last_value	The last value of the sequence.
+	 * @param	boolean	$is_called	Flag to advance the sequence before returning a value
+	 *
+	 * @return	boolean	True on success.
+	 *
+	 * @since	__DEPLOY_VERSION__
+	 * @throws	RuntimeException
+	 */
+	public function setSequenceLastValue($sequence, $last_value, $is_called = true)
+	{
+		$this->connect();
+
+		$retVal = false;
+
+		$this->setQuery("SELECT setval('" . $sequence . "', " . (string) $last_value . ", " . (string) $is_called . ")");
+		if ($this->execute())
+		{
+			$retVal = true;
+		}
+
+		return $retVal;
 	}
 
 	/**

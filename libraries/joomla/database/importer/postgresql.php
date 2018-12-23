@@ -124,6 +124,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 				if ($change)
 				{
 					$alters[] = $this->getChangeSequenceSql($kSeqName, $vSeq);
+					$alters[] = $this->getSetvalSequenceSql($kSeqName, $vSeq);
 				}
 
 				// Unset this field so that what we have left are fields that need to be removed.
@@ -133,6 +134,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			{
 				// The sequence is new
 				$alters[] = $this->getAddSequenceSql($newSequenceLook[$kSeqName][0]);
+				$alters[] = $this->getSetvalSequenceSql($newSequenceLook[$kSeqName][0]);
 			}
 		}
 
@@ -287,8 +289,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . $field['Min_Value'] .
 			' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value'] .
 			(((string) $field['Cycle_option'] == 'NO') ? ' NO' : '') . ' CYCLE' .
-			' OWNED BY ' . $this->db->quoteName((string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']) . '; ' .
-			"SELECT setval('" . (string) $field['Name'] . "', " . (string) $field['Last_Value'] . ", true)";
+			' OWNED BY ' . $this->db->quoteName((string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']);
 	}
 
 	/**
@@ -316,6 +317,20 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			' INCREMENT BY ' . (string) $field['Increment'] . ' MINVALUE ' . (string) $field['Min_Value'] .
 			' MAXVALUE ' . (string) $field['Max_Value'] . ' START ' . (string) $field['Start_Value'] .
 			' OWNED BY ' . $this->db->quoteName((string) $field['Schema'] . '.' . (string) $field['Table'] . '.' . (string) $field['Column']);
+	}
+
+	/**
+	 * Get the syntax to setval a sequence.
+	 *
+	 * @param   SimpleXMLElement  $field  The XML definition for the sequence.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getSetvalSequenceSql($field)
+	{
+		return 'SELECT setval(\'' . (string) $field['Name'] . '\', ' . (string) $field['Last_Value'] . ', true)';
 	}
 
 	/**
@@ -407,13 +422,13 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
 
-		if (strpos($field['Default'], "::") != false)
+		if (strpos($field['Default'], '::') != false)
 		{
 			$fDefault = strstr($field['Default'], '::', true);
 		}
 		else
 		{
-			$fDefault = (isset($field['Default']) && (strlen($field['Default']) != 0)) ?
+			$fDefault = isset($field['Default']) && strlen($field['Default']) != 0 ?
 							preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
 							: null;
 		}
