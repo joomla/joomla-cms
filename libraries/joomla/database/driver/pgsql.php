@@ -226,16 +226,6 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 		{
 			foreach ($fields as $field)
 			{
-				if (stristr(strtolower($field->type), 'character varying'))
-				{
-					$field->Default = '';
-				}
-
-				if (stristr(strtolower($field->type), 'text'))
-				{
-					$field->Default = '';
-				}
-
 				// Do some dirty translation to MySQL output.
 				// @todo: Come up with and implement a standard across databases.
 				$result[$field->column_name] = (object) array(
@@ -372,6 +362,57 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 		}
 
 		return false;
+	}
+
+	/**
+	 * Method to get the last value of a sequence in the database.
+	 *
+	 * @param   string  $sequence  The name of the sequence.
+	 *
+	 * @return  integer  The last value of the sequence.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
+	 */
+	public function getSequenceLastValue($sequence)
+	{
+		$this->connect();
+
+		$query = $this->getQuery(true)
+			->select('last_value')
+			->from($sequence);
+
+		$this->setQuery($query);
+		$lastId = $this->loadResult();
+
+		return $lastId;
+	}
+
+	/**
+	 * Method to set the last value of a sequence in the database.
+	 *
+	 * @param   string   $sequence    The name of the sequence.
+	 * @param   integer  $last_value  The last value of the sequence.
+	 * @param   boolean  $is_called   Flag to advance the sequence before returning a value
+	 *
+	 * @return	boolean	True on success.
+	 *
+	 * @since	__DEPLOY_VERSION__
+	 * @throws	RuntimeException
+	 */
+	public function setSequenceLastValue($sequence, $last_value, $is_called = true)
+	{
+		$this->connect();
+
+		$retVal = false;
+
+		$this->setQuery("SELECT setval('" . $sequence . "', " . (string) $last_value . ", " . (string) $is_called . ")");
+		if ($this->execute())
+		{
+			$retVal = true;
+		}
+
+		return $retVal;
 	}
 
 	/**
