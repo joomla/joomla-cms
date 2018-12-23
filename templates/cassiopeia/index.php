@@ -132,12 +132,12 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<div class="grid-child container-main">
 
 		<?php if ($this->countModules('sidebar-left')) : ?>
-		<div class="container-sidebar-left">
+		<div class="container-sidebar-left col-2">
 			<jdoc:include type="modules" name="sidebar-left" style="default" />
 		</div>
 		<?php endif; ?>
 
-		<div class="container-component">
+		<div class="container-component col-8">
 			<jdoc:include type="modules" name="main-top" style="cardGrey" />
 			<jdoc:include type="message" />
 			<jdoc:include type="component" />
@@ -146,7 +146,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 		</div>
 
 		<?php if ($this->countModules('sidebar-right')) : ?>
-		<div class="container-sidebar-right">
+		<div class="container-sidebar-right col-2">
 			<jdoc:include type="modules" name="sidebar-right" style="default" />
 		</div>
 		<?php endif; ?>
