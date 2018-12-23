@@ -634,6 +634,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$retVal = false;
 
 		$this->setQuery("SELECT setval('" . $sequence . "', " . (string) $last_value . ", " . (string) $is_called . ")");
+
 		if ($this->execute())
 		{
 			$retVal = true;
