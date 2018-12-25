@@ -1201,6 +1201,12 @@ class Form
 			$key = $attrGroup ? $attrGroup . '.' . $name : $name;
 
 			$fieldObj = $this->loadField($field, $group);
+
+			if (!($fieldObj instanceof FormField))
+			{
+				continue;
+			}
+
 			$valid = $fieldObj->validate($input->get($key, (string) $field['default']), $group, $input);
 
 			// Check for an error.
