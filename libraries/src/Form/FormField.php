@@ -1044,14 +1044,14 @@ abstract class FormField
 		{
 			if ($this->element['label'])
 			{
-				$message = JText::_($this->element['label']);
+				$message = Text::_($this->element['label']);
 			}
 			else
 			{
-				$message = JText::_($this->element['name']);
+				$message = Text::_($this->element['name']);
 			}
 
-			$message = JText::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+			$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
 
 			return new \RuntimeException($message);
 		}
