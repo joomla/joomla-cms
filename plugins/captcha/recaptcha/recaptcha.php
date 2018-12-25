@@ -69,7 +69,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  boolean	True on success, false otherwise
 	 *
-	 * @since   2.5
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
 	public function onInitCaptcha($id = 'dynamic_recaptcha_1')
