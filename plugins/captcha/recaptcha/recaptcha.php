@@ -55,8 +55,24 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @since   2.5
 	 * @throws  \RuntimeException
+	 * @deprecated  4.0 Use onInitCaptcha to init captcha
 	 */
 	public function onInit($id = 'dynamic_recaptcha_1')
+	{
+		return $this->onInitCaptcha($id);
+	}
+
+	/**
+	 * Initialise the captcha
+	 *
+	 * @param   string  $id  The id of the field.
+	 *
+	 * @return  Boolean	True on success, false otherwise
+	 *
+	 * @since   2.5
+	 * @throws  \RuntimeException
+	 */
+	public function onInitCaptcha($id = 'dynamic_recaptcha_1')
 	{
 		$pubkey = $this->params->get('public_key', '');
 
@@ -98,8 +114,25 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 * @return  string  The HTML to be embedded in the form.
 	 *
 	 * @since  2.5
+	 * @deprecated  4.0 Use onDisplayCaptcha to load captcha
 	 */
 	public function onDisplay($name = null, $id = 'dynamic_recaptcha_1', $class = '')
+	{
+		return $this->onDisplayCaptcha($name, $id, $class);
+	}
+
+	/**
+	 * Gets the challenge HTML
+	 *
+	 * @param   string  $name   The name of the field. Not Used.
+	 * @param   string  $id     The id of the field.
+	 * @param   string  $class  The class of the field.
+	 *
+	 * @return  string  The HTML to be embedded in the form.
+	 *
+	 * @since  2.5
+	 */
+	public function onDisplayCaptcha($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
 		$dom = new \DOMDocument('1.0', 'UTF-8');
 		$ele = $dom->createElement('div');
