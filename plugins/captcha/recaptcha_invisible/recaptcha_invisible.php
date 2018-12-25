@@ -129,7 +129,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
-	 * @since  3.9.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onDisplayCaptcha($name = null, $id = 'dynamic_recaptcha_invisible_1', $class = '')
 	{
