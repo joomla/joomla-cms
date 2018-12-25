@@ -58,7 +58,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 */
 	public function onInit($id = 'dynamic_recaptcha_invisible_1')
 	{
-		return $this->onInit($id);
+		return $this->onInitCaptcha($id);
 	}
 
 	/**
