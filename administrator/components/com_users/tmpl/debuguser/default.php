@@ -62,19 +62,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								if ($check === true) :
 									$class  = 'text-success icon-ok';
 									$button = 'btn-success';
+									$text = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
 								elseif ($check === false) :
 									$class  = 'icon-remove';
 									$button = 'btn-danger';
+									$text = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
 								elseif ($check === null) :
 									$class  = 'text-danger icon-ban-circle';
 									$button = 'btn-warning';
+									$text = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
 								else :
 									$class  = '';
 									$button = '';
 								endif;
 								?>
 							<td class="text-center">
-								<span class="<?php echo $class; ?>"></span>
+								<span class="<?php echo $class; ?>" aria-hidden="true"></span>
+								<span class="sr-only"> <?php echo $text; ?></span>
 							</td>
 							<?php endforeach; ?>
 							<td>
@@ -90,7 +94,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</table>
 			<div class="legend">
 				<span class="text-danger icon-ban-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
-				<span class="icon-ok" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
+				<span class="text-success icon-ok" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
 				<span class="icon-remove icon-remove" aria-hidden="true">&nbsp;</span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			</div>
 
