@@ -62,18 +62,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								if ($check === true) :
 									$class  = 'text-success icon-ok';
 									$button = 'btn-success';
-									$text = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
+									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
 								elseif ($check === false) :
 									$class  = 'icon-remove';
 									$button = 'btn-danger';
-									$text = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
+									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
 								elseif ($check === null) :
 									$class  = 'text-danger icon-ban-circle';
 									$button = 'btn-warning';
-									$text = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
+									$text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
 								else :
 									$class  = '';
 									$button = '';
+									$text   = '';
 								endif;
 								?>
 							<td class="text-center">
