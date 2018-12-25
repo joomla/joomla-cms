@@ -130,7 +130,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @return  string  The HTML to be embedded in the form.
 	 *
-	 * @since  2.5
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onDisplayCaptcha($name = null, $id = 'dynamic_recaptcha_1', $class = '')
 	{
