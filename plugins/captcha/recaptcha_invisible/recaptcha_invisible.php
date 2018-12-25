@@ -68,7 +68,7 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	 *
 	 * @return  boolean	True on success, false otherwise
 	 *
-	 * @since   3.9.0
+	 * @since   __DEPLOY_VERSION__
 	 * @throws  \RuntimeException
 	 */
 	public function onInitCaptcha($id = 'dynamic_recaptcha_invisible_1')
