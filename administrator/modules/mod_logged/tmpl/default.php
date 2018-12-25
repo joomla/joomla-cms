@@ -47,14 +47,12 @@ use Joomla\CMS\Router\Route;
 					<?php elseif ($user->client_id) : ?>
 						<?php echo Text::_('JADMINISTRATION'); ?>
 					<?php else : ?>
-						<form action="<?php echo Route::_('index.php?option=com_login&task=logout'); ?>" method="post" name="adminForm">
+						<form action="<?php echo Route::_($user->logoutLink); ?>" method="post" name="adminForm">
 							<?php echo Text::_('JSITE'); ?>
 							<button type="submit" class="mr-2 btn btn-danger btn-sm">
 								<span class="icon-remove icon-white" aria-hidden="true"></span>
 								<?php echo Text::_('JLOGOUT'); ?>
 							</button>
-							<input type="hidden" name="uid" value="<?php echo $user->id; ?>">
-							<?php echo HTMLHelper::_('form.token'); ?>
 						</form>
 					<?php endif; ?>
 				</td>
