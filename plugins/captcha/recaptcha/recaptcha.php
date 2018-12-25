@@ -67,7 +67,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 *
 	 * @param   string  $id  The id of the field.
 	 *
-	 * @return  Boolean	True on success, false otherwise
+	 * @return  boolean	True on success, false otherwise
 	 *
 	 * @since   2.5
 	 * @throws  \RuntimeException
