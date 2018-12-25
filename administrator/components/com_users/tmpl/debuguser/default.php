@@ -27,28 +27,28 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</caption>
 				<thead>
 					<tr>
-						<th>
+						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th>
+						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
-						<th style="width:6%" class="text-center">
+						<th style="width:6%" class="text-center" scope="col">
 							<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $key, $action[1]); ?>"><?php echo Text::_($key); ?></span>
 						</th>
 						<?php endforeach; ?>
-						<th style="width:6%">
+						<th style="width:6%" scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:3%">
+						<th style="width:3%" scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
-						<tr class="row0">
+						<tr class="row0" scope="row">
 							<td>
 								<?php echo $this->escape($item->title); ?>
 							</td>
