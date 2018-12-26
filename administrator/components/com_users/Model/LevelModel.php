@@ -153,7 +153,7 @@ class LevelModel extends AdminModel
 	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm	A \JForm object on success, false on failure
+	 * @return  Form|bool	A \JForm object on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -196,7 +196,7 @@ class LevelModel extends AdminModel
 	/**
 	 * Method to preprocess the form
 	 *
-	 * @param   Form  $form   A form object.
+	 * @param   Form    $form   A form object.
 	 * @param   mixed   $data   The data expected for the form.
 	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
 	 *
@@ -235,7 +235,7 @@ class LevelModel extends AdminModel
 	/**
 	 * Method to validate the form data.
 	 *
-	 * @param   Form  $form   The form to validate against.
+	 * @param   Form    $form   The form to validate against.
 	 * @param   array   $data   The data to validate.
 	 * @param   string  $group  The name of the field group to validate.
 	 *
