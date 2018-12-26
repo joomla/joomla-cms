@@ -12,6 +12,7 @@ use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
+use Joomla\CMS\Layout\LayoutHelper;
 
 defined('_JEXEC') or die;
 
@@ -44,7 +45,9 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 		<?php // End Sidebar ?>
 
 		<div class="col-md-10" id="config">
-
+		
+			<?php echo LayoutHelper::render('joomla.searchtools.filter_options', array('view' => $this)); ?>
+		
 			<?php if ($this->fieldsets): ?>
 			<ul class="nav nav-tabs" id="configTabs">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>

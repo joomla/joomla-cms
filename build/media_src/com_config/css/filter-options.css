@@ -1,0 +1,15 @@
+#config-document .filter-options-col {
+	float:left;
+	flex: none;
+	max-width: 100%;
+}
+#config-document .filter-options-col:empty {
+	display:none;
+}
+
+#config-document  .filter-options-fieldset {
+	float: left;
+}
+#config-document  .filter-options-fieldset:empty {
+	display:none;
+}

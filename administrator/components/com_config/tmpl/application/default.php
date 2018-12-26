@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // Load tooltips behavior
 HTMLHelper::_('behavior.formvalidator');
@@ -48,6 +49,9 @@ Text::script('MESSAGE');
 		<!-- End Sidebar -->
 		<!-- Begin Content -->
 		<div class="col-md-10">
+		
+			<?php echo LayoutHelper::render('joomla.searchtools.filter_options', array('view' => $this)); ?>
+			
 			<ul class="nav nav-tabs">
 
 				<li class="nav-item"><a class="nav-link active" href="#page-site" data-toggle="tab"><?php echo Text::_('JSITE'); ?></a></li>
