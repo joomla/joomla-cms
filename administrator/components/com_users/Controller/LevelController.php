@@ -11,9 +11,12 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
@@ -61,11 +64,8 @@ class LevelController extends FormController
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
-		// Get user instance
-		$user = JFactory::getUser();
-
 		// Check for if Super Admin can edit
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__viewlevels'))
@@ -78,9 +78,16 @@ class LevelController extends FormController
 		$groups = json_decode($viewlevel['rules']);
 
 		// If this group is super admin and this user is not super admin, canEdit is false
-		if (!$user->authorise('core.admin') && JAccess::checkGroup($groups[0], 'core.admin'))
+		if (!$this->app->getIdentity()->authorise('core.admin') && Access::checkGroup($groups[0], 'core.admin'))
 		{
-			$this->setError(JText::sprintf('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'));
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+
+			$this->setRedirect(
+				Route::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
 
 			return false;
 		}
