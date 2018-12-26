@@ -277,7 +277,7 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 		}
 
-		$cryptpass = UserHelper::hashPassword($options->admin_password);
+		$cryptpass = UserHelper::hashPassword($options->admin_password_plain);
 
 		// Take the admin user id - we'll need to leave this in the session for sample data install later on.
 		$userId = DatabaseModel::getUserId();
