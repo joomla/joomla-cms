@@ -11,11 +11,11 @@ namespace Joomla\Component\Postinstall\Administrator\View\Messages;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
 
 /**
  * Model class to display postinstall messages
@@ -71,6 +71,11 @@ class HtmlView extends BaseHtmlView
 		{
 			ToolbarHelper::preferences('com_postinstall', 550, 875);
 			ToolbarHelper::help('JHELP_COMPONENTS_POST_INSTALLATION_MESSAGES');
+		}
+
+		if (!empty($this->items))
+		{
+			ToolbarHelper::custom('message.hideAll', 'unpublish.png', 'unpublish_f2.png', 'COM_POSTINSTALL_HIDE_ALL_MESSAGES', false);
 		}
 	}
 }

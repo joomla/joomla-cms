@@ -13,9 +13,9 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal contact picker.
@@ -56,7 +56,6 @@ class ContactField extends FormField
 		$modalId = 'Contact_' . $this->id;
 
 		// Add the modal field script to the document head.
-		HTMLHelper::_('jquery.framework');
 		HTMLHelper::_('script', 'system/fields/modal-fields.min.js', array('version' => 'auto', 'relative' => true));
 
 		// Script to proxy the select modal function to the modal-fields.js file.

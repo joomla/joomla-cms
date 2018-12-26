@@ -29,7 +29,7 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 	<jdoc:include type="scripts" />
 </head>
 <body>
-	<table class="outline" style="margin: 0 auto; width: 550px;">
+	<table class="outline">
 		<tr>
 			<td style="text-align: center;">
 				<h1><?php echo $this->error->getCode() ?> - <?php echo Text::_('JERROR_AN_ERROR_HAS_OCCURRED'); ?></h1>

@@ -11,9 +11,9 @@ namespace Joomla\CMS\Installer;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\Database\ParameterType;
 
@@ -127,8 +127,9 @@ class InstallerScript
 		}
 
 		// Extension manifest file version
-		$this->release = $parent->getManifest()->version;
-		$extensionType = substr($this->extension, 0, 3);
+		$this->extension = $parent->getName();
+		$this->release   = $parent->getManifest()->version;
+		$extensionType   = substr($this->extension, 0, 3);
 
 		// Modules parameters are located in the module table - else in the extension table
 		if ($extensionType === 'mod')

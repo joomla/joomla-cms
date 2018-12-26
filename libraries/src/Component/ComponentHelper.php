@@ -11,13 +11,15 @@ namespace Joomla\CMS\Component;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\Exception\MissingComponentException;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Dispatcher\Dispatcher;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\Registry\Registry;
 
 /**
  * Component helper class
@@ -196,7 +198,7 @@ class ComponentHelper
 				}
 
 				// Collect the blacklist or whitelist tags and attributes.
-				// Each list is cummulative.
+				// Each list is cumulative.
 				if ($filterType === 'BL')
 				{
 					$blackList           = true;
@@ -329,19 +331,43 @@ class ComponentHelper
 		$file = substr($option, 4);
 
 		// Define component path.
+
 		if (!defined('JPATH_COMPONENT'))
 		{
+		/**
+		 * Defines the path to the active component for the request
+		 *
+		 * Note this constant is application aware and is different for each application (site/admin).
+		 *
+		 * @var    string
+		 * @since  1.5
+		 * @deprecated 5.0 without replacement
+		 */
 			define('JPATH_COMPONENT', JPATH_BASE . '/components/' . $option);
 		}
 
 		if (!defined('JPATH_COMPONENT_SITE'))
 		{
-			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
+		/**
+		 * Defines the path to the site element of the active component for the request
+		 *
+		 * @var    string
+		 * @since  1.5
+		 * @deprecated 5.0 without replacement
+		*/
+		define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
 		if (!defined('JPATH_COMPONENT_ADMINISTRATOR'))
 		{
-			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
+		/**
+		 * Defines the path to the admin element of the active component for the request
+		 *
+		 * @var    string
+		 * @since  1.5
+		 * @deprecated 5.0 without replacement
+		*/
+		define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 
 		// If component is disabled throw error
@@ -381,7 +407,7 @@ class ComponentHelper
 		{
 			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
-				->select($db->quoteName(array('extension_id', 'element', 'params', 'namespace', 'enabled'), array('id', 'option', null, null, null)))
+				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 				->from($db->quoteName('#__extensions'))
 				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
 			$db->setQuery($query);
@@ -389,8 +415,8 @@ class ComponentHelper
 			return $db->loadObjectList('option', '\JComponentRecord');
 		};
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = Factory::getCache('_system', 'callback');
+		/** @var CallbackController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
 		try
 		{
@@ -481,7 +507,7 @@ class ComponentHelper
 	{
 		$reflect = new \ReflectionClass($object);
 
-		if (!$reflect->getNamespaceName() || get_class($object) == Dispatcher::class)
+		if (!$reflect->getNamespaceName() || get_class($object) == ComponentDispatcher::class)
 		{
 			return 'com_' . strtolower($alternativeName);
 		}

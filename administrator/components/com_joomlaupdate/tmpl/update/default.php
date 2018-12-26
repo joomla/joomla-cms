@@ -26,7 +26,7 @@ $filesize = Factory::getApplication()->getUserState('com_joomlaupdate.filesize',
 $ajaxUrl = Uri::base() . 'components/com_joomlaupdate/restore.php';
 $returnUrl = 'index.php?option=com_joomlaupdate&task=update.finalise&' . Factory::getSession()->getFormToken() . '=1';
 
-HTMLHelper::_('script', 'com_joomlaupdate/admin-update-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_joomlaupdate/admin-update-default.js', ['version' => 'auto', 'relative' => true]);
 
 Factory::getDocument()->addScriptOptions(
 	'joomlaupdate',

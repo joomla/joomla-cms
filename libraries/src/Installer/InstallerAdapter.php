@@ -10,16 +10,16 @@ namespace Joomla\CMS\Installer;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Installer\Manifest\PackageManifest;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
 
 /**
  * Abstract adapter for the installer.

@@ -16,7 +16,9 @@ foreach ($fieldSets as $name => $fieldSet) :
 	?>
 	<div class="tab-pane" id="params-<?php echo $name; ?>">
 	<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
-		<joomla-alert type="info"><?php echo $this->escape(Text::_($fieldSet->description)); ?></joomla-alert>
+		<div class="alert alert-info">
+			<?php echo $this->escape(Text::_($fieldSet->description)); ?>
+		</div>
 	<?php endif; ?>
 			<?php foreach ($this->form->getFieldset($name) as $field) : ?>
 				<div class="control-group">

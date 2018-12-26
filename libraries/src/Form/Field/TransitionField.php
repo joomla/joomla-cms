@@ -1,39 +1,53 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  com_menus
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Form\Field\ListField;
+use Joomla\Utilities\ArrayHelper;
 
 FormHelper::loadFieldClass('list');
 
 /**
  * Components Category field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TransitionField extends ListField
 {
 	/**
 	 * The form field type.
 	 *
-	 * @var     string
-	 * @since  __DEPLOY_VERSION__
+	 * @var    string
+	 * @since  4.0.0
 	 */
 	protected $type = 'Transition';
 
+	/**
+	 * The component and section separated by ".".
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
 	protected $extension;
+
+	/**
+	 * The workflow stage to use.
+	 *
+	 * @var   integer
+	 */
+	protected $workflowStage;
 
 	/**
 	 * Method to setup the extension
@@ -46,7 +60,7 @@ class TransitionField extends ListField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -54,7 +68,24 @@ class TransitionField extends ListField
 
 		if ($result)
 		{
-			$this->extension = $element['extension'] ?? 'com_content';
+			$input = Factory::getApplication()->input;
+
+			if (strlen($element['extension']))
+			{
+				$this->extension = (string) $element['extension'];
+			}
+			else
+			{
+				$this->extension = $input->getCmd('extension');
+			}
+			if (strlen($element['workflow_stage']))
+			{
+				$this->workflowStage = (int) $element['workflow_stage'];
+			}
+			else
+			{
+				$this->workflowStage = $input->getInt('id');
+			}
 		}
 
 		return $result;
@@ -63,9 +94,9 @@ class TransitionField extends ListField
 	/**
 	 * Method to get a list of options for a list input.
 	 *
-	 * @return	array  An array of JHtml options.
+	 * @return	array  An array of HTMLHelper options.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getOptions()
 	{
@@ -74,19 +105,19 @@ class TransitionField extends ListField
 
 		// Initialise variable.
 		$db = Factory::getDbo();
-		$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('extension', 'com_content');
-		$workflowState = $this->element['workflow_state'] ? (int) $this->element['workflow_state'] : (int) $jinput->getInt('id', 0);
+		$extension = $this->extension;
+		$workflowStage = $this->workflowStage;
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName(['t.id', 't.title', 's.condition'], ['value', 'text', 'condition']))
 			->from($db->quoteName('#__workflow_transitions', 't'))
-			->from($db->quoteName('#__workflow_states', 's'))
-			->from($db->quoteName('#__workflow_states', 's2'))
-			->where($db->quoteName('t.from_state_id') . ' IN(-1, ' . (int) $workflowState . ')')
-			->where($db->quoteName('t.to_state_id') . ' = ' . $db->quoteName('s.id'))
-			->where($db->quoteName('t.to_state_id') . ' != ' . (int) $workflowState)
+			->from($db->quoteName('#__workflow_stages', 's'))
+			->from($db->quoteName('#__workflow_stages', 's2'))
+			->where($db->quoteName('t.from_stage_id') . ' IN(-1, ' . (int) $workflowStage . ')')
+			->where($db->quoteName('t.to_stage_id') . ' = ' . $db->quoteName('s.id'))
+			->where($db->quoteName('t.to_stage_id') . ' != ' . (int) $workflowStage)
 			->where($db->quoteName('s.workflow_id') . ' = ' . $db->quoteName('s2.workflow_id'))
-			->where($db->quoteName('s2.id') . ' = ' . (int) $workflowState)
+			->where($db->quoteName('s2.id') . ' = ' . (int) $workflowStage)
 			->where($db->quoteName('t.published') . '= 1')
 			->where($db->quoteName('s.published') . '= 1')
 			->order($db->quoteName('t.ordering'));
@@ -116,26 +147,26 @@ class TransitionField extends ListField
 			{
 				$conditionName = $workflow->getConditionName($item->condition);
 
-				$item->text .= ' [' . \JText::_($conditionName) . ']';
+				$item->text .= ' [' . Text::_($conditionName) . ']';
 			}
 		}
 
-		// Get state title
+		// Get workflow stage title
 		$query
 			->clear()
 			->select($db->quoteName('title'))
-			->from($db->quoteName('#__workflow_states'))
-			->where($db->quoteName('id') . ' = ' . (int) $workflowState);
+			->from($db->quoteName('#__workflow_stages'))
+			->where($db->quoteName('id') . ' = ' . (int) $workflowStage);
 
 		$workflowName = $db->setQuery($query)->loadResult();
 
-		$default = [\JHtml::_('select.option', '', $workflowName)];
+		$default = [HTMLHelper::_('select.option', '', Text::_($workflowName))];
 
 		$options = array_merge(parent::getOptions(), $items);
 
 		if (count($options))
 		{
-			$default[] = \JHtml::_('select.option', '-1', '--------', ['disable' => true]);
+			$default[] = HTMLHelper::_('select.option', '-1', '--------', ['disable' => true]);
 		}
 
 		// Merge with defaults

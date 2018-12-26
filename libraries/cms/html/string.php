@@ -9,8 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\String\StringHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\String\StringHelper;
 
 /**
  * HTML helper class for rendering manipulated strings.

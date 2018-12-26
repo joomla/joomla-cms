@@ -12,55 +12,79 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 /**
  * Workflow Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Workflow
 {
 	/**
+	 * The booted component
+	 *
+	 * @var \Joomla\CMS\Extension\ComponentInterface
+	 */
+	protected $component = null;
+
+	/**
 	 * Name of the extension the workflow belong to
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension = null;
 
+	/**
+	 * Workflow options
+	 *
+	 * @var array
+	 */
 	protected $options = [];
 
-	protected $names = [
-		self::PUBLISHED => 'COM_WORKFLOW_PUBLISHED',
-		self::UNPUBLISHED => 'COM_WORKFLOW_UNPUBLISHED',
-		self::TRASHED => 'COM_WORKFLOW_TRASHED'
-	];
-
+	/**
+	 * @var \Joomla\Database\DatabaseDriver
+	 */
 	protected $db;
+
+	/**
+	 * Condition to names mapping
+	 *
+	 * @since  4.0.0
+	 */
+	const CONDITION_NAMES = [
+		self::CONDITION_PUBLISHED   => 'JPUBLISHED',
+		self::CONDITION_UNPUBLISHED => 'JUNPUBLISHED',
+		self::CONDITION_TRASHED     => 'JTRASHED',
+		self::CONDITION_ARCHIVED    => 'JARCHIVED',
+	];
 
 	/**
 	 * Every item with a state which has the condition PUBLISHED is visible/active on the page
 	 */
-	const PUBLISHED = 1;
+	const CONDITION_PUBLISHED = 1;
 
 	/**
 	 * Every item with a state which has the condition UNPUBLISHED is not visible/inactive on the page
 	 */
-	const UNPUBLISHED = 0;
+	const CONDITION_UNPUBLISHED = 0;
 
 	/**
-	 * Every sitem with a state which has the condition TRASHED is trashed
+	 * Every item with a state which has the condition TRASHED is trashed
 	 */
-	const TRASHED = -2;
+	const CONDITION_TRASHED = -2;
+
+	/**
+	 * Every item with a state which has the condition ARCHIVED is archived
+	 */
+	const CONDITION_ARCHIVED = 2;
 
 	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Array of options
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($options)
 	{
@@ -82,11 +106,41 @@ class Workflow
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getConditionName($value)
 	{
-		return ArrayHelper::getValue($this->names, $value, '', 'string');
+		$component = $this->getComponent();
+
+		if ($component instanceof WorkflowServiceInterface)
+		{
+			$conditions = $component->getConditions($this->extension);
+		}
+		else
+		{
+			$conditions = self::CONDITION_NAMES;
+		}
+
+		return ArrayHelper::getValue($conditions, $value, '', 'string');
+	}
+
+	/**
+	 * Returns the booted component
+	 *
+	 * @return \Joomla\CMS\Extension\ComponentInterface
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getComponent()
+	{
+		if (is_null($this->component))
+		{
+			$parts = explode('.', $this->extension);
+
+			$this->component = Factory::getApplication()->bootComponent($parts[0]);
+		}
+
+		return $this->component;
 	}
 
 	/**
@@ -118,16 +172,16 @@ class Workflow
 		$select = $db->quoteName(
 			[
 				't.id',
-				't.to_state_id',
-				't.from_state_id',
+				't.to_stage_id',
+				't.from_stage_id',
 				's.condition',
 			]
 		);
 
 		$query->select($select)
-				->from($db->quoteName('#__workflow_transitions', 't'))
-				->leftJoin($db->quoteName('#__workflow_states', 's') . ' ON ' . $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_state_id'))
-				->where($db->quoteName('t.id') . ' = ' . (int) $transition_id);
+			->from($db->quoteName('#__workflow_transitions', 't'))
+			->leftJoin($db->quoteName('#__workflow_stages', 's') . ' ON ' . $db->quoteName('s.id') . ' = ' . $db->quoteName('t.to_stage_id'))
+			->where($db->quoteName('t.id') . ' = ' . (int) $transition_id);
 
 		if (!empty($this->options['published']))
 		{
@@ -141,24 +195,36 @@ class Workflow
 		{
 			$assoc = $this->getAssociation($pk);
 
-			if (!in_array($transition->from_state_id, [-1, $assoc->state_id]))
+			if (!in_array($transition->from_stage_id, [-1, $assoc->stage_id]))
 			{
 				return false;
 			}
 		}
 
-		$parts = explode('.', $this->extension);
+		$component = $this->getComponent();
 
-		$component = reset($parts);
-
-		$componentInterface = Factory::getApplication()->bootComponent($component);
-
-		if ($componentInterface instanceof WorkflowServiceInterface)
+		if ($component instanceof WorkflowServiceInterface)
 		{
-			$componentInterface->updateContentState($pks, $transition->condition);
+			$component->updateContentState($pks, $transition->condition);
 		}
 
-		return $this->updateAssociations($pks, $transition->to_state_id);
+		$success = $this->updateAssociations($pks, $transition->to_stage_id);
+
+		if ($success)
+		{
+			$app = Factory::getApplication();
+			$app->triggerEvent(
+				'onWorkflowAfterTransition',
+				[
+					'pks' => $pks,
+					'extension' => $this->extension,
+					'user' => $app->getIdentity(),
+					'transition' => $transition,
+				]
+			);
+		}
+
+		return $success;
 	}
 
 	/**
@@ -169,7 +235,7 @@ class Workflow
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function createAssociation($pk, $state)
 	{
@@ -179,7 +245,7 @@ class Workflow
 			$query = $db->getQuery(true);
 
 			$query->insert($db->quoteName('#__workflow_associations'))
-				->columns($db->quoteName(array('item_id', 'state_id', 'extension')))
+				->columns($db->quoteName(array('item_id', 'stage_id', 'extension')))
 				->values((int) $pk . ', ' . (int) $state . ', ' . $db->quote($this->extension));
 
 			$db->setQuery($query)->execute();
@@ -200,7 +266,7 @@ class Workflow
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function updateAssociations($pks, $state)
 	{
@@ -217,7 +283,7 @@ class Workflow
 			$query = $db->getQuery(true);
 
 			$query->update($db->quoteName('#__workflow_associations'))
-				->set($db->quoteName('state_id') . '=' . (int) $state)
+				->set($db->quoteName('stage_id') . '=' . (int) $state)
 				->whereIn($db->quoteName('item_id'), $pks)
 				->where($db->quoteName('extension') . '=' . $db->quote($this->extension));
 
@@ -238,7 +304,7 @@ class Workflow
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function deleteAssociation($pks)
 	{
@@ -271,7 +337,7 @@ class Workflow
 	 *
 	 * @return  object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAssociation($item_id)
 	{
@@ -282,14 +348,14 @@ class Workflow
 		$select = $db->quoteName(
 			[
 				'item_id',
-				'state_id'
+				'stage_id'
 			]
 		);
 
 		$query->select($select)
-				->from($db->quoteName('#__workflow_associations'))
-				->where($db->quoteName('item_id') . ' = ' . (int) $item_id)
-				->where($db->quoteName('extension') . ' = ' . $db->quote($this->extension));
+			->from($db->quoteName('#__workflow_associations'))
+			->where($db->quoteName('item_id') . ' = ' . (int) $item_id)
+			->where($db->quoteName('extension') . ' = ' . $db->quote($this->extension));
 
 		return $db->setQuery($query)->loadObject();
 	}
@@ -301,7 +367,7 @@ class Workflow
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setOptions(array $options)
 	{

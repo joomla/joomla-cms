@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Access\Access;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Pagenavigation plugin class.
@@ -144,7 +144,7 @@ class PlgContentPagenavigation extends CMSPlugin
 				->select($case_when1)
 				->from('#__content AS a')
 				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-				->join('LEFT', '#__workflow_states AS ws ON ws.id = a.state');
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state');
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
@@ -189,7 +189,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			if (($location + 1) < count($rows))
 			{
-				// The next content item cannot be in an array position greater than the number of array postions.
+				// The next content item cannot be in an array position greater than the number of array positions.
 				$row->next = $rows[$location + 1];
 			}
 

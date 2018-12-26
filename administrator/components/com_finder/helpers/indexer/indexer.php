@@ -17,8 +17,6 @@ JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
-jimport('joomla.filesystem.file');
-
 /**
  * Main indexer class for the Finder indexer package.
  *
@@ -93,7 +91,7 @@ abstract class FinderIndexer
 	/**
 	 * Database driver cache.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.8.0
 	 */
 	protected $db;
@@ -292,8 +290,8 @@ abstract class FinderIndexer
 		// Update the link counts for the terms.
 		$query->clear()
 			->update($db->quoteName('#__finder_terms', 't'))
-			->join('INNER', $db->quoteName('#__finder_links_terms', 'm') . ' ON m.term_id = t.term_id')
-			->set('t.links = t.links - 1')
+			->join('INNER', $db->quoteName('#__finder_links_terms', 'm') . ' ON ' . $db->quoteName('m.term_id') . ' = ' . $db->quoteName('t.term_id'))
+			->set($db->quoteName('links') . ' = ' . $db->quoteName('links') . ' - 1')
 			->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
 		$db->setQuery($query)->execute();
 
@@ -447,7 +445,7 @@ abstract class FinderIndexer
 	 * @param   string   $format   The format of the input.
 	 * @param   integer  $count    The number of tokens processed so far.
 	 *
-	 * @return  integer  Cummulative number of tokens extracted from the input so far.
+	 * @return  integer  Cumulative number of tokens extracted from the input so far.
 	 *
 	 * @since   3.7.0
 	 */

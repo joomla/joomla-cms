@@ -10,10 +10,10 @@ namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Session\Session;
 
 /**
  * Template style controller class.
@@ -55,7 +55,7 @@ class StyleController extends FormController
 			$model = $this->getModel('Style', 'Administrator');
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');
-			$checkin = property_exists($table, 'checked_out');
+			$checkin = $table->hasField('checked_out');
 			$context = $this->option . '.edit.' . $this->context;
 
 			$item = $model->getItem($app->getTemplate(true)->id);
@@ -156,9 +156,7 @@ class StyleController extends FormController
 
 			return true;
 		}
-		else
-		{
-			parent::save($key, $urlVar);
-		}
+
+		return parent::save($key, $urlVar);
 	}
 }

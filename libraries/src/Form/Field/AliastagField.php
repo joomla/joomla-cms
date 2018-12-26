@@ -11,8 +11,8 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
@@ -20,7 +20,7 @@ FormHelper::loadFieldClass('list');
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class AliastagField extends \JFormFieldList
 {

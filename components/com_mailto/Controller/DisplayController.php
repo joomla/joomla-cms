@@ -6,18 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Mailto\Site\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Log\Log;
+use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 
 /**
  * Mailer Component Controller.
@@ -118,7 +119,7 @@ class DisplayController extends BaseController
 		$sender          = $this->input->post->getString('sender', '');
 		$from            = $this->input->post->getString('from', '');
 		$subject_default = Text::sprintf('COM_MAILTO_SENT_BY', $sender);
-		$subject         = $this->input->post->getString('subject', $subject_default);
+		$subject         = $this->input->post->getString('subject', '') !== '' ? $this->input->post->getString('subject') : $subject_default;
 
 		// Check for a valid to address
 		$error = false;

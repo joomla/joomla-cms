@@ -15,12 +15,12 @@ use Joomla\CMS\Association\AssociationExtensionInterface;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\Registry\Registry;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Registry\Registry;
 
 /**
  * Associations component helper.
@@ -122,7 +122,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since  3.7.0
 	 */
@@ -178,7 +178,7 @@ class AssociationsHelper extends ContentHelper
 	 *
 	 * @param   string  $extensionName  The extension name with com_
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since  3.7.0
 	 */
@@ -494,7 +494,7 @@ class AssociationsHelper extends ContentHelper
 	 * @param   string  $typeName       The item type
 	 * @param   int     $itemId         The id of item for which we need the associated items
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since  3.7.0
 	 */
@@ -674,7 +674,7 @@ class AssociationsHelper extends ContentHelper
 	/**
 	 * Gets the language filter system plugin extension id.
 	 *
-	 * @return  int  The language filter system plugin extension id.
+	 * @return  integer  The language filter system plugin extension id.
 	 *
 	 * @since   3.7.2
 	 */

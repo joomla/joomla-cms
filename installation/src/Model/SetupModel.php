@@ -11,15 +11,12 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\Database\UTF8MB4SupportInterface;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Setup model for the Joomla Core Installer.
@@ -317,7 +314,7 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		// Validate database name.
-		if (!preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
+		if (!preg_match('#^[a-zA-Z][0-9a-zA-Z_$]*$#', $options->db_name))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG'), 'warning');
 

@@ -11,11 +11,11 @@ namespace Joomla\CMS\Session;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\Session\Session as BaseSession;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Router\Route;
+use Joomla\Session\Session as BaseSession;
 
 /**
  * Class for managing HTTP sessions

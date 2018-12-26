@@ -6,12 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Site\View\Contact;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\AbstractView;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\AbstractView;
 
 /**
  * View to create a VCF for a contact item

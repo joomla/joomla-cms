@@ -6,22 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving lists of articles.
@@ -50,7 +51,7 @@ class ArticlesModel extends ListModel
 				'checked_out_time', 'a.checked_out_time',
 				'catid', 'a.catid', 'category_title',
 				'state', 'a.state',
-				'state_condition', 'ws.condition',
+				'stage_condition', 'ws.condition',
 				'access', 'a.access', 'access_level',
 				'created', 'a.created',
 				'created_by', 'a.created_by',
@@ -83,7 +84,7 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
@@ -124,7 +125,7 @@ class ArticlesModel extends ListModel
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
 			// Filter on published for those who do not have edit or edit.state rights.
-			$this->setState('filter.condition', Workflow::PUBLISHED);
+			$this->setState('filter.condition', ContentComponent::CONDITION_PUBLISHED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -204,7 +205,8 @@ class ArticlesModel extends ListModel
 				'a.catid, a.created, a.created_by, a.created_by_alias, ' .
 				// Published/archived article in archive category is treats as archive article
 				// If category is not published then force 0
-				'CASE WHEN c.published = 2 AND ws.condition > 2 THEN 3 WHEN c.published != 1 THEN 1 ELSE ws.condition END as state,' .
+				'CASE WHEN c.published = 2 AND ws.condition > 0 THEN ' . (int) ContentComponent::CONDITION_ARCHIVED .
+				' WHEN c.published != 1 THEN ' . (int) ContentComponent::CONDITION_UNPUBLISHED . ' ELSE ws.condition END as state,' .
 				// Use created if modified is 0
 				'CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END as modified, ' .
 				'a.modified_by, uam.name as modified_by_name,' .
@@ -240,15 +242,16 @@ class ArticlesModel extends ListModel
 		}
 
 		// Join over the states.
-		$query->select('wa.state_id AS state_id')
+		$query->select('wa.stage_id AS stage_id')
 			->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id');
 
 		// Join over the states.
-		$query->select('ws.title AS state_title, ws.condition AS state_condition')
-			->join('LEFT', '#__workflow_states AS ws ON ws.id = wa.state_id');
+		$query->select('ws.title AS state_title, ws.condition AS stage_condition')
+			->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias')
+		$query->select('c.title AS category_title, c.path AS category_route, c.access AS category_access, c.alias AS category_alias,' .
+				'c.language AS category_language')
 			->select('c.published, c.published AS parents_published, c.lft')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
@@ -259,7 +262,8 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__users AS uam ON uam.id = a.modified_by');
 
 		// Join over the categories to get parent category titles
-		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
+		$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias,' .
+				'parent.language as parent_language')
 			->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 		if (PluginHelper::isEnabled('content', 'vote'))
@@ -287,7 +291,8 @@ class ArticlesModel extends ListModel
 			 * If category is archived then article has to be published or archived.
 			 * Or categogy is published then article has to be archived.
 			 */
-			$query->where('((c.published = 2 AND a.state > 0) OR (c.published = 1 AND a.state = 2))');
+			$query->where('((c.published = 2 AND ws.condition > ' . (int) ContentComponent::CONDITION_UNPUBLISHED .
+					') OR (c.published = 1 AND ws.condition = ' . (int) ContentComponent::CONDITION_ARCHIVED . '))');
 		}
 		elseif (is_numeric($condition))
 		{
@@ -402,11 +407,11 @@ class ArticlesModel extends ListModel
 		}
 		elseif (is_array($authorId))
 		{
-			$authorId = ArrayHelper::toInteger($authorId);
-			$authorId = implode(',', $authorId);
+			$authorId = array_filter($authorId, 'is_numeric');
 
 			if ($authorId)
 			{
+				$authorId    = implode(',', $authorId);
 				$type        = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
 				$authorWhere = 'a.created_by ' . $type . ' (' . $authorId . ')';
 			}
@@ -573,7 +578,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * Overriden to inject convert the attribs field into a \JParameter object.
+	 * Overridden to inject convert the attribs field into a \JParameter object.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
@@ -728,7 +733,7 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getStart()
 	{

@@ -12,9 +12,9 @@ namespace Joomla\Component\Templates\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Language\Text;
 
 /**
  * Template Helper class.
@@ -82,8 +82,6 @@ abstract class TemplateHelper
 				}
 			}
 		}
-
-		jimport('joomla.filesystem.file');
 
 		if ($file['name'] !== File::makeSafe($file['name']) || preg_match('/\s/', File::makeSafe($file['name'])))
 		{

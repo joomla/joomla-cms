@@ -1,49 +1,75 @@
-const Promise = require('bluebird');
-const fs = require('fs');
-const fsExtra = require('fs-extra');
+const Copydir = require('copy-dir');
+const Fs = require('fs');
+const FsExtra = require('fs-extra');
 const Path = require('path');
-const copydir = require('copy-dir');
-const UglifyJS = require('uglify-es');
+const Promise = require('bluebird');
+const RootPath = require('./rootpath.js')._();
 const UglyCss = require('uglifycss');
-const rootPath = require('./rootpath.js')._();
+const UglifyJS = require('uglify-es');
+const WalkSync = require('./walk-sync.js');
 
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
-// rm -rf media/vendor
+/**
+ * Clean the media/vendor folder
+ */
 const cleanVendors = () => {
   // Remove the vendor folder
-  fsExtra.removeSync(Path.join(rootPath, 'media/vendor'));
+  FsExtra.removeSync(Path.join(RootPath, 'media/vendor'));
 
   // eslint-disable-next-line no-console
   console.error('/media/vendor has been removed.');
 
   // Restore our code on the vendor folders
-  fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/langs'), Path.join(rootPath, 'media/vendor/tinymce/langs'));
-  fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/tinymce/templates'), Path.join(rootPath, 'media/vendor/tinymce/templates'));
-  fsExtra.copySync(Path.join(rootPath, 'build/media/vendor/jquery-ui'), Path.join(rootPath, 'media/vendor/jquery-ui'));
+  FsExtra.copySync(Path.join(RootPath, 'build/media/vendor/tinymce/langs'), Path.join(RootPath, 'media/vendor/tinymce/langs'));
+  FsExtra.copySync(Path.join(RootPath, 'build/media/vendor/tinymce/templates'), Path.join(RootPath, 'media/vendor/tinymce/templates'));
+  FsExtra.copySync(Path.join(RootPath, 'build/media/vendor/jquery-ui'), Path.join(RootPath, 'media/vendor/jquery-ui'));
+
+  // And here some assets from a PHP package
+    if (Fs.existsSync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'))) {
+        FsExtra.copySync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), Path.join(RootPath, 'media/vendor/debugbar'));
+    } else {
+        // eslint-disable-next-line no-console
+        console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T install all its front end assets');
+        process.exit(1);
+    }
 };
 
-// Copies all the files from a directory
+/**
+ * Copies all the files from a directory
+ *
+ * @param {string} dirName the name of the source folder
+ * @param {string} name    the name of the destination folder
+ * @param {string} type    the type of the folder, eg: js, css, fonts, images
+ */
 const copyAll = (dirName, name, type) => {
   const folderName = dirName === '/' ? '/' : `/${dirName}`;
-  fsExtra.copySync(Path.join(rootPath, `node_modules/${name}/${folderName}`),
-    Path.join(rootPath, `media/vendor/${name.replace(/.+\//, '')}/${type}`));
+  FsExtra.copySync(Path.join(RootPath, `node_modules/${name}/${folderName}`),
+    Path.join(RootPath, `media/vendor/${name.replace(/.+\//, '')}/${type}`));
 };
 
-// Copies an array of files from a directory
+/**
+ * Copies an array of files from a directory
+ *
+ * @param {string} dirName the name of the source folder
+ * @param {array}  files   the array of files to be be copied
+ * @param {string} name    the name of the destination folder
+ * @param {string} type    the type of the folder, eg: js, css, fonts, images
+ */
 const copyArrayFiles = (dirName, files, name, type) => {
   files.forEach((file) => {
     const folderName = dirName === '/' ? '/' : `/${dirName}/`;
-    if (fsExtra.existsSync(`node_modules/${name}${folderName}${file}`)) {
-      fsExtra.copySync(`node_modules/${name}${folderName}${file}`, `media/vendor/${name.replace(/.+\//, '')}${type ? `/${type}` : ''}/${file}`);
+    if (FsExtra.existsSync(`node_modules/${name}${folderName}${file}`)) {
+      FsExtra.copySync(`node_modules/${name}${folderName}${file}`, `media/vendor/${name.replace(/.+\//, '')}${type ? `/${type}` : ''}/${file}`);
     }
   });
 };
+
 /**
  *
- * @param files   Object of files map, eg {"src.js": "js/src.js"}
- * @param srcDir  Package root dir
- * @param destDir Vendor destination dir
+ * @param {object} files    the object of files map, eg {"src.js": "js/src.js"}
+ * @param {string} srcDir   the name of the package root dir
+ * @param {string} destDir  the name of the Vendor destination dir
  *
  * @returns {Array}
  */
@@ -55,40 +81,49 @@ const copyFilesTo = (files, srcDir, destDir) => {
   for (const srcFile in files) {
     const destFile = files[srcFile];
     const srcPath = Path.join(srcDir, srcFile);
-    // stats    = fs.lstatSync(srcPath),
     const destPath = Path.join(destDir, destFile);
 
-    fsExtra.copySync(srcPath, destPath);
+    FsExtra.copySync(srcPath, destPath);
     filesResult.push(destPath);
   }
 
   return filesResult;
 };
 
-// Concatenate some files
+/**
+ * Method to concatenate some files
+ *
+ * @param {array}  files   the array of files to be be concatenated
+ * @param {string} output  the name of the output file
+ */
 const concatFiles = (files, output) => {
   let tempMem = '';
   files.forEach((file) => {
-    if (fsExtra.existsSync(`${rootPath}/${file}`)) {
-      tempMem += fs.readFileSync(`${rootPath}/${file}`);
+    if (FsExtra.existsSync(`${RootPath}/${file}`)) {
+      tempMem += Fs.readFileSync(`${RootPath}/${file}`);
     }
   });
 
-  fs.writeFileSync(`${rootPath}/${output}`, tempMem);
+  Fs.writeFileSync(`${RootPath}/${output}`, tempMem);
 };
 
+/**
+ * Main method that will copy all vendor files according to Joomla's specs
+ *
+ * @param options
+ */
 const copyFiles = (options) => {
-  const mediaVendorPath = Path.join(rootPath, 'media/vendor');
+  const mediaVendorPath = Path.join(RootPath, 'media/vendor');
   const registry = {
     name: options.name,
     version: options.version,
     description: options.description,
     license: options.license,
-    vendors: {},
+    assets: {},
   };
 
-  if (!fsExtra.existsSync(mediaVendorPath)) {
-    fsExtra.mkdirSync(mediaVendorPath);
+  if (!FsExtra.existsSync(mediaVendorPath)) {
+    FsExtra.mkdirSync(mediaVendorPath);
   }
 
   // Loop to get some text for the packgage.json
@@ -101,22 +136,15 @@ const copyFiles = (options) => {
     // eslint-disable-next-line global-require, import/no-dynamic-require
     const moduleOptions = require(modulePathJson);
 
-    const registryItem = {
-      package: packageName,
-      name: vendorName,
-      version: moduleOptions.version,
-      dependencies: vendor.dependencies || [],
-    };
-
     if (packageName === 'codemirror') {
-      const itemvendorPath = Path.join(rootPath, `media/vendor/${packageName}`);
-      if (!fsExtra.existsSync(itemvendorPath)) {
-        fsExtra.mkdirSync(itemvendorPath);
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'addon'));
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'lib'));
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'mode'));
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'keymap'));
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'theme'));
+      const itemvendorPath = Path.join(RootPath, `media/vendor/${packageName}`);
+      if (!FsExtra.existsSync(itemvendorPath)) {
+        FsExtra.mkdirSync(itemvendorPath);
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'addon'));
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'lib'));
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'mode'));
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'keymap'));
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'theme'));
       }
 
       copyAll('addon', 'codemirror', 'addon');
@@ -145,7 +173,6 @@ const copyFiles = (options) => {
           'media/vendor/codemirror/addon/scroll/match-highlighter.js',
           'media/vendor/codemirror/addon/scroll/searchcursor.js',
           'media/vendor/codemirror/addon/selection/active-line.js',
-          'media/vendor/codemirror/keymap/vim.js',
           'media/vendor/codemirror/mode/meta.js',
         ],
         'media/vendor/codemirror/lib/addons.js');
@@ -158,19 +185,19 @@ const copyFiles = (options) => {
       ], 'media/vendor/codemirror/lib/addons.css');
 
       // Update the XML file for Codemirror
-      let codemirrorXml = fs.readFileSync(`${rootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'UTF-8' });
+      let codemirrorXml = Fs.readFileSync(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, { encoding: 'UTF-8' });
       codemirrorXml = codemirrorXml.replace(xmlVersionStr, `$1${options.dependencies.codemirror}$3`);
-      fs.writeFileSync(`${rootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'UTF-8' });
+      Fs.writeFileSync(`${RootPath}/plugins/editors/codemirror/codemirror.xml`, codemirrorXml, { encoding: 'UTF-8' });
     } else if (packageName === 'tinymce') {
-      const itemvendorPath = Path.join(rootPath, `media/vendor/${packageName}`);
+      const itemvendorPath = Path.join(RootPath, `media/vendor/${packageName}`);
 
-      if (!fsExtra.existsSync(itemvendorPath)) {
-        fsExtra.mkdirSync(itemvendorPath);
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'plugins'));
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'langs'));
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'skins'));
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'themes'));
-        fsExtra.mkdirSync(Path.join(itemvendorPath, 'templates'));
+      if (!FsExtra.existsSync(itemvendorPath)) {
+        FsExtra.mkdirSync(itemvendorPath);
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'plugins'));
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'langs'));
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'skins'));
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'themes'));
+        FsExtra.mkdirSync(Path.join(itemvendorPath, 'templates'));
       }
 
       copyAll('plugins', 'tinymce', 'plugins');
@@ -180,58 +207,111 @@ const copyFiles = (options) => {
       copyArrayFiles('', ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'], 'tinymce', '');
 
       // Update the XML file for tinyMCE
-      let tinyXml = fs.readFileSync(`${rootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
+      let tinyXml = Fs.readFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
       tinyXml = tinyXml.replace(xmlVersionStr, `$1${options.dependencies.tinymce}$3`);
-      fs.writeFileSync(`${rootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
+      Fs.writeFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
 
       // Remove that sourcemap...
-      let tinyWrongMap = fs.readFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, { encoding: 'UTF-8' });
+      let tinyWrongMap = Fs.readFileSync(`${RootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, { encoding: 'UTF-8' });
       tinyWrongMap = tinyWrongMap.replace('/*# sourceMappingURL=skin.min.css.map */', '');
-      fs.writeFileSync(`${rootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
+      Fs.writeFileSync(`${RootPath}/media/vendor/tinymce/skins/lightgray/skin.min.css`, tinyWrongMap, { encoding: 'UTF-8' });
     } else {
       ['js', 'css', 'filesExtra'].forEach((type) => {
         if (!vendor[type]) return;
 
         const dest = Path.join(mediaVendorPath, vendorName);
-        const files = copyFilesTo(vendor[type], modulePathRoot, dest, type);
-
-        // Add to registry, in format suported by JHtml
-        if (type === 'js' || type === 'css') {
-          registryItem[type] = [];
-          files.forEach((filePath) => {
-            registryItem[type].push(`vendor/${vendorName}/${Path.basename(filePath)}`);
-          });
-        }
+        copyFilesTo(vendor[type], modulePathRoot, dest, type);
       });
 
       // Copy the license if exists
       if (options.settings.vendors[packageName].licenseFilename &&
-     fs.existsSync(`${Path.join(rootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`)
+     Fs.existsSync(`${Path.join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`)
       ) {
         const dest = Path.join(mediaVendorPath, vendorName);
-        fsExtra.copySync(`${Path.join(rootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`, `${dest}/${options.settings.vendors[packageName].licenseFilename}`);
+        FsExtra.copySync(`${Path.join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`, `${dest}/${options.settings.vendors[packageName].licenseFilename}`);
       }
     }
 
-    registry.vendors[vendorName] = registryItem;
+    // Joomla's hack to expose the chosen base classes so we can extend it ourselves (it was better than the
+    // many hacks we had before. But I'm still ashamed of myself.
+    if (packageName === 'chosen-js') {
+      const dest = Path.join(mediaVendorPath, vendorName);
+      const chosenPath = `${dest}/${options.settings.vendors[packageName].js['chosen.jquery.js']}`;
+      let ChosenJs = Fs.readFileSync(chosenPath, { encoding: 'UTF-8' });
+      ChosenJs = ChosenJs.replace('}).call(this);', '  document.AbstractChosen = AbstractChosen;\n' +
+          '  document.Chosen = Chosen;\n' +
+          '}).call(this);');
+      Fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
+    }
+
+    // Add provided Assets to a registry, if any
+    if (vendor.provideAssets && vendor.provideAssets.length) {
+      vendor.provideAssets.forEach((assetInfo) => {
+
+        const registryItem = {
+          package: packageName,
+          name:    assetInfo.name || vendorName,
+          version: moduleOptions.version,
+          dependencies: assetInfo.dependencies || [],
+          js:  [],
+          css: [],
+          attribute: {}
+        };
+
+        // Update path for JS and CSS files
+        assetInfo.js && assetInfo.js.length && assetInfo.js.forEach((assetJS) => {
+          let itemPath = assetJS;
+
+          // Check for external path
+          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+            itemPath = `media/vendor/${vendorName}/js/${itemPath}`;
+          }
+          registryItem.js.push(itemPath);
+
+          // Check if there are any attribute to this file, then update the path
+          if (assetInfo.attribute && assetInfo.attribute[assetJS]) {
+            registryItem.attribute[itemPath] = assetInfo.attribute[assetJS]
+          }
+        });
+        assetInfo.css && assetInfo.css.length && assetInfo.css.forEach((assetCSS) => {
+          let itemPath = assetCSS;
+
+          // Check for external path
+          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+            itemPath = `media/vendor/${vendorName}/css/${itemPath}`;
+          }
+          registryItem.css.push(itemPath);
+
+          // Check if there are any attribute to this file, then update the path
+          if (assetInfo.attribute && assetInfo.attribute[assetCSS]) {
+            registryItem.attribute[itemPath] = assetInfo.attribute[assetCSS]
+          }
+        });
+
+        registry.assets[registryItem.name] = registryItem;
+      });
+    }
 
     // eslint-disable-next-line no-console
     console.log(`${packageName} was updated.`);
   }
 
   // Write assets registry
-  // fs.writeFileSync(
-  // Path.join(mediaVendorPath, 'joomla.asset.json'),
-  // JSON.stringify(registry, null, 2),
-  // {encoding: 'UTF-8'}
-  // );
+  Fs.writeFileSync(
+    Path.join(mediaVendorPath, 'joomla.asset.json'),
+    JSON.stringify(registry, null, 2),
+    {encoding: 'UTF-8'}
+  );
 };
 
+/**
+ * Method to recreate the basic media folder structure
+ */
 const recreateMediaFolder = () => {
 	// eslint-disable-next-line no-console
 	console.log(`Recreating the media folder...`);
 
-    copydir.sync(Path.join(rootPath, 'build/media'), Path.join(rootPath, 'media'), function(stat, filepath, filename){
+    Copydir.sync(Path.join(RootPath, 'build/media'), Path.join(RootPath, 'media'), function(stat, filepath, filename){
         if (stat === 'directory' && (filename === 'webcomponents' || filename === 'scss')) {
             return false;
         }
@@ -242,7 +322,7 @@ const recreateMediaFolder = () => {
         }
     });
 
-    copydir.sync(Path.join(rootPath, 'build/media_src'), Path.join(rootPath, 'media'), function(stat, filepath, filename){
+    Copydir.sync(Path.join(RootPath, 'build/media_src'), Path.join(RootPath, 'media'), function(stat, filepath, filename){
         if (stat === 'directory' && filename === 'scss') {
             return false;
         }
@@ -254,42 +334,30 @@ const recreateMediaFolder = () => {
     });
 };
 
-// List all files in a directory recursively in a synchronous fashion
-const walkSync = function(dir, filelist) {
-	const files = fs.readdirSync(dir);
-	filelist = filelist || [];
-	files.forEach(function(file) {
-		if (fs.statSync(Path.join(dir, file)).isDirectory()) {
-			filelist = walkSync(Path.join(dir, file), filelist);
-		}
-		else {
-			filelist.push(Path.join(dir, file));
-		}
-	});
-	return filelist;
-};
-
+/**
+ * Method to minify the legacy ES5 files
+ */
 const uglifyLegacyFiles = () => {
-    // Minify the legacy files
-    console.log('Minifying legacy stylesheets/scripts...');
-	const files = walkSync(`${rootPath}/media`);
+	// Minify the legacy files
+	console.log('Minifying legacy stylesheets/scripts...');
+	const files = WalkSync.run(`${RootPath}/media`, []);
 
 	if (files.length) {
 		files.forEach(
 			(file) => {
-			    if (file.match('/vendor')) {
-			        return;
-                }
-				if (file.match(/.js/) && !file.match(/.min.js/) && !file.toLowerCase().match(/license/)) {
-					console.log(`Processing: ${file}`);
+				if (file.match('/vendor') || file.match('\\vendor')) {
+					return;
+				}
+				if (file.match(/\.js/) && !file.match(/\.min\.js/) && !file.toLowerCase().match(/license/) && !file.toLowerCase().match(/json/) ) {
+          console.log(`Processing: ${file}`);
 					// Create the minified file
-					fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
+					Fs.writeFileSync(file.replace(/\.js$/, '.min.js'), UglifyJS.minify(Fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
 				}
 				if (file.match(/\.css/) && !file.match(/\.min\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
 					console.log(`Processing: ${file}`);
 					// Create the minified file
-					fs.writeFileSync(
-						file.replace('.css', '.min.css'),
+					Fs.writeFileSync(
+						file.replace(/\.css$/, '.min.css'),
 						UglyCss.processFiles([file], { expandVars: false }),
 						{ encoding: 'utf8' },
 					);
@@ -313,10 +381,10 @@ const copyAssets = (options) => {
     .then(uglifyLegacyFiles(options))
 
     // Handle errors
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(err);
-      process.exit(-1);
+    .catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(`${error}`);
+        process.exit(1);
     });
 };
 

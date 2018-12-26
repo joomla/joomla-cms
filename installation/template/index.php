@@ -8,13 +8,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /** @var JDocumentHtml $this */
 
 // Add Stylesheets
-HTMLHelper::_('stylesheet', 'installation/template/css/template.css', ['version' => 'auto']);
+// Load the template CSS file
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'installation/template/css/joomla-alert.min.css', ['version' => 'auto']);
 
 // Add scripts

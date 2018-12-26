@@ -11,17 +11,18 @@ namespace Joomla\Component\Fields\Administrator\View\Fields;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\Toolbar;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Fields View
@@ -99,7 +100,7 @@ class HtmlView extends BaseHtmlView
 		// Display a warning if the fields system plugin is disabled
 		if (!PluginHelper::isEnabled('system', 'fields'))
 		{
-			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . \FieldsHelper::getFieldsPluginId());
+			$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FieldsHelper::getFieldsPluginId());
 			Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FIELDS_SYSTEM_PLUGIN_NOT_ENABLED', $link), 'warning');
 		}
 
@@ -116,7 +117,7 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		\FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
+		FieldsHelper::addSubmenu($this->state->get('filter.context'), 'fields');
 		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);

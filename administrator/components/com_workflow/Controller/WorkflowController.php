@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -12,15 +12,14 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 
 /**
- * The first example class, this is in the same
- * package as declared at the start of file but
- * this example has a defined subpackage
+ * Workflow controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowController extends FormController
 {
@@ -28,7 +27,7 @@ class WorkflowController extends FormController
 	 * The extension for which the categories apply.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension;
 
@@ -40,16 +39,22 @@ class WorkflowController extends FormController
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since  __DEPLOY_VERSION__
-	 * @see    \JControllerLegacy
+	 * @since   4.0.0
+	 * @throws  \InvalidArgumentException when no extension is set
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
+		// If extension is not set try to get it from input or throw an exception
 		if (empty($this->extension))
 		{
-			$this->extension = $this->input->get('extension', 'com_content');
+			$this->extension = $this->input->getCmd('extension');
+
+			if (empty($this->extension))
+			{
+				throw new \InvalidArgumentException(Text::_('COM_WORKFLOW_ERROR_EXTENSION_NOT_SET'));
+			}
 		}
 	}
 
@@ -60,7 +65,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -77,12 +82,19 @@ class WorkflowController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 		$user = Factory::getUser();
+
+		$record = $this->getModel()->getItem($recordId);
+
+		if (!empty($record->id) && $record->core)
+		{
+			return false;
+		}
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.workflow.' . $recordId))
@@ -93,9 +105,6 @@ class WorkflowController extends FormController
 		// Check "edit own" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit.own', $this->extension . '.workflow.' . $recordId))
 		{
-			// Need to do a lookup from the model to get the owner
-			$record = $this->getModel()->getItem($recordId);
-
 			return !empty($record) && $record->created_by == $user->id;
 		}
 
@@ -110,7 +119,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -125,7 +134,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getRedirectToListAppend()
 	{
@@ -144,7 +153,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function postSaveHook(\JModelLegacy $model, $validData = array())
 	{
@@ -163,7 +172,7 @@ class WorkflowController extends FormController
 			$query = $db->getQuery(true);
 
 			$query->select('*')
-				->from($db->quoteName('#__workflow_states'))
+				->from($db->quoteName('#__workflow_stages'))
 				->where($db->quoteName('workflow_id') . ' = ' . (int) $recordId);
 
 			$statuses = $db->setQuery($query)->loadAssocList();
@@ -203,8 +212,8 @@ class WorkflowController extends FormController
 			{
 				$table = $tmodel->getTable();
 
-				$transition['from_state_id'] = $mapping[$transition['from_state_id']];
-				$transition['to_state_id'] = $mapping[$transition['to_state_id']];
+				$transition['from_stage_id'] = $mapping[$transition['from_stage_id']];
+				$transition['to_stage_id'] = $mapping[$transition['to_stage_id']];
 
 				$transition['workflow_id'] = $workflowID;
 				$transition['id'] = 0;
@@ -223,7 +232,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -240,6 +249,6 @@ class WorkflowController extends FormController
 			$this->input->post->set('jform', $data);
 		}
 
-		parent::save($key, $urlVar);
+		return parent::save($key, $urlVar);
 	}
 }

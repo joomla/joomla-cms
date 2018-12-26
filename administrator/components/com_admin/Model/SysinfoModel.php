@@ -12,12 +12,12 @@ namespace Joomla\Component\Admin\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * Model for the display of system information.
@@ -168,7 +168,7 @@ class SysInfoModel extends BaseDatabaseModel
 	/**
 	 * Remove sections of data marked as private in the privateSettings
 	 *
-	 * @param   array   $dataArray  Array with data tha may contain private informati
+	 * @param   array   $dataArray  Array with data that may contain private information
 	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array
@@ -440,7 +440,7 @@ class SysInfoModel extends BaseDatabaseModel
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
-			->from($db->qn('#__extensions'));
+			->from($db->quoteName('#__extensions'));
 		$db->setQuery($query);
 
 		try

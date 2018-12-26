@@ -12,12 +12,12 @@ namespace Joomla\Component\Users\Administrator\View\Debuguser;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\Notallowed;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 
 /**
@@ -93,8 +93,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new Notallowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
-
-		\JLoader::register('UsersHelperDebug', JPATH_ADMINISTRATOR . '/components/com_users/helpers/debug.php');
 
 		$this->actions       = $this->get('DebugActions');
 		$this->items         = $this->get('Items');

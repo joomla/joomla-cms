@@ -11,12 +11,12 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\Database\Exception\ExecutionFailureException;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Discover Model
@@ -234,7 +234,7 @@ class DiscoverModel extends InstallerModel
 	/**
 	 * Cleans out the list of discovered extensions.
 	 *
-	 * @return  bool True on success
+	 * @return  boolean  True on success
 	 *
 	 * @since   1.6
 	 */

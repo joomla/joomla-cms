@@ -10,12 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
@@ -23,16 +21,18 @@ HTMLHelper::_('script', 'com_users/admin-users-user.min.js', array('version' => 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
 $settings  = array();
+
+$this->useCoreUI = true;
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_users&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="user-form" enctype="multipart/form-data" class="form-validate">
 
-	<?php echo LayoutHelper::render('joomla.edit.item_title', $this); ?>
+	<h2><?php echo $this->form->getValue('name'); ?></h2>
 
 	<fieldset>
-		<?php echo HTMLHelper::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-			<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'details', Text::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_USERS_USER_ACCOUNT_DETAILS')); ?>
 				<?php foreach ($this->form->getFieldset('user_details') as $field) : ?>
 					<div class="control-group">
 						<div class="control-label">
@@ -43,12 +43,12 @@ $settings  = array();
 						</div>
 					</div>
 				<?php endforeach; ?>
-			<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 			<?php if ($this->grouplist) : ?>
-				<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'groups', Text::_('COM_USERS_ASSIGNED_GROUPS')); ?>
+				<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'groups', Text::_('COM_USERS_ASSIGNED_GROUPS')); ?>
 					<?php echo $this->loadTemplate('groups'); ?>
-				<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 
 			<?php
@@ -57,7 +57,7 @@ $settings  = array();
 			?>
 
 		<?php if (!empty($this->tfaform) && $this->item->id) : ?>
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 		<div class="control-group">
 			<div class="control-label">
 				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
@@ -82,9 +82,13 @@ $settings  = array();
 			<legend>
 				<?php echo Text::_('COM_USERS_USER_OTEPS'); ?>
 			</legend>
-			<joomla-alert type="info"><?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?></joomla-alert>
+			<div class="alert alert-info">
+				<?php echo Text::_('COM_USERS_USER_OTEPS_DESC'); ?>
+			</div>
 			<?php if (empty($this->otpConfig->otep)) : ?>
-				<joomla-alert type="warning"><?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?></joomla-alert>
+				<div class="alert alert-warning">
+					<?php echo Text::_('COM_USERS_USER_OTEPS_WAIT_DESC'); ?>
+				</div>
 			<?php else : ?>
 			<?php foreach ($this->otpConfig->otep as $otep) : ?>
 			<span class="col-md-3">
@@ -94,10 +98,10 @@ $settings  = array();
 			<?php endif; ?>
 		</fieldset>
 
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 		<?php endif; ?>
 
-		<?php echo HTMLHelper::_('bootstrap.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</fieldset>
 
 	<input type="hidden" name="task" value="">

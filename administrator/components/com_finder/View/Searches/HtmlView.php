@@ -12,10 +12,9 @@ namespace Joomla\Component\Finder\Administrator\View\Searches;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * View class for a list of search terms.
@@ -103,11 +102,7 @@ class HtmlView extends BaseHtmlView
 		FinderHelper::addSubmenu('searches');
 
 		// Check if plugin is enabled
-		if ($this->enabled)
-		{
-			$app->enqueueMessage(\JText::_('COM_FINDER_LOGGING_ENABLED'), 'notice');
-		}
-		else
+		if (!$this->enabled)
 		{
 			$app->enqueueMessage(\JText::_('COM_FINDER_LOGGING_DISABLED'), 'warning');
 		}

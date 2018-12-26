@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 
-\JLoader::import('joomla.filesystem.file');
-
 /**
  * Joomla! Package Manifest File
  *

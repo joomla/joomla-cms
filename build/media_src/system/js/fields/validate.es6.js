@@ -214,7 +214,12 @@
           return isValid;
         }
 
-        this.handleResponse(false, element);
+        if (element.hasAttributte('required') || element.classList.contains('required')) {
+          this.handleResponse(false, element, 'empty');
+          return false;
+        }
+
+        this.handleResponse(true, element);
         return false;
       }
 

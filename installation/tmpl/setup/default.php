@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
-/* @var InstallationViewDefault $this */
+/** @var \Joomla\CMS\Installation\View\Setup\HtmlView $this */
 ?>
 
 <div id="installer-view" data-page-name="setup">

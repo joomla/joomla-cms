@@ -1,13 +1,11 @@
 <?php
 /**
- * Items Model for a Prove Component.
- *
  * @package     Joomla.Administrator
- * @subpackage  com_prove
+ * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
@@ -15,12 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 
 /**
- * Model class for items
+ * Model class for transitions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TransitionsModel extends ListModel
 {
@@ -30,7 +27,7 @@ class TransitionsModel extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct($config = array())
 	{
@@ -41,8 +38,8 @@ class TransitionsModel extends ListModel
 				'published', 't.published',
 				'ordering', 't.ordering',
 				'title', 't.title',
-				'from_state', 't.from_state_id',
-				'to_state', 't.to_state_id'
+				'from_stage', 't.from_stage_id',
+				'to_stage', 't.to_stage_id'
 			);
 		}
 
@@ -63,13 +60,13 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function populateState($ordering = 't.ordering', $direction = 'ASC')
 	{
 		$app = Factory::getApplication();
 		$workflowID = $app->getUserStateFromRequest($this->context . '.filter.workflow_id', 'workflow_id', 1, 'int');
-		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', 'com_content', 'cmd');
+		$extension = $app->getUserStateFromRequest($this->context . '.filter.extension', 'extension', null, 'cmd');
 
 		if ($workflowID)
 		{
@@ -98,7 +95,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Table\Table  A JTable object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getTable($type = 'Transition', $prefix = 'Administrator', $config = array())
 	{
@@ -110,13 +107,15 @@ class TransitionsModel extends ListModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'workflow_id = ' . $this->getDbo()->q((int) $table->workflow_id);
+		return [
+			$this->_db->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
+		];
 	}
 
 	/**
@@ -124,7 +123,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  string  The query to database.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getListQuery()
 	{
@@ -136,23 +135,26 @@ class TransitionsModel extends ListModel
 			array(
 			't.id',
 			't.title',
-			't.from_state_id',
-			't.to_state_id',
+			't.from_stage_id',
+			't.to_stage_id',
 			't.published',
 			't.ordering',
-		)
+			't.description',
+			)
 		);
 
-		$select[] = $db->quoteName('f_state.title', 'from_state');
-		$select[] = $db->quoteName('t_state.title', 'to_state');
-		$joinTo = $db->quoteName('#__workflow_states', 't_state') .
-			' ON ' . $db->quoteName('t_state.id') . ' = ' . $db->quoteName('t.to_state_id');
+		$select[] = $db->quoteName('f_stage.title', 'from_stage');
+		$select[] = $db->quoteName('f_stage.condition', 'from_condition');
+		$select[] = $db->quoteName('t_stage.title', 'to_stage');
+		$select[] = $db->quoteName('t_stage.condition', 'to_condition');
+		$joinTo = $db->quoteName('#__workflow_stages', 't_stage') .
+			' ON ' . $db->quoteName('t_stage.id') . ' = ' . $db->quoteName('t.to_stage_id');
 
 		$query
 			->select($select)
 			->from($db->quoteName('#__workflow_transitions', 't'))
 			->leftJoin(
-				$db->quoteName('#__workflow_states', 'f_state') . ' ON ' . $db->quoteName('f_state.id') . ' = ' . $db->quoteName('t.from_state_id')
+				$db->quoteName('#__workflow_stages', 'f_stage') . ' ON ' . $db->quoteName('f_stage.id') . ' = ' . $db->quoteName('t.from_stage_id')
 			)
 			->leftJoin($joinTo);
 
@@ -174,16 +176,16 @@ class TransitionsModel extends ListModel
 			$query->where($db->quoteName('t.published') . ' IN (0, 1)');
 		}
 
-		// Filter by column from_state_id
-		if ($fromState = $this->getState('filter.from_state'))
+		// Filter by column from_stage_id
+		if ($fromStage = $this->getState('filter.from_stage'))
 		{
-			$query->where($db->quoteName('from_state_id') . ' = ' . (int) $fromState);
+			$query->where($db->quoteName('from_stage_id') . ' = ' . (int) $fromStage);
 		}
 
-		// Filter by column from_state_id
-		if ($toState = $this->getState('filter.to_state'))
+		// Filter by column from_stage_id
+		if ($toStage = $this->getState('filter.to_stage'))
 		{
-			$query->where($db->quoteName('to_state_id') . ' = ' . (int) $toState);
+			$query->where($db->quoteName('to_stage_id') . ' = ' . (int) $toStage);
 		}
 
 		// Filter by search in title
@@ -212,7 +214,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  \JForm|boolean  The \JForm object or false on error
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
@@ -224,10 +226,32 @@ class TransitionsModel extends ListModel
 		{
 			$where = $this->getDbo()->quoteName('workflow_id') . ' = ' . $id . ' AND ' . $this->getDbo()->quoteName('published') . ' = 1';
 
-			$form->setFieldAttribute('from_state', 'sql_where', $where, 'filter');
-			$form->setFieldAttribute('to_state', 'sql_where', $where, 'filter');
+			$form->setFieldAttribute('from_stage', 'sql_where', $where, 'filter');
+			$form->setFieldAttribute('to_stage', 'sql_where', $where, 'filter');
 		}
 
 		return $form;
 	}
+
+	/**
+	 * Returns a workflow object
+	 *
+	 * @return  object  The workflow
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getWorkflow()
+	{
+		$table = $this->getTable('Workflow', 'Administrator');
+
+		$workflowId = (int) $this->getState('filter.workflow_id');
+
+		if ($workflowId > 0)
+		{
+			$table->load($workflowId);
+		}
+
+		return (object) $table->getProperties();
+	}
+
 }

@@ -11,20 +11,18 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-jimport('joomla.updater.update');
-
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Updater\Update;
+use Joomla\CMS\Updater\Updater;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Installer\InstallerHelper;
-use Joomla\CMS\Installer\Installer;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Model
@@ -406,6 +404,9 @@ class UpdateModel extends ListModel
 	 */
 	private function install($update)
 	{
+		// Load overrides plugin.
+		PluginHelper::importPlugin('installer');
+
 		$app = Factory::getApplication();
 
 		if (!isset($update->get('downloadurl')->_data))
@@ -559,8 +560,6 @@ class UpdateModel extends ListModel
 	 */
 	protected function preparePreUpdate($update, $table)
 	{
-		jimport('joomla.filesystem.file');
-
 		switch ($table->type)
 		{
 			// Components could have a helper which adds additional data

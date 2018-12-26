@@ -15,14 +15,11 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Session\Session;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_ACCESS')));
-HTMLHelper::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_AUTHOR')));
-HTMLHelper::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_CATEGORY')));
-HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -43,26 +40,29 @@ else
 	$orderingColumn = 'created';
 }
 
-if ($saveOrder)
+
+if ($saveOrder && !empty($this->items))
 {
-	$saveOrderingUrl = 'index.php?option=com_content&task=featured.saveOrderAjax&tmpl=component';
-	HTMLHelper::_('sortablelist.sortable', 'articleList', 'adminForm', strtolower($listDirn), $saveOrderingUrl);
+	$saveOrderingUrl = 'index.php?option=com_content&task=featured.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
+	HTMLHelper::_('draggablelist.draggable');
 }
 
-$js = "
-	;(function($)
-	{
-		$(function()
-		{
-			$('.article-status').on('click', function(e)
-			{
-				e.stopPropagation();
-			});
-		});
-	})(jQuery);
-";
+$js = <<<JS
+(function() {
+	document.addEventListener('DOMContentLoaded', function() {
+	  var elements = [].slice.call(document.querySelectorAll('.article-status'));
 
-\Joomla\CMS\Factory::getDocument()->addScriptDeclaration($js);
+	  elements.forEach(function (element) {
+	    element.addEventListener('click', function(event) {
+			event.stopPropagation();
+		});
+	  });
+	});
+})();
+JS;
+
+// @todo mode the script to a file
+Factory::getDocument()->addScriptDeclaration($js);
 
 ?>
 
@@ -80,54 +80,59 @@ $js = "
 				echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table" id="articleList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_CONTENT_FEATURED_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="nowrap text-center d-none d-md-table-cell">
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'fp.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
-								<th scope="col" style="width:1%; min-width:85px" class="nowrap text-center">
-									<?php echo JText::_("COM_CONTENT_STATE") ?>
+								<th scope="col" style="width:1%; min-width:85px" class="text-center">
+									<?php echo JText::_('JSTATUS'); ?>
 								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JAUTHOR', 'a.created_by', $listDirn, $listOrder); ?>
 								</th>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:10%" class="d-none d-md-table-cell">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'language', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:10%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_CONTENT_HEADING_DATE_' . strtoupper($orderingColumn), 'a.' . $orderingColumn, $listDirn, $listOrder); ?>
 								</th>
-								<th scope="col" style="width:3%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:3%" class="d-none d-md-table-cell text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($this->vote) : ?>
-									<th scope="col" style="width:3%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:3%" class="d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_VOTES', 'rating_count', $listDirn, $listOrder); ?>
 									</th>
-									<th scope="col" style="width:3%" class="nowrap d-none d-md-table-cell text-center">
+									<th scope="col" style="width:3%" class="d-none d-md-table-cell text-center">
 										<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_RATINGS', 'rating', $listDirn, $listOrder); ?>
 									</th>
 								<?php endif; ?>
-								<th scope="col" style="width:3%" class="nowrap d-none d-md-table-cell text-center">
+								<th scope="col" style="width:3%" class="d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 								</th>
 							</tr>
 						</thead>
-						<tbody>
+						<tbody<?php if ($saveOrder) : ?> class="js-draggable" data-url="<?php echo $saveOrderingUrl; ?>" data-direction="<?php echo strtolower($listDirn); ?>"<?php endif; ?>>
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;
@@ -138,12 +143,12 @@ $js = "
 							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
 							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
 
-							$transitions = ContentHelper::filterTransitions($this->transitions, $item->state_id, $item->workflow_id);
+							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
 							$hasTransitions = count($transitions) > 0;
 
 							$default = [
-								JHtml::_('select.option', '', $this->escape($item->state_title)),
+								JHtml::_('select.option', '', $this->escape($item->stage_title)),
 								JHtml::_('select.option', '-1', '--------', ['disable' => true])
 							];
 
@@ -151,7 +156,7 @@ $js = "
 
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
-								<td class="order nowrap text-center d-none d-md-table-cell">
+								<td class="order text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
 
@@ -179,19 +184,18 @@ $js = "
 										<div class="btn-group tbody-icon mr-1">
 											<?php echo HTMLHelper::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
 											<?php
-
-											$icon = 'publish';
-
-											switch ($item->state_condition) :
-
-												case Workflow::TRASHED:
+											switch ($item->stage_condition) :
+												case ContentComponent::CONDITION_TRASHED :
 													$icon = 'trash';
 													break;
-
-												case Workflow::UNPUBLISHED:
+												case ContentComponent::CONDITION_UNPUBLISHED :
 													$icon = 'unpublish';
 													break;
-
+												case ContentComponent::CONDITION_ARCHIVED :
+													$icon = 'archive';
+													break;
+												default :
+													$icon = 'publish';
 											endswitch;
 											?>
 											<?php if ($hasTransitions) : ?>
@@ -202,7 +206,7 @@ $js = "
 												<span class="icon-<?php echo $icon; ?>"></span>
 											<?php endif; ?>
 										</div>
-										<div class="mr-auto"><?php echo $this->escape($item->state_title); ?></div>
+										<div class="mr-auto"><?php echo $this->escape($item->stage_title); ?></div>
 										<?php if ($hasTransitions) : ?>
 											<div class="d-none">
 												<?php
@@ -238,10 +242,10 @@ $js = "
 										</div>
 									</div>
 								</th>
-								<td class="small d-none d-md-table-cell text-center">
+								<td class="small d-none d-md-table-cell">
 									<?php echo $this->escape($item->access_level); ?>
 								</td>
-								<td class="small d-none d-md-table-cell text-center">
+								<td class="small d-none d-md-table-cell">
 									<?php if ((int) $item->created_by != 0) : ?>
 										<?php if ($item->created_by_alias) : ?>
                                             <a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->created_by); ?>" title="<?php echo Text::_('JAUTHOR'); ?>">
@@ -261,11 +265,11 @@ $js = "
 									<?php endif; ?>
 								</td>
 								<?php if (Multilanguage::isEnabled()) : ?>
-									<td class="small d-none d-md-table-cell text-center">
+									<td class="small d-none d-md-table-cell">
 										<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 									</td>
 								<?php endif; ?>
-								<td class="nowrap small d-none d-md-table-cell text-center">
+								<td class="small d-none d-md-table-cell text-center">
 									<?php
 									$date = $item->{$orderingColumn};
 									echo $date > 0 ? HTMLHelper::_('date', $date, Text::_('DATE_FORMAT_LC4')) : '-';
@@ -288,7 +292,7 @@ $js = "
 										</span>
 									</td>
 								<?php endif; ?>
-								<td class="text-center d-none d-md-table-cell">
+								<td class="d-none d-md-table-cell">
 									<?php echo (int) $item->id; ?>
 								</td>
 							</tr>

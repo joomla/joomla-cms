@@ -13,8 +13,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
 FormHelper::loadFieldClass('list');
@@ -22,7 +22,7 @@ FormHelper::loadFieldClass('list');
 /**
  * Supports an HTML select list of files
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FilelistField extends \JFormFieldList
 {
@@ -30,7 +30,7 @@ class FilelistField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Filelist';
 
@@ -186,7 +186,7 @@ class FilelistField extends \JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{

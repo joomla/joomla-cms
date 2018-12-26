@@ -10,9 +10,9 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
-use Joomla\CMS\Form\FormHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -22,7 +22,7 @@ FormHelper::loadFieldClass('list');
  * a given list.
  *
  * @see    DatabaseDriver
- * @since  11.3
+ * @since  1.7.3
  */
 class DatabaseconnectionField extends \JFormFieldList
 {
@@ -30,7 +30,7 @@ class DatabaseconnectionField extends \JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $type = 'Databaseconnection';
 
@@ -42,7 +42,7 @@ class DatabaseconnectionField extends \JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @see     DatabaseDriver::getConnectors()
 	 */
 	protected function getOptions()

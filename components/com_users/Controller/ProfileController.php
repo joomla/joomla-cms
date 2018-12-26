@@ -10,17 +10,17 @@ namespace Joomla\Component\Users\Site\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Help\Help;
 use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Uri\Uri;
 
 
@@ -127,6 +127,14 @@ class ProfileController extends BaseController
 		{
 			throw new \Exception($model->getError(), 500);
 		}
+
+		// Send an object which can be modified through the plugin event
+		$objData = (object) $requestData;
+		$app->triggerEvent(
+			'onContentNormaliseRequestData',
+			array('com_users.user', $objData, $form)
+		);
+		$requestData = (array) $objData;
 
 		// Validate the posted data.
 		$data = $model->validate($form, $requestData);
@@ -275,8 +283,6 @@ class ProfileController extends BaseController
 	 */
 	public function gethelpsites()
 	{
-		jimport('joomla.filesystem.file');
-
 		// Set FTP credentials, if given
 		ClientHelper::setCredentialsFromRequest('ftp');
 

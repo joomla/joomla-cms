@@ -8,10 +8,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
-/* @var \Joomla\CMS\Installation\View\Preinstall\HtmlView $this */
+/** @var \Joomla\CMS\Installation\View\Preinstall\HtmlView $this */
 ?>
 <div id="installer-view" class="container" data-page-name="preinstall">
 		<div class="row">

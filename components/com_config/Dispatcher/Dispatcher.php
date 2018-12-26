@@ -12,13 +12,14 @@ namespace Joomla\Component\Config\Site\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Exception\NotAllowed;
+use Joomla\CMS\Dispatcher\ComponentDispatcher;
 
 /**
- * Dispatcher class for com_config
+ * ComponentDispatcher class for com_config
  *
  * @since  4.0.0
  */
-class Dispatcher extends \Joomla\CMS\Dispatcher\Dispatcher
+class Dispatcher extends ComponentDispatcher
 {
 	/**
 	 * Method to check component access permission

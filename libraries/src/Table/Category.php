@@ -12,12 +12,12 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Table\Observer\ContentHistory;
-use Joomla\CMS\Table\Observer\Tags;
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Observer\ContentHistory;
+use Joomla\CMS\Table\Observer\Tags;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
 
 /**
  * Category table
@@ -37,7 +37,7 @@ class Category extends Nested
 	{
 		$this->typeAlias = '{extension}.category';
 		parent::__construct('#__categories', 'id', $db);
-		$this->access = (int) Factory::getConfig()->get('access');
+		$this->access = (int) Factory::getApplication()->get('access');
 	}
 
 	/**

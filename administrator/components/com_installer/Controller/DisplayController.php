@@ -11,10 +11,9 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Installer Controller
@@ -36,7 +35,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'install');

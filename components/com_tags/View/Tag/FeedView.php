@@ -6,13 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Site\View\Tag;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 use Joomla\CMS\Document\Feed\FeedItem;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 
 defined('_JEXEC') or die;
 

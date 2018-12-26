@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentError $this */
 
@@ -27,7 +27,7 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 $menu     = $app->getMenu()->getActive();
-$pageclass = $menu->params->get('pageclass_sfx');
+$pageclass = $menu !== null ? $menu->params->get('pageclass_sfx', '') : '';
 
 // Add JavaScript Frameworks
 HTMLHelper::_('bootstrap.framework');
@@ -43,9 +43,6 @@ HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => 
 
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
-
-// Alerts progressive enhancement
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));

@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Database\UTF8MB4SupportInterface;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Script file of Joomla CMS
@@ -3947,8 +3947,6 @@ class JoomlaInstallerScript
 			'/media/jui/less',
 		);
 
-		jimport('joomla.filesystem.file');
-
 		foreach ($files as $file)
 		{
 			if (File::exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
@@ -3956,8 +3954,6 @@ class JoomlaInstallerScript
 				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
 			}
 		}
-
-		jimport('joomla.filesystem.folder');
 
 		foreach ($folders as $folder)
 		{
@@ -4057,7 +4053,7 @@ class JoomlaInstallerScript
 				// Non-MySQL databases, use a simple DELETE FROM query
 				default:
 					$query = $db->getQuery(true)
-						->delete($db->qn('#__session'));
+						->delete($db->quoteName('#__session'));
 					$db->setQuery($query)->execute();
 					break;
 			}

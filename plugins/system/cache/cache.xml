@@ -45,7 +45,6 @@
 					type="textarea"
 					label="PLG_CACHE_FIELD_EXCLUDE_LABEL"
 					description="PLG_CACHE_FIELD_EXCLUDE_DESC"
-					class="input-xxlarge"
 					rows="15"
 					filter="raw"
 					default=""

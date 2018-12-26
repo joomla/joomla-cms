@@ -76,8 +76,8 @@ class MenutypeField extends ListField
 			default:
 				$link = $this->form->getValue('link');
 
-				$model = Factory::getApplication()->bootComponent('com_menus')->createMVCFactory(Factory::getApplication())
-					->createModel('Menutypes', 'Administrator', array('ignore_request' => true));
+				$model = Factory::getApplication()->bootComponent('com_menus')
+					->getMVCFactory()->createModel('Menutypes', 'Administrator', array('ignore_request' => true));
 				$model->setState('client_id', $clientId);
 
 				$rlu   = $model->getReverseLookup();
@@ -90,9 +90,9 @@ class MenutypeField extends ListField
 		$link = Route::_('index.php?option=com_menus&view=menutypes&tmpl=component&client_id=' . $clientId . '&recordId=' . $recordId);
 		$html[] = '<span class="input-group"><input type="text" ' . $required . ' readonly="readonly" id="' . $this->id
 			. '" value="' . $value . '"' . $size . $class . '>';
-		$html[] = '<span class="input-group-append"><a href="#menuTypeModal" role="button" class="btn btn-primary" data-toggle="modal" title="'
+		$html[] = '<span class="input-group-append"><button type="button" data-target="#menuTypeModal" class="btn btn-primary" data-toggle="modal" title="'
 			. Text::_('JSELECT') . '">' . '<span class="icon-list icon-white" aria-hidden="true"></span> '
-			. Text::_('JSELECT') . '</a></span></span>';
+			. Text::_('JSELECT') . '</button></span></span>';
 		$html[] = HTMLHelper::_(
 			'bootstrap.renderModal',
 			'menuTypeModal',

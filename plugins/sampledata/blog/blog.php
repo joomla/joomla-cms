@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * Sampledata - Blog Plugin
@@ -110,8 +110,38 @@ class PlgSampledataBlog extends CMSPlugin
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
 		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
 
+		// Create a sample workflow
+		$workflowModel = $this->app->bootComponent('com_workflow')
+			->getMVCFactory()->createModel('Workflow', 'Administrator');
+
+		$workflow = [
+			'title'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_TITLE'),
+			'description' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_DESCRIPTION'),
+			'published'   => 1,
+			'extension'   => 'com_content'
+		];
+
+		try
+		{
+			if (!$workflowModel->save($workflow))
+			{
+				throw new Exception($workflowModel->getError());
+			}
+		}
+		catch (Exception $e)
+		{
+			$response            = array();
+			$response['success'] = false;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
+
+			return $response;
+		}
+
+		$workflow_id = (int) $workflowModel->getItem()->id;
+
 		// Create "blog" category.
-		$categoryModel = new \Joomla\Component\Categories\Administrator\Model\CategoryModel;
+		$categoryModel = $this->app->bootComponent('com_categories')
+			->getMVCFactory()->createModel('Category', 'Administrator');
 		$catIds        = array();
 		$categoryTitle = Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_CATEGORY_0_TITLE');
 		$alias         = ApplicationHelper::stringURLSafe($categoryTitle);
@@ -137,7 +167,7 @@ class PlgSampledataBlog extends CMSPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '',
+			'params'          => '{"workflow_id": "' . $workflow_id . '"}',
 		);
 
 		try
@@ -184,7 +214,7 @@ class PlgSampledataBlog extends CMSPlugin
 			'associations'    => array(),
 			'description'     => '',
 			'language'        => $language,
-			'params'          => '',
+			'params'          => '{"workflow_id": "' . $workflow_id . '"}',
 		);
 
 		try
@@ -260,7 +290,6 @@ class PlgSampledataBlog extends CMSPlugin
 
 			$article['language']        = $language;
 			$article['associations']    = array();
-			$article['state']           = 1;
 			$article['featured']        = 0;
 			$article['images']          = '';
 			$article['metakey']         = '';
@@ -367,7 +396,6 @@ class PlgSampledataBlog extends CMSPlugin
 		$articleIds = $this->app->getUserState('sampledata.blog.articles');
 
 		// Get MenuItemModel.
-		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 		$this->menuItemModel = new \Joomla\Component\Menus\Administrator\Model\ItemModel;
 
 		// Get previously entered categories ids
@@ -385,9 +413,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'show_category_title'     => 0,
 					'num_leading_articles'    => 4,
 					'num_intro_articles'      => 0,
-					'num_columns'             => 1,
 					'num_links'               => 2,
-					'multi_column_order'      => 1,
 					'orderby_sec'             => 'rdate',
 					'order_date'              => 'published',
 					'show_pagination'         => 2,
@@ -638,7 +664,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 0,
-					'class_sfx'       => ' nav-pills',
+					'class_sfx'       => '',
 					'layout'          => '_:default',
 					'cache'           => 1,
 					'cache_time'      => 900,
@@ -661,7 +687,7 @@ class PlgSampledataBlog extends CMSPlugin
 					'startLevel'      => 1,
 					'endLevel'        => 0,
 					'showAllChildren' => 1,
-					'class_sfx'       => ' nav-pills',
+					'class_sfx'       => '',
 					'layout'          => '_:default',
 					'cache'           => 1,
 					'cache_time'      => 900,
@@ -961,6 +987,11 @@ class PlgSampledataBlog extends CMSPlugin
 	 */
 	public function onAjaxSampledataApplyStep4()
 	{
+		if ($this->app->input->get('type') != $this->_name)
+		{
+			return;
+		}
+
 		$response['success'] = true;
 		$response['message'] = Text::_('PLG_SAMPLEDATA_BLOG_STEP4_SUCCESS');
 

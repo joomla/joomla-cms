@@ -14,7 +14,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\InstallationApplication;
-use Joomla\CMS\Log\Log;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;

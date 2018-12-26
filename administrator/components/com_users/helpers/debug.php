@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 /**
  * Users component debugging helper.
  *
- * @since  1.6
+ * @since       1.6
+ *
+ * @deprecated  5.0 Use \Joomla\Component\Users\Administrator\Helper\UsersHelperDebug instead
  */
 class UsersHelperDebug extends \Joomla\Component\Users\Administrator\Helper\UsersHelperDebug
 {

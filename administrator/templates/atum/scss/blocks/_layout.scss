@@ -1,0 +1,20 @@
+.page-link {
+  &.active {
+    padding: 0;
+    &.current {
+      padding: .5rem .75rem;
+      color: #999;
+      background-color: #dee2e6;
+    }
+    a {
+      padding: .5rem .75rem;
+      line-height: 2.25;
+    }
+  }
+  &.disabled {
+    color: #999;
+    &:hover {
+      background: transparent;
+    }
+  }
+}

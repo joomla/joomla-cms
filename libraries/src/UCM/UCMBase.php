@@ -10,10 +10,10 @@ namespace Joomla\CMS\UCM;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-use Joomla\CMS\Factory;
 
 /**
  * Base class for implementing UCM

@@ -11,10 +11,8 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
  * Joomla! Update Controller
@@ -36,7 +34,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'Joomlaupdate');
@@ -53,7 +51,8 @@ class DisplayController extends BaseController
 			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
-			$warningsModel = new WarningsModel;
+			$warningsModel = $this->app->bootComponent('com_installer')
+				->getMVCFactory()->createModel('Warnings', 'Administrator', ['ignore_request' => true]);
 
 			if (is_object($warningsModel))
 			{

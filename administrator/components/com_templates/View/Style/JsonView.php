@@ -11,8 +11,8 @@ namespace Joomla\Component\Templates\Administrator\View\Style;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * View to edit a template style.

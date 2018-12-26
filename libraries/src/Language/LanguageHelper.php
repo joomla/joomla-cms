@@ -10,17 +10,18 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Log\Log;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Language helper class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class LanguageHelper
 {
@@ -34,7 +35,7 @@ class LanguageHelper
 	 *
 	 * @return  array  List of system languages
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -61,7 +62,7 @@ class LanguageHelper
 	 *
 	 * @return  string  locale or null if not found
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function detectLanguage()
 	{
@@ -111,7 +112,7 @@ class LanguageHelper
 	 *
 	 * @return  array  An array of published languages
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getLanguages($key = 'default')
 	{
@@ -135,7 +136,9 @@ class LanguageHelper
 			}
 			else
 			{
-				$cache = Factory::getCache('com_languages', '');
+				/** @var OutputController $cache */
+				$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+					->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 				if ($cache->contains('languages'))
 				{
@@ -193,7 +196,9 @@ class LanguageHelper
 
 		if ($installedLanguages === null)
 		{
-			$cache = Factory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('installedlanguages'))
 			{
@@ -346,7 +351,9 @@ class LanguageHelper
 
 		if ($contentLanguages === null)
 		{
-			$cache = Factory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('contentlanguages'))
 			{
@@ -423,8 +430,6 @@ class LanguageHelper
 	 */
 	public static function saveToIniFile($filename, array $strings)
 	{
-		\JLoader::register('\JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
-
 		// Escape double quotes.
 		foreach ($strings as $key => $string)
 		{

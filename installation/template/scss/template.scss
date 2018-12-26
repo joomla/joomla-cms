@@ -157,8 +157,8 @@ body {
 }
 
 .alert-text {
-  padding: 10px 20px;
   width: 75%;
+  padding: 10px 20px;
 }
 
 .lang-select {
@@ -189,7 +189,7 @@ body {
 // Form
 
 .form-control {
-  background-color: $white-offset;
+  background-color: var(--white-offset);
 
   &.input-full {
     max-width: 100%;
@@ -271,6 +271,7 @@ legend {
 // Block display for the validation message
 .form-control-feedback {
   display: block;
+  color: $red;
 }
 
 // Language Table
@@ -279,4 +280,16 @@ caption {
 }
 .badge-warning {
   color: #292b2c;
+}
+
+.fa-eye:before, .icon-eye-open:before, .icon-eye:before {
+  font-family: FontAwesome;
+  cursor: pointer;
+  content: "\f06e";
+}
+
+.fa-eye-slash:before, .icon-eye-close:before, .icon-eye-blocked:before, .icon-eye-2:before {
+  font-family: FontAwesome;
+  cursor: pointer;
+  content: "\f070";
 }

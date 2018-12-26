@@ -11,17 +11,17 @@ namespace Joomla\CMS\MVC\Controller;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\View\AbstractView;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Base class for a Joomla Controller
@@ -245,10 +245,9 @@ class BaseController implements ControllerInterface
 	 *
 	 * @return  static
 	 *
-	 * @since   3.0
-	 *
-	 * @deprecated 4.0
-	 * @throws  \Exception if the controller cannot be loaded.
+	 * @since       3.0
+	 * @deprecated  5.0 Get the controller through the MVCFactory instead
+	 * @throws      \Exception if the controller cannot be loaded.
 	 */
 	public static function getInstance($prefix, $config = array())
 	{
@@ -256,6 +255,14 @@ class BaseController implements ControllerInterface
 		{
 			return self::$instance;
 		}
+
+		@trigger_error(
+			sprintf(
+				'%1$s::getInstance() is deprecated. Load it through the MVC factory.',
+				self::class
+			),
+			E_USER_DEPRECATED
+		);
 
 		$app   = Factory::getApplication();
 		$input = $app->input;
@@ -565,12 +572,17 @@ class BaseController implements ControllerInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Configuration array for the model. Optional.
 	 *
-	 * @return  Model|boolean   Model object on success; otherwise false on failure.
+	 * @return  BaseDatabaseModel|boolean   Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.0
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
+		if (!$prefix)
+		{
+			$prefix = $this->app->getName();
+		}
+
 		$model = $this->factory->createModel($name, $prefix, $config);
 
 		if ($model === null)
@@ -601,6 +613,11 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
+		if (!$prefix)
+		{
+			$prefix = $this->app->getName();
+		}
+
 		$config['paths'] = $this->paths['view'];
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}
@@ -620,7 +637,7 @@ class BaseController implements ControllerInterface
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
@@ -637,7 +654,7 @@ class BaseController implements ControllerInterface
 		$view->document = $document;
 
 		// Display the view
-		if ($cachable && $viewType !== 'feed' && Factory::getConfig()->get('caching') >= 1)
+		if ($cachable && $viewType !== 'feed' && Factory::getApplication()->get('caching') >= 1)
 		{
 			$option = $this->input->get('option');
 

@@ -11,10 +11,10 @@ namespace Joomla\Component\Banners\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Table\Table;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Client table
@@ -80,7 +80,7 @@ class ClientTable extends Table
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			$checkin = '';
 		}

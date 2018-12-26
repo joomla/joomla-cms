@@ -11,11 +11,11 @@ namespace Joomla\Component\Users\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Table\Table;
-use Joomla\Utilities\ArrayHelper;
-use Joomla\Database\DatabaseDriver;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * User notes table class
@@ -54,7 +54,7 @@ class NoteTable extends Table
 		if (!((int) $this->review_time))
 		{
 			// Null date.
-			$this->review_time = Factory::getDbo()->getNullDate();
+			$this->review_time = $this->getDbo()->getNullDate();
 		}
 
 		if ($this->id)
@@ -120,7 +120,7 @@ class NoteTable extends Table
 		$query->where($k . '=' . implode(' OR ' . $k . '=', $pks));
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			$checkin = false;
 		}

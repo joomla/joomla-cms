@@ -10,9 +10,9 @@ namespace Joomla\CMS\Categories;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Registry\Registry;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Registry\Registry;
 
 /**
  * Helper class to load Categorytree
@@ -198,7 +198,7 @@ class CategoryNode extends CMSObject
 	public $modified_time = null;
 
 	/**
-	 * Nmber of times the category has been viewed
+	 * Number of times the category has been viewed
 	 *
 	 * @var    integer
 	 * @since  1.6

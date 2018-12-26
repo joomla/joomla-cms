@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
+	<fieldset name="transition" addfieldprefix="Joomla\Component\Workflow\Administrator\Field">
 		<field
 			name="id"
-			type="text"
+			type="hidden"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
@@ -14,45 +14,51 @@
 			name="title"
 			type="text"
 			label="COM_WORKFLOW_FIELD_NAME_LABEL"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		/>
 		<field
-			name="from_state_id"
+			name="from_stage_id"
 			type="sql"
-			label="COM_WORKFLOW_FROM_STATE"
+			label="COM_WORKFLOW_FROM_STAGE"
 			required="true"
-			sql_select="id as value, title as from_state_id"
-			sql_from="#__workflow_states"
+			sql_select="id as value, title as from_stage_id"
+			sql_from="#__workflow_stages"
+			sql_order="ordering"
+			translate="true"
 			>
 			<option value="-1">JALL</option>
 		</field>
 		<field
-			name="to_state_id"
+			name="to_stage_id"
 			type="sql"
-			label="COM_WORKFLOW_TO_STATE"
+			label="COM_WORKFLOW_TO_STAGE"
 			required="true"
-			sql_select="id as value, title as to_state_id"
-			sql_from="#__workflow_states"
+			sql_select="id as value, title as to_stage_id"
+			sql_from="#__workflow_stages"
+			sql_order="ordering"
+			translate="true"
 		/>
 		<field
 			name="description"
-			type="editor"
-			label="COM_WORKFLOW_FIELD_DESC_LABEL"
-			class="input-xxlarge input-large-text"
+			type="text"
+			label="COM_WORKFLOW_TRANSITION_NOTE"
 		/>
 	</fieldset>
 
 	<fieldset name="params" label="COM_WORKFLOW_PARAMS_LABEL">
 		<field
 			name="published"
-			type="status"
+			type="list"
 			label="COM_WORKFLOW_PUBLISHED_LABEL"
 			required="true"
+			class="custom-select-color-state"
 			default="1"
-			filter="-2,0,1"
-		/>
+			>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+			<option value="-2">JTRASHED</option>
+		</field>
 	</fieldset>
 
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">

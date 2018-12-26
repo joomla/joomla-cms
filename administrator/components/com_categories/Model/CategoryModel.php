@@ -11,25 +11,25 @@ namespace Joomla\Component\Categories\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Association\AssociationServiceInterface;
-use Joomla\CMS\Categories\CategoriesServiceInterface;
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\UCM\UCMType;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Access\Rules;
-use Joomla\CMS\Date\Date;
-use Joomla\CMS\UCM\UCMType;
-use Joomla\CMS\Filesystem\Path;
 
 /**
  * Categories Component Category Model
@@ -319,13 +319,15 @@ class CategoryModel extends AdminModel
 	 *
 	 * @param   \JTableCategory  $table  Current table instance
 	 *
-	 * @return  array           An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->_db->quote($table->extension);
+		return [
+			$this->_db->quoteName('extension') . ' = ' . $this->_db->quote($table->extension),
+		];
 	}
 
 	/**
@@ -362,7 +364,7 @@ class CategoryModel extends AdminModel
 				$data->set('language', $app->input->getString('language', (!empty($filters['language']) ? $filters['language'] : null)));
 				$data->set(
 					'access',
-					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : Factory::getConfig()->get('access')))
+					$app->input->getInt('access', (!empty($filters['access']) ? $filters['access'] : $app->get('access')))
 				);
 			}
 		}
@@ -387,8 +389,6 @@ class CategoryModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$lang = Factory::getLanguage();
 		$component = $this->getState('category.component');
 		$section = $this->getState('category.section');
@@ -425,7 +425,7 @@ class CategoryModel extends AdminModel
 
 		$componentInterface = Factory::getApplication()->bootComponent($component);
 
-		if ($componentInterface instanceof CategoriesServiceInterface)
+		if ($componentInterface instanceof CategoryServiceInterface)
 		{
 			$componentInterface->prepareForm($form, $data);
 		}
@@ -833,7 +833,7 @@ class CategoryModel extends AdminModel
 		{
 			$query->select('MAX(ordering)')
 				->from('#__content')
-				->where($db->qn('catid') . ' = ' . $db->q($id));
+				->where($db->quoteName('catid') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 
@@ -843,8 +843,8 @@ class CategoryModel extends AdminModel
 			$query->clear();
 
 			$query->update('#__content')
-				->set($db->qn('ordering') . ' = ' . $max . ' - ' . $db->qn('ordering'))
-				->where($db->qn('catid') . ' = ' . $db->q($id));
+				->set($db->quoteName('ordering') . ' = ' . $max . ' - ' . $db->quoteName('ordering'))
+				->where($db->quoteName('catid') . ' = ' . $db->quote($id));
 
 			$db->setQuery($query);
 
@@ -1305,7 +1305,7 @@ class CategoryModel extends AdminModel
 
 		$componentObject = $this->bootComponent($component);
 
-		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoriesServiceInterface)
+		if ($componentObject instanceof AssociationServiceInterface && $componentObject instanceof CategoryServiceInterface)
 		{
 			$assoc = true;
 

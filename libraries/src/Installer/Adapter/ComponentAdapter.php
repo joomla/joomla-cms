@@ -11,17 +11,17 @@ namespace Joomla\CMS\Installer\Adapter;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Asset;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\Update;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\Database\ParameterType;
 
 /**
@@ -393,9 +393,9 @@ class ComponentAdapter extends InstallerAdapter
 		$query->clear()
 			->delete('#__categories')
 			->where('extension = :extension')
-			->where('extension LIKE :extension_wildcard')
+			->where('extension LIKE :wildcard')
 			->bind(':extension', $extensionName)
-			->bind(':extension_wildcard', $extensionNameWithWildcard);
+			->bind(':wildcard', $extensionNameWithWildcard);
 		$db->setQuery($query);
 		$db->execute();
 
@@ -584,7 +584,6 @@ class ComponentAdapter extends InstallerAdapter
 		$this->extension->name = $manifest_details['name'];
 		$this->extension->enabled = 1;
 		$this->extension->params = $this->parent->getParams();
-		$this->extension->namespace = $manifest_details['namespace'];
 
 		$stored = false;
 
@@ -1227,7 +1226,6 @@ class ComponentAdapter extends InstallerAdapter
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
-				$extension->set('namespace', $manifest_details['namespace']);
 
 				$results[] = $extension;
 			}
@@ -1249,7 +1247,6 @@ class ComponentAdapter extends InstallerAdapter
 				$extension->set('state', -1);
 				$extension->set('manifest_cache', json_encode($manifest_details));
 				$extension->set('params', '{}');
-				$extension->set('namespace', $manifest_details['namespace']);
 				$results[] = $extension;
 			}
 		}
@@ -1276,7 +1273,6 @@ class ComponentAdapter extends InstallerAdapter
 		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
 		$this->parent->extension->name = $manifest_details['name'];
-		$this->parent->extension->namespace = $manifest_details['namespace'];
 
 		try
 		{
@@ -1296,7 +1292,7 @@ class ComponentAdapter extends InstallerAdapter
 	 * @param   array    &$data     The menu item data to create
 	 * @param   integer  $parentId  The parent menu item ID
 	 *
-	 * @return  bool|int  Menu item ID on success, false on failure
+	 * @return  boolean|integer  Menu item ID on success, false on failure
 	 */
 	protected function _createAdminMenuItem(array &$data, $parentId)
 	{

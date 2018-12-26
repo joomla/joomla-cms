@@ -34,14 +34,14 @@ use Joomla\CMS\Language\Text;
 			<?php echo Text::_('COM_USERS_PROFILE_REGISTERED_DATE_LABEL'); ?>
 		</dt>
 		<dd>
-			<?php echo HTMLHelper::_('date', $this->data->registerDate); ?>
+			<?php echo HTMLHelper::_('date', $this->data->registerDate, Text::_('DATE_FORMAT_LC1')); ?>
 		</dd>
 		<dt>
 			<?php echo Text::_('COM_USERS_PROFILE_LAST_VISITED_DATE_LABEL'); ?>
 		</dt>
 		<?php if ($this->data->lastvisitDate != $this->db->getNullDate()) : ?>
 			<dd>
-				<?php echo HTMLHelper::_('date', $this->data->lastvisitDate); ?>
+				<?php echo HTMLHelper::_('date', $this->data->lastvisitDate, Text::_('DATE_FORMAT_LC1')); ?>
 			</dd>
 		<?php else : ?>
 			<dd>
