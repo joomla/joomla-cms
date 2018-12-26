@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\Utilities\ArrayHelper;
 
@@ -594,7 +595,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$jUser = JFactory::getUser();
+		$jUser = Factory::getUser();
 
 		if (!$jUser->id)
 		{
