@@ -371,14 +371,9 @@ class HtmlView extends BaseHtmlView
 
 			if ($canDo->get('core.edit.state') && !$protected)
 			{
-				$childBar->standardButton('publish')
-					->text('JTOOLBAR_PUBLISH')
-					->task('items.publish')
-					->listCheck(true);
-				$childBar->standardButton('unpublish')
-					->text('JTOOLBAR_UNPUBLISH')
-					->task('items.unpublish')
-					->listCheck(true);
+				$childBar->publish('items.publish')->listCheck(true);
+
+				$childBar->unpublish('items.unpublish')->listCheck(true);
 			}
 
 			if (Factory::getUser()->authorise('core.admin') && !$protected)
@@ -390,18 +385,12 @@ class HtmlView extends BaseHtmlView
 			{
 				if ($this->state->get('filter.client_id') == 0)
 				{
-					$childBar->standardButton('default')
-						->text('COM_MENUS_TOOLBAR_SET_HOME')
-						->task('items.setDefault')
-						->listCheck(true);
+					$childBar->makeDefault('items.setDefault')->listCheck(true);
 				}
 
 				if (!$protected)
 				{
-					$childBar->standardButton('trash')
-						->text('JTOOLBAR_TRASH')
-						->task('items.trash')
-						->listCheck(true);
+					$childBar->trash('items.trash')->listCheck(true);
 				}
 			}
 		}
