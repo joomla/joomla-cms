@@ -605,7 +605,6 @@ class User extends CMSObject
 			// Updating an existing user
 			if (!empty($array['password']))
 			{
-
 				$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 
 				// Check if the user is reusing the current password if required to reset their password
