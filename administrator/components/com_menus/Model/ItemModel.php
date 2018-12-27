@@ -1440,7 +1440,7 @@ class ItemModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		// Store the data.
 		if (in_array(false, $result, true)|| !$table->store())
