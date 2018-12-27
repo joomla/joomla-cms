@@ -496,9 +496,6 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getColumnSql(SimpleXMLElement $field)
 	{
-		// TODO Incorporate into parent class and use $this.
-		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
-
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
@@ -525,7 +522,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 
 			if ($fNull == 'NO')
 			{
-				if (in_array($fType, $blobs) || $fDefault === null)
+				if ($fDefault === null)
 				{
 					$query .= ' NOT NULL';
 				}
