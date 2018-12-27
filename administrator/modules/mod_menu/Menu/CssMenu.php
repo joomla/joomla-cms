@@ -444,9 +444,9 @@ class CssMenu
 		}
 
 		// If last one was a separator remove it too.
-		if ($noSeparator && isset($i))
+		if ($noSeparator && !empty($result))
 		{
-			unset($result[$i]);
+			array_pop($result);
 		}
 
 		return $result;
