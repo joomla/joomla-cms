@@ -377,6 +377,7 @@ class FinderIndexerResponse
 			$this->batchSize = (int) $state->batchSize;
 			$this->batchOffset = (int) $state->batchOffset;
 			$this->totalItems = (int) $state->totalItems;
+			$this->pluginState = $state->pluginState;
 
 			$this->startTime = $state->startTime;
 			$this->endTime = Factory::getDate()->toSql();

@@ -34,8 +34,8 @@
             if (updateInfo.version !== options.version) {
               const messages = {
                 warning: [
-                  `${Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-danger">${updateInfoList.length}</span>`)}`
-                  + `<button class="btn btn-primary" onclick="document.location='${options.url}'">`
+                  `<div class="message-alert">` + `${Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-danger"> \u200E ${updateInfo.version}</span>`)}`
+                  + `<button class="btn btn-sm btn-primary" onclick="document.location='${options.url}'">`
                   + `${Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON')}</button>`,
                 ],
               };
@@ -46,11 +46,12 @@
               // Scroll to page top
               window.scrollTo(0, 0);
 
-              link.classList.add('danger');
+              link.classList.add('warning');
               linkSpans.forEach((span) => {
-                span.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light">${updateInfoList.length}</span>`);
+                span.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light"> \u200E ${updateInfo.version}</span>`);
               });
             } else {
+              link.classList.add('success');
               linkSpans.forEach((span) => {
                 span.innerHTML = Joomla.JText._('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
               });

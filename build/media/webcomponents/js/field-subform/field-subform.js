@@ -245,10 +245,10 @@
 
             let group    = row.getAttribute('data-group'), // current group name
                 basename = row.getAttribute('data-base-name'), // group base name, without count
-                countnew = Math.max(this.lastRowNum, count + 1),
+                countnew = Math.max(this.lastRowNum, count),
                 groupnew = basename + countnew; // new group name
 
-            this.lastRowNum = countnew;
+            this.lastRowNum = countnew + 1;
             row.setAttribute('data-group', groupnew);
 
             // Fix inputs that have a "name" attribute

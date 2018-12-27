@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -57,6 +56,6 @@ $app->getDocument()->addScriptOptions(
 	</ul>
 <?php else : ?>
 	<div class="alert alert-warning">
-		<?php echo JText::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
+		<?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
 	</div>
 <?php endif; ?>

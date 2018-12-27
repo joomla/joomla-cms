@@ -394,14 +394,11 @@ class ComponentHelper
 	/**
 	 * Load the installed components into the components property.
 	 *
-	 * @param   string  $option  The element value for the extension
-	 *
 	 * @return  boolean  True on success
 	 *
 	 * @since   3.2
-	 * @note    As of 4.0 this method will be restructured to only load the data into memory
 	 */
-	protected static function load($option)
+	protected static function load()
 	{
 		$loader = function ()
 		{
@@ -427,51 +424,6 @@ class ComponentHelper
 			static::$components = $loader();
 		}
 
-		// Core CMS will use '*' as a placeholder for required parameter in this method. In 4.0 this will not be passed at all.
-		if (isset($option) && $option != '*')
-		{
-			// Log deprecated warning and display missing component warning only if using deprecated format.
-			try
-			{
-				Log::add(
-					sprintf(
-						'Passing a parameter into %s() is deprecated and will be removed in 4.0. Read %s::$components directly after loading the data.',
-						__METHOD__,
-						__CLASS__
-					),
-					Log::WARNING,
-					'deprecated'
-				);
-			}
-			catch (\RuntimeException $e)
-			{
-				// Informational log only
-			}
-
-			if (empty(static::$components[$option]))
-			{
-				/*
-				 * Fatal error
-				 *
-				 * It is possible for this error to be reached before the global Language instance has been loaded so we check for its presence
-				 * before logging the error to ensure a human friendly message is always given
-				 */
-
-				if (Factory::$language)
-				{
-					$msg = Text::sprintf('JLIB_APPLICATION_ERROR_COMPONENT_NOT_LOADING', $option, Text::_('JLIB_APPLICATION_ERROR_COMPONENT_NOT_FOUND'));
-				}
-				else
-				{
-					$msg = sprintf('Error loading component: %1$s, %2$s', $option, 'Component not found.');
-				}
-
-				Log::add($msg, Log::WARNING, 'jerror');
-
-				return false;
-			}
-		}
-
 		return true;
 	}
 
@@ -486,7 +438,7 @@ class ComponentHelper
 	{
 		if (empty(static::$components))
 		{
-			static::load('*');
+			static::load();
 		}
 
 		return static::$components;
