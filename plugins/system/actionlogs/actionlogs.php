@@ -125,6 +125,19 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		Form::addFormPath(dirname(__FILE__) . '/forms');
+
+		if ((!PluginHelper::isEnabled('actionlog', 'joomla')) && (Factory::getApplication()->isAdmin()))
+		{
+			$form->loadFile('information', false);
+
+			return true;
+		}
+
+		if (!PluginHelper::isEnabled('actionlog', 'joomla'))
+		{
+			return true;
+		}
+
 		$form->loadFile('actionlogs', false);
 	}
 

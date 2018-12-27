@@ -193,7 +193,7 @@ class FieldsHelper
 
 					$dispatcher = JEventDispatcher::getInstance();
 
-					// Event allow plugins to modfify the output of the field before it is prepared
+					// Event allow plugins to modify the output of the field before it is prepared
 					$dispatcher->trigger('onCustomFieldsBeforePrepareField', array($context, $item, &$field));
 
 					// Gathering the value for the field
@@ -204,7 +204,7 @@ class FieldsHelper
 						$value = implode(' ', $value);
 					}
 
-					// Event allow plugins to modfify the output of the prepared field
+					// Event allow plugins to modify the output of the prepared field
 					$dispatcher->trigger('onCustomFieldsAfterPrepareField', array($context, $item, $field, &$value));
 
 					// Assign the value
