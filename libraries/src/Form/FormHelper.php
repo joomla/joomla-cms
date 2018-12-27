@@ -98,7 +98,7 @@ class FormHelper
 	 *
 	 * @return  FormFilter|boolean  FormRule object on success, false otherwise.
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function loadFilterType($type, $new = true)
 	{
