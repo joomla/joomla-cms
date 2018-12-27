@@ -31,7 +31,7 @@ HTMLHelper::_('bootstrap.tooltip');
 	<?php else : ?>
 		<div class="row-fluid">
 			<div class="span12">
-				<div class="alert"><?php echo Text::_('MOD_LATEST_ACTIONS_NO_MATCHING_RESULTS');?></div>
+				<div class="alert"><?php echo Text::_('MOD_LATEST_ACTIONS_NO_MATCHING_RESULTS'); ?></div>
 			</div>
 		</div>
 	<?php endif; ?>
