@@ -30,19 +30,6 @@
 			size="30"
 		/>
 
-		<field 
-			name="password2" 
-			type="password"
-			label="COM_USERS_USER_FIELD_PASSWORD2_LABEL"
-			autocomplete="off"
-			class="validate-passwordExtra"
-			filter="raw"
-			message="COM_USERS_USER_FIELD_PASSWORD1_MESSAGE"
-			size="30"
-			validate="equals"
-			field="password"
-		/>
-
 		<field
 			name="email"
 			type="email"
