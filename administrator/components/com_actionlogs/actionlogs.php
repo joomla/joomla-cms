@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
-
 if (!Factory::getUser()->authorise('core.admin'))
 {
 	throw new NotAllowed(Text::_('JERROR_ALERTNOAUTHOR'), 403);
