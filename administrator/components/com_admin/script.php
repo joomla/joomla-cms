@@ -1988,9 +1988,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper/file.php',
 			'/libraries/joomla/filesystem/wrapper/folder.php',
 			'/libraries/joomla/filesystem/wrapper/path.php',
-			'/libraries/src/Form/Field/HelpsiteField.php',
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
-			'/media/system/js/helpsite.js',
 			'/plugins/captcha/recaptcha/recaptchalib.php',
 
 			/*
