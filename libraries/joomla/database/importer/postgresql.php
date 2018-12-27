@@ -411,7 +411,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 */
 	protected function getSetvalSequenceSql($field)
 	{
-		return 'SELECT setval(\'' . (string) $field['Name'] . '\', ' . (string) $field['Last_Value'] . ', true)';
+		$is_called = $field['Is_called'] == 't' ? 'TRUE' : 'FALSE';
+
+		return 'SELECT setval(\'' . (string) $field['Name'] . '\', ' . (string) $field['Last_Value'] . ', ' . $is_called . ')';
 	}
 
 	/**

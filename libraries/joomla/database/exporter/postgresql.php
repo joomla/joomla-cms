@@ -90,7 +90,8 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 						' Table="' . $sequence->table . '"' . ' Column="' . $sequence->column . '"' . ' Type="' . $sequence->data_type . '"' .
 						' Start_Value="' . $sequence->start_value . '"' . ' Min_Value="' . $sequence->minimum_value . '"' .
 						' Max_Value="' . $sequence->maximum_value . '"' . ' Last_Value="' . $this->db->getSequenceLastValue($sequence->sequence) . '"' .
-						' Increment="' . $sequence->increment . '"' . ' Cycle_option="' . $sequence->cycle_option . '"' . ' Is_called="YES"' .
+						' Increment="' . $sequence->increment . '"' . ' Cycle_option="' . $sequence->cycle_option . '"' .
+						' Is_called="' . $this->db->getSequenceIsCalled($sequence->sequence) . '"' .
 						' />';
 				}
 			}

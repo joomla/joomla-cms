@@ -379,41 +379,33 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 		$this->connect();
 
 		$query = $this->getQuery(true)
-			->select('last_value')
+			->select($this->quoteName('last_value'))
 			->from($sequence);
 
 		$this->setQuery($query);
-		$lastId = $this->loadResult();
-
-		return $lastId;
+		return $this->loadResult();
 	}
 
 	/**
-	 * Method to set the last value of a sequence in the database.
+	 * Method to get the is_called attribute of a sequence.
 	 *
-	 * @param   string   $sequence    The name of the sequence.
-	 * @param   integer  $last_value  The last value of the sequence.
-	 * @param   boolean  $is_called   Flag to advance the sequence before returning a value
+	 * @param   string  $sequence  The name of the sequence.
 	 *
-	 * @return	boolean	True on success.
+	 * @return  boolean  The is_called attribute of the sequence.
 	 *
-	 * @since	__DEPLOY_VERSION__
-	 * @throws	RuntimeException
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
 	 */
-	public function setSequenceLastValue($sequence, $last_value, $is_called = true)
+	public function getSequenceIsCalled($sequence)
 	{
 		$this->connect();
 
-		$retVal = false;
+		$query = $this->getQuery(true)
+			->select($this->quoteName('is_called'))
+			->from($sequence);
 
-		$this->setQuery("SELECT setval('" . $sequence . "', " . (string) $last_value . ", " . (string) $is_called . ")");
-
-		if ($this->execute())
-		{
-			$retVal = true;
-		}
-
-		return $retVal;
+		$this->setQuery($query);
+		return $this->loadResult();
 	}
 
 	/**
