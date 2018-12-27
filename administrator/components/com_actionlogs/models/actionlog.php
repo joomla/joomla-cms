@@ -143,7 +143,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 			return;
 		}
 
-		$layout    = new LayoutFile('components.com_actionlogs.layouts.logstable', JPATH_ADMINISTRATOR);
+		$layout    = new FileLayout('components.com_actionlogs.layouts.logstable', JPATH_ADMINISTRATOR);
 		$extension = strtok($context, '.');
 		ActionlogsHelper::loadTranslationFiles($extension);
 
