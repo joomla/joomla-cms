@@ -69,11 +69,10 @@ class ProfileModel extends UserModel
 			$form->setFieldAttribute('language', 'type', 'frontend_language', 'params');
 		}
 
-		// If the user needs to change their password, mark the password fields as required
+		// If the user needs to change their password, mark the password field as required
 		if (Factory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		return $form;

@@ -46,21 +46,6 @@
 		/>
 
 		<field
-			name="password2"
-			type="password"
-			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
-			description="COM_USERS_PROFILE_PASSWORD2_DESC"
-			autocomplete="off"
-			class="validate-password"
-			field="password1"
-			filter="raw"
-			message="COM_USERS_PROFILE_PASSWORD1_MESSAGE"
-			size="30"
-			validate="equals"
-			required="true"
-		/>
-
-		<field
 			name="email1"
 			type="email"
 			label="COM_USERS_REGISTER_EMAIL1_LABEL"

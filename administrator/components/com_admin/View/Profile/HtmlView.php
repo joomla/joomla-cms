@@ -69,7 +69,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->form->setValue('password',	null);
-		$this->form->setValue('password2',	null);
 
 		$this->addToolbar();
 

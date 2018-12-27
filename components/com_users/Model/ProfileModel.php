@@ -158,7 +158,7 @@ class ProfileModel extends FormModel
 			}
 
 			// Unset the passwords.
-			unset($this->data->password1, $this->data->password2);
+			unset($this->data->password1);
 
 			$registry           = new Registry($this->data->params);
 			$this->data->params = $registry->toArray();
@@ -223,7 +223,6 @@ class ProfileModel extends FormModel
 		if (Factory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password1', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		return $form;

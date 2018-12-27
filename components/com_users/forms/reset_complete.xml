@@ -13,18 +13,6 @@
 			message="COM_USERS_FIELD_RESET_PASSWORD1_MESSAGE"
 			required="true"
 			size="30"
-			validate="equals"
-		/>
-		<field
-			name="password2"
-			type="password"
-			label="COM_USERS_FIELD_RESET_PASSWORD2_LABEL"
-			description="COM_USERS_FIELD_RESET_PASSWORD2_DESC"
-			autocomplete="off"
-			class="validate-password"
-			filter="raw"
-			required="true"
-			size="30"
 			validate="password"
 		/>
 	</fieldset>

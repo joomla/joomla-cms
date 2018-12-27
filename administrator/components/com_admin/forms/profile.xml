@@ -18,22 +18,9 @@
 		/>
 
 		<field 
-			name="password2" 
-			type="password"
-			label="JGLOBAL_PASSWORD"
-			autocomplete="off"
-			class="validate-password"
-			field="password"
-			filter="raw"
-			message="COM_ADMIN_USER_FIELD_PASSWORD1_MESSAGE"
-			size="30"
-			validate="equals"
-		/>
-
-		<field 
 			name="password" 
 			type="password"
-			label="COM_ADMIN_USER_FIELD_PASSWORD2_LABEL"
+			label="JGLOBAL_PASSWORD"
 			autocomplete="off"
 			class="validate-password"
 			filter="raw"

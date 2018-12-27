@@ -40,19 +40,6 @@
 		/>
 
 		<field
-			name="password2"
-			type="password"
-			label="COM_USERS_PROFILE_PASSWORD2_LABEL"
-			autocomplete="off"
-			class="validate-password"
-			field="password1"
-			filter="raw"
-			message="COM_USERS_PROFILE_PASSWORD1_MESSAGE"
-			size="30"
-			validate="equals"
-		/>
-
-		<field
 			name="email1"
 			type="email"
 			label="COM_USERS_PROFILE_EMAIL1_LABEL"

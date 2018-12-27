@@ -582,16 +582,6 @@ class User extends CMSObject
 			if (empty($array['password']))
 			{
 				$array['password']  = UserHelper::genRandomPassword();
-				$array['password2'] = $array['password'];
-			}
-
-			// Not all controllers check the password, although they should.
-			// Hence this code is required:
-			if (isset($array['password2']) && $array['password'] != $array['password2'])
-			{
-				Factory::getApplication()->enqueueMessage(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'), 'error');
-
-				return false;
 			}
 
 			$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
@@ -615,12 +605,6 @@ class User extends CMSObject
 			// Updating an existing user
 			if (!empty($array['password']))
 			{
-				if ($array['password'] != $array['password2'])
-				{
-					$this->setError(Text::_('JLIB_USER_ERROR_PASSWORD_NOT_MATCH'));
-
-					return false;
-				}
 
 				$this->password_clear = ArrayHelper::getValue($array, 'password', '', 'string');
 

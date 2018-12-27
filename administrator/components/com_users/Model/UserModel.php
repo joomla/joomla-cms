@@ -148,18 +148,16 @@ class UserModel extends AdminModel
 
 		$userId = $form->getValue('id');
 
-		// Passwords fields are required when mail to user is set to No in the joomla user plugin
+		// Password field is required when mail to user is set to No in the joomla user plugin
 		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
-		// If the user needs to change their password, mark the password fields as required
+		// If the user needs to change their password, mark the password field as required
 		if (Factory::getUser()->requireReset)
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
-			$form->setFieldAttribute('password2', 'required', 'true');
 		}
 
 		// When multilanguage is set, a user's default site language should also be a Content Language
