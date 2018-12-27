@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Environment\Browser;
+
 /**
  * Helper for mod_banners
  *
@@ -30,6 +33,7 @@ class ModBannersHelper
 		$document = JFactory::getDocument();
 		$app      = JFactory::getApplication();
 		$keywords = explode(',', $document->getMetaData('keywords'));
+		$config   = ComponentHelper::getParams('com_banners');
 
 		$model = JModelLegacy::getInstance('Banners', 'BannersModel', array('ignore_request' => true));
 		$model->setState('filter.client_id', (int) $params->get('cid'));
@@ -45,7 +49,10 @@ class ModBannersHelper
 
 		if ($banners)
 		{
-			$model->impress();
+			if ($config->get('track_robots_impressions', 1) == 1 || !Browser::getInstance()->isRobot())
+			{
+				$model->impress();
+			}
 		}
 
 		return $banners;
