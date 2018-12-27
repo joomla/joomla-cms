@@ -157,7 +157,7 @@ class ProfileModel extends FormModel
 				$this->data->$k = $v;
 			}
 
-			// Unset the passwords.
+			// Unset the password.
 			unset($this->data->password1);
 
 			$registry           = new Registry($this->data->params);

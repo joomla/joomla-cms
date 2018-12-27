@@ -335,7 +335,7 @@ class RegistrationModel extends FormModel
 
 			$this->data->groups[] = $system;
 
-			// Unset the passwords.
+			// Unset the password.
 			unset($this->data->password1);
 
 			// Get the dispatcher and load the users plugins.
