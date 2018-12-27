@@ -238,7 +238,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  object  The workflow
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getWorkflow()
 	{
