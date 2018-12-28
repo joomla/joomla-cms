@@ -33,18 +33,19 @@
 					>
 					<option value="/">/</option>
 				</field>
-	
+
 				<field
 					name="multiple"
 					type="radio"
 					label="PLG_FIELDS_IMAGELIST_PARAMS_MULTIPLE_LABEL"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-	
+
 				<field
 					name="image_class"
 					type="textarea"
