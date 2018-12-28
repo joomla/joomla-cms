@@ -115,8 +115,8 @@ class ApplicationController extends BaseController
 			 * The validate method enqueued all messages for us, so we just need to redirect back.
 			 */
 
-            // Save the posted data in the session.
-            $this->app->setUserState('com_config.config.global.data', $data);
+			// Save the posted data in the session.
+			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(Route::_('index.php?option=com_config', false));
