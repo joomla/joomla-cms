@@ -61,7 +61,7 @@ class DisplayController extends BaseController
 
 		if (!$form)
 		{
-		    throw new \RuntimeException($model->getError());
+			throw new \RuntimeException($model->getError());
 		}
 
 		if (!$model->validate($form, $data))
@@ -120,7 +120,7 @@ class DisplayController extends BaseController
 		if (!$link || !Uri::isInternal($link))
 		{
 			// Non-local url...
-            $this->app->enqueueMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'));
+			$this->app->enqueueMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'));
 
 			return $this->mailto();
 		}
@@ -135,7 +135,7 @@ class DisplayController extends BaseController
 		{
 			$error = Text::sprintf('COM_MAILTO_EMAIL_INVALID', $data['emailto']);
 
-            $this->app->enqueueMessage($error, 'warning');
+			$this->app->enqueueMessage($error, 'warning');
 		}
 
 		// Check for a valid from address

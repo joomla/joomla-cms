@@ -67,7 +67,7 @@ class MailtoModel extends FormModel
 
 		if ($data['link'] == '')
 		{
-            throw new \RuntimeException(Text::_('COM_MAILTO_LINK_IS_MISSING'));
+			throw new \RuntimeException(Text::_('COM_MAILTO_LINK_IS_MISSING'));
 		}
 
 		// Load with previous data, if it exists
