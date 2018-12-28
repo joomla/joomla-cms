@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 				->icon('fa fa-globe')
 				->buttonClass('btn btn-info')
 				->listCheck(true);
-	
+
 		$childBar = $dropdown->getChildToolbar();
 
 		if ($canDo->get('core.edit.state'))
