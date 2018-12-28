@@ -25,6 +25,7 @@
 					class="switcher"
 					label="PLG_CACHE_FIELD_BROWSERCACHE_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -34,8 +35,8 @@
 					name="exclude_menu_items"
 					type="menuitem"
 					label="PLG_CACHE_FIELD_EXCLUDE_MENU_ITEMS_LABEL"
-					default=""
 					multiple="multiple"
+					filter="int_array"
 				/>
 
 			</fieldset>
@@ -47,7 +48,6 @@
 					description="PLG_CACHE_FIELD_EXCLUDE_DESC"
 					rows="15"
 					filter="raw"
-					default=""
 				/>
 
 			</fieldset>
