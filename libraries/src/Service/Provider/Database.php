@@ -92,7 +92,7 @@ class Database implements ServiceProviderInterface
 
 				if (defined('JDEBUG') && JDEBUG)
 				{
-						$options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor();
+					$options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor;
 				}
 
 				try
