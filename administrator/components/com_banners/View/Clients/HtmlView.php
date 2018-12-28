@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			$childBar->trash('clients.delete')->listCheck(true);
+			$childBar->delete('clients.delete')->listCheck(true);
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
