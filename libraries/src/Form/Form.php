@@ -12,11 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Uri\Uri;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -1210,7 +1207,7 @@ class Form
 			$valid = $fieldObj->validate($input->get($key, (string) $field['default']), $group, $input);
 
 			// Check for an error.
-			if ($valid instanceof Exception)
+			if ($valid instanceof \Exception)
 			{
 				$this->errors[] = $valid;
 				$return         = false;
@@ -1233,8 +1230,8 @@ class Form
 	 */
 	public function postProcess($data, $group = null)
 	{
-		// Make sure there is a valid JForm XML document.
-		if (!($this->xml instanceof SimpleXMLElement))
+		// Make sure there is a valid SimpleXMLElement
+		if (!($this->xml instanceof \SimpleXMLElement))
 		{
 			throw new \UnexpectedValueException(sprintf('%s::%s `xml` is not an instance of SimpleXMLElement', get_class($this), __METHOD__));
 		}

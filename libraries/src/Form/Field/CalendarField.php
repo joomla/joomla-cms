@@ -369,7 +369,7 @@ class CalendarField extends FormField
 					// Get the user timezone setting defaulting to the server timezone setting.
 					$offset = Factory::getUser()->getParam('timezone', Factory::getConfig()->get('offset'));
 
-					// Return a MySQL formatted datetime string in UTC.
+					// Return an SQL formatted datetime string in UTC.
 					$return = Factory::getDate($value, $offset)->toSql();
 				}
 				else

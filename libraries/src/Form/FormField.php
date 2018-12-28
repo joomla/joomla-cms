@@ -1088,14 +1088,14 @@ abstract class FormField
 			if ($message)
 			{
 				$message = Text::_($this->element['message']);
-				return new \UnexpectedValueException($message);
 			}
 			else
 			{
 				$message = Text::_($this->element['label']);
 				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
-				return new \UnexpectedValueException($message);
 			}
+
+			return new \UnexpectedValueException($message);
 		}
 
 		return true;
