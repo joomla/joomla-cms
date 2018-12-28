@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
@@ -84,37 +85,85 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$canDo = ContentHelper::getActions('com_banners');
-
+		
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+		
 		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('client.add');
+			$toolbar->addNew('client.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || ($this->state->get('filter.published') == -2 && $canDo->get('core.delete')))
 		{
-			ToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('clients.archive');
-			ToolbarHelper::checkin('clients.checkin');
-		}
+			$dropdown = $toolbar->dropdownButton('status')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
+			
+			$childBar = $dropdown->getChildToolbar();
 
-		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('clients.trash');
+			if ($canDo->get('core.edit.state'))
+			{
+				if ($this->state->get('filter.published') != 2)
+				{
+					$childBar->standardButton('publish')
+						->text('JTOOLBAR_PUBLISH')
+						->task('clients.publish')
+						->listCheck(true);
+					$childBar->standardButton('unpublish')
+						->text('JTOOLBAR_UNPUBLISH')
+						->task('clients.unpublish')
+						->listCheck(true);
+				}
+
+				if ($this->state->get('filter.published') != -1)
+				{
+					if ($this->state->get('filter.published') != 2)
+					{
+						$childBar->standardButton('archive')
+							->text('JTOOLBAR_ARCHIVE')
+							->task('clients.archive')
+							->listCheck(true);
+					}
+					elseif ($this->state->get('filter.published') == 2)
+					{
+						$childBar->standardButton('publish')
+							->text('JTOOLBAR_PUBLISH')
+							->task('clients.publish')
+							->listCheck(true);
+					}
+				}
+
+				$childBar->checkin('clients.checkin')->listCheck(true);
+			}
+
+			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$toolbar->delete('clients.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
+			elseif ($canDo->get('core.edit.state'))
+			{
+				$childBar->standardButton('trash')
+					->text('JTOOLBAR_TRASH')
+					->task('clients.trash')
+					->listCheck(true);
+			}
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences('com_banners');
+			$toolbar->preferences('com_clients');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+		$toolbar->help('JHELP_COMPONENTS_BANNERS_CLIENTS');
 	}
 
 	/**
@@ -131,7 +180,6 @@ class HtmlView extends BaseHtmlView
 			'a.name'      => Text::_('COM_BANNERS_HEADING_CLIENT'),
 			'contact'     => Text::_('COM_BANNERS_HEADING_CONTACT'),
 			'client_name' => Text::_('COM_BANNERS_HEADING_CLIENT'),
-			'nbanners'    => Text::_('COM_BANNERS_HEADING_ACTIVE'),
 			'a.id'        => Text::_('JGRID_HEADING_ID')
 		);
 	}
