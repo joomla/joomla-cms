@@ -95,14 +95,14 @@ class HtmlView extends BaseHtmlView
 		{
 			$toolbar->addNew('client.add');
 		}
-		
+
 		$dropdown = $toolbar->dropdownButton('status')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
 				->icon('fa fa-globe')
 				->buttonClass('btn btn-info')
 				->listCheck(true);
-	
+
 		$childBar = $dropdown->getChildToolbar();
 
 		if ($canDo->get('core.edit.state'))
