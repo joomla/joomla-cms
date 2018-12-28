@@ -20,5 +20,4 @@ use Joomla\CMS\Helper\ContentHelper;
  */
 class ContactHelper extends ContentHelper
 {
-
 }
