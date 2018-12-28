@@ -86,6 +86,8 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_banners');
 
+		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
+
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
