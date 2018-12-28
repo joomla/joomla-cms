@@ -65,7 +65,7 @@ pipeline:
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
-      - npx eslint /drone/src/github.com/joomla/joomla-cms/. &
+      - cd /drone/src/github.com/joomla/joomla-cms/build/media_src & npx eslint . &
       - npm run test
 
   system-tests:
