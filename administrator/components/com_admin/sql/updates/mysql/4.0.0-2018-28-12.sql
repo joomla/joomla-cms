@@ -1,0 +1,4 @@
+INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id") VALUES
+(24, 'main', '', '', '', '', '', 'separator', 1, 7, 2, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 16, 17, 0, '*', 1),
+(25, 'main', 'mod_menu_fields', 'Contact Custom Fields', '', 'contact/Custom Fields', 'index.php?option=com_fields&context=com_contact.contact', 'component', 1, 7, 2, 33, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 18, 19, 0, '*', 1),
+(26, 'main', 'mod_menu_fields_group', 'Contact Custom Fields Group', '', 'contact/Custom Fields Group', 'index.php?option=com_fields&view=groups&context=com_contact.contact', 'component', 1, 7, 2, 33, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 20, 21, 0, '*', 1);
