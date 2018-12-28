@@ -17,7 +17,7 @@
     "watch:js": "node build.js --compile-js --watch",
     "watch:css": "node build.js --compile-css --watch",
     "lint:js": "npx eslint . || exit 0",
-    "test": "node node_modules/karma/bin/karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run",
+    "test": "npx karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run",
     "install": "node build.js --copy-assets && node build.js --build-check",
     "postinstall": "node build.js --compile-js && node build.js --compile-css && node build.js --compile-ce && cd administrator/components/com_media && npm install && npm run build",
     "update": "node build.js --copy-assets && node build.js --build-check && node build.js --compile-js && node build.js --compile-ce && node build.js --compile-css"
