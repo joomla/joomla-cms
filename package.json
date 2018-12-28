@@ -54,7 +54,6 @@
     "babel-plugin-static-fs": "^1.1.0",
     "babel-preset-minify": "^0.4.3",
     "babelify": "^10.0.0",
-    "bluebird": "^3.5.3",
     "browserify": "*",
     "commander": "^2.19.0",
     "copy-dir": "^0.4.0",

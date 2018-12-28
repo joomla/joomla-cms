@@ -2,7 +2,6 @@ const Copydir = require('copy-dir');
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
-const Promise = require('bluebird');
 const RootPath = require('./rootpath.js')._();
 const UglyCss = require('uglifycss');
 const UglifyJS = require('uglify-es');
@@ -26,13 +25,13 @@ const cleanVendors = () => {
   FsExtra.copySync(Path.join(RootPath, 'build/media/vendor/jquery-ui'), Path.join(RootPath, 'media/vendor/jquery-ui'));
 
   // And here some assets from a PHP package
-    if (Fs.existsSync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'))) {
-        FsExtra.copySync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), Path.join(RootPath, 'media/vendor/debugbar'));
-    } else {
-        // eslint-disable-next-line no-console
-        console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T install all its front end assets');
-        process.exit(1);
-    }
+  if (Fs.existsSync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'))) {
+    FsExtra.copySync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), Path.join(RootPath, 'media/vendor/debugbar'));
+  } else {
+    // eslint-disable-next-line no-console
+    console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T install all its front end assets');
+    process.exit(1);
+  }
 };
 
 /**
@@ -225,7 +224,7 @@ const copyFiles = (options) => {
 
       // Copy the license if exists
       if (options.settings.vendors[packageName].licenseFilename &&
-     Fs.existsSync(`${Path.join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`)
+        Fs.existsSync(`${Path.join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`)
       ) {
         const dest = Path.join(mediaVendorPath, vendorName);
         FsExtra.copySync(`${Path.join(RootPath, `node_modules/${packageName}`)}/${options.settings.vendors[packageName].licenseFilename}`, `${dest}/${options.settings.vendors[packageName].licenseFilename}`);
@@ -239,8 +238,8 @@ const copyFiles = (options) => {
       const chosenPath = `${dest}/${options.settings.vendors[packageName].js['chosen.jquery.js']}`;
       let ChosenJs = Fs.readFileSync(chosenPath, { encoding: 'UTF-8' });
       ChosenJs = ChosenJs.replace('}).call(this);', '  document.AbstractChosen = AbstractChosen;\n' +
-          '  document.Chosen = Chosen;\n' +
-          '}).call(this);');
+        '  document.Chosen = Chosen;\n' +
+        '}).call(this);');
       Fs.writeFileSync(chosenPath, ChosenJs, { encoding: 'UTF-8' });
     }
 
@@ -308,84 +307,76 @@ const copyFiles = (options) => {
  * Method to recreate the basic media folder structure
  */
 const recreateMediaFolder = () => {
-	// eslint-disable-next-line no-console
-	console.log(`Recreating the media folder...`);
+  // eslint-disable-next-line no-console
+  console.log(`Recreating the media folder...`);
 
-    Copydir.sync(Path.join(RootPath, 'build/media'), Path.join(RootPath, 'media'), function(stat, filepath, filename){
-        if (stat === 'directory' && (filename === 'webcomponents' || filename === 'scss')) {
-            return false;
-        }
-        return true;
-    }, function(err){
-        if (!err) {
-            console.log('Legacy media files restored');
-        }
-    });
+  Copydir.sync(Path.join(RootPath, 'build/media'), Path.join(RootPath, 'media'), function(stat, filepath, filename){
+    if (stat === 'directory' && (filename === 'webcomponents' || filename === 'scss')) {
+      return false;
+    }
+    return true;
+  }, function(err){
+    if (!err) {
+      console.log('Legacy media files restored');
+    }
+  });
 
-    Copydir.sync(Path.join(RootPath, 'build/media_src'), Path.join(RootPath, 'media'), function(stat, filepath, filename){
-        if (stat === 'directory' && filename === 'scss') {
-            return false;
-        }
-        return true;
-    }, function(err){
-        if (!err) {
-            console.log('Media folder structure was created');
-        }
-    });
+  Copydir.sync(Path.join(RootPath, 'build/media_src'), Path.join(RootPath, 'media'), function(stat, filepath, filename){
+    if (stat === 'directory' && filename === 'scss') {
+      return false;
+    }
+    return true;
+  }, function(err){
+    if (!err) {
+      console.log('Media folder structure was created');
+    }
+  });
 };
 
 /**
  * Method to minify the legacy ES5 files
  */
 const uglifyLegacyFiles = () => {
-	// Minify the legacy files
-	console.log('Minifying legacy stylesheets/scripts...');
-	const files = WalkSync.run(`${RootPath}/media`, []);
+  // Minify the legacy files
+  console.log('Minifying legacy stylesheets/scripts...');
+  const files = WalkSync.run(`${RootPath}/media`, []);
 
-	if (files.length) {
-		files.forEach(
-			(file) => {
-				if (file.match('/vendor') || file.match('\\vendor')) {
-					return;
-				}
-				if (file.match(/\.js/) && !file.match(/\.min\.js/) && !file.toLowerCase().match(/license/) && !file.toLowerCase().match(/json/) ) {
+  if (files.length) {
+    files.forEach(
+      (file) => {
+        if (file.match('/vendor') || file.match('\\vendor')) {
+          return;
+        }
+        if (file.match(/\.js/) && !file.match(/\.min\.js/) && !file.toLowerCase().match(/license/) && !file.toLowerCase().match(/json/) ) {
           console.log(`Processing: ${file}`);
-					// Create the minified file
-					Fs.writeFileSync(file.replace(/\.js$/, '.min.js'), UglifyJS.minify(Fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
-				}
-				if (file.match(/\.css/) && !file.match(/\.min\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
-					console.log(`Processing: ${file}`);
-					// Create the minified file
-					Fs.writeFileSync(
-						file.replace(/\.css$/, '.min.css'),
-						UglyCss.processFiles([file], { expandVars: false }),
-						{ encoding: 'utf8' },
-					);
-				}
-			});
-	}
+          // Create the minified file
+          Fs.writeFileSync(file.replace(/\.js$/, '.min.js'), UglifyJS.minify(Fs.readFileSync(file, 'utf8')).code, {encoding: 'utf8'});
+        }
+        if (file.match(/\.css/) && !file.match(/\.min\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
+          console.log(`Processing: ${file}`);
+          // Create the minified file
+          Fs.writeFileSync(
+            file.replace(/\.css$/, '.min.css'),
+            UglyCss.processFiles([file], { expandVars: false }),
+            { encoding: 'utf8' },
+          );
+        }
+      });
+  }
 };
 
 const copyAssets = (options) => {
-  Promise.resolve()
-    // Copy a fresh version of the files
-    .then(cleanVendors())
+  // Copy a fresh version of the files
+  cleanVendors();
 
-    // Copy a fresh version of the files
-    .then(recreateMediaFolder())
+  // Copy a fresh version of the files
+  recreateMediaFolder();
 
-    // Copy a fresh version of the files
-    .then(copyFiles(options))
+  // Copy a fresh version of the files
+  copyFiles(options);
 
-    // Uglify the legacy css/js files
-    .then(uglifyLegacyFiles(options))
-
-    // Handle errors
-    .catch((error) => {
-        // eslint-disable-next-line no-console
-        console.error(`${error}`);
-        process.exit(1);
-    });
+  // Uglify the legacy css/js files
+  uglifyLegacyFiles(options);
 };
 
 module.exports.copyAssets = copyAssets;

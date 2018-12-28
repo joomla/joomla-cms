@@ -175,18 +175,5 @@ const watchFiles = (options, folders, compileFirst = false) => {
   console.log('Now watching SASS files...');
 };
 
-const compileCSS = (options, path) => {
-  Promise.resolve()
-    // Compile the scss files
-    .then(() => compileCSSFiles(options, path))
-
-    // Handle errors
-    .catch((error) => {
-      // eslint-disable-next-line no-console
-      console.error(`${error}`);
-      process.exit(1);
-    });
-};
-
-module.exports.compileCSS = compileCSS;
+module.exports.compileCSS = compileCSSFiles;
 module.exports.watch = watchFiles;

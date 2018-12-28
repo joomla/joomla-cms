@@ -17,15 +17,14 @@
 
 // eslint-disable-next-line import/no-extraneous-dependencies
 const Program = require('commander');
-// eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
 const buildCheck = require('./build/build-modules-js/build-check');
-const copyAssets = require('./build/build-modules-js/update');
+const _copyAssets = require('./build/build-modules-js/update');
 const compileCSS = require('./build/build-modules-js/compilescss');
 const compileJS = require('./build/build-modules-js/compilejs');
 const compileWebComponents = require('./build/build-modules-js/compilecejs');
-const minifyVendor = require('./build/build-modules-js/minify-vendor');
+const _minifyVendor = require('./build/build-modules-js/minify-vendor');
 
 // The settings
 const options = require('./package.json');
@@ -35,6 +34,14 @@ const settings = require('./build/build-modules-js/settings.json');
 if ('settings' in settings) {
   options.settings = settings.settings;
 }
+
+const copyAssets = async (options) => {
+    await _copyAssets.copyAssets(options);
+};
+
+const minifyVendor = async (options) => {
+    await _minifyVendor.compile(options);
+};
 
 // Initialize the CLI
 Program
@@ -61,19 +68,9 @@ if (!process.argv.slice(2).length) {
 
 // Update the vendor folder
 if (Program.copyAssets) {
-  Promise.resolve()
-    .then(copyAssets.copyAssets(options))
-    .then(minifyVendor.compile(options))
-
-    // Exit with success
-    .then(() => process.exit(0))
-
-    // Handle errors
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(err);
-      process.exit(-1);
-    });
+  copyAssets(options);
+  minifyVendor(options);
+  process.exit(0);
 }
 
 

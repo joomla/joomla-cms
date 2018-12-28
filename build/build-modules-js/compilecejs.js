@@ -4,7 +4,6 @@ const CssNano = require('cssnano');
 const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Postcss = require('postcss');
-const Promise = require('bluebird');
 const Sass = require('node-sass');
 const RootPath = require('./rootpath.js')._();
 
@@ -175,16 +174,4 @@ const compile = (options) => {
     });
 };
 
-const compileCEjs = (options, path) => {
-    Promise.resolve()
-        .then(() => compile(options, path))
-
-        // Handle errors
-        .catch((err) => {
-            // eslint-disable-next-line no-console
-            console.error(`${err}`);
-            process.exit(-1);
-        });
-};
-
-module.exports.compile = compileCEjs;
+module.exports.compile = compile;

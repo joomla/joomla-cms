@@ -1,6 +1,5 @@
 const Debounce = require('lodash.debounce');
 const Fs = require('fs');
-const Promise = require('bluebird');
 const Recurs = require('recursive-readdir');
 const RootPath = require('./rootpath.js')._();
 const TranspileJs = require('./compile-es6.js');
@@ -99,16 +98,5 @@ const watchFiles = (options, folders, compileFirst = false) => {
   console.log(`Now watching JS files...`);
 };
 
-const compileJS = (options, path) => {
-  Promise.resolve()
-    // Compile the scss files
-    .then(() => uglifyJs(options, path))
-
-    // Handle errors
-    .catch((error) => {
-      throw new Error(`${error}`);
-    });
-};
-
-module.exports.compileJS = compileJS;
+module.exports.compileJS = uglifyJs;
 module.exports.watch = watchFiles;
