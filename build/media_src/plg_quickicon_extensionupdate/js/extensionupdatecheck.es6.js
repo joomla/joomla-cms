@@ -43,7 +43,7 @@
                 warning: [
                   `<div class="message-alert">
   ${Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-pill badge-danger">${updateInfoList.length}</span>`)}
-  <button class="btn btn-sm btn-primary" onclick="document.location=${options.url}">
+  <button type="button" class="btn btn-sm btn-primary" onclick="document.location=${options.url}">
     ${Joomla.Text._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON')}
   </button>`,
                 ],

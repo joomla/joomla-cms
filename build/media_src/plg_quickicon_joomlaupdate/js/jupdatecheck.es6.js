@@ -46,7 +46,7 @@
                   warning: [
                     `<div class="message-alert">
 ${Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-danger"> \u200E ${updateInfo.version}</span>`)}
-<button class="btn btn-sm btn-primary" onclick="document.location='${options.url}'">
+<button type="button" class="btn btn-sm btn-primary" onclick="document.location='${options.url}'">
   ${Joomla.Text._('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON')}
 </button>`,
                   ],
