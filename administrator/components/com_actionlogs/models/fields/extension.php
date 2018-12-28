@@ -63,7 +63,7 @@ class JFormFieldExtension extends JFormFieldList
 			foreach ($extensions as $extension)
 			{
 				ActionlogsHelper::loadTranslationFiles($extension);
-				$options[] = HTMLHelper::_('select.option', $extension, JText::_($extension));
+				$options[] = HTMLHelper::_('select.option', $extension, Text::_($extension));
 			}
 		}
 
