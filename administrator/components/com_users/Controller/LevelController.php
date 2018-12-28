@@ -11,9 +11,12 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Access\Exception\Notallowed;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
@@ -45,6 +48,51 @@ class LevelController extends FormController
 	protected function allowSave($data, $key = 'id')
 	{
 		return ($this->app->getIdentity()->authorise('core.admin', $this->option) && parent::allowSave($data, $key));
+	}
+
+	/**
+	 * Overrides JControllerForm::allowEdit
+	 *
+	 * Checks that non-Super Admins are not editing Super Admins.
+	 *
+	 * @param   array   $data  An array of input data.
+	 * @param   string  $key   The name of the key for the primary key.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.8.8
+	 */
+	protected function allowEdit($data = array(), $key = 'id')
+	{
+		// Check for if Super Admin can edit
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__viewlevels'))
+			->where($db->quoteName('id') . ' = ' . (int) $data['id']);
+		$db->setQuery($query);
+
+		$viewlevel = $db->loadAssoc();
+
+		// Decode level groups
+		$groups = json_decode($viewlevel['rules']);
+
+		// If this group is super admin and this user is not super admin, canEdit is false
+		if (!$this->app->getIdentity()->authorise('core.admin') && Access::checkGroup($groups[0], 'core.admin'))
+		{
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_EDIT_NOT_PERMITTED'), 'error');
+
+			$this->setRedirect(
+				Route::_(
+					'index.php?option=' . $this->option . '&view=' . $this->view_list
+					. $this->getRedirectToListAppend(), false
+				)
+			);
+
+			return false;
+		}
+
+		return parent::allowEdit($data, $key);
 	}
 
 	/**
