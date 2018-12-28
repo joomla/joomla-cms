@@ -122,10 +122,8 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 						'start_value' => $start_val,
 						'minimum_value' => '1',
 						'maximum_value' => '9223372036854775807',
-						'last_value' => '1',
 						'increment' => '1',
 						'cycle_option' => 'NO',
-						'is_called' => 'f',
 					)
 				)
 			);
@@ -133,6 +131,14 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$this->dbo->expects($this->any())
 			->method('loadObjectList')
 			->willReturn(array());
+
+		$this->dbo->expects($this->any())
+			->method('getSequenceLastValue')
+			->willReturn('1');
+
+		$this->dbo->expects($this->any())
+			->method('getSequenceIsCalled')
+			->willReturn('f');
 
 		$this->dbo->expects($this->any())
 			->method('getTableList')
