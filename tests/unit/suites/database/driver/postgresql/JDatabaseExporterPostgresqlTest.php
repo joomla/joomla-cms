@@ -52,28 +52,28 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 						'column_name' => 'id',
 						'type' => 'integer',
 						'null' => 'NO',
-						'default' => 'nextval(\'jos_dbtest_id_seq\'::regclass)',
+						'Default' => 'nextval(\'jos_dbtest_id_seq\'::regclass)',
 						'comments' => '',
 					),
 					(object) array(
 						'column_name' => 'title',
 						'type' => 'character varying(50)',
 						'null' => 'NO',
-						'default' => 'NULL',
+						'Default' => 'NULL',
 						'comments' => '',
 					),
 					(object) array(
 						'column_name' => 'start_date',
 						'type' => 'timestamp without time zone',
 						'null' => 'NO',
-						'default' => 'NULL',
+						'Default' => 'NULL',
 						'comments' => '',
 					),
 					(object) array(
 						'column_name' => 'description',
 						'type' => 'text',
 						'null' => 'NO',
-						'default' => 'NULL',
+						'Default' => 'NULL',
 						'comments' => '',
 					)
 				)
