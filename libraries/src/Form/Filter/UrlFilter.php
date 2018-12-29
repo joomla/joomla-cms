@@ -13,9 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
-use Joomla\Registry\Registry;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Registry\Registry;
 
 /**
  * Form Filter class for URLs
