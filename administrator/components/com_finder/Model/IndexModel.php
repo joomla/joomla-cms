@@ -219,7 +219,7 @@ class IndexModel extends ListModel
 		// Filter on the language.
 		if ($language = $this->getState('filter.language'))
 		{
-			$query->where($db->quoteName('l.language') .' = ' . $db->quote($language));
+			$query->where($db->quoteName('l.language') . ' = ' . $db->quote($language));
 		}
 
 		// Check the search phrase.
