@@ -26,14 +26,14 @@ const gzipFiles = () => {
         if (file.match('/images') || file.match('\\images')) {
           return;
         }
-        if (file.match(/\.js/) && !file.toLowerCase().match(/json/) && !file.toLowerCase().match(/license/)) {
+        if (file.match(/\.min\.js/) && !file.toLowerCase().match(/json/) && !file.toLowerCase().match(/license/)) {
           console.log(`Processing: ${file}`);
           // Create the gziped file
           Fs.createReadStream(file)
             .pipe(zopfli.createGzip(options))
             .pipe(Fs.createWriteStream(file.replace(/\.js$/, '.js.gz')));
         }
-        if (file.match(/\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
+        if (file.match(/\.min\.css/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
           console.log(`Processing: ${file}`);
           // Create the gziped file
           Fs.createReadStream(file)
