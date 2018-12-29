@@ -26,6 +26,7 @@ const compileCSS = require('./build/build-modules-js/compilescss');
 const compileJS = require('./build/build-modules-js/compilejs');
 const compileWebComponents = require('./build/build-modules-js/compilecejs');
 const minifyVendor = require('./build/build-modules-js/minify-vendor');
+const gzipAssets = require('./build/build-modules-js/gzip-assets');
 
 // The settings
 const options = require('./package.json');
@@ -45,6 +46,7 @@ Program
   .option('--compile-ce, --compile-ce path', 'Compiles/traspiles all the custom elements files')
   .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compile-css and compile-js now).')
   .option('--build-check', 'Creates the error pages for unsupported PHP version & incomplete environment')
+  .option('--build-gzip', 'Creates the gzipped files for all js and css files')
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
@@ -103,4 +105,9 @@ if (Program.compileJs) {
 // Compress/transpile the Custom Elements files
 if (Program.compileCe) {
   compileWebComponents.compile(options, Program.args[0]);
+}
+
+// Gzip all the script and stylesheets
+if (Program.buildGzip) {
+  gzipAssets.run(options, Program.args[0]);
 }

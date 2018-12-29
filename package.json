@@ -76,6 +76,7 @@
     "karma-verbose-reporter": "^0.0.6",
     "lodash.debounce": "^4.0.8",
     "node-sass": "^4.10.0",
+    "node-zopfli-es": "^1.0.0",
     "path": "^0.12.7",
     "postcss": "^7.0.6",
     "recursive-copy": "^2.0.9",
