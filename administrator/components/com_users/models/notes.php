@@ -107,7 +107,7 @@ class UsersModelNotes extends JModelList
 		{
 			$query->where('a.state = ' . (int) $published);
 		}
-		elseif ($published === '')
+		elseif ($published != '*')
 		{
 			$query->where('(a.state IN (0, 1))');
 		}
