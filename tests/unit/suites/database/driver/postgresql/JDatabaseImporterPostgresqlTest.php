@@ -41,6 +41,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 						'getAddSequenceSQL',
 						'getChangeSequenceSQL',
 						'getDropSequenceSQL',
+						'getSetvalSequenceSql',
 						'getAddIndexSQL',
 						'getVersion',
 						'quoteName',
@@ -282,13 +283,14 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$s1 = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" ' .
 			'Min_Value="1" Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
 		$s2 = '<sequence Name="jos_dbtest_title_seq" Schema="public" Table="jos_dbtest" Column="title" Type="bigint" Start_Value="1" Min_Value="1" ' .
-			'Max_Value="9223372036854775807" Increment="1" Cycle_option="NO" />';
+			'Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" />';
 
-		$addSequence = 'CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 ' .
+		$addSequence = 'CREATE SEQUENCE IF NOT EXISTS jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 ' .
 			'NO CYCLE OWNED BY "public.jos_dbtest.title"';
+		$setValSequence = 'SELECT setval(\'jos_dbtest_title_seq\', 1, FALSE)';
 		$changeCol = "ALTER TABLE \"jos_test\" ALTER COLUMN \"title\"  TYPE character " .
 			"varying(50),\nALTER COLUMN \"title\" SET NOT NULL,\nALTER COLUMN \"title\" SET DEFAULT 'add default'";
-		$changeSeq = "CREATE SEQUENCE jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 " .
+		$changeSeq = "CREATE SEQUENCE IF NOT EXISTS jos_dbtest_title_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 " .
 			"START 1 NO CYCLE OWNED BY \"public.jos_dbtest.title\"";
 
 		return array(
@@ -324,7 +326,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 				// Add sequence
 				new SimpleXmlElement('<table_structure name="#__test">' . $s1 . $s2 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
 				array(
-					$addSequence,
+					$addSequence, $setValSequence,
 				),
 				'getAlterTableSQL should add the new sequence.'
 			),
@@ -378,7 +380,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 				// Change seq
 				new SimpleXmlElement('<table_structure name="#__test">' . $s2 . $f1 . $f2 . $k1 . $k2 . '</table_structure>'),
 				array(
-					$changeSeq,
+					$changeSeq, $setValSequence,
 					"DROP SEQUENCE \"jos_dbtest_id_seq\"",),
 				'getAlterTableSQL should change sequence.'
 			),
@@ -412,9 +414,9 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 	{
 		$sample = array(
 			'xml-id-field' => '<field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
-			'xml-title-field' => '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
+			'xml-title-field' => '<field Field="title" Type="character varying(50)" Null="NO" Default="" Comments="" />',
 			'xml-title-def' => '<field Field="title" Type="character varying(50)" Null="NO" Default="this is a test" Comments="" />',
-			'xml-body-field' => '<field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',);
+			'xml-body-field' => '<field Field="description" Type="text" Null="NO" Default="" Comments="" />',);
 
 		return array(
 			array(
@@ -546,7 +548,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$instance->setDbo($this->dbo);
 
 		$sample = array(
-			'xml-title-field' => '<field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
+			'xml-title-field' => '<field Field="title" Type="character varying(50)" Null="NO" Default="" Comments="" />',
 			'xml-title-def' => '<field Field="title" Type="character varying(50)" Null="NO" Default="this is a test" Comments="" />',
 			'xml-int-defnum' => '<field Field="title" Type="integer" Null="NO" Default="0" Comments="" />',);
 
@@ -591,7 +593,7 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$this->assertThat(
 			TestReflection::invoke($instance, 'getAddSequenceSQL', new SimpleXmlElement($xmlIdSeq)),
 			$this->equalTo(
-				'CREATE SEQUENCE jos_dbtest_id_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 NO CYCLE OWNED BY "public.jos_dbtest.id"'
+				'CREATE SEQUENCE IF NOT EXISTS jos_dbtest_id_seq INCREMENT BY 1 MINVALUE 1 MAXVALUE 9223372036854775807 START 1 NO CYCLE OWNED BY "public.jos_dbtest.id"'
 			),
 			'getAddSequenceSQL did not yield the expected result.'
 		);
