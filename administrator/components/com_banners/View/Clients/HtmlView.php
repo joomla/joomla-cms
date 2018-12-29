@@ -127,7 +127,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			$toolbar->preferences('com_clients');
+			$toolbar->preferences('com_banners');
 		}
 
 		$toolbar->help('JHELP_COMPONENTS_BANNERS_CLIENTS');
