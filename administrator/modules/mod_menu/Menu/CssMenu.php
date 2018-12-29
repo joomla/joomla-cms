@@ -6,21 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Menu\Administrator\Menu;
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\Menu\Node;
 use Joomla\CMS\Menu\Tree;
-use Joomla\CMS\Menu\MenuHelper;
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
+
 /**
  * Tree based class to render the admin menu
  *
@@ -31,29 +33,50 @@ class CssMenu
 	/**
 	 * The Menu tree object
 	 *
-	 * @var   Tree
+	 * @var    Tree
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $tree;
 
 	/**
 	 * The module options
 	 *
-	 * @var   Registry
+	 * @var    Registry
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $params;
 
 	/**
 	 * The menu bar state
 	 *
-	 * @var   bool
+	 * @var    bool
 	 *
-	 * @since   3.8.0
+	 * @since  3.8.0
 	 */
 	protected $enabled;
+
+	/**
+	 * The application
+	 *
+	 * @var    bool
+	 *
+	 * @since  4.0.0
+	 */
+	protected $application;
+
+	/**
+	 * CssMenu constructor.
+	 *
+	 * @param   CMSApplication  $application  The application
+	 *
+	 * @since 4.0.0
+	 */
+	public function __construct(CMSApplication $application)
+	{
+		$this->application = $application;
+	}
 
 	/**
 	 * Get the current menu tree
@@ -163,13 +186,13 @@ class CssMenu
 	 * @param   array     $items   The menu items array
 	 * @param   Registry  $params  Module options
 	 *
-	 * @return  bool  Whether to show recovery menu
+	 * @return  boolean  Whether to show recovery menu
 	 *
 	 * @since   3.8.0
 	 */
 	protected function check($items, Registry $params)
 	{
-		$me          = Factory::getUser();
+		$me          = $this->application->getIdentity();
 		$authMenus   = $me->authorise('core.manage', 'com_menus');
 		$authModules = $me->authorise('core.manage', 'com_modules');
 
@@ -178,7 +201,6 @@ class CssMenu
 			return false;
 		}
 
-		$app        = Factory::getApplication();
 		$types      = ArrayHelper::getColumn($items, 'type');
 		$elements   = ArrayHelper::getColumn($items, 'element');
 		$rMenu      = $authMenus && !in_array('com_menus', $elements);
@@ -187,7 +209,7 @@ class CssMenu
 
 		if ($rMenu || $rModule || $rContainer)
 		{
-			$recovery = $app->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
+			$recovery = $this->application->getUserStateFromRequest('mod_menu.recovery', 'recover_menu', 0, 'int');
 
 			if ($recovery)
 			{
@@ -222,7 +244,7 @@ class CssMenu
 			$menutype = $table->get('title', $menutype);
 			$message  = Text::sprintf('MOD_MENU_IMPORTANT_ITEMS_INACCESSIBLE_LIST_WARNING', $menutype, implode(', ', $missing), $uri);
 
-			$app->enqueueMessage($message, 'warning');
+			$this->application->enqueueMessage($message, 'warning');
 		}
 
 		return false;
@@ -240,14 +262,14 @@ class CssMenu
 	protected function preprocess($items)
 	{
 		$result     = array();
-		$user       = Factory::getUser();
-		$language   = Factory::getLanguage();
+		$user       = $this->application->getIdentity();
+		$language   = $this->application->getLanguage();
 
 		$noSeparator = true;
 
 		// Call preprocess for the menu items on plugins.
 		// Plugins should normally process the current level only unless their logic needs deep levels too.
-		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', &$items, $this->params, $this->enabled));
+		$this->application->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', &$items, $this->params, $this->enabled));
 
 		foreach ($items as $i => &$item)
 		{
@@ -261,7 +283,7 @@ class CssMenu
 			$item->icon  = $item->icon ?? '';
 
 			// Whether this scope can be displayed. Applies only to preset items. Db driven items should use un/published state.
-			if (($item->scope === 'help' && !$this->params->get('showhelp')) || ($item->scope === 'edit' && !$this->params->get('shownew')))
+			if (($item->scope === 'help' && $this->params->get('showhelp', 1) == 0) || ($item->scope === 'edit' && !$this->params->get('shownew')))
 			{
 				continue;
 			}
@@ -287,7 +309,7 @@ class CssMenu
 			}
 
 			// Exclude Mass Mail if disabled in global configuration
-			if ($item->scope === 'massmail' && (Factory::getApplication()->get('massmailoff', 0) == 1))
+			if ($item->scope === 'massmail' && ($this->application->get('massmailoff', 0) == 1))
 			{
 				continue;
 			}
@@ -318,6 +340,25 @@ class CssMenu
 				}
 
 				list($assetName) = isset($query['context']) ? explode('.', $query['context'], 2) : array('com_fields');
+			}
+			elseif ($item->element === 'com_workflow')
+			{
+				parse_str($item->link, $query);
+
+				// Only display Workflow menus when enabled in the component
+				$workflow = null;
+
+				if (isset($query['extension']))
+				{
+					$workflow = ComponentHelper::getParams($query['extension'])->get('workflows_enable', 1);
+				}
+
+				if (!$workflow)
+				{
+					continue;
+				}
+
+				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
 			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
 			{
@@ -360,6 +401,12 @@ class CssMenu
 
 			// Exclude if there are no child items under heading or container
 			if (in_array($item->type, array('heading', 'container')) && empty($item->submenu) && empty($item->components))
+			{
+				continue;
+			}
+
+			// Exclude help menu item if set such in mod_menu
+			if ($this->params->get('showhelp', 1) == 0 && $item->link == 'index.php?option=com_cpanel&view=help')
 			{
 				continue;
 			}

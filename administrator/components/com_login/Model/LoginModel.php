@@ -6,16 +6,17 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Login\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Cache\CacheExceptionInterface;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\Exception\ExecutionFailureException;
-use Joomla\CMS\Factory;
 
 /**
  * Login Model
@@ -75,7 +76,7 @@ class LoginModel extends BaseDatabaseModel
 	 *
 	 * @return  object  The Module object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getLoginModule($name = 'mod_login', $title = null)
 	{
@@ -124,7 +125,7 @@ class LoginModel extends BaseDatabaseModel
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function _load($module)
 	{

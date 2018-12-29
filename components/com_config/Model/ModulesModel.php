@@ -11,12 +11,12 @@ namespace Joomla\Component\Config\Site\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * Config Module model.
@@ -83,8 +83,6 @@ class ModulesModel extends FormModel
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
-		jimport('joomla.filesystem.path');
-
 		$lang     = Factory::getLanguage();
 		$module   = $this->getState()->get('module.name');
 		$basePath = JPATH_BASE;

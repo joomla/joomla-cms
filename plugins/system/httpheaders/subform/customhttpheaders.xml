@@ -15,6 +15,7 @@
 		<option value="x-content-type-options">X-Content-Type-Options</option>
 		<option value="referrer-policy">Referrer-Policy</option>
 		<option value="expect-ct">Expect-CT</option>
+		<option value="feature-policy">Feature-Policy</option>
 	</field>
 	<field
 		name="value"

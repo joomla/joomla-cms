@@ -10,13 +10,18 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * Language helper class
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class LanguageHelper
 {
@@ -30,7 +35,7 @@ class LanguageHelper
 	 *
 	 * @return  array  List of system languages
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -57,7 +62,7 @@ class LanguageHelper
 	 *
 	 * @return  string  locale or null if not found
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function detectLanguage()
 	{
@@ -107,7 +112,7 @@ class LanguageHelper
 	 *
 	 * @return  array  An array of published languages
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function getLanguages($key = 'default')
 	{
@@ -116,7 +121,7 @@ class LanguageHelper
 		if (empty($languages))
 		{
 			// Installation uses available languages
-			if (\JFactory::getApplication()->isClient('installation'))
+			if (Factory::getApplication()->isClient('installation'))
 			{
 				$languages[$key] = array();
 				$knownLangs = self::getKnownLanguages(JPATH_BASE);
@@ -131,7 +136,9 @@ class LanguageHelper
 			}
 			else
 			{
-				$cache = \JFactory::getCache('com_languages', '');
+				/** @var OutputController $cache */
+				$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+					->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 				if ($cache->contains('languages'))
 				{
@@ -139,7 +146,7 @@ class LanguageHelper
 				}
 				else
 				{
-					$db = \JFactory::getDbo();
+					$db = Factory::getDbo();
 					$query = $db->getQuery(true)
 						->select('*')
 						->from('#__languages')
@@ -189,7 +196,9 @@ class LanguageHelper
 
 		if ($installedLanguages === null)
 		{
-			$cache = \JFactory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('installedlanguages'))
 			{
@@ -197,7 +206,7 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select($db->quoteName(array('element', 'name', 'client_id', 'extension_id')))
@@ -244,7 +253,7 @@ class LanguageHelper
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -252,7 +261,7 @@ class LanguageHelper
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->metadata))
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -269,7 +278,7 @@ class LanguageHelper
 					// Not able to process xml language file. Fail silently.
 					catch (\Exception $e)
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METAFILE', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -277,7 +286,7 @@ class LanguageHelper
 					// No metadata found, not a valid language. Fail silently.
 					if (!is_array($lang->manifest))
 					{
-						\JLog::add(\JText::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), \JLog::WARNING, 'language');
+						Log::add(Text::sprintf('JLIB_LANGUAGE_ERROR_CANNOT_LOAD_METADATA', $language->element, $metafile), Log::WARNING, 'language');
 
 						continue;
 					}
@@ -342,7 +351,9 @@ class LanguageHelper
 
 		if ($contentLanguages === null)
 		{
-			$cache = \JFactory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('contentlanguages'))
 			{
@@ -350,7 +361,7 @@ class LanguageHelper
 			}
 			else
 			{
-				$db = \JFactory::getDbo();
+				$db = Factory::getDbo();
 
 				$query = $db->getQuery(true)
 					->select('*')
@@ -419,8 +430,6 @@ class LanguageHelper
 	 */
 	public static function saveToIniFile($filename, array $strings)
 	{
-		\JLoader::register('\JFile', JPATH_LIBRARIES . '/joomla/filesystem/file.php');
-
 		// Escape double quotes.
 		foreach ($strings as $key => $string)
 		{
@@ -430,7 +439,7 @@ class LanguageHelper
 		// Write override.ini file with the strings.
 		$registry = new Registry($strings);
 
-		return \JFile::write($filename, $registry->toString('INI'));
+		return File::write($filename, $registry->toString('INI'));
 	}
 
 	/**

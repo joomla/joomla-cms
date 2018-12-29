@@ -12,14 +12,14 @@ namespace Joomla\Component\Config\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Session\Session;
 
 /**
  * Controller for global configuration
@@ -108,15 +108,15 @@ class ApplicationController extends BaseController
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
-		// Save the posted data in the session.
-		$this->app->setUserState('com_config.config.global.data', $data);
-
 		// Check for validation errors.
 		if ($return === false)
 		{
 			/*
 			 * The validate method enqueued all messages for us, so we just need to redirect back.
 			 */
+
+			// Save the posted data in the session.
+			$this->app->setUserState('com_config.config.global.data', $data);
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(Route::_('index.php?option=com_config', false));
@@ -125,9 +125,6 @@ class ApplicationController extends BaseController
 		// Attempt to save the configuration.
 		$data   = $return;
 		$return = $model->save($data);
-
-		// Save the validated data in the session.
-		$this->app->setUserState('com_config.config.global.data', $data);
 
 		// Check the return value.
 		if ($return === false)

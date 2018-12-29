@@ -10,6 +10,11 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
 /**
@@ -106,7 +111,7 @@ class LibraryHelper
 		if (static::isEnabled($element))
 		{
 			// Save params in DB
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__extensions'))
 				->set($db->quoteName('params') . ' = ' . $db->quote($params->toString()))
@@ -135,28 +140,13 @@ class LibraryHelper
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   3.2
-	 * @deprecated  4.0  Use LibraryHelper::loadLibrary() instead
-	 */
-	protected static function _load($element)
-	{
-		return static::loadLibrary($element);
-	}
-
-	/**
-	 * Load the installed library into the libraries property.
-	 *
-	 * @param   string  $element  The element value for the extension
-	 *
-	 * @return  boolean  True on success
-	 *
 	 * @since   3.7.0
 	 */
 	protected static function loadLibrary($element)
 	{
 		$loader = function($element)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 				->from($db->quoteName('#__extensions'))
@@ -167,8 +157,8 @@ class LibraryHelper
 			return $db->loadObject();
 		};
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = \JFactory::getCache('_system', 'callback');
+		/** @var CallbackController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => '_system']);
 
 		try
 		{
@@ -182,8 +172,8 @@ class LibraryHelper
 		if (empty(static::$libraries[$element]))
 		{
 			// Fatal error.
-			$error = \JText::_('JLIB_APPLICATION_ERROR_LIBRARY_NOT_FOUND');
-			\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), \JLog::WARNING, 'jerror');
+			$error = Text::_('JLIB_APPLICATION_ERROR_LIBRARY_NOT_FOUND');
+			Log::add(Text::sprintf('JLIB_APPLICATION_ERROR_LIBRARY_NOT_LOADING', $element, $error), Log::WARNING, 'jerror');
 
 			return false;
 		}

@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Cache\Cache;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Profiler\Profiler;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Joomla! Page Cache Plugin.
@@ -62,7 +62,7 @@ class PlgSystemCache extends CMSPlugin
 		// Set the language in the class.
 		$options = array(
 			'defaultgroup' => 'page',
-			'browsercache' => $this->params->get('browsercache', false),
+			'browsercache' => $this->params->get('browsercache', 0),
 			'caching'      => false,
 		);
 
@@ -127,7 +127,7 @@ class PlgSystemCache extends CMSPlugin
 		$results = $this->app->triggerEvent('onPageCacheSetCaching');
 		$caching = !in_array(false, $results, true);
 
-		if ($caching && $user->get('guest') && $app->input->getMethod() == 'GET')
+		if ($caching && $user->get('guest') && $app->input->getMethod() === 'GET')
 		{
 			$this->_cache->setCaching(true);
 		}
@@ -195,7 +195,7 @@ class PlgSystemCache extends CMSPlugin
 			// Get the current menu item
 			$active = $this->app->getMenu()->getActive();
 
-			if ($active && $active->id && in_array($active->id, (array) $exclusions, true))
+			if ($active && $active->id && in_array((int) $active->id, (array) $exclusions))
 			{
 				return true;
 			}

@@ -10,6 +10,8 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Helper to deal with user groups.
  *
@@ -192,7 +194,7 @@ final class UserGroupsHelper
 	{
 		if ($this->total === null)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			$query = $db->getQuery(true)
 				->select('count(id)')
@@ -217,7 +219,7 @@ final class UserGroupsHelper
 	 */
 	public function load($id)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('*')
@@ -247,7 +249,7 @@ final class UserGroupsHelper
 	{
 		$this->groups = array();
 
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select('*')

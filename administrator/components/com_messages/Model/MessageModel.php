@@ -6,18 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Messages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\User\User;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
 
 /**
  * Private Message model.
@@ -315,7 +316,8 @@ class MessageModel extends AdminModel
 		}
 
 		// Load the recipient user configuration.
-		$model  = new ConfigModel(array('ignore_request' => true));
+		$model  = $this->bootComponent('com_messages')
+			->getMVCFactory()->createModel('Config', 'Administrator', ['ignore_request' => true]);
 		$model->setState('user.id', $table->user_id_to);
 		$config = $model->getItem();
 
@@ -346,54 +348,80 @@ class MessageModel extends AdminModel
 			// Load the user details (already valid from table check).
 			$fromUser         = User::getInstance($table->user_id_from);
 			$toUser           = User::getInstance($table->user_id_to);
-			$debug            = Factory::getConfig()->get('debug_lang');
+			$debug            = Factory::getApplication()->get('debug_lang');
 			$default_language = ComponentHelper::getParams('com_languages')->get('administrator');
 			$lang             = Language::getInstance($toUser->getParam('admin_language', $default_language), $debug);
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
 			// Build the email subject and message
 			$sitename = Factory::getApplication()->get('sitename');
+			$fromName = $fromUser->get('name');
 			$siteURL  = Uri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
-			$subject  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
-			$msg      = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
+			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
+			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
+
+			$subj	  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE'), $fromName, $sitename);
+			$msg 	  = $subject . "\n\n" . $message . "\n\n" . sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			// Send the email
 			$mailer = Factory::getMailer();
 
-			if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
+			try
+			{
+				if (!$mailer->addReplyTo($fromUser->email, $fromUser->name))
+				{
+					try
+					{
+						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
+					}
+					catch (\RuntimeException $exception)
+					{
+						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
+					}
+
+					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+					return true;
+				}
+
+				if (!$mailer->addRecipient($toUser->email, $toUser->name))
+				{
+					try
+					{
+						Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
+					}
+					catch (\RuntimeException $exception)
+					{
+						Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
+					}
+
+					// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
+					return true;
+				}
+
+				$mailer->setSubject($subj);
+				$mailer->setBody($msg);
+
+				$mailer->Send();
+			}
+			catch (\Exception $exception)
 			{
 				try
 				{
-					Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), Log::WARNING, 'jerror');
+					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
+
+					return false;
 				}
 				catch (\RuntimeException $exception)
 				{
-					Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_REPLYTO'), 'warning');
-				}
+					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
-				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-				return true;
+					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
+
+					return false;
+				}
 			}
-
-			if (!$mailer->addRecipient($toUser->email, $toUser->name))
-			{
-				try
-				{
-					Log::add(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), Log::WARNING, 'jerror');
-				}
-				catch (\RuntimeException $exception)
-				{
-					Factory::getApplication()->enqueueMessage(Text::_('COM_MESSAGES_ERROR_COULD_NOT_SEND_INVALID_RECIPIENT'), 'warning');
-				}
-
-				// The message is still saved in the database, we do not allow this failure to cause the entire save routine to fail
-				return true;
-			}
-
-			$mailer->setSubject($subject);
-			$mailer->setBody($msg);
-
-			$mailer->Send();
 		}
 
 		return true;

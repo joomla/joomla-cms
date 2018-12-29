@@ -8,8 +8,6 @@
 
 namespace Joomla\CMS\Event;
 
-use Joomla\CMS\Application\CMSApplication;
-use Joomla\CMS\Extension\ComponentInterface;
 use Joomla\DI\Container;
 
 defined('JPATH_PLATFORM') or die;
@@ -43,7 +41,7 @@ class AfterExtensionBootEvent extends AbstractImmutableEvent
 	 */
 	public function getExtensionName(): string
 	{
-		return $this->getArgument('extensionName');
+		return $this->arguments['extensionName'];
 	}
 
 	/**
@@ -55,6 +53,6 @@ class AfterExtensionBootEvent extends AbstractImmutableEvent
 	 */
 	public function getContainer(): Container
 	{
-		return $this->getArgument('container');
+		return $this->arguments['container'];
 	}
 }

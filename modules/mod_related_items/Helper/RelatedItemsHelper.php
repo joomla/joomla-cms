@@ -12,8 +12,8 @@ namespace Joomla\Module\RelatedItems\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 
@@ -126,8 +126,9 @@ abstract class RelatedItemsHelper
 					->from('#__content AS a')
 					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
 					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+					->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state')
 					->where('a.id != ' . (int) $id)
-					->where('a.state = 1')
+					->where('ws.condition = 1')
 					->where('a.access IN (' . $groups . ')');
 
 				$wheres = array();
@@ -174,7 +175,7 @@ abstract class RelatedItemsHelper
 					$related = $articles->getItems();
 				}
 
-				unset ($temp);
+				unset($temp);
 			}
 		}
 

@@ -10,10 +10,12 @@ namespace Joomla\CMS\Document;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory as CmsFactory;
+
 /**
  * XmlDocument class, provides an easy interface to parse and display XML output
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class XmlDocument extends Document
 {
@@ -21,7 +23,7 @@ class XmlDocument extends Document
 	 * Document name
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $name = 'joomla';
 
@@ -30,7 +32,7 @@ class XmlDocument extends Document
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -51,13 +53,13 @@ class XmlDocument extends Document
 	 *
 	 * @return  string  The rendered data
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function render($cache = false, $params = array())
 	{
 		parent::render();
 
-		\JFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
+		CmsFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
 
 		return $this->getBuffer();
 	}
@@ -67,7 +69,7 @@ class XmlDocument extends Document
 	 *
 	 * @return  string
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public function getName()
 	{
@@ -81,7 +83,7 @@ class XmlDocument extends Document
 	 *
 	 * @return  XmlDocument instance of $this to allow chaining
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setName($name = 'joomla')
 	{

@@ -11,10 +11,10 @@ namespace Joomla\Component\Postinstall\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
 use Joomla\Component\Postinstall\Administrator\Model\MessagesModel;
-use Joomla\CMS\Filesystem\File;
 
 /**
  * Postinstall message controller.
@@ -32,7 +32,7 @@ class MessageController extends BaseController
 	 */
 	public function reset()
 	{
-		/** @var Messages $model */
+		/** @var MessagesModel $model */
 		$model = $this->getModel('Messages', '', array('ignore_request' => true));
 
 		$eid = (int) $model->getState('eid', '700');
@@ -98,8 +98,6 @@ class MessageController extends BaseController
 				break;
 
 			case 'action':
-				jimport('joomla.filesystem.file');
-
 				$helper = new PostinstallHelper;
 				$file = $helper->parsePath($item->action_file);
 
@@ -117,5 +115,27 @@ class MessageController extends BaseController
 		}
 
 		$this->setRedirect('index.php?option=com_postinstall');
+	}
+
+	/**
+	 * Hides all post-installation messages of the specified extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.7
+	 */
+	public function hideAll()
+	{
+		/** @var MessagesModel $model */
+		$model = $this->getModel('Messages', '', array('ignore_request' => true));
+		$eid = (int) $model->getState('eid', '700', 'int');
+
+		if (empty($eid))
+		{
+			$eid = 700;
+		}
+
+		$model->hideMessages($eid);
+		$this->setRedirect('index.php?option=com_postinstall&eid=' . $eid);
 	}
 }

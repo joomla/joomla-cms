@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 
 if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 ?>
@@ -21,7 +21,7 @@ if ($this->maxLevel != 0 && count($this->children[$this->category->id]) > 0) :
 	<?php if ($this->params->get('show_empty_categories') || $child->numitems || count($child->getChildren())) : ?>
 	<li>
 		<h4 class="item-title">
-			<a href="<?php echo Route::_(ContactHelperRoute::getCategoryRoute($child->id)); ?>">
+			<a href="<?php echo Route::_(ContactHelperRoute::getCategoryRoute($child->id, $child->language)); ?>">
 			<?php echo $this->escape($child->title); ?>
 			</a>
 

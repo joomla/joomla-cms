@@ -6,16 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\View\Group;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Group View
@@ -72,7 +74,7 @@ class HtmlView extends BaseHtmlView
 		$this->state = $this->get('State');
 
 		$component = '';
-		$parts     = \FieldsHelper::extract($this->state->get('filter.context'));
+		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{
@@ -104,7 +106,7 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		$component = '';
-		$parts     = \FieldsHelper::extract($this->state->get('filter.context'));
+		$parts     = FieldsHelper::extract($this->state->get('filter.context'));
 
 		if ($parts)
 		{

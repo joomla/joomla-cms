@@ -6,21 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\View\Article;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
 
 /**
  * HTML Article View class for the Content component
@@ -106,14 +107,12 @@ class HtmlView extends BaseHtmlView
 		$item->tagLayout = new FileLayout('joomla.content.tags');
 
 		// Add router helpers.
-		$item->slug        = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
-		$item->catslug     = $item->category_alias ? ($item->catid . ':' . $item->category_alias) : $item->catid;
-		$item->parent_slug = $item->parent_alias ? ($item->parent_id . ':' . $item->parent_alias) : $item->parent_id;
+		$item->slug = $item->alias ? ($item->id . ':' . $item->alias) : $item->id;
 
 		// No link for ROOT category
 		if ($item->parent_alias === 'root')
 		{
-			$item->parent_slug = null;
+			$item->parent_id = null;
 		}
 
 		// TODO: Change based on shownoauth
@@ -301,7 +300,7 @@ class HtmlView extends BaseHtmlView
 
 			while ($category && ($menu->query['option'] !== 'com_content' || $menu->query['view'] === 'article' || $id != $category->id) && $category->id > 1)
 			{
-				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id));
+				$path[]   = array('title' => $category->title, 'link' => \ContentHelperRoute::getCategoryRoute($category->id, $category->language));
 				$category = $category->getParent();
 			}
 

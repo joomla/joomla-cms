@@ -10,6 +10,7 @@ namespace Joomla\CMS\Plugin;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Event\DispatcherInterface;
 
 /**
@@ -40,7 +41,7 @@ abstract class PluginHelper
 	 */
 	public static function getLayoutPath($type, $name, $layout = 'default')
 	{
-		$template = \JFactory::getApplication()->getTemplate();
+		$template = Factory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
 
 		if (strpos($layout, ':') !== false)
@@ -159,7 +160,7 @@ abstract class PluginHelper
 		}
 
 		// Ensure we have a dispatcher now so we can correctly track the loaded plugins
-		$dispatcher = $dispatcher ?: \JFactory::getApplication()->getDispatcher();
+		$dispatcher = $dispatcher ?: Factory::getApplication()->getDispatcher();
 
 		// Get the dispatcher's hash to allow plugins to be registered to unique dispatchers
 		$dispatcherHash = spl_object_hash($dispatcher);
@@ -214,7 +215,7 @@ abstract class PluginHelper
 		static $paths = array();
 
 		// Ensure we have a dispatcher now so we can correctly track the loaded paths
-		$dispatcher = $dispatcher ?: \JFactory::getApplication()->getDispatcher();
+		$dispatcher = $dispatcher ?: Factory::getApplication()->getDispatcher();
 
 		// Get the dispatcher's hash to allow paths to be tracked against unique dispatchers
 		$dispatcherHash = spl_object_hash($dispatcher);
@@ -279,14 +280,14 @@ abstract class PluginHelper
 			return static::$plugins;
 		}
 
-		$levels = implode(',', \JFactory::getUser()->getAuthorisedViewLevels());
+		$levels = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
 		/** @var \JCacheControllerCallback $cache */
-		$cache = \JFactory::getCache('com_plugins', 'callback');
+		$cache = Factory::getCache('com_plugins', 'callback');
 
 		$loader = function () use ($levels)
 		{
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select(
 					$db->quoteName(

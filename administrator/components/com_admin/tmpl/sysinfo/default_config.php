@@ -12,30 +12,27 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<fieldset class="adminform">
-	<legend><?php echo Text::_('COM_ADMIN_CONFIGURATION_FILE'); ?></legend>
+<div class="sysinfo">
 	<table class="table">
+		<caption class="sr-only">
+			<?php echo Text::_('COM_ADMIN_CONFIGURATION_FILE'); ?>
+		</caption>
 		<thead>
 			<tr>
-				<th style="width:300px">
+				<th scope="col" style="width:300px">
 					<?php echo Text::_('COM_ADMIN_SETTING'); ?>
 				</th>
-				<th>
+				<th scope="col">
 					<?php echo Text::_('COM_ADMIN_VALUE'); ?>
 				</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2">&#160;</td>
-			</tr>
-		</tfoot>
 		<tbody>
 			<?php foreach ($this->config as $key => $value) : ?>
 				<tr>
-					<td>
+					<th scope="row">
 						<?php echo $key; ?>
-					</td>
+					</th>
 					<td>
 						<?php echo htmlspecialchars($value, ENT_QUOTES); ?>
 					</td>
@@ -43,4 +40,4 @@ use Joomla\CMS\Language\Text;
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-</fieldset>
+</div>

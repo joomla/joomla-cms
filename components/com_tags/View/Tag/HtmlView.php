@@ -6,17 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Site\View\Tag;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\User\User;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\User\User;
+use Joomla\Registry\Registry;
 
 /**
  * HTML View class for the Tags component
@@ -42,9 +43,9 @@ class HtmlView extends BaseHtmlView
 	protected $items;
 
 	/**
-	 * Tag data for the current tag or tags
+	 * Tag data for the current tag or tags (on success, false on failure)
 	 *
-	 * @var    \JObject[]
+	 * @var    \JObject|boolean
 	 * @since  3.1
 	 */
 	protected $item;
@@ -82,9 +83,9 @@ class HtmlView extends BaseHtmlView
 	protected $params;
 
 	/**
-	 * The title to display on the page
+	 * Array of tags title
 	 *
-	 * @var    string
+	 * @var    array
 	 * @since  3.1
 	 */
 	protected $tags_title;

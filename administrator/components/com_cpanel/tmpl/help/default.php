@@ -3,22 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
 ?>
 
 <div class="com-cpanel-help">
-	<h4 class="com-cpanel-help__header"><?php echo Text::_('MOD_MENU_HELP'); ?></h4>
+	<h2 class="com-cpanel-help__header">
+		<span class="fa fa-info-circle" aria-hidden="true"></span>
+		<?php echo Text::_('MOD_MENU_HELP'); ?>
+	</h2>
 	<ul class="list-group list-group-flush">
 		<?php foreach ($this->links as $link) : ?>
-			<li class="list-group-item">
-				<span class="item-title"><a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['label']); ?></a></span>
-			</li>
+			<?php if ($link['link']) : ?>
+				<li class="list-group-item">
+					<span class="item-title"><a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['label']); ?></a></span>
+				</li>
+			<?php endif; ?>
 		<?php endforeach; ?>
 	</ul>
 </div>

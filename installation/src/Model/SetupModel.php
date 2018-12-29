@@ -11,13 +11,11 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Language\LanguageHelper;
-use Joomla\Database\UTF8MB4SupportInterface;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -60,6 +58,19 @@ class SetupModel extends BaseInstallationModel
 		if (!isset($options['language']) || empty($options['language']))
 		{
 			$options['language'] = Factory::getLanguage()->getTag();
+		}
+
+		// Store passwords as a separate key that is not used in the forms
+		foreach (array('admin_password', 'db_pass', 'ftp_pass') as $passwordField)
+		{
+			if (isset($options[$passwordField]))
+			{
+				$plainTextKey = $passwordField . '_plain';
+
+				$options[$plainTextKey] = $options[$passwordField];
+
+				unset($options[$passwordField]);
+			}
 		}
 
 		// Get the session
@@ -270,7 +281,7 @@ class SetupModel extends BaseInstallationModel
 		// Ensure a database type was selected.
 		if (empty($options->db_type))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_TYPE'), 'warning');
 
 			return false;
 		}
@@ -278,7 +289,7 @@ class SetupModel extends BaseInstallationModel
 		// Ensure that a hostname and user name were input.
 		if (empty($options->db_host) || empty($options->db_user))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
 
 			return false;
 		}
@@ -286,7 +297,7 @@ class SetupModel extends BaseInstallationModel
 		// Ensure that a database name was input.
 		if (empty($options->db_name))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
 
 			return false;
 		}
@@ -294,7 +305,7 @@ class SetupModel extends BaseInstallationModel
 		// Validate database table prefix.
 		if (!preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_PREFIX_MSG'), 'warning');
 
 			return false;
 		}
@@ -302,7 +313,7 @@ class SetupModel extends BaseInstallationModel
 		// Validate length of database table prefix.
 		if (strlen($options->db_prefix) > 15)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_TOO_LONG'), 'warning');
 
 			return false;
 		}
@@ -310,7 +321,15 @@ class SetupModel extends BaseInstallationModel
 		// Validate length of database name.
 		if (strlen($options->db_name) > 64)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_TOO_LONG'), 'warning');
+
+			return false;
+		}
+
+		// Validate database name.
+		if (!preg_match('#^[a-zA-Z][0-9a-zA-Z_$]*$#', $options->db_name))
+		{
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG'), 'warning');
 
 			return false;
 		}
@@ -320,7 +339,7 @@ class SetupModel extends BaseInstallationModel
 		{
 			if (strtolower($options->db_prefix) != $options->db_prefix)
 			{
-				Factory::getApplication()->enqueueMessage(\JText::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
+				Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_FIX_LOWERCASE'), 'warning');
 
 				return false;
 			}
@@ -333,7 +352,7 @@ class SetupModel extends BaseInstallationModel
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
 				isset($options->db_select) ? $options->db_select : false
@@ -345,7 +364,7 @@ class SetupModel extends BaseInstallationModel
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_DATABASE_COULD_NOT_CONNECT', $e->getMessage()), 'error');
 
 			return false;
 		}

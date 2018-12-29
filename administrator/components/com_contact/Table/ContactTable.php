@@ -6,18 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Contact\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\Registry\Registry;
-use Joomla\String\StringHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Contact Table class.
@@ -115,7 +116,7 @@ class ContactTable extends Table
 		$this->webpage = PunycodeHelper::urlToPunycode($this->webpage);
 
 		// Verify that the alias is unique
-		$table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\');
+		$table = Table::getInstance('ContactTable', __NAMESPACE__ . '\\', array('dbo' => $this->getDbo()));
 
 		if ($table->load(array('alias' => $this->alias, 'catid' => $this->catid)) && ($table->id != $this->id || $this->id == 0))
 		{

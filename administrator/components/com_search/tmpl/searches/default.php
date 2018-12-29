@@ -9,14 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
-
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -27,35 +24,33 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 	<div id="j-main-container" class="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 		<?php if (empty($this->items)) : ?>
-			<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+			<div class="alert alert-warning">
+				<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+			</div>
 		<?php else : ?>
 		<table class="table">
+			<caption id="captionTable" class="sr-only">
+				<?php echo Text::_('COM_SEARCH_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+			</caption>
 			<thead>
 				<tr>
-					<th class="nowrap">
+					<th scope="col">
 						<?php echo HTMLHelper::_('searchtools.sort', 'COM_SEARCH_HEADING_PHRASE', 'a.search_term', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:15%" class="nowrap">
+					<th scope="col" style="width:15%">
 						<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 					</th>
-					<th style="width:1%" class="nowrap text-center">
+					<th scope="col" style="width:1%" class="text-center">
 						<?php echo Text::_('COM_SEARCH_HEADING_RESULTS'); ?>
 					</th>
 				</tr>
 			</thead>
-			<tfoot>
-				<tr>
-					<td colspan="3">
-						<?php echo $this->pagination->getListFooter(); ?>
-					</td>
-				</tr>
-			</tfoot>
 			<tbody>
 			<?php foreach ($this->items as $i => $item) : ?>
 				<tr class="row<?php echo $i % 2; ?>">
-					<td class="break-word">
+					<th scope="row" class="break-word">
 						<?php echo $this->escape($item->search_term); ?>
-					</td>
+					</th>
 					<td>
 						<?php echo (int) $item->hits; ?>
 					</td>
@@ -73,6 +68,10 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 			<?php endforeach; ?>
 			</tbody>
 		</table>
+
+		<?php // load the pagination. ?>
+		<?php echo $this->pagination->getListFooter(); ?>
+
 		<?php endif; ?>
 		<input type="hidden" name="task" value="">
 		<input type="hidden" name="boxchecked" value="0">

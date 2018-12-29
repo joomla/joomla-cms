@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
@@ -13,19 +14,20 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryInterface;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\MVC\Model\FormModel;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\FormModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
-use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\User\UserHelper;
-use Joomla\CMS\Form\Form;
 
 /**
  * Registration model class for Users.
@@ -73,7 +75,7 @@ class RegistrationModel extends FormModel
 	 */
 	public function activate($token)
 	{
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 		$userParams = ComponentHelper::getParams('com_users');
 		$db = $this->getDbo();
 
@@ -131,9 +133,9 @@ class RegistrationModel extends FormModel
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
 			}
 
-			$data['fromname'] = $config->get('fromname');
-			$data['mailfrom'] = $config->get('mailfrom');
-			$data['sitename'] = $config->get('sitename');
+			$data['fromname'] = $app->get('fromname');
+			$data['mailfrom'] = $app->get('mailfrom');
+			$data['sitename'] = $app->get('sitename');
 			$user->setParam('activate', 1);
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATE_WITH_ADMIN_ACTIVATION_SUBJECT',
@@ -177,7 +179,25 @@ class RegistrationModel extends FormModel
 
 				if ($usercreator->authorise('core.create', 'com_users'))
 				{
-					$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+					try
+					{
+						$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBody);
+					}
+					catch (\Exception $exception)
+					{
+						try
+						{
+							Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+							$return = false;
+						}
+						catch (\RuntimeException $exception)
+						{
+							Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+							$return = false;
+						}
+					}
 
 					// Check for an error.
 					if ($return !== true)
@@ -198,9 +218,9 @@ class RegistrationModel extends FormModel
 			// Compile the user activated notification mail values.
 			$data = $user->getProperties();
 			$user->setParam('activate', 0);
-			$data['fromname'] = $config->get('fromname');
-			$data['mailfrom'] = $config->get('mailfrom');
-			$data['sitename'] = $config->get('sitename');
+			$data['fromname'] = $app->get('fromname');
+			$data['mailfrom'] = $app->get('mailfrom');
+			$data['sitename'] = $app->get('sitename');
 			$data['siteurl'] = Uri::base();
 			$emailSubject = Text::sprintf(
 				'COM_USERS_EMAIL_ACTIVATED_BY_ADMIN_ACTIVATION_SUBJECT',
@@ -215,7 +235,25 @@ class RegistrationModel extends FormModel
 				$data['username']
 			);
 
-			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			try
+			{
+				$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+			}
+			catch (\Exception $exception)
+			{
+				try
+				{
+					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+					$return = false;
+				}
+				catch (\RuntimeException $exception)
+				{
+					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+					$return = false;
+				}
+			}
 
 			// Check for an error.
 			if ($return !== true)
@@ -316,7 +354,7 @@ class RegistrationModel extends FormModel
 	 * The base form is loaded from XML and then an event is fired
 	 * for users plugins to extend the form with extra fields.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  Form  A Form object on success, false on failure
@@ -464,15 +502,15 @@ class RegistrationModel extends FormModel
 			return false;
 		}
 
-		$config = Factory::getConfig();
+		$app = Factory::getApplication();
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
 
 		// Compile the notification mail values.
 		$data = $user->getProperties();
-		$data['fromname'] = $config->get('fromname');
-		$data['mailfrom'] = $config->get('mailfrom');
-		$data['sitename'] = $config->get('sitename');
+		$data['fromname'] = $app->get('fromname');
+		$data['mailfrom'] = $app->get('mailfrom');
+		$data['sitename'] = $app->get('sitename');
 		$data['siteurl'] = Uri::root();
 
 		// Handle account activation/confirmation emails.
@@ -594,8 +632,28 @@ class RegistrationModel extends FormModel
 			}
 		}
 
-		// Send the registration email.
-		$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		// Try to send the registration email.
+		try
+		{
+			$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
+		}
+		catch (\Exception $exception)
+		{
+			try
+			{
+				Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+				$return = false;
+			}
+			catch (\RuntimeException $exception)
+			{
+				Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+				$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
+
+				$return = false;
+			}
+		}
 
 		// Send Notification mail to administrators
 		if (($params->get('useractivation') < 2) && ($params->get('mail_to_admin') == 1))
@@ -636,7 +694,25 @@ class RegistrationModel extends FormModel
 			// Send mail to all superadministrators id
 			foreach ($rows as $row)
 			{
-				$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				try
+				{
+					$return = Factory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $row->email, $emailSubject, $emailBodyAdmin);
+				}
+				catch (\Exception $exception)
+				{
+					try
+					{
+						Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
+
+						$return = false;
+					}
+					catch (\RuntimeException $exception)
+					{
+						Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
+
+						$return = false;
+					}
+				}
 
 				// Check for an error.
 				if ($return !== true)

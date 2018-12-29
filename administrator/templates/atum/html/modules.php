@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 /**
  * This is a file to add template specific chrome to module rendering.  To use it you would
  * set the style attribute for the given module(s) include in your template to use the style
@@ -48,8 +52,8 @@ function modChrome_well($module, &$params, &$attribs)
 	if ($module->content)
 	{
 		// Permission checks
-		$user           = JFactory::getUser();
-		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
+		$user           = Factory::getUser();
+		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id) && $user->authorise('core.manage', 'com_modules');
 
 		$moduleTag      = $params->get('module_tag', 'div');
 		$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
@@ -67,8 +71,8 @@ function modChrome_well($module, &$params, &$attribs)
 		if ($canEdit)
 		{
 			echo '<div class="module-actions">';
-			echo '<a href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
-				. '"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
+			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id)
+				. '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
 			echo '</div>';
 		}
 
@@ -89,7 +93,7 @@ function modChrome_body($module, &$params, &$attribs)
 	if ($module->content)
 	{
 		// Permission checks
-		$user           = JFactory::getUser();
+		$user           = Factory::getUser();
 		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
 
 		$moduleTag      = $params->get('module_tag', 'div');
@@ -108,8 +112,8 @@ function modChrome_body($module, &$params, &$attribs)
 		if ($canEdit)
 		{
 			echo '<div class="module-actions">';
-			echo '<a href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
-				. '"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
+			echo '<a href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id)
+				. '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
 			echo '</div>';
 		}
 

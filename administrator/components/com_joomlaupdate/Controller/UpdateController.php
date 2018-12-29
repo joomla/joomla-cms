@@ -6,18 +6,19 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Factory;
 
 /**
  * The Joomla! update controller for the Update view
@@ -294,8 +295,6 @@ class UpdateController extends BaseController
 		// Do I really have an update package?
 		$tempFile = Factory::getApplication()->getUserState('com_joomlaupdate.temp_file', null);
 
-		\JLoader::import('joomla.filesystem.file');
-
 		if (empty($tempFile) || !File::exists($tempFile))
 		{
 			throw new \RuntimeException(Text::_('JLIB_APPLICATION_ERROR_ACCESS_FORBIDDEN'), 403);
@@ -384,7 +383,7 @@ class UpdateController extends BaseController
 	public function display($cachable = false, $urlparams = array())
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'update');
@@ -495,8 +494,8 @@ class UpdateController extends BaseController
 		$extensionID = $this->input->get('extension-id', '', 'DEFAULT');
 		$joomlaTargetVersion = $this->input->get('joomla-target-version', '', 'DEFAULT');
 
-		/** @var JoomlaupdateModelDefault $model */
-		$model = $this->getModel('default');
+		/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
+		$model = $this->getModel('Update');
 		$updateFileUrl = $model->fetchCompatibility($extensionID, $joomlaTargetVersion);
 
 		$this->app = Factory::getApplication();

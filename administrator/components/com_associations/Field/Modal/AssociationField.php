@@ -6,15 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Associations\Administrator\Field\Modal;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Supports a modal item picker.
@@ -45,7 +46,7 @@ class AssociationField extends FormField
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
 		Factory::getDocument()->addScriptOptions('modal-associations', ['itemId' => $value]);
-		HTMLHelper::_('script', 'com_associations/modal-associations.min.js', false, true);
+		HTMLHelper::_('script', 'com_associations/modal-associations.min.js', ['version' => 'auto', 'relative' => true]);
 
 		// Setup variables for display.
 		$html = array();

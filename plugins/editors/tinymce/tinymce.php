@@ -9,18 +9,18 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Event\Event;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Log\Log;
 use Joomla\CMS\Access\Access;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Filter\InputFilter;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Log\Log;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Session\Session;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Event\Event;
 
 /**
  * TinyMCE Editor Plugin
@@ -63,7 +63,7 @@ class PlgEditorTinymce extends CMSPlugin
 	{
 		HTMLHelper::_('behavior.core');
 		HTMLHelper::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
-		HTMLHelper::_('script', 'editors/tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_editors_tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
@@ -138,11 +138,6 @@ class PlgEditorTinymce extends CMSPlugin
 		if (empty($options['tinyMCE'][$fieldName]['joomlaExtButtons']))
 		{
 			$btns = $this->tinyButtons($id, $buttons);
-
-			if (!empty($btns['names']))
-			{
-				HTMLHelper::_('script', 'editors/tinymce/tiny-close.min.js', array('version' => 'auto', 'relative' => true), array('defer' => 'defer'));
-			}
 
 			// Set editor to readonly mode
 			if (!empty($params['readonly']))
@@ -474,11 +469,11 @@ class PlgEditorTinymce extends CMSPlugin
 
 		if ($dragdrop && $user->authorise('core.create', 'com_media'))
 		{
-			$externalPlugins['jdragndrop'] = Uri::root() . 'media/editors/tinymce/js/plugins/dragdrop/plugin.min.js';
+			$externalPlugins['jdragndrop'] = Uri::root() . 'media/plg_editors_tinymce/js/plugins/dragdrop/plugin.min.js';
 
 			$allowImgPaste = true;
 			$isSubDir      = '';
-			$session       = Factory::getSession();
+			$session       = $this->app->getSession();
 			$uploadUrl     = Uri::base() . 'index.php?option=com_media&task=file.upload&tmpl=component&'
 				. $session->getName() . '=' . $session->getId()
 				. '&' . Session::getFormToken() . '=1'
@@ -802,7 +797,7 @@ class PlgEditorTinymce extends CMSPlugin
 				}
 
 				// Collect the blacklist or whitelist tags and attributes.
-				// Each list is cummulative.
+				// Each list is cumulative.
 				if ($filterType === 'BL')
 				{
 					$blackList           = true;

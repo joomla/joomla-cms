@@ -1,58 +1,52 @@
+const Debounce = require('lodash.debounce');
+const Fs = require('fs');
 const Promise = require('bluebird');
-const fs = require('fs');
-// const fsExtra = require('fs-extra');
 const Recurs = require('recursive-readdir');
-const chalk = require('chalk');
+const RootPath = require('./rootpath.js')._();
+const TranspileJs = require('./compile-es6.js');
 const UglifyJS = require('uglify-es');
-const transpileEs5 = require('./compile-es6.js');
-const debounce = require('lodash.debounce');
-const rootPath = require('./rootpath.js')._();
 
 const watches = [
-  `${rootPath}/media`,
-  `${rootPath}/administrator/templates/atum/js`,
-  `${rootPath}/templates/cassiopeia/js`,
+  `${RootPath}/media`,
+  `${RootPath}/administrator/templates/atum/js`,
+  `${RootPath}/templates/cassiopeia/js`,
 ];
 
 const uglifyJs = (options, path) => {
   let folders = [];
   if (path) {
-    const stats = fs.lstatSync(`${rootPath}/${path}`);
+    const stats = Fs.lstatSync(`${RootPath}/${path}`);
 
     if (!stats.isDirectory()) {
       // @todo: allow to compile single file
       throw new Error(`Path should be a directory: ${path}`);
     }
 
-    folders.push(`${rootPath}/${path}`);
+    folders.push(`${RootPath}/${path}`);
   } else {
     folders = [
-      `${rootPath}/media`,
-      `${rootPath}/administrator/templates/atum/js`,
-      `${rootPath}/templates/cassiopeia/js`,
+      `${RootPath}/build/media_src`,
+      `${RootPath}/administrator/templates/atum/js`,
+      `${RootPath}/templates/cassiopeia/js`,
     ];
   }
 
   // Loop to get some text for the packgage.json
   folders.forEach((folder) => {
-    Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
+    Recurs(folder, ['*.min.js', '*.map', '*.scss', '*.css', '*.svg', '*.png', '*.swf', '*.json']).then(
       (files) => {
         files.forEach(
             (file) => {
-            if (file.match(/.es6.js/)) {
-              // Transpile the file
-              transpileEs5.compileFile(file);
-              fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
-            }
-
-            if (file.match(/.js/) && !file.toLowerCase().match(/license/)) {
-              // Write the file
-              fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
-            }
+                if (file.match(/\.es6\.js/)) {
+                    // Transpile the file
+                    TranspileJs.compileFile(file);
+                } else {
+                    Fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(Fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+                }
           },
           (error) => {
             // eslint-disable-next-line no-console
-            console.error(`${chalk.red('something exploded', error)}`);
+            console.error(`something exploded ${error}`);
           },
         );
       });
@@ -68,31 +62,32 @@ const watchFiles = (options, folders, compileFirst = false) => {
 
   folderz.forEach(
   	(folder) => {
-      Recurs(folder, ['*.min.js', '*.map', '*.css', '*.svg', '*.png', '*.swf']).then(
+      Recurs(folder, ['*.min.js', '*.map', '*.css', 'scss', '*.svg', '*.png', '*.swf', '*.json']).then(
         (files) => {
           files.forEach(
             (file) => {
-              if (file.match(/.js/)) {
-                fs.watchFile(file, () => {
+              if (file.match(/\.js/)) {
+                Fs.watchFile(file, () => {
                   // eslint-disable-next-line no-console
-                  console.warn(`${chalk.grey(`File: ${file} changed.`)}`);
-                  debounce(() => {
-                    if (file.match(/.es6.js/)) {
+                  console.warn(`File: ${file} changed.`);
+                  Debounce(() => {
+                    if (file.match(/\.es6\.js/)) {
                       // Transpile the file
-                      transpileEs5.compileFile(file);
-                      fs.writeFileSync(file.replace('.es6.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+                      TranspileJs.compileFile(file);
+                    } else {
+                        Fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(Fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
                     }
-                    fs.writeFileSync(file.replace('.js', '.min.js'), UglifyJS.minify(fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
                   }, 150)();
 
                   // eslint-disable-next-line no-console
-                  console.log(chalk.bgYellow(`${file} was updated.`));
+                  console.log(`${file} was updated.`);
                 });
               }
             },
             (error) => {
-              // eslint-disable-next-line no-console
-              console.error(chalk.red('something exploded', error));
+                // eslint-disable-next-line no-console
+                console.error(`${error}`);
+                process.exit(1);
             },
           );
         }
@@ -101,21 +96,19 @@ const watchFiles = (options, folders, compileFirst = false) => {
   );
 
   // eslint-disable-next-line no-console
-  console.log(chalk.magenta('Now watching JS files...'));
+  console.log(`Now watching JS files...`);
 };
 
-const compile = (options, path) => {
+const compileJS = (options, path) => {
   Promise.resolve()
-  // Compile the scss files
+    // Compile the scss files
     .then(() => uglifyJs(options, path))
 
-  // Handle errors
-    .catch((err) => {
-      // eslint-disable-next-line no-console
-      console.error(chalk.red(err));
-      process.exit(-1);
+    // Handle errors
+    .catch((error) => {
+      throw new Error(`${error}`);
     });
 };
 
-module.exports.compile = compile;
+module.exports.compileJS = compileJS;
 module.exports.watch = watchFiles;

@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.combobox');
 
-HTMLHelper::_('script', 'com_config/modules-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_config/modules-default.js', ['version' => 'auto', 'relative' => true]);
 
 $hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
 
@@ -92,7 +92,7 @@ if (Multilanguage::isEnabled())
 							<?php echo $this->form->getLabel('position'); ?>
 						</div>
 						<div class="controls">
-							<?php echo $this->loadTemplate('positions'); ?>
+							<?php echo $this->form->getInput('position'); ?>
 						</div>
 					</div>
 

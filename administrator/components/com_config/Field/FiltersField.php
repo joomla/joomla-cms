@@ -11,10 +11,10 @@ namespace Joomla\Component\Config\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
-use Joomla\CMS\Factory;
 
 /**
  * Text Filters form field.
@@ -135,11 +135,11 @@ class FiltersField extends FormField
 		$html[] = '</table>';
 
 		// Add notes
-		$html[] = '<joomla-alert type="warning">';
+		$html[] = '<div class="filter-notes">';
 		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_TYPE_DESC') . '</p>';
 		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_TAGS_DESC') . '</p>';
 		$html[] = '<p>' . Text::_('JGLOBAL_FILTER_ATTRIBUTES_DESC') . '</p>';
-		$html[] = '</joomla-alert>';
+		$html[] = '</div>';
 
 		return implode("\n", $html);
 	}

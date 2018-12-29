@@ -8,13 +8,15 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 if (!key_exists('field', $displayData))
 {
 	return;
 }
 
 $field = $displayData['field'];
-$label = JText::_($field->label);
+$label = Text::_($field->label);
 $value = $field->value;
 $showLabel = $field->params->get('showlabel');
 

@@ -9,14 +9,15 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_cache'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -28,29 +29,25 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (count($this->data) > 0) : ?>
 				<table class="table">
-					<thead>
+					<caption id="captionTable" class="sr-only">
+						<?php echo Text::_('COM_CACHE_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+					</caption>
+						<thead>
 						<tr>
-							<th style="width:1%" class="nowrap text-center">
+							<td style="width:1%" class="text-center">
 								<?php echo HTMLHelper::_('grid.checkall'); ?>
-							</th>
-							<th class="title nowrap">
+							</td>
+							<th scope="col" class="title">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_GROUP', 'group', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap text-center">
+							<th scope="col" style="width:10%" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_NUMBER_OF_FILES', 'count', $listDirn, $listOrder); ?>
 							</th>
-							<th style="width:10%" class="nowrap text-center">
+							<th scope="col" style="width:10%" class="text-right">
 								<?php echo HTMLHelper::_('searchtools.sort', 'COM_CACHE_SIZE', 'size', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
-					<tfoot>
-						<tr>
-							<td colspan="4">
-							<?php echo $this->pagination->getListFooter(); ?>
-							</td>
-						</tr>
-					</tfoot>
 					<tbody>
 						<?php $i = 0; ?>
 						<?php foreach ($this->data as $folder => $item) : ?>
@@ -58,21 +55,25 @@ HTMLHelper::_('script', 'com_cache/admin-cache-default.js', ['relative' => true,
 								<td>
 									<input type="checkbox" id="cb<?php echo $i; ?>" name="cid[]" value="<?php echo $this->escape($item->group); ?>" class="cache-entry">
 								</td>
-								<td>
+								<th scope="row">
 									<label for="cb<?php echo $i; ?>">
 										<strong><?php echo $this->escape($item->group); ?></strong>
 									</label>
-								</td>
+								</th>
 								<td class="text-center">
 									<?php echo $item->count; ?>
 								</td>
-								<td class="text-center">
-									<?php echo HTMLHelper::_('number.bytes', $item->size); ?>
+								<td class="text-right">
+									<?php echo '&#x200E;' . HTMLHelper::_('number.bytes', $item->size); ?>
 								</td>
 							</tr>
 						<?php $i++; endforeach; ?>
 					</tbody>
 				</table>
+
+				<?php // load the pagination. ?>
+				<?php echo $this->pagination->getListFooter(); ?>
+
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">

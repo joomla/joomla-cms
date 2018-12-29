@@ -13,10 +13,13 @@
 @import "../../../media/vendor/font-awesome/scss/font-awesome";
 
 // B/C for Icomoon
-@import "../../../media/system/scss/icomoon";
+@import "../../../build/media/system/scss/icomoon";
 
 // Alert
-@import "../../../media/system/scss/jalert";
+@import "../../../build/media/system/scss/jalert";
+
+// jQuery Minicolors
+@import "../../../build/media/system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first
@@ -48,6 +51,7 @@
 @import "vendor/bootstrap/pagination";
 @import "vendor/bootstrap/table";
 @import "vendor/chosen";
+@import "vendor/choicesjs";
 @import "vendor/dragula";
 @import "vendor/minicolors";
 @import "vendor/tinymce";

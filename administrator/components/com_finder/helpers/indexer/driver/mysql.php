@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 /**
  * Indexer class supporting MySQL(i) for the Finder indexer package.
  *

@@ -7,7 +7,7 @@ ul {
   padding-right: 0;
 }
 
-th {
+body {
   text-align: right;
 }
 
@@ -28,7 +28,7 @@ th {
   }
 
   .controls {
-    margin-right: 220px;
+    margin-right: 0;
     margin-left: 0;
   }
 
@@ -38,9 +38,6 @@ th {
 }
 
 .dropdown-menu-right {
-  right: auto;
-  left: 0;
-
   &::after {
     right: auto;
     left: .9rem;
@@ -118,22 +115,37 @@ th {
     border-radius: $border-radius 0 0 $border-radius;
   }
 
-  .close {
-    float: left;
-  }
-
   .parent .collapse-arrow::after {
     right: auto;
     left: 15px;
     content: "\f0d9";
   }
 
-  li a span {
-    float: right;
+  .has-arrow::after {
+    left: 1rem;
+    right: inherit;
+    transform: rotate(135deg) translate(0,-50%);
   }
 
-  .collapse-level-1 .menuitem-group, .collapse-level-1>li:first-of-type {
-    text-align: right;
+  ul a::before {
+    right: 18px;
+  }
+
+  .active .no-dropdown .sidebar-item-title {
+    margin-right: 28px;
+  }
+
+  .dropdown-submenu .sidebar-item-title {
+    margin-right: 28px;
+  }
+
+  .dropdown-submenu .no-dropdown .sidebar-item-title {
+    margin-right: 44px;
+  }
+
+  ul ul a::before {
+    right: 34px;
+    left: 0;
   }
 }
 
@@ -179,7 +191,7 @@ th {
     margin-right: .75rem;
     margin-left: 0;
 
-    &:first-of-type {
+    &:first-child {
       margin-right: 0;
     }
   }
@@ -209,12 +221,17 @@ th {
       left: 0;
 
       > a {
-        border-right: 1px solid #ccc;
+        border-right: 1px solid var(--border);
         border-left: 0;
         border-top-left-radius: $border-radius;
         border-top-right-radius: 0;
       }
     }
+  }
+
+  .module-actions {
+    right: auto;
+    left: 0;
   }
 }
 
@@ -238,12 +255,38 @@ th {
   margin-left: .5rem;
 }
 
-p, .table td {
-  text-align: right;
-}
-
 #helpsite-refresh {
   float: right;
-  margin-right: 4px;
   margin-top: 1px;
+  margin-right: 4px;
+}
+
+.field-calendar {
+  float: right;
+}
+
+.form-text {
+  float: right;
+}
+
+.field-user-wrapper {
+  float: right;
+}
+
+.field-media-input {
+  margin-right: 220px;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: left !important;
+}
+
+// Bootstrap overrides
+.text-left {
+  text-align: right !important;
+}
+
+.text-right {
+  text-align: left !important;
 }

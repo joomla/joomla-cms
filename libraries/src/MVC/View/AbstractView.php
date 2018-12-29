@@ -11,7 +11,9 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Base class for a Joomla View
@@ -20,7 +22,7 @@ use Joomla\CMS\MVC\Model\BaseDatabaseModel;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends \JObject
+abstract class AbstractView extends CMSObject
 {
 	/**
 	 * The active document object
@@ -145,7 +147,7 @@ abstract class AbstractView extends \JObject
 			}
 		}
 
-		// Degrade to \JObject::get
+		// Degrade to CMSObject::get
 		return parent::get($property, $default);
 	}
 
@@ -233,7 +235,7 @@ abstract class AbstractView extends \JObject
 
 			if (empty($this->_name))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_VIEW_GET_NAME'), 500);
 			}
 		}
 

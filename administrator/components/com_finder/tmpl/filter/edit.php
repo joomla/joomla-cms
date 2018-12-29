@@ -17,6 +17,8 @@ JHtml::_('behavior.tabstate');
 JText::script('COM_FINDER_FILTER_SHOW_ALL', true);
 JText::script('COM_FINDER_FILTER_HIDE_ALL', true);
 
+$this->useCoreUI = true;
+
 JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
@@ -24,9 +26,9 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<?php echo JHtml::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
+	<?php echo JHtml::_('uitab.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
 	<div class="row">
 		<div class="col-md-9">
 			<?php if ($this->total > 0) : ?>
@@ -50,15 +52,15 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 			</div>
 		</div>
 	</div>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo JHtml::_('uitab.endTab'); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+	<?php echo JHtml::_('uitab.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 	<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo JHtml::_('uitab.endTab'); ?>
 
 	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
-	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	<?php echo JHtml::_('uitab.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd'); ?>">

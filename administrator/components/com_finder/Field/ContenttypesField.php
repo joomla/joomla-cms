@@ -6,14 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('JPATH_BASE') or die();
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Content Types Filter field for the Finder package.

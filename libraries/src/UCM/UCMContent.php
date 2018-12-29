@@ -10,6 +10,7 @@ namespace Joomla\CMS\UCM;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
@@ -101,7 +102,7 @@ class UCMContent extends UCMBase
 	 */
 	public function delete($pk, UCMType $type = null)
 	{
-		$db   = \JFactory::getDbo();
+		$db   = Factory::getDbo();
 		$type = $type ?: $this->type;
 
 		if (is_array($pk))
@@ -221,7 +222,7 @@ class UCMContent extends UCMBase
 	 */
 	public function getPrimaryKey($typeId, $contentItemId)
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 		$queryccid = $db->getQuery(true);
 		$queryccid->select($db->quoteName('ucm_id'))
 			->from($db->quoteName('#__ucm_base'))

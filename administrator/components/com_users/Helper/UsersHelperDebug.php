@@ -6,15 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Users component debugging helper.
@@ -87,7 +88,14 @@ class UsersHelperDebug
 			{
 				foreach ($component_actions as &$action)
 				{
-					$actions[$action->title] = array($action->name, $action->description);
+					$descr = (string) $action['title'];
+
+					if (isset($action['description']) && !empty($action['description']))
+					{
+						$descr = (string) $action['description'];
+					}
+
+					$actions[$action->title] = array($action->name, $descr);
 				}
 			}
 		}
@@ -95,7 +103,7 @@ class UsersHelperDebug
 		// Use default actions from configuration if no component selected or component doesn't have actions
 		if (empty($actions))
 		{
-			$filename = JPATH_ADMINISTRATOR . '/components/com_config/model/form/application.xml';
+			$filename = JPATH_ADMINISTRATOR . '/components/com_config/forms/application.xml';
 
 			if (is_file($filename))
 			{
@@ -111,9 +119,16 @@ class UsersHelperDebug
 							{
 								foreach ($field->children() as $action)
 								{
+									$descr = (string) $action['title'];
+
+									if (isset($action['description']) && !empty($action['description']))
+									{
+										$descr = (string) $action['description'];
+									}
+
 									$actions[(string) $action['title']] = array(
 										(string) $action['name'],
-										(string) $action['description']
+										$descr
 									);
 								}
 

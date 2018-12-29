@@ -10,21 +10,24 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+
 /**
  * Usergroup table class.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Usergroup extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__usergroups', 'id', $db);
 	}
@@ -34,7 +37,7 @@ class Usergroup extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -52,7 +55,7 @@ class Usergroup extends Table
 		// Validate the title.
 		if ((trim($this->title)) == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE'));
 
 			return false;
 		}
@@ -70,7 +73,7 @@ class Usergroup extends Table
 
 		if ($db->loadResult() > 0)
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERGROUP_TITLE_EXISTS'));
 
 			return false;
 		}
@@ -86,7 +89,7 @@ class Usergroup extends Table
 	 *
 	 * @return  boolean  True on success
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function rebuild($parent_id = 0, $left = 0)
 	{
@@ -138,7 +141,7 @@ class Usergroup extends Table
 	 *
 	 * @return  boolean  True if successful, false otherwise and an internal error message is set
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -158,7 +161,7 @@ class Usergroup extends Table
 	 *
 	 * @return  mixed  Boolean or Exception.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException on database error.
 	 * @throws  \UnexpectedValueException on data error.
 	 */

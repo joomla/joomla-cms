@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
+
 ?>
 
 <legend><?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?></legend>
@@ -19,7 +20,7 @@ use Joomla\CMS\Language\Text;
 		<?php echo Text::_('PLG_INSTALLER_URLINSTALLER_TEXT'); ?>
 	</label>
 	<div class="controls">
-		<input type="text" id="install_url" name="install_url" class="form-control input-xlarge" placeholder="https://">
+		<input type="text" id="install_url" name="install_url" class="form-control" placeholder="https://">
 	</div>
 </div>
 <hr>

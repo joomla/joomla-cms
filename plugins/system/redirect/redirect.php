@@ -38,7 +38,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 	 * Database object.
 	 *
 	 * @var    DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -47,7 +47,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getSubscribedEvents(): array
 	{
@@ -123,7 +123,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 			}
 			else
 			{
-				if (StringHelper::strpos($orgurlRel, $exclude->term))
+				if (StringHelper::strpos($orgurlRel, $exclude->term) !== false)
 				{
 					$skipUrl = true;
 					break;
@@ -249,8 +249,13 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 		// No redirect object was found so we create an entry in the redirect table
 		elseif ($redirect === null)
 		{
-			if ((bool) $this->params->get('collect_urls', true))
+			if ((bool) $this->params->get('collect_urls', 1))
 			{
+				if (!$this->params->get('includeUrl', 1))
+				{
+					$url = $urlRel;
+				}
+
 				$data = (object) array(
 					'id' => 0,
 					'old_url' => $url,

@@ -25,11 +25,9 @@
 		/>
 
 		<field
-			name="warning" 
-			type="note"
-			label="COM_TEMPLATES_CONFIG_SUPPORTED_LABEL"
-			default="zip"
-			extension="com_templates"
+			name="spacer" 
+			type="spacer"
+			hr="true"
 		/>
 
 		<field

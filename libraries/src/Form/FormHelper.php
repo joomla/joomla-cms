@@ -11,8 +11,6 @@ namespace Joomla\CMS\Form;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\Log\Log;
-use Joomla\String\Inflector;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
@@ -21,7 +19,7 @@ use Joomla\String\StringHelper;
  * Provides a storage for filesystem's paths where Form's entities reside and methods for creating those entities.
  * Also stores objects with entities' prototypes for further reusing.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class FormHelper
 {
@@ -36,7 +34,7 @@ class FormHelper
 	 * - /path/2
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $paths;
 
@@ -58,7 +56,7 @@ class FormHelper
 	 * {KEY}: {OBJECT}
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array());
 
@@ -70,7 +68,7 @@ class FormHelper
 	 *
 	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadFieldType($type, $new = true)
 	{
@@ -85,7 +83,7 @@ class FormHelper
 	 *
 	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadRuleType($type, $new = true)
 	{
@@ -103,7 +101,7 @@ class FormHelper
 	 *
 	 * @return  mixed  Entity object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function loadType($entity, $type, $new = true)
 	{
@@ -139,7 +137,7 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadFieldClass($type)
 	{
@@ -154,7 +152,7 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function loadRuleClass($type)
 	{
@@ -171,7 +169,7 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function loadClass($entity, $type)
 	{
@@ -268,7 +266,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addFieldPath($new = null)
 	{
@@ -282,7 +280,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addFormPath($new = null)
 	{
@@ -296,7 +294,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addRulePath($new = null)
 	{
@@ -312,40 +310,17 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function addPath($entity, $new = null)
 	{
+		if (!isset(self::$paths[$entity]))
+		{
+			self::$paths[$entity] = [];
+		}
+
 		// Reference to an array with paths for current entity
 		$paths = &self::$paths[$entity];
-
-		// Add the default entity's search path if not set.
-		if (empty($paths))
-		{
-			// While we support limited number of entities (form, field and rule) we can do simple pluralisation
-			$entityPlural = $entity . 's';
-
-			// Relying on "simple" plurals is deprecated, use the properly inflected plural form
-			$paths[] = __DIR__ . '/' . $entityPlural;
-
-			$inflectedPlural = Inflector::getInstance()->toPlural($entity);
-
-			if ($entityPlural !== $inflectedPlural)
-			{
-				Log::add(
-					sprintf(
-						'File paths for form entity type validations should be properly inflected as of 5.0.'
-							. ' The folder for entity type "%1$s" should be renamed from "%2$s" to "%3$s".',
-						$entity,
-						$entityPlural,
-						$inflectedPlural
-					),
-					Log::WARNING,
-					'deprecated'
-				);
-				$paths[] = __DIR__ . '/' . $inflectedPlural;
-			}
-		}
 
 		// Force the new path(s) to an array.
 		settype($new, 'array');

@@ -6,16 +6,17 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Admin\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Help\Help;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Factory;
 
 /**
  * Admin Component Help Model
@@ -155,7 +156,6 @@ class HelpModel extends BaseDatabaseModel
 		}
 
 		// Get Help files
-		jimport('joomla.filesystem.folder');
 		$files = Folder::files(JPATH_BASE . '/help/' . $lang_tag, '\.xml$|\.html$');
 		$this->toc = array();
 

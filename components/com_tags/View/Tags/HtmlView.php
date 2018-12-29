@@ -6,15 +6,16 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Site\View\Tags;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
+use Joomla\Registry\Registry;
 
 /**
  * HTML View class for the Tags component
@@ -38,15 +39,6 @@ class HtmlView extends BaseHtmlView
 	 * @since  3.1
 	 */
 	protected $items;
-
-	/**
-	 * UNUSED PROPERTY
-	 *
-	 * @var         array|null
-	 * @since       3.1
-	 * @deprecated  4.0
-	 */
-	protected $item;
 
 	/**
 	 * The pagination object

@@ -6,20 +6,21 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Newsfeeds\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\Table\Table;
+use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
 
 /**
  * Newsfeed model.
@@ -59,7 +60,7 @@ class NewsfeedModel extends AdminModel
 	 *
 	 * @return  mixed  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
@@ -292,15 +293,13 @@ class NewsfeedModel extends AdminModel
 	{
 		$input = Factory::getApplication()->input;
 
-		\JLoader::register('CategoriesHelper', JPATH_ADMINISTRATOR . '/components/com_categories/helpers/categories.php');
-
 		// Cast catid to integer for comparison
 		$catid = (int) $data['catid'];
 
 		// Check if New Category exists
 		if ($catid > 0)
 		{
-			$catid = \CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
+			$catid = CategoriesHelper::validateCategoryId($data['catid'], 'com_newsfeeds');
 		}
 
 		// Save New Category
@@ -314,7 +313,7 @@ class NewsfeedModel extends AdminModel
 			$table['published'] = 1;
 
 			// Create new category and get catid back
-			$data['catid'] = \CategoriesHelper::createCategory($table);
+			$data['catid'] = CategoriesHelper::createCategory($table);
 		}
 
 		// Alter the name for save as copy
@@ -467,16 +466,15 @@ class NewsfeedModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		$condition = array();
-		$condition[] = 'catid = ' . (int) $table->catid;
-
-		return $condition;
+		return [
+			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+		];
 	}
 
 	/**

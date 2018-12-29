@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /*
  * none (output raw module content)
  */
@@ -81,7 +83,7 @@ function modChrome_sliders($module, &$params, &$attribs)
 
 	if (!empty($content))
 	{
-		echo JHtml::_('sliders.panel', $module->title, 'module' . $module->id);
+		echo HTMLHelper::_('sliders.panel', $module->title, 'module' . $module->id);
 		echo $content;
 	}
 }
@@ -95,7 +97,7 @@ function modChrome_tabs($module, &$params, &$attribs)
 
 	if (!empty($content))
 	{
-		echo JHtml::_('tabs.panel', $module->title, 'module' . $module->id);
+		echo HTMLHelper::_('tabs.panel', $module->title, 'module' . $module->id);
 		echo $content;
 	}
 }

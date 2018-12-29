@@ -11,14 +11,15 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Router\Route;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 /** @var JDocumentHtml $this */
 
 $app   = Factory::getApplication();
-$lang  = Factory::getLanguage();
+$lang  = $app->getLanguage();
 $input = $app->input;
+$wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
 $option      = $input->get('option', '');
@@ -31,20 +32,8 @@ $hidden      = $app->input->get('hidemainmenu');
 $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
-// Add JavaScript
-HTMLHelper::_('bootstrap.framework');
-HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
-
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
-
-// Load custom CSS file
-HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
-
-// Alerts
-HTMLHelper::_('webcomponent', 'vendor/joomla-custom-elements/joomla-alert.min.js', ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+// Enable assets
+$wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
@@ -53,6 +42,8 @@ HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
+
+$this->addScriptDeclaration('cssVars();');
 
 ?>
 <!DOCTYPE html>
@@ -121,9 +112,10 @@ $this->setMetaData('theme-color', '#1c3d5c');
 				<jdoc:include type="modules" name="top" style="xhtml" />
 				<div class="row">
 					<div class="col-md-12">
-						<jdoc:include type="component" />
+						<main>
+							<jdoc:include type="component" />
+						</main>
 					</div>
-
 					<?php if ($this->countModules('bottom')) : ?>
 						<jdoc:include type="modules" name="bottom" style="xhtml" />
 					<?php endif; ?>

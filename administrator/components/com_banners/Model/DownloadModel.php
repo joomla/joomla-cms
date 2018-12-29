@@ -6,13 +6,14 @@
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\FormModel;
 
 /**
  * Download model.
@@ -77,7 +78,7 @@ class DownloadModel extends FormModel
 	 */
 	protected function loadFormData()
 	{
-		$data = array(
+		$data = (object) array(
 			'basename'   => $this->getState('basename'),
 			'compressed' => $this->getState('compressed'),
 		);

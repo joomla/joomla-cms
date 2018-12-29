@@ -10,10 +10,11 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Router\Route;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 
 /**
  * Content search plugin.
@@ -55,14 +56,13 @@ class PlgSearchContent extends CMSPlugin
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db         = Factory::getDbo();
-		$serverType = $db->serverType;
+		$serverType = $db->getServerType();
 		$app        = Factory::getApplication();
 		$user       = Factory::getUser();
 		$groups     = implode(',', $user->getAuthorisedViewLevels());
 		$tag        = Factory::getLanguage()->getTag();
 
 		JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
-		JLoader::register('SearchHelper', JPATH_ADMINISTRATOR . '/components/com_search/helpers/search.php');
 
 		$searchText = $text;
 
@@ -97,12 +97,14 @@ class PlgSearchContent extends CMSPlugin
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
 
+				$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
+
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
 				$subQuery->select("cfv.item_id")
 					->from("#__fields_values AS cfv")
 					->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
-					->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+					->where('(f.context IS NULL OR f.context = ' . $db->quote('com_content.article') . ')')
 					->where('(f.state IS NULL OR f.state = 1)')
 					->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
 					->where('cfv.value LIKE ' . $text);
@@ -152,6 +154,8 @@ class PlgSearchContent extends CMSPlugin
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
 
+					$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
+
 					if ($phrase === 'all')
 					{
 						// Join over Fields.
@@ -159,7 +163,7 @@ class PlgSearchContent extends CMSPlugin
 						$subQuery->select("cfv.item_id")
 							->from("#__fields_values AS cfv")
 							->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
-							->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+							->where('(f.context IS NULL OR f.context = ' . $db->quote('com_content.article') . ')')
 							->where('(f.state IS NULL OR f.state = 1)')
 							->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
 							->where('LOWER(cfv.value) LIKE LOWER(' . $word . ')');
@@ -200,7 +204,7 @@ class PlgSearchContent extends CMSPlugin
 					$subQuery->select("cfv.item_id")
 						->from("#__fields_values AS cfv")
 						->join('LEFT', '#__fields AS f ON f.id = cfv.field_id')
-						->where('(f.context IS NULL OR f.context = ' . $db->q('com_content.article') . ')')
+						->where('(f.context IS NULL OR f.context = ' . $db->quote('com_content.article') . ')')
 						->where('(f.state IS NULL OR f.state = 1)')
 						->where('(f.access IS NULL OR f.access IN (' . $groups . '))')
 						->where('(' . implode(($phrase === 'all' ? ') AND (' : ') OR ('), $cfwhere) . ')');
@@ -271,6 +275,12 @@ class PlgSearchContent extends CMSPlugin
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
 				. ' ELSE ' . $query->castAsChar('c.id') . ' END AS catslug';
 
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
+
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section')
@@ -279,8 +289,9 @@ class PlgSearchContent extends CMSPlugin
 				->select($db->quote('2') . ' AS browsernav')
 				->from($db->quoteName('#__content', 'a'))
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
+				->join('LEFT', '#__workflow_stages AS ws ON ws.id = state')
 				->where(
-					'(' . $where . ') AND a.state=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
+					'(' . $where . ') AND ws.condition=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
 						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
@@ -332,6 +343,12 @@ class PlgSearchContent extends CMSPlugin
 			$case_when1 = ' CASE WHEN ' . $query->charLength('c.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
 				. ' ELSE ' . $query->castAsChar('c.id') . ' END AS catslug';
+
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')

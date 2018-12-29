@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryServiceTrait;
 /**
  * MVC Component class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class MVCComponent extends Component implements MVCFactoryServiceInterface
 {
