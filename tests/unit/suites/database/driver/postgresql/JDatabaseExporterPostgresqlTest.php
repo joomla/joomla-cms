@@ -38,7 +38,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	protected function setup()
 	{
 		// Set up the database object mock.
-		$this->dbo = $this->getMockDatabase('Postgresql', array('getTableSequences'), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+		$this->dbo = $this->getMockDatabase('Postgresql', array('getTableSequences','getSequenceLastValue','getSequenceIsCalled'), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
 		$this->dbo->expects($this->any())
 			->method('getPrefix')
@@ -200,7 +200,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
-			->from('jos_test')
+			->from('jos_dbtest')
 			->withStructure(true);
 
 		// Depending on which version is running, 9.1.0 or older
@@ -215,7 +215,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$expecting = '<?xml version="1.0"?>
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="#__test">
+  <table_structure name="#__dbtest">
    <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" Is_called="f" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
@@ -266,7 +266,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
-			->from('jos_test')
+			->from('jos_dbtest')
 			->withStructure(true);
 
 		// Depending on which version is running, 9.1.0 or older
@@ -281,7 +281,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$expecting = '<?xml version="1.0"?>
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="#__test">
+  <table_structure name="#__dbtest">
    <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" Is_called="f" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
@@ -310,7 +310,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		// Set up the export settings.
 		$instance
 			->setDbo($this->dbo)
-			->from('jos_test')
+			->from('jos_dbtest')
 			->withStructure(true);
 
 		// Depending on which version is running, 9.1.0 or older
@@ -324,7 +324,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 
 		$this->assertEquals(
 			array(
-				'  <table_structure name="#__test">',
+				'  <table_structure name="#__dbtest">',
 				'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 				$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" Is_called="f" />',
 				'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
@@ -424,8 +424,8 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$instance->setDbo($this->dbo);
 
 		$this->assertSame(
-			'#__test',
-			TestReflection::invoke($instance, 'getGenericTableName', 'jos_test'),
+			'#__dbtest',
+			TestReflection::invoke($instance, 'getGenericTableName', 'jos_dbtest'),
 			'The testGetGenericTableName should replace the database prefix with #__.'
 		);
 	}
