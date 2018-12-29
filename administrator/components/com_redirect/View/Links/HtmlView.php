@@ -146,7 +146,7 @@ class HtmlView extends BaseHtmlView
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
-		
+
 		if ($canDo->get('core.create'))
 		{
 			$toolbar->addNew('link.add');
@@ -165,8 +165,8 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($state->get('filter.state') != 2)
 			{
-				$childBar->publish('links.publish')->listCheck(true);
-				$childBar->unpublish('links.unpublish')->listCheck(true);
+				$childBar->publish('links.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+				$childBar->unpublish('links.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 			}
 
 			if ($state->get('filter.state') != -1)
