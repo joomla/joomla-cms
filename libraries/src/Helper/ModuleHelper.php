@@ -520,7 +520,7 @@ abstract class ModuleHelper
 			->createCacheController('callback', ['defaultgroup' => $cacheparams->cachegroup]);
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache', null) === '0' || $app->get('caching') == 0 || $user->get('id'))
+		if ($moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0' || $app->get('caching') == 0 || $user->get('id'))
 		{
 			$cache->setCaching(false);
 		}
