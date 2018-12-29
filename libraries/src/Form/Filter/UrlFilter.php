@@ -14,8 +14,8 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFilterInterface;
 use Joomla\Registry\Registry;
-use Joomla\String\PunycodeHelper;
-use Joomla\Uri\Uri;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Form Filter class for URLs
@@ -58,15 +58,15 @@ class UrlFilter implements FormFilterInterface
 
 		// If there is no protocol and the relative option is not specified,
 		// we assume that it is an external URL and prepend http://.
-		if (($this->element['type'] == 'url' && !$protocol &&  !$this->element['relative'])
-			|| (!$this->element['type'] == 'url' && !$protocol))
+		if (($element['type'] == 'url' && !$protocol &&  !$element['relative'])
+			|| (!$element['type'] == 'url' && !$protocol))
 		{
 			$protocol = 'http';
 
 			// If it looks like an internal link, then add the root.
 			if (substr($value, 0, 9) == 'index.php')
 			{
-				$value = JUri::root() . $value;
+				$value = Uri::root() . $value;
 			}
 
 			// Otherwise we treat it as an external link.
@@ -78,7 +78,7 @@ class UrlFilter implements FormFilterInterface
 		}
 
 		// If relative URLS are allowed we assume that URLs without protocols are internal.
-		elseif (!$protocol && $this->element['relative'])
+		elseif (!$protocol && $element['relative'])
 		{
 			$host = Uri::getInstance('SERVER')->gethost();
 
