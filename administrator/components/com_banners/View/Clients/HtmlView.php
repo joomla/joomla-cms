@@ -115,7 +115,10 @@ class HtmlView extends BaseHtmlView
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			$childBar->delete('clients.delete')->listCheck(true);
+			$toolbar->delete('clients.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 		elseif ($canDo->get('core.edit.state'))
 		{
