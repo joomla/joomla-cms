@@ -371,7 +371,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything'))
+		if ($this->params->get('log-everything', 0))
 		{
 			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
 		}
@@ -432,7 +432,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', null);
+		$filterGroups = (array) $this->params->get('filter_groups', array());
 
 		if (!empty($filterGroups))
 		{
