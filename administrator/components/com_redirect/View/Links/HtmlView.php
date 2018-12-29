@@ -192,7 +192,7 @@ class HtmlView extends BaseHtmlView
 		elseif ($canDo->get('core.edit.state'))
 		{
 			$childBar->trash('links.trash')->listCheck(true);
-			
+
 			$toolbar->standardButton('purge')
 				->text('COM_REDIRECT_TOOLBAR_PURGE')
 				->task('links.purge');
