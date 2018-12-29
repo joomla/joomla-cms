@@ -175,6 +175,21 @@ class FormHelper
 	}
 
 	/**
+	 * Attempt to import the FormFilter class file if it isn't already imported.
+	 * You can use this method outside of Form for loading a filter for inheritance or composition.
+	 *
+	 * @param   string  $type  Type of a filter whose class should be loaded.
+	 *
+	 * @return  string|boolean  Class name on success or false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function loadFilterClass($type)
+	{
+		return self::loadClass('filter', $type);
+	}
+
+	/**
 	 * Load a class for one of the form's entities of a particular type.
 	 * Currently, it makes sense to use this method for the "field" and "rule" entities
 	 * (but you can support more entities in your subclass).
@@ -317,6 +332,20 @@ class FormHelper
 	}
 
 	/**
+	 * Method to add a path to the list of filter include paths.
+	 *
+	 * @param   mixed  $new  A path or array of paths to add.
+	 *
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function addFilterPath($new = null)
+	{
+		return self::addPath('filter', $new);
+	}
+
+	/**
 	 * Method to add a path to the list of include paths for one of the form's entities.
 	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
 	 *
@@ -397,6 +426,20 @@ class FormHelper
 	public static function addRulePrefix($new = null)
 	{
 		return self::addPrefix('rule', $new);
+	}
+
+	/**
+	 * Method to add a namespace to the list of filter lookups.
+	 *
+	 * @param   mixed  $new  A namespace or array of namespaces to add.
+	 *
+	 * @return  array  The list of namespaces that have been added.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function addFilterPrefix($new = null)
+	{
+		return self::addPrefix('filter', $new);
 	}
 
 	/**

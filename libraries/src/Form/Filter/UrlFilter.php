@@ -58,7 +58,7 @@ class UrlFilter implements FormFilterInterface
 
 		// If there is no protocol and the relative option is not specified,
 		// we assume that it is an external URL and prepend http://.
-		if (($element['type'] == 'url' && !$protocol &&  !$element['relative'])
+		if (($element['type'] == 'url' && !$protocol && !$element['relative'])
 			|| (!$element['type'] == 'url' && !$protocol))
 		{
 			$protocol = 'http';

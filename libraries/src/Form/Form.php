@@ -1673,6 +1673,17 @@ class Form
 			self::addRulePath($path);
 		}
 
+		// Get any addrulepath attributes from the form definition.
+		$paths = $this->xml->xpath('//*[@addfilterpath]/@addfilterpath');
+		$paths = array_map('strval', $paths ? $paths : array());
+
+		// Add the rule paths.
+		foreach ($paths as $path)
+		{
+			$path = JPATH_ROOT . '/' . ltrim($path, '/\\');
+			self::addFilterPath($path);
+		}
+
 		// Get any addfieldprefix attributes from the form definition.
 		$prefixes = $this->xml->xpath('//*[@addfieldprefix]/@addfieldprefix');
 		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
@@ -1701,6 +1712,16 @@ class Form
 		foreach ($prefixes as $prefix)
 		{
 			FormHelper::addRulePrefix($prefix);
+		}
+
+		// Get any addruleprefix attributes from the form definition.
+		$prefixes = $this->xml->xpath('//*[@addfilterprefix]/@addfilterprefix');
+		$prefixes = array_map('strval', $prefixes ? $prefixes : array());
+
+		// Add the field prefixes.
+		foreach ($prefixes as $prefix)
+		{
+			FormHelper::addFilterPrefix($prefix);
 		}
 
 		return true;
