@@ -9,16 +9,15 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('jquery.framework');
 
 $input          = Factory::getApplication()->input;
 $field          = $input->getCmd('field');
@@ -112,13 +111,13 @@ HTMLHelper::_('script', 'com_contenthistory/admin-history-modal.min.js', array('
 					</td>
 					<td>
 						<?php if ($item->keep_forever) : ?>
-							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
+							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
 								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')"
 								data-original-title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_OFF'); ?>">
 								<?php echo Text::_('JYES'); ?>&nbsp;<span class="icon-lock" aria-hidden="true"></span>
 							</a>
 						<?php else : ?>
-							<a class="btn btn-secondary btn-xs active" rel="tooltip" href="javascript:void(0);"
+							<a class="btn btn-secondary btn-sm active" rel="tooltip" href="javascript:void(0);"
 								onclick="return Joomla.listItemTask('cb<?php echo $i; ?>','history.keep')"
 								data-original-title="<?php echo Text::_('COM_CONTENTHISTORY_BUTTON_KEEP_TOGGLE_ON'); ?>">
 								<?php echo Text::_('JNO'); ?>

@@ -16,7 +16,6 @@ use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Installer\Administrator\Model\DatabaseModel;
-use Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel;
 
 /**
  * Installer Database Controller
@@ -55,10 +54,11 @@ class DatabaseController extends BaseController
 		{
 			// Get the model
 			/** @var DatabaseModel $model */
-			$model = $this->getModel('database');
+			$model = $this->getModel('Database');
 			$model->fix($cid);
 
-			$updateModel = new UpdateModel;
+			$updateModel = $this->app->bootComponent('com_joomlaupdate')
+				->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
 			$updateModel->purge();
 
 			// Refresh versionable assets cache

@@ -11,13 +11,13 @@ namespace Joomla\Component\Search\Site\View\Search;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\String\StringHelper;
-use Joomla\Component\Search\Administrator\Helper\SearchHelper;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Search\Administrator\Helper\SearchHelper;
+use Joomla\String\StringHelper;
 
 /**
  * HTML View class for the search component
@@ -154,18 +154,9 @@ class HtmlView extends BaseHtmlView
 		$searchWord = $state->get('keyword');
 		$params     = $app->getParams();
 
-		$menus = $app->getMenu();
-		$menu  = $menus->getActive();
+		$menu  = $app->getMenu()->getActive();
 
-		// Because the application sets a default page title, we need to get it right from the menu item itself
-		if (is_object($menu))
-		{
-			if (!$menu->params->get('page_title'))
-			{
-				$params->set('page_title', Text::_('COM_SEARCH_SEARCH'));
-			}
-		}
-		else
+		if (!$menu)
 		{
 			$params->set('page_title', Text::_('COM_SEARCH_SEARCH'));
 		}

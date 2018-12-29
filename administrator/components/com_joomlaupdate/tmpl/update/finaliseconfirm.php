@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\AuthenticationHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Helper\AuthenticationHelper;
 
 HTMLHelper::_('behavior.keepalive');
 
@@ -21,14 +21,14 @@ $twofactormethods = AuthenticationHelper::getTwoFactorMethods();
 
 ?>
 
-<joomla-alert type="warning">
+<div class="alert warning">
 	<h4 class="alert-heading">
 		<?php echo Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD'); ?>
 	</h4>
 	<p>
-		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD_DESC', Factory::getConfig()->get('sitename')); ?>
+		<?php echo Text::sprintf('COM_JOOMLAUPDATE_VIEW_UPDATE_FINALISE_HEAD_DESC', Factory::getApplication()->get('sitename')); ?>
 	</p>
-</joomla-alert>
+</div>
 
 <hr>
 

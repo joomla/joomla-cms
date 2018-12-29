@@ -30,10 +30,9 @@
               }
             } else {
               const messages = {
-                message: [
-                  `${Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-pill badge-danger">${updateInfoList.length}</span>`)}<button class="btn btn-primary" onclick="document.location='${options.url}'">${Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON')}</button>`,
+                warning: [
+                  `<div class="message-alert">${Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-pill badge-danger">${updateInfoList.length}</span>`)}<button class="btn btn-sm btn-primary" onclick="document.location='${options.url}'">${Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON')}</button>`,
                 ],
-                error: ['info'],
               };
 
               // Render the message
@@ -42,7 +41,7 @@
               // Scroll to page top
               window.scrollTo(0, 0);
 
-              link.classList.add('danger');
+              link.classList.add('warning');
               for (let i = 0, len = linkSpan.length; i < len; i += 1) {
                 linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND').replace('%s', `<span class="badge badge-light">${updateInfoList.length}</span>`);
               }

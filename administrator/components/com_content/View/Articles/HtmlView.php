@@ -11,16 +11,15 @@ namespace Joomla\Component\Content\Administrator\View\Articles;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Administrator\Extension\ContentComponent;
-use Joomla\Component\Content\Administrator\Helper\ContentHelper;
-use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\Factory;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 /**
  * View class for a list of articles.
@@ -29,14 +28,6 @@ use Joomla\CMS\Factory;
  */
 class HtmlView extends BaseHtmlView
 {
-	/**
-	 * List of authors. Each stdClass has two properties - value and text, containing the user id and user's name
-	 * respectively
-	 *
-	 * @var  \stdClass
-	 */
-	protected $authors;
-
 	/**
 	 * An array of items
 	 *
@@ -104,7 +95,6 @@ class HtmlView extends BaseHtmlView
 		$this->items         = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
 		$this->state         = $this->get('State');
-		$this->authors       = $this->get('Authors');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->transitions   = $this->get('Transitions');
@@ -147,6 +137,51 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
+		$transitions = [
+			'publish' => [],
+			'unpublish' => [],
+			'archive' => [],
+			'trash' => []
+		];
+
+		foreach ($this->transitions as $transition)
+		{
+			switch ($transition['stage_condition'])
+			{
+				case ContentComponent::CONDITION_PUBLISHED:
+					$transitions['publish'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+
+				case ContentComponent::CONDITION_UNPUBLISHED:
+					$transitions['unpublish'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+
+				case ContentComponent::CONDITION_ARCHIVED:
+					$transitions['archive'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+
+				case ContentComponent::CONDITION_TRASHED:
+					$transitions['trash'][$transition['workflow_id']][$transition['from_stage_id']][] = $transition;
+					break;
+			}
+		}
+
+		Factory::getDocument()->addScriptOptions('articles.transitions', $transitions);
+
+		$articles = [];
+
+		foreach ($this->items as $item)
+		{
+			$articles['article-' . (int) $item->id] = Text::sprintf('COM_CONTENT_STAGE_ARTICLE_TITLE', $this->escape($item->title), (int) $item->id);
+		}
+
+		Factory::getDocument()->addScriptOptions('articles.items', $articles);
+
+		Text::script('COM_CONTENT_ERROR_CANNOT_PUBLISH');
+		Text::script('COM_CONTENT_ERROR_CANNOT_UNPUBLISH');
+		Text::script('COM_CONTENT_ERROR_CANNOT_TRASH');
+		Text::script('COM_CONTENT_ERROR_CANNOT_ARCHIVE');
+
 		return parent::display($tpl);
 	}
 
@@ -172,19 +207,58 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('article.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.execute.transition'))
 		{
-			$toolbar->standardButton('featured')
-				->text('JFEATURE')
-				->task('articles.featured')
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
 				->listCheck(true);
 
-			$toolbar->standardButton('unfeatured')
-				->text('JUNFEATURE')
-				->task('articles.unfeatured')
-				->listCheck(true);
+			$childBar = $dropdown->getChildToolbar();
 
-			$toolbar->checkin('articles.checkin')->listCheck(true);
+
+			if ($canDo->get('core.execute.transition'))
+			{
+				$childBar->standardButton('publish')
+					->text('JTOOLBAR_PUBLISH')
+					->task('articles.publish')
+					->listCheck(true);
+				$childBar->standardButton('unpublish')
+					->text('JTOOLBAR_UNPUBLISH')
+					->task('articles.unpublish')
+					->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->standardButton('featured')
+					->text('JFEATURE')
+					->task('articles.featured')
+					->listCheck(true);
+				$childBar->standardButton('unfeatured')
+					->text('JUNFEATURE')
+					->task('articles.unfeatured')
+					->listCheck(true);
+			}
+
+			if ($canDo->get('core.execute.transition'))
+			{
+				$childBar->standardButton('archive')
+					->text('JTOOLBAR_ARCHIVE')
+					->task('articles.archive')
+					->listCheck(true);
+				$childBar->standardButton('trash')
+					->text('JTOOLBAR_TRASH')
+					->task('articles.trash')
+					->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->checkin('articles.checkin')->listCheck(true);
+			}
 		}
 
 		// Add a batch button

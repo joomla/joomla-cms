@@ -139,7 +139,7 @@ $url    = ($readonly ? ''
 	Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 	?>
 	<?php if ($showPreview) : ?>
-		<div class="field-media-preview" style="height:auto">
+		<div class="field-media-preview">
 			<?php echo ' ' . $previewImgEmpty; ?>
 			<?php echo ' ' . $previewImg; ?>
 		</div>
@@ -148,8 +148,8 @@ $url    = ($readonly ? ''
 		<input type="text" name="<?php echo $name; ?>" id="<?php echo $id; ?>" value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" readonly="readonly"<?php echo $attr; ?>>
 		<?php if ($disabled != true) : ?>
 			<div class="input-group-append">
-				<a class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></a>
-				<a class="btn btn-secondary hasTooltip button-clear" title="<?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?>"><span class="fa fa-times" aria-hidden="true"></span></a>
+				<button type="button" class="btn btn-secondary button-select"><?php echo Text::_("JLIB_FORM_BUTTON_SELECT"); ?></button>
+				<button type="button" class="btn btn-secondary hasTooltip button-clear"><span class="fa fa-times" aria-hidden="true"></span><span class="sr-only"><?php echo Text::_("JLIB_FORM_BUTTON_CLEAR"); ?></span></button>
 			</div>
 		<?php endif; ?>
 	</div>

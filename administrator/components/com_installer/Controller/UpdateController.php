@@ -12,13 +12,13 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Updater\Updater;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Installer Update Controller
@@ -47,7 +47,7 @@ class UpdateController extends BaseController
 
 		// Get the minimum stability.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
-		$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
+		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
 		$model->update($uid, $minimum_stability);
 
@@ -88,11 +88,11 @@ class UpdateController extends BaseController
 
 		// Get the caching duration.
 		$params        = ComponentHelper::getComponent('com_installer')->getParams();
-		$cache_timeout = $params->get('cachetimeout', 6, 'int');
+		$cache_timeout = (int) $params->get('cachetimeout', 6);
 		$cache_timeout = 3600 * $cache_timeout;
 
 		// Get the minimum stability.
-		$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
+		$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 
 		// Find updates.
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */
@@ -163,13 +163,13 @@ class UpdateController extends BaseController
 
 		if ($cache_timeout == 0)
 		{
-			$cache_timeout = $params->get('cachetimeout', 6, 'int');
+			$cache_timeout = (int) $params->get('cachetimeout', 6);
 			$cache_timeout = 3600 * $cache_timeout;
 		}
 
 		if ($minimum_stability < 0)
 		{
-			$minimum_stability = $params->get('minimum_stability', Updater::STABILITY_STABLE, 'int');
+			$minimum_stability = (int) $params->get('minimum_stability', Updater::STABILITY_STABLE);
 		}
 
 		/* @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $model */

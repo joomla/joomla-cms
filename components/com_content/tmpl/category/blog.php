@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
-
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers');
+use Joomla\CMS\Layout\FileLayout;
 
 $app = Factory::getApplication();
 
@@ -132,7 +130,7 @@ $afterDisplayContent = trim(implode("\n", $results));
 				</p>
 			<?php endif; ?>
 			<div class="com-content-category-blog__pagination">
-				<?php echo $this->pagination->getPagesLinks(); ?>				
+				<?php echo $this->pagination->getPagesLinks(); ?>
 			</div>
 		</div>
 	<?php endif; ?>

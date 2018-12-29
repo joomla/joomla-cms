@@ -11,17 +11,17 @@ namespace Joomla\Component\Content\Site\View\Article;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Layout\FileLayout;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\Component\Content\Site\Helper\AssociationHelper;
 
 /**
  * HTML Article View class for the Content component
@@ -198,7 +198,7 @@ class HtmlView extends BaseHtmlView
 			if ($this->user->get('guest'))
 			{
 				$return = base64_encode(Uri::getInstance());
-				$login_url_with_return = Route::_('index.php?option=com_users&return=' . $return);
+				$login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
 				$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}

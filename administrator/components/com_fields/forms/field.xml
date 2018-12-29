@@ -31,7 +31,7 @@
 
 		<field
 			name="assigned_cat_ids"
-			type="category"
+			type="categoryedit"
 			label="JCATEGORY"
 			extension="com_content"
 			multiple="true"
@@ -262,6 +262,19 @@
 				<option value="2">COM_FIELDS_FIELD_DISPLAY_BEFORE_DISPLAY</option>
 				<option value="3">COM_FIELDS_FIELD_DISPLAY_AFTER_DISPLAY</option>
 				<option value="0">COM_FIELDS_FIELD_DISPLAY_NO_DISPLAY</option>
+			</field>
+
+			<field
+				name="display_readonly"
+				type="radio"
+				label="JFIELD_DISPLAY_READONLY_LABEL"
+				description="JFIELD_DISPLAY_READONLY_DESC"
+				class="btn-group btn-group-yesno"
+				default="2"
+				>
+				<option value="2">JGLOBAL_INHERIT</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
 			</field>
 		</fieldset>
 	</fields>

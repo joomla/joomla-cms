@@ -249,9 +249,9 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 		// No redirect object was found so we create an entry in the redirect table
 		elseif ($redirect === null)
 		{
-			if ((bool) $this->params->get('collect_urls', true))
+			if ((bool) $this->params->get('collect_urls', 1))
 			{
-				if (!$params->get('includeUrl', 1))
+				if (!$this->params->get('includeUrl', 1))
 				{
 					$url = $urlRel;
 				}

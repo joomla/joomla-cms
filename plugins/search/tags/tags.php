@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @package     Joomla.Plugin
  * @subpackage  Search.tags
@@ -10,10 +9,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Language\Multilanguage;
-use Joomla\Component\Tags\Site\Model\TagModel;
 
 /**
  * Tags search plugin.
@@ -167,14 +165,15 @@ class PlgSearchTags extends CMSPlugin
 			}
 		}
 
-		if (!$this->params->get('show_tagged_items'))
+		if (!$this->params->get('show_tagged_items', 0))
 		{
 			return $rows;
 		}
 		else
 		{
 			$final_items = $rows;
-			$tag_model = new TagModel;
+			$tag_model   = Factory::getApplication()->bootComponent('com_tags')
+				->getMVCFactory()->createModel('Tag', 'Site');
 			$tag_model->getState();
 
 			foreach ($rows as $key => $row)

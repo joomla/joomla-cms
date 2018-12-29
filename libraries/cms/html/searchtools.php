@@ -28,28 +28,6 @@ abstract class JHtmlSearchtools
 	protected static $loaded = array();
 
 	/**
-	 * Load the main Searchtools libraries
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 *
-	 * @deprecated 4.0
-	 */
-	public static function main()
-	{
-		// Only load once
-		if (empty(static::$loaded[__METHOD__]))
-		{
-			// Load the script && css files
-			HTMLHelper::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
-			HTMLHelper::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
-
-			static::$loaded[__METHOD__] = true;
-		}
-	}
-
-	/**
 	 * Load searchtools for a specific form
 	 *
 	 * @param   mixed  $selector  Is debugging mode on? [optional]
@@ -73,9 +51,7 @@ abstract class JHtmlSearchtools
 			$options = static::optionsToRegistry($options);
 
 			// Load the script && css files
-			HTMLHelper::_('behavior.core');
-			HTMLHelper::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
-			HTMLHelper::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
+			Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('searchtools');
 
 			Factory::getDocument()->addScriptOptions('searchtools', $options);
 

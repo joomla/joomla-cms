@@ -171,7 +171,7 @@ $showHelp     = isset($options['help']);
 if ($showHelp)
 {
 	usage($argv[0]);
-	die;
+	exit;
 }
 
 // If not given a remote, assume we are looking for the latest local tag
@@ -195,8 +195,21 @@ system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
 
 // Install PHP and NPM dependencies and compile required media assets, skip Composer autoloader until post-cleanup
 chdir($fullpath);
-system('composer install --no-dev --no-autoloader --ignore-platform-reqs');
-system('npm install --unsafe-perm');
+system('composer install --no-dev --no-autoloader --ignore-platform-reqs', $composerReturnCode);
+
+if ($composerReturnCode !== 0)
+{
+	echo "`composer install` did not complete as expected.\n";
+	exit(1);
+}
+
+system('npm install --unsafe-perm', $npmReturnCode);
+
+if ($npmReturnCode !== 0)
+{
+	echo "`npm install` did not complete as expected.\n";
+	exit(1);
+}
 
 // Clean the checkout of extra resources
 clean_checkout($fullpath);
@@ -284,6 +297,7 @@ $doNotPackage = array(
 	'codeception.yml',
 	'composer.json',
 	'composer.lock',
+	'crowdin.yml',
 	'drone-package.json',
 	'Gemfile',
 	'Gemfile.lock',
