@@ -36,7 +36,7 @@ class PlgContentJoomla extends CMSPlugin
 	 * Database Driver Instance
 	 *
 	 * @var    \Joomla\Database\DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -50,7 +50,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onContentBeforeSave($context, $table, $isNew, $data)
 	{
@@ -195,7 +195,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onContentBeforeChangeState($context, $pks, $value)
 	{
@@ -304,7 +304,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private function _canDeleteWorkflow($pk)
 	{
@@ -367,7 +367,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private function _canDeleteStage($pk)
 	{
@@ -463,7 +463,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  bool
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function _countItemsInStage(array $stage_ids, string $extension) : bool
 	{
