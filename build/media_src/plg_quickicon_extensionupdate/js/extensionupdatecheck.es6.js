@@ -31,7 +31,7 @@
             } else {
               const messages = {
                 warning: [
-                  `<div class="message-alert">` + `${Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-pill badge-danger">${updateInfoList.length}</span>`)}<button class="btn btn-sm btn-primary" onclick="document.location='${options.url}'">${Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON')}</button>`,
+                  `<div class="message-alert">${Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_MESSAGE').replace('%s', `<span class="badge badge-pill badge-danger">${updateInfoList.length}</span>`)}<button class="btn btn-sm btn-primary" onclick="document.location='${options.url}'">${Joomla.JText._('PLG_QUICKICON_EXTENSIONUPDATE_UPDATEFOUND_BUTTON')}</button>`,
                 ],
               };
 
