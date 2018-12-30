@@ -52,7 +52,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	public function onContentBeforeSave($context, $table, $isNew, $data)
+	public function onContentBeforeSave($context, $table, $isNew, $data = array())
 	{
 		// Check we are handling the frontend edit form.
 		if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew)
