@@ -428,7 +428,7 @@ class ContentControllerArticle extends JControllerForm
 			JPluginHelper::importPlugin('content');
 
 			$dispatcher = JEventDispatcher::getInstance();
-			$result = $dispatcher->trigger('onRatingBeforeSave', array ('com_content.article', &$id, &$user_rating));
+			$result = $dispatcher->trigger('onRatingBeforeSave', array('com_content.article', &$id, &$user_rating));
 
 			if (in_array(false, $result, true))
 			{
