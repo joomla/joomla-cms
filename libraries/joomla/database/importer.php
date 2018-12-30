@@ -250,10 +250,10 @@ abstract class JDatabaseImporter
 				foreach ($queries as $query)
 				{
 					if(!empty($query))
-          				{
-            					$this->db->setQuery($query);
-            					$this->db->execute();
-          				}
+					{
+						$this->db->setQuery($query);
+						$this->db->execute();
+					}
 				}
 			}
 		}
