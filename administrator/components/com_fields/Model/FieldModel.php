@@ -343,7 +343,7 @@ class FieldModel extends AdminModel
 				$result->context = Factory::getApplication()->input->getCmd('context', $this->getState('field.context'));
 			}
 
-			if (property_exists($result, 'fieldparams'))
+			if (property_exists($result, 'fieldparams') && $result->fieldparams !== null)
 			{
 				$registry = new Registry;
 
