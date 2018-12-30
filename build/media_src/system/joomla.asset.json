@@ -8,7 +8,8 @@
       "name": "core",
       "js": [
         "media/system/js/core.min.js"
-      ]
+      ],
+      "weight": -1
     },
     "keepalive": {
       "name": "keepalive",

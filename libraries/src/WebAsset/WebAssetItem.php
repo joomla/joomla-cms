@@ -160,6 +160,11 @@ class WebAssetItem
 		{
 			$this->dependencies = (array) $data['dependencies'];
 		}
+
+		if (!empty($data['weight']))
+		{
+			$this->weight = (float) $data['weight'];
+		}
 	}
 
 	/**

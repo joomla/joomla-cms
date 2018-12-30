@@ -456,6 +456,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 				$graphIncoming[$depName][$name] = $name;
 			}
 		}
+		$graphIncomingCopy = $graphIncoming;
 
 		// Find items without incoming connections
 		$emptyIncoming = array_keys(
@@ -489,10 +490,93 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		}
 
 		// Update a weight for each active asset
+		$requestedWeights = [];
 		foreach (array_reverse($result) as $index => $name)
 		{
+			// Check for existing/requested weight
+			if ($activeAssets[$name]->getWeight())
+			{
+				$requestedWeights[$name] = $activeAssets[$name]->getWeight();
+			}
+
 			$activeAssets[$name]->setWeight($index + 1);
 		}
+
+		// Apply requested weight
+		foreach ($result as $name)
+		{
+			if (empty($requestedWeights[$name]))
+			{
+				continue;
+			}
+
+			//var_dump($name);
+
+			$requestedWeight = $requestedWeights[$name];
+
+			$activeAssets[$name]->setWeight($requestedWeight);
+
+			// Check for in/out connection to make sure the weight fit the border
+			if (!empty($graphIncomingCopy[$name]))
+			{
+				//var_dump('in', $graphIncomingCopy[$name]);
+
+				// Check all Incoming connections, and update their weight if need
+				$needUpdateDepWeight = false;
+				foreach ($graphIncomingCopy[$name] as $inName)
+				{
+					if ($activeAssets[$inName]->getWeight() <= $requestedWeight)
+					{
+						break;
+					}
+
+					$needUpdateDepWeight = true;
+				}
+
+				if (!$needUpdateDepWeight)
+				{
+					foreach ($graphIncomingCopy[$name] as $inName)
+					{
+						$newWeight = $activeAssets[$inName]->getWeight() + $requestedWeight;
+						$activeAssets[$inName]->setWeight($newWeight);
+					}
+				}
+
+				//var_dump($needUpdateDepWeight);
+			}
+
+			if (!empty($graphOutgoing[$name]))
+			{
+				//var_dump('out',$graphOutgoing[$name]);
+
+				// Check all Outgoing connections, and update their weight if need
+				$needUpdateDepWeight = false;
+				foreach ($graphOutgoing[$name] as $outName)
+				{
+					if ($activeAssets[$outName]->getWeight() >= $requestedWeight)
+					{
+						break;
+					}
+
+					$needUpdateDepWeight = true;
+				}
+
+				if (!$needUpdateDepWeight)
+				{
+					foreach ($graphIncomingCopy[$name] as $outName)
+					{
+						$newWeight = $requestedWeight - $activeAssets[$outName]->getWeight();
+						$activeAssets[$outName]->setWeight($newWeight);
+					}
+				}
+
+				//var_dump($needUpdateDepWeight);
+			}
+
+
+		}
+
+		//var_dump($requestedWeights, $this->sortAssetsByWeight($activeAssets));
 
 		return $this;
 	}

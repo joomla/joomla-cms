@@ -14,7 +14,8 @@
         "bootstrap.js.bundle",
         "css-vars-ponyfill"
       ],
-      "js": []
+      "js": [],
+      "weight": 1000
     },
     "template.atum.ltr": {
       "name": "template.atum.ltr",
