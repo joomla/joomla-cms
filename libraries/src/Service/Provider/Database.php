@@ -90,7 +90,7 @@ class Database implements ServiceProviderInterface
 					'prefix'   => $conf->get('dbprefix'),
 				];
 
-				if (defined('JDEBUG') && JDEBUG)
+				if (JDEBUG)
 				{
 					$options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor;
 				}
