@@ -37,19 +37,6 @@ function setupNavigation(nav) {
       spanEl.addEventListener('mouseover', topLevelMouseOver(topLevelEl, settings));
       spanEl.addEventListener('mouseout', topLevelMouseOut(topLevelEl, settings));
     }
-    topLevelEl.querySelectorAll('ul').forEach((el) => {
-      el.setAttribute('data-test', 'true');
-      el.setAttribute('aria-hidden', 'true');
-      el.setAttribute('role', 'menu');
-      // Adding aria-haspopup for appropriate items
-      if (el.children.length > 0) {
-        el.parentElement.setAttribute('aria-haspopup', 'true');
-      }
-      el.querySelectorAll('li').forEach((liEl) => {
-        if (liEl.querySelector('a')) liEl.querySelector('a').tabIndex = '0';
-        if (liEl.querySelector('span')) liEl.querySelector('span').tabIndex = '0';
-      });
-    });
 
     topLevelEl.addEventListener('mouseover', (event) => {
       const curEl = event.target;
