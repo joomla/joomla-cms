@@ -44,7 +44,7 @@ class FormHelper
 	 * @var   string
 	 * @since 3.8.0
 	 */
-	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array());
+	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
 	/**
 	 * Static array of Form's entity objects for re-use.
@@ -58,7 +58,7 @@ class FormHelper
 	 * @var    array
 	 * @since  1.7.0
 	 */
-	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array());
+	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
 	/**
 	 * Method to load a form field object given a type.

@@ -1023,8 +1023,8 @@ abstract class FormField
 	 * @return  boolean  Boolean true if field value is valid, Exception on failure.
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 * @throws  InvalidArgumentException
-	 * @throws  UnexpectedValueException
+	 * @throws  \InvalidArgumentException
+	 * @throws  \UnexpectedValueException
 	 */
 	public function validate($value, $group = null, \Joomla\Registry\Registry $input = null)
 	{
@@ -1073,7 +1073,7 @@ abstract class FormField
 				// Run the field validation rule test.
 				$valid = $rule->test($this->element, $value, $group, $input, $this->form);
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				return $e;
 			}

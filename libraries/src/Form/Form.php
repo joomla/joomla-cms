@@ -1772,6 +1772,21 @@ class Form
 	}
 
 	/**
+	 * Proxy for FormHelper::addFilterPath().
+	 *
+	 * @param   mixed  $new  A path or array of paths to add.
+	 *
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @see     FormHelper::addFilterPath()
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function addFilterPath($new = null)
+	{
+		return FormHelper::addFilterPath($new);
+	}
+
+	/**
 	 * Method to get an instance of a form.
 	 *
 	 * @param   string          $name     The name of the form.
