@@ -31,7 +31,7 @@ interface ImmutableNodeInterface
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return  NodeInterface
+	 * @return  NodeInterface|null
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -69,7 +69,7 @@ interface ImmutableNodeInterface
 	 *
 	 * @param   boolean  $right  If set to false, returns the left sibling
 	 *
-	 * @return  NodeInterface  NodeInterface object of the sibling.
+	 * @return  NodeInterface|null  NodeInterface object of the sibling.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
