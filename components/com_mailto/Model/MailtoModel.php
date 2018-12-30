@@ -20,7 +20,7 @@ use Joomla\CMS\String\PunycodeHelper;
 /**
  * Mailto model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.8.9
  */
 class MailtoModel extends FormModel
 {
@@ -35,7 +35,7 @@ class MailtoModel extends FormModel
 	 *
 	 * @return  Form|bool  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.9
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -55,7 +55,7 @@ class MailtoModel extends FormModel
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.9
 	 */
 	protected function loadFormData()
 	{
@@ -94,7 +94,7 @@ class MailtoModel extends FormModel
 	 *
 	 * @return  array  The requested data
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.9
 	 */
 	public function getData()
 	{
