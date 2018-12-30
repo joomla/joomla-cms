@@ -188,7 +188,7 @@ class HtmlView extends BaseHtmlView
 
 			if ($canDo->get('core.edit.state'))
 			{
-				$childBar->trash('items.trash')->listCheck(true);
+				$childBar->trash('fields.trash')->listCheck(true);
 			}
 		}
 
