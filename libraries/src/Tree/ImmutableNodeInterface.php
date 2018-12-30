@@ -38,6 +38,15 @@ interface ImmutableNodeInterface
 	public function getParent();
 
 	/**
+	 * Get the root of the tree
+	 * 
+	 * @return  NodeInterface
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getRoot();
+
+	/**
 	 * Test if this node has children
 	 *
 	 * @return  boolean  True if there is a child
