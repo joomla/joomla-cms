@@ -96,33 +96,38 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('client.add');
 		}
 
-		$dropdown = $toolbar->dropdownButton('status')
+		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		{		
+			$dropdown = $toolbar->dropdownButton('status')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
 				->icon('fa fa-globe')
 				->buttonClass('btn btn-info')
 				->listCheck(true);
 
-		$childBar = $dropdown->getChildToolbar();
+			$childBar = $dropdown->getChildToolbar();
 
-		if ($canDo->get('core.edit.state'))
-		{
 			$childBar->publish('clients.publish')->listCheck(true);
 			$childBar->unpublish('clients.unpublish')->listCheck(true);
 			$childBar->archive('clients.archive')->listCheck(true);
-			$childBar->checkin('clients.checkin')->listCheck(true);
-		}
 
+			if (Factory::getUser()->authorise('core.admin'))
+			{
+				$childBar->checkin('clients.checkin')->listCheck(true);
+			}
+
+			if (!$this->state->get('filter.state') == -2)
+			{
+				$childBar->trash('clients.trash')->listCheck(true);
+			}
+		}
+		
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('clients.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			$childBar->trash('clients.trash')->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
