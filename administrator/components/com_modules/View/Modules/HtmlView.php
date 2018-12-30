@@ -162,7 +162,7 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.create'))
 		{
 			$toolbar->standardButton('new', 'JTOOLBAR_NEW')
-					->onclick("location.href='index.php?option=com_modules&amp;view=select'");
+				->onclick("location.href='index.php?option=com_modules&amp;view=select'");
 
 			$toolbar->standardButton('copy')
 				->text('JTOOLBAR_DUPLICATE')
