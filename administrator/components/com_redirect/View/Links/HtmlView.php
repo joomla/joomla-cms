@@ -199,6 +199,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$toolbar->confirmButton('delete')
 				->text('COM_REDIRECT_TOOLBAR_PURGE')
+				->message('COM_REDIRECT_CONFIRM_PURGE')
 				->task('links.purge');
 		}
 
