@@ -74,13 +74,13 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 
 		foreach ($table->xpath('sequence') as $seq)
 		{
-			$createTableStatement .= $this->getAddSequenceSql($seq) . '; ';
-			$createTableStatement .= $this->getSetvalSequenceSql($seq) . '; ';
+			$createTableStatement .= $this->getAddSequenceSql($seq) . ';';
+			$createTableStatement .= $this->getSetvalSequenceSql($seq) . ';';
 		}
 
 		foreach ($table->xpath('key') as $key)
 		{
-			$createTableStatement .= $this->getAddIndexSql($key) . '; ';
+			$createTableStatement .= $this->getAddIndexSql($key) . ';';
 		}
 
 		return $createTableStatement;
