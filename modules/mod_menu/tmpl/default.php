@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
 
+HTMLHelper::_('script', 'mod_menu/menu.min.js', array('version' => 'auto', 'relative' => true));
+
 $id = '';
 
 if ($tagId = $params->get('tag_id', ''))
