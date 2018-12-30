@@ -248,12 +248,12 @@ abstract class JDatabaseImporter
 				$sql = $this->xmlToCreate($table);
 				$queries = explode(';', (string) $sql);
 				foreach ($queries as $query)
-        {
+				{
 					if(!empty($query))
-          {
-            $this->db->setQuery($query);
-            $this->db->execute();
-          }
+          				{
+            					$this->db->setQuery($query);
+            					$this->db->execute();
+          				}
 				}
 			}
 		}
