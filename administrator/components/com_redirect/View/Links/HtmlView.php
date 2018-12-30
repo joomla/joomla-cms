@@ -152,17 +152,17 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('link.add');
 		}
 
-		$dropdown = $toolbar->dropdownButton('status-group')
-			->text('JTOOLBAR_CHANGE_STATUS')
-			->toggleSplit(false)
-			->icon('fa fa-globe')
-			->buttonClass('btn btn-info')
-			->listCheck(true);
-
-		$childBar = $dropdown->getChildToolbar();
-
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
 			if ($state->get('filter.state') != 2)
 			{
 				$childBar->publish('links.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
@@ -180,20 +180,24 @@ class HtmlView extends BaseHtmlView
 					$childBar->unarchive('links.unarchive')->listCheck(true);
 				}
 			}
+
+			if (!$state->get('filter.state') == -2)
+			{
+				$childBar->trash('links.trash')->listCheck(true);
+			}
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
+		if ($canDo->get('core.delete'))
+		{$state->get('filter.state') == -2 && 
 			$toolbar->delete('links.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
 		}
-		elseif ($canDo->get('core.edit.state'))
+		
+		if (!$state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			$childBar->trash('links.trash')->listCheck(true);
-
-			$toolbar->standardButton('purge')
+			$toolbar->confirmButton('delete')
 				->text('COM_REDIRECT_TOOLBAR_PURGE')
 				->task('links.purge');
 		}
