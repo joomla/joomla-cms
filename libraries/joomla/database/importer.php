@@ -249,7 +249,7 @@ abstract class JDatabaseImporter
 				$queries = explode(';', (string) $sql);
 				foreach ($queries as $query)
 				{
-					if(!empty($query))
+					if (!empty($query))
 					{
 						$this->db->setQuery($query);
 						$this->db->execute();
