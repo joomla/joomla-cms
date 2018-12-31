@@ -1148,9 +1148,9 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @returns {boolean}
    * @since   4.0
    */
-  Joomla.iframeButtonClick = (options = {iframeSelector: '', buttonSelector: ''}) => {
+  Joomla.iframeButtonClick = (options = { iframeSelector: '', buttonSelector: '' }) => {
     if (!options.iframeSelector || !options.buttonSelector) {
-      throw new Error('Selector is missing')
+      throw new Error('Selector is missing');
     }
 
     const iframe = document.querySelector(`${options.iframeSelector} > iframe`);
@@ -1162,7 +1162,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     }
 
     return false;
-  }
+  };
 })(Joomla, document);
 
 /**
