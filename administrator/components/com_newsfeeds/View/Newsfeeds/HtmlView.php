@@ -174,7 +174,7 @@ class HtmlView extends BaseHtmlView
 				->selector('collapseModal')
 				->listCheck(true);
 		}
-		
+
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->delete('newsfeeds.delete')
