@@ -3,6 +3,37 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+Joomla = window.Joomla || {};
+
+/**
+ * Method that switches a given class to the following elements of the element provided
+ *
+ * @param {HTMLElement}  element    The reference element
+ * @param {string}       className  The class name to be toggled
+ */
+Joomla.toggleAllNextElements = (element, className) => {
+  const siblings = [];
+  const getNextSiblings = (el) => {
+    /* eslint-disable no-cond-assign,no-param-reassign */
+    do {
+      siblings.push(el);
+    } while ((el = el.nextSibling) !== null);
+    /* eslint-enable no-cond-assign,no-param-reassign */
+    return siblings;
+  };
+
+  const followingElements = getNextSiblings(element);
+  if (followingElements) {
+    followingElements.forEach((elem) => {
+      if (elem.classList.contains(className)) {
+        elem.classList.remove(className);
+      } else {
+        elem.classList.add(className);
+      }
+    });
+  }
+};
+
 (() => {
   'use strict';
 
