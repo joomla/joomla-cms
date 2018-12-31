@@ -734,7 +734,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
       // Prevent loading twice
       if (document.getElementById('loading-logo')) {
         return;
-	  }
+      }
       // Gets the site base path
       const systemPaths = Joomla.getOptions('system.paths') || {};
       const basePath = systemPaths.root || '';
