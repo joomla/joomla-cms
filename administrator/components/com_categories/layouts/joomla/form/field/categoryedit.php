@@ -119,6 +119,40 @@ else
 	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
+if ($enabledCF === true)
+{
+    $attr2 .= ' data-cat-id="' . $catId . '" data-form-id="' . $formId . '" data-section="' . $section . '"';
+    $attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
+
+    // Preload spindle-wheel when we need to submit form due to category selector changed
+    \Joomla\CMS\Factory::getDocument()->addScriptDeclaration(
+        <<<JS
+document.addEventListener('DOMContentLoaded', function() {
+  Joomla.loadingLayer('load');
+  var element = document.querySelector('#$id');
+  if (element.value !== element.getAttribute('data-cat-id')) {
+    element.value = element.getAttribute('data-cat-id');
+  }
+    
+  Joomla.categoryHasChanged = function (el) {
+    if (el.value == el.getAttribute('data-cat-id')) {
+      return;
+    }
+
+    Joomla.loadingLayer('show');
+    document.body.appendChild(document.createElement('joomla-core-loader'));
+    document.querySelector('input[name=task]').value = el.getAttribute('data-section') + '.reload';
+    element.form.submit();
+  };
+});
+JS
+    );
+}
+else
+{
+    $attr2 .= $onchange ? ' onchange="' . $onchange . '"' : '';
+}
+
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 

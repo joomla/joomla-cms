@@ -68,8 +68,8 @@ class CategoryeditField extends ListField
 
 		if ($return)
 		{
-			$this->allowAdd = $this->element['allowAdd'] ?? '';
-		}
+            $this->allowAdd = isset($this->element['allowAdd']) ? (boolean) $this->element['allowAdd'] : false;
+        }
 
 		return $return;
 	}
@@ -88,7 +88,8 @@ class CategoryeditField extends ListField
 		switch ($name)
 		{
 			case 'allowAdd':
-				return $this->$name;
+				return (bool) $this->$name;
+
 		}
 
 		return parent::__get($name);
@@ -348,8 +349,19 @@ class CategoryeditField extends ListField
 	{
 		$data = $this->getLayoutData();
 
+
+//        $extraData = [
+//            'allowAdd' => $this->allowAdd,
+//            'options' => $this->getOptions(),
+//
+//        ];
+
 		$data['options']     = $this->getOptions();
 		$data['allowCustom'] = $this->allowAdd;
+        $data['enabledCF']   = (boolean) $this->element['custom-fields-enabled'];
+        $data['catId']       = (string) $this->element['custom-fields-cat-id'];
+        $data['formId']      = (string) $this->element['custom-fields-form-id'];
+        $data['section']     = (string) $this->element['custom-fields-section'];
 
 		$renderer = $this->getRenderer($this->layout);
 		$renderer->setComponent('com_categories');
