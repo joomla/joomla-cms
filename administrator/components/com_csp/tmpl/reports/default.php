@@ -46,11 +46,11 @@ $saveOrder = $listOrder == 'a.id';
 							'backdrop'    => 'static',
 							'keyboard'    => false,
 							'footer'      => '<button type="button" class="btn" data-dismiss="modal"'
-								. ' onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+								. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 								. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
-								. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+								. '<button type="button" class="btn btn-primary" data-dismiss="modal" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 								. Text::_("JSAVE") . '</button>'
-								. '<button type="button" class="btn btn-success" onclick="jQuery(\'#plugin' . $this->httpHeadersId . 'Modal iframe\').contents().find(\'#applyBtn\').click(); return false;">'
+								. '<button type="button" class="btn btn-success" onclick="Joomla.iframeButtonClick({iframeSelector: \'#plugin' . $this->httpHeadersId . 'Modal\', buttonSelector: \'#applyBtn\'})">'
 								. Text::_("JAPPLY") . '</button>'
 						)
 					); ?>

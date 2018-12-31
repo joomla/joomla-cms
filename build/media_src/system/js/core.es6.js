@@ -1139,6 +1139,30 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
     }
   };
+
+  /**
+   * Method to invoke a click on button inside an iframe
+   *
+   * @param   {object} options Object with the css selector for the parent element of an iframe
+   *                          and the selector of the button in the iframe that will be clicked
+   * @returns {boolean}
+   * @since   4.0
+   */
+  Joomla.iframeButtonClick = (options = {iframeSelector: '', buttonSelector: ''}) => {
+    if (!options.iframeSelector || !options.buttonSelector) {
+      throw new Error('Selector is missing')
+    }
+
+    const iframe = document.querySelector(`${options.iframeSelector} > iframe`);
+    if (iframe) {
+      const button = iframe.contentWindow.document.querySelector(options.buttonSelector);
+      if (button) {
+        button.click();
+      }
+    }
+
+    return false;
+  }
 })(Joomla, document);
 
 /**
