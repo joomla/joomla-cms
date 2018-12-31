@@ -121,12 +121,12 @@ else
 
 if ($enabledCF === true)
 {
-    $attr2 .= ' data-cat-id="' . $catId . '" data-form-id="' . $formId . '" data-section="' . $section . '"';
-    $attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
+	$attr2 .= ' data-cat-id="' . $catId . '" data-form-id="' . $formId . '" data-section="' . $section . '"';
+	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
 
-    // Preload spindle-wheel when we need to submit form due to category selector changed
-    \Joomla\CMS\Factory::getDocument()->addScriptDeclaration(
-        <<<JS
+	// Preload spindle-wheel when we need to submit form due to category selector changed
+	\Joomla\CMS\Factory::getDocument()->addScriptDeclaration(
+		<<<JS
 document.addEventListener('DOMContentLoaded', function() {
   Joomla.loadingLayer('load');
   var element = document.querySelector('#$id');
@@ -146,11 +146,11 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 });
 JS
-    );
+	);
 }
 else
 {
-    $attr2 .= $onchange ? ' onchange="' . $onchange . '"' : '';
+	$attr2 .= $onchange ? ' onchange="' . $onchange . '"' : '';
 }
 
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
