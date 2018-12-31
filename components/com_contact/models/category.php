@@ -73,7 +73,8 @@ class ContactModelCategory extends JModelList
 				'sortname',
 				'sortname1', 'a.sortname1',
 				'sortname2', 'a.sortname2',
-				'sortname3', 'a.sortname3'
+				'sortname3', 'a.sortname3',
+				'featuredordering', 'a.featured'
 			);
 		}
 
@@ -212,6 +213,11 @@ class ContactModelCategory extends JModelList
 				->order($db->escape('a.sortname2') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
 				->order($db->escape('a.sortname3') . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 		}
+		elseif ($this->getState('list.ordering') === 'featuredordering')
+		{
+			$query->order($db->escape('a.featured') . ' DESC')
+				->order($db->escape('a.ordering') . ' ASC');
+		}
 		else
 		{
 			$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
@@ -237,10 +243,25 @@ class ContactModelCategory extends JModelList
 		$app = JFactory::getApplication();
 		$params = JComponentHelper::getParams('com_contact');
 
+		// Get list ordering default from the parameters
+		$menuParams = new Registry;
+
+		if ($menu = $app->getMenu()->getActive())
+		{
+			$menuParams->loadString($menu->params);
+		}
+
+		$mergedParams = clone $params;
+		$mergedParams->merge($menuParams);
+
 		// List state information
 		$format = $app->input->getWord('format');
 
-		if ($format === 'feed')
+		if (!empty($mergedParams->get('contacts_display_num')))
+		{
+			$limit = $mergedParams->get('contacts_display_num');
+		}
+		elseif ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}
