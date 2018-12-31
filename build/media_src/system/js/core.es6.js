@@ -733,7 +733,7 @@ window.Joomla.Modal = window.Joomla.Modal || {
     if (newTask === 'load') {
       // Prevent loading twice
       if (document.getElementById('loading-logo')) {
-        return;
+        return false;
       }
       // Gets the site base path
       const systemPaths = Joomla.getOptions('system.paths') || {};
