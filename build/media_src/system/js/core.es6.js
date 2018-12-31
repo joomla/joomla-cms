@@ -1139,6 +1139,24 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
     }
   };
+
+  /**
+   * Method that resets given inputs and submits the given form
+   * @param {string}          selectors Comma separated css selectors of the inputs
+   * @param {HTMLFormElement} form      The form that will be finally submitted
+   */
+  Joomla.resetFilters = (selectors, form) => {
+    const cssSelectors = selectors.split(',');
+    cssSelectors.forEach((selector) => {
+      const element = document.querySelector(selector);
+
+      if (element) {
+        element.value = '';
+      }
+    });
+
+    form.submit();
+  };
 })(Joomla, document);
 
 /**
