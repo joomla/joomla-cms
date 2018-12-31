@@ -330,13 +330,13 @@ class FieldsHelper
 		 */
 		if ($form->getField('catid') && $parts[0] != 'com_fields')
 		{
-            /*
-             * Setting some parameters for the category field
-             */
-            $form->setFieldAttribute('catid', 'custom-fields-enabled', true);
-            $form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
-            $form->setFieldAttribute('catid', 'custom-fields-form-id', $form->getFormControl());
-            $form->setFieldAttribute('catid', 'custom-fields-section', $section);
+			/*
+			 * Setting some parameters for the category field
+			 */
+			$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
+			$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
+			$form->setFieldAttribute('catid', 'custom-fields-form-id', $form->getFormControl());
+			$form->setFieldAttribute('catid', 'custom-fields-section', $section);
 		}
 
 		// Getting the fields
