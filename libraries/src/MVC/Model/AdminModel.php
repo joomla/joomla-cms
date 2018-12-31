@@ -82,7 +82,7 @@ abstract class AdminModel extends FormModel
 	 * The event to trigger before changing the published state of the data.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $event_before_change_state = null;
 

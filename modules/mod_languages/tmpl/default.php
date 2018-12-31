@@ -25,7 +25,7 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 	<form name="lang" method="post" action="<?php echo htmlspecialchars(Uri::current(), ENT_COMPAT, 'UTF-8'); ?>">
 	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
-		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo $language->link; ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
+		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 		<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?></option>
 	<?php endforeach; ?>
 	</select>
@@ -47,7 +47,7 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 		<?php foreach ($list as $language) : ?>
 			<?php if (!$language->active || $params->get('show_active', 0)) : ?>
 				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
-				<a href="<?php echo $language->link; ?>">
+				<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
 					<?php if ($language->image) : ?>
 						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
@@ -63,7 +63,7 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 	<?php foreach ($list as $language) : ?>
 		<?php if (!$language->active || $params->get('show_active', 0)) : ?>
 			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
-			<a href="<?php echo $language->link; ?>">
+			<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
 					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>
