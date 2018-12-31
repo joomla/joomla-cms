@@ -26,33 +26,6 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	use DispatcherAwareTrait;
 
 	/**
-	 * Mark the new registry file
-	 *
-	 * @var integer
-	 *
-	 * @since  4.0.0
-	 */
-	const REGISTRY_FILE_NEW = 1;
-
-	/**
-	 * Mark already parsed registry file
-	 *
-	 * @var integer
-	 *
-	 * @since  4.0.0
-	 */
-	const REGISTRY_FILE_PARSED = 2;
-
-	/**
-	 * Mark a broken/non-existing registry file
-	 *
-	 * @var integer
-	 *
-	 * @since  4.0.0
-	 */
-	const REGISTRY_FILE_INVALID = -1;
-
-	/**
 	 * Files with Asset info. File path should be relative.
 	 *
 	 * @example of data file:
@@ -98,7 +71,16 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 *
 	 * @since  4.0.0
 	 */
-	protected $dataFiles = [];
+	protected $dataFilesNew = [];
+
+	/**
+	 * List of parsed files
+	 *
+	 * @var array
+	 *
+	 * @since  4.0.0
+	 */
+	protected $dataFilesParsed = [];
 
 	/**
 	 * Registry of available Assets
@@ -657,12 +639,15 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	{
 		$path = Path::clean($path);
 
-		if (isset($this->dataFiles[$path]))
+		if (isset($this->dataFilesNew[$path]) || isset($this->dataFilesParsed[$path]))
 		{
 			return $this;
 		}
 
-		$this->dataFiles[$path] = is_file(JPATH_ROOT . '/' . $path) ? static::REGISTRY_FILE_NEW : static::REGISTRY_FILE_INVALID;
+		if (is_file(JPATH_ROOT . '/' . $path))
+		{
+			$this->dataFilesNew[$path] = $path;
+		}
 
 		return $this;
 	}
@@ -676,27 +661,18 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 */
 	protected function parseRegistryFiles()
 	{
-		// Filter new asset data files and parse each
-		$constantIsNew = static::REGISTRY_FILE_NEW;
-		$files = array_filter(
-			$this->dataFiles,
-			function($state) use ($constantIsNew)
-			{
-				return $state === $constantIsNew;
-			}
-		);
-
-		if (!$files)
+		if (!$this->dataFilesNew)
 		{
 			return;
 		}
 
-		foreach (array_keys($files) as $path)
+		foreach ($this->dataFilesNew as $path)
 		{
 			$this->parseRegistryFile($path);
 
 			// Mark as parsed (not new)
-			$this->dataFiles[$path] = static::REGISTRY_FILE_PARSED;
+			unset($this->dataFilesNew[$path]);
+			$this->dataFilesParsed[$path] = $path;
 		}
 	}
 
