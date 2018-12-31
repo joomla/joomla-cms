@@ -456,6 +456,8 @@ class WebAssetRegistry implements DispatcherAwareInterface
 				$graphIncoming[$depName][$name] = $name;
 			}
 		}
+
+		// Make a copy to be used during weight processing
 		$graphIncomingCopy = $graphIncoming;
 
 		// Find items without incoming connections
@@ -494,95 +496,65 @@ class WebAssetRegistry implements DispatcherAwareInterface
 		foreach (array_reverse($result) as $index => $name)
 		{
 			// Check for existing/requested weight
+			$requestedWeights[$name] = null;
 			if ($activeAssets[$name]->getWeight())
 			{
 				$requestedWeights[$name] = $activeAssets[$name]->getWeight();
 			}
 
-			$activeAssets[$name]->setWeight($index + 1);
+			$activeAssets[$name]->setWeight($index * 10);
 		}
 
-		// Apply requested weight
-		foreach ($result as $name)
+		// Try to set a requested weight, or make it close as possible to requested, but keep the Graph order
+		while ($requestedWeights)
 		{
-			if (empty($requestedWeights[$name]))
+			$item   = key($requestedWeights);
+			$weight = array_shift($requestedWeights);
+
+			// Skip empty items
+			if ($weight === null)
 			{
 				continue;
 			}
 
-			//var_dump($name);
-
-			$requestedWeight = $requestedWeights[$name];
-
-			$activeAssets[$name]->setWeight($requestedWeight);
-
-			// Check for in/out connection to make sure the weight fit the border
-			if (!empty($graphIncomingCopy[$name]))
+			// Check the predecessors (Outgoing vertexes), the weight cannot be lighter than the predecessor have
+			$topBorder = $weight - 1;
+			if (!empty($graphOutgoing[$item]))
 			{
-				//var_dump('in', $graphIncomingCopy[$name]);
-
-				// Check all Incoming connections, and update their weight if need
-				$needUpdateDepWeight = false;
-				foreach ($graphIncomingCopy[$name] as $inName)
+				$prevWeights = [];
+				foreach ($graphOutgoing[$item] as $pItem)
 				{
-					if ($activeAssets[$inName]->getWeight() <= $requestedWeight)
-					{
-						break;
-					}
-
-					$needUpdateDepWeight = true;
+					$prevWeights[] = $activeAssets[$pItem]->getWeight();
 				}
-
-				if (!$needUpdateDepWeight)
-				{
-					foreach ($graphIncomingCopy[$name] as $inName)
-					{
-						$newWeight = $activeAssets[$inName]->getWeight() + $requestedWeight;
-						$activeAssets[$inName]->setWeight($newWeight);
-					}
-				}
-
-				//var_dump($needUpdateDepWeight);
+				$topBorder = max($prevWeights);
 			}
 
-			if (!empty($graphOutgoing[$name]))
+			// Calculate a new weight
+			$newWeight = $weight > $topBorder ? $weight : $topBorder + 1;
+
+			// If a new weight heavier than existing, then we need to update all incoming connections (children)
+			if ($newWeight > $activeAssets[$item]->getWeight() && !empty($graphIncomingCopy[$item]))
 			{
-				//var_dump('out',$graphOutgoing[$name]);
-
-				// Check all Outgoing connections, and update their weight if need
-				$needUpdateDepWeight = false;
-				foreach ($graphOutgoing[$name] as $outName)
+				// Sort Graph of incoming by actual position
+				foreach ($graphIncomingCopy[$item] as $incomingItem)
 				{
-					if ($activeAssets[$outName]->getWeight() >= $requestedWeight)
+					// Set a weight heavier than current, then this node to be processed in next iteration
+					if (empty($requestedWeights[$incomingItem]))
 					{
-						break;
-					}
-
-					$needUpdateDepWeight = true;
-				}
-
-				if (!$needUpdateDepWeight)
-				{
-					foreach ($graphIncomingCopy[$name] as $outName)
-					{
-						$newWeight = $requestedWeight - $activeAssets[$outName]->getWeight();
-						$activeAssets[$outName]->setWeight($newWeight);
+						$requestedWeights[$incomingItem] = $activeAssets[$incomingItem]->getWeight() + $newWeight;
 					}
 				}
-
-				//var_dump($needUpdateDepWeight);
 			}
 
-
+			// Set a new weight
+			$activeAssets[$item]->setWeight($newWeight);
 		}
-
-		//var_dump($requestedWeights, $this->sortAssetsByWeight($activeAssets));
 
 		return $this;
 	}
 
 	/**
-	 * Return dependancy for Asset as array of AssetItem objects
+	 * Return dependency for Asset as array of AssetItem objects
 	 *
 	 * @param   WebAssetItem  $asset          Asset instance
 	 * @param   boolean       $recursively    Whether to search for dependancy recursively

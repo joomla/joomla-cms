@@ -15,7 +15,8 @@
       "js": [
         "template.js",
         "user.js"
-      ]
+      ],
+      "weight": 100000
     },
     "template.cassiopeia.ltr": {
       "name": "template.cassiopeia.ltr",
