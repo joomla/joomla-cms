@@ -1145,32 +1145,31 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @param {HTMLElement}  The element that initiates the call
    */
   Joomla.resetFilters = (element) => {
-    const form = element.form;
+    const { form } = element;
+
     if (!form) {
-      throw new Error('Element must be inside a form!')
+      throw new Error('Element must be inside a form!');
     }
 
     const elementsArray = [].slice.call(form.elements);
 
     if (elementsArray.length) {
       const newElementsArray = [];
-      elementsArray.forEach((element) => {
-        // Skip these
-        if (element.getAttribute('name') === 'task' || element.getAttribute('name') === 'boxchecked') {
-          return;
-        }
-        // Skip the token
-        // !/^[0-9A-F]{32}$/i.test(newToken)
-        if (element.value === '1' && /^[0-9A-F]{32}$/i.test(element.name)) {
+      elementsArray.forEach((elem) => {
+        // Skip the token, the task, the boxchecked and the calling element
+        if (elem.getAttribute('name') === 'task'
+          || elem.getAttribute('name') === 'boxchecked'
+          || (elem.value === '1' && /^[0-9A-F]{32}$/i.test(elem.name))
+          || elem === element) {
           return;
         }
 
-        newElementsArray.push(element)
+        newElementsArray.push(elem);
       });
 
       // Reset all filters
-      newElementsArray.forEach((element) => {
-        element.value = '';
+      newElementsArray.forEach((elem) => {
+        elem.value = '';
       });
 
       form.submit();
