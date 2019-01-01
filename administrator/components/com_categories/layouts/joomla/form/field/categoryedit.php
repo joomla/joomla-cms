@@ -124,29 +124,8 @@ if ($enabledCF === true)
 	$attr2 .= ' data-cat-id="' . $catId . '" data-form-id="' . $formId . '" data-section="' . $section . '"';
 	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
 
-	// Preload spindle-wheel when we need to submit form due to category selector changed
-	\Joomla\CMS\Factory::getDocument()->addScriptDeclaration(
-		<<<JS
-document.addEventListener('DOMContentLoaded', function() {
-  Joomla.loadingLayer('load');
-  var element = document.querySelector('#$id');
-  if (element.value !== element.getAttribute('data-cat-id')) {
-    element.value = element.getAttribute('data-cat-id');
-  }
-    
-  Joomla.categoryHasChanged = function (el) {
-    if (el.value == el.getAttribute('data-cat-id')) {
-      return;
-    }
-
-    Joomla.loadingLayer('show');
-    document.body.appendChild(document.createElement('joomla-core-loader'));
-    document.querySelector('input[name=task]').value = el.getAttribute('data-section') + '.reload';
-    element.form.submit();
-  };
-});
-JS
-	);
+	// Pass the element id to javascript
+	\Joomla\CMS\Factory::getDocument()->addScriptOptions('category-change', $id);
 }
 else
 {
@@ -157,8 +136,9 @@ Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 
+HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode($html); ?></joomla-field-fancy-select>
