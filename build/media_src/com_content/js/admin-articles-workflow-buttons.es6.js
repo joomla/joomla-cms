@@ -220,7 +220,7 @@ Joomla.toggleAllNextElements = (element, className) => {
     // listen to click event to get selected rows
     if (articleList) {
       articleList.addEventListener('click', () => {
-        articleListRows.forEach(el => {
+        articleListRows.forEach((el) => {
           const checkedBox = el.querySelectorAll('input[type=checkbox]')[0];
 
           if (checkedBox.checked) {
