@@ -117,6 +117,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected $pathway = null;
 
 	/**
+	 * The authentication plugin type
+	 *
+	 * @type   string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $authenticationPluginType = 'authentication';
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
@@ -739,7 +747,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function login($credentials, $options = array())
 	{
 		// Get the global Authentication object.
-		$authenticate = Authentication::getInstance();
+		$authenticate = Authentication::getInstance($this->authenticationPluginType);
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.

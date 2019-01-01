@@ -63,6 +63,7 @@ class JNamespacePsr4Map
 	public function create()
 	{
 		$extensions = $this->getNamespaces('administrator/components');
+		$extensions = array_merge($extensions, $this->getNamespaces('api/components'));
 		$extensions = array_merge($extensions, $this->getNamespaces('modules'));
 		$extensions = array_merge($extensions, $this->getNamespaces('administrator/modules'));
 
@@ -200,6 +201,7 @@ class JNamespacePsr4Map
 			if (strpos($extension, 'com_') === 0)
 			{
 				$extensions[$namespace . 'Site\\\\'] = str_replace('administrator/', '', $namespacePath) . $namespaceNode->attributes()->path;
+				$extensions[$namespace . 'Api\\\\'] = str_replace('administrator/', 'api/', $namespacePath) . $namespaceNode->attributes()->path;
 			}
 
 			// Add the application specific segment when not a plugin
