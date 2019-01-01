@@ -8,7 +8,7 @@
 		label=""
 		filtermode="selector"
 		layout="default"
-		onchange="Joomla.resetFilters('#filter_position,#filter_module,#filter_language', this.form)"
+		onchange="Joomla.resetFilters(this)"
 		>
 		<option value="0">JSITE</option>
 		<option value="1">JADMINISTRATOR</option>

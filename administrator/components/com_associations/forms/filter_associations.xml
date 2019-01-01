@@ -4,7 +4,7 @@
 		name="itemtype"
 		type="itemtype"
 		filtermode="selector"
-		onchange="Joomla.resetFilters('select[id^=\'filter_\'],select[id^=\'list_\']', this.form)"
+		onchange="Joomla.resetFilters(this)"
 		>
 		<option value="">COM_ASSOCIATIONS_FILTER_SELECT_ITEM_TYPE</option>
 	</field>

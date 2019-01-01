@@ -1142,25 +1142,39 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
   /**
    * Method that resets given inputs and submits the given form
-   * @param {string}          selectors Comma separated css selectors of the inputs
-   * @param {HTMLFormElement} form      The form that will be finally submitted
+   * @param {HTMLElement}  The element that initiates the call
    */
-  Joomla.resetFilters = (selectors, form) => {
-    debugger;
-    const elementsArray = [];
-    const cssSelectors = selectors.split(',');
-    cssSelectors.forEach((selector) => {
-      const elements = [].slice.call(document.querySelectorAll(selector));
+  Joomla.resetFilters = (element) => {
+    const form = element.form;
+    if (!form) {
+      throw new Error('Element must be inside a form!')
+    }
 
-      if (elements.length) {
-        elementsArray.concat(elements);
-      }
-    });
+    const elementsArray = [].slice.call(form.elements);
 
-    elementsArray.forEach((element) => {
-      element.value = '';
-    });
-    form.submit();
+    if (elementsArray.length) {
+      const newElementsArray = [];
+      elementsArray.forEach((element) => {
+        // Skip these
+        if (element.getAttribute('name') === 'task' || element.getAttribute('name') === 'boxchecked') {
+          return;
+        }
+        // Skip the token
+        // !/^[0-9A-F]{32}$/i.test(newToken)
+        if (element.value === '1' && /^[0-9A-F]{32}$/i.test(element.name)) {
+          return;
+        }
+
+        newElementsArray.push(element)
+      });
+
+      // Reset all filters
+      newElementsArray.forEach((element) => {
+        element.value = '';
+      });
+
+      form.submit();
+    }
   };
 })(Joomla, document);
 
