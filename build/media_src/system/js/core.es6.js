@@ -1146,15 +1146,20 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @param {HTMLFormElement} form      The form that will be finally submitted
    */
   Joomla.resetFilters = (selectors, form) => {
+    debugger;
+    const elementsArray = [];
     const cssSelectors = selectors.split(',');
     cssSelectors.forEach((selector) => {
-      const element = document.querySelector(selector);
+      const elements = [].slice.call(document.querySelectorAll(selector));
 
-      if (element) {
-        element.value = '';
+      if (elements.length) {
+        elementsArray.concat(elements);
       }
     });
 
+    elementsArray.forEach((element) => {
+      element.value = '';
+    });
     form.submit();
   };
 })(Joomla, document);
