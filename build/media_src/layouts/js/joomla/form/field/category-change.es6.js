@@ -11,15 +11,15 @@
     throw new Error('Category Id element not found');
   }
 
-  if (element.getAttribute('data-cat-id') && element.value !== element.getAttribute('data-cat-id')) {
-    element.value = element.getAttribute('data-cat-id');
+  if (element.getAttribute('data-custom-fields-catid') && element.value !== element.getAttribute('data-cat-id')) {
+    element.value = element.getAttribute('data-custom-fields-catid');
   } else {
     // No custom fields
-    element.setAttribute('data-cat-id', element.value);
+    element.setAttribute('data-custom-fields-catid', element.value);
   }
 
   window.Joomla.categoryHasChanged = (el) => {
-    if (el.value === el.getAttribute('data-cat-id')) {
+    if (el.value === el.getAttribute('data-custom-fields-catid')) {
       return;
     }
 
@@ -27,8 +27,8 @@
     document.body.appendChild(document.createElement('joomla-core-loader'));
 
     // Custom Fields
-    if (el.getAttribute('data-section')) {
-      document.querySelector('input[name=task]').value = `${el.getAttribute('data-section')}.reload`;
+    if (el.getAttribute('data-custom-fields-section')) {
+      document.querySelector('input[name=task]').value = `${el.getAttribute('data-custom-fields-section')}.reload`;
     }
 
     element.form.submit();

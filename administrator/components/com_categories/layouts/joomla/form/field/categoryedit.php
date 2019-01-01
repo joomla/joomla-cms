@@ -119,9 +119,9 @@ else
 	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
-if ($enabledCF === true)
+if ($customFields === true)
 {
-	$attr2 .= ' data-cat-id="' . $catId . '" data-form-id="' . $formId . '" data-section="' . $section . '"';
+	$attr2 .= ' data-custom-fields-catid="' . $customFieldsCatId . '" data-custom-fields-section="' . $customFieldsSection . '"';
 	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
 }
 else
@@ -134,7 +134,7 @@ Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
 
-// Pass the element id to javascript
+// Pass the element id to the javascript
 \Joomla\CMS\Factory::getDocument()->addScriptOptions('category-change', $id);
 
 HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);

@@ -335,7 +335,6 @@ class FieldsHelper
 			 */
 			$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
 			$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
-			$form->setFieldAttribute('catid', 'custom-fields-form-id', $form->getFormControl());
 			$form->setFieldAttribute('catid', 'custom-fields-section', $section);
 		}
 
