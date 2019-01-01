@@ -12,18 +12,18 @@ Joomla = window.Joomla || {};
  * @param {string}       className  The class name to be toggled
  */
 Joomla.toggleAllNextElements = (element, className) => {
-  const siblings = [];
   const getNextSiblings = (el) => {
+    const siblings = [];
     /* eslint-disable no-cond-assign,no-param-reassign */
     do {
       siblings.push(el);
-    } while ((el = el.nextSibling) !== null);
+    } while ((el = el.nextElementSibling) !== null);
     /* eslint-enable no-cond-assign,no-param-reassign */
     return siblings;
   };
 
   const followingElements = getNextSiblings(element);
-  if (followingElements) {
+  if (followingElements.length) {
     followingElements.forEach((elem) => {
       if (elem.classList.contains(className)) {
         elem.classList.remove(className);
