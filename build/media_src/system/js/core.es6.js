@@ -1142,7 +1142,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
   /**
    * Method that resets given inputs and submits the given form
+   *
    * @param {HTMLElement}  The element that initiates the call
+   * @returns {void}
+   * @since   4.0
    */
   Joomla.resetFilters = (element) => {
     const { form } = element;
