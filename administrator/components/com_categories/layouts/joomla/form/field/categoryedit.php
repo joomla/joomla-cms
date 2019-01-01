@@ -123,9 +123,6 @@ if ($enabledCF === true)
 {
 	$attr2 .= ' data-cat-id="' . $catId . '" data-form-id="' . $formId . '" data-section="' . $section . '"';
 	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
-
-	// Pass the element id to javascript
-	\Joomla\CMS\Factory::getDocument()->addScriptOptions('category-change', $id);
 }
 else
 {
@@ -136,6 +133,9 @@ Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
+
+// Pass the element id to javascript
+\Joomla\CMS\Factory::getDocument()->addScriptOptions('category-change', $id);
 
 HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
