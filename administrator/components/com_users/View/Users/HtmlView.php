@@ -147,17 +147,17 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('user.add');
 		}
 
-		$dropdown = $toolbar->dropdownButton('status')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
-				->listCheck(true);
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
+		{	
+			$dropdown = $toolbar->dropdownButton('status')
+					->text('JTOOLBAR_CHANGE_STATUS')
+					->toggleSplit(false)
+					->icon('fa fa-globe')
+					->buttonClass('btn btn-info')
+					->listCheck(true);
 
-		$childBar = $dropdown->getChildToolbar();
+			$childBar = $dropdown->getChildToolbar();
 
-		if ($canDo->get('core.edit.state'))
-		{
 			$childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
 			$childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
 			$childBar->standardButton('unblock')
