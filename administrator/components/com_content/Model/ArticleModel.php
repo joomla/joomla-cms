@@ -667,6 +667,41 @@ class ArticleModel extends AdminModel
 		}
 		else
 		{
+			if ($formField = $form->getField('catid'))
+			{
+				$assignedCatids = (int) ($data['catid'] ?? $form->getValue('catid'));
+
+				$assignedCatids = is_array($assignedCatids)
+					? (int) reset($assignedCatids)
+					: (int) $assignedCatids;
+
+				if (empty($assignedCatids))
+				{
+					$assignedCatids = $formField->getAttribute('default', null);
+
+					// Choose the first category available
+					$xml = new \DOMDocument;
+					libxml_use_internal_errors(true);
+					$xml->loadHTML($formField->__get('input'));
+					libxml_clear_errors();
+					libxml_use_internal_errors(false);
+					$options = $xml->getElementsByTagName('option');
+
+					if (!$assignedCatids && $firstChoice = $options->item(0))
+					{
+						$assignedCatids = $firstChoice->getAttribute('value');
+					}
+				}
+
+				$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
+				$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
+				$form->setFieldAttribute('catid', 'custom-fields-section', 'article');
+
+				$workflow = $this->getWorkflowByCategory($assignedCatids);
+
+				$form->setFieldAttribute('transition', 'workflow_stage', (int) $workflow->stage_id);
+			}
+
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
@@ -918,15 +953,10 @@ class ArticleModel extends AdminModel
 
 			// B/C state
 			$data['state'] = (int) $workflow->condition;
-
-			// No transition for new articles
-			if (isset($data['transition']))
-			{
-				unset($data['transition']);
-			}
 		}
 		// Calculate new status depending on transition
-		elseif (!empty($data['transition']))
+
+		if (!empty($data['transition']))
 		{
 			// Check if the user is allowed to execute this transition
 			if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $data['transition']))
@@ -957,7 +987,6 @@ class ArticleModel extends AdminModel
 			}
 
 			$data['state'] = (int) $stage->condition;
-
 		}
 
 		// Automatic handling of alias for empty fields
@@ -1000,12 +1029,6 @@ class ArticleModel extends AdminModel
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
 			}
 
-			// Run the transition and update the workflow association
-			if (!empty($data['transition']))
-			{
-				$this->runTransition((int) $this->getState($this->getName() . '.id'), (int) $data['transition']);
-			}
-
 			// Let's check if we have workflow association (perhaps something went wrong before)
 			if (empty($stageId))
 			{
@@ -1041,6 +1064,12 @@ class ArticleModel extends AdminModel
 			if (!empty($stageId))
 			{
 				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stageId);
+			}
+
+			// Run the transition and update the workflow association
+			if (!empty($data['transition']))
+			{
+				$this->runTransition((int) $this->getState($this->getName() . '.id'), (int) $data['transition']);
 			}
 
 			return true;
