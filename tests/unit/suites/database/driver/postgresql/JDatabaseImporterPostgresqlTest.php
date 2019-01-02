@@ -101,12 +101,14 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 						'Index' => 'jos_dbtest_pkey',
 						'is_primary' => 'TRUE',
 						'is_unique' => 'TRUE',
+						'Key_name' => 'id',
 						'Query' => 'ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)',
 					),
 					(object) array(
 						'Index' => 'jos_dbtest_idx_name',
 						'is_primary' => 'FALSE',
 						'is_unique' => 'FALSE',
+						'Key_name' => 'name',
 						'Query' => 'CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)',
 					)
 					)
@@ -270,14 +272,14 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 		$f3 = '<field Field="alias" Type="character varying(255)" Null="NO" Default="test" Comments="" />';
 		$f2_def = '<field Field="title" Type="character varying(50)" Null="NO" Default="add default" Comments="" />';
 
-		$k1 = '<key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)" />';
-		$k2 = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX jos_dbtest_idx_name ON' .
+		$k1 = '<key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)" />';
+		$k2 = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" Key_name="name" Query="CREATE INDEX jos_dbtest_idx_name ON' .
 			' jos_dbtest USING btree (name)" />';
-		$k3 = '<key Index="jos_dbtest_idx_title" is_primary="FALSE" is_unique="FALSE" Query="CREATE INDEX ' .
+		$k3 = '<key Index="jos_dbtest_idx_title" is_primary="FALSE" is_unique="FALSE" Key_name="title" Query="CREATE INDEX ' .
 			'jos_dbtest_idx_title ON jos_dbtest USING btree (title)" />';
-		$k4 = '<key Index="jos_dbtest_uidx_name" is_primary="FALSE" is_unique="TRUE" Query="CREATE UNIQUE INDEX ' .
+		$k4 = '<key Index="jos_dbtest_uidx_name" is_primary="FALSE" is_unique="TRUE" Key_name="name" Query="CREATE UNIQUE INDEX ' .
 			'jos_dbtest_uidx_name ON jos_dbtest USING btree (name)" />';
-		$pk = '<key Index="jos_dbtest_title_pkey" is_primary="TRUE" is_unique="TRUE" ' .
+		$pk = '<key Index="jos_dbtest_title_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="title" ' .
 			'Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (title)" />';
 
 		$s1 = '<sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="1" ' .
@@ -604,9 +606,9 @@ class JDatabaseImporterPostgresqlTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetAddIndexSql()
 	{
-		$xmlIndex = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" ' .
+		$xmlIndex = '<key Index="jos_dbtest_idx_name" is_primary="FALSE" is_unique="FALSE" Key_name="name" ' .
 			'Query="CREATE INDEX jos_dbtest_idx_name ON jos_dbtest USING btree (name)" />';
-		$xmlPrimaryKey = '<key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" ' .
+		$xmlPrimaryKey = '<key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" ' .
 			'Query="ALTER TABLE jos_dbtest ADD PRIMARY KEY (id)" />';
 
 		$instance = new JDatabaseImporterPostgresql;

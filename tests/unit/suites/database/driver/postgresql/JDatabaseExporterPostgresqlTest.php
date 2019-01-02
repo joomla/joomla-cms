@@ -38,7 +38,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 	protected function setup()
 	{
 		// Set up the database object mock.
-		$this->dbo = $this->getMockDatabase('Postgresql', array('getTableSequences','getSequenceLastValue','getSequenceIsCalled'), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
+		$this->dbo = $this->getMockDatabase('Postgresql', array('getTableSequences', 'getSequenceLastValue', 'getSequenceIsCalled', 'getNamesKey'), '1970-01-01 00:00:00', 'Y-m-d H:i:s');
 
 		$this->dbo->expects($this->any())
 			->method('getPrefix')
@@ -86,10 +86,15 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 					'idxName' => 'jos_dbtest_pkey',
 					'isPrimary' => 'TRUE',
 					'isUnique' => 'TRUE',
+					'indKey' => '1',
 					'Query' => 'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)',
 				)
 				)
 			);
+
+		$this->dbo->expects($this->any())
+			->method('getNamesKey')
+			->willReturn('id');
 
 		// Check if database is at least 9.1.0
 		$this->dbo->expects($this->any())
@@ -288,7 +293,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
    <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
-   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />
+   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />
   </table_structure>
  </database>
 </postgresqldump>';
@@ -331,7 +336,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 				'   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
 				'   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',
 				'   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
-				'   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />',
+				'   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />',
 				'  </table_structure>'
 			),
 			TestReflection::invoke($instance, 'buildXmlStructure')

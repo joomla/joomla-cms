@@ -80,7 +80,14 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 
 		foreach ($table->xpath('key') as $key)
 		{
-			$createTableStatement .= $this->getAddIndexSql($key) . ';';
+			if ((($key['is_primary'] == 'f') || ($key['is_primary'] == '')) && (($key['is_unique'] == 't') || ($key['is_unique'] == '1')))
+			{
+				$createTableStatement .= $this->getAddUniqueSql($tableName, $key) . ';';
+			}
+			else
+			{
+				$createTableStatement .= $this->getAddIndexSql($key) . ';';
+			}
 		}
 
 		return $createTableStatement;
@@ -609,6 +616,34 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		}
 
 		return $lookup;
+	}
+
+	/**
+	 * Get the SQL syntax to add a unique constraint for a table key.
+	 *
+	 * @param   string  $table  The table name.
+	 * @param   array   $key   The key.
+	 *
+	 * @return  string
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getAddUniqueSql($table, $key)
+	{
+		if ($key instanceof SimpleXMLElement)
+                {
+                        $kName = (string) $key['Key_name'];
+                        $kIndex = (string) $key['Index'];
+                }
+                else
+                {
+                        $kName = $key->Key_name;
+                        $kIndex = $key->Index;
+                }
+
+		$unique = $kIndex . ' UNIQUE (' . $kName . ')';
+
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD CONSTRAINT ' . $unique;
 	}
 
 	/**

@@ -496,7 +496,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			// Get the details columns information.
 			$this->setQuery('
-				SELECT indexname AS "idxName", indisprimary AS "isPrimary", indisunique  AS "isUnique",
+				SELECT indexname AS "idxName", indisprimary AS "isPrimary", indisunique  AS "isUnique", indkey AS "indKey",
 					CASE WHEN indisprimary = true THEN
 						( SELECT \'ALTER TABLE \' || tablename || \' ADD \' || pg_catalog.pg_get_constraintdef(const.oid, true)
 							FROM pg_constraint AS const WHERE const.conname= pgClassFirst.relname )
@@ -509,11 +509,42 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			);
 
 			$keys = $this->loadObjectList();
-
 			return $keys;
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get the list of column names this index indexes.
+	 *
+	 * @param   string  $table  The name of the table.
+	 * @param   string  $indKey The list of column numbers for the table
+	 *
+	 * @return  string  A list of the column names for the table.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  RuntimeException
+	 */
+	public function getNamesKey($table, $indKey)
+	{
+		$this->connect();
+
+		$tabInd = explode(' ', $indKey);
+		$colNames = array();
+
+		foreach($tabInd as $numCol)
+		{
+			$query = $this->getQuery(true)
+				->select('attname')
+				->from('pg_attribute')
+				->join('LEFT', 'pg_class ON pg_class.relname=' . $this->q($table))
+				->where('attnum=' . $numCol . ' AND attrelid=pg_class.oid');
+			$this->setQuery($query);
+			$colNames[] = $this->loadResult();
+		}
+
+		return implode(', ', $colNames);
 	}
 
 	/**
