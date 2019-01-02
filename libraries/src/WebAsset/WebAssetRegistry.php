@@ -484,7 +484,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 				$requestedWeights[$name] = $activeAssets[$name]->getWeight();
 			}
 
-			$activeAssets[$name]->setWeight($index * 10);
+			$activeAssets[$name]->setWeight($index * 10 + 100);
 		}
 
 		// Try to set a requested weight, or make it close as possible to requested, but keep the Graph order

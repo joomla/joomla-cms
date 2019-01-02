@@ -15,7 +15,7 @@
         "css-vars-ponyfill"
       ],
       "js": [],
-      "weight": 100000
+      "weight": 10000
     },
     "template.atum.ltr": {
       "name": "template.atum.ltr",

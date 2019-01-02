@@ -9,7 +9,7 @@
       "js": [
         "media/system/js/core.min.js"
       ],
-      "weight": -1
+      "weight": 70
     },
     "keepalive": {
       "name": "keepalive",

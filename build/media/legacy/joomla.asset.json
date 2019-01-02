@@ -11,8 +11,7 @@
       ],
       "js": [
         "media/legacy/js/jquery-noconflict.min.js"
-      ],
-      "weight": 1
+      ]
     },
     "jquery.ui.core": {
       "name": "jquery.ui.core",
