@@ -622,7 +622,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 * Get the SQL syntax to add a unique constraint for a table key.
 	 *
 	 * @param   string  $table  The table name.
-	 * @param   array   $key   The key.
+	 * @param   array   $key    The key.
 	 *
 	 * @return  string
 	 *
@@ -631,15 +631,15 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	protected function getAddUniqueSql($table, $key)
 	{
 		if ($key instanceof SimpleXMLElement)
-                {
-                        $kName = (string) $key['Key_name'];
-                        $kIndex = (string) $key['Index'];
-                }
-                else
-                {
-                        $kName = $key->Key_name;
-                        $kIndex = $key->Index;
-                }
+		{
+			$kName = (string) $key['Key_name'];
+			$kIndex = (string) $key['Index'];
+		}
+		else
+		{
+			$kName = $key->Key_name;
+			$kIndex = $key->Index;
+		}
 
 		$unique = $kIndex . ' UNIQUE (' . $kName . ')';
 

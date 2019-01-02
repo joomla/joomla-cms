@@ -297,8 +297,8 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 		/**
 		 * Get the list of column names this index indexes.
 		 *
-		 * @param   string  $table  The name of the table.
-		 * @param   string  $indKey The list of column numbers for the table
+		 * @param   string  $table   The name of the table.
+		 * @param   string  $indKey  The list of column numbers for the table
 		 *
 		 * @return  string  A list of the column names for the table.
 		 *
@@ -312,7 +312,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 			$tabInd = explode(' ', $indKey);
 			$colNames = array();
 
-			foreach($tabInd as $numCol)
+			foreach ($tabInd as $numCol)
 			{
 				$query = $this->getQuery(true)
 					->select('attname')
