@@ -96,7 +96,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('client.add');
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{		
 			$dropdown = $toolbar->dropdownButton('status')
 				->text('JTOOLBAR_CHANGE_STATUS')
@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->unpublish('clients.unpublish')->listCheck(true);
 			$childBar->archive('clients.archive')->listCheck(true);
 
-			if (Factory::getUser()->authorise('core.admin'))
+			if ( $canDo->get('core.admin'))
 			{
 				$childBar->checkin('clients.checkin')->listCheck(true);
 			}
