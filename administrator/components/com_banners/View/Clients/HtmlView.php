@@ -111,7 +111,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->unpublish('clients.unpublish')->listCheck(true);
 			$childBar->archive('clients.archive')->listCheck(true);
 
-			if ( $canDo->get('core.admin'))
+			if ($canDo->get('core.admin'))
 			{
 				$childBar->checkin('clients.checkin')->listCheck(true);
 			}
