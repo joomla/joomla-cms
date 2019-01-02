@@ -227,7 +227,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
    <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
-   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />
+   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />
   </table_structure>
  </database>
 </postgresqldump>';
