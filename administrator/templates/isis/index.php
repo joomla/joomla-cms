@@ -306,7 +306,8 @@ if ($this->params->get('linkColor'))
 			<?php if ($this->countModules('bottom')) : ?>
 				<jdoc:include type="modules" name="bottom" style="xhtml" />
 			<?php endif; ?>
-			<!-- End Content -->
+		</div>			
+		<!-- End Content -->
 	</section>
 
 	<?php if (!$this->countModules('status') || (!$statusFixed && $this->countModules('status'))) : ?>
