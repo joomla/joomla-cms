@@ -899,8 +899,8 @@
 		<field
 			name="contacts_display_num"
 			type="list"
-			label="COM_CONTACT_N_ITEMS_LIST_LABEL"
-			description="COM_CONTACT_N_ITEMS_LIST_DESC"
+			label="COM_CONTACT_NUMBER_CONTACTS_LIST_LABEL"
+			description="COM_CONTACT_NUMBER_CONTACTS_LIST_DESC"
 			default="10"
 			>
 			<option value="5">J5</option>
