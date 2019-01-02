@@ -141,24 +141,32 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->addNew('user.add');
+			$toolbar->addNew('note.add');
 		}
 
-		$dropdown = $toolbar->dropdownButton('status')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
-				->listCheck(true);
-
-		$childBar = $dropdown->getChildToolbar();
-
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{
-			$childBar->publish('notes.publish')->listCheck(true);
-			$childBar->unpublish('notes.unpublish')->listCheck(true);
-			$childBar->archive('notes.archive')->listCheck(true);
-			$childBar->checkin('notes.checkin')->listCheck(true);
+			$dropdown = $toolbar->dropdownButton('status')
+					->text('JTOOLBAR_CHANGE_STATUS')
+					->toggleSplit(false)
+					->icon('fa fa-globe')
+					->buttonClass('btn btn-info')
+					->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->publish('notes.publish')->listCheck(true);
+				$childBar->unpublish('notes.unpublish')->listCheck(true);
+				$childBar->archive('notes.archive')->listCheck(true);
+				$childBar->checkin('notes.checkin')->listCheck(true);
+			}
+
+			if (!$this->state->get('filter.published') == -2 && $canDo->get('core.edit.state'))
+			{
+				$childBar->trash('notes.trash');
+			}
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
@@ -167,10 +175,6 @@ class HtmlView extends BaseHtmlView
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			$childBar->trash('notes.trash');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
