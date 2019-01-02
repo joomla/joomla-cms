@@ -138,7 +138,7 @@ class HtmlView extends BaseHtmlView
 			$toolbar->addNew('newsfeed.add');
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
 		{		
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
