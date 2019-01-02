@@ -2,12 +2,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
   constructor() {
     super();
 
-    if (!document.head.querySelector('#cm-editor')) {
-      this.loadCm();
-    }
-
     this.instance = '';
-    this.cm = '';
     this.element = '';
 
     this.refresh = this.refresh.bind(this);
@@ -49,11 +44,17 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
   }
 
   connectedCallback() {
+    if (!document.head.querySelector('#cm-editor')) {
+      this.loadCm();
+    }
+
     // Note the mutation observer won't fire for initial contents,
     // so the initialize is called also here.
     this.element = this.querySelector('textarea');
-    this.isCmReady();
 
+    if (this.element) {
+      this.isCmReady();
+    }
   }
 
   disconnectedCallback() {
