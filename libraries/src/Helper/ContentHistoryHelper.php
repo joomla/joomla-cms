@@ -56,13 +56,10 @@ class ContentHistoryHelper extends CMSHelper
 	{
 		$key = $table->getKeyName();
 		$id = $table->$key;
-		$typeTable = Table::getInstance('Contenttype', 'JTable');
-		$typeId = $typeTable->getTypeId($this->typeAlias);
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
-		$query->delete($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $id)
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $typeId);
+		$query->delete($db->quoteName('#__history'))
+			->where($db->quoteName('item_id') . ' = ' . $table->typeAlias . '.' . $id);
 		$db->setQuery($query);
 
 		return $db->execute();
@@ -78,15 +75,14 @@ class ContentHistoryHelper extends CMSHelper
 	 *
 	 * @since   3.2
 	 */
-	public function getHistory($typeId, $id)
+	public function getHistory($id)
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('h.version_note') . ',' . $db->quoteName('h.save_date') . ',' . $db->quoteName('u.name'))
-			->from($db->quoteName('#__ucm_history') . ' AS h ')
+			->from($db->quoteName('#__history') . ' AS h ')
 			->leftJoin($db->quoteName('#__users') . ' AS u ON ' . $db->quoteName('u.id') . ' = ' . $db->quoteName('h.editor_user_id'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . $db->quote($id))
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $typeId)
+			->where($db->quoteName('item_id') . ' = ' . $db->quote($id))
 			->order($db->quoteName('save_date') . ' DESC ');
 		$db->setQuery($query);
 
@@ -108,13 +104,12 @@ class ContentHistoryHelper extends CMSHelper
 		$historyTable = Table::getInstance('Contenthistory', 'JTable');
 		$typeTable = Table::getInstance('Contenttype', 'JTable');
 		$typeTable->load(array('type_alias' => $this->typeAlias));
-		$historyTable->set('ucm_type_id', $typeTable->type_id);
 
 		$key = $table->getKeyName();
-		$historyTable->set('ucm_item_id', $table->$key);
+		$historyTable->set('item_id', $this->typeAlias . '.' . $table->$key);
 
 		// Don't store unless we have a non-zero item id
-		if (!$historyTable->ucm_item_id)
+		if (!$historyTable->item_id)
 		{
 			return true;
 		}
@@ -153,7 +148,7 @@ class ContentHistoryHelper extends CMSHelper
 
 		$context = $aliasParts[1] ?? '';
 
-		$maxVersionsContext = ComponentHelper::getParams($aliasParts[0])->get('history_limit' . '_' . $context, 0);
+		$maxVersionsContext = ComponentHelper::getParams($aliasParts[0])->get('history_limit_' . $context, 0);
 
 		if ($maxVersionsContext)
 		{

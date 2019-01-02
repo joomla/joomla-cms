@@ -70,30 +70,27 @@ class HistoryModel extends ListModel
 	{
 		$result = false;
 
-		if (!empty($record->ucm_type_id))
+		if (!empty($record->item_id))
 		{
-			// Check that the type id matches the type alias
-			$typeAlias = Factory::getApplication()->input->get('type_alias');
-
-			/** @var ContentType $contentTypeTable */
-			$contentTypeTable = $this->getTable('ContentType');
-
-			if ($contentTypeTable->getTypeId($typeAlias) == $record->ucm_type_id)
-			{
-				/**
-				 * Make sure user has edit privileges for this content item. Note that we use edit permissions
-				 * for the content item, not delete permissions for the content history row.
-				 */
-				$user   = Factory::getUser();
-				$result = $user->authorise('core.edit', $typeAlias . '.' . (int) $record->ucm_item_id);
-			}
+			/**
+			 * Make sure user has edit privileges for this content item. Note that we use edit permissions
+			 * for the content item, not delete permissions for the content history row.
+			 */
+			$user   = Factory::getUser();
+			$result = $user->authorise('core.edit', $record->item_id);
 
 			// Finally try session (this catches edit.own case too)
 			if (!$result)
 			{
-				$contentTypeTable->load($record->ucm_type_id);
+				/** @var ContentType $contentTypeTable */
+				$contentTypeTable = $this->getTable('ContentType');
+
+				$typeAlias        = explode('.', $record->item_id);
+				$id = array_pop($typeAlias);
+				$typeAlias        = implode('.', $typeAlias);
+				$contentTypeTable->load(array('type_alias' => $typeAlias));
 				$typeEditables = (array) Factory::getApplication()->getUserState(str_replace('.', '.edit.', $contentTypeTable->type_alias) . '.id');
-				$result = in_array((int) $record->ucm_item_id, $typeEditables);
+				$result = in_array((int) $id, $typeEditables);
 			}
 		}
 
@@ -220,19 +217,8 @@ class HistoryModel extends ListModel
 			return $items;
 		}
 
-		// Get the content type's record so we can check ACL
-		/** @var ContentType $contentTypeTable */
-		$contentTypeTable = $this->getTable('ContentType');
-		$ucmTypeId        = $items[0]->ucm_type_id;
-
-		if (!$contentTypeTable->load($ucmTypeId))
-		{
-			// Assume a failure to load the content type means broken data, abort mission
-			return false;
-		}
-
 		// Access check
-		if ($user->authorise('core.edit', $contentTypeTable->type_alias . '.' . (int) $items[0]->ucm_item_id) || $this->canEdit($items[0]))
+		if ($user->authorise('core.edit', $items[0]->item_id) || $this->canEdit($items[0]))
 		{
 			return $items;
 		}
@@ -352,13 +338,9 @@ class HistoryModel extends ListModel
 	protected function populateState($ordering = 'h.save_date', $direction = 'DESC')
 	{
 		$input = Factory::getApplication()->input;
-		$itemId = $input->get('item_id', 0, 'integer');
-		$typeId = $input->get('type_id', 0, 'integer');
-		$typeAlias = $input->get('type_alias', '', 'string');
+		$itemId = $input->get('item_id', '', 'string');
 
 		$this->setState('item_id', $itemId);
-		$this->setState('type_id', $typeId);
-		$this->setState('type_alias', $typeAlias);
 		$this->setState('sha1_hash', $this->getSha1Hash());
 
 		// Load the parameters.
@@ -386,13 +368,12 @@ class HistoryModel extends ListModel
 		$query->select(
 			$this->getState(
 				'list.select',
-				'h.version_id, h.ucm_item_id, h.ucm_type_id, h.version_note, h.save_date, h.editor_user_id,' .
+				'h.version_id, h.item_id, h.version_note, h.save_date, h.editor_user_id,' .
 				'h.character_count, h.sha1_hash, h.version_data, h.keep_forever'
 			)
 		)
-			->from($db->quoteName('#__ucm_history') . ' AS h')
-			->where($db->quoteName('h.ucm_item_id') . ' = ' . (int) $this->getState('item_id'))
-			->where($db->quoteName('h.ucm_type_id') . ' = ' . (int) $this->getState('type_id'))
+			->from($db->quoteName('#__history') . ' AS h')
+			->where($db->quoteName('h.item_id') . ' = ' . $query->q($this->getState('item_id')))
 
 		// Join over the users for the editor
 			->select('uc.name AS editor')
@@ -416,15 +397,14 @@ class HistoryModel extends ListModel
 	protected function getSha1Hash()
 	{
 		$result = false;
+		$item_id = Factory::getApplication()->input->getCmd('item_id', '');
+		$typeAlias        = explode('.', $item_id);
+		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAlias[0] . '/tables');
 		$typeTable = $this->getTable('ContentType');
-		$typeId = Factory::getApplication()->input->getInteger('type_id', 0);
-		$typeTable->load($typeId);
-		$typeAliasArray = explode('.', $typeTable->type_alias);
-		Table::addIncludePath(JPATH_ADMINISTRATOR . '/components/' . $typeAliasArray[0] . '/tables');
+		$typeTable->load($typeAlias[0] . '.' . $typeAlias[1]);
 		$contentTable = $typeTable->getContentTable();
-		$keyValue = Factory::getApplication()->input->getInteger('item_id', 0);
 
-		if ($contentTable && $contentTable->load($keyValue))
+		if ($contentTable && $contentTable->load($typeAlias[3]))
 		{
 			$helper = new CMSHelper;
 

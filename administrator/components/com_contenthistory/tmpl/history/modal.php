@@ -25,15 +25,14 @@ $function       = 'jSelectContenthistory_' . $field;
 $listOrder      = $this->escape($this->state->get('list.ordering'));
 $listDirn       = $this->escape($this->state->get('list.direction'));
 $deleteMessage  = "alert(Joomla.Text._('JLIB_HTML_PLEASE_MAKE_A_SELECTION_FROM_THE_LIST'));";
-$aliasArray     = explode('.', $this->state->type_alias);
-$option         = (end($aliasArray) == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 1)) : $aliasArray[0];
+$aliasArray     = explode('.', $this->state->item_id);
+$option         = ($aliasArray[1] == 'category') ? 'com_categories&amp;extension=' . implode('.', array_slice($aliasArray, 0, count($aliasArray) - 2)) : $aliasArray[0];
 $filter         = JFilterInput::getInstance();
-$task           = $filter->clean(end($aliasArray)) . '.loadhistory';
+$task           = $filter->clean($aliasArray[1]) . '.loadhistory';
 $loadUrl        = Route::_('index.php?option=' . $filter->clean($option) . '&amp;task=' . $task);
 $deleteUrl      = Route::_('index.php?option=com_contenthistory&task=history.delete');
 $hash           = $this->state->get('sha1_hash');
-$formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&type_id='
-					. $this->state->get('type_id') . '&type_alias=' . $this->state->get('type_alias') . '&' . Session::getFormToken() . '=1';
+$formUrl        = 'index.php?option=com_contenthistory&view=history&layout=modal&tmpl=component&item_id=' . $this->state->get('item_id') . '&' . Session::getFormToken() . '=1';
 
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_ONE', true);
 Text::script('COM_CONTENTHISTORY_BUTTON_SELECT_TWO', true);

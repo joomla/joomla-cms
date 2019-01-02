@@ -179,15 +179,11 @@ class ContenthistoryHelper
 		}
 		else
 		{
-			$aliasArray = explode('.', $typesTable->type_alias);
-
-			if (count($aliasArray) == 2)
-			{
-				$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
-				$path  = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
-				$file = File::makeSafe($aliasArray[1] . '.xml');
-				$result = File::exists($path . $file) ? $path . $file : false;
-			}
+			$aliasArray = explode('.', $typesTable->type_alias);var_dump($aliasArray, $typesTable);
+			$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
+			$path  = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
+			$file = File::makeSafe($aliasArray[1] . '.xml');
+			$result = File::exists($path . $file) ? $path . $file : false;
 		}
 
 		return $result;
@@ -349,7 +345,9 @@ class ContenthistoryHelper
 	{
 		$object = static::decodeFields($table->version_data);
 		$typesTable = Table::getInstance('Contenttype', 'Joomla\\CMS\\Table\\');
-		$typesTable->load(array('type_id' => $table->ucm_type_id));
+		$typeAlias = explode('.', $table->item_id);
+		array_pop($typeAlias);
+		$typesTable->load(array('type_alias' => implode('.', $typeAlias)));
 		$formValues = static::getFormValues($object, $typesTable);
 		$object = static::mergeLabels($object, $formValues);
 		$object = static::hideFields($object, $typesTable);

@@ -553,10 +553,12 @@ abstract class BaseDatabaseModel extends CMSObject
 			return false;
 		}
 
-		$rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
-		$typeId   = Table::getInstance('Contenttype')->getTypeId($this->typeAlias);
+		$typeAlias = explode('.', $historyTable->item_id);
+		array_pop($typeAlias);
 
-		if ($historyTable->ucm_type_id != $typeId)
+		$rowArray = ArrayHelper::fromObject(json_decode($historyTable->version_data));
+
+		if (implode('.', $typeAlias) != $this->typeAlias)
 		{
 			$this->setError(Text::_('JLIB_APPLICATION_ERROR_HISTORY_ID_MISMATCH'));
 

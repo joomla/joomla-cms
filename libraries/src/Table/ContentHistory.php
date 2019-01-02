@@ -48,7 +48,7 @@ class ContentHistory extends Table
 	 */
 	public function __construct(DatabaseDriver $db)
 	{
-		parent::__construct('#__ucm_history', 'version_id', $db);
+		parent::__construct('#__history', 'version_id', $db);
 		$this->ignoreChanges = array(
 			'modified_by',
 			'modified_user_id',
@@ -76,7 +76,8 @@ class ContentHistory extends Table
 	{
 		$this->set('character_count', strlen($this->get('version_data')));
 		$typeTable = Table::getInstance('ContentType', 'JTable', array('dbo' => $this->getDbo()));
-		$typeTable->load($this->ucm_type_id);
+		$typeAlias = explode('.', $this->item_id);
+		$typeTable->load(array('type_alias' => $typeAlias[0] . '.' . $typeAlias[1]));
 
 		if (!isset($this->sha1_hash))
 		{
@@ -170,9 +171,8 @@ class ContentHistory extends Table
 		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select('*')
-			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
+			->from($db->quoteName('#__history'))
+			->where($db->quoteName('item_id') . ' = ' . $db->quote($this->get('item_id')))
 			->where($db->quoteName('sha1_hash') . ' = ' . $db->quote($this->get('sha1_hash')));
 		$db->setQuery($query, 0, 1);
 
@@ -196,9 +196,8 @@ class ContentHistory extends Table
 		$db    = $this->_db;
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName('version_id'))
-			->from($db->quoteName('#__ucm_history'))
-			->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
-			->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
+			->from($db->quoteName('#__history'))
+			->where($db->quoteName('item_id') . ' = ' . $db->quote($this->get('item_id')))
 			->where($db->quoteName('keep_forever') . ' != 1')
 			->order($db->quoteName('save_date') . ' DESC ');
 		$db->setQuery($query, 0, (int) $maxVersions);
@@ -209,9 +208,8 @@ class ContentHistory extends Table
 		{
 			// Delete any rows not in our list and and not flagged to keep forever.
 			$query = $db->getQuery(true);
-			$query->delete($db->quoteName('#__ucm_history'))
-				->where($db->quoteName('ucm_item_id') . ' = ' . (int) $this->get('ucm_item_id'))
-				->where($db->quoteName('ucm_type_id') . ' = ' . (int) $this->get('ucm_type_id'))
+			$query->delete($db->quoteName('#__history'))
+				->where($db->quoteName('item_id') . ' = ' . $db->quote($this->get('item_id')))
 				->where($db->quoteName('version_id') . ' NOT IN (' . implode(',', $idsToSave) . ')')
 				->where($db->quoteName('keep_forever') . ' != 1');
 			$db->setQuery($query);

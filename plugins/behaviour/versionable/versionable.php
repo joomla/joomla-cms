@@ -66,7 +66,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 			return;
 		}
 
-		// If the table already has a tags helper we have nothing to do
+		// If the table already has a history helper we have nothing to do
 		if (property_exists($table, 'contenthistoryHelper'))
 		{
 			return;
@@ -102,11 +102,8 @@ class PlgBehaviourVersionable extends CMSPlugin
 			return;
 		}
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
 		// If the table doesn't support UCM we can't use the Versionable behaviour
-		if (is_null($typeAlias))
+		if (is_null($table->typeAlias))
 		{
 			return;
 		}
@@ -118,7 +115,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 		}
 
 		// Get the Tags helper and assign the parsed alias
-		$table->contenthistoryHelper->typeAlias = $typeAlias;
+		$table->contenthistoryHelper->typeAlias = $table->typeAlias;
 
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
@@ -143,11 +140,8 @@ class PlgBehaviourVersionable extends CMSPlugin
 		/** @var JTableInterface $table */
 		$table			= $event['subject'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
 		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		if (is_null($table->typeAlias))
 		{
 			return;
 		}
@@ -158,45 +152,12 @@ class PlgBehaviourVersionable extends CMSPlugin
 			return;
 		}
 
-		$table->contenthistoryHelper->typeAlias = $typeAlias;
+		$table->contenthistoryHelper->typeAlias = $table->typeAlias;
 		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
 
 		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
 			$table->contenthistoryHelper->deleteHistory($table);
 		}
-	}
-
-	/**
-	 * Internal method
-	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
-	 *
-	 * @param   JTableInterface  &$table  The table
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 *
-	 * @internal
-	 */
-	protected function parseTypeAlias(TableInterface &$table)
-	{
-		if (!isset($table->typeAlias))
-		{
-			return null;
-		}
-
-		if (empty($table->typeAlias))
-		{
-			return null;
-		}
-
-		return preg_replace_callback('/{([^}]+)}/',
-			function($matches) use ($table)
-			{
-				return $table->{$matches[1]};
-			},
-			$table->typeAlias
-		);
 	}
 }
