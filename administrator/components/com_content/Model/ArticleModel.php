@@ -667,6 +667,7 @@ class ArticleModel extends AdminModel
 		}
 		else
 		{
+			// For new articles we load the potential state + associations
 			if ($formField = $form->getField('catid'))
 			{
 				$assignedCatids = (int) ($data['catid'] ?? $form->getValue('catid'));
@@ -675,6 +676,7 @@ class ArticleModel extends AdminModel
 					? (int) reset($assignedCatids)
 					: (int) $assignedCatids;
 
+				// Try to get the category from the html code of the field
 				if (empty($assignedCatids))
 				{
 					$assignedCatids = $formField->getAttribute('default', null);
@@ -693,6 +695,7 @@ class ArticleModel extends AdminModel
 					}
 				}
 
+				// Activate the reload of the form when category is changed
 				$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
 				$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
 				$form->setFieldAttribute('catid', 'custom-fields-section', 'article');
