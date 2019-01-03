@@ -194,7 +194,7 @@ class HtmlView extends BaseHtmlView
 				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
 		}
-		
+
 		if (!$state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
 			$toolbar->confirmButton('delete')
