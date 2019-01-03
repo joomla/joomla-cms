@@ -21,7 +21,7 @@ use Joomla\CMS\Layout\FileLayout;
 	<?php echo $this->msg; ?>
 <?php else : ?>
 	<?php $lang      = Factory::getLanguage(); ?>
-	<?php $myrtl     = $this->newsfeed->rtl; ?>
+	<?php $myrtl     = $this->item->rtl; ?>
 	<?php $direction = ' '; ?>
 	<?php $isRtl     = $lang->isRtl(); ?>
 	<?php if ($isRtl && $myrtl == 0) : ?>
