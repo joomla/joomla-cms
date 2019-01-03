@@ -94,7 +94,7 @@ final class MetadataManager
 			return;
 		}
 
-		$query->clear();
+		$query = $this->db->getQuery(true);
 
 		$time = $session->isNew() ? time() : $session->get('session.timer.start');
 
@@ -118,7 +118,7 @@ final class MetadataManager
 		// Bind query values
 		$userIsGuest = $user->guest;
 		$userId      = $user->id;
-		$username    = $user->username;
+		$username    = $user->username === null ? '' : $user->username;
 
 		$query->bind(':session_id', $sessionId)
 			->bind(':guest', $userIsGuest, ParameterType::BOOLEAN)
