@@ -10,7 +10,7 @@ namespace Joomla\CMS\Service\Provider;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\WebAsset\WebAssetRegistry;
+use Joomla\CMS\WebAsset\WebAssetRegistry as Registry;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -19,7 +19,7 @@ use Joomla\DI\ServiceProviderInterface;
  *
  * @since  4.0.0
  */
-class WebAsset implements ServiceProviderInterface
+class WebAssetRegistry implements ServiceProviderInterface
 {
 	/**
 	 * Registers the service provider with a DI container.
@@ -32,12 +32,12 @@ class WebAsset implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
-		$container->alias('webasset', WebAssetRegistry::class)
+		$container->alias('webassetregistry', Registry::class)
 			->share(
-				WebAssetRegistry::class,
+				Registry::class,
 				function (Container $container)
 				{
-					$registry = new WebAssetRegistry;
+					$registry = new Registry;
 
 					// Set up Dispatcher
 					$registry->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));

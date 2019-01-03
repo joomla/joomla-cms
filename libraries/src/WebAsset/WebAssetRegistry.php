@@ -384,7 +384,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	protected function updateDependency(): self
 	{
 		// First, deactivate all Dependency
-		foreach ($this->getAssetsByState(WebAssetItem::ASSET_STATE_DEPENDANCY) as $depItem)
+		foreach ($this->getAssetsByState(WebAssetItem::ASSET_STATE_DEPENDENCY) as $depItem)
 		{
 			$depItem->setState(WebAssetItem::ASSET_STATE_INACTIVE);
 		}
@@ -418,7 +418,7 @@ class WebAssetRegistry implements DispatcherAwareInterface
 			// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
 			if (!$depItem->isActive())
 			{
-				$depItem->setState(WebAssetItem::ASSET_STATE_DEPENDANCY);
+				$depItem->setState(WebAssetItem::ASSET_STATE_DEPENDENCY);
 			}
 		}
 

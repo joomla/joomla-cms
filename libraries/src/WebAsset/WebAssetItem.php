@@ -44,7 +44,7 @@ class WebAssetItem
 	 *
 	 * @since  4.0.0
 	 */
-	const ASSET_STATE_DEPENDANCY = 2;
+	const ASSET_STATE_DEPENDENCY = 2;
 
 	/**
 	 * Asset state
