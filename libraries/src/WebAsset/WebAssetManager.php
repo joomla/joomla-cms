@@ -35,7 +35,8 @@ class WebAssetManager implements DispatcherAwareInterface
 	protected $registry;
 
 	/**
-	 * A list of active assets and their dependencies
+	 * A list of active assets (including their dependencies).
+	 * Array of Name => State
 	 *
 	 * @var    array
 	 *
@@ -128,6 +129,25 @@ class WebAssetManager implements DispatcherAwareInterface
 		// @TODO: disable dependencies
 
 		return $this;
+	}
+
+	/**
+	 * Get a state for the Asset
+	 *
+	 * @param   string  $name  The asset name
+	 *
+	 * @return  int
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAssetState(string $name): int
+	{
+		if (!empty($this->activeAssets[$name]))
+		{
+			return $this->activeAssets[$name];
+		}
+
+		return WebAssetItem::ASSET_STATE_INACTIVE;
 	}
 
 	/**
@@ -359,5 +379,30 @@ var_dump(array_reverse($result));
 		$this->useVersioning = $useVersioning;
 
 		return $this;
+	}
+
+	/**
+	 * Dump available assets to simple array, with some basic info
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function debugAssets(): array
+	{
+		// Update dependencies
+		$assets = $this->calculateOrderOfActiveAssets();
+		$result = [];
+
+		foreach ($assets as $asset)
+		{
+			$result[$asset->getName()] = [
+				'name'   => $asset->getName(),
+				'deps'   => implode(', ', $asset->getDependencies()),
+				'state'  => $this->getAssetState($asset->getName()),
+			];
+		}
+
+		return $result;
 	}
 }
