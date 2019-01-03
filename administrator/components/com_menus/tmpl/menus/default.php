@@ -182,13 +182,13 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 															'bodyHeight'  => 70,
 															'modalWidth'  => 80,
 															'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
-																	. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#closeBtn\').click();">'
+																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#closeBtn\'})">'
 																	. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 																	. '<button type="button" class="btn btn-primary" aria-hidden="true"'
-																	. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#saveBtn\').click();">'
+																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#saveBtn\'})">'
 																	. Text::_('JSAVE') . '</button>'
 																	. '<button type="button" class="btn btn-success" aria-hidden="true"'
-																	. ' onclick="jQuery(\'#moduleEdit' . $module->id . 'Modal iframe\').contents().find(\'#applyBtn\').click();">'
+																	. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleEdit' . $module->id . 'Modal\', buttonSelector: \'#applyBtn\'})">'
 																	. Text::_('JAPPLY') . '</button>',
 														)
 													); ?>
@@ -211,13 +211,13 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 													'bodyHeight'  => 70,
 													'modalWidth'  => 80,
 													'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true"'
-															. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#closeBtn\').click();">'
+															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#closeBtn\'})">'
 															. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
 															. '<button type="button" class="btn btn-primary" aria-hidden="true"'
-															. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#saveBtn\').click();">'
+															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#saveBtn\'})">'
 															. Text::_('JSAVE') . '</button>'
 															. '<button type="button" class="btn btn-success" aria-hidden="true"'
-															. ' onclick="jQuery(\'#moduleAddModal iframe\').contents().find(\'#applyBtn\').click();">'
+															. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#moduleAddModal\', buttonSelector: \'#applyBtn\'})">'
 															. Text::_('JAPPLY') . '</button>',
 												)
 											); ?>
