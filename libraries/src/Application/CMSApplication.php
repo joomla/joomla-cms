@@ -171,7 +171,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkSession()
 	{
-		$this->getContainer()->get(MetadataManager::class)->createRecordIfNonExisting($this->getSession(), $this->getIdentity());
+		$this->getContainer()->get(MetadataManager::class)->createOrUpdateRecord($this->getSession(), $this->getIdentity());
 	}
 
 	/**
