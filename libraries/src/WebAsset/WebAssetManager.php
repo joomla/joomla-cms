@@ -142,6 +142,14 @@ class WebAssetManager implements DispatcherAwareInterface
 	 */
 	public function getAssetState(string $name): int
 	{
+		// Check whether asset exists first
+		$asset = $this->registry->getAsset($name);
+
+		if (!$asset)
+		{
+			throw new \RuntimeException('Asset "' . $name . '" does not exist');
+		}
+
 		if (!empty($this->activeAssets[$name]))
 		{
 			return $this->activeAssets[$name];
@@ -163,7 +171,9 @@ class WebAssetManager implements DispatcherAwareInterface
 	{
 		if ($asset)
 		{
-			foreach ($this->getDependenciesForAsset($asset, true) as $depItem)
+			$allDependencies = $this->getDependenciesForAsset($asset, true);
+
+			foreach ($allDependencies as $depItem)
 			{
 				// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
 				if (empty($this->activeAssets[$depItem->getName()]))
@@ -247,32 +257,29 @@ class WebAssetManager implements DispatcherAwareInterface
 	protected function calculateOrderOfActiveAssets(): array
 	{
 		// See https://en.wikipedia.org/wiki/Topological_sorting#Kahn.27s_algorithm
-		$result        = [];
-		$graphOutgoing = [];
-		$graphIncoming = [];
+		$graphOrder    = [];
 		$activeAssets  = [];
-var_dump($this->activeAssets);
+
 		foreach (array_keys($this->activeAssets) as $name)
 		{
-			$activeAssets[$name] = $this->registry->getAsset($name);
-		}
+			$asset = $this->registry->getAsset($name);
 
-		// Build Graphs of Outgoing and Incoming connections
-		foreach ($activeAssets as $asset)
-		{
-			$name = $asset->getName();
-			$graphOutgoing[$name] = array_combine($asset->getDependencies(), $asset->getDependencies());
-
-			if (!array_key_exists($name, $graphIncoming))
+			// Make sure the asset not removed from the repository since it was enabled.
+			if (!$asset)
 			{
-				$graphIncoming[$name] = [];
+				throw new \RuntimeException('Asset "' . $name . '" does not exist');
 			}
 
-			foreach ($asset->getDependencies() as $depName)
-			{
-				$graphIncoming[$depName][$name] = $name;
-			}
+			$activeAssets[$name] = $asset;
 		}
+
+		// Get Graph of Outgoing and Incoming connections
+		$connectionsGraph = $this->getConnectionsGraph($activeAssets);
+		$graphOutgoing    = $connectionsGraph['outgoing'];
+		$graphIncoming    = $connectionsGraph['incoming'];
+
+		// Make a copy to be used during weight processing
+		$graphIncomingCopy = $graphIncoming;
 
 		// Find items without incoming connections
 		$emptyIncoming = array_keys(
@@ -289,7 +296,7 @@ var_dump($this->activeAssets);
 		{
 			// Add the node without incoming connection to the result
 			$item = array_shift($emptyIncoming);
-			$result[] = $item;
+			$graphOrder[] = $item;
 
 			// Check of each neighbor of the node
 			foreach (array_reverse($graphOutgoing[$item]) as $neighbor)
@@ -305,17 +312,113 @@ var_dump($this->activeAssets);
 			}
 		}
 
-var_dump(array_reverse($result));
+		// Sync Graph order with FIFO order
+		$fifoWeights      = [];
+		$graphWeights     = [];
+		$requestedWeights = [];
+
+		foreach (array_keys($this->activeAssets) as $index => $name)
+		{
+			$fifoWeights[$name] = $index * 10 + 10;
+		}
+
+		foreach (array_reverse($graphOrder) as $index => $name)
+		{
+			$graphWeights[$name]     = $index * 10 + 10;
+			$requestedWeights[$name] = $activeAssets[$name]->getWeight() ?: $fifoWeights[$name];
+		}
+
+		// Try to set a requested weight, or make it close as possible to requested, but keep the Graph order
+		while ($requestedWeights)
+		{
+			$item   = key($requestedWeights);
+			$weight = array_shift($requestedWeights);
+
+			// Skip empty items
+			if ($weight === null)
+			{
+				continue;
+			}
+
+			// Check the predecessors (Outgoing vertexes), the weight cannot be lighter than the predecessor have
+			$topBorder = $weight - 1;
+			if (!empty($graphOutgoing[$item]))
+			{
+				$prevWeights = [];
+				foreach ($graphOutgoing[$item] as $pItem)
+				{
+					$prevWeights[] = $graphWeights[$pItem];
+				}
+				$topBorder = max($prevWeights);
+			}
+
+			// Calculate a new weight
+			$newWeight = $weight > $topBorder ? $weight : $topBorder + 1;
+
+			// If a new weight heavier than existing, then we need to update all incoming connections (children)
+			if ($newWeight > $graphWeights[$item] && !empty($graphIncomingCopy[$item]))
+			{
+				// Sort Graph of incoming by actual position
+				foreach ($graphIncomingCopy[$item] as $incomingItem)
+				{
+					// Set a weight heavier than current, then this node to be processed in next iteration
+					if (empty($requestedWeights[$incomingItem]))
+					{
+						$requestedWeights[$incomingItem] = $graphWeights[$incomingItem] + $newWeight;
+					}
+				}
+			}
+
+			// Set a new weight
+			$graphWeights[$item] = $newWeight;
+		}
+
+		asort($graphWeights);
 
 		// Get Assets in calculated order
-		$resultAssets = [];
-		foreach (array_reverse($result) as $index => $name)
+		$resultAssets  = [];
+		foreach (array_keys($graphWeights) as $name)
 		{
-			//$activeAssets[$name]->setWeight($index + 1);
 			$resultAssets[$name] = $activeAssets[$name];
 		}
 
 		return $resultAssets;
+	}
+
+	/**
+	 * Build Graph of Outgoing and Incoming connections for given assets.
+	 *
+	 * @param   WebAssetItem[]  $assets  Asset instances
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function getConnectionsGraph (array $assets): array
+	{
+		$graphOutgoing = [];
+		$graphIncoming = [];
+
+		foreach ($assets as $asset)
+		{
+			$name = $asset->getName();
+			$graphOutgoing[$name] = array_combine($asset->getDependencies(), $asset->getDependencies());
+
+			if (!array_key_exists($name, $graphIncoming))
+			{
+				$graphIncoming[$name] = [];
+			}
+
+			foreach ($asset->getDependencies() as $depName)
+			{
+				$graphIncoming[$depName][$name] = $name;
+			}
+		}
+
+		return [
+			'outgoing' => $graphOutgoing,
+			'incoming' => $graphIncoming,
+		];
 	}
 
 	/**
