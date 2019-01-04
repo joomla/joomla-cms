@@ -124,14 +124,12 @@ class SiteMenu extends AbstractMenu
 
 		foreach ($this->getMenu() as &$item)
 		{
-			// Set the constructor
-			$item->setMenuConstructor($this);
-
 			// Get parent information.
 			$parent_tree = array();
 
 			if (isset($this->getMenu()[$item->parent_id]))
 			{
+				$item->setParent($this->getMenu()[$item->parent_id]);
 				$parent_tree  = $this->getMenu()[$item->parent_id]->tree;
 			}
 
