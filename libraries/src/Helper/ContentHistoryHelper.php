@@ -68,7 +68,6 @@ class ContentHistoryHelper extends CMSHelper
 	/**
 	 * Method to get a list of available versions of this item.
 	 *
-	 * @param   integer  $typeId  Type id for this component item.
 	 * @param   mixed    $id      Primary key of row to get history for.
 	 *
 	 * @return  mixed   The return value or null if the query failed.
