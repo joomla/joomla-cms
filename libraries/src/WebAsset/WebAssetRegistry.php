@@ -187,13 +187,6 @@ class WebAssetRegistry implements DispatcherAwareInterface
 	 */
 	public function addAsset(WebAssetItem $asset): self
 	{
-		// Check whether the asset already exists, so we must copy its state before override
-		if (!empty($this->assets[$asset->getName()]))
-		{
-			$existing = $this->assets[$asset->getName()];
-			$asset->setState($existing->getState());
-		}
-
 		$this->assets[$asset->getName()] = $asset;
 
 		return $this;
