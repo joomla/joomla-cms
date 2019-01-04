@@ -179,10 +179,11 @@ class ContenthistoryHelper
 		}
 		else
 		{
-			$aliasArray = explode('.', $typesTable->type_alias);var_dump($aliasArray, $typesTable);
+			$aliasArray = explode('.', $typesTable->type_alias);
 			$component = ($aliasArray[1] == 'category') ? 'com_categories' : $aliasArray[0];
 			$path  = Folder::makeSafe(JPATH_ADMINISTRATOR . '/components/' . $component . '/models/forms/');
-			$file = File::makeSafe($aliasArray[1] . '.xml');
+			array_shift($aliasArray);
+			$file = File::makeSafe(implode('.', $aliasArray) . '.xml');
 			$result = File::exists($path . $file) ? $path . $file : false;
 		}
 

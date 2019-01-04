@@ -1703,7 +1703,7 @@ CREATE TABLE IF NOT EXISTS `#__history` (
   `version_data` mediumtext NOT NULL COMMENT 'json-encoded string of version data',
   `keep_forever` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0=auto delete; 1=keep',
   PRIMARY KEY (`version_id`),
-  KEY `idx_ucm_item_id` (`item_id`),
+  KEY `idx_item_id` (`item_id`),
   KEY `idx_save_date` (`save_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 

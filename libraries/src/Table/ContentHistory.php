@@ -77,7 +77,8 @@ class ContentHistory extends Table
 		$this->set('character_count', strlen($this->get('version_data')));
 		$typeTable = Table::getInstance('ContentType', 'JTable', array('dbo' => $this->getDbo()));
 		$typeAlias = explode('.', $this->item_id);
-		$typeTable->load(array('type_alias' => $typeAlias[0] . '.' . $typeAlias[1]));
+		array_pop($typeAlias);
+		$typeTable->load(array('type_alias' => implode('.', $typeAlias)));
 
 		if (!isset($this->sha1_hash))
 		{
