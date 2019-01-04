@@ -26,6 +26,33 @@ class WebAssetManager implements DispatcherAwareInterface
 	use DispatcherAwareTrait;
 
 	/**
+	 * Mark inactive asset
+	 *
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ASSET_STATE_INACTIVE = 0;
+
+	/**
+	 * Mark active asset. Just enabled, but WITHOUT dependency resolved
+	 *
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ASSET_STATE_ACTIVE = 1;
+
+	/**
+	 * Mark active asset that is enabled as dependency to another asset
+	 *
+	 * @var    integer
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const ASSET_STATE_DEPENDENCY = 2;
+
+	/**
 	 * The WebAsset Registry instance
 	 *
 	 * @var    WebAssetRegistry
@@ -101,12 +128,12 @@ class WebAssetManager implements DispatcherAwareInterface
 		if (!empty($this->activeAssets[$name]))
 		{
 			// Set state to active, in case it was ASSET_STATE_DEPENDENCY
-			$this->activeAssets[$name] = WebAssetItem::ASSET_STATE_ACTIVE;
+			$this->activeAssets[$name] = static::ASSET_STATE_ACTIVE;
 
 			return $this;
 		}
 
-		$this->activeAssets[$name] = WebAssetItem::ASSET_STATE_ACTIVE;
+		$this->activeAssets[$name] = static::ASSET_STATE_ACTIVE;
 
 		$this->enableDependencies($asset);
 
@@ -155,7 +182,21 @@ class WebAssetManager implements DispatcherAwareInterface
 			return $this->activeAssets[$name];
 		}
 
-		return WebAssetItem::ASSET_STATE_INACTIVE;
+		return static::ASSET_STATE_INACTIVE;
+	}
+
+	/**
+	 * Check whether the asset are enabled
+	 *
+	 * @param   string  $name  The asset name
+	 *
+	 * @return  bool
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function isAssetActive(string $name): bool
+	{
+		return $this->getAssetState($name) !== static::ASSET_STATE_INACTIVE;
 	}
 
 	/**
@@ -178,7 +219,7 @@ class WebAssetManager implements DispatcherAwareInterface
 				// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
 				if (empty($this->activeAssets[$depItem->getName()]))
 				{
-					$this->activeAssets[$depItem->getName()] = WebAssetItem::ASSET_STATE_DEPENDENCY;
+					$this->activeAssets[$depItem->getName()] = static::ASSET_STATE_DEPENDENCY;
 				}
 			}
 		}
