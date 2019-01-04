@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\Filesystem\Path;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 
@@ -90,8 +89,6 @@ class WebAssetManager implements DispatcherAwareInterface
 	public function __construct(WebAssetRegistry $registry)
 	{
 		$this->registry = $registry;
-
-		$this->setDispatcher($this->registry->getDispatcher());
 	}
 
 	/**
@@ -243,15 +240,18 @@ class WebAssetManager implements DispatcherAwareInterface
 	public function attachActiveAssetsToDocument(Document $doc): self
 	{
 		// Trigger the event
-//		$event = AbstractEvent::create(
-//			'onWebAssetBeforeAttach',
-//			[
-//				'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetBeforeAttachEvent',
-//				'subject'  => $this,
-//				'document' => $doc,
-//			]
-//		);
-//		$this->getDispatcher()->dispatch($event->getName(), $event);
+//		if ($this->getDispatcher())
+//		{
+//			$event = AbstractEvent::create(
+//				'onWebAssetBeforeAttach',
+//				[
+//					'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetBeforeAttachEvent',
+//					'subject'  => $this,
+//					'document' => $doc,
+//				]
+//			);
+//			$this->getDispatcher()->dispatch($event->getName(), $event);
+//		}
 
 		// Resolve an Order of Assets and their Dependencies
 		$assets = $this->calculateOrderOfActiveAssets();

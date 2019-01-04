@@ -39,9 +39,6 @@ class WebAssetRegistry implements ServiceProviderInterface
 				{
 					$registry = new Registry;
 
-					// Set up Dispatcher
-					$registry->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
-
 					// Add Core registry files
 					$registry->addRegistryFile('media/vendor/joomla.asset.json')
 						->addRegistryFile('media/system/joomla.asset.json')
