@@ -31,7 +31,6 @@ use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
-use Joomla\Plugin\System\Debug\DebugMonitor;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
@@ -114,7 +113,7 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * The query monitor.
 	 *
-	 * @var    DebugMonitor
+	 * @var    \Joomla\Database\Monitor\DebugMonitor
 	 * @since  4.0.0
 	 */
 	private $queryMonitor;
@@ -166,10 +165,14 @@ class PlgSystemDebug extends CMSPlugin
 		// @todo Remove when a standard autoloader is available.
 		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
 
-		// Attach our query monitor to the database driver
-		$this->queryMonitor = new DebugMonitor(JDEBUG);
+		/** @var \Joomla\Database\Monitor\DebugMonitor */
+		$this->queryMonitor = $this->db->getMonitor();
 
-		$this->db->setMonitor($this->queryMonitor);
+		if (!$this->params->get('queries', 1))
+		{
+			// Remove the database driver monitor
+			$this->db->setMonitor(null);
+		}
 
 		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getClientId();
 
@@ -466,8 +469,8 @@ class PlgSystemDebug extends CMSPlugin
 
 		$db = $event->getDriver();
 
-		// Set a dummy monitor to avoid monitoring the following queries
-		$db->setMonitor(new DebugMonitor);
+		// Remove the monitor to avoid monitoring the following queries
+		$db->setMonitor(null);
 
 		$this->totalQueries = $db->getCount();
 
@@ -508,9 +511,9 @@ class PlgSystemDebug extends CMSPlugin
 
 		if ($this->params->get('query_explains') && in_array($db->getServerType(), ['mysql', 'postgresql'], true))
 		{
-			$log = $this->queryMonitor->getLog();
+			$logs = $this->queryMonitor->getLogs();
 
-			foreach ($log as $k => $query)
+			foreach ($logs as $k => $query)
 			{
 				$dbVersion56 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.6', '>=');
 
