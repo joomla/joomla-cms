@@ -10,6 +10,8 @@ namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Tree\ImmutableNodeInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -18,7 +20,7 @@ use Joomla\Registry\Registry;
  * @since  3.7.0
  * @note   This class will no longer extend stdClass in Joomla 4
  */
-class MenuItem extends \stdClass
+class MenuItem extends \stdClass implements ImmutableNodeInterface
 {
 	/**
 	 * Primary key
@@ -190,6 +192,14 @@ class MenuItem extends \stdClass
 	public $query = array();
 
 	/**
+	 * The constructor of this node to retrieve other parts of the tree
+	 *
+	 * @var    AbstractMenu
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $constructor;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $data  The menu item data to load
@@ -205,66 +215,167 @@ class MenuItem extends \stdClass
 	}
 
 	/**
-	 * Method to get certain otherwise inaccessible properties from the form field object.
+	 * Method to clean up the object before serialisation
 	 *
-	 * @param   string  $name  The property name for which to get the value.
+	 * @return  array  An array of object vars
 	 *
-	 * @return  mixed  The property value or null.
-	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0  Access the item parameters through the `getParams()` method
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __get($name)
+	public function __sleep()
 	{
-		if ($name === 'params')
-		{
-			return $this->getParams();
-		}
+		$this->constructor = null;
 
-		return $this->get($name);
+		return array_keys(get_object_vars($this));
 	}
 
 	/**
-	 * Method to set certain otherwise inaccessible properties of the form field object.
+	 * Method to set the constructor of this node to retrieve other parts of the tree
 	 *
-	 * @param   string  $name   The property name for which to set the value.
-	 * @param   mixed   $value  The value of the property.
+	 * @param   AbstractMenu  $constructor  Constructor
 	 *
 	 * @return  void
 	 *
-	 * @since   3.7.0
-	 * @deprecated  4.0  Set the item parameters through the `setParams()` method
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __set($name, $value)
+	public function setMenuConstructor(AbstractMenu $constructor)
 	{
-		if ($name === 'params')
-		{
-			$this->setParams($value);
-
-			return;
-		}
-
-		$this->set($name, $value);
+		$this->constructor = $constructor;
 	}
 
 	/**
-	 * Method check if a certain otherwise inaccessible properties of the form field object is set.
+	 * Get the children of this node
 	 *
-	 * @param   string  $name  The property name to check.
+	 * @param   boolean  $recursive  False by default
 	 *
-	 * @return  boolean
+	 * @return  NodeInterface[]  The children
 	 *
-	 * @since   3.7.1
-	 * @deprecated  4.0 Deprecated without replacement
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function __isset($name)
+	public function &getChildren($recursive = false)
 	{
-		if ($name === 'params')
+		$children = $this->constructor->getItems('parent_id', $this->id);
+
+		if ($recursive)
 		{
-			return !($this->params instanceof Registry);
+			$items = array();
+
+			foreach ($children as $child)
+			{
+				$items[] = $child;
+				$items = array_merge($items, $child->getChildren(true));
+			}
+
+			return $items;
 		}
 
-		return $this->get($name) !== null;
+		return $children;
+	}
+
+	/**
+	 * Get the parent of this node
+	 *
+	 * @return  NodeInterface|null
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getParent()
+	{
+		if ($this->parent_id != 1)
+		{
+			return $this->constructor->getItem($this->parent_id);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get the root of the tree
+	 * 
+	 * @return  NodeInterface
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getRoot()
+	{
+		$root = $this->getParent();
+
+		if (!$root)
+		{
+			return $this;
+		}
+
+		while ($root->getParent())
+		{
+			$root = $root->getParent();
+		}
+
+		return $root;
+	}
+
+	/**
+	 * Test if this node has children
+	 *
+	 * @return  boolean  True if there is a child
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasChildren()
+	{
+		return (bool) count($this->getChildren());
+	}
+
+	/**
+	 * Test if this node has a parent
+	 *
+	 * @return  boolean  True if there is a parent
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function hasParent()
+	{
+		return $this->parent_id > 1 ? true : false;
+	}
+
+	/**
+	 * Returns the right or left sibling of a node
+	 *
+	 * @param   boolean  $right  If set to false, returns the left sibling
+	 *
+	 * @return  NodeInterface|null  NodeInterface object of the sibling.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getSibling($right = true)
+	{
+		$children = $this->constructor->getItems('parent_id', $this->parent_id);
+
+		$prev = null;
+		$found = false;
+
+		foreach ($children as $child)
+		{
+			// The previous child is our current node and we want the right node
+			if ($found)
+			{
+				return $child;
+			}
+
+			// We found the current node
+			if ($child->id == $this->id)
+			{
+				// We want the left node
+				if (!$right)
+				{
+					return $prev;
+				}
+
+				$found = true;
+			}
+
+			$prev = $child;
+		}
+
+		return null;
 	}
 
 	/**

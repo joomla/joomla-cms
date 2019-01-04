@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Tree\NodeInterface;
 use Joomla\Registry\Registry;
 
 /**
@@ -19,7 +20,7 @@ use Joomla\Registry\Registry;
  *
  * @since  1.6
  */
-class CategoryNode extends CMSObject
+class CategoryNode extends CMSObject implements NodeInterface
 {
 	/**
 	 * Primary key
@@ -296,7 +297,7 @@ class CategoryNode extends CMSObject
 	/**
 	 * Constructor of this tree
 	 *
-	 * @var    CategoryNode
+	 * @var    Categories
 	 * @since  1.6
 	 */
 	protected $_constructor = null;
@@ -304,8 +305,8 @@ class CategoryNode extends CMSObject
 	/**
 	 * Class constructor
 	 *
-	 * @param   array         $category     The category data.
-	 * @param   CategoryNode  $constructor  The tree constructor.
+	 * @param   array       $category     The category data.
+	 * @param   Categories  $constructor  The tree constructor.
 	 *
 	 * @since   1.6
 	 */
@@ -579,6 +580,30 @@ class CategoryNode extends CMSObject
 	public function getPath()
 	{
 		return $this->_path;
+	}
+
+	/**
+	 * Get the root of the tree
+	 * 
+	 * @return  CategoryNode
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getRoot()
+	{
+		$root = $this->getParent();
+
+		if (!$root)
+		{
+			return $this;
+		}
+
+		while ($root->getParent())
+		{
+			$root = $root->getParent();
+		}
+
+		return $root;
 	}
 
 	/**
