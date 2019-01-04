@@ -102,7 +102,7 @@ class JDatabaseExporterPgsql extends JDatabaseExporterPostgresql
 					{
 						$buffer[] = '    <field name="' . $key . '">' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '</field>';
 					}
-					else if (in_array($key, $collob))
+					elseif (in_array($key, $collob))
 					{
 						$buffer[] = '    <field name="' . $key . '">' . htmlspecialchars(stream_get_contents($value), ENT_COMPAT, 'UTF-8') . '</field>';
 					}
