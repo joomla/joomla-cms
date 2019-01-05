@@ -49,7 +49,7 @@ trait NodeTrait
 		{
 			end($this->_parent->_children);
 			$this->_leftSibling = prev($this->_parent->_children);
-			$this->_leftSibling->_rightsibling = & $this;
+			$this->_leftSibling->_rightSibling = & $this;
 		}
 	}
 
