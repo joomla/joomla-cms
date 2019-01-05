@@ -20,7 +20,7 @@ $user      = Factory::getUser();
 ?>
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
-	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="jQuery('.chk-menulink').attr('checked', !jQuery('.chk-menulink').attr('checked'));">
+	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="document.querySelector('.chk-menulink').setAttribute('checked', !document.querySelector('.chk-menulink').getAttribute('checked'));">
 		<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT_ALL'); ?>
 	</button>
 </div>
@@ -30,7 +30,7 @@ $user      = Factory::getUser();
 		<?php foreach ($menuTypes as &$type) : ?>
 			<li>
 				<div class="menu-links-block">
-					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick="jQuery('.<?php echo $type->menutype; ?>').attr('checked', !jQuery('.<?php echo $type->menutype; ?>').attr('checked'));">
+					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick="document.querySelector('.<?php echo $type->menutype; ?>').setAttribute('checked', !document.querySelector('.<?php echo $type->menutype; ?>').getAttribute('checked'));">
 						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?>
 					</button>
 					<h5><?php echo $type->title ?: $type->menutype; ?></h5>
