@@ -32,7 +32,7 @@ class AccesslevelField extends ListField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.form.field.accesslevel';
 }

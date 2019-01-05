@@ -93,17 +93,16 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 				return false;
 			}
 
-			$checkedOutField = $table->getColumnAlias('checked_out');
-			$checkedOutTimeField = $table->getColumnAlias('checked_out_time');
-
 			// If there is no checked_out or checked_out_time field, just return true.
-			if (!$table->hasField($checkedOutField) || !$table->hasField($checkedOutTimeField))
+			if (!$table->hasField('checked_out') || !$table->hasField('checked_out_time'))
 			{
 				return true;
 			}
 
+			$checkedOutField = $table->getColumnAlias('checked_out');
+
 			// Check if this is the user having previously checked out the row.
-			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
+			if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
 			{
 				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
 
@@ -146,19 +145,17 @@ abstract class FormModel extends BaseDatabaseModel implements FormFactoryAwareIn
 				return false;
 			}
 
-			$checkedOutField = $table->getColumnAlias('checked_out');
-			$checkedOutTimeField = $table->getColumnAlias('checked_out_time');
-
 			// If there is no checked_out or checked_out_time field, just return true.
-			if (!$table->hasField($checkedOutField) || !$table->hasField($checkedOutTimeField))
+			if (!$table->hasField('checked_out') || !$table->hasField('checked_out_time'))
 			{
 				return true;
 			}
 
-			$user = Factory::getUser();
+			$user            = Factory::getUser();
+			$checkedOutField = $table->getColumnAlias('checked_out');
 
 			// Check if this is the user having previously checked out the row.
-			if ($table->{$checkedOutField} > 0 && $table->{$checkedOutField} != $user->get('id'))
+			if ($table->$checkedOutField > 0 && $table->$checkedOutField != $user->get('id'))
 			{
 				$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKOUT_USER_MISMATCH'));
 

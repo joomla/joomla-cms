@@ -15,37 +15,33 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.tabstate');
 ?>
+<div class="row">
+	<?php // Begin Content ?>
+	<div class="col-md-12">
+		<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'site')); ?>
 
-<form action="<?php echo Route::_('index.php?option=com_admin&view=sysinfo'); ?>" method="post" name="adminForm" id="adminForm">
-	<div class="row">
-		<?php // Begin Content ?>
-		<div class="col-md-12">
-			<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'site')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'site', Text::_('COM_ADMIN_SYSTEM_INFORMATION')); ?>
+		<?php echo $this->loadTemplate('system'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'site', Text::_('COM_ADMIN_SYSTEM_INFORMATION')); ?>
-			<?php echo $this->loadTemplate('system'); ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'phpsettings', Text::_('COM_ADMIN_PHP_SETTINGS')); ?>
+		<?php echo $this->loadTemplate('phpsettings'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'phpsettings', Text::_('COM_ADMIN_PHP_SETTINGS')); ?>
-			<?php echo $this->loadTemplate('phpsettings'); ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'config', Text::_('COM_ADMIN_CONFIGURATION_FILE')); ?>
+		<?php echo $this->loadTemplate('config'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'config', Text::_('COM_ADMIN_CONFIGURATION_FILE')); ?>
-			<?php echo $this->loadTemplate('config'); ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'directory', Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS')); ?>
+		<?php echo $this->loadTemplate('directory'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'directory', Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS')); ?>
-			<?php echo $this->loadTemplate('directory'); ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'phpinfo', Text::_('COM_ADMIN_PHP_INFORMATION')); ?>
+		<?php echo $this->loadTemplate('phpinfo'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'phpinfo', Text::_('COM_ADMIN_PHP_INFORMATION')); ?>
-			<?php echo $this->loadTemplate('phpinfo'); ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-
-			<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-		</div>
-		<input type="hidden" name="task" value="">
-		<?php echo HTMLHelper::_('form.token'); ?>
-		<?php // End Content ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</div>
-</form>
+	<?php // End Content ?>
+</div>
+
