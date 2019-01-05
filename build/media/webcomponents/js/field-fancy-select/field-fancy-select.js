@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,6 +42,12 @@
     set value($val)         { this.choicesInstance.setValueByChoice('' + $val); }
 
     connectedCallback() {
+
+      // The element was already initialised previously and perhaps was detached from DOM
+      if (this.choicesInstance) {
+        return;
+      }
+
       if (!window.Choices) {
         throw new Error('JoomlaFieldFancySelect require Choices.js to work');
       }
@@ -111,7 +117,7 @@
       // Handle remote search
       if (this.remoteSearch && this.url) {
         // Cache existing
-        this.choicesInstance.presetChoices.forEach((choiceItem) => {
+        this.choicesInstance.config.choices.forEach((choiceItem) => {
           this.choicesCache[choiceItem.value] = choiceItem.label;
         });
 
@@ -126,14 +132,8 @@
     }
 
     disconnectedCallback() {
-      // Destroy Choices instance, to unbind an event listeners
-      if (this.choicesInstance) {
-        this.choicesInstance.destroy();
-        this.choicesInstance = null;
-      }
-      if (this.activeXHR){
+      if (this.activeXHR) {
         this.activeXHR.abort();
-        this.activeXHR = null;
       }
     }
 
@@ -158,8 +158,12 @@
           let item;
           for(let i = items.length - 1; i >= 0; i--) {
             item = items[i];
+            item.value = '' + item.value; // Make sure the value is a string, choices.js expect a string.
+
             if (this.choicesCache[item.value]) {
               items.splice(i, 1);
+            } else {
+              this.choicesCache[item.value] = item.text;
             }
           }
 
