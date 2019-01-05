@@ -240,18 +240,18 @@ class WebAssetManager implements DispatcherAwareInterface
 	public function attachActiveAssetsToDocument(Document $doc): self
 	{
 		// Trigger the event
-//		if ($this->getDispatcher())
-//		{
-//			$event = AbstractEvent::create(
-//				'onWebAssetBeforeAttach',
-//				[
-//					'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetBeforeAttachEvent',
-//					'subject'  => $this,
-//					'document' => $doc,
-//				]
-//			);
-//			$this->getDispatcher()->dispatch($event->getName(), $event);
-//		}
+		if ($this->getDispatcher())
+		{
+			$event = AbstractEvent::create(
+				'onWebAssetBeforeAttach',
+				[
+					'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetBeforeAttachEvent',
+					'subject'  => $this,
+					'document' => $doc,
+				]
+			);
+			$this->getDispatcher()->dispatch($event->getName(), $event);
+		}
 
 		// Resolve an Order of Assets and their Dependencies
 		$assets = $this->calculateOrderOfActiveAssets();
