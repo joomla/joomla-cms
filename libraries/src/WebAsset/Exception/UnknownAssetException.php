@@ -28,7 +28,7 @@ class UnknownAssetException extends \RuntimeException implements WebAssetExcepti
 	 */
 	public function __construct(string $assetName, int $code = 0, \Throwable $previous = null)
 	{
-		$message = 'Unknown asset "' . $assetName . '".';
+		$message = 'Unknown asset "' . $assetName . '"';
 
 		parent::__construct($message, $code, $previous);
 	}

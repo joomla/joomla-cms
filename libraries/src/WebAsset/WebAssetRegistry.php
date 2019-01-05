@@ -11,6 +11,7 @@ namespace Joomla\CMS\WebAsset;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 
 /**
  * Web Asset Factory class
@@ -93,19 +94,21 @@ class WebAssetRegistry
 	 *
 	 * @return  WebAssetItem|null
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
 	 * @since   4.0.0
 	 */
-	public function getAsset(string $name)
+	public function get(string $name)
 	{
 		// Check if any new file was added
 		$this->parseRegistryFiles();
 
-		if (!empty($this->assets[$name]))
+		if (empty($this->assets[$name]))
 		{
-			return $this->assets[$name];
+			throw new UnknownAssetException($name);
 		}
 
-		return null;
+		return $this->assets[$name];
 	}
 
 	/**
@@ -117,7 +120,7 @@ class WebAssetRegistry
 	 *
 	 * @since   4.0.0
 	 */
-	public function addAsset(WebAssetItem $asset): self
+	public function add(WebAssetItem $asset): self
 	{
 		$this->assets[$asset->getName()] = $asset;
 
@@ -133,14 +136,25 @@ class WebAssetRegistry
 	 *
 	 * @since   4.0.0
 	 */
-	public function removeAsset(string $name): self
+	public function remove(string $name): self
 	{
-		if (!empty($this->assets[$name]))
-		{
-			unset($this->assets[$name]);
-		}
+		unset($this->assets[$name]);
 
 		return $this;
+	}
+
+	/**
+	 * Check whether the asset exists in the registry.
+	 *
+	 * @param   string  $name  Asset name
+	 *
+	 * @return  bool
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function exists(string $name): bool
+	{
+		return !empty($this->assets[$name]);
 	}
 
 	/**
@@ -250,7 +264,7 @@ class WebAssetRegistry
 
 			$item['assetSource'] = $assetSource;
 			$assetItem = $this->createAsset($item['name'], $item);
-			$this->addAsset($assetItem);
+			$this->add($assetItem);
 		}
 	}
 }

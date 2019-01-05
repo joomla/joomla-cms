@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
-use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -116,12 +115,7 @@ class WebAssetManager implements DispatcherAwareInterface
 	 */
 	public function enableAsset(string $name): self
 	{
-		$asset = $this->registry->getAsset($name);
-
-		if (!$asset)
-		{
-			throw new UnknownAssetException($name);
-		}
+		$asset = $this->registry->get($name);
 
 		// Asset already enabled
 		if (!empty($this->activeAssets[$name]))
@@ -170,12 +164,7 @@ class WebAssetManager implements DispatcherAwareInterface
 	public function getAssetState(string $name): int
 	{
 		// Check whether asset exists first
-		$asset = $this->registry->getAsset($name);
-
-		if (!$asset)
-		{
-			throw new UnknownAssetException($name);
-		}
+		$this->registry->get($name);
 
 		if (!empty($this->activeAssets[$name]))
 		{
@@ -219,15 +208,7 @@ class WebAssetManager implements DispatcherAwareInterface
 
 		foreach (array_keys($this->activeAssets) as $name)
 		{
-			$asset = $this->registry->getAsset($name);
-
-			// Make sure the asset not removed from the repository since it was enabled.
-			if (!$asset)
-			{
-				throw new UnknownAssetException($name);
-			}
-
-			$assets[$name] = $asset;
+			$assets[$name] = $this->registry->get($name);
 		}
 
 		return $assets;
@@ -269,14 +250,7 @@ class WebAssetManager implements DispatcherAwareInterface
 
 			foreach (array_keys($this->activeAssets) as $name)
 			{
-				$asset = $this->registry->getAsset($name);
-
-				// Make sure the asset not removed from the repository since it was enabled.
-				if (!$asset)
-				{
-					throw new UnknownAssetException($name);
-				}
-
+				$asset = $this->registry->get($name);
 				$this->enableDependencies($asset);
 			}
 		}
@@ -531,12 +505,12 @@ class WebAssetManager implements DispatcherAwareInterface
 				continue;
 			}
 
-			$dep = $this->registry->getAsset($depName);
-
-			if (!$dep)
+			if (!$this->registry->exists($depName))
 			{
-				throw new UnsatisfiedDependencyException('Unsatisfied dependency "' . $depName . '" for Asset "' . $asset->getName() . '".');
+				throw new UnsatisfiedDependencyException('Unsatisfied dependency "' . $depName . '" for Asset "' . $asset->getName() . '"');
 			}
+
+			$dep = $this->registry->get($depName);
 
 			$assets[$depName] = $dep;
 
