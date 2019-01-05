@@ -14,11 +14,11 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 
 /**
- * Web Asset Factory class
+ * Web Asset Registry class
  *
  * @since  4.0.0
  */
-class WebAssetRegistry
+class WebAssetRegistry implements WebAssetRegistryInterface
 {
 	/**
 	 * Files with Asset info. File path should be relative.
@@ -88,17 +88,16 @@ class WebAssetRegistry
 
 	/**
 	 * Get an existing Asset from a registry, by asset name.
-	 * Return asset object or false if asset does not exist.
 	 *
 	 * @param   string  $name  Asset name
 	 *
-	 * @return  WebAssetItem|null
+	 * @return  WebAssetItem
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
 	 * @since   4.0.0
 	 */
-	public function get(string $name)
+	public function get(string $name): WebAssetItemInterface
 	{
 		// Check if any new file was added
 		$this->parseRegistryFiles();
@@ -114,13 +113,13 @@ class WebAssetRegistry
 	/**
 	 * Add Asset to registry of known assets
 	 *
-	 * @param   WebAssetItem  $asset  Asset instance
+	 * @param   WebAssetItemInterface  $asset  Asset instance
 	 *
 	 * @return  self
 	 *
 	 * @since   4.0.0
 	 */
-	public function add(WebAssetItem $asset): self
+	public function add(WebAssetItemInterface $asset): WebAssetRegistryInterface
 	{
 		$this->assets[$asset->getName()] = $asset;
 
@@ -136,7 +135,7 @@ class WebAssetRegistry
 	 *
 	 * @since   4.0.0
 	 */
-	public function remove(string $name): self
+	public function remove(string $name): WebAssetRegistryInterface
 	{
 		unset($this->assets[$name]);
 

@@ -21,7 +21,7 @@ use Joomla\Event\DispatcherAwareTrait;
  *
  * @since  __DEPLOY_VERSION__
  */
-class WebAssetManager implements DispatcherAwareInterface
+class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterface
 {
 	use DispatcherAwareTrait;
 
@@ -113,7 +113,7 @@ class WebAssetManager implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function enableAsset(string $name): self
+	public function enableAsset(string $name): WebAssetManagerInterface
 	{
 		$asset = $this->registry->get($name);
 
@@ -142,7 +142,7 @@ class WebAssetManager implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function disableAsset(string $name): self
+	public function disableAsset(string $name): WebAssetManagerInterface
 	{
 		unset($this->activeAssets[$name]);
 
@@ -267,7 +267,7 @@ class WebAssetManager implements DispatcherAwareInterface
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	public function attachActiveAssetsToDocument(Document $doc): self
+	public function attachActiveAssetsToDocument(Document $doc): WebAssetManagerInterface
 	{
 		// Trigger the event
 		if ($this->getDispatcher())

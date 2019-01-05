@@ -17,7 +17,7 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  4.0.0
  */
-class WebAssetItem
+class WebAssetItem implements WebAssetItemInterface
 {
 	/**
 	 * Asset name
@@ -156,7 +156,7 @@ class WebAssetItem
 	}
 
 	/**
-	 * Return dependency
+	 * Return dependencies list
 	 *
 	 * @return  array
 	 *
@@ -198,7 +198,7 @@ class WebAssetItem
 	/**
 	 * Get CSS files
 	 *
-	 * @param   boolean  $resolvePath  Whether need to search for real path
+	 * @param   boolean  $resolvePath  Whether need to search for a real paths
 	 *
 	 * @return array
 	 *
@@ -235,7 +235,7 @@ class WebAssetItem
 	/**
 	 * Get JS files
 	 *
-	 * @param   boolean  $resolvePath  Whether we need to search for real path
+	 * @param   boolean  $resolvePath  Whether we need to search for a real paths
 	 *
 	 * @return array
 	 *
