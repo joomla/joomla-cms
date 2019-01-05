@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Field to load a list of all users that have logged actions
@@ -52,7 +55,7 @@ class JFormFieldLogCreator extends JFormFieldList
 
 			$options = array();
 
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Construct the query
 			$query = $db->getQuery(true)
