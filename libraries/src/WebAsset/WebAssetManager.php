@@ -150,7 +150,8 @@ class WebAssetManager implements DispatcherAwareInterface
 	{
 		unset($this->activeAssets[$name]);
 
-		// @TODO: disable dependencies
+		// Re-check dependencies
+		$this->enableDependencies();
 
 		return $this;
 	}
@@ -233,7 +234,7 @@ class WebAssetManager implements DispatcherAwareInterface
 	/**
 	 * Update Dependencies state for all active Assets or only for given
 	 *
-	 * @param   WebAssetItem  $asset  The asset name
+	 * @param   WebAssetItem  $asset  The asset instance to which need to enable dependencies
 	 *
 	 * @return  self
 	 *
