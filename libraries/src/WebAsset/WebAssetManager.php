@@ -12,6 +12,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
+use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 
@@ -118,7 +120,7 @@ class WebAssetManager implements DispatcherAwareInterface
 
 		if (!$asset)
 		{
-			throw new \RuntimeException('Asset "' . $name . '" does not exist');
+			throw new UnknownAssetException($name);
 		}
 
 		// Asset already enabled
@@ -172,7 +174,7 @@ class WebAssetManager implements DispatcherAwareInterface
 
 		if (!$asset)
 		{
-			throw new \RuntimeException('Asset "' . $name . '" does not exist');
+			throw new UnknownAssetException($name);
 		}
 
 		if (!empty($this->activeAssets[$name]))
@@ -222,7 +224,7 @@ class WebAssetManager implements DispatcherAwareInterface
 			// Make sure the asset not removed from the repository since it was enabled.
 			if (!$asset)
 			{
-				throw new \RuntimeException('Asset "' . $name . '" does not exist');
+				throw new UnknownAssetException($name);
 			}
 
 			$assets[$name] = $asset;
@@ -272,7 +274,7 @@ class WebAssetManager implements DispatcherAwareInterface
 				// Make sure the asset not removed from the repository since it was enabled.
 				if (!$asset)
 				{
-					throw new \RuntimeException('Asset "' . $name . '" does not exist');
+					throw new UnknownAssetException($name);
 				}
 
 				$this->enableDependencies($asset);
@@ -512,7 +514,7 @@ class WebAssetManager implements DispatcherAwareInterface
 	 *
 	 * @return  WebAssetItem[]
 	 *
-	 * @throws  \RuntimeException When Dependency cannot be found
+	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -533,7 +535,7 @@ class WebAssetManager implements DispatcherAwareInterface
 
 			if (!$dep)
 			{
-				throw new \RuntimeException('Cannot find Dependency "' . $depName . '" for Asset "' . $asset->getName() . '"');
+				throw new UnsatisfiedDependencyException('Unsatisfied dependency "' . $depName . '" for Asset "' . $asset->getName() . '".');
 			}
 
 			$assets[$depName] = $dep;
