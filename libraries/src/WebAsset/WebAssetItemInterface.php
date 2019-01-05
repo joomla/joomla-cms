@@ -45,6 +45,27 @@ interface WebAssetItemInterface
 	public function getDependencies(): array;
 
 	/**
+	 * Set the desired weight for the Asset in Graph.
+	 * Final weight will be calculated by AssetManager according to dependency Graph.
+	 *
+	 * @param   float  $weight  The asset weight
+	 *
+	 * @return  self
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function setWeight(float $weight): self;
+
+	/**
+	 * Return the weight of the Asset in Graph.
+	 *
+	 * @return  float
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getWeight(): float;
+
+	/**
 	 * Get CSS files
 	 *
 	 * @param   boolean  $resolvePath  Whether need to search for a real paths

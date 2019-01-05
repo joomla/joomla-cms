@@ -168,7 +168,8 @@ class WebAssetItem implements WebAssetItemInterface
 	}
 
 	/**
-	 * Set the Asset weight. Final weight recalculated by AssetFactory.
+	 * Set the desired weight for the Asset in Graph.
+	 * Final weight will be calculated by AssetManager according to dependency Graph.
 	 *
 	 * @param   float  $weight  The asset weight
 	 *
@@ -176,7 +177,7 @@ class WebAssetItem implements WebAssetItemInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function setWeight(float $weight): self
+	public function setWeight(float $weight): WebAssetItemInterface
 	{
 		$this->weight = $weight;
 
@@ -184,7 +185,7 @@ class WebAssetItem implements WebAssetItemInterface
 	}
 
 	/**
-	 * Return current weight of the Asset. Final weight recalculated by AssetFactory.
+	 * Return the weight of the Asset.
 	 *
 	 * @return  float
 	 *
@@ -267,21 +268,6 @@ class WebAssetItem implements WebAssetItemInterface
 		}
 
 		return $this->js;
-	}
-
-	/**
-	 * Return list of the asset files, and it's attributes
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	public function getAssetFiles(): array
-	{
-		return [
-			'script'     => $this->getScriptFiles(true),
-			'stylesheet' => $this->getStylesheetFiles(true),
-		];
 	}
 
 	/**

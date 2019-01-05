@@ -293,10 +293,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		// Attach active assets to the document
 		foreach ($assets as $asset)
 		{
-			$paths = $asset->getAssetFiles();
-
 			// Add StyleSheets of the asset
-			foreach ($paths['stylesheet'] as $path => $attr)
+			foreach ($asset->getStylesheetFiles(true) as $path => $attr)
 			{
 				unset($attr['__isExternal'], $attr['__pathOrigin']);
 				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
@@ -304,7 +302,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 			}
 
 			// Add Scripts of the asset
-			foreach ($paths['script'] as $path => $attr)
+			foreach ($asset->getScriptFiles(true) as $path => $attr)
 			{
 				unset($attr['__isExternal'], $attr['__pathOrigin']);
 				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
