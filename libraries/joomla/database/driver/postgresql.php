@@ -1030,10 +1030,6 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				$val = strlen($field_value) == 0 ? 'NULL' : $field_value;
 				break;
 
-			case 'bytea':
-				$val = $this->quote(base64_decode($field_value));
-				break;
-
 			case 'date':
 			case 'timestamp without time zone':
 				if (empty($field_value))

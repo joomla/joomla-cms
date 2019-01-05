@@ -175,7 +175,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 					}
 					else
 					{
-						$buffer[] = '    <field name="' . $key . '">' . base64_encode(pg_unescape_bytea($value)) . '</field>';
+						$buffer[] = '    <field name="' . $key . '">' . pg_unescape_bytea($value) . '</field>';
 					}
 				}
 
