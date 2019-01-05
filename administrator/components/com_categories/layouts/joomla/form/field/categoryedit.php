@@ -119,9 +119,9 @@ else
 	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
-if ($customFields === true)
+if ($refreshPage === true)
 {
-	$attr2 .= ' data-custom-fields-catid="' . $customFieldsCatId . '" data-custom-fields-section="' . $customFieldsSection . '"';
+	$attr2 .= ' data-refresh-catid="' . $refreshCatId . '" data-refresh-section="' . $refreshSection . '"';
 	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
 
 	HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);

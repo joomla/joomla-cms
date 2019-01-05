@@ -696,9 +696,9 @@ class ArticleModel extends AdminModel
 				}
 
 				// Activate the reload of the form when category is changed
-				$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
-				$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
-				$form->setFieldAttribute('catid', 'custom-fields-section', 'article');
+				$form->setFieldAttribute('catid', 'refresh-enabled', true);
+				$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
+				$form->setFieldAttribute('catid', 'refresh-section', 'article');
 
 				$workflow = $this->getWorkflowByCategory($assignedCatids);
 
