@@ -27,8 +27,8 @@
     document.body.appendChild(document.createElement('joomla-core-loader'));
 
     // Custom Fields
-    if (el.getAttribute('data-custom-fields-section')) {
-      document.querySelector('input[name=task]').value = `${el.getAttribute('data-custom-fields-section')}.reload`;
+    if (el.getAttribute('data-refresh-section')) {
+      document.querySelector('input[name=task]').value = `${el.getAttribute('data-refresh-section')}.reload`;
     }
 
     element.form.submit();
