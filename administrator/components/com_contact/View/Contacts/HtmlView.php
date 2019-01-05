@@ -172,7 +172,6 @@ class HtmlView extends BaseHtmlView
 
 			$childBar = $dropdown->getChildToolbar();
 
-
 			$childBar->publish('contacts.publish')->listCheck(true);
 
 			$childBar->unpublish('contacts.unpublish')->listCheck(true);
