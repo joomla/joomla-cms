@@ -3,6 +3,37 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+Joomla = window.Joomla || {};
+
+/**
+ * Method that switches a given class to the following elements of the element provided
+ *
+ * @param {HTMLElement}  element    The reference element
+ * @param {string}       className  The class name to be toggled
+ */
+Joomla.toggleAllNextElements = (element, className) => {
+  const getNextSiblings = (el) => {
+    const siblings = [];
+    /* eslint-disable no-cond-assign,no-param-reassign */
+    do {
+      siblings.push(el);
+    } while ((el = el.nextElementSibling) !== null);
+    /* eslint-enable no-cond-assign,no-param-reassign */
+    return siblings;
+  };
+
+  const followingElements = getNextSiblings(element);
+  if (followingElements.length) {
+    followingElements.forEach((elem) => {
+      if (elem.classList.contains(className)) {
+        elem.classList.remove(className);
+      } else {
+        elem.classList.add(className);
+      }
+    });
+  }
+};
+
 (() => {
   'use strict';
 
@@ -13,18 +44,21 @@
     const archiveBtn = dropDownBtn.getElementsByClassName('button-archive')[0];
     const trashBtn = dropDownBtn.getElementsByClassName('button-trash')[0];
     const articleList = document.querySelector('#articleList');
-    const articleListRows = articleList.querySelectorAll('tbody tr');
     const modal = document.getElementById('stageModal');
     const modalcontent = document.getElementById('stageModal-content');
     const modalbutton = document.getElementById('stage-submit-button-id');
     const buttonDataSelector = 'data-submit-task';
 
+    let articleListRows = [];
     let publishBool = false;
     let unpublishBool = false;
     let archiveBool = false;
     let trashBool = false;
     let countChecked = 0;
 
+    if (articleList) {
+      articleListRows = [].slice.call(articleList.querySelectorAll('tbody tr'));
+    }
     // TODO: remove jQuery dependency, when we have a new modal script
     window.jQuery(modal).on('hide.bs.modal', () => {
       modalcontent.innerHTML = '';
@@ -40,50 +74,52 @@
         return;
       }
 
-      Object.keys(articleListRows).forEach((i) => {
-        const checkedBox = articleListRows[i].querySelectorAll('input[type=checkbox]')[0];
+      if (articleListRows.length) {
+        articleListRows.forEach((el) => {
+          const checkedBox = el.querySelectorAll('input[type=checkbox]')[0];
 
-        if (checkedBox.checked) {
-          const parentTr = checkedBox.closest('tr');
-          const stage = parseInt(parentTr.getAttribute('data-stage_id'), 10);
-          const workflow = parseInt(parentTr.getAttribute('data-workflow_id'), 10);
+          if (checkedBox.checked) {
+            const parentTr = checkedBox.closest('tr');
+            const stage = parseInt(parentTr.getAttribute('data-stage_id'), 10);
+            const workflow = parseInt(parentTr.getAttribute('data-workflow_id'), 10);
 
-          availableTrans[checkedBox.value] = [];
+            availableTrans[checkedBox.value] = [];
 
-          if (transitions[workflow] === undefined) {
-            return;
-          }
+            if (transitions[workflow] === undefined) {
+              return;
+            }
 
-          let k = 0;
+            let k = 0;
 
-          // Collect transitions
-          if (transitions[workflow][-1] !== undefined) {
-            for (let j = 0; j < transitions[workflow][-1].length; j += 1) {
-              if (transitions[workflow][-1][j].to_stage_id !== stage) {
-                availableTrans[checkedBox.value][k] = transitions[workflow][-1][j];
+            // Collect transitions
+            if (transitions[workflow][-1] !== undefined) {
+              for (let j = 0; j < transitions[workflow][-1].length; j += 1) {
+                if (transitions[workflow][-1][j].to_stage_id !== stage) {
+                  availableTrans[checkedBox.value][k] = transitions[workflow][-1][j];
 
-                k += 1;
+                  k += 1;
+                }
               }
             }
-          }
 
-          if (transitions[workflow][stage] !== undefined) {
-            for (let j = 0; j < transitions[workflow][stage].length; j += 1) {
-              if (transitions[workflow][stage][j].to_stage_id !== stage) {
-                availableTrans[checkedBox.value][k] = transitions[workflow][stage][j];
+            if (transitions[workflow][stage] !== undefined) {
+              for (let j = 0; j < transitions[workflow][stage].length; j += 1) {
+                if (transitions[workflow][stage][j].to_stage_id !== stage) {
+                  availableTrans[checkedBox.value][k] = transitions[workflow][stage][j];
 
-                k += 1;
+                  k += 1;
+                }
               }
             }
-          }
 
-          if (availableTrans[checkedBox.value].length > 1) {
-            showModal = true;
-          } else {
-            delete availableTrans[checkedBox.value];
+            if (availableTrans[checkedBox.value].length > 1) {
+              showModal = true;
+            } else {
+              delete availableTrans[checkedBox.value];
+            }
           }
-        }
-      });
+        });
+      }
 
       if (showModal) {
         e.stopPropagation();
@@ -182,18 +218,20 @@
     }
 
     // listen to click event to get selected rows
-    articleList.addEventListener('click', () => {
-      Object.keys(articleListRows).forEach((i) => {
-        const checkedBox = articleListRows[i].querySelectorAll('input[type=checkbox]')[0];
+    if (articleList) {
+      articleList.addEventListener('click', () => {
+        articleListRows.forEach((el) => {
+          const checkedBox = el.querySelectorAll('input[type=checkbox]')[0];
 
-        if (checkedBox.checked) {
-          const parentTr = checkedBox.closest('tr');
-          checkForAttributes(parentTr);
-          countChecked += 1;
-        }
+          if (checkedBox.checked) {
+            const parentTr = checkedBox.closest('tr');
+            checkForAttributes(parentTr);
+            countChecked += 1;
+          }
+        });
+        disableButtons();
+        countChecked = 0;
       });
-      disableButtons();
-      countChecked = 0;
-    });
+    }
   });
 })();
