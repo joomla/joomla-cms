@@ -8,7 +8,6 @@
 			description="COM_USERS_FIELD_RESET_PASSWORD1_DESC"
 			autocomplete="off"
 			class="validate-password"
-			field="password2"
 			filter="raw"
 			message="COM_USERS_FIELD_RESET_PASSWORD1_MESSAGE"
 			required="true"
