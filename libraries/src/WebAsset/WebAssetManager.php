@@ -197,6 +197,40 @@ class WebAssetManager implements DispatcherAwareInterface
 	}
 
 	/**
+	 * Get all assets that was enabled
+	 *
+	 * @param   bool  $sort   Whether need to sort the assets to follow the dependency Graph
+	 *
+	 * @return  WebAssetItem[]
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function getAssets(bool $sort = false): array
+	{
+		if ($sort)
+		{
+			return $this->calculateOrderOfActiveAssets();
+		}
+
+		$assets = [];
+
+		foreach (array_keys($this->activeAssets) as $name)
+		{
+			$asset = $this->registry->getAsset($name);
+
+			// Make sure the asset not removed from the repository since it was enabled.
+			if (!$asset)
+			{
+				throw new \RuntimeException('Asset "' . $name . '" does not exist');
+			}
+
+			$assets[$name] = $asset;
+		}
+
+		return $assets;
+	}
+
+	/**
 	 * Update Dependencies state for all active Assets or only for given
 	 *
 	 * @param   WebAssetItem  $asset  The asset name
@@ -222,7 +256,26 @@ class WebAssetManager implements DispatcherAwareInterface
 		}
 		else
 		{
-			// @TODO: update Dependencies for all active assets
+			// Re-Check for Dependencies for all active assets
+			$this->activeAssets = array_filter(
+				$this->activeAssets,
+				function ($state){
+					return $state === WebAssetManager::ASSET_STATE_ACTIVE;
+				}
+			);
+
+			foreach (array_keys($this->activeAssets) as $name)
+			{
+				$asset = $this->registry->getAsset($name);
+
+				// Make sure the asset not removed from the repository since it was enabled.
+				if (!$asset)
+				{
+					throw new \RuntimeException('Asset "' . $name . '" does not exist');
+				}
+
+				$this->enableDependencies($asset);
+			}
 		}
 
 		return $this;
@@ -254,7 +307,7 @@ class WebAssetManager implements DispatcherAwareInterface
 		}
 
 		// Resolve an Order of Assets and their Dependencies
-		$assets = $this->calculateOrderOfActiveAssets();
+		$assets = $this->enableDependencies()->calculateOrderOfActiveAssets();
 
 		// Pre-save existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->_scripts;
@@ -299,20 +352,7 @@ class WebAssetManager implements DispatcherAwareInterface
 	{
 		// See https://en.wikipedia.org/wiki/Topological_sorting#Kahn.27s_algorithm
 		$graphOrder    = [];
-		$activeAssets  = [];
-
-		foreach (array_keys($this->activeAssets) as $name)
-		{
-			$asset = $this->registry->getAsset($name);
-
-			// Make sure the asset not removed from the repository since it was enabled.
-			if (!$asset)
-			{
-				throw new \RuntimeException('Asset "' . $name . '" does not exist');
-			}
-
-			$activeAssets[$name] = $asset;
-		}
+		$activeAssets  = $this->getAssets();
 
 		// Get Graph of Outgoing and Incoming connections
 		$connectionsGraph = $this->getConnectionsGraph($activeAssets);
@@ -535,7 +575,7 @@ class WebAssetManager implements DispatcherAwareInterface
 	public function debugAssets(): array
 	{
 		// Update dependencies
-		$assets = $this->calculateOrderOfActiveAssets();
+		$assets = $this->enableDependencies()->calculateOrderOfActiveAssets();
 		$result = [];
 
 		foreach ($assets as $asset)
