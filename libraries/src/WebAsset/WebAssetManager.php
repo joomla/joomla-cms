@@ -284,7 +284,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		}
 
 		// Resolve an Order of Assets and their Dependencies
-		$assets = $this->enableDependencies()->calculateOrderOfActiveAssets();
+		$assets = $this->enableDependencies()->getAssets(true);
 
 		// Pre-save existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->_scripts;
@@ -550,7 +550,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	public function debugAssets(): array
 	{
 		// Update dependencies
-		$assets = $this->enableDependencies()->calculateOrderOfActiveAssets();
+		$assets = $this->enableDependencies()->getAssets(true);
 		$result = [];
 
 		foreach ($assets as $asset)
