@@ -578,6 +578,10 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 				$val = $field_value === '' ? 'NULL' : $field_value;
 				break;
 
+			case 'bytea':
+				$val = $this->quote(base64_decode($field_value));
+				break;
+
 			case 'date':
 			case 'timestamp without time zone':
 				if (empty($field_value))

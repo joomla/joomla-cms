@@ -61,20 +61,14 @@ class JDatabaseExporterPgsql extends JDatabaseExporterPostgresql
 			// Get the details columns information.
 			$fields  = $this->db->getTableColumns($table, false);
 			$colblob = array();
-			$collob = array();
 
 			foreach ($fields as $field)
 			{
-				// Cacth blob for conversion xml
-				if ($field->Type == 'mediumblob')
-				{
-					$colblob[] = $field->Field;
-				}
-
-				// Catch lob PDO stream for conversion xml
+				// Cacth blob for xml conversion
+				// PostgreSQL binary large object type
 				if ($field->Type == 'bytea')
 				{
-					$collob[] = $field->Field;
+					$colblob[] = $field->Field;
 				}
 			}
 
@@ -98,17 +92,13 @@ class JDatabaseExporterPgsql extends JDatabaseExporterPostgresql
 
 				foreach ($row as $key => $value)
 				{
-					if (!in_array($key, $colblob) && !in_array($key, $collob))
+					if (!in_array($key, $colblob))
 					{
 						$buffer[] = '    <field name="' . $key . '">' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '</field>';
 					}
-					elseif (in_array($key, $collob))
-					{
-						$buffer[] = '    <field name="' . $key . '">' . htmlspecialchars(stream_get_contents($value), ENT_COMPAT, 'UTF-8') . '</field>';
-					}
 					else
 					{
-						$buffer[] = '    <field name="' . $key . '">' . base64_encode($value) . '</field>';
+						$buffer[] = '    <field name="' . $key . '">' . base64_encode(stream_get_contents($value)) . '</field>';
 					}
 				}
 
