@@ -124,7 +124,8 @@ class PrivacyModelDashboard extends JModelLegacy
 			if (JLanguageMultilang::isEnabled())
 			{
 				// Find the Itemid of the home menu item tagged to the site default language
-				$defaultSiteLanguage = JComponentHelper::getParams('com_languages')['site'];
+				$params = JComponentHelper::getParams('com_languages');
+				$defaultSiteLanguage = $params->get('site');
 
 				$db    = $this->getDbo();
 				$query = $db->getQuery(true)
