@@ -112,21 +112,15 @@ class PlgSystemLanguagecode extends CMSPlugin
 	/**
 	 * Prepare form.
 	 *
-	 * @param   JForm  $form  The form to be altered.
+	 * @param   Form   $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since	2.5
 	 */
-	public function onContentPrepareForm($form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
-		// Check we have a form.
-		if (!($form instanceof Form))
-		{
-			throw new RuntimeException(Text::_('JERROR_NOT_A_FORM'), 500);
-		}
-
 		// Check we are manipulating the languagecode plugin.
 		if ($form->getName() !== 'com_plugins.plugin' || !$form->getField('languagecodeplugin', 'params'))
 		{
