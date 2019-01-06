@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 			$childBar->unpublish('newsfeeds.unpublish')->listCheck(true);
 			$childBar->archive('newsfeeds.archive')->listCheck(true);
 
-			if (Factory::getUser()->authorise('core.admin'))
+			if ($user->authorise('core.admin'))
 			{
 				$childBar->checkin('newsfeeds.checkin')->listCheck(true);
 			}
