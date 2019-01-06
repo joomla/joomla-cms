@@ -11,9 +11,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event as CmsEvent;
-use Joomla\CMS\Helper\ContentHistoryHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\CMSHelper;
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Plugin\CMSPlugin;
-use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Versioning\VersionableTableInterface;
+use Joomla\CMS\Versioning\Versioning;
 use Joomla\Event\DispatcherInterface;
 
 /**
@@ -43,40 +46,6 @@ class PlgBehaviourVersionable extends CMSPlugin
 	}
 
 	/**
-	 * Runs when a new table object is being created
-	 *
-	 * @param   CmsEvent\Table\ObjectCreateEvent  $event  The event to handle
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onTableObjectCreate(CmsEvent\Table\ObjectCreateEvent $event)
-	{
-		// Extract arguments
-		/** @var JTableInterface $table */
-		$table			= $event['subject'];
-
-		// When we create the object the table is empty, so we can't parse the typeAlias field
-		$typeAlias = $table->typeAlias;
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
-		{
-			return;
-		}
-
-		// If the table already has a history helper we have nothing to do
-		if (property_exists($table, 'contenthistoryHelper'))
-		{
-			return;
-		}
-
-		$table->contenthistoryHelper = new ContentHistoryHelper($typeAlias);
-		$table->contenthistoryHelper->typeAlias = $table->typeAlias;
-	}
-
-	/**
 	 * Post-processor for $table->store($updateNulls)
 	 *
 	 * @param   CmsEvent\Table\AfterStoreEvent  $event  The event to handle
@@ -88,7 +57,7 @@ class PlgBehaviourVersionable extends CMSPlugin
 	public function onTableAfterStore(CmsEvent\Table\AfterStoreEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var VersionableTableInterface $table */
 		$table	= $event['subject'];
 		$result = $event['result'];
 
@@ -97,32 +66,34 @@ class PlgBehaviourVersionable extends CMSPlugin
 			return;
 		}
 
-		if (!is_object($table) || !($table instanceof TableInterface))
-		{
-			return;
-		}
-
-		// If the table doesn't support UCM we can't use the Versionable behaviour
-		if (is_null($table->typeAlias))
-		{
-			return;
-		}
-
-		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'contenthistoryHelper'))
+		if (!(is_object($table) && $table instanceof VersionableTableInterface))
 		{
 			return;
 		}
 
 		// Get the Tags helper and assign the parsed alias
-		$table->contenthistoryHelper->typeAlias = $table->typeAlias;
+		$typeAlias = $table->getTypeAlias();
 
-		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
+		$aliasParts = explode('.', $typeAlias);
 
-		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
+		if (!(isset($aliasParts[0]) && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0)))
 		{
-			$table->contenthistoryHelper->store($table);
+			return;
 		}
+
+		$id = $table->getId();
+		$helper = new CMSHelper;
+		$data = $helper->getDataObject($table);
+		$input = Factory::getApplication()->input;
+		$jform = $input->get('jform', array(), 'array');
+		$versionNote = '';
+
+		if (isset($jform['version_note']))
+		{
+			$versionNote = InputFilter::getInstance()->clean($jform['version_note'], 'string');
+		}
+
+		Versioning::store($typeAlias, $id, $data, $versionNote);
 	}
 
 	/**
@@ -137,27 +108,20 @@ class PlgBehaviourVersionable extends CMSPlugin
 	public function onTableBeforeDelete(CmsEvent\Table\BeforeDeleteEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var VersionableTableInterface $table */
 		$table			= $event['subject'];
 
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($table->typeAlias))
+		if (!(is_object($table) && $table instanceof VersionableTableInterface))
 		{
 			return;
 		}
 
-		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'contenthistoryHelper'))
-		{
-			return;
-		}
-
-		$table->contenthistoryHelper->typeAlias = $table->typeAlias;
-		$aliasParts = explode('.', $table->contenthistoryHelper->typeAlias);
+		$typeAlias  = $table->getTypeAlias();
+		$aliasParts = explode('.', $typeAlias);
 
 		if ($aliasParts[0] && ComponentHelper::getParams($aliasParts[0])->get('save_history', 0))
 		{
-			$table->contenthistoryHelper->deleteHistory($table);
+			Versioning::delete($typeAlias, $table->getId());
 		}
 	}
 }

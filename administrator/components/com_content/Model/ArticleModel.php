@@ -22,6 +22,7 @@ use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Category;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
@@ -39,6 +40,8 @@ use Joomla\Utilities\ArrayHelper;
 
 class ArticleModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *

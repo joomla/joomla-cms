@@ -26,6 +26,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\UCM\UCMType;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -38,6 +39,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class CategoryModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *

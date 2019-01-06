@@ -17,6 +17,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -26,6 +27,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class ArticleController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * Constructor.
 	 *
