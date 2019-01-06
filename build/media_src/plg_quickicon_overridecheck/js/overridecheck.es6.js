@@ -8,60 +8,57 @@
   'use strict';
 
   // Add a listener on content loaded to initiate the check.
-
   document.addEventListener('DOMContentLoaded', () => {
     if (Joomla.getOptions('js-override-check')) {
       const options = Joomla.getOptions('js-override-check');
+      const update = (type, text, linkHref) => {
+        const link = document.getElementById('plg_quickicon_overridecheck');
+        const linkSpans = link.querySelectorAll('span.j-links-link');
+        if (link) {
+          link.classList.add(type);
+
+          if (linkHref) {
+            link.setAttribute('href', linkHref);
+          }
+        }
+
+        if (linkSpans.length) {
+          linkSpans.forEach((span) => {
+            span.innerHTML = text;
+          });
+        }
+      };
+
       Joomla.request({
         url: options.ajaxUrl,
         method: 'GET',
         data: '',
         perform: true,
         onSuccess: (response) => {
-          const link = document.getElementById('plg_quickicon_overridecheck');
-          const linkSpan = link.querySelectorAll('span.j-links-link');
           const updateInfoList = JSON.parse(response);
 
           if (updateInfoList.installerOverride !== 'disabled') {
-            if (updateInfoList instanceof Array) {
+            if (Array.isArray(updateInfoList)) {
               if (updateInfoList.length === 0) {
                 // No overrides found
-                link.classList.add('success');
-                for (let i = 0, len = linkSpan.length; i < len; i += 1) {
-                  linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_OVERRIDECHECK_UPTODATE');
-                }
+                update('success', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_UPTODATE'), '');
               } else {
                 // Scroll to page top
                 window.scrollTo(0, 0);
 
-                link.classList.add('danger');
-                for (let i = 0, len = linkSpan.length; i < len; i += 1) {
-                  linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace('%s', `<span class="badge badge-light">${updateInfoList.length}</span>`);
-                }
+                update('danger', Joomla.JText._('PLG_QUICKICON_OVERRIDECHECK_OVERRIDEFOUND').replace('%s', `<span class="badge badge-light">${updateInfoList.length}</span>`), '');
               }
             } else {
               // An error occurred
-              link.classList.add('danger');
-              for (let i = 0, len = linkSpan.length; i < len; i += 1) {
-                linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_OVERRIDECHECK_ERROR');
-              }
+              update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR'), '');
             }
           } else {
-            link.classList.add('danger');
-            link.setAttribute('href', `index.php?option=com_plugins&task=plugin.edit&extension_id=${options.pluginId}`);
-            for (let i = 0, len = linkSpan.length; i < len; i += 1) {
-              linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_OVERRIDECHECK_ERROR_ENABLE');
-            }
+            update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR_ENABLE'), `index.php?option=com_plugins&task=plugin.edit&extension_id=${options.pluginId}`);
           }
         },
         onError: () => {
           // An error occurred
-          const link = document.getElementById('plg_quickicon_overridecheck');
-          const linkSpan = link.querySelectorAll('span.j-links-link');
-          link.classList.add('danger');
-          for (let i = 0, len = linkSpan.length; i < len; i += 1) {
-            linkSpan[i].innerHTML = Joomla.JText._('PLG_QUICKICON_OVERRIDECHECK_ERROR');
-          }
+          update('danger', Joomla.Text._('PLG_QUICKICON_OVERRIDECHECK_ERROR'), '');
         },
       });
     }
