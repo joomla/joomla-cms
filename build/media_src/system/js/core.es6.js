@@ -1139,6 +1139,69 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
     }
   };
+
+  /**
+   * Method that resets the filter inputs and submits the relative form
+   *
+   * @param {HTMLElement}  The element that initiates the call
+   * @returns {void}
+   * @since   4.0
+   */
+  Joomla.resetFilters = (element) => {
+    const { form } = element;
+
+    if (!form) {
+      throw new Error('Element must be inside a form!');
+    }
+
+    const elementsArray = [].slice.call(form.elements);
+
+    if (elementsArray.length) {
+      const newElementsArray = [];
+      elementsArray.forEach((elem) => {
+        // Skip the token, the task, the boxchecked and the calling element
+        if (elem.getAttribute('name') === 'task'
+          || elem.getAttribute('name') === 'boxchecked'
+          || (elem.value === '1' && /^[0-9A-F]{32}$/i.test(elem.name))
+          || elem === element) {
+          return;
+        }
+
+        newElementsArray.push(elem);
+      });
+
+      // Reset all filters
+      newElementsArray.forEach((elem) => {
+        elem.value = '';
+      });
+
+      form.submit();
+    }
+  };
+
+  /*
+   * Method to invoke a click on button inside an iframe
+   *
+   * @param   {object} options Object with the css selector for the parent element of an iframe
+   *                          and the selector of the button in the iframe that will be clicked
+   * @returns {boolean}
+   * @since   4.0
+   */
+  Joomla.iframeButtonClick = (options = { iframeSelector: '', buttonSelector: '' }) => {
+    if (!options.iframeSelector || !options.buttonSelector) {
+      throw new Error('Selector is missing');
+    }
+
+    const iframe = document.querySelector(`${options.iframeSelector} > iframe`);
+    if (iframe) {
+      const button = iframe.contentWindow.document.querySelector(options.buttonSelector);
+      if (button) {
+        button.click();
+      }
+    }
+
+    return false;
+  };
 })(Joomla, document);
 
 /**
