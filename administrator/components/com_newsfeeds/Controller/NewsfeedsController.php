@@ -35,19 +35,4 @@ class NewsfeedsController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
-
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   Model    $model  The data model object.
-	 * @param   integer  $ids    The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postDeleteHook(Model $model, $ids = null)
-	{
-	}
 }
