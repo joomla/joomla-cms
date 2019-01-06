@@ -331,26 +331,11 @@ class FieldsHelper
 		if ($form->getField('catid') && $parts[0] != 'com_fields')
 		{
 			/*
-			 * Setting the onchange event to reload the page when the category
-			 * has changed
-			*/
-			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
-
-			// Preload spindle-wheel when we need to submit form due to category selector changed
-			Factory::getDocument()->addScriptDeclaration("
-			function categoryHasChanged(element) {
-				var cat = jQuery(element);
-				if (cat.val() == '" . $assignedCatids . "')return;
-				Joomla.loadingLayer('show');
-				jQuery('input[name=task]').val('" . $section . ".reload');
-				element.form.submit();
-			}
-			jQuery( document ).ready(function() {
-				Joomla.loadingLayer('load');
-				var formControl = '#" . $form->getFormControl() . "_catid';
-				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
-			});"
-			);
+			 * Setting some parameters for the category field
+			 */
+			$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
+			$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
+			$form->setFieldAttribute('catid', 'custom-fields-section', $section);
 		}
 
 		// Getting the fields
