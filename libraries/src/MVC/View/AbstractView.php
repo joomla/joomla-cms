@@ -22,7 +22,7 @@ use Joomla\CMS\Object\CMSObject;
  *
  * @since  2.5.5
  */
-abstract class AbstractView extends CMSObject
+abstract class AbstractView extends CMSObject implements ViewInterface
 {
 	/**
 	 * The active document object
@@ -105,7 +105,7 @@ abstract class AbstractView extends CMSObject
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   3.0
 	 */
