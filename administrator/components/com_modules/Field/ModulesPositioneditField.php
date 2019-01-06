@@ -49,7 +49,7 @@ class ModulesPositioneditField extends FormField
 	{
 		$data = $this->getLayoutData();
 
-		$clientId  = Factory::getApplication()->input->get('client_id', 0, 'int');
+		$clientId  = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
 		$positions = HTMLHelper::_('modules.positions', $clientId, 1, $this->value);
 
 		$data['client']    = $clientId;
