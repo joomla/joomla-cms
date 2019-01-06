@@ -148,7 +148,8 @@ class HtmlView extends BaseHtmlView
 
 		$isCore = $this->workflow->core;
 
-		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension), 'JTOOLBAR_BACK', 'arrow-left');
+		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
+			'JTOOLBAR_BACK', 'arrow-left');
 
 		if ($canDo->get('core.create') && !$isCore)
 		{
