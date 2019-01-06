@@ -328,7 +328,6 @@ class ComponentHelper
 
 		// Build the component path.
 		$option = preg_replace('/[^A-Z0-9_\.-]/i', '', $option);
-		$file = substr($option, 4);
 
 		// Define component path.
 
