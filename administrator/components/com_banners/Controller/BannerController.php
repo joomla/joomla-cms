@@ -26,6 +26,7 @@ use Joomla\Utilities\ArrayHelper;
 class BannerController extends FormController
 {
 	use VersionableControllerTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *
