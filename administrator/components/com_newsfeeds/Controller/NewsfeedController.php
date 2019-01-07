@@ -16,6 +16,7 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\CMS\Versioning\VersionableControllerTrait;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -25,6 +26,8 @@ use Joomla\Utilities\ArrayHelper;
  */
 class NewsfeedController extends FormController
 {
+	use VersionableControllerTrait;
+
 	/**
 	 * Method override to check if you can add a new record.
 	 *

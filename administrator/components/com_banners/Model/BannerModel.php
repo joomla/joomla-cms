@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 
 /**
@@ -24,6 +25,8 @@ use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
  */
 class BannerModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *

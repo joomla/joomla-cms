@@ -17,6 +17,7 @@ use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Versioning\VersionableModelTrait;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 
@@ -27,6 +28,8 @@ use Joomla\String\StringHelper;
  */
 class TagModel extends AdminModel
 {
+	use VersionableModelTrait;
+
 	/**
 	 * @var    string  The prefix to use with controller messages.
 	 * @since  3.1

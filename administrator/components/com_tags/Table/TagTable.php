@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Nested;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -25,7 +26,7 @@ use Joomla\String\StringHelper;
  *
  * @since  3.1
  */
-class TagTable extends Nested
+class TagTable extends Nested implements VersionableTableInterface
 {
 	/**
 	 * Constructor
@@ -292,5 +293,17 @@ class TagTable extends Nested
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_tags.tag';
 	}
 }

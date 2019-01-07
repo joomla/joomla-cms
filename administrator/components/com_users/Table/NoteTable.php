@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 
@@ -22,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5
  */
-class NoteTable extends Table
+class NoteTable extends Table implements VersionableTableInterface
 {
 	/**
 	 * Constructor
@@ -191,5 +192,17 @@ class NoteTable extends Table
 		}
 
 		return true;
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_users.note';
 	}
 }

@@ -70,11 +70,15 @@ class Versioning
 	/**
 	 * Method to save a version snapshot to the content history table.
 	 *
-	 * @param   Table  $table  Table object being versioned
+	 * @param   string   $typeAlias  Typealias of the content type
+	 * @param   integer  $id         ID of the content item
+	 * @param   mixed    $data       Array or object of data that can be 
+	 *                               en- and decoded into JSON
+	 * @param   string   $note       Note for the version to store
 	 *
 	 * @return  boolean  True on success, otherwise false.
 	 *
-	 * @since   3.2
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function store($typeAlias, $id, $data, $note = '')
 	{

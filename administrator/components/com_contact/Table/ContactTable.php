@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\String\PunycodeHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Versioning\VersionableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -25,7 +26,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.0
  */
-class ContactTable extends Table
+class ContactTable extends Table implements VersionableTableInterface
 {
 	/**
 	 * Ensure the params and metadata in json encoded in the bind method
@@ -276,5 +277,17 @@ class ContactTable extends Table
 		}
 
 		return $this->alias;
+	}
+
+	/**
+	 * Get the type alias for the history table
+	 *
+	 * @return  string  The alias as described above
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_contact.contact';
 	}
 }
