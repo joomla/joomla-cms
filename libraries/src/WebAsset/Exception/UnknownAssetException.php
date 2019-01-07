@@ -20,9 +20,9 @@ class UnknownAssetException extends \RuntimeException implements WebAssetExcepti
 	/**
 	 * UnknownAssetException constructor.
 	 *
-	 * @param  string      $assetName   The asset name.
-	 * @param  int         $code        The Exception code.
-	 * @param  \Throwable  $previous    The previous throwable used for the exception chaining.
+	 * @param   string      $assetName  The asset name.
+	 * @param   int         $code       The Exception code.
+	 * @param   \Throwable  $previous   The previous throwable used for the exception chaining.
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

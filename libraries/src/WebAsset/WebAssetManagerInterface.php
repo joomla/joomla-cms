@@ -55,7 +55,7 @@ interface WebAssetManagerInterface
 	/**
 	 * Get all assets that was enabled
 	 *
-	 * @param   bool  $sort   Whether need to sort the assets to follow the dependency Graph
+	 * @param   bool  $sort  Whether need to sort the assets to follow the dependency Graph
 	 *
 	 * @return  WebAssetItemInterface[]
 	 *

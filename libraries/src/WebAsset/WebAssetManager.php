@@ -83,7 +83,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Class constructor
 	 *
-	 * @param   WebAssetRegistry  $registry   The WebAsset Registry instance
+	 * @param   WebAssetRegistry  $registry  The WebAsset Registry instance
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -191,7 +191,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Get all assets that was enabled
 	 *
-	 * @param   bool  $sort   Whether need to sort the assets to follow the dependency Graph
+	 * @param   bool  $sort  Whether need to sort the assets to follow the dependency Graph
 	 *
 	 * @return  WebAssetItem[]
 	 *
