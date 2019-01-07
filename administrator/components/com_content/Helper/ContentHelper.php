@@ -37,7 +37,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 */
 	public static function canDeleteState($stateID)
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')
