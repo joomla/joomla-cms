@@ -131,7 +131,7 @@ class PluginsField extends ListField
 
 			if ((string) $this->element['useaccess'] === 'true')
 			{
-				$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+				$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
 			}
 
