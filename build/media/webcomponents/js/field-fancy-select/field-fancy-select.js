@@ -42,7 +42,19 @@
     set value($val)         { this.choicesInstance.setValueByChoice('' + $val); }
 
     connectedCallback() {
+      // Make sure Choices are loaded
+      if (window.Choices || document.readyState === 'complete') {
+        this._doConnect();
+      } else {
+        const callback = () => {
+          this._doConnect();
+          window.removeEventListener('load', callback);
+        };
+        window.addEventListener('load', callback);
+      }
+    }
 
+    _doConnect() {
       // The element was already initialised previously and perhaps was detached from DOM
       if (this.choicesInstance) {
         return;
