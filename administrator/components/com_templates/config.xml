@@ -49,7 +49,7 @@
 			type="text"
 			label="COM_TEMPLATES_CONFIG_SOURCE_LABEL"
 			description="COM_TEMPLATES_CONFIG_SOURCE_DESC"
-			default="txt,less,ini,xml,js,php,css,sass,scss"
+			default="txt,less,ini,xml,js,php,css,sass,scss,json"
 			extension="com_templates"
 		/>
 
