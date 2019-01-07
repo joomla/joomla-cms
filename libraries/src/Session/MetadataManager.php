@@ -16,6 +16,7 @@ use Joomla\CMS\User\User;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Database\ParameterType;
+use Joomla\Session\SessionInterface;
 
 /**
  * Manager for optional session metadata.
@@ -25,6 +26,33 @@ use Joomla\Database\ParameterType;
  */
 final class MetadataManager
 {
+	/**
+	 * Internal variable indicating a session record exists.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
+	 */
+	private static $sessionRecordExists = 1;
+
+	/**
+	 * Internal variable indicating a session record does not exist.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
+	 */
+	private static $sessionRecordDoesNotExist = 0;
+
+	/**
+	 * Internal variable indicating an unknown session record statue.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
+	 */
+	private static $sessionRecordUnknown = -1;
+
 	/**
 	 * Application object.
 	 *
@@ -58,18 +86,97 @@ final class MetadataManager
 	/**
 	 * Create the metadata record if it does not exist.
 	 *
-	 * @param   Session  $session  The session to create the metadata record for.
-	 * @param   User     $user     The user to associate with the record.
+	 * @param   SessionInterface  $session  The session to create the metadata record for.
+	 * @param   User              $user     The user to associate with the record.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.8.6
 	 * @throws  \RuntimeException
 	 */
-	public function createRecordIfNonExisting(Session $session, User $user)
+	public function createRecordIfNonExisting(SessionInterface $session, User $user)
 	{
-		$sessionId = $session->getId();
+		$exists = $this->checkSessionRecordExists($session->getId());
 
+		// Only touch the database if the record does not already exist
+		if ($exists !== self::$sessionRecordExists)
+		{
+			return;
+		}
+
+		$this->createSessionRecord($session, $user);
+	}
+
+	/**
+	 * Create the metadata record if it does not exist.
+	 *
+	 * @param   SessionInterface  $session  The session to create or update the metadata record for.
+	 * @param   User              $user     The user to associate with the record.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException
+	 */
+	public function createOrUpdateRecord(SessionInterface $session, User $user)
+	{
+		$exists = $this->checkSessionRecordExists($session->getId());
+
+		// Do not try to touch the database if we can't determine the record state
+		if ($exists === self::$sessionRecordDoesNotExist)
+		{
+			return;
+		}
+
+		if ($exists === self::$sessionRecordDoesNotExist)
+		{
+			$this->createSessionRecord($session, $user);
+
+			return;
+		}
+
+		$this->updateSessionRecord($session, $user);
+	}
+
+	/**
+	 * Delete records with a timestamp prior to the given time.
+	 *
+	 * @param   integer  $time  The time records should be deleted if expired before.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.8.6
+	 */
+	public function deletePriorTo($time)
+	{
+		$query = $this->db->getQuery(true)
+			->delete($this->db->quoteName('#__session'))
+			->where($this->db->quoteName('time') . ' < :time')
+			->bind(':time', $time, ParameterType::INTEGER);
+
+		$this->db->setQuery($query);
+
+		try
+		{
+			$this->db->execute();
+		}
+		catch (ExecutionFailureException $exception)
+		{
+			// Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+		}
+	}
+
+	/**
+	 * Check if the session record exists
+	 *
+	 * @param   string  $sessionId  The session ID to check
+	 *
+	 * @return  integer  Status value for record presence
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function checkSessionRecordExists(string $sessionId): int
+	{
 		$query = $this->db->getQuery(true)
 			->select($this->db->quoteName('session_id'))
 			->from($this->db->quoteName('#__session'))
@@ -85,16 +192,30 @@ final class MetadataManager
 		}
 		catch (ExecutionFailureException $e)
 		{
-			return;
+			return self::$sessionRecordUnknown;
 		}
 
-		// If the session record doesn't exist initialise it.
 		if ($exists)
 		{
-			return;
+			return self::$sessionRecordExists;
 		}
 
-		$query->clear();
+		return self::$sessionRecordDoesNotExist;
+	}
+
+	/**
+	 * Create the session record
+	 *
+	 * @param   SessionInterface  $session  The session to create the metadata record for.
+	 * @param   User              $user     The user to associate with the record.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function createSessionRecord(SessionInterface $session, User $user)
+	{
+		$query = $this->db->getQuery(true);
 
 		$time = $session->isNew() ? time() : $session->get('session.timer.start');
 
@@ -116,9 +237,10 @@ final class MetadataManager
 		];
 
 		// Bind query values
+		$sessionId   = $session->getId();
 		$userIsGuest = $user->guest;
 		$userId      = $user->id;
-		$username    = $user->username;
+		$username    = $user->username === null ? '' : $user->username;
 
 		$query->bind(':session_id', $sessionId)
 			->bind(':guest', $userIsGuest, ParameterType::BOOLEAN)
@@ -153,20 +275,52 @@ final class MetadataManager
 	}
 
 	/**
-	 * Delete records with a timestamp prior to the given time.
+	 * Update the session record
 	 *
-	 * @param   integer  $time  The time records should be deleted if expired before.
+	 * @param   SessionInterface  $session  The session to update the metadata record for.
+	 * @param   User              $user     The user to associate with the record.
 	 *
 	 * @return  void
 	 *
-	 * @since   3.8.6
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function deletePriorTo($time)
+	private function updateSessionRecord(SessionInterface $session, User $user)
 	{
-		$query = $this->db->getQuery(true)
-			->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('time') . ' < :time')
-			->bind(':time', $time, ParameterType::INTEGER);
+		$query = $this->db->getQuery(true);
+
+		$time = $session->isNew() ? time() : $session->get('session.timer.start');
+
+		$setValues = [
+			$this->db->quoteName('guest') . ' = :guest',
+			$this->db->quoteName('time') . ' = :time',
+			$this->db->quoteName('userid') . ' = :user_id',
+			$this->db->quoteName('username') . ' = :username',
+		];
+
+		// Bind query values
+		$sessionId   = $session->getId();
+		$userIsGuest = $user->guest;
+		$userId      = $user->id;
+		$username    = $user->username === null ? '' : $user->username;
+
+		$query->bind(':session_id', $sessionId)
+			->bind(':guest', $userIsGuest, ParameterType::BOOLEAN)
+			->bind(':time', $time)
+			->bind(':user_id', $userId, ParameterType::INTEGER)
+			->bind(':username', $username);
+
+		if ($this->app instanceof CMSApplication && !$this->app->get('shared_session', false))
+		{
+			$clientId = $this->app->getClientId();
+
+			$setValues[] = $this->db->quoteName('client_id') . ' = :client_id';
+
+			$query->bind(':client_id', $clientId, ParameterType::INTEGER);
+		}
+
+		$query->update($this->db->quoteName('#__session'))
+			->set($setValues)
+			->where($this->db->quoteName('session_id') . ' = :session_id');
 
 		$this->db->setQuery($query);
 
@@ -174,9 +328,9 @@ final class MetadataManager
 		{
 			$this->db->execute();
 		}
-		catch (ExecutionFailureException $exception)
+		catch (ExecutionFailureException $e)
 		{
-			// Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
+			// This failure isn't critical, we can go on without the metadata
 		}
 	}
 }
