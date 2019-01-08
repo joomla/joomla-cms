@@ -163,7 +163,8 @@ class HtmlView extends BaseHtmlView
 		$arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
 		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
-			'JTOOLBAR_BACK', $arrow);
+			'JTOOLBAR_BACK', $arrow
+		);
 
 		if ($canDo->get('core.create') && !$isCore)
 		{
