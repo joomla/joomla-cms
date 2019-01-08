@@ -349,11 +349,11 @@ class CategoryeditField extends ListField
 	{
 		$data = $this->getLayoutData();
 
-		$data['options']             = $this->getOptions();
-		$data['allowCustom']         = $this->allowAdd;
-		$data['refreshPage']         = (boolean) $this->element['refresh-enabled'];
-		$data['refreshCatId']        = (string) $this->element['refresh-cat-id'];
-		$data['refreshSection']      = (string) $this->element['refresh-section'];
+		$data['options']        = $this->getOptions();
+		$data['allowCustom']    = $this->allowAdd;
+		$data['refreshPage']    = (boolean) $this->element['refresh-enabled'];
+		$data['refreshCatId']   = (string) $this->element['refresh-cat-id'];
+		$data['refreshSection'] = (string) $this->element['refresh-section'];
 
 		$renderer = $this->getRenderer($this->layout);
 		$renderer->setComponent('com_categories');
