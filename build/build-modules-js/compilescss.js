@@ -5,7 +5,6 @@ const Fs = require('fs');
 const MakeDir = require('./make-dir.js');
 const Path = require('path');
 const Postcss = require('postcss');
-const Promise = require('bluebird');
 const Recurs = require('recursive-readdir');
 const RootPath = require('./rootpath.js')._();
 const Sass = require('node-sass');
