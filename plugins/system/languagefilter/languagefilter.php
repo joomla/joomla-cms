@@ -556,7 +556,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
 	{
-		if (array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
+		if (array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{
 			$registry = new Registry($user['params']);
 			$this->user_lang_code = $registry->get('language');
@@ -584,7 +584,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
+		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{
 			$registry = new Registry($user['params']);
 			$lang_code = $registry->get('language');
@@ -723,7 +723,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					$this->setLanguageCookie($lang_code);
 
 					// Change the language code.
-					Factory::getLanguage()->setLanguage($lang_code);
+					Factory::getContainer()->get(\Joomla\CMS\Language\LanguageFactoryInterface::class)->createLanguage($lang_code);
 				}
 			}
 			else
