@@ -216,7 +216,7 @@ class MediawikiCli extends CliApplication
 }
 
 // Set up the container
-JFactory::getContainer()->share(
+Factory::getContainer()->share(
 	'MediawikiCli',
 	function (\Joomla\DI\Container $container)
 	{
@@ -231,6 +231,6 @@ JFactory::getContainer()->share(
 	},
 	true
 );
-$app = JFactory::getContainer()->get('MediawikiCli');
-JFactory::$application = $app;
+$app = Factory::getContainer()->get('MediawikiCli');
+Factory::$application = $app;
 $app->execute();

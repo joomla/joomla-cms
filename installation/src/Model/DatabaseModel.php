@@ -731,7 +731,7 @@ class DatabaseModel extends BaseInstallationModel
 	 */
 	public function installSampleData()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Build the path to the sample data file.
 		$type = $db->getServerType();
