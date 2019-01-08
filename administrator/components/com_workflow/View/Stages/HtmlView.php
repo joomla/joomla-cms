@@ -160,7 +160,7 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', $this->escape($workflow)), 'address contact');
 
 		$isCore = $this->workflow->core;
-		$arrow = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
 
 		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
 			'JTOOLBAR_BACK', $arrow
