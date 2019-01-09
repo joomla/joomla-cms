@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Privacy component helper.
  *
@@ -103,7 +105,7 @@ class PrivacyHelper extends JHelperContent
 	 */
 	public static function getPrivacyConsentPluginId()
 	{
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
