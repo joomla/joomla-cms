@@ -32,7 +32,8 @@ abstract class PopularHelper
 	 * @param   ArticlesModel  $model    The model.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
-     * @throws  \Exception
+	 *
+	 * @throws  \Exception
 	 */
 	public static function getList(Registry &$params, ArticlesModel $model)
 	{
