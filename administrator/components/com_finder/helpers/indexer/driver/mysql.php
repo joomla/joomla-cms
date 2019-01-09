@@ -131,7 +131,8 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		else
 		{
 			// Update the link.
-			$db->updateObject('#__finder_links', $entry, $linkId);
+			$entry->link_id = $linkId;
+			$db->updateObject('#__finder_links', $entry, 'link_id');
 		}
 
 		// Set up the variables we will need during processing.
