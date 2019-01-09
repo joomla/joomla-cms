@@ -28,6 +28,7 @@
 					type="integer"
 					label="MOD_TAGS_SIMILAR_MAX_LABEL"
 					default="5"
+					filter="integer"
 					first="1"
 					last="20"
 					step="1"
@@ -76,6 +77,7 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -86,6 +88,7 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

@@ -46,12 +46,15 @@
 					name="width"
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_WIDTH_LABEL"
+					default="100"
+					filter="integer"
 				/>
 
 				<field
 					name="height"
 					type="number"
 					label="MOD_RANDOM_IMAGE_FIELD_HEIGHT_LABEL"
+					filter="integer"
 				/>
 
 			</fieldset>
@@ -75,6 +78,7 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
 				</field>
