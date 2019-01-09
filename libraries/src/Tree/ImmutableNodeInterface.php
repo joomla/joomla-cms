@@ -31,11 +31,20 @@ interface ImmutableNodeInterface
 	/**
 	 * Get the parent of this node
 	 *
-	 * @return  NodeInterface
+	 * @return  NodeInterface|null
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getParent();
+
+	/**
+	 * Get the root of the tree
+	 * 
+	 * @return  NodeInterface
+	 * 
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getRoot();
 
 	/**
 	 * Test if this node has children
@@ -60,7 +69,7 @@ interface ImmutableNodeInterface
 	 *
 	 * @param   boolean  $right  If set to false, returns the left sibling
 	 *
-	 * @return  NodeInterface  NodeInterface object of the sibling.
+	 * @return  NodeInterface|null  NodeInterface object of the sibling.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

@@ -10,26 +10,7 @@
   }
 
   // Selectors used by this script
-  const formId = 'mailtoForm';
   const closeSelector = '.close-mailto';
-
-  /**
-   * Handle the form submit event
-   * @param event
-   */
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    const form = event.target;
-
-    // Simple form validation
-    if (form.mailto.value === '' || form.from.value === '') {
-      // @todo use the Joomla alerts here
-      alert(Joomla.JText._('COM_MAILTO_EMAIL_ERR_NOINFO'));
-      return;
-    }
-
-    form.submit();
-  };
 
   /**
    * Register events
@@ -43,9 +24,6 @@
    * Register events
    */
   const registerEvents = () => {
-    // Register the submit event listener
-    document.getElementById(formId).addEventListener('submit', handleFormSubmit);
-
     // Register the close click listener
     const closeElements = [].slice.call(document.querySelectorAll(closeSelector));
 
