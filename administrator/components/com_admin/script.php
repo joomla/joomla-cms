@@ -1087,6 +1087,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/controllers/module.php',
 			'/administrator/components/com_modules/controllers/modules.php',
 			'/administrator/components/com_modules/helpers/xml.php',
+			'/administrator/components/com_modules/layouts/toolbar/newmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesposition.php',
 			'/administrator/components/com_modules/models/forms/advanced.xml',

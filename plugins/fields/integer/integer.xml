@@ -27,30 +27,34 @@
 					label="PLG_FIELDS_INTEGER_PARAMS_MULTIPLE_LABEL"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
-	
+
 				<field
 					name="first"
 					type="number"
 					label="PLG_FIELDS_INTEGER_PARAMS_FIRST_LABEL"
 					default="1"
+					filter="integer"
 				/>
-	
+
 				<field
 					name="last"
 					type="number"
 					label="PLG_FIELDS_INTEGER_PARAMS_LAST_LABEL"
 					default="100"
+					filter="integer"
 				/>
-	
+
 				<field
 					name="step"
 					type="number"
 					label="PLG_FIELDS_INTEGER_PARAMS_STEP_LABEL"
 					default="1"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>
