@@ -10,6 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\Utilities\IpHelper;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
@@ -36,9 +39,9 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 */
 	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
-		$user   = JFactory::getUser($userId);
+		$user   = Factory::getUser($userId);
 		$db     = $this->getDbo();
-		$date   = JFactory::getDate();
+		$date   = Factory::getDate();
 		$params = ComponentHelper::getComponent('com_actionlogs')->getParams();
 
 		if ($params->get('ip_logging', 0))
@@ -140,13 +143,13 @@ class ActionlogsModelActionlog extends JModelLegacy
 			return;
 		}
 
-		$layout    = new JLayoutFile('components.com_actionlogs.layouts.logstable', JPATH_ADMINISTRATOR);
+		$layout    = new FileLayout('components.com_actionlogs.layouts.logstable', JPATH_ADMINISTRATOR);
 		$extension = strtok($context, '.');
 		ActionlogsHelper::loadTranslationFiles($extension);
 
 		foreach ($messages as $message)
 		{
-			$message->extension = JText::_($extension);
+			$message->extension = Text::_($extension);
 			$message->message   = ActionlogsHelper::getHumanReadableLogMessage($message);
 		}
 
@@ -157,16 +160,16 @@ class ActionlogsModelActionlog extends JModelLegacy
 		);
 
 		$body   = $layout->render($displayData);
-		$mailer = JFactory::getMailer();
+		$mailer = Factory::getMailer();
 		$mailer->addRecipient($recipients);
-		$mailer->setSubject(JText::_('COM_ACTIONLOGS_EMAIL_SUBJECT'));
+		$mailer->setSubject(Text::_('COM_ACTIONLOGS_EMAIL_SUBJECT'));
 		$mailer->isHTML(true);
 		$mailer->Encoding = 'base64';
 		$mailer->setBody($body);
 
 		if (!$mailer->Send())
 		{
-			JError::raiseWarning(500, JText::_('JERROR_SENDING_EMAIL'));
+			JError::raiseWarning(500, Text::_('JERROR_SENDING_EMAIL'));
 		}
 	}
 }
