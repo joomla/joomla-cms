@@ -84,7 +84,7 @@ class ApplicationController extends BaseController
 
 		/** @var \Joomla\Component\Config\Administrator\Model\ApplicationModel $model */
 		$model = $this->getModel('Application', 'Administrator');
-		$app   = Factory::getApplication();
+
 		$data  = $this->input->post->get('jform', array(), 'array');
 
 		// Complete data array if needed
@@ -117,11 +117,11 @@ class ApplicationController extends BaseController
 			{
 				if ($errors[$i] instanceof \Exception)
 				{
-					$app->enqueueMessage($errors[$i]->getMessage(), 'warning');
+					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($errors[$i], 'warning');
+					$this->app->enqueueMessage($errors[$i], 'warning');
 				}
 			}
 
