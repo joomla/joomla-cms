@@ -31,7 +31,6 @@
 					description="MOD_SYNDICATE_FIELD_DISPLAYTEXT_DESC"
 					default="1"
 					filter="integer"
-					class="btn-group btn-group-yesno"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
