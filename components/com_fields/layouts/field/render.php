@@ -18,6 +18,9 @@ $label = JText::_($field->label);
 $value = $field->value;
 $showLabel = $field->params->get('showlabel');
 $labelClass = $field->params->get('label_render_class');
+$showSuffix = $field->params->get('showsuffix');
+$suffix = $field->params->get('suffix');
+
 
 if ($value == '')
 {
@@ -29,3 +32,6 @@ if ($value == '')
 	<span class="field-label <?php echo $labelClass; ?>"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
 <?php endif; ?>
 <span class="field-value"><?php echo $value; ?></span>
+<?php if ($showSuffix == 1) : ?>
+	<span class="field-suffix"><?php echo htmlentities($suffix, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?></span>
+<?php endif; ?>

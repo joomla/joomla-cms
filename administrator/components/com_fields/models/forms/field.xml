@@ -308,6 +308,28 @@
 			/>
 
 			<field
+				name="showsuffix"
+				type="radio"
+				label="COM_FIELDS_FIELD_SHOWSUFFIX_LABEL"
+				description="COM_FIELDS_FIELD_SHOWSUFFIX_DESC"
+				class="btn-group btn-group-yesno"
+				default="0"
+				>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
+			</field>
+
+			<field
+				name="suffix"
+				type="text"
+				label="COM_FIELDS_FIELD_SUFFIX_LABEL"
+				description="COM_FIELDS_FIELD_SUFFIX_DESC"
+				class="input-xxlarge"
+				size="40"
+				showon="showsuffix:1"
+			/>
+
+			<field
 				name="display"
 				type="list"
 				label="COM_FIELDS_FIELD_DISPLAY_LABEL"
