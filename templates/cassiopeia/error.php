@@ -83,7 +83,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
 	. ($itemid ? ' itemid-' . $itemid : '')
-	. ' ' . $pageclass;
+	. $pageclass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
 	<header class="header full-width">

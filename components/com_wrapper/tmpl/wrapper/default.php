@@ -39,7 +39,7 @@ HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => '
 		<?php else : ?>
 			title="<?php echo $this->escape($this->params->get('page_title')); ?>"
 		<?php endif; ?>
-		class="com-wrapper__iframe wrapper <?php echo $this->pageclass_sfx; ?>">
+		class="com-wrapper__iframe wrapper<?php echo $this->pageclass_sfx; ?>">
 		<?php echo JText::_('COM_WRAPPER_NO_IFRAMES'); ?>
 	</iframe>
 </div>
