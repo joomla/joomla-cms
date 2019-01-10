@@ -145,7 +145,7 @@ class ApplicationController extends BaseController
 			 */
 
 			// Save failed, go back to the screen and display a notice.
-			$this->app->redirect(Route::_('index.php?option=com_config', false));
+			$this->setRedirect(Route::_('index.php?option=com_config', false));
 			return false;
 		}
 
