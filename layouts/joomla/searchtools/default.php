@@ -20,6 +20,9 @@ $showFilterButton  = false;
 $showSelector      = false;
 $selectorFieldName = isset($data['options']['selectorFieldName']) ? $data['options']['selectorFieldName'] : 'client_id';
 
+// For showing only filters without search tool button
+$showOnlyFilters   = false;
+
 // If a filter form exists.
 if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 {
@@ -60,6 +63,7 @@ if (isset($data['view']->filterForm) && !empty($data['view']->filterForm))
 $customOptions = array(
 	'filtersHidden'       => isset($data['options']['filtersHidden']) && $data['options']['filtersHidden'] ? $data['options']['filtersHidden'] : $hideActiveFilters,
 	'filterButton'        => isset($data['options']['filterButton']) && $data['options']['filterButton'] ? $data['options']['filterButton'] : $showFilterButton,
+	'showOnlyFilters'     => isset($data['options']['showOnlyFilters']) && $data['options']['showOnlyFilters'] ? $data['options']['showOnlyFilters'] : $showOnlyFilters,
 	'defaultLimit'        => isset($data['options']['defaultLimit']) ? $data['options']['defaultLimit'] : JFactory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
 	'selectorFieldName'   => $selectorFieldName,
@@ -72,6 +76,11 @@ $customOptions = array(
 
 // Merge custom options in the options array.
 $data['options'] = array_merge($customOptions, $data['options']);
+
+if ($data['options']['showOnlyFilters'])
+{
+	$data['options']['filterButton'] = 0;
+}
 
 // Add class to hide the active filters if needed.
 $filtersActiveClass = $hideActiveFilters ? '' : ' js-stools-container-filters-visible';
@@ -94,7 +103,7 @@ JHtml::_('searchtools.form', $data['options']['formSelector'], $data['options'])
 		</div>
 	</div>
 	<!-- Filters div -->
-	<?php if ($data['options']['filterButton']) : ?>
+	<?php if ($data['options']['showOnlyFilters'] || $data['options']['filterButton']) : ?>
 	<div class="js-stools-container-filters hidden-phone clearfix<?php echo $filtersActiveClass; ?>">
 		<?php echo $this->sublayout('filters', $data); ?>
 	</div>
