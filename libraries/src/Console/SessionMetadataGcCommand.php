@@ -10,9 +10,9 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\Console\AbstractCommand;
-use Joomla\Database\DatabaseInterface;
 use Joomla\Session\SessionInterface;
 
 /**
@@ -23,12 +23,12 @@ use Joomla\Session\SessionInterface;
 class SessionMetadataGcCommand extends AbstractCommand
 {
 	/**
-	 * The database object.
+	 * The session metadata manager.
 	 *
-	 * @var    DatabaseInterface
+	 * @var    MetadataManager
 	 * @since  4.0.0
 	 */
-	private $db;
+	private $metadataManager;
 
 	/**
 	 * The session object.
@@ -41,15 +41,15 @@ class SessionMetadataGcCommand extends AbstractCommand
 	/**
 	 * Instantiate the command.
 	 *
-	 * @param   SessionInterface   $session  The session object.
-	 * @param   DatabaseInterface  $db       The database object.
+	 * @param   SessionInterface  $session          The session object.
+	 * @param   MetadataManager   $metadataManager  The session metadata manager.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(SessionInterface $session, DatabaseInterface $db)
+	public function __construct(SessionInterface $session, MetadataManager $metadataManager)
 	{
-		$this->session = $session;
-		$this->db      = $db;
+		$this->session         = $session;
+		$this->metadataManager = $metadataManager;
 
 		parent::__construct();
 	}
@@ -69,7 +69,7 @@ class SessionMetadataGcCommand extends AbstractCommand
 
 		$sessionExpire = $this->session->getExpire();
 
-		(new MetadataManager($this->getApplication(), $this->db))->deletePriorTo(time() - $sessionExpire);
+		$this->metadataManager->deletePriorTo(time() - $sessionExpire);
 
 		$symfonyStyle->success('Metadata garbage collection completed.');
 

@@ -221,14 +221,9 @@ class HtmlView extends BaseHtmlView
 
 			if ($canDo->get('core.execute.transition'))
 			{
-				$childBar->standardButton('publish')
-					->text('JTOOLBAR_PUBLISH')
-					->task('articles.publish')
-					->listCheck(true);
-				$childBar->standardButton('unpublish')
-					->text('JTOOLBAR_UNPUBLISH')
-					->task('articles.unpublish')
-					->listCheck(true);
+				$childBar->publish('articles.publish')->listCheck(true);
+
+				$childBar->unpublish('articles.unpublish')->listCheck(true);
 			}
 
 			if ($canDo->get('core.edit.state'))
@@ -237,27 +232,20 @@ class HtmlView extends BaseHtmlView
 					->text('JFEATURE')
 					->task('articles.featured')
 					->listCheck(true);
+
 				$childBar->standardButton('unfeatured')
 					->text('JUNFEATURE')
 					->task('articles.unfeatured')
 					->listCheck(true);
+
+				$childBar->checkin('articles.checkin')->listCheck(true);
 			}
 
 			if ($canDo->get('core.execute.transition'))
 			{
-				$childBar->standardButton('archive')
-					->text('JTOOLBAR_ARCHIVE')
-					->task('articles.archive')
-					->listCheck(true);
-				$childBar->standardButton('trash')
-					->text('JTOOLBAR_TRASH')
-					->task('articles.trash')
-					->listCheck(true);
-			}
+				$childBar->archive('articles.archive')->listCheck(true);
 
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->checkin('articles.checkin')->listCheck(true);
+				$childBar->trash('articles.trash')->listCheck(true);
 			}
 		}
 
