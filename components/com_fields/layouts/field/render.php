@@ -19,7 +19,7 @@ $value = $field->value;
 $showLabel = $field->params->get('showlabel');
 $labelClass = $field->params->get('label_render_class');
 $showSuffix = $field->params->get('showsuffix');
-$suffix = $field->params->get('suffix');
+$suffix = JText::plural($field->params->get('suffix'), $value);
 
 
 if ($value == '')
