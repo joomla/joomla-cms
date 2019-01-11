@@ -329,7 +329,8 @@
 			addfieldpath="/administrator/components/com_fields/models/fields">
 			
 			<field
-				name="contact_layout" type="componentlayout"
+				name="contact_layout"
+				type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
 				menuitems="true"
