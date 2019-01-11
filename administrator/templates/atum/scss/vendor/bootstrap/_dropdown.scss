@@ -27,7 +27,8 @@
     background-color: theme-color("danger");
   }
 
-  .btn-info + .dropdown-menu  & {
+  .btn-info + .dropdown-menu  & ,
+  .dropdown-status-group .dropdown-menu  & {
     background-color: theme-color("info");
   }
 }

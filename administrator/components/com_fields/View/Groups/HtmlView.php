@@ -140,7 +140,7 @@ class HtmlView extends BaseHtmlView
 		$canDo     = ContentHelper::getActions($component, 'fieldgroup', $groupId);
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')
@@ -160,53 +160,63 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('group.add');
+			$toolbar->addNew('group.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
 		{
-			ToolbarHelper::publish('groups.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('groups.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('groups.archive');
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
-		if (Factory::getUser()->authorise('core.admin'))
-		{
-			ToolbarHelper::checkin('groups.checkin');
+			$childBar = $dropdown->getChildToolbar();
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->publish('groups.publish')->listCheck(true);
+
+				$childBar->unpublish('groups.unpublish')->listCheck(true);
+
+				$childBar->archive('groups.archive')->listCheck(true);
+			}
+
+			if (Factory::getUser()->authorise('core.admin'))
+			{
+				$childBar->checkin('groups.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->trash('groups.trash')->listCheck(true);
+			}
 		}
 
 		// Add a batch button
 		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
 		{
-			$title = Text::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new FileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(
-				array(
-					'title' => $title,
-				)
-			);
-
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
 		{
-			ToolbarHelper::deleteList('', 'groups.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('groups.trash');
+			$toolbar->delete('groups.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences($component);
+			$toolbar->preferences($component);
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
+		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELD_GROUPS');
 	}
 
 	/**

@@ -20,7 +20,7 @@ use Joomla\Component\Cpanel\Administrator\Entities\SystemItem;
 /**
  * Model to get a list of system icons.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SystemModel extends BaseDatabaseModel
 {
@@ -29,7 +29,7 @@ class SystemModel extends BaseDatabaseModel
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getItems()
 	{
