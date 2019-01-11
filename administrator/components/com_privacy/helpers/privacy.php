@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -101,7 +101,7 @@ class PrivacyHelper extends JHelperContent
 	 *
 	 * @return  integer  The privacyconsent system plugin extension id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.2
 	 */
 	public static function getPrivacyConsentPluginId()
 	{
