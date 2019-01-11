@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+
 /**
  * Dashboard view class
  *
@@ -65,6 +69,14 @@ class PrivacyViewDashboard extends JViewLegacy
 	protected $sidebar;
 
 	/**
+	 * Id of the system privacy consent plugin
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $privacyConsentPluginId;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -78,10 +90,11 @@ class PrivacyViewDashboard extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise variables
-		$this->privacyPolicyInfo    = $this->get('PrivacyPolicyInfo');
-		$this->requestCounts        = $this->get('RequestCounts');
-		$this->requestFormPublished = $this->get('RequestFormPublished');
-		$this->sendMailEnabled      = (bool) JFactory::getConfig()->get('mailonline', 1);
+		$this->privacyConsentPluginId = PrivacyHelper::getPrivacyConsentPluginId();
+		$this->privacyPolicyInfo      = $this->get('PrivacyPolicyInfo');
+		$this->requestCounts          = $this->get('RequestCounts');
+		$this->requestFormPublished   = $this->get('RequestFormPublished');
+		$this->sendMailEnabled        = (bool) Factory::getConfig()->get('mailonline', 1);
 
 		/** @var PrivacyModelRequests $requestsModel */
 		$requestsModel = $this->getModel('requests');
@@ -94,7 +107,7 @@ class PrivacyViewDashboard extends JViewLegacy
 			throw new Exception(implode("\n", $errors), 500);
 		}
 
-		$this->urgentRequestDays = (int) JComponentHelper::getParams('com_privacy')->get('notify', 14);
+		$this->urgentRequestDays = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
 
 		$this->addToolbar();
 
@@ -112,7 +125,7 @@ class PrivacyViewDashboard extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_DASHBOARD'), 'lock');
+		JToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_DASHBOARD'), 'lock');
 
 		JToolbarHelper::preferences('com_privacy');
 
