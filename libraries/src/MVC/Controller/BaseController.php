@@ -182,7 +182,7 @@ class BaseController implements ControllerInterface
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-        BaseModel::addIncludePath($path, $prefix);
+		BaseModel::addIncludePath($path, $prefix);
 	}
 
 	/**
