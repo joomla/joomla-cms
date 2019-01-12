@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -14,45 +14,52 @@ use Joomla\Registry\Registry;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- * @since       13.1
+ * @since       3.2.0
  */
 class JFacebookCommentTest extends TestCase
 {
 	/**
 	 * @var    Registry  Options for the Facebook object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JFacebookComment  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    JFacebookOauth  Facebook OAuth 2 client
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $errorString = '{"error": {"message": "Generic Error."}}';
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -60,10 +67,11 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -79,7 +87,7 @@ class JFacebookCommentTest extends TestCase
 		);
 
 		$this->options = new Registry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->input = new JInput;
 		$this->oauth = new JFacebookOauth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
@@ -96,11 +104,26 @@ class JFacebookCommentTest extends TestCase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->client, $this->input, $this->oauth, $this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Tests the getComment method
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetComment()
 	{
@@ -128,7 +151,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetCommentFailure()
@@ -154,7 +177,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDeleteComment()
 	{
@@ -182,7 +205,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteCommentFailure()
@@ -208,7 +231,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetComments()
 	{
@@ -236,7 +259,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetCommentsFailure()
@@ -262,7 +285,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateComment()
 	{
@@ -295,7 +318,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testCreateCommentFailure()
@@ -326,7 +349,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetLikes()
 	{
@@ -354,7 +377,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetLikesFailure()
@@ -380,7 +403,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateLike()
 	{
@@ -408,7 +431,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testCreateLikeFailure()
@@ -434,7 +457,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDeleteLike()
 	{
@@ -462,7 +485,7 @@ class JFacebookCommentTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteLikeFailure()

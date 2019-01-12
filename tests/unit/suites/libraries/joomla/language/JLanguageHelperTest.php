@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -11,9 +11,9 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
- * @since       11.1
+ * @since       1.7.0
  */
-class JLanguageHelperTest extends PHPUnit_Framework_TestCase
+class JLanguageHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test...
@@ -23,8 +23,8 @@ class JLanguageHelperTest extends PHPUnit_Framework_TestCase
 	public function testCreateLanguageList()
 	{
 		$option = array(
-			'text' => 'English (United Kingdom)',
-			'value' => 'en-GB',
+			'text'     => 'English (United Kingdom)',
+			'value'    => 'en-GB',
 			'selected' => 'selected="selected"'
 		);
 		$listCompareEqual = array(

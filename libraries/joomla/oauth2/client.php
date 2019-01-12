@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  OAuth2
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,31 +14,32 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform class for interacting with an OAuth 2.0 server.
  *
- * @since  12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/oauth2` framework package that will be bundled instead
  */
 class JOAuth2Client
 {
 	/**
 	 * @var    Registry  Options for the JOAuth2Client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  The HTTP client object to use in sending HTTP requests.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $http;
 
 	/**
 	 * @var    JInput  The input object to use in retrieving GET/POST data.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $input;
 
 	/**
 	 * @var    JApplicationWeb  The application object to send HTTP headers for redirects.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $application;
 
@@ -50,14 +51,14 @@ class JOAuth2Client
 	 * @param   JInput           $input        The input object
 	 * @param   JApplicationWeb  $application  The application object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JHttp $http = null, JInput $input = null, JApplicationWeb $application = null)
 	{
 		$this->options = isset($options) ? $options : new Registry;
 		$this->http = isset($http) ? $http : new JHttp($this->options);
-		$this->input = isset($input) ? $input : JFactory::getApplication()->input;
 		$this->application = isset($application) ? $application : new JApplicationWeb;
+		$this->input = isset($input) ? $input : $this->application->input;
 	}
 
 	/**
@@ -65,7 +66,7 @@ class JOAuth2Client
 	 *
 	 * @return  string  The access token
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function authenticate()
@@ -80,7 +81,7 @@ class JOAuth2Client
 
 			if ($response->code >= 200 && $response->code < 400)
 			{
-				if ($response->headers['Content-Type'] == 'application/json')
+				if (strpos($response->headers['Content-Type'], 'application/json') === 0)
 				{
 					$token = array_merge(json_decode($response->body, true), array('created' => time()));
 				}
@@ -113,7 +114,7 @@ class JOAuth2Client
 	 *
 	 * @return  boolean  Is authenticated
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isAuthenticated()
 	{
@@ -138,7 +139,7 @@ class JOAuth2Client
 	 *
 	 * @return  JHttpResponse  The HTTP response
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  InvalidArgumentException
 	 */
 	public function createUrl()
@@ -192,7 +193,7 @@ class JOAuth2Client
 	/**
 	 * Send a signed Oauth request.
 	 *
-	 * @param   string  $url      The URL forf the request.
+	 * @param   string  $url      The URL for the request.
 	 * @param   mixed   $data     The data to include in the request
 	 * @param   array   $headers  The headers to send with the request
 	 * @param   string  $method   The method with which to send the request
@@ -200,7 +201,7 @@ class JOAuth2Client
 	 *
 	 * @return  string  The URL.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  InvalidArgumentException
 	 * @throws  RuntimeException
 	 */
@@ -269,7 +270,7 @@ class JOAuth2Client
 	 *
 	 * @return  mixed  The option value
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -284,7 +285,7 @@ class JOAuth2Client
 	 *
 	 * @return  JOAuth2Client  This object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{
@@ -298,7 +299,7 @@ class JOAuth2Client
 	 *
 	 * @return  array  The access token
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getToken()
 	{
@@ -312,7 +313,7 @@ class JOAuth2Client
 	 *
 	 * @return  JOAuth2Client  This object for method chaining
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setToken($value)
 	{
@@ -334,7 +335,7 @@ class JOAuth2Client
 	 *
 	 * @return  array  The new access token
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  Exception
 	 * @throws  RuntimeException
 	 */
@@ -365,7 +366,7 @@ class JOAuth2Client
 
 		if ($response->code >= 200 || $response->code < 400)
 		{
-			if ($response->headers['Content-Type'] == 'application/json')
+			if (strpos($response->headers['Content-Type'], 'application/json') === 0)
 			{
 				$token = array_merge(json_decode($response->body, true), array('created' => time()));
 			}

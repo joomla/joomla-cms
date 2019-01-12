@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 /*
  * Author: Constantin Jucovschi (c.jucovschi@jacobs-university.de)
@@ -16,7 +16,7 @@
 })(function(CodeMirror) {
   "use strict";
 
-  CodeMirror.defineMode("stex", function() {
+  CodeMirror.defineMode("stex", function(_config, parserConfig) {
     "use strict";
 
     function pushCommand(state, command) {
@@ -78,6 +78,14 @@
     plugins["begin"] = addPluginPattern("begin", "tag", ["atom"]);
     plugins["end"] = addPluginPattern("end", "tag", ["atom"]);
 
+    plugins["label"    ] = addPluginPattern("label"    , "tag", ["atom"]);
+    plugins["ref"      ] = addPluginPattern("ref"      , "tag", ["atom"]);
+    plugins["eqref"    ] = addPluginPattern("eqref"    , "tag", ["atom"]);
+    plugins["cite"     ] = addPluginPattern("cite"     , "tag", ["atom"]);
+    plugins["bibitem"  ] = addPluginPattern("bibitem"  , "tag", ["atom"]);
+    plugins["Bibitem"  ] = addPluginPattern("Bibitem"  , "tag", ["atom"]);
+    plugins["RBibitem" ] = addPluginPattern("RBibitem" , "tag", ["atom"]);
+
     plugins["DEFAULT"] = function () {
       this.name = "DEFAULT";
       this.style = "tag";
@@ -117,6 +125,10 @@
         setState(state, function(source, state){ return inMathMode(source, state, "\\]"); });
         return "keyword";
       }
+      if (source.match("\\(")) {
+        setState(state, function(source, state){ return inMathMode(source, state, "\\)"); });
+        return "keyword";
+      }
       if (source.match("$$")) {
         setState(state, function(source, state){ return inMathMode(source, state, "$$"); });
         return "keyword";
@@ -130,8 +142,7 @@
       if (ch == "%") {
         source.skipToEnd();
         return "comment";
-      }
-      else if (ch == '}' || ch == ']') {
+      } else if (ch == '}' || ch == ']') {
         plug = peekCommand(state);
         if (plug) {
           plug.closeBracket(ch);
@@ -145,12 +156,10 @@
         plug = new plug();
         pushCommand(state, plug);
         return "bracket";
-      }
-      else if (/\d/.test(ch)) {
+      } else if (/\d/.test(ch)) {
         source.eatWhile(/[\w.%]/);
         return "atom";
-      }
-      else {
+      } else {
         source.eatWhile(/[\w\-_]/);
         plug = getMostPowerful(state);
         if (plug.name == 'begin') {
@@ -164,7 +173,7 @@
       if (source.eatSpace()) {
         return null;
       }
-      if (source.match(endModeSeq)) {
+      if (endModeSeq && source.match(endModeSeq)) {
         setState(state, normal);
         return "keyword";
       }
@@ -226,9 +235,10 @@
 
     return {
       startState: function() {
+        var f = parserConfig.inMathMode ? function(source, state){ return inMathMode(source, state); } : normal;
         return {
           cmdState: [],
-          f: normal
+          f: f
         };
       },
       copyState: function(s) {
@@ -242,6 +252,7 @@
       },
       blankLine: function(state) {
         state.f = normal;
+        state.cmdState.length = 0;
       },
       lineComment: "%"
     };

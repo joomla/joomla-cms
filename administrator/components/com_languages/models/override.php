@@ -3,13 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-
-use Joomla\Registry\Registry;
 
 /**
  * Languages Override Model
@@ -38,13 +36,13 @@ class LanguagesModelOverride extends JModelAdmin
 			return false;
 		}
 
-		$client		= $this->getState('filter.client', 'site');
-		$language	= $this->getState('filter.language', 'en-GB');
-		$langName	= JLanguage::getInstance($language)->getName();
+		$client   = $this->getState('filter.client', 'site');
+		$language = $this->getState('filter.language', 'en-GB');
+		$langName = JLanguage::getInstance($language)->getName();
 
 		if (!$langName)
 		{
-			// If a language only exists in frontend, it's meta data cannot be
+			// If a language only exists in frontend, its metadata cannot be
 			// loaded in backend at the moment, so fall back to the language tag.
 			$langName = $language;
 		}
@@ -89,13 +87,11 @@ class LanguagesModelOverride extends JModelAdmin
 	 */
 	public function getItem($pk = null)
 	{
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
-
-		$input = JFactory::getApplication()->input;
-		$pk	= (!empty($pk)) ? $pk : $input->get('id');
-		$filename = constant('JPATH_' . strtoupper($this->getState('filter.client')))
+		$input    = JFactory::getApplication()->input;
+		$pk       = !empty($pk) ? $pk : $input->get('id');
+		$fileName = constant('JPATH_' . strtoupper($this->getState('filter.client')))
 			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		$result = new stdClass;
 		$result->key      = '';
@@ -106,6 +102,11 @@ class LanguagesModelOverride extends JModelAdmin
 			$result->key      = $pk;
 			$result->override = $strings[$pk];
 		}
+
+		$oppositeFileName = constant('JPATH_' . strtoupper($this->getState('filter.client') == 'site' ? 'administrator' : 'site')) 
+			. '/language/overrides/' . $this->getState('filter.language', 'en-GB') . '.override.ini';
+		$oppositeStrings  = JLanguageHelper::parseIniFile($oppositeFileName);
+		$result->both = isset($oppositeStrings[$pk]) && ($oppositeStrings[$pk] == $strings[$pk]);
 
 		return $result;
 	}
@@ -122,12 +123,12 @@ class LanguagesModelOverride extends JModelAdmin
 	 */
 	public function save($data, $opposite_client = false)
 	{
-		$app = JFactory::getApplication();
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
 		jimport('joomla.filesystem.file');
 
-		$client		= $app->getUserState('com_languages.overrides.filter.client', 0);
-		$language	= $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
+		$app = JFactory::getApplication();
+
+		$client   = $app->getUserState('com_languages.overrides.filter.client', 0);
+		$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
 
 		// If the override should be created for both.
 		if ($opposite_client)
@@ -135,11 +136,21 @@ class LanguagesModelOverride extends JModelAdmin
 			$client = 1 - $client;
 		}
 
+		// Return false if the constant is a reserved word, i.e. YES, NO, NULL, FALSE, ON, OFF, NONE, TRUE
+		$blacklist = array('YES', 'NO', 'NULL', 'FALSE', 'ON', 'OFF', 'NONE', 'TRUE');
+
+		if (in_array($data['key'], $blacklist))
+		{
+			$this->setError(JText::_('COM_LANGUAGES_OVERRIDE_ERROR_RESERVED_WORDS'));
+
+			return false;
+		}
+
 		$client = $client ? 'administrator' : 'site';
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$filename	= constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
-		$strings	= LanguagesHelper::parseFile($filename);
+		$fileName = constant('JPATH_' . strtoupper($client)) . '/language/overrides/' . $language . '.override.ini';
+		$strings  = JLanguageHelper::parseIniFile($fileName);
 
 		if (isset($strings[$data['id']]))
 		{
@@ -163,17 +174,8 @@ class LanguagesModelOverride extends JModelAdmin
 			$strings = array($data['key'] => $data['override']) + $strings;
 		}
 
-		foreach ($strings as $key => $string)
-		{
-			$strings[$key] = str_replace('"', '"_QQ_"', $string);
-		}
-
 		// Write override.ini file with the strings.
-		$registry = new Registry;
-		$registry->loadObject($strings);
-		$reg = $registry->toString('INI');
-
-		if (!JFile::write($filename, $reg))
+		if (JLanguageHelper::saveToIniFile($fileName, $strings) === false)
 		{
 			return false;
 		}

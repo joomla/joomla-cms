@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Keychain
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,21 +12,22 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Keychain Class
  *
- * @since  12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Deprecated without replacement
  */
 class JKeychain extends \Joomla\Registry\Registry
 {
 	/**
 	 * @var    string  Method to use for encryption.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $method = 'aes-128-cbc';
 
 	/**
 	 * @var    string  Initialisation vector for encryption method.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
-	public $iv = "1234567890123456";
+	public $iv = '1234567890123456';
 
 	/**
 	 * Create a passphrase file
@@ -38,7 +39,7 @@ class JKeychain extends \Joomla\Registry\Registry
 	 *
 	 * @return  boolean  Result of writing the passphrase file to disk.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function createPassphraseFile($passphrase, $passphraseFile, $privateKeyFile, $privateKeyPassphrase)
@@ -47,14 +48,14 @@ class JKeychain extends \Joomla\Registry\Registry
 
 		if (!$privateKey)
 		{
-			throw new RuntimeException("Failed to load private key.");
+			throw new RuntimeException('Failed to load private key.');
 		}
 
 		$crypted = '';
 
 		if (!openssl_private_encrypt($passphrase, $crypted, $privateKey))
 		{
-			throw new RuntimeException("Failed to encrypt data using private key.");
+			throw new RuntimeException('Failed to encrypt data using private key.');
 		}
 
 		return file_put_contents($passphraseFile, $crypted);
@@ -67,7 +68,7 @@ class JKeychain extends \Joomla\Registry\Registry
 	 *
 	 * @return  mixed  Value of old value or boolean false if operation failed
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function deleteValue($path)
 	{
@@ -84,17 +85,17 @@ class JKeychain extends \Joomla\Registry\Registry
 			// Traverse the registry to find the correct node for the result.
 			for ($i = 0, $n = count($nodes) - 1; $i < $n; $i++)
 			{
-				if (!isset($node->$nodes[$i]) && ($i != $n))
+				if (!isset($node->{$nodes[$i]}) && ($i != $n))
 				{
-					$node->$nodes[$i] = new stdClass;
+					$node->{$nodes[$i]} = new stdClass;
 				}
 
-				$node = $node->$nodes[$i];
+				$node = $node->{$nodes[$i]};
 			}
 
 			// Get the old value if exists so we can return it
-			$result = $node->$nodes[$i];
-			unset($node->$nodes[$i]);
+			$result = $node->{$nodes[$i]};
+			unset($node->{$nodes[$i]});
 		}
 
 		return $result;
@@ -109,7 +110,7 @@ class JKeychain extends \Joomla\Registry\Registry
 	 *
 	 * @return  boolean  Result of loading the object.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function loadKeychain($keychainFile, $passphraseFile, $publicKeyFile)
@@ -125,7 +126,7 @@ class JKeychain extends \Joomla\Registry\Registry
 
 		if ($cleartext === false)
 		{
-			throw new RuntimeException("Failed to decrypt keychain file");
+			throw new RuntimeException('Failed to decrypt keychain file');
 		}
 
 		return $this->loadObject(json_decode($cleartext));
@@ -140,7 +141,7 @@ class JKeychain extends \Joomla\Registry\Registry
 	 *
 	 * @return  boolean  Result of storing the file.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	public function saveKeychain($keychainFile, $passphraseFile, $publicKeyFile)
@@ -166,7 +167,7 @@ class JKeychain extends \Joomla\Registry\Registry
 	 *
 	 * @return  string  The passphrase in from passphraseFile
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  RuntimeException
 	 */
 	protected function getPassphraseFromFile($passphraseFile, $publicKeyFile)
@@ -180,7 +181,7 @@ class JKeychain extends \Joomla\Registry\Registry
 
 		if (!$publicKey)
 		{
-			throw new RuntimeException("Failed to load public key.");
+			throw new RuntimeException('Failed to load public key.');
 		}
 
 		if (!file_exists($passphraseFile))

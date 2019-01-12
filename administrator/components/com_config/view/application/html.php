@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,6 +53,7 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		{
 			$form->bind($data);
 		}
+
 		// Get the params for com_users.
 		$usersParams = JComponentHelper::getParams('com_users');
 
@@ -74,7 +75,6 @@ class ConfigViewApplicationHtml extends ConfigViewCmsHtml
 		$this->userIsSuperAdmin = $user->authorise('core.admin');
 
 		$this->addToolbar();
-		JFactory::getApplication()->input->set('hidemainmenu', true);
 
 		return parent::render();
 	}

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Router
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,6 +12,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Router
+ * @group       Router
  * @since       3.0
  */
 class JRouterAdministratorTest extends TestCase
@@ -46,7 +47,7 @@ class JRouterAdministratorTest extends TestCase
 
 		$this->server = $_SERVER;
 
-		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['HTTP_HOST']   = 'example.com';
 		$_SERVER['SCRIPT_NAME'] = '';
 
 		JUri::reset();
@@ -65,6 +66,7 @@ class JRouterAdministratorTest extends TestCase
 	protected function tearDown()
 	{
 		$_SERVER = $this->server;
+		unset($this->server, $this->object);
 
 		parent::tearDown();
 	}
@@ -73,41 +75,30 @@ class JRouterAdministratorTest extends TestCase
 	 * Tests the parse method
 	 *
 	 * @return  void
-	 *
+	 * @testdox JRouterAdministrator::parse() returns an array
 	 * @since   3.0
 	 */
 	public function testParse()
 	{
 		$uri = JUri::getInstance('http://localhost');
 
-		$this->assertThat(
-			$this->object->parse($uri),
-			$this->isType('array'),
-			'JRouterAdministrator::parse() returns an empty array.'
-		);
+		$vars = $this->object->parse($uri);
+		$this->assertTrue(is_array($vars));
 	}
 
 	/**
 	 * Tests the build method
 	 *
 	 * @return  void
-	 *
+	 * @testdox JRouterAdministrator::build() returns an instance of JUri
 	 * @since   3.1
 	 */
 	public function testBuild()
 	{
 		$uri = JUri::getInstance('http://localhost/joomla-cms/intro/to/joomla');
 
-		$this->assertInstanceOf(
-			'JUri',
-			$this->object->build($uri),
-			'JRouterAdministrator::build() returns an instance of JUri.'
-		);
+		$this->assertInstanceOf('JUri', $this->object->build($uri));
 
-		$this->assertEquals(
-			$uri->getPath(),
-			'/joomla-cms/intro/to/joomla',
-			'JRouterAdministrator::build() returns the path as provided.'
-		);
+		$this->assertEquals('/joomla-cms/intro/to/joomla', $uri->getPath());
 	}
 }

@@ -3,13 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  String
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert/idna_convert.class.php');
+JLoader::register('idna_convert', JPATH_LIBRARIES . '/idna_convert/idna_convert.class.php');
 
 /**
  * Wrapper class for JStringPunycode
@@ -17,6 +17,7 @@ JLoader::register('idna_convert', JPATH_ROOT . '/libraries/idna_convert/idna_con
  * @package     Joomla.Platform
  * @subpackage  String
  * @since       3.4
+ * @deprecated  4.0 Will be removed without replacement
  */
 class JStringWrapperPunycode
 {
@@ -83,9 +84,9 @@ class JStringWrapperPunycode
 	/**
 	 * Helper wrapper method for emailToPunycode
 	 *
-	 * @param   string  $email  The UTF-8 e-mail to transform.
+	 * @param   string  $email  The UTF-8 email to transform.
 	 *
-	 * @return string  The punycode e-mail.
+	 * @return string  The punycode email.
 	 *
 	 * @see     JStringPunycode::emailToPunycode()
 	 * @since   3.4
@@ -98,9 +99,9 @@ class JStringWrapperPunycode
 	/**
 	 * Helper wrapper method for emailToUTF8
 	 *
-	 * @param   string  $email  The punycode e-mail to transform.
+	 * @param   string  $email  The punycode email to transform.
 	 *
-	 * @return string  The punycode e-mail.
+	 * @return string  The punycode email.
 	 *
 	 * @see     JStringPunycode::emailToUTF8()
 	 * @since   3.4

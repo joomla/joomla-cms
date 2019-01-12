@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JLoader::register('JFeedParserMock', __DIR__ . '/stubs/JFeedParserMock.php');
@@ -16,19 +16,19 @@ JLoader::register('JFeedParserMockNamespace', __DIR__ . '/stubs/JFeedParserMockN
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class JFeedParserTest extends TestCase
 {
 	/**
 	 * @var    JFeedParser
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_instance;
 
 	/**
 	 * @var    XMLReader
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	private $_reader;
 
@@ -37,16 +37,15 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testParse()
 	{
-		// Create the mock so we can verify calls.
-		$parser = $this->getMock(
-			'JFeedParserMock',
-			array('initialise', 'processElement'),
-			array($this->_reader)
-		);
+		// Build the mock so we can verify calls.
+		$parser  = $this->getMockBuilder('JFeedParserMock')
+					->setMethods(array('initialise', 'processElement'))
+					->setConstructorArgs(array($this->_reader))
+					->getMock();
 
 		// Setup some expectations for the mock object.
 		$parser->expects($this->once())->method('initialise');
@@ -73,7 +72,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespace()
 	{
@@ -81,7 +80,7 @@ class JFeedParserTest extends TestCase
 		$this->assertAttributeEmpty('namespaces', $this->_instance);
 
 		// Add a new namespace.
-		$mock = $this->getMock('JFeedParserNamespace');
+		$mock = $this->getMockBuilder('JFeedParserNamespace')->getMock();
 		$this->_instance->registerNamespace('foo', $mock);
 
 		$this->assertAttributeEquals(
@@ -101,38 +100,11 @@ class JFeedParserTest extends TestCase
 	}
 
 	/**
-	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a string.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function testRegisterNamespaceWithString()
-	{
-		$this->_instance->registerNamespace('foo', 'bar');
-	}
-
-	/**
-	 * Tests JFeedParser::registerNamespace() with an expected failure.  Cannot register a handler
-	 * that isn't an instance of JFeedParserNamespace.
-	 *
-	 * @return  void
-	 *
-	 * @expectedException  PHPUnit_Framework_Error
-	 * @since              12.3
-	 */
-	public function testRegisterNamespaceWithObject()
-	{
-		$this->_instance->registerNamespace('foo', new stdClass);
-	}
-
-	/**
 	 * Tests JFeedParser::processElement() with processing a normal element.
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testProcessElementWithElement()
 	{
@@ -167,7 +139,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testProcessElementWithEntry()
 	{
@@ -206,12 +178,12 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testFetchNamespace()
 	{
 		// Set a mock namespace into the namespaces for the parser object.
-		$mock = $this->getMock('JFeedParserNamespace');
+		$mock = $this->getMockBuilder('JFeedParserNamespace')->getMock();
 		$namespaces = array('mock' => $mock);
 		TestReflection::setValue($this->_instance, 'namespaces', $namespaces);
 
@@ -230,7 +202,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToNextElement()
 	{
@@ -266,7 +238,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToNextElementByName()
 	{
@@ -289,7 +261,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToClosingElement()
 	{
@@ -311,7 +283,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToClosingElementWithInternalElements()
 	{
@@ -358,7 +330,7 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{
@@ -400,8 +372,8 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::setUp()
-	 * @since   12.3
+	 * @see     \PHPUnit\Framework\TestCase::setUp()
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
@@ -419,14 +391,13 @@ class JFeedParserTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   12.3
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{
-		unset($this->_instance);
-		unset($this->_reader);
+		unset($this->_instance, $this->_reader);
 
-		parent::teardown();
+		parent::tearDown();
 	}
 }

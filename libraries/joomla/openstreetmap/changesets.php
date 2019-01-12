@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Openstreetmap API Changesets class for the Joomla Platform
  *
- * @since  13.1
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/openstreetmap` package via Composer instead
  */
 class JOpenstreetmapChangesets extends JOpenstreetmapObject
 {
@@ -23,7 +24,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createChangeset($changesets=array())
 	{
@@ -32,7 +33,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 		// Set parameters.
 		$parameters = array(
 			'oauth_token' => $token['key'],
-			'oauth_token_secret' => $token['secret']
+			'oauth_token_secret' => $token['secret'],
 		);
 
 		// Set the API base
@@ -81,7 +82,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response about a changeset
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function readChangeset($id)
 	{
@@ -105,7 +106,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response of updated changeset
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function updateChangeset($id, $tags = array())
 	{
@@ -113,7 +114,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -157,7 +158,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function closeChangeset($id)
 	{
@@ -165,7 +166,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -187,7 +188,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response of requested changeset
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function downloadChangeset($id)
 	{
@@ -211,7 +212,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response of changed changeset
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function expandBBoxChangeset($id, $nodes)
 	{
@@ -219,7 +220,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -263,7 +264,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function queryChangeset($param)
 	{
@@ -287,7 +288,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 	 *
 	 * @return  array  The XML response of result
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function diffUploadChangeset($xml, $id)
 	{
@@ -295,7 +296,7 @@ class JOpenstreetmapChangesets extends JOpenstreetmapObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base

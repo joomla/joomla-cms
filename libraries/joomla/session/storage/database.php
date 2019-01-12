@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,9 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Database session storage handler for PHP
  *
- * @see    http://www.php.net/manual/en/function.session-set-save-handler.php
- * @since  11.1
+ * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @since       1.7.0
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageDatabase extends JSessionStorage
 {
@@ -24,7 +25,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  string  The session data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function read($id)
 	{
@@ -47,7 +48,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return $result;
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -61,7 +62,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function write($id, $data)
 	{
@@ -75,23 +76,21 @@ class JSessionStorageDatabase extends JSessionStorage
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__session'))
 				->set($db->quoteName('data') . ' = ' . $db->quote($data))
-				->set($db->quoteName('time') . ' = ' . $db->quote((int) time()))
+				->set($db->quoteName('time') . ' = ' . time())
 				->where($db->quoteName('session_id') . ' = ' . $db->quote($id));
 
 			// Try to update the session data in the database table.
 			$db->setQuery($query);
+			$db->execute();
 
-			if (!$db->execute())
-			{
-				return false;
-			}
-			/* Since $db->execute did not throw an exception, so the query was successful.
-			Either the data changed, or the data was identical.
-			In either case we are done.
-			*/
+			/*
+			 * Since $db->execute did not throw an exception, so the query was successful.
+			 * Either the data changed, or the data was identical.
+			 * In either case we are done.
+			 */
 			return true;
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -104,7 +103,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function destroy($id)
 	{
@@ -122,7 +121,7 @@ class JSessionStorageDatabase extends JSessionStorage
 
 			return (boolean) $db->execute();
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}
@@ -135,7 +134,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc($lifetime = 1440)
 	{
@@ -149,14 +148,14 @@ class JSessionStorageDatabase extends JSessionStorage
 		{
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__session'))
-				->where($db->quoteName('time') . ' < ' . $db->quote((int) $past));
+				->where($db->quoteName('time') . ' < ' . (int) $past);
 
 			// Remove expired sessions from the database.
 			$db->setQuery($query);
 
 			return (boolean) $db->execute();
 		}
-		catch (Exception $e)
+		catch (RuntimeException $e)
 		{
 			return false;
 		}

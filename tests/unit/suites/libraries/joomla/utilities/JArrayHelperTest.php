@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
@@ -17,16 +17,16 @@ require_once JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Utilities
- * @since       11.1
+ * @since       1.7.0
  */
-class JArrayHelperTest extends PHPUnit_Framework_TestCase
+class JArrayHelperTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Data provider for testArrayUnique.
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTestArrayUniqueData()
 	{
@@ -59,7 +59,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTestFromObjectData()
 	{
@@ -243,7 +243,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTestGetColumnData()
 	{
@@ -316,7 +316,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTestGetValueData()
 	{
@@ -378,7 +378,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getTestInvertData()
 	{
@@ -431,7 +431,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTestPivotData()
 	{
@@ -509,7 +509,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTestSortObjectData()
 	{
@@ -745,7 +745,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					),
 				),
 				'Should be sorted by the string field in ascending order full argument list',
-				false
+				false,
+				array(1, 2)
 			),
 			'by string descending' => array(
 				$input1,
@@ -780,8 +781,10 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					),
 				),
 				'Should be sorted by the string field in descending order',
-				false
+				false,
+				array(5, 6)
 			),
+			// TODO: Check these tests: 'by casesensitive string ascending' (duplicate keys, only the last of the duplicates gets executed)
 			'by casesensitive string ascending' => array(
 				$input2,
 				'string',
@@ -815,7 +818,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					),
 				),
 				'Should be sorted by the string field in ascending order with casesensitive comparisons',
-				false
+				false,
+				array(1, 2)
 			),
 			'by casesensitive string descending' => array(
 				$input2,
@@ -850,7 +854,8 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 					),
 				),
 				'Should be sorted by the string field in descending order with casesensitive comparisons',
-				false
+				false,
+				array(5, 6)
 			),
 			'by casesensitive string,integer ascending' => array(
 				$input2,
@@ -1004,6 +1009,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 				'Should be sorted by the string,integer field in descending,ascending order with casesensitive comparisons',
 				false
 			),
+			// TODO: Check these tests: 'by casesensitive string ascending' (duplicate keys, only the last of the duplicates gets executed)
 			'by casesensitive string ascending' => array(
 				$input3,
 				'string',
@@ -1100,7 +1106,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTestToIntegerData()
 	{
@@ -1144,7 +1150,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTestToObjectData()
 	{
@@ -1229,7 +1235,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getTestToStringData()
 	{
@@ -1351,22 +1357,6 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 * Sets up the fixture.
-	 *
-	 * This method is called before a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		require_once JPATH_PLATFORM . '/joomla/string/string.php';
-	}
-
-	/**
 	 * Tests the JArrayHelper::arrayUnique method.
 	 *
 	 * @param   array   $input     The array being input.
@@ -1376,7 +1366,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getTestArrayUniqueData
 	 * @covers  JArrayHelper::arrayUnique
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testArrayUnique($input, $expected)
 	{
@@ -1399,8 +1389,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider  getTestFromObjectData
 	 * @covers  JArrayHelper::fromObject
-	 * @covers  JArrayHelper::_fromObject
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testFromObject($input, $recurse, $regex, $expect, $defaults)
 	{
@@ -1428,7 +1417,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getTestGetColumnData
 	 * @covers  JArrayHelper::getColumn
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetColumn($input, $index, $expect, $message)
 	{
@@ -1450,7 +1439,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getTestGetValueData
 	 * @covers  JArrayHelper::getValue
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetValue($input, $index, $default, $type, $expect, $message, $defaults)
 	{
@@ -1475,7 +1464,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getTestInvertData
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testInvert($input, $expected)
 	{
@@ -1490,7 +1479,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @sovers  JArrayHelper::isAssociative
 	 */
 	public function testIsAssociative()
@@ -1537,7 +1526,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getTestPivotData
 	 * @covers  JArrayHelper::pivot
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testPivot($source, $key, $expected)
 	{
@@ -1558,15 +1547,15 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 * @param   array    $expect         The expected results
 	 * @param   string   $message        The failure message
 	 * @param   boolean  $defaults       Use the defaults (true) or full argument list
+	 * @param   array    $swappableKeys  Array of keys to swap the order of
 	 *
 	 * @return  void
 	 *
 	 * @dataProvider getTestSortObjectData
 	 * @covers  JArrayHelper::sortObjects
-	 * @covers  JArrayHelper::_sortObjects
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
-	public function testSortObjects($input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults)
+	public function testSortObjects($input, $key, $direction, $casesensitive, $locale, $expect, $message, $defaults, $swappableKeys = array())
 	{
 		// Convert the $locale param to a string if it is an array
 		if (is_array($locale))
@@ -1597,6 +1586,16 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 			$output = JArrayHelper::sortObjects($input, $key, $direction, $casesensitive, $locale);
 		}
 
+		// The ordering of elements that compare equal according to $key is undefined (implementation dependent).
+		if ($expect != $output && $swappableKeys)
+		{
+			list($k1, $k2) = $swappableKeys;
+			$e1 = $output[$k1];
+			$e2 = $output[$k2];
+			$output[$k1] = $e2;
+			$output[$k2] = $e1;
+		}
+
 		$this->assertEquals($expect, $output, $message);
 	}
 
@@ -1612,7 +1611,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getTestToIntegerData
 	 * @covers  JArrayHelper::toInteger
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testToInteger($input, $default, $expect, $message)
 	{
@@ -1636,7 +1635,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getTestToObjectData
 	 * @covers  JArrayHelper::toObject
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testToObject($input, $className, $expect, $message)
 	{
@@ -1662,7 +1661,7 @@ class JArrayHelperTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider getTestToStringData
 	 * @covers  JArrayHelper::toString
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testToString($input, $inner, $outer, $keepKey, $expect, $message, $defaults)
 	{

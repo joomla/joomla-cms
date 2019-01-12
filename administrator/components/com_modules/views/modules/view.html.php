@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,27 +27,56 @@ class ModulesViewModules extends JViewLegacy
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
+	 *
+	 * @since   1.6
 	 */
 	public function display($tpl = null)
 	{
-		$this->items		= $this->get('Items');
-		$this->pagination	= $this->get('Pagination');
-		$this->state		= $this->get('State');
+		$this->items         = $this->get('Items');
+		$this->pagination    = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->total         = $this->get('Total');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
+		$this->clientId      = $this->state->get('client_id');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			JError::raiseError(500, implode("\n", $errors));
-
-			return false;
+			throw new Exception(implode("\n", $errors), 500);
 		}
 
-		$this->addToolbar();
+		// We do not need the Language filter when modules are not filtered
+		if ($this->clientId == 1 && !JModuleHelper::isAdminMultilang())
+		{
+			unset($this->activeFilters['language']);
+			$this->filterForm->removeField('language', 'filter');
+		}
+
+		// We don't need the toolbar in the modal window.
+		if ($this->getLayout() !== 'modal')
+		{
+			$this->addToolbar();
+		}
+		// If in modal layout.
+		else
+		{
+			// Client id selector should not exist.
+			$this->filterForm->removeField('client_id', '');
+
+			// If in the frontend state and language should not activate the search tools.
+			if (JFactory::getApplication()->isClient('site'))
+			{
+				unset($this->activeFilters['state']);
+				unset($this->activeFilters['language']);
+			}
+		}
 
 		// Include the component HTML helpers.
 		JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		parent::display($tpl);
+
+		return parent::display($tpl);
 	}
 
 	/**
@@ -59,14 +88,21 @@ class ModulesViewModules extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		$state	= $this->get('State');
-		$canDo	= JHelperContent::getActions('com_modules');
+		$state = $this->get('State');
+		$canDo = JHelperContent::getActions('com_modules');
 		$user  = JFactory::getUser();
 
 		// Get the toolbar object instance
-		$bar = JToolBar::getInstance('toolbar');
+		$bar = JToolbar::getInstance('toolbar');
 
-		JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES'), 'cube module');
+		if ($state->get('client_id') == 1)
+		{
+			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_ADMIN'), 'cube module');
+		}
+		else
+		{
+			JToolbarHelper::title(JText::_('COM_MODULES_MANAGER_MODULES_SITE'), 'cube module');
+		}
 
 		if ($canDo->get('core.create'))
 		{
@@ -93,20 +129,11 @@ class ModulesViewModules extends JViewLegacy
 			JToolbarHelper::checkin('modules.checkin');
 		}
 
-		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			JToolbarHelper::deleteList('', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			JToolbarHelper::trash('modules.trash');
-		}
-
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			JHtml::_('bootstrap.modal', 'collapseModal');
+			JHtml::_('bootstrap.renderModal', 'collapseModal');
 			$title = JText::_('JTOOLBAR_BATCH');
 
 			// Instantiate a new JLayoutFile instance and render the batch button
@@ -116,6 +143,15 @@ class ModulesViewModules extends JViewLegacy
 			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			JToolbarHelper::trash('modules.trash');
+		}
+
 		if ($canDo->get('core.admin'))
 		{
 			JToolbarHelper::preferences('com_modules');
@@ -123,50 +159,10 @@ class ModulesViewModules extends JViewLegacy
 
 		JToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 
-		JHtmlSidebar::setAction('index.php?option=com_modules');
-
-		JHtmlSidebar::addFilter(
-			// @todo we need a label for this
-			'',
-			'filter_client_id',
-			JHtml::_('select.options', ModulesHelper::getClientOptions(), 'value', 'text', $this->state->get('filter.client_id')),
-			false
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_PUBLISHED'),
-			'filter_state',
-			JHtml::_('select.options', ModulesHelper::getStateOptions(), 'value', 'text', $this->state->get('filter.state'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_MODULES_OPTION_SELECT_POSITION'),
-			'filter_position',
-			JHtml::_(
-				'select.options',
-				ModulesHelper::getPositions($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.position')
-			)
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('COM_MODULES_OPTION_SELECT_MODULE'),
-			'filter_module',
-			JHtml::_('select.options', ModulesHelper::getModules($this->state->get('filter.client_id')), 'value', 'text', $this->state->get('filter.module'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_ACCESS'),
-			'filter_access',
-			JHtml::_('select.options', JHtml::_('access.assetgroups'), 'value', 'text', $this->state->get('filter.access'))
-		);
-
-		JHtmlSidebar::addFilter(
-			JText::_('JOPTION_SELECT_LANGUAGE'),
-			'filter_language',
-			JHtml::_('select.options', JHtml::_('contentlanguage.existing', true, true), 'value', 'text', $this->state->get('filter.language'))
-		);
-
-		$this->sidebar = JHtmlSidebar::render();
+		if (JHtmlSidebar::getEntries())
+		{
+			$this->sidebar = JHtmlSidebar::render();
+		}
 	}
 
 	/**
@@ -178,16 +174,59 @@ class ModulesViewModules extends JViewLegacy
 	 */
 	protected function getSortFields()
 	{
-		return array(
-			'ordering' => JText::_('JGRID_HEADING_ORDERING'),
-			'a.published' => JText::_('JSTATUS'),
-			'a.title' => JText::_('JGLOBAL_TITLE'),
-			'position' => JText::_('COM_MODULES_HEADING_POSITION'),
-			'name' => JText::_('COM_MODULES_HEADING_MODULE'),
-			'pages' => JText::_('COM_MODULES_HEADING_PAGES'),
-			'a.access' => JText::_('JGRID_HEADING_ACCESS'),
-			'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
-			'a.id' => JText::_('JGRID_HEADING_ID')
-		);
+		$this->state = $this->get('State');
+
+		if ($this->state->get('client_id') == 0)
+		{
+			if ($this->getLayout() == 'default')
+			{
+				return array(
+					'ordering'       => JText::_('JGRID_HEADING_ORDERING'),
+					'a.published'    => JText::_('JSTATUS'),
+					'a.title'        => JText::_('JGLOBAL_TITLE'),
+					'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
+					'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
+					'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
+					'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+					'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
+					'a.id'           => JText::_('JGRID_HEADING_ID')
+				);
+			}
+
+			return array(
+				'a.title'        => JText::_('JGLOBAL_TITLE'),
+				'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
+				'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
+				'pages'          => JText::_('COM_MODULES_HEADING_PAGES'),
+				'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+				'language_title' => JText::_('JGRID_HEADING_LANGUAGE'),
+				'a.id'           => JText::_('JGRID_HEADING_ID')
+			);
+		}
+		else
+		{
+			if ($this->getLayout() == 'default')
+			{
+				return array(
+					'ordering'       => JText::_('JGRID_HEADING_ORDERING'),
+					'a.published'    => JText::_('JSTATUS'),
+					'a.title'        => JText::_('JGLOBAL_TITLE'),
+					'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
+					'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
+					'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+					'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
+					'a.id'           => JText::_('JGRID_HEADING_ID')
+				);
+			}
+
+			return array(
+					'a.title'        => JText::_('JGLOBAL_TITLE'),
+					'position'       => JText::_('COM_MODULES_HEADING_POSITION'),
+					'name'           => JText::_('COM_MODULES_HEADING_MODULE'),
+					'a.access'       => JText::_('JGRID_HEADING_ACCESS'),
+					'a.language'     => JText::_('JGRID_HEADING_LANGUAGE'),
+					'a.id'           => JText::_('JGRID_HEADING_ID')
+			);
+		}
 	}
 }

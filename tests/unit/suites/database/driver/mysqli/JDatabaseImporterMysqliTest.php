@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  */
-class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
+class JDatabaseImporterMysqliTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    object  The mocked database object for use by test methods.
@@ -46,40 +46,40 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setup()
 	{
-		$this->dbo = $this->getMock(
-			'JDatabaseDriverMysqli',
-			array(
-				'getErrorNum',
-				'getPrefix',
-				'getTableColumns',
-				'getTableKeys',
-				'quoteName',
-				'loadObjectList',
-				'quote',
-				'setQuery',
-			),
-			array(),
-			'',
-			false
-		);
+		$this->dbo = $this->getMockBuilder('JDatabaseDriverMysqli')
+			->setMethods(array(
+						'getErrorNum',
+						'getPrefix',
+						'getTableColumns',
+						'getTableKeys',
+						'quoteName',
+						'loadObjectList',
+						'quote',
+						'setQuery',
+				)
+			)
+			->setConstructorArgs(array())
+			->setMockClassName('')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getPrefix')
 			->will(
-			$this->returnValue(
-				'jos_'
-			)
-		);
+				$this->returnValue(
+					'jos_'
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableColumns')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					'id' => (object) array(
 						'Field' => 'id',
 						'Type' => 'int(11) unsigned',
@@ -102,17 +102,17 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 						'Privileges' => 'select,insert,update,references',
 						'Comment' => '',
 					),
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('getTableKeys')
 			->will(
-			$this->returnValue(
-				array(
+				$this->returnValue(
+					array(
 					(object) array(
 						'Table' => 'jos_test',
 						'Non_unique' => '0',
@@ -127,49 +127,63 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 						'Index_type' => 'BTREE',
 						'Comment' => '',
 					)
+					)
 				)
-			)
-		);
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('quoteName')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuoteName')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackQuoteName')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('quote')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackQuote')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackQuote')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('setQuery')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackSetQuery')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackSetQuery')
+				)
+			);
 
 		$this->dbo->expects(
 			$this->any()
 		)
 			->method('loadObjectList')
 			->will(
-			$this->returnCallback(
-				array($this, 'callbackLoadObjectList')
-			)
-		);
+				$this->returnCallback(
+					array($this, 'callbackLoadObjectList')
+				)
+			);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->dbo);
 	}
 
 	/**
@@ -223,7 +237,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 */
-	public function dataGetAlterTableSQL()
+	public function dataGetAlterTableSql()
 	{
 		$f1 = '<field Field="id" Type="int(11) unsigned" Null="NO" Key="PRI" Default="" Extra="auto_increment" />';
 		$f2 = '<field Field="title" Type="varchar(255)" Null="NO" Key="" Default="" Extra="" />';
@@ -276,7 +290,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 */
-	public function dataGetColumnSQL()
+	public function dataGetColumnSql()
 	{
 		return array(
 			array(
@@ -308,7 +322,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array  Each array element must be an array with 3 elements: SimpleXMLElement field, expected result, error message.
 	 */
-	public function dataGetKeySQL()
+	public function dataGetKeySql()
 	{
 		return array(
 			array(
@@ -416,7 +430,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL.
 	 */
-	public function testGetAddColumnSQL()
+	public function testGetAddColumnSql()
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
@@ -435,7 +449,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of keys is tested in testGetKeySQL.
 	 */
-	public function testGetAddKeySQL()
+	public function testGetAddKeySql()
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
@@ -458,7 +472,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetAlterTableSQL
 	 */
-	public function testGetAlterTableSQL($structure, $expected, $message)
+	public function testGetAlterTableSql($structure, $expected, $message)
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
@@ -477,7 +491,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 *
 	 * Note that combinations of fields is tested in testGetColumnSQL.
 	 */
-	public function testGetChangeColumnSQL()
+	public function testGetChangeColumnSql()
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
@@ -500,7 +514,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetColumnSQL
 	 */
-	public function testGetColumnSQL($field, $expected, $message)
+	public function testGetColumnSql($field, $expected, $message)
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
@@ -515,7 +529,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropColumnSQL method.
 	 */
-	public function testGetDropColumnSQL()
+	public function testGetDropColumnSql()
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
@@ -532,7 +546,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropKeySQL method.
 	 */
-	public function testGetDropKeySQL()
+	public function testGetDropKeySql()
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
@@ -549,7 +563,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Tests the getDropPrimaryKeySQL method.
 	 */
-	public function testGetDropPrimaryKeySQL()
+	public function testGetDropPrimaryKeySql()
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);
@@ -610,7 +624,7 @@ class JDatabaseImporterMysqliTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @dataProvider dataGetKeySQL
 	 */
-	public function testGetKeySQL($field, $expected, $message)
+	public function testGetKeySql($field, $expected, $message)
 	{
 		$instance = new JDatabaseImporterMysqli;
 		$instance->setDbo($this->dbo);

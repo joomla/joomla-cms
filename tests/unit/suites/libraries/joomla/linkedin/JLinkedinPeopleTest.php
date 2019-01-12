@@ -3,69 +3,75 @@
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/linkedin/people.php';
 
 /**
  * Test class for JLinkedinPeople.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
- * @since       13.1
+ * @since       3.2.0
  */
 class JLinkedinPeopleTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $input;
 
 	/**
 	 * @var    JLinkedinPeople  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    JLinkedinOAuth  Authentication object for the Twitter object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON string used to access out of network profiles.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $outString = '{"headers": { "_total": 1, "values": [{ "name": "x-li-auth-token",
 				"value": "NAME_SEARCH:-Ogn" }] }, "url": "/v1/people/oAFz-3CZyv"}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $errorString = '{"errorCode":401, "message": "Generic error"}';
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -76,7 +82,7 @@ class JLinkedinPeopleTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -88,7 +94,7 @@ class JLinkedinPeopleTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->oauth = new JLinkedinOauth($this->options, $this->client, $this->input);
 		$this->oauth->setToken(array('key' => $key, 'secret' => $secret));
 
@@ -104,9 +110,15 @@ class JLinkedinPeopleTest extends TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -114,7 +126,7 @@ class JLinkedinPeopleTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 13.1
+	* @since 3.2.0
 	*/
 	public function seedIdUrl()
 	{
@@ -135,7 +147,7 @@ class JLinkedinPeopleTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedIdUrl
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetProfile($id, $url)
 	{
@@ -195,7 +207,7 @@ class JLinkedinPeopleTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedIdUrl
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testGetProfileFailure($id, $url)
@@ -249,7 +261,7 @@ class JLinkedinPeopleTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetConnections()
 	{
@@ -292,7 +304,7 @@ class JLinkedinPeopleTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testGetConnectionsFailure()
@@ -333,7 +345,7 @@ class JLinkedinPeopleTest extends TestCase
 	*
 	* @return array
 	*
-	* @since 13.1
+	* @since 3.2.0
 	*/
 	public function seedFields()
 	{
@@ -352,7 +364,7 @@ class JLinkedinPeopleTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedFields
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testSearch($fields)
 	{
@@ -462,7 +474,7 @@ class JLinkedinPeopleTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testSearchFailure()

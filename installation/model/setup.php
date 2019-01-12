@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,10 +25,7 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function getOptions()
 	{
-		$session = JFactory::getSession();
-		$options = $session->get('setup.options', array());
-
-		return $options;
+		return JFactory::getSession()->get('setup.options', array());
 	}
 
 	/**
@@ -43,8 +40,7 @@ class InstallationModelSetup extends JModelBase
 	public function storeOptions($options)
 	{
 		// Get the current setup options from the session.
-		$session = JFactory::getSession();
-		$old = $session->get('setup.options', array());
+		$old = (array) $this->getOptions();
 
 		// Ensure that we have language
 		if (!isset($options['language']) || empty($options['language']))
@@ -52,6 +48,21 @@ class InstallationModelSetup extends JModelBase
 			$options['language'] = JFactory::getLanguage()->getTag();
 		}
 
+		// Store passwords as a separate key that is not used in the forms
+		foreach (array('admin_password', 'db_pass', 'ftp_pass') as $passwordField)
+		{
+			if (isset($options[$passwordField]))
+			{
+				$plainTextKey = $passwordField . '_plain';
+
+				$options[$plainTextKey] = $options[$passwordField];
+
+				unset($options[$passwordField]);
+			}
+		}
+
+		// Get the session
+		$session = JFactory::getSession();
 		$options['helpurl'] = $session->get('setup.helpurl', null);
 
 		// Merge the new setup options into the current ones and store in the session.
@@ -66,24 +77,19 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @param   string  $view  The view being processed.
 	 *
-	 * @return  mixed  JForm object on success, false on failure.
+	 * @return  JForm|boolean  JForm object on success, false on failure.
 	 *
 	 * @since   3.1
 	 */
 	public function getForm($view = null)
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		if (!$view)
 		{
-			$view = $app->input->getWord('view', 'site');
+			$view = JFactory::getApplication()->input->getWord('view', 'site');
 		}
 
 		// Get the form.
 		JForm::addFormPath(JPATH_COMPONENT . '/model/forms');
-		JForm::addFieldPath(JPATH_COMPONENT . '/model/fields');
-		JForm::addRulePath(JPATH_COMPONENT . '/model/rules');
 
 		try
 		{
@@ -91,7 +97,7 @@ class InstallationModelSetup extends JModelBase
 		}
 		catch (Exception $e)
 		{
-			$app->enqueueMessage($e->getMessage(), 'error');
+			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return false;
 		}
@@ -119,18 +125,16 @@ class InstallationModelSetup extends JModelBase
 	 */
 	public function checkForm($page = 'site')
 	{
-		// Get the application object.
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Get the posted values from the request and validate them.
-		$data   = $app->input->post->get('jform', array(), 'array');
-		$return	= $this->validate($data, $page);
+		$data   = JFactory::getApplication()->input->post->get('jform', array(), 'array');
+		$return = $this->validate($data, $page);
 
 		// Attempt to save the data before validation.
 		$form = $this->getForm();
 		$data = $form->filter($data);
+
 		unset($data['admin_password2']);
+
 		$this->storeOptions($data);
 
 		// Check for validation errors.
@@ -139,15 +143,13 @@ class InstallationModelSetup extends JModelBase
 			// Redirect back to the previous page.
 			$r = new stdClass;
 			$r->view = $page;
-			$app->sendJsonResponse($r);
+			JFactory::getApplication()->sendJsonResponse($r);
 		}
 
 		unset($return['admin_password2']);
 
 		// Store the options in the session.
-		$vars = $this->storeOptions($return);
-
-		return $vars;
+		return $this->storeOptions($return);
 	}
 
 	/**
@@ -155,13 +157,10 @@ class InstallationModelSetup extends JModelBase
 	 *
 	 * @return  boolean True if successful.
 	 *
-	 * @since	3.1
+	 * @since   3.1
 	 */
 	public function getLanguages()
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Detect the native language.
 		$native = JLanguageHelper::detectLanguage();
 
@@ -171,7 +170,7 @@ class InstallationModelSetup extends JModelBase
 		}
 
 		// Get a forced language if it exists.
-		$forced = $app->getLocalise();
+		$forced = JFactory::getApplication()->getLocalise();
 
 		if (!empty($forced['language']))
 		{
@@ -192,9 +191,9 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Checks the availability of the parse_ini_file and parse_ini_string functions.
 	 *
-	 * @return	boolean  True if the method exists.
+	 * @return  boolean  True if the method exists.
 	 *
-	 * @since	3.1
+	 * @since   3.1
 	 */
 	public function getIniParserAvailability()
 	{
@@ -202,7 +201,7 @@ class InstallationModelSetup extends JModelBase
 
 		if (!empty($disabled_functions))
 		{
-			// Attempt to detect them in the disable_functions black list.
+			// Attempt to detect them in the disable_functions blacklist.
 			$disabled_functions = explode(',', trim($disabled_functions));
 			$number_of_disabled_functions = count($disabled_functions);
 
@@ -225,7 +224,7 @@ class InstallationModelSetup extends JModelBase
 	/**
 	 * Gets PHP options.
 	 *
-	 * @return	array  Array of PHP config options
+	 * @return  array  Array of PHP config options
 	 *
 	 * @since   3.1
 	 */
@@ -235,8 +234,8 @@ class InstallationModelSetup extends JModelBase
 
 		// Check the PHP Version.
 		$option = new stdClass;
-		$option->label  = JText::_('INSTL_PHP_VERSION') . ' >= 5.3.10';
-		$option->state  = version_compare(PHP_VERSION, '5.3.10', '>=');
+		$option->label  = JText::sprintf('INSTL_PHP_VERSION_NEWER', JOOMLA_MINIMUM_PHP);
+		$option->state  = version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '>=');
 		$option->notice = null;
 		$options[] = $option;
 
@@ -284,15 +283,15 @@ class InstallationModelSetup extends JModelBase
 			// Check for default MB language.
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_LANGUAGE_IS_DEFAULT');
-			$option->state  = (strtolower(ini_get('mbstring.language')) == 'neutral');
-			$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
+			$option->state  = strtolower(ini_get('mbstring.language')) === 'neutral';
+			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBLANGNOTDEFAULT');
 			$options[] = $option;
 
 			// Check for MB function overload.
 			$option = new stdClass;
 			$option->label  = JText::_('INSTL_MB_STRING_OVERLOAD_OFF');
-			$option->state  = (ini_get('mbstring.func_overload') == 0);
-			$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
+			$option->state  = ini_get('mbstring.func_overload') == 0;
+			$option->notice = $option->state ? null : JText::_('INSTL_NOTICEMBSTRINGOVERLOAD');
 			$options[] = $option;
 		}
 
@@ -317,7 +316,7 @@ class InstallationModelSetup extends JModelBase
 		$option = new stdClass;
 		$option->label  = JText::sprintf('INSTL_WRITABLE', 'configuration.php');
 		$option->state  = $writable;
-		$option->notice = ($option->state) ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
+		$option->notice = $option->state ? null : JText::_('INSTL_NOTICEYOUCANSTILLINSTALL');
 		$options[] = $option;
 
 		return $options;
@@ -337,7 +336,7 @@ class InstallationModelSetup extends JModelBase
 
 		foreach ($options as $option)
 		{
-			if (is_null($option->notice))
+			if ($option->notice === null)
 			{
 				$result = ($result && $option->state);
 			}
@@ -388,7 +387,7 @@ class InstallationModelSetup extends JModelBase
 		// Check for output buffering.
 		$setting = new stdClass;
 		$setting->label = JText::_('INSTL_OUTPUT_BUFFERING');
-		$setting->state = (bool) ini_get('output_buffering');
+		$setting->state = (int) ini_get('output_buffering') !== 0;
 		$setting->recommended = false;
 		$settings[] = $setting;
 
@@ -415,15 +414,12 @@ class InstallationModelSetup extends JModelBase
 	 * @param   array   $data  The form data.
 	 * @param   string  $view  The view.
 	 *
-	 * @return  mixed   Array of filtered data if valid, false otherwise.
+	 * @return  array|boolean  Array of filtered data if valid, false otherwise.
 	 *
-	 * @since	3.1
+	 * @since   3.1
 	 */
 	public function validate($data, $view = null)
 	{
-		/* @var InstallationApplicationWeb $app */
-		$app = JFactory::getApplication();
-
 		// Get the form.
 		$form = $this->getForm($view);
 
@@ -440,7 +436,7 @@ class InstallationModelSetup extends JModelBase
 		// Check for an error.
 		if ($return instanceof Exception)
 		{
-			$app->enqueueMessage($return->getMessage(), 'warning');
+			JFactory::getApplication()->enqueueMessage($return->getMessage(), 'warning');
 
 			return false;
 		}
@@ -449,15 +445,17 @@ class InstallationModelSetup extends JModelBase
 		if ($return === false)
 		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message)
+			$messages = array_reverse($form->getErrors());
+
+			foreach ($messages as $message)
 			{
 				if ($message instanceof Exception)
 				{
-					$app->enqueueMessage($message->getMessage(), 'warning');
+					JFactory::getApplication()->enqueueMessage($message->getMessage(), 'warning');
 				}
 				else
 				{
-					$app->enqueueMessage($message, 'warning');
+					JFactory::getApplication()->enqueueMessage($message, 'warning');
 				}
 			}
 

@@ -1,0 +1,157 @@
+/**
+ * @copyright	Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ */
+ .js-calendar {
+	box-shadow: 0 0 15px 4px rgba(0,0,0,.15) !important;
+ }
+.calendar-container {
+	float: left;
+	min-width: 160px;
+	padding: 0;
+	list-style: none;
+	border-radius: 5px;
+	background-color: #ffffff !important;
+	z-index: 1100 !important;
+}
+.calendar-container table {
+	table-layout: fixed;
+	max-width: 262px;
+	border-radius: 5px;
+	background-color: #ffffff !important;
+	z-index: 1100 !important;
+}
+/* The main calendar widget.  DIV containing a table. */
+div.calendar-container table th, .calendar-container table td {
+	padding: 8px 0;
+	line-height: 1.1em;
+	text-align: center;
+}
+
+div.calendar-container table body td {
+	line-height: 2em;
+}
+
+div.calendar-container table td.title { /* This holds the current "month, year" */
+	vertical-align: middle;
+	text-align: center;
+}
+
+.calendar-container table thead td.headrow { /* Row <TR> containing navigation buttons */
+	background: #fff;
+	color: #000;
+}
+
+.calendar-container table thead td.name { /* Cells <TD> containing the day names */
+	border-bottom: 1px solid #fff;
+	text-align: center;
+	color: #000;
+}
+
+.calendar-container table thead td.weekend { /* How a weekend day name shows in header */
+	color: #999;
+}
+
+/* The body part -- contains all the days in month. */
+
+.calendar-container table tbody td.day { /* Cells <TD> containing month days dates */
+	text-align: right;
+}
+
+.calendar-container table tbody td.wn {
+	background: #fff;
+}
+
+.calendar-container table tbody td.weekend { /* Cells showing weekend days */
+	color: #999;
+}
+
+.calendar-container table tbody td.hilite { /* Hovered cells <TD> */
+	background: #999999;
+	color: #ffffff;
+}
+
+.calendar-container table tbody td.day {
+	border: 0;
+	cursor : pointer;
+	font-size: 12px;
+	min-width: 38px;
+}
+
+.calendar-container table tbody td.day.wn {
+	text-align: center;
+	background-color: #f4f4f4;
+}
+
+.calendar-container table tbody td.day.selected { /* Cell showing today date */
+	background: #3071a9;
+	color: #fff;
+	border: 0;
+}
+
+.calendar-container table tbody td.today {
+	position: relative;
+	height: 100%;
+	width: auto;
+	font-weight: bold;
+}
+.calendar-container table tbody td.today:after {
+	position: absolute;
+	bottom: 3px;
+	left: 3px;
+	right: 3px;
+	content: "";
+	height: 3px;
+	border-radius: 1.5px;
+	background-color: #46a546;
+}
+.calendar-container table tbody td.today.selected:after {
+	background-color: #fff;
+}
+
+.calendar-container table tbody td.day:hover {
+	cursor: pointer;
+	background: #3d8fd7;
+	color: #fff;
+}
+.calendar-container table tbody td.day:hover:after {
+	background-color: #fff;
+}
+
+.calendar-container table tbody .disabled {
+	color: #999;
+	background-color: #fafafa;
+}
+
+.calendar-container table tbody .emptycell { /* Empty cells (the best is to hide them) */
+	visibility: hidden;
+}
+
+.calendar-container table tbody .emptyrow { /* Empty row (some months need less than 6 rows) */
+	display: none;
+}
+
+.buttons-wrapper {
+	padding: 5px 5px;
+}
+a.js-btn.btn.btn-exit, a.js-btn.btn.btn-today, a.js-btn.btn.btn-clear {
+	cursor: pointer;
+	text-decoration: none;
+	min-width: 60px;
+}
+.calendar-container .calendar-head-row td {
+	padding: 4px 0 !important;
+}
+.calendar-container .day-name {
+	font-size: 0.7rem;
+	font-weight: bold;
+}
+.calendar-container .time td {
+	padding: 8px 8px 8px 0;
+}
+.time .time-title {
+	background-image: url("data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAdlJREFUeNqklUsohFEUx7/5kgWGjEcRJULJSmJhITQLr8UoFko2k2SDLGZD2SglJcXOxo6Fx0ayUt4jWXgNG2rIwsgMJZPn/+o/dRvfa8yp33zfPfecM+e795x7bYqxtIAaUA2KgA3cgn3gBcsgrMQg3eAAfJtwBYa0Atg0dAugg+/3YAUcgkvqCkAVcIIy6raBCwT0/mRdymYG5Bt8VQoYBe+0Pwdpik6mwuAVNMawbJXgmr7e6FVokzKt1XBOZnYuneB54Jn+w/LEMZXTOo65nN80yNxNmyBIF4o6Ku6AXccpmzbzJstyQbs+FT/1VC6CFyU+mePTqbIBhBwp8csGn8UqO0qIz8AhstNBk8BP4As4RGCVyk8LgUVVlFvIXFXZ+4qUuZY8gn6W1QmYBKkadklM9PfLJriTYxYyEYFXpZp3s8Yj0kv9mhi0cuCTlsVMuqRWbpL0Xuo8YpAotaQnhgoQSzEAMjhuZoywfMb0UCmyKP1HmSXzJBQxpqIn9zhxA0piCJoFdqXu/bOpmeCMBiF+ZoJJ0E7gp0/AKCF71M1xCkZ4NRWSCjAIdiQ7v9UlHAcPUdfQh1QJEd7ArOg0K1dTRHJAO2hg8zhoH2IVbYElvaPgR4ABAFM/gtHnpJfxAAAAAElFTkSuQmCC");
+	background-repeat: no-repeat;
+	background-position: center; 
+}
+

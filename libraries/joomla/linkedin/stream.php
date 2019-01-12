@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die();
 /**
  * Linkedin API Social Stream class for the Joomla Platform.
  *
- * @since  13.1
+ * @since  3.2.0
  */
 class JLinkedinStream extends JLinkedinObject
 {
@@ -29,7 +29,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  RuntimeException
 	 */
 	public function share($visibility, $comment = null, $title = null, $url = null, $image = null, $description = null, $twitter = false)
@@ -38,7 +38,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -114,7 +114,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @throws  RuntimeException
 	 */
 	public function reshare($visibility, $id, $comment = null, $twitter = false)
@@ -123,7 +123,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -176,7 +176,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getCurrentShare($id = null, $url = null)
 	{
@@ -184,7 +184,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -229,7 +229,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getShareStream($id = null, $url = null, $self = true)
 	{
@@ -237,7 +237,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -295,7 +295,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getNetworkUpdates($id = null, $self = true, $type = null, $count = 0, $start = 0, $after = null, $before = null,
 		$hidden = false)
@@ -304,7 +304,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -381,7 +381,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getNetworkStats()
 	{
@@ -389,7 +389,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -415,7 +415,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function postNetworkUpdate($body)
 	{
@@ -423,7 +423,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -456,7 +456,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getComments($key)
 	{
@@ -464,7 +464,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -490,7 +490,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function postComment($key, $comment)
 	{
@@ -498,7 +498,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -530,7 +530,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getLikes($key)
 	{
@@ -538,7 +538,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the API base
@@ -564,7 +564,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	private function _likeUnlike($key, $like)
 	{
@@ -572,7 +572,7 @@ class JLinkedinStream extends JLinkedinObject
 
 		// Set parameters.
 		$parameters = array(
-			'oauth_token' => $token['key']
+			'oauth_token' => $token['key'],
 		);
 
 		// Set the success response code.
@@ -602,7 +602,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function like($key)
 	{
@@ -616,7 +616,7 @@ class JLinkedinStream extends JLinkedinObject
 	 *
 	 * @return  array  The decoded JSON response
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function unlike($key)
 	{

@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JFormHelper::loadFieldClass('password');
@@ -15,7 +15,7 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldPassword-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldPasswordTest extends TestCase
 {
@@ -147,16 +147,45 @@ class JFormFieldPasswordTest extends TestCase
 		$element = simplexml_load_string(
 			'<field name="myName" type="password" strengthmeter="true" />');
 
-		$this->assertThat(
+		$this->assertTrue(
 			$field->setup($element, ''),
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' The setup method should return true if successful.'
 		);
 
-		$this->assertThat(
+		$this->assertTrue(
 			$field->meter,
-			$this->isTrue(),
 			'Line:' . __LINE__ . ' The property should be computed from the XML.'
+		);
+	}
+
+	/**
+	 * Tests meter attribute setup by using the magic set method
+	 *
+	 * @covers JFormFieldPassword::__set
+	 *
+	 * @return void
+	 */
+	public function testSetMeter()
+	{
+		$field = new JFormFieldPassword;
+		$element = simplexml_load_string(
+			'<field name="myName" type="password" />');
+
+		$this->assertTrue(
+			$field->setup($element, ''),
+			'Line:' . __LINE__ . ' The setup method should return true if successful.'
+		);
+
+		$this->assertFalse(
+			$field->meter,
+			'Line:' . __LINE__ . ' The property is false by default.'
+		);
+
+		$field->meter = true;
+
+		$this->assertTrue(
+			$field->meter,
+			'Line:' . __LINE__ . ' The magic set method should set the property correctly.'
 		);
 	}
 
@@ -169,7 +198,7 @@ class JFormFieldPasswordTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 *
 	 * @dataProvider  getInputData
 	 */
@@ -182,9 +211,11 @@ class JFormFieldPasswordTest extends TestCase
 			TestReflection::setValue($formField, $attr, $value);
 		}
 
+		$replaces = array("\n", "\r"," ", "\t");
+
 		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formField, 'getInput'),
+			str_replace($replaces, '', $expected),
+			str_replace($replaces, '', TestReflection::invoke($formField, 'getInput')),
 			'Line:' . __LINE__ . ' The field with no value and no checked attribute did not produce the right html'
 		);
 	}

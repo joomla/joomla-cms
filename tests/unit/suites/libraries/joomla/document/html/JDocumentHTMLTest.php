@@ -2,19 +2,17 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-include_once JPATH_PLATFORM . '/joomla/document/html/html.php';
 
 /**
- * Test class for JDocumentHTML
+ * Test class for JDocumentHtml
  */
-class JDocumentHTMLTest extends TestCase
+class JDocumentHtmlTest extends TestCase
 {
 	/**
-	 * @var  JDocumentHTML
+	 * @var  JDocumentHtml
 	 */
 	protected $object;
 
@@ -33,6 +31,11 @@ class JDocumentHTMLTest extends TestCase
 		'links' => array(
 			'index.php' => array(
 				'relation' => 'Start',
+				'relType' => 'rel',
+				'attribs' => array()
+			),
+			'index.php?option=com_test' => array(
+				'relation' => 'End',
 				'relType' => 'rel',
 				'attribs' => array()
 			)
@@ -60,9 +63,9 @@ class JDocumentHTMLTest extends TestCase
 		'custom' => array(
 			"<script>var html5 = true;</script>"
 		),
-	    'scriptText' => array(
-		    'JYES'
-	    )
+		'scriptText' => array(
+			'JYES'
+		)
 	);
 
 	/**
@@ -77,7 +80,7 @@ class JDocumentHTMLTest extends TestCase
 
 		JFactory::$language = JLanguage::getInstance('en-GB');
 
-		$this->object = new JDocumentHTML;
+		$this->object = new JDocumentHtml;
 	}
 
 	/**
@@ -114,6 +117,9 @@ class JDocumentHTMLTest extends TestCase
 	 */
 	public function testEnsureSetHeadDataReturnsThisObject()
 	{
+		// This method calls JText::script() which has a dependency to JHtml::_('behavior.core') and requires the application be loaded
+		JFactory::$application = $this->getMockCmsApp();
+
 		$this->assertSame($this->object, $this->object->setHeadData($this->testHeadData));
 	}
 

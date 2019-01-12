@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/table/user.php';
 
 /**
  * Test class for JTableUser.
@@ -15,7 +13,7 @@ require_once JPATH_PLATFORM . '/joomla/table/user.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Table
- * @since       11.1
+ * @since       1.7.0
  */
 class JTableUserTest extends TestCaseDatabase
 {
@@ -24,7 +22,7 @@ class JTableUserTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getDataSet()
 	{

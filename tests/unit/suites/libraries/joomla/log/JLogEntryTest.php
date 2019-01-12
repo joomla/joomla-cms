@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Log
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,9 +12,9 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Log
- * @since       11.1
+ * @since       1.7.0
  */
-class JLogEntryTest extends PHPUnit_Framework_TestCase
+class JLogEntryTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Verify the default values for the log entry object.
@@ -50,10 +50,11 @@ class JLogEntryTest extends PHPUnit_Framework_TestCase
 		);
 
 		// Date.
-		$this->assertThat(
-			$tmp->date->toISO8601(),
-			$this->equalTo($date->toISO8601()),
-			'Line: ' . __LINE__ . '.'
+		$this->assertEquals(
+			$tmp->date->getTimestamp(),
+			$date->getTimestamp(),
+			'Line: ' . __LINE__ . '.',
+			1
 		);
 	}
 

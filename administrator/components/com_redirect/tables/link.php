@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,6 +48,12 @@ class RedirectTableLink extends JTable
 			return false;
 		}
 
+		// Check for NOT NULL.
+		if (empty($this->referer))
+		{
+			$this->referer = '';
+		}
+
 		// Check for valid name if not in advanced mode.
 		if (empty($this->new_url) && JComponentHelper::getParams('com_redirect')->get('mode', 0) == false)
 		{
@@ -79,17 +85,20 @@ class RedirectTableLink extends JTable
 		// Check for existing name
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
+			->select($db->quoteName('old_url'))
 			->from('#__redirect_links')
 			->where($db->quoteName('old_url') . ' = ' . $db->quote($this->old_url));
 		$db->setQuery($query);
+		$urls = $db->loadAssocList();
 
-		$xid = (int) $db->loadResult();
-
-		if ($xid && $xid != (int) $this->id)
+		foreach ($urls as $url)
 		{
-			$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
+			if ($url['old_url'] === $this->old_url && (int) $url['id'] != (int) $this->id)
+			{
+				$this->setError(JText::_('COM_REDIRECT_ERROR_DUPLICATE_OLD_URL'));
 
-			return false;
+				return false;
+			}
 		}
 
 		return true;

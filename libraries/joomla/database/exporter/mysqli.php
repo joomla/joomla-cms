@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi export driver.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JDatabaseExporterMysqli extends JDatabaseExporter
 {
@@ -21,7 +21,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 	 *
 	 * @return  string  An XML string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXml()
@@ -45,7 +45,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 	 *
 	 * @return  array  An array of XML lines (strings).
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  Exception if an error occurs.
 	 */
 	protected function buildXmlStructure()
@@ -74,8 +74,8 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 			{
 				$buffer[] = '   <key Table="' . $table . '"' . ' Non_unique="' . $key->Non_unique . '"' . ' Key_name="' . $key->Key_name . '"' .
 					' Seq_in_index="' . $key->Seq_in_index . '"' . ' Column_name="' . $key->Column_name . '"' . ' Collation="' . $key->Collation . '"' .
-					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' . ' Comment="' . htmlspecialchars($key->Comment) . '"' .
-					' />';
+					' Null="' . $key->Null . '"' . ' Index_type="' . $key->Index_type . '"' .
+					' Comment="' . htmlspecialchars($key->Comment, ENT_COMPAT, 'UTF-8') . '"' . ' />';
 			}
 
 			$buffer[] = '  </table_structure>';
@@ -89,7 +89,7 @@ class JDatabaseExporterMysqli extends JDatabaseExporter
 	 *
 	 * @return  JDatabaseExporterMysqli  Method supports chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()

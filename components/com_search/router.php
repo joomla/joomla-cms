@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,15 +34,6 @@ class SearchRouter extends JComponentRouterBase
 			unset($query['view']);
 		}
 
-		// Fix up search for URL
-		$total = count($segments);
-
-		for ($i = 0; $i < $total; $i++)
-		{
-			// Urlencode twice because it is decoded once after redirect
-			$segments[$i] = urlencode(urlencode(stripcslashes($segments[$i])));
-		}
-
 		return $segments;
 	}
 
@@ -68,9 +59,9 @@ class SearchRouter extends JComponentRouterBase
 			$segments[$i] = urldecode(urldecode(stripcslashes($segments[$i])));
 		}
 
-		$searchword	= array_shift($segments);
+		$searchword         = array_shift($segments);
 		$vars['searchword'] = $searchword;
-		$vars['view'] = 'search';
+		$vars['view']       = 'search';
 
 		return $vars;
 	}

@@ -3,20 +3,18 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/database/query.php';
 
 /**
  * Test class for JDatabaseQueryElement.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.1
+ * @since       1.7.0
  */
-class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
+class JDatabaseQueryElementTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * Test cases for append and __toString
@@ -32,7 +30,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dataTestAppend()
 	{
@@ -123,7 +121,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dataTestToString()
 	{
@@ -164,7 +162,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @dataProvider  dataTestConstruct
 	 */
 	public function test__Construct($element, $expected)
@@ -194,7 +192,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @dataProvider  dataTestToString
 	 */
 	public function test__toString($name, $elements, $glue, $expected)
@@ -217,7 +215,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @dataProvider dataTestAppend
 	 */
 	public function testAppend($element, $append, $expected, $string)
@@ -234,7 +232,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__clone_array()
 	{
@@ -246,8 +244,8 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 
 		$baseElement->testArray[] = 'a';
 
-		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertEquals(count($cloneElement->testArray), 0);
+		$this->assertNotSame($baseElement, $cloneElement);
+		$this->assertCount(0, $cloneElement->testArray);
 	}
 
 	/**
@@ -255,7 +253,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__clone_object()
 	{
@@ -265,7 +263,7 @@ class JDatabaseQueryElementTest extends PHPUnit_Framework_TestCase
 
 		$cloneElement = clone($baseElement);
 
-		$this->assertFalse($baseElement === $cloneElement);
-		$this->assertFalse($baseElement->testObject === $cloneElement->testObject);
+		$this->assertNotSame($baseElement, $cloneElement);
+		$this->assertNotSame($baseElement->testObject, $cloneElement->testObject);
 	}
 }

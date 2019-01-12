@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_ajax
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /*
  * References
  *  Support plugins in your component
- * - http://docs.joomla.org/Supporting_plugins_in_your_component
+ * - https://docs.joomla.org/Special:MyLanguage/Supporting_plugins_in_your_component
  *
  * Best way for JSON output
  * - https://groups.google.com/d/msg/joomla-dev-cms/WsC0nA9Fixo/Ur-gPqpqh-EJ
@@ -29,7 +29,7 @@ $format = strtolower($input->getWord('format'));
 
 // Initialize default response and module name
 $results = null;
-$parts = null;
+$parts   = null;
 
 // Check for valid format
 if (!$format)
@@ -46,14 +46,11 @@ if (!$format)
  */
 elseif ($input->get('module'))
 {
-	$module       = $input->get('module');
-	$moduleObject = JModuleHelper::getModule('mod_' . $module, null);
+	$module   = $input->get('module');
+	$table    = JTable::getInstance('extension');
+	$moduleId = $table->find(array('type' => 'module', 'element' => 'mod_' . $module));
 
-	/*
-	 * As JModuleHelper::isEnabled always returns true, we check
-	 * for an id other than 0 to see if it is published.
-	 */
-	if ($moduleObject->id != 0)
+	if ($moduleId && $table->load($moduleId) && $table->enabled)
 	{
 		$helperFile = JPATH_BASE . '/modules/mod_' . $module . '/helper.php';
 
@@ -68,26 +65,34 @@ elseif ($input->get('module'))
 
 		if ($parts)
 		{
-			$class = 'mod';
+			$class = 'Mod';
+
 			foreach ($parts as $part)
 			{
 				$class .= ucfirst($part);
 			}
+
 			$class .= 'Helper';
 		}
 		else
 		{
-			$class = 'mod' . ucfirst($module) . 'Helper';
+			$class = 'Mod' . ucfirst($module) . 'Helper';
 		}
 
-		$method = $input->get('method') ? $input->get('method') : 'get';
+		$method = $input->get('method') ?: 'get';
 
 		if (is_file($helperFile))
 		{
-			require_once $helperFile;
+			JLoader::register($class, $helperFile);
 
 			if (method_exists($class, $method . 'Ajax'))
 			{
+				// Load language file for module
+				$basePath = JPATH_BASE;
+				$lang     = JFactory::getLanguage();
+				$lang->load('mod_' . $module, $basePath, null, false, true)
+				||  $lang->load('mod_' . $module, $basePath . '/modules/mod_' . $module, null, false, true);
+
 				try
 				{
 					$results = call_user_func($class . '::' . $method . 'Ajax');
@@ -140,23 +145,102 @@ elseif ($input->get('plugin'))
 		$results = $e;
 	}
 }
+/*
+ * Template support.
+ *
+ * tplFooHelper::getAjax() is called where 'foo' is the value
+ * of the 'template' variable passed via the URL
+ * (i.e. index.php?option=com_ajax&template=foo).
+ *
+ */
+elseif ($input->get('template'))
+{
+	$template   = $input->get('template');
+	$table      = JTable::getInstance('extension');
+	$templateId = $table->find(array('type' => 'template', 'element' => $template));
+
+	if ($templateId && $table->load($templateId) && $table->enabled)
+	{
+		$basePath   = ($table->client_id) ? JPATH_ADMINISTRATOR : JPATH_SITE;
+		$helperFile = $basePath . '/templates/' . $template . '/helper.php';
+
+		if (strpos($template, '_'))
+		{
+			$parts = explode('_', $template);
+		}
+		elseif (strpos($template, '-'))
+		{
+			$parts = explode('-', $template);
+		}
+
+		if ($parts)
+		{
+			$class = 'Tpl';
+
+			foreach ($parts as $part)
+			{
+				$class .= ucfirst($part);
+			}
+
+			$class .= 'Helper';
+		}
+		else
+		{
+			$class = 'Tpl' . ucfirst($template) . 'Helper';
+		}
+
+		$method = $input->get('method') ?: 'get';
+
+		if (is_file($helperFile))
+		{
+			JLoader::register($class, $helperFile);
+
+			if (method_exists($class, $method . 'Ajax'))
+			{
+				// Load language file for template
+				$lang = JFactory::getLanguage();
+				$lang->load('tpl_' . $template, $basePath, null, false, true)
+				||  $lang->load('tpl_' . $template, $basePath . '/templates/' . $template, null, false, true);
+
+				try
+				{
+					$results = call_user_func($class . '::' . $method . 'Ajax');
+				}
+				catch (Exception $e)
+				{
+					$results = $e;
+				}
+			}
+			// Method does not exist
+			else
+			{
+				$results = new LogicException(JText::sprintf('COM_AJAX_METHOD_NOT_EXISTS', $method . 'Ajax'), 404);
+			}
+		}
+		// The helper file does not exist
+		else
+		{
+			$results = new RuntimeException(JText::sprintf('COM_AJAX_FILE_NOT_EXISTS', 'tpl_' . $template . '/helper.php'), 404);
+		}
+	}
+	// Template is not assigned to the current menu item
+	else
+	{
+		$results = new LogicException(JText::sprintf('COM_AJAX_TEMPLATE_NOT_ACCESSIBLE', 'tpl_' . $template), 404);
+	}
+}
 
 // Return the results in the desired format
 switch ($format)
 {
 	// JSONinzed
-	case 'json':
+	case 'json' :
 		echo new JResponseJson($results, null, false, $input->get('ignoreMessages', true, 'bool'));
-		break;
 
-	// Human-readable format
-	case 'debug':
-		echo '<pre>' . print_r($results, true) . '</pre>';
-		$app->close();
 		break;
 
 	// Handle as raw format
-	default:
+	default :
 		// Output exception
 		if ($results instanceof Exception)
 		{

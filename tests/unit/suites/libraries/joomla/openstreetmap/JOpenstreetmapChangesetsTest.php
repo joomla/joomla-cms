@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,43 +13,43 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @since       13.1
+ * @since       3.2.0
  */
 class JOpenstreetmapChangesetsTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $input;
 
 	/**
 	 * @var    JOpenstreetmapChangesets Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    JOpenstreetmapOauth  Authentication object for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample XML.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleXml = <<<XML
 <?xml version='1.0'?>
@@ -58,12 +58,20 @@ XML;
 
 	/**
 	 * @var    string  Sample XML error message.
-	* @since  13.1
+	* @since  3.2.0
 	*/
 	protected $errorString = <<<XML
 <?xml version='1.0'?>
 <osm>ERROR</osm>
 XML;
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -75,6 +83,7 @@ XML;
 	*/
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -87,7 +96,7 @@ XML;
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->oauth = new JOpenstreetmapOauth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
 
@@ -98,12 +107,28 @@ XML;
 		$this->options->set('sendheaders', true);
 	}
 
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
+	}
+
 	/**
 	 * Tests the createChangeset method
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateChangeset()
 	{
@@ -125,7 +150,7 @@ XML;
 		$returnData->code = 200;
 		$returnData->body = $this->sampleXml;
 
-		// 		$path = 'http://api.openstreetmap.org/api/0.6/changeset/create';
+		// 		$path = 'https://api.openstreetmap.org/api/0.6/changeset/create';
 		$path = 'changeset/create';
 
 		$this->client->expects($this->once())
@@ -144,7 +169,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testCreateChangesetFailure()
@@ -182,7 +207,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testReadChangeset()
 	{
@@ -211,7 +236,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testReadChangesetFailure()
@@ -238,7 +263,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testUpdateChangeset()
 	{
@@ -271,7 +296,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testUpdateChangesetFailure()
@@ -302,7 +327,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCloseChangeset()
 	{
@@ -327,7 +352,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testCloseChangesetFailure()
@@ -353,7 +378,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDownloadChangeset()
 	{
@@ -382,7 +407,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testDownloadChangesetFailure()
@@ -409,7 +434,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testExpandBBoxChangeset()
 	{
@@ -438,7 +463,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testExpandBBoxChangesetFailure()
@@ -465,7 +490,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testQueryChangeset()
 	{
@@ -494,7 +519,7 @@ XML;
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testQueryChangesetFailure()
@@ -521,7 +546,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDiffUploadChangeset()
 	{
@@ -556,7 +581,7 @@ XML;
 	 *
 	 * @return  array
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException DomainException
 	 */
 	public function testDiffUploadChangesetFailure()
@@ -583,5 +608,4 @@ XML;
 
 		$this->object->diffUploadChangeset($xml, $id);
 	}
-
 }

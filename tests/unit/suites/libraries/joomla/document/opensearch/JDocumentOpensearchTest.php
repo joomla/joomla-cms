@@ -3,11 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/document/opensearch/opensearch.php';
 
 /**
  * Test class for JDocumentOpensearch
@@ -32,8 +30,26 @@ class JDocumentOpensearchTest extends TestCase
 		$_SERVER['HTTP_HOST'] = 'localhost';
 		$_SERVER['SCRIPT_NAME'] = '';
 
-		JFactory::$application = $this->getMockCmsApp();
+		$mockApp = $this->getMockCmsApp();
+		$mockApp->expects($this->any())
+			->method('getName')
+			->willReturn('site');
+
+		$mockApp->expects($this->any())
+			->method('isClient')
+			->with('site')
+			->willReturn(true);
+
+		JFactory::$application = $mockApp;
+
 		JFactory::$config = $this->getMockConfig();
+
+		$mockRouter = $this->getMockBuilder('Joomla\\CMS\\Router\\Router')->getMock();
+		$mockRouter->expects($this->any())
+			->method('build')
+			->willReturn(new \JUri);
+
+		TestReflection::setValue('JRoute', '_router', array('site' => $mockRouter));
 
 		$this->object = new JDocumentOpensearch;
 	}
@@ -44,6 +60,8 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		TestReflection::setValue('JRoute', '_router', array());
+
 		$this->restoreFactoryState();
 
 		JDocument::$_buffer = null;
@@ -72,7 +90,7 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	public function testEnsureAddUrlReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addUrl(new JOpenSearchUrl('http://www.joomla.org')));
+		$this->assertSame($this->object, $this->object->addUrl(new JOpenSearchUrl('https://www.joomla.org')));
 	}
 
 	/**
@@ -80,6 +98,6 @@ class JDocumentOpensearchTest extends TestCase
 	 */
 	public function testEnsureAddImageReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addImage(new JOpenSearchImage('http://www.joomla.org')));
+		$this->assertSame($this->object, $this->object->addImage(new JOpenSearchImage('https://www.joomla.org')));
 	}
 }

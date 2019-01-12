@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ class LanguagesControllerOverrides extends JControllerAdmin
 	public function delete()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to dlete from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -60,5 +60,19 @@ class LanguagesControllerOverrides extends JControllerAdmin
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&view=' . $this->view_list, false));
+	}
+
+	/**
+	 * Method to purge the overrider table.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.4.2
+	 */
+	public function purge()
+	{
+		$model = $this->getModel('overrides');
+		$model->purge();
+		$this->setRedirect(JRoute::_('index.php?option=com_languages&view=overrides', false));
 	}
 }

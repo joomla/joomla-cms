@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,4 +40,50 @@ class NewsfeedsHelper extends JHelperContent
 		);
 	}
 
+	/**
+	 * Adds Count Items for Category Manager.
+	 *
+	 * @param   stdClass[]  &$items  The category objects
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.5
+	 */
+	public static function countItems(&$items)
+	{
+		$config = (object) array(
+			'related_tbl'   => 'newsfeeds',
+			'state_col'     => 'published',
+			'group_col'     => 'catid',
+			'relation_type' => 'category_or_group',
+		);
+
+		return parent::countRelations($items, $config);
+	}
+
+	/**
+	 * Adds Count Items for Tag Manager.
+	 *
+	 * @param   stdClass[]  &$items     The tag objects
+	 * @param   string      $extension  The name of the active view.
+	 *
+	 * @return  stdClass[]
+	 *
+	 * @since   3.6
+	 */
+	public static function countTagItems(&$items, $extension)
+	{
+		$parts   = explode('.', $extension);
+		$section = count($parts) > 1 ? $parts[1] : null;
+
+		$config = (object) array(
+			'related_tbl'   => ($section === 'category' ? 'categories' : 'newsfeeds'),
+			'state_col'     => 'published',
+			'group_col'     => 'tag_id',
+			'extension'     => $extension,
+			'relation_type' => 'tag_assigments',
+		);
+
+		return parent::countRelations($items, $config);
+	}
 }

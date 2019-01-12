@@ -3,13 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/controller.php';
+JLoader::register('UsersController', JPATH_COMPONENT . '/controller.php');
 
 /**
  * Profile controller class for Users.
@@ -27,18 +27,19 @@ class UsersControllerProfile extends UsersController
 	 */
 	public function edit()
 	{
-		$app		= JFactory::getApplication();
-		$user		= JFactory::getUser();
-		$loginUserId	= (int) $user->get('id');
+		$app         = JFactory::getApplication();
+		$user        = JFactory::getUser();
+		$loginUserId = (int) $user->get('id');
 
 		// Get the previous user id (if any) and the current user id.
 		$previousId = (int) $app->getUserState('com_users.edit.profile.id');
-		$userId     = $this->input->getInt('user_id', null, 'array');
+		$userId     = $this->input->getInt('user_id');
 
 		// Check if the user is trying to edit another users profile.
 		if ($userId != $loginUserId)
 		{
-			JError::raiseError(403, JText::_('JERROR_ALERTNOAUTHOR'));
+			$app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'), 'error');
+			$app->setHeader('status', 403, true);
 
 			return false;
 		}
@@ -89,18 +90,18 @@ class UsersControllerProfile extends UsersController
 	public function save()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$app	= JFactory::getApplication();
-		$model	= $this->getModel('Profile', 'UsersModel');
-		$user	= JFactory::getUser();
-		$userId	= (int) $user->get('id');
+		$app    = JFactory::getApplication();
+		$model  = $this->getModel('Profile', 'UsersModel');
+		$user   = JFactory::getUser();
+		$userId = (int) $user->get('id');
 
 		// Get the user data.
-		$data = $app->input->post->get('jform', array(), 'array');
+		$requestData = $app->input->post->get('jform', array(), 'array');
 
 		// Force the ID to this user.
-		$data['id'] = $userId;
+		$requestData['id'] = $userId;
 
 		// Validate the posted data.
 		$form = $model->getForm();
@@ -112,14 +113,22 @@ class UsersControllerProfile extends UsersController
 			return false;
 		}
 
+		// Send an object which can be modified through the plugin event
+		$objData = (object) $requestData;
+		$app->triggerEvent(
+			'onContentNormaliseRequestData',
+			array('com_users.user', $objData, $form)
+		);
+		$requestData = (array) $objData;
+
 		// Validate the posted data.
-		$data = $model->validate($form, $data);
+		$data = $model->validate($form, $requestData);
 
 		// Check for errors.
 		if ($data === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -134,8 +143,11 @@ class UsersControllerProfile extends UsersController
 				}
 			}
 
+			// Unset the passwords.
+			unset($requestData['password1'], $requestData['password2']);
+
 			// Save the data in the session.
-			$app->setUserState('com_users.edit.profile.data', $data);
+			$app->setUserState('com_users.edit.profile.data', $requestData);
 
 			// Redirect back to the edit screen.
 			$userId = (int) $app->getUserState('com_users.edit.profile.id');
@@ -145,7 +157,7 @@ class UsersControllerProfile extends UsersController
 		}
 
 		// Attempt to save the data.
-		$return	= $model->save($data);
+		$return = $model->save($data);
 
 		// Check for errors.
 		if ($return === false)
@@ -174,6 +186,12 @@ class UsersControllerProfile extends UsersController
 
 				$redirect = $app->getUserState('com_users.edit.profile.redirect');
 
+				// Don't redirect to an external URL.
+				if (!JUri::isInternal($redirect))
+				{
+					$redirect = null;
+				}
+
 				if (!$redirect)
 				{
 					$redirect = 'index.php?option=com_users&view=profile&layout=edit&hidemainmenu=1';
@@ -194,41 +212,26 @@ class UsersControllerProfile extends UsersController
 				// Clear the profile id from the session.
 				$app->setUserState('com_users.edit.profile.id', null);
 
+				$redirect = $app->getUserState('com_users.edit.profile.redirect');
+
+				// Don't redirect to an external URL.
+				if (!JUri::isInternal($redirect))
+				{
+					$redirect = null;
+				}
+
+				if (!$redirect)
+				{
+					$redirect = 'index.php?option=com_users&view=profile&user_id=' . $return;
+				}
+
 				// Redirect to the list screen.
 				$this->setMessage(JText::_('COM_USERS_PROFILE_SAVE_SUCCESS'));
-				$this->setRedirect(
-					JRoute::_(
-						($redirect = $app->getUserState('com_users.edit.profile.redirect')) ? $redirect : 'index.php?option=com_users&view=profile&user_id=' . $return,
-						false
-					)
-				);
+				$this->setRedirect(JRoute::_($redirect, false));
 				break;
 		}
 
 		// Flush the data from the session.
 		$app->setUserState('com_users.edit.profile.data', null);
-	}
-
-	/**
-	 * Function that allows child controller access to model data after the data has been saved.
-	 *
-	 * @param   JModelLegacy  $model      The data model object.
-	 * @param   array         $validData  The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postSaveHook(JModelLegacy $model, $validData = array())
-	{
-		$item = $model->getData();
-		$tags = $validData['tags'];
-
-		if ($tags)
-		{
-			$item->tags = new JHelperTags;
-			$item->tags->getTagIds($item->id, 'com_users.user');
-			$item->metadata['tags'] = $item->tags;
-		}
 	}
 }

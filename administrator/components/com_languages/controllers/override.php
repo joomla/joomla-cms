@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,6 +28,9 @@ class LanguagesControllerOverride extends JControllerForm
 	 */
 	public function edit($key = null, $urlVar = null)
 	{
+		// Do not cache the response to this, its a redirect
+		JFactory::getApplication()->allowCache(false);
+
 		$app     = JFactory::getApplication();
 		$cid     = $this->input->post->get('cid', array(), 'array');
 		$context = "$this->option.edit.$this->context";
@@ -62,7 +65,7 @@ class LanguagesControllerOverride extends JControllerForm
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = JFactory::getApplication();
 		$model   = $this->getModel();
@@ -94,7 +97,7 @@ class LanguagesControllerOverride extends JControllerForm
 		}
 
 		// Require helper for filter functions called by JForm.
-		require_once JPATH_COMPONENT . '/helpers/languages.php';
+		JLoader::register('LanguagesHelper', JPATH_ADMINISTRATOR . '/components/com_languages/helpers/languages.php');
 
 		// Test whether the data is valid.
 		$validData = $model->validate($form, $data);
@@ -103,7 +106,7 @@ class LanguagesControllerOverride extends JControllerForm
 		if ($validData === false)
 		{
 			// Get the validation messages.
-			$errors	= $model->getErrors();
+			$errors = $model->getErrors();
 
 			// Push up to three validation messages out to the user.
 			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
@@ -192,7 +195,7 @@ class LanguagesControllerOverride extends JControllerForm
 	 */
 	public function cancel($key = null)
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app     = JFactory::getApplication();
 		$context = "$this->option.edit.$this->context";

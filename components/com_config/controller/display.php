@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     Joomla.Administrator
- * @subpackage  Joomla.Libraries
+ * @package     Joomla.Site
+ * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Base Display Controller
@@ -46,7 +46,7 @@ class ConfigControllerDisplay extends JControllerBase
 
 		$componentFolder = $this->input->getWord('option', 'com_config');
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			$viewName = $this->input->getWord('view', 'application');
 		}
@@ -61,7 +61,7 @@ class ConfigControllerDisplay extends JControllerBase
 		// Register the layout paths for the view
 		$paths = new SplPriorityQueue;
 
-		if ($this->app->isAdmin())
+		if ($this->app->isClient('administrator'))
 		{
 			$paths->insert(JPATH_ADMINISTRATOR . '/components/' . $componentFolder . '/view/' . $viewName . '/tmpl', 1);
 		}
@@ -95,7 +95,7 @@ class ConfigControllerDisplay extends JControllerBase
 			$view->document = $document;
 
 			// Reply for service requests
-			if ($viewFormat == 'json')
+			if ($viewFormat === 'json')
 			{
 				return $view->render();
 			}

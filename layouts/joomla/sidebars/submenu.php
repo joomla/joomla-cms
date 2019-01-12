@@ -3,20 +3,21 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_BASE') or die;
 
+JHtml::_('jquery.framework');
 JHtmlBehavior::core();
 
 JFactory::getDocument()->addScriptDeclaration('
 	jQuery(document).ready(function($)
 	{
-		if (typeof(Joomla.toggleSidebar) !== "undefined")
+		if (window.toggleSidebar)
 		{
-			Joomla.toggleSidebar(true);
+			toggleSidebar(true);
 		}
 		else
 		{
@@ -31,9 +32,6 @@ JFactory::getDocument()->addScriptDeclaration('
 	<div id="j-toggle-button-wrapper" class="j-toggle-button-wrapper">
 		<?php echo JLayoutHelper::render('joomla.sidebars.toggle'); ?>
 	</div>
-	<div id="j-toggle-sidebar-header" class="j-toggle-sidebar-header">
-		<?php echo JText::_('JTOGGLE_SIDEBAR_LABEL');?>
-	</div>
 	<div id="sidebar" class="sidebar">
 		<div class="sidebar-nav">
 			<?php if ($displayData->displayMenu) : ?>
@@ -47,7 +45,7 @@ JFactory::getDocument()->addScriptDeclaration('
 				if ($displayData->hide) : ?>
 					<a class="nolink"><?php echo $item[0]; ?></a>
 				<?php else :
-					if (strlen($item[1])) : ?>
+					if ($item[1] !== '') : ?>
 						<a href="<?php echo JFilterOutput::ampReplace($item[1]); ?>"><?php echo $item[0]; ?></a>
 					<?php else : ?>
 						<?php echo $item[0]; ?>
@@ -62,7 +60,7 @@ JFactory::getDocument()->addScriptDeclaration('
 			<?php endif; ?>
 			<?php if ($displayData->displayFilters) : ?>
 			<div class="filter-select hidden-phone">
-				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL');?></h4>
+				<h4 class="page-header"><?php echo JText::_('JSEARCH_FILTER_LABEL'); ?></h4>
 				<?php foreach ($displayData->filters as $filter) : ?>
 					<label for="<?php echo $filter['name']; ?>" class="element-invisible"><?php echo $filter['label']; ?></label>
 					<select name="<?php echo $filter['name']; ?>" id="<?php echo $filter['name']; ?>" class="span12 small" onchange="this.form.submit()">

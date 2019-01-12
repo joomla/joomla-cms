@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Message Table class
@@ -26,6 +28,8 @@ class MessagesTableMessage extends JTable
 	public function __construct(&$db)
 	{
 		parent::__construct('#__messages', 'message_id', $db);
+
+		$this->setColumnAlias('published', 'state');
 	}
 
 	/**
@@ -79,7 +83,7 @@ class MessagesTableMessage extends JTable
 	 * to checkin rows that it can after adjustments are made.
 	 *
 	 * @param   mixed    $pks     An optional array of primary key values to update.  If not
-	 *					          set the instance property value is used.
+	 *                            set the instance property value is used.
 	 * @param   integer  $state   The publishing state. eg. [0 = unpublished, 1 = published]
 	 * @param   integer  $userId  The user id of the user performing the operation.
 	 *
@@ -92,7 +96,7 @@ class MessagesTableMessage extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$state  = (int) $state;
 
 		// If there are no primary keys set check to see if the instance key is set.

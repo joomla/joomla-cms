@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile
+	version="3.9"
+	client="installation">
+	<name>Slovenščina (Slovenia)</name>
+	<version>3.9.0</version>
+	<creationDate>Oktober 2018</creationDate>
+	<author>Slovenian translation team</author>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. Vse pravice pridržane.</copyright>
+	<license>GNU General Public License 2 ali novejši; glej LICENSE.txt</license>
+	<files>
+		<filename>sl-SI.ini</filename>
+	</files>
+	<metadata>
+		<name>Slovenian (sl-SI)</name>
+		<nativeName>Slovenščina (Slovenia)</nativeName>
+		<tag>sl-SI</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>

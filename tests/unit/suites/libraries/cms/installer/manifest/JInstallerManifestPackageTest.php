@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Installer
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -60,12 +60,12 @@ class JInstallerManifestPackageTest extends TestCase
 		);
 
 		$this->assertEquals(
-			'http://www.joomla.org',
+			'https://www.joomla.org',
 			$this->object->packagerurl
 		);
 
 		$this->assertEquals(
-			'http://update.joomla.org/packages/joomla',
+			'https://update.joomla.org/packages/joomla',
 			$this->object->update
 		);
 

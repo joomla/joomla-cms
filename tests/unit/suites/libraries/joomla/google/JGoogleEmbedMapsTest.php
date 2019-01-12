@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleEmbedMapsTest extends TestCase
 {
@@ -48,9 +48,27 @@ class JGoogleEmbedMapsTest extends TestCase
 
 		$this->options = new JRegistry;
 
-		$this->http = $this->getMock('JHttp', array('get'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('get'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->uri = new JUri;
 		$this->object = new JGoogleEmbedMaps($this->options, $this->uri, $this->http);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options, $this->uri, $this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -85,13 +103,13 @@ class JGoogleEmbedMapsTest extends TestCase
 	 * @group	JGoogle
 	 * @return void
 	 */
-	public function testGetMapID()
+	public function testGetMapId()
 	{
-		$id = $this->object->getMapID();
+		$id = $this->object->getMapId();
 		$this->assertEquals($id, 'map_canvas');
 
 		$this->object->setOption('mapid', 'canvas');
-		$id = $this->object->getMapID();
+		$id = $this->object->getMapId();
 		$this->assertEquals($id, 'canvas');
 	}
 
@@ -101,9 +119,9 @@ class JGoogleEmbedMapsTest extends TestCase
 	 * @group	JGoogle
 	 * @return void
 	 */
-	public function testSetMapID()
+	public function testSetMapId()
 	{
-		$this->object->setMapID('map_canvas');
+		$this->object->setMapId('map_canvas');
 		$id = $this->object->getOption('mapid');
 		$this->assertEquals($id, 'map_canvas');
 	}
@@ -308,12 +326,12 @@ class JGoogleEmbedMapsTest extends TestCase
 	{
 		$this->http->expects($this->exactly(5))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
 
-		$reference[] = array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array());
+		$reference[] = array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array(), 'events' => array());
 		$this->object->setCenter(array(37, -122));
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37, -122));
 
-		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array());
+		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array(), 'events' => array());
 		$this->object->setCenter('Palo Alto');
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37.44188340, -122.14301950));
@@ -322,7 +340,7 @@ class JGoogleEmbedMapsTest extends TestCase
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37.77492950, -122.41941550));
 
-		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'));
+		$reference[] = array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array());
 		$this->object->setCenter('Palo Alto', 'somewhere', array('key' => 'value'));
 		$center = $this->object->getOption('mapcenter');
 		$this->assertEquals($center, array(37.44188340, -122.14301950));
@@ -349,16 +367,19 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	public function testAddMarker()
 	{
-		$this->http->expects($this->exactly(3))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
+		$this->http->expects($this->exactly(4))->method('get')->will($this->returnCallback('mapsGeocodeCallback'));
 
 		$marker = $this->object->addMarker(array(37, -122));
-		$this->assertEquals($marker, array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array()));
+		$this->assertEquals($marker, array('loc' => array(37, -122), 'title' => '37, -122', 'options' => array(), 'events' => array()));
 
 		$marker = $this->object->addMarker('Palo Alto');
-		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array()));
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'Palo Alto', 'options' => array(), 'events' => array()));
 
-		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'));
-		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value')));
+		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'), array());
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array()));
+
+		$marker = $this->object->addMarker('Palo Alto', 'somewhere', array('key' => 'value'), array('click' => 'function(e) { map.setCenter(this.getPosition()); }'));
+		$this->assertEquals($marker, array('loc' => array(37.44188340, -122.14301950), 'title' => 'somewhere', 'options' => array('key' => 'value'), 'events' => array('click' => 'function(e) { map.setCenter(this.getPosition()); }')));
 
 		$marker = $this->object->addMarker('Nowhere');
 		$this->assertFalse($marker);
@@ -416,7 +437,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	public function testDeleteMarkersException()
 	{
-		$marker = $this->object->deleteMarker();
+		$this->object->deleteMarker();
 	}
 
 	/**
@@ -585,7 +606,7 @@ class JGoogleEmbedMapsTest extends TestCase
 		$this->object->setZoom(8);
 		$this->object->setCenter('San Francisco', 'Home', array('centerkey' => 'value'));
 		$this->object->setMaptype('SATELLITE');
-		$this->object->setMapID('MAPID');
+		$this->object->setMapId('MAPID');
 		$this->object->setKey('123456');
 		$this->object->useSensor();
 		$this->object->setAdditionalMapOptions(array('mapkey1' => 5, 'mapkey2' => array ('subkey' => 'subvalue')));
@@ -636,7 +657,7 @@ class JGoogleEmbedMapsTest extends TestCase
 	 */
 	public function testGetBody()
 	{
-		$this->object->setMapID('MAPID');
+		$this->object->setMapId('MAPID');
 		$this->object->setMapClass('class1 class2');
 		$this->object->setMapStyle('width: 100%');
 
@@ -726,21 +747,24 @@ class JGoogleEmbedMapsTest extends TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
 {
-	parse_str($url, $params);
+	$query = parse_url($url, PHP_URL_QUERY);
+
+	parse_str($query, $params);
+
 	$address = strtolower($params['address']);
 
 	switch ($address)
 	{
 		case 'san francisco':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'sanfrancisco.txt');
 		break;
 
 		case 'palo alto':
-		$data = file_get_contents(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'paloalto.txt');
+		$data = file_get_contents(__DIR__ . DIRECTORY_SEPARATOR . 'paloalto.txt');
 		break;
 
 		default:
@@ -765,7 +789,7 @@ function mapsGeocodeCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function mapsGeocode400Callback($url, array $headers = null, $timeout = null)
 {
@@ -787,7 +811,7 @@ function mapsGeocode400Callback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function mapsGeocodeBadJsonCallback($url, array $headers = null, $timeout = null)
 {

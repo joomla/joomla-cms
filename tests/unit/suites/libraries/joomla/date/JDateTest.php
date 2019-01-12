@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Date
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,46 +12,76 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Date
- * @since       11.3
+ * @since       1.7.3
  */
-class JDateTest extends TestCaseDatabase
+class JDateTest extends TestCase
 {
+	/**
+	 * Backup of the date format in use by JDate
+	 *
+	 * @var  string
+	 */
+	private $format;
+
 	/**
 	 * Object under test
 	 *
 	 * @var    JDate
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $object;
+
+	/**
+	 * Sets up the fixture.
+	 *
+	 * This method is called before a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.7.3
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->format = JDate::$format;
+
+		$this->object = new JDate('12/20/2007 11:44:56', 'America/New_York');
+	}
+
+	/**
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->object);
+
+		JDate::$format = $this->format;
+
+		parent::tearDown();
+	}
 
 	/**
 	 * Test Cases for __construct
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function cases__construct()
 	{
-		date_default_timezone_set('UTC');
-
-		return array(
+		$cases = array(
 			'basic' => array(
 				'12/23/2008 13:45',
 				null,
 				'Tue 12/23/2008 13:45',
 			),
-			'unix' => array(
-				strtotime('12/26/2008 13:45'),
-				null,
-				'Fri 12/26/2008 13:45',
-			),
 			'tzCT' => array(
-				'12/23/2008 13:45',
-				'US/Central',
-				'Tue 12/23/2008 13:45',
-			),
-			"tzCT" => array(
 				'12/23/2008 13:45',
 				'US/Central',
 				'Tue 12/23/2008 13:45',
@@ -62,6 +92,22 @@ class JDateTest extends TestCaseDatabase
 				'Tue 12/23/2008 13:45',
 			),
 		);
+
+		// Backup the default timezone before continuing - Using the system timezone apparently causes test failures
+		$timezone = new DateTimeZone(date_default_timezone_get());
+
+		date_default_timezone_set('UTC');
+
+		$cases['unix'] = array(
+			strtotime('12/26/2008 13:45'),
+			null,
+			'Fri 12/26/2008 13:45',
+		);
+
+		// Restore the timezone
+		date_default_timezone_set($timezone->getName());
+
+		return $cases;
 	}
 
 	/**
@@ -69,7 +115,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function cases__get()
 	{
@@ -142,7 +188,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function casesFormat()
 	{
@@ -162,36 +208,36 @@ class JDateTest extends TestCaseDatabase
 				false,
 				'122007 164456',
 			),
- 			'Long' => array(
- 				'D F j, Y H:i:s',
+			'Long' => array(
+				'D F j, Y H:i:s',
 				true,
- 				'Thu December 20, 2007 11:44:56',
- 			),
- 			'LongGMT' => array(
- 				'D F j, Y H:i:s',
- 				false,
- 				'Thu December 20, 2007 16:44:56',
- 			),
- 			'Long2' => array(
- 				'H:i:s D F j, Y',
- 				false,
- 				'16:44:56 Thu December 20, 2007',
- 			),
- 			'Long3' => array(
- 				'H:i:s l F j, Y',
- 				false,
- 				'16:44:56 Thursday December 20, 2007',
- 			),
- 			'Long4' => array(
- 				'H:i:s l M j, Y',
- 				false,
- 				'16:44:56 Thursday Dec 20, 2007',
- 			),
- 			'RFC822' => array(
- 				'r',
- 				false,
- 				'Thu, 20 Dec 2007 16:44:56 +0000',
- 			),
+				'Thu December 20, 2007 11:44:56',
+			),
+			'LongGMT' => array(
+				'D F j, Y H:i:s',
+				false,
+				'Thu December 20, 2007 16:44:56',
+			),
+			'Long2' => array(
+				'H:i:s D F j, Y',
+				false,
+				'16:44:56 Thu December 20, 2007',
+			),
+			'Long3' => array(
+				'H:i:s l F j, Y',
+				false,
+				'16:44:56 Thursday December 20, 2007',
+			),
+			'Long4' => array(
+				'H:i:s l M j, Y',
+				false,
+				'16:44:56 Thursday Dec 20, 2007',
+			),
+			'RFC822' => array(
+				'r',
+				false,
+				'Thu, 20 Dec 2007 16:44:56 +0000',
+			),
 		);
 	}
 
@@ -200,9 +246,9 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
-	public function casesGetOffsetFromGMT()
+	public function casesGetOffsetFromGmt()
 	{
 		return array(
 			'basic' => array(
@@ -243,7 +289,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function casesSetTimezone()
 	{
@@ -280,7 +326,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function casesToISO8601()
 	{
@@ -323,9 +369,9 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
-	public function casesToSQL()
+	public function casesToSql()
 	{
 		return array(
 			'basic' => array(
@@ -366,7 +412,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function casesToRFC822()
 	{
@@ -409,7 +455,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function casesToString()
 	{
@@ -434,7 +480,7 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function casesToUnix()
 	{
@@ -468,22 +514,6 @@ class JDateTest extends TestCaseDatabase
 	}
 
 	/**
-	 * Sets up the fixture.
-	 *
-	 * This method is called before a test is executed.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	protected function setUp()
-	{
-		// Note: do not extend parent setUp method
-
-		$this->object = new JDate('12/20/2007 11:44:56', 'America/New_York');
-	}
-
-	/**
 	 * Testing the Constructor
 	 *
 	 * @param   string  $date          What time should be set?
@@ -493,7 +523,7 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @dataProvider  cases__construct
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::__construct
 	 */
 	public function test__construct($date, $tz, $expectedTime)
@@ -505,10 +535,48 @@ class JDateTest extends TestCaseDatabase
 			$this->equalTo($expectedTime)
 		);
 
- 		$this->assertThat(
- 			$jdate->format('D m/d/Y H:i', true),
- 			$this->equalTo($expectedTime)
- 		);
+		$this->assertThat(
+			$jdate->format('D m/d/Y H:i', true, false),
+			$this->equalTo($expectedTime)
+		);
+	}
+
+	/**
+	 * Testing the Constructor for now when not using UTC
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.1
+	 * @covers  JDate::__construct
+	 */
+	public function test__constructForNowWhenNotUsingUTC()
+	{
+		$jdate   = new JDate('now', new DateTimeZone('US/Central'));
+		$phpdate = new DateTime('now', new DateTimeZone('US/Central'));
+
+		$this->assertSame(
+			$jdate->format('D m/d/Y H:i', true),
+			$phpdate->format('D m/d/Y H:i')
+		);
+	}
+
+	/**
+	 * Testing the Constructor for now when using UTC
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.1
+	 * @covers  JDate::__construct
+	 */
+	public function test__constructForNowWhenUsingUTC()
+	{
+		$jdate   = new JDate('now', new DateTimeZone('UTC'));
+		$phpdate = new DateTime('now', new DateTimeZone('UTC'));
+
+		$this->assertSame(
+			$jdate->format('D m/d/Y H:i'),
+			$phpdate->format('D m/d/Y H:i')
+		);
 	}
 
 	/**
@@ -521,7 +589,7 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @dataProvider  cases__get
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::__get
 	 */
 	public function test__get($date, $property, $expected)
@@ -539,13 +607,11 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::__toString
 	 */
 	public function test__toString()
 	{
-		JDate::$format = 'Y-m-d H:i:s';
-
 		$jdate = new JDate('2000-01-01 00:00:00');
 
 		$this->assertThat(
@@ -563,7 +629,7 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @dataProvider casesToString
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::__toString
 	 */
 	public function testToString($format, $expectedTime)
@@ -573,10 +639,7 @@ class JDateTest extends TestCaseDatabase
 			JDate::$format = $format;
 		}
 
-		$this->assertThat(
-			$this->object->__toString(),
-			$this->equalTo($expectedTime)
-		);
+		$this->assertEquals($expectedTime, (string) $this->object);
 	}
 
 	/**
@@ -584,22 +647,14 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::getInstance
 	 */
 	public function testGetInstance()
 	{
-		$this->assertThat(
-			JDate::getInstance(),
-			$this->isInstanceOf('JDate')
-		);
+		$this->assertInstanceOf('JDate', JDate::getInstance());
 
-		JDate::$format = 'Y-m-d H:i:s';
-
-		$this->assertThat(
-			(string) JDate::getInstance('2000-01-01 00:00:00'),
-			$this->equalTo('2000-01-01 00:00:00')
-		);
+		$this->assertEquals('2000-01-01 00:00:00', (string) JDate::getInstance('2000-01-01 00:00:00'));
 	}
 
 	/**
@@ -612,31 +667,16 @@ class JDateTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @dataProvider casesGetOffsetFromGMT
-	 * @since   11.3
+	 * @dataProvider casesGetOffsetFromGmt
+	 * @since   1.7.3
 	 * @covers  JDate::getOffsetFromGMT
 	 */
-	public function testGetOffsetFromGMT($tz, $setTime, $hours, $expected)
+	public function testGetOffsetFromGmt($tz, $setTime, $hours, $expected)
 	{
-		if (is_null($tz))
-		{
-			$testJDate = new JDate($setTime);
-		}
-		else
-		{
-			$testJDate = new JDate($setTime, $tz);
-		}
+		$testJDate = new JDate($setTime, $tz);
+		$offset    = $testJDate->getOffsetFromGmt($hours);
 
-		if (is_null($hours))
-		{
-			$offset = $testJDate->getOffsetFromGMT();
-		}
-		else
-		{
-			$offset = $testJDate->getOffsetFromGMT($hours);
-		}
-
-		$this->assertThat($offset, $this->equalTo($expected));
+		$this->assertEquals($expected, $offset);
 	}
 
 	/**
@@ -649,15 +689,12 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @dataProvider casesFormat
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::format
 	 */
 	public function testFormat($format, $local, $expected)
 	{
-		$this->assertThat(
-			$this->object->format($format, $local),
-			$this->equalTo($expected)
-		);
+		$this->assertEquals($expected, $this->object->format($format, $local, false));
 	}
 
 	/**
@@ -671,28 +708,14 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @dataProvider casesToRFC822
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::toRFC822
 	 */
 	public function testToRFC822($tz, $setTime, $local, $expected)
 	{
-		$language = JFactory::getLanguage();
-		$debug = $language->setDebug(true);
+		$testJDate = new JDate($setTime, $tz);
 
-		if (is_null($tz))
-		{
-			$testJDate = new JDate($setTime);
-		}
-		else
-		{
-			$testJDate = new JDate($setTime, $tz);
-		}
-
-		$this->assertThat(
-			$testJDate->toRFC822($local),
-			$this->equalTo($expected)
-		);
-		$language->setDebug($debug);
+		$this->assertEquals($expected, $testJDate->toRFC822($local));
 	}
 
 	/**
@@ -706,24 +729,14 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @dataProvider casesToISO8601
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::toISO8601
 	 */
 	public function testToISO8601($tz, $setTime, $local, $expected)
 	{
-		if (is_null($tz))
-		{
-			$testJDate = new JDate($setTime);
-		}
-		else
-		{
-			$testJDate = new JDate($setTime, $tz);
-		}
+		$testJDate = new JDate($setTime, $tz);
 
-		$this->assertThat(
-			$testJDate->toISO8601($local),
-			$this->equalTo($expected)
-		);
+		$this->assertEquals($expected, $testJDate->toISO8601($local));
 	}
 
 	/**
@@ -737,24 +750,14 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @dataProvider casesToSQL
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::toSql
 	 */
 	public function testToSql($tz, $setTime, $local, $expected)
 	{
-		if (is_null($tz))
-		{
-			$testJDate = new JDate($setTime);
-		}
-		else
-		{
-			$testJDate = new JDate($setTime, $tz);
-		}
+		$testJDate = new JDate($setTime, $tz);
 
-		$this->assertThat(
-			$testJDate->toSql($local),
-			$this->equalTo($expected)
-		);
+		$this->assertEquals($expected, $testJDate->toSql($local, $this->getMockDatabase()));
 	}
 
 	/**
@@ -767,24 +770,14 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @dataProvider casesToUnix
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::toUnix
 	 */
 	public function testToUnix($tz, $setTime, $expected)
 	{
-		if (is_null($tz))
-		{
-			$testJDate = new JDate($setTime);
-		}
-		else
-		{
-			$testJDate = new JDate($setTime, $tz);
-		}
+		$testJDate = new JDate($setTime, $tz);
 
-		$this->assertThat(
-			$testJDate->toUnix(),
-			$this->equalTo($expected)
-		);
+		$this->assertEquals($expected, $testJDate->toUnix());
 	}
 
 	/**
@@ -796,15 +789,13 @@ class JDateTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @dataProvider casesSetTimezone
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @covers  JDate::setTimezone
 	 */
 	public function testSetTimezone($tz, $expected)
 	{
 		$this->object->setTimezone(new DateTimeZone($tz));
-		$this->assertThat(
-			$this->object->format('r', true),
-			$this->equalTo($expected)
-		);
+
+		$this->assertEquals($expected, $this->object->format('r', true));
 	}
 }

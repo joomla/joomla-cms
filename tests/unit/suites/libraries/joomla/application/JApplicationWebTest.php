@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -16,7 +16,7 @@ include_once __DIR__ . '/stubs/JApplicationWebInspector.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Application
- * @since       11.3
+ * @since       1.7.3
  */
 class JApplicationWebTest extends TestCase
 {
@@ -24,7 +24,7 @@ class JApplicationWebTest extends TestCase
 	 * Value for test host.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	const TEST_HTTP_HOST = 'mydomain.com';
 
@@ -32,7 +32,7 @@ class JApplicationWebTest extends TestCase
 	 * Value for test user agent.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	const TEST_USER_AGENT = 'Mozilla/5.0';
 
@@ -40,7 +40,7 @@ class JApplicationWebTest extends TestCase
 	 * Value for test user agent.
 	 *
 	 * @var    string
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	const TEST_REQUEST_URI = '/index.php';
 
@@ -48,7 +48,7 @@ class JApplicationWebTest extends TestCase
 	 * An instance of the class to test.
 	 *
 	 * @var    JApplicationWebInspector
-	 * @since  11.3
+	 * @since  1.7.3
 	 */
 	protected $class;
 
@@ -65,7 +65,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getDetectRequestUriData()
 	{
@@ -83,14 +83,14 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getRedirectData()
 	{
 		return array(
 			// Note: url, base, request, (expected result)
-			array('/foo', 'http://mydomain.com/', 'http://mydomain.com/index.php?v=11.3', 'http://mydomain.com/foo'),
-			array('foo', 'http://mydomain.com/', 'http://mydomain.com/index.php?v=11.3', 'http://mydomain.com/foo'),
+			array('/foo', 'http://mydomain.com/', 'http://mydomain.com/index.php?v=1.7.3', 'http://mydomain.com/foo'),
+			array('foo', 'http://mydomain.com/', 'http://mydomain.com/index.php?v=1.7.3', 'http://mydomain.com/foo'),
 		);
 	}
 
@@ -99,7 +99,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function setUp()
 	{
@@ -126,8 +126,8 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @see     PHPUnit_Framework_TestCase::tearDown()
-	 * @since   11.1
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   1.7.0
 	 */
 	protected function tearDown()
 	{
@@ -140,7 +140,7 @@ class JApplicationWebTest extends TestCase
 		JApplicationWebInspector::$connectionAlive = true;
 
 		$_SERVER = $this->backupServer;
-
+		unset($this->backupServer, $this->class);
 		$this->restoreFactoryState();
 
 		parent::tearDown();
@@ -151,7 +151,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__construct()
 	{
@@ -171,7 +171,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function test__constructDependancyInjection()
 	{
@@ -180,18 +180,33 @@ class JApplicationWebTest extends TestCase
 			$this->markTestSkipped('Test is skipped due to a PHP bug in versions 5.4.29 and 5.5.13 and a change in behavior in the 5.6 branch');
 		}
 
-		$mockInput = $this->getMock('JInput', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockInput = $this->getMockBuilder('JInput')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockInput->expects($this->any())
 			->method('test')
 			->willReturn('ok');
 
-		$mockConfig = $this->getMock('\\Joomla\\Registry\\Registry', array('test'), array(null), '', true);
+		$mockConfig = $this->getMockBuilder('\\Joomla\\Registry\\Registry')
+					->setMethods(array('test'))
+					->setConstructorArgs(array(null))
+					->setMockClassName('')
+					->getMock();
 		$mockConfig
 			->expects($this->any())
 			->method('test')
 			->willReturn('ok');
 
-		$mockClient = $this->getMock('JApplicationWebClient', array('test'), array(), '', false);
+		$mockClient = $this->getMockBuilder('JApplicationWebClient')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockClient->expects($this->any())
 			->method('test')
 			->willReturn('ok');
@@ -208,7 +223,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testAllowCache()
 	{
@@ -222,7 +237,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testAppendBody()
 	{
@@ -243,7 +258,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testClearHeaders()
 	{
@@ -268,12 +283,12 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testClose()
 	{
 		// Make sure the application is not already closed.
-		$this->assertSame($this->class->closed, null);
+		$this->assertNull($this->class->closed);
 
 		$this->class->close(3);
 
@@ -286,7 +301,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCompressWithGzipEncoding()
 	{
@@ -334,7 +349,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCompressWithDeflateEncoding()
 	{
@@ -382,7 +397,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCompressWithNoAcceptEncodings()
 	{
@@ -428,7 +443,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCompressWithHeadersSent()
 	{
@@ -480,7 +495,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testCompressWithUnsupportedEncodings()
 	{
@@ -535,7 +550,7 @@ class JApplicationWebTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getDetectRequestUriData
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testDetectRequestUri($https, $phpSelf, $requestUri, $httpHost, $scriptName, $queryString, $expects)
 	{
@@ -558,7 +573,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testExecuteWithoutDocument()
 	{
@@ -591,7 +606,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testExecuteWithDocument()
 	{
@@ -641,7 +656,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getFetchConfigurationData()
 	{
@@ -664,7 +679,7 @@ class JApplicationWebTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider getFetchConfigurationData
-	 * @since    11.3
+	 * @since    1.7.3
 	 */
 	public function testFetchConfigurationData($file, $class, $expectsClass, $expects, $expectedException = false)
 	{
@@ -705,7 +720,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGet()
 	{
@@ -722,7 +737,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetBody()
 	{
@@ -747,7 +762,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetHeaders()
 	{
@@ -770,7 +785,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetInstance()
 	{
@@ -790,7 +805,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testInitialiseWithDefaults()
 	{
@@ -808,7 +823,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testInitialiseWithFalse()
 	{
@@ -824,29 +839,50 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testInitialiseWithInjection()
 	{
-		$mockSession = $this->getMock('JSession', array('test'), array(), '', false);
+		// Build the mock object.
+		$mockSession = $this->getMockBuilder('JSession')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockSession
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockDocument = $this->getMock('JDocument', array('test'), array(), '', false);
+		$mockDocument = $this->getMockBuilder('JDocument')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockDocument
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockLanguage = $this->getMock('JLanguage', array('test'), array(), '', false);
+		$mockLanguage = $this->getMockBuilder('JLanguage')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockLanguage
 			->expects($this->any())
 			->method('test')
 			->willReturnSelf();
 
-		$mockDispatcher = $this->getMock('JEventDispatcher', array('test'), array(), '', false);
+		$mockDispatcher = $this->getMockBuilder('JEventDispatcher')
+					->setMethods(array('test'))
+					->setConstructorArgs(array())
+					->setMockClassName('')
+					->disableOriginalConstructor()
+					->getMock();
 		$mockDispatcher
 			->expects($this->any())
 			->method('test')
@@ -865,7 +901,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadConfiguration()
 	{
@@ -888,7 +924,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadDocument()
 	{
@@ -905,7 +941,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadLanguage()
 	{
@@ -919,7 +955,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadSystemUrisWithSiteUriSet()
 	{
@@ -941,7 +977,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadSystemUrisWithoutSiteUriSet()
 	{
@@ -959,7 +995,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadSystemUrisWithoutSiteUriWithMediaUriSet()
 	{
@@ -981,7 +1017,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testLoadSystemUrisWithoutSiteUriWithRelativeMediaUriSet()
 	{
@@ -1003,7 +1039,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testPrependBody()
 	{
@@ -1024,7 +1060,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRedirect()
 	{
@@ -1049,12 +1085,162 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 303 See other', true, null),
-				array('Location: ' . $base . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 303 See other', true, 303),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
+		);
+	}
+
+	/**
+	 * Tests the JApplicationWeb::redirect method.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.7.3
+	 */
+	public function testRedirectWithExistingStatusCode1()
+	{
+		// Case Sensitive: status
+		$this->class->setHeader('status', 201);
+
+		$base = 'http://mydomain.com/';
+		$url = 'index.php';
+
+		// Inject the client information.
+		TestReflection::setValue(
+			$this->class,
+			'client',
+			(object) array(
+				'engine' => JApplicationWebClient::GECKO,
+			)
+		);
+
+		// Inject the internal configuration.
+		$config = new Registry;
+		$config->set('uri.base.full', $base);
+
+		TestReflection::setValue($this->class, 'config', $config);
+
+		$this->class->redirect($url, false);
+
+		// It has two statuses, but the second status will be the final status
+		$this->assertEquals(
+			array('HTTP/1.1 201 Created', true, 201),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('HTTP/1.1 303 See other', true, 303),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[3]
+		);
+
+		$this->assertRegexp('/Expires/', $this->class->headers[4][0]);
+
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[5][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[6]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[7]
+		);
+	}
+
+	/**
+	 * Tests the JApplicationWeb::redirect method.
+	 *
+	 * @return  void
+	 *
+	 * @since   1.7.3
+	 */
+	public function testRedirectWithExistingStatusCode2()
+	{	
+		// Case Sensitive: Status
+		$this->class->setHeader('Status', 201);
+
+		$base = 'http://mydomain.com/';
+		$url = 'index.php';
+
+		// Inject the client information.
+		TestReflection::setValue(
+			$this->class,
+			'client',
+			(object) array(
+				'engine' => JApplicationWebClient::GECKO,
+			)
+		);
+
+		// Inject the internal configuration.
+		$config = new Registry;
+		$config->set('uri.base.full', $base);
+
+		TestReflection::setValue($this->class, 'config', $config);
+
+		$this->class->redirect($url, false);
+
+		$this->assertEquals(
+			array('HTTP/1.1 303 See other', true, 303),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $base . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -1063,7 +1249,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRedirectWithHeadersSent()
 	{
@@ -1084,7 +1270,7 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect('index.php');
 		$buffer = ob_get_clean();
 
-		$this->assertEquals("<script>document.location.href='{$base}{$url}';</script>\n", $buffer);
+		$this->assertEquals("<script>document.location.href=" . json_encode($base . $url) . ";</script>\n", $buffer);
 	}
 
 	/**
@@ -1092,7 +1278,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRedirectWithJavascriptRedirect()
 	{
@@ -1113,7 +1299,7 @@ class JApplicationWebTest extends TestCase
 		$buffer = ob_get_clean();
 
 		$this->assertEquals(
-			'<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8" /><script>document.location.href=\'' . $url . '\';</script></head><body></body></html>',
+			'<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8" /><script>document.location.href=' . json_encode($url) . ';</script></head><body></body></html>',
 			trim($buffer)
 		);
 	}
@@ -1123,7 +1309,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRedirectWithMoved()
 	{
@@ -1141,12 +1327,32 @@ class JApplicationWebTest extends TestCase
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array(
-				array('HTTP/1.1 301 Moved Permanently', true, null),
-				array('Location: ' . $url, true, null),
-				array('Content-Type: text/html; charset=utf-8', true, null),
-			),
-			$this->class->headers
+			array('HTTP/1.1 301 Moved Permanently', true, 301),
+			$this->class->headers[0]
+		);
+
+		$this->assertEquals(
+			array('Location: ' . $url, true, null),
+			$this->class->headers[1]
+		);
+
+		$this->assertEquals(
+			array('Content-Type: text/html; charset=utf-8', true, null),
+			$this->class->headers[2]
+		);
+
+		$this->assertRegexp('/Expires/', $this->class->headers[3][0]);
+
+		$this->assertRegexp('/Last-Modified/', $this->class->headers[4][0]);
+
+		$this->assertEquals(
+			array('Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0', true, null),
+			$this->class->headers[5]
+		);
+
+		$this->assertEquals(
+			array('Pragma: no-cache', true, null),
+			$this->class->headers[6]
 		);
 	}
 
@@ -1161,7 +1367,7 @@ class JApplicationWebTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider  getRedirectData
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRedirectWithUrl($url, $base, $request, $expected)
 	{
@@ -1191,7 +1397,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRegisterEvent()
 	{
@@ -1211,7 +1417,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testRender()
 	{
@@ -1232,7 +1438,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSendHeaders()
 	{
@@ -1246,7 +1452,7 @@ class JApplicationWebTest extends TestCase
 
 		$this->assertEquals(
 			array(
-				array('Status: 200', null, 200),
+				array('HTTP/1.1 200 OK', true, 200),
 				array('X-JWeb-SendHeaders: foo', true, null),
 			),
 			$this->class->headers
@@ -1258,7 +1464,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSet()
 	{
@@ -1276,7 +1482,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSetBody()
 	{
@@ -1294,7 +1500,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testSetHeader()
 	{
@@ -1336,7 +1542,7 @@ class JApplicationWebTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function testIsSSLConnection()
 	{

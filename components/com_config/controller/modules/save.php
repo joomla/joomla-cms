@@ -3,9 +3,10 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,13 +15,13 @@ defined('_JEXEC') or die;
  * @package     Joomla.Site
  * @subpackage  com_config
  * @since       3.2
-*/
+ */
 class ConfigControllerModulesSave extends JControllerBase
 {
 	/**
 	 * Method to save module editing.
 	 *
-	 * @return  bool	True on success.
+	 * @return  boolean  True on success.
 	 *
 	 * @since   3.2
 	 */
@@ -37,7 +38,7 @@ class ConfigControllerModulesSave extends JControllerBase
 		$user = JFactory::getUser();
 
 		if (!$user->authorise('module.edit.frontend', 'com_modules.module.' . $this->input->get('id'))
-			|| !$user->authorise('module.edit.frontend', 'com_modules'))
+			&& !$user->authorise('module.edit.frontend', 'com_modules'))
 		{
 			$this->app->enqueueMessage(JText::_('JERROR_ALERTNOAUTHOR'));
 			$this->app->redirect('index.php');
@@ -58,7 +59,7 @@ class ConfigControllerModulesSave extends JControllerBase
 			$redirect = '&return=' . $returnUri;
 		}
 
-		// Access back-end com_modules to be done
+		// Access backend com_modules to be done
 		JLoader::register('ModulesControllerModule', JPATH_ADMINISTRATOR . '/components/com_modules/controllers/module.php');
 		JLoader::register('ModulesModelModule', JPATH_ADMINISTRATOR . '/components/com_modules/models/module.php');
 
@@ -67,10 +68,10 @@ class ConfigControllerModulesSave extends JControllerBase
 		// Get a document object
 		$document = JFactory::getDocument();
 
-		// Set back-end required params
+		// Set backend required params
 		$document->setType('json');
 
-		// Execute back-end controller
+		// Execute backend controller
 		$return = $controllerClass->save();
 
 		// Reset params back after requesting from service
@@ -80,7 +81,9 @@ class ConfigControllerModulesSave extends JControllerBase
 		if ($return === false)
 		{
 			// Save the data in the session.
-			$app->setUserState('com_config.modules.global.data', $data);
+			$data = $this->input->post->get('jform', array(), 'array');
+
+			$this->app->setUserState('com_config.modules.global.data', $data);
 
 			// Save failed, go back to the screen and display a notice.
 			$this->app->enqueueMessage(JText::_('JERROR_SAVE_FAILED'));
@@ -103,11 +106,18 @@ class ConfigControllerModulesSave extends JControllerBase
 				if (!empty($returnUri))
 				{
 					$redirect = base64_decode(urldecode($returnUri));
+
+					// Don't redirect to an external URL.
+					if (!JUri::isInternal($redirect))
+					{
+						$redirect = JUri::base();
+					}
 				}
 				else
 				{
 					$redirect = JUri::base();
 				}
+
 				$this->app->redirect($redirect);
 				break;
 		}

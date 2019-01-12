@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
  * Provides an input field for files
  *
  * @link   http://www.w3.org/TR/html-markup/input.file.html#input.file
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldFile extends JFormField
 {
@@ -22,7 +22,7 @@ class JFormFieldFile extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'File';
 
@@ -35,9 +35,17 @@ class JFormFieldFile extends JFormField
 	protected $accept;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.6
+	 */
+	protected $layout = 'joomla.form.field.file';
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -48,7 +56,7 @@ class JFormFieldFile extends JFormField
 		switch ($name)
 		{
 			case 'accept':
-				return $this->$name;
+				return $this->accept;
 		}
 
 		return parent::__get($name);
@@ -57,7 +65,7 @@ class JFormFieldFile extends JFormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -69,7 +77,7 @@ class JFormFieldFile extends JFormField
 		switch ($name)
 		{
 			case 'accept':
-				$this->$accept = (string) $value;
+				$this->accept = (string) $value;
 				break;
 
 			default:
@@ -80,9 +88,9 @@ class JFormFieldFile extends JFormField
 	/**
 	 * Method to attach a JForm object to the field.
 	 *
-	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the <field /> tag for the form field object.
+	 * @param   SimpleXMLElement  $element  The SimpleXMLElement object representing the `<field>` tag for the form field object.
 	 * @param   mixed             $value    The form field value to validate.
-	 * @param   string            $group    The field name group control value. This acts as as an array container for the field.
+	 * @param   string            $group    The field name group control value. This acts as an array container for the field.
 	 *                                      For example if the field has name="foo" and the group value is set to "bar" then the
 	 *                                      full field name would end up being "bar[foo]".
 	 *
@@ -112,27 +120,29 @@ class JFormFieldFile extends JFormField
 	 *
 	 * @note    The field does not include an upload mechanism.
 	 * @see     JFormFieldMedia
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getInput()
 	{
-		// Initialize some field attributes.
-		$accept    = !empty($this->accept) ? ' accept="' . $this->accept . '"' : '';
-		$size      = !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$class     = !empty($this->class) ? ' class="' . $this->class . '"' : '';
-		$disabled  = $this->disabled ? ' disabled' : '';
-		$required  = $this->required ? ' required aria-required="true"' : '';
-		$autofocus = $this->autofocus ? ' autofocus' : '';
-		$multiple  = $this->multiple ? ' multiple' : '';
+		return $this->getRenderer($this->layout)->render($this->getLayoutData());
+	}
 
-		// Initialize JavaScript field attributes.
-		$onchange = $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
+	/**
+	 * Method to get the data to be passed to the layout for rendering.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.6
+	 */
+	protected function getLayoutData()
+	{
+		$data = parent::getLayoutData();
 
-		// Including fallback code for HTML5 non supported browsers.
-		JHtml::_('jquery.framework');
-		JHtml::_('script', 'system/html5fallback.js', false, true);
+		$extraData = array(
+			'accept'   => $this->accept,
+			'multiple' => $this->multiple,
+		);
 
-		return '<input type="file" name="' . $this->name . '" id="' . $this->id . '" value=""' . $accept
-			. $disabled . $class . $size . $onchange . $required . $autofocus . $multiple . ' />';
+		return array_merge($data, $extraData);
 	}
 }

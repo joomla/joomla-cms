@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * The Categories List Controller
@@ -23,31 +25,30 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  The array of possible config values. Optional.
 	 *
-	 * @return  object  The model.
+	 * @return  JModelLegacy  The model.
 	 *
 	 * @since   1.6
 	 */
 	public function getModel($name = 'Category', $prefix = 'CategoriesModel', $config = array('ignore_request' => true))
 	{
-		$model = parent::getModel($name, $prefix, $config);
-
-		return $model;
+		return parent::getModel($name, $prefix, $config);
 	}
 
 	/**
 	 * Rebuild the nested set tree.
 	 *
-	 * @return  bool  False on failure or error, true on success.
+	 * @return  boolean  False on failure or error, true on success.
 	 *
 	 * @since   1.6
 	 */
 	public function rebuild()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$extension = $this->input->get('extension');
 		$this->setRedirect(JRoute::_('index.php?option=com_categories&view=categories&extension=' . $extension, false));
 
+		/** @var CategoriesModelCategory $model */
 		$model = $this->getModel();
 
 		if ($model->rebuild())
@@ -57,19 +58,17 @@ class CategoriesControllerCategories extends JControllerAdmin
 
 			return true;
 		}
-		else
-		{
-			// Rebuild failed.
-			$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
 
-			return false;
-		}
+		// Rebuild failed.
+		$this->setMessage(JText::_('COM_CATEGORIES_REBUILD_FAILURE'));
+
+		return false;
 	}
 
 	/**
 	 * Save the manual order inputs from the categories list page.
 	 *
-	 * @return      void
+	 * @return      boolean  True on success
 	 *
 	 * @since       1.6
 	 * @see         JControllerAdmin::saveorder()
@@ -77,9 +76,16 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 */
 	public function saveorder()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		JLog::add('CategoriesControllerCategories::saveorder() is deprecated. Function will be removed in 4.0', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(sprintf('%s() is deprecated. Function will be removed in 4.0.', __METHOD__), JLog::WARNING, 'deprecated');
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get the arrays from the Request
 		$order = $this->input->post->get('order', null, 'array');
@@ -108,7 +114,7 @@ class CategoriesControllerCategories extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to remove from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -121,11 +127,11 @@ class CategoriesControllerCategories extends JControllerAdmin
 		else
 		{
 			// Get the model.
+			/** @var CategoriesModelCategory $model */
 			$model = $this->getModel();
 
 			// Make sure the item ids are integers
-			jimport('joomla.utilities.arrayhelper');
-			JArrayHelper::toInteger($cid);
+			$cid = ArrayHelper::toInteger($cid);
 
 			// Remove the items.
 			if ($model->delete($cid))
@@ -139,5 +145,26 @@ class CategoriesControllerCategories extends JControllerAdmin
 		}
 
 		$this->setRedirect(JRoute::_('index.php?option=' . $this->option . '&extension=' . $extension, false));
+	}
+
+	/**
+	 * Check in of one or more records.
+	 *
+	 * Overrides JControllerAdmin::checkin to redirect to URL with extension.
+	 *
+	 * @return  boolean  True on success
+	 *
+	 * @since   3.6.0
+	 */
+	public function checkin()
+	{
+		// Process parent checkin method.
+		$result = parent::checkin();
+
+		// Override the redirect Uri.
+		$redirectUri = 'index.php?option=' . $this->option . '&view=' . $this->view_list . '&extension=' . $this->input->get('extension', '', 'CMD');
+		$this->setRedirect(JRoute::_($redirectUri, false), $this->message, $this->messageType);
+
+		return $result;
 	}
 }

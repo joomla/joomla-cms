@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL import driver.
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseImporterPostgresql extends JDatabaseImporter
 {
@@ -21,7 +22,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  JDatabaseImporterPostgresql  Method supports chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  Exception if an error is encountered.
 	 */
 	public function check()
@@ -49,11 +50,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getAddColumnSQL($table, SimpleXMLElement $field)
+	protected function getAddColumnSql($table, SimpleXMLElement $field)
 	{
-		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSQL($field);
+		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ADD COLUMN ' . $this->getColumnSql($field);
 	}
 
 	/**
@@ -63,9 +64,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getAddIndexSQL(SimpleXMLElement $field)
+	protected function getAddIndexSql(SimpleXMLElement $field)
 	{
 		return (string) $field['Query'];
 	}
@@ -77,9 +78,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getAlterTableSQL(SimpleXMLElement $structure)
+	protected function getAlterTableSql(SimpleXMLElement $structure)
 	{
 		$table = $this->getRealTableName($structure['name']);
 		$oldFields = $this->db->getTableColumns($table);
@@ -122,7 +123,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 
 				if ($change)
 				{
-					$alters[] = $this->getChangeSequenceSQL($kSeqName, $vSeq);
+					$alters[] = $this->getChangeSequenceSql($kSeqName, $vSeq);
 				}
 
 				// Unset this field so that what we have left are fields that need to be removed.
@@ -131,7 +132,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			else
 			{
 				// The sequence is new
-				$alters[] = $this->getAddSequenceSQL($newSequenceLook[$kSeqName][0]);
+				$alters[] = $this->getAddSequenceSql($newSequenceLook[$kSeqName][0]);
 			}
 		}
 
@@ -139,7 +140,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		foreach ($oldSeq as $name => $column)
 		{
 			// Delete the sequence.
-			$alters[] = $this->getDropSequenceSQL($name);
+			$alters[] = $this->getDropSequenceSql($name);
 		}
 
 		/* Field section */
@@ -159,7 +160,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 
 				if ($change)
 				{
-					$alters[] = $this->getChangeColumnSQL($table, $field);
+					$alters[] = $this->getChangeColumnSql($table, $field);
 				}
 
 				// Unset this field so that what we have left are fields that need to be removed.
@@ -168,7 +169,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 			else
 			{
 				// The field is new.
-				$alters[] = $this->getAddColumnSQL($table, $field);
+				$alters[] = $this->getAddColumnSql($table, $field);
 			}
 		}
 
@@ -176,7 +177,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		foreach ($oldFields as $name => $column)
 		{
 			// Delete the column.
-			$alters[] = $this->getDropColumnSQL($table, $name);
+			$alters[] = $this->getDropColumnSql($table, $name);
 		}
 
 		/* Index section */
@@ -217,7 +218,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 
 				if (!$same)
 				{
-					$alters[] = $this->getDropIndexSQL($name);
+					$alters[] = $this->getDropIndexSql($name);
 					$alters[]  = (string) $newLookup[$name][0]['Query'];
 				}
 
@@ -236,11 +237,11 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		{
 			if ($oldLookup[$name][0]->is_primary == 'TRUE')
 			{
-				$alters[] = $this->getDropPrimaryKeySQL($table, $oldLookup[$name][0]->Index);
+				$alters[] = $this->getDropPrimaryKeySql($table, $oldLookup[$name][0]->Index);
 			}
 			else
 			{
-				$alters[] = $this->getDropIndexSQL($name);
+				$alters[] = $this->getDropIndexSql($name);
 			}
 		}
 
@@ -254,9 +255,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getDropSequenceSQL($name)
+	protected function getDropSequenceSql($name)
 	{
 		return 'DROP SEQUENCE ' . $this->db->quoteName($name);
 	}
@@ -268,9 +269,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getAddSequenceSQL($field)
+	protected function getAddSequenceSql($field)
 	{
 		/* For older database version that doesn't support these fields use default values */
 		if (version_compare($this->db->getVersion(), '9.1.0') < 0)
@@ -296,9 +297,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getChangeSequenceSQL($field)
+	protected function getChangeSequenceSql($field)
 	{
 		/* For older database version that doesn't support these fields use default values */
 		if (version_compare($this->db->getVersion(), '9.1.0') < 0)
@@ -324,12 +325,12 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getChangeColumnSQL($table, SimpleXMLElement $field)
+	protected function getChangeColumnSql($table, SimpleXMLElement $field)
 	{
 		return 'ALTER TABLE ' . $this->db->quoteName($table) . ' ALTER COLUMN ' . $this->db->quoteName((string) $field['Field']) . ' '
-			. $this->getAlterColumnSQL($table, $field);
+			. $this->getAlterColumnSql($table, $field);
 	}
 
 	/**
@@ -340,9 +341,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getAlterColumnSQL($table, $field)
+	protected function getAlterColumnSql($table, $field)
 	{
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
@@ -350,7 +351,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL' ) ?
+		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL') ?
 						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
 					: null;
 
@@ -394,9 +395,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getColumnSQL(SimpleXMLElement $field)
+	protected function getColumnSql(SimpleXMLElement $field)
 	{
 		// TODO Incorporate into parent class and use $this.
 		$blobs = array('text', 'smalltext', 'mediumtext', 'largetext');
@@ -404,7 +405,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 		$fName = (string) $field['Field'];
 		$fType = (string) $field['Type'];
 		$fNull = (string) $field['Null'];
-		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL' ) ?
+		$fDefault = (isset($field['Default']) && $field['Default'] != 'NULL') ?
 						preg_match('/^[0-9]$/', $field['Default']) ? $field['Default'] : $this->db->quote((string) $field['Default'])
 					: null;
 
@@ -447,9 +448,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getDropIndexSQL($name)
+	protected function getDropIndexSql($name)
 	{
 		return 'DROP INDEX ' . $this->db->quoteName($name);
 	}
@@ -462,9 +463,9 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	protected function getDropPrimaryKeySQL($table, $name)
+	protected function getDropPrimaryKeySql($table, $name)
 	{
 		return 'ALTER TABLE ONLY ' . $this->db->quoteName($table) . ' DROP CONSTRAINT ' . $this->db->quoteName($name);
 	}
@@ -476,7 +477,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  array  The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  Exception
 	 */
 	protected function getIdxLookup($keys)
@@ -513,7 +514,7 @@ class JDatabaseImporterPostgresql extends JDatabaseImporter
 	 *
 	 * @return  array  The lookup array. array({key name} => array(object, ...))
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  Exception
 	 */
 	protected function getSeqLookup($sequences)

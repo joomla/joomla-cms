@@ -2,7 +2,7 @@
 /**
  * @package     FrameworkOnFramework
  * @subpackage  model
- * @copyright   Copyright (C) 2010 - 2014 Akeeba Ltd. All rights reserved.
+ * @copyright   Copyright (C) 2010-2016 Nicholas K. Dionysopoulos / Akeeba Ltd. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // Protect from unauthorized access
@@ -195,6 +195,13 @@ class FOFModel extends FOFUtilsObject
 	 * @var  	array
 	 */
 	protected $default_behaviors = array('filters');
+
+	/**
+	 * Behavior parameters
+	 *
+	 * @var    array
+	 */
+	protected $_behaviorParams = array();
 
 	/**
 	 * Returns a new model object. Unless overriden by the $config array, it will
@@ -2047,7 +2054,7 @@ class FOFModel extends FOFUtilsObject
 	 *
 	 * @param   boolean  $overrideLimits  Are we requested to override the set limits?
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  FOFDatabaseQuery
 	 */
 	public function buildQuery($overrideLimits = false)
 	{
@@ -3108,7 +3115,7 @@ class FOFModel extends FOFUtilsObject
 	/**
 	 * Method to get the database driver object
 	 *
-	 * @return  JDatabaseDriver
+	 * @return  FOFDatabaseDriver
 	 */
 	public function getDbo()
 	{
@@ -3145,7 +3152,7 @@ class FOFModel extends FOFUtilsObject
 	/**
 	 * Method to set the database driver object
 	 *
-	 * @param   JDatabaseDriver  $db  A JDatabaseDriver based object
+	 * @param   FOFDatabaseDriver  $db  A FOFDatabaseDriver based object
 	 *
 	 * @return  void
 	 */
@@ -3189,5 +3196,61 @@ class FOFModel extends FOFUtilsObject
 
 		// Trigger the onContentCleanCache event.
 		FOFPlatform::getInstance()->runPlugins($this->event_clean_cache, $options);
+	}
+
+	/**
+	 * Set a behavior param
+	 *
+	 * @param   string  $name     The name of the param
+	 * @param   mixed   $value    The param value to set
+	 *
+	 * @return  FOFModel
+	 */
+	public function setBehaviorParam($name, $value)
+	{
+		$this->_behaviorParams[$name] = $value;
+
+		return $this;
+	}
+
+	/**
+	 * Get a behavior param
+	 *
+	 * @param   string  $name     The name of the param
+	 * @param   mixed   $default  The default value returned if not set
+	 *
+	 * @return  mixed
+	 */
+	public function getBehaviorParam($name, $default = null)
+	{
+		return isset($this->_behaviorParams[$name]) ? $this->_behaviorParams[$name] : $default;
+	}
+
+	/**
+	 * Set or get the backlisted filters
+	 *
+	 * @param   mixed    $list    A filter or list of filters to backlist. If null return the list of backlisted filter
+	 * @param   boolean  $reset   Reset the blacklist if true
+	 *
+	 * @return  void|array  Return an array of value if $list is null
+	 */
+	public function blacklistFilters($list = null, $reset = false)
+	{
+		if (!isset($list))
+		{
+			return $this->getBehaviorParam('blacklistFilters', array());
+		}
+
+		if (is_string($list))
+		{
+			$list = (array) $list;
+		}
+
+		if (!$reset)
+		{
+			$list = array_unique(array_merge($this->getBehaviorParam('blacklistFilters', array()), $list));
+		}
+
+		$this->setBehaviorParam('blacklistFilters', $list);
 	}
 }

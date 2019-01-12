@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ class LoginController extends JControllerLegacy
 	 * Method to display a view.
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
 	 *
 	 * @return  JController		This object to support chaining.
 	 *
@@ -36,6 +36,12 @@ class LoginController extends JControllerLegacy
 		$this->input->set('view', 'login');
 		$this->input->set('layout', 'default');
 
+		// For non-html formats we do not have login view, so just display 403 instead
+		if ($this->input->get('format', 'html') !== 'html')
+		{
+			throw new RuntimeException(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+		}
+
 		parent::display();
 	}
 
@@ -47,7 +53,7 @@ class LoginController extends JControllerLegacy
 	public function login()
 	{
 		// Check for request forgeries.
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = JFactory::getApplication();
 
@@ -57,12 +63,24 @@ class LoginController extends JControllerLegacy
 
 		$result = $app->login($credentials, array('action' => 'core.login.admin'));
 
-		if (!($result instanceof Exception))
+		if ($result && !($result instanceof Exception))
 		{
-			$app->redirect($return);
+			// Only redirect to an internal URL.
+			if (JUri::isInternal($return))
+			{
+				// If &tmpl=component - redirect to index.php
+				if (strpos($return, 'tmpl=component') === false)
+				{
+					$app->redirect($return);
+				}
+				else
+				{
+					$app->redirect('index.php');
+				}
+			}
 		}
 
-		parent::display();
+		$this->display();
 	}
 
 	/**
@@ -72,23 +90,37 @@ class LoginController extends JControllerLegacy
 	 */
 	public function logout()
 	{
-		JSession::checkToken('request') or jexit(JText::_('JInvalid_Token'));
+		$this->checkToken('request');
 
 		$app = JFactory::getApplication();
 
 		$userid = $this->input->getInt('uid', null);
 
+		if ($app->get('shared_session', '0'))
+		{
+			$clientid = null;
+		}
+		else
+		{
+			$clientid = $userid ? 0 : 1;
+		}
+
 		$options = array(
-			'clientid' => ($userid) ? 0 : 1
+			'clientid' => $clientid,
 		);
 
 		$result = $app->logout($userid, $options);
 
 		if (!($result instanceof Exception))
 		{
-			$model 	= $this->getModel('login');
+			$model  = $this->getModel('login');
 			$return = $model->getState('return');
-			$app->redirect($return);
+
+			// Only redirect to an internal URL.
+			if (JUri::isInternal($return))
+			{
+				$app->redirect($return);
+			}
 		}
 
 		parent::display();

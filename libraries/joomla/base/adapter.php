@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,28 +14,32 @@ defined('JPATH_PLATFORM') or die;
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
- * @since  11.1
+ * @since       1.6
+ * @deprecated  5.0 Will be removed without replacement
  */
 class JAdapter extends JObject
 {
 	/**
 	 * Associative array of adapters
 	 *
-	 * @var    array
-	 * @since  11.1
+	 * @var    JAdapterInstance[]
+	 * @since  1.6
 	 */
 	protected $_adapters = array();
 
 	/**
 	 * Adapter Folder
+	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $_adapterfolder = 'adapters';
 
 	/**
-	 * @var    string	Adapter Class Prefix
-	 * @since  11.1
+	 * Adapter Class Prefix
+	 *
+	 * @var    string
+	 * @since  1.6
 	 */
 	protected $_classprefix = 'J';
 
@@ -43,7 +47,7 @@ class JAdapter extends JObject
 	 * Base Path for the adapter instance
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $_basepath = null;
 
@@ -51,7 +55,7 @@ class JAdapter extends JObject
 	 * Database Connector Object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  11.1
+	 * @since  1.6
 	 */
 	protected $_db;
 
@@ -62,7 +66,7 @@ class JAdapter extends JObject
 	 * @param   string  $classprefix    Class prefix of adapters
 	 * @param   string  $adapterfolder  Name of folder to append to base path
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function __construct($basepath, $classprefix = null, $adapterfolder = null)
 	{
@@ -78,11 +82,36 @@ class JAdapter extends JObject
 	 *
 	 * @return  JDatabaseDriver  Database connector object
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
-	public function getDBO()
+	public function getDbo()
 	{
 		return $this->_db;
+	}
+
+	/**
+	 * Return an adapter.
+	 *
+	 * @param   string  $name     Name of adapter to return
+	 * @param   array   $options  Adapter options
+	 *
+	 * @return  JAdapterInstance|boolean  Adapter of type 'name' or false
+	 *
+	 * @since   1.6
+	 */
+	public function getAdapter($name, $options = array())
+	{
+		if (array_key_exists($name, $this->_adapters))
+		{
+			return $this->_adapters[$name];
+		}
+
+		if ($this->setAdapter($name, $options))
+		{
+			return $this->_adapters[$name];
+		}
+
+		return false;
 	}
 
 	/**
@@ -94,60 +123,55 @@ class JAdapter extends JObject
 	 *
 	 * @return  boolean  True if successful
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function setAdapter($name, &$adapter = null, $options = array())
 	{
-		if (!is_object($adapter))
+		if (is_object($adapter))
 		{
-			$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
+			$this->_adapters[$name] = &$adapter;
 
-			if (!file_exists($fullpath))
-			{
-				return false;
-			}
-
-			// Try to load the adapter object
-			require_once $fullpath;
-
-			$class = $this->_classprefix . ucfirst($name);
-
-			if (!class_exists($class))
-			{
-				return false;
-			}
-
-			$adapter = new $class($this, $this->_db, $options);
+			return true;
 		}
 
-		$this->_adapters[$name] = &$adapter;
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name);
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
+
+			return true;
+		}
+
+		$class = rtrim($this->_classprefix, '\\') . '\\' . ucfirst($name) . 'Adapter';
+
+		if (class_exists($class))
+		{
+			$this->_adapters[$name] = new $class($this, $this->_db, $options);
+
+			return true;
+		}
+
+		$fullpath = $this->_basepath . '/' . $this->_adapterfolder . '/' . strtolower($name) . '.php';
+
+		if (!file_exists($fullpath))
+		{
+			return false;
+		}
+
+		// Try to load the adapter object
+		$class = $this->_classprefix . ucfirst($name);
+
+		JLoader::register($class, $fullpath);
+
+		if (!class_exists($class))
+		{
+			return false;
+		}
+
+		$this->_adapters[$name] = new $class($this, $this->_db, $options);
 
 		return true;
-	}
-
-	/**
-	 * Return an adapter.
-	 *
-	 * @param   string  $name     Name of adapter to return
-	 * @param   array   $options  Adapter options
-	 *
-	 * @return  object  Adapter of type 'name' or false
-	 *
-	 * @since   11.1
-	 */
-	public function getAdapter($name, $options = array())
-	{
-		if (!array_key_exists($name, $this->_adapters))
-		{
-			if (!$this->setAdapter($name, $options))
-			{
-				$false = false;
-
-				return $false;
-			}
-		}
-
-		return $this->_adapters[$name];
 	}
 
 	/**
@@ -157,7 +181,7 @@ class JAdapter extends JObject
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public function loadAllAdapters($options = array())
 	{

@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2013 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,16 +14,18 @@ use Joomla\Database\DatabaseDriver;
 /**
  * Database session storage handler for PHP
  *
- * @see    http://www.php.net/manual/en/function.session-set-save-handler.php
- * @since  1.0
- * @deprecated  The joomla/session package is deprecated
+ * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @since       1.0
+ * @deprecated  2.0  The Storage class chain will be removed
  */
 class Database extends Storage
 {
 	/**
 	 * The DatabaseDriver to use when querying.
 	 *
-	 * @var \Joomla\Database\DatabaseDriver
+	 * @var    DatabaseDriver
+	 * @since  1.0
+	 * @deprecated  2.0
 	 */
 	protected $db;
 
@@ -34,6 +36,7 @@ class Database extends Storage
 	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
+	 * @deprecated  2.0
 	 */
 	public function __construct($options = array())
 	{
@@ -58,6 +61,7 @@ class Database extends Storage
 	 * @return  string  The session data.
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0
 	 */
 	public function read($id)
 	{
@@ -66,8 +70,8 @@ class Database extends Storage
 			// Get the session data from the database table.
 			$query = $this->db->getQuery(true);
 			$query->select($this->db->quoteName('data'))
-			->from($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($id));
+				->from($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($id));
 
 			$this->db->setQuery($query);
 
@@ -88,6 +92,7 @@ class Database extends Storage
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0
 	 */
 	public function write($id, $data)
 	{
@@ -95,9 +100,9 @@ class Database extends Storage
 		{
 			$query = $this->db->getQuery(true);
 			$query->update($this->db->quoteName('#__session'))
-			->set($this->db->quoteName('data') . ' = ' . $this->db->quote($data))
-			->set($this->db->quoteName('time') . ' = ' . $this->db->quote((int) time()))
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($id));
+				->set($this->db->quoteName('data') . ' = ' . $this->db->quote($data))
+				->set($this->db->quoteName('time') . ' = ' . $this->db->quote((int) time()))
+				->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($id));
 
 			// Try to update the session data in the database table.
 			$this->db->setQuery($query);
@@ -126,6 +131,7 @@ class Database extends Storage
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0
 	 */
 	public function destroy($id)
 	{
@@ -133,7 +139,7 @@ class Database extends Storage
 		{
 			$query = $this->db->getQuery(true);
 			$query->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($id));
+				->where($this->db->quoteName('session_id') . ' = ' . $this->db->quote($id));
 
 			// Remove a session from the database.
 			$this->db->setQuery($query);
@@ -154,6 +160,7 @@ class Database extends Storage
 	 * @return  boolean  True on success, false otherwise.
 	 *
 	 * @since   1.0
+	 * @deprecated  2.0
 	 */
 	public function gc($lifetime = 1440)
 	{
@@ -164,7 +171,7 @@ class Database extends Storage
 		{
 			$query = $this->db->getQuery(true);
 			$query->delete($this->db->quoteName('#__session'))
-			->where($this->db->quoteName('time') . ' < ' . $this->db->quote((int) $past));
+				->where($this->db->quoteName('time') . ' < ' . $this->db->quote((int) $past));
 
 			// Remove expired sessions from the database.
 			$this->db->setQuery($query);

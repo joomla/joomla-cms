@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 use Joomla\Registry\Registry;
@@ -14,45 +14,52 @@ use Joomla\Registry\Registry;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Facebook
- * @since       13.1
+ * @since       3.2.0
  */
 class JFacebookAlbumTest extends TestCase
 {
 	/**
 	 * @var    Registry  Options for the Facebook object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JFacebookOauth  OAuth client for Facebook.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JFacebookAlbum  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $errorString = '{"error": {"message": "Generic Error."}}';
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -60,10 +67,11 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -79,7 +87,7 @@ class JFacebookAlbumTest extends TestCase
 		);
 
 		$this->options = new Registry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 		$this->input = new JInput;
 		$this->oauth = new JFacebookOauth($this->options, $this->client, $this->input);
 		$this->oauth->setToken($access_token);
@@ -96,11 +104,26 @@ class JFacebookAlbumTest extends TestCase
 	}
 
 	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->client, $this->input, $this->oauth, $this->object);
+		parent::tearDown();
+	}
+
+	/**
 	 * Tests the getAlbum method
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetAlbum()
 	{
@@ -128,7 +151,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetAlbumFailure()
@@ -154,7 +177,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetPhotos()
 	{
@@ -182,7 +205,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetPhotosFailure()
@@ -208,7 +231,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreatePhoto()
 	{
@@ -246,7 +269,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testCreatePhotoFailure()
@@ -282,7 +305,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetComments()
 	{
@@ -310,7 +333,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetCommentsFailure()
@@ -336,7 +359,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateComment()
 	{
@@ -369,7 +392,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testCreateCommentFailure()
@@ -400,7 +423,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDeleteComment()
 	{
@@ -428,7 +451,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteCommentFailure()
@@ -454,7 +477,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetLikes()
 	{
@@ -482,7 +505,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetLikesFailure()
@@ -508,7 +531,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testCreateLike()
 	{
@@ -536,7 +559,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testCreateLikeFailure()
@@ -562,7 +585,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testDeleteLike()
 	{
@@ -590,7 +613,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testDeleteLikeFailure()
@@ -616,7 +639,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testGetPicture()
 	{
@@ -644,7 +667,7 @@ class JFacebookAlbumTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 * @expectedException  RuntimeException
 	 */
 	public function testGetPictureFailure()

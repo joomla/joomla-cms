@@ -1,1 +1,2659 @@
-(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror"],a)}else{a(CodeMirror)}}})(function(a){a.defineOption("fullScreen",false,function(d,f,e){if(e==a.Init){e=false}if(!e==!f){return}if(f){b(d)}else{c(d)}});function b(d){var e=d.getWrapperElement();d.state.fullScreenRestore={scrollTop:window.pageYOffset,scrollLeft:window.pageXOffset,width:e.style.width,height:e.style.height};e.style.width="";e.style.height="auto";e.className+=" CodeMirror-fullscreen";document.documentElement.style.overflow="hidden";d.refresh()}function c(d){var e=d.getWrapperElement();e.className=e.className.replace(/\s*CodeMirror-fullscreen\b/,"");document.documentElement.style.overflow="";var f=d.state.fullScreenRestore;e.style.width=f.width;e.style.height=f.height;window.scrollTo(f.scrollLeft,f.scrollTop);d.refresh()}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror"],a)}else{a(CodeMirror)}}})(function(c){var h="()[]{}''\"\"";var g="[]{}";var i=/\s/;var f=c.Pos;c.defineOption("autoCloseBrackets",false,function(j,o,k){if(k!=c.Init&&k){j.removeKeyMap("autoCloseBrackets")}if(!o){return}var m=h,l=g;if(typeof o=="string"){m=o}else{if(typeof o=="object"){if(o.pairs!=null){m=o.pairs}if(o.explode!=null){l=o.explode}}}var n=b(m);if(l){n.Enter=a(l)}j.addKeyMap(n)});function d(j,l){var k=j.getRange(f(l.line,l.ch-1),f(l.line,l.ch+1));return k.length==2?k:null}function e(j,p,n){var k=j.getLine(p.line);var m=j.getTokenAt(p);if(/\bstring2?\b/.test(m.type)){return false}var o=new c.StringStream(k.slice(0,p.ch)+n+k.slice(p.ch),4);o.pos=o.start=m.start;for(;;){var l=j.getMode().token(o,m.state);if(o.pos>=p.ch+1){return/\bstring2?\b/.test(l)}o.start=o.pos}}function b(l){var m={name:"autoCloseBrackets",Backspace:function(n){if(n.getOption("disableInput")){return c.Pass}var o=n.listSelections();for(var p=0;p<o.length;p++){if(!o[p].empty()){return c.Pass}var q=d(n,o[p].head);if(!q||l.indexOf(q)%2!=0){return c.Pass}}for(var p=o.length-1;p>=0;p--){var r=o[p].head;n.replaceRange("",f(r.line,r.ch-1),f(r.line,r.ch+1))}}};var k="";for(var j=0;j<l.length;j+=2){(function(o,n){k+=n;m["'"+o+"'"]=function(p){if(p.getOption("disableInput")){return c.Pass}var q=p.listSelections(),v,u;for(var t=0;t<q.length;t++){var r=q[t],w=r.head,s;var u=p.getRange(w,f(w.line,w.ch+1));if(!r.empty()){s="surround"}else{if(o==n&&u==n){if(p.getRange(w,f(w.line,w.ch+3))==o+o+o){s="skipThree"}else{s="skip"}}else{if(o==n&&w.ch>1&&p.getRange(f(w.line,w.ch-2),w)==o+o&&(w.ch<=2||p.getRange(f(w.line,w.ch-3),f(w.line,w.ch-2))!=o)){s="addFour"}else{if(o=='"'||o=="'"){if(!c.isWordChar(u)&&e(p,w,o)){s="both"}else{return c.Pass}}else{if(p.getLine(w.line).length==w.ch||k.indexOf(u)>=0||i.test(u)){s="both"}else{return c.Pass}}}}}if(!v){v=s}else{if(v!=s){return c.Pass}}}p.operation(function(){if(v=="skip"){p.execCommand("goCharRight")}else{if(v=="skipThree"){for(var y=0;y<3;y++){p.execCommand("goCharRight")}}else{if(v=="surround"){var x=p.getSelections();for(var y=0;y<x.length;y++){x[y]=o+x[y]+n}p.replaceSelections(x,"around")}else{if(v=="both"){p.replaceSelection(o+n,null);p.execCommand("goCharLeft")}else{if(v=="addFour"){p.replaceSelection(o+o+o+o,"before");p.execCommand("goCharRight")}}}}}})};if(o!=n){m["'"+n+"'"]=function(p){var q=p.listSelections();for(var s=0;s<q.length;s++){var r=q[s];if(!r.empty()||p.getRange(r.head,f(r.head.line,r.head.ch+1))!=n){return c.Pass}}p.execCommand("goCharRight")}}})(l.charAt(j),l.charAt(j+1))}return m}function a(j){return function(k){if(k.getOption("disableInput")){return c.Pass}var l=k.listSelections();for(var m=0;m<l.length;m++){if(!l[m].empty()){return c.Pass}var n=d(k,l[m].head);if(!n||j.indexOf(n)%2!=0){return c.Pass}}k.operation(function(){k.replaceSelection("\n\n",null);k.execCommand("goCharLeft");l=k.listSelections();for(var p=0;p<l.length;p++){var o=l[p].head.line;k.indentLine(o,null,true);k.indentLine(o+1,null,true)}})}}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"),require("../fold/xml-fold"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror","../fold/xml-fold"],a)}else{a(CodeMirror)}}})(function(b){b.defineOption("autoCloseTags",false,function(h,k,i){if(i!=b.Init&&i){h.removeKeyMap("autoCloseTags")}if(!k){return}var j={name:"autoCloseTags"};if(typeof k!="object"||k.whenClosing){j["'/'"]=function(l){return e(l)}}if(typeof k!="object"||k.whenOpening){j["'>'"]=function(l){return a(l)}}h.addKeyMap(j)});var d=["area","base","br","col","command","embed","hr","img","input","keygen","link","meta","param","source","track","wbr"];var c=["applet","blockquote","body","button","div","dl","fieldset","form","frameset","h1","h2","h3","h4","h5","h6","head","html","iframe","layer","legend","object","ol","p","select","table","ul"];function a(w){if(w.getOption("disableInput")){return b.Pass}var j=w.listSelections(),q=[];for(var r=0;r<j.length;r++){if(!j[r].empty()){return b.Pass}var v=j[r].head,x=w.getTokenAt(v);var y=b.innerMode(w.getMode(),x.state),h=y.state;if(y.mode.name!="xml"||!h.tagName){return b.Pass}var k=w.getOption("autoCloseTags"),s=y.mode.configuration=="html";var m=(typeof k=="object"&&k.dontCloseTags)||(s&&d);var u=(typeof k=="object"&&k.indentTags)||(s&&c);var p=h.tagName;if(x.end>v.ch){p=p.slice(0,p.length-x.end+v.ch)}var t=p.toLowerCase();if(!p||x.type=="string"&&(x.end!=v.ch||!/[\"\']/.test(x.string.charAt(x.string.length-1))||x.string.length==1)||x.type=="tag"&&h.type=="closeTag"||x.string.indexOf("/")==(x.string.length-1)||m&&g(m,t)>-1||f(w,p,v,h,true)){return b.Pass}var o=u&&g(u,t)>-1;q[r]={indent:o,text:">"+(o?"\n\n":"")+"</"+p+">",newPos:o?b.Pos(v.line+1,0):b.Pos(v.line,v.ch+1)}}for(var r=j.length-1;r>=0;r--){var n=q[r];w.replaceRange(n.text,j[r].head,j[r].anchor,"+insert");var l=w.listSelections().slice(0);l[r]={head:n.newPos,anchor:n.newPos};w.setSelections(l);if(n.indent){w.indentLine(n.newPos.line,null,true);w.indentLine(n.newPos.line+1,null,true)}}}function e(h){if(h.getOption("disableInput")){return b.Pass}var j=h.listSelections(),n=[];for(var m=0;m<j.length;m++){if(!j[m].empty()){return b.Pass}var p=j[m].head,l=h.getTokenAt(p);var k=b.innerMode(h.getMode(),l.state),o=k.state;if(l.type=="string"||l.string.charAt(0)!="<"||l.start!=p.ch-1){return b.Pass}if(k.mode.name!="xml"){if(h.getMode().name=="htmlmixed"&&k.mode.name=="javascript"){n[m]="/script>"}else{if(h.getMode().name=="htmlmixed"&&k.mode.name=="css"){n[m]="/style>"}else{return b.Pass}}}else{if(!o.context||!o.context.tagName||f(h,o.context.tagName,p,o)){return b.Pass}n[m]="/"+o.context.tagName+">"}}h.replaceSelections(n);j=h.listSelections();for(var m=0;m<j.length;m++){if(m==j.length-1||j[m].head.line<j[m+1].head.line){h.indentLine(j[m].head.line)}}}function g(l,h){if(l.indexOf){return l.indexOf(h)}for(var j=0,k=l.length;j<k;++j){if(l[j]==h){return j}}return -1}function f(q,j,p,h,s){if(!b.scanForClosingTag){return false}var k=Math.min(q.lastLine()+1,p.line+500);var r=b.scanForClosingTag(q,p,null,k);if(!r||r.tag!=j){return false}var l=h.context;for(var n=s?1:0;l&&l.tagName==j;l=l.prev){++n}p=r.to;for(var m=1;m<n;m++){var o=b.scanForClosingTag(q,p,null,k);if(!o||o.tag!=j){return false}p=o.to}return true}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror"],a)}else{a(CodeMirror)}}})(function(e){var d=/MSIE \d/.test(navigator.userAgent)&&(document.documentMode==null||document.documentMode<8);var i=e.Pos;var a={"(":")>",")":"(<","[":"]>","]":"[<","{":"}>","}":"{<"};function f(q,m,p,k){var s=q.getLineHandle(m.line),o=m.ch-1;var n=(o>=0&&a[s.text.charAt(o)])||a[s.text.charAt(++o)];if(!n){return null}var l=n.charAt(1)==">"?1:-1;if(p&&(l>0)!=(o==m.ch)){return null}var j=q.getTokenTypeAt(i(m.line,o+1));var r=g(q,i(m.line,o+(l>0?1:0)),l,j||null,k);if(r==null){return null}return{from:i(m.line,o),to:r&&r.pos,match:r&&r.ch==n.charAt(0),forward:l>0}}function g(w,r,n,k,m){var l=(m&&m.maxScanLineLength)||10000;var t=(m&&m.maxScanLines)||1000;var v=[];var x=m&&m.bracketRegex?m.bracketRegex:/[(){}[\]]/;var q=n>0?Math.min(r.line+t,w.lastLine()+1):Math.max(w.firstLine()-1,r.line-t);for(var o=r.line;o!=q;o+=n){var y=w.getLine(o);if(!y){continue}var u=n>0?0:y.length-1,p=n>0?y.length:-1;if(y.length>l){continue}if(o==r.line){u=r.ch-(n<0?1:0)}for(;u!=p;u+=n){var j=y.charAt(u);if(x.test(j)&&(k===undefined||w.getTokenTypeAt(i(o,u+1))==k)){var s=a[j];if((s.charAt(1)==">")==(n>0)){v.push(j)}else{if(!v.length){return{pos:i(o,u),ch:j}}else{v.pop()}}}}}return o-n==(n>0?w.lastLine():w.firstLine())?false:null}function b(s,n,m){var k=s.state.matchBrackets.maxHighlightLineLength||1000;var r=[],l=s.listSelections();for(var o=0;o<l.length;o++){var q=l[o].empty()&&f(s,l[o].head,false,m);if(q&&s.getLine(q.from.line).length<=k){var j=q.match?"CodeMirror-matchingbracket":"CodeMirror-nonmatchingbracket";r.push(s.markText(q.from,i(q.from.line,q.from.ch+1),{className:j}));if(q.to&&s.getLine(q.to.line).length<=k){r.push(s.markText(q.to,i(q.to.line,q.to.ch+1),{className:j}))}}}if(r.length){if(d&&s.state.focused){s.display.input.focus()}var p=function(){s.operation(function(){for(var t=0;t<r.length;t++){r[t].clear()}})};if(n){setTimeout(p,800)}else{return p}}}var c=null;function h(j){j.operation(function(){if(c){c();c=null}c=b(j,false,j.state.matchBrackets)})}e.defineOption("matchBrackets",false,function(j,l,k){if(k&&k!=e.Init){j.off("cursorActivity",h)}if(l){j.state.matchBrackets=typeof l=="object"?l:{};j.on("cursorActivity",h)}});e.defineExtension("matchBrackets",function(){b(this,true)});e.defineExtension("findMatchingBracket",function(l,j,k){return f(this,l,j,k)});e.defineExtension("scanForBracket",function(m,k,l,j){return g(this,m,k,l,j)})});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"),require("../fold/xml-fold"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror","../fold/xml-fold"],a)}else{a(CodeMirror)}}})(function(c){c.defineOption("matchTags",false,function(e,g,f){if(f&&f!=c.Init){e.off("cursorActivity",b);e.off("viewportChange",d);a(e)}if(g){e.state.matchBothTags=typeof g=="object"&&g.bothTags;e.on("cursorActivity",b);e.on("viewportChange",d);b(e)}});function a(e){if(e.state.tagHit){e.state.tagHit.clear()}if(e.state.tagOther){e.state.tagOther.clear()}e.state.tagHit=e.state.tagOther=null}function b(e){e.state.failedTagMatch=false;e.operation(function(){a(e);if(e.somethingSelected()){return}var j=e.getCursor(),g=e.getViewport();g.from=Math.min(g.from,j.line);g.to=Math.max(j.line+1,g.to);var h=c.findMatchingTag(e,j,g);if(!h){return}if(e.state.matchBothTags){var i=h.at=="open"?h.open:h.close;if(i){e.state.tagHit=e.markText(i.from,i.to,{className:"CodeMirror-matchingtag"})}}var f=h.at=="close"?h.open:h.close;if(f){e.state.tagOther=e.markText(f.from,f.to,{className:"CodeMirror-matchingtag"})}else{e.state.failedTagMatch=true}})}function d(e){if(e.state.failedTagMatch){b(e)}}c.commands.toMatchingTag=function(f){var g=c.findMatchingTag(f,f.getCursor());if(g){var e=g.at=="close"?g.open:g.close;if(e){f.extendSelection(e.to,e.from)}}}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror"],a)}else{a(CodeMirror)}}})(function(a){a.registerHelper("fold","brace",function(m,h){var o=h.line,g=m.getLine(o);var n,t;function d(u){for(var i=h.ch,v=0;;){var w=i<=0?-1:g.lastIndexOf(u,i-1);if(w==-1){if(v==1){break}v=1;i=g.length;continue}if(v==1&&w<h.ch){break}t=m.getTokenTypeAt(a.Pos(o,w+1));if(!/^(comment|string)/.test(t)){return w+1}i=w-1}}var j="{",e="}",n=d("{");if(n==null){j="[",e="]";n=d("[")}if(n==null){return}var l=1,c=m.lastLine(),f,q;outer:for(var s=o;s<=c;++s){var p=m.getLine(s),k=s==o?n:0;for(;;){var b=p.indexOf(j,k),r=p.indexOf(e,k);if(b<0){b=p.length}if(r<0){r=p.length}k=Math.min(b,r);if(k==p.length){break}if(m.getTokenTypeAt(a.Pos(s,k+1))==t){if(k==b){++l}else{if(!--l){f=s;q=k;break outer}}}++k}}if(f==null||o==f&&q==n){return}return{from:a.Pos(o,n),to:a.Pos(f,q)}});a.registerHelper("fold","import",function(b,h){function g(k){if(k<b.firstLine()||k>b.lastLine()){return null}var o=b.getTokenAt(a.Pos(k,1));if(!/\S/.test(o.string)){o=b.getTokenAt(a.Pos(k,o.end+1))}if(o.type!="keyword"||o.string!="import"){return null}for(var l=k,m=Math.min(b.lastLine(),k+10);l<=m;++l){var n=b.getLine(l),j=n.indexOf(";");if(j!=-1){return{startCh:o.end,end:a.Pos(l,j)}}}}var h=h.line,d=g(h),f;if(!d||g(h-1)||((f=g(h-2))&&f.end.line==h-1)){return null}for(var c=d.end;;){var e=g(c.line+1);if(e==null){break}c=e.end}return{from:b.clipPos(a.Pos(h,d.startCh+1)),to:c}});a.registerHelper("fold","include",function(b,g){function f(h){if(h<b.firstLine()||h>b.lastLine()){return null}var i=b.getTokenAt(a.Pos(h,1));if(!/\S/.test(i.string)){i=b.getTokenAt(a.Pos(h,i.end+1))}if(i.type=="meta"&&i.string.slice(0,8)=="#include"){return i.start+8}}var g=g.line,d=f(g);if(d==null||f(g-1)!=null){return null}for(var c=g;;){var e=f(c+1);if(e==null){break}++c}return{from:a.Pos(g,d+1),to:b.clipPos(a.Pos(c))}})});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror"],a)}else{a(CodeMirror)}}})(function(b){function d(n,m,o,i){if(o&&o.call){var g=o;o=null}else{var g=c(n,o,"rangeFinder")}if(typeof m=="number"){m=b.Pos(m,0)}var h=c(n,o,"minFoldSize");function f(p){var q=g(n,m);if(!q||q.to.line-q.from.line<h){return null}var s=n.findMarksAt(q.from);for(var r=0;r<s.length;++r){if(s[r].__isFold&&i!=="fold"){if(!p){return null}q.cleared=true;s[r].clear()}}return q}var k=f(true);if(c(n,o,"scanUp")){while(!k&&m.line>n.firstLine()){m=b.Pos(m.line-1,0);k=f(false)}}if(!k||k.cleared||i==="unfold"){return}var l=e(n,o);b.on(l,"mousedown",function(p){j.clear();b.e_preventDefault(p)});var j=n.markText(k.from,k.to,{replacedWith:l,clearOnEnter:true,__isFold:true});j.on("clear",function(q,p){b.signal(n,"unfold",n,q,p)});b.signal(n,"fold",n,k.from,k.to)}function e(f,g){var h=c(f,g,"widget");if(typeof h=="string"){var i=document.createTextNode(h);h=document.createElement("span");h.appendChild(i);h.className="CodeMirror-foldmarker"}return h}b.newFoldFunction=function(g,f){return function(h,i){d(h,i,{rangeFinder:g,widget:f})}};b.defineExtension("foldCode",function(h,f,g){d(this,h,f,g)});b.defineExtension("isFolded",function(h){var g=this.findMarksAt(h);for(var f=0;f<g.length;++f){if(g[f].__isFold){return true}}});b.commands.toggleFold=function(f){f.foldCode(f.getCursor())};b.commands.fold=function(f){f.foldCode(f.getCursor(),null,"fold")};b.commands.unfold=function(f){f.foldCode(f.getCursor(),null,"unfold")};b.commands.foldAll=function(f){f.operation(function(){for(var g=f.firstLine(),h=f.lastLine();g<=h;g++){f.foldCode(b.Pos(g,0),null,"fold")}})};b.commands.unfoldAll=function(f){f.operation(function(){for(var g=f.firstLine(),h=f.lastLine();g<=h;g++){f.foldCode(b.Pos(g,0),null,"unfold")}})};b.registerHelper("fold","combine",function(){var f=Array.prototype.slice.call(arguments,0);return function(g,k){for(var h=0;h<f.length;++h){var j=f[h](g,k);if(j){return j}}}});b.registerHelper("fold","auto",function(f,k){var h=f.getHelpers(k,"fold");for(var g=0;g<h.length;g++){var j=h[g](f,k);if(j){return j}}});var a={rangeFinder:b.fold.auto,widget:"\u2194",minFoldSize:0,scanUp:false};b.defineOption("foldOptions",null);function c(f,h,g){if(h&&h[g]!==undefined){return h[g]}var i=f.options.foldOptions;if(i&&i[g]!==undefined){return i[g]}return a[g]}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"),require("./foldcode"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror","./foldcode"],a)}else{a(CodeMirror)}}})(function(d){d.defineOption("foldGutter",false,function(m,o,n){if(n&&n!=d.Init){m.clearGutter(m.state.foldGutter.options.gutter);m.state.foldGutter=null;m.off("gutterClick",k);m.off("change",g);m.off("viewportChange",l);m.off("fold",e);m.off("unfold",e);m.off("swapDoc",b)}if(o){m.state.foldGutter=new j(i(o));b(m);m.on("gutterClick",k);m.on("change",g);m.on("viewportChange",l);m.on("fold",e);m.on("unfold",e);m.on("swapDoc",b)}});var h=d.Pos;function j(m){this.options=m;this.from=this.to=0}function i(m){if(m===true){m={}}if(m.gutter==null){m.gutter="CodeMirror-foldgutter"}if(m.indicatorOpen==null){m.indicatorOpen="CodeMirror-foldgutter-open"}if(m.indicatorFolded==null){m.indicatorFolded="CodeMirror-foldgutter-folded"}return m}function c(m,n){var p=m.findMarksAt(h(n));for(var o=0;o<p.length;++o){if(p[o].__isFold&&p[o].find().from.line==n){return true}}}function f(m){if(typeof m=="string"){var n=document.createElement("div");n.className=m+" CodeMirror-guttermarker-subtle";return n}else{return m.cloneNode(true)}}function a(m,q,p){var n=m.state.foldGutter.options,o=q;m.eachLine(q,p,function(r){var v=null;if(c(m,o)){v=f(n.indicatorFolded)}else{var u=h(o,0),t=n.rangeFinder||d.fold.auto;var s=t&&t(m,u);if(s&&s.from.line+1<s.to.line){v=f(n.indicatorOpen)}}m.setGutterMarker(r,n.gutter,v);++o})}function b(m){var n=m.getViewport(),o=m.state.foldGutter;if(!o){return}m.operation(function(){a(m,n.from,n.to)});o.from=n.from;o.to=n.to}function k(m,n,p){var o=m.state.foldGutter.options;if(p!=o.gutter){return}m.foldCode(h(n,0),o.rangeFinder)}function g(m){var o=m.state.foldGutter,n=m.state.foldGutter.options;o.from=o.to=0;clearTimeout(o.changeUpdate);o.changeUpdate=setTimeout(function(){b(m)},n.foldOnChangeTimeSpan||600)}function l(m){var o=m.state.foldGutter,n=m.state.foldGutter.options;clearTimeout(o.changeUpdate);o.changeUpdate=setTimeout(function(){var p=m.getViewport();if(o.from==o.to||p.from-o.to>20||o.from-p.to>20){b(m)}else{m.operation(function(){if(p.from<o.from){a(m,p.from,o.from);o.from=p.from}if(p.to>o.to){a(m,o.to,p.to);o.to=p.to}})}},n.updateViewportTimeSpan||400)}function e(m,p){var o=m.state.foldGutter,n=p.line;if(n>=o.from&&n<o.to){a(m,n,n+1)}}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror"],a)}else{a(CodeMirror)}}})(function(i){var m=i.Pos;function l(r,q){return r.line-q.line||r.ch-q.ch}var j="A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";var o=j+"-:.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040";var d=new RegExp("<(/?)(["+j+"]["+o+"]*)","g");function b(q,r,t,s){this.line=r;this.ch=t;this.cm=q;this.text=q.getLine(r);this.min=s?s.from:q.firstLine();this.max=s?s.to-1:q.lastLine()}function h(q,s){var r=q.cm.getTokenTypeAt(m(q.line,s));return r&&/\btag\b/.test(r)}function a(q){if(q.line>=q.max){return}q.ch=0;q.text=q.cm.getLine(++q.line);return true}function n(q){if(q.line<=q.min){return}q.text=q.cm.getLine(--q.line);q.ch=q.text.length;return true}function g(s){for(;;){var r=s.text.indexOf(">",s.ch);if(r==-1){if(a(s)){continue}else{return}}if(!h(s,r+1)){s.ch=r+1;continue}var q=s.text.lastIndexOf("/",r);var t=q>-1&&!/\S/.test(s.text.slice(q+1,r));s.ch=r+1;return t?"selfClose":"regular"}}function k(r){for(;;){var q=r.ch?r.text.lastIndexOf("<",r.ch-1):-1;if(q==-1){if(n(r)){continue}else{return}}if(!h(r,q+1)){r.ch=q;continue}d.lastIndex=q;r.ch=q;var s=d.exec(r.text);if(s&&s.index==q){return s}}}function p(q){for(;;){d.lastIndex=q.ch;var r=d.exec(q.text);if(!r){if(a(q)){continue}else{return}}if(!h(q,r.index+1)){q.ch=r.index+1;continue}q.ch=r.index+r[0].length;return r}}function e(s){for(;;){var r=s.ch?s.text.lastIndexOf(">",s.ch-1):-1;if(r==-1){if(n(s)){continue}else{return}}if(!h(s,r+1)){s.ch=r;continue}var q=s.text.lastIndexOf("/",r);var t=q>-1&&!/\S/.test(s.text.slice(q+1,r));s.ch=r+1;return t?"selfClose":"regular"}}function f(t,r){var q=[];for(;;){var v=p(t),s,x=t.line,w=t.ch-(v?v[0].length:0);if(!v||!(s=g(t))){return}if(s=="selfClose"){continue}if(v[1]){for(var u=q.length-1;u>=0;--u){if(q[u]==v[2]){q.length=u;break}}if(u<0&&(!r||r==v[2])){return{tag:v[2],from:m(x,w),to:m(t.line,t.ch)}}}else{q.push(v[2])}}}function c(s,r){var q=[];for(;;){var w=e(s);if(!w){return}if(w=="selfClose"){k(s);continue}var v=s.line,u=s.ch;var x=k(s);if(!x){return}if(x[1]){q.push(x[2])}else{for(var t=q.length-1;t>=0;--t){if(q[t]==x[2]){q.length=t;break}}if(t<0&&(!r||r==x[2])){return{tag:x[2],from:m(s.line,s.ch),to:m(v,u)}}}}}i.registerHelper("fold","xml",function(q,v){var s=new b(q,v.line,0);for(;;){var t=p(s),r;if(!t||s.line!=v.line||!(r=g(s))){return}if(!t[1]&&r!="selfClose"){var v=m(s.line,s.ch);var u=f(s,t[2]);return u&&{from:v,to:u.from}}}});i.findMatchingTag=function(q,x,t){var s=new b(q,x.line,x.ch,t);if(s.text.indexOf(">")==-1&&s.text.indexOf("<")==-1){return}var r=g(s),w=r&&m(s.line,s.ch);var v=r&&k(s);if(!r||!v||l(s,x)>0){return}var u={from:m(s.line,s.ch),to:w,tag:v[2]};if(r=="selfClose"){return{open:u,close:null,at:"open"}}if(v[1]){return{open:c(s,v[2]),close:u,at:"close"}}else{s=new b(q,w.line,w.ch,t);return{open:u,close:f(s,v[2]),at:"open"}}};i.findEnclosingTag=function(q,w,s){var r=new b(q,w.line,w.ch,s);for(;;){var u=c(r);if(!u){break}var t=new b(q,w.line,w.ch,s);var v=f(t,u.tag);if(v){return{open:u,close:v}}}};i.scanForClosingTag=function(q,u,t,s){var r=new b(q,u.line,u.ch,s?{from:0,to:s}:null);return f(r,t)}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"),"cjs")}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror"],function(b){a(b,"amd")})}else{a(CodeMirror,"plain")}}})(function(a,c){if(!a.modeURL){a.modeURL="../mode/%N/%N.js"}var e={};function d(f,h){var g=h;return function(){if(--g==0){f()}}}function b(l,f){var k=a.modes[l].dependencies;if(!k){return f()}var j=[];for(var h=0;h<k.length;++h){if(!a.modes.hasOwnProperty(k[h])){j.push(k[h])}}if(!j.length){return f()}var g=d(f,j.length);for(var h=0;h<j.length;++h){a.requireMode(j[h],g)}}a.requireMode=function(k,f){if(typeof k!="string"){k=k.name}if(a.modes.hasOwnProperty(k)){return b(k,f)}if(e.hasOwnProperty(k)){return e[k].push(f)}var h=a.modeURL.replace(/%N/g,k);if(c=="plain"){var g=document.createElement("script");g.src=h;var i=document.getElementsByTagName("script")[0];var j=e[k]=[f];a.on(g,"load",function(){b(k,function(){for(var l=0;l<j.length;++l){j[l]()}})});i.parentNode.insertBefore(g,i)}else{if(c=="cjs"){require(h);f()}else{if(c=="amd"){requirejs([h],f)}}}};a.autoLoadMode=function(f,g){if(!a.modes.hasOwnProperty(g)){a.requireMode(g,function(){f.setOption("mode",f.getOption("mode"))})}}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror"],a)}else{a(CodeMirror)}}})(function(a){a.multiplexingMode=function(c){var e=Array.prototype.slice.call(arguments,1);var b=e.length;function d(g,h,i){if(typeof h=="string"){return g.indexOf(h,i)}var f=h.exec(i?g.slice(i):g);return f?f.index+i:-1}return{startState:function(){return{outer:a.startState(c),innerActive:null,inner:null}},copyState:function(f){return{outer:a.copyState(c,f.outer),innerActive:f.innerActive,inner:f.innerActive&&a.copyState(f.innerActive.mode,f.inner)}},token:function(o,f){if(!f.innerActive){var h=Infinity,m=o.string;for(var j=0;j<b;++j){var l=e[j];var p=d(m,l.open,o.pos);if(p==o.pos){o.match(l.open);f.innerActive=l;f.inner=a.startState(l.mode,c.indent?c.indent(f.outer,""):0);return l.delimStyle}else{if(p!=-1&&p<h){h=p}}}if(h!=Infinity){o.string=m.slice(0,h)}var g=c.token(o,f.outer);if(h!=Infinity){o.string=m}return g}else{var k=f.innerActive,m=o.string;if(!k.close&&o.sol()){f.innerActive=f.inner=null;return this.token(o,f)}var p=k.close?d(m,k.close,o.pos):-1;if(p==o.pos){o.match(k.close);f.innerActive=f.inner=null;return k.delimStyle}if(p>-1){o.string=m.slice(0,p)}var n=k.mode.token(o,f.inner);if(p>-1){o.string=m}if(k.innerStyle){if(n){n=n+" "+k.innerStyle}else{n=k.innerStyle}}return n}},indent:function(g,f){var h=g.innerActive?g.innerActive.mode:c;if(!h.indent){return a.Pass}return h.indent(g.innerActive?g.inner:g.outer,f)},blankLine:function(h){var j=h.innerActive?h.innerActive.mode:c;if(j.blankLine){j.blankLine(h.innerActive?h.inner:h.outer)}if(!h.innerActive){for(var g=0;g<b;++g){var f=e[g];if(f.open==="\n"){h.innerActive=f;h.inner=a.startState(f.mode,j.indent?j.indent(h.outer,""):0)}}}else{if(h.innerActive.close==="\n"){h.innerActive=h.inner=null}}},electricChars:c.electricChars,innerMode:function(f){return f.inner?{state:f.inner,mode:f.innerActive.mode}:{state:f.outer,mode:c}}}}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../../lib/codemirror"))}else{if(typeof define=="function"&&define.amd){define(["../../lib/codemirror"],a)}else{a(CodeMirror)}}})(function(c){var g="CodeMirror-activeline";var f="CodeMirror-activeline-background";c.defineOption("styleActiveLine",false,function(h,k,i){var j=i&&i!=c.Init;if(k&&!j){h.state.activeLines=[];e(h,h.listSelections());h.on("beforeSelectionChange",b)}else{if(!k&&j){h.off("beforeSelectionChange",b);d(h);delete h.state.activeLines}}});function d(h){for(var j=0;j<h.state.activeLines.length;j++){h.removeLineClass(h.state.activeLines[j],"wrap",g);h.removeLineClass(h.state.activeLines[j],"background",f)}}function a(j,h){if(j.length!=h.length){return false}for(var k=0;k<j.length;k++){if(j[k]!=h[k]){return false}}return true}function e(h,k){var n=[];for(var m=0;m<k.length;m++){var l=k[m];if(!l.empty()){continue}var j=h.getLineHandleVisualStart(l.head.line);if(n[n.length-1]!=j){n.push(j)}}if(a(h.state.activeLines,n)){return}h.operation(function(){d(h);for(var o=0;o<n.length;o++){h.addLineClass(n[o],"wrap",g);h.addLineClass(n[o],"background",f)}h.state.activeLines=n})}function b(h,i){e(h,i.ranges)}});(function(a){if(typeof exports=="object"&&typeof module=="object"){a(require("../lib/codemirror"),require("../addon/search/searchcursor"),require("../addon/dialog/dialog"),require("../addon/edit/matchbrackets.js"))}else{if(typeof define=="function"&&define.amd){define(["../lib/codemirror","../addon/search/searchcursor","../addon/dialog/dialog","../addon/edit/matchbrackets"],a)}else{a(CodeMirror)}}})(function(b){var a=[{keys:"<Left>",type:"keyToKey",toKeys:"h"},{keys:"<Right>",type:"keyToKey",toKeys:"l"},{keys:"<Up>",type:"keyToKey",toKeys:"k"},{keys:"<Down>",type:"keyToKey",toKeys:"j"},{keys:"<Space>",type:"keyToKey",toKeys:"l"},{keys:"<BS>",type:"keyToKey",toKeys:"h"},{keys:"<C-Space>",type:"keyToKey",toKeys:"W"},{keys:"<C-BS>",type:"keyToKey",toKeys:"B"},{keys:"<S-Space>",type:"keyToKey",toKeys:"w"},{keys:"<S-BS>",type:"keyToKey",toKeys:"b"},{keys:"<C-n>",type:"keyToKey",toKeys:"j"},{keys:"<C-p>",type:"keyToKey",toKeys:"k"},{keys:"<C-[>",type:"keyToKey",toKeys:"<Esc>"},{keys:"<C-c>",type:"keyToKey",toKeys:"<Esc>"},{keys:"<C-[>",type:"keyToKey",toKeys:"<Esc>",context:"insert"},{keys:"<C-c>",type:"keyToKey",toKeys:"<Esc>",context:"insert"},{keys:"s",type:"keyToKey",toKeys:"cl",context:"normal"},{keys:"s",type:"keyToKey",toKeys:"xi",context:"visual"},{keys:"S",type:"keyToKey",toKeys:"cc",context:"normal"},{keys:"S",type:"keyToKey",toKeys:"dcc",context:"visual"},{keys:"<Home>",type:"keyToKey",toKeys:"0"},{keys:"<End>",type:"keyToKey",toKeys:"$"},{keys:"<PageUp>",type:"keyToKey",toKeys:"<C-b>"},{keys:"<PageDown>",type:"keyToKey",toKeys:"<C-f>"},{keys:"<CR>",type:"keyToKey",toKeys:"j^",context:"normal"},{keys:"H",type:"motion",motion:"moveToTopLine",motionArgs:{linewise:true,toJumplist:true}},{keys:"M",type:"motion",motion:"moveToMiddleLine",motionArgs:{linewise:true,toJumplist:true}},{keys:"L",type:"motion",motion:"moveToBottomLine",motionArgs:{linewise:true,toJumplist:true}},{keys:"h",type:"motion",motion:"moveByCharacters",motionArgs:{forward:false}},{keys:"l",type:"motion",motion:"moveByCharacters",motionArgs:{forward:true}},{keys:"j",type:"motion",motion:"moveByLines",motionArgs:{forward:true,linewise:true}},{keys:"k",type:"motion",motion:"moveByLines",motionArgs:{forward:false,linewise:true}},{keys:"gj",type:"motion",motion:"moveByDisplayLines",motionArgs:{forward:true}},{keys:"gk",type:"motion",motion:"moveByDisplayLines",motionArgs:{forward:false}},{keys:"w",type:"motion",motion:"moveByWords",motionArgs:{forward:true,wordEnd:false}},{keys:"W",type:"motion",motion:"moveByWords",motionArgs:{forward:true,wordEnd:false,bigWord:true}},{keys:"e",type:"motion",motion:"moveByWords",motionArgs:{forward:true,wordEnd:true,inclusive:true}},{keys:"E",type:"motion",motion:"moveByWords",motionArgs:{forward:true,wordEnd:true,bigWord:true,inclusive:true}},{keys:"b",type:"motion",motion:"moveByWords",motionArgs:{forward:false,wordEnd:false}},{keys:"B",type:"motion",motion:"moveByWords",motionArgs:{forward:false,wordEnd:false,bigWord:true}},{keys:"ge",type:"motion",motion:"moveByWords",motionArgs:{forward:false,wordEnd:true,inclusive:true}},{keys:"gE",type:"motion",motion:"moveByWords",motionArgs:{forward:false,wordEnd:true,bigWord:true,inclusive:true}},{keys:"{",type:"motion",motion:"moveByParagraph",motionArgs:{forward:false,toJumplist:true}},{keys:"}",type:"motion",motion:"moveByParagraph",motionArgs:{forward:true,toJumplist:true}},{keys:"<C-f>",type:"motion",motion:"moveByPage",motionArgs:{forward:true}},{keys:"<C-b>",type:"motion",motion:"moveByPage",motionArgs:{forward:false}},{keys:"<C-d>",type:"motion",motion:"moveByScroll",motionArgs:{forward:true,explicitRepeat:true}},{keys:"<C-u>",type:"motion",motion:"moveByScroll",motionArgs:{forward:false,explicitRepeat:true}},{keys:"gg",type:"motion",motion:"moveToLineOrEdgeOfDocument",motionArgs:{forward:false,explicitRepeat:true,linewise:true,toJumplist:true}},{keys:"G",type:"motion",motion:"moveToLineOrEdgeOfDocument",motionArgs:{forward:true,explicitRepeat:true,linewise:true,toJumplist:true}},{keys:"0",type:"motion",motion:"moveToStartOfLine"},{keys:"^",type:"motion",motion:"moveToFirstNonWhiteSpaceCharacter"},{keys:"+",type:"motion",motion:"moveByLines",motionArgs:{forward:true,toFirstChar:true}},{keys:"-",type:"motion",motion:"moveByLines",motionArgs:{forward:false,toFirstChar:true}},{keys:"_",type:"motion",motion:"moveByLines",motionArgs:{forward:true,toFirstChar:true,repeatOffset:-1}},{keys:"$",type:"motion",motion:"moveToEol",motionArgs:{inclusive:true}},{keys:"%",type:"motion",motion:"moveToMatchedSymbol",motionArgs:{inclusive:true,toJumplist:true}},{keys:"f<character>",type:"motion",motion:"moveToCharacter",motionArgs:{forward:true,inclusive:true}},{keys:"F<character>",type:"motion",motion:"moveToCharacter",motionArgs:{forward:false}},{keys:"t<character>",type:"motion",motion:"moveTillCharacter",motionArgs:{forward:true,inclusive:true}},{keys:"T<character>",type:"motion",motion:"moveTillCharacter",motionArgs:{forward:false}},{keys:";",type:"motion",motion:"repeatLastCharacterSearch",motionArgs:{forward:true}},{keys:",",type:"motion",motion:"repeatLastCharacterSearch",motionArgs:{forward:false}},{keys:"'<character>",type:"motion",motion:"goToMark",motionArgs:{toJumplist:true,linewise:true}},{keys:"`<character>",type:"motion",motion:"goToMark",motionArgs:{toJumplist:true}},{keys:"]`",type:"motion",motion:"jumpToMark",motionArgs:{forward:true}},{keys:"[`",type:"motion",motion:"jumpToMark",motionArgs:{forward:false}},{keys:"]'",type:"motion",motion:"jumpToMark",motionArgs:{forward:true,linewise:true}},{keys:"['",type:"motion",motion:"jumpToMark",motionArgs:{forward:false,linewise:true}},{keys:"]p",type:"action",action:"paste",isEdit:true,actionArgs:{after:true,isEdit:true,matchIndent:true}},{keys:"[p",type:"action",action:"paste",isEdit:true,actionArgs:{after:false,isEdit:true,matchIndent:true}},{keys:"]<character>",type:"motion",motion:"moveToSymbol",motionArgs:{forward:true,toJumplist:true}},{keys:"[<character>",type:"motion",motion:"moveToSymbol",motionArgs:{forward:false,toJumplist:true}},{keys:"|",type:"motion",motion:"moveToColumn"},{keys:"o",type:"motion",motion:"moveToOtherHighlightedEnd",context:"visual"},{keys:"O",type:"motion",motion:"moveToOtherHighlightedEnd",motionArgs:{sameLine:true},context:"visual"},{keys:"d",type:"operator",operator:"delete"},{keys:"y",type:"operator",operator:"yank"},{keys:"c",type:"operator",operator:"change"},{keys:">",type:"operator",operator:"indent",operatorArgs:{indentRight:true}},{keys:"<",type:"operator",operator:"indent",operatorArgs:{indentRight:false}},{keys:"g~",type:"operator",operator:"changeCase"},{keys:"gu",type:"operator",operator:"changeCase",operatorArgs:{toLower:true},isEdit:true},{keys:"gU",type:"operator",operator:"changeCase",operatorArgs:{toLower:false},isEdit:true},{keys:"n",type:"motion",motion:"findNext",motionArgs:{forward:true,toJumplist:true}},{keys:"N",type:"motion",motion:"findNext",motionArgs:{forward:false,toJumplist:true}},{keys:"x",type:"operatorMotion",operator:"delete",motion:"moveByCharacters",motionArgs:{forward:true},operatorMotionArgs:{visualLine:false}},{keys:"X",type:"operatorMotion",operator:"delete",motion:"moveByCharacters",motionArgs:{forward:false},operatorMotionArgs:{visualLine:true}},{keys:"D",type:"operatorMotion",operator:"delete",motion:"moveToEol",motionArgs:{inclusive:true},context:"normal"},{keys:"D",type:"operator",operator:"delete",operatorArgs:{linewise:true},context:"visual"},{keys:"Y",type:"operatorMotion",operator:"yank",motion:"moveToEol",motionArgs:{inclusive:true},context:"normal"},{keys:"Y",type:"operator",operator:"yank",operatorArgs:{linewise:true},context:"visual"},{keys:"C",type:"operatorMotion",operator:"change",motion:"moveToEol",motionArgs:{inclusive:true},context:"normal"},{keys:"C",type:"operator",operator:"change",operatorArgs:{linewise:true},context:"visual"},{keys:"~",type:"operatorMotion",operator:"changeCase",motion:"moveByCharacters",motionArgs:{forward:true},operatorArgs:{shouldMoveCursor:true},context:"normal"},{keys:"~",type:"operator",operator:"changeCase",context:"visual"},{keys:"<C-w>",type:"operatorMotion",operator:"delete",motion:"moveByWords",motionArgs:{forward:false,wordEnd:false},context:"insert"},{keys:"<C-i>",type:"action",action:"jumpListWalk",actionArgs:{forward:true}},{keys:"<C-o>",type:"action",action:"jumpListWalk",actionArgs:{forward:false}},{keys:"<C-e>",type:"action",action:"scroll",actionArgs:{forward:true,linewise:true}},{keys:"<C-y>",type:"action",action:"scroll",actionArgs:{forward:false,linewise:true}},{keys:"a",type:"action",action:"enterInsertMode",isEdit:true,actionArgs:{insertAt:"charAfter"},context:"normal"},{keys:"A",type:"action",action:"enterInsertMode",isEdit:true,actionArgs:{insertAt:"eol"},context:"normal"},{keys:"A",type:"action",action:"enterInsertMode",isEdit:true,actionArgs:{insertAt:"endOfSelectedArea"},context:"visual"},{keys:"i",type:"action",action:"enterInsertMode",isEdit:true,actionArgs:{insertAt:"inplace"},context:"normal"},{keys:"I",type:"action",action:"enterInsertMode",isEdit:true,actionArgs:{insertAt:"firstNonBlank"},context:"normal"},{keys:"I",type:"action",action:"enterInsertMode",isEdit:true,actionArgs:{insertAt:"startOfSelectedArea"},context:"visual"},{keys:"o",type:"action",action:"newLineAndEnterInsertMode",isEdit:true,interlaceInsertRepeat:true,actionArgs:{after:true},context:"normal"},{keys:"O",type:"action",action:"newLineAndEnterInsertMode",isEdit:true,interlaceInsertRepeat:true,actionArgs:{after:false},context:"normal"},{keys:"v",type:"action",action:"toggleVisualMode"},{keys:"V",type:"action",action:"toggleVisualMode",actionArgs:{linewise:true}},{keys:"<C-v>",type:"action",action:"toggleVisualMode",actionArgs:{blockwise:true}},{keys:"gv",type:"action",action:"reselectLastSelection"},{keys:"J",type:"action",action:"joinLines",isEdit:true},{keys:"p",type:"action",action:"paste",isEdit:true,actionArgs:{after:true,isEdit:true}},{keys:"P",type:"action",action:"paste",isEdit:true,actionArgs:{after:false,isEdit:true}},{keys:"r<character>",type:"action",action:"replace",isEdit:true},{keys:"@<character>",type:"action",action:"replayMacro"},{keys:"q<character>",type:"action",action:"enterMacroRecordMode"},{keys:"R",type:"action",action:"enterInsertMode",isEdit:true,actionArgs:{replace:true}},{keys:"u",type:"action",action:"undo",context:"normal"},{keys:"u",type:"operator",operator:"changeCase",operatorArgs:{toLower:true},context:"visual",isEdit:true},{keys:"U",type:"operator",operator:"changeCase",operatorArgs:{toLower:false},context:"visual",isEdit:true},{keys:"<C-r>",type:"action",action:"redo"},{keys:"m<character>",type:"action",action:"setMark"},{keys:'"<character>',type:"action",action:"setRegister"},{keys:"zz",type:"action",action:"scrollToCursor",actionArgs:{position:"center"}},{keys:"z.",type:"action",action:"scrollToCursor",actionArgs:{position:"center"},motion:"moveToFirstNonWhiteSpaceCharacter"},{keys:"zt",type:"action",action:"scrollToCursor",actionArgs:{position:"top"}},{keys:"z<CR>",type:"action",action:"scrollToCursor",actionArgs:{position:"top"},motion:"moveToFirstNonWhiteSpaceCharacter"},{keys:"z-",type:"action",action:"scrollToCursor",actionArgs:{position:"bottom"}},{keys:"zb",type:"action",action:"scrollToCursor",actionArgs:{position:"bottom"},motion:"moveToFirstNonWhiteSpaceCharacter"},{keys:".",type:"action",action:"repeatLastEdit"},{keys:"<C-a>",type:"action",action:"incrementNumberToken",isEdit:true,actionArgs:{increase:true,backtrack:false}},{keys:"<C-x>",type:"action",action:"incrementNumberToken",isEdit:true,actionArgs:{increase:false,backtrack:false}},{keys:"a<character>",type:"motion",motion:"textObjectManipulation"},{keys:"i<character>",type:"motion",motion:"textObjectManipulation",motionArgs:{textObjectInner:true}},{keys:"/",type:"search",searchArgs:{forward:true,querySrc:"prompt",toJumplist:true}},{keys:"?",type:"search",searchArgs:{forward:false,querySrc:"prompt",toJumplist:true}},{keys:"*",type:"search",searchArgs:{forward:true,querySrc:"wordUnderCursor",wholeWordOnly:true,toJumplist:true}},{keys:"#",type:"search",searchArgs:{forward:false,querySrc:"wordUnderCursor",wholeWordOnly:true,toJumplist:true}},{keys:"g*",type:"search",searchArgs:{forward:true,querySrc:"wordUnderCursor",toJumplist:true}},{keys:"g#",type:"search",searchArgs:{forward:false,querySrc:"wordUnderCursor",toJumplist:true}},{keys:":",type:"ex"}];var c=b.Pos;var g=[16,17,18,91];var d={Enter:"CR",Backspace:"BS",Delete:"Del"};var f=/Mac/.test(navigator.platform);var e=function(){function a2(bD){var bC=bD.keyCode;if(g.indexOf(bC)!=-1){return}var bB=bD.ctrlKey||bD.metaKey;var bA=b.keyNames[bC];bA=d[bA]||bA;var bz="";if(bD.ctrlKey){bz+="C-"}if(bD.altKey){bz+="A-"}if(f&&bD.metaKey||(!bB&&bD.shiftKey)&&bA.length<2){return}else{if(bD.shiftKey&&!/^[A-Za-z]$/.test(bA)){bz+="S-"}}if(bA.length==1){bA=bA.toLowerCase()}bz+=bA;if(bz.length>1){bz="<"+bz+">"}return bz}function Y(bz,bB){var bA=a2(bB);if(!bA){return}b.signal(bz,"vim-keypress",bA);if(b.Vim.handleKey(bz,bA,"user")){b.e_stop(bB)}}function Q(bz,bC){var bB=bC.charCode||bC.keyCode;if(bC.ctrlKey||bC.metaKey||bC.altKey||bC.shiftKey&&bB<32){return}var bA=String.fromCharCode(bB);b.signal(bz,"vim-keypress",bA);if(b.Vim.handleKey(bz,bA,"user")){b.e_stop(bC)}}function aW(bz){bz.setOption("disableInput",true);bz.setOption("showCursorWhenSelecting",false);b.signal(bz,"vim-mode-change",{mode:"normal"});bz.on("cursorActivity",ae);J(bz);b.on(bz.getInputField(),"paste",X(bz));bz.on("keypress",Q);bz.on("keydown",Y)}function aT(bz){bz.setOption("disableInput",false);bz.off("cursorActivity",ae);b.off(bz.getInputField(),"paste",X(bz));bz.state.vim=null;bz.off("keypress",Q);bz.off("keydown",Y)}function k(bz,bA){if(this==b.keyMap.vim){b.rmClass(bz.getWrapperElement(),"cm-fat-cursor")}if(!bA||bA.attach!=v){aT(bz,false)}}function v(bz,bA){if(this==b.keyMap.vim){b.addClass(bz.getWrapperElement(),"cm-fat-cursor")}if(!bA||bA.attach!=v){aW(bz)}}b.defineOption("vimMode",false,function(bz,bB,bA){if(bB&&bz.getOption("keyMap")!="vim"){bz.setOption("keyMap","vim")}else{if(!bB&&bA!=b.Init&&/^vim/.test(bz.getOption("keyMap"))){bz.setOption("keyMap","default")}}});function X(bz){var bA=bz.state.vim;if(!bA.onPasteFn){bA.onPasteFn=function(){if(!bA.insertMode){bz.setCursor(G(bz.getCursor(),0,1));s.enterInsertMode(bz,{},bA)}}}return bA.onPasteFn}var a0=/[\d]/;var av=[(/\w/),(/[^\w\s]/)],bn=[(/\S/)];function au(bC,bA){var bB=[];for(var bz=bC;bz<bC+bA;bz++){bB.push(String.fromCharCode(bz))}return bB}var al=au(65,26);var aq=au(97,26);var Z=au(48,10);var aH=[].concat(al,aq,Z,["<",">"]);var o=[].concat(al,aq,Z,["-",'"',".",":","/"]);function i(bz,bA){return bA>=bz.firstLine()&&bA<=bz.lastLine()}function H(bz){return(/^[a-z]$/).test(bz)}function P(bz){return"()[]{}".indexOf(bz)!=-1}function ak(bz){return a0.test(bz)}function D(bz){return(/^[A-Z]$/).test(bz)}function W(bz){return(/^\s*$/).test(bz)}function M(bB,bz){for(var bA=0;bA<bz.length;bA++){if(bz[bA]==bB){return true}}return false}var ax={};function aM(bA,bz,bB){if(bz===undefined){throw Error("defaultValue is required")}if(!bB){bB="string"}ax[bA]={type:bB,defaultValue:bz};aK(bA,bz)}function aK(bz,bB){var bA=ax[bz];if(!bA){throw Error("Unknown option: "+bz)}if(bA.type=="boolean"){if(bB&&bB!==true){throw Error("Invalid argument: "+bz+"="+bB)}else{if(bB!==false){bB=true}}}bA.value=bA.type=="boolean"?!!bB:bB}function r(bz){var bA=ax[bz];if(!bA){throw Error("Unknown option: "+bz)}return bA.value}var at=function(){var bD=100;var bF=-1;var bC=0;var bB=0;var bA=new Array(bD);function bE(bG,bI,bJ){var bK=bF%bD;var bL=bA[bK];function bH(bO){var bN=++bF%bD;var bP=bA[bN];if(bP){bP.clear()}bA[bN]=bG.setBookmark(bO)}if(bL){var bM=bL.find();if(bM&&!bw(bM,bI)){bH(bI)}}else{bH(bI)}bH(bJ);bC=bF;bB=bF-bD+1;if(bB<0){bB=0}}function bz(bG,bK){bF+=bK;if(bF>bC){bF=bC}else{if(bF<bB){bF=bB}}var bL=bA[(bD+bF)%bD];if(bL&&!bL.find()){var bJ=bK>0?1:-1;var bI;var bH=bG.getCursor();do{bF+=bJ;bL=bA[(bD+bF)%bD];if(bL&&(bI=bL.find())&&!bw(bH,bI)){break}}while(bF<bC&&bF>bB)}return bL}return{cachedCursor:undefined,add:bE,move:bz}};var l=function(bz){if(bz){return{changes:bz.changes,expectCursorActivityForChange:bz.expectCursorActivityForChange}}return{changes:[],expectCursorActivityForChange:false}};function aB(){this.latestRegister=undefined;this.isPlaying=false;this.isRecording=false;this.replaySearchQueries=[];this.onRecordingDone=undefined;this.lastInsertModeChanges=l()}aB.prototype={exitMacroRecordMode:function(){var bz=t.macroModeState;if(bz.onRecordingDone){bz.onRecordingDone()}bz.onRecordingDone=undefined;bz.isRecording=false},enterMacroRecordMode:function(bz,bB){var bA=t.registerController.getRegister(bB);if(bA){bA.clear();this.latestRegister=bB;if(bz.openDialog){this.onRecordingDone=bz.openDialog("(recording)["+bB+"]",null,{bottom:true})}this.isRecording=true}}};function J(bz){if(!bz.state.vim){bz.state.vim={inputState:new aD(),lastEditInputState:undefined,lastEditActionCommand:undefined,lastHPos:-1,lastHSPos:-1,lastMotion:null,marks:{},fakeCursor:null,insertMode:false,insertModeRepeat:undefined,visualMode:false,visualLine:false,visualBlock:false,lastSelection:null,lastPastedText:null,sel:{}}}return bz.state.vim}var t;function C(){t={searchQuery:null,searchIsReversed:false,lastSubstituteReplacePart:undefined,jumpList:at(),macroModeState:new aB,lastChararacterSearch:{increment:0,forward:true,selectedCharacter:""},registerController:new am({}),searchHistoryController:new a5({}),exCommandHistoryController:new a5({})};for(var bz in ax){var bA=ax[bz];bA.value=bA.defaultValue}}var bu;var aQ={buildKeyMap:function(){},getRegisterController:function(){return t.registerController},resetVimGlobalState_:C,getVimGlobalState_:function(){return t},maybeInitVimState_:J,InsertModeKey:bk,map:function(bA,bB,bz){p.map(bA,bB,bz)},setOption:aK,getOption:r,defineOption:aM,defineEx:function(bz,bB,bA){if(bz.indexOf(bB)!==0){throw new Error('(Vim.defineEx) "'+bB+'" is not a prefix of "'+bz+'", command not registered')}a6[bz]=bA;p.commandMap_[bB]={name:bz,shortName:bB,type:"api"}},handleKey:function(bE,bF,bD){var bB=J(bE);function bG(){var bI=t.macroModeState;if(bI.isRecording){if(bF=="q"){bI.exitMacroRecordMode();m(bE);return true}if(bD!="mapping"){L(bI,bF)}}}function bH(){if(bF=="<Esc>"){m(bE);if(bB.visualMode){aU(bE)}else{if(bB.insertMode){y(bE)}}return true}}function bz(bJ){var bI;while(bJ){bI=(/<\w+-.+?>|<\w+>|./).exec(bJ);bF=bI[0];bJ=bJ.substring(bI.index+bF.length);b.Vim.handleKey(bE,bF,"mapping")}}function bC(){if(bH()){return true}var bK=bB.inputState.keyBuffer=bB.inputState.keyBuffer+bF;var bL=bF.length==1;var bI=bc.matchCommand(bK,a,bB.inputState,"insert");while(bK.length>1&&bI.type!="full"){var bK=bB.inputState.keyBuffer=bK.slice(1);var bM=bc.matchCommand(bK,a,bB.inputState,"insert");if(bM.type!="none"){bI=bM}}if(bI.type=="none"){m(bE);return false}else{if(bI.type=="partial"){if(bu){window.clearTimeout(bu)}bu=window.setTimeout(function(){if(bB.insertMode&&bB.inputState.keyBuffer){m(bE)}},r("insertModeEscKeysTimeout"));return !bL}}if(bu){window.clearTimeout(bu)}if(bL){var bJ=bE.getCursor();bE.replaceRange("",G(bJ,0,-(bK.length-1)),bJ,"+input")}m(bE);var bN=bI.command;if(bN.type=="keyToKey"){bz(bN.toKeys)}else{bc.processCommand(bE,bB,bN)}return true}function bA(){if(bG()||bH()){return true}var bK=bB.inputState.keyBuffer=bB.inputState.keyBuffer+bF;if(/^[1-9]\d*$/.test(bK)){return true}var bM=/^(\d*)(.*)$/.exec(bK);if(!bM){m(bE);return false}var bJ=bB.visualMode?"visual":"normal";var bI=bc.matchCommand(bM[2]||bM[1],a,bB.inputState,bJ);if(bI.type=="none"){m(bE);return false}else{if(bI.type=="partial"){return true}}bB.inputState.keyBuffer="";var bL=bI.command;var bM=/^(\d*)(.*)$/.exec(bK);if(bM[1]&&bM[1]!="0"){bB.inputState.pushRepeatDigit(bM[1])}if(bL.type=="keyToKey"){bz(bL.toKeys)}else{bc.processCommand(bE,bB,bL)}return true}return bE.operation(function(){bE.curOp.isVimOp=true;try{if(bB.insertMode){return bC()}else{return bA()}}catch(bI){bE.state.vim=undefined;J(bE);throw bI}})},handleEx:function(bz,bA){p.processCommand(bz,bA)}};function aD(){this.prefixRepeat=[];this.motionRepeat=[];this.operator=null;this.operatorArgs=null;this.motion=null;this.motionArgs=null;this.keyBuffer=[];this.registerName=null}aD.prototype.pushRepeatDigit=function(bz){if(!this.operator){this.prefixRepeat=this.prefixRepeat.concat(bz)}else{this.motionRepeat=this.motionRepeat.concat(bz)}};aD.prototype.getRepeat=function(){var bz=0;if(this.prefixRepeat.length>0||this.motionRepeat.length>0){bz=1;if(this.prefixRepeat.length>0){bz*=parseInt(this.prefixRepeat.join(""),10)}if(this.motionRepeat.length>0){bz*=parseInt(this.motionRepeat.join(""),10)}}return bz};function m(bz,bA){bz.state.vim.inputState=new aD();b.signal(bz,"vim-command-done",bA)}function bo(bB,bA,bz){this.clear();this.keyBuffer=[bB||""];this.insertModeChanges=[];this.searchQueries=[];this.linewise=!!bA;this.blockwise=!!bz}bo.prototype={setText:function(bB,bA,bz){this.keyBuffer=[bB||""];this.linewise=!!bA;this.blockwise=!!bz},pushText:function(bA,bz){if(bz){if(!this.linewise){this.keyBuffer.push("\n")}this.linewise=true}this.keyBuffer.push(bA)},pushInsertModeChanges:function(bz){this.insertModeChanges.push(l(bz))},pushSearchQuery:function(bz){this.searchQueries.push(bz)},clear:function(){this.keyBuffer=[];this.insertModeChanges=[];this.searchQueries=[];this.linewise=false},toString:function(){return this.keyBuffer.join("")}};function am(bz){this.registers=bz;this.unnamedRegister=bz['"']=new bo();bz["."]=new bo();bz[":"]=new bo();bz["/"]=new bo()}am.prototype={pushText:function(bD,bA,bF,bE,bB){if(bE&&bF.charAt(0)=="\n"){bF=bF.slice(1)+"\n"}if(bE&&bF.charAt(bF.length-1)!=="\n"){bF+="\n"}var bC=this.isValidRegister(bD)?this.getRegister(bD):null;if(!bC){switch(bA){case"yank":this.registers["0"]=new bo(bF,bE,bB);break;case"delete":case"change":if(bF.indexOf("\n")==-1){this.registers["-"]=new bo(bF,bE)}else{this.shiftNumericRegisters_();this.registers["1"]=new bo(bF,bE)}break}this.unnamedRegister.setText(bF,bE,bB);return}var bz=D(bD);if(bz){bC.pushText(bF,bE)}else{bC.setText(bF,bE,bB)}this.unnamedRegister.setText(bC.toString(),bE)},getRegister:function(bz){if(!this.isValidRegister(bz)){return this.unnamedRegister}bz=bz.toLowerCase();if(!this.registers[bz]){this.registers[bz]=new bo()}return this.registers[bz]},isValidRegister:function(bz){return bz&&M(bz,o)},shiftNumericRegisters_:function(){for(var bz=9;bz>=2;bz--){this.registers[bz]=this.getRegister(""+(bz-1))}}};function a5(){this.historyBuffer=[];this.iterator;this.initialPrefix=null}a5.prototype={nextMatch:function(bA,bz){var bF=this.historyBuffer;var bC=bz?-1:1;if(this.initialPrefix===null){this.initialPrefix=bA}for(var bE=this.iterator+bC;bz?bE>=0:bE<bF.length;bE+=bC){var bD=bF[bE];for(var bB=0;bB<=bD.length;bB++){if(this.initialPrefix==bD.substring(0,bB)){this.iterator=bE;return bD}}}if(bE>=bF.length){this.iterator=bF.length;return this.initialPrefix}if(bE<0){return bA}},pushInput:function(bz){var bA=this.historyBuffer.indexOf(bz);if(bA>-1){this.historyBuffer.splice(bA,1)}if(bz.length){this.historyBuffer.push(bz)}},reset:function(){this.initialPrefix=null;this.iterator=this.historyBuffer.length}};var bc={matchCommand:function(bE,bG,bz,bC){var bF=bl(bE,bG,bC,bz);if(!bF.full&&!bF.partial){return{type:"none"}}else{if(!bF.full&&bF.partial){return{type:"partial"}}}var bD;for(var bB=0;bB<bF.full.length;bB++){var bA=bF.full[bB];if(!bD){bD=bA}}if(bD.keys.slice(-11)=="<character>"){bz.selectedCharacter=T(bE)}return{type:"full",command:bD}},processCommand:function(bz,bA,bB){bA.inputState.repeatOverride=bB.repeatOverride;switch(bB.type){case"motion":this.processMotion(bz,bA,bB);break;case"operator":this.processOperator(bz,bA,bB);break;case"operatorMotion":this.processOperatorMotion(bz,bA,bB);break;case"action":this.processAction(bz,bA,bB);break;case"search":this.processSearch(bz,bA,bB);m(bz);break;case"ex":case"keyToEx":this.processEx(bz,bA,bB);m(bz);break;default:break}},processMotion:function(bz,bA,bB){bA.inputState.motion=bB.motion;bA.inputState.motionArgs=bj(bB.motionArgs);this.evalInput(bz,bA)},processOperator:function(bA,bB,bC){var bz=bB.inputState;if(bz.operator){if(bz.operator==bC.operator){bz.motion="expandToLine";bz.motionArgs={linewise:true};this.evalInput(bA,bB);return}else{m(bA)}}bz.operator=bC.operator;bz.operatorArgs=bj(bC.operatorArgs);if(bB.visualMode){this.evalInput(bA,bB)}},processOperatorMotion:function(bz,bC,bD){var bB=bC.visualMode;var bA=bj(bD.operatorMotionArgs);if(bA){if(bB&&bA.visualLine){bC.visualLine=true}}this.processOperator(bz,bC,bD);if(!bB){this.processMotion(bz,bC,bD)}},processAction:function(bA,bC,bF){var bz=bC.inputState;var bE=bz.getRepeat();var bD=!!bE;var bB=bj(bF.actionArgs)||{};if(bz.selectedCharacter){bB.selectedCharacter=bz.selectedCharacter}if(bF.operator){this.processOperator(bA,bC,bF)}if(bF.motion){this.processMotion(bA,bC,bF)}if(bF.motion||bF.operator){this.evalInput(bA,bC)}bB.repeat=bE||1;bB.repeatIsExplicit=bD;bB.registerName=bz.registerName;m(bA);bC.lastMotion=null;if(bF.isEdit){this.recordLastEdit(bC,bz,bF)}s[bF.action](bA,bB,bC)},processSearch:function(bO,bH,bG){if(!bO.getSearchCursor){return}var bJ=bG.searchArgs.forward;var bE=bG.searchArgs.wholeWordOnly;aJ(bO).setReversed(!bJ);var bK=(bJ)?"/":"?";var bM=aJ(bO).getQuery();var bB=bO.getScrollInfo();function bF(bR,bP,bQ){t.searchHistoryController.pushInput(bR);t.searchHistoryController.reset();try{bv(bO,bR,bP,bQ)}catch(bS){bm(bO,"Invalid regex: "+bR);return}bc.processMotion(bO,bH,{type:"motion",motion:"findNext",motionArgs:{forward:true,toJumplist:bG.searchArgs.toJumplist}})}function bN(bP){bO.scrollTo(bB.left,bB.top);bF(bP,true,true);var bQ=t.macroModeState;if(bQ.isRecording){R(bQ,bP)}}function bD(bT,bS,bU){var bR=b.keyName(bT),bP;if(bR=="Up"||bR=="Down"){bP=bR=="Up"?true:false;bS=t.searchHistoryController.nextMatch(bS,bP)||"";bU(bS)}else{if(bR!="Left"&&bR!="Right"&&bR!="Ctrl"&&bR!="Alt"&&bR!="Shift"){t.searchHistoryController.reset()}}var bQ;try{bQ=bv(bO,bS,true,true)}catch(bT){}if(bQ){bO.scrollIntoView(bx(bO,!bJ,bQ),30)}else{aN(bO);bO.scrollTo(bB.left,bB.top)}}function bA(bR,bQ,bS){var bP=b.keyName(bR);if(bP=="Esc"||bP=="Ctrl-C"||bP=="Ctrl-["){t.searchHistoryController.pushInput(bQ);t.searchHistoryController.reset();bv(bO,bM);aN(bO);bO.scrollTo(bB.left,bB.top);b.e_stop(bR);bS();bO.focus()}}switch(bG.searchArgs.querySrc){case"prompt":var bI=t.macroModeState;if(bI.isPlaying){var bL=bI.replaySearchQueries.shift();bF(bL,true,false)}else{a3(bO,{onClose:bN,prefix:bK,desc:S,onKeyUp:bD,onKeyDown:bA})}break;case"wordUnderCursor":var bC=aG(bO,false,true,false,true);var bz=true;if(!bC){bC=aG(bO,false,true,false,false);bz=false}if(!bC){return}var bL=bO.getLine(bC.start.line).substring(bC.start.ch,bC.end.ch);if(bz&&bE){bL="\\b"+bL+"\\b"}else{bL=j(bL)}t.jumpList.cachedCursor=bO.getCursor();bO.setCursor(bC.start);bF(bL,true,false);break}},processEx:function(bz,bA,bD){function bC(bE){t.exCommandHistoryController.pushInput(bE);t.exCommandHistoryController.reset();p.processCommand(bz,bE)}function bB(bH,bF,bI){var bG=b.keyName(bH),bE;if(bG=="Esc"||bG=="Ctrl-C"||bG=="Ctrl-["){t.exCommandHistoryController.pushInput(bF);t.exCommandHistoryController.reset();b.e_stop(bH);bI();bz.focus()}if(bG=="Up"||bG=="Down"){bE=bG=="Up"?true:false;bF=t.exCommandHistoryController.nextMatch(bF,bE)||"";bI(bF)}else{if(bG!="Left"&&bG!="Right"&&bG!="Ctrl"&&bG!="Alt"&&bG!="Shift"){t.exCommandHistoryController.reset()}}}if(bD.type=="keyToEx"){p.processCommand(bz,bD.exArgs.input)}else{if(bA.visualMode){a3(bz,{onClose:bC,prefix:":",value:"'<,'>",onKeyDown:bB})}else{a3(bz,{onClose:bC,prefix:":",onKeyDown:bB})}}},evalInput:function(bH,bT){var bM=bT.inputState;var bQ=bM.motion;var bN=bM.motionArgs||{};var bI=bM.operator;var b3=bM.operatorArgs||{};var bO=bM.registerName;var bU=bT.sel;var b4=F(bT.visualMode?bU.head:bH.getCursor("head"));var bF=F(bT.visualMode?bU.anchor:bH.getCursor("anchor"));var bC=F(b4);var bB=F(bF);var bS,bL;var bJ;if(bI){this.recordLastEdit(bT,bM)}if(bM.repeatOverride!==undefined){bJ=bM.repeatOverride}else{bJ=bM.getRepeat()}if(bJ>0&&bN.explicitRepeat){bN.repeatIsExplicit=true}else{if(bN.noRepeat||(!bN.explicitRepeat&&bJ===0)){bJ=1;bN.repeatIsExplicit=false}}if(bM.selectedCharacter){bN.selectedCharacter=b3.selectedCharacter=bM.selectedCharacter}bN.repeat=bJ;m(bH);if(bQ){var bR=a4[bQ](bH,b4,bN,bT);bT.lastMotion=a4[bQ];if(!bR){return}if(bN.toJumplist){var b2=t.jumpList;var bK=b2.cachedCursor;if(bK){bg(bH,bK,bR);delete b2.cachedCursor}else{bg(bH,b4,bR)}}if(bR instanceof Array){bL=bR[0];bS=bR[1]}else{bS=bR}if(!bS){bS=F(b4)}if(bT.visualMode){bS=ad(bH,bS,bT.visualBlock);if(bL){bL=ad(bH,bL,true)}bL=bL||bB;bU.anchor=bL;bU.head=bS;O(bH);aS(bH,bT,"<",aP(bL,bS)?bL:bS);aS(bH,bT,">",aP(bL,bS)?bS:bL)}else{if(!bI){bS=ad(bH,bS);bH.setCursor(bS.line,bS.ch)}}}if(bI){if(b3.lastSel){bL=bB;var bz=b3.lastSel;var bZ=Math.abs(bz.head.line-bz.anchor.line);var b1=Math.abs(bz.head.ch-bz.anchor.ch);if(bz.visualLine){bS=c(bB.line+bZ,bB.ch)}else{if(bz.visualBlock){bS=c(bB.line+bZ,bB.ch+b1)}else{if(bz.head.line==bz.anchor.line){bS=c(bB.line,bB.ch+b1)}else{bS=c(bB.line+bZ,bB.ch)}}}bT.visualMode=true;bT.visualLine=bz.visualLine;bT.visualBlock=bz.visualBlock;bU=bT.sel={anchor:bL,head:bS};O(bH)}else{if(bT.visualMode){b3.lastSel={anchor:F(bU.anchor),head:F(bU.head),visualBlock:bT.visualBlock,visualLine:bT.visualLine}}}var bG,bV,bD,bP;var bE;if(bT.visualMode){bG=az(bU.head,bU.anchor);bV=ba(bU.head,bU.anchor);bD=bT.visualLine||b3.linewise;bP=bT.visualBlock?"block":bD?"line":"char";bE=by(bH,{anchor:bG,head:bV},bP);if(bD){var bA=bE.ranges;if(bP=="block"){for(var bW=0;bW<bA.length;bW++){bA[bW].head.ch=aX(bH,bA[bW].head.line)}}else{if(bP=="line"){bA[0].head=c(bA[0].head.line+1,0)}}}}else{bG=F(bL||bB);bV=F(bS||bC);if(aP(bV,bG)){var b0=bG;bG=bV;bV=b0}bD=bN.linewise||b3.linewise;if(bD){be(bH,bG,bV)}else{if(bN.forward){ap(bH,bG,bV)}}bP="char";var bY=!bN.inclusive||bD;bE=by(bH,{anchor:bG,head:bV},bP,bY)}bH.setSelections(bE.ranges,bE.primary);bT.lastMotion=null;b3.repeat=bJ;b3.registerName=bO;b3.linewise=bD;var bX=N[bI](bH,b3,bE.ranges,bB,bS);if(bT.visualMode){aU(bH)}if(bX){bH.setCursor(bX)}}},recordLastEdit:function(bA,bz,bB){var bC=t.macroModeState;if(bC.isPlaying){return}bA.lastEditInputState=bz;bA.lastEditActionCommand=bB;bC.lastInsertModeChanges.changes=[];bC.lastInsertModeChanges.expectCursorActivityForChange=false}};var a4={moveToTopLine:function(bz,bB,bC){var bA=bd(bz).top+bC.repeat-1;return c(bA,a1(bz.getLine(bA)))},moveToMiddleLine:function(bz){var bB=bd(bz);var bA=Math.floor((bB.top+bB.bottom)*0.5);return c(bA,a1(bz.getLine(bA)))},moveToBottomLine:function(bz,bB,bC){var bA=bd(bz).bottom-bC.repeat+1;return c(bA,a1(bz.getLine(bA)))},expandToLine:function(bB,bA,bz){var bC=bA;return c(bC.line+bz.repeat-1,Infinity)},findNext:function(bz,bA,bB){var bE=aJ(bz);var bD=bE.getQuery();if(!bD){return}var bC=!bB.forward;bC=(bE.isReversed())?!bC:bC;aL(bz,bD);return bx(bz,bC,bD,bB.repeat)},goToMark:function(bz,bB,bC,bA){var bE=bA.marks[bC.selectedCharacter];if(bE){var bD=bE.find();return bC.linewise?{line:bD.line,ch:a1(bz.getLine(bD.line))}:bD}return null},moveToOtherHighlightedEnd:function(bz,bB,bC,bA){if(bA.visualBlock&&bC.sameLine){var bD=bA.sel;return[ad(bz,c(bD.anchor.line,bD.head.ch)),ad(bz,c(bD.head.line,bD.anchor.ch))]}else{return([bA.sel.head,bA.sel.anchor])}},jumpToMark:function(bH,bG,bC,bD){var bB=bG;for(var bE=0;bE<bC.repeat;bE++){var bJ=bB;for(var bI in bD.marks){if(!H(bI)){continue}var bA=bD.marks[bI].find();var bz=(bC.forward)?aP(bA,bJ):aP(bJ,bA);if(bz){continue}if(bC.linewise&&(bA.line==bJ.line)){continue}var bF=bw(bJ,bB);var bK=(bC.forward)?ay(bJ,bA,bB):ay(bB,bA,bJ);if(bF||bK){bB=bA}}}if(bC.linewise){bB=c(bB.line,a1(bH.getLine(bB.line)))}return bB},moveByCharacters:function(bC,bA,bz){var bE=bA;var bD=bz.repeat;var bB=bz.forward?bE.ch+bD:bE.ch-bD;return c(bE.line,bB)},moveByLines:function(bF,bE,bA,bB){var bH=bE;var bC=bH.ch;switch(bB.lastMotion){case this.moveByLines:case this.moveByDisplayLines:case this.moveByScroll:case this.moveToColumn:case this.moveToEol:bC=bB.lastHPos;break;default:bB.lastHPos=bC}var bz=bA.repeat+(bA.repeatOffset||0);var bI=bA.forward?bH.line+bz:bH.line-bz;var bD=bF.firstLine();var bG=bF.lastLine();if((bI<bD&&bH.line==bD)||(bI>bG&&bH.line==bG)){return}if(bA.toFirstChar){bC=a1(bF.getLine(bI));bB.lastHPos=bC}bB.lastHSPos=bF.charCoords(c(bI,bC),"div").left;return c(bI,bC)},moveByDisplayLines:function(bH,bG,bB,bC){var bI=bG;switch(bC.lastMotion){case this.moveByDisplayLines:case this.moveByScroll:case this.moveByLines:case this.moveToColumn:case this.moveToEol:break;default:bC.lastHSPos=bH.charCoords(bI,"div").left}var bz=bB.repeat;var bF=bH.findPosV(bI,(bB.forward?bz:-bz),"line",bC.lastHSPos);if(bF.hitSide){if(bB.forward){var bA=bH.charCoords(bF,"div");var bD={top:bA.top+8,left:bC.lastHSPos};var bF=bH.coordsChar(bD,"div")}else{var bE=bH.charCoords(c(bH.firstLine(),0),"div");bE.left=bC.lastHSPos;bF=bH.coordsChar(bE,"div")}}bC.lastHPos=bF.ch;return bF},moveByPage:function(bA,bC,bB){var bz=bC;var bD=bB.repeat;return bA.findPosV(bz,(bB.forward?bD:-bD),"page")},moveByParagraph:function(bz,bD,bB){var bA=bD.line;var bE=bB.repeat;var bF=bB.forward?1:-1;for(var bC=0;bC<bE;bC++){if((!bB.forward&&bA===bz.firstLine())||(bB.forward&&bA==bz.lastLine())){break}bA+=bF;while(bA!==bz.firstLine()&&bA!=bz.lastLine()&&bz.getLine(bA)){bA+=bF}}return c(bA,0)},moveByScroll:function(bF,bC,bA,bB){var bG=bF.getScrollInfo();var bH=null;var bz=bA.repeat;if(!bz){bz=bG.clientHeight/(2*bF.defaultTextHeight())}var bE=bF.charCoords(bC,"local");bA.repeat=bz;var bH=a4.moveByDisplayLines(bF,bC,bA,bB);if(!bH){return null}var bD=bF.charCoords(bH,"local");bF.scrollTo(null,bG.top+bD.top-bE.top);return bH},moveByWords:function(bz,bB,bA){return aE(bz,bB,bA.repeat,!!bA.forward,!!bA.wordEnd,!!bA.bigWord)},moveTillCharacter:function(bA,bB,bC){var bE=bC.repeat;var bD=bq(bA,bE,bC.forward,bC.selectedCharacter);var bz=bC.forward?-1:1;aF(bz,bC);if(!bD){return null}bD.ch+=bz;return bD},moveToCharacter:function(bz,bB,bA){var bC=bA.repeat;aF(0,bA);return bq(bz,bC,bA.forward,bA.selectedCharacter)||bB},moveToSymbol:function(bz,bB,bA){var bC=bA.repeat;return br(bz,bC,bA.forward,bA.selectedCharacter)||bB},moveToColumn:function(bz,bC,bB,bA){var bD=bB.repeat;bA.lastHPos=bD-1;bA.lastHSPos=bz.charCoords(bC,"div").left;return an(bz,bD)},moveToEol:function(bz,bE,bD,bC){var bF=bE;bC.lastHPos=Infinity;var bB=c(bF.line+bD.repeat-1,Infinity);var bA=bz.clipPos(bB);bA.ch--;bC.lastHSPos=bz.charCoords(bA,"div").left;return bB},moveToFirstNonWhiteSpaceCharacter:function(bz,bA){var bB=bA;return c(bB.line,a1(bz.getLine(bB.line)))},moveToMatchedSymbol:function(bF,bD){var bG=bD;var bH=bG.line;var bz=bG.ch;var bE=bF.getLine(bH);var bC;do{bC=bE.charAt(bz++);if(bC&&P(bC)){var bA=bF.getTokenTypeAt(c(bH,bz));if(bA!=="string"&&bA!=="comment"){break}}}while(bC);if(bC){var bB=bF.findMatchingBracket(c(bH,bz));return bB.to}else{return bG}},moveToStartOfLine:function(bA,bz){return c(bz.line,0)},moveToLineOrEdgeOfDocument:function(bz,bA,bB){var bC=bB.forward?bz.lastLine():bz.firstLine();if(bB.repeatIsExplicit){bC=bB.repeat-bz.getOption("firstLineNumber")}return c(bC,a1(bz.getLine(bC)))},textObjectManipulation:function(bA,bE,bC){var bB={"(":")",")":"(","{":"}","}":"{","[":"]","]":"["};var bG={"'":true,'"':true};var bF=bC.selectedCharacter;if(bF=="b"){bF="("}else{if(bF=="B"){bF="{"}}var bz=!bC.textObjectInner;var bD;if(bB[bF]){bD=q(bA,bE,bF,bz)}else{if(bG[bF]){bD=aR(bA,bE,bF,bz)}else{if(bF==="W"){bD=aG(bA,bz,true,true)}else{if(bF==="w"){bD=aG(bA,bz,true,false)}else{return null}}}}if(!bA.state.vim.visualMode){return[bD.start,bD.end]}else{return x(bA,bD.start,bD.end)}},repeatLastCharacterSearch:function(bB,bE,bD){var bA=t.lastChararacterSearch;var bG=bD.repeat;var bC=bD.forward===bA.forward;var bz=(bA.increment?1:0)*(bC?-1:1);bB.moveH(-bz,"char");bD.inclusive=bC?true:false;var bF=bq(bB,bG,bC,bA.selectedCharacter);if(!bF){bB.moveH(bz,"char");return bE}bF.ch+=bz;return bF}};function B(bC,bB){var bz=[];for(var bA=0;bA<bB;bA++){bz.push(bC)}return bz}var N={change:function(bI,bG,bA){var bF,bJ;var bC=bI.state.vim;t.macroModeState.lastInsertModeChanges.inVisualBlock=bC.visualBlock;if(!bC.visualMode){var bD=bA[0].anchor,bH=bA[0].head;bJ=bI.getRange(bD,bH);if(!W(bJ)){var bE=(/\s+$/).exec(bJ);if(bE){bH=G(bH,0,-bE[0].length);bJ=bJ.slice(0,-bE[0].length)}}var bz=bH.line-1==bI.lastLine();bI.replaceRange("",bD,bH);if(bG.linewise&&!bz){b.commands.newlineAndIndent(bI);bD.ch=null}bF=bD}else{bJ=bI.getSelection();var bB=B("",bA.length);bI.replaceSelections(bB);bF=az(bA[0].head,bA[0].anchor)}t.registerController.pushText(bG.registerName,"change",bJ,bG.linewise,bA.length>1);s.enterInsertMode(bI,{head:bF},bI.state.vim)},"delete":function(bG,bE,bz){var bD,bH;var bB=bG.state.vim;if(!bB.visualBlock){var bC=bz[0].anchor,bF=bz[0].head;if(bE.linewise&&bF.line!=bG.firstLine()&&bC.line==bG.lastLine()&&bC.line==bF.line-1){if(bC.line==bG.firstLine()){bC.ch=0}else{bC=c(bC.line-1,aX(bG,bC.line-1))}}bH=bG.getRange(bC,bF);bG.replaceRange("",bC,bF);bD=bC;if(bE.linewise){bD=a4.moveToFirstNonWhiteSpaceCharacter(bG,bC)}}else{bH=bG.getSelection();var bA=B("",bz.length);bG.replaceSelections(bA);bD=bz[0].anchor}t.registerController.pushText(bE.registerName,"delete",bH,bE.linewise,bB.visualBlock);return bD},indent:function(bG,bF,bz){var bD=bG.state.vim;var bH=bz[0].anchor.line;var bB=bD.visualBlock?bz[bz.length-1].anchor.line:bz[0].head.line;var bA=(bD.visualMode)?bF.repeat:1;if(bF.linewise){bB--}for(var bE=bH;bE<=bB;bE++){for(var bC=0;bC<bA;bC++){bG.indentLine(bE,bF.indentRight)}}return a4.moveToFirstNonWhiteSpaceCharacter(bG,bz[0].anchor)},changeCase:function(bK,bJ,bz,bG,bD){var bA=bK.getSelections();var bB=[];var bC=bJ.toLower;for(var bE=0;bE<bA.length;bE++){var bH=bA[bE];var bL="";if(bC===true){bL=bH.toLowerCase()}else{if(bC===false){bL=bH.toUpperCase()}else{for(var bF=0;bF<bH.length;bF++){var bI=bH.charAt(bF);bL+=D(bI)?bI.toLowerCase():bI.toUpperCase()}}}bB.push(bL)}bK.replaceSelections(bB);if(bJ.shouldMoveCursor){return bD}else{if(!bK.state.vim.visualMode&&bJ.linewise&&bz[0].anchor.line+1==bz[0].head.line){return a4.moveToFirstNonWhiteSpaceCharacter(bK,bG)}else{if(bJ.linewise){return bG}else{return az(bz[0].anchor,bz[0].head)}}}},yank:function(bz,bE,bA,bC){var bB=bz.state.vim;var bF=bz.getSelection();var bD=bB.visualMode?az(bB.sel.anchor,bB.sel.head,bA[0].head,bA[0].anchor):bC;t.registerController.pushText(bE.registerName,"yank",bF,bE.linewise,bB.visualBlock);return bD}};var s={jumpListWalk:function(bz,bB,bC){if(bC.visualMode){return}var bE=bB.repeat;var bD=bB.forward;var bA=t.jumpList;var bG=bA.move(bz,bD?bE:-bE);var bF=bG?bG.find():undefined;bF=bF?bF:bz.getCursor();bz.setCursor(bF)},scroll:function(bH,bB,bD){if(bD.visualMode){return}var bz=bB.repeat||1;var bG=bH.defaultTextHeight();var bF=bH.getScrollInfo().top;var bI=bG*bz;var bE=bB.forward?bF+bI:bF-bI;var bJ=F(bH.getCursor());var bC=bH.charCoords(bJ,"local");if(bB.forward){if(bE>bC.top){bJ.line+=(bE-bC.top)/bG;bJ.line=Math.ceil(bJ.line);bH.setCursor(bJ);bC=bH.charCoords(bJ,"local");bH.scrollTo(null,bC.top)}else{bH.scrollTo(null,bE)}}else{var bA=bE+bH.getScrollInfo().clientHeight;if(bA<bC.bottom){bJ.line-=(bC.bottom-bA)/bG;bJ.line=Math.floor(bJ.line);bH.setCursor(bJ);bC=bH.charCoords(bJ,"local");bH.scrollTo(null,bC.bottom-bH.getScrollInfo().clientHeight)}else{bH.scrollTo(null,bE)}}},scrollToCursor:function(bA,bB){var bE=bA.getCursor().line;var bC=bA.charCoords(c(bE,0),"local");var bz=bA.getScrollInfo().clientHeight;var bF=bC.top;var bD=bC.bottom-bF;switch(bB.position){case"center":bF=bF-(bz/2)+bD;break;case"bottom":bF=bF-bz+bD*1.4;break;case"top":bF=bF+bD*0.4;break}bA.scrollTo(null,bF)},replayMacro:function(bz,bA,bB){var bC=bA.selectedCharacter;var bD=bA.repeat;var bE=t.macroModeState;if(bC=="@"){bC=bE.latestRegister}while(bD--){K(bz,bB,bE,bC)}},enterMacroRecordMode:function(bz,bA){var bC=t.macroModeState;var bB=bA.selectedCharacter;bC.enterMacroRecordMode(bz,bB)},enterInsertMode:function(bA,bB,bC){if(bA.getOption("readOnly")){return}bC.insertMode=true;bC.insertModeRepeat=bB&&bB.repeat||1;var bE=(bB)?bB.insertAt:null;var bF=bC.sel;var bD=bB.head||bA.getCursor("head");var bz=bA.listSelections().length;if(bE=="eol"){bD=c(bD.line,aX(bA,bD.line))}else{if(bE=="charAfter"){bD=G(bD,0,1)}else{if(bE=="firstNonBlank"){bD=a4.moveToFirstNonWhiteSpaceCharacter(bA,bD)}else{if(bE=="startOfSelectedArea"){if(!bC.visualBlock){if(bF.head.line<bF.anchor.line){bD=bF.head}else{bD=c(bF.anchor.line,0)}}else{bD=c(Math.min(bF.head.line,bF.anchor.line),Math.min(bF.head.ch,bF.anchor.ch));bz=Math.abs(bF.head.line-bF.anchor.line)+1}}else{if(bE=="endOfSelectedArea"){if(!bC.visualBlock){if(bF.head.line>=bF.anchor.line){bD=G(bF.head,0,1)}else{bD=c(bF.anchor.line,0)}}else{bD=c(Math.min(bF.head.line,bF.anchor.line),Math.max(bF.head.ch+1,bF.anchor.ch));bz=Math.abs(bF.head.line-bF.anchor.line)+1}}else{if(bE=="inplace"){if(bC.visualMode){return}}}}}}}bA.setOption("keyMap","vim-insert");bA.setOption("disableInput",false);if(bB&&bB.replace){bA.toggleOverwrite(true);bA.setOption("keyMap","vim-replace");b.signal(bA,"vim-mode-change",{mode:"replace"})}else{bA.setOption("keyMap","vim-insert");b.signal(bA,"vim-mode-change",{mode:"insert"})}if(!t.macroModeState.isPlaying){bA.on("change",bi);b.on(bA.getInputField(),"keydown",aa)}if(bC.visualMode){aU(bA)}aV(bA,bD,bz)},toggleVisualMode:function(bz,bA,bB){var bE=bA.repeat;var bC=bz.getCursor();var bD;if(!bB.visualMode){bB.visualMode=true;bB.visualLine=!!bA.linewise;bB.visualBlock=!!bA.blockwise;bD=ad(bz,c(bC.line,bC.ch+bE-1),true);bB.sel={anchor:bC,head:bD};b.signal(bz,"vim-mode-change",{mode:"visual",subMode:bB.visualLine?"linewise":bB.visualBlock?"blockwise":""});O(bz);aS(bz,bB,"<",az(bC,bD));aS(bz,bB,">",ba(bC,bD))}else{if(bB.visualLine^bA.linewise||bB.visualBlock^bA.blockwise){bB.visualLine=!!bA.linewise;bB.visualBlock=!!bA.blockwise;b.signal(bz,"vim-mode-change",{mode:"visual",subMode:bB.visualLine?"linewise":bB.visualBlock?"blockwise":""});O(bz)}else{aU(bz)}}},reselectLastSelection:function(bz,bE,bB){var bA=bB.lastSelection;if(bB.visualMode){bh(bz,bB)}if(bA){var bC=bA.anchorMark.find();var bD=bA.headMark.find();if(!bC||!bD){return}bB.sel={anchor:bC,head:bD};bB.visualMode=true;bB.visualLine=bA.visualLine;bB.visualBlock=bA.visualBlock;O(bz);aS(bz,bB,"<",az(bC,bD));aS(bz,bB,">",ba(bC,bD));b.signal(bz,"vim-mode-change",{mode:"visual",subMode:bB.visualLine?"linewise":bB.visualBlock?"blockwise":""})}},joinLines:function(bG,bA,bC){var bF,bI;if(bC.visualMode){bF=bG.getCursor("anchor");bI=bG.getCursor("head");bI.ch=aX(bG,bI.line)-1}else{var bz=Math.max(bA.repeat,2);bF=bG.getCursor();bI=ad(bG,c(bF.line+bz-1,Infinity))}var bB=0;for(var bE=bF.line;bE<bI.line;bE++){bB=aX(bG,bF.line);var bD=c(bF.line+1,aX(bG,bF.line+1));var bJ=bG.getRange(bF,bD);bJ=bJ.replace(/\n\s*/g," ");bG.replaceRange(bJ,bF,bD)}var bH=c(bF.line,bB);bG.setCursor(bH);if(bC.visualMode){aU(bG)}},newLineAndEnterInsertMode:function(bz,bA,bB){bB.insertMode=true;var bC=F(bz.getCursor());if(bC.line===bz.firstLine()&&!bA.after){bz.replaceRange("\n",c(bz.firstLine(),0));bz.setCursor(bz.firstLine(),0)}else{bC.line=(bA.after)?bC.line:bC.line-1;bC.ch=aX(bz,bC.line);bz.setCursor(bC);var bD=b.commands.newlineAndIndentContinueComment||b.commands.newlineAndIndent;bD(bz)}this.enterInsertMode(bz,{repeat:bA.repeat},bB)},paste:function(bN,bM,bV){var bG=F(bN.getCursor());var bA=t.registerController.getRegister(bM.registerName);var bQ=bA.toString();if(!bQ){return}if(bM.matchIndent){var bS=bN.getOption("tabSize");var bH=function(b2){var b1=(b2.split("\t").length-1);var b0=(b2.split(" ").length-1);return b1*bS+b0*1};var bX=bN.getLine(bN.getCursor().line);var bP=bH(bX.match(/^\s*/)[0]);var bz=bQ.replace(/\n$/,"");var bE=bQ!==bz;var bK=bH(bQ.match(/^\s*/)[0]);var bQ=bz.replace(/^\s*/gm,function(b0){var b1=bP+(bH(b0)-bK);if(b1<0){return""}else{if(bN.getOption("indentWithTabs")){var b2=Math.floor(b1/bS);return Array(b2+1).join("\t")}else{return Array(b1+1).join(" ")}}});bQ+=bE?"\n":""}if(bM.repeat>1){var bQ=Array(bM.repeat+1).join(bQ)}var bJ=bA.linewise;var bL=bA.blockwise;if(bJ){if(bV.visualMode){bQ=bV.visualLine?bQ.slice(0,-1):"\n"+bQ.slice(0,bQ.length-1)+"\n"}else{if(bM.after){bQ="\n"+bQ.slice(0,bQ.length-1);bG.ch=aX(bN,bG.line)}else{bG.ch=0}}}else{if(bL){bQ=bQ.split("\n");for(var bW=0;bW<bQ.length;bW++){bQ[bW]=(bQ[bW]=="")?" ":bQ[bW]}}bG.ch+=bM.after?1:0}var bD;var bR;if(bV.visualMode){bV.lastPastedText=bQ;var bC;var bZ=a7(bN,bV);var bT=bZ[0];var bB=bZ[1];var bU=bN.getSelection();var bI=bN.listSelections();var bF=new Array(bI.length).join("1").split("1");if(bV.lastSelection){bC=bV.lastSelection.headMark.find()}t.registerController.unnamedRegister.setText(bU);if(bL){bN.replaceSelections(bF);bB=c(bT.line+bQ.length-1,bT.ch);bN.setCursor(bT);I(bN,bB);bN.replaceSelections(bQ);bD=bT}else{if(bV.visualBlock){bN.replaceSelections(bF);bN.setCursor(bT);bN.replaceRange(bQ,bT,bT);bD=bT}else{bN.replaceRange(bQ,bT,bB);bD=bN.posFromIndex(bN.indexFromPos(bT)+bQ.length-1)}}if(bC){bV.lastSelection.headMark=bN.setBookmark(bC)}if(bJ){bD.ch=0}}else{if(bL){bN.setCursor(bG);for(var bW=0;bW<bQ.length;bW++){var bO=bG.line+bW;if(bO>bN.lastLine()){bN.replaceRange("\n",c(bO,0))}var bY=aX(bN,bO);if(bY<bG.ch){aY(bN,bO,bG.ch)}}bN.setCursor(bG);I(bN,c(bG.line+bQ.length-1,bG.ch));bN.replaceSelections(bQ);bD=bG}else{bN.replaceRange(bQ,bG);if(bJ&&bM.after){bD=c(bG.line+1,a1(bN.getLine(bG.line+1)))}else{if(bJ&&!bM.after){bD=c(bG.line,a1(bN.getLine(bG.line)))}else{if(!bJ&&bM.after){bR=bN.indexFromPos(bG);bD=bN.posFromIndex(bR+bQ.length-1)}else{bR=bN.indexFromPos(bG);bD=bN.posFromIndex(bR+bQ.length)}}}}}if(bV.visualMode){aU(bN)}bN.setCursor(bD)},undo:function(bz,bA){bz.operation(function(){aA(bz,b.commands.undo,bA.repeat)();bz.setCursor(bz.getCursor("anchor"))})},redo:function(bz,bA){aA(bz,b.commands.redo,bA.repeat)()},setRegister:function(bB,bz,bA){bA.inputState.registerName=bz.selectedCharacter},setMark:function(bz,bA,bB){var bC=bA.selectedCharacter;aS(bz,bB,bC,bz.getCursor())},replace:function(bH,bB,bD){var bC=bB.selectedCharacter;var bG=bH.getCursor();var bF;var bI;var bA=bH.listSelections();if(bD.visualMode){bG=bH.getCursor("start");bI=bH.getCursor("end")}else{var bJ=bH.getLine(bG.line);bF=bG.ch+bB.repeat;if(bF>bJ.length){bF=bJ.length}bI=c(bG.line,bF)}if(bC=="\n"){if(!bD.visualMode){bH.replaceRange("",bG,bI)}(b.commands.newlineAndIndentContinueComment||b.commands.newlineAndIndent)(bH)}else{var bz=bH.getRange(bG,bI);bz=bz.replace(/[^\n]/g,bC);if(bD.visualBlock){var bE=new Array(bH.getOption("tabSize")+1).join(" ");bz=bH.getSelection();bz=bz.replace(/\t/g,bE).replace(/[^\n]/g,bC).split("\n");bH.replaceSelections(bz)}else{bH.replaceRange(bz,bG,bI)}if(bD.visualMode){bG=aP(bA[0].anchor,bA[0].head)?bA[0].anchor:bA[0].head;bH.setCursor(bG);aU(bH)}else{bH.setCursor(G(bI,0,-1))}}},incrementNumberToken:function(bJ,bA){var bK=bJ.getCursor();var bF=bJ.getLine(bK.line);var bM=/-?\d+/g;var bE;var bz;var bD;var bL;var bB;while((bE=bM.exec(bF))!==null){bB=bE[0];bz=bE.index;bD=bz+bB.length;if(bK.ch<bD){break}}if(!bA.backtrack&&(bD<=bK.ch)){return}if(bB){var bI=bA.increase?1:-1;var bC=parseInt(bB)+(bI*bA.repeat);var bH=c(bK.line,bz);var bG=c(bK.line,bD);bL=bC.toString();bJ.replaceRange(bL,bH,bG)}else{return}bJ.setCursor(c(bK.line,bz+bL.length-1))},repeatLastEdit:function(bA,bB,bC){var bz=bC.lastEditInputState;if(!bz){return}var bD=bB.repeat;if(bD&&bB.repeatIsExplicit){bC.lastEditInputState.repeatOverride=bD}else{bD=bC.lastEditInputState.repeatOverride||bD}A(bA,bC,bD,false)},exitInsertMode:y};function ad(bA,bE,bC){var bB=Math.min(Math.max(bA.firstLine(),bE.line),bA.lastLine());var bz=aX(bA,bB)-1;bz=(bC)?bz+1:bz;var bD=Math.min(Math.max(0,bE.ch),bz);return c(bB,bD)}function bj(bA){var bz={};for(var bB in bA){if(bA.hasOwnProperty(bB)){bz[bB]=bA[bB]}}return bz}function G(bA,bz,bB){if(typeof bz==="object"){bB=bz.ch;bz=bz.line}return c(bA.line+bz,bA.ch+bB)}function bf(bz,bA){return{line:bA.line-bz.line,ch:bA.line-bz.line}}function bl(bH,bF,bz,bD){var bC,bG=[],bE=[];for(var bB=0;bB<bF.length;bB++){var bA=bF[bB];if(bz=="insert"&&bA.context!="insert"||bA.context&&bA.context!=bz||bD.operator&&bA.type=="action"||!(bC=U(bH,bA.keys))){continue}if(bC=="partial"){bG.push(bA)}if(bC=="full"){bE.push(bA)}}return{partial:bG.length&&bG,full:bE.length&&bE}}function U(bC,bz){if(bz.slice(-11)=="<character>"){var bA=bz.length-11;var bD=bC.slice(0,bA);var bB=bz.slice(0,bA);return bD==bB&&bC.length>bA?"full":bB.indexOf(bD)==0?"partial":false}else{return bC==bz?"full":bz.indexOf(bC)==0?"partial":false}}function T(bB){var bA=/^.*(<[\w\-]+>)$/.exec(bB);var bz=bA?bA[1]:bB.slice(-1);if(bz.length>1){switch(bz){case"<CR>":bz="\n";break;case"<Space>":bz=" ";break;default:break}}return bz}function aA(bz,bA,bB){return function(){for(var bC=0;bC<bB;bC++){bA(bz)}}}function F(bz){return c(bz.line,bz.ch)}function bw(bA,bz){return bA.ch==bz.ch&&bA.line==bz.line}function aP(bA,bz){if(bA.line<bz.line){return true}if(bA.line==bz.line&&bA.ch<bz.ch){return true}return false}function az(bA,bz){if(arguments.length>2){bz=az.apply(undefined,Array.prototype.slice.call(arguments,1))}return aP(bA,bz)?bA:bz}function ba(bA,bz){if(arguments.length>2){bz=ba.apply(undefined,Array.prototype.slice.call(arguments,1))}return aP(bA,bz)?bz:bA}function ay(bC,bB,bA){var bD=aP(bC,bB);var bz=aP(bB,bA);return bD&&bz}function aX(bz,bA){return bz.getLine(bA).length}function n(bz){return bz.split("").reverse().join("")}function a9(bz){if(bz.trim){return bz.trim()}return bz.replace(/^\s+|\s+$/g,"")}function j(bz){return bz.replace(/([.?*+$\[\]\/\\(){}|\-])/g,"\\$1")}function aY(bz,bD,bC){var bB=aX(bz,bD);var bA=new Array(bC-bB+1).join(" ");bz.setCursor(c(bD,bB));bz.replaceRange(bA,bz.getCursor())}function I(bH,bA){var bC=[],bB=bH.listSelections();var bD=F(bH.clipPos(bA));var bS=!bw(bA,bD);var bF=bH.getCursor("head");var bR=w(bB,bF);var bI=bw(bB[bR].head,bB[bR].anchor);var bQ=bB.length-1;var bG=bQ-bR>bR?bQ:0;var bE=bB[bG].anchor;var bN=Math.min(bE.line,bD.line);var bz=Math.max(bE.line,bD.line);var bJ=bE.ch,bK=bD.ch;var bP=bB[bG].head.ch-bJ;var bM=bK-bJ;if(bP>0&&bM<=0){bJ++;if(!bS){bK--}}else{if(bP<0&&bM>=0){bJ--;if(!bI){bK++}}else{if(bP<0&&bM==-1){bJ--;bK++}}}for(var bL=bN;bL<=bz;bL++){var bO={anchor:new c(bL,bJ),head:new c(bL,bK)};bC.push(bO)}bR=bD.line==bz?bC.length-1:0;bH.setSelections(bC);bA.ch=bK;bE.ch=bJ;return bE}function aV(bA,bC,bz){var bE=[];for(var bB=0;bB<bz;bB++){var bD=G(bC,bB,0);bE.push({anchor:bD,head:bD})}bA.setSelections(bE,0)}function w(bA,bE,bz){for(var bB=0;bB<bA.length;bB++){var bC=bz!="head"&&bw(bA[bB].anchor,bE);var bD=bz!="anchor"&&bw(bA[bB].head,bE);if(bC||bD){return bB}}return -1}function a7(bA,bC){var bB=bC.lastSelection;var bz=function(){var bF=bA.listSelections();var bI=bF[0];var bE=bF[bF.length-1];var bG=aP(bI.anchor,bI.head)?bI.anchor:bI.head;var bH=aP(bE.anchor,bE.head)?bE.head:bE.anchor;return[bG,bH]};var bD=function(){var bO=bA.getCursor();var bP=bA.getCursor();var bJ=bB.visualBlock;if(bJ){var bG=bJ.width;var bQ=bJ.height;bP=c(bO.line+bQ,bO.ch+bG);var bH=[];for(var bK=bO.line;bK<bP.line;bK++){var bL=c(bK,bO.ch);var bN=c(bK,bP.ch);var bM={anchor:bL,head:bN};bH.push(bM)}bA.setSelections(bH)}else{var bF=bB.anchorMark.find();var bI=bB.headMark.find();var bR=bI.line-bF.line;var bE=bI.ch-bF.ch;bP={line:bP.line+bR,ch:bR?bP.ch:bE+bP.ch};if(bB.visualLine){bO=c(bO.line,0);bP=c(bP.line,aX(bA,bP.line))}bA.setSelection(bO,bP)}return[bO,bP]};if(!bC.visualMode){return bD()}else{return bz()}}function bh(bz,bA){var bB=bA.sel.anchor;var bC=bA.sel.head;if(bA.lastPastedText){bC=bz.posFromIndex(bz.indexFromPos(bB)+bA.lastPastedText.length);bA.lastPastedText=null}bA.lastSelection={anchorMark:bz.setBookmark(bB),headMark:bz.setBookmark(bC),anchor:F(bB),head:F(bC),visualMode:bA.visualMode,visualLine:bA.visualLine,visualBlock:bA.visualBlock}}function x(bz,bF,bA){var bE=bz.state.vim.sel;var bD=bE.head;var bB=bE.anchor;var bC;if(aP(bA,bF)){bC=bA;bA=bF;bF=bC}if(aP(bD,bB)){bD=az(bF,bD);bB=ba(bB,bA)}else{bB=az(bF,bB);bD=ba(bD,bA);bD=G(bD,0,-1);if(bD.ch==-1&&bD.line!=bz.firstLine()){bD=c(bD.line-1,aX(bz,bD.line-1))}}return[bB,bD]}function O(bz,bC,bD){var bA=bz.state.vim;bC=bC||bA.sel;var bD=bD||bA.visualLine?"line":bA.visualBlock?"block":"char";var bB=by(bz,bC,bD);bz.setSelections(bB.ranges,bB.primary);ag(bz)}function by(bN,bC,bI,bB){var bK=F(bC.head);var bH=F(bC.anchor);if(bI=="char"){var bL=!bB&&!aP(bC.head,bC.anchor)?1:0;var bD=aP(bC.head,bC.anchor)?1:0;bK=G(bC.head,0,bL);bH=G(bC.anchor,0,bD);return{ranges:[{anchor:bH,head:bK}],primary:0}}else{if(bI=="line"){if(!aP(bC.head,bC.anchor)){bH.ch=0;var bM=bN.lastLine();if(bK.line>bM){bK.line=bM}bK.ch=aX(bN,bK.line)}else{bK.ch=0;bH.ch=aX(bN,bH.line)}return{ranges:[{anchor:bH,head:bK}],primary:0}}else{if(bI=="block"){var bJ=Math.min(bH.line,bK.line),bF=Math.min(bH.ch,bK.ch),bz=Math.max(bH.line,bK.line),bO=Math.max(bH.ch,bK.ch)+1;var bP=bz-bJ+1;var bE=bK.line==bJ?0:bP-1;var bA=[];for(var bG=0;bG<bP;bG++){bA.push({anchor:c(bJ+bG,bF),head:c(bJ+bG,bO)})}return{ranges:bA,primary:bE}}}}}function h(bz){var bA=bz.getCursor("head");if(bz.getSelection().length==1){bA=az(bA,bz.getCursor("anchor"))}return bA}function aU(bz,bB){var bA=bz.state.vim;if(bB!==false){bz.setCursor(ad(bz,bA.sel.head))}bh(bz,bA);bA.visualMode=false;bA.visualLine=false;bA.visualBlock=false;b.signal(bz,"vim-mode-change",{mode:"normal"});if(bA.fakeCursor){bA.fakeCursor.clear()}}function ap(bA,bz,bE){var bD=bA.getRange(bz,bE);if(/\n\s*$/.test(bD)){var bC=bD.split("\n");bC.pop();var bB;for(var bB=bC.pop();bC.length>0&&bB&&W(bB);bB=bC.pop()){bE.line--;bE.ch=0}if(bB){bE.line--;bE.ch=aX(bA,bE.line)}else{bE.ch=0}}}function be(bA,bz,bB){bz.ch=0;bB.ch=0;bB.line++}function a1(bA){if(!bA){return 0}var bz=bA.search(/\S/);return bz==-1?bA.length:bz}function aG(bI,bE,bS,bA,bT){var bC=h(bI);var bL=bI.getLine(bC.line);var bO=bC.ch;var bN=bL.substring(bO);var bP;if(bT){bP=bN.search(/\w/)}else{bP=bN.search(/\S/)}if(bP==-1){return null}bO+=bP;bN=bL.substring(bO);var bR=bL.substring(0,bO);var bU;if(bA){bU=/^\S+/}else{if((/\w/).test(bL.charAt(bO))){bU=/^\w+/}else{bU=/^[^\w\s]+/}}var bF=bU.exec(bN);var bM=bO;var bB=bO+bF[0].length;var bD=n(bR);var bJ=bU.exec(bD);if(bJ){bM-=bJ[0].length}if(bE){var bK=bL.substring(bB);var bz=bK.match(/^\s*/)[0].length;if(bz>0){bB+=bz}else{var bH=bD.length-bM;var bG=bD.substring(bH);var bQ=bG.match(/^\s*/)[0].length;bM-=bQ}}return{start:c(bC.line,bM),end:c(bC.line,bB)}}function bg(bz,bA,bB){if(!bw(bA,bB)){t.jumpList.add(bz,bA,bB)}}function aF(bz,bA){t.lastChararacterSearch.increment=bz;t.lastChararacterSearch.forward=bA.forward;t.lastChararacterSearch.selectedCharacter=bA.selectedCharacter}var V={"(":"bracket",")":"bracket","{":"bracket","}":"bracket","[":"section","]":"section","*":"comment","/":"comment",m:"method",M:"method","#":"preprocess"};var aZ={bracket:{isComplete:function(bz){if(bz.nextCh===bz.symb){bz.depth++;if(bz.depth>=1){return true}}else{if(bz.nextCh===bz.reverseSymb){bz.depth--}}return false}},section:{init:function(bz){bz.curMoveThrough=true;bz.symb=(bz.forward?"]":"[")===bz.symb?"{":"}"},isComplete:function(bz){return bz.index===0&&bz.nextCh===bz.symb}},comment:{isComplete:function(bA){var bz=bA.lastCh==="*"&&bA.nextCh==="/";bA.lastCh=bA.nextCh;return bz}},method:{init:function(bz){bz.symb=(bz.symb==="m"?"{":"}");bz.reverseSymb=bz.symb==="{"?"}":"{"},isComplete:function(bz){if(bz.nextCh===bz.symb){return true}return false}},preprocess:{init:function(bz){bz.index=0},isComplete:function(bA){if(bA.nextCh==="#"){var bz=bA.lineText.match(/#(\w+)/)[1];if(bz==="endif"){if(bA.forward&&bA.depth===0){return true}bA.depth++}else{if(bz==="if"){if(!bA.forward&&bA.depth===0){return true}bA.depth--}}if(bz==="else"&&bA.depth===0){return true}}return false}}};function br(bI,bA,bD,bB){var bL=F(bI.getCursor());var bJ=bD?1:-1;var bC=bD?bI.lineCount():-1;var bH=bL.ch;var bN=bL.line;var bG=bI.getLine(bN);var bz={lineText:bG,nextCh:bG.charAt(bH),lastCh:null,index:bH,symb:bB,reverseSymb:(bD?{")":"(","}":"{"}:{"(":")","{":"}"})[bB],forward:bD,depth:0,curMoveThrough:false};var bE=V[bB];if(!bE){return bL}var bM=aZ[bE].init;var bK=aZ[bE].isComplete;if(bM){bM(bz)}while(bN!==bC&&bA){bz.index+=bJ;bz.nextCh=bz.lineText.charAt(bz.index);if(!bz.nextCh){bN+=bJ;bz.lineText=bI.getLine(bN)||"";if(bJ>0){bz.index=0}else{var bF=bz.lineText.length;bz.index=(bF>0)?(bF-1):0}bz.nextCh=bz.lineText.charAt(bz.index)}if(bK(bz)){bL.line=bN;bL.ch=bz.index;bA--}}if(bz.nextCh||bz.curMoveThrough){return c(bN,bz.index)}return bL}function bt(bJ,bK,bC,bH,bI){var bD=bK.line;var bG=bK.ch;var bN=bJ.getLine(bD);var bA=bC?1:-1;var bE=bH?bn:av;if(bI&&bN==""){bD+=bA;bN=bJ.getLine(bD);if(!i(bJ,bD)){return null}bG=(bC)?0:bN.length}while(true){if(bI&&bN==""){return{from:0,to:0,line:bD}}var bF=(bA>0)?bN.length:-1;var bM=bF,bL=bF;while(bG!=bF){var bz=false;for(var bB=0;bB<bE.length&&!bz;++bB){if(bE[bB].test(bN.charAt(bG))){bM=bG;while(bG!=bF&&bE[bB].test(bN.charAt(bG))){bG+=bA}bL=bG;bz=bM!=bL;if(bM==bK.ch&&bD==bK.line&&bL==bM+bA){continue}else{return{from:Math.min(bM,bL+1),to:Math.max(bM,bL),line:bD}}}}if(!bz){bG+=bA}}bD+=bA;if(!i(bJ,bD)){return null}bN=bJ.getLine(bD);bG=(bA>0)?0:bN.length}throw new Error("The impossible happened.")}function aE(bJ,bL,bA,bE,bN,bH){var bF=F(bL);var bG=[];if(bE&&!bN||!bE&&bN){bA++}var bI=!(bE&&bN);for(var bC=0;bC<bA;bC++){var bz=bt(bJ,bL,bE,bH,bI);if(!bz){var bB=aX(bJ,bJ.lastLine());bG.push(bE?{line:bJ.lastLine(),from:bB,to:bB}:{line:0,from:0,to:0});break}bG.push(bz);bL=c(bz.line,bE?(bz.to-1):bz.from)}var bD=bG.length!=bA;var bK=bG[0];var bM=bG.pop();if(bE&&!bN){if(!bD&&(bK.from!=bF.ch||bK.line!=bF.line)){bM=bG.pop()}return c(bM.line,bM.from)}else{if(bE&&bN){return c(bM.line,bM.to-1)}else{if(!bE&&bN){if(!bD&&(bK.to!=bF.ch||bK.line!=bF.line)){bM=bG.pop()}return c(bM.line,bM.to)}else{return c(bM.line,bM.from)}}}}function bq(bE,bA,bC,bD){var bG=bE.getCursor();var bz=bG.ch;var bF;for(var bB=0;bB<bA;bB++){var bH=bE.getLine(bG.line);bF=bb(bz,bH,bD,bC,true);if(bF==-1){return null}bz=bF}return c(bE.getCursor().line,bF)}function an(bz,bB){var bA=bz.getCursor().line;return ad(bz,c(bA,bB-1))}function aS(bz,bA,bB,bC){if(!M(bB,aH)){return}if(bA.marks[bB]){bA.marks[bB].clear()}bA.marks[bB]=bz.setBookmark(bC)}function bb(bE,bA,bD,bB,bC){var bz;if(bB){bz=bA.indexOf(bD,bE+1);if(bz!=-1&&!bC){bz-=1}}else{bz=bA.lastIndexOf(bD,bE-1);if(bz!=-1&&!bC){bz+=1}}return bz}function q(bJ,bH,bB,bI){var bK=bH,bA,bD;var bG=({"(":/[()]/,")":/[()]/,"[":/[[\]]/,"]":/[[\]]/,"{":/[{}]/,"}":/[{}]/})[bB];var bC=({"(":"(",")":"(","[":"[","]":"[","{":"{","}":"{"})[bB];var bz=bJ.getLine(bK.line).charAt(bK.ch);var bE=bz===bC?1:0;bA=bJ.scanForBracket(c(bK.line,bK.ch+bE),-1,null,{bracketRegex:bG});bD=bJ.scanForBracket(c(bK.line,bK.ch+bE),1,null,{bracketRegex:bG});if(!bA||!bD){return{start:bK,end:bK}}bA=bA.pos;bD=bD.pos;if((bA.line==bD.line&&bA.ch>bD.ch)||(bA.line>bD.line)){var bF=bA;bA=bD;bD=bF}if(bI){bD.ch+=1}else{bA.ch+=1}return{start:bA,end:bD}}function aR(bI,bG,bB,bH){var bJ=F(bG);var bK=bI.getLine(bJ.line);var bF=bK.split("");var bA,bC,bD,bE;var bz=bF.indexOf(bB);if(bJ.ch<bz){bJ.ch=bz}else{if(bz<bJ.ch&&bF[bJ.ch]==bB){bC=bJ.ch;--bJ.ch}}if(bF[bJ.ch]==bB&&!bC){bA=bJ.ch+1}else{for(bD=bJ.ch;bD>-1&&!bA;bD--){if(bF[bD]==bB){bA=bD+1}}}if(bA&&!bC){for(bD=bA,bE=bF.length;bD<bE&&!bC;bD++){if(bF[bD]==bB){bC=bD}}}if(!bA||!bC){return{start:bJ,end:bJ}}if(bH){--bA;++bC}return{start:c(bJ.line,bA),end:c(bJ.line,bC)}}aM("pcre",true,"boolean");function ah(){}ah.prototype={getQuery:function(){return t.query},setQuery:function(bz){t.query=bz},getOverlay:function(){return this.searchOverlay},setOverlay:function(bz){this.searchOverlay=bz},isReversed:function(){return t.isReversed},setReversed:function(bz){t.isReversed=bz}};function aJ(bz){var bA=bz.state.vim;return bA.searchState_||(bA.searchState_=new ah())}function af(bz,bC,bD,bA,bB){if(bz.openDialog){bz.openDialog(bC,bA,{bottom:true,value:bB.value,onKeyDown:bB.onKeyDown,onKeyUp:bB.onKeyUp})}else{bA(prompt(bD,""))}}function z(bB){var bA=ao(bB)||[];if(!bA.length){return[]}var bC=[];if(bA[0]!==0){return}for(var bz=0;bz<bA.length;bz++){if(typeof bA[bz]=="number"){bC.push(bB.substring(bA[bz]+1,bA[bz+1]))}}return bC}function ao(bC){var bA=false;var bB=[];for(var bz=0;bz<bC.length;bz++){var bD=bC.charAt(bz);if(!bA&&bD=="/"){bB.push(bz)}bA=!bA&&(bD=="\\")}return bB}function bp(bG){var bH="|(){";var bD="}";var bE=false;var bA=[];for(var bB=-1;bB<bG.length;bB++){var bF=bG.charAt(bB)||"";var bz=bG.charAt(bB+1)||"";var bC=(bz&&bH.indexOf(bz)!=-1);if(bE){if(bF!=="\\"||!bC){bA.push(bF)}bE=false}else{if(bF==="\\"){bE=true;if(bz&&bD.indexOf(bz)!=-1){bC=true}if(!bC||bz==="\\"){bA.push(bF)}}else{bA.push(bF);if(bC&&bz!=="\\"){bA.push("\\")}}}}return bA.join("")}function bs(bC){var bB=false;var bz=[];for(var bA=-1;bA<bC.length;bA++){var bE=bC.charAt(bA)||"";var bD=bC.charAt(bA+1)||"";if(bB){bz.push(bE);bB=false}else{if(bE==="\\"){bB=true;if((ak(bD)||bD==="$")){bz.push("$")}else{if(bD!=="/"&&bD!=="\\"){bz.push("\\")}}}else{if(bE==="$"){bz.push("$")}bz.push(bE);if(bD==="/"){bz.push("\\")}}}}return bz.join("")}function aj(bB){var bA=new b.StringStream(bB);var bz=[];while(!bA.eol()){while(bA.peek()&&bA.peek()!="\\"){bz.push(bA.next())}if(bA.match("\\/",true)){bz.push("/")}else{if(bA.match("\\\\",true)){bz.push("\\")}else{bz.push(bA.next())}}}return bz.join("")}function aC(bD,bB,bG){var bF=t.registerController.getRegister("/");bF.setText(bD);if(bD instanceof RegExp){return bD}var bE=ao(bD);var bH;var bA;if(!bE.length){bH=bD}else{bH=bD.substring(0,bE[0]);var bz=bD.substring(bE[0]);bA=(bz.indexOf("i")!=-1)}if(!bH){return null}if(!r("pcre")){bH=bp(bH)}if(bG){bB=(/^[^A-Z]*$/).test(bH)}var bC=new RegExp(bH,(bB||bA)?"i":undefined);return bC}function bm(bz,bA){if(bz.openNotification){bz.openNotification('<span style="color: red">'+bA+"</span>",{bottom:true,duration:5000})}else{alert(bA)}}function aI(bA,bB){var bz="";if(bA){bz+='<span style="font-family: monospace">'+bA+"</span>"}bz+='<input type="text"/> <span style="color: #888">';if(bB){bz+='<span style="color: #888">';bz+=bB;bz+="</span>"}return bz}var S="(Javascript regexp)";function a3(bA,bB){var bC=(bB.prefix||"")+" "+(bB.desc||"");var bz=aI(bB.prefix,bB.desc);af(bA,bz,bC,bB.onClose,bB)}function ab(bA,bz){if(bA instanceof RegExp&&bz instanceof RegExp){var bC=["global","multiline","ignoreCase","source"];for(var bB=0;bB<bC.length;bB++){var bD=bC[bB];if(bA[bD]!==bz[bD]){return false}}return true}return false}function bv(bz,bE,bA,bB){if(!bE){return}var bD=aJ(bz);var bC=aC(bE,!!bA,!!bB);if(!bC){return}aL(bz,bC);if(ab(bC,bD.getQuery())){return bC}bD.setQuery(bC);return bC}function aO(bA){if(bA.source.charAt(0)=="^"){var bz=true}return{token:function(bC){if(bz&&!bC.sol()){bC.skipToEnd();return}var bB=bC.match(bA,false);if(bB){if(bB[0].length==0){bC.next();return"searching"}if(!bC.sol()){bC.backUp(1);if(!bA.exec(bC.next()+bB[0])){bC.next();return null}}bC.match(bA);return"searching"}while(!bC.eol()){bC.next();if(bC.match(bA,false)){break}}},query:bA}}function aL(bz,bB){var bA=aJ(bz).getOverlay();if(!bA||bB!=bA.query){if(bA){bz.removeOverlay(bA)}bA=aO(bB);bz.addOverlay(bA);aJ(bz).setOverlay(bA)}}function bx(bz,bA,bC,bB){if(bB===undefined){bB=1}return bz.operation(function(){var bG=bz.getCursor();var bF=bz.getSearchCursor(bC,bG);for(var bD=0;bD<bB;bD++){var bE=bF.find(bA);if(bD==0&&bE&&bw(bF.from(),bG)){bE=bF.find(bA)}if(!bE){bF=bz.getSearchCursor(bC,(bA)?c(bz.lastLine()):c(bz.firstLine(),0));if(!bF.find(bA)){return}}}return bF.from()})}function aN(bz){bz.removeOverlay(aJ(bz).getOverlay());aJ(bz).setOverlay(null)}function ai(bB,bA,bz){if(typeof bB!="number"){bB=bB.line}if(bA instanceof Array){return M(bB,bA)}else{if(bz){return(bB>=bA&&bB<=bz)}else{return bB==bA}}}function bd(bz){var bC=bz.getScrollInfo();var bB=6;var bF=10;var bE=bz.coordsChar({left:0,top:bB+bC.top},"local");var bA=bC.clientHeight-bF+bC.top;var bD=bz.coordsChar({left:0,top:bA},"local");return{top:bE.line,bottom:bD.line}}var E=[{name:"map"},{name:"imap",shortName:"im"},{name:"nmap",shortName:"nm"},{name:"vmap",shortName:"vm"},{name:"unmap"},{name:"write",shortName:"w"},{name:"undo",shortName:"u"},{name:"redo",shortName:"red"},{name:"set",shortName:"set"},{name:"sort",shortName:"sor"},{name:"substitute",shortName:"s",possiblyAsync:true},{name:"nohlsearch",shortName:"noh"},{name:"delmarks",shortName:"delm"},{name:"registers",shortName:"reg",excludeFromCommandHistory:true},{name:"global",shortName:"g"}];var ac=function(){this.buildCommandMap_()};ac.prototype={processCommand:function(bK,bJ,bA){var bE=bK.state.vim;var bB=t.registerController.getRegister(":");var bH=bB.toString();if(bE.visualMode){aU(bK)}var bz=new b.StringStream(bJ);bB.setText(bJ);var bD=bA||{};bD.input=bJ;try{this.parseInput_(bK,bz,bD)}catch(bI){bm(bK,bI);throw bI}var bC;var bG;if(!bD.commandName){if(bD.line!==undefined){bG="move"}}else{bC=this.matchCommand_(bD.commandName);if(bC){bG=bC.name;if(bC.excludeFromCommandHistory){bB.setText(bH)}this.parseCommandArgs_(bz,bD,bC);if(bC.type=="exToKey"){for(var bF=0;bF<bC.toKeys.length;bF++){b.Vim.handleKey(bK,bC.toKeys[bF],"mapping")}return}else{if(bC.type=="exToEx"){this.processCommand(bK,bC.toInput);return}}}}if(!bG){bm(bK,'Not an editor command ":'+bJ+'"');return}try{a6[bG](bK,bD);if((!bC||!bC.possiblyAsync)&&bD.callback){bD.callback()}}catch(bI){bm(bK,bI);throw bI}},parseInput_:function(bA,bB,bz){bB.eatWhile(":");if(bB.eat("%")){bz.line=bA.firstLine();bz.lineEnd=bA.lastLine()}else{bz.line=this.parseLineSpec_(bA,bB);if(bz.line!==undefined&&bB.eat(",")){bz.lineEnd=this.parseLineSpec_(bA,bB)}}var bC=bB.match(/^(\w+)/);if(bC){bz.commandName=bC[1]}else{bz.commandName=bB.match(/.*/)[0]}return bz},parseLineSpec_:function(bz,bA){var bB=bA.match(/^(\d+)/);if(bB){return parseInt(bB[1],10)-1}switch(bA.next()){case".":return bz.getCursor().line;case"$":return bz.lastLine();case"'":var bC=bz.state.vim.marks[bA.next()];if(bC&&bC.find()){return bC.find().line}throw new Error("Mark not set");default:bA.backUp(1);return undefined}},parseCommandArgs_:function(bA,bD,bC){if(bA.eol()){return}bD.argString=bA.match(/.*/)[0];var bB=bC.argDelimiter||/\s+/;var bz=a9(bD.argString).split(bB);if(bz.length&&bz[0]){bD.args=bz}},matchCommand_:function(bA){for(var bz=bA.length;bz>0;bz--){var bB=bA.substring(0,bz);if(this.commandMap_[bB]){var bC=this.commandMap_[bB];if(bC.name.indexOf(bA)===0){return bC}}}return null},buildCommandMap_:function(){this.commandMap_={};for(var bA=0;bA<E.length;bA++){var bB=E[bA];var bz=bB.shortName||bB.name;this.commandMap_[bz]=bB}},map:function(bA,bD,bz){if(bA!=":"&&bA.charAt(0)==":"){if(bz){throw Error("Mode not supported for ex mappings")}var bC=bA.substring(1);if(bD!=":"&&bD.charAt(0)==":"){this.commandMap_[bC]={name:bC,type:"exToEx",toInput:bD.substring(1),user:true}}else{this.commandMap_[bC]={name:bC,type:"exToKey",toKeys:bD,user:true}}}else{if(bD!=":"&&bD.charAt(0)==":"){var bB={keys:bA,type:"keyToEx",exArgs:{input:bD.substring(1)},user:true};if(bz){bB.context=bz}a.unshift(bB)}else{var bB={keys:bA,type:"keyToKey",toKeys:bD,user:true};if(bz){bB.context=bz}a.unshift(bB)}}},unmap:function(bA,bz){if(bA!=":"&&bA.charAt(0)==":"){if(bz){throw Error("Mode not supported for ex mappings")}var bC=bA.substring(1);if(this.commandMap_[bC]&&this.commandMap_[bC].user){delete this.commandMap_[bC];return}}else{var bD=bA;for(var bB=0;bB<a.length;bB++){if(bD==a[bB].keys&&a[bB].context===bz&&a[bB].user){a.splice(bB,1);return}}}throw Error("No such mapping.")}};var a6={map:function(bz,bC,bA){var bB=bC.args;if(!bB||bB.length<2){if(bz){bm(bz,"Invalid mapping: "+bC.input)}return}p.map(bB[0],bB[1],bA)},imap:function(bz,bA){this.map(bz,bA,"insert")},nmap:function(bz,bA){this.map(bz,bA,"normal")},vmap:function(bz,bA){this.map(bz,bA,"visual")},unmap:function(bz,bC,bA){var bB=bC.args;if(!bB||bB.length<1){if(bz){bm(bz,"No such mapping: "+bC.input)}return}p.unmap(bB[0],bA)},move:function(bz,bA){bc.processCommand(bz,bz.state.vim,{type:"motion",motion:"moveToLineOrEdgeOfDocument",motionArgs:{forward:false,explicitRepeat:true,linewise:true},repeatOverride:bA.line+1})},set:function(bH,bE){var bB=bE.args;if(!bB||bB.length<1){if(bH){bm(bH,"Invalid mapping: "+bE.input)}return}var bF=bB[0].split("=");var bA=bF[0];var bG=bF[1];var bD=false;if(bA.charAt(bA.length-1)=="?"){if(bG){throw Error("Trailing characters: "+bE.argString)}bA=bA.substring(0,bA.length-1);bD=true}if(bG===undefined&&bA.substring(0,2)=="no"){bA=bA.substring(2);bG=false}var bC=ax[bA]&&ax[bA].type=="boolean";if(bC&&bG==undefined){bG=true}if(!bC&&!bG||bD){var bz=r(bA);if(bz===true||bz===false){bm(bH," "+(bz?"":"no")+bA)}else{bm(bH,"  "+bA+"="+bz)}}else{aK(bA,bG)}},registers:function(bE,bA){var bG=bA.args;var bD=t.registerController.registers;var bB="----------Registers----------<br><br>";if(!bG){for(var bz in bD){var bH=bD[bz].toString();if(bH.length){bB+='"'+bz+"    "+bH+"<br>"}}}else{var bz;bG=bG.join("");for(var bC=0;bC<bG.length;bC++){bz=bG.charAt(bC);if(!t.registerController.isValidRegister(bz)){continue}var bF=bD[bz]||new bo();bB+='"'+bz+"    "+bF.toString()+"<br>"}}bm(bE,bB)},sort:function(bI,bS){var bJ,bC,bA,bB;function bD(){if(bS.argString){var bW=new b.StringStream(bS.argString);if(bW.eat("!")){bJ=true}if(bW.eol()){return}if(!bW.eatSpace()){return"Invalid arguments"}var bY=bW.match(/[a-z]+/);if(bY){bY=bY[0];bC=bY.indexOf("i")!=-1;bA=bY.indexOf("u")!=-1;var bV=bY.indexOf("d")!=-1&&1;var bX=bY.indexOf("x")!=-1&&1;var bU=bY.indexOf("o")!=-1&&1;if(bV+bX+bU>1){return"Invalid arguments"}bB=bV&&"decimal"||bX&&"hex"||bU&&"octal"}if(bW.eatSpace()&&bW.match(/\/.*\//)){"patterns not supported"}}}var bE=bD();if(bE){bm(bI,bE+": "+bS.argString);return}var bN=bS.line||bI.firstLine();var bR=bS.lineEnd||bS.line||bI.lastLine();if(bN==bR){return}var bH=c(bN,0);var bP=c(bR,aX(bI,bR));var bM=bI.getRange(bH,bP).split("\n");var bF=(bB=="decimal")?/(-?)([\d]+)/:(bB=="hex")?/(-?)(?:0x)?([0-9a-f]+)/i:(bB=="octal")?/([0-7]+)/:null;var bG=(bB=="decimal")?10:(bB=="hex")?16:(bB=="octal")?8:null;var bK=[],bO=[];if(bB){for(var bQ=0;bQ<bM.length;bQ++){if(bF.exec(bM[bQ])){bK.push(bM[bQ])}else{bO.push(bM[bQ])}}}else{bO=bM}function bT(bV,bU){if(bJ){var bW;bW=bV;bV=bU;bU=bW}if(bC){bV=bV.toLowerCase();bU=bU.toLowerCase()}var bY=bB&&bF.exec(bV);var bX=bB&&bF.exec(bU);if(!bY){return bV<bU?-1:1}bY=parseInt((bY[1]+bY[2]).toLowerCase(),bG);bX=parseInt((bX[1]+bX[2]).toLowerCase(),bG);return bY-bX}bK.sort(bT);bO.sort(bT);bM=(!bJ)?bO.concat(bK):bK.concat(bO);if(bA){var bL=bM;var bz;bM=[];for(var bQ=0;bQ<bL.length;bQ++){if(bL[bQ]!=bz){bM.push(bL[bQ])}bz=bL[bQ]}}bI.replaceRange(bM.join("\n"),bH,bP)},global:function(bM,bD){var bA=bD.argString;if(!bA){bm(bM,"Regular Expression missing from global");return}var bG=(bD.line!==undefined)?bD.line:bM.firstLine();var bE=bD.lineEnd||bD.line||bM.lastLine();var bL=z(bA);var bO=bA,bC;if(bL.length){bO=bL[0];bC=bL.slice(1,bL.length).join("/")}if(bO){try{bv(bM,bO,true,true)}catch(bJ){bm(bM,"Invalid regex: "+bO);return}}var bK=aJ(bM).getQuery();var bz=[],bI="";for(var bF=bG;bF<=bE;bF++){var bB=bK.test(bM.getLine(bF));if(bB){bz.push(bF+1);bI+=bM.getLine(bF)+"<br>"}}if(!bC){bm(bM,bI);return}var bH=0;var bN=function(){if(bH<bz.length){var bP=bz[bH]+bC;p.processCommand(bM,bP,{callback:bN})}bH++};bN()},substitute:function(bG,bO){if(!bG.getSearchCursor){throw new Error("Search feature not available. Requires searchcursor.js or any other getSearchCursor implementation.")}var bP=bO.argString;var bJ=bP?z(bP):[];var bH,bI="",bz,bA,bE;var bF=false;var bL=false;if(bJ.length){bH=bJ[0];bI=bJ[1];if(bI!==undefined){if(r("pcre")){bI=aj(bI)}else{bI=bs(bI)}t.lastSubstituteReplacePart=bI}bz=bJ[2]?bJ[2].split(" "):[]}else{if(bP&&bP.length){bm(bG,"Substitutions should be of the form :s/pattern/replace/");return}}if(bz){bA=bz[0];bE=parseInt(bz[1]);if(bA){if(bA.indexOf("c")!=-1){bF=true;bA.replace("c","")}if(bA.indexOf("g")!=-1){bL=true;bA.replace("g","")}bH=bH+"/"+bA}}if(bH){try{bv(bG,bH,true,true)}catch(bN){bm(bG,"Invalid regex: "+bH);return}}bI=bI||t.lastSubstituteReplacePart;if(bI===undefined){bm(bG,"No previous substitute regular expression");return}var bC=aJ(bG);var bD=bC.getQuery();var bK=(bO.line!==undefined)?bO.line:bG.getCursor().line;var bM=bO.lineEnd||bK;if(bE){bK=bM;bM=bK+bE-1}var bQ=ad(bG,c(bK,0));var bB=bG.getSearchCursor(bD,bQ);a8(bG,bF,bL,bK,bM,bB,bD,bI,bO.callback)},redo:b.commands.redo,undo:b.commands.undo,write:function(bz){if(b.commands.save){b.commands.save(bz)}else{bz.save()}},nohlsearch:function(bz){aN(bz)},delmarks:function(bJ,bE){if(!bE.argString||!a9(bE.argString)){bm(bJ,"Argument required");return}var bz=bJ.state.vim;var bK=new b.StringStream(a9(bE.argString));while(!bK.eol()){bK.eatSpace();var bH=bK.pos;if(!bK.match(/[a-zA-Z]/,false)){bm(bJ,"Invalid argument: "+bE.argString.substring(bH));return}var bB=bK.next();if(bK.match("-",true)){if(!bK.match(/[a-zA-Z]/,false)){bm(bJ,"Invalid argument: "+bE.argString.substring(bH));return}var bC=bB;var bG=bK.next();if(H(bC)&&H(bG)||D(bC)&&D(bG)){var bA=bC.charCodeAt(0);var bI=bG.charCodeAt(0);if(bA>=bI){bm(bJ,"Invalid argument: "+bE.argString.substring(bH));return}for(var bF=0;bF<=bI-bA;bF++){var bD=String.fromCharCode(bA+bF);delete bz.marks[bD]}}else{bm(bJ,"Invalid argument: "+bC+"-");return}}else{delete bz.marks[bB]}}}};var p=new ac();function a8(bN,bA,bC,bI,bG,bB,bK,bE,bO){bN.state.vim.exMode=true;var bF=false;var bM=bB.from();function bJ(){bN.operation(function(){while(!bF){bD();bH()}bL()})}function bD(){var bQ=bN.getRange(bB.from(),bB.to());var bP=bQ.replace(bK,bE);bB.replace(bP)}function bH(){var bP;while(bP=bB.findNext()&&ai(bB.from(),bI,bG)){if(!bC&&bM&&bB.from().line==bM.line){continue}bN.scrollIntoView(bB.from(),30);bN.setSelection(bB.from(),bB.to());bM=bB.from();bF=false;return}bF=true}function bL(bQ){if(bQ){bQ()}bN.focus();if(bM){bN.setCursor(bM);var bP=bN.state.vim;bP.exMode=false;bP.lastHPos=bP.lastHSPos=bM.ch}if(bO){bO()}}function bz(bS,bP,bT){b.e_stop(bS);var bQ=b.keyName(bS);switch(bQ){case"Y":bD();bH();break;case"N":bH();break;case"A":var bR=bO;bO=undefined;bN.operation(bJ);bO=bR;break;case"L":bD();case"Q":case"Esc":case"Ctrl-C":case"Ctrl-[":bL(bT);break}if(bF){bL(bT)}return true}bH();if(bF){bm(bN,"No matches for "+bK.source);return}if(!bA){bJ();if(bO){bO()}return}a3(bN,{prefix:"replace with <strong>"+bE+"</strong> (y/n/a/q/l)",onKeyDown:bz})}b.keyMap.vim={attach:v,detach:k};function y(bH){var bA=bH.state.vim;var bC=t.macroModeState;var bF=t.registerController.getRegister(".");var bz=bC.isPlaying;var bD=bC.lastInsertModeChanges;var bI=[];if(!bz){var bE=bD.inVisualBlock?bA.lastSelection.visualBlock.height:1;var bG=bD.changes;var bI=[];var bB=0;while(bB<bG.length){bI.push(bG[bB]);if(bG[bB] instanceof bk){bB++}else{bB+=bE}}bD.changes=bI;bH.off("change",bi);b.off(bH.getInputField(),"keydown",aa)}if(!bz&&bA.insertModeRepeat>1){A(bH,bA,bA.insertModeRepeat-1,true);bA.lastEditInputState.repeatOverride=bA.insertModeRepeat}delete bA.insertModeRepeat;bA.insertMode=false;bH.setCursor(bH.getCursor().line,bH.getCursor().ch-1);bH.setOption("keyMap","vim");bH.setOption("disableInput",true);bH.toggleOverwrite(false);bF.setText(bD.changes.join(""));b.signal(bH,"vim-mode-change",{mode:"normal"});if(bC.isRecording){ar(bC)}}aM("insertModeEscKeysTimeout",200,"number");b.keyMap["vim-insert"]={"Ctrl-N":"autocomplete","Ctrl-P":"autocomplete",Enter:function(bz){var bA=b.commands.newlineAndIndentContinueComment||b.commands.newlineAndIndent;bA(bz)},fallthrough:["default"],attach:v,detach:k};b.keyMap["await-second"]={fallthrough:["vim-insert"],attach:v,detach:k};b.keyMap["vim-replace"]={Backspace:"goCharLeft",fallthrough:["vim-insert"],attach:v,detach:k};function K(bH,bB,bC,bz){var bJ=t.registerController.getRegister(bz);var bA=bJ.keyBuffer;var bF=0;bC.isPlaying=true;bC.replaySearchQueries=bJ.searchQueries.slice(0);for(var bD=0;bD<bA.length;bD++){var bK=bA[bD];var bE,bI;while(bK){bE=(/<\w+-.+?>|<\w+>|./).exec(bK);bI=bE[0];bK=bK.substring(bE.index+bI.length);b.Vim.handleKey(bH,bI,"macro");if(bB.insertMode){var bG=bJ.insertModeChanges[bF++].changes;t.macroModeState.lastInsertModeChanges.changes=bG;aw(bH,bG,1);y(bH)}}}bC.isPlaying=false}function L(bC,bz){if(bC.isPlaying){return}var bB=bC.latestRegister;var bA=t.registerController.getRegister(bB);if(bA){bA.pushText(bz)}}function ar(bB){if(bB.isPlaying){return}var bA=bB.latestRegister;var bz=t.registerController.getRegister(bA);if(bz){bz.pushInsertModeChanges(bB.lastInsertModeChanges)}}function R(bC,bB){if(bC.isPlaying){return}var bA=bC.latestRegister;var bz=t.registerController.getRegister(bA);if(bz){bz.pushSearchQuery(bB)}}function bi(bA,bz){var bC=t.macroModeState;var bB=bC.lastInsertModeChanges;if(!bC.isPlaying){while(bz){bB.expectCursorActivityForChange=true;if(bz.origin=="+input"||bz.origin=="paste"||bz.origin===undefined){var bD=bz.text.join("\n");bB.changes.push(bD)}bz=bz.next}}}function ae(bz){var bA=bz.state.vim;if(bA.insertMode){var bC=t.macroModeState;if(bC.isPlaying){return}var bB=bC.lastInsertModeChanges;if(bB.expectCursorActivityForChange){bB.expectCursorActivityForChange=false}else{bB.changes=[]}}else{if(!bz.curOp.isVimOp){u(bz,bA)}}if(bA.visualMode){ag(bz)}}function ag(bz){var bA=bz.state.vim;var bC=F(bA.sel.head);var bB=G(bC,0,1);if(bA.fakeCursor){bA.fakeCursor.clear()}bA.fakeCursor=bz.markText(bC,bB,{className:"cm-animate-fat-cursor"})}function u(bz,bA){var bB=bz.getCursor("anchor");var bC=bz.getCursor("head");if(bA.visualMode&&bw(bC,bB)&&aX(bz,bC.line)>bC.ch){aU(bz,false)}else{if(!bA.visualMode&&!bA.insertMode&&bz.somethingSelected()){bA.visualMode=true;bA.visualLine=false;b.signal(bz,"vim-mode-change",{mode:"visual"})}}if(bA.visualMode){var bD=!aP(bC,bB)?-1:0;var bE=aP(bC,bB)?-1:0;bC=G(bC,0,bD);bB=G(bB,0,bE);bA.sel={anchor:bB,head:bC};aS(bz,bA,"<",az(bC,bB));aS(bz,bA,">",ba(bC,bB))}else{if(!bA.insertMode){bA.lastHPos=bz.getCursor().ch}}}function bk(bz){this.keyName=bz}function aa(bD){var bC=t.macroModeState;var bB=bC.lastInsertModeChanges;var bA=b.keyName(bD);function bz(){bB.changes.push(new bk(bA));return true}if(bA.indexOf("Delete")!=-1||bA.indexOf("Backspace")!=-1){b.lookupKey(bA,"vim-insert",bz)}}function A(bH,bC,bA,bz){var bE=t.macroModeState;bE.isPlaying=true;var bI=!!bC.lastEditActionCommand;var bF=bC.inputState;function bB(){if(bI){bc.processAction(bH,bC,bC.lastEditActionCommand)}else{bc.evalInput(bH,bC)}}function bG(bK){if(bE.lastInsertModeChanges.changes.length>0){bK=!bC.lastEditActionCommand?1:bK;var bJ=bE.lastInsertModeChanges;aw(bH,bJ.changes,bK)}}bC.inputState=bC.lastEditInputState;if(bI&&bC.lastEditActionCommand.interlaceInsertRepeat){for(var bD=0;bD<bA;bD++){bB();bG(1)}}else{if(!bz){bB()}bG(bA)}bC.inputState=bF;if(bC.insertMode&&!bz){y(bH)}bE.isPlaying=false}function aw(bK,bJ,bA){function bG(bM){if(typeof bM=="string"){b.commands[bM](bK)}else{bM(bK)}return true}var bI=bK.getCursor("head");var bz=t.macroModeState.lastInsertModeChanges.inVisualBlock;if(bz){var bE=bK.state.vim;var bB=bE.lastSelection;var bD=bf(bB.anchor,bB.head);aV(bK,bI,bD.line+1);bA=bK.listSelections().length;bK.setCursor(bI)}for(var bF=0;bF<bA;bF++){if(bz){bK.setCursor(G(bI,bF,0))}for(var bC=0;bC<bJ.length;bC++){var bH=bJ[bC];if(bH instanceof bk){b.lookupKey(bH.keyName,"vim-insert",bG)}else{var bL=bK.getCursor();bK.replaceRange(bH,bL,bL)}}}if(bz){bK.setCursor(G(bI,0,1))}}C();return aQ};b.Vim=e()});
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.defineOption("fullScreen", false, function(cm, val, old) {
+    if (old == CodeMirror.Init) old = false;
+    if (!old == !val) return;
+    if (val) setFullscreen(cm);
+    else setNormal(cm);
+  });
+
+  function setFullscreen(cm) {
+    var wrap = cm.getWrapperElement();
+    cm.state.fullScreenRestore = {scrollTop: window.pageYOffset, scrollLeft: window.pageXOffset,
+                                  width: wrap.style.width, height: wrap.style.height};
+    wrap.style.width = "";
+    wrap.style.height = "auto";
+    wrap.className += " CodeMirror-fullscreen";
+    document.documentElement.style.overflow = "hidden";
+    cm.refresh();
+  }
+
+  function setNormal(cm) {
+    var wrap = cm.getWrapperElement();
+    wrap.className = wrap.className.replace(/\s*CodeMirror-fullscreen\b/, "");
+    document.documentElement.style.overflow = "";
+    var info = cm.state.fullScreenRestore;
+    wrap.style.width = info.width; wrap.style.height = info.height;
+    window.scrollTo(info.scrollLeft, info.scrollTop);
+    cm.refresh();
+  }
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  CodeMirror.defineExtension("addPanel", function(node, options) {
+    options = options || {};
+
+    if (!this.state.panels) initPanels(this);
+
+    var info = this.state.panels;
+    var wrapper = info.wrapper;
+    var cmWrapper = this.getWrapperElement();
+    var replace = options.replace instanceof Panel && !options.replace.cleared;
+
+    if (options.after instanceof Panel && !options.after.cleared) {
+      wrapper.insertBefore(node, options.before.node.nextSibling);
+    } else if (options.before instanceof Panel && !options.before.cleared) {
+      wrapper.insertBefore(node, options.before.node);
+    } else if (replace) {
+      wrapper.insertBefore(node, options.replace.node);
+      info.panels++;
+      options.replace.clear();
+    } else if (options.position == "bottom") {
+      wrapper.appendChild(node);
+    } else if (options.position == "before-bottom") {
+      wrapper.insertBefore(node, cmWrapper.nextSibling);
+    } else if (options.position == "after-top") {
+      wrapper.insertBefore(node, cmWrapper);
+    } else {
+      wrapper.insertBefore(node, wrapper.firstChild);
+    }
+
+    var height = (options && options.height) || node.offsetHeight;
+    this._setSize(null, info.heightLeft -= height);
+    if (!replace) {
+      info.panels++;
+    }
+    if (options.stable && isAtTop(this, node))
+      this.scrollTo(null, this.getScrollInfo().top + height)
+
+    return new Panel(this, node, options, height);
+  });
+
+  function Panel(cm, node, options, height) {
+    this.cm = cm;
+    this.node = node;
+    this.options = options;
+    this.height = height;
+    this.cleared = false;
+  }
+
+  Panel.prototype.clear = function() {
+    if (this.cleared) return;
+    this.cleared = true;
+    var info = this.cm.state.panels;
+    this.cm._setSize(null, info.heightLeft += this.height);
+    if (this.options.stable && isAtTop(this.cm, this.node))
+      this.cm.scrollTo(null, this.cm.getScrollInfo().top - this.height)
+    info.wrapper.removeChild(this.node);
+    if (--info.panels == 0) removePanels(this.cm);
+  };
+
+  Panel.prototype.changed = function(height) {
+    var newHeight = height == null ? this.node.offsetHeight : height;
+    var info = this.cm.state.panels;
+    this.cm._setSize(null, info.heightLeft -= (newHeight - this.height));
+    this.height = newHeight;
+  };
+
+  function initPanels(cm) {
+    var wrap = cm.getWrapperElement();
+    var style = window.getComputedStyle ? window.getComputedStyle(wrap) : wrap.currentStyle;
+    var height = parseInt(style.height);
+    var info = cm.state.panels = {
+      setHeight: wrap.style.height,
+      heightLeft: height,
+      panels: 0,
+      wrapper: document.createElement("div")
+    };
+    wrap.parentNode.insertBefore(info.wrapper, wrap);
+    var hasFocus = cm.hasFocus();
+    info.wrapper.appendChild(wrap);
+    if (hasFocus) cm.focus();
+
+    cm._setSize = cm.setSize;
+    if (height != null) cm.setSize = function(width, newHeight) {
+      if (newHeight == null) return this._setSize(width, newHeight);
+      info.setHeight = newHeight;
+      if (typeof newHeight != "number") {
+        var px = /^(\d+\.?\d*)px$/.exec(newHeight);
+        if (px) {
+          newHeight = Number(px[1]);
+        } else {
+          info.wrapper.style.height = newHeight;
+          newHeight = info.wrapper.offsetHeight;
+          info.wrapper.style.height = "";
+        }
+      }
+      cm._setSize(width, info.heightLeft += (newHeight - height));
+      height = newHeight;
+    };
+  }
+
+  function removePanels(cm) {
+    var info = cm.state.panels;
+    cm.state.panels = null;
+
+    var wrap = cm.getWrapperElement();
+    info.wrapper.parentNode.replaceChild(wrap, info.wrapper);
+    wrap.style.height = info.setHeight;
+    cm.setSize = cm._setSize;
+    cm.setSize();
+  }
+
+  function isAtTop(cm, dom) {
+    for (var sibling = dom.nextSibling; sibling; sibling = sibling.nextSibling)
+      if (sibling == cm.getWrapperElement()) return true
+    return false
+  }
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  var defaults = {
+    pairs: "()[]{}''\"\"",
+    triples: "",
+    explode: "[]{}"
+  };
+
+  var Pos = CodeMirror.Pos;
+
+  CodeMirror.defineOption("autoCloseBrackets", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init) {
+      cm.removeKeyMap(keyMap);
+      cm.state.closeBrackets = null;
+    }
+    if (val) {
+      ensureBound(getOption(val, "pairs"))
+      cm.state.closeBrackets = val;
+      cm.addKeyMap(keyMap);
+    }
+  });
+
+  function getOption(conf, name) {
+    if (name == "pairs" && typeof conf == "string") return conf;
+    if (typeof conf == "object" && conf[name] != null) return conf[name];
+    return defaults[name];
+  }
+
+  var keyMap = {Backspace: handleBackspace, Enter: handleEnter};
+  function ensureBound(chars) {
+    for (var i = 0; i < chars.length; i++) {
+      var ch = chars.charAt(i), key = "'" + ch + "'"
+      if (!keyMap[key]) keyMap[key] = handler(ch)
+    }
+  }
+  ensureBound(defaults.pairs + "`")
+
+  function handler(ch) {
+    return function(cm) { return handleChar(cm, ch); };
+  }
+
+  function getConfig(cm) {
+    var deflt = cm.state.closeBrackets;
+    if (!deflt || deflt.override) return deflt;
+    var mode = cm.getModeAt(cm.getCursor());
+    return mode.closeBrackets || deflt;
+  }
+
+  function handleBackspace(cm) {
+    var conf = getConfig(cm);
+    if (!conf || cm.getOption("disableInput")) return CodeMirror.Pass;
+
+    var pairs = getOption(conf, "pairs");
+    var ranges = cm.listSelections();
+    for (var i = 0; i < ranges.length; i++) {
+      if (!ranges[i].empty()) return CodeMirror.Pass;
+      var around = charsAround(cm, ranges[i].head);
+      if (!around || pairs.indexOf(around) % 2 != 0) return CodeMirror.Pass;
+    }
+    for (var i = ranges.length - 1; i >= 0; i--) {
+      var cur = ranges[i].head;
+      cm.replaceRange("", Pos(cur.line, cur.ch - 1), Pos(cur.line, cur.ch + 1), "+delete");
+    }
+  }
+
+  function handleEnter(cm) {
+    var conf = getConfig(cm);
+    var explode = conf && getOption(conf, "explode");
+    if (!explode || cm.getOption("disableInput")) return CodeMirror.Pass;
+
+    var ranges = cm.listSelections();
+    for (var i = 0; i < ranges.length; i++) {
+      if (!ranges[i].empty()) return CodeMirror.Pass;
+      var around = charsAround(cm, ranges[i].head);
+      if (!around || explode.indexOf(around) % 2 != 0) return CodeMirror.Pass;
+    }
+    cm.operation(function() {
+      var linesep = cm.lineSeparator() || "\n";
+      cm.replaceSelection(linesep + linesep, null);
+      cm.execCommand("goCharLeft");
+      ranges = cm.listSelections();
+      for (var i = 0; i < ranges.length; i++) {
+        var line = ranges[i].head.line;
+        cm.indentLine(line, null, true);
+        cm.indentLine(line + 1, null, true);
+      }
+    });
+  }
+
+  function contractSelection(sel) {
+    var inverted = CodeMirror.cmpPos(sel.anchor, sel.head) > 0;
+    return {anchor: new Pos(sel.anchor.line, sel.anchor.ch + (inverted ? -1 : 1)),
+            head: new Pos(sel.head.line, sel.head.ch + (inverted ? 1 : -1))};
+  }
+
+  function handleChar(cm, ch) {
+    var conf = getConfig(cm);
+    if (!conf || cm.getOption("disableInput")) return CodeMirror.Pass;
+
+    var pairs = getOption(conf, "pairs");
+    var pos = pairs.indexOf(ch);
+    if (pos == -1) return CodeMirror.Pass;
+    var triples = getOption(conf, "triples");
+
+    var identical = pairs.charAt(pos + 1) == ch;
+    var ranges = cm.listSelections();
+    var opening = pos % 2 == 0;
+
+    var type;
+    for (var i = 0; i < ranges.length; i++) {
+      var range = ranges[i], cur = range.head, curType;
+      var next = cm.getRange(cur, Pos(cur.line, cur.ch + 1));
+      if (opening && !range.empty()) {
+        curType = "surround";
+      } else if ((identical || !opening) && next == ch) {
+        if (identical && stringStartsAfter(cm, cur))
+          curType = "both";
+        else if (triples.indexOf(ch) >= 0 && cm.getRange(cur, Pos(cur.line, cur.ch + 3)) == ch + ch + ch)
+          curType = "skipThree";
+        else
+          curType = "skip";
+      } else if (identical && cur.ch > 1 && triples.indexOf(ch) >= 0 &&
+                 cm.getRange(Pos(cur.line, cur.ch - 2), cur) == ch + ch) {
+        if (cur.ch > 2 && /\bstring/.test(cm.getTokenTypeAt(Pos(cur.line, cur.ch - 2)))) return CodeMirror.Pass;
+        curType = "addFour";
+      } else if (identical) {
+        var prev = cur.ch == 0 ? " " : cm.getRange(Pos(cur.line, cur.ch - 1), cur)
+        if (!CodeMirror.isWordChar(next) && prev != ch && !CodeMirror.isWordChar(prev)) curType = "both";
+        else return CodeMirror.Pass;
+      } else if (opening) {
+        curType = "both";
+      } else {
+        return CodeMirror.Pass;
+      }
+      if (!type) type = curType;
+      else if (type != curType) return CodeMirror.Pass;
+    }
+
+    var left = pos % 2 ? pairs.charAt(pos - 1) : ch;
+    var right = pos % 2 ? ch : pairs.charAt(pos + 1);
+    cm.operation(function() {
+      if (type == "skip") {
+        cm.execCommand("goCharRight");
+      } else if (type == "skipThree") {
+        for (var i = 0; i < 3; i++)
+          cm.execCommand("goCharRight");
+      } else if (type == "surround") {
+        var sels = cm.getSelections();
+        for (var i = 0; i < sels.length; i++)
+          sels[i] = left + sels[i] + right;
+        cm.replaceSelections(sels, "around");
+        sels = cm.listSelections().slice();
+        for (var i = 0; i < sels.length; i++)
+          sels[i] = contractSelection(sels[i]);
+        cm.setSelections(sels);
+      } else if (type == "both") {
+        cm.replaceSelection(left + right, null);
+        cm.triggerElectric(left + right);
+        cm.execCommand("goCharLeft");
+      } else if (type == "addFour") {
+        cm.replaceSelection(left + left + left + left, "before");
+        cm.execCommand("goCharRight");
+      }
+    });
+  }
+
+  function charsAround(cm, pos) {
+    var str = cm.getRange(Pos(pos.line, pos.ch - 1),
+                          Pos(pos.line, pos.ch + 1));
+    return str.length == 2 ? str : null;
+  }
+
+  function stringStartsAfter(cm, pos) {
+    var token = cm.getTokenAt(Pos(pos.line, pos.ch + 1))
+    return /\bstring/.test(token.type) && token.start == pos.ch &&
+      (pos.ch == 0 || !/\bstring/.test(cm.getTokenTypeAt(pos)))
+  }
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+/**
+ * Tag-closer extension for CodeMirror.
+ *
+ * This extension adds an "autoCloseTags" option that can be set to
+ * either true to get the default behavior, or an object to further
+ * configure its behavior.
+ *
+ * These are supported options:
+ *
+ * `whenClosing` (default true)
+ *   Whether to autoclose when the '/' of a closing tag is typed.
+ * `whenOpening` (default true)
+ *   Whether to autoclose the tag when the final '>' of an opening
+ *   tag is typed.
+ * `dontCloseTags` (default is empty tags for HTML, none for XML)
+ *   An array of tag names that should not be autoclosed.
+ * `indentTags` (default is block tags for HTML, none for XML)
+ *   An array of tag names that should, when opened, cause a
+ *   blank line to be added inside the tag, and the blank line and
+ *   closing line to be indented.
+ *
+ * See demos/closetag.html for a usage example.
+ */
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("../fold/xml-fold"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "../fold/xml-fold"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  CodeMirror.defineOption("autoCloseTags", false, function(cm, val, old) {
+    if (old != CodeMirror.Init && old)
+      cm.removeKeyMap("autoCloseTags");
+    if (!val) return;
+    var map = {name: "autoCloseTags"};
+    if (typeof val != "object" || val.whenClosing)
+      map["'/'"] = function(cm) { return autoCloseSlash(cm); };
+    if (typeof val != "object" || val.whenOpening)
+      map["'>'"] = function(cm) { return autoCloseGT(cm); };
+    cm.addKeyMap(map);
+  });
+
+  var htmlDontClose = ["area", "base", "br", "col", "command", "embed", "hr", "img", "input", "keygen", "link", "meta", "param",
+                       "source", "track", "wbr"];
+  var htmlIndent = ["applet", "blockquote", "body", "button", "div", "dl", "fieldset", "form", "frameset", "h1", "h2", "h3", "h4",
+                    "h5", "h6", "head", "html", "iframe", "layer", "legend", "object", "ol", "p", "select", "table", "ul"];
+
+  function autoCloseGT(cm) {
+    if (cm.getOption("disableInput")) return CodeMirror.Pass;
+    var ranges = cm.listSelections(), replacements = [];
+    var opt = cm.getOption("autoCloseTags");
+    for (var i = 0; i < ranges.length; i++) {
+      if (!ranges[i].empty()) return CodeMirror.Pass;
+      var pos = ranges[i].head, tok = cm.getTokenAt(pos);
+      var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
+      if (inner.mode.name != "xml" || !state.tagName) return CodeMirror.Pass;
+
+      var html = inner.mode.configuration == "html";
+      var dontCloseTags = (typeof opt == "object" && opt.dontCloseTags) || (html && htmlDontClose);
+      var indentTags = (typeof opt == "object" && opt.indentTags) || (html && htmlIndent);
+
+      var tagName = state.tagName;
+      if (tok.end > pos.ch) tagName = tagName.slice(0, tagName.length - tok.end + pos.ch);
+      var lowerTagName = tagName.toLowerCase();
+      // Don't process the '>' at the end of an end-tag or self-closing tag
+      if (!tagName ||
+          tok.type == "string" && (tok.end != pos.ch || !/[\"\']/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1) ||
+          tok.type == "tag" && state.type == "closeTag" ||
+          tok.string.indexOf("/") == (tok.string.length - 1) || // match something like <someTagName />
+          dontCloseTags && indexOf(dontCloseTags, lowerTagName) > -1 ||
+          closingTagExists(cm, tagName, pos, state, true))
+        return CodeMirror.Pass;
+
+      var indent = indentTags && indexOf(indentTags, lowerTagName) > -1;
+      replacements[i] = {indent: indent,
+                         text: ">" + (indent ? "\n\n" : "") + "</" + tagName + ">",
+                         newPos: indent ? CodeMirror.Pos(pos.line + 1, 0) : CodeMirror.Pos(pos.line, pos.ch + 1)};
+    }
+
+    var dontIndentOnAutoClose = (typeof opt == "object" && opt.dontIndentOnAutoClose);
+    for (var i = ranges.length - 1; i >= 0; i--) {
+      var info = replacements[i];
+      cm.replaceRange(info.text, ranges[i].head, ranges[i].anchor, "+insert");
+      var sel = cm.listSelections().slice(0);
+      sel[i] = {head: info.newPos, anchor: info.newPos};
+      cm.setSelections(sel);
+      if (!dontIndentOnAutoClose && info.indent) {
+        cm.indentLine(info.newPos.line, null, true);
+        cm.indentLine(info.newPos.line + 1, null, true);
+      }
+    }
+  }
+
+  function autoCloseCurrent(cm, typingSlash) {
+    var ranges = cm.listSelections(), replacements = [];
+    var head = typingSlash ? "/" : "</";
+    var opt = cm.getOption("autoCloseTags");
+    var dontIndentOnAutoClose = (typeof opt == "object" && opt.dontIndentOnSlash);
+    for (var i = 0; i < ranges.length; i++) {
+      if (!ranges[i].empty()) return CodeMirror.Pass;
+      var pos = ranges[i].head, tok = cm.getTokenAt(pos);
+      var inner = CodeMirror.innerMode(cm.getMode(), tok.state), state = inner.state;
+      if (typingSlash && (tok.type == "string" || tok.string.charAt(0) != "<" ||
+                          tok.start != pos.ch - 1))
+        return CodeMirror.Pass;
+      // Kludge to get around the fact that we are not in XML mode
+      // when completing in JS/CSS snippet in htmlmixed mode. Does not
+      // work for other XML embedded languages (there is no general
+      // way to go from a mixed mode to its current XML state).
+      var replacement;
+      if (inner.mode.name != "xml") {
+        if (cm.getMode().name == "htmlmixed" && inner.mode.name == "javascript")
+          replacement = head + "script";
+        else if (cm.getMode().name == "htmlmixed" && inner.mode.name == "css")
+          replacement = head + "style";
+        else
+          return CodeMirror.Pass;
+      } else {
+        if (!state.context || !state.context.tagName ||
+            closingTagExists(cm, state.context.tagName, pos, state))
+          return CodeMirror.Pass;
+        replacement = head + state.context.tagName;
+      }
+      if (cm.getLine(pos.line).charAt(tok.end) != ">") replacement += ">";
+      replacements[i] = replacement;
+    }
+    cm.replaceSelections(replacements);
+    ranges = cm.listSelections();
+    if (!dontIndentOnAutoClose) {
+        for (var i = 0; i < ranges.length; i++)
+            if (i == ranges.length - 1 || ranges[i].head.line < ranges[i + 1].head.line)
+                cm.indentLine(ranges[i].head.line);
+    }
+  }
+
+  function autoCloseSlash(cm) {
+    if (cm.getOption("disableInput")) return CodeMirror.Pass;
+    return autoCloseCurrent(cm, true);
+  }
+
+  CodeMirror.commands.closeTag = function(cm) { return autoCloseCurrent(cm); };
+
+  function indexOf(collection, elt) {
+    if (collection.indexOf) return collection.indexOf(elt);
+    for (var i = 0, e = collection.length; i < e; ++i)
+      if (collection[i] == elt) return i;
+    return -1;
+  }
+
+  // If xml-fold is loaded, we use its functionality to try and verify
+  // whether a given tag is actually unclosed.
+  function closingTagExists(cm, tagName, pos, state, newTag) {
+    if (!CodeMirror.scanForClosingTag) return false;
+    var end = Math.min(cm.lastLine() + 1, pos.line + 500);
+    var nextClose = CodeMirror.scanForClosingTag(cm, pos, null, end);
+    if (!nextClose || nextClose.tag != tagName) return false;
+    var cx = state.context;
+    // If the immediate wrapping context contains onCx instances of
+    // the same tag, a closing tag only exists if there are at least
+    // that many closing tags of that type following.
+    for (var onCx = newTag ? 1 : 0; cx && cx.tagName == tagName; cx = cx.prev) ++onCx;
+    pos = nextClose.to;
+    for (var i = 1; i < onCx; i++) {
+      var next = CodeMirror.scanForClosingTag(cm, pos, null, end);
+      if (!next || next.tag != tagName) return false;
+      pos = next.to;
+    }
+    return true;
+  }
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  var ie_lt8 = /MSIE \d/.test(navigator.userAgent) &&
+    (document.documentMode == null || document.documentMode < 8);
+
+  var Pos = CodeMirror.Pos;
+
+  var matching = {"(": ")>", ")": "(<", "[": "]>", "]": "[<", "{": "}>", "}": "{<"};
+
+  function findMatchingBracket(cm, where, config) {
+    var line = cm.getLineHandle(where.line), pos = where.ch - 1;
+    var afterCursor = config && config.afterCursor
+    if (afterCursor == null)
+      afterCursor = /(^| )cm-fat-cursor($| )/.test(cm.getWrapperElement().className)
+
+    // A cursor is defined as between two characters, but in in vim command mode
+    // (i.e. not insert mode), the cursor is visually represented as a
+    // highlighted box on top of the 2nd character. Otherwise, we allow matches
+    // from before or after the cursor.
+    var match = (!afterCursor && pos >= 0 && matching[line.text.charAt(pos)]) ||
+        matching[line.text.charAt(++pos)];
+    if (!match) return null;
+    var dir = match.charAt(1) == ">" ? 1 : -1;
+    if (config && config.strict && (dir > 0) != (pos == where.ch)) return null;
+    var style = cm.getTokenTypeAt(Pos(where.line, pos + 1));
+
+    var found = scanForBracket(cm, Pos(where.line, pos + (dir > 0 ? 1 : 0)), dir, style || null, config);
+    if (found == null) return null;
+    return {from: Pos(where.line, pos), to: found && found.pos,
+            match: found && found.ch == match.charAt(0), forward: dir > 0};
+  }
+
+  // bracketRegex is used to specify which type of bracket to scan
+  // should be a regexp, e.g. /[[\]]/
+  //
+  // Note: If "where" is on an open bracket, then this bracket is ignored.
+  //
+  // Returns false when no bracket was found, null when it reached
+  // maxScanLines and gave up
+  function scanForBracket(cm, where, dir, style, config) {
+    var maxScanLen = (config && config.maxScanLineLength) || 10000;
+    var maxScanLines = (config && config.maxScanLines) || 1000;
+
+    var stack = [];
+    var re = config && config.bracketRegex ? config.bracketRegex : /[(){}[\]]/;
+    var lineEnd = dir > 0 ? Math.min(where.line + maxScanLines, cm.lastLine() + 1)
+                          : Math.max(cm.firstLine() - 1, where.line - maxScanLines);
+    for (var lineNo = where.line; lineNo != lineEnd; lineNo += dir) {
+      var line = cm.getLine(lineNo);
+      if (!line) continue;
+      var pos = dir > 0 ? 0 : line.length - 1, end = dir > 0 ? line.length : -1;
+      if (line.length > maxScanLen) continue;
+      if (lineNo == where.line) pos = where.ch - (dir < 0 ? 1 : 0);
+      for (; pos != end; pos += dir) {
+        var ch = line.charAt(pos);
+        if (re.test(ch) && (style === undefined || cm.getTokenTypeAt(Pos(lineNo, pos + 1)) == style)) {
+          var match = matching[ch];
+          if ((match.charAt(1) == ">") == (dir > 0)) stack.push(ch);
+          else if (!stack.length) return {pos: Pos(lineNo, pos), ch: ch};
+          else stack.pop();
+        }
+      }
+    }
+    return lineNo - dir == (dir > 0 ? cm.lastLine() : cm.firstLine()) ? false : null;
+  }
+
+  function matchBrackets(cm, autoclear, config) {
+    // Disable brace matching in long lines, since it'll cause hugely slow updates
+    var maxHighlightLen = cm.state.matchBrackets.maxHighlightLineLength || 1000;
+    var marks = [], ranges = cm.listSelections();
+    for (var i = 0; i < ranges.length; i++) {
+      var match = ranges[i].empty() && findMatchingBracket(cm, ranges[i].head, config);
+      if (match && cm.getLine(match.from.line).length <= maxHighlightLen) {
+        var style = match.match ? "CodeMirror-matchingbracket" : "CodeMirror-nonmatchingbracket";
+        marks.push(cm.markText(match.from, Pos(match.from.line, match.from.ch + 1), {className: style}));
+        if (match.to && cm.getLine(match.to.line).length <= maxHighlightLen)
+          marks.push(cm.markText(match.to, Pos(match.to.line, match.to.ch + 1), {className: style}));
+      }
+    }
+
+    if (marks.length) {
+      // Kludge to work around the IE bug from issue #1193, where text
+      // input stops going to the textare whever this fires.
+      if (ie_lt8 && cm.state.focused) cm.focus();
+
+      var clear = function() {
+        cm.operation(function() {
+          for (var i = 0; i < marks.length; i++) marks[i].clear();
+        });
+      };
+      if (autoclear) setTimeout(clear, 800);
+      else return clear;
+    }
+  }
+
+  function doMatchBrackets(cm) {
+    cm.operation(function() {
+      if (cm.state.matchBrackets.currentlyHighlighted) {
+        cm.state.matchBrackets.currentlyHighlighted();
+        cm.state.matchBrackets.currentlyHighlighted = null;
+      }
+      cm.state.matchBrackets.currentlyHighlighted = matchBrackets(cm, false, cm.state.matchBrackets);
+    });
+  }
+
+  CodeMirror.defineOption("matchBrackets", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init) {
+      cm.off("cursorActivity", doMatchBrackets);
+      if (cm.state.matchBrackets && cm.state.matchBrackets.currentlyHighlighted) {
+        cm.state.matchBrackets.currentlyHighlighted();
+        cm.state.matchBrackets.currentlyHighlighted = null;
+      }
+    }
+    if (val) {
+      cm.state.matchBrackets = typeof val == "object" ? val : {};
+      cm.on("cursorActivity", doMatchBrackets);
+    }
+  });
+
+  CodeMirror.defineExtension("matchBrackets", function() {matchBrackets(this, true);});
+  CodeMirror.defineExtension("findMatchingBracket", function(pos, config, oldConfig){
+    // Backwards-compatibility kludge
+    if (oldConfig || typeof config == "boolean") {
+      if (!oldConfig) {
+        config = config ? {strict: true} : null
+      } else {
+        oldConfig.strict = config
+        config = oldConfig
+      }
+    }
+    return findMatchingBracket(this, pos, config)
+  });
+  CodeMirror.defineExtension("scanForBracket", function(pos, dir, style, config){
+    return scanForBracket(this, pos, dir, style, config);
+  });
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("../fold/xml-fold"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "../fold/xml-fold"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.defineOption("matchTags", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init) {
+      cm.off("cursorActivity", doMatchTags);
+      cm.off("viewportChange", maybeUpdateMatch);
+      clear(cm);
+    }
+    if (val) {
+      cm.state.matchBothTags = typeof val == "object" && val.bothTags;
+      cm.on("cursorActivity", doMatchTags);
+      cm.on("viewportChange", maybeUpdateMatch);
+      doMatchTags(cm);
+    }
+  });
+
+  function clear(cm) {
+    if (cm.state.tagHit) cm.state.tagHit.clear();
+    if (cm.state.tagOther) cm.state.tagOther.clear();
+    cm.state.tagHit = cm.state.tagOther = null;
+  }
+
+  function doMatchTags(cm) {
+    cm.state.failedTagMatch = false;
+    cm.operation(function() {
+      clear(cm);
+      if (cm.somethingSelected()) return;
+      var cur = cm.getCursor(), range = cm.getViewport();
+      range.from = Math.min(range.from, cur.line); range.to = Math.max(cur.line + 1, range.to);
+      var match = CodeMirror.findMatchingTag(cm, cur, range);
+      if (!match) return;
+      if (cm.state.matchBothTags) {
+        var hit = match.at == "open" ? match.open : match.close;
+        if (hit) cm.state.tagHit = cm.markText(hit.from, hit.to, {className: "CodeMirror-matchingtag"});
+      }
+      var other = match.at == "close" ? match.open : match.close;
+      if (other)
+        cm.state.tagOther = cm.markText(other.from, other.to, {className: "CodeMirror-matchingtag"});
+      else
+        cm.state.failedTagMatch = true;
+    });
+  }
+
+  function maybeUpdateMatch(cm) {
+    if (cm.state.failedTagMatch) doMatchTags(cm);
+  }
+
+  CodeMirror.commands.toMatchingTag = function(cm) {
+    var found = CodeMirror.findMatchingTag(cm, cm.getCursor());
+    if (found) {
+      var other = found.at == "close" ? found.open : found.close;
+      if (other) cm.extendSelection(other.to, other.from);
+    }
+  };
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+"use strict";
+
+CodeMirror.registerHelper("fold", "brace", function(cm, start) {
+  var line = start.line, lineText = cm.getLine(line);
+  var tokenType;
+
+  function findOpening(openCh) {
+    for (var at = start.ch, pass = 0;;) {
+      var found = at <= 0 ? -1 : lineText.lastIndexOf(openCh, at - 1);
+      if (found == -1) {
+        if (pass == 1) break;
+        pass = 1;
+        at = lineText.length;
+        continue;
+      }
+      if (pass == 1 && found < start.ch) break;
+      tokenType = cm.getTokenTypeAt(CodeMirror.Pos(line, found + 1));
+      if (!/^(comment|string)/.test(tokenType)) return found + 1;
+      at = found - 1;
+    }
+  }
+
+  var startToken = "{", endToken = "}", startCh = findOpening("{");
+  if (startCh == null) {
+    startToken = "[", endToken = "]";
+    startCh = findOpening("[");
+  }
+
+  if (startCh == null) return;
+  var count = 1, lastLine = cm.lastLine(), end, endCh;
+  outer: for (var i = line; i <= lastLine; ++i) {
+    var text = cm.getLine(i), pos = i == line ? startCh : 0;
+    for (;;) {
+      var nextOpen = text.indexOf(startToken, pos), nextClose = text.indexOf(endToken, pos);
+      if (nextOpen < 0) nextOpen = text.length;
+      if (nextClose < 0) nextClose = text.length;
+      pos = Math.min(nextOpen, nextClose);
+      if (pos == text.length) break;
+      if (cm.getTokenTypeAt(CodeMirror.Pos(i, pos + 1)) == tokenType) {
+        if (pos == nextOpen) ++count;
+        else if (!--count) { end = i; endCh = pos; break outer; }
+      }
+      ++pos;
+    }
+  }
+  if (end == null || line == end && endCh == startCh) return;
+  return {from: CodeMirror.Pos(line, startCh),
+          to: CodeMirror.Pos(end, endCh)};
+});
+
+CodeMirror.registerHelper("fold", "import", function(cm, start) {
+  function hasImport(line) {
+    if (line < cm.firstLine() || line > cm.lastLine()) return null;
+    var start = cm.getTokenAt(CodeMirror.Pos(line, 1));
+    if (!/\S/.test(start.string)) start = cm.getTokenAt(CodeMirror.Pos(line, start.end + 1));
+    if (start.type != "keyword" || start.string != "import") return null;
+    // Now find closing semicolon, return its position
+    for (var i = line, e = Math.min(cm.lastLine(), line + 10); i <= e; ++i) {
+      var text = cm.getLine(i), semi = text.indexOf(";");
+      if (semi != -1) return {startCh: start.end, end: CodeMirror.Pos(i, semi)};
+    }
+  }
+
+  var startLine = start.line, has = hasImport(startLine), prev;
+  if (!has || hasImport(startLine - 1) || ((prev = hasImport(startLine - 2)) && prev.end.line == startLine - 1))
+    return null;
+  for (var end = has.end;;) {
+    var next = hasImport(end.line + 1);
+    if (next == null) break;
+    end = next.end;
+  }
+  return {from: cm.clipPos(CodeMirror.Pos(startLine, has.startCh + 1)), to: end};
+});
+
+CodeMirror.registerHelper("fold", "include", function(cm, start) {
+  function hasInclude(line) {
+    if (line < cm.firstLine() || line > cm.lastLine()) return null;
+    var start = cm.getTokenAt(CodeMirror.Pos(line, 1));
+    if (!/\S/.test(start.string)) start = cm.getTokenAt(CodeMirror.Pos(line, start.end + 1));
+    if (start.type == "meta" && start.string.slice(0, 8) == "#include") return start.start + 8;
+  }
+
+  var startLine = start.line, has = hasInclude(startLine);
+  if (has == null || hasInclude(startLine - 1) != null) return null;
+  for (var end = startLine;;) {
+    var next = hasInclude(end + 1);
+    if (next == null) break;
+    ++end;
+  }
+  return {from: CodeMirror.Pos(startLine, has + 1),
+          to: cm.clipPos(CodeMirror.Pos(end))};
+});
+
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  function doFold(cm, pos, options, force) {
+    if (options && options.call) {
+      var finder = options;
+      options = null;
+    } else {
+      var finder = getOption(cm, options, "rangeFinder");
+    }
+    if (typeof pos == "number") pos = CodeMirror.Pos(pos, 0);
+    var minSize = getOption(cm, options, "minFoldSize");
+
+    function getRange(allowFolded) {
+      var range = finder(cm, pos);
+      if (!range || range.to.line - range.from.line < minSize) return null;
+      var marks = cm.findMarksAt(range.from);
+      for (var i = 0; i < marks.length; ++i) {
+        if (marks[i].__isFold && force !== "fold") {
+          if (!allowFolded) return null;
+          range.cleared = true;
+          marks[i].clear();
+        }
+      }
+      return range;
+    }
+
+    var range = getRange(true);
+    if (getOption(cm, options, "scanUp")) while (!range && pos.line > cm.firstLine()) {
+      pos = CodeMirror.Pos(pos.line - 1, 0);
+      range = getRange(false);
+    }
+    if (!range || range.cleared || force === "unfold") return;
+
+    var myWidget = makeWidget(cm, options);
+    CodeMirror.on(myWidget, "mousedown", function(e) {
+      myRange.clear();
+      CodeMirror.e_preventDefault(e);
+    });
+    var myRange = cm.markText(range.from, range.to, {
+      replacedWith: myWidget,
+      clearOnEnter: getOption(cm, options, "clearOnEnter"),
+      __isFold: true
+    });
+    myRange.on("clear", function(from, to) {
+      CodeMirror.signal(cm, "unfold", cm, from, to);
+    });
+    CodeMirror.signal(cm, "fold", cm, range.from, range.to);
+  }
+
+  function makeWidget(cm, options) {
+    var widget = getOption(cm, options, "widget");
+    if (typeof widget == "string") {
+      var text = document.createTextNode(widget);
+      widget = document.createElement("span");
+      widget.appendChild(text);
+      widget.className = "CodeMirror-foldmarker";
+    } else if (widget) {
+      widget = widget.cloneNode(true)
+    }
+    return widget;
+  }
+
+  // Clumsy backwards-compatible interface
+  CodeMirror.newFoldFunction = function(rangeFinder, widget) {
+    return function(cm, pos) { doFold(cm, pos, {rangeFinder: rangeFinder, widget: widget}); };
+  };
+
+  // New-style interface
+  CodeMirror.defineExtension("foldCode", function(pos, options, force) {
+    doFold(this, pos, options, force);
+  });
+
+  CodeMirror.defineExtension("isFolded", function(pos) {
+    var marks = this.findMarksAt(pos);
+    for (var i = 0; i < marks.length; ++i)
+      if (marks[i].__isFold) return true;
+  });
+
+  CodeMirror.commands.toggleFold = function(cm) {
+    cm.foldCode(cm.getCursor());
+  };
+  CodeMirror.commands.fold = function(cm) {
+    cm.foldCode(cm.getCursor(), null, "fold");
+  };
+  CodeMirror.commands.unfold = function(cm) {
+    cm.foldCode(cm.getCursor(), null, "unfold");
+  };
+  CodeMirror.commands.foldAll = function(cm) {
+    cm.operation(function() {
+      for (var i = cm.firstLine(), e = cm.lastLine(); i <= e; i++)
+        cm.foldCode(CodeMirror.Pos(i, 0), null, "fold");
+    });
+  };
+  CodeMirror.commands.unfoldAll = function(cm) {
+    cm.operation(function() {
+      for (var i = cm.firstLine(), e = cm.lastLine(); i <= e; i++)
+        cm.foldCode(CodeMirror.Pos(i, 0), null, "unfold");
+    });
+  };
+
+  CodeMirror.registerHelper("fold", "combine", function() {
+    var funcs = Array.prototype.slice.call(arguments, 0);
+    return function(cm, start) {
+      for (var i = 0; i < funcs.length; ++i) {
+        var found = funcs[i](cm, start);
+        if (found) return found;
+      }
+    };
+  });
+
+  CodeMirror.registerHelper("fold", "auto", function(cm, start) {
+    var helpers = cm.getHelpers(start, "fold");
+    for (var i = 0; i < helpers.length; i++) {
+      var cur = helpers[i](cm, start);
+      if (cur) return cur;
+    }
+  });
+
+  var defaultOptions = {
+    rangeFinder: CodeMirror.fold.auto,
+    widget: "\u2194",
+    minFoldSize: 0,
+    scanUp: false,
+    clearOnEnter: true
+  };
+
+  CodeMirror.defineOption("foldOptions", null);
+
+  function getOption(cm, options, name) {
+    if (options && options[name] !== undefined)
+      return options[name];
+    var editorOptions = cm.options.foldOptions;
+    if (editorOptions && editorOptions[name] !== undefined)
+      return editorOptions[name];
+    return defaultOptions[name];
+  }
+
+  CodeMirror.defineExtension("foldOption", function(options, name) {
+    return getOption(this, options, name);
+  });
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("./foldcode"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "./foldcode"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.defineOption("foldGutter", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init) {
+      cm.clearGutter(cm.state.foldGutter.options.gutter);
+      cm.state.foldGutter = null;
+      cm.off("gutterClick", onGutterClick);
+      cm.off("change", onChange);
+      cm.off("viewportChange", onViewportChange);
+      cm.off("fold", onFold);
+      cm.off("unfold", onFold);
+      cm.off("swapDoc", onChange);
+    }
+    if (val) {
+      cm.state.foldGutter = new State(parseOptions(val));
+      updateInViewport(cm);
+      cm.on("gutterClick", onGutterClick);
+      cm.on("change", onChange);
+      cm.on("viewportChange", onViewportChange);
+      cm.on("fold", onFold);
+      cm.on("unfold", onFold);
+      cm.on("swapDoc", onChange);
+    }
+  });
+
+  var Pos = CodeMirror.Pos;
+
+  function State(options) {
+    this.options = options;
+    this.from = this.to = 0;
+  }
+
+  function parseOptions(opts) {
+    if (opts === true) opts = {};
+    if (opts.gutter == null) opts.gutter = "CodeMirror-foldgutter";
+    if (opts.indicatorOpen == null) opts.indicatorOpen = "CodeMirror-foldgutter-open";
+    if (opts.indicatorFolded == null) opts.indicatorFolded = "CodeMirror-foldgutter-folded";
+    return opts;
+  }
+
+  function isFolded(cm, line) {
+    var marks = cm.findMarks(Pos(line, 0), Pos(line + 1, 0));
+    for (var i = 0; i < marks.length; ++i)
+      if (marks[i].__isFold && marks[i].find().from.line == line) return marks[i];
+  }
+
+  function marker(spec) {
+    if (typeof spec == "string") {
+      var elt = document.createElement("div");
+      elt.className = spec + " CodeMirror-guttermarker-subtle";
+      return elt;
+    } else {
+      return spec.cloneNode(true);
+    }
+  }
+
+  function updateFoldInfo(cm, from, to) {
+    var opts = cm.state.foldGutter.options, cur = from;
+    var minSize = cm.foldOption(opts, "minFoldSize");
+    var func = cm.foldOption(opts, "rangeFinder");
+    cm.eachLine(from, to, function(line) {
+      var mark = null;
+      if (isFolded(cm, cur)) {
+        mark = marker(opts.indicatorFolded);
+      } else {
+        var pos = Pos(cur, 0);
+        var range = func && func(cm, pos);
+        if (range && range.to.line - range.from.line >= minSize)
+          mark = marker(opts.indicatorOpen);
+      }
+      cm.setGutterMarker(line, opts.gutter, mark);
+      ++cur;
+    });
+  }
+
+  function updateInViewport(cm) {
+    var vp = cm.getViewport(), state = cm.state.foldGutter;
+    if (!state) return;
+    cm.operation(function() {
+      updateFoldInfo(cm, vp.from, vp.to);
+    });
+    state.from = vp.from; state.to = vp.to;
+  }
+
+  function onGutterClick(cm, line, gutter) {
+    var state = cm.state.foldGutter;
+    if (!state) return;
+    var opts = state.options;
+    if (gutter != opts.gutter) return;
+    var folded = isFolded(cm, line);
+    if (folded) folded.clear();
+    else cm.foldCode(Pos(line, 0), opts.rangeFinder);
+  }
+
+  function onChange(cm) {
+    var state = cm.state.foldGutter;
+    if (!state) return;
+    var opts = state.options;
+    state.from = state.to = 0;
+    clearTimeout(state.changeUpdate);
+    state.changeUpdate = setTimeout(function() { updateInViewport(cm); }, opts.foldOnChangeTimeSpan || 600);
+  }
+
+  function onViewportChange(cm) {
+    var state = cm.state.foldGutter;
+    if (!state) return;
+    var opts = state.options;
+    clearTimeout(state.changeUpdate);
+    state.changeUpdate = setTimeout(function() {
+      var vp = cm.getViewport();
+      if (state.from == state.to || vp.from - state.to > 20 || state.from - vp.to > 20) {
+        updateInViewport(cm);
+      } else {
+        cm.operation(function() {
+          if (vp.from < state.from) {
+            updateFoldInfo(cm, vp.from, state.from);
+            state.from = vp.from;
+          }
+          if (vp.to > state.to) {
+            updateFoldInfo(cm, state.to, vp.to);
+            state.to = vp.to;
+          }
+        });
+      }
+    }, opts.updateViewportTimeSpan || 400);
+  }
+
+  function onFold(cm, from) {
+    var state = cm.state.foldGutter;
+    if (!state) return;
+    var line = from.line;
+    if (line >= state.from && line < state.to)
+      updateFoldInfo(cm, line, line + 1);
+  }
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  var Pos = CodeMirror.Pos;
+  function cmp(a, b) { return a.line - b.line || a.ch - b.ch; }
+
+  var nameStartChar = "A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD";
+  var nameChar = nameStartChar + "\-\:\.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040";
+  var xmlTagStart = new RegExp("<(/?)([" + nameStartChar + "][" + nameChar + "]*)", "g");
+
+  function Iter(cm, line, ch, range) {
+    this.line = line; this.ch = ch;
+    this.cm = cm; this.text = cm.getLine(line);
+    this.min = range ? Math.max(range.from, cm.firstLine()) : cm.firstLine();
+    this.max = range ? Math.min(range.to - 1, cm.lastLine()) : cm.lastLine();
+  }
+
+  function tagAt(iter, ch) {
+    var type = iter.cm.getTokenTypeAt(Pos(iter.line, ch));
+    return type && /\btag\b/.test(type);
+  }
+
+  function nextLine(iter) {
+    if (iter.line >= iter.max) return;
+    iter.ch = 0;
+    iter.text = iter.cm.getLine(++iter.line);
+    return true;
+  }
+  function prevLine(iter) {
+    if (iter.line <= iter.min) return;
+    iter.text = iter.cm.getLine(--iter.line);
+    iter.ch = iter.text.length;
+    return true;
+  }
+
+  function toTagEnd(iter) {
+    for (;;) {
+      var gt = iter.text.indexOf(">", iter.ch);
+      if (gt == -1) { if (nextLine(iter)) continue; else return; }
+      if (!tagAt(iter, gt + 1)) { iter.ch = gt + 1; continue; }
+      var lastSlash = iter.text.lastIndexOf("/", gt);
+      var selfClose = lastSlash > -1 && !/\S/.test(iter.text.slice(lastSlash + 1, gt));
+      iter.ch = gt + 1;
+      return selfClose ? "selfClose" : "regular";
+    }
+  }
+  function toTagStart(iter) {
+    for (;;) {
+      var lt = iter.ch ? iter.text.lastIndexOf("<", iter.ch - 1) : -1;
+      if (lt == -1) { if (prevLine(iter)) continue; else return; }
+      if (!tagAt(iter, lt + 1)) { iter.ch = lt; continue; }
+      xmlTagStart.lastIndex = lt;
+      iter.ch = lt;
+      var match = xmlTagStart.exec(iter.text);
+      if (match && match.index == lt) return match;
+    }
+  }
+
+  function toNextTag(iter) {
+    for (;;) {
+      xmlTagStart.lastIndex = iter.ch;
+      var found = xmlTagStart.exec(iter.text);
+      if (!found) { if (nextLine(iter)) continue; else return; }
+      if (!tagAt(iter, found.index + 1)) { iter.ch = found.index + 1; continue; }
+      iter.ch = found.index + found[0].length;
+      return found;
+    }
+  }
+  function toPrevTag(iter) {
+    for (;;) {
+      var gt = iter.ch ? iter.text.lastIndexOf(">", iter.ch - 1) : -1;
+      if (gt == -1) { if (prevLine(iter)) continue; else return; }
+      if (!tagAt(iter, gt + 1)) { iter.ch = gt; continue; }
+      var lastSlash = iter.text.lastIndexOf("/", gt);
+      var selfClose = lastSlash > -1 && !/\S/.test(iter.text.slice(lastSlash + 1, gt));
+      iter.ch = gt + 1;
+      return selfClose ? "selfClose" : "regular";
+    }
+  }
+
+  function findMatchingClose(iter, tag) {
+    var stack = [];
+    for (;;) {
+      var next = toNextTag(iter), end, startLine = iter.line, startCh = iter.ch - (next ? next[0].length : 0);
+      if (!next || !(end = toTagEnd(iter))) return;
+      if (end == "selfClose") continue;
+      if (next[1]) { // closing tag
+        for (var i = stack.length - 1; i >= 0; --i) if (stack[i] == next[2]) {
+          stack.length = i;
+          break;
+        }
+        if (i < 0 && (!tag || tag == next[2])) return {
+          tag: next[2],
+          from: Pos(startLine, startCh),
+          to: Pos(iter.line, iter.ch)
+        };
+      } else { // opening tag
+        stack.push(next[2]);
+      }
+    }
+  }
+  function findMatchingOpen(iter, tag) {
+    var stack = [];
+    for (;;) {
+      var prev = toPrevTag(iter);
+      if (!prev) return;
+      if (prev == "selfClose") { toTagStart(iter); continue; }
+      var endLine = iter.line, endCh = iter.ch;
+      var start = toTagStart(iter);
+      if (!start) return;
+      if (start[1]) { // closing tag
+        stack.push(start[2]);
+      } else { // opening tag
+        for (var i = stack.length - 1; i >= 0; --i) if (stack[i] == start[2]) {
+          stack.length = i;
+          break;
+        }
+        if (i < 0 && (!tag || tag == start[2])) return {
+          tag: start[2],
+          from: Pos(iter.line, iter.ch),
+          to: Pos(endLine, endCh)
+        };
+      }
+    }
+  }
+
+  CodeMirror.registerHelper("fold", "xml", function(cm, start) {
+    var iter = new Iter(cm, start.line, 0);
+    for (;;) {
+      var openTag = toNextTag(iter)
+      if (!openTag || iter.line != start.line) return
+      var end = toTagEnd(iter)
+      if (!end) return
+      if (!openTag[1] && end != "selfClose") {
+        var startPos = Pos(iter.line, iter.ch);
+        var endPos = findMatchingClose(iter, openTag[2]);
+        return endPos && cmp(endPos.from, startPos) > 0 ? {from: startPos, to: endPos.from} : null
+      }
+    }
+  });
+  CodeMirror.findMatchingTag = function(cm, pos, range) {
+    var iter = new Iter(cm, pos.line, pos.ch, range);
+    if (iter.text.indexOf(">") == -1 && iter.text.indexOf("<") == -1) return;
+    var end = toTagEnd(iter), to = end && Pos(iter.line, iter.ch);
+    var start = end && toTagStart(iter);
+    if (!end || !start || cmp(iter, pos) > 0) return;
+    var here = {from: Pos(iter.line, iter.ch), to: to, tag: start[2]};
+    if (end == "selfClose") return {open: here, close: null, at: "open"};
+
+    if (start[1]) { // closing tag
+      return {open: findMatchingOpen(iter, start[2]), close: here, at: "close"};
+    } else { // opening tag
+      iter = new Iter(cm, to.line, to.ch, range);
+      return {open: here, close: findMatchingClose(iter, start[2]), at: "open"};
+    }
+  };
+
+  CodeMirror.findEnclosingTag = function(cm, pos, range, tag) {
+    var iter = new Iter(cm, pos.line, pos.ch, range);
+    for (;;) {
+      var open = findMatchingOpen(iter, tag);
+      if (!open) break;
+      var forward = new Iter(cm, pos.line, pos.ch, range);
+      var close = findMatchingClose(forward, open.tag);
+      if (close) return {open: open, close: close};
+    }
+  };
+
+  // Used by addon/edit/closetag.js
+  CodeMirror.scanForClosingTag = function(cm, pos, name, end) {
+    var iter = new Iter(cm, pos.line, pos.ch, end ? {from: 0, to: end} : null);
+    return findMatchingClose(iter, name);
+  };
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), "cjs");
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], function(CM) { mod(CM, "amd"); });
+  else // Plain browser env
+    mod(CodeMirror, "plain");
+})(function(CodeMirror, env) {
+  if (!CodeMirror.modeURL) CodeMirror.modeURL = "../mode/%N/%N.js";
+
+  var loading = {};
+  function splitCallback(cont, n) {
+    var countDown = n;
+    return function() { if (--countDown == 0) cont(); };
+  }
+  function ensureDeps(mode, cont) {
+    var deps = CodeMirror.modes[mode].dependencies;
+    if (!deps) return cont();
+    var missing = [];
+    for (var i = 0; i < deps.length; ++i) {
+      if (!CodeMirror.modes.hasOwnProperty(deps[i]))
+        missing.push(deps[i]);
+    }
+    if (!missing.length) return cont();
+    var split = splitCallback(cont, missing.length);
+    for (var i = 0; i < missing.length; ++i)
+      CodeMirror.requireMode(missing[i], split);
+  }
+
+  CodeMirror.requireMode = function(mode, cont) {
+    if (typeof mode != "string") mode = mode.name;
+    if (CodeMirror.modes.hasOwnProperty(mode)) return ensureDeps(mode, cont);
+    if (loading.hasOwnProperty(mode)) return loading[mode].push(cont);
+
+    var file = CodeMirror.modeURL.replace(/%N/g, mode);
+    if (env == "plain") {
+      var script = document.createElement("script");
+      script.src = file;
+      var others = document.getElementsByTagName("script")[0];
+      var list = loading[mode] = [cont];
+      CodeMirror.on(script, "load", function() {
+        ensureDeps(mode, function() {
+          for (var i = 0; i < list.length; ++i) list[i]();
+        });
+      });
+      others.parentNode.insertBefore(script, others);
+    } else if (env == "cjs") {
+      require(file);
+      cont();
+    } else if (env == "amd") {
+      requirejs([file], cont);
+    }
+  };
+
+  CodeMirror.autoLoadMode = function(instance, mode) {
+    if (!CodeMirror.modes.hasOwnProperty(mode))
+      CodeMirror.requireMode(mode, function() {
+        instance.setOption("mode", instance.getOption("mode"));
+      });
+  };
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+"use strict";
+
+CodeMirror.multiplexingMode = function(outer /*, others */) {
+  // Others should be {open, close, mode [, delimStyle] [, innerStyle]} objects
+  var others = Array.prototype.slice.call(arguments, 1);
+
+  function indexOf(string, pattern, from, returnEnd) {
+    if (typeof pattern == "string") {
+      var found = string.indexOf(pattern, from);
+      return returnEnd && found > -1 ? found + pattern.length : found;
+    }
+    var m = pattern.exec(from ? string.slice(from) : string);
+    return m ? m.index + from + (returnEnd ? m[0].length : 0) : -1;
+  }
+
+  return {
+    startState: function() {
+      return {
+        outer: CodeMirror.startState(outer),
+        innerActive: null,
+        inner: null
+      };
+    },
+
+    copyState: function(state) {
+      return {
+        outer: CodeMirror.copyState(outer, state.outer),
+        innerActive: state.innerActive,
+        inner: state.innerActive && CodeMirror.copyState(state.innerActive.mode, state.inner)
+      };
+    },
+
+    token: function(stream, state) {
+      if (!state.innerActive) {
+        var cutOff = Infinity, oldContent = stream.string;
+        for (var i = 0; i < others.length; ++i) {
+          var other = others[i];
+          var found = indexOf(oldContent, other.open, stream.pos);
+          if (found == stream.pos) {
+            if (!other.parseDelimiters) stream.match(other.open);
+            state.innerActive = other;
+
+            // Get the outer indent, making sure to handle CodeMirror.Pass
+            var outerIndent = 0;
+            if (outer.indent) {
+              var possibleOuterIndent = outer.indent(state.outer, "");
+              if (possibleOuterIndent !== CodeMirror.Pass) outerIndent = possibleOuterIndent;
+            }
+
+            state.inner = CodeMirror.startState(other.mode, outerIndent);
+            return other.delimStyle && (other.delimStyle + " " + other.delimStyle + "-open");
+          } else if (found != -1 && found < cutOff) {
+            cutOff = found;
+          }
+        }
+        if (cutOff != Infinity) stream.string = oldContent.slice(0, cutOff);
+        var outerToken = outer.token(stream, state.outer);
+        if (cutOff != Infinity) stream.string = oldContent;
+        return outerToken;
+      } else {
+        var curInner = state.innerActive, oldContent = stream.string;
+        if (!curInner.close && stream.sol()) {
+          state.innerActive = state.inner = null;
+          return this.token(stream, state);
+        }
+        var found = curInner.close ? indexOf(oldContent, curInner.close, stream.pos, curInner.parseDelimiters) : -1;
+        if (found == stream.pos && !curInner.parseDelimiters) {
+          stream.match(curInner.close);
+          state.innerActive = state.inner = null;
+          return curInner.delimStyle && (curInner.delimStyle + " " + curInner.delimStyle + "-close");
+        }
+        if (found > -1) stream.string = oldContent.slice(0, found);
+        var innerToken = curInner.mode.token(stream, state.inner);
+        if (found > -1) stream.string = oldContent;
+
+        if (found == stream.pos && curInner.parseDelimiters)
+          state.innerActive = state.inner = null;
+
+        if (curInner.innerStyle) {
+          if (innerToken) innerToken = innerToken + " " + curInner.innerStyle;
+          else innerToken = curInner.innerStyle;
+        }
+
+        return innerToken;
+      }
+    },
+
+    indent: function(state, textAfter) {
+      var mode = state.innerActive ? state.innerActive.mode : outer;
+      if (!mode.indent) return CodeMirror.Pass;
+      return mode.indent(state.innerActive ? state.inner : state.outer, textAfter);
+    },
+
+    blankLine: function(state) {
+      var mode = state.innerActive ? state.innerActive.mode : outer;
+      if (mode.blankLine) {
+        mode.blankLine(state.innerActive ? state.inner : state.outer);
+      }
+      if (!state.innerActive) {
+        for (var i = 0; i < others.length; ++i) {
+          var other = others[i];
+          if (other.open === "\n") {
+            state.innerActive = other;
+            state.inner = CodeMirror.startState(other.mode, mode.indent ? mode.indent(state.outer, "") : 0);
+          }
+        }
+      } else if (state.innerActive.close === "\n") {
+        state.innerActive = state.inner = null;
+      }
+    },
+
+    electricChars: outer.electricChars,
+
+    innerMode: function(state) {
+      return state.inner ? {state: state.inner, mode: state.innerActive.mode} : {state: state.outer, mode: outer};
+    }
+  };
+};
+
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.defineExtension("annotateScrollbar", function(options) {
+    if (typeof options == "string") options = {className: options};
+    return new Annotation(this, options);
+  });
+
+  CodeMirror.defineOption("scrollButtonHeight", 0);
+
+  function Annotation(cm, options) {
+    this.cm = cm;
+    this.options = options;
+    this.buttonHeight = options.scrollButtonHeight || cm.getOption("scrollButtonHeight");
+    this.annotations = [];
+    this.doRedraw = this.doUpdate = null;
+    this.div = cm.getWrapperElement().appendChild(document.createElement("div"));
+    this.div.style.cssText = "position: absolute; right: 0; top: 0; z-index: 7; pointer-events: none";
+    this.computeScale();
+
+    function scheduleRedraw(delay) {
+      clearTimeout(self.doRedraw);
+      self.doRedraw = setTimeout(function() { self.redraw(); }, delay);
+    }
+
+    var self = this;
+    cm.on("refresh", this.resizeHandler = function() {
+      clearTimeout(self.doUpdate);
+      self.doUpdate = setTimeout(function() {
+        if (self.computeScale()) scheduleRedraw(20);
+      }, 100);
+    });
+    cm.on("markerAdded", this.resizeHandler);
+    cm.on("markerCleared", this.resizeHandler);
+    if (options.listenForChanges !== false)
+      cm.on("change", this.changeHandler = function() {
+        scheduleRedraw(250);
+      });
+  }
+
+  Annotation.prototype.computeScale = function() {
+    var cm = this.cm;
+    var hScale = (cm.getWrapperElement().clientHeight - cm.display.barHeight - this.buttonHeight * 2) /
+      cm.getScrollerElement().scrollHeight
+    if (hScale != this.hScale) {
+      this.hScale = hScale;
+      return true;
+    }
+  };
+
+  Annotation.prototype.update = function(annotations) {
+    this.annotations = annotations;
+    this.redraw();
+  };
+
+  Annotation.prototype.redraw = function(compute) {
+    if (compute !== false) this.computeScale();
+    var cm = this.cm, hScale = this.hScale;
+
+    var frag = document.createDocumentFragment(), anns = this.annotations;
+
+    var wrapping = cm.getOption("lineWrapping");
+    var singleLineH = wrapping && cm.defaultTextHeight() * 1.5;
+    var curLine = null, curLineObj = null;
+    function getY(pos, top) {
+      if (curLine != pos.line) {
+        curLine = pos.line;
+        curLineObj = cm.getLineHandle(curLine);
+      }
+      if ((curLineObj.widgets && curLineObj.widgets.length) ||
+          (wrapping && curLineObj.height > singleLineH))
+        return cm.charCoords(pos, "local")[top ? "top" : "bottom"];
+      var topY = cm.heightAtLine(curLineObj, "local");
+      return topY + (top ? 0 : curLineObj.height);
+    }
+
+    var lastLine = cm.lastLine()
+    if (cm.display.barWidth) for (var i = 0, nextTop; i < anns.length; i++) {
+      var ann = anns[i];
+      if (ann.to.line > lastLine) continue;
+      var top = nextTop || getY(ann.from, true) * hScale;
+      var bottom = getY(ann.to, false) * hScale;
+      while (i < anns.length - 1) {
+        if (anns[i + 1].to.line > lastLine) break;
+        nextTop = getY(anns[i + 1].from, true) * hScale;
+        if (nextTop > bottom + .9) break;
+        ann = anns[++i];
+        bottom = getY(ann.to, false) * hScale;
+      }
+      if (bottom == top) continue;
+      var height = Math.max(bottom - top, 3);
+
+      var elt = frag.appendChild(document.createElement("div"));
+      elt.style.cssText = "position: absolute; right: 0px; width: " + Math.max(cm.display.barWidth - 1, 2) + "px; top: "
+        + (top + this.buttonHeight) + "px; height: " + height + "px";
+      elt.className = this.options.className;
+      if (ann.id) {
+        elt.setAttribute("annotation-id", ann.id);
+      }
+    }
+    this.div.textContent = "";
+    this.div.appendChild(frag);
+  };
+
+  Annotation.prototype.clear = function() {
+    this.cm.off("refresh", this.resizeHandler);
+    this.cm.off("markerAdded", this.resizeHandler);
+    this.cm.off("markerCleared", this.resizeHandler);
+    if (this.changeHandler) this.cm.off("change", this.changeHandler);
+    this.div.parentNode.removeChild(this.div);
+  };
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  function Bar(cls, orientation, scroll) {
+    this.orientation = orientation;
+    this.scroll = scroll;
+    this.screen = this.total = this.size = 1;
+    this.pos = 0;
+
+    this.node = document.createElement("div");
+    this.node.className = cls + "-" + orientation;
+    this.inner = this.node.appendChild(document.createElement("div"));
+
+    var self = this;
+    CodeMirror.on(this.inner, "mousedown", function(e) {
+      if (e.which != 1) return;
+      CodeMirror.e_preventDefault(e);
+      var axis = self.orientation == "horizontal" ? "pageX" : "pageY";
+      var start = e[axis], startpos = self.pos;
+      function done() {
+        CodeMirror.off(document, "mousemove", move);
+        CodeMirror.off(document, "mouseup", done);
+      }
+      function move(e) {
+        if (e.which != 1) return done();
+        self.moveTo(startpos + (e[axis] - start) * (self.total / self.size));
+      }
+      CodeMirror.on(document, "mousemove", move);
+      CodeMirror.on(document, "mouseup", done);
+    });
+
+    CodeMirror.on(this.node, "click", function(e) {
+      CodeMirror.e_preventDefault(e);
+      var innerBox = self.inner.getBoundingClientRect(), where;
+      if (self.orientation == "horizontal")
+        where = e.clientX < innerBox.left ? -1 : e.clientX > innerBox.right ? 1 : 0;
+      else
+        where = e.clientY < innerBox.top ? -1 : e.clientY > innerBox.bottom ? 1 : 0;
+      self.moveTo(self.pos + where * self.screen);
+    });
+
+    function onWheel(e) {
+      var moved = CodeMirror.wheelEventPixels(e)[self.orientation == "horizontal" ? "x" : "y"];
+      var oldPos = self.pos;
+      self.moveTo(self.pos + moved);
+      if (self.pos != oldPos) CodeMirror.e_preventDefault(e);
+    }
+    CodeMirror.on(this.node, "mousewheel", onWheel);
+    CodeMirror.on(this.node, "DOMMouseScroll", onWheel);
+  }
+
+  Bar.prototype.setPos = function(pos, force) {
+    if (pos < 0) pos = 0;
+    if (pos > this.total - this.screen) pos = this.total - this.screen;
+    if (!force && pos == this.pos) return false;
+    this.pos = pos;
+    this.inner.style[this.orientation == "horizontal" ? "left" : "top"] =
+      (pos * (this.size / this.total)) + "px";
+    return true
+  };
+
+  Bar.prototype.moveTo = function(pos) {
+    if (this.setPos(pos)) this.scroll(pos, this.orientation);
+  }
+
+  var minButtonSize = 10;
+
+  Bar.prototype.update = function(scrollSize, clientSize, barSize) {
+    var sizeChanged = this.screen != clientSize || this.total != scrollSize || this.size != barSize
+    if (sizeChanged) {
+      this.screen = clientSize;
+      this.total = scrollSize;
+      this.size = barSize;
+    }
+
+    var buttonSize = this.screen * (this.size / this.total);
+    if (buttonSize < minButtonSize) {
+      this.size -= minButtonSize - buttonSize;
+      buttonSize = minButtonSize;
+    }
+    this.inner.style[this.orientation == "horizontal" ? "width" : "height"] =
+      buttonSize + "px";
+    this.setPos(this.pos, sizeChanged);
+  };
+
+  function SimpleScrollbars(cls, place, scroll) {
+    this.addClass = cls;
+    this.horiz = new Bar(cls, "horizontal", scroll);
+    place(this.horiz.node);
+    this.vert = new Bar(cls, "vertical", scroll);
+    place(this.vert.node);
+    this.width = null;
+  }
+
+  SimpleScrollbars.prototype.update = function(measure) {
+    if (this.width == null) {
+      var style = window.getComputedStyle ? window.getComputedStyle(this.horiz.node) : this.horiz.node.currentStyle;
+      if (style) this.width = parseInt(style.height);
+    }
+    var width = this.width || 0;
+
+    var needsH = measure.scrollWidth > measure.clientWidth + 1;
+    var needsV = measure.scrollHeight > measure.clientHeight + 1;
+    this.vert.node.style.display = needsV ? "block" : "none";
+    this.horiz.node.style.display = needsH ? "block" : "none";
+
+    if (needsV) {
+      this.vert.update(measure.scrollHeight, measure.clientHeight,
+                       measure.viewHeight - (needsH ? width : 0));
+      this.vert.node.style.bottom = needsH ? width + "px" : "0";
+    }
+    if (needsH) {
+      this.horiz.update(measure.scrollWidth, measure.clientWidth,
+                        measure.viewWidth - (needsV ? width : 0) - measure.barLeft);
+      this.horiz.node.style.right = needsV ? width + "px" : "0";
+      this.horiz.node.style.left = measure.barLeft + "px";
+    }
+
+    return {right: needsV ? width : 0, bottom: needsH ? width : 0};
+  };
+
+  SimpleScrollbars.prototype.setScrollTop = function(pos) {
+    this.vert.setPos(pos);
+  };
+
+  SimpleScrollbars.prototype.setScrollLeft = function(pos) {
+    this.horiz.setPos(pos);
+  };
+
+  SimpleScrollbars.prototype.clear = function() {
+    var parent = this.horiz.node.parentNode;
+    parent.removeChild(this.horiz.node);
+    parent.removeChild(this.vert.node);
+  };
+
+  CodeMirror.scrollbarModel.simple = function(place, scroll) {
+    return new SimpleScrollbars("CodeMirror-simplescroll", place, scroll);
+  };
+  CodeMirror.scrollbarModel.overlay = function(place, scroll) {
+    return new SimpleScrollbars("CodeMirror-overlayscroll", place, scroll);
+  };
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("./searchcursor"), require("../scroll/annotatescrollbar"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "./searchcursor", "../scroll/annotatescrollbar"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.defineExtension("showMatchesOnScrollbar", function(query, caseFold, options) {
+    if (typeof options == "string") options = {className: options};
+    if (!options) options = {};
+    return new SearchAnnotation(this, query, caseFold, options);
+  });
+
+  function SearchAnnotation(cm, query, caseFold, options) {
+    this.cm = cm;
+    this.options = options;
+    var annotateOptions = {listenForChanges: false};
+    for (var prop in options) annotateOptions[prop] = options[prop];
+    if (!annotateOptions.className) annotateOptions.className = "CodeMirror-search-match";
+    this.annotation = cm.annotateScrollbar(annotateOptions);
+    this.query = query;
+    this.caseFold = caseFold;
+    this.gap = {from: cm.firstLine(), to: cm.lastLine() + 1};
+    this.matches = [];
+    this.update = null;
+
+    this.findMatches();
+    this.annotation.update(this.matches);
+
+    var self = this;
+    cm.on("change", this.changeHandler = function(_cm, change) { self.onChange(change); });
+  }
+
+  var MAX_MATCHES = 1000;
+
+  SearchAnnotation.prototype.findMatches = function() {
+    if (!this.gap) return;
+    for (var i = 0; i < this.matches.length; i++) {
+      var match = this.matches[i];
+      if (match.from.line >= this.gap.to) break;
+      if (match.to.line >= this.gap.from) this.matches.splice(i--, 1);
+    }
+    var cursor = this.cm.getSearchCursor(this.query, CodeMirror.Pos(this.gap.from, 0), this.caseFold);
+    var maxMatches = this.options && this.options.maxMatches || MAX_MATCHES;
+    while (cursor.findNext()) {
+      var match = {from: cursor.from(), to: cursor.to()};
+      if (match.from.line >= this.gap.to) break;
+      this.matches.splice(i++, 0, match);
+      if (this.matches.length > maxMatches) break;
+    }
+    this.gap = null;
+  };
+
+  function offsetLine(line, changeStart, sizeChange) {
+    if (line <= changeStart) return line;
+    return Math.max(changeStart, line + sizeChange);
+  }
+
+  SearchAnnotation.prototype.onChange = function(change) {
+    var startLine = change.from.line;
+    var endLine = CodeMirror.changeEnd(change).line;
+    var sizeChange = endLine - change.to.line;
+    if (this.gap) {
+      this.gap.from = Math.min(offsetLine(this.gap.from, startLine, sizeChange), change.from.line);
+      this.gap.to = Math.max(offsetLine(this.gap.to, startLine, sizeChange), change.from.line);
+    } else {
+      this.gap = {from: change.from.line, to: endLine + 1};
+    }
+
+    if (sizeChange) for (var i = 0; i < this.matches.length; i++) {
+      var match = this.matches[i];
+      var newFrom = offsetLine(match.from.line, startLine, sizeChange);
+      if (newFrom != match.from.line) match.from = CodeMirror.Pos(newFrom, match.from.ch);
+      var newTo = offsetLine(match.to.line, startLine, sizeChange);
+      if (newTo != match.to.line) match.to = CodeMirror.Pos(newTo, match.to.ch);
+    }
+    clearTimeout(this.update);
+    var self = this;
+    this.update = setTimeout(function() { self.updateAfterChange(); }, 250);
+  };
+
+  SearchAnnotation.prototype.updateAfterChange = function() {
+    this.findMatches();
+    this.annotation.update(this.matches);
+  };
+
+  SearchAnnotation.prototype.clear = function() {
+    this.cm.off("change", this.changeHandler);
+    this.annotation.clear();
+  };
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+// Highlighting text that matches the selection
+//
+// Defines an option highlightSelectionMatches, which, when enabled,
+// will style strings that match the selection throughout the
+// document.
+//
+// The option can be set to true to simply enable it, or to a
+// {minChars, style, wordsOnly, showToken, delay} object to explicitly
+// configure it. minChars is the minimum amount of characters that should be
+// selected for the behavior to occur, and style is the token style to
+// apply to the matches. This will be prefixed by "cm-" to create an
+// actual CSS class name. If wordsOnly is enabled, the matches will be
+// highlighted only if the selected text is a word. showToken, when enabled,
+// will cause the current token to be highlighted when nothing is selected.
+// delay is used to specify how much time to wait, in milliseconds, before
+// highlighting the matches. If annotateScrollbar is enabled, the occurences
+// will be highlighted on the scrollbar via the matchesonscrollbar addon.
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"), require("./matchesonscrollbar"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror", "./matchesonscrollbar"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  var defaults = {
+    style: "matchhighlight",
+    minChars: 2,
+    delay: 100,
+    wordsOnly: false,
+    annotateScrollbar: false,
+    showToken: false,
+    trim: true
+  }
+
+  function State(options) {
+    this.options = {}
+    for (var name in defaults)
+      this.options[name] = (options && options.hasOwnProperty(name) ? options : defaults)[name]
+    this.overlay = this.timeout = null;
+    this.matchesonscroll = null;
+    this.active = false;
+  }
+
+  CodeMirror.defineOption("highlightSelectionMatches", false, function(cm, val, old) {
+    if (old && old != CodeMirror.Init) {
+      removeOverlay(cm);
+      clearTimeout(cm.state.matchHighlighter.timeout);
+      cm.state.matchHighlighter = null;
+      cm.off("cursorActivity", cursorActivity);
+      cm.off("focus", onFocus)
+    }
+    if (val) {
+      var state = cm.state.matchHighlighter = new State(val);
+      if (cm.hasFocus()) {
+        state.active = true
+        highlightMatches(cm)
+      } else {
+        cm.on("focus", onFocus)
+      }
+      cm.on("cursorActivity", cursorActivity);
+    }
+  });
+
+  function cursorActivity(cm) {
+    var state = cm.state.matchHighlighter;
+    if (state.active || cm.hasFocus()) scheduleHighlight(cm, state)
+  }
+
+  function onFocus(cm) {
+    var state = cm.state.matchHighlighter
+    if (!state.active) {
+      state.active = true
+      scheduleHighlight(cm, state)
+    }
+  }
+
+  function scheduleHighlight(cm, state) {
+    clearTimeout(state.timeout);
+    state.timeout = setTimeout(function() {highlightMatches(cm);}, state.options.delay);
+  }
+
+  function addOverlay(cm, query, hasBoundary, style) {
+    var state = cm.state.matchHighlighter;
+    cm.addOverlay(state.overlay = makeOverlay(query, hasBoundary, style));
+    if (state.options.annotateScrollbar && cm.showMatchesOnScrollbar) {
+      var searchFor = hasBoundary ? new RegExp("\\b" + query.replace(/[\\\[.+*?(){|^$]/g, "\\$&") + "\\b") : query;
+      state.matchesonscroll = cm.showMatchesOnScrollbar(searchFor, false,
+        {className: "CodeMirror-selection-highlight-scrollbar"});
+    }
+  }
+
+  function removeOverlay(cm) {
+    var state = cm.state.matchHighlighter;
+    if (state.overlay) {
+      cm.removeOverlay(state.overlay);
+      state.overlay = null;
+      if (state.matchesonscroll) {
+        state.matchesonscroll.clear();
+        state.matchesonscroll = null;
+      }
+    }
+  }
+
+  function highlightMatches(cm) {
+    cm.operation(function() {
+      var state = cm.state.matchHighlighter;
+      removeOverlay(cm);
+      if (!cm.somethingSelected() && state.options.showToken) {
+        var re = state.options.showToken === true ? /[\w$]/ : state.options.showToken;
+        var cur = cm.getCursor(), line = cm.getLine(cur.line), start = cur.ch, end = start;
+        while (start && re.test(line.charAt(start - 1))) --start;
+        while (end < line.length && re.test(line.charAt(end))) ++end;
+        if (start < end)
+          addOverlay(cm, line.slice(start, end), re, state.options.style);
+        return;
+      }
+      var from = cm.getCursor("from"), to = cm.getCursor("to");
+      if (from.line != to.line) return;
+      if (state.options.wordsOnly && !isWord(cm, from, to)) return;
+      var selection = cm.getRange(from, to)
+      if (state.options.trim) selection = selection.replace(/^\s+|\s+$/g, "")
+      if (selection.length >= state.options.minChars)
+        addOverlay(cm, selection, false, state.options.style);
+    });
+  }
+
+  function isWord(cm, from, to) {
+    var str = cm.getRange(from, to);
+    if (str.match(/^\w+$/) !== null) {
+        if (from.ch > 0) {
+            var pos = {line: from.line, ch: from.ch - 1};
+            var chr = cm.getRange(pos, from);
+            if (chr.match(/\W/) === null) return false;
+        }
+        if (to.ch < cm.getLine(from.line).length) {
+            var pos = {line: to.line, ch: to.ch + 1};
+            var chr = cm.getRange(to, pos);
+            if (chr.match(/\W/) === null) return false;
+        }
+        return true;
+    } else return false;
+  }
+
+  function boundariesAround(stream, re) {
+    return (!stream.start || !re.test(stream.string.charAt(stream.start - 1))) &&
+      (stream.pos == stream.string.length || !re.test(stream.string.charAt(stream.pos)));
+  }
+
+  function makeOverlay(query, hasBoundary, style) {
+    return {token: function(stream) {
+      if (stream.match(query) &&
+          (!hasBoundary || boundariesAround(stream, hasBoundary)))
+        return style;
+      stream.next();
+      stream.skipTo(query.charAt(0)) || stream.skipToEnd();
+    }};
+  }
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"))
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod)
+  else // Plain browser env
+    mod(CodeMirror)
+})(function(CodeMirror) {
+  "use strict"
+  var Pos = CodeMirror.Pos
+
+  function regexpFlags(regexp) {
+    var flags = regexp.flags
+    return flags != null ? flags : (regexp.ignoreCase ? "i" : "")
+      + (regexp.global ? "g" : "")
+      + (regexp.multiline ? "m" : "")
+  }
+
+  function ensureFlags(regexp, flags) {
+    var current = regexpFlags(regexp), target = current
+    for (var i = 0; i < flags.length; i++) if (target.indexOf(flags.charAt(i)) == -1)
+      target += flags.charAt(i)
+    return current == target ? regexp : new RegExp(regexp.source, target)
+  }
+
+  function maybeMultiline(regexp) {
+    return /\\s|\\n|\n|\\W|\\D|\[\^/.test(regexp.source)
+  }
+
+  function searchRegexpForward(doc, regexp, start) {
+    regexp = ensureFlags(regexp, "g")
+    for (var line = start.line, ch = start.ch, last = doc.lastLine(); line <= last; line++, ch = 0) {
+      regexp.lastIndex = ch
+      var string = doc.getLine(line), match = regexp.exec(string)
+      if (match)
+        return {from: Pos(line, match.index),
+                to: Pos(line, match.index + match[0].length),
+                match: match}
+    }
+  }
+
+  function searchRegexpForwardMultiline(doc, regexp, start) {
+    if (!maybeMultiline(regexp)) return searchRegexpForward(doc, regexp, start)
+
+    regexp = ensureFlags(regexp, "gm")
+    var string, chunk = 1
+    for (var line = start.line, last = doc.lastLine(); line <= last;) {
+      // This grows the search buffer in exponentially-sized chunks
+      // between matches, so that nearby matches are fast and don't
+      // require concatenating the whole document (in case we're
+      // searching for something that has tons of matches), but at the
+      // same time, the amount of retries is limited.
+      for (var i = 0; i < chunk; i++) {
+        if (line > last) break
+        var curLine = doc.getLine(line++)
+        string = string == null ? curLine : string + "\n" + curLine
+      }
+      chunk = chunk * 2
+      regexp.lastIndex = start.ch
+      var match = regexp.exec(string)
+      if (match) {
+        var before = string.slice(0, match.index).split("\n"), inside = match[0].split("\n")
+        var startLine = start.line + before.length - 1, startCh = before[before.length - 1].length
+        return {from: Pos(startLine, startCh),
+                to: Pos(startLine + inside.length - 1,
+                        inside.length == 1 ? startCh + inside[0].length : inside[inside.length - 1].length),
+                match: match}
+      }
+    }
+  }
+
+  function lastMatchIn(string, regexp) {
+    var cutOff = 0, match
+    for (;;) {
+      regexp.lastIndex = cutOff
+      var newMatch = regexp.exec(string)
+      if (!newMatch) return match
+      match = newMatch
+      cutOff = match.index + (match[0].length || 1)
+      if (cutOff == string.length) return match
+    }
+  }
+
+  function searchRegexpBackward(doc, regexp, start) {
+    regexp = ensureFlags(regexp, "g")
+    for (var line = start.line, ch = start.ch, first = doc.firstLine(); line >= first; line--, ch = -1) {
+      var string = doc.getLine(line)
+      if (ch > -1) string = string.slice(0, ch)
+      var match = lastMatchIn(string, regexp)
+      if (match)
+        return {from: Pos(line, match.index),
+                to: Pos(line, match.index + match[0].length),
+                match: match}
+    }
+  }
+
+  function searchRegexpBackwardMultiline(doc, regexp, start) {
+    regexp = ensureFlags(regexp, "gm")
+    var string, chunk = 1
+    for (var line = start.line, first = doc.firstLine(); line >= first;) {
+      for (var i = 0; i < chunk; i++) {
+        var curLine = doc.getLine(line--)
+        string = string == null ? curLine.slice(0, start.ch) : curLine + "\n" + string
+      }
+      chunk *= 2
+
+      var match = lastMatchIn(string, regexp)
+      if (match) {
+        var before = string.slice(0, match.index).split("\n"), inside = match[0].split("\n")
+        var startLine = line + before.length, startCh = before[before.length - 1].length
+        return {from: Pos(startLine, startCh),
+                to: Pos(startLine + inside.length - 1,
+                        inside.length == 1 ? startCh + inside[0].length : inside[inside.length - 1].length),
+                match: match}
+      }
+    }
+  }
+
+  var doFold, noFold
+  if (String.prototype.normalize) {
+    doFold = function(str) { return str.normalize("NFD").toLowerCase() }
+    noFold = function(str) { return str.normalize("NFD") }
+  } else {
+    doFold = function(str) { return str.toLowerCase() }
+    noFold = function(str) { return str }
+  }
+
+  // Maps a position in a case-folded line back to a position in the original line
+  // (compensating for codepoints increasing in number during folding)
+  function adjustPos(orig, folded, pos, foldFunc) {
+    if (orig.length == folded.length) return pos
+    for (var min = 0, max = pos + Math.max(0, orig.length - folded.length);;) {
+      if (min == max) return min
+      var mid = (min + max) >> 1
+      var len = foldFunc(orig.slice(0, mid)).length
+      if (len == pos) return mid
+      else if (len > pos) max = mid
+      else min = mid + 1
+    }
+  }
+
+  function searchStringForward(doc, query, start, caseFold) {
+    // Empty string would match anything and never progress, so we
+    // define it to match nothing instead.
+    if (!query.length) return null
+    var fold = caseFold ? doFold : noFold
+    var lines = fold(query).split(/\r|\n\r?/)
+
+    search: for (var line = start.line, ch = start.ch, last = doc.lastLine() + 1 - lines.length; line <= last; line++, ch = 0) {
+      var orig = doc.getLine(line).slice(ch), string = fold(orig)
+      if (lines.length == 1) {
+        var found = string.indexOf(lines[0])
+        if (found == -1) continue search
+        var start = adjustPos(orig, string, found, fold) + ch
+        return {from: Pos(line, adjustPos(orig, string, found, fold) + ch),
+                to: Pos(line, adjustPos(orig, string, found + lines[0].length, fold) + ch)}
+      } else {
+        var cutFrom = string.length - lines[0].length
+        if (string.slice(cutFrom) != lines[0]) continue search
+        for (var i = 1; i < lines.length - 1; i++)
+          if (fold(doc.getLine(line + i)) != lines[i]) continue search
+        var end = doc.getLine(line + lines.length - 1), endString = fold(end), lastLine = lines[lines.length - 1]
+        if (endString.slice(0, lastLine.length) != lastLine) continue search
+        return {from: Pos(line, adjustPos(orig, string, cutFrom, fold) + ch),
+                to: Pos(line + lines.length - 1, adjustPos(end, endString, lastLine.length, fold))}
+      }
+    }
+  }
+
+  function searchStringBackward(doc, query, start, caseFold) {
+    if (!query.length) return null
+    var fold = caseFold ? doFold : noFold
+    var lines = fold(query).split(/\r|\n\r?/)
+
+    search: for (var line = start.line, ch = start.ch, first = doc.firstLine() - 1 + lines.length; line >= first; line--, ch = -1) {
+      var orig = doc.getLine(line)
+      if (ch > -1) orig = orig.slice(0, ch)
+      var string = fold(orig)
+      if (lines.length == 1) {
+        var found = string.lastIndexOf(lines[0])
+        if (found == -1) continue search
+        return {from: Pos(line, adjustPos(orig, string, found, fold)),
+                to: Pos(line, adjustPos(orig, string, found + lines[0].length, fold))}
+      } else {
+        var lastLine = lines[lines.length - 1]
+        if (string.slice(0, lastLine.length) != lastLine) continue search
+        for (var i = 1, start = line - lines.length + 1; i < lines.length - 1; i++)
+          if (fold(doc.getLine(start + i)) != lines[i]) continue search
+        var top = doc.getLine(line + 1 - lines.length), topString = fold(top)
+        if (topString.slice(topString.length - lines[0].length) != lines[0]) continue search
+        return {from: Pos(line + 1 - lines.length, adjustPos(top, topString, top.length - lines[0].length, fold)),
+                to: Pos(line, adjustPos(orig, string, lastLine.length, fold))}
+      }
+    }
+  }
+
+  function SearchCursor(doc, query, pos, options) {
+    this.atOccurrence = false
+    this.doc = doc
+    pos = pos ? doc.clipPos(pos) : Pos(0, 0)
+    this.pos = {from: pos, to: pos}
+
+    var caseFold
+    if (typeof options == "object") {
+      caseFold = options.caseFold
+    } else { // Backwards compat for when caseFold was the 4th argument
+      caseFold = options
+      options = null
+    }
+
+    if (typeof query == "string") {
+      if (caseFold == null) caseFold = false
+      this.matches = function(reverse, pos) {
+        return (reverse ? searchStringBackward : searchStringForward)(doc, query, pos, caseFold)
+      }
+    } else {
+      query = ensureFlags(query, "gm")
+      if (!options || options.multiline !== false)
+        this.matches = function(reverse, pos) {
+          return (reverse ? searchRegexpBackwardMultiline : searchRegexpForwardMultiline)(doc, query, pos)
+        }
+      else
+        this.matches = function(reverse, pos) {
+          return (reverse ? searchRegexpBackward : searchRegexpForward)(doc, query, pos)
+        }
+    }
+  }
+
+  SearchCursor.prototype = {
+    findNext: function() {return this.find(false)},
+    findPrevious: function() {return this.find(true)},
+
+    find: function(reverse) {
+      var result = this.matches(reverse, this.doc.clipPos(reverse ? this.pos.from : this.pos.to))
+
+      // Implements weird auto-growing behavior on null-matches for
+      // backwards-compatiblity with the vim code (unfortunately)
+      while (result && CodeMirror.cmpPos(result.from, result.to) == 0) {
+        if (reverse) {
+          if (result.from.ch) result.from = Pos(result.from.line, result.from.ch - 1)
+          else if (result.from.line == this.doc.firstLine()) result = null
+          else result = this.matches(reverse, this.doc.clipPos(Pos(result.from.line - 1)))
+        } else {
+          if (result.to.ch < this.doc.getLine(result.to.line).length) result.to = Pos(result.to.line, result.to.ch + 1)
+          else if (result.to.line == this.doc.lastLine()) result = null
+          else result = this.matches(reverse, Pos(result.to.line + 1, 0))
+        }
+      }
+
+      if (result) {
+        this.pos = result
+        this.atOccurrence = true
+        return this.pos.match || true
+      } else {
+        var end = Pos(reverse ? this.doc.firstLine() : this.doc.lastLine() + 1, 0)
+        this.pos = {from: end, to: end}
+        return this.atOccurrence = false
+      }
+    },
+
+    from: function() {if (this.atOccurrence) return this.pos.from},
+    to: function() {if (this.atOccurrence) return this.pos.to},
+
+    replace: function(newText, origin) {
+      if (!this.atOccurrence) return
+      var lines = CodeMirror.splitLines(newText)
+      this.doc.replaceRange(lines, this.pos.from, this.pos.to, origin)
+      this.pos.to = Pos(this.pos.from.line + lines.length - 1,
+                        lines[lines.length - 1].length + (lines.length == 1 ? this.pos.from.ch : 0))
+    }
+  }
+
+  CodeMirror.defineExtension("getSearchCursor", function(query, pos, caseFold) {
+    return new SearchCursor(this.doc, query, pos, caseFold)
+  })
+  CodeMirror.defineDocExtension("getSearchCursor", function(query, pos, caseFold) {
+    return new SearchCursor(this, query, pos, caseFold)
+  })
+
+  CodeMirror.defineExtension("selectMatches", function(query, caseFold) {
+    var ranges = []
+    var cur = this.getSearchCursor(query, this.getCursor("from"), caseFold)
+    while (cur.findNext()) {
+      if (CodeMirror.cmpPos(cur.to(), this.getCursor("to")) > 0) break
+      ranges.push({anchor: cur.from(), head: cur.to()})
+    }
+    if (ranges.length)
+      this.setSelections(ranges, 0)
+  })
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+  var WRAP_CLASS = "CodeMirror-activeline";
+  var BACK_CLASS = "CodeMirror-activeline-background";
+  var GUTT_CLASS = "CodeMirror-activeline-gutter";
+
+  CodeMirror.defineOption("styleActiveLine", false, function(cm, val, old) {
+    var prev = old == CodeMirror.Init ? false : old;
+    if (val == prev) return
+    if (prev) {
+      cm.off("beforeSelectionChange", selectionChange);
+      clearActiveLines(cm);
+      delete cm.state.activeLines;
+    }
+    if (val) {
+      cm.state.activeLines = [];
+      updateActiveLines(cm, cm.listSelections());
+      cm.on("beforeSelectionChange", selectionChange);
+    }
+  });
+
+  function clearActiveLines(cm) {
+    for (var i = 0; i < cm.state.activeLines.length; i++) {
+      cm.removeLineClass(cm.state.activeLines[i], "wrap", WRAP_CLASS);
+      cm.removeLineClass(cm.state.activeLines[i], "background", BACK_CLASS);
+      cm.removeLineClass(cm.state.activeLines[i], "gutter", GUTT_CLASS);
+    }
+  }
+
+  function sameArray(a, b) {
+    if (a.length != b.length) return false;
+    for (var i = 0; i < a.length; i++)
+      if (a[i] != b[i]) return false;
+    return true;
+  }
+
+  function updateActiveLines(cm, ranges) {
+    var active = [];
+    for (var i = 0; i < ranges.length; i++) {
+      var range = ranges[i];
+      var option = cm.getOption("styleActiveLine");
+      if (typeof option == "object" && option.nonEmpty ? range.anchor.line != range.head.line : !range.empty())
+        continue
+      var line = cm.getLineHandleVisualStart(range.head.line);
+      if (active[active.length - 1] != line) active.push(line);
+    }
+    if (sameArray(cm.state.activeLines, active)) return;
+    cm.operation(function() {
+      clearActiveLines(cm);
+      for (var i = 0; i < active.length; i++) {
+        cm.addLineClass(active[i], "wrap", WRAP_CLASS);
+        cm.addLineClass(active[i], "background", BACK_CLASS);
+        cm.addLineClass(active[i], "gutter", GUTT_CLASS);
+      }
+      cm.state.activeLines = active;
+    });
+  }
+
+  function selectionChange(cm, sel) {
+    updateActiveLines(cm, sel.ranges);
+  }
+});
+
+// CodeMirror, copyright (c) by Marijn Haverbeke and others
+// Distributed under an MIT license: https://codemirror.net/LICENSE
+
+(function(mod) {
+  if (typeof exports == "object" && typeof module == "object") // CommonJS
+    mod(require("../lib/codemirror"));
+  else if (typeof define == "function" && define.amd) // AMD
+    define(["../lib/codemirror"], mod);
+  else // Plain browser env
+    mod(CodeMirror);
+})(function(CodeMirror) {
+  "use strict";
+
+  CodeMirror.modeInfo = [
+    {name: "APL", mime: "text/apl", mode: "apl", ext: ["dyalog", "apl"]},
+    {name: "PGP", mimes: ["application/pgp", "application/pgp-encrypted", "application/pgp-keys", "application/pgp-signature"], mode: "asciiarmor", ext: ["asc", "pgp", "sig"]},
+    {name: "ASN.1", mime: "text/x-ttcn-asn", mode: "asn.1", ext: ["asn", "asn1"]},
+    {name: "Asterisk", mime: "text/x-asterisk", mode: "asterisk", file: /^extensions\.conf$/i},
+    {name: "Brainfuck", mime: "text/x-brainfuck", mode: "brainfuck", ext: ["b", "bf"]},
+    {name: "C", mime: "text/x-csrc", mode: "clike", ext: ["c", "h", "ino"]},
+    {name: "C++", mime: "text/x-c++src", mode: "clike", ext: ["cpp", "c++", "cc", "cxx", "hpp", "h++", "hh", "hxx"], alias: ["cpp"]},
+    {name: "Cobol", mime: "text/x-cobol", mode: "cobol", ext: ["cob", "cpy"]},
+    {name: "C#", mime: "text/x-csharp", mode: "clike", ext: ["cs"], alias: ["csharp"]},
+    {name: "Clojure", mime: "text/x-clojure", mode: "clojure", ext: ["clj", "cljc", "cljx"]},
+    {name: "ClojureScript", mime: "text/x-clojurescript", mode: "clojure", ext: ["cljs"]},
+    {name: "Closure Stylesheets (GSS)", mime: "text/x-gss", mode: "css", ext: ["gss"]},
+    {name: "CMake", mime: "text/x-cmake", mode: "cmake", ext: ["cmake", "cmake.in"], file: /^CMakeLists.txt$/},
+    {name: "CoffeeScript", mimes: ["application/vnd.coffeescript", "text/coffeescript", "text/x-coffeescript"], mode: "coffeescript", ext: ["coffee"], alias: ["coffee", "coffee-script"]},
+    {name: "Common Lisp", mime: "text/x-common-lisp", mode: "commonlisp", ext: ["cl", "lisp", "el"], alias: ["lisp"]},
+    {name: "Cypher", mime: "application/x-cypher-query", mode: "cypher", ext: ["cyp", "cypher"]},
+    {name: "Cython", mime: "text/x-cython", mode: "python", ext: ["pyx", "pxd", "pxi"]},
+    {name: "Crystal", mime: "text/x-crystal", mode: "crystal", ext: ["cr"]},
+    {name: "CSS", mime: "text/css", mode: "css", ext: ["css"]},
+    {name: "CQL", mime: "text/x-cassandra", mode: "sql", ext: ["cql"]},
+    {name: "D", mime: "text/x-d", mode: "d", ext: ["d"]},
+    {name: "Dart", mimes: ["application/dart", "text/x-dart"], mode: "dart", ext: ["dart"]},
+    {name: "diff", mime: "text/x-diff", mode: "diff", ext: ["diff", "patch"]},
+    {name: "Django", mime: "text/x-django", mode: "django"},
+    {name: "Dockerfile", mime: "text/x-dockerfile", mode: "dockerfile", file: /^Dockerfile$/},
+    {name: "DTD", mime: "application/xml-dtd", mode: "dtd", ext: ["dtd"]},
+    {name: "Dylan", mime: "text/x-dylan", mode: "dylan", ext: ["dylan", "dyl", "intr"]},
+    {name: "EBNF", mime: "text/x-ebnf", mode: "ebnf"},
+    {name: "ECL", mime: "text/x-ecl", mode: "ecl", ext: ["ecl"]},
+    {name: "edn", mime: "application/edn", mode: "clojure", ext: ["edn"]},
+    {name: "Eiffel", mime: "text/x-eiffel", mode: "eiffel", ext: ["e"]},
+    {name: "Elm", mime: "text/x-elm", mode: "elm", ext: ["elm"]},
+    {name: "Embedded Javascript", mime: "application/x-ejs", mode: "htmlembedded", ext: ["ejs"]},
+    {name: "Embedded Ruby", mime: "application/x-erb", mode: "htmlembedded", ext: ["erb"]},
+    {name: "Erlang", mime: "text/x-erlang", mode: "erlang", ext: ["erl"]},
+    {name: "Esper", mime: "text/x-esper", mode: "sql"},
+    {name: "Factor", mime: "text/x-factor", mode: "factor", ext: ["factor"]},
+    {name: "FCL", mime: "text/x-fcl", mode: "fcl"},
+    {name: "Forth", mime: "text/x-forth", mode: "forth", ext: ["forth", "fth", "4th"]},
+    {name: "Fortran", mime: "text/x-fortran", mode: "fortran", ext: ["f", "for", "f77", "f90"]},
+    {name: "F#", mime: "text/x-fsharp", mode: "mllike", ext: ["fs"], alias: ["fsharp"]},
+    {name: "Gas", mime: "text/x-gas", mode: "gas", ext: ["s"]},
+    {name: "Gherkin", mime: "text/x-feature", mode: "gherkin", ext: ["feature"]},
+    {name: "GitHub Flavored Markdown", mime: "text/x-gfm", mode: "gfm", file: /^(readme|contributing|history).md$/i},
+    {name: "Go", mime: "text/x-go", mode: "go", ext: ["go"]},
+    {name: "Groovy", mime: "text/x-groovy", mode: "groovy", ext: ["groovy", "gradle"], file: /^Jenkinsfile$/},
+    {name: "HAML", mime: "text/x-haml", mode: "haml", ext: ["haml"]},
+    {name: "Haskell", mime: "text/x-haskell", mode: "haskell", ext: ["hs"]},
+    {name: "Haskell (Literate)", mime: "text/x-literate-haskell", mode: "haskell-literate", ext: ["lhs"]},
+    {name: "Haxe", mime: "text/x-haxe", mode: "haxe", ext: ["hx"]},
+    {name: "HXML", mime: "text/x-hxml", mode: "haxe", ext: ["hxml"]},
+    {name: "ASP.NET", mime: "application/x-aspx", mode: "htmlembedded", ext: ["aspx"], alias: ["asp", "aspx"]},
+    {name: "HTML", mime: "text/html", mode: "htmlmixed", ext: ["html", "htm", "handlebars", "hbs"], alias: ["xhtml"]},
+    {name: "HTTP", mime: "message/http", mode: "http"},
+    {name: "IDL", mime: "text/x-idl", mode: "idl", ext: ["pro"]},
+    {name: "Pug", mime: "text/x-pug", mode: "pug", ext: ["jade", "pug"], alias: ["jade"]},
+    {name: "Java", mime: "text/x-java", mode: "clike", ext: ["java"]},
+    {name: "Java Server Pages", mime: "application/x-jsp", mode: "htmlembedded", ext: ["jsp"], alias: ["jsp"]},
+    {name: "JavaScript", mimes: ["text/javascript", "text/ecmascript", "application/javascript", "application/x-javascript", "application/ecmascript"],
+     mode: "javascript", ext: ["js"], alias: ["ecmascript", "js", "node"]},
+    {name: "JSON", mimes: ["application/json", "application/x-json"], mode: "javascript", ext: ["json", "map"], alias: ["json5"]},
+    {name: "JSON-LD", mime: "application/ld+json", mode: "javascript", ext: ["jsonld"], alias: ["jsonld"]},
+    {name: "JSX", mime: "text/jsx", mode: "jsx", ext: ["jsx"]},
+    {name: "Jinja2", mime: "null", mode: "jinja2", ext: ["j2", "jinja", "jinja2"]},
+    {name: "Julia", mime: "text/x-julia", mode: "julia", ext: ["jl"]},
+    {name: "Kotlin", mime: "text/x-kotlin", mode: "clike", ext: ["kt"]},
+    {name: "LESS", mime: "text/x-less", mode: "css", ext: ["less"]},
+    {name: "LiveScript", mime: "text/x-livescript", mode: "livescript", ext: ["ls"], alias: ["ls"]},
+    {name: "Lua", mime: "text/x-lua", mode: "lua", ext: ["lua"]},
+    {name: "Markdown", mime: "text/x-markdown", mode: "markdown", ext: ["markdown", "md", "mkd"]},
+    {name: "mIRC", mime: "text/mirc", mode: "mirc"},
+    {name: "MariaDB SQL", mime: "text/x-mariadb", mode: "sql"},
+    {name: "Mathematica", mime: "text/x-mathematica", mode: "mathematica", ext: ["m", "nb"]},
+    {name: "Modelica", mime: "text/x-modelica", mode: "modelica", ext: ["mo"]},
+    {name: "MUMPS", mime: "text/x-mumps", mode: "mumps", ext: ["mps"]},
+    {name: "MS SQL", mime: "text/x-mssql", mode: "sql"},
+    {name: "mbox", mime: "application/mbox", mode: "mbox", ext: ["mbox"]},
+    {name: "MySQL", mime: "text/x-mysql", mode: "sql"},
+    {name: "Nginx", mime: "text/x-nginx-conf", mode: "nginx", file: /nginx.*\.conf$/i},
+    {name: "NSIS", mime: "text/x-nsis", mode: "nsis", ext: ["nsh", "nsi"]},
+    {name: "NTriples", mimes: ["application/n-triples", "application/n-quads", "text/n-triples"],
+     mode: "ntriples", ext: ["nt", "nq"]},
+    {name: "Objective-C", mime: "text/x-objectivec", mode: "clike", ext: ["m", "mm"], alias: ["objective-c", "objc"]},
+    {name: "OCaml", mime: "text/x-ocaml", mode: "mllike", ext: ["ml", "mli", "mll", "mly"]},
+    {name: "Octave", mime: "text/x-octave", mode: "octave", ext: ["m"]},
+    {name: "Oz", mime: "text/x-oz", mode: "oz", ext: ["oz"]},
+    {name: "Pascal", mime: "text/x-pascal", mode: "pascal", ext: ["p", "pas"]},
+    {name: "PEG.js", mime: "null", mode: "pegjs", ext: ["jsonld"]},
+    {name: "Perl", mime: "text/x-perl", mode: "perl", ext: ["pl", "pm"]},
+    {name: "PHP", mimes: ["text/x-php", "application/x-httpd-php", "application/x-httpd-php-open"], mode: "php", ext: ["php", "php3", "php4", "php5", "php7", "phtml"]},
+    {name: "Pig", mime: "text/x-pig", mode: "pig", ext: ["pig"]},
+    {name: "Plain Text", mime: "text/plain", mode: "null", ext: ["txt", "text", "conf", "def", "list", "log"]},
+    {name: "PLSQL", mime: "text/x-plsql", mode: "sql", ext: ["pls"]},
+    {name: "PowerShell", mime: "application/x-powershell", mode: "powershell", ext: ["ps1", "psd1", "psm1"]},
+    {name: "Properties files", mime: "text/x-properties", mode: "properties", ext: ["properties", "ini", "in"], alias: ["ini", "properties"]},
+    {name: "ProtoBuf", mime: "text/x-protobuf", mode: "protobuf", ext: ["proto"]},
+    {name: "Python", mime: "text/x-python", mode: "python", ext: ["BUILD", "bzl", "py", "pyw"], file: /^(BUCK|BUILD)$/},
+    {name: "Puppet", mime: "text/x-puppet", mode: "puppet", ext: ["pp"]},
+    {name: "Q", mime: "text/x-q", mode: "q", ext: ["q"]},
+    {name: "R", mime: "text/x-rsrc", mode: "r", ext: ["r", "R"], alias: ["rscript"]},
+    {name: "reStructuredText", mime: "text/x-rst", mode: "rst", ext: ["rst"], alias: ["rst"]},
+    {name: "RPM Changes", mime: "text/x-rpm-changes", mode: "rpm"},
+    {name: "RPM Spec", mime: "text/x-rpm-spec", mode: "rpm", ext: ["spec"]},
+    {name: "Ruby", mime: "text/x-ruby", mode: "ruby", ext: ["rb"], alias: ["jruby", "macruby", "rake", "rb", "rbx"]},
+    {name: "Rust", mime: "text/x-rustsrc", mode: "rust", ext: ["rs"]},
+    {name: "SAS", mime: "text/x-sas", mode: "sas", ext: ["sas"]},
+    {name: "Sass", mime: "text/x-sass", mode: "sass", ext: ["sass"]},
+    {name: "Scala", mime: "text/x-scala", mode: "clike", ext: ["scala"]},
+    {name: "Scheme", mime: "text/x-scheme", mode: "scheme", ext: ["scm", "ss"]},
+    {name: "SCSS", mime: "text/x-scss", mode: "css", ext: ["scss"]},
+    {name: "Shell", mimes: ["text/x-sh", "application/x-sh"], mode: "shell", ext: ["sh", "ksh", "bash"], alias: ["bash", "sh", "zsh"], file: /^PKGBUILD$/},
+    {name: "Sieve", mime: "application/sieve", mode: "sieve", ext: ["siv", "sieve"]},
+    {name: "Slim", mimes: ["text/x-slim", "application/x-slim"], mode: "slim", ext: ["slim"]},
+    {name: "Smalltalk", mime: "text/x-stsrc", mode: "smalltalk", ext: ["st"]},
+    {name: "Smarty", mime: "text/x-smarty", mode: "smarty", ext: ["tpl"]},
+    {name: "Solr", mime: "text/x-solr", mode: "solr"},
+    {name: "SML", mime: "text/x-sml", mode: "mllike", ext: ["sml", "sig", "fun", "smackspec"]},
+    {name: "Soy", mime: "text/x-soy", mode: "soy", ext: ["soy"], alias: ["closure template"]},
+    {name: "SPARQL", mime: "application/sparql-query", mode: "sparql", ext: ["rq", "sparql"], alias: ["sparul"]},
+    {name: "Spreadsheet", mime: "text/x-spreadsheet", mode: "spreadsheet", alias: ["excel", "formula"]},
+    {name: "SQL", mime: "text/x-sql", mode: "sql", ext: ["sql"]},
+    {name: "SQLite", mime: "text/x-sqlite", mode: "sql"},
+    {name: "Squirrel", mime: "text/x-squirrel", mode: "clike", ext: ["nut"]},
+    {name: "Stylus", mime: "text/x-styl", mode: "stylus", ext: ["styl"]},
+    {name: "Swift", mime: "text/x-swift", mode: "swift", ext: ["swift"]},
+    {name: "sTeX", mime: "text/x-stex", mode: "stex"},
+    {name: "LaTeX", mime: "text/x-latex", mode: "stex", ext: ["text", "ltx", "tex"], alias: ["tex"]},
+    {name: "SystemVerilog", mime: "text/x-systemverilog", mode: "verilog", ext: ["v", "sv", "svh"]},
+    {name: "Tcl", mime: "text/x-tcl", mode: "tcl", ext: ["tcl"]},
+    {name: "Textile", mime: "text/x-textile", mode: "textile", ext: ["textile"]},
+    {name: "TiddlyWiki ", mime: "text/x-tiddlywiki", mode: "tiddlywiki"},
+    {name: "Tiki wiki", mime: "text/tiki", mode: "tiki"},
+    {name: "TOML", mime: "text/x-toml", mode: "toml", ext: ["toml"]},
+    {name: "Tornado", mime: "text/x-tornado", mode: "tornado"},
+    {name: "troff", mime: "text/troff", mode: "troff", ext: ["1", "2", "3", "4", "5", "6", "7", "8", "9"]},
+    {name: "TTCN", mime: "text/x-ttcn", mode: "ttcn", ext: ["ttcn", "ttcn3", "ttcnpp"]},
+    {name: "TTCN_CFG", mime: "text/x-ttcn-cfg", mode: "ttcn-cfg", ext: ["cfg"]},
+    {name: "Turtle", mime: "text/turtle", mode: "turtle", ext: ["ttl"]},
+    {name: "TypeScript", mime: "application/typescript", mode: "javascript", ext: ["ts"], alias: ["ts"]},
+    {name: "TypeScript-JSX", mime: "text/typescript-jsx", mode: "jsx", ext: ["tsx"], alias: ["tsx"]},
+    {name: "Twig", mime: "text/x-twig", mode: "twig"},
+    {name: "Web IDL", mime: "text/x-webidl", mode: "webidl", ext: ["webidl"]},
+    {name: "VB.NET", mime: "text/x-vb", mode: "vb", ext: ["vb"]},
+    {name: "VBScript", mime: "text/vbscript", mode: "vbscript", ext: ["vbs"]},
+    {name: "Velocity", mime: "text/velocity", mode: "velocity", ext: ["vtl"]},
+    {name: "Verilog", mime: "text/x-verilog", mode: "verilog", ext: ["v"]},
+    {name: "VHDL", mime: "text/x-vhdl", mode: "vhdl", ext: ["vhd", "vhdl"]},
+    {name: "Vue.js Component", mimes: ["script/x-vue", "text/x-vue"], mode: "vue", ext: ["vue"]},
+    {name: "XML", mimes: ["application/xml", "text/xml"], mode: "xml", ext: ["xml", "xsl", "xsd", "svg"], alias: ["rss", "wsdl", "xsd"]},
+    {name: "XQuery", mime: "application/xquery", mode: "xquery", ext: ["xy", "xquery"]},
+    {name: "Yacas", mime: "text/x-yacas", mode: "yacas", ext: ["ys"]},
+    {name: "YAML", mimes: ["text/x-yaml", "text/yaml"], mode: "yaml", ext: ["yaml", "yml"], alias: ["yml"]},
+    {name: "Z80", mime: "text/x-z80", mode: "z80", ext: ["z80"]},
+    {name: "mscgen", mime: "text/x-mscgen", mode: "mscgen", ext: ["mscgen", "mscin", "msc"]},
+    {name: "xu", mime: "text/x-xu", mode: "mscgen", ext: ["xu"]},
+    {name: "msgenny", mime: "text/x-msgenny", mode: "mscgen", ext: ["msgenny"]}
+  ];
+  // Ensure all modes have a mime property for backwards compatibility
+  for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+    var info = CodeMirror.modeInfo[i];
+    if (info.mimes) info.mime = info.mimes[0];
+  }
+
+  CodeMirror.findModeByMIME = function(mime) {
+    mime = mime.toLowerCase();
+    for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+      var info = CodeMirror.modeInfo[i];
+      if (info.mime == mime) return info;
+      if (info.mimes) for (var j = 0; j < info.mimes.length; j++)
+        if (info.mimes[j] == mime) return info;
+    }
+    if (/\+xml$/.test(mime)) return CodeMirror.findModeByMIME("application/xml")
+    if (/\+json$/.test(mime)) return CodeMirror.findModeByMIME("application/json")
+  };
+
+  CodeMirror.findModeByExtension = function(ext) {
+    for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+      var info = CodeMirror.modeInfo[i];
+      if (info.ext) for (var j = 0; j < info.ext.length; j++)
+        if (info.ext[j] == ext) return info;
+    }
+  };
+
+  CodeMirror.findModeByFileName = function(filename) {
+    for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+      var info = CodeMirror.modeInfo[i];
+      if (info.file && info.file.test(filename)) return info;
+    }
+    var dot = filename.lastIndexOf(".");
+    var ext = dot > -1 && filename.substring(dot + 1, filename.length);
+    if (ext) return CodeMirror.findModeByExtension(ext);
+  };
+
+  CodeMirror.findModeByName = function(name) {
+    name = name.toLowerCase();
+    for (var i = 0; i < CodeMirror.modeInfo.length; i++) {
+      var info = CodeMirror.modeInfo[i];
+      if (info.name.toLowerCase() == name) return info;
+      if (info.alias) for (var j = 0; j < info.alias.length; j++)
+        if (info.alias[j].toLowerCase() == name) return info;
+    }
+  };
+});

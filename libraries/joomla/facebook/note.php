@@ -3,19 +3,18 @@
  * @package     Joomla.Platform
  * @subpackage  Facebook
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-
 defined('JPATH_PLATFORM') or die();
-
 
 /**
  * Facebook API Note class for the Joomla Platform.
  *
- * @see    http://developers.facebook.com/docs/reference/api/note/
- * @since  13.1
+ * @link        http://developers.facebook.com/docs/reference/api/note/
+ * @since       3.2.0
+ * @deprecated  4.0  Use the `joomla/facebook` package via Composer instead
  */
 class JFacebookNote extends JFacebookObject
 {
@@ -26,7 +25,7 @@ class JFacebookNote extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getNote($note)
 	{
@@ -44,7 +43,7 @@ class JFacebookNote extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getComments($note, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -59,7 +58,7 @@ class JFacebookNote extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createComment($note, $message)
 	{
@@ -77,7 +76,7 @@ class JFacebookNote extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteComment($comment)
 	{
@@ -95,7 +94,7 @@ class JFacebookNote extends JFacebookObject
 	 *
 	 * @return  mixed   The decoded JSON response or false if the client is not authenticated.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function getLikes($note, $limit = 0, $offset = 0, $until = null, $since = null)
 	{
@@ -109,7 +108,7 @@ class JFacebookNote extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function createLike($note)
 	{
@@ -123,7 +122,7 @@ class JFacebookNote extends JFacebookObject
 	 *
 	 * @return  boolean Returns true if successful, and false otherwise.
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function deleteLike($note)
 	{

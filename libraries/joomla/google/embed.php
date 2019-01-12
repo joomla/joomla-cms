@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,24 +11,23 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\Registry\Registry;
 
-jimport('joomla.environment.uri');
-
 /**
  * Google API object class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 abstract class JGoogleEmbed
 {
 	/**
 	 * @var    Registry  Options for the Google data object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JUri  URI of the page being rendered.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $uri;
 
@@ -38,12 +37,12 @@ abstract class JGoogleEmbed
 	 * @param   Registry  $options  Google options object
 	 * @param   JUri      $uri      URL of the page being rendered
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JUri $uri = null)
 	{
 		$this->options = $options ? $options : new Registry;
-		$this->uri = $uri ? $uri : new JUri;
+		$this->uri = $uri ? $uri : JUri::getInstance();
 	}
 
 	/**
@@ -51,7 +50,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  string  The header
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function isSecure()
 	{
@@ -63,7 +62,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  string  The header
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	abstract public function getHeader();
 
@@ -72,7 +71,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  string  The body
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	abstract public function getBody();
 
@@ -81,7 +80,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  null
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function echoHeader()
 	{
@@ -93,7 +92,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  null
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function echoBody()
 	{
@@ -107,7 +106,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  mixed  The option value.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function getOption($key)
 	{
@@ -122,7 +121,7 @@ abstract class JGoogleEmbed
 	 *
 	 * @return  JGoogleEmbed  This object for method chaining.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function setOption($key, $value)
 	{

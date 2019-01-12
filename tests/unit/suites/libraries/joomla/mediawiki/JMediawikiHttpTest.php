@@ -3,12 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/mediawiki/http.php';
-require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
 
 /**
  * Test class for JMediawikiHttp.
@@ -16,37 +13,37 @@ require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
  * @package     Joomla.UnitTest
  * @subpackage  Mediawiki
  *
- * @since       12.3
+ * @since       3.1.4
  */
-class JMediawikiHttpTest extends PHPUnit_Framework_TestCase
+class JMediawikiHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Mediawiki object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $options;
 
 	/**
 	 * @var    JMediawikiHttp  Mock client object.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $transport;
 
 	/**
 	 * @var    JMediawikiHttp  Object under test.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample xml string.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $sampleString = '<a><b></b><c></c></a>';
 
 	/**
 	 * @var    string  Sample xml error message.
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $errorString = '<message>Generic Error</message>';
 
@@ -61,9 +58,28 @@ class JMediawikiHttpTest extends PHPUnit_Framework_TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport', false);
+				$this->transport = $this->getMockBuilder('JHttpTransportStream')
+				->setMethods(array('request'))
+				->setConstructorArgs(array($this->options))
+				->setMockClassName('CustomTransport')
+				->disableOriginalConstructor()
+				->getMock();
 
 		$this->object = new JMediawikiHttp($this->options, $this->transport);
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		unset($this->options, $this->transport, $this->object);
 	}
 
 	/**

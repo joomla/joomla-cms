@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Pulls Comments class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/pulls/comments/
+ * @documentation https://developer.github.com/v3/pulls/comments/
  *
- * @since  3.3 (CMS)
+ * @since       3.3 (CMS)
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackagePullsComments extends JGithubPackage
 {
@@ -30,7 +31,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   string   $position  The line index in the diff to comment on.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -45,7 +46,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 				'body' => $body,
 				'commit_id' => $commitId,
 				'path' => $filePath,
-				'position' => $position
+				'position' => $position,
 			)
 		);
 
@@ -66,7 +67,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   integer  $inReplyTo  The id of the comment to reply to.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -79,7 +80,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 		$data = json_encode(
 			array(
 				'body' => $body,
-				'in_reply_to' => (int) $inReplyTo
+				'in_reply_to' => (int) $inReplyTo,
 			)
 		);
 
@@ -98,7 +99,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   integer  $commentId  The id of the comment to delete.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -123,7 +124,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   string   $body       The new body text for the comment.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -135,7 +136,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 		// Build the request data.
 		$data = json_encode(
 			array(
-				'body' => $body
+				'body' => $body,
 			)
 		);
 
@@ -153,7 +154,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   integer  $commentId  The comment id to get.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  object
 	 */
@@ -178,7 +179,7 @@ class JGithubPackagePullsComments extends JGithubPackage
 	 * @param   integer  $limit   The number of items on a page.
 	 *
 	 * @throws DomainException
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  array
 	 */

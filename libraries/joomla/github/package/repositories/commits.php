@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Repositories Commits class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/commits
+ * @documentation https://developer.github.com/v3/repos/commits
  *
- * @since  11.3
+ * @since       1.7.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesCommits extends JGithubPackage
 {
@@ -35,7 +36,7 @@ class JGithubPackageRepositoriesCommits extends JGithubPackage
 	 * @param   JDate   $until   ISO 8601 Date - Only commits before this date will be returned.
 	 *
 	 * @throws DomainException
-	 * @since    12.1
+	 * @since    3.0.0
 	 *
 	 * @return  array
 	 */
@@ -72,7 +73,7 @@ class JGithubPackageRepositoriesCommits extends JGithubPackage
 	 * @param   string  $sha   The SHA of the commit to retrieve.
 	 *
 	 * @throws DomainException
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @return  array
 	 */
@@ -105,7 +106,7 @@ class JGithubPackageRepositoriesCommits extends JGithubPackage
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function compare($user, $repo, $base, $head)
 	{

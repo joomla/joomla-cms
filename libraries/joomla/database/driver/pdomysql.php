@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,10 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQL database driver supporting PDO based connections
  *
- * @package     Joomla.Platform
- * @subpackage  Database
- * @see         http://php.net/manual/en/ref.pdo-mysql.php
- * @since       3.4
+ * @link   https://secure.php.net/manual/en/ref.pdo-mysql.php
+ * @since  3.4
  */
 class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 {
@@ -26,6 +24,14 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 * @since  3.4
 	 */
 	public $name = 'pdomysql';
+
+	/**
+	 * The type of the database server family supported by this driver.
+	 *
+	 * @var    string
+	 * @since  CMS 3.5.0
+	 */
+	public $serverType = 'mysql';
 
 	/**
 	 * The character(s) used to quote SQL statement names such as table names or field names,
@@ -66,9 +72,19 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	{
 		// Get some basic values from the options.
 		$options['driver']  = 'mysql';
-		$options['charset'] = (isset($options['charset'])) ? $options['charset'] : 'utf8';
 
-		$this->charset = $options['charset'];
+		if (!isset($options['charset']) || $options['charset'] == 'utf8')
+		{
+			$options['charset'] = 'utf8mb4';
+		}
+
+		/**
+		 * Pre-populate the UTF-8 Multibyte compatibility flag. Unfortunately PDO won't report the server version
+		 * unless we're connected to it, and we cannot connect to it unless we know if it supports utf8mb4, which requires
+		 * us knowing the server version. Because of this chicken and egg issue, we _assume_ it's supported and we'll just
+		 * catch any problems at connection time.
+		 */
+		$this->utf8mb4 = ($options['charset'] == 'utf8mb4');
 
 		// Finalize initialisation.
 		parent::__construct($options);
@@ -84,10 +100,70 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function connect()
 	{
-		parent::connect();
+		if ($this->connection)
+		{
+			return;
+		}
+
+		try
+		{
+			// Try to connect to MySQL
+			parent::connect();
+		}
+		catch (\RuntimeException $e)
+		{
+			// If the connection failed, but not because of the wrong character set, then bubble up the exception.
+			if (!$this->utf8mb4)
+			{
+				throw $e;
+			}
+
+			/*
+			 * Otherwise, try connecting again without using
+			 * utf8mb4 and see if maybe that was the problem. If the
+			 * connection succeeds, then we will have learned that the
+			 * client end of the connection does not support utf8mb4.
+  			 */
+			$this->utf8mb4 = false;
+			$this->options['charset'] = 'utf8';
+
+			parent::connect();
+		}
+
+		if ($this->utf8mb4)
+		{
+			/*
+ 			 * At this point we know the client supports utf8mb4.  Now
+ 			 * we must check if the server supports utf8mb4 as well.
+ 			 */
+			$serverVersion = $this->connection->getAttribute(PDO::ATTR_SERVER_VERSION);
+			$this->utf8mb4 = version_compare($serverVersion, '5.5.3', '>=');
+
+			if (!$this->utf8mb4)
+			{
+				// Reconnect with the utf8 character set.
+				parent::disconnect();
+				$this->options['charset'] = 'utf8';
+				parent::connect();
+			}
+		}
 
 		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$this->connection->setAttribute(PDO::ATTR_EMULATE_PREPARES, true);
+
+		// Set sql_mode to non_strict mode
+		$this->connection->query("SET @@SESSION.sql_mode = '';");
+
+		// Disable query cache and turn profiling ON in debug mode.
+		if ($this->debug)
+		{
+			$this->connection->query('SET query_cache_type = 0;');
+
+			if ($this->hasProfiling())
+			{
+				$this->connection->query('SET profiling_history_size = 100, profiling = 1;');
+			}
+		}
 	}
 
 	/**
@@ -99,7 +175,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public static function isSupported()
 	{
-		return in_array('mysql', PDO::getAvailableDrivers());
+		return class_exists('PDO') && in_array('mysql', PDO::getAvailableDrivers());
 	}
 
 	/**
@@ -176,6 +252,30 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	}
 
 	/**
+	 * Method to get the database connection collation, as reported by the driver. If the connector doesn't support
+	 * reporting this value please return an empty string.
+	 *
+	 * @return  string
+	 */
+	public function getConnectionCollation()
+	{
+		$this->connect();
+
+		// Attempt to get the database collation by accessing the server system variable.
+		$this->setQuery('SHOW VARIABLES LIKE "collation_connection"');
+		$result = $this->loadObject();
+
+		if (property_exists($result, 'Value'))
+		{
+			return $result->Value;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	/**
 	 * Shows the table CREATE statement that creates the given tables.
 	 *
 	 * @param   mixed  $tables  A table name or a list of table names.
@@ -235,7 +335,7 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		{
 			foreach ($fields as $field)
 			{
-				$result[$field->Field] = preg_replace("/[(0-9)]/", '', $field->Type);
+				$result[$field->Field] = preg_replace('/[(0-9)]/', '', $field->Type);
 			}
 		}
 		// If we want the whole field data object add that to the list.
@@ -289,20 +389,6 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 		$tables = $this->loadColumn();
 
 		return $tables;
-	}
-
-	/**
-	 * Get the version of the database connector.
-	 *
-	 * @return  string  The database connector version.
-	 *
-	 * @since   3.4
-	 */
-	public function getVersion()
-	{
-		$this->connect();
-
-		return $this->getOption(PDO::ATTR_SERVER_VERSION);
 	}
 
 	/**
@@ -367,12 +453,18 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function escape($text, $extra = false)
 	{
-		$this->connect();
-
-		if (is_int($text) || is_float($text))
+		if (is_int($text))
 		{
 			return $text;
 		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
+		$this->connect();
 
 		$result = substr($this->connection->quote($text), 1, -1);
 
@@ -481,5 +573,19 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 				$this->transactionDepth++;
 			}
 		}
+	}
+
+	/**
+	 * Internal function to check if profiling is available.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.1
+	 */
+	private function hasProfiling()
+	{
+		$result = $this->setQuery("SHOW VARIABLES LIKE 'have_profiling'")->loadAssoc();
+
+		return isset($result);
 	}
 }

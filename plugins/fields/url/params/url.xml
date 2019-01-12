@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+			<field
+				name="schemes"
+				type="list"
+				label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
+				description="PLG_FIELDS_URL_PARAMS_SCHEMES_DESC"
+				multiple="true"
+				>
+				<option value="http">HTTP</option>
+				<option value="https">HTTPS</option>
+				<option value="ftp">FTP</option>
+				<option value="ftps">FTPS</option>
+				<option value="file">FILE</option>
+				<option value="mailto">MAILTO</option>
+			</field>
+
+			<field
+				name="relative"
+				type="list"
+				label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
+				description="PLG_FIELDS_URL_PARAMS_RELATIVE_DESC"
+				filter="integer"
+				>
+				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+		</fieldset>
+	</fields>
+</form>

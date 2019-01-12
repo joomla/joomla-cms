@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,18 +13,18 @@ $lang = JFactory::getLanguage(); ?>
 
 <ul class="pager pagenav">
 <?php if ($row->prev) :
-	$direction = $lang->isRTL() ? 'right' : 'left'; ?>
+	$direction = $lang->isRtl() ? 'right' : 'left'; ?>
 	<li class="previous">
-		<a href="<?php echo $row->prev; ?>" rel="prev">
-			<?php echo '<i class="icon-chevron-' . $direction . '"></i> ' . $row->prev_label; ?>
+		<a class="hasTooltip" title="<?php echo htmlspecialchars($rows[$location-1]->title); ?>" aria-label="<?php echo JText::sprintf('JPREVIOUS_TITLE', htmlspecialchars($rows[$location-1]->title)); ?>" href="<?php echo $row->prev; ?>" rel="prev">
+			<?php echo '<span class="icon-chevron-' . $direction . '" aria-hidden="true"></span> <span aria-hidden="true">' . $row->prev_label . '</span>'; ?>
 		</a>
 	</li>
 <?php endif; ?>
 <?php if ($row->next) :
-	$direction = $lang->isRTL() ? 'left' : 'right'; ?>
+	$direction = $lang->isRtl() ? 'left' : 'right'; ?>
 	<li class="next">
-		<a href="<?php echo $row->next; ?>" rel="next">
-			<?php echo $row->next_label . ' <i class="icon-chevron-' . $direction . '"></i>'; ?>
+		<a class="hasTooltip" title="<?php echo htmlspecialchars($rows[$location+1]->title); ?>" aria-label="<?php echo JText::sprintf('JNEXT_TITLE', htmlspecialchars($rows[$location+1]->title)); ?>" href="<?php echo $row->next; ?>" rel="next">
+			<?php echo '<span aria-hidden="true">' . $row->next_label . '</span> <span class="icon-chevron-' . $direction . '" aria-hidden="true"></span>'; ?>
 		</a>
 	</li>
 <?php endif; ?>

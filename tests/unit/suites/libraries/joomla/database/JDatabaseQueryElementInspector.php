@@ -3,18 +3,16 @@
  * @package     Joomla.UnitTest
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/database/query.php';
 
 /**
  * Class to expose protected properties and methods in JDatabaseQueryExporter for testing purposes.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Database
- * @since       11.1
+ * @since       1.7.0
  */
 class JDatabaseQueryElementInspector extends JDatabaseQueryElement
 {
@@ -25,7 +23,7 @@ class JDatabaseQueryElementInspector extends JDatabaseQueryElement
 	 *
 	 * @return  mixed   The value of the class property.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __get($property)
 	{
@@ -40,7 +38,7 @@ class JDatabaseQueryElementInspector extends JDatabaseQueryElement
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __set($property, $value)
 	{

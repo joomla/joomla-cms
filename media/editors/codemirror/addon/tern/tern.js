@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 // Glue code between CodeMirror and Tern.
 //
@@ -59,6 +59,7 @@
     this.options = options || {};
     var plugins = this.options.plugins || (this.options.plugins = {});
     if (!plugins.doc_comment) plugins.doc_comment = true;
+    this.docs = Object.create(null);
     if (this.options.useWorker) {
       this.server = new WorkerServer(this);
     } else {
@@ -69,7 +70,6 @@
         plugins: plugins
       });
     }
-    this.docs = Object.create(null);
     this.trackChange = function(doc, change) { trackChange(self, doc, change); };
 
     this.cachedArgHints = null;
@@ -106,7 +106,9 @@
       cm.showHint({hint: this.getHint});
     },
 
-    showType: function(cm, pos, c) { showType(this, cm, pos, c); },
+    showType: function(cm, pos, c) { showContextInfo(this, cm, pos, "type", c); },
+
+    showDocs: function(cm, pos, c) { showContextInfo(this, cm, pos, "documentation", c); },
 
     updateArgHints: function(cm) { updateArgHints(this, cm); },
 
@@ -122,12 +124,22 @@
       var self = this;
       var doc = findDoc(this, cm.getDoc());
       var request = buildRequest(this, doc, query, pos);
+      var extraOptions = request.query && this.options.queryOptions && this.options.queryOptions[request.query.type]
+      if (extraOptions) for (var prop in extraOptions) request.query[prop] = extraOptions[prop];
 
       this.server.request(request, function (error, data) {
         if (!error && self.options.responseFilter)
           data = self.options.responseFilter(doc, query, request, error, data);
         c(error, data);
       });
+    },
+
+    destroy: function () {
+      closeArgHints(this)
+      if (this.worker) {
+        this.worker.terminate();
+        this.worker = null;
+      }
     }
   };
 
@@ -167,7 +179,7 @@
     var data = findDoc(ts, doc);
 
     var argHints = ts.cachedArgHints;
-    if (argHints && argHints.doc == doc && cmpPos(argHints.start, change.to) <= 0)
+    if (argHints && argHints.doc == doc && cmpPos(argHints.start, change.to) >= 0)
       ts.cachedArgHints = null;
 
     var changed = data.changed;
@@ -205,7 +217,7 @@
         var completion = data.completions[i], className = typeToIcon(completion.type);
         if (data.guess) className += " " + cls + "guess";
         completions.push({text: completion.name + after,
-                          displayText: completion.name,
+                          displayText: completion.displayName || completion.name,
                           className: className,
                           data: completion});
       }
@@ -239,8 +251,8 @@
 
   // Type queries
 
-  function showType(ts, cm, pos, c) {
-    ts.request(cm, "type", function(error, data) {
+  function showContextInfo(ts, cm, pos, queryName, c) {
+    ts.request(cm, queryName, function(error, data) {
       if (error) return showError(ts, cm, error);
       if (ts.options.typeTip) {
         var tip = ts.options.typeTip(data);
@@ -250,10 +262,12 @@
           tip.appendChild(document.createTextNode(" — " + data.doc));
         if (data.url) {
           tip.appendChild(document.createTextNode(" "));
-          tip.appendChild(elt("a", null, "[docs]")).href = data.url;
+          var child = tip.appendChild(elt("a", null, "[docs]"));
+          child.href = data.url;
+          child.target = "_blank";
         }
       }
-      tempTooltip(cm, tip);
+      tempTooltip(cm, tip, ts);
       if (c) c();
     }, pos);
   }
@@ -292,7 +306,7 @@
     ts.request(cm, {type: "type", preferFunction: true, end: start}, function(error, data) {
       if (error || !data.type || !(/^fn\(/).test(data.type)) return;
       ts.cachedArgHints = {
-        start: pos,
+        start: start,
         type: parseFnType(data.type),
         name: data.exprName || data.name || "fn",
         guess: data.guess,
@@ -320,7 +334,11 @@
     tip.appendChild(document.createTextNode(tp.rettype ? ") ->\u00a0" : ")"));
     if (tp.rettype) tip.appendChild(elt("span", cls + "type", tp.rettype));
     var place = cm.cursorCoords(null, "page");
-    ts.activeArgHints = makeTooltip(place.right + 1, place.bottom, tip);
+    var tooltip = ts.activeArgHints = makeTooltip(place.right + 1, place.bottom, tip)
+    setTimeout(function() {
+      tooltip.clear = onEditorActivity(cm, function() {
+        if (ts.activeArgHints == tooltip) closeArgHints(ts) })
+    }, 20)
   }
 
   function parseFnType(text) {
@@ -431,8 +449,8 @@
 
   function atInterestingExpression(cm) {
     var pos = cm.getCursor("end"), tok = cm.getTokenAt(pos);
-    if (tok.start < pos.ch && (tok.type == "comment" || tok.type == "string")) return false;
-    return /\w/.test(cm.getLine(pos.line).slice(Math.max(pos.ch - 1, 0), pos.ch + 1));
+    if (tok.start < pos.ch && tok.type == "comment") return false;
+    return /[\w)\]]/.test(cm.getLine(pos.line).slice(Math.max(pos.ch - 1, 0), pos.ch + 1));
   }
 
   // Variable renaming
@@ -453,11 +471,12 @@
     ts.request(cm, {type: "refs"}, function(error, data) {
       if (error) return showError(ts, cm, error);
       var ranges = [], cur = 0;
+      var curPos = cm.getCursor();
       for (var i = 0; i < data.refs.length; i++) {
         var ref = data.refs[i];
         if (ref.file == name) {
           ranges.push({anchor: ref.start, head: ref.end});
-          if (cmpPos(cur, ref.start) >= 0 && cmpPos(cur, ref.end) <= 0)
+          if (cmpPos(curPos, ref.start) >= 0 && cmpPos(curPos, ref.end) <= 0)
             cur = ranges.length - 1;
         }
       }
@@ -552,7 +571,7 @@
     return {type: "part",
             name: data.name,
             offsetLines: from.line,
-            text: doc.getRange(from, Pos(endLine, 0))};
+            text: doc.getRange(from, Pos(endLine, end.line == endLine ? null : 0))};
   }
 
   // Generic utilities
@@ -579,16 +598,43 @@
 
   // Tooltips
 
-  function tempTooltip(cm, content) {
+  function tempTooltip(cm, content, ts) {
+    if (cm.state.ternTooltip) remove(cm.state.ternTooltip);
     var where = cm.cursorCoords();
-    var tip = makeTooltip(where.right + 1, where.bottom, content);
-    function clear() {
-      if (!tip.parentNode) return;
-      cm.off("cursorActivity", clear);
-      fadeOut(tip);
+    var tip = cm.state.ternTooltip = makeTooltip(where.right + 1, where.bottom, content);
+    function maybeClear() {
+      old = true;
+      if (!mouseOnTip) clear();
     }
-    setTimeout(clear, 1700);
-    cm.on("cursorActivity", clear);
+    function clear() {
+      cm.state.ternTooltip = null;
+      if (tip.parentNode) fadeOut(tip)
+      clearActivity()
+    }
+    var mouseOnTip = false, old = false;
+    CodeMirror.on(tip, "mousemove", function() { mouseOnTip = true; });
+    CodeMirror.on(tip, "mouseout", function(e) {
+      var related = e.relatedTarget || e.toElement
+      if (!related || !CodeMirror.contains(tip, related)) {
+        if (old) clear();
+        else mouseOnTip = false;
+      }
+    });
+    setTimeout(maybeClear, ts.options.hintDelay ? ts.options.hintDelay : 1700);
+    var clearActivity = onEditorActivity(cm, clear)
+  }
+
+  function onEditorActivity(cm, f) {
+    cm.on("cursorActivity", f)
+    cm.on("blur", f)
+    cm.on("scroll", f)
+    cm.on("setDoc", f)
+    return function() {
+      cm.off("cursorActivity", f)
+      cm.off("blur", f)
+      cm.off("scroll", f)
+      cm.off("setDoc", f)
+    }
   }
 
   function makeTooltip(x, y, content) {
@@ -613,11 +659,15 @@
     if (ts.options.showError)
       ts.options.showError(cm, msg);
     else
-      tempTooltip(cm, String(msg));
+      tempTooltip(cm, String(msg), ts);
   }
 
   function closeArgHints(ts) {
-    if (ts.activeArgHints) { remove(ts.activeArgHints); ts.activeArgHints = null; }
+    if (ts.activeArgHints) {
+      if (ts.activeArgHints.clear) ts.activeArgHints.clear()
+      remove(ts.activeArgHints)
+      ts.activeArgHints = null
+    }
   }
 
   function docValue(ts, doc) {
@@ -629,7 +679,7 @@
   // Worker wrapper
 
   function WorkerServer(ts) {
-    var worker = new Worker(ts.options.workerScript);
+    var worker = ts.worker = new Worker(ts.options.workerScript);
     worker.postMessage({type: "init",
                         defs: ts.options.defs,
                         plugins: ts.options.plugins,

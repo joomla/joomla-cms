@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,18 +11,19 @@ defined('_JEXEC') or die;
 
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
-JHtml::_('behavior.formvalidation');
-?>
-<script type="text/javascript">
+JHtml::_('jquery.framework');
+JHtml::_('behavior.formvalidator');
+
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'banner.cancel' || document.formvalidator.isValid(document.id('banner-form')))
+		if (task == 'banner.cancel' || document.formvalidator.isValid(document.getElementById('banner-form')))
 		{
 			Joomla.submitform(task, document.getElementById('banner-form'));
 		}
 	}
-</script>
-
+");
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_banners&layout=edit&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="banner-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
@@ -65,8 +66,12 @@ JHtml::_('behavior.formvalidation');
 				</div>
 				</li>
 
-				<li><?php echo $this->form->getLabel('description'); ?>
-				<?php echo $this->form->getInput('description'); ?></li>
+				<li>
+				<?php echo $this->form->getLabel('description'); ?>
+				<div class="clr"></div>
+				<?php echo $this->form->getInput('description'); ?>
+				<div class="clr"></div>
+				</li>
 
 				<li><?php echo $this->form->getLabel('language'); ?>
 				<?php echo $this->form->getInput('language'); ?></li>
@@ -91,6 +96,22 @@ JHtml::_('behavior.formvalidation');
 					<?php echo $field->input; ?></li>
 			<?php endforeach; ?>
 			</ul>
+		</fieldset>
+
+	<?php echo JHtml::_('sliders.panel', JText::_('COM_BANNERS_GROUP_LABEL_BANNER_DETAILS'), 'otherparams'); ?>
+		<fieldset class="panelform">
+		<legend class="element-invisible"><?php echo JText::_('COM_BANNERS_BANNER_DETAILS'); ?></legend>
+
+		<ul class="adminformlist">
+			<?php foreach ($this->form->getFieldset('otherparams') as $field) : ?>
+				<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
+			<?php endforeach; ?>
+			<?php foreach ($this->form->getFieldset('bannerdetails') as $field) : ?>
+				<li><?php echo $field->label; ?>
+					<?php echo $field->input; ?></li>
+			<?php endforeach; ?>
+		</ul>	
 		</fieldset>
 
 	<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'metadata'); ?>

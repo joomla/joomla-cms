@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,9 +19,11 @@ ksort($this->files, SORT_STRING);
 			$fileArray = explode('/', $this->fileName);
 			$count     = 0;
 
-			if (count($fileArray) >= count($keyArray))
+			$keyArrayCount = count($keyArray);
+
+			if (count($fileArray) >= $keyArrayCount)
 			{
-				for ($i = 0; $i < count($keyArray); $i++)
+				for ($i = 0; $i < $keyArrayCount; $i++)
 				{
 					if ($keyArray[$i] === $fileArray[$i])
 					{
@@ -29,24 +31,24 @@ ksort($this->files, SORT_STRING);
 					}
 				}
 
-				if ($count == count($keyArray))
+				if ($count === $keyArrayCount)
 				{
-					$class = "folder show";
+					$class = 'folder show';
 				}
 				else
 				{
-					$class = "folder";
+					$class = 'folder';
 				}
 			}
 			else
 			{
-				$class = "folder";
+				$class = 'folder';
 			}
 
 			?>
 			<li class="<?php echo $class; ?>">
 				<a class='folder-url nowrap' href=''>
-					<i class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></i>
+					<span class='icon-folder-close'>&nbsp;<?php $explodeArray = explode('/', $key); echo end($explodeArray); ?></span>
 				</a>
 				<?php echo $this->directoryTree($value); ?>
 			</li>
@@ -54,7 +56,7 @@ ksort($this->files, SORT_STRING);
 		<?php if (is_object($value)): ?>
 			<li>
 				<a class="file nowrap" href='<?php echo JRoute::_('index.php?option=com_templates&view=template&id=' . $this->id . '&file=' . $value->id) ?>'>
-					<i class='icon-file'>&nbsp;<?php echo $value->name; ?></i>
+					<span class='icon-file'>&nbsp;<?php echo $value->name; ?></span>
 				</a>
 			</li>
 		<?php endif; ?>

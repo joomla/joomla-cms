@@ -1,5 +1,5 @@
 // CodeMirror, copyright (c) by Marijn Haverbeke and others
-// Distributed under an MIT license: http://codemirror.net/LICENSE
+// Distributed under an MIT license: https://codemirror.net/LICENSE
 
 (function(mod) {
   if (typeof exports == "object" && typeof module == "object") // CommonJS
@@ -11,9 +11,9 @@
 })(function(CodeMirror) {
   "use strict";
 
-  CodeMirror.defineSimpleMode = function(name, states, props) {
+  CodeMirror.defineSimpleMode = function(name, states) {
     CodeMirror.defineMode(name, function(config) {
-      return CodeMirror.simpleMode(config, states, props);
+      return CodeMirror.simpleMode(config, states);
     });
   };
 
@@ -60,7 +60,7 @@
 
   function ensureState(states, name) {
     if (!states.hasOwnProperty(name))
-      throw new Error("Undefined state " + name + "in simple mode");
+      throw new Error("Undefined state " + name + " in simple mode");
   }
 
   function toRegex(val, caret) {
@@ -77,6 +77,7 @@
 
   function asToken(val) {
     if (!val) return null;
+    if (val.apply) return val
     if (typeof val == "string") return val.replace(/\./g, " ");
     var result = [];
     for (var i = 0; i < val.length; i++)
@@ -116,7 +117,7 @@
       var curState = states[state.state];
       for (var i = 0; i < curState.length; i++) {
         var rule = curState[i];
-        var matches = stream.match(rule.regex);
+        var matches = (!rule.data.sol || stream.sol()) && stream.match(rule.regex);
         if (matches) {
           if (rule.data.next) {
             state.state = rule.data.next;
@@ -133,17 +134,19 @@
             state.indent.push(stream.indentation() + config.indentUnit);
           if (rule.data.dedent)
             state.indent.pop();
-          if (matches.length > 2) {
+          var token = rule.token
+          if (token && token.apply) token = token(matches)
+          if (matches.length > 2 && rule.token && typeof rule.token != "string") {
             state.pending = [];
             for (var j = 2; j < matches.length; j++)
               if (matches[j])
                 state.pending.push({text: matches[j], token: rule.token[j - 1]});
             stream.backUp(matches[0].length - (matches[1] ? matches[1].length : 0));
-            return rule.token[0];
-          } else if (rule.token && rule.token.join) {
-            return rule.token[0];
+            return token[0];
+          } else if (token && token.join) {
+            return token[0];
           } else {
-            return rule.token;
+            return token;
           }
         }
       }
@@ -194,12 +197,15 @@
       var pos = state.indent.length - 1, rules = states[state.state];
       scan: for (;;) {
         for (var i = 0; i < rules.length; i++) {
-          var rule = rules[i], m = rule.regex.exec(textAfter);
-          if (m && m[0]) {
-            if (rule.data.dedent && rule.data.dedentIfLineStart !== false) pos--;
-            if (rule.next || rule.push) rules = states[rule.next || rule.push];
-            textAfter = textAfter.slice(m[0].length);
-            continue scan;
+          var rule = rules[i];
+          if (rule.data.dedent && rule.data.dedentIfLineStart !== false) {
+            var m = rule.regex.exec(textAfter);
+            if (m && m[0]) {
+              pos--;
+              if (rule.next || rule.push) rules = states[rule.next || rule.push];
+              textAfter = textAfter.slice(m[0].length);
+              continue scan;
+            }
           }
         }
         break;

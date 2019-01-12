@@ -3,7 +3,7 @@
 /**
  * @package		Joomla.Administrator
  * @subpackage	templates.hathor
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright	Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  * @since		1.6
  *
@@ -1267,6 +1267,11 @@ a img.calendar {
 	background-image: url(../images/toolbar/icon-32-featured.png);
 }
 
+.icon-32-unfeatured {
+	background-image: url(../images/toolbar/icon-32-featured.png);
+	background-position: 0% 100%;
+}
+
 .icon-32-export {
 	background-image: url(../images/toolbar/icon-32-export.png);
 }
@@ -1470,6 +1475,10 @@ a img.calendar {
 
 .icon-48-thememanager {
 	background-image: url(../images/header/icon-48-themes.png);
+}
+
+.icon-48-assoc {
+	background-image: url(../images/header/icon-48-assoc.png);
 }
 
 .icon-48-writemess {

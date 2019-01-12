@@ -3,11 +3,10 @@
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-require_once JPATH_PLATFORM . '/joomla/linkedin/object.php';
 require_once __DIR__ . '/stubs/JLinkedinObjectMock.php';
 
 /**
@@ -16,37 +15,37 @@ require_once __DIR__ . '/stubs/JLinkedinObjectMock.php';
  * @package     Joomla.UnitTest
  * @subpackage  Linkedin
  *
- * @since       13.1
+ * @since       3.2.0
  */
 class JLinkedinObjectTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Linkedin object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock client object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JLinkedinObjectMock  Object under test.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $object;
 
 	/**
 	 * @var    string  Sample JSON string.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleString = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 
 	/**
 	 * @var    string  Sample JSON error message.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $errorString = '{"errors":[{"message":"Sorry, that page does not exist","code":34}]}';
 
@@ -61,7 +60,7 @@ class JLinkedinObjectTest extends TestCase
 	protected function setUp()
 	{
 		$this->options = new JRegistry;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 
 		$this->object = new JLinkedinObjectMock($this->options, $this->client);
 	}
@@ -76,6 +75,7 @@ class JLinkedinObjectTest extends TestCase
 	 */
 	protected function tearDown()
 	{
+		unset($this->client, $this->options, $this->object);
 	}
 
 	/**
@@ -83,7 +83,7 @@ class JLinkedinObjectTest extends TestCase
 	 *
 	 * @return void
 	 *
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	public function testSetOption()
 	{

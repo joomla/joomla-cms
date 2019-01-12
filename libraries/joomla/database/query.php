@@ -3,135 +3,16 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
 /**
- * Query Element Class.
- *
- * @property-read    string  $name      The name of the element.
- * @property-read    array   $elements  An array of elements.
- * @property-read    string  $glue      Glue piece.
- *
- * @since  11.1
- */
-class JDatabaseQueryElement
-{
-	/**
-	 * @var    string  The name of the element.
-	 * @since  11.1
-	 */
-	protected $name = null;
-
-	/**
-	 * @var    array  An array of elements.
-	 * @since  11.1
-	 */
-	protected $elements = null;
-
-	/**
-	 * @var    string  Glue piece.
-	 * @since  11.1
-	 */
-	protected $glue = null;
-
-	/**
-	 * Constructor.
-	 *
-	 * @param   string  $name      The name of the element.
-	 * @param   mixed   $elements  String or array.
-	 * @param   string  $glue      The glue for elements.
-	 *
-	 * @since   11.1
-	 */
-	public function __construct($name, $elements, $glue = ',')
-	{
-		$this->elements = array();
-		$this->name = $name;
-		$this->glue = $glue;
-
-		$this->append($elements);
-	}
-
-	/**
-	 * Magic function to convert the query element to a string.
-	 *
-	 * @return  string
-	 *
-	 * @since   11.1
-	 */
-	public function __toString()
-	{
-		if (substr($this->name, -2) == '()')
-		{
-			return PHP_EOL . substr($this->name, 0, -2) . '(' . implode($this->glue, $this->elements) . ')';
-		}
-		else
-		{
-			return PHP_EOL . $this->name . ' ' . implode($this->glue, $this->elements);
-		}
-	}
-
-	/**
-	 * Appends element parts to the internal list.
-	 *
-	 * @param   mixed  $elements  String or array.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.1
-	 */
-	public function append($elements)
-	{
-		if (is_array($elements))
-		{
-			$this->elements = array_merge($this->elements, $elements);
-		}
-		else
-		{
-			$this->elements = array_merge($this->elements, array($elements));
-		}
-	}
-
-	/**
-	 * Gets the elements of this element.
-	 *
-	 * @return  array
-	 *
-	 * @since   11.1
-	 */
-	public function getElements()
-	{
-		return $this->elements;
-	}
-
-	/**
-	 * Method to provide deep copy support to nested objects and arrays
-	 * when cloning.
-	 *
-	 * @return  void
-	 *
-	 * @since   11.3
-	 */
-	public function __clone()
-	{
-		foreach ($this as $k => $v)
-		{
-			if (is_object($v) || is_array($v))
-			{
-				$this->{$k} = unserialize(serialize($v));
-			}
-		}
-	}
-}
-
-/**
  * Query Building Class.
  *
- * @since  11.1
+ * @since  1.7.0
  *
  * @method      string  q()   q($text, $escape = true)  Alias for quote method
  * @method      string  qn()  qn($name, $as = null)     Alias for quoteName method
@@ -145,135 +26,143 @@ abstract class JDatabaseQuery
 {
 	/**
 	 * @var    JDatabaseDriver  The database driver.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $db = null;
 
 	/**
 	 * @var    string  The SQL query (if a direct query string was provided).
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $sql = null;
 
 	/**
 	 * @var    string  The query type.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = '';
 
 	/**
 	 * @var    JDatabaseQueryElement  The query element for a generic query (type = null).
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $element = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The select element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $select = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The delete element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $delete = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The update element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $update = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The insert element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $insert = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The from element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $from = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The join element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $join = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The set element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $set = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The where element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $where = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The group by element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $group = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The having element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $having = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The column list for an INSERT statement.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $columns = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The values list for an INSERT statement.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $values = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The order element.
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $order = null;
 
 	/**
 	 * @var   object  The auto increment insert field element.
-	 * @since 11.1
+	 * @since 1.7.0
 	 */
 	protected $autoIncrementField = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The call element.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $call = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The exec element.
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $exec = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The union element.
-	 * @since  12.1
+	 * @since  3.0.0
+	 * @deprecated  4.0  Will be transformed and moved to $merge variable.
 	 */
 	protected $union = null;
 
 	/**
 	 * @var    JDatabaseQueryElement  The unionAll element.
-	 * @since  13.1
+	 * @since  3.2.0
+	 * @deprecated  4.0  Will be transformed and moved to $merge variable.
 	 */
 	protected $unionAll = null;
+
+	/**
+	 * @var    array  Details of window function.
+	 * @since  3.7.0
+	 */
+	protected $selectRowNumber = null;
 
 	/**
 	 * Magic method to provide method alias support for quote() and quoteName().
@@ -283,7 +172,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The aliased method's return value or null.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __call($method, $args)
 	{
@@ -313,7 +202,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @param   JDatabaseDriver  $db  The database driver.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(JDatabaseDriver $db = null)
 	{
@@ -325,7 +214,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string	The completed query.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{
@@ -360,24 +249,32 @@ abstract class JDatabaseQuery
 					$query .= (string) $this->where;
 				}
 
-				if ($this->group)
+				if ($this->selectRowNumber === null)
 				{
-					$query .= (string) $this->group;
-				}
+					if ($this->group)
+					{
+						$query .= (string) $this->group;
+					}
 
-				if ($this->having)
-				{
-					$query .= (string) $this->having;
+					if ($this->having)
+					{
+						$query .= (string) $this->having;
+					}
+
+					if ($this->union)
+					{
+						$query .= (string) $this->union;
+					}
+
+					if ($this->unionAll)
+					{
+						$query .= (string) $this->unionAll;
+					}
 				}
 
 				if ($this->order)
 				{
 					$query .= (string) $this->order;
-				}
-
-				if ($this->union)
-				{
-					$query .= (string) $this->union;
 				}
 
 				break;
@@ -485,7 +382,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  mixed
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __get($name)
 	{
@@ -506,7 +403,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function call($columns)
 	{
@@ -536,7 +433,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns the cast value.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function castAsChar($value)
 	{
@@ -557,7 +454,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The required char length call.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function charLength($field, $operator = null, $condition = null)
 	{
@@ -571,7 +468,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clear($clause = null)
 	{
@@ -582,6 +479,7 @@ abstract class JDatabaseQuery
 			case 'select':
 				$this->select = null;
 				$this->type = null;
+				$this->selectRowNumber = null;
 				break;
 
 			case 'delete':
@@ -666,6 +564,7 @@ abstract class JDatabaseQuery
 			default:
 				$this->type = null;
 				$this->select = null;
+				$this->selectRowNumber = null;
 				$this->delete = null;
 				$this->update = null;
 				$this->insert = null;
@@ -698,7 +597,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function columns($columns)
 	{
@@ -725,7 +624,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The concatenated values.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function concatenate($values, $separator = null)
 	{
@@ -747,7 +646,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function currentTimestamp()
 	{
@@ -762,7 +661,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The format string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function dateFormat()
 	{
@@ -782,7 +681,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function dump()
 	{
@@ -801,7 +700,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete($table = null)
 	{
@@ -829,7 +728,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
 	public function escape($text, $extra = false)
@@ -856,7 +755,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function exec($columns)
 	{
@@ -891,7 +790,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @throws  RuntimeException
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function from($tables, $subQueryAlias = null)
 	{
@@ -927,7 +826,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract year from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function year($date)
 	{
@@ -944,7 +843,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract month from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function month($date)
 	{
@@ -961,7 +860,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract day from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function day($date)
 	{
@@ -978,7 +877,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract hour from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function hour($date)
 	{
@@ -995,7 +894,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract minute from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function minute($date)
 	{
@@ -1012,7 +911,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns string to extract second from a date.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function second($date)
 	{
@@ -1029,7 +928,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function group($columns)
 	{
@@ -1056,7 +955,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function having($conditions, $glue = 'AND')
 	{
@@ -1083,7 +982,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function innerJoin($condition)
 	{
@@ -1107,7 +1006,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function insert($table, $incrementField=false)
 	{
@@ -1129,7 +1028,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function join($type, $conditions)
 	{
@@ -1153,7 +1052,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function leftJoin($condition)
 	{
@@ -1174,7 +1073,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  int
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function length($value)
 	{
@@ -1194,7 +1093,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Null or zero representation of a timestamp.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function nullDate($quoted = true)
 	{
@@ -1214,7 +1113,7 @@ abstract class JDatabaseQuery
 	}
 
 	/**
-	 * Add a ordering column to the ORDER clause of the query.
+	 * Add an ordering column to the ORDER clause of the query.
 	 *
 	 * Usage:
 	 * $query->order('foo')->order('bar');
@@ -1224,7 +1123,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function order($columns)
 	{
@@ -1250,7 +1149,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function outerJoin($condition)
 	{
@@ -1277,7 +1176,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  The quoted input string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
 	public function quote($text, $escape = true)
@@ -1310,7 +1209,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  mixed  The quote wrapped name, same type of $name.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  RuntimeException if the internal db property is not a valid object.
 	 */
 	public function quoteName($name, $as = null)
@@ -1333,7 +1232,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function rightJoin($condition)
 	{
@@ -1356,7 +1255,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function select($columns)
 	{
@@ -1387,7 +1286,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function set($conditions, $glue = ',')
 	{
@@ -1416,7 +1315,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setQuery($sql)
 	{
@@ -1437,7 +1336,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function update($table)
 	{
@@ -1458,7 +1357,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function values($values)
 	{
@@ -1487,7 +1386,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function where($conditions, $glue = 'AND')
 	{
@@ -1505,12 +1404,77 @@ abstract class JDatabaseQuery
 	}
 
 	/**
+	 * Extend the WHERE clause with a single condition or an array of conditions, with a potentially
+	 * different logical operator from the one in the current WHERE clause.
+	 *
+	 * Usage:
+	 * $query->where(array('a = 1', 'b = 2'))->extendWhere('XOR', array('c = 3', 'd = 4'));
+	 * will produce: WHERE ((a = 1 AND b = 2) XOR (c = 3 AND d = 4)
+	 *
+	 * @param   string  $outerGlue   The glue by which to join the conditions to the current WHERE conditions.
+	 * @param   mixed   $conditions  A string or array of WHERE conditions.
+	 * @param   string  $innerGlue   The glue by which to join the conditions. Defaults to AND.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function extendWhere($outerGlue, $conditions, $innerGlue = 'AND')
+	{
+		// Replace the current WHERE with a new one which has the old one as an unnamed child.
+		$this->where = new JDatabaseQueryElement('WHERE', $this->where->setName('()'), " $outerGlue ");
+
+		// Append the new conditions as a new unnamed child.
+		$this->where->append(new JDatabaseQueryElement('()', $conditions, " $innerGlue "));
+
+		return $this;
+	}
+
+	/**
+	 * Extend the WHERE clause with an OR and a single condition or an array of conditions.
+	 *
+	 * Usage:
+	 * $query->where(array('a = 1', 'b = 2'))->orWhere(array('c = 3', 'd = 4'));
+	 * will produce: WHERE ((a = 1 AND b = 2) OR (c = 3 AND d = 4)
+	 *
+	 * @param   mixed   $conditions  A string or array of WHERE conditions.
+	 * @param   string  $glue        The glue by which to join the conditions. Defaults to AND.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function orWhere($conditions, $glue = 'AND')
+	{
+		return $this->extendWhere('OR', $conditions, $glue);
+	}
+
+	/**
+	 * Extend the WHERE clause with an AND and a single condition or an array of conditions.
+	 *
+	 * Usage:
+	 * $query->where(array('a = 1', 'b = 2'))->andWhere(array('c = 3', 'd = 4'));
+	 * will produce: WHERE ((a = 1 AND b = 2) AND (c = 3 OR d = 4)
+	 *
+	 * @param   mixed   $conditions  A string or array of WHERE conditions.
+	 * @param   string  $glue        The glue by which to join the conditions. Defaults to OR.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.6
+	 */
+	public function andWhere($conditions, $glue = 'OR')
+	{
+		return $this->extendWhere('AND', $conditions, $glue);
+	}
+
+	/**
 	 * Method to provide deep copy support to nested objects and
 	 * arrays when cloning.
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function __clone()
 	{
@@ -1535,19 +1499,22 @@ abstract class JDatabaseQuery
 	 * Usage (the $query base query MUST be a select query):
 	 * $query->union('SELECT name FROM  #__foo')
 	 * $query->union('SELECT name FROM  #__foo', true)
-	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 * $query->union($query2)->union($query3)
+	 *
+	 * The $query attribute as an array is deprecated and will not be supported in 4.0.
+	 *
+	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 * $query->union(array($query2, $query3))
 	 *
 	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
 	 * @param   boolean  $distinct  True to only return distinct rows from the union.
 	 * @param   string   $glue      The glue by which to join the conditions.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @link http://dev.mysql.com/doc/refman/5.0/en/union.html
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function union($query, $distinct = false, $glue = '')
 	{
@@ -1561,6 +1528,11 @@ abstract class JDatabaseQuery
 		{
 			$glue = ')' . PHP_EOL . 'UNION (';
 			$name = 'UNION ()';
+		}
+
+		if (is_array($query))
+		{
+			JLog::add('Query attribute as an array is deprecated.', JLog::WARNING, 'deprecated');
 		}
 
 		// Get the JDatabaseQueryElement if it does not exist
@@ -1586,11 +1558,12 @@ abstract class JDatabaseQuery
 	 * @param   mixed   $query  The JDatabaseQuery object or string to union.
 	 * @param   string  $glue   The glue by which to join the conditions.
 	 *
-	 * @return  mixed   The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @see     union
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
+	 * @deprecated  4.0  Use union() instead.
 	 */
 	public function unionDistinct($query, $glue = '')
 	{
@@ -1645,7 +1618,7 @@ abstract class JDatabaseQuery
 	 *
 	 * @return  string  Returns a string produced according to the formatting string.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function format($format)
 	{
@@ -1774,7 +1747,7 @@ abstract class JDatabaseQuery
 		};
 
 		/**
-		 * Regexp to find an replace all tokens.
+		 * Regexp to find and replace all tokens.
 		 * Matched fields:
 		 * 0: Full token
 		 * 1: Everything following '%'
@@ -1794,18 +1767,18 @@ abstract class JDatabaseQuery
 	 * Prefixing the interval with a - (negative sign) will cause subtraction to be used.
 	 * Note: Not all drivers support all units.
 	 *
-	 * @param   datetime  $date      The date to add to. May be date or datetime
-	 * @param   string    $interval  The string representation of the appropriate number of units
-	 * @param   string    $datePart  The part of the date to perform the addition on
+	 * @param   string  $date      The db quoted string representation of the date to add to. May be date or datetime
+	 * @param   string  $interval  The string representation of the appropriate number of units
+	 * @param   string  $datePart  The part of the date to perform the addition on
 	 *
 	 * @return  string  The string with the appropriate sql for addition of dates
 	 *
-	 * @see     http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
-	 * @since   13.1
+	 * @link    http://dev.mysql.com/doc/refman/5.1/en/date-and-time-functions.html#function_date-add
+	 * @since   3.2.0
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return trim("DATE_ADD('" . $date . "', INTERVAL " . $interval . ' ' . $datePart . ')');
+		return 'DATE_ADD(' . $date . ', INTERVAL ' . $interval . ' ' . $datePart . ')';
 	}
 
 	/**
@@ -1814,22 +1787,30 @@ abstract class JDatabaseQuery
 	 *
 	 * Usage:
 	 * $query->union('SELECT name FROM  #__foo')
+	 *
+	 * The $query attribute as an array is deprecated and will not be supported in 4.0.
+	 *
 	 * $query->union(array('SELECT name FROM  #__foo','SELECT name FROM  #__bar'))
 	 *
 	 * @param   mixed    $query     The JDatabaseQuery object or string to union.
 	 * @param   boolean  $distinct  Not used - ignored.
 	 * @param   string   $glue      Not used - ignored.
 	 *
-	 * @return  mixed    The JDatabaseQuery object on success or boolean false on failure.
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
 	 *
 	 * @see     union
 	 *
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function unionAll($query, $distinct = false, $glue = '')
 	{
 		$glue = ')' . PHP_EOL . 'UNION ALL (';
 		$name = 'UNION ALL ()';
+
+		if (is_array($query))
+		{
+			JLog::add('Query attribute as an array is deprecated.', JLog::WARNING, 'deprecated');
+		}
 
 		// Get the JDatabaseQueryElement if it does not exist
 		if (is_null($this->unionAll))
@@ -1842,6 +1823,56 @@ abstract class JDatabaseQuery
 		{
 			$this->unionAll->append($query);
 		}
+
+		return $this;
+	}
+
+	/**
+	 * Validate arguments which are passed to selectRowNumber method and set up common variables.
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.7.0
+	 * @throws  RuntimeException
+	 */
+	protected function validateRowNumber($orderBy, $orderColumnAlias)
+	{
+		if ($this->selectRowNumber)
+		{
+			throw new RuntimeException("Method 'selectRowNumber' can be called only once per instance.");
+		}
+
+		$this->type = 'select';
+
+		$this->selectRowNumber = array(
+			'orderBy' => $orderBy,
+			'orderColumnAlias' => $orderColumnAlias,
+		);
+	}
+
+	/**
+	 * Return the number of the current row.
+	 *
+	 * Usage:
+	 * $query->select('id');
+	 * $query->selectRowNumber('ordering,publish_up DESC', 'new_ordering');
+	 * $query->from('#__content');
+	 *
+	 * @param   string  $orderBy           An expression of ordering for window function.
+	 * @param   string  $orderColumnAlias  An alias for new ordering column.
+	 *
+	 * @return  JDatabaseQuery  Returns this object to allow chaining.
+	 *
+	 * @since   3.7.0
+	 * @throws  RuntimeException
+	 */
+	public function selectRowNumber($orderBy, $orderColumnAlias)
+	{
+		$this->validateRowNumber($orderBy, $orderColumnAlias);
+		$this->select("ROW_NUMBER() OVER (ORDER BY $orderBy) AS $orderColumnAlias");
 
 		return $this;
 	}

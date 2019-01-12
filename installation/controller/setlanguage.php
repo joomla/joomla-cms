@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -26,11 +26,11 @@ class InstallationControllerSetlanguage extends JControllerBase
 	public function execute()
 	{
 		// Get the application
-		/* @var InstallationApplicationWeb $app */
+		/** @var InstallationApplicationWeb $app */
 		$app = $this->getApplication();
 
 		// Check for request forgeries.
-		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN'), 403));
+		JSession::checkToken() or $app->sendJsonResponse(new Exception(JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Very crude workaround to give an error message when JSON is disabled
 		if (!function_exists('json_encode') || !function_exists('json_decode'))
@@ -55,8 +55,8 @@ class InstallationControllerSetlanguage extends JControllerBase
 		$model = new InstallationModelSetup;
 
 		// Get the posted values from the request and validate them.
-		$data = $this->input->post->get('jform', array(), 'array');
-		$return	= $model->validate($data, 'preinstall');
+		$data   = $this->input->post->get('jform', array(), 'array');
+		$return = $model->validate($data, 'preinstall');
 
 		$r = new stdClass;
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Extensionupdate
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -37,16 +37,17 @@ class PlgQuickiconExtensionupdate extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context != $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !JFactory::getUser()->authorise('core.manage', 'com_installer'))
 		{
 			return;
 		}
 
 		JHtml::_('jquery.framework');
 
-		$url = JUri::base() . 'index.php?option=com_installer&view=update';
-		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax';
-		$script = array();
+		$token    = JSession::getFormToken() . '=' . 1;
+		$url      = JUri::base() . 'index.php?option=com_installer&view=update&task=update.find&' . $token;
+		$ajax_url = JUri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . $token;
+		$script   = array();
 		$script[] = 'var plg_quickicon_extensionupdate_url = \'' . $url . '\';';
 		$script[] = 'var plg_quickicon_extensionupdate_ajax_url = \'' . $ajax_url . '\';';
 		$script[] = 'var plg_quickicon_extensionupdate_text = {'
@@ -57,15 +58,15 @@ class PlgQuickiconExtensionupdate extends JPlugin
 			. '"ERROR": "' . JText::_('PLG_QUICKICON_EXTENSIONUPDATE_ERROR', true) . '",'
 			. '};';
 		JFactory::getDocument()->addScriptDeclaration(implode("\n", $script));
-		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', false, true);
+		JHtml::_('script', 'plg_quickicon_extensionupdate/extensionupdatecheck.js', array('version' => 'auto', 'relative' => true));
 
 		return array(
 			array(
-				'link' => 'index.php?option=com_installer&view=update',
+				'link'  => 'index.php?option=com_installer&view=update&task=update.find&' . $token,
 				'image' => 'asterisk',
-				'icon' => 'header/icon-48-extension.png',
-				'text' => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
-				'id' => 'plg_quickicon_extensionupdate',
+				'icon'  => 'header/icon-48-extension.png',
+				'text'  => JText::_('PLG_QUICKICON_EXTENSIONUPDATE_CHECKING'),
+				'id'    => 'plg_quickicon_extensionupdate',
 				'group' => 'MOD_QUICKICON_MAINTENANCE'
 			)
 		);

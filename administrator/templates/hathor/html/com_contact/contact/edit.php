@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Template.hathor
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT.'/helpers/html');
 
-JHtml::_('behavior.formvalidation');
+JHtml::_('behavior.formvalidator');
 
 $app = JFactory::getApplication();
 $input = $app->input;
@@ -21,18 +21,18 @@ $saveHistory = $this->state->get('params')->get('save_history', 0);
 
 $assoc = JLanguageAssociations::isEnabled();
 
-?>
-<script type="text/javascript">
+JFactory::getDocument()->addScriptDeclaration("
 	Joomla.submitbutton = function(task)
 	{
-		if (task == 'contact.cancel' || document.formvalidator.isValid(document.id('contact-form')))
+		if (task == 'contact.cancel' || document.formvalidator.isValid(document.getElementById('contact-form')))
 		{
-			<?php echo $this->form->getField('misc')->save(); ?>
+			" . $this->form->getField('misc')->save() . "
 			Joomla.submitform(task, document.getElementById('contact-form'));
 		}
 	}
-</script>
-
+");
+$fieldSets = $this->form->getFieldsets();
+?>
 <form action="<?php echo JRoute::_('index.php?option=com_contact&layout=edit&id='.(int) $this->item->id); ?>" method="post" name="adminForm" id="contact-form" class="form-validate">
 	<div class="col main-section">
 		<fieldset class="adminform">
@@ -86,8 +86,8 @@ $assoc = JLanguageAssociations::isEnabled();
 			<?php echo $this->form->getInput('misc'); ?>
 		</fieldset>
 	</div>
-    <div class="col options-section">
-		<?php echo  JHtml::_('sliders.start', 'contact-slider'); ?>
+	<div class="col options-section">
+		<?php echo JHtml::_('sliders.start', 'contact-slider'); ?>
 			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_PUBLISHING'), 'publishing-details'); ?>
 
 			<fieldset class="panelform">
@@ -175,6 +175,25 @@ $assoc = JLanguageAssociations::isEnabled();
 
 			<?php echo $this->loadTemplate('params'); ?>
 
+			<?php foreach ($fieldSets as $name => $fieldSet) : ?>
+				<?php if ($name != 'details' && $name != 'display' && $name != 'item_associations' && $name != 'jmetadata' && $name != 'email') : ?>
+					<?php echo JHtml::_('sliders.panel', JText::_($fieldSet->label), $name.'-options'); ?>
+					<?php if (isset($fieldSet->description) && trim($fieldSet->description)) : ?>
+						<p class="tip"><?php echo $this->escape(JText::_($fieldSet->description));?></p>
+					<?php endif; ?>
+					<fieldset class="panelform">
+						<ul class="adminformlist">
+						<?php foreach ($this->form->getFieldset($name) as $field) : ?>
+							<li>
+								<?php echo $field->label; ?>
+								<?php echo $field->input; ?>
+							</li>
+						<?php endforeach; ?>
+						</ul>
+					</fieldset>
+				<?php endif ?>
+			<?php endforeach; ?>
+
 			<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'), 'meta-options'); ?>
 			<fieldset class="panelform">
 			<legend class="element-invisible"><?php echo JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS'); ?></legend>
@@ -182,7 +201,7 @@ $assoc = JLanguageAssociations::isEnabled();
 			</fieldset>
 
 			<?php if ($assoc) : ?>
-				<?php echo JHtml::_('sliders.panel', JText::_('COM_CONTACT_ITEM_ASSOCIATIONS_FIELDSET_LABEL'), '-options');?>
+				<?php echo JHtml::_('sliders.panel', JText::_('JGLOBAL_FIELDSET_ASSOCIATIONS'), '-options');?>
 				<?php echo $this->loadTemplate('associations'); ?>
 			<?php endif; ?>
 

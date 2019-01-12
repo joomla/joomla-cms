@@ -6,7 +6,8 @@
 			type="contentlanguage"
 			label="COM_TEMPLATES_FIELD_HOME_LABEL"
 			description="COM_TEMPLATES_FIELD_HOME_SITE_DESC"
-			default="0">
+			default="0"
+			>
 			<option value="0">JNO</option>
 			<option value="1">JALL</option>
 		</field>

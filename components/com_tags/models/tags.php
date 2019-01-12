@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,23 +111,23 @@ class TagsModelTags extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$app = JFactory::getApplication('site');
-		$user	= JFactory::getUser();
-		$groups	= implode(',', $user->getAuthorisedViewLevels());
-		$pid = $this->getState('tag.parent_id');
-		$orderby = $this->state->params->get('all_tags_orderby', 'title');
-		$published = $this->state->params->get('published', 1);
+		$app            = JFactory::getApplication('site');
+		$user           = JFactory::getUser();
+		$groups         = implode(',', $user->getAuthorisedViewLevels());
+		$pid            = $this->getState('tag.parent_id');
+		$orderby        = $this->state->params->get('all_tags_orderby', 'title');
+		$published      = $this->state->params->get('published', 1);
 		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
-		$language = $this->getState('tag.language');
+		$language       = $this->getState('tag.language');
 
 		// Create a new query object.
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true);
 
 		// Select required fields from the tags.
-		$query->select('a.*')
-
+		$query->select('a.*, u.name as created_by_user_name, u.email')
 			->from($db->quoteName('#__tags') . ' AS a')
+			->join('LEFT', '#__users AS u ON a.created_user_id = u.id')
 			->where($db->quoteName('a.access') . ' IN (' . $groups . ')');
 
 		if (!empty($pid))
@@ -144,9 +144,9 @@ class TagsModelTags extends JModelList
 			$language = JComponentHelper::getParams('com_tags')->get('tag_list_language_filter', 'all');
 		}
 
-		if ($language != 'all')
+		if ($language !== 'all')
 		{
-			if ($language == 'current_language')
+			if ($language === 'current_language')
 			{
 				$language = JHelperContent::getCurrentLanguage();
 			}
@@ -157,7 +157,7 @@ class TagsModelTags extends JModelList
 		// List state information
 		$format = $app->input->getWord('format');
 
-		if ($format == 'feed')
+		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
 		}

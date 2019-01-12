@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,15 +12,15 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Custom session storage handler for PHP
  *
- * @see    http://www.php.net/manual/en/function.session-set-save-handler.php
- * @todo   When dropping compatibility with PHP 5.3 use the SessionHandlerInterface and the SessionHandler class
- * @since  11.1
+ * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @since       1.7.0
+ * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 abstract class JSessionStorage
 {
 	/**
-	 * @var    array  JSessionStorage instances container.
-	 * @since  11.3
+	 * @var    JSessionStorage[]  JSessionStorage instances container.
+	 * @since  1.7.3
 	 */
 	protected static $instances = array();
 
@@ -29,7 +29,7 @@ abstract class JSessionStorage
 	 *
 	 * @param   array  $options  Optional parameters.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -44,7 +44,8 @@ abstract class JSessionStorage
 	 *
 	 * @return  JSessionStorage
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
+	 * @throws  JSessionExceptionUnsupported
 	 */
 	public static function getInstance($name = 'none', $options = array())
 	{
@@ -52,21 +53,31 @@ abstract class JSessionStorage
 
 		if (empty(self::$instances[$name]))
 		{
+			/** @var JSessionStorage $class */
 			$class = 'JSessionStorage' . ucfirst($name);
 
 			if (!class_exists($class))
 			{
 				$path = __DIR__ . '/storage/' . $name . '.php';
 
-				if (file_exists($path))
+				if (!file_exists($path))
 				{
-					require_once $path;
+					throw new JSessionExceptionUnsupported('Unable to load session storage class: ' . $name);
 				}
-				else
+
+				JLoader::register($class, $path);
+
+				// The class should now be loaded
+				if (!class_exists($class))
 				{
-					// No attempt to die gracefully here, as it tries to close the non-existing session
-					jexit('Unable to load session storage class: ' . $name);
+					throw new JSessionExceptionUnsupported('Unable to load session storage class: ' . $name);
 				}
+			}
+
+			// Validate the session storage is supported on this platform
+			if (!$class::isSupported())
+			{
+				throw new JSessionExceptionUnsupported(sprintf('The %s Session Storage is not supported on this platform.', $name));
 			}
 
 			self::$instances[$name] = new $class($options);
@@ -80,15 +91,21 @@ abstract class JSessionStorage
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function register()
 	{
-		// Use this object as the session handler
-		session_set_save_handler(
-			array($this, 'open'), array($this, 'close'), array($this, 'read'), array($this, 'write'),
-			array($this, 'destroy'), array($this, 'gc')
-		);
+		if (!headers_sent())
+		{
+			session_set_save_handler(
+				array($this, 'open'),
+				array($this, 'close'),
+				array($this, 'read'),
+				array($this, 'write'),
+				array($this, 'destroy'),
+				array($this, 'gc')
+			);
+		}
 	}
 
 	/**
@@ -99,7 +116,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function open($save_path, $session_name)
 	{
@@ -111,7 +128,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function close()
 	{
@@ -126,7 +143,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  string  The session data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function read($id)
 	{
@@ -141,7 +158,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function write($id, $session_data)
 	{
@@ -156,7 +173,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function destroy($id)
 	{
@@ -170,7 +187,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc($maxlifetime = null)
 	{
@@ -182,7 +199,7 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -194,8 +211,8 @@ abstract class JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
-	 * @deprecated  12.3 (Platform) & 4.0 (CMS) - Use JSessionStorage::isSupported() instead.
+	 * @since   1.7.0
+	 * @deprecated  4.0 - Use JSessionStorage::isSupported() instead.
 	 */
 	public static function test()
 	{

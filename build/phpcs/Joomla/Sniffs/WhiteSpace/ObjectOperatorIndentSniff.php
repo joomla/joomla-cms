@@ -165,5 +165,3 @@ class Joomla_Sniffs_WhiteSpace_ObjectOperatorIndentSniff implements PHP_CodeSnif
 
 
 }//end class
-
-?>

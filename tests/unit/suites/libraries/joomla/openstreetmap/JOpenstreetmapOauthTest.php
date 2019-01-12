@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -12,39 +12,47 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Openstreetmap
- * @since       13.1
+ * @since       3.2.0
  */
 class JOpenstreetmapOauthTest extends TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the Openstreetmap object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JHttp  Mock http object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $client;
 
 	/**
 	 * @var    JInput The input object to use in retrieving GET/POST data.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $input;
 
 	/**
 	 * @var    JOpenstreetmapOauth  Authentication object for the Twitter object.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $oauth;
 
 	/**
 	 * @var    string  Sample string.
-	 * @since  13.1
+	 * @since  3.2.0
 	 */
 	protected $sampleString = 'Test String';
+
+	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 * @since  3.6
+	 */
+	protected $backupServer;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -54,6 +62,7 @@ class JOpenstreetmapOauthTest extends TestCase
 	 */
 	protected function setUp()
 	{
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'example.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
@@ -65,7 +74,7 @@ class JOpenstreetmapOauthTest extends TestCase
 
 		$this->options = new JRegistry;
 		$this->input = new JInput;
-		$this->client = $this->getMock('JHttp', array('get', 'post', 'delete', 'put'));
+		$this->client = $this->getMockBuilder('JHttp')->setMethods(array('get', 'post', 'delete', 'put'))->getMock();
 
 		$this->options->set('consumer_key', $key);
 		$this->options->set('consumer_secret', $secret);
@@ -79,9 +88,14 @@ class JOpenstreetmapOauthTest extends TestCase
 	 * This method is called after a test is executed.
 	 *
 	 * @return void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
 	 */
 	protected function tearDown()
 	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->input, $this->client, $this->oauth, $this->object);
 	}
 
 	/**
@@ -89,7 +103,7 @@ class JOpenstreetmapOauthTest extends TestCase
 	 *
 	 * @return array
 	 *
-	 * @since 13.1
+	 * @since 3.2.0
 	 */
 	public function seedVerifyCredentials()
 	{
@@ -109,7 +123,7 @@ class JOpenstreetmapOauthTest extends TestCase
 	 * @return  void
 	 *
 	 * @dataProvider seedVerifyCredentials
-	 * @since   13.1
+	 * @since   3.2.0
 	 */
 	public function testVerifyCredentials($code, $body, $expected)
 	{

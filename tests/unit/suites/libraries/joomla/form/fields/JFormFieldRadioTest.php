@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JFormHelper::loadFieldClass('radio');
@@ -15,10 +15,48 @@ require_once __DIR__ . '/TestHelpers/JHtmlFieldRadio-helper-dataset.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormFieldRadioTest extends TestCase
 {
+	/**
+	 * Sets up dependencies for the test.
+	 *
+	 * @since       1.7.3
+	 *
+	 * @return void
+	 */
+	protected function setUp()
+	{
+		parent::setUp();
+
+		$this->saveFactoryState();
+
+		JFactory::$application = $this->getMockApplication();
+
+		$this->backupServer = $_SERVER;
+
+		$_SERVER['HTTP_HOST'] = 'example.com';
+		$_SERVER['SCRIPT_NAME'] = '';
+	}
+
+	/**
+	 * Tears down the fixture, for example, closes a network connection.
+	 * This method is called after a test is executed.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.1
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+
+		$this->restoreFactoryState();
+
+		parent::tearDown();
+	}
+
 	/**
 	 * Test...
 	 *
@@ -41,7 +79,7 @@ class JFormFieldRadioTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 *
 	 * @dataProvider  getInputData
 	 */
@@ -56,10 +94,16 @@ class JFormFieldRadioTest extends TestCase
 			TestReflection::setValue($formField, $attr, $value);
 		}
 
-		$this->assertEquals(
-			$expected,
-			TestReflection::invoke($formField, 'getInput'),
-			'Line:' . __LINE__ . ' The field with no value and no checked attribute did not produce the right html'
+		// Get the result once, we may perform multiple tests
+		$result = TestReflection::invoke($formField, 'getInput');
+
+		// Test that the tag exists
+		$matcher = array('id' => 'myTestId');
+
+		$this->assertTag(
+			$matcher,
+			$result,
+			'The tag did not have the correct id.'
 		);
 	}
 
@@ -68,7 +112,7 @@ class JFormFieldRadioTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function testGetOptions()
 	{

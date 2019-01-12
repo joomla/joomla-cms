@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Contact
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -51,21 +51,36 @@ class PlgContentContact extends JPlugin
 			return true;
 		}
 
+		// Return if an alias is used
+		if ((int) $this->params->get('link_to_alias', 0) === 0 && $row->created_by_alias != '')
+		{
+			return true;
+		}
+
 		// Return if we don't have a valid article id
 		if (!isset($row->id) || !(int) $row->id)
 		{
 			return true;
 		}
 
-		$row->contactid = $this->getContactID($row->created_by);
+		$contact        = $this->getContactData($row->created_by);
+		$row->contactid = $contact->contactid;
+		$row->webpage   = $contact->webpage;
+		$row->email     = $contact->email_to;
+		$url            = $this->params->get('url', 'url');
 
-		if ($row->contactid)
+		if ($row->contactid && $url === 'url')
 		{
-			$needle = 'index.php?option=com_contact&view=contact&id=' . $row->contactid;
-			$menu = JFactory::getApplication()->getMenu();
-			$item = $menu->getItems('link', $needle, true);
-			$link = $item ? $needle . '&Itemid=' . $item->id : $needle;
-			$row->contact_link = JRoute::_($link);
+			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
+			$row->contact_link = JRoute::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
+		}
+		elseif ($row->webpage && $url === 'webpage')
+		{
+			$row->contact_link = $row->webpage;
+		}
+		elseif ($row->email && $url === 'email')
+		{
+			$row->contact_link = 'mailto:' . $row->email;
 		}
 		else
 		{
@@ -82,7 +97,7 @@ class PlgContentContact extends JPlugin
 	 *
 	 * @return  mixed|null|integer
 	 */
-	protected function getContactID($created_by)
+	protected function getContactData($created_by)
 	{
 		static $contacts = array();
 
@@ -93,12 +108,12 @@ class PlgContentContact extends JPlugin
 
 		$query = $this->db->getQuery(true);
 
-		$query->select('MAX(contact.id) AS contactid');
+		$query->select('MAX(contact.id) AS contactid, contact.alias, contact.catid, contact.webpage, contact.email_to');
 		$query->from($this->db->quoteName('#__contact_details', 'contact'));
 		$query->where('contact.published = 1');
 		$query->where('contact.user_id = ' . (int) $created_by);
 
-		if (JLanguageMultilang::isEnabled() == 1)
+		if (JLanguageMultilang::isEnabled() === true)
 		{
 			$query->where('(contact.language in '
 				. '(' . $this->db->quote(JFactory::getLanguage()->getTag()) . ',' . $this->db->quote('*') . ') '
@@ -107,7 +122,7 @@ class PlgContentContact extends JPlugin
 
 		$this->db->setQuery($query);
 
-		$contacts[$created_by] = $this->db->loadResult();
+		$contacts[$created_by] = $this->db->loadObject();
 
 		return $contacts[$created_by];
 	}

@@ -3,13 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Menu Item Model for Menus.
@@ -50,7 +51,7 @@ class MenusModelMenu extends JModelForm
 	}
 
 	/**
-	 * Method to test whether a record can be deleted.
+	 * Method to test whether the state of a record can be edited.
 	 *
 	 * @param   object  $record  A record object.
 	 *
@@ -68,11 +69,11 @@ class MenusModelMenu extends JModelForm
 	/**
 	 * Returns a Table object, always creating it
 	 *
-	 * @param   type    $type    The table type to instantiate
+	 * @param   string  $type    The table type to instantiate
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable    A database object
+	 * @return  JTable  A database object
 	 *
 	 * @since   1.6
 	 */
@@ -115,7 +116,6 @@ class MenusModelMenu extends JModelForm
 	public function &getItem($itemId = null)
 	{
 		$itemId = (!empty($itemId)) ? $itemId : (int) $this->getState('menu.id');
-		$false = false;
 
 		// Get a menu item row instance.
 		$table = $this->getTable();
@@ -128,11 +128,11 @@ class MenusModelMenu extends JModelForm
 		{
 			$this->setError($table->getError());
 
-			return $false;
+			return false;
 		}
 
 		$properties = $table->getProperties(1);
-		$value = JArrayHelper::toObject($properties, 'JObject');
+		$value      = ArrayHelper::toObject($properties, 'JObject');
 
 		return $value;
 	}
@@ -175,6 +175,10 @@ class MenusModelMenu extends JModelForm
 		if (empty($data))
 		{
 			$data = $this->getItem();
+		}
+		else
+		{
+			unset($data['preset']);
 		}
 
 		$this->preprocessData('com_menus.menu', $data);
@@ -262,8 +266,7 @@ class MenusModelMenu extends JModelForm
 		$dispatcher = JEventDispatcher::getInstance();
 
 		// Sanitize the ids.
-		$itemIds = (array) $itemIds;
-		JArrayHelper::toInteger($itemIds);
+		$itemIds = ArrayHelper::toInteger((array) $itemIds);
 
 		// Get a group row instance.
 		$table = $this->getTable();
@@ -274,20 +277,23 @@ class MenusModelMenu extends JModelForm
 		// Iterate the items to delete each one.
 		foreach ($itemIds as $itemId)
 		{
-			// Trigger the before delete event.
-			$result = $dispatcher->trigger('onContentBeforeDelete', array($this->_context, $table));
-
-			if (in_array(false, $result, true) || !$table->delete($itemId))
+			if ($table->load($itemId))
 			{
-				$this->setError($table->getError());
+				// Trigger the before delete event.
+				$result = $dispatcher->trigger('onContentBeforeDelete', array($this->_context, $table));
 
-				return false;
+				if (in_array(false, $result, true) || !$table->delete($itemId))
+				{
+					$this->setError($table->getError());
+
+					return false;
+				}
+
+				// Trigger the after delete event.
+				$dispatcher->trigger('onContentAfterDelete', array($this->_context, $table));
+
+				// TODO: Delete the menu associations - Menu items and Modules
 			}
-
-			// Trigger the after delete event.
-			$dispatcher->trigger('onContentAfterDelete', array($this->_context, $table));
-
-			// TODO: Delete the menu associations - Menu items and Modules
 		}
 
 		// Clean the cache
@@ -321,8 +327,7 @@ class MenusModelMenu extends JModelForm
 
 		foreach ($modules as &$module)
 		{
-			$params = new Registry;
-			$params->loadString($module->params);
+			$params = new Registry($module->params);
 
 			$menuType = $params->get('menutype');
 
@@ -349,7 +354,9 @@ class MenusModelMenu extends JModelForm
 	 */
 	protected function cleanCache($group = null, $client_id = 0)
 	{
+		parent::cleanCache('com_menus', 0);
 		parent::cleanCache('com_modules');
-		parent::cleanCache('mod_menu');
+		parent::cleanCache('mod_menu', 0);
+		parent::cleanCache('mod_menu', 1);
 	}
 }

@@ -3,25 +3,23 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-$com_path = JPATH_SITE . '/components/com_content/';
-require_once $com_path . 'router.php';
-require_once $com_path . 'helpers/route.php';
+use Joomla\String\StringHelper;
 
-JModelLegacy::addIncludePath($com_path . '/models', 'ContentModel');
+$com_path = JPATH_SITE . '/components/com_content/';
+
+JLoader::register('ContentHelperRoute', $com_path . 'helpers/route.php');
+JModelLegacy::addIncludePath($com_path . 'models', 'ContentModel');
 
 /**
  * Helper for mod_articles_category
  *
- * @package     Joomla.Site
- * @subpackage  mod_articles_category
- *
- * @since       1.6
+ * @since  1.6
  */
 abstract class ModArticlesCategoryHelper
 {
@@ -48,6 +46,7 @@ abstract class ModArticlesCategoryHelper
 		$articles->setState('list.start', 0);
 		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
+		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
@@ -68,8 +67,6 @@ abstract class ModArticlesCategoryHelper
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($app->input->getInt('id'));
-							break;
 						case 'categories' :
 							$catids = array($app->input->getInt('id'));
 							break;
@@ -131,7 +128,7 @@ abstract class ModArticlesCategoryHelper
 				// Get an instance of the generic categories model
 				$categories = JModelLegacy::getInstance('Categories', 'ContentModel', array('ignore_request' => true));
 				$categories->setState('params', $appParams);
-				$levels = $params->get('levels', 1) ? $params->get('levels', 1) : 9999;
+				$levels = $params->get('levels', 1) ?: 9999;
 				$categories->setState('filter.get_children', $levels);
 				$categories->setState('filter.published', 1);
 				$categories->setState('filter.access', $access);
@@ -164,14 +161,39 @@ abstract class ModArticlesCategoryHelper
 		}
 
 		// Ordering
-		$articles->setState('list.ordering', $params->get('article_ordering', 'a.ordering'));
-		$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+		$ordering = $params->get('article_ordering', 'a.ordering');
 
-		// New Parameters
+		switch ($ordering)
+		{
+			case 'random':
+				$articles->setState('list.ordering', JFactory::getDbo()->getQuery(true)->Rand());
+				break;
+
+			case 'rating_count':
+			case 'rating':
+				$articles->setState('list.ordering', $ordering);
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+
+				if (!JPluginHelper::isEnabled('content', 'vote'))
+				{
+					$articles->setState('list.ordering', 'a.ordering');
+				}
+
+				break;
+
+			default:
+				$articles->setState('list.ordering', $ordering);
+				$articles->setState('list.direction', $params->get('article_ordering_direction', 'ASC'));
+				break;
+		}
+
+		// Filter by multiple tags
+		$articles->setState('filter.tag', $params->get('filter_tag', array()));
+
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-		$articles->setState('filter.author_id', $params->get('created_by', ""));
+		$articles->setState('filter.author_id', $params->get('created_by', array()));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-		$articles->setState('filter.author_alias', $params->get('created_by_alias', ""));
+		$articles->setState('filter.author_alias', $params->get('created_by_alias', array()));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 		$excluded_articles = $params->get('excluded_articles', '');
 
@@ -227,7 +249,9 @@ abstract class ModArticlesCategoryHelper
 		foreach ($items as &$item)
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
-			$item->catslug = $item->catid ? $item->catid . ':' . $item->category_alias : $item->catid;
+
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
+			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
@@ -236,7 +260,6 @@ abstract class ModArticlesCategoryHelper
 			}
 			else
 			{
-				$app       = JFactory::getApplication();
 				$menu      = $app->getMenu();
 				$menuitems = $menu->getItems('link', 'index.php?option=com_users&view=login');
 
@@ -259,7 +282,7 @@ abstract class ModArticlesCategoryHelper
 
 			if ($show_date)
 			{
-				$item->displayDate = JHTML::_('date', $item->$show_date_field, $show_date_format);
+				$item->displayDate = JHtml::_('date', $item->$show_date_field, $show_date_format);
 			}
 
 			if ($item->catid)
@@ -299,8 +322,7 @@ abstract class ModArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace('<p>', ' ', $introtext);
-		$introtext = str_replace('</p>', ' ', $introtext);
+		$introtext = str_replace(array('<p>','</p>'), ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
@@ -336,7 +358,7 @@ abstract class ModArticlesCategoryHelper
 			$htmlStringToPtString = JHtml::_('string.truncate', $htmlString, $maxLength, $noSplit = true, $allowHtml = false);
 
 			// If the new plain text string matches the original plain text string we are done.
-			if ($ptString == $htmlStringToPtString)
+			if ($ptString === $htmlStringToPtString)
 			{
 				return $htmlString;
 			}
@@ -389,7 +411,7 @@ abstract class ModArticlesCategoryHelper
 				$grouped[$item->$fieldName] = array();
 			}
 
-			if (is_null($fieldNameToKeep))
+			if ($fieldNameToKeep === null)
 			{
 				$grouped[$item->$fieldName][$key] = $item;
 			}
@@ -413,12 +435,13 @@ abstract class ModArticlesCategoryHelper
 	 * @param   string  $type                        type of grouping
 	 * @param   string  $article_grouping_direction  ordering direction
 	 * @param   string  $month_year_format           date format to use
+	 * @param   string  $field                       date field to group by
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
+	public static function groupByDate($list, $type = 'year', $article_grouping_direction = 'ksort', $month_year_format = 'F Y', $field = 'created')
 	{
 		$grouped = array();
 
@@ -437,7 +460,7 @@ abstract class ModArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = JString::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->$field, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -449,7 +472,7 @@ abstract class ModArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = JString::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->$field, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{
@@ -475,6 +498,51 @@ abstract class ModArticlesCategoryHelper
 
 				unset($grouped[$group]);
 			}
+		}
+
+		return $grouped;
+	}
+
+	/**
+	 * Groups items by tags
+	 *
+	 * @param   array   $list       list of items
+	 * @param   string  $direction  ordering direction
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public static function groupByTags($list, $direction = 'ksort')
+	{
+		$grouped  = array();
+		$untagged = array();
+
+		if (!$list)
+		{
+			return $grouped;
+		}
+
+		foreach ($list as $item)
+		{
+			if ($item->tags->itemTags)
+			{
+				foreach ($item->tags->itemTags as $tag)
+				{
+					$grouped[$tag->title][] = $item;
+				}
+			}
+			else
+			{
+				$untagged[] = $item;
+			}
+		}
+
+		$direction($grouped);
+
+		if ($untagged)
+		{
+			$grouped['MOD_ARTICLES_CATEGORY_UNTAGGED'] = $untagged;
 		}
 
 		return $grouped;

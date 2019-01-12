@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2011 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 JLoader::register('ContentViewArticle', __DIR__ . '/stubs/ContentViewArticle.php');
@@ -18,7 +18,7 @@ JLoader::register('MediaViewMediaListItemsHtml', __DIR__ . '/stubs/MediaViewMedi
  *
  * @package     Joomla.UnitTest
  * @subpackage  View
- * @since       11.3
+ * @since       1.7.3
  */
 class ModelMockupJView
 {
@@ -41,7 +41,7 @@ class ModelMockupJView
  * @package     Joomla.UnitTest
  * @subpackage  View
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JViewLegacyTest extends TestCase
 {
@@ -49,14 +49,21 @@ class JViewLegacyTest extends TestCase
 	 * An instance of the test object.
 	 *
 	 * @var     JViewLegacy
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected $class;
 
 	/**
+	 * $_SERVER variable
+	 *
+	 * @var   array
+	 */
+	protected $server;
+
+	/**
 	 * Test JViewLegacy::get()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -78,7 +85,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getLayout()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -94,7 +101,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getModel()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -128,7 +135,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getLayoutTemplate()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -144,7 +151,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::getName()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -214,7 +221,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setModel()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -258,7 +265,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setLayout()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -280,7 +287,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setLayoutExt()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -296,7 +303,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::setEscape()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -316,7 +323,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::addTemplatePath()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -347,7 +354,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::addHelperPath()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -378,7 +385,7 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Test JViewLegacy::_addPath()
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 *
 	 * @return  void
 	 */
@@ -433,7 +440,7 @@ class JViewLegacyTest extends TestCase
 	 *
 	 * This method is called before a test is executed.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @return  void
 	 */
@@ -442,13 +449,14 @@ class JViewLegacyTest extends TestCase
 		parent::setUp();
 
 		$this->saveFactoryState();
+		$this->server = $_SERVER;
 
 		JFactory::$application = TestMockApplication::create($this);
 		JFactory::$application->input = new JInput(array());
 
 		defined('JPATH_COMPONENT') or define('JPATH_COMPONENT', JPATH_BASE . '/components/com_foobar');
-		isset($_SERVER['REQUEST_METHOD']) or ($_SERVER['REQUEST_METHOD'] = 'get');
-		isset($_SERVER['HTTP_HOST']) or ($_SERVER['HTTP_HOST'] = 'mydomain.com');
+		$_SERVER['REQUEST_METHOD'] = 'get';
+		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 
 		$this->class = new JViewLegacy;
 	}
@@ -456,14 +464,16 @@ class JViewLegacyTest extends TestCase
 	/**
 	 * Overrides the parent tearDown method.
 	 *
-	 * @since    12.1
+	 * @since    3.0.0
 	 *
 	 * @return  void
 	 */
 	protected function tearDown()
 	{
-		parent::tearDown();
-
 		$this->restoreFactoryState();
+		$_SERVER = $this->server;
+		JUri::reset();
+		unset($this->class);
+		parent::tearDown();
 	}
 }

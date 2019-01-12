@@ -3,14 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 /**
- * View to edit an language override
+ * View to edit a language override
  *
  * @since  2.5
  */
@@ -51,13 +51,20 @@ class LanguagesViewOverride extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		JHtml::_('stylesheet', 'overrider/overrider.css', array(), true);
-		JHtml::_('behavior.framework', true);
-		JHtml::_('script', 'overrider/overrider.js', false, true);
-
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
+
+		$app = JFactory::getApplication();
+
+		$languageClient = $app->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client');
+
+		if ($languageClient == null)
+		{
+			$app->enqueueMessage(JText::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
+
+			$app->redirect('index.php?option=com_languages&view=overrides');
+		}
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -95,7 +102,7 @@ class LanguagesViewOverride extends JViewLegacy
 	{
 		JFactory::getApplication()->input->set('hidemainmenu', true);
 
-		$canDo	= JHelperContent::getActions('com_languages');
+		$canDo = JHelperContent::getActions('com_languages');
 
 		JToolbarHelper::title(JText::_('COM_LANGUAGES_VIEW_OVERRIDE_EDIT_TITLE'), 'comments-2 langmanager');
 

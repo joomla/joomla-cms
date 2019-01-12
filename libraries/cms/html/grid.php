@@ -1,10 +1,10 @@
 <?php
 /**
- * @package     Joomla.Platform
+ * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -27,6 +27,8 @@ abstract class JHtmlGrid
 	 * @return  string   The boolean setting widget.
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
@@ -35,12 +37,12 @@ abstract class JHtmlGrid
 		JHtml::_('bootstrap.tooltip');
 
 		// Build the title.
-		$title = ($value) ? JText::_('JYES') : JText::_('JNO');
-		$title = JHtml::tooltipText($title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
+		$title = $value ? JText::_('JYES') : JText::_('JNO');
+		$title = JHtml::_('tooltipText', $title, JText::_('JGLOBAL_CLICK_TO_TOGGLE_STATE'), 0);
 
 		// Build the <a> tag.
-		$bool = ($value) ? 'true' : 'false';
-		$task = ($value) ? $taskOff : $taskOn;
+		$bool = $value ? 'true' : 'false';
+		$task = $value ? $taskOff : $taskOn;
 		$toggle = (!$task) ? false : true;
 
 		if ($toggle)
@@ -64,19 +66,20 @@ abstract class JHtmlGrid
 	 * @param   string  $task           An optional task override
 	 * @param   string  $new_direction  An optional direction for the new column
 	 * @param   string  $tip            An optional text shown as tooltip title instead of $title
+	 * @param   string  $form           An optional form selector
 	 *
 	 * @return  string
 	 *
 	 * @since   1.5
 	 */
-	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '')
+	public static function sort($title, $order, $direction = 'asc', $selected = '', $task = null, $new_direction = 'asc', $tip = '', $form = null)
 	{
 		JHtml::_('behavior.core');
-		JHtml::_('bootstrap.tooltip');
+		JHtml::_('bootstrap.popover');
 
 		$direction = strtolower($direction);
 		$icon = array('arrow-up-3', 'arrow-down-3');
-		$index = (int) ($direction == 'desc');
+		$index = (int) ($direction === 'desc');
 
 		if ($order != $selected)
 		{
@@ -84,13 +87,19 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			$direction = ($direction == 'desc') ? 'asc' : 'desc';
+			$direction = $direction === 'desc' ? 'asc' : 'desc';
 		}
 
-		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\');return false;"'
-			. ' class="hasTooltip" title="' . JHtml::tooltipText(($tip ? $tip : $title), 'JGLOBAL_CLICK_TO_SORT_THIS_COLUMN') . '">';
+		if ($form)
+		{
+			$form = ', document.getElementById(\'' . $form . '\')';
+		}
 
-		if (isset($title['0']) && $title['0'] == '<')
+		$html = '<a href="#" onclick="Joomla.tableOrdering(\'' . $order . '\',\'' . $direction . '\',\'' . $task . '\'' . $form . ');return false;"'
+			. ' class="hasPopover" title="' . htmlspecialchars(JText::_($tip ?: $title)) . '"'
+			. ' data-content="' . htmlspecialchars(JText::_('JGLOBAL_CLICK_TO_SORT_THIS_COLUMN')) . '" data-placement="top">';
+
+		if (isset($title['0']) && $title['0'] === '<')
 		{
 			$html .= $title;
 		}
@@ -101,7 +110,7 @@ abstract class JHtmlGrid
 
 		if ($order == $selected)
 		{
-			$html .= ' <i class="icon-' . $icon[$index] . '"></i>';
+			$html .= '<span class="icon-' . $icon[$index] . '"></span>';
 		}
 
 		$html .= '</a>';
@@ -122,9 +131,10 @@ abstract class JHtmlGrid
 	 */
 	public static function checkall($name = 'checkall-toggle', $tip = 'JGLOBAL_CHECK_ALL', $action = 'Joomla.checkAll(this)')
 	{
+		JHtml::_('behavior.core');
 		JHtml::_('bootstrap.tooltip');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip)
+		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::_('tooltipText', $tip)
 			. '" onclick="' . $action . '" />';
 	}
 
@@ -133,7 +143,7 @@ abstract class JHtmlGrid
 	 *
 	 * @param   integer  $rowNum      The row index
 	 * @param   integer  $recId       The record id
-	 * @param   boolean  $checkedOut  True if item is checke out
+	 * @param   boolean  $checkedOut  True if item is checked out
 	 * @param   string   $name        The name of the form element
 	 * @param   string   $stub        The name of stub identifier
 	 *
@@ -178,7 +188,7 @@ abstract class JHtmlGrid
 		}
 		else
 		{
-			if ($identifier == 'id')
+			if ($identifier === 'id')
 			{
 				return JHtml::_('grid.id', $i, $row->$identifier);
 			}
@@ -232,7 +242,7 @@ abstract class JHtmlGrid
 	 *
 	 * @since   1.5
 	 */
-	public static function state($filter_state = '*', $published = 'Published', $unpublished = 'Unpublished', $archived = null, $trashed = null)
+	public static function state($filter_state = '*', $published = 'JPUBLISHED', $unpublished = 'JUNPUBLISHED', $archived = null, $trashed = null)
 	{
 		$state = array('' => '- ' . JText::_('JLIB_HTML_SELECT_STATE') . ' -', 'P' => JText::_($published), 'U' => JText::_($unpublished));
 
@@ -253,7 +263,7 @@ abstract class JHtmlGrid
 			array(
 				'list.attr' => 'class="inputbox" size="1" onchange="Joomla.submitform();"',
 				'list.select' => $filter_state,
-				'option.key' => null
+				'option.key' => null,
 			)
 		);
 	}
@@ -273,7 +283,7 @@ abstract class JHtmlGrid
 	{
 		return '<a href="javascript:saveorder('
 			. (count($rows) - 1) . ', \'' . $task . '\')" rel="tooltip" class="saveorder btn btn-micro pull-right" title="'
-			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><i class="icon-menu-2"></i></a>';
+			. JText::_('JLIB_HTML_SAVE_ORDER') . '"><span class="icon-menu-2"></span></a>';
 	}
 
 	/**
@@ -297,8 +307,8 @@ abstract class JHtmlGrid
 			$date = JHtml::_('date', $row->checked_out_time, JText::_('DATE_FORMAT_LC1'));
 			$time = JHtml::_('date', $row->checked_out_time, 'H:i');
 
-			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::tooltipText('JLIB_HTML_CHECKED_OUT', $row->editor) . '<br />' . $date . '<br />'
-				. $time . '">';
+			$hover = '<span class="editlinktip hasTooltip" title="' . JHtml::_('tooltipText', 'JLIB_HTML_CHECKED_OUT', $row->editor)
+				. '<br />' . $date . '<br />' . $time . '">';
 		}
 
 		return $hover . JHtml::_('image', 'admin/checked_out.png', null, null, true) . '</span>';
@@ -310,6 +320,8 @@ abstract class JHtmlGrid
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function behavior()
 	{
@@ -333,12 +345,12 @@ abstract class JHtmlGrid
 			$(\'input.check-all-toggle\').each(function(){
 				$(this).on(\'click\', function(){
 					if (this.checked) {
-						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
 							this.checked = true;
 						})
 					}
 					else {
-						$(this).closest(\'form\').find(\'input[type=checkbox]\').each(function(){
+						$(this).closest(\'form\').find(\'input[type="checkbox"]\').each(function(){
 							this.checked = false;
 						})
 					}

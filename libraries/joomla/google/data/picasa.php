@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Google
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * Google Picasa data class for the Joomla Platform.
  *
- * @since  12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/google` package via Composer instead
  */
 class JGoogleDataPicasa extends JGoogleData
 {
@@ -24,7 +25,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 * @param   Registry     $options  Google options object
 	 * @param   JGoogleAuth  $auth     Google data http client object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function __construct(Registry $options = null, JGoogleAuth $auth = null)
 	{
@@ -43,7 +44,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function listAlbums($userID = 'default')
@@ -52,7 +53,7 @@ class JGoogleDataPicasa extends JGoogleData
 		{
 			$url = 'https://picasaweb.google.com/data/feed/api/user/' . urlencode($userID);
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
-			$xml = $this->safeXML($jdata->body);
+			$xml = $this->safeXml($jdata->body);
 
 			if (isset($xml->children()->entry))
 			{
@@ -89,7 +90,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function createAlbum($userID = 'default', $title = '', $access = 'private', $summary = '', $location = '', $time = false, $keywords = array())
 	{
@@ -111,9 +112,9 @@ class JGoogleDataPicasa extends JGoogleData
 			$cat->addAttribute('term', 'http://schemas.google.com/photos/2007#album');
 
 			$url = 'https://picasaweb.google.com/data/feed/api/user/' . urlencode($userID);
-			$jdata = $this->query($url, $xml->asXML(), array('GData-Version' => 2, 'Content-type' => 'application/atom+xml'), 'post');
+			$jdata = $this->query($url, $xml->asXml(), array('GData-Version' => 2, 'Content-type' => 'application/atom+xml'), 'post');
 
-			$xml = $this->safeXML($jdata->body);
+			$xml = $this->safeXml($jdata->body);
 
 			return new JGoogleDataPicasaAlbum($xml, $this->options, $this->auth);
 		}
@@ -130,7 +131,7 @@ class JGoogleDataPicasa extends JGoogleData
 	 *
 	 * @return  mixed  Data from Google
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws UnexpectedValueException
 	 */
 	public function getAlbum($url)
@@ -138,7 +139,7 @@ class JGoogleDataPicasa extends JGoogleData
 		if ($this->isAuthenticated())
 		{
 			$jdata = $this->query($url, null, array('GData-Version' => 2));
-			$xml = $this->safeXML($jdata->body);
+			$xml = $this->safeXml($jdata->body);
 
 			return new JGoogleDataPicasaAlbum($xml, $this->options, $this->auth);
 		}

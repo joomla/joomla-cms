@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API References class for the Joomla Platform.
  *
- * @since  11.3
+ * @since       1.7.3
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubRefs extends JGithubObject
 {
@@ -28,7 +29,7 @@ class JGithubRefs extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function create($user, $repo, $ref, $sha)
 	{
@@ -39,7 +40,7 @@ class JGithubRefs extends JGithubObject
 		$data = json_encode(
 			array(
 				'ref' => $ref,
-				'sha' => $sha
+				'sha' => $sha,
 			)
 		);
 
@@ -70,7 +71,7 @@ class JGithubRefs extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function edit($user, $repo, $ref, $sha, $force = false)
 	{
@@ -116,7 +117,7 @@ class JGithubRefs extends JGithubObject
 	 *
 	 * @return  object
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function get($user, $repo, $ref)
 	{
@@ -150,7 +151,7 @@ class JGithubRefs extends JGithubObject
 	 *
 	 * @return  array
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 */
 	public function getList($user, $repo, $namespace = '', $page = 0, $limit = 0)
 	{

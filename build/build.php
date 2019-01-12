@@ -1,8 +1,7 @@
 <?php
 /**
  * Script used to build Joomla distribution archive packages
- * Builds upgrade packages in tmp/packagesx.x folder (for example, 'build/tmp/packages2.5')
- * Builds full packages in tmp/packages_fullx.x.x folder (for example, 'build/tmp/packages_full2.5.1')
+ * Builds packages in tmp/packages folder (for example, 'build/tmp/packages')
  *
  * Note: the new package must be tagged in your git repository BEFORE doing this
  * It uses the git tag for the new version, not trunk.
@@ -16,38 +15,44 @@
  * 3. Run from CLI as: 'php build.php" from build directory.
  * 4. Check the archives in the tmp directory.
  *
- * @package		Joomla.Build
- *
- * @copyright	Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license		GNU General Public License version 2 or later; see LICENSE.txt
+ * @package    Joomla.Build
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Joomla\CMS\Version;
+
+const PHP_TAB = "\t";
+
+function usage($command)
+{
+	echo PHP_EOL;
+	echo 'Usage: php ' . $command . ' [options]' . PHP_EOL;
+	echo PHP_TAB . '[options]:'.PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '--remote <remote>:' . PHP_TAB . 'The git remote reference to build from (ex: `tags/3.8.6`, `4.0-dev`), defaults to the most recent tag for the repository' . PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '--exclude-zip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .zip packages' . PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '--exclude-gzip:' . PHP_TAB . PHP_TAB . 'Exclude the generation of .tar.gz packages' . PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '--exclude-bzip2:' . PHP_TAB . 'Exclude the generation of .tar.bz2 packages' . PHP_EOL;
+	echo PHP_TAB . PHP_TAB . '--help:' . PHP_TAB . PHP_TAB . PHP_TAB . 'Show this help output' . PHP_EOL;
+	echo PHP_EOL;
+}
+
+if (version_compare(PHP_VERSION, '5.4', '<'))
+{
+	echo "The build script requires PHP 5.4.\n";
+
+	exit(1);
+}
+
+$time = time();
 
 // Set path to git binary (e.g., /usr/local/git/bin/git or /usr/bin/git)
 ob_start();
 passthru('which git', $systemGit);
-$systemGit = ob_get_clean();
-$gitPath = '/usr/bin/git';
-
-// Sanity check - Make sure $gitPath is the same path the system recognizes
-if (substr($systemGit, 0, -1) != $gitPath)
-{
-	echo '$gitPath does not match path to local git executable, please set $gitPath to: ' . substr($systemGit, 0, -1) . "\n";
-	exit;
-}
+$systemGit = trim(ob_get_clean());
 
 // Make sure file and folder permissions are set correctly
 umask(022);
-
-// Import JVersion to set the version information
-define('JPATH_PLATFORM', 1);
-require_once dirname(__DIR__) . '/libraries/cms/version/version.php';
-$jversion = new JVersion;
-
-// Set version information for the build
-$version     = $jversion->RELEASE;
-$release     = $jversion->DEV_LEVEL;
-$stability   = $jversion->DEV_STATUS;
-$fullVersion = $version . '.' . $release;
 
 // Shortcut the paths to the repository root and build folder
 $repo = dirname(__DIR__);
@@ -55,9 +60,33 @@ $here = __DIR__;
 
 // Set paths for the build packages
 $tmp      = $here . '/tmp';
-$fullpath = $tmp . '/' . $fullVersion;
+$fullpath = $tmp . '/' . $time;
 
-echo "Start build for version $fullVersion.\n";
+// Parse input options
+$options = getopt('', ['help', 'remote::', 'exclude-zip', 'exclude-gzip', 'exclude-bzip2']);
+
+$remote       = isset($options['remote']) ? $options['remote'] : false;
+$excludeZip   = isset($options['exclude-zip']);
+$excludeGzip  = isset($options['exclude-gzip']);
+$excludeBzip2 = isset($options['exclude-bzip2']);
+$showHelp     = isset($options['help']);
+
+if ($showHelp)
+{
+	usage($argv[0]);
+	die;
+}
+
+// If not given a remote, assume we are looking for the latest local tag
+if (!$remote)
+{
+	chdir($repo);
+	$tagVersion = system($systemGit . ' describe --tags `' . $systemGit . ' rev-list --tags --max-count=1`', $tagVersion);
+	$remote = 'tags/' . $tagVersion;
+	chdir($here);
+}
+
+echo "Start build for remote $remote.\n";
 echo "Delete old release folder.\n";
 system('rm -rf ' . $tmp);
 mkdir($tmp);
@@ -65,17 +94,23 @@ mkdir($fullpath);
 
 echo "Copy the files from the git repository.\n";
 chdir($repo);
-system($gitPath . ' archive ' . $fullVersion . ' | tar -x -C ' . $fullpath);
+system($systemGit . ' archive ' . $remote . ' | tar -x -C ' . $fullpath);
+
+// Import the version class to set the version information
+define('JPATH_PLATFORM', 1);
+require_once $fullpath . '/libraries/src/Version.php';
+
+// Set version information for the build
+$version     = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
+$release     = Version::PATCH_VERSION;
+$fullVersion = (new Version)->getShortVersion();
 
 chdir($tmp);
 system('mkdir diffdocs');
 system('mkdir diffconvert');
-system('mkdir packages' . $version);
+system('mkdir packages');
 
-echo "Copy manifest file to root directory for install packages.\n";
-system('cp ' . $fullpath . '/administrator/manifests/files/joomla.xml ' . $fullpath);
-
-echo "Create list of changed files from git repository.\n";
+echo "Create list of changed files from git repository for version $fullVersion.\n";
 
 /*
  * Here we force add every top-level directory and file in our diff archive, even if they haven't changed.
@@ -94,7 +129,6 @@ $filesArray = array(
 	"language/index.html\n" => true,
 	"layouts/index.html\n" => true,
 	"libraries/index.html\n" => true,
-	"logs/index.html\n" => true,
 	"media/index.html\n" => true,
 	"modules/index.html\n" => true,
 	"plugins/index.html\n" => true,
@@ -105,8 +139,7 @@ $filesArray = array(
 	"LICENSE.txt\n" => true,
 	"README.txt\n" => true,
 	"robots.txt.dist\n" => true,
-	"web.config.txt\n" => true,
-	"joomla.xml\n" => true
+	"web.config.txt\n" => true
 );
 
 /*
@@ -114,17 +147,37 @@ $filesArray = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPackage = array(
+	'.appveyor.yml',
+	'.drone.yml',
+	'.editorconfig',
+	'.github',
 	'.gitignore',
+	'.hound.yml',
+	'.php_cs',
 	'.travis.yml',
-	'CONTRIBUTING.md',
 	'README.md',
+	'SECURITY.md',
+	'appveyor-phpunit.xml',
 	'build',
 	'build.xml',
 	'composer.json',
 	'composer.lock',
+	'crowdin.yml',
+	'karma.conf.js',
 	'phpunit.xml.dist',
+	'stubs.php',
 	'tests',
 	'travisci-phpunit.xml',
+	'codeception.yml',
+	'Jenkinsfile',
+	'jenkins-phpunit.xml',
+	'RoboFile.php',
+	'RoboFile.dist.ini',
+	'CODE_OF_CONDUCT.md',
+	// Remove the testing sample data from all packages
+	'installation/sql/mysql/sample_testing.sql',
+	'installation/sql/postgresql/sample_testing.sql',
+	'installation/sql/sqlazure/sample_testing.sql',
 );
 
 /*
@@ -132,21 +185,34 @@ $doNotPackage = array(
  * These paths are from the repository root without the leading slash
  */
 $doNotPatch = array(
+	'administrator/logs',
 	'installation',
-    'images'
+	'images',
 );
 
+/*
+ * This array will contain the checksums for all files which are created by this script.
+ * This is an associative array with the following structure:
+ * array(
+ *   'filename' => array(
+ *     'type1' => 'hash',
+ *     'type2' => 'hash',
+ *   ),
+ * )
+ */
+$checksums = array();
+
 // For the packages, replace spaces in stability (RC) with underscores
-$packageStability = str_replace(' ', '_', $stability);
+$packageStability = str_replace(' ', '_', Version::DEV_STATUS);
 
 // Count down starting with the latest release and add diff files to this array
 for ($num = $release - 1; $num >= 0; $num--)
 {
 	echo "Create version $num update packages.\n";
 
-	// Here we get a list of all files that have changed between the two tags ($previousTag and $fullVersion) and save in diffdocs
+	// Here we get a list of all files that have changed between the two references ($previousTag and $remote) and save in diffdocs
 	$previousTag = $version . '.' . $num;
-	$command     = $gitPath . ' diff tags/' . $previousTag . ' tags/' . $fullVersion . ' --name-status > diffdocs/' . $version . '.' . $num;
+	$command     = $systemGit . ' diff tags/' . $previousTag . ' ' . $remote . ' --name-status > diffdocs/' . $version . '.' . $num;
 
 	system($command);
 
@@ -158,28 +224,46 @@ for ($num = $release - 1; $num >= 0; $num--)
 	foreach ($files as $file)
 	{
 		$fileName   = substr($file, 2);
-		$folderPath = explode('/', $file);
-		$folderName = $folderPath[0];
+		$folderPath = explode('/', $fileName);
+		$baseFolderName = $folderPath[0];
 
-		// TODO - Old check, commented for reference, remove when complete
-		/*if (substr($file, 2, 5) != 'tests' && substr($file, 2, 12) != 'installation' && substr($file, 2, 5) != 'build' && substr($file, 2, 4) != '.git'
-			&& substr($file, 2, 7) != '.travis' && substr($file, 2, 6) != 'travis' && substr($file, 2, 7) != 'phpunit' && substr($file, -3) != '.md'
-			&& substr($file, 2, 6) != 'images')
-		{*/
+		$doNotPackageFile = in_array(trim($fileName), $doNotPackage);
+		$doNotPatchFile = in_array(trim($fileName), $doNotPatch);
+		$doNotPackageBaseFolder = in_array($baseFolderName, $doNotPackage);
+		$doNotPatchBaseFolder = in_array($baseFolderName, $doNotPatch);
 
-		if (!in_array($fileName, $doNotPackage) && !in_array($fileName, $doNotPatch)
-			&& !in_array($folderName, $doNotPackage) && !in_array($folderName, $doNotPatch))
+		if ($doNotPackageFile || $doNotPatchFile || $doNotPackageBaseFolder || $doNotPatchBaseFolder)
 		{
-			// Don't add deleted files to the list
-			if (substr($file, 0, 1) != 'D')
-			{
-				$filesArray[$fileName] = true;
-			}
-			else
-			{
-				// Add deleted files to the deleted files list
+			continue;
+		}
+
+		// Act on the file based on the action
+		switch (substr($file, 0, 1))
+		{
+			// This is a new case with git 2.9 to handle renamed files
+			case 'R':
+				// Explode the file on the tab character; key 0 is the action (rename), key 1 is the old filename, and key 2 is the new filename
+				$renamedFileData = explode("\t", $file);
+
+				// Add the new file for packaging
+				$filesArray[$renamedFileData[2]] = true;
+
+				// And flag the old file as deleted
+				$deletedFiles[] = $renamedFileData[1];
+
+				break;
+
+			// Deleted files
+			case 'D':
 				$deletedFiles[] = $fileName;
-			}
+
+				break;
+
+			// Regular additions and modifications
+			default:
+				$filesArray[$fileName] = true;
+
+				break;
 		}
 	}
 
@@ -198,13 +282,30 @@ for ($num = $release - 1; $num >= 0; $num--)
 	}
 
 	$fromName = $num == 0 ? 'x' : $num;
-	// Create the diff archive packages using the file name list.
-	system('tar --create --bzip2 --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2 --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
-	system('tar --create --gzip  --no-recursion --directory ' . $fullVersion . ' --file packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz  --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
 
-	chdir($fullVersion);
-	system('zip ../packages' . $version . '/Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
-	chdir('..');
+	// Create the diff archive packages using the file name list.
+	if (!$excludeBzip2)
+	{
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.bz2';
+		system('tar --create --bzip2 --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$checksums[$packageName] = array();
+	}
+
+	if (!$excludeGzip)
+	{
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.tar.gz';
+		system('tar --create --gzip  --no-recursion --directory ' . $time . ' --file packages/' . $packageName . ' --files-from diffconvert/' . $version . '.' . $num . '> /dev/null');
+		$checksums[$packageName] = array();
+	}
+
+	if (!$excludeZip)
+	{
+		$packageName = 'Joomla_' . $version . '.' . $fromName . '_to_' . $fullVersion . '-' . $packageStability . '-Patch_Package.zip';
+		chdir($time);
+		system('zip ../packages/' . $packageName . ' -@ < ../diffconvert/' . $version . '.' . $num . '> /dev/null');
+		chdir('..');
+		$checksums[$packageName] = array();
+	}
 }
 
 // Delete the files and folders we exclude from the packages (tests, docs, build, etc.).
@@ -212,42 +313,106 @@ echo "Delete folders not included in packages.\n";
 
 foreach ($doNotPackage as $removeFile)
 {
-	system('rm -rf ' . $fullVersion . '/' . $removeFile);
+	system('rm -rf ' . $time . '/' . $removeFile);
 }
 
-// Recreate empty directories before creating new archives.
-system('mkdir packages_full' . $fullVersion);
 echo "Build full package files.\n";
-chdir($fullVersion);
+chdir($time);
 
 // The weblinks package manifest should not be present for new installs, temporarily move it
 system('mv administrator/manifests/packages/pkg_weblinks.xml ../pkg_weblinks.xml');
 
 // Create full archive packages.
-system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2 * > /dev/null');
+if (!$excludeBzip2)
+{
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.bz2';
+	system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
+}
 
-system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz * > /dev/null');
+if (!$excludeGzip)
+{
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.tar.gz';
+	system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
+}
 
-system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip * > /dev/null');
+if (!$excludeZip)
+{
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Full_Package.zip';
+	system('zip -r ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
+}
 
-// Create full update file without installation folder or sample images.
+// Create full update file without the default logs directory, installation folder, or sample images.
 echo "Build full update package.\n";
+system('rm -r administrator/logs');
 system('rm -r installation');
 system('rm -r images/banners');
 system('rm -r images/headers');
 system('rm -r images/sampledata');
-system('rm images/joomla_black.gif');
-system('rm images/joomla_green.gif');
-system('rm images/joomla_logo_black.jpg');
+system('rm images/joomla_black.png');
 system('rm images/powered_by.png');
 
 // Move the weblinks manifest back
 system('mv ../pkg_weblinks.xml administrator/manifests/packages/pkg_weblinks.xml');
 
-system('tar --create --bzip2 --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2 * > /dev/null');
+if (!$excludeBzip2)
+{
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.bz2';
+	system('tar --create --bzip2 --file ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
+}
 
-system('tar --create --gzip --file ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz * > /dev/null');
+if (!$excludeGzip)
+{
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.tar.gz';
+	system('tar --create --gzip --file ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
+}
 
-system('zip -r ../packages_full' . $fullVersion . '/Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip * > /dev/null');
+if (!$excludeZip)
+{
+	$packageName = 'Joomla_' . $fullVersion . '-' . $packageStability . '-Update_Package.zip';
+	system('zip -r ../packages/' . $packageName . ' * > /dev/null');
+	$checksums[$packageName] = array();
+}
+
+chdir('..');
+
+foreach (array_keys($checksums) as $packageName)
+{
+	echo "Generating checksums for $packageName\n";
+
+	foreach (array('md5', 'sha1', 'sha256', 'sha384', 'sha512') as $hash)
+	{
+		if (file_exists('packages/' . $packageName))
+		{
+			$checksums[$packageName][$hash] = hash_file($hash, 'packages/' . $packageName);
+		}
+		else
+		{
+			echo "Package $packageName not found in build directories\n";
+		}
+	}
+}
+
+echo "Generating checksums.txt file\n";
+
+$checksumsContent = '';
+
+foreach ($checksums as $packageName => $packageHashes)
+{
+	$checksumsContent .= "Filename: $packageName\n";
+
+	foreach ($packageHashes as $hashType => $hash)
+	{
+		$checksumsContent .= "$hashType: $hash\n";
+	}
+
+	$checksumsContent .= "\n";
+}
+
+file_put_contents('checksums.txt', $checksumsContent);
 
 echo "Build of version $fullVersion complete!\n";

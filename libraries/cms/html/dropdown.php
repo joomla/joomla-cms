@@ -3,8 +3,8 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
@@ -110,9 +110,10 @@ abstract class JHtmlDropdown
 	 */
 	public static function render()
 	{
-		$dropDownList = static::$dropDownList;
+		$dropDownList  = static::$dropDownList;
 		$dropDownList .= '</ul></div>';
-		static::$dropDownList	= null;
+
+		static::$dropDownList = null;
 		static::$loaded['JHtmlDropdown::start'] = false;
 
 		return $dropDownList;

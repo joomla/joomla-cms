@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mail
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,7 +13,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Mail
- * @since       11.1
+ * @since       1.7.0
  */
 class JMailTest extends TestCase
 {
@@ -43,7 +43,8 @@ class JMailTest extends TestCase
 	 */
 	protected function tearDown()
 	{
-
+		unset($this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -143,34 +144,34 @@ class JMailTest extends TestCase
 	/**
 	 * Tests the addCC method.
 	 *
-	 * @covers  JMail::addCC
+	 * @covers  JMail::addCc
 	 *
 	 * @return void
 	 */
-	public function testAddCC()
+	public function testAddCc()
 	{
 		$recipient = 'test@example.com';
 		$name = 'test_name';
 		$expected = array(array('test@example.com', 'test_name'));
 
-		$this->object->addCC($recipient, $name);
+		$this->object->addCc($recipient, $name);
 		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, 'cc')));
 	}
 
 	/**
 	 * Tests the addBCC method.
 	 *
-	 * @covers  JMail::addBCC
+	 * @covers  JMail::addBcc
 	 *
 	 * @return void
 	 */
-	public function testAddBCC()
+	public function testAddBcc()
 	{
 		$recipient = 'test@example.com';
 		$name = 'test_name';
 		$expected = array(array('test@example.com', 'test_name'));
 
-		$this->object->addBCC($recipient, $name);
+		$this->object->addBcc($recipient, $name);
 		$this->assertThat($expected, $this->equalTo(TestReflection::getValue($this->object, 'bcc')));
 	}
 
@@ -181,8 +182,8 @@ class JMailTest extends TestCase
 	 */
 	public function testAddAttachment()
 	{
-		$attachments = array(JPATH_PLATFORM . '/joomla/mail/mail.php');
-		$names = array('mail.php');
+		$attachments = array(__FILE__);
+		$names = array(basename(__FILE__));
 
 		$mail = new JMail;
 		$mail->addAttachment($attachments, $names);
@@ -193,8 +194,8 @@ class JMailTest extends TestCase
 
 		foreach ($actual as $attach)
 		{
-			array_push($actual_attachments, $attach[0]);
-			array_push($actual_names, $attach[2]);
+			$actual_attachments[] = $attach[0];
+			$actual_names[]       = $attach[2];
 		}
 
 		$this->assertThat($attachments, $this->equalTo($actual_attachments));
@@ -225,7 +226,7 @@ class JMailTest extends TestCase
 	 *
 	 * @return void
 	 */
-	public function testIsHTML()
+	public function testIsHtml()
 	{
 		$this->object->isHtml(false);
 
@@ -237,9 +238,9 @@ class JMailTest extends TestCase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
-	public function dataUseSMTP()
+	public function dataUseSmtp()
 	{
 		return array(
 			'SMTP without Authentication' => array(
@@ -270,21 +271,23 @@ class JMailTest extends TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider  dataUseSMTP
 	 */
-	public function testUseSMTP($auth, $host, $user, $pass, $secure, $port, $expected)
+	public function testUseSmtp($auth, $host, $user, $pass, $secure, $port, $expected)
 	{
-		$mail = $this->getMock('JMail', array('SetLanguage', 'IsSMTP', 'IsMail'));
-
+		// Build the mock object.
+		$mail  = $this->getMockBuilder('JMail')
+					->setMethods(array('SetLanguage', 'IsSMTP', 'IsMail'))
+					->getMock();
 		$mail->expects(
 			$this->once()
 		)
 			->method($expected['called']);
 
 		$this->assertThat(
-			$mail->useSMTP($auth, $host, $user, $pass, $secure, $port),
+			$mail->useSmtp($auth, $host, $user, $pass, $secure, $port),
 			$this->equalTo($expected['return'])
 		);
 	}

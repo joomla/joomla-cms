@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
@@ -29,11 +29,25 @@ if (!class_exists('JLoader'))
 // Register the library base path for CMS libraries.
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
-// Add the Composer autoloader
-require_once JPATH_LIBRARIES . '/composer_autoload.php';
+/** @note This will be loaded through composer in Joomla 4 */
+JLoader::registerNamespace('Joomla\\CMS', JPATH_PLATFORM . '/src', false, false, 'psr4');
+
+// Create the Composer autoloader
+$loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
+$loader->unregister();
+
+// Decorate Composer autoloader
+spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivilents
-require_once __DIR__ . '/classmap.php';
+require_once JPATH_LIBRARIES . '/classmap.php';
+
+// Define the Joomla version if not already defined.
+if (!defined('JVERSION'))
+{
+	$jversion = new JVersion;
+	define('JVERSION', $jversion->getShortVersion());
+}
 
 // Ensure FOF autoloader included - needed for things like content versioning where we need to get an FOFTable Instance
 if (!class_exists('FOFAutoloaderFof'))
@@ -44,13 +58,6 @@ if (!class_exists('FOFAutoloaderFof'))
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
 set_exception_handler(array('JErrorPage', 'render'));
 
-// Define the Joomla version if not already defined.
-if (!defined('JVERSION'))
-{
-	$jversion = new JVersion;
-	define('JVERSION', $jversion->getShortVersion());
-}
-
 // Set up the message queue logger for web requests
 if (array_key_exists('REQUEST_METHOD', $_SERVER))
 {
@@ -60,10 +67,11 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 // Register JArrayHelper due to JRegistry moved to composer's vendor folder
 JLoader::register('JArrayHelper', JPATH_PLATFORM . '/joomla/utilities/arrayhelper.php');
 
+// Register the Crypto lib
+JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
+
 // Register classes where the names have been changed to fit the autoloader rules
 // @deprecated  4.0
-JLoader::register('JToolBar', JPATH_PLATFORM . '/cms/toolbar/toolbar.php');
-JLoader::register('JButton',  JPATH_PLATFORM . '/cms/toolbar/button.php');
 JLoader::register('JInstallerComponent',  JPATH_PLATFORM . '/cms/installer/adapter/component.php');
 JLoader::register('JInstallerFile',  JPATH_PLATFORM . '/cms/installer/adapter/file.php');
 JLoader::register('JInstallerLanguage',  JPATH_PLATFORM . '/cms/installer/adapter/language.php');
@@ -75,3 +83,11 @@ JLoader::register('JInstallerTemplate',  JPATH_PLATFORM . '/cms/installer/adapte
 JLoader::register('JExtension',  JPATH_PLATFORM . '/cms/installer/extension.php');
 JLoader::registerAlias('JAdministrator',  'JApplicationAdministrator');
 JLoader::registerAlias('JSite',  'JApplicationSite');
+
+// Can be removed when the move of all core fields to namespace is finished
+\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/joomla/form/fields');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/joomla/form/rule');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/joomla/form/rules');
+\Joomla\CMS\Form\FormHelper::addFormPath(JPATH_LIBRARIES . '/joomla/form/forms');
+\Joomla\CMS\Form\FormHelper::addFieldPath(JPATH_LIBRARIES . '/cms/form/field');
+\Joomla\CMS\Form\FormHelper::addRulePath(JPATH_LIBRARIES . '/cms/form/rule');

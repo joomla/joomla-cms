@@ -3,11 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * User notes table class
@@ -27,6 +29,8 @@ class UsersTableNote extends JTable
 	{
 		parent::__construct('#__user_notes', 'id', $db);
 
+		$this->setColumnAlias('published', 'state');
+
 		JTableObserverContenthistory::createObserver($this, array('typeAlias' => 'com_users.note'));
 	}
 
@@ -45,17 +49,19 @@ class UsersTableNote extends JTable
 		$userId = JFactory::getUser()->get('id');
 
 		$this->modified_time = $date;
+		$this->modified_user_id = $userId;
+
+		if (!((int) $this->review_time))
+		{
+			// Null date.
+			$this->review_time = $this->_db->getNullDate();
+		}
 
 		if (empty($this->id))
 		{
 			// New record.
 			$this->created_time = $date;
 			$this->created_user_id = $userId;
-		}
-		else
-		{
-			// Existing record.
-			$this->modified_user_id = $userId;
 		}
 
 		// Attempt to store the data.
@@ -73,7 +79,6 @@ class UsersTableNote extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @link    http://docs.joomla.org/JTable/publish
 	 * @since   2.5
 	 */
 	public function publish($pks = null, $state = 1, $userId = 0)
@@ -81,7 +86,7 @@ class UsersTableNote extends JTable
 		$k = $this->_tbl_key;
 
 		// Sanitize input.
-		JArrayHelper::toInteger($pks);
+		$pks = ArrayHelper::toInteger($pks);
 		$userId = (int) $userId;
 		$state  = (int) $state;
 

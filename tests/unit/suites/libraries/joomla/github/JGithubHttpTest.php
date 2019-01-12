@@ -3,12 +3,9 @@
  * @package     Joomla.UnitTest
  * @subpackage  Client
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-
-require_once JPATH_PLATFORM . '/joomla/github/http.php';
-require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
 
 /**
  * Test class for JGithub.
@@ -16,25 +13,25 @@ require_once JPATH_PLATFORM . '/joomla/http/transport/stream.php';
  * @package     Joomla.UnitTest
  * @subpackage  Github
  *
- * @since       11.1
+ * @since       1.7.0
  */
-class JGithubHttpTest extends PHPUnit_Framework_TestCase
+class JGithubHttpTest extends \PHPUnit\Framework\TestCase
 {
 	/**
 	 * @var    JRegistry  Options for the GitHub object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $options;
 
 	/**
 	 * @var    JGithubHttp  Mock client object.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $transport;
 
 	/**
 	 * @var    JGithubHttp  Object under test.
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $object;
 
@@ -44,14 +41,19 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function setUp()
 	{
 		parent::setUp();
 
 		$this->options = new JRegistry;
-		$this->transport = $this->getMock('JHttpTransportStream', array('request'), array($this->options), 'CustomTransport', false);
+		$this->transport = $this->getMockBuilder('JHttpTransportStream')
+						->setMethods(array('request'))
+						->setConstructorArgs(array($this->options))
+						->setMockClassName('CustomTransport')
+						->disableOriginalConstructor()
+						->getMock();
 
 		$this->object = new JGithubHttp($this->options, $this->transport);
 	}
@@ -62,10 +64,12 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function tearDown()
 	{
+		unset($this->options, $this->transport, $this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -73,7 +77,7 @@ class JGithubHttpTest extends PHPUnit_Framework_TestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function test__Construct()
 	{

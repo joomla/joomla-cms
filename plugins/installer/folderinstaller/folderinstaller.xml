@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.6" type="plugin" group="installer">
+	<name>PLG_INSTALLER_FOLDERINSTALLER</name>
+	<author>Joomla! Project</author>
+	<creationDate>May 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.6.0</version>
+	<description>PLG_INSTALLER_FOLDERINSTALLER_PLUGIN_XML_DESCRIPTION</description>
+
+	<files>
+		<filename plugin="folderinstaller">folderinstaller.php</filename>
+	</files>
+
+	<languages>
+		<language tag="en-GB">en-GB.plg_installer_folderinstaller.ini</language>
+		<language tag="en-GB">en-GB.plg_installer_folderinstaller.sys.ini</language>
+	</languages>
+</extension>

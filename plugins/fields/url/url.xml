@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="plugin" version="3.7.0" group="fields" method="upgrade">
+	<name>plg_fields_url</name>
+	<author>Joomla! Project</author>
+	<creationDate>March 2016</creationDate>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.7.0</version>
+	<description>PLG_FIELDS_URL_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="url">url.php</filename>
+		<folder>params</folder>
+		<folder>tmpl</folder>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_fields_url.ini</language>
+		<language tag="en-GB">en-GB.plg_fields_url.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="schemes"
+					type="list"
+					label="PLG_FIELDS_URL_PARAMS_SCHEMES_LABEL"
+					description="PLG_FIELDS_URL_PARAMS_SCHEMES_DESC"
+					multiple="true"
+					>
+					<option value="http">HTTP</option>
+					<option value="https">HTTPS</option>
+					<option value="ftp">FTP</option>
+					<option value="ftps">FTPS</option>
+					<option value="file">FILE</option>
+					<option value="mailto">MAILTO</option>
+				</field>
+
+				<field
+					name="relative"
+					type="radio"
+					label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
+					description="PLG_FIELDS_URL_PARAMS_RELATIVE_DESC"
+					class="btn-group btn-group-yesno"
+					default="1"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>

@@ -2,8 +2,8 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -11,7 +11,7 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  Google
- * @since       12.3
+ * @since       3.1.4
  */
 class JGoogleDataCalendarTest extends TestCase
 {
@@ -46,6 +46,13 @@ class JGoogleDataCalendarTest extends TestCase
 	protected $object;
 
 	/**
+	 * Backup of the SERVER superglobal
+	 *
+	 * @var  array
+	 */
+	protected $backupServer;
+
+	/**
 	 * Sets up the fixture, for example, opens a network connection.
 	 * This method is called before a test is executed.
 	 *
@@ -55,14 +62,17 @@ class JGoogleDataCalendarTest extends TestCase
 	protected function setUp()
 	{
 		parent::setUp();
-
+		$this->backupServer = $_SERVER;
 		$_SERVER['HTTP_HOST'] = 'mydomain.com';
 		$_SERVER['HTTP_USER_AGENT'] = 'Mozilla/5.0';
 		$_SERVER['REQUEST_URI'] = '/index.php';
 		$_SERVER['SCRIPT_NAME'] = '/index.php';
 
 		$this->options = new JRegistry;
-		$this->http = $this->getMock('JHttp', array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'), array($this->options));
+		$this->http = $this->getMockBuilder('JHttp')
+					->setMethods(array('head', 'get', 'delete', 'trace', 'post', 'put', 'patch'))
+					->setConstructorArgs(array($this->options))
+					->getMock();
 		$this->input = new JInput;
 		$this->oauth = new JOAuth2Client($this->options, $this->http, $this->input);
 		$this->auth = new JGoogleAuthOauth2($this->options, $this->oauth);
@@ -77,6 +87,21 @@ class JGoogleDataCalendarTest extends TestCase
 		$token['created'] = time() - 1800;
 		$token['expires_in'] = 3600;
 		$this->oauth->setToken($token);
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   3.6
+	 */
+	protected function tearDown()
+	{
+		$_SERVER = $this->backupServer;
+		unset($this->backupServer, $this->options, $this->http, $this->input, $this->auth, $this->oauth, $this->object);
+		parent::tearDown();
 	}
 
 	/**
@@ -256,7 +281,7 @@ class JGoogleDataCalendarTest extends TestCase
 		$timezone = new DateTimeZone('Europe/London');
 		$start = new DateTime('now');
 		$end = new DateTime;
-		$end->setTimestamp(time() + 3600)->setTimeZone($timezone);
+		$end->setTimestamp(time() + 3600)->setTimezone($timezone);
 
 		$result = $this->object->createEvent('calendarID', time(), time() + 100000, array('option' => 'value'));
 		$this->assertEquals($result, array('items' => array('1' => 1, '2' => 2)));
@@ -485,7 +510,7 @@ class JGoogleDataCalendarTest extends TestCase
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function jsonDataCalendarCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -508,7 +533,7 @@ function jsonDataCalendarCallback($url, $data, array $headers = null, $timeout =
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function emptyDataCalendarCallback($url, $data, array $headers = null, $timeout = null)
 {
@@ -530,7 +555,7 @@ function emptyDataCalendarCallback($url, $data, array $headers = null, $timeout 
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function jsonCalendarCallback($url, array $headers = null, $timeout = null)
 {
@@ -552,7 +577,7 @@ function jsonCalendarCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function emptyCalendarCallback($url, array $headers = null, $timeout = null)
 {
@@ -574,7 +599,7 @@ function emptyCalendarCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function calendarExceptionCallback($url, array $headers = null, $timeout = null)
 {
@@ -597,7 +622,7 @@ function calendarExceptionCallback($url, array $headers = null, $timeout = null)
  *
  * @return  JHttpResponse
  *
- * @since   12.3
+ * @since   3.1.4
  */
 function calendarDataExceptionCallback($url, $data, array $headers = null, $timeout = null)
 {

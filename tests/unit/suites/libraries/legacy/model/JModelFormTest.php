@@ -3,8 +3,8 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 /**
@@ -13,20 +13,20 @@
  * @package     Joomla.UnitTest
  * @subpackage  Model
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JModelFormTest extends TestCase
 {
 	/**
 	 * @var    JModelForm
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	public $object;
 
 	/**
 	 * Setup each test.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 *
 	 * @return  void
 	 */
@@ -34,6 +34,25 @@ class JModelFormTest extends TestCase
 	{
 		// Create mock of abstract class JModelForm to test concrete methods in there
 		$this->object = $this->getMockForAbstractClass('JModelForm');
+		TestReflection::setValue('JEventDispatcher', 'instance', $this->getMockDispatcher());
+		TestReflection::setValue('JPluginHelper', 'plugins', array());
+	}
+
+	/**
+	 * Overrides the parent tearDown method.
+	 *
+	 * @return  void
+	 *
+	 * @see     \PHPUnit\Framework\TestCase::tearDown()
+	 * @since   1.7.0
+	 */
+	protected function tearDown()
+	{
+		// Reset the dispatcher instance.
+		TestReflection::setValue('JEventDispatcher', 'instance', null);
+		TestReflection::setValue('JPluginHelper', 'plugins', null);
+
+		parent::tearDown();
 	}
 
 	/**

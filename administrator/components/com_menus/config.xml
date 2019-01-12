@@ -10,31 +10,39 @@
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_TITLE_LABEL"
 			description="COM_MENUS_ITEM_FIELD_PAGE_TITLE_DESC"
-			/>
+			default=""
+		/>
+
 		<field
 			name="show_page_heading"
 			type="radio"
-			class="btn-group btn-group-yesno"
 			label="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_SHOW_PAGE_HEADING_DESC"
+			class="btn-group btn-group-yesno"
 			default="0"
 			filter="integer"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
 		</field>
+
 		<field
 			name="page_heading"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
 			description="COM_MENUS_ITEM_FIELD_PAGE_HEADING_DESC"
-			/>
+			default=""
+			showon="show_page_heading:1"
+		/>
+
 		<field
 			name="pageclass_sfx"
 			type="text"
 			label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
 			description="COM_MENUS_ITEM_FIELD_PAGE_CLASS_DESC"
-			/>
+			default=""
+		/>
+
 	</fieldset>
 
 	<fieldset
@@ -50,6 +58,8 @@
 			filter="rules"
 			validate="rules"
 			component="com_menus"
-			section="component" />
+			section="component"
+		/>
+
 	</fieldset>
 </config>

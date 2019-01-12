@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2014 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,18 +23,15 @@ class LanguagesHelper
 	 * @param   int     $client  The client id of the active view. Maybe be 0 or 1.
 	 *
 	 * @return  void
+	 *
+	 * @deprecated  4.0 $client parameter is not needed anymore.
 	 */
 	public static function addSubmenu($vName, $client = 0)
 	{
 		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_SITE'),
-			'index.php?option=com_languages&view=installed&client=0',
-			$vName == 'installed' && $client === 0
-		);
-		JHtmlSidebar::addEntry(
-			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED_ADMINISTRATOR'),
-			'index.php?option=com_languages&view=installed&client=1',
-			$vName == 'installed' && $client === 1
+			JText::_('COM_LANGUAGES_SUBMENU_INSTALLED'),
+			'index.php?option=com_languages&view=installed',
+			$vName == 'installed'
 		);
 		JHtmlSidebar::addEntry(
 			JText::_('COM_LANGUAGES_SUBMENU_CONTENT'),
@@ -58,40 +55,36 @@ class LanguagesHelper
 	public static function getActions()
 	{
 		// Log usage of deprecated function.
-		JLog::add(__METHOD__ . '() is deprecated, use JHelperContent::getActions() with new arguments order instead.', JLog::WARNING, 'deprecated');
+		try
+		{
+			JLog::add(
+				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
+				JLog::WARNING,
+				'deprecated'
+			);
+		}
+		catch (RuntimeException $exception)
+		{
+			// Informational log only
+		}
 
 		// Get list of actions.
-		$result = JHelperContent::getActions('com_languages');
-
-		return $result;
+		return JHelperContent::getActions('com_languages');
 	}
 
 	/**
 	 * Method for parsing ini files.
 	 *
-	 * @param   string  $filename  Path and name of the ini file to parse.
+	 * @param   string  $fileName  Path and name of the ini file to parse.
 	 *
 	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
 	 *
 	 * @since   2.5
+	 * @deprecated   3.9.0 Use JLanguageHelper::parseIniFile() instead.
 	 */
-	public static function parseFile($filename)
+	public static function parseFile($fileName)
 	{
-		if (!is_file($filename))
-		{
-			return array();
-		}
-
-		$contents = file_get_contents($filename);
-		$contents = str_replace('_QQ_', '"\""', $contents);
-		$strings  = @parse_ini_string($contents);
-
-		if ($strings === false)
-		{
-			return array();
-		}
-
-		return $strings;
+		return JLanguageHelper::parseIniFile($fileName);
 	}
 
 	/**

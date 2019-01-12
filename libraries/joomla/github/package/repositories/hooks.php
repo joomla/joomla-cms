@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  GitHub
  *
- * @copyright   Copyright (C) 2005 - 2012 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,9 +12,10 @@ defined('JPATH_PLATFORM') or die;
 /**
  * GitHub API Hooks class for the Joomla Platform.
  *
- * @documentation http://developer.github.com/v3/repos/hooks
+ * @documentation https://developer.github.com/v3/repos/hooks
  *
- * @since  12.3
+ * @since       3.1.4
+ * @deprecated  4.0  Use the `joomla/github` package via Composer instead
  */
 class JGithubPackageRepositoriesHooks extends JGithubPackage
 {
@@ -22,11 +23,22 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 * Array containing the allowed hook events
 	 *
 	 * @var    array
-	 * @since  12.3
+	 * @since  3.1.4
 	 */
 	protected $events = array(
-		'push', 'issues', 'issue_comment', 'commit_comment', 'pull_request', 'gollum', 'watch', 'download', 'fork', 'fork_apply',
-		'member', 'public', 'status'
+		'push',
+		'issues',
+		'issue_comment',
+		'commit_comment',
+		'pull_request',
+		'gollum',
+		'watch',
+		'download',
+		'fork',
+		'fork_apply',
+		'member',
+		'public',
+		'status',
 	);
 
 	/**
@@ -41,7 +53,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
@@ -78,7 +90,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function delete($user, $repo, $id)
@@ -107,7 +119,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 * @throws  RuntimeException
 	 */
@@ -149,7 +161,8 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 				'events'        => $events,
 				'add_events'    => $addEvents,
 				'remove_events' => $removeEvents,
-				'active'        => $active)
+				'active'        => $active,
+			)
 		);
 
 		return $this->processResponse(
@@ -166,7 +179,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function get($user, $repo, $id)
@@ -187,7 +200,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function getList($user, $repo)
@@ -209,7 +222,7 @@ class JGithubPackageRepositoriesHooks extends JGithubPackage
 	 *
 	 * @return  object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 * @throws  DomainException
 	 */
 	public function test($user, $repo, $id)

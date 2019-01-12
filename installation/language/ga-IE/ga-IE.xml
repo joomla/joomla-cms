@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metafile version="3.9" client="installation">
+	<name>Irish (Ireland)</name>
+	<version>3.9.0</version>
+	<creationDate>October 2018</creationDate>
+	<author>Irish translation team</author>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License leagan 2 nó níos déanaí; féach LICENSE.txt</license>
+	<files>
+		<filename>ga-IE.ini</filename>
+	</files>
+	<metadata>
+		<name>Irish (ga-IE)</name>
+		<nativeName>Gaeilge (Éire)</nativeName>
+		<tag>ga</tag>
+		<rtl>0</rtl>
+	</metadata>
+	<params/>
+</metafile>
