@@ -3,13 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Field to load a list of all users that have logged actions
@@ -52,7 +55,7 @@ class JFormFieldLogCreator extends JFormFieldList
 
 			$options = array();
 
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Construct the query
 			$query = $db->getQuery(true)
