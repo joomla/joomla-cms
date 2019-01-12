@@ -924,7 +924,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterLogPurge($group = '')
 	{
 		$context = $this->app->input->get('option');
-		$user    = JFactory::getUser();
+		$user    = Factory::getUser();
 
 		$message = array(
 			'action'      => 'actionlogs',
@@ -954,7 +954,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterLogExport($group = '')
 	{
 		$context = $this->app->input->get('option');
-		$user    = JFactory::getUser();
+		$user    = Factory::getUser();
 
 		$message = array(
 			'action'      => 'actionlogs',
