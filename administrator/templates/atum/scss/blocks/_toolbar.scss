@@ -48,23 +48,22 @@
       color: var(--white);
       background-color: rgba(0, 0, 0, .2);
     }
-  }
 
-  .btn-group {
-    margin-right: .75rem;
-
-    [class^='icon-'],
-    [class*=' icon-'],
-    [class^='#{$fa-css-prefix}-'],
-    [class*=' #{$fa-css-prefix}-'] {
-      margin-right: 0;
-      background-color: transparent;
+    &[disabled],
+    &.dropdown-toggle[disabled] {
+      background-color: $gray-600;
+      border-color: $gray-600;
     }
   }
 
+  .dropdown-item {
+
+    &:hover {
+      color: #212529;
+    }
+  }
 
   .dropdown-toggle {
-    padding: 0 16px;
 
     &.btn {
       background-color: rgba(0, 0, 0, .2);
