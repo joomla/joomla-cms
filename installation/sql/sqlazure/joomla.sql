@@ -3139,7 +3139,9 @@ SELECT 15, 'com_tags'
 UNION ALL
 SELECT 16, 'com_templates'
 UNION ALL
-SELECT 17, 'com_users';
+SELECT 17, 'com_users'
+UNION ALL
+SELECT 18, 'com_checkin';
 
 SET IDENTITY_INSERT [#__action_logs_extensions]  OFF;
 /****** Object:  Table [#__action_log_config] ******/
