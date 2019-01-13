@@ -10,7 +10,7 @@
 
 /* In order to hide the Joomla menu */
 .CodeMirror-fullscreen {
-	z-index: 1040;
+	z-index: 1200 !important;
 }
 
 /* Make the fold marker a little more visible/nice */
