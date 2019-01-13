@@ -69,7 +69,7 @@ class PlgButtonContact extends CMSPlugin
 				'modalWidth'  => '80',
 			];
 
-				return $button;
+			return $button;
 		}
 	}
 }
