@@ -90,7 +90,7 @@ class DbExporterCli extends JApplicationCli
 			return;
 		}
 
-		if (($itable))
+		if ($itable)
 		{
 			if (!in_array($itable, $tables))
 			{
