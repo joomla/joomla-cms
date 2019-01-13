@@ -384,7 +384,7 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Method to install a preset menu item into database and link it to the given menutype
 	 *
-	 * @param   \stdClass[]  &$items    The single menuitem instance with a list of its descendants
+	 * @param   \stdClass[]  $items     The single menuitem instance with a list of its descendants
 	 * @param   string       $menutype  The target menutype
 	 * @param   int          $parent    The parent id or object
 	 *

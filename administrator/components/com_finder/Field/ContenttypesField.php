@@ -58,7 +58,7 @@ class ContenttypesField extends ListField
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($db->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($db->getMessage(), 'error');
 		}
 
 		// Translate.
