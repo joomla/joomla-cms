@@ -70,7 +70,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 
 			// Get the details columns information.
 			$fields = $this->db->getTableColumns($table, false);
-			$prefix   = $this->db->getPrefix();
+			$prefix = $this->db->getPrefix();
 			$table_name = str_replace('#__', $prefix, $table);
 			$keys = $this->db->getTableKeys($table_name);
 			$sequences = $this->db->getTableSequences($table_name);
