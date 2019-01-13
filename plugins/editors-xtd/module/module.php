@@ -53,6 +53,13 @@ class PlgButtonModule extends CMSPlugin
 		{
 			$link = 'index.php?option=com_modules&amp;view=modules&amp;layout=modal&amp;tmpl=component&amp;editor='
 					. $name . '&amp;' . Session::getFormToken() . '=1';
+
+			// We need this for front end editing
+			if (JPATH_BASE !== JPATH_ADMINISTRATOR)
+			{
+				$link = 'administrator/' . $link;
+			}
+
 			$button          = new CMSObject;
 			$button->modal   = true;
 			$button->link    = $link;
