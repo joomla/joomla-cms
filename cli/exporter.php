@@ -73,7 +73,7 @@ class DbExporterCli extends JApplicationCli
 		$ipath   = $this->input->get('folder', null, 'folder');
 		$zipfile = $ipath . 'jdata_exported_' . JFactory::getDate()->format('Y-m-d') . '.zip';
 
-		if (!(($itable)||($iall)||($ihelp)))
+		if (!($itable || $iall || $ihelp))
 		{
 			if (!$ihelp)
 			{
