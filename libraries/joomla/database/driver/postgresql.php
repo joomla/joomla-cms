@@ -641,6 +641,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			->from($sequence);
 
 		$this->setQuery($query);
+
 		return $this->loadResult();
 	}
 
@@ -663,6 +664,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			->from($sequence);
 
 		$this->setQuery($query);
+
 		return $this->loadResult();
 	}
 

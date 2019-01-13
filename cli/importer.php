@@ -69,9 +69,9 @@ class DbImporterCli extends JApplicationCli
 		$itable = $this->input->getString('table', null);
 		$tables = JFolder::files($ipath, '\.xml$');
 
-		if (!(($itable)||($iall)||($ihelp)))
+		if (!($itable || $iall || $ihelp))
 		{
-			if (!($ihelp))
+			if (!$ihelp)
 			{
 				$this->out('[WARNING] Missing or wrong parameters');
 				$this->out();
@@ -161,7 +161,7 @@ class DbImporterCli extends JApplicationCli
 			$this->out();
 		}
 
-		$this->out('Total time:' . round(microtime(true) - $total_time, 3));
+		$this->out('Total time: ' . round(microtime(true) - $total_time, 3));
 	}
 }
 

@@ -415,6 +415,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 			->from($sequence);
 
 		$this->setQuery($query);
+
 		return $this->loadResult();
 	}
 
@@ -437,6 +438,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 			->from($sequence);
 
 		$this->setQuery($query);
+
 		return $this->loadResult();
 	}
 

@@ -122,7 +122,7 @@ class DbExporterCli extends JApplicationCli
 
 				JFile::write($filename, $data);
 
-				if (($imode) && ($imode === 'zip'))
+				if ($imode && $imode === 'zip')
 				{
 					$zipFilesArray[] = array('name' => $table . '.xml', 'data' => $data);
 					$zip->create($zipfile, $zipFilesArray);
@@ -133,7 +133,7 @@ class DbExporterCli extends JApplicationCli
 			}
 		}
 
-		$this->out('Total time:' . round(microtime(true) - $total_time, 3));
+		$this->out('Total time: ' . round(microtime(true) - $total_time, 3));
 	}
 }
 
