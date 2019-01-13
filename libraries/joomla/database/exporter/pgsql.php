@@ -64,7 +64,7 @@ class JDatabaseExporterPgsql extends JDatabaseExporterPostgresql
 
 			foreach ($fields as $field)
 			{
-				// Cacth blob for xml conversion
+				// Catch blob for xml conversion
 				// PostgreSQL binary large object type
 				if ($field->Type == 'bytea')
 				{
