@@ -75,7 +75,7 @@ class DbExporterCli extends JApplicationCli
 
 		if (!(($itable)||($iall)||($ihelp)))
 		{
-			if (!($ihelp))
+			if (!$ihelp)
 			{
 				$this->out('[WARNING] Missing or wrong parameters');
 				$this->out();
