@@ -24,10 +24,15 @@
     }
   }
 
+  .nav-item:hover,
+  .nav-item.show {
+    background-color: var(--main-bg);
+  }
+
   .nav-link {
     position: relative;
     padding: 0;
-    margin: 0 1rem;
+    margin: 0 0.6rem;
     line-height: $header-height;
     min-width: $header-height - 5px;
 
@@ -78,6 +83,7 @@
   .dropdown-item {
     color: $white;
     background-color: var(--primary-light);
+    padding: 0;
 
     @include hover-focus {
       color: var(--primary-dark);
@@ -87,6 +93,8 @@
       display: inline-block;
       width: 100%;
       color: $white;
+      padding-left: 0.75rem;
+      line-height: 3;
 
       &:hover {
         color: var(--primary-dark);
@@ -99,8 +107,31 @@
     }
 
     .fa {
-      padding: 0.6rem;
-      background-color: var(--primary-bright);
+      padding: 1rem;
+      background-color: lighten(color("primary-light"), 5%);
+      width: 3rem;
+    }
+
+    &.closeMessageWrapper > a:first-child {
+      width: calc(100% - 3.5rem);
+    }
+
+    .closeMessage {
+      float: right;
+      padding: 0;
+      width: 3rem;
+    }
+
+    &.iconsLeft {
+
+      a {
+        padding-left: 0;
+      }
+
+      .fa {
+        float: left;
+        margin-right: 0.75rem;
+      }
     }
   }
 
@@ -125,11 +156,15 @@
   }
 
   .dropdown-header {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
-    color: $white;
     background-color: var(--primary-dark);
     box-shadow: $atum-box-shadow;
+    color: $white;
+    font-size: inherit;
+    padding: 1rem 0.75rem;
+
+    &.iconsLeftHeader {
+      padding-left: 3.75rem;
+    }
   }
 
   .list-group-item-text:last-child {

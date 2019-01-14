@@ -52,7 +52,6 @@ $hideLinks = $app->input->getBool('hidemainmenu');
             </a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header">
-                    <span class="fa fa-rocket" aria-hidden="true"></span>
 					<?php echo Text::_('MOD_STATUS_QUICKSTART_HEADER');  ?>
                 </div>
 	            <?php if ($user->authorise('core.edit', 'com_content')) : ?>
@@ -110,7 +109,6 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			</a>
             <div class="dropdown-menu dropdown-menu-right">
                 <div class="dropdown-header">
-                    <span class="fa fa-envelope-o" aria-hidden="true"></span>
 					<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>
                 </div>
 	            <?php if (empty($messages)) : ?>
@@ -119,12 +117,12 @@ $hideLinks = $app->input->getBool('hidemainmenu');
                 </div>
 	            <?php endif; ?>
 	            <?php foreach ($messages as $message) : ?>
-                <div class="dropdown-item">
+                <div class="dropdown-item closeMessageWrapper">
 	                <?php $route = 'index.php?option=com_postinstall&amp;eid=700'; ?>
 	                <?php $title = HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?>
                     <a href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>"><?php echo $title; ?></a>
 	                <?php $route = 'index.php?option=com_postinstall&amp;task=message.unpublish&amp;id=' . $message->postinstall_message_id; ?>
-                    <a href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>">
+                    <a class="closeMessage" href="<?php echo Route::_($route); ?>" title="<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>">
                         <span class="fa fa-close" aria-hidden="true"></span>
                         <span class="sr-only"><?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?></span>
                     </a>
@@ -141,22 +139,28 @@ $hideLinks = $app->input->getBool('hidemainmenu');
                 <span class="fa fa-angle-down" aria-hidden="true"></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right">
-				<div class="dropdown-header">
+				<div class="dropdown-header iconsLeftHeader">
 					<?php echo $user->name; ?>
 				</div>
 				<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
-                <div class="dropdown-item">
-                    <span class="fa fa-user-o"></span>
-                    <a href="<?php echo Route::_($route); ?>"><?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
+                <div class="dropdown-item iconsLeft">
+                    <a href="<?php echo Route::_($route); ?>">
+	                    <span class="fa fa-user-o"></span>
+	                    <?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?>
+                    </a>
                 </div>
-                <div class="dropdown-item">
-                    <span class="fa fa-universal-access"></span>
-                    <a href="#"><?php echo Text::_('MOD_STATUS_ACCESSIBILITY_SETTINGS'); ?></a>
+                <div class="dropdown-item iconsLeft">
+                    <a href="#">
+	                    <span class="fa fa-universal-access"></span>
+	                    <?php echo Text::_('MOD_STATUS_ACCESSIBILITY_SETTINGS'); ?>
+                    </a>
                 </div>
-                <div class="dropdown-item">
-                    <span class="fa fa-power-off"></span>
+                <div class="dropdown-item iconsLeft">
 	                <?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
-                    <a href="<?php echo Route::_($route); ?>"><?php echo Text::_('JLOGOUT'); ?></a>
+                    <a href="<?php echo Route::_($route); ?>">
+	                    <span class="fa fa-power-off"></span>
+	                    <?php echo Text::_('JLOGOUT'); ?>
+                    </a>
                 </div>
 			</div>
 		</li>
