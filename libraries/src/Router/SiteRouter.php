@@ -383,7 +383,9 @@ class SiteRouter extends Router
 	public function parsePaginationData(&$router, &$uri)
 	{
 		// Process the pagination support
-		if ($uri->getVar('start'))
+		$start = $uri->getVar('start');
+
+		if ($start !== null)
 		{
 			$uri->setVar('limitstart', $uri->getVar('start'));
 			$uri->delVar('start');
@@ -523,7 +525,9 @@ class SiteRouter extends Router
 	 */
 	public function buildPaginationData(&$router, &$uri)
 	{
-		if ($uri->getVar('limitstart'))
+		$limitstart = $uri->getVar('limitstart');
+
+		if ($limitstart !== null)
 		{
 			$uri->setVar('start', (int) $uri->getVar('limitstart'));
 			$uri->delVar('limitstart');
