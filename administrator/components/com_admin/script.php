@@ -406,9 +406,9 @@ class JoomlaInstallerScript
 				->select('*')
 				->from('#__fields')
 				->where($db->quoteName('type') . ' = ' . $db->quote('repeatable'))
-		)->execute();
+		);
 
-		// Iterate over them
+		// Execute the query and iterate over the repeatable fields
 		foreach ($db->getIterator() as $row)
 		{
 			// Skip broken rows - just a security measure, should not happen
@@ -2087,12 +2087,12 @@ class JoomlaInstallerScript
 			/**
 			 * Joomla! 3.9.0 thru 3.10.0
 			 */
-			'administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',
-			'administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',
-			'plugins/fields/repeatable/params/repeatable.xml',
-			'plugins/fields/repeatable/repeatable.php',
-			'plugins/fields/repeatable/repeatable.xml',
-			'plugins/fields/repeatable/tmpl/repeatable.php',
+			'/administrator/language/en-GB/en-GB.plg_fields_repeatable.ini',
+			'/administrator/language/en-GB/en-GB.plg_fields_repeatable.sys.ini',
+			'/plugins/fields/repeatable/params/repeatable.xml',
+			'/plugins/fields/repeatable/repeatable.php',
+			'/plugins/fields/repeatable/repeatable.xml',
+			'/plugins/fields/repeatable/tmpl/repeatable.php',
 
 			/*
 			 * Legacy FOF
@@ -2361,9 +2361,9 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
 			// Joomla! 3.10.0
-			'plugins/fields/repeatable/params',
-			'plugins/fields/repeatable/tmpl',
-			'plugins/fields/repeatable',
+			'/plugins/fields/repeatable/params',
+			'/plugins/fields/repeatable/tmpl',
+			'/plugins/fields/repeatable',
 		);
 
 		jimport('joomla.filesystem.file');

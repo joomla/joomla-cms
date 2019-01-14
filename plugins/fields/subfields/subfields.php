@@ -257,11 +257,12 @@ class PlgFieldsSubfields extends FieldsPlugin
 						);
 						$this->renderCache[$subfield->type][$renderCache_key] = $subfield->value;
 					}
+				}
 
-					if (is_array($subfield->value))
-					{
-						$subfield->value = implode(' ', $subfield->value);
-					}
+				// Flatten the value if it is an array (list, checkboxes, etc.) [independent of render_values]
+				if (is_array($subfield->value))
+				{
+					$subfield->value = implode(' ', $subfield->value);
 				}
 
 				// Store this subfields rendered value into our $row_values object
