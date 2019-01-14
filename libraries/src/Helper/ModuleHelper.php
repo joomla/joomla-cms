@@ -197,9 +197,19 @@ abstract class ModuleHelper
 
 		// Check if the current module has a style param to override template module style
 		$paramsChromeStyle = $params->get('style');
+		$basePath          = '';
 
 		if ($paramsChromeStyle)
 		{
+			$ChromeStyleTemplate = strtolower(substr($paramsChromeStyle, 0, strpos($paramsChromeStyle, '-')));
+
+			// Only set $basePath if the specified template isn't the current or system one.
+			if ($ChromeStyleTemplate !== $template && $ChromeStyleTemplate !== 'system')
+			{
+				$template = $ChromeStyleTemplate;
+				$basePath = JPATH_THEMES . '/' . $ChromeStyleTemplate . '/html/layouts';
+			}
+
 			$attribs['style'] = preg_replace('/^(system|' . $template . ')\-/i', '', $paramsChromeStyle);
 		}
 
@@ -233,7 +243,7 @@ abstract class ModuleHelper
 
 		foreach (explode(' ', $attribs['style']) as $style)
 		{
-			$module->content = LayoutHelper::render('chromes.' . $style, $displayData);
+			$module->content = LayoutHelper::render('chromes.' . $style, $displayData, $basePath);
 		}
 
 		// Revert the scope
