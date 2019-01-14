@@ -339,7 +339,7 @@ class HtmlView extends BaseHtmlView
 		$menuTypeTitle = $this->get('State')->get('menutypetitle');
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		if ($menuTypeTitle)
 		{
@@ -352,30 +352,54 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('item.add');
+			$toolbar->addNew('item.add');
 		}
 
 		$protected = $this->state->get('filter.menutype') == 'main';
 
-		if ($canDo->get('core.edit.state') && !$protected)
+		if (($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin')) && !$protected
+			|| $canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
 		{
-			ToolbarHelper::publish('items.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('items.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
-		if (Factory::getUser()->authorise('core.admin') && !$protected)
-		{
-			ToolbarHelper::checkin('items.checkin', 'JTOOLBAR_CHECKIN', true);
-		}
+			$childBar = $dropdown->getChildToolbar();
 
-		if ($canDo->get('core.edit.state') && $this->state->get('filter.client_id') == 0)
-		{
-			ToolbarHelper::makeDefault('items.setDefault', 'COM_MENUS_TOOLBAR_SET_HOME');
+			if ($canDo->get('core.edit.state') && !$protected)
+			{
+				$childBar->publish('items.publish')->listCheck(true);
+
+				$childBar->unpublish('items.unpublish')->listCheck(true);
+			}
+
+			if (Factory::getUser()->authorise('core.admin') && !$protected)
+			{
+				$childBar->checkin('articles.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
+			{
+				if ($this->state->get('filter.client_id') == 0)
+				{
+					$childBar->makeDefault('items.setDefault')->listCheck(true);
+				}
+
+				if (!$protected)
+				{
+					$childBar->trash('items.trash')->listCheck(true);
+				}
+			}
 		}
 
 		if (Factory::getUser()->authorise('core.admin'))
 		{
-			ToolbarHelper::custom('items.rebuild', 'refresh.png', 'refresh_f2.png', 'JToolbar_Rebuild', false);
+			$toolbar->standardButton('refresh')
+				->text('JTOOLBAR_REBUILD')
+				->task('items.rebuild');
 		}
 
 		// Add a batch button
@@ -383,31 +407,26 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_menus')
 			&& $user->authorise('core.edit.state', 'com_menus'))
 		{
-			$title = Text::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new FileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
 		if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'items.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif (!$protected && $canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('items.trash');
+			$toolbar->delete('items.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::divider();
-			ToolbarHelper::preferences('com_menus');
+			$toolbar->preferences('com_menus');
 		}
 
-		ToolbarHelper::help('JHELP_MENUS_MENU_ITEM_MANAGER');
+		$toolbar->help('JHELP_MENUS_MENU_ITEM_MANAGER');
 	}
 
 	/**

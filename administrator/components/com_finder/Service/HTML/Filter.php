@@ -180,6 +180,7 @@ class Filter
 			);
 
 			// Populate the toggle button.
+			// @todo Remove jQuery
 			$html .= '<button class="btn btn-secondary" type="button" onclick="jQuery(\'[id=&quot;tax-'
 				. $bk . '&quot;]\').each(function(){this.click();});"><span class="fa fa-square" aria-hidden="true"></span> '
 				. Text::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
@@ -192,9 +193,9 @@ class Filter
 
 				// Build a node.
 				$html .= '<div class="form-check">';
-				$html .= '<label class="form-check-label" for="tax-' . $nk . '">';
+				$html .= '<label class="form-check-label">';
 				$html .= '<input type="checkbox" class="form-check-input selector filter-node' . $classSuffix . '" value="' . $nk . '" name="t[]" id="tax-'
-					. $nk . '"' . $checked . '> ' . $nv->title;
+					. $bk . '"' . $checked . '> ' . $nv->title;
 				$html .= '</label>';
 				$html .= '</div>';
 			}
