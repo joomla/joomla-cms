@@ -74,7 +74,7 @@ $this->addScriptDeclaration('cssVars();');
 				<jdoc:include type="modules" name="title" />
 			</div>
 			<div class="header-items d-flex ml-auto">
-				<jdoc:include type="modules" name="status" style="no" />
+				<jdoc:include type="modules" name="status" />
 			</div>
 		</div>
 	</header>
@@ -102,7 +102,7 @@ $this->addScriptDeclaration('cssVars();');
 						<div id="container-collapse" class="container-collapse"></div>
 						<div class="row">
 							<div class="col-md-12">
-								<jdoc:include type="modules" name="toolbar" style="no" />
+								<jdoc:include type="modules" name="toolbar" />
 							</div>
 					</div>
 				</div>
