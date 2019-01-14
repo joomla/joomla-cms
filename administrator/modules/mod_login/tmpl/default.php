@@ -33,7 +33,7 @@ Text::script('JHIDE');
 			<div class="input-group">
 				<span class="input-group-prepend">
 					<span class="input-group-text">
-						<span class="fa fa-user" aria-hidden="true"></span>
+						<span class="fa fa-fw fa-user" aria-hidden="true"></span>
 					</span>
 				</span>
 				<input
@@ -53,7 +53,9 @@ Text::script('JHIDE');
 			<div class="input-group">
 				<span class="input-group-prepend">
 					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<span class="input-group-text icon-eye" aria-hidden="true"></span>
+					<span class="input-group-text" aria-hidden="true">
+						<span class="fa fa-fw fa-lock"></span>
+					</span>
 				</span>
 				<input
 					name="passwd"
@@ -72,9 +74,7 @@ Text::script('JHIDE');
 				</label>
 				<div class="input-group">
 					<span class="input-group-prepend">
-						<span class="input-group-text">
-							<span class="fa fa-shield" aria-hidden="true"></span>
-						</span>
+						<span class="input-group-text"><span class="fa fa-shield" aria-hidden="true"></span></span>
 					</span>
 					<input
 						name="secretkey"
