@@ -99,7 +99,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
 		// When the front uses a back end model
-		if (!$prefix && !empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
+		if (!empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
 		{
 			$prefix = 'Administrator';
 		}
@@ -151,7 +151,7 @@ class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 		$type   = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
 		// When the front uses a back end view
-		if (!$prefix && !empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
+		if (!empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
 		{
 			$prefix = 'Administrator';
 		}
