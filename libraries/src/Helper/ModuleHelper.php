@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 
@@ -30,8 +31,8 @@ abstract class ModuleHelper
 	/**
 	 * Get module by name (real, eg 'Breadcrumbs' or folder, eg 'mod_breadcrumbs')
 	 *
-	 * @param   string  $name   The name of the module
-	 * @param   string  $title  The title of the module, optional
+	 * @param   string $name  The name of the module
+	 * @param   string $title The title of the module, optional
 	 *
 	 * @return  \stdClass  The Module object
 	 *
@@ -39,9 +40,9 @@ abstract class ModuleHelper
 	 */
 	public static function &getModule($name, $title = null)
 	{
-		$result = null;
+		$result  = null;
 		$modules =& static::load();
-		$total = count($modules);
+		$total   = count($modules);
 
 		for ($i = 0; $i < $total; $i++)
 		{
@@ -78,7 +79,7 @@ abstract class ModuleHelper
 	/**
 	 * Get modules by position
 	 *
-	 * @param   string  $position  The position of the module
+	 * @param   string $position The position of the module
 	 *
 	 * @return  array  An array of module objects
 	 *
@@ -87,8 +88,8 @@ abstract class ModuleHelper
 	public static function &getModules($position)
 	{
 		$position = strtolower($position);
-		$result = array();
-		$input  = Factory::getApplication()->input;
+		$result   = array();
+		$input    = Factory::getApplication()->input;
 
 		$modules =& static::load();
 
@@ -106,9 +107,9 @@ abstract class ModuleHelper
 		{
 			if ($input->getBool('tp') && ComponentHelper::getParams('com_templates')->get('template_positions_display'))
 			{
-				$result[0] = static::getModule('mod_' . $position);
-				$result[0]->title = $position;
-				$result[0]->content = $position;
+				$result[0]           = static::getModule('mod_' . $position);
+				$result[0]->title    = $position;
+				$result[0]->content  = $position;
 				$result[0]->position = $position;
 			}
 		}
@@ -122,7 +123,7 @@ abstract class ModuleHelper
 	 * the current menu item or all items, and the user meets the access level
 	 * requirements.
 	 *
-	 * @param   string  $module  The module name
+	 * @param   string $module The module name
 	 *
 	 * @return  boolean See description for conditions.
 	 *
@@ -138,8 +139,8 @@ abstract class ModuleHelper
 	/**
 	 * Render the module.
 	 *
-	 * @param   object  $module   A module object.
-	 * @param   array   $attribs  An array of attributes for the module (probably from the XML).
+	 * @param   object $module  A module object.
+	 * @param   array  $attribs An array of attributes for the module (probably from the XML).
 	 *
 	 * @return  string  The HTML content of the module output.
 	 *
@@ -147,8 +148,6 @@ abstract class ModuleHelper
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
-		static $chrome;
-
 		$app = Factory::getApplication();
 
 		// Check that $module is a valid module object
@@ -196,25 +195,6 @@ abstract class ModuleHelper
 			$module->content = ob_get_clean();
 		}
 
-		// Load the module chrome functions
-		if (!$chrome)
-		{
-			$chrome = array();
-		}
-
-		include_once JPATH_THEMES . '/system/html/modules.php';
-		$chromePath = JPATH_THEMES . '/' . $template . '/html/modules.php';
-
-		if (!isset($chrome[$chromePath]))
-		{
-			if (file_exists($chromePath))
-			{
-				include_once $chromePath;
-			}
-
-			$chrome[$chromePath] = true;
-		}
-
 		// Check if the current module has a style param to override template module style
 		$paramsChromeStyle = $params->get('style');
 
@@ -235,6 +215,8 @@ abstract class ModuleHelper
 			$attribs['style'] .= ' outline';
 		}
 
+		$module->style = $attribs['style'];
+
 		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
 		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
 
@@ -243,20 +225,15 @@ abstract class ModuleHelper
 			return '';
 		}
 
+		$displayData = array(
+			'module'  => $module,
+			'params'  => $params,
+			'attribs' => $attribs,
+		);
+
 		foreach (explode(' ', $attribs['style']) as $style)
 		{
-			$chromeMethod = 'modChrome_' . $style;
-
-			// Apply chrome and render module
-			if (function_exists($chromeMethod))
-			{
-				$module->style = $attribs['style'];
-
-				ob_start();
-				$chromeMethod($module, $params, $attribs);
-				$module->content = ob_get_contents();
-				ob_end_clean();
-			}
+			$module->content = LayoutHelper::render('chromes.' . $style, $displayData);
 		}
 
 		// Revert the scope
@@ -275,24 +252,25 @@ abstract class ModuleHelper
 	/**
 	 * Get the path to a layout for a module
 	 *
-	 * @param   string  $module  The name of the module
-	 * @param   string  $layout  The name of the module layout. If alternative layout, in the form template:filename.
+	 * @param   string $module The name of the module
+	 * @param   string $layout The name of the module layout. If alternative layout, in the form template:filename.
 	 *
 	 * @return  string  The path to the module layout
 	 *
 	 * @since   1.5
 	 */
-	public static function getLayoutPath($module, $layout = 'default')
+	public
+	static function getLayoutPath($module, $layout = 'default')
 	{
-		$template = Factory::getApplication()->getTemplate();
+		$template      = Factory::getApplication()->getTemplate();
 		$defaultLayout = $layout;
 
 		if (strpos($layout, ':') !== false)
 		{
 			// Get the template and file name from the string
-			$temp = explode(':', $layout);
-			$template = $temp[0] === '_' ? $template : $temp[0];
-			$layout = $temp[1];
+			$temp          = explode(':', $layout);
+			$template      = $temp[0] === '_' ? $template : $temp[0];
+			$layout        = $temp[1];
 			$defaultLayout = $temp[1] ?: 'default';
 		}
 
@@ -322,7 +300,8 @@ abstract class ModuleHelper
 	 *
 	 * @since   3.2
 	 */
-	protected static function &load()
+	protected
+	static function &load()
 	{
 		static $modules;
 
@@ -357,12 +336,13 @@ abstract class ModuleHelper
 	 *
 	 * @return  array
 	 */
-	public static function getModuleList()
+	public
+	static function getModuleList()
 	{
-		$app = Factory::getApplication();
-		$Itemid = $app->input->getInt('Itemid', 0);
-		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$lang = Factory::getLanguage()->getTag();
+		$app      = Factory::getApplication();
+		$Itemid   = $app->input->getInt('Itemid', 0);
+		$groups   = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+		$lang     = Factory::getLanguage()->getTag();
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
@@ -378,8 +358,8 @@ abstract class ModuleHelper
 			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
 			->where('e.enabled = 1');
 
-		$date = Factory::getDate();
-		$now = $date->toSql();
+		$date     = Factory::getDate();
+		$now      = $date->toSql();
 		$nullDate = $db->getNullDate();
 		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
 			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
@@ -429,17 +409,18 @@ abstract class ModuleHelper
 	/**
 	 * Clean the module list
 	 *
-	 * @param   array  $modules  Array with module objects
+	 * @param   array $modules Array with module objects
 	 *
 	 * @return  array
 	 */
-	public static function cleanModuleList($modules)
+	public
+	static function cleanModuleList($modules)
 	{
 		// Apply negative selections and eliminate duplicates
 		$Itemid = Factory::getApplication()->input->getInt('Itemid');
-		$negId = $Itemid ? -(int) $Itemid : false;
-		$clean = array();
-		$dupes = array();
+		$negId  = $Itemid ? -(int) $Itemid : false;
+		$clean  = array();
+		$dupes  = array();
 
 		foreach ($modules as $i => $module)
 		{
@@ -466,8 +447,8 @@ abstract class ModuleHelper
 				continue;
 			}
 
-			$module->name = substr($module->module, 4);
-			$module->style = null;
+			$module->name     = substr($module->module, 4);
+			$module->style    = null;
 			$module->position = strtolower($module->position);
 
 			$clean[$module->id] = $module;
@@ -491,16 +472,17 @@ abstract class ModuleHelper
 	 * 'safeuri'     Id created from $cacheparams->modeparams array,
 	 * 'id'          Module sets own cache id's
 	 *
-	 * @param   object  $module        Module object
-	 * @param   object  $moduleparams  Module parameters
-	 * @param   object  $cacheparams   Module cache parameters - id or URL parameters, depending on the module cache mode
+	 * @param   object $module       Module object
+	 * @param   object $moduleparams Module parameters
+	 * @param   object $cacheparams  Module cache parameters - id or URL parameters, depending on the module cache mode
 	 *
 	 * @return  string
 	 *
 	 * @see     InputFilter::clean()
 	 * @since   1.6
 	 */
-	public static function moduleCache($module, $moduleparams, $cacheparams)
+	public
+	static function moduleCache($module, $moduleparams, $cacheparams)
 	{
 		if (!isset($cacheparams->modeparams))
 		{
@@ -530,7 +512,7 @@ abstract class ModuleHelper
 
 		$wrkaroundoptions = array('nopathway' => 1, 'nohead' => 0, 'nomodules' => 1, 'modulemode' => 1, 'mergehead' => 1);
 
-		$wrkarounds = true;
+		$wrkarounds  = true;
 		$view_levels = md5(serialize($user->getAuthorisedViewLevels()));
 
 		switch ($cacheparams->cachemode)
@@ -550,9 +532,9 @@ abstract class ModuleHelper
 
 				if (is_array($cacheparams->modeparams))
 				{
-					$input   = $app->input;
-					$uri     = $input->getArray();
-					$safeuri = new \stdClass;
+					$input        = $app->input;
+					$uri          = $input->getArray();
+					$safeuri      = new \stdClass;
 					$noHtmlFilter = InputFilter::getInstance();
 
 					foreach ($cacheparams->modeparams as $key => $value)
@@ -566,7 +548,7 @@ abstract class ModuleHelper
 				}
 
 				$secureid = md5(serialize(array($safeuri, $cacheparams->method, $moduleparams)));
-				$ret = $cache->get(
+				$ret      = $cache->get(
 					array($cacheparams->class, $cacheparams->method),
 					$cacheparams->methodparams,
 					$module->id . $view_levels . $secureid,
@@ -618,7 +600,8 @@ abstract class ModuleHelper
 	 *
 	 * @since   3.8.0
 	 */
-	public static function isAdminMultilang()
+	public
+	static function isAdminMultilang()
 	{
 		static $enabled = false;
 
