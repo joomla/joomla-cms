@@ -27,10 +27,11 @@
   .nav-link {
     position: relative;
     padding: 0;
+    margin: 0 1rem;
     line-height: $header-height;
+    min-width: $header-height - 5px;
 
     .fa {
-      width: $header-height + 2px;
       font-size: 1.2rem;
       color: var(--primary-dark);
       vertical-align: middle;
@@ -53,20 +54,53 @@
     }
   }
 
+  .link-title {
+    text-decoration: underline;
+  }
+
   .dropdown-menu {
     min-width: 280px;
     padding: 0;
     border: 0;
     z-index: 1041;
+    background-color: var(--primary-light);
 
     h2 {
       font-size: $h5-font-size;
     }
+
+    .dropdown-message {
+      font-weight: bold;
+      color: $gray-900;
+    }
   }
 
   .dropdown-item {
+    color: $white;
+    background-color: var(--primary-light);
+
     @include hover-focus {
       color: var(--primary-dark);
+    }
+
+    a {
+      display: inline-block;
+      width: 100%;
+      color: $white;
+
+      &:hover {
+        color: var(--primary-dark);
+        text-decoration: none;
+      }
+
+      .fa {
+        float: right;
+      }
+    }
+
+    .fa {
+      padding: 0.6rem;
+      background-color: var(--primary-bright);
     }
   }
 

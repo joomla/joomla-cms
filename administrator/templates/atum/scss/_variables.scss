@@ -36,8 +36,10 @@ $theme-colors: map-merge((
 ), $theme-colors);
 
 $colors: (
-  primary-dark: #2b5c91,
-  main-bg:      #ebeff5,
+  primary-dark:   #2b5c91,
+  primary-light:  #3a87cb,
+  primary-bright: #45a0f1,
+  main-bg:        #ebeff5,
   success-border: darken(theme-color("success"), 5%),
   info-border: darken(theme-color("info"), 7%),
   warning-border: darken(theme-color("warning"), 5%),
