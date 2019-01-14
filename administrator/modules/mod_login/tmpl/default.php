@@ -53,8 +53,8 @@ Text::script('JHIDE');
 			<div class="input-group">
 				<span class="input-group-prepend">
 					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<span class="input-group-text" aria-hidden="true">
-						<span class="fa fa-fw fa-lock"></span>
+					<span class="input-group-text">
+						<span class="fa fa-fw fa-lock" aria-hidden="true"></span>
 					</span>
 				</span>
 				<input
