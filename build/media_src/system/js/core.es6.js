@@ -31,13 +31,13 @@
 })();
 
 // Only define the Joomla namespace if not defined.
-Joomla = window.Joomla || {};
+window.Joomla = window.Joomla || {};
 
 // Only define editors if not defined
-Joomla.editors = Joomla.editors || {};
+window.Joomla.editors = window.Joomla.editors || {};
 
 // An object to hold each editor instance on page, only define if not defined.
-Joomla.editors.instances = Joomla.editors.instances || {
+window.Joomla.editors.instances = window.Joomla.editors.instances || {
   /**
    * *****************************************************************
    * All Editors MUST register, per instance, the following callbacks:
@@ -74,7 +74,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 };
 
 
-Joomla.Modal = {
+window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * *****************************************************************
    * Modals should implement
@@ -100,9 +100,9 @@ Joomla.Modal = {
    */
   current: '',
   setCurrent: (element) => {
-    this.current = element;
+    window.Joomla.current = element;
   },
-  getCurrent: () => this.current,
+  getCurrent: () => window.Joomla.current,
 };
 
 ((Joomla, document) => {
@@ -1064,8 +1064,8 @@ Joomla.Modal = {
 
     // Feature detect which polyfill needs to be imported.
     let polyfills = [];
-    if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) ||
-      (window.ShadyDOM && window.ShadyDOM.force)) {
+    if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype)
+      || (window.ShadyDOM && window.ShadyDOM.force)) {
       polyfills.push('sd');
     }
     if (!window.customElements || window.customElements.forcePolyfill) {
@@ -1087,8 +1087,8 @@ Joomla.Modal = {
       t2.content.appendChild(document.createElement('div'));
       t.content.appendChild(t2);
       const clone = t.cloneNode(true);
-      return (clone.content.childNodes.length === 0 ||
-        clone.content.firstChild.content.childNodes.length === 0);
+      return (clone.content.childNodes.length === 0
+        || clone.content.firstChild.content.childNodes.length === 0);
     })();
 
     // NOTE: any browser that does not have template or ES6 features
@@ -1138,6 +1138,69 @@ Joomla.Modal = {
         });
       }
     }
+  };
+
+  /**
+   * Method that resets the filter inputs and submits the relative form
+   *
+   * @param {HTMLElement}  The element that initiates the call
+   * @returns {void}
+   * @since   4.0
+   */
+  Joomla.resetFilters = (element) => {
+    const { form } = element;
+
+    if (!form) {
+      throw new Error('Element must be inside a form!');
+    }
+
+    const elementsArray = [].slice.call(form.elements);
+
+    if (elementsArray.length) {
+      const newElementsArray = [];
+      elementsArray.forEach((elem) => {
+        // Skip the token, the task, the boxchecked and the calling element
+        if (elem.getAttribute('name') === 'task'
+          || elem.getAttribute('name') === 'boxchecked'
+          || (elem.value === '1' && /^[0-9A-F]{32}$/i.test(elem.name))
+          || elem === element) {
+          return;
+        }
+
+        newElementsArray.push(elem);
+      });
+
+      // Reset all filters
+      newElementsArray.forEach((elem) => {
+        elem.value = '';
+      });
+
+      form.submit();
+    }
+  };
+
+  /*
+   * Method to invoke a click on button inside an iframe
+   *
+   * @param   {object} options Object with the css selector for the parent element of an iframe
+   *                          and the selector of the button in the iframe that will be clicked
+   * @returns {boolean}
+   * @since   4.0
+   */
+  Joomla.iframeButtonClick = (options = { iframeSelector: '', buttonSelector: '' }) => {
+    if (!options.iframeSelector || !options.buttonSelector) {
+      throw new Error('Selector is missing');
+    }
+
+    const iframe = document.querySelector(`${options.iframeSelector} > iframe`);
+    if (iframe) {
+      const button = iframe.contentWindow.document.querySelector(options.buttonSelector);
+      if (button) {
+        button.click();
+      }
+    }
+
+    return false;
   };
 })(Joomla, document);
 

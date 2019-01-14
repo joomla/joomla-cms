@@ -289,7 +289,7 @@ class DatabaseModel extends BaseInstallationModel
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
 				isset($options->db_select) ? $options->db_select : false
@@ -362,7 +362,7 @@ class DatabaseModel extends BaseInstallationModel
 					'driver'   => $options->db_type,
 					'host'     => $options->db_host,
 					'user'     => $options->db_user,
-					'password' => $options->db_pass,
+					'password' => $options->db_pass_plain,
 					'prefix'   => $options->db_prefix,
 					'select'   => $options->db_select,
 				);
@@ -731,7 +731,7 @@ class DatabaseModel extends BaseInstallationModel
 	 */
 	public function installSampleData()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Build the path to the sample data file.
 		$type = $db->getServerType();

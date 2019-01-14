@@ -185,4 +185,25 @@ class StagesModel extends ListModel
 
 		return $query;
 	}
+
+	/**
+	 * Returns a workflow object
+	 *
+	 * @return  object  The workflow
+	 *
+	 * @since  4.0.0
+	 */
+	public function getWorkflow()
+	{
+		$table = $this->getTable('Workflow', 'Administrator');
+
+		$workflowId = (int) $this->getState('filter.workflow_id');
+
+		if ($workflowId > 0)
+		{
+			$table->load($workflowId);
+		}
+
+		return (object) $table->getProperties();
+	}
 }
