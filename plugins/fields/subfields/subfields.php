@@ -358,8 +358,17 @@ class PlgFieldsSubfields extends FieldsPlugin
 			$parent_fieldset->setAttribute('repeat', 'true');
 		}
 
-		// Iterate over the configured subfields of this field to call prepareDom on each of those sub-fields
-		foreach ($this->getSubfieldsFromField($field) as $subfield)
+		// Get the configured sub fields for this field
+		$subfields = $this->getSubfieldsFromField($field);
+
+		// If we have 5 or more of them, use the `repeatable` layout instead of the `repeatable-table`
+		if (count($subfields) >= 5)
+		{
+			$parent_field->setAttribute('layout', 'joomla.form.field.subform.repeatable');
+		}
+
+		// Iterate over the sub fields to call prepareDom on each of those sub-fields
+		foreach ($subfields as $subfield)
 		{
 			// Let the relevant plugins do their work and insert the correct
 			// DOMElement's into our $parent_fieldset.
