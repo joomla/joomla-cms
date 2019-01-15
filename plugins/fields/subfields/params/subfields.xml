@@ -7,17 +7,6 @@
 	/>
 	<fields name="fieldparams">
 		<fieldset name="fieldparams">
-			<field
-				name="render_values"
-				type="radio"
-				label="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_LABEL"
-				description="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_DESC"
-				class="btn-group btn-group-yesno"
-				default="1"
-				>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
-			</field>
 
 			<field
 				name="repeat"
@@ -44,57 +33,26 @@
 				<form hidden="true" name="options_modal" repeat="true">
 
 					<field
-						name="type"
+						context=""
+						name="customfield"
 						type="subfieldstype"
-						label="COM_FIELDS_FIELD_TYPE_LABEL"
-						description="COM_FIELDS_FIELD_TYPE_DESC"
-						default="text"
+						label="PLG_FIELDS_SUBFIELDS_PARAMS_CUSTOMFIELD_LABEL"
+						description="PLG_FIELDS_SUBFIELDS_PARAMS_CUSTOMFIELD_DESC"
+						default=""
 						required="true"
 					/>
 
 					<field
-						name="name"
-						type="text"
-						label="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_NAME_LABEL"
-						description="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_NAME_DESC"
-						required="true"
-					/>
-
-					<field
-						name="label"
-						type="text"
-						label="COM_FIELDS_FIELD_LABEL_LABEL"
-						description="COM_FIELDS_FIELD_LABEL_DESC"
-						required="true"
-					/>
-
-					<field
-						name="description"
-						type="textarea"
-						label="JGLOBAL_DESCRIPTION"
-						description="COM_FIELDS_FIELD_DESCRIPTION_DESC"
-						filter="HTML"
-					/>
-
-					<field
-						name="required"
+						name="render_values"
 						type="radio"
-						label="COM_FIELDS_FIELD_REQUIRED_LABEL"
-						description="COM_FIELDS_FIELD_REQUIRED_DESC"
+						label="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_LABEL"
+						description="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_DESC"
 						class="btn-group btn-group-yesno"
-						default="0"
+						default="1"
 						>
 						<option value="1">JYES</option>
 						<option value="0">JNO</option>
 					</field>
-
-					<field
-						name="default_value"
-						type="textarea"
-						label="COM_FIELDS_FIELD_DEFAULT_VALUE_LABEL"
-						description="COM_FIELDS_FIELD_DEFAULT_VALUE_DESC"
-						filter="raw"
-					/>
 				</form>
 			</field>
 		</fieldset>
