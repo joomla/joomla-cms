@@ -989,6 +989,13 @@ abstract class FormField
 
 		if ($filter != '')
 		{
+			$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
+
+			if (($value === '' || $value === null) && !$required)
+			{
+				return '';
+			}
+
 			if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
 			{
 				return call_user_func(explode('::', $filter), $value);
