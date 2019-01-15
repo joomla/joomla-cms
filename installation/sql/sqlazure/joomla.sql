@@ -98,7 +98,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (55, 18, 72, 73, 2, 'com_modules.module.87', 'Sample Data', '{}'),
 (56, 1, 109, 110, 1, 'com_privacy', 'com_privacy', '{}'),
 (57, 1, 111, 112, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
-(58, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}');
+(58, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
 (59, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}');
 
 SET IDENTITY_INSERT "#__assets" OFF;

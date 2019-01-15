@@ -6,7 +6,7 @@
 	<version>3.9.0</version>
 	<creationDate>Oktober 2018</creationDate>
 	<author>Swedish Joomla Translation Team - SvenskJoomla</author>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 eller senare; Se LICENSE.txt</license>
 	<files>
 		<filename>sv-SE.ini</filename>
@@ -15,7 +15,7 @@
 		<name>Swedish (sv-SE)</name>
 		<nativeName>Svenska (Sverige)</nativeName>
 		<tag>sv-SE</tag>
-		<rtl>1</rtl>
+		<rtl>0</rtl>
 	</metadata>
 	<params/>
 </metafile>

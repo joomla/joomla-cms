@@ -3,13 +3,15 @@
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ActionLogPlugin', JPATH_ADMINISTRATOR . '/components/com_actionlogs/libraries/actionlogplugin.php');
@@ -593,7 +595,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$jUser = JFactory::getUser();
+		$jUser = Factory::getUser();
 
 		if (!$jUser->id)
 		{
@@ -804,7 +806,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedInUser = JUser::getInstance($response['username']);
+		$loggedInUser = User::getInstance($response['username']);
 
 		// Not a valid user, return
 		if (!$loggedInUser->id)
@@ -845,7 +847,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-		$loggedOutUser      = JUser::getInstance($user['id']);
+		$loggedOutUser      = User::getInstance($user['id']);
 		$messageLanguageKey = 'PLG_ACTIONLOG_JOOMLA_USER_LOGGED_OUT';
 
 		$message = array(
