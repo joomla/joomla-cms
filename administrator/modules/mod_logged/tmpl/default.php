@@ -46,7 +46,7 @@ use Joomla\CMS\Language\Text;
 					<?php elseif ($user->client_id) : ?>
 						<?php echo Text::_('JADMINISTRATION'); ?>
 					<?php else : ?>
-						<form action="<?php echo Route::_($user->logoutLink); ?>" method="post" name="adminForm">
+						<form action="<?php echo $user->logoutLink; ?>" method="post" name="adminForm">
 							<?php echo Text::_('JSITE'); ?>
 							<button type="submit" class="mr-2 btn btn-danger btn-sm">
 								<span class="icon-remove icon-white" aria-hidden="true"></span>
