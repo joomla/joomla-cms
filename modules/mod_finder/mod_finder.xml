@@ -113,22 +113,6 @@
 					<option value="0">MOD_FINDER_SELECT_MENU_ITEMID</option>
 				</field>
 			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
-				/>
-
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					rows="3"
-					default=""
-				/>
-			</fieldset>
 		</fields>
 	</config>
 </extension>

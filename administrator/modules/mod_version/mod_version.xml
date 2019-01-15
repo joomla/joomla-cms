@@ -22,22 +22,5 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_VERSION" />
 	<config>
-		<fields name="params">
-			<fieldset name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
- 				/>
-
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					rows="3"
-				/>
-			</fieldset>
-		</fields>
 	</config>
 </extension>

@@ -66,20 +66,6 @@
 			</fieldset>
 			<fieldset name="advanced">
 				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
- 				/>
-
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					rows="3"
-				/>
-
-				<field
 					name="automatic_title"
 					type="radio"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"

@@ -24,16 +24,5 @@
 	</languages>
 	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_LATEST" />
 	<config>
-		<fields name="params">
-			<fieldset name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC"
-					class="custom-select"
-				/>
-			</fieldset>
-		</fields>
 	</config>
 </extension>

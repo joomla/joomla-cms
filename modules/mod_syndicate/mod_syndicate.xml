@@ -54,31 +54,6 @@
 					<option value="atom">MOD_SYNDICATE_FIELD_VALUE_ATOM</option>
 				</field>
 			</fieldset>
-			<fieldset name="advanced">
-				<field
-					name="layout"
-					type="modulelayout"
-					label="JFIELD_ALT_LAYOUT_LABEL"
-					class="custom-select"
-				/>
-
-				<field
-					name="moduleclass_sfx"
-					type="textarea"
-					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					rows="3"
-				/>
-
-				<field
-					name="cache"
-					type="list"
-					label="COM_MODULES_FIELD_CACHING_LABEL"
-					default="0"
-					filter="integer"
-					>
-					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
-				</field>
-			</fieldset>
 		</fields>
 	</config>
 </extension>
