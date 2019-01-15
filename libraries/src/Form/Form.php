@@ -1199,7 +1199,7 @@ class Form
 
 			$fieldObj = $this->loadField($field, $group);
 
-			$valid = $fieldObj->validate($input->get($key, (string) $field['default']), $group, $input);
+			$valid = $fieldObj->validate($input->get($key), $group, $input);
 
 			// Check for an error.
 			if ($valid instanceof \Exception)
