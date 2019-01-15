@@ -29,8 +29,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<?php if (Multilanguage::isEnabled()) : ?>
 				<?php // Publish and display the module ?>
 				<?php MultilangstatusAdminHelper::publish(); ?>
-				<?php $module
-					= ModuleHelper::getModule('mod_multilangstatus'); ?>
+				<?php $module = ModuleHelper::getModule('mod_multilangstatus'); ?>
 				<?php echo ModuleHelper::renderModule($module); ?>
 			<?php else : ?>
 				<?php // Unpublish the module ?>
@@ -43,11 +42,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>"
 				target="_blank">
 				<span class="fa fa-eye" aria-hidden="true"></span>
-				<span
-					class="sr-only">
-					<?php echo HTMLHelper::_('string.truncate',
-						$sitename, 28, false, false); ?>
-				</span>
+				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
 				<?php echo $sitename ?>
 			</a>
 		</li>
@@ -56,10 +51,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
 			   title="<?php echo Text::_('MOD_STATUS_QUICKSTART'); ?>">
 				<span class="fa fa-rocket" aria-hidden="true"></span>
-				<span
-					class="sr-only">
-					<?php echo Text::_('MOD_STATUS_QUICKSTART'); ?>
-				</span>
+				<span class="sr-only"><?php echo Text::_('MOD_STATUS_QUICKSTART'); ?></span>
 				<span class="fa fa-angle-down" aria-hidden="true"></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right">
@@ -67,51 +59,42 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					<?php echo Text::_('MOD_STATUS_QUICKSTART_HEADER'); ?>
 				</div>
 				<?php if ($user->authorise('core.edit', 'com_content')) : ?>
-					<?php $route
-						= 'index.php?option=com_content&amp;view=article&amp;layout=edit'; ?>
+					<?php $route = 'index.php?option=com_content&amp;view=article&amp;layout=edit'; ?>
 					<div class="dropdown-item">
 						<a href="<?php echo Route::_($route); ?>">
 							<?php echo Text::_('MOD_STATUS_NEW_ARTICLE'); ?>
-							<span class="fa fa-plus-circle"
-									aria-hidden="true">
-							</span>
+							<span class="fa fa-plus-circle" aria-hidden="true"></span>
 						</a>
 					</div>
 				<?php endif; ?>
 				<?php if ($user->authorise('core.edit', 'com_categories')) : ?>
-					<?php $route
-						= 'index.php?option=com_categories&amp;view=category&amp;layout=edit'; ?>
+					<?php $route = 'index.php?option=com_categories&amp;view=category&amp;layout=edit'; ?>
 					<div class="dropdown-item">
 						<a href="<?php echo Route::_($route); ?>">
 							<?php echo Text::_('MOD_STATUS_CREATE_CATEGORY'); ?>
-							<span class="fa fa-plus-circle"
-									aria-hidden="true"></span>
+							<span class="fa fa-plus-circle" aria-hidden="true"></span>
 						</a>
 					</div>
 				<?php endif; ?>
 				<?php if ($user->authorise('core.manage', 'com_cache')) : ?>
 					<?php $route = 'index.php?option=com_cache'; ?>
 					<div class="dropdown-item">
-						<a href="<?php echo Route::_($route); ?>">
-							<?php echo Text::_('MOD_STATUS_CLEAR_CACHE'); ?></a>
+						<a href="<?php echo Route::_($route); ?>"><?php echo Text::_('MOD_STATUS_CLEAR_CACHE'); ?></a>
 					</div>
 				<?php endif; ?>
 				<?php if ($user->authorise('core.edit', 'com_newsfeeds')) : ?>
-					<?php $route
-						= 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=edit'; ?>
+					<?php $route = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=edit'; ?>
 					<div class="dropdown-item">
 						<a href="<?php echo Route::_($route); ?>">
 							<?php echo Text::_('MOD_STATUS_CREATE_NEWSLETTER'); ?>
-							<span class="fa fa-plus-circle"
-									aria-hidden="true"></span>
+							<span class="fa fa-plus-circle" aria-hidden="true"></span>
 						</a>
 					</div>
 				<?php endif; ?>
 				<div class="dropdown-item">
 					<a href="<?php Uri::root(); ?>">
 						<?php echo Text::_('MOD_STATUS_BE_HAPPY'); ?>
-						<span class="fa fa-plus-circle"
-								aria-hidden="true"></span>
+						<span class="fa fa-plus-circle" aria-hidden="true"></span>
 					</a>
 				</div>
 			</div>
@@ -119,19 +102,13 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#"
-					data-toggle="dropdown"
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
 					title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
 					<span class="fa fa-bell-o" aria-hidden="true"></span>
-					<span
-						class="sr-only">
-						<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>
-					</span>
+					<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
 					<span class="fa fa-angle-down" aria-hidden="true"></span>
 					<?php if (count($messages) > 0) : ?>
-						<span class="badge badge-pill badge-danger">
-							<?php echo count($messages); ?>
-						</span>
+						<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
 					<?php endif; ?>
 				</a>
 				<div class="dropdown-menu dropdown-menu-right">
@@ -145,25 +122,14 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					<?php endif; ?>
 					<?php foreach ($messages as $message) : ?>
 						<div class="dropdown-item closeMessageWrapper">
-							<?php $route
-								= 'index.php?option=com_postinstall&amp;eid=700'; ?>
-							<?php $title = HTMLHelper::_('string.truncate',
-								Text::_($message->title_key), 28, false,
-								false); ?>
-							<a href="<?php echo Route::_($route); ?>"
-							   title="<?php echo $title; ?>"><?php echo $title; ?></a>
-							<?php $route
-								= 'index.php?option=com_postinstall&amp;task=message.unpublish&amp;id='
-								. $message->postinstall_message_id; ?>
-							<a class="closeMessage"
-							   href="<?php echo Route::_($route); ?>"
+							<?php $route = 'index.php?option=com_postinstall&amp;eid=700'; ?>
+							<?php $title = HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?>
+							<a href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>"><?php echo $title; ?></a>
+							<?php $route = 'index.php?option=com_postinstall&amp;task=message.unpublish&amp;id=' . $message->postinstall_message_id; ?>
+							<a class="closeMessage" href="<?php echo Route::_($route); ?>"
 							   title="<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>">
-								<span class="fa fa-close"
-									aria-hidden="true"></span>
-								<span
-									class="sr-only">
-									<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>
-								</span>
+								<span class="fa fa-close" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?></span>
 							</a>
 						</div>
 					<?php endforeach; ?>
@@ -175,19 +141,12 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
 				title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
 				<span class="fa fa-user-circle" aria-hidden="true"></span>
-				<span
-					class="sr-only">
-					<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>
-				</span>
+				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
 				<span class="fa fa-angle-down" aria-hidden="true"></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right">
-				<div class="dropdown-header iconsLeftHeader">
-					<?php echo $user->name; ?>
-				</div>
-				<?php $route
-					= 'index.php?option=com_admin&amp;task=profile.edit&amp;id='
-					. $user->id; ?>
+				<div class="dropdown-header iconsLeftHeader"><?php echo $user->name; ?></div>
+				<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
 				<div class="dropdown-item iconsLeft">
 					<a href="<?php echo Route::_($route); ?>">
 						<span class="fa fa-user-o"></span>
@@ -201,8 +160,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					</a>
 				</div>
 				<div class="dropdown-item iconsLeft">
-					<?php $route = 'index.php?option=com_login&task=logout&amp;'
-						. Session::getFormToken() . '=1'; ?>
+					<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
 					<a href="<?php echo Route::_($route); ?>">
 						<span class="fa fa-power-off"></span>
 						<?php echo Text::_('JLOGOUT'); ?>
