@@ -555,7 +555,7 @@ class LanguageHelper
 
 		if (!is_file($file))
 		{
-			$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
+			$file = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
 		}
 
 		$result = null;
