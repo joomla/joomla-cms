@@ -173,7 +173,6 @@ const copyFiles = (options) => {
           'media/vendor/codemirror/addon/scroll/match-highlighter.js',
           'media/vendor/codemirror/addon/scroll/searchcursor.js',
           'media/vendor/codemirror/addon/selection/active-line.js',
-          'media/vendor/codemirror/keymap/vim.js',
           'media/vendor/codemirror/mode/meta.js',
         ],
         'media/vendor/codemirror/lib/addons.js');
