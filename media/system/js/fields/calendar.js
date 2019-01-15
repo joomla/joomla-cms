@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 !(function(window, document){
@@ -285,7 +285,7 @@
 		/** Move the calendar to top position if it doesn't fit below. */
 		var containerTmp = this.element.querySelector('.js-calendar');
 
-		if ((window.innerHeight + window.scrollY) < containerTmp.getBoundingClientRect().bottom + 20) {
+		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
 		}
 

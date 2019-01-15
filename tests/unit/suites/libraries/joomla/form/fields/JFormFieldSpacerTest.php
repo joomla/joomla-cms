@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,7 +119,7 @@ class JFormFieldSpacerTest extends TestCase
 		);
 
 		$equals = '<span class="spacer"><span class="before"></span><span>' .
-			'<label id="spacer-lbl" class="hasTooltip" title="&lt;strong&gt;spacer&lt;/strong&gt;">spacer</label></span>' .
+			'<label id="spacer-lbl" class="hasPopover" title="spacer" data-content="spacer">spacer</label></span>' .
 			'<span class="after"></span></span>';
 
 		$this->assertEquals(
