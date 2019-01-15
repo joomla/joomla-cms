@@ -235,7 +235,7 @@ class LanguageHelper
 
 				if (!is_file($metafile))
 				{
-					$metafile   = self::getLanguagePath($clientPath, $language->element) . '/langmetadata.xml';
+					$metafile = self::getLanguagePath($clientPath, $language->element) . '/langmetadata.xml';
 				}
 
 				// Process the language metadata.
@@ -551,7 +551,7 @@ class LanguageHelper
 	 */
 	public static function getMetadata($lang)
 	{
-		$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		$file = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
 
 		if (!is_file($file))
 		{

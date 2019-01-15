@@ -716,7 +716,7 @@ class Language
 
 		$internal = $extension == 'joomla' || $extension == '';
 
-		$filenames   = array();
+		$filenames = array();
 
 		if ($internal)
 		{
