@@ -85,10 +85,27 @@ class PlgFieldsSubfields extends FieldsPlugin
 
 			try
 			{
-				// Try to load the XML definition file into a DOMDocument
+				// Try to load the XML definition file of that field type into a DOMDocument
 				$subxml = new DOMDocument;
 				$subxml->load($path);
 				$subxmlxpath = new DOMXPath($subxml);
+
+				// Use XPath to find the top-level `fields` and `fieldset` elements in that XML
+				$toplevelElements = $subxmlxpath->evaluate(
+					'/form/fields[@name="fieldparams"]|/form/fields[@name="fieldparams"]/fieldset[@name="fieldparams"]'
+				);
+
+				// Iterate over those toplevel elements, they contain data we want to preserve in our own XML
+				foreach ($toplevelElements as $toplevelElement)
+				{
+					/* @var $toplevelElement \DOMElement */
+
+					// E.g. we want to preserve the `addfieldpath` property by passing it to \JForm
+					if ($toplevelElement->hasAttribute('addfieldpath'))
+					{
+						\JForm::addFieldPath(\JPATH_ROOT . $toplevelElement->getAttribute('addfieldpath'));
+					}
+				}
 
 				// XPath all fields from that XML document
 				$fields = $subxmlxpath->evaluate('/form/fields[@name="fieldparams"]/fieldset[@name="fieldparams"]/field');
