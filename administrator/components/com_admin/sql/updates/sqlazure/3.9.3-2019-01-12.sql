@@ -4,7 +4,7 @@ WHERE "name" = 'com_actionlogs';
 
 SET IDENTITY_INSERT #__extensions  ON;
 
-INSERT INTO "#__action_logs_extensions" ("id","extensions") VALUES
-(18,'com_checkin');
+INSERT INTO "#__action_logs_extensions" ("extension") VALUES
+('com_checkin');
 
 SET IDENTITY_INSERT #__extensions  OFF;
