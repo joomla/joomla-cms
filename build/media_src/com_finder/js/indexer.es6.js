@@ -76,9 +76,22 @@
         if (json.start) {
           // eslint-disable-next-line prefer-destructuring
           totalItems = json.totalItems;
+          if (document.getElementById('finder-debug-data')) {
+            const debuglist = document.getElementById('finder-debug-data');
+            Object.entries(json.pluginState).forEach((context) => {
+              let item = `<dt class="col-sm-3">${context[0]}</dt>`;
+              item += `<dd id="finder-${context[0].replace(/\s+/g, '-').toLowerCase()}" class="col-sm-9"></dd>`;
+              debuglist.insertAdjacentHTML('beforeend', item);
+            });
+          }
         }
         offset += json.batchOffset;
         updateProgress(json.header, json.message);
+        if (document.getElementById('finder-debug-data')) {
+          Object.entries(json.pluginState).forEach((context) => {
+            document.getElementById(`finder-${context[0].replace(/\s+/g, '-').toLowerCase()}`).innerHTML = `${json.pluginState[context[0]].offset} of ${json.pluginState[context[0]].total}`;
+          });
+        }
         if (offset < totalItems) {
           getRequest('indexer.batch');
         } else if (!optimized) {

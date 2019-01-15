@@ -636,6 +636,8 @@ class ItemModel extends AdminModel
 			$this->setState('item.menutypeid', $menuTypeId);
 		}
 
+		$data = (object) $data;
+
 		$this->preprocessData('com_menus.item', $data);
 
 		return $data;
@@ -1440,7 +1442,7 @@ class ItemModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		// Store the data.
 		if (in_array(false, $result, true)|| !$table->store())
@@ -1610,7 +1612,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
@@ -1697,7 +1699,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.

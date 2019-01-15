@@ -25,7 +25,7 @@
                             )
                         li.append(link)
                     } else {
-                        li.text(relPath)
+                        li.text(relPath + ':' + file[1])
                     }
                     this.$el.append(li)
                 }

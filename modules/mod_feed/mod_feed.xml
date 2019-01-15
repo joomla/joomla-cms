@@ -39,6 +39,7 @@
 					class="switcher"
 					label="MOD_FEED_FIELD_RTL_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -50,6 +51,7 @@
 					class="switcher"
 					label="MOD_FEED_FIELD_RSSTITLE_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -61,6 +63,7 @@
 					class="switcher"
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -72,6 +75,7 @@
 					class="switcher"
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -79,9 +83,10 @@
 
 				<field
 					name="rssitems"
-					type="text"
+					type="number"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					default="3"
+					filter="integer"
 				/>
 
 				<field
@@ -90,6 +95,7 @@
 					class="switcher"
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -102,6 +108,7 @@
 					description="MOD_FEED_FIELD_WORDCOUNT_DESC"
 					size="6"
 					default="0"
+					filter="integer"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -114,7 +121,7 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea" 
+					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
 				/>
@@ -125,6 +132,7 @@
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -135,6 +143,7 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>
