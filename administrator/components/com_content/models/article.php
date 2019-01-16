@@ -629,7 +629,11 @@ class ContentModelArticle extends JModelAdmin
 				}
 			}
 
+			// Unpublish
 			$data['state'] = 0;
+
+			// Reset hits
+			$data['hits'] = 0;
 		}
 
 		// Automatic handling of alias for empty fields
