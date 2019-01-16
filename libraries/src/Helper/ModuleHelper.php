@@ -201,16 +201,15 @@ abstract class ModuleHelper
 
 		if ($paramsChromeStyle)
 		{
-			$ChromeStyleTemplate = strtolower(substr($paramsChromeStyle, 0, strpos($paramsChromeStyle, '-')));
+			$paramsChromeStyle   = explode('-', $paramsChromeStyle, 2);
+			$ChromeStyleTemplate = strtolower($paramsChromeStyle[0]);
+			$attribs['style']    = $paramsChromeStyle[1];
 
 			// Only set $basePath if the specified template isn't the current or system one.
 			if ($ChromeStyleTemplate !== $template && $ChromeStyleTemplate !== 'system')
 			{
-				$template = $ChromeStyleTemplate;
 				$basePath = JPATH_THEMES . '/' . $ChromeStyleTemplate . '/html/layouts';
 			}
-
-			$attribs['style'] = preg_replace('/^(system|' . $template . ')\-/i', '', $paramsChromeStyle);
 		}
 
 		// Make sure a style is set
