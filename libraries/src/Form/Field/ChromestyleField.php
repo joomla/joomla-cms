@@ -179,15 +179,6 @@ class ChromestyleField extends \JFormFieldGroupedList
 	{
 		$moduleStyles = array();
 
-		$templates = array($this->getSystemTemplate());
-		$templates = array_merge($templates, $this->getTemplates());
-		$path      = JPATH_ADMINISTRATOR;
-
-		if ($this->clientId === 0)
-		{
-			$path = JPATH_SITE;
-		}
-
 		// Global Layouts
 		$layouts = Folder::files(JPATH_SITE . '/layouts/chromes', '.*\.php');
 
@@ -197,6 +188,14 @@ class ChromestyleField extends \JFormFieldGroupedList
 		}
 
 		$moduleStyles['system'] = $layouts;
+
+		$templates = $this->getTemplates();
+		$path      = JPATH_ADMINISTRATOR;
+
+		if ($this->clientId === 0)
+		{
+			$path = JPATH_SITE;
+		}
 
 		foreach ($templates as $template)
 		{
@@ -221,23 +220,6 @@ class ChromestyleField extends \JFormFieldGroupedList
 		}
 
 		return $moduleStyles;
-	}
-
-	/**
-	 * Method to get the system template as an object.
-	 *
-	 * @return  \stdClass  The object of system template.
-	 *
-	 * @since   3.0
-	 */
-	protected function getSystemTemplate()
-	{
-		$template = new \stdClass;
-		$template->element = 'system';
-		$template->name    = 'system';
-		$template->enabled = 1;
-
-		return $template;
 	}
 
 	/**
