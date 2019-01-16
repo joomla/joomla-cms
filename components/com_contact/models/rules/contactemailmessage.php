@@ -34,8 +34,32 @@ class JFormRuleContactEmailMessage extends JFormRule
 	 */
 	public function test(SimpleXMLElement $element, $value, $group = null, Registry $input = null, JForm $form = null)
 	{
-		$params = JComponentHelper::getParams('com_contact');
-		$banned = $params->get('banned_text');
+		$app       = JFactory::getApplication();
+		$model     = JModelLegacy::getInstance('Contact', 'ContactModel');
+		$stub      = $app->input->getString('id');
+		$contactId = (int) $stub;
+
+		$contact = $model->getItem($contactId);
+
+		// Get item params, take menu parameters into account if necessary
+		$active      = $app->getMenu()->getActive();
+		$stateParams = clone $model->getState()->get('params');
+
+		// If the current view is the active item and a contact view for this contact, then the menu item params take priority
+		if ($active && strpos($active->link, 'view=contact') && strpos($active->link, '&id=' . (int) $contact->id))
+		{
+			// $item->params are the contact params, $active->params are the menu item params
+			// Merge so that the menu item params take priority
+			$contact->params->merge($active->params);
+		}
+		else
+		{
+			// Current view is not a single contact displayed by a specific menu item, so the contact params take priority here
+			$stateParams->merge($contact->params);
+			$contact->params = $stateParams;
+		}
+
+		$banned = $contact->params->get('banned_text');
 
 		if ($banned)
 		{
