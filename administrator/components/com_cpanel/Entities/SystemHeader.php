@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class representing a section in the system view.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SystemHeader
 {
@@ -23,7 +23,7 @@ class SystemHeader
 	 *
 	 * @var string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $icon;
 
@@ -32,7 +32,7 @@ class SystemHeader
 	 *
 	 * @var string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $title;
 
@@ -41,7 +41,7 @@ class SystemHeader
 	 *
 	 * @var SystemItem[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $items = [];
 
@@ -51,7 +51,7 @@ class SystemHeader
 	 * @param   string  $title  The title of the header
 	 * @param   string  $icon   The class for an icon to display for the header
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct($title, $icon)
 	{
@@ -66,7 +66,7 @@ class SystemHeader
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function addItem(SystemItem $item)
 	{
@@ -78,7 +78,7 @@ class SystemHeader
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getIcon()
 	{
@@ -90,7 +90,7 @@ class SystemHeader
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getTitle()
 	{
@@ -102,7 +102,7 @@ class SystemHeader
 	 *
 	 * @return  SystemItem[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getItems()
 	{
@@ -114,7 +114,7 @@ class SystemHeader
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function hasItems()
 	{
