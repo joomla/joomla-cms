@@ -49,6 +49,9 @@ class SystemModel extends BaseDatabaseModel
 			$systemSection->addItem(
 				new SystemItem('MOD_MENU_CONFIGURATION', 'index.php?option=com_config')
 			);
+			$systemSection->addItem(
+				new SystemItem('MOD_MENU_CONFIGURATION_MAILS', 'index.php?option=com_mails&view=templates')
+			);
 		}
 
 		// Maintain
