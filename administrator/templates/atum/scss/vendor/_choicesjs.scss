@@ -18,7 +18,7 @@
 
   &::before {
     position: absolute;
-    top: 0;
+    top: 1px;
     right: 0;
     bottom: 0;
     left: 0;
@@ -76,6 +76,17 @@
     &:hover, &:focus { opacity: 1; }
     &::before {
       color: #fff;
+    }
+  }
+
+  .choices__list.choices__list--multiple .choices__item.choices__item--selectable {
+    background-color: var(--primary);
+    border-radius: 0;
+    border: 0;
+
+    &.is-highlighted {
+      background-color: var(--primary-dark);
+      border: 0;
     }
   }
 }
