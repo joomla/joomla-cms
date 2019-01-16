@@ -386,23 +386,23 @@ class JoomlaInstallerScript
 	{
 		$db = JFactory::getDbo();
 
+		// Check if the plg_fields_repeatable plugin is present
+		$extensionId = $db->setQuery(
+			$db->getQuery(true)
+				->select('extension_id')
+				->from('#__extensions')
+				->where('name = ' . $db->quote('plg_fields_repeatable'))
+		)->loadResult();
+
+		// Skip uninstalling when it doesn't exist
+		if (!$extensionId)
+		{
+			return;
+		}
+
 		try
 		{
 			$db->transactionStart();
-
-			// Check if the plg_fields_repeatable plugin is present
-			$extensionId = $db->setQuery(
-				$db->getQuery(true)
-					->select('extension_id')
-					->from('#__extensions')
-					->where('name = ' . $db->quote('plg_fields_repeatable'))
-			)->loadResult();
-
-			// Skip uninstalling when it doesn't exist
-			if (!$extensionId)
-			{
-				return;
-			}
 
 			// Get the FieldsModelField, we need it in a sec
 			\JModelLegacy::addIncludePath(JPATH_ROOT . '/administrator/components/com_fields/models');
@@ -418,7 +418,7 @@ class JoomlaInstallerScript
 			);
 
 			// Execute the query and iterate over the `repeatable` instances
-			foreach ($db->getIterator() as $row)
+			foreach ($db->loadObjectList() as $row)
 			{
 				// Skip broken rows - just a security measure, should not happen
 				if (!isset($row->fieldparams) || !($oldFieldparams = json_decode($row->fieldparams)) || !is_object($oldFieldparams))
@@ -445,30 +445,81 @@ class JoomlaInstallerScript
 					// Iterate over the sub fields
 					foreach (get_object_vars($oldFieldparams->fields) as $oldField)
 					{
-						/**
-						 * We basically want to create a completely new custom fields instance for every sub field
-						 * of the `repeatable` instance. This is what we use $data for, we create a new custom field
-						 * for each of the sub fields of the `repeatable` instance.
-						 */
-						$data = array(
-							'context'  => $row->context,
-							'group_id' => $row->group_id,
-							'title'    => $row->title,
-							'name'     => $oldField->fieldname,
-							'label'    => $row->label,
-							'type'     => $oldField->fieldtype,
-						);
-						// `number` is not a valid custom field type, so use `text` instead.
-						if ($data['type'] == 'number')
+						// Used for field name collision prevention
+						$fieldname_prefix = '';
+						$fieldname_suffix = 0;
+
+						// Try to save the new sub field in a loop because of field name collisions
+						while (true)
 						{
-							$data['type'] = 'text';
+							/**
+							 * We basically want to create a completely new custom fields instance for every sub field
+							 * of the `repeatable` instance. This is what we use $data for, we create a new custom field
+							 * for each of the sub fields of the `repeatable` instance.
+							 */
+							$data = array(
+								'context'  => $row->context,
+								'group_id' => $row->group_id,
+								'title'    => $oldField->fieldname,
+								'name'     => (
+									$fieldname_prefix
+									. $oldField->fieldname
+									. ($fieldname_suffix > 0 ? ('_' . $fieldname_suffix) : '')
+								),
+								'label'    => $oldField->fieldname,
+								'type'     => $oldField->fieldtype,
+								'state'    => '1',
+								'language' => '*',
+							);
+
+							// `number` is not a valid custom field type, so use `text` instead.
+							if ($data['type'] == 'number')
+							{
+								$data['type'] = 'text';
+							}
+
+							// Reset the state because else \Joomla\CMS\MVC\Model\AdminModel will take an already
+							// existing value (e.g. from previous save) and do an UPDATE instead of INSERT.
+							$fieldModel->setState('field.id', 0);
+
+							// If an error occurred when trying to save this.
+							if (!$fieldModel->save($data))
+							{
+								// If the error is, that the name collided, increase the collision prevention
+								$error = $fieldModel->getError();
+								if ($error == 'COM_FIELDS_ERROR_UNIQUE_NAME')
+								{
+									// If this is the first time this error occurs, set only the prefix
+									if ($fieldname_prefix == '')
+									{
+										$fieldname_prefix = ($row->name . '_');
+									}
+									else
+									{
+										// Else increase the suffix
+										$fieldname_suffix++;
+									}
+
+									// And start again with the while loop.
+									continue 1;
+								}
+
+								// Else bail out with the error. Something is totally wrong.
+								throw new \Exception($error);
+							}
+
+							// Break out of the while loop, saving was successful.
+							break 1;
 						}
 
-						// Save this new custom field instance
-						$fieldModel->save($data);
-
-						// Get its id
+						// Get the newly created id
 						$subfield_id = $fieldModel->getState('field.id');
+
+						// Really check that it is valid
+						if (!is_numeric($subfield_id) || $subfield_id < 1)
+						{
+							throw new \Exception('Something went wrong.');
+						}
 
 						// And tell our new `subfields` field about his child
 						$newFieldparams['options'][('option' . $newFieldCount)] = array(
