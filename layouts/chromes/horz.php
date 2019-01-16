@@ -17,7 +17,7 @@ use Joomla\CMS\Layout\LayoutHelper;
 <table cellspacing="1" cellpadding="0" width="100%">
 	<tr>
 		<td>
-			<?php LayoutHelper::render('chromes.table', $displayData); ?>
+			<?php echo LayoutHelper::render('chromes.table', $displayData); ?>
 		</td>
 	</tr>
 </table>
