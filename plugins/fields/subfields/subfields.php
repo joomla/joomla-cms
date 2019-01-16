@@ -132,7 +132,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 			return;
 		}
 
-		// If we dont have any subfields (or values for them), nothing to do.
+		// If we don't have any subfields (or values for them), nothing to do.
 		if (!is_array($field->value) || count($field->value) < 1)
 		{
 			return;
@@ -204,7 +204,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 					else
 					{
 						// Render this virtual subfield
-						$subfield->value                                         = \JEventDispatcher::getInstance()->trigger(
+						$subfield->value = \JEventDispatcher::getInstance()->trigger(
 							'onCustomFieldsPrepareField',
 							array($context, $item, $subfield)
 						);
@@ -226,6 +226,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 				$row_subfields->{$subfield->name}->value    = $subfield->value;
 				$row_subfields->{$subfield->name}->rawvalue = $subfield->rawvalue;
 			}
+
 			// Store all the rendered subfield values of this row
 			$final_values[] = $row_values;
 
