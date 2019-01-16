@@ -188,6 +188,16 @@ class ChromestyleField extends \JFormFieldGroupedList
 			$path = JPATH_SITE;
 		}
 
+		// Global Layouts
+		$layouts = Folder::files(JPATH_SITE . '/layouts/chromes', '.*\.php');
+
+		foreach ($layouts as &$layout)
+		{
+			$layout = basename($layout, '.php');
+		}
+
+		$moduleStyles['system'] = $layouts;
+
 		foreach ($templates as $template)
 		{
 			$chromeLayoutPath = $path . '/templates/' . $template->element . '/html/layouts/chromes';
