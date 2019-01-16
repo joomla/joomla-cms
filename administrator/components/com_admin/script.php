@@ -386,91 +386,129 @@ class JoomlaInstallerScript
 	{
 		$db = JFactory::getDbo();
 
-		// Check if the plg_fields_repeatable plugin is present
-		$extensionId = $db->setQuery(
-			$db->getQuery(true)
-				->select('extension_id')
-				->from('#__extensions')
-				->where('name = ' . $db->quote('plg_fields_repeatable'))
-		)->loadResult();
-
-		// Skip uninstalling when it doesn't exist
-		if (!$extensionId)
+		try
 		{
-			return;
-		}
+			$db->transactionStart();
 
-		// Now get a list of all repeatable fields
-		$db->setQuery(
-			$db->getQuery(true)
-				->select('*')
-				->from('#__fields')
-				->where($db->quoteName('type') . ' = ' . $db->quote('repeatable'))
-		);
+			// Check if the plg_fields_repeatable plugin is present
+			$extensionId = $db->setQuery(
+				$db->getQuery(true)
+					->select('extension_id')
+					->from('#__extensions')
+					->where('name = ' . $db->quote('plg_fields_repeatable'))
+			)->loadResult();
 
-		// Execute the query and iterate over the repeatable fields
-		foreach ($db->getIterator() as $row)
-		{
-			// Skip broken rows - just a security measure, should not happen
-			if (!isset($row->fieldparams) || !($oldFieldparams = json_decode($row->fieldparams)) || !is_object($oldFieldparams))
+			// Skip uninstalling when it doesn't exist
+			if (!$extensionId)
 			{
-				continue;
+				return;
 			}
 
-			// Will hold the new fieldparams for our subfields field
-			$newFieldparams = array(
-				'render_values' => '1',
-				'repeat' => '1',
-				'options' => array(),
-			);
+			// Get the FieldsModelField, we need it in a sec
+			\JModelLegacy::addIncludePath(JPATH_ROOT . '/administrator/components/com_fields/models');
+			$fieldModel = JModelLegacy::getInstance('Field', 'FieldsModel');
+			/* @var $fieldModel \FieldsModelField */
 
-			// Small counter for the created child-fields
-			$newFieldCount = 0;
-
-			// If this repeatable fields actually had child-fields (normally this is always the case)
-			if (isset($oldFieldparams->fields) && is_object($oldFieldparams->fields))
-			{
-				// Iterate over them
-				foreach (get_object_vars($oldFieldparams->fields) as $oldField)
-				{
-					// And convert the repeatable child-fields to subfields for our subfields field
-					$newFieldparams['options'][('option' . $newFieldCount)] = array(
-						'type' => (isset($oldField->fieldtype) ? $oldField->fieldtype : 'text'),
-						'name' => (isset($oldField->fieldname) ? $oldField->fieldname : ('field' . $newFieldCount)),
-						'label' => (isset($oldField->fieldname) ? $oldField->fieldname : ('field' . $newFieldCount)),
-					);
-
-					// We currently don't have 'number' types in plg_fields_subfields, so convert number to text
-					if ($newFieldparams['options'][('option' . $newFieldCount)]['type'] == 'number')
-					{
-						$newFieldparams['options'][('option' . $newFieldCount)]['type'] = 'text';
-					}
-
-					$newFieldCount++;
-				}
-			}
-
-			// Write back the changed stuff to the database
+			// Now get a list of all `repeatable` custom field instances
 			$db->setQuery(
 				$db->getQuery(true)
-					->update('#__fields')
-					->set($db->quoteName('type') . ' = ' . $db->quote('subfields'))
-					->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
-					->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
+					->select('*')
+					->from('#__fields')
+					->where($db->quoteName('type') . ' = ' . $db->quote('repeatable'))
+			);
+
+			// Execute the query and iterate over the `repeatable` instances
+			foreach ($db->getIterator() as $row)
+			{
+				// Skip broken rows - just a security measure, should not happen
+				if (!isset($row->fieldparams) || !($oldFieldparams = json_decode($row->fieldparams)) || !is_object($oldFieldparams))
+				{
+					continue;
+				}
+
+				/**
+				 * We basically want to transform this `repeatable` type into a `subfields` type. While $oldFieldparams
+				 * holds the `fieldparams` of the `repeatable` type, $newFieldparams shall hold the `fieldparams`
+				 * of the `subfields` type.
+				 */
+				$newFieldparams = array(
+					'repeat'  => '1',
+					'options' => array(),
+				);
+
+				// If this repeatable fields actually had child-fields (normally this is always the case)
+				if (isset($oldFieldparams->fields) && is_object($oldFieldparams->fields))
+				{
+					// Small counter for the child-fields (aka sub fields)
+					$newFieldCount = 0;
+
+					// Iterate over the sub fields
+					foreach (get_object_vars($oldFieldparams->fields) as $oldField)
+					{
+						/**
+						 * We basically want to create a completely new custom fields instance for every sub field
+						 * of the `repeatable` instance. This is what we use $data for, we create a new custom field
+						 * for each of the sub fields of the `repeatable` instance.
+						 */
+						$data = array(
+							'context'  => $row->context,
+							'group_id' => $row->group_id,
+							'title'    => $row->title,
+							'name'     => $oldField->fieldname,
+							'label'    => $row->label,
+							'type'     => $oldField->fieldtype,
+						);
+						// `number` is not a valid custom field type, so use `text` instead.
+						if ($data['type'] == 'number')
+						{
+							$data['type'] = 'text';
+						}
+
+						// Save this new custom field instance
+						$fieldModel->save($data);
+
+						// Get its id
+						$subfield_id = $fieldModel->getState('field.id');
+
+						// And tell our new `subfields` field about his child
+						$newFieldparams['options'][('option' . $newFieldCount)] = array(
+							'customfield'   => $subfield_id,
+							'render_values' => '1',
+						);
+
+						$newFieldCount++;
+					}
+				}
+
+				// Write back the changed stuff to the database
+				$db->setQuery(
+					$db->getQuery(true)
+						->update('#__fields')
+						->set($db->quoteName('type') . ' = ' . $db->quote('subfields'))
+						->set($db->quoteName('fieldparams') . ' = ' . $db->quote(json_encode($newFieldparams)))
+						->where($db->quoteName('id') . ' = ' . $db->quote($row->id))
+				)->execute();
+			}
+
+			// Now, unprotect the plugin so we can uninstall it
+			$db->setQuery(
+				$db->getQuery(true)
+					->update('#__extensions')
+					->set('protected = 0')
+					->where($db->quoteName('extension_id') . ' = ' . $extensionId)
 			)->execute();
+
+			// And now uninstall the plugin
+			$installer = new JInstaller;
+			$installer->uninstall('plugin', $extensionId);
+
+			$db->transactionCommit();
 		}
-
-		// Now, unprotect the plugin so we can uninstall it
-		$db->setQuery(
-			$db->getQuery(true)
-				->update('#__extensions')
-				->set('protected = 0')
-				->where($db->quoteName('extension_id') . ' = ' . $extensionId)
-		)->execute();
-
-		// And now uninstall the plugin
-		$installer = new JInstaller;
-		$installer->uninstall('plugin', $extensionId);
+		catch (\Exception $e)
+		{
+			$db->transactionRollback();
+			throw $e;
+		}
 	}
 
 	/**
