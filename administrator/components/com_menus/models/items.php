@@ -45,7 +45,8 @@ class MenusModelItems extends JModelList
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 				'parent_id', 'a.parent_id',
-				'a.ordering'
+				'a.ordering',
+				'e.name', 'componentName'
 			);
 
 			$app = JFactory::getApplication();
@@ -429,6 +430,12 @@ class MenusModelItems extends JModelList
 		if ($access = $this->getState('filter.access'))
 		{
 			$query->where('a.access = ' . (int) $access);
+		}
+
+		// Filter on componentName
+		if ($componentName = $this->getState('filter.componentName'))
+		{
+			$query->where('e.name = ' . $db->quote($componentName));
 		}
 
 		// Implement View Level Access
