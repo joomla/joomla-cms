@@ -61,6 +61,13 @@ abstract class ModArticlesNewsHelper
 		// Filer by tag
 		$model->setState('filter.tag', $params->get('tag', array()));
 
+		if ($app->input->get('option') === 'com_content' && $params->get('exclude_current', false))
+		{
+			// Exclude the current article from displaying in this module
+			$model->setState('filter.article_id', $app->input->get('id'));
+			$model->setState('filter.article_id.include', false);
+		}
+
 		// Featured switch
 		$featured = $params->get('show_featured', '');
 
@@ -140,7 +147,7 @@ abstract class ModArticlesNewsHelper
 					$item->imageSrc = htmlspecialchars($images->image_intro, ENT_COMPAT, 'UTF-8');
 					$item->imageAlt = htmlspecialchars($images->image_intro_alt, ENT_COMPAT, 'UTF-8');
 
-					if ($images->image_intro_caption) 
+					if ($images->image_intro_caption)
 					{
 						$item->imageCaption = htmlspecialchars($images->image_intro_caption, ENT_COMPAT, 'UTF-8');
 					}
@@ -150,7 +157,7 @@ abstract class ModArticlesNewsHelper
 					$item->imageSrc = htmlspecialchars($images->image_fulltext, ENT_COMPAT, 'UTF-8');
 					$item->imageAlt = htmlspecialchars($images->image_fulltext_alt, ENT_COMPAT, 'UTF-8');
 
-					if ($images->image_intro_caption) 
+					if ($images->image_intro_caption)
 					{
 						$item->imageCaption = htmlspecialchars($images->image_fulltext_caption, ENT_COMPAT, 'UTF-8');
 					}
