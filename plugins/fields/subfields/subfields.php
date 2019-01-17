@@ -207,7 +207,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 				}
 
 				// Store the subfield (incl. its raw and rendered value) into this rows sub fields
-				$row_subfields[] = $subfield;
+				$row_subfields[$subfield->name] = $subfield;
 			}
 
 			// Store all the sub fields of this row
