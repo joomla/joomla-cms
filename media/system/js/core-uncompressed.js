@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,6 +20,8 @@ Joomla.editors.instances = Joomla.editors.instances || {
 	 *                                  Example: function () { return this.element.value; }
 	 * setValue         Type  Function  Should replace the complete data of the editor
 	 *                                  Example: function (text) { return this.element.value = text; }
+	 * getSelection     Type  Function  Should return the selected text from the editor
+	 *                                  Example: function () { return this.selectedText; }
 	 * replaceSelection Type  Function  Should replace the selected text of the editor
 	 *                                  If nothing selected, will insert the data at the cursor
 	 *                                  Example: function (text) { return insertAtCursor(this.element, text); }

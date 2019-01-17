@@ -80,8 +80,10 @@ CREATE TABLE [#__action_log_config](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[type_title] [nvarchar](255) NOT NULL DEFAULT '',
 	[type_alias] [nvarchar](255) NOT NULL DEFAULT '',
+	[id_holder] [nvarchar](255) NULL,
 	[title_holder] [nvarchar](255) NULL,
-	[table_values] [nvarchar](255) NULL
+	[table_name] [nvarchar](255) NULL,
+	[text_prefix] [nvarchar](255) NULL,
 	CONSTRAINT [PK_#__action_log_config_id] PRIMARY KEY CLUSTERED
  (
  	[id] ASC

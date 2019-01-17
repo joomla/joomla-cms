@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,7 +68,7 @@ else
 }
 ?>
 <div class="row-fluid">
-	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?>">
+	<div class="subform-repeatable-wrapper subform-table-layout subform-table-sublayout-<?php echo $sublayout; ?> form-vertical">
 		<div
 			class="subform-repeatable"
 			data-bt-add="a.group-add-<?php echo $unique_subform_id; ?>"
@@ -87,7 +87,7 @@ else
 								<?php if (!empty($buttons['add'])) : ?>
 									<div class="btn-group">
 										<a
-											class="btn btn-mini button btn-success group-add-<?php echo $unique_subform_id; ?>"
+											class="btn btn-mini button btn-success group-add group-add-<?php echo $unique_subform_id; ?>"
 											aria-label="<?php echo JText::_('JGLOBAL_FIELD_ADD'); ?>"
 										>
 											<span class="icon-plus" aria-hidden="true"></span>
