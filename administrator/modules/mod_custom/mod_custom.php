@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 if ($params->def('prepare_content', 1))
 {
 	JPluginHelper::importPlugin('content');
-	$module->content = JHtml::_('content.prepare', $module->content, '', 'mod_custom.content');
+	$module->content = JHtml::_('content.prepare', $module->content, $params, 'mod_custom.content');
 }
 
 // Replace 'images/' to '../images/' when using an image from /images in backend.
