@@ -113,8 +113,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 	}
 
 	/**
-	 * Renders this fields value by rendering all subfields and joining all those rendered subfields.
-	 * Additionally stores the value and raw value of all rendered subfields into $field->subfield_rows.
+	 * Renders this fields value by rendering all sub fields and joining all those rendered sub fields together.
 	 *
 	 * @param   string     $context  The context
 	 * @param   object     $item     The item
@@ -142,19 +141,11 @@ class PlgFieldsSubfields extends FieldsPlugin
 		$field_params = $this->getParamsFromField($field);
 
 		/**
-		 * Placeholder to hold all subfield rows (if this field is repeatable).
-		 * Each array entry is a \stdClass object which holds all the rendered values of the configured subfields
-		 * for that specific row (or only one row, if not repeatable).
+		 * Placeholder to hold all rows (if this field is repeatable).
+		 * Each array entry is another array representing a row, containing all of the sub fields that
+		 * are valid for this row and their raw and rendered values.
 		 */
-		$final_values = array();
-
-		/**
-		 * Placeholder to hold all subfield rows (if this field is repeatable).
-		 * Each array entry is a \stdClass object representing a row, having a \stdClass attribute for each
-		 * configured subfield (named after the name of the subfield), which has a `value` and `rawvalue`
-		 * attribute, holding the rendered and raw value of that subfield for that row.
-		 */
-		$subfield_rows = array();
+		$subfields_rows = array();
 
 		// Create an array with entries being subfields forms, and if not repeatable, containing only one element.
 		$rows = $field->value;
@@ -167,11 +158,8 @@ class PlgFieldsSubfields extends FieldsPlugin
 		// Iterate over each row of the data
 		foreach ($rows as $row)
 		{
-			// The rendered values for this row, indexed by the name of the subfield
-			$row_values = new \stdClass;
-
-			// Holds for all subfields (indexed by their name) for this row their rendered and raw value.
-			$row_subfields = new \stdClass;
+			// Holds all sub fields of this row, incl. their raw and rendered value
+			$row_subfields = array();
 
 			// For each row, iterate over all the subfields
 			foreach ($this->getSubfieldsFromField($field) as $subfield)
@@ -218,33 +206,18 @@ class PlgFieldsSubfields extends FieldsPlugin
 					$subfield->value = implode(' ', $subfield->value);
 				}
 
-				// Store this subfields rendered value into our $row_values object
-				$row_values->{$subfield->name} = $subfield->value;
-
-				// Store the value and rawvalue of this subfield into our $row_subfields object
-				$row_subfields->{$subfield->name}           = new \stdClass;
-				$row_subfields->{$subfield->name}->value    = $subfield->value;
-				$row_subfields->{$subfield->name}->rawvalue = $subfield->rawvalue;
+				// Store the subfield (incl. its raw and rendered value) into this rows sub fields
+				$row_subfields[] = $subfield;
 			}
 
-			// Store all the rendered subfield values of this row
-			$final_values[] = $row_values;
-
-			// Store all the rendered and raw subfield values of this row
-			$subfield_rows[] = $row_subfields;
+			// Store all the sub fields of this row
+			$subfields_rows[] = $row_subfields;
 		}
-		/**
-		 * Store all the rendered and raw values of this subfield rows in $field->subfield_rows,
-		 * because we maybe want to be able to have access to the rendered (and raw)
-		 * value of each row and subfield.
-		 */
-		$field->subfield_rows = $subfield_rows;
-		/**
-		 * Store the renderer per-row subfield values in $field->value, which
-		 * will be rendered (combined into one rendered string) by our parent next.
-		 */
-		$field->value = $final_values;
 
+		// Store all the rows and their corresponding sub fields in $field->subfields_rows
+		$field->subfields_rows = $subfields_rows;
+
+		// Call our parent to combine all those together for the final $field->value
 		return parent::onCustomFieldsPrepareField($context, $item, $field);
 	}
 

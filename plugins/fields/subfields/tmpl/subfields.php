@@ -8,19 +8,33 @@
  */
 defined('_JEXEC') or die;
 
-/**
- * One possible way to render subfields, just by iterating over the rendered values:
- */
-echo '<ul>';
-foreach ($field->value as $row)
+if (!$context || empty($field->subfields_rows))
 {
-	echo '<li>';
-	$buffer = array();
-	foreach (((array) $row) as $key => $value)
-	{
-		$buffer[] = ($key . ': ' . $value);
-	}
-	echo implode(', ', $buffer);
-	echo '</li>';
+	return;
 }
-echo '</ul>';
+?>
+<ul class="fields-container">
+	<?php /* Iterate over each row that we have */ ?>
+	<?php foreach ($field->subfields_rows as $subfields_row): ?>
+		<li>
+			<?php
+			/* Placeholder array to generate this rows output */
+			$row_output = array();
+
+			/* Iterate over each sub field inside of that row */
+			foreach ($subfields_row as $subfield)
+			{
+				$class   = $subfield->params->get('render_class', null);
+				$layout  = $subfield->params->get('layout', 'render');
+				$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $subfield));
+
+				// Generate the output for this sub field and row
+				$row_output[] = '<span class="field-entry' . ($class ? (' ' . $class) : '') . '">' . $content . '</span>';
+			}
+
+			// And output this rows output
+			echo implode(', ', $row_output);
+			?>
+		</li>
+	<?php endforeach; ?>
+</ul>
