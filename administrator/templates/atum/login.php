@@ -54,14 +54,38 @@ $this->setMetaData('theme-color', '#1c3d5c');
 // Set page title
 $this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
 
-$this->addScriptDeclaration('cssVars();')
+$this->addScriptDeclaration('cssVars();');
 
+/**
+ * Evaluate the contents of each block that needs to be included
+ * The order of the blocks is essential
+ * These lines should always follow any inclusion of assets
+ *
+ * The renderBlock method accepts the following parameters
+ *
+ * type:    {string} Can be component,modules,styles,metas,scripts,messages or any custom defined render
+ * name:    {string} Used in modules to get the name of the module
+ * attribs: {array}  Any attributes
+ */
+// Component is always first, Joomla is component driven
+$component = $this->renderBlock('component');
+
+// Then evaluating any modules
+$debug     = $this->renderBlock('modules', 'debug');
+
+// Then any messages
+$message   = $this->renderBlock('message');
+
+// Finally, evaluate metas, styles and scripts (always in that order)
+$metas     = $this->renderBlock('metas');
+$styles    = $this->renderBlock('styles');
+$scripts   = $this->renderBlock('scripts');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas"/>
-	<jdoc:include type="styles"/>
+	<?php echo $metas; ?>
+	<?php echo $styles; ?>
 </head>
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
 	<?php // Container ?>
@@ -91,8 +115,8 @@ $this->addScriptDeclaration('cssVars();')
 						</div>
 					<?php endif; ?>
 					<div class="p-4">
-						<jdoc:include type="message"/>
-						<jdoc:include type="component"/>
+						<?php echo $message; ?>
+						<?php echo $component; ?>
 					</div>
 				</div>
 			</div>
@@ -104,7 +128,7 @@ $this->addScriptDeclaration('cssVars();')
 			</div>
 		</div>
 	</main>
-	<jdoc:include type="modules" name="debug" style="none"/>
-	<jdoc:include type="scripts"/>
+	<?php echo $debug; ?>
+	<?php echo $scripts; ?>
 </body>
 </html>

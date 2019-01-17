@@ -16,19 +16,25 @@ use Joomla\CMS\Router\Route;
 
 /** @var JDocumentHtml $this */
 
-$app   = Factory::getApplication();
-$lang  = $app->getLanguage();
-$input = $app->input;
-$wa    = $this->getWebAssetManager();
+$app         = Factory::getApplication();
+$lang        = $app->getLanguage();
+$input       = $app->input;
+$wa          = $this->getWebAssetManager();
 
 // Detecting Active Variables
 $option      = $input->get('option', '');
-$view        = $input->get('view', '');
-$layout      = $input->get('layout', '');
-$task        = $input->get('task', '');
-$itemid      = $input->get('Itemid', '');
 $cpanel      = $option === 'com_cpanel';
-$hidden      = $app->input->get('hidemainmenu');
+$hidden      = $input->get('hidemainmenu');
+
+// Set the class
+$pageClass   = ['admin'];
+$pageClass[] = $option;
+$pageClass[] = 'view-' . $input->get('view', '');
+$pageClass[] = 'layout-' . $input->get('layout', '');
+$pageClass[] = 'task-' . $input->get('task', '');
+$pageClass[] = 'itemid-' . $input->get('Itemid', '');
+
+// Set the images paths
 $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
@@ -42,19 +48,48 @@ HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
-
 $this->addScriptDeclaration('cssVars();');
 
+/**
+ * Evaluate the contents of each block that needs to be included
+ * The order of the blocks is essential
+ * These lines should always follow any inclusion of assets
+ *
+ * The renderBlock method accepts the following parameters
+ *
+ * type:    {string} Can be component,modules,styles,metas,scripts,messages or any custom defined render
+ * name:    {string} Used in modules to get the name of the module
+ * attribs: {array}  Any attributes
+ */
+// Component is always first, Joomla is component driven
+$component = $this->renderBlock('component');
+
+// Then evaluating any modules
+$title     = $this->renderBlock('modules', 'title');
+$status    = $this->renderBlock('modules', 'status');
+$menu      = $this->renderBlock('modules', 'menu');
+$toolbar   = $this->renderBlock('modules', 'toolbar');
+$top       = $this->renderBlock('modules', 'top');
+$bottom    = $this->renderBlock('modules', 'bottom');
+$debug     = $this->renderBlock('modules', 'debug');
+
+// Then any messages
+$message   = $this->renderBlock('message');
+
+// Finally, evaluate metas, styles and scripts (always in that order)
+$metas     = $this->renderBlock('metas');
+$styles    = $this->renderBlock('styles');
+$scripts   = $this->renderBlock('scripts');
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas" />
-	<jdoc:include type="styles" />
-	<jdoc:include type="scripts" />
+    <?php echo $metas; ?>
+    <?php echo $styles; ?>
+    <?php echo $scripts; ?>
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
+<body class="admin <?php echo implode('', $pageClass); ?>">
 
 	<noscript>
 		<div class="alert alert-danger" role="alert">
@@ -71,10 +106,10 @@ $this->addScriptDeclaration('cssVars();');
 						<img src="<?php echo $logoBlue; ?>" alt="">
 					</a>
 				</div>
-				<jdoc:include type="modules" name="title" />
+				<?php echo $title; ?>
 			</div>
 			<div class="header-items d-flex ml-auto">
-				<jdoc:include type="modules" name="status" style="no" />
+				<?php echo $status; ?>
 			</div>
 		</div>
 	</header>
@@ -85,7 +120,7 @@ $this->addScriptDeclaration('cssVars();');
 		<?php // Sidebar ?>
 		<?php if (!$hidden) : ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
-			<jdoc:include type="modules" name="menu" style="none" />
+			<?php echo $menu; ?>
 			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
 				<img src="<?php echo $logo; ?>" alt="">
 			</div>
@@ -102,36 +137,32 @@ $this->addScriptDeclaration('cssVars();');
 						<div id="container-collapse" class="container-collapse"></div>
 						<div class="row">
 							<div class="col-md-12">
-								<jdoc:include type="modules" name="toolbar" style="no" />
+								<?php echo $toolbar; ?>
 							</div>
 					</div>
 				</div>
 			<?php endif; ?>
 			<section id="content" class="content">
 				<?php // Begin Content ?>
-				<jdoc:include type="modules" name="top" style="xhtml" />
+				<?php echo $top; ?>
 				<div class="row">
 					<div class="col-md-12">
 						<main>
-							<jdoc:include type="component" />
+							<?php echo $component; ?>
 						</main>
 					</div>
 					<?php if ($this->countModules('bottom')) : ?>
-						<jdoc:include type="modules" name="bottom" style="xhtml" />
+						<?php echo $bottom; ?>
 					<?php endif; ?>
 				</div>
 				<?php // End Content ?>
 			</section>
 
 			<div class="notify-alerts">
-				<jdoc:include type="message" />
+				<?php echo $message; ?>
 			</div>
-
 		</div>
-
 	</div>
-
-	<jdoc:include type="modules" name="debug" style="none" />
-
+	<?php echo $debug; ?>
 </body>
 </html>

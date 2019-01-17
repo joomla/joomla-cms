@@ -492,7 +492,7 @@ class HtmlDocument extends Document
 				$options['nomodules'] = 1;
 				$options['modulemode'] = 1;
 
-				$this->setBuffer($renderer->render($name, $attribs, null), $type, $name);
+				$this->setRenderBlock($renderer->render($name, $attribs, null), $type, $name);
 				$data = parent::$_buffer[$type][$name][$title];
 
 				$tmpdata = Cache::setWorkarounds($data, $options);
@@ -504,7 +504,7 @@ class HtmlDocument extends Document
 		}
 		else
 		{
-			$this->setBuffer($renderer->render($name, $attribs, null), $type, $name, $title);
+			$this->setRenderBlock($renderer->render($name, $attribs, null), $type, $name, $title);
 		}
 
 		return parent::$_buffer[$type][$name][$title];
@@ -840,7 +840,7 @@ class HtmlDocument extends Document
 	 * @param   string  $content  The content to be set in the buffer.
 	 * @param   array   $options  Array of optional elements.
 	 *
-	 * @return  HtmlDocument instance of $this to allow chaining
+	 * @return  void
 	 *
 	 * @since   1.7.0
 	 *
@@ -848,7 +848,7 @@ class HtmlDocument extends Document
 	 */
 	public function setBuffer($content, $options = array())
 	{
-		return $this->setRenderBlock($content, $options);
+		$this->setRenderBlock($content, $options);
 	}
 
 	/**
