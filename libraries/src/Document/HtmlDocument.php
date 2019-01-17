@@ -115,6 +115,15 @@ class HtmlDocument extends Document
 	private $html5 = true;
 
 	/**
+	 * Set to true when the template has instances of <jdoc:include>
+	 *
+	 * @var    boolean
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $isLegacy = false;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
@@ -439,7 +448,7 @@ class HtmlDocument extends Document
 	}
 
 	/**
-	 * Get the contents of a document include
+	 * Get the contents of a document part (component, modules, metas, styles, scripts, messages, etc)
 	 *
 	 * @param   string  $type     The type of renderer
 	 * @param   string  $name     The name of the element to render
@@ -447,9 +456,9 @@ class HtmlDocument extends Document
 	 *
 	 * @return  mixed|string The output of the renderer
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function getBuffer($type = null, $name = null, $attribs = array())
+	public function renderBlock($type = null, $name = null, $attribs = array())
 	{
 		// If no type is specified, return the whole buffer
 		if ($type === null)
@@ -509,9 +518,9 @@ class HtmlDocument extends Document
 	 *
 	 * @return  HtmlDocument instance of $this to allow chaining
 	 *
-	 * @since   1.7.0
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setBuffer($content, $options = array())
+	public function setRenderBlock($content, $options = array())
 	{
 		// The following code is just for backward compatibility.
 		if (func_num_args() > 1 && !is_array($options))
@@ -539,7 +548,14 @@ class HtmlDocument extends Document
 	 */
 	public function parse($params = array())
 	{
-		return $this->_fetchTemplate($params)->_parseTemplate();
+		$this->_fetchTemplate($params);
+
+		if ($this->isLegacy)
+		{
+			return $this->_parseTemplate();
+		}
+
+		return $this;
 	}
 
 	/**
@@ -566,7 +582,15 @@ class HtmlDocument extends Document
 			$this->cspNonce = $params['csp_nonce'];
 		}
 
-		$data = $this->_renderTemplate();
+		if ($this->isLegacy)
+		{
+			$data = $this->_renderTemplate();
+		}
+		else
+		{
+			$data = $this->_template;
+		}
+
 		parent::render();
 
 		return $data;
@@ -731,6 +755,12 @@ class HtmlDocument extends Document
 		// Load
 		$this->_template = $this->_loadTemplate($directory . '/' . $template, $file);
 
+		// For B/C
+		if (preg_match('#<jdoc:include\ #iU', $this->_template, $matches))
+		{
+			$this->isLegacy = true;
+		}
+
 		return $this;
 	}
 
@@ -740,6 +770,8 @@ class HtmlDocument extends Document
 	 * @return  HtmlDocument  instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0
 	 */
 	protected function _parseTemplate()
 	{
@@ -785,18 +817,55 @@ class HtmlDocument extends Document
 	 * @return string rendered template
 	 *
 	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0
 	 */
 	protected function _renderTemplate()
 	{
 		$replace = [];
-		$with = [];
+		$with    = [];
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{
 			$replace[] = $jdoc;
-			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
+			$with[]    = $this->renderBlock($args['type'], $args['name'], $args['attribs']);
 		}
 
 		return str_replace($replace, $with, $this->_template);
+	}
+
+	/**
+	 * Set the contents a document includes
+	 *
+	 * @param   string  $content  The content to be set in the buffer.
+	 * @param   array   $options  Array of optional elements.
+	 *
+	 * @return  HtmlDocument instance of $this to allow chaining
+	 *
+	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0
+	 */
+	public function setBuffer($content, $options = array())
+	{
+		return $this->setRenderBlock($content, $options);
+	}
+
+	/**
+	 * Get the contents of a document include
+	 *
+	 * @param   string  $type     The type of renderer
+	 * @param   string  $name     The name of the element to render
+	 * @param   array   $attribs  Associative array of remaining attributes.
+	 *
+	 * @return  mixed|string The output of the renderer
+	 *
+	 * @since   1.7.0
+	 *
+	 * @deprecated 5.0
+	 */
+	public function getBuffer($type = null, $name = null, $attribs = array())
+	{
+		return $this->renderBlock($type, $name, $attribs);
 	}
 }
