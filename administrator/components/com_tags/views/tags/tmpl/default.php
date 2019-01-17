@@ -251,9 +251,11 @@ if ($saveOrder)
 							</td>
 						<?php endif; ?>
 
-                        <td>
-                            <?php echo $item->countTaggedItems; ?>
-                        </td>
+						<td>
+							<span class="badge badge-info">
+								<?php echo $item->countTaggedItems; ?>
+							</span>
+						</td>
 						<td class="small hidden-phone">
 							<?php echo $this->escape($item->access_title); ?>
 						</td>
