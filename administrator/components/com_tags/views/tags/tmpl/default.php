@@ -114,9 +114,9 @@ if ($saveOrder)
 							<?php $columns++; ?>
 						<?php endif; ?>
 
-                        <th width="10%" class="nowrap hidden-phone">
-							<?php echo JHtml::_('searchtools.sort',  'COM_TAGS_COUNT_TAGGED_ITEMS', 'countTaggedItems', $listDirn, $listOrder); ?>
-                        </th>
+						<th width="10%" class="nowrap hidden-phone">
+							<?php echo JHtml::_('searchtools.sort', 'COM_TAGS_COUNT_TAGGED_ITEMS', 'countTaggedItems', $listDirn, $listOrder); ?>
+						</th>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort',  'JGRID_HEADING_ACCESS', 'a.access', $listDirn, $listOrder); ?>
 						</th>
