@@ -89,7 +89,7 @@ $scripts   = $this->renderBlock('scripts');
     <?php echo $scripts; ?>
 </head>
 
-<body class="admin <?php echo implode('', $pageClass); ?>">
+<body class="<?php echo implode(' ', $pageClass); ?>">
 
 	<noscript>
 		<div class="alert alert-danger" role="alert">
