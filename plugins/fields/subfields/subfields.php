@@ -69,7 +69,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 		/* @var $valuefields \DOMNodeList */
 
 		// If we haven't found it, something is wrong
-		if (!$valuefields || $valuefields->count() != 1)
+		if (!$valuefields || $valuefields->length != 1)
 		{
 			return;
 		}
