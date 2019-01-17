@@ -67,7 +67,11 @@ class JFormFieldSubfieldstype extends JFormFieldList
 				continue;
 			}
 
-			$options[] = JHtml::_('select.option', $customField->id, ($customField->title . ' (' . $customField->name . ')'));
+			$options[] = JHtml::_(
+				'select.option',
+				$customField->id,
+				($customField->title . ' (' . $customField->type . ')')
+			);
 		}
 
 		// Sorting the fields based on the text which is displayed
