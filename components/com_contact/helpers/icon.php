@@ -142,7 +142,7 @@ abstract class JHtmlIcon
 			. HTMLHelper::tooltipText(Text::_('COM_CONTACT_EDIT_CONTACT'), $overlib, 0, 0) . '"></span>';
 		$text .= Text::_('JGLOBAL_EDIT');
 
-		$attribs['title'] = Text::_('JGLOBAL_EDIT_TITLE');
+		$attribs['title'] = Text::_('COM_CONTACT_EDIT_CONTACT');
 		$output           = HTMLHelper::_('link', Route::_($url), $text, $attribs);
 
 		return $output;
