@@ -183,7 +183,7 @@ class ContactModelContact extends JModelAdmin
 		JForm::addFieldPath(JPATH_ADMINISTRATOR . '/components/com_users/models/fields');
 
 		// Get the form.
-		$form = $this->loadForm('com_contact.contact', $this->formName, array('control' => 'jform', 'load_data' => $loadData));
+		$form = $this->loadForm('com_contact.' . $this->formName, $this->formName, array('control' => 'jform', 'load_data' => $loadData));
 
 		if (empty($form))
 		{

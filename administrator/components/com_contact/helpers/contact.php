@@ -120,7 +120,7 @@ class ContactHelper extends JHelperContent
 			$section = 'mail';
 		}
 
-		if (JFactory::getApplication()->isClient('site') && $section == 'category')
+		if (JFactory::getApplication()->isClient('site') && ($section == 'category' || $section == 'form'))
 		{
 			// The contact form needs to be the mail section
 			$section = 'contact';
