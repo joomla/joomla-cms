@@ -30,7 +30,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 <div class="item-content">
 	<?php if ($this->item->stage_condition == ContentComponent::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
-		|| ((strtotime($this->item->publish_down) < strtotime(JFactory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate())) : ?>
+		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate())) : ?>
 		<div class="system-unpublished">
 	<?php endif; ?>
 
