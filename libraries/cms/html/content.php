@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Registry\Registry;
+
 /**
  * Utility class to fire onContentPrepare for non-article based content.
  *
@@ -20,7 +22,7 @@ abstract class JHtmlContent
 	 * Fire onContentPrepare for content that isn't part of an article.
 	 *
 	 * @param   string  $text     The content to be transformed.
-	 * @param   array   $params   The content params.
+	 * @param   mixed   $params   The content params.
 	 * @param   string  $context  The context of the content to be transformed.
 	 *
 	 * @return  string   The content after transformation.
@@ -29,9 +31,9 @@ abstract class JHtmlContent
 	 */
 	public static function prepare($text, $params = null, $context = 'text')
 	{
-		if ($params === null)
+		if (!is_a($params, 'Registry'))
 		{
-			$params = new JObject;
+			$params = new Registry($params);
 		}
 
 		$article = new stdClass;
@@ -56,7 +58,7 @@ abstract class JHtmlContent
 	{
 		$model = JModelLegacy::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 
-		foreach ($state as $key => $value) 
+		foreach ($state as $key => $value)
 		{
 			$model->setState($key, $value);
 		}
