@@ -69,9 +69,9 @@ class MailTemplate
 	/**
 	 * Constructor for the mail templating class
 	 * 
-	 * @param   string  $template_id   Id of the mail template.
-	 * @param   string  $language      Language of the template to use.
-	 * @param   Mail    $mailer        Mail object to send the mail with.
+	 * @param   string  $template_id  Id of the mail template.
+	 * @param   string  $language     Language of the template to use.
+	 * @param   Mail    $mailer       Mail object to send the mail with.
 	 * 
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -232,11 +232,13 @@ class MailTemplate
 			}
 		}
 
+		$path = JPATH_ROOT . '/' . $config->get('attachment_folder') . '/';
+
 		foreach ((array) json_decode($mail->attachments)  as $attachment)
 		{
-			if (is_file(JPATH_ROOT . '/' . $config->get('attachment_folder') . '/' . $attachment->file))
+			if (is_file($path . $attachment->file))
 			{
-				$this->mailer->addAttachment(JPATH_ROOT . '/' . $config->get('attachment_folder') . '/' . $attachment->file, $attachment->name ?? $attachment->file);
+				$this->mailer->addAttachment($path . $attachment->file, $attachment->name ?? $attachment->file);
 			}
 		}
 
@@ -344,13 +346,13 @@ class MailTemplate
 	{
 		$db = Factory::getDbo();
 
-		$template = new \stdClass();
+		$template = new \stdClass;
 		$template->template_id = $key;
 		$template->language = '';
 		$template->subject = $subject;
 		$template->body = $body;
 		$template->htmlbody = $htmlbody;
-		$params = new \stdClass();
+		$params = new \stdClass;
 		$params->tags = array($tags);
 		$template->params = json_encode($params);
 
@@ -374,13 +376,13 @@ class MailTemplate
 	{
 		$db = Factory::getDbo();
 
-		$template = new \stdClass();
+		$template = new \stdClass;
 		$template->template_id = $key;
 		$template->language = '';
 		$template->subject = $subject;
 		$template->body = $body;
 		$template->htmlbody = $htmlbody;
-		$params = new \stdClass();
+		$params = new \stdClass;
 		$params->tags = array($tags);
 		$template->params = json_encode($params);
 
@@ -392,6 +394,8 @@ class MailTemplate
 	 *
 	 * @param   string  $key  The key of the mail template
 	 *
+	 * @return  bool  True on success, false on failure
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function deleteTemplate($key)
@@ -401,7 +405,8 @@ class MailTemplate
 		$query->delete('#__mail_templates')
 			->where($query->gn('template_id') . ' = ' . $query->q($key));
 		$db->setQuery($query);
-		$db->execute();
+
+		return $db->execute();
 	}
 }
 
