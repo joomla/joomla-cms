@@ -50,6 +50,6 @@ foreach ($field->subfields_rows as $subfields_row)
 
 <?php if (trim($result) != ''): ?>
 	<ul class="fields-container">
-		<?= $result; ?>
+		<?php echo $result; ?>
 	</ul>
 <?php endif; ?>
