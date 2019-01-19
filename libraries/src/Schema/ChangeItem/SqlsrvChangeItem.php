@@ -147,7 +147,7 @@ class SqlsrvChangeItem extends ChangeItem
 	{
 		$string = str_replace('[', '', $string);
 		$string = str_replace(']', '', $string);
-		$string = str_replace('`', '', $string);
+		$string = str_replace('"', '', $string);
 		$string = str_replace(';', '', $string);
 		$string = str_replace('#__', $this->db->getPrefix(), $string);
 
