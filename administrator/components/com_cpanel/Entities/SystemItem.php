@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class representing a item in the system view.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SystemItem
 {
@@ -46,7 +46,7 @@ class SystemItem
 	 * @param   string  $link   The link for the item
 	 * @param   string  $badge  The optional badge for the item
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct($title, $link, $badge = '')
 	{
@@ -64,7 +64,7 @@ class SystemItem
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getTitle()
 	{
@@ -76,7 +76,7 @@ class SystemItem
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getLink()
 	{
@@ -88,7 +88,7 @@ class SystemItem
 	 *
 	 * @return string|null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getBadge()
 	{

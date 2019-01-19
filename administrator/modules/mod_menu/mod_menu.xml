@@ -50,6 +50,7 @@
 					description="MOD_MENU_FIELD_CHECK_DESC"
 					class="switcher"
 					default="1"
+					filter="integer"
 					showon="menutype!:*"
 					>
 					<option value="0">JNO</option>
@@ -62,6 +63,7 @@
 					label="MOD_MENU_FIELD_SHOWNEW"
 					class="switcher"
 					default="1"
+					filter="integer"
 					showon="menutype:*"
 					>
 					<option value="0">JHIDE</option>
@@ -74,6 +76,7 @@
 					label="MOD_MENU_FIELD_SHOWHELP"
 					class="switcher"
 					default="1"
+					filter="integer"
 					showon="menutype:*"
 					>
 					<option value="0">JHIDE</option>

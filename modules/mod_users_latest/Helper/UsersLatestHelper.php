@@ -54,7 +54,7 @@ class UsersLatestHelper
 				->where('ug.id <> 1');
 		}
 
-		$db->setQuery($query, 0, $params->get('shownumber'));
+		$db->setQuery($query, 0, $params->get('shownumber', 5));
 
 		try
 		{

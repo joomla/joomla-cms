@@ -27,21 +27,21 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</caption>
 				<thead>
 					<tr>
-						<th>
+						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th>
+						<th scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
-						<th style="width:6%" class="text-center">
+						<th style="width:6%" class="text-center" scope="col">
 							<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $key, $action[1]); ?>"><?php echo Text::_($key); ?></span>
 						</th>
 						<?php endforeach; ?>
-						<th style="width:6%">
+						<th style="width:6%" scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:3%">
+						<th style="width:3%" scope="col">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -49,7 +49,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row0">
-							<td>
+							<td scope="row">
 								<?php echo $this->escape($item->title); ?>
 							</td>
 							<td>
@@ -62,19 +62,24 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								if ($check === true) :
 									$class  = 'text-success icon-ok';
 									$button = 'btn-success';
+									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
 								elseif ($check === false) :
 									$class  = 'icon-remove';
 									$button = 'btn-danger';
+									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
 								elseif ($check === null) :
 									$class  = 'text-danger icon-ban-circle';
 									$button = 'btn-warning';
+									$text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
 								else :
 									$class  = '';
 									$button = '';
+									$text   = '';
 								endif;
 								?>
 							<td class="text-center">
-								<span class="<?php echo $class; ?>"></span>
+								<span class="<?php echo $class; ?>" aria-hidden="true"></span>
+								<span class="sr-only"> <?php echo $text; ?></span>
 							</td>
 							<?php endforeach; ?>
 							<td>
