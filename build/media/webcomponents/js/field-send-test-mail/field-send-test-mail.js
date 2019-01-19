@@ -26,7 +26,7 @@
 
 	sendTestMail() {
 		const email_data = {
-			smtpauth: this.querySelector('[name="jform[smtpauth]"]').value,
+			smtpauth: document.getElementById("jform_smtpauth0").checked ? 0 : 1,
 			smtpuser: this.querySelector('[name="jform[smtpuser]"]').value,
 			smtppass: this.querySelector('[name="jform[smtppass]"]').value,
 			smtphost: this.querySelector('[name="jform[smtphost]"]').value,
@@ -35,7 +35,7 @@
 			mailfrom: this.querySelector('[name="jform[mailfrom]"]').value,
 			fromname: this.querySelector('[name="jform[fromname]"]').value,
 			mailer: this.querySelector('[name="jform[mailer]"]').value,
-			mailonline: this.querySelector('[name="jform[mailonline]"]').value,
+			mailonline: document.getElementById("jform_mailonline0").checked ? 0 : 1
 		};
 
 		// Remove js messages, if they exist.
