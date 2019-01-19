@@ -59,6 +59,9 @@
 @import "pages/com_templates";
 @import "pages/com_users";
 
+// Mixins
+@import "_mixin";
+
 .container-main,
 .system-debug {
   padding-bottom: 50px;
@@ -114,4 +117,13 @@
 // Quickicon specific
 .message-alert {
   text-align: right !important;
+}
+
+// Fadeeffect for login page
+.load-fadein{
+	@include fadein_page;
+}
+
+.load-fadeout{
+	 @include fadeout_page;
 }
