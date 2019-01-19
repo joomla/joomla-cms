@@ -57,6 +57,9 @@ class PlgFieldsSubfields extends FieldsPlugin
 			return;
 		}
 
+		// Ensure it is an object
+		$formData = (object) $data;
+
 		// Now load our own form definition into a DOMDocument, because we want to manipulate it
 		$xml = new DOMDocument;
 		$xml->load($path);
@@ -76,7 +79,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 
 		// Now manipulate the field, set its parameter `context` to our context
 		$valuefield = $valuefields->item(0);
-		$valuefield->setAttribute('context', ((object) $data)->context);
+		$valuefield->setAttribute('context', $formData->context);
 
 		// And now load our manipulated form definition into the JForm
 		$form->load($xml->saveXML(), true, '/form/*');
