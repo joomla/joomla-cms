@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Transitions;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -147,6 +148,11 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', $this->escape($workflow)), 'address contact');
 
 		$isCore = $this->workflow->core;
+		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+
+		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
+			'JTOOLBAR_BACK', $arrow
+		);
 
 		if ($canDo->get('core.create') && !$isCore)
 		{

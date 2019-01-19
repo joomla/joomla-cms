@@ -378,7 +378,7 @@ class CategoriesModel extends ListModel
 	/**
 	 * Method to load the countItems method from the extensions
 	 *
-	 * @param   \stdClass[]  &$items     The category items
+	 * @param   \stdClass[]  $items      The category items
 	 * @param   string       $extension  The category extension
 	 *
 	 * @return  void

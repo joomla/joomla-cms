@@ -628,11 +628,11 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Messaging for changed items
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = JFactory::getApplication()->get('debug_lang');
+		$debug = Factory::getApplication()->get('debug_lang');
 		$result = true;
 
 		$article = new ArticleTable($db);
