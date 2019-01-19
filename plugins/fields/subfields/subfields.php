@@ -215,7 +215,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 				}
 
 				// Store the subfield (incl. its raw and rendered value) into this rows sub fields
-				$row_subfields[$subfield->name] = $subfield;
+				$row_subfields[$subfield->fieldname] = $subfield;
 			}
 
 			// Store all the sub fields of this row
@@ -250,6 +250,9 @@ class PlgFieldsSubfields extends FieldsPlugin
 		{
 			return $parent_field;
 		}
+
+		// Override the fieldname attribute of the subform - this is being used to index the rows
+		$parent_field->setAttribute('fieldname', 'row');
 
 		// Make sure this `field` DOMElement has an attribute type=subform - our parent set this to
 		// subfields, because that is our name. But we want the XML to be a subform.
@@ -404,6 +407,15 @@ class PlgFieldsSubfields extends FieldsPlugin
 
 			// Manipulate it and add our custom configuration to it
 			$cur_field->render_values = $option->render_values;
+
+			/**
+			 * Set the name of the sub field to its id so that the values in the database are being saved
+			 * based on the id of the sub fields, not on their name. Actually we do not need the name of
+			 * the sub fields to render them, but just to make sure we have the name when we need it, we
+			 * store it as `fieldname`.
+			 */
+			$cur_field->fieldname = $cur_field->name;
+			$cur_field->name = ('field' . $cur_field->id);
 
 			// And add it to our result
 			$result[] = $cur_field;
