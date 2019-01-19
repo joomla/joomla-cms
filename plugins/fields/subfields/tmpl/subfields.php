@@ -12,29 +12,44 @@ if (!$context || empty($field->subfields_rows))
 {
 	return;
 }
+
+$result = '';
+
+// Iterate over each row that we have
+foreach ($field->subfields_rows as $subfields_row)
+{
+	/* Placeholder array to generate this rows output */
+	$row_output = array();
+
+	/* Iterate over each sub field inside of that row */
+	foreach ($subfields_row as $subfield)
+	{
+		$class   = $subfield->params->get('render_class', null);
+		$layout  = $subfield->params->get('layout', 'render');
+		$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $subfield));
+
+		// Skip empty output
+		if (trim($content) === '')
+		{
+			continue 1;
+		}
+
+		// Generate the output for this sub field and row
+		$row_output[] = '<span class="field-entry' . ($class ? (' ' . $class) : '') . '">' . $content . '</span>';
+	}
+
+	// Skip empty rows
+	if (count($row_output) == 0)
+	{
+		continue 1;
+	}
+
+	$result .= ('<li>' . implode(', ', $row_output) . '</li>');
+}
 ?>
-<ul class="fields-container">
-	<?php /* Iterate over each row that we have */ ?>
-	<?php foreach ($field->subfields_rows as $subfields_row): ?>
-		<li>
-			<?php
-			/* Placeholder array to generate this rows output */
-			$row_output = array();
 
-			/* Iterate over each sub field inside of that row */
-			foreach ($subfields_row as $subfield)
-			{
-				$class   = $subfield->params->get('render_class', null);
-				$layout  = $subfield->params->get('layout', 'render');
-				$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $subfield));
-
-				// Generate the output for this sub field and row
-				$row_output[] = '<span class="field-entry' . ($class ? (' ' . $class) : '') . '">' . $content . '</span>';
-			}
-
-			// And output this rows output
-			echo implode(', ', $row_output);
-			?>
-		</li>
-	<?php endforeach; ?>
-</ul>
+<?php if (trim($result) != ''): ?>
+	<ul class="fields-container">
+		<?= $result; ?>
+	</ul>
+<?php endif; ?>
