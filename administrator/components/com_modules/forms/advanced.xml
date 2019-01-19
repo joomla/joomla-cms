@@ -5,9 +5,9 @@
 			name="advanced">
 
 			<field
-					name="style"
-					type="chromestyle"
-					label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
+				name="style"
+				type="chromestyle"
+				label="COM_MODULES_FIELD_MODULE_STYLE_LABEL"
 			/>
 
 			<field

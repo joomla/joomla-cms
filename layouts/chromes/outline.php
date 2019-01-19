@@ -24,7 +24,7 @@ if (!$css)
 ?>
 <div class="mod-preview">
 	<div
-		class="mod-preview-info"><?php echo 'Position: ' . $module->position . ' [ Style: ' . $module->style . ']'; ?></div>
+		class="mod-preview-info"><?php echo 'Position: ' . $module->position . ' [ Style: ' . $module->style . ' ]'; ?></div>
 	<div class="mod-preview-wrapper">
 		<?php echo $module->content; ?>
 	</div>
