@@ -60,15 +60,18 @@ class PlgFieldsSubfields extends FieldsPlugin
 		// Ensure it is an object
 		$formData = (object) $data;
 
+		// Remove the field of name "required", we don't want it for subfields
+		$form->removeField('required');
+
 		// Now load our own form definition into a DOMDocument, because we want to manipulate it
 		$xml = new DOMDocument;
 		$xml->load($path);
 
-		// In our form definition, find the one field of type `subfieldstype`
-		$xmlxpath   = new DOMXPath($xml);
-		$valuefields = $xmlxpath->evaluate(
-			'//fieldset[@name="fieldparams"]/field[@name="options"]/form/field[@type="subfieldstype"]'
-		);
+		// Prepare a DOMXPath object
+		$xmlxpath = new DOMXPath($xml);
+
+		// Get all fields of type "subfieldstype" in our own XML
+		$valuefields = $xmlxpath->evaluate('//field[@type="subfieldstype"]');
 		/* @var $valuefields \DOMNodeList */
 
 		// If we haven't found it, something is wrong
@@ -77,9 +80,11 @@ class PlgFieldsSubfields extends FieldsPlugin
 			return;
 		}
 
-		// Now manipulate the field, set its parameter `context` to our context
-		$valuefield = $valuefields->item(0);
-		$valuefield->setAttribute('context', $formData->context);
+		// Now iterate over those fields and manipulate them, set its parameter `context` to our context
+		foreach ($valuefields as $valuefield)
+		{
+			$valuefield->setAttribute('context', $formData->context);
+		}
 
 		// And now load our manipulated form definition into the JForm
 		$form->load($xml->saveXML(), true, '/form/*');
@@ -280,6 +285,9 @@ class PlgFieldsSubfields extends FieldsPlugin
 			$parent_field->setAttribute('layout', 'joomla.form.field.subform.repeatable');
 		}
 
+		// Memory variable to store whether one of our sub fields is required
+		$required = false;
+
 		// Iterate over the sub fields to call prepareDom on each of those sub-fields
 		foreach ($subfields as $subfield)
 		{
@@ -289,6 +297,20 @@ class PlgFieldsSubfields extends FieldsPlugin
 				'onCustomFieldsPrepareDom',
 				array($subfield, $parent_fieldset, $form)
 			);
+
+			if ($subfield->required)
+			{
+				$required = true;
+			}
+		}
+
+		// If one if the sub fields is required, our parent field should be required too
+		if ($required)
+		{
+			$parent_field->setAttribute('required', '1');
+
+			// We need at least 1 row if we are required
+			$parent_field->setAttribute('min', '1');
 		}
 
 		return $parent_field;
