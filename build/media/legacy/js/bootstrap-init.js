@@ -18,7 +18,7 @@ Joomla = window.Joomla || {};
 			throw new Error('Selector is missing');
 		}
 
-		var iframe = document.querySelector(options.iframeSelector + ' > iframe');
+		var iframe = document.querySelector(options.iframeSelector + ' iframe');
 		if (iframe) {
 			var button = iframe.contentWindow.document.querySelector(options.buttonSelector);
 			if (button) {
@@ -26,6 +26,7 @@ Joomla = window.Joomla || {};
 			}
 		}
 
+		Joomla.Modal.getCurrent().close();
 		return false;
 	};
 
