@@ -193,8 +193,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * @type {{}}
    *
-   * Allows you to call Joomla.JText._() to get a translated JavaScript string
-   * pushed in with JText::script() in Joomla.
+   * Allows you to call Joomla.Text._() to get a translated JavaScript string
+   * pushed in with Text::script() in Joomla.
    */
   Joomla.Text = {
     strings: {},
@@ -226,10 +226,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
     },
 
     /**
-     * Load new strings in to Joomla.JText
+     * Load new strings in to Joomla.Text
      *
      * @param {Object} object  Object with new strings
-     * @returns {Joomla.JText}
+     * @returns {Joomla.Text}
      */
     load: (object) => {
       [].slice.call(Object.keys(object)).forEach((key) => {
@@ -473,13 +473,13 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
 
       // Title
-      title = Joomla.JText._(type);
+      title = Joomla.Text._(type);
 
       // Skip titles with untranslated strings
       if (typeof title !== 'undefined') {
         titleWrapper = document.createElement('h4');
         titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = Joomla.JText._(type) ? Joomla.JText._(type) : type;
+        titleWrapper.innerHTML = Joomla.Text._(type) ? Joomla.Text._(type) : type;
         messagesBox.appendChild(titleWrapper);
       }
 
@@ -501,7 +501,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
     });
   };
-
 
   /**
    * Remove messages
@@ -571,20 +570,20 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
       encodedJson = buf.join('');
 
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
     } else if (textStatus === 'nocontent') {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
     } else if (textStatus === 'timeout') {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT')];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_TIMEOUT')];
     } else if (textStatus === 'abort') {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
     } else if (xhr.responseJSON && xhr.responseJSON.message) {
       // For vanilla XHR
-      msg.error = [`${Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
+      msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
     } else if (xhr.statusText) {
-      msg.error = [`${Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
+      msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
     } else {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
     }
 
     return msg;
@@ -910,22 +909,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
-   * Check if HTML5 localStorage enabled on the browser
-   *
-   * @since   4.0.0
-   */
-  Joomla.localStorageEnabled = () => {
-    const test = 'joomla-cms';
-    try {
-      localStorage.setItem(test, test);
-      localStorage.removeItem(test);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  /**
    * Loads any needed polyfill for web components and async load any web components
    *
    * Parts of the WebComponents method belong to The Polymer Project Authors. License http://polymer.github.io/LICENSE.txt
@@ -1138,69 +1121,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
         });
       }
     }
-  };
-
-  /**
-   * Method that resets the filter inputs and submits the relative form
-   *
-   * @param {HTMLElement}  The element that initiates the call
-   * @returns {void}
-   * @since   4.0
-   */
-  Joomla.resetFilters = (element) => {
-    const { form } = element;
-
-    if (!form) {
-      throw new Error('Element must be inside a form!');
-    }
-
-    const elementsArray = [].slice.call(form.elements);
-
-    if (elementsArray.length) {
-      const newElementsArray = [];
-      elementsArray.forEach((elem) => {
-        // Skip the token, the task, the boxchecked and the calling element
-        if (elem.getAttribute('name') === 'task'
-          || elem.getAttribute('name') === 'boxchecked'
-          || (elem.value === '1' && /^[0-9A-F]{32}$/i.test(elem.name))
-          || elem === element) {
-          return;
-        }
-
-        newElementsArray.push(elem);
-      });
-
-      // Reset all filters
-      newElementsArray.forEach((elem) => {
-        elem.value = '';
-      });
-
-      form.submit();
-    }
-  };
-
-  /*
-   * Method to invoke a click on button inside an iframe
-   *
-   * @param   {object} options Object with the css selector for the parent element of an iframe
-   *                          and the selector of the button in the iframe that will be clicked
-   * @returns {boolean}
-   * @since   4.0
-   */
-  Joomla.iframeButtonClick = (options = { iframeSelector: '', buttonSelector: '' }) => {
-    if (!options.iframeSelector || !options.buttonSelector) {
-      throw new Error('Selector is missing');
-    }
-
-    const iframe = document.querySelector(`${options.iframeSelector} > iframe`);
-    if (iframe) {
-      const button = iframe.contentWindow.document.querySelector(options.buttonSelector);
-      if (button) {
-        button.click();
-      }
-    }
-
-    return false;
   };
 })(Joomla, document);
 
