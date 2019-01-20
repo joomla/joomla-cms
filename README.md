@@ -45,6 +45,10 @@ git clone git@github.com:joomla/joomla-cms.git
 ```bash
 cd joomla-cms
 ```
+- Go to the 4.0-dev branch:
+```bash
+git checkout 4.0-dev
+```
 - Install all the needed composer packages:
 ```bash
 composer install
