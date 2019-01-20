@@ -60,7 +60,17 @@ class PasswordStrength {
 
 class JoomlaFieldPassword extends HTMLElement {
   static get observedAttributes() {
-    return ['min-length', 'min-integers', 'min-symbols', 'min-uppercase', 'min-lowercase', 'reveal', 'text-show', 'text-hide', 'text-complete', 'text-incomplete'];
+    return [
+      'min-length',
+      'min-integers',
+      'min-symbols',
+      'min-uppercase',
+      'min-lowercase',
+      'reveal',
+      'text-show',
+      'text-hide',
+      'text-complete',
+      'text-incomplete'];
   }
 
   get minLength() { return parseInt(this.getAttribute('min-length') || 0); }
@@ -87,6 +97,7 @@ class JoomlaFieldPassword extends HTMLElement {
 
     // Bindings
     this.childrenChange = this.childrenChange.bind(this);
+    this.onButtonClick = this.onButtonClick.bind(this);
     this.buildElements = this.buildElements.bind(this);
     this.handler = this.handler.bind(this);
     this.getMeter = this.getMeter.bind(this);
@@ -109,7 +120,8 @@ class JoomlaFieldPassword extends HTMLElement {
     }
 
     if (this.reveal === 'true' && this.button) {
-      this.button.parentNode.removeChild(this.button);
+      this.button.removeEventListener('click', this.onButtonClick);
+      this.removeChild(this.button);
     }
 
     if ((this.minLength && this.minLength > 0)
@@ -125,6 +137,21 @@ class JoomlaFieldPassword extends HTMLElement {
         this.meter.parentNode.removeChild(this.meter);
       }
     }
+  }
+
+  onButtonClick() {
+    if (this.input.type === 'password'){
+      this.isVisible = true;
+      this.input.type = 'text';
+      this.button.classList.remove('joomla-field-password__hide');
+      this.button.classList.add('joomla-field-password__show');
+    } else {
+      this.isVisible = false;
+      this.button.classList.remove('joomla-field-password__show');
+      this.button.classList.add('joomla-field-password__hide');
+      this.input.type = 'password';
+    }
+    this.button.innerHTML = `<span class="joomla-field-password__sr-only">${this.isVisible ? this.showText : this.hideText}</span>`;
   }
 
   buildElements() {
@@ -146,20 +173,7 @@ class JoomlaFieldPassword extends HTMLElement {
       this.button.setAttribute('type', 'button');
       this.appendChild(this.button);
 
-      this.button.addEventListener('click', () => {
-        if (this.input.type === 'password'){
-          this.isVisible = true;
-          this.input.type = 'text';
-          this.button.classList.remove('joomla-field-password__hide');
-          this.button.classList.add('joomla-field-password__show');
-        } else {
-          this.isVisible = false;
-          this.button.classList.remove('joomla-field-password__show');
-          this.button.classList.add('joomla-field-password__hide');
-          this.input.type = 'password';
-        }
-        this.button.innerHTML = `<span class="joomla-field-password__sr-only">${this.isVisible ? this.showText : this.hideText}</span>`;
-      });
+      this.button.addEventListener('click', this.onButtonClick);
     }
 
     // Meter is enabled
@@ -201,6 +215,7 @@ class JoomlaFieldPassword extends HTMLElement {
       }
     }
   }
+
   childrenChange(mutations) {
     mutations.forEach(function(mutation){
       if (mutation.addedNodes.length
