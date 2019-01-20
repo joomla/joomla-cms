@@ -8,11 +8,12 @@ Joomla = window.Joomla || {};
 	 *
 	 * @param   {object}  options  Object with the css selector for the parent element of an iframe
 	 *                             and the selector of the button in the iframe that will be clicked
+	 *                             { iframeSelector: '', buttonSelector: '' }
 	 * @returns {boolean}
 	 *
 	 * @since   4.0
 	 */
-	Joomla.iframeButtonClick = function(options = { iframeSelector: '', buttonSelector: '' }) {
+	Joomla.iframeButtonClick = function(options) {
 		if (!options.iframeSelector || !options.buttonSelector) {
 			throw new Error('Selector is missing');
 		}
