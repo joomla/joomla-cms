@@ -112,7 +112,7 @@ JFactory::getDocument()->addScriptDeclaration("
 			<?php endif; ?>
 			<?php if ($this->params->get('all_tags_show_tag_description', 1) or $this->params->get('all_tags_show_tag_hits')) : ?>
 				<div class="caption">
-					<?php if (!empty($item->description)) : ?>
+					<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
 						<span class="tag-body">
 							<?php echo JHtml::_('string.truncate', $item->description, $this->params->get('all_tags_tag_maximum_characters')); ?>
 						</span>
