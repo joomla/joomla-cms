@@ -110,7 +110,7 @@ JFactory::getDocument()->addScriptDeclaration("
 					<?php endif; ?>
 				</span>
 			<?php endif; ?>
-			<?php if ($this->params->get('all_tags_show_tag_description', 1) or $this->params->get('all_tags_show_tag_hits')) : ?>
+			<?php if (($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) || $this->params->get('all_tags_show_tag_hits')) : ?>
 				<div class="caption">
 					<?php if ($this->params->get('all_tags_show_tag_description', 1) && !empty($item->description)) : ?>
 						<span class="tag-body">
