@@ -19,7 +19,7 @@
 
       // We need a button to support button behavior,
       // because we cannot currently extend HTMLButtonElement
-      this.buttonElement = this.querySelector('button');
+      this.buttonElement = this.querySelector('button, a');
       this.disabled = false;
 
       // If list selection are required, set button to disabled by default
@@ -52,11 +52,28 @@
       // Make sure we have a boolean value
       this.disabled = !!disabled;
 
+      // Switch attribute for current element
+      if (this.disabled) {
+        this.setAttribute('disabled', true);
+      } else {
+        this.removeAttribute('disabled');
+      }
+
+      // Switch attribute for native element
+      // An anchor do not support "disabled" attribute, so use class
       if (this.buttonElement) {
         if (this.disabled) {
-          this.buttonElement.setAttribute('disabled', true);
+          if (this.buttonElement.nodeName === 'BUTTON') {
+            this.buttonElement.setAttribute('disabled', true)
+          } else {
+            this.buttonElement.classList.add('disabled');
+          }
         } else {
-          this.buttonElement.removeAttribute('disabled');
+          if (this.buttonElement.nodeName === 'BUTTON') {
+            this.buttonElement.removeAttribute('disabled');
+          } else {
+            this.buttonElement.classList.remove('disabled');
+          }
         }
       }
     }

@@ -118,7 +118,7 @@ class HistoryModel extends ListModel
 	/**
 	 * Method to delete one or more records from content history table.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -134,6 +134,12 @@ class HistoryModel extends ListModel
 		{
 			if ($table->load($pk))
 			{
+				if ($table->keep_forever === "1")
+				{
+					unset($pks[$i]);
+					continue;
+				}
+
 				if ($this->canEdit($table))
 				{
 					if (!$table->delete($pk))
@@ -256,7 +262,7 @@ class HistoryModel extends ListModel
 	/**
 	 * Method to toggle on and off the keep forever value for one or more records from content history table.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *

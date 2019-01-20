@@ -29,7 +29,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 	/**
 	 * Application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.2
 	 */
 	protected $app;
@@ -37,7 +37,7 @@ class PlgAuthenticationCookie extends CMSPlugin
 	/**
 	 * Database object
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.2
 	 */
 	protected $db;
@@ -141,7 +141,8 @@ class PlgAuthenticationCookie extends CMSPlugin
 		if (!UserHelper::verifyPassword($cookieArray[0], $results[0]->token))
 		{
 			/*
-			 * This is a real attack! Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
+			 * This is a real attack!
+			 * Either the series was guessed correctly or a cookie was stolen and used twice (once by attacker and once by victim).
 			 * Delete all tokens for this user!
 			 */
 			$query = $this->db->getQuery(true)
@@ -302,8 +303,8 @@ class PlgAuthenticationCookie extends CMSPlugin
 		}
 
 		// Get the parameter values
-		$lifetime = $this->params->get('cookie_lifetime', '60') * 24 * 60 * 60;
-		$length   = $this->params->get('key_length', '16');
+		$lifetime = $this->params->get('cookie_lifetime', 60) * 24 * 60 * 60;
+		$length   = $this->params->get('key_length', 16);
 
 		// Generate new cookie
 		$token       = UserHelper::genRandomPassword($length);
@@ -342,9 +343,9 @@ class PlgAuthenticationCookie extends CMSPlugin
 				->where($this->db->quoteName('uastring') . ' = ' . $this->db->quote($cookieName));
 		}
 
-		$hashed_token = UserHelper::hashPassword($token);
+		$hashedToken = UserHelper::hashPassword($token);
 
-		$query->set($this->db->quoteName('token') . ' = ' . $this->db->quote($hashed_token));
+		$query->set($this->db->quoteName('token') . ' = ' . $this->db->quote($hashedToken));
 
 		try
 		{

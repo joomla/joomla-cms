@@ -11,11 +11,11 @@ namespace Joomla\Component\Categories\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Category Edit field..
@@ -44,7 +44,7 @@ class CategoryeditField extends ListField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.form.field.categoryedit';
 
@@ -68,7 +68,7 @@ class CategoryeditField extends ListField
 
 		if ($return)
 		{
-			$this->allowAdd = $this->element['allowAdd'] ?? '';
+			$this->allowAdd = isset($this->element['allowAdd']) ? (boolean) $this->element['allowAdd'] : false;
 		}
 
 		return $return;
@@ -88,7 +88,8 @@ class CategoryeditField extends ListField
 		switch ($name)
 		{
 			case 'allowAdd':
-				return $this->$name;
+				return (bool) $this->$name;
+
 		}
 
 		return parent::__get($name);
@@ -348,8 +349,11 @@ class CategoryeditField extends ListField
 	{
 		$data = $this->getLayoutData();
 
-		$data['options']     = $this->getOptions();
-		$data['allowCustom'] = $this->allowAdd;
+		$data['options']             = $this->getOptions();
+		$data['allowCustom']         = $this->allowAdd;
+		$data['customFields']        = (boolean) $this->element['custom-fields-enabled'];
+		$data['customFieldsCatId']   = (string) $this->element['custom-fields-cat-id'];
+		$data['customFieldsSection'] = (string) $this->element['custom-fields-section'];
 
 		$renderer = $this->getRenderer($this->layout);
 		$renderer->setComponent('com_categories');
