@@ -1,4 +1,4 @@
-	<?php
+<?php
 /**
  * @package     Joomla.Plugins
  * @subpackage  System.actionlogs
