@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -140,7 +140,7 @@ abstract class PrivacyPlugin extends JPlugin
 
 		$type = str_replace('com_', '', $parts[0]);
 
-		$domain = $this->createDomain($type . '_custom_fields', 'joomla_' . $type . '_custom_fields_data');
+		$domain = $this->createDomain($type . '_' . $parts[1] . '_custom_fields', 'joomla_' . $type . '_' . $parts[1] . '_custom_fields_data');
 
 		foreach ($items as $item)
 		{
