@@ -1,0 +1,21 @@
+.gotop {
+  position: absolute; 
+  width: 50px; 
+  height: 50px; 
+  margin-top: 500px; 
+  padding: 15px 11px; 
+  border-radius: 3px; 
+  bottom: 0; 
+  right: 10px; 
+  background-color: rgba(67, 76, 120, 0.75);
+  z-index: 999;
+}
+.icon-arrow-up-4:before {
+  font-size: 2.0em;  
+}
+.back-top {
+  color: white;
+}
+.back-top:hover {
+  color: #A1A0BB;
+}
