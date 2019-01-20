@@ -39,7 +39,6 @@
 			type="password"
 			label="INSTL_ADMIN_PASSWORD_DESC"
 			id="admin_password"
-			class="form-control"
 			required="true"
 			autocomplete="off"
 		/>
