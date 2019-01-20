@@ -169,15 +169,14 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<?php if ($this->countModules('footer')) : ?>
 	<footer class="grid-child container-footer footer">
 		<hr>
-		 <div class="gotop">
-	   <a href="#top" id="back-top" class="back-top" title="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>"><span class="icon-arrow-up-4" aria- hidden="true"></span></a>
-	   </div>
-      
-      </div>
 		<jdoc:include type="modules" name="footer" style="none" />
 	</footer>
 	<?php endif; ?>
-
+   <div class="gotop">
+	   <a href="#top" id="back-top" class="back-top" title="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>"><span class="icon-arrow-up-4" aria-hidden="true"></span></a>
+	   </div>
+    
+  </div>
 	<jdoc:include type="modules" name="debug" style="none" />
 
 </body>
