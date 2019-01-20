@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <metadata>
-	<layout title="com_contact_featured_view_default_title" option="com_contact_featured_view_default_option">
+	<layout title="COM_CONTACT_FEATURED_VIEW_DEFAULT_TITLE" option="COM_CONTACT_FEATURED_VIEW_DEFAULT_OPTION">
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_CONTACT_FEATURED"
 		/>
