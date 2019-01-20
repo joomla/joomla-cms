@@ -30,7 +30,7 @@ if (JFile::exists($moduleXml))
 	}
 }
 
-$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom' || $editorText = true;
+$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom' || $editorText === true;
 
 // If multi-language site, make language read-only
 if (JLanguageMultilang::isEnabled())
