@@ -4,8 +4,10 @@
  */
 
 // eslint-disable max-len
-// Patch Custom Events
-// https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+/**
+ * Patch Custom Events
+ * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+ */
 (() => {
   if (typeof window.CustomEvent === 'function') {
     return false;
