@@ -55,7 +55,7 @@
 		this.filterContainer = $(this.options.formSelector + ' ' + this.options.filterContainerSelector);
 		this.filtersHidden   = this.options.filtersHidden;
 
-		// Only filters without 'Search Tools' Button
+		// Only filters without 'Search Tools' button
 		this.showOnlyFilters = this.options.showOnlyFilters;
 
 		// List fields
