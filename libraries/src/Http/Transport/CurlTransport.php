@@ -104,7 +104,7 @@ class CurlTransport implements TransportInterface
 			// Otherwise we need to encode the value first.
 			else
 			{
-				$options[CURLOPT_POSTFIELDS] = http_build_query($data);
+				$options[CURLOPT_POSTFIELDS] = http_build_query($data, '', '&');
 			}
 
 			if (!isset($headers['Content-Type']))
