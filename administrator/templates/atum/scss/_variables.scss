@@ -29,8 +29,8 @@ $cyan:                             #108193;
 :root{
 --background-color-light:#ebf0f5;
 --background-color-dark:#1a466b;
---font-color-light:$white;
---font-color-dark:$blue;
+--font-color-light:#fff;
+--font-color-dark:var--(gray-600);
 --link-color:$gray-600;
 }
 
