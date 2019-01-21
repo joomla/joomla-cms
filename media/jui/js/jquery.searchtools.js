@@ -55,8 +55,8 @@
 		this.filterContainer = $(this.options.formSelector + ' ' + this.options.filterContainerSelector);
 		this.filtersHidden   = this.options.filtersHidden;
 
-		// Only Filters Without 'Search Tools' Button
-		this.showOnlyFilters   = this.options.showOnlyFilters;
+		// Only filters without 'Search Tools' Button
+		this.showOnlyFilters = this.options.showOnlyFilters;
 
 		// List fields
 		this.listButton    = $(this.options.formSelector + ' ' + this.options.listBtnSelector);
@@ -109,7 +109,7 @@
 			// Get values
 			this.searchString = this.searchField.val();
 
-			// Check if only Filters is need without 'search tool' button
+			// Check if only filters is need without 'search tool' button
 			if (this.showOnlyFilters) {
 				this.showFilters();
 			} else {
