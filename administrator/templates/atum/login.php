@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
@@ -41,6 +42,8 @@ $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
+$logoBlue = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+$logo = $logoBlue;
 
 // Template params
 $showSitename = $this->params->get('showSitename', '1');
@@ -64,46 +67,43 @@ $this->addScriptDeclaration('cssVars();')
 	<jdoc:include type="styles"/>
 </head>
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
-	<?php // Container ?>
-	<main class="d-flex justify-content-center align-items-center h-100">
-		<div class="login-bg-grad"></div>
-		<div class="login">
-			<div class="login-logo">
-				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg"
-					 alt="">
-			</div>
-			<div id="content">
-				<noscript>
-					<div class="alert alert-danger" role="alert">
-						<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-					</div>
-				</noscript>
-				<h1 class="m-3 h4 text-light"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
-				<div id="element-box" class="login-box">
-					<?php if ($showSitename || $loginLogo) : ?>
-						<div class="p-4 bg-white text-center">
-							<?php if ($showSitename) : ?>
-								<h2 class="m-0 text-primary"><?php echo $sitename; ?></h2>
-							<?php endif; ?>
-							<?php if ($loginLogo) : ?>
-								<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
-							<?php endif; ?>
-						</div>
-					<?php endif; ?>
-					<div class="p-4">
-						<jdoc:include type="message"/>
-						<jdoc:include type="component"/>
-					</div>
-				</div>
-			</div>
-			<div class="mt-4 d-none d-md-flex justify-content-between">
-				<a href="<?php echo Uri::root(); ?>" target="_blank" class="text-white"><span
-							class="fa fa-external-link mr-1"
-							aria-hidden="true"></span><?php echo Text::_('TPL_ATUM_VIEW_SITE'); ?></a> <span
-						class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
-			</div>
-		</div>
-	</main>
+    <header id="header" class="header">
+        <div class="d-flex align-items-center">
+            <div class="header-title d-flex mr-auto">
+                <div class="d-flex">
+                    <a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+                        <img src="<?php echo $logoBlue; ?>" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="wrapper" class="d-flex wrapper">
+
+	    <?php // Sidebar ?>
+        <div id="sidebar-wrapper" class="sidebar-wrapper">
+            <div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
+                <h1><?php echo $sitename; ?></h1>
+                <a href="<?php echo Uri::root(); ?>"><?php echo Text::sprintf('SOME_STRING', $sitename); ?></a>
+            </div>
+            <jdoc:include type="modules" name="sidebar" style="none"/>
+        </div>
+
+        <div class="container-fluid container-main">
+            <section id="content" class="content">
+                <main class="d-flex justify-content-center align-items-center h-100">
+                    <div class="login">
+                        <div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
+                            <img src="<?php echo $logo; ?>" alt="">
+                        </div>
+                        <jdoc:include type="message"/>
+                        <jdoc:include type="component"/>
+                    </div>
+                </main>
+            </section>
+        </div>
+    </div>
 	<jdoc:include type="modules" name="debug" style="none"/>
 	<jdoc:include type="scripts"/>
 </body>
