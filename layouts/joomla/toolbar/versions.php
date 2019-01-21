@@ -47,7 +47,9 @@ echo HTMLHelper::_(
                 'tmpl' => 'component',
                 'item_id' => $itemId,
                 Session::getFormToken() => 1
-            ]
+            ],
+            '',
+            '&'
         ),
         'title'  => $title,
         'height' => '100%',
