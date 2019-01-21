@@ -228,6 +228,11 @@ body {
       }
     }
   }
+
+  .module-actions {
+    right: auto;
+    left: 0;
+  }
 }
 
 .js-stools .js-stools-container-filters {
@@ -274,5 +279,14 @@ body {
 
 // Quickicon specific
 .message-alert {
+  text-align: left !important;
+}
+
+// Bootstrap overrides
+.text-left {
+  text-align: right !important;
+}
+
+.text-right {
   text-align: left !important;
 }

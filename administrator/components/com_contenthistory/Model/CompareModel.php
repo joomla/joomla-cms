@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\ItemModel;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\ContentHistory;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\Table;
@@ -25,7 +25,7 @@ use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
  *
  * @since  3.2
  */
-class CompareModel extends ItemModel
+class CompareModel extends ListModel
 {
 	/**
 	 * Method to get a version history row.

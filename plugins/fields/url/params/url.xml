@@ -20,6 +20,7 @@
 				name="relative"
 				type="list"
 				label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
+				filter="integer"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="1">JYES</option>
