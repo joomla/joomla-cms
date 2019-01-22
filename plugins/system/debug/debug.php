@@ -293,10 +293,12 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->setEnableJqueryNoConflict(false);
 		$debugBarRenderer->disableVendor('fontawesome');
 
-		// @todo disable highlightjs from the DebugBar, import it through NPM
-		//       and deliver it through Joomla's API
-		//       Also every DebuBar script ans stylesheet needs to use Joomla's API
-		//$debugBarRenderer->disableVendor('highlightjs');
+		/**
+		 * @todo disable highlightjs from the DebugBar, import it through NPM
+		 *       and deliver it through Joomla's API
+		 *       Also every DebuBar script ans stylesheet needs to use Joomla's API
+		 *       $debugBarRenderer->disableVendor('highlightjs');
+		 */
 
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')
