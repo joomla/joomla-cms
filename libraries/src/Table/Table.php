@@ -630,8 +630,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			'onTableBeforeBind',
 			[
 				'subject'	=> $this,
-				'src'		=> $src,
-				'ignore'	=> $ignore
+				'src'		=> &$src,
+				'ignore'	=> &$ignore
 			]
 		);
 		$this->getDispatcher()->dispatch('onTableBeforeBind', $event);
@@ -689,7 +689,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			'onTableAfterBind',
 			[
 				'subject'	=> $this,
-				'src'		=> $src,
+				'src'		=> &$src,
 				'ignore'	=> $ignore
 			]
 		);
@@ -719,8 +719,8 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			'onTableBeforeLoad',
 			[
 				'subject'	=> $this,
-				'keys'		=> $keys,
-				'reset'		=> $reset,
+				'keys'		=> &$keys,
+				'reset'		=> &$reset,
 			]
 		);
 		$this->getDispatcher()->dispatch('onTableBeforeLoad', $event);
@@ -807,7 +807,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			[
 				'subject'		=> $this,
 				'result'		=> &$result,
-				'row'			=> $row,
+				'row'			=> &$row,
 			]
 		);
 		$this->getDispatcher()->dispatch('onTableAfterLoad', $event);
