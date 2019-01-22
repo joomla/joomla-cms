@@ -42,8 +42,8 @@ $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
-$logoBlue = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
-$logo = $logoBlue;
+$logoBlue = $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
+$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Template params
 $showSitename = $this->params->get('showSitename', '1');
@@ -83,9 +83,9 @@ $this->addScriptDeclaration('cssVars();')
 
 	    <?php // Sidebar ?>
         <div id="sidebar-wrapper" class="sidebar-wrapper">
-            <div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
+            <div id="main-brand" class="main-brand">
                 <h1><?php echo $sitename; ?></h1>
-                <a href="<?php echo Uri::root(); ?>"><?php echo Text::sprintf('SOME_STRING', $sitename); ?></a>
+                <a href="<?php echo Uri::root(); ?>"><?php echo Text::sprintf('TPL_ATUM_LOGIN_SIDEBAR_SITENAME_LINK', $sitename); ?></a>
             </div>
             <jdoc:include type="modules" name="sidebar" style="none"/>
         </div>
