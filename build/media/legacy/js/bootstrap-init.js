@@ -25,9 +25,6 @@ Joomla = window.Joomla || {};
 				button.click();
 			}
 		}
-
-		Joomla.Modal.getCurrent().close();
-		return false;
 	};
 
 	jQuery(document).ready(function($) {
