@@ -200,7 +200,6 @@ class PlgSystemDebug extends CMSPlugin
 		$assetManager = $this->app->getDocument()->getWebAssetManager();
 		$assetManager->enableAsset('jquery-noconflict');
 		$assetManager->enableAsset('font-awesome');
-		HTMLHelper::_('jquery.framework');
 
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
@@ -294,7 +293,11 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->disableVendor('jquery');
 		$debugBarRenderer->setEnableJqueryNoConflict(false);
 		$debugBarRenderer->disableVendor('fontawesome');
-//		$debugBarRenderer->disableVendor('highlightjs');
+
+		// @todo disable highlightjs from the DebugBar, import it through NPM
+		//       and deliver it through Joomla's API
+		//       Also every DebuBar script ans stylesheet needs to use Joomla's API
+		//$debugBarRenderer->disableVendor('highlightjs');
 
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')
