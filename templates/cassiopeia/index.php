@@ -66,7 +66,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	<jdoc:include type="scripts" />
 </head>
 
-<body class="<?php echo $option
+<body class="site-grid site<?php echo $option
 	. ' ' . $wrapper
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
@@ -75,7 +75,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ' ' . $pageclass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
-  <div class="site-grid site position-relative">
+  
 	<div class="grid-child container-header full-width">
 		<header class="header">
 			<nav class="grid-child navbar navbar-expand-lg">
@@ -176,7 +176,6 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	   <a href="#top" id="back-top" class="back-top" title="<?php echo Text::_('TPL_CASSIOPEIA_BACKTOTOP'); ?>"><span class="icon-arrow-up-4" aria-hidden="true"></span></a>
 	   </div>
     
-  </div>
 	<jdoc:include type="modules" name="debug" style="none" />
 
 </body>
