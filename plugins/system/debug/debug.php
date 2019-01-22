@@ -296,7 +296,7 @@ class PlgSystemDebug extends CMSPlugin
 		/**
 		 * @todo disable highlightjs from the DebugBar, import it through NPM
 		 *       and deliver it through Joomla's API
-		 *       Also every DebuBar script ans stylesheet needs to use Joomla's API
+		 *       Also every DebuBar script and stylesheet needs to use Joomla's API
 		 *       $debugBarRenderer->disableVendor('highlightjs');
 		 */
 
