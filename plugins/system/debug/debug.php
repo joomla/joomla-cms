@@ -195,6 +195,13 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterDispatch()
 	{
+		// @todo check if document is HTML or bail
+		// Use our own jQuery and font-awesome instead of the debug bar shipped version
+		$assetManager = $this->app->getDocument()->getWebAssetManager();
+		$assetManager->enableAsset('jquery-noconflict');
+		$assetManager->enableAsset('font-awesome');
+		HTMLHelper::_('jquery.framework');
+
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
@@ -284,13 +291,10 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
-		// Use our own jQuery and font-awesome instead of the debug bar shipped version
-		$assetManager = $this->app->getDocument()->getWebAssetManager();
-		$assetManager->enableAsset('jquery-noconflict');
-		$assetManager->enableAsset('font-awesome');
 		$debugBarRenderer->disableVendor('jquery');
 		$debugBarRenderer->setEnableJqueryNoConflict(false);
 		$debugBarRenderer->disableVendor('fontawesome');
+//		$debugBarRenderer->disableVendor('highlightjs');
 
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')
@@ -318,9 +322,7 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
-		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
-
-		echo str_replace('</body>', $debugBarRenderer->render() . '</body>', $contents);
+		echo str_replace('</body>', $debugBarRenderer->renderHead() . $debugBarRenderer->render() . '</body>', $contents);
 	}
 
 	/**
