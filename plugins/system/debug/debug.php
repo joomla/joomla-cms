@@ -198,6 +198,10 @@ class PlgSystemDebug extends CMSPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
+			$this->app->getDocument()->getWebAssetManager()
+				->enableAsset('jquery')
+				->enableAsset('font-awesome');
+
 			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
 			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
@@ -285,9 +289,6 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
 		// Use our own jQuery and font-awesome instead of the debug bar shipped version
-		$assetManager = $this->app->getDocument()->getWebAssetManager();
-		$assetManager->enableAsset('jquery-noconflict');
-		$assetManager->enableAsset('font-awesome');
 		$debugBarRenderer->disableVendor('jquery');
 		$debugBarRenderer->setEnableJqueryNoConflict(false);
 		$debugBarRenderer->disableVendor('fontawesome');
@@ -318,9 +319,7 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
-		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
-
-		echo str_replace('</body>', $debugBarRenderer->render() . '</body>', $contents);
+		echo str_replace('</body>', $debugBarRenderer->renderHead().$debugBarRenderer->render() . '</body>', $contents);
 	}
 
 	/**
