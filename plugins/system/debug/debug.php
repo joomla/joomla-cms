@@ -195,15 +195,14 @@ class PlgSystemDebug extends CMSPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		// @todo check if document is HTML or bail
-		// Use our own jQuery and font-awesome instead of the debug bar shipped version
-		$assetManager = $this->app->getDocument()->getWebAssetManager();
-		$assetManager->enableAsset('jquery-noconflict');
-		$assetManager->enableAsset('font-awesome');
-
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
+			// Use our own jQuery and font-awesome instead of the debug bar shipped version
+			$assetManager = $this->app->getDocument()->getWebAssetManager();
+			$assetManager->enableAsset('jquery-noconflict');
+			$assetManager->enableAsset('font-awesome');
+
 			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
 			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
