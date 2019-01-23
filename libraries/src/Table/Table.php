@@ -689,7 +689,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 			'onTableAfterBind',
 			[
 				'subject'	=> $this,
-				'src'		=> &$src,
+				'src'		=> $src,
 				'ignore'	=> $ignore
 			]
 		);
