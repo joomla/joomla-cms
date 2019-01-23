@@ -95,10 +95,9 @@ Joomla = window.Joomla || {};
             window.parent.document.querySelector(`#access-${options.itemId}`).innerHTML = window.parent.viewLevels[updAccess];
           }
         }
-      }
-
-      if (task !== 'module.apply') {
-        window.parent.Joomla.Modal.getCurrent().close();
+        if (task !== 'module.apply') {
+            window.parent.Joomla.Modal.getCurrent().close();
+        }
       }
     }
   };
