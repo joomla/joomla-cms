@@ -554,7 +554,7 @@ class ModuleModel extends AdminModel
 		// Get the form.
 		if ($clientId == 1)
 		{
-			$form = $this->loadForm('com_modules.module.admin', 'moduleadmin', array('control' => 'jform', 'load_data' => $loadData), true);
+			$form = $this->loadForm('com_modules.module.admin', 'module', array('control' => 'jform', 'load_data' => $loadData), true);
 
 			// Display language field to filter admin custom menus per language
 			if (!ModuleHelper::isAdminMultilang())
@@ -875,9 +875,9 @@ class ModuleModel extends AdminModel
 			}
 		}
 
-		// Load the default advanced params
+		// Load the default site params
 		\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-		$form->loadFile('advanced', false);
+		$form->loadFile('site', false);
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);

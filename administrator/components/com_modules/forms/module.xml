@@ -119,8 +119,10 @@
 
 		<field
 			name="language"
-			type="contentlanguage"
+			type="language"
 			label="JFIELD_LANGUAGE_LABEL"
+			default="*"
+			client="administrator"
 			>
 			<option value="*">JALL</option>
 		</field>
