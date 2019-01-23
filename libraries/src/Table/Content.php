@@ -15,6 +15,7 @@ use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Tagging\TaggableTableInterface;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -24,7 +25,7 @@ use Joomla\String\StringHelper;
  *
  * @since  1.5
  */
-class Content extends Table
+class Content extends Table implements TaggableTableInterface
 {
 	/**
 	 * Constructor
@@ -372,5 +373,17 @@ class Content extends Table
 		}
 
 		return parent::store($updateNulls);
+	}
+
+	/**
+	 * Get the type alias for the tagging table
+	 *
+	 * @return  string  The alias
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getTypeAlias()
+	{
+		return 'com_content.article';
 	}
 }

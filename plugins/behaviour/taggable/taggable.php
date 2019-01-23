@@ -12,7 +12,10 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Event as CmsEvent;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\Tagging\ContentItem;
+use Joomla\CMS\Tagging\TaggableTableInterface;
 use Joomla\Event\DispatcherInterface;
 
 /**
@@ -24,6 +27,8 @@ use Joomla\Event\DispatcherInterface;
  */
 class PlgBehaviourTaggable extends CMSPlugin
 {
+	protected $tags = [];
+
 	/**
 	 * Constructor
 	 *
@@ -50,83 +55,22 @@ class PlgBehaviourTaggable extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	public function onTableObjectCreate(CmsEvent\Table\ObjectCreateEvent $event)
+	public function onTableBeforeBind(CmsEvent\Table\BeforeBindEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		if (!$table instanceof TaggableTableInterface)
 		{
 			return;
 		}
 
-		// If the table already has a tags helper we have nothing to do
-		if (property_exists($table, 'tagsHelper'))
+		$key = $table->getTypeAlias() . '.' . $table->getId();
+
+		if (isset($event['src']['tags']))
 		{
-			return;
-		}
-
-		$table->tagsHelper = new TagsHelper;
-		$table->tagsHelper->typeAlias = $table->typeAlias;
-
-		// This is required because getTagIds overrides the tags property of the Tags Helper.
-		$cloneHelper = clone $table->tagsHelper;
-		$tagIds = $cloneHelper->getTagIds($table->getId(), $typeAlias);
-
-		if (!empty($tagIds))
-		{
-			$table->tagsHelper->tags = explode(',', $tagIds);
-		}
-	}
-
-	/**
-	 * Pre-processor for $table->store($updateNulls)
-	 *
-	 * @param   CmsEvent\Table\BeforeStoreEvent  $event  The event to handle
-	 *
-	 * @return  void
-	 *
-	 * @since   4.0.0
-	 */
-	public function onTableBeforeStore(CmsEvent\Table\BeforeStoreEvent $event)
-	{
-		// Extract arguments
-		/** @var JTableInterface $table */
-		$table			= $event['subject'];
-
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
-		{
-			return;
-		}
-
-		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
-		{
-			return;
-		}
-
-		/** @var JHelperTags $tagsHelper */
-		$tagsHelper            = $table->tagsHelper;
-		$tagsHelper->typeAlias = $typeAlias;
-
-		$newTags = $table->newTags ?? array();
-
-		if (empty($newTags))
-		{
-			$tagsHelper->preStoreProcess($table);
-		}
-		else
-		{
-			$tagsHelper->preStoreProcess($table, (array) $newTags);
+			$this->tags[$key] = $event['src']['tags'];
 		}
 	}
 
@@ -142,37 +86,33 @@ class PlgBehaviourTaggable extends CMSPlugin
 	public function onTableAfterStore(CmsEvent\Table\AfterStoreEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table	= $event['subject'];
 		$result = $event['result'];
 
-		if (!$result)
+		if (!$result || !is_object($table) || !($table instanceof TaggableTableInterface))
 		{
 			return;
 		}
 
-		if (!is_object($table) || !($table instanceof TableInterface))
+		$typeAlias = $table->getTypeAlias();
+		$id = $table->getId();
+		$contentItem = new ContentItem($typeAlias, $id);
+
+		// The content item doesn't exist yet. Creating...
+		if ($contentItem->content_id != $id)
 		{
-			return;
+			$contentType = new ContentType();
+			if (!$contentType->load(['type_title' => $typeAlias]))
+			{
+				return;
+			}
+
+			var_dump($contentType);
 		}
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
-		{
-			return;
-		}
-
-		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
-		{
-			return;
-		}
 
 		// Get the Tags helper and assign the parsed alias
-		/** @var JHelperTags $tagsHelper */
 		$tagsHelper            = $table->tagsHelper;
 		$tagsHelper->typeAlias = $typeAlias;
 
@@ -213,25 +153,13 @@ class PlgBehaviourTaggable extends CMSPlugin
 		$table			= $event['subject'];
 		$pk				= $event['pk'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
+		$id = $event['pk'][$table->getKeyName()];
+		$contentItem = new ContentItem($table->getTypeAlias(), $id);
 
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		if ($contentItem->content_id == $id)
 		{
-			return;
+			$contentItem->delete();
 		}
-
-		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
-		{
-			return;
-		}
-
-		// Get the Tags helper and assign the parsed alias
-		$table->tagsHelper->typeAlias = $typeAlias;
-
-		$table->tagsHelper->deleteTagData($table, $pk);
 	}
 
 	/**
@@ -280,101 +208,32 @@ class PlgBehaviourTaggable extends CMSPlugin
 	/**
 	 * Runs when an existing table object is reset
 	 *
-	 * @param   CmsEvent\Table\AfterResetEvent  $event  The event to handle
-	 *
-	 * @return  void
-	 * 
-	 * @since   4.0.0
-	 */
-	public function onTableAfterReset(CmsEvent\Table\AfterResetEvent $event)
-	{
-		// Extract arguments
-		/** @var JTableInterface $table */
-		$table			= $event['subject'];
-
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
-		{
-			return;
-		}
-
-		$table->tagsHelper = new TagsHelper;
-		$table->tagsHelper->typeAlias = $table->typeAlias;
-	}
-
-	/**
-	 * Runs when an existing table object is reset
-	 *
 	 * @param   CmsEvent\Table\AfterLoadEvent  $event  The event to handle
 	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function onTableAfterLoad(CmsEvent\Table\AfterLoadEvent $event)
 	{
 		// Extract arguments
-		/** @var JTableInterface $table */
+		/** @var TableInterface $table */
 		$table			= $event['subject'];
 
-		// Parse the type alias
-		$typeAlias = $this->parseTypeAlias($table);
-
-		// If the table doesn't support UCM we can't use the Taggable behaviour
-		if (is_null($typeAlias))
+		if (!$table instanceof TaggableTableInterface)
 		{
 			return;
 		}
 
-		// If the table doesn't have a tags helper we can't proceed
-		if (!property_exists($table, 'tagsHelper'))
+		$typeAlias = $table->getTypeAlias();
+		$id = $table->getId();
+
+		$contentItem = new ContentItem($typeAlias, $id);
+
+		// The content item doesn't exist yet. Creating...
+		if ($contentItem->content_id != $id)
 		{
-			return;
+			$table->tags = $contentItem->getTags();
 		}
-
-		// This is required because getTagIds overrides the tags property of the Tags Helper.
-		$cloneHelper = clone $table->tagsHelper;
-		$tagIds = $cloneHelper->getTagIds($table->getId(), $typeAlias);
-
-		if (!empty($tagIds))
-		{
-			$table->tagsHelper->tags = explode(',', $tagIds);
-		}
-	}
-
-	/**
-	 * Internal method
-	 * Parses a TypeAlias of the form "{variableName}.type", replacing {variableName} with table-instance variables variableName
-	 *
-	 * @param   JTableInterface  &$table  The table
-	 *
-	 * @return  string
-	 *
-	 * @since   4.0.0
-	 *
-	 * @internal
-	 */
-	protected function parseTypeAlias(TableInterface &$table)
-	{
-		if (!isset($table->typeAlias))
-		{
-			return null;
-		}
-
-		if (empty($table->typeAlias))
-		{
-			return null;
-		}
-
-		return preg_replace_callback('/{([^}]+)}/',
-			function($matches) use ($table)
-			{
-				return $table->{$matches[1]};
-			},
-			$table->typeAlias
-		);
 	}
 }

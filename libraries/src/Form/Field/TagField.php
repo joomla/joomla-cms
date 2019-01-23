@@ -79,33 +79,13 @@ class TagField extends ListField
 	{
 		$data = $this->getLayoutData();
 
-		if (!is_array($this->value) && !empty($this->value))
+		if (is_array($this->value))
 		{
-			if ($this->value instanceof TagsHelper)
-			{
-				if (empty($this->value->tags))
-				{
-					$this->value = array();
-				}
-				else
-				{
-					$this->value = $this->value->tags;
-				}
-			}
-
-			// String in format 2,5,4
-			if (is_string($this->value))
-			{
-				$this->value = explode(',', $this->value);
-			}
-
-			// Integer is given
-			if (is_int($this->value))
-			{
-				$this->value = array($this->value);
-			}
-
 			$data['value'] = $this->value;
+		}
+		else
+		{
+			$data['value'] = [];
 		}
 
 		$data['remoteSearch']  = $this->isRemoteSearch();

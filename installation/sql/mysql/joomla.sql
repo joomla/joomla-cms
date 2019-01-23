@@ -1522,33 +1522,33 @@ CREATE TABLE IF NOT EXISTS `#__session` (
 
 CREATE TABLE IF NOT EXISTS `#__tags` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `lft` int(11) NOT NULL DEFAULT 0,
-  `rgt` int(11) NOT NULL DEFAULT 0,
-  `level` int(10) unsigned NOT NULL DEFAULT 0,
-  `path` varchar(400) NOT NULL DEFAULT '',
-  `title` varchar(255) NOT NULL,
+  `parent_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `lft` int(11) NOT NULL DEFAULT '0',
+  `rgt` int(11) NOT NULL DEFAULT '0',
+  `level` int(10) unsigned NOT NULL DEFAULT '0',
+  `path` varchar(400) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
-  `note` varchar(255) NOT NULL DEFAULT '',
-  `description` mediumtext NOT NULL,
-  `published` tinyint(1) NOT NULL DEFAULT 0,
-  `checked_out` int(11) unsigned NOT NULL DEFAULT 0,
+  `note` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `description` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `published` tinyint(1) NOT NULL DEFAULT '0',
+  `checked_out` int(11) unsigned NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `access` int(10) unsigned NOT NULL DEFAULT 0,
-  `params` text NOT NULL,
-  `metadesc` varchar(1024) NOT NULL COMMENT 'The meta description for the page.',
-  `metakey` varchar(1024) NOT NULL COMMENT 'The meta keywords for the page.',
-  `metadata` varchar(2048) NOT NULL COMMENT 'JSON encoded metadata properties.',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
+  `params` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `metadesc` varchar(1024) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `metakey` varchar(1024) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `metadata` varchar(2048) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by_alias` varchar(255) NOT NULL DEFAULT '',
-  `modified_user_id` int(10) unsigned NOT NULL DEFAULT 0,
+  `created_by_alias` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `modified_user_id` int(10) unsigned NOT NULL DEFAULT '0',
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `images` text NOT NULL,
-  `urls` text NOT NULL,
-  `hits` int(10) unsigned NOT NULL DEFAULT 0,
-  `language` char(7) NOT NULL,
-  `version` int(10) unsigned NOT NULL DEFAULT 1,
+  `images` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `urls` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `language` char(7) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `version` int(10) unsigned NOT NULL DEFAULT '1',
   `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`id`),
@@ -1559,14 +1559,72 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`(100)),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__tags`
 --
 
-INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`) VALUES
-(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 42, '2011-01-01 00:00:01', '', 0, '0000-00-00 00:00:00', '', '', 0, '*', 1);
+INSERT INTO `#__tags` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `created_by_alias`, `modified_user_id`, `modified_time`, `images`, `urls`, `hits`, `language`, `version`, `publish_up`, `publish_down`) VALUES
+	(1, 0, 0, 1, 0, '', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '', '', '', '', 326, '2018-12-30 21:59:48', '', 0, '0000-00-00 00:00:00', '', '', 0, '*', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__tag_content`
+--
+
+CREATE TABLE IF NOT EXISTS `#__tag_content` (
+  `content_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `type_alias` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'FK to the content types table',
+  `title` varchar(400) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `alias` varchar(400) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '',
+  `body` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `state` tinyint(1) NOT NULL DEFAULT '0',
+  `access` int(10) unsigned NOT NULL DEFAULT '0',
+  `params` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `featured` tinyint(4) unsigned NOT NULL DEFAULT '0',
+  `metadata` varchar(2048) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT 'JSON encoded metadata properties.',
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_by_alias` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `modified_user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT 'Most recent user that modified',
+  `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `language` char(7) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `images` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `urls` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `hits` int(10) unsigned NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT '0',
+  `metakey` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `metadesc` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `catid` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`content_id`,`type_alias`),
+  KEY `idx_access` (`access`),
+  KEY `idx_alias` (`alias`(100)),
+  KEY `idx_language` (`language`),
+  KEY `idx_title` (`title`(100)),
+  KEY `idx_modified_time` (`modified_time`),
+  KEY `idx_created_time` (`created_time`),
+  KEY `idx_content_type` (`type_alias`),
+  KEY `idx_core_modified_user_id` (`modified_user_id`),
+  KEY `idx_core_created_user_id` (`created_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__tag_content_map`
+--
+
+CREATE TABLE IF NOT EXISTS `#__tag_content_map` (
+  `tag_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `type_alias` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '',
+  `content_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `tagged_on` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`tag_id`,`content_id`,`type_alias`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 

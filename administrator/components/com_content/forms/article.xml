@@ -69,6 +69,7 @@
 			type="tag"
 			label="JTAG"
 			multiple="true"
+			typealias="com_content.article"
 		/>
 
 		<field

@@ -585,12 +585,6 @@ class ArticleModel extends AdminModel
 			$item->urls = $registry->toArray();
 
 			$item->articletext = trim($item->fulltext) != '' ? $item->introtext . "<hr id=\"system-readmore\">" . $item->fulltext : $item->introtext;
-
-			if (!empty($item->id))
-			{
-				$item->tags = new \JHelperTags;
-				$item->tags->getTagIds($item->id, 'com_content.article');
-			}
 		}
 
 		// Load associated content items
