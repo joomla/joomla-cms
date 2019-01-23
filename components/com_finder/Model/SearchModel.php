@@ -171,13 +171,15 @@ class SearchModel extends ListModel
 		{
 			// Convert the associative array to a numerically indexed array.
 			$groups = array_values($this->searchquery->filters);
+			$taxonomies = call_user_func_array('array_merge', array_values($this->searchquery->filters));
 
-			// Iterate through each taxonomy group and add the join and where.
+			$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t ON t.link_id = l.link_id')
+				->where('t.node_id IN (' . implode(',', array_unique($taxonomies)) . ')');
+
+			// Iterate through each taxonomy group.
 			for ($i = 0, $c = count($groups); $i < $c; $i++)
 			{
-				// We use the offset because each join needs a unique alias.
-				$query->join('INNER', $db->quoteName('#__finder_taxonomy_map') . ' AS t' . $i . ' ON t' . $i . '.link_id = l.link_id')
-					->where('t' . $i . '.node_id IN (' . implode(',', $groups[$i]) . ')');
+				$query->having('SUM(t.node_id IN (' . implode(',', $groups[$i]) . ')) > 0');
 			}
 		}
 
@@ -283,6 +285,7 @@ class SearchModel extends ListModel
 			// Since we need to return a query, we simplify this one.
 			$query->clear('join')
 				->clear('where')
+				->clear('having')
 				->clear('group')
 				->where('false');
 
@@ -308,15 +311,11 @@ class SearchModel extends ListModel
 		 */
 		if (count($this->requiredTerms))
 		{
-			$i = 0;
-
 			foreach ($this->requiredTerms as $terms)
 			{
 				if (count($terms))
 				{
-					$query->join('INNER', $this->_db->quoteName('#__finder_links_terms') . ' AS r' . $i . ' ON r' . $i . '.link_id = l.link_id')
-						->where('r' . $i . '.term_id IN (' . implode(',', $terms) . ')');
-					$i++;
+					$query->having('SUM(m.term_id IN (' . implode(',', $terms) . ')) > 0');
 				}
 				else
 				{
