@@ -94,7 +94,7 @@ $this->addScriptDeclaration('cssVars();')
             <section id="content" class="content">
                 <main class="d-flex justify-content-center align-items-center h-100">
                     <div class="login">
-                        <div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
+                        <div id="content" class="main-brand d-flex align-items-center justify-content-center">
                             <img src="<?php echo $logo; ?>" alt="">
                         </div>
                         <jdoc:include type="message"/>

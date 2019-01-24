@@ -25,6 +25,23 @@
     padding: 15px;
     margin-top: auto;
   }
+
+  .view-login & {
+    flex: 1 0 400px;
+    max-width: 400px;
+
+    &.transit-narrow {
+      flex: 1 0 $sidebar-width;
+      transition: flex 3s;
+    }
+  }
+
+  &.transit-wider {
+    flex: 1 0 400px;
+    max-width: 400px;
+    transition: all 3s;
+  }
+
 }
 
 .menu-toggle-icon {

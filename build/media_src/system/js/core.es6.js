@@ -1202,6 +1202,50 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
     return false;
   };
+
+  /**
+   * Method that add a fade effect and transition on sidebar and content side after login and logout
+   * working with cookies, to add the animation just in that two cases
+   *
+   * @since   4.0.0
+   */
+  Joomla.fadeEffect = () => {
+    let cpanelBody = document.body.classList.contains('com_cpanel');
+    const logOutBtn = document.querySelector('.header-items a[href*="task=logout"]');
+    const sideBar = document.querySelector('.sidebar-wrapper');
+    const sidebarChildren = sideBar.children;
+    const sideChildrenLength = sidebarChildren.length;
+    const contentChildren = document.querySelector('.container-main').children;
+    const contChildrenLength = contentChildren.length;
+    const logCookie = document.cookie.replace(/(?:(?:^|.*;\s*)log\s*=\s*([^;]*).*$)|^.*$/, "$1");
+
+    if ((cpanelBody) && ((logCookie) && (logCookie === 'logged-in'))) {
+      letsFade('in');
+      document.cookie = 'log= ';
+    }
+
+    if (logOutBtn) {
+      logOutBtn.addEventListener('click', () => {
+        document.cookie = 'log=logout';
+        letsFade('out', 'wider');
+      });
+    }
+
+    function letsFade(fadeAction, transitAction) {
+      const fadeAct = fadeAction;
+      const transAct = transitAction;
+
+      for (let i = 0; i < sideChildrenLength; i++) {
+        sidebarChildren[i].classList.add('load-fade' + fadeAct);
+      }
+      for (let i = 0; i < contChildrenLength; i++) {
+        contentChildren[i].classList.add('load-fade' + fadeAct);
+      }
+      if (transAct) {
+        sideBar.classList.add('transit-' + transAct);
+      }
+    }
+  };
 })(Joomla, document);
 
 /**
@@ -1293,3 +1337,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
  * Load any web components and any polyfills required
  */
 document.addEventListener('DOMContentLoaded', Joomla.WebComponents);
+
+/** Load Method for fade effect after login and logout */
+document.addEventListener('DOMContentLoaded', Joomla.fadeEffect);
