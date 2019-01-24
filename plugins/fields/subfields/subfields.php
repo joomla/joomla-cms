@@ -182,17 +182,24 @@ class PlgFieldsSubfields extends FieldsPlugin
 				// Do we want to render the value of this field, and is the value non-empty?
 				if ($subfield->value !== '' && $subfield->render_values == '1')
 				{
-					// Do we have a renderCache entry for this type?
-					if (!isset($this->renderCache[$subfield->type]))
-					{
-						$this->renderCache[$subfield->type] = array();
-					}
+					/**
+					 * Construct the cache-key for our renderCache. It is important that the cache key
+					 * is as unique as possible to avoid false duplicates (e.g. type and rawvalue is not
+					 * enough for the cache key, because type 'list' and value '1' can have different
+					 * rendered values, depending on the list items), but it also must be as general as possible
+					 * to not cause too many unneeded rendering processes (e.g. the type 'text' will always be
+					 * rendered the same when it has the same rawvalue).
+					 */
+					$renderCache_key = serialize(array(
+						$subfield->type,
+						$subfield->id,
+						$subfield->rawvalue,
+					));
 
-					// Lets see if we have a fast in-memory result for this
-					$renderCache_key = serialize($subfield->rawvalue);
-					if (isset($this->renderCache[$subfield->type][$renderCache_key]))
+					// Let's see if we have a fast in-memory result for this
+					if (isset($this->renderCache[$renderCache_key]))
 					{
-						$subfield->value = $this->renderCache[$subfield->type][$renderCache_key];
+						$subfield->value = $this->renderCache[$renderCache_key];
 					}
 					else
 					{
@@ -201,7 +208,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 							'onCustomFieldsPrepareField',
 							array($context, $item, $subfield)
 						);
-						$this->renderCache[$subfield->type][$renderCache_key] = $subfield->value;
+						$this->renderCache[$renderCache_key] = $subfield->value;
 					}
 				}
 
