@@ -64,13 +64,6 @@ class HtmlView extends BaseHtmlView
 	protected $id;
 
 	/**
-	 * Encrypted file path
-	 *
-	 * @var  string
-	 */
-	protected $file;
-
-	/**
 	 * List of available overrides
 	 */
 	protected $overridesList;
@@ -142,11 +135,23 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = Factory::getApplication();
-		$this->file     = $app->input->get('file');
-		$this->fileName = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
-		$explodeArray   = explode('.', $this->fileName);
-		$ext            = end($explodeArray);
+		$app  = Factory::getApplication();
+		$file = base64_decode($app->input->get('file', '', 'BASE64'));
+
+		if ($file)
+		{
+			$this->fileName = InputFilter::getInstance()->clean(base64_decode($file), 'string');
+			$explodeArray   = explode('.', $this->fileName);
+			$ext            = end($explodeArray);
+
+			// Get supported file formats
+			$params       = ComponentHelper::getParams('com_templates');
+			$imageTypes   = explode(',', $params->get('image_formats'));
+			$sourceTypes  = explode(',', $params->get('source_formats'));
+			$fontTypes    = explode(',', $params->get('font_formats'));
+			$archiveTypes = explode(',', $params->get('compressed_formats'));
+		}
+
 		$this->files    = $this->get('Files');
 		$this->state    = $this->get('State');
 		$this->template = $this->get('Template');
@@ -154,11 +159,6 @@ class HtmlView extends BaseHtmlView
 		$this->pluginState = PluginHelper::isEnabled('installer', 'override');
 		$this->updatedList = $this->get('UpdatedList');
 
-		$params       = ComponentHelper::getParams('com_templates');
-		$imageTypes   = explode(',', $params->get('image_formats'));
-		$sourceTypes  = explode(',', $params->get('source_formats'));
-		$fontTypes    = explode(',', $params->get('font_formats'));
-		$archiveTypes = explode(',', $params->get('compressed_formats'));
 
 		if (in_array($ext, $sourceTypes))
 		{
@@ -181,10 +181,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$this->archive = $this->get('Archive');
 			$this->type    = 'archive';
-		}
-		else
-		{
-			$this->type = 'home';
 		}
 
 		$this->overridesList = $this->get('OverridesList');

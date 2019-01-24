@@ -92,7 +92,7 @@ if ($this->type == 'font')
 	</div>
 	<div class="col-md-9">
 		<?php if ($this->type == 'home') : ?>
-			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
 				<h2><?php echo Text::_('COM_TEMPLATES_HOME_HEADING'); ?></h2>
@@ -111,7 +111,7 @@ if ($this->type == 'font')
 					<?php if ($overrideCheck['1'] === 'html') : ?>
 						<h2><?php echo Text::_('COM_TEMPLATES_FILE_OVERRIDE_PANE'); ?></h2>
 					<?php endif; ?>
-					<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+					<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm">
 						<div class="editor-border">
 							<?php echo $this->form->getInput('source'); ?>
 						</div>
@@ -143,7 +143,7 @@ if ($this->type == 'font')
 		<?php endif; ?>
 		<?php if ($this->type == 'archive') : ?>
 			<legend><?php echo Text::_('COM_TEMPLATES_FILE_CONTENT_PREVIEW'); ?></legend>
-			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm">
 				<ul class="nav flex-column well">
 					<?php foreach ($this->archive as $file) : ?>
 						<li>
@@ -162,7 +162,7 @@ if ($this->type == 'font')
 		<?php endif; ?>
 		<?php if ($this->type == 'image') : ?>
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>">
-			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
 					<input type="hidden" id="x" name="x">
 					<input type="hidden" id="y" name="y">
@@ -177,7 +177,7 @@ if ($this->type == 'font')
 		<?php endif; ?>
 		<?php if ($this->type == 'font') : ?>
 			<div class="font-preview">
-				<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+				<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm">
 					<fieldset class="adminform">
 						<h1>H1. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h1>
 						<h2>H2. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h2>
@@ -243,7 +243,7 @@ if ($this->type == 'font')
 				<li>
 					<?php
 					$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $module->path
-							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+							. '&id=' . $input->getInt('id') . '&' . $token;
 					?>
 					<a href="<?php echo Route::_($overrideLinkUrl); ?>">
 						<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
@@ -266,7 +266,7 @@ if ($this->type == 'font')
 							<li>
 								<?php
 								$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $view->path
-										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+										. '&id=' . $input->getInt('id') . '&' . $token;
 								?>
 								<a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
 									<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
@@ -292,7 +292,7 @@ if ($this->type == 'font')
 						<li>
 							<?php
 							$overrideLinkUrl = 'index.php?option=com_templates&view=template&task=template.overrides&folder=' . $layout->path
-									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
+									. '&id=' . $input->getInt('id') . '&' . $token;
 							?>
 							<a href="<?php echo Route::_($overrideLinkUrl); ?>">
 								<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
@@ -330,7 +330,7 @@ $copyModalData = array(
 	'body' => $this->loadTemplate('modal_copy_body')
 );
 ?>
-<form action="<?php echo Route::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_templates&task=template.copy&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm">
 	<?php echo LayoutHelper::render('joomla.modal.main', $copyModalData); ?>
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
@@ -345,7 +345,7 @@ $copyModalData = array(
 		'body' => $this->loadTemplate('modal_rename_body')
 	);
 	?>
-	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
+	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id')); ?>" method="post">
 		<?php echo LayoutHelper::render('joomla.modal.main', $renameModalData); ?>
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
@@ -404,7 +404,7 @@ $folderModalData = array(
 		'body' => $this->loadTemplate('modal_resize_body')
 	);
 	?>
-	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post">
+	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id')); ?>" method="post">
 		<?php echo LayoutHelper::render('joomla.modal.main', $resizeModalData); ?>
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>

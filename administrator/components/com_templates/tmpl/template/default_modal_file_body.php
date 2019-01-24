@@ -28,7 +28,7 @@ $input = Factory::getApplication()->input;
 			<div class="col-md-6">
 				<div class="card card-outline-secondary mb-2">
 					<div class="card-body">
-						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.createFile&id=' . $input->getInt('id')); ?>">
 							<div class="form-group">
 								<label><?php echo Text::_('COM_TEMPLATES_FILE_NAME'); ?></label>
 								<input type="text" name="name" class="form-control" required>
@@ -57,7 +57,7 @@ $input = Factory::getApplication()->input;
 				</div>
 				<div class="card card-outline-secondary mb-2">
 					<div class="card-body">
-						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data">
+						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.uploadFile&id=' . $input->getInt('id')); ?>" enctype="multipart/form-data">
 							<input type="hidden" class="address" name="address">
 							<div class="input-group">
 								<input type="file" name="files" class="form-control" required>
@@ -75,7 +75,7 @@ $input = Factory::getApplication()->input;
 				<?php if ($this->type != 'home') : ?>
 				<div class="card card-outline-secondary mb-2">
 					<div class="card-body">
-						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data">
+						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id')); ?>" enctype="multipart/form-data">
 							<div class="form-group">
 								<input type="hidden" class="address" name="address">
 								<label for="new_name" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">

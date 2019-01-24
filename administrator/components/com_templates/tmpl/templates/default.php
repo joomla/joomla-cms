@@ -67,7 +67,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo HTMLHelper::_('templates.thumbModal', $item->element, $item->client_id); ?>
 								</td>
 								<th scope="row" class="template-name">
-									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id . '&file=' . $this->file); ?>">
+									<a href="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . (int) $item->extension_id); ?>">
 										<?php echo Text::sprintf('COM_TEMPLATES_TEMPLATE_DETAILS', ucfirst($item->name)); ?></a>
 									<div>
 									<?php if ($this->preview && $item->client_id == '0') : ?>

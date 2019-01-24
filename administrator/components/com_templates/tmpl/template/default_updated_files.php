@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 $input = Factory::getApplication()->input;
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="updateForm" id="updateForm">
+<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="updateForm" id="updateForm">
 	<div class="row">
 		<div class="col-md-12">
 			<?php if (count($this->updatedList) !== 0) : ?>

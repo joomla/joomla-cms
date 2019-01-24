@@ -107,7 +107,6 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
-		$this->file          = base64_encode('home');
 		$this->pluginState   = PluginHelper::isEnabled('installer', 'override');
 
 		TemplatesHelper::addSubmenu('templates');

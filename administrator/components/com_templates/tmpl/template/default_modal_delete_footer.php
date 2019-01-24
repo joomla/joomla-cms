@@ -19,7 +19,6 @@ $input = Factory::getApplication()->input;
 	<input type="hidden" name="option" value="com_templates">
 	<input type="hidden" name="task" value="template.delete">
 	<input type="hidden" name="id" value="<?php echo $input->getInt('id'); ?>">
-	<input type="hidden" name="file" value="<?php echo $this->file; ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 	<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 	<button type="submit" class="btn btn-danger"><?php echo Text::_('COM_TEMPLATES_BUTTON_DELETE'); ?></button>

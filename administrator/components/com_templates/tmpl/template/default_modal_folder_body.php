@@ -27,7 +27,7 @@ $input = Factory::getApplication()->input;
 			<div class="col-md-6">
 				<div class="card card-outline-secondary mb-2">
 					<div class="card-body">
-						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.createFolder&id=' . $input->getInt('id')); ?>">
 							<div class="form-group">
 								<label><?php echo Text::_('COM_TEMPLATES_FOLDER_NAME'); ?></label>
 								<input type="text" name="name" class="form-control" required>

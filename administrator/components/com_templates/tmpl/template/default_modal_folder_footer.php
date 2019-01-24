@@ -16,7 +16,7 @@ use Joomla\CMS\Router\Route;
 
 $input = Factory::getApplication()->input;
 ?>
-<form id="deleteFolder" method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id') . '&file=' . $this->file); ?>">
+<form id="deleteFolder" method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.deleteFolder&id=' . $input->getInt('id')); ?>">
 	<fieldset>
 		<a href="#" class="btn btn-secondary" data-dismiss="modal"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_CLOSE'); ?></a>
 		<input type="hidden" class="address" name="address">
