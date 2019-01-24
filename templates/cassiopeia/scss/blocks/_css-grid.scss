@@ -28,6 +28,7 @@
     .container-sidebar-right {
       display: flex;
       flex-direction: column;
+
       > div + div {
         margin-top: cassiopeia-grid-gutter;
       }
@@ -36,6 +37,7 @@
     &:not(.has-sidebar-left) .container-component {
       grid-column-start: main-start;
     }
+
     &:not(.has-sidebar-right) .container-component {
       grid-column-end: main-end;
     }
@@ -77,10 +79,12 @@
         padding-right: 0;
         padding-left: 0;
       }
+
       > .grid-child {
         padding-right: ($cassiopeia-grid-gutter * 2);
         padding-left: ($cassiopeia-grid-gutter * 2);     
       }
+
       .container-main {
         padding-right: ($cassiopeia-grid-gutter * 1.5);
         padding-left: ($cassiopeia-grid-gutter * 1.5);
