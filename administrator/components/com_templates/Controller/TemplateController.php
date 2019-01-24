@@ -72,10 +72,8 @@ class TemplateController extends BaseController
 	 */
 	public function close()
 	{
-		$app  = Factory::getApplication();
-		$file = base64_encode('home');
 		$id   = $this->input->get('id');
-		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+		$url  = 'index.php?option=com_templates&view=template&id=' . $id;
 		$this->setRedirect(Route::_($url, false));
 	}
 
@@ -382,9 +380,8 @@ class TemplateController extends BaseController
 
 			default:
 				// Redirect to the list screen.
-				$file = base64_encode('home');
 				$id   = $this->input->get('id');
-				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+				$url  = 'index.php?option=com_templates&view=template&id=' . $id;
 				$this->setRedirect(Route::_($url, false));
 				break;
 		}
@@ -442,8 +439,7 @@ class TemplateController extends BaseController
 		elseif ($model->deleteFile($file))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_FILE_DELETE_SUCCESS'));
-			$file = base64_encode('home');
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 		else
@@ -604,7 +600,7 @@ class TemplateController extends BaseController
 
 			if (stristr(base64_decode($file), $location) != false)
 			{
-				$file = base64_encode('home');
+				$file = '';
 			}
 
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;

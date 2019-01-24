@@ -225,8 +225,6 @@ class HtmlView extends BaseHtmlView
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
-		$explodeArray = explode('.', $this->fileName);
-		$ext = end($explodeArray);
 
 		ToolbarHelper::title(Text::sprintf('COM_TEMPLATES_MANAGER_VIEW_TEMPLATE', ucfirst($this->template->name)), 'eye thememanager');
 
@@ -276,13 +274,13 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::modal('fileModal', 'icon-file', 'COM_TEMPLATES_BUTTON_FILE');
 
 			// Add a Rename file Button
-			if ($this->type != 'home')
+			if ($this->type)
 			{
 				ToolbarHelper::modal('renameModal', 'icon-refresh', 'COM_TEMPLATES_BUTTON_RENAME_FILE');
 			}
 
 			// Add a Delete file Button
-			if ($this->type != 'home')
+			if ($this->type)
 			{
 				ToolbarHelper::modal('deleteModal', 'icon-remove', 'COM_TEMPLATES_BUTTON_DELETE_FILE');
 			}
@@ -293,13 +291,13 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::custom('template.deleteOverrideHistory', 'delete', 'move', 'COM_TEMPLATES_BUTTON_DELETE_LIST_ENTRY', true, 'updateForm');
 		}
 
-		if ($this->type == 'home')
+		if ($this->type)
 		{
-			ToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
 		}
 		else
 		{
-			ToolbarHelper::cancel('template.close', 'COM_TEMPLATES_BUTTON_CLOSE_FILE');
+			ToolbarHelper::cancel('template.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		ToolbarHelper::divider();

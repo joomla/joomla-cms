@@ -91,7 +91,7 @@ if ($this->type == 'font')
 		<?php echo $this->loadTemplate('tree'); ?>
 	</div>
 	<div class="col-md-9">
-		<?php if ($this->type == 'home') : ?>
+		<?php if (!$this->type) : ?>
 			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm">
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
@@ -334,7 +334,7 @@ $copyModalData = array(
 	<?php echo LayoutHelper::render('joomla.modal.main', $copyModalData); ?>
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
-<?php if ($this->type != 'home') : ?>
+<?php if ($this->type) : ?>
 	<?php // Rename Modal
 	$renameModalData = array(
 		'selector' => 'renameModal',
@@ -350,7 +350,7 @@ $copyModalData = array(
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
 <?php endif; ?>
-<?php if ($this->type != 'home') : ?>
+<?php if ($this->type) : ?>
 	<?php // Delete Modal
 	$deleteModalData = array(
 		'selector' => 'deleteModal',
@@ -393,7 +393,7 @@ $folderModalData = array(
 );
 ?>
 <?php echo LayoutHelper::render('joomla.modal.main', $folderModalData); ?>
-<?php if ($this->type != 'home') : ?>
+<?php if ($this->type) : ?>
 	<?php // Resize Modal
 	$resizeModalData = array(
 		'selector' => 'resizeModal',
