@@ -280,17 +280,6 @@ class ContactModelCategory extends JModelList
 		$search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $search);
 
-		// Get list ordering default from the parameters
-		$menuParams = new Registry;
-
-		if ($menu = $app->getMenu()->getActive())
-		{
-			$menuParams->loadString($menu->params);
-		}
-
-		$mergedParams = clone $params;
-		$mergedParams->merge($menuParams);
-
 		$orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 
 		if (!in_array($orderCol, $this->filter_fields))
