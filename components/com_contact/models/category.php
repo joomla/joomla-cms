@@ -257,7 +257,9 @@ class ContactModelCategory extends JModelList
 		// List state information
 		$format = $app->input->getWord('format');
 
-		$numberOfContactsToDisplay =  $mergedParams->get('contacts_display_num'); // 0 : for showing all contacts on a page
+		$numberOfContactsToDisplay = $mergedParams->get('contacts_display_num');
+
+		// 0 : for showing all contacts on a page
 
 		if (isset($numberOfContactsToDisplay))
 		{
