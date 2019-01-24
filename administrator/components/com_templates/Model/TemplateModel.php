@@ -1867,7 +1867,7 @@ class TemplateModel extends FormModel
 			$imageTypes   = explode(',', $params->get('image_formats'));
 			$sourceTypes  = explode(',', $params->get('source_formats'));
 			$fontTypes    = explode(',', $params->get('font_formats'));
-			$archiveTypes = explode(',', $params->get('compressed_formats'));
+			$archiveTypes = array('zip');
 
 			$this->allowedFormats = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 		}

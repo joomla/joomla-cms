@@ -150,7 +150,6 @@ class HtmlView extends BaseHtmlView
 			$imageTypes   = explode(',', $params->get('image_formats'));
 			$sourceTypes  = explode(',', $params->get('source_formats'));
 			$fontTypes    = explode(',', $params->get('font_formats'));
-			$archiveTypes = explode(',', $params->get('compressed_formats'));
 
 			if (in_array($ext, $sourceTypes))
 			{
@@ -169,7 +168,7 @@ class HtmlView extends BaseHtmlView
 				$this->font = $this->get('Font');
 				$this->type = 'font';
 			}
-			elseif (in_array($ext, $archiveTypes))
+			elseif ($ext === 'zip')
 			{
 				$this->archive = $this->get('Archive');
 				$this->type    = 'archive';

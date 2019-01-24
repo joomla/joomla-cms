@@ -96,7 +96,7 @@ abstract class TemplateHelper
 		$imageTypes   = explode(',', $params->get('image_formats'));
 		$sourceTypes  = explode(',', $params->get('source_formats'));
 		$fontTypes    = explode(',', $params->get('font_formats'));
-		$archiveTypes = explode(',', $params->get('compressed_formats'));
+		$archiveTypes = array('zip');
 
 		$allowable = array_merge($imageTypes, $sourceTypes, $fontTypes, $archiveTypes);
 

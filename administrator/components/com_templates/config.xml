@@ -53,13 +53,6 @@
 			default="woff,ttf,otf"
 			extension="com_templates"
 		/>
-
-		<field
-			name="compressed_formats" 
-			type="hidden"
-			default="zip"
-			extension="com_templates"
-		/>
 	</fieldset>
 
 	<fieldset
