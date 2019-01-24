@@ -92,8 +92,6 @@ echo LayoutHelper::render('joomla.menu.edit_modules', $this); ?>
 			<td id="<?php echo $module->id; ?>" style="width:40%">
 				<a href="#moduleEditModal"
 					role="button"
-					data-toggle="modal"
-					data-target="#moduleEditModal"
 					class="btn btn-link module-edit-link"
 					title="<?php echo Text::_('COM_MENUS_EDIT_MODULE_SETTINGS'); ?>"
 					id="title-<?php echo $module->id; ?>"
