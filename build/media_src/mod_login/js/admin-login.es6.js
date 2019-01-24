@@ -6,6 +6,13 @@
 (() => {
   'use strict';
 
+  const sideBar = document.querySelector('.sidebar-wrapper');
+  const sidebarChildren = sideBar.children;
+  const sideChildrenLength = sidebarChildren.length;
+  const contentChildren = document.querySelector('.container-main').children;
+  const contChildrenLength = contentChildren.length;
+  const logCookie = document.cookie.replace(/(?:(?:^|.*;\s*)log\s*=\s*([^;]*).*$)|^.*$/, "$1");
+
   const form = document.getElementById('form-login');
   const btn = document.getElementById('btn-login-submit');
   if (btn) {
@@ -50,7 +57,8 @@
           }
 
           if (response.success) {
-            document.body.className += ' load-fadeout';
+            document.cookie = 'log=logged-in';
+            letsFade('out', 'narrow');
             window.location.href = response.data.return;
           }
         },
@@ -59,5 +67,27 @@
         },
       });
     });
+  }
+
+  if ((logCookie) && (logCookie === 'logout')) {
+    letsFade('in');
+    document.cookie = 'log= ';
+  }
+
+  function letsFade(fadeAction, transitAction) {
+    const fadeAct = fadeAction;
+    const transAct = transitAction;
+
+    for (let i = 0; i < sideChildrenLength; i++) {
+      sidebarChildren[i].classList.add('load-fade' + fadeAct);
+    }
+
+    for (let i = 0; i < contChildrenLength; i++) {
+      contentChildren[i].classList.add('load-fade' + fadeAct);
+    }
+
+    if (transAct) {
+      sideBar.classList.add('transit-' + transAct);
+    }
   }
 })();
