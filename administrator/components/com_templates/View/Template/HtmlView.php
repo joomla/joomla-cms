@@ -138,9 +138,10 @@ class HtmlView extends BaseHtmlView
 		$app  = Factory::getApplication();
 		$file = base64_decode($app->input->get('file', '', 'BASE64'));
 
+		// We're in file edit mode
 		if ($file)
 		{
-			$this->fileName = InputFilter::getInstance()->clean(base64_decode($file), 'string');
+			$this->fileName = InputFilter::getInstance()->clean($file, 'string');
 			$explodeArray   = explode('.', $this->fileName);
 			$ext            = end($explodeArray);
 
@@ -150,6 +151,29 @@ class HtmlView extends BaseHtmlView
 			$sourceTypes  = explode(',', $params->get('source_formats'));
 			$fontTypes    = explode(',', $params->get('font_formats'));
 			$archiveTypes = explode(',', $params->get('compressed_formats'));
+
+			if (in_array($ext, $sourceTypes))
+			{
+				$this->form   = $this->get('Form');
+				$this->form->setFieldAttribute('source', 'syntax', $ext);
+				$this->source = $this->get('Source');
+				$this->type   = 'file';
+			}
+			elseif (in_array($ext, $imageTypes))
+			{
+				$this->image = $this->get('Image');
+				$this->type  = 'image';
+			}
+			elseif (in_array($ext, $fontTypes))
+			{
+				$this->font = $this->get('Font');
+				$this->type = 'font';
+			}
+			elseif (in_array($ext, $archiveTypes))
+			{
+				$this->archive = $this->get('Archive');
+				$this->type    = 'archive';
+			}
 		}
 
 		$this->files    = $this->get('Files');
@@ -158,30 +182,6 @@ class HtmlView extends BaseHtmlView
 		$this->preview  = $this->get('Preview');
 		$this->pluginState = PluginHelper::isEnabled('installer', 'override');
 		$this->updatedList = $this->get('UpdatedList');
-
-
-		if (in_array($ext, $sourceTypes))
-		{
-			$this->form   = $this->get('Form');
-			$this->form->setFieldAttribute('source', 'syntax', $ext);
-			$this->source = $this->get('Source');
-			$this->type   = 'file';
-		}
-		elseif (in_array($ext, $imageTypes))
-		{
-			$this->image = $this->get('Image');
-			$this->type  = 'image';
-		}
-		elseif (in_array($ext, $fontTypes))
-		{
-			$this->font = $this->get('Font');
-			$this->type = 'font';
-		}
-		elseif (in_array($ext, $archiveTypes))
-		{
-			$this->archive = $this->get('Archive');
-			$this->type    = 'archive';
-		}
 
 		$this->overridesList = $this->get('OverridesList');
 		$this->id            = $this->state->get('extension.id');
