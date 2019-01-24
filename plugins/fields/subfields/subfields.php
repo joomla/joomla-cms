@@ -190,11 +190,13 @@ class PlgFieldsSubfields extends FieldsPlugin
 					 * to not cause too many unneeded rendering processes (e.g. the type 'text' will always be
 					 * rendered the same when it has the same rawvalue).
 					 */
-					$renderCache_key = serialize(array(
-						$subfield->type,
-						$subfield->id,
-						$subfield->rawvalue,
-					));
+					$renderCache_key = serialize(
+						array(
+							$subfield->type,
+							$subfield->id,
+							$subfield->rawvalue,
+						)
+					);
 
 					// Let's see if we have a fast in-memory result for this
 					if (isset($this->renderCache[$renderCache_key]))

@@ -26,11 +26,13 @@ foreach ($field->subfields_rows as $subfields_row)
 	{
 		$class   = trim($subfield->params->get('render_class', ''));
 		$layout  = trim($subfield->params->get('layout', 'render'));
-		$content = trim(FieldsHelper::render(
-			$context,
-			'field.' . $layout, // normally just 'field.render'
-			array('field' => $subfield)
-		));
+		$content = trim(
+			FieldsHelper::render(
+				$context,
+				'field.' . $layout, // normally just 'field.render'
+				array('field' => $subfield)
+			)
+		);
 
 		// Skip empty output
 		if ($content === '')
