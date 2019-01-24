@@ -67,6 +67,15 @@ class JFormFieldSubfieldstype extends JFormFieldList
 				continue;
 			}
 
+			/**
+			 * Skip the repeatable custom field type too. It is currently still part of the Joomla! core, but it
+			 * shall be removed soon. See issue #23659
+			 */
+			if ($customField->type == 'repeatable')
+			{
+				continue;
+			}
+
 			$options[] = JHtml::_(
 				'select.option',
 				$customField->id,
