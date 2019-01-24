@@ -24,12 +24,16 @@ foreach ($field->subfields_rows as $subfields_row)
 	/* Iterate over each sub field inside of that row */
 	foreach ($subfields_row as $subfield)
 	{
-		$class   = $subfield->params->get('render_class', null);
-		$layout  = $subfield->params->get('layout', 'render');
-		$content = FieldsHelper::render($context, 'field.' . $layout, array('field' => $subfield));
+		$class   = trim($subfield->params->get('render_class', ''));
+		$layout  = trim($subfield->params->get('layout', 'render'));
+		$content = trim(FieldsHelper::render(
+			$context,
+			'field.' . $layout, // normally just 'field.render'
+			array('field' => $subfield)
+		));
 
 		// Skip empty output
-		if (trim($content) === '')
+		if ($content === '')
 		{
 			continue 1;
 		}
