@@ -90,7 +90,6 @@ class TemplateController extends BaseController
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app  = Factory::getApplication();
-		$file = $this->input->get('file');
 		$id   = $this->input->get('id');
 
 		$ids    = $this->input->get('cid', array(), 'array');
@@ -131,7 +130,7 @@ class TemplateController extends BaseController
 			}
 		}
 
-		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+		$url  = 'index.php?option=com_templates&view=template&id=' . $id;
 		$this->setRedirect(Route::_($url, false));
 	}
 
@@ -152,9 +151,8 @@ class TemplateController extends BaseController
 		$newName    = $this->input->get('new_name');
 		$newNameRaw = $this->input->get('new_name', null, 'string');
 		$templateID = $this->input->getInt('id', 0);
-		$file       = $this->input->get('file');
 
-		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID . '&file=' . $file);
+		$this->setRedirect('index.php?option=com_templates&view=template&id=' . $templateID);
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel('Template', 'Administrator');
@@ -398,7 +396,6 @@ class TemplateController extends BaseController
 	{
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
-		$file     = $this->input->get('file');
 		$override = base64_decode($this->input->get('folder'));
 		$id       = $this->input->get('id');
 
@@ -408,7 +405,7 @@ class TemplateController extends BaseController
 		}
 
 		// Redirect back to the edit screen.
-		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+		$url = 'index.php?option=com_templates&view=template&id=' . $id;
 		$this->setRedirect(Route::_($url, false));
 	}
 
@@ -546,26 +543,25 @@ class TemplateController extends BaseController
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
-		$file     = $this->input->get('file');
 		$name     = $this->input->get('name');
 		$location = base64_decode($this->input->get('address'));
 
 		if (!preg_match('/^[a-zA-Z0-9-_.]+$/', $name))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_INVALID_FOLDER_NAME'), 'error');
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 		elseif ($model->createFolder($name, $location))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_FOLDER_CREATE_SUCCESS'));
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_FOLDER_CREATE'), 'error');
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 	}
