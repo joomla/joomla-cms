@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -69,7 +69,7 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -94,7 +94,7 @@ class JFormFieldSubform extends JFormField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -232,7 +232,7 @@ class JFormFieldSubform extends JFormField
 		try
 		{
 			// Prepare the form template
-			$formname = 'subform' . ($this->group ? $this->group . '.' : '.') . $this->fieldname;
+			$formname = 'subform.' . str_replace(array('jform[', '[', ']'), array('', '.', ''), $control);
 			$tmplcontrol = !$this->multiple ? $control : $control . '[' . $this->fieldname . 'X]';
 			$tmpl = JForm::getInstance($formname, $this->formsource, array('control' => $tmplcontrol));
 
@@ -273,6 +273,14 @@ class JFormFieldSubform extends JFormField
 		$data['buttons']   = $this->buttons;
 		$data['fieldname'] = $this->fieldname;
 		$data['groupByFieldset'] = $this->groupByFieldset;
+
+		/**
+		 * For each rendering process of a subform element, we want to have a
+		 * separate unique subform id present to could distinguish the eventhandlers
+		 * regarding adding/moving/removing rows from nested subforms from their parents.
+		 */
+		static $unique_subform_id = 0;
+		$data['unique_subform_id'] = ('sr-' . ($unique_subform_id++));
 
 		// Prepare renderer
 		$renderer = $this->getRenderer($this->layout);

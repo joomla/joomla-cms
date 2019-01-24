@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Mediawiki
  *
- * @since       12.3
+ * @since       3.1.4
  */
 class JMediawikiObjectMock extends JMediawikiObject
 {
@@ -26,7 +26,7 @@ class JMediawikiObjectMock extends JMediawikiObject
 	 *
 	 * @return  string   The request URL.
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function fetchUrl($path)
 	{
@@ -40,7 +40,7 @@ class JMediawikiObjectMock extends JMediawikiObject
 	 *
 	 * @return  string   request parameter
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function buildParameter(array $params)
 	{
@@ -54,7 +54,7 @@ class JMediawikiObjectMock extends JMediawikiObject
 	 *
 	 * @return  Object
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function validateResponse($response)
 	{

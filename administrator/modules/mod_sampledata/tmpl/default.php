@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_sampledata
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ JText::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
 JFactory::getDocument()->addScriptDeclaration('
 	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata",
-		modSampledataIconProgress = "' . JUri::root(true) . '/media/jui/img/ajax-loader.gif";
+		modSampledataIconProgress = "' . JUri::root(true) . '/media/jui/images/ajax-loader.gif";
 ');
 ?>
 <div class="sampledata-container">
@@ -37,7 +37,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					</div>
 					<div class="span6">
 						<small>
-							<?php echo htmlspecialchars($item->description); ?>
+							<?php echo $item->description; ?>
 						</small>
 					</div>
 				</div>

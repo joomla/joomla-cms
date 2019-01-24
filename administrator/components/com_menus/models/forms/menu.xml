@@ -51,7 +51,6 @@
 			id="client_id"
 			default="0"
 			class="btn-group btn-group-yesno btn-group-reversed"
-			required="true"
 			>
 			<option value="0">JSITE</option>
 			<option value="1">JADMINISTRATOR</option>

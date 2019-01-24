@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Crypt
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,24 +16,6 @@ use ParagonIE\Sodium\Compat;
  */
 class JCryptCipherSodiumTest extends TestCase
 {
-	/**
-	 * Prepares the environment before running a test.
-	 *
-	 * @return  void
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		// Skip if neither the `libsodium` (PECL 1.x) or `sodium` (PHP 7.2+ or PECL 2.x) extensions are available and this PHP build does not support 64-bit integers
-		if (!extension_loaded('libsodium') && !extension_loaded('sodium') && PHP_INT_SIZE === 4)
-		{
-			$this->markTestSkipped(
-				'Cannot run tests on this environment due to not having the sodium PHP extension and not running a x64 PHP build'
-			);
-		}
-	}
-
 	/**
 	 * Test data for processing
 	 *
@@ -57,6 +39,9 @@ class JCryptCipherSodiumTest extends TestCase
 	 * @testdox  Validates data is encrypted and decrypted correctly
 	 *
 	 * @param   string  $data  The decrypted data to validate
+	 *
+	 * @group   not-on-windows
+	 * @note    Key generation takes very long on Windows/PHP5.6, build a group allows to exclude this test
 	 *
 	 * @covers        Joomla\CMS\Crypt\Cipher\SodiumCipher::decrypt
 	 * @covers        Joomla\CMS\Crypt\Cipher\SodiumCipher::encrypt
@@ -82,6 +67,9 @@ class JCryptCipherSodiumTest extends TestCase
 
 	/**
 	 * @testdox  Validates keys are correctly generated
+	 *
+	 * @group   not-on-windows
+	 * @note    Key generation takes very long on Windows/PHP5.6, build a group allows to exclude this test
 	 *
 	 * @covers   Joomla\CMS\Crypt\Cipher\SodiumCipher::generateKey
 	 */

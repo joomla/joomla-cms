@@ -2,18 +2,18 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Installer;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Installer\Manifest\PackageManifest;
 use Joomla\CMS\Table\Extension;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
-
-defined('JPATH_PLATFORM') or die;
 
 \JLoader::import('joomla.base.adapterinstance');
 
@@ -136,8 +136,11 @@ abstract class InstallerAdapter extends \JAdapterInstance
 		{
 			// This assumes the adapter short class name in its namespace is `<foo>Adapter`, replace this logic in subclasses if needed
 			$reflection = new \ReflectionClass(get_called_class());
-			$this->type = strtolower(str_replace('Adapter', '', $reflection->getShortName()));
+			$this->type = str_replace('Adapter', '', $reflection->getShortName());
 		}
+
+		// Extension type is stored as lowercase in the database
+		$this->type = strtolower($this->type);
 	}
 
 	/**

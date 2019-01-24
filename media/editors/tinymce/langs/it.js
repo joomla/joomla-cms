@@ -226,6 +226,7 @@ tinymce.addI18n('it',{
 "Insert/Edit Media": "Inserisci/Modifica oggetto multimediale",
 "Media": "Media",
 "Table of Contents": "Tabella di contenuti",
+"Paste is now in plain text mode. Contents will now be pasted as plain text until you toggle this option off.": "L'incolla è ora in modalità di testo normale. I contenuti verranno incollati come testo normale fino a quando non disattiverai questa opzione.",
 "The URL you entered seems to be an external link. Do you want to add the required http:\/\/ prefix?": "L'URL inserito sembra essere un collegamento esterno. Vuoi aggiungere il prefisso necessario http:\/\/?",
 "The URL you entered seems to be an email address. Do you want to add the required mailto: prefix?": "L'URL inserito sembra essere un indirizzo email. Vuoi aggiungere il prefisso necessario mailto:?"
 });
