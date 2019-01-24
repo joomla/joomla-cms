@@ -67,7 +67,6 @@ Joomla = window.Joomla || {};
     if (linkElements.length) {
       linkElements.forEach((linkElement) => {
         linkElement.addEventListener('click', (event) => {
-          debugger;
           const link = baseLink + event.target.getAttribute('data-module-id');
           const modal = document.getElementById('moduleEditModal');
           const body = modal.querySelector('.modal-body');
