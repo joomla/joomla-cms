@@ -112,12 +112,10 @@
 			// Check if only filters is need without 'search tool' button
 			if (this.showOnlyFilters) {
 				this.showFilters();
+			} else if (this.filtersHidden) {
+				this.hideFilters();
 			} else {
-				if (this.filtersHidden) {
-					this.hideFilters();
-				} else {
-					this.showFilters();
-				}
+				this.showFilters();
 			}
 
 			if (this.listHidden) {
