@@ -51,10 +51,12 @@ else
 }
 
 $hasClass = '';
+
 if ($this->countModules('sidebar-left')) 
 {
 	$hasClass .= ' has-sidebar-left';
 }
+
 if ($this->countModules('sidebar-right')) 
 {
 	$hasClass .= ' has-sidebar-right';
