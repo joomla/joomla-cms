@@ -179,8 +179,8 @@ class PlgFieldsSubfields extends FieldsPlugin
 					$subfield->rawvalue = $subfield->value = $row[$subfield->name];
 				}
 
-				// Do we want to render the value of this field?
-				if ($subfield->render_values == '1')
+				// Do we want to render the value of this field, and is the value non-empty?
+				if ($subfield->value !== '' && $subfield->render_values == '1')
 				{
 					// Do we have a renderCache entry for this type?
 					if (!isset($this->renderCache[$subfield->type]))
