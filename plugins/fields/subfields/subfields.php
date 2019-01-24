@@ -60,9 +60,6 @@ class PlgFieldsSubfields extends FieldsPlugin
 		// Ensure it is an object
 		$formData = (object) $data;
 
-		// Remove the field of name "required", we don't want it for subfields
-		$form->removeField('required');
-
 		// Now load our own form definition into a DOMDocument, because we want to manipulate it
 		$xml = new DOMDocument;
 		$xml->load($path);
@@ -258,6 +255,13 @@ class PlgFieldsSubfields extends FieldsPlugin
 		// subfields, because that is our name. But we want the XML to be a subform.
 		$parent_field->setAttribute('type', 'subform');
 
+		// If the user configured this subfields instance as required
+		if ($field->required)
+		{
+			// Then we need to have at least one row
+			$parent_field->setAttribute('min', '1');
+		}
+
 		// Get the configured parameters for this field
 		$field_params = $this->getParamsFromField($field);
 
@@ -288,9 +292,6 @@ class PlgFieldsSubfields extends FieldsPlugin
 			$parent_field->setAttribute('layout', 'joomla.form.field.subform.repeatable');
 		}
 
-		// Memory variable to store whether one of our sub fields is required
-		$required = false;
-
 		// Iterate over the sub fields to call prepareDom on each of those sub-fields
 		foreach ($subfields as $subfield)
 		{
@@ -300,20 +301,6 @@ class PlgFieldsSubfields extends FieldsPlugin
 				'onCustomFieldsPrepareDom',
 				array($subfield, $parent_fieldset, $form)
 			);
-
-			if ($subfield->required)
-			{
-				$required = true;
-			}
-		}
-
-		// If one if the sub fields is required, our parent field should be required too
-		if ($required)
-		{
-			$parent_field->setAttribute('required', '1');
-
-			// We need at least 1 row if we are required
-			$parent_field->setAttribute('min', '1');
 		}
 
 		return $parent_field;
