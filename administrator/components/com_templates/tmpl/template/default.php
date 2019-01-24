@@ -117,6 +117,7 @@ if ($this->type == 'font')
 						</div>
 						<input type="hidden" name="task" value="" />
 						<?php echo HTMLHelper::_('form.token'); ?>
+						<input type="hidden" name="file" value="<?php echo $this->file; ?>">
 						<?php echo $this->form->getInput('extension_id'); ?>
 						<?php echo $this->form->getInput('filename'); ?>
 					</form>
@@ -162,7 +163,7 @@ if ($this->type == 'font')
 		<?php endif; ?>
 		<?php if ($this->type == 'image') : ?>
 			<img id="image-crop" src="<?php echo $this->image['address'] . '?' . time(); ?>">
-			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm">
+			<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 				<fieldset class="adminform">
 					<input type="hidden" id="x" name="x">
 					<input type="hidden" id="y" name="y">
@@ -177,7 +178,7 @@ if ($this->type == 'font')
 		<?php endif; ?>
 		<?php if ($this->type == 'font') : ?>
 			<div class="font-preview">
-				<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id')); ?>" method="post" name="adminForm" id="adminForm">
+				<form action="<?php echo Route::_('index.php?option=com_templates&view=template&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" method="post" name="adminForm" id="adminForm">
 					<fieldset class="adminform">
 						<h1>H1. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h1>
 						<h2>H2. Quickly gaze at Joomla! views from HTML, CSS, JavaScript and XML</h2>
@@ -345,7 +346,7 @@ $copyModalData = array(
 		'body' => $this->loadTemplate('modal_rename_body')
 	);
 	?>
-	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id')); ?>" method="post">
+	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.renameFile&id=' . $input->getInt('id') . '&file=' . $input->get('file')); ?>" method="post">
 		<?php echo LayoutHelper::render('joomla.modal.main', $renameModalData); ?>
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>
@@ -404,7 +405,7 @@ $folderModalData = array(
 		'body' => $this->loadTemplate('modal_resize_body')
 	);
 	?>
-	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id')); ?>" method="post">
+	<form action="<?php echo Route::_('index.php?option=com_templates&task=template.resizeImage&id=' . $input->getInt('id') . '&file=' . $input->get('file')); ?>" method="post">
 		<?php echo LayoutHelper::render('joomla.modal.main', $resizeModalData); ?>
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</form>

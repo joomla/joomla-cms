@@ -64,6 +64,13 @@ class HtmlView extends BaseHtmlView
 	protected $id;
 
 	/**
+	 * Encrypted file path
+	 *
+	 * @var  string
+	 */
+	protected $file;
+
+	/**
 	 * List of available overrides
 	 */
 	protected $overridesList;
@@ -136,12 +143,12 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app  = Factory::getApplication();
-		$file = base64_decode($app->input->get('file', '', 'BASE64'));
+		$this->file = $app->input->get('file', '', 'BASE64');
 
 		// We're in file edit mode
-		if ($file)
+		if ($this->file)
 		{
-			$this->fileName = InputFilter::getInstance()->clean($file, 'string');
+			$this->fileName = InputFilter::getInstance()->clean(base64_decode($this->file), 'string');
 			$explodeArray   = explode('.', $this->fileName);
 			$ext            = end($explodeArray);
 

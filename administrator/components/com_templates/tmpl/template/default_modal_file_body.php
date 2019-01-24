@@ -75,7 +75,7 @@ $input = Factory::getApplication()->input;
 				<?php if ($this->type != 'home') : ?>
 				<div class="card card-outline-secondary mb-2">
 					<div class="card-body">
-						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id')); ?>" enctype="multipart/form-data">
+						<form method="post" action="<?php echo Route::_('index.php?option=com_templates&task=template.copyFile&id=' . $input->getInt('id') . '&file=' . $this->file); ?>" enctype="multipart/form-data">
 							<div class="form-group">
 								<input type="hidden" class="address" name="address">
 								<label for="new_name" class="modalTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_TEMPLATES_FILE_NEW_NAME_DESC'); ?>">

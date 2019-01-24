@@ -462,7 +462,6 @@ class TemplateController extends BaseController
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
-		$file     = $this->input->get('file');
 		$name     = $this->input->get('name');
 		$location = base64_decode($this->input->get('address'));
 		$type     = $this->input->get('type');
@@ -470,13 +469,13 @@ class TemplateController extends BaseController
 		if ($type == 'null')
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 		elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $name))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 		elseif ($model->createFile($name, $type, $location))
@@ -489,7 +488,7 @@ class TemplateController extends BaseController
 		else
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_CREATE'), 'error');
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 	}
@@ -509,7 +508,6 @@ class TemplateController extends BaseController
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
-		$file     = $this->input->get('file');
 		$upload   = $this->input->files->get('files');
 		$location = base64_decode($this->input->get('address'));
 
@@ -523,7 +521,7 @@ class TemplateController extends BaseController
 		else
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_UPLOAD'), 'error');
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 	}
@@ -581,31 +579,25 @@ class TemplateController extends BaseController
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
 		$id       = $this->input->get('id');
-		$file     = $this->input->get('file');
 		$location = base64_decode($this->input->get('address'));
 
 		if (empty($location))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_ROOT_DELETE'), 'warning');
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 		elseif ($model->deleteFolder($location))
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_FOLDER_DELETE_SUCCESS'));
 
-			if (stristr(base64_decode($file), $location) != false)
-			{
-				$file = '';
-			}
-
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
 			$this->setMessage(Text::_('COM_TEMPLATES_FOLDER_DELETE_ERROR'), 'error');
-			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+			$url = 'index.php?option=com_templates&view=template&id=' . $id;
 			$this->setRedirect(Route::_($url, false));
 		}
 	}
