@@ -173,6 +173,10 @@ class HtmlView extends BaseHtmlView
 				$this->archive = $this->get('Archive');
 				$this->type    = 'archive';
 			}
+			else
+			{
+				$app->enqueueMessage(Text::_('COM_TEMPLATES_ERROR_WARNFILETYPE'), 'error');
+			}
 		}
 
 		$this->files    = $this->get('Files');
