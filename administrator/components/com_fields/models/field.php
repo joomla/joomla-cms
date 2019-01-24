@@ -152,6 +152,13 @@ class FieldsModelField extends JModelAdmin
 
 		foreach ($cats as $cat)
 		{
+			// If we have found the 'JNONE' category, remove all other from the result and break.
+			if ($cat == '-1')
+			{
+				$assignedCatIds = array('-1');
+				break;
+			}
+
 			if ($cat)
 			{
 				$assignedCatIds[] = $cat;
