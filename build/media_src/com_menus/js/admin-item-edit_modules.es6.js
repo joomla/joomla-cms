@@ -16,7 +16,7 @@ Joomla = window.Joomla || {};
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    const baseLink = 'index.php?option=com_modules&amp;client_id=0&task=module.edit&tmpl=component&view=module&layout=modal&id=';
+    const baseLink = 'index.php?option=com_modules&client_id=0&task=module.edit&tmpl=component&view=module&layout=modal&id=';
     const assigned1 = document.getElementById('jform_toggle_modules_assigned1');
     const assigned0 = document.getElementById('jform_toggle_modules_assigned0');
     const published1 = document.getElementById('jform_toggle_modules_published1');
