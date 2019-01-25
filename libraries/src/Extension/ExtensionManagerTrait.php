@@ -16,6 +16,7 @@ use Joomla\DI\Container;
 use Joomla\DI\Exception\ContainerNotFoundException;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\CMS\Factory;
 
 /**
  * Trait for classes which can load extensions
@@ -24,13 +25,6 @@ use Joomla\Event\DispatcherInterface;
  */
 trait ExtensionManagerTrait
 {
-	/**
-	 * The loaded extensions.
-	 *
-	 * @var array
-	 */
-	private $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
-
 	/**
 	 * Boots the component with the given name.
 	 *
@@ -91,9 +85,9 @@ trait ExtensionManagerTrait
 	private function loadExtension($type, $extensionName, $extensionPath)
 	{
 		// Check if the extension is already loaded
-		if (!empty($this->extensions[$type][$extensionName]))
+		if (!empty(Factory::$extensions[$type][$extensionName]))
 		{
-			return $this->extensions[$type][$extensionName];
+			return Factory::$extensions[$type][$extensionName];
 		}
 
 		// The container to get the services from
@@ -162,7 +156,7 @@ trait ExtensionManagerTrait
 		}
 
 		// Cache the extension
-		$this->extensions[$type][$extensionName] = $extension;
+		Factory::$extensions[$type][$extensionName] = $extension;
 
 		return $extension;
 	}
