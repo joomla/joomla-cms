@@ -74,8 +74,7 @@ class DropdownButton extends AbstractGroupButton
 					->buttonClass($button->getButtonClass() . ' dropdown-toggle')
 					->attributes(
 						[
-							'data-toggle' => 'dropdown',
-							'data-target' => '#' . $this->fetchId(),
+							'id' => $this->fetchId(),
 							'aria-haspopup' => 'true',
 							'aria-expanded' => 'false',
 						]

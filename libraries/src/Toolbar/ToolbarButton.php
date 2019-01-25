@@ -189,7 +189,6 @@ abstract class ToolbarButton
 
 		// Prepare custom attributes.
 		unset(
-			$options['attributes']['id'],
 			$options['attributes']['class']
 		);
 
