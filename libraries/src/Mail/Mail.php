@@ -705,9 +705,25 @@ class Mail extends \PHPMailer
 			return false;
 		}
 
+		if ($config->get('mailcc'))
+		{
+			if ($this->addCc($config->get('mailcc')) === false)
+			{
+				return false;
+			}
+		}
+
 		if ($this->addBcc($bcc) === false)
 		{
 			return false;
+		}
+
+		if ($config->get('mailbcc'))
+		{
+			if ($this->addBcc($config->get('mailbcc')) === false)
+			{
+				return false;
+			}
 		}
 
 		if ($this->addAttachment($attachment) === false)
