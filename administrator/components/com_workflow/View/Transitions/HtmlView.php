@@ -10,6 +10,7 @@ namespace Joomla\Component\Workflow\Administrator\View\Transitions;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -72,6 +73,14 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * The current workflow
+	 *
+	 * @var     object
+	 * @since  4.0.0
+	 */
+	protected $workflow;
+
+	/**
 	 * The ID of current workflow
 	 *
 	 * @var     integer
@@ -110,8 +119,9 @@ class HtmlView extends BaseHtmlView
 		$this->filterForm    	= $this->get('FilterForm');
 		$this->activeFilters 	= $this->get('ActiveFilters');
 
-		$this->workflowID = $this->state->get('filter.workflow_id');
-		$this->extension = $this->state->get('filter.extension');
+		$this->workflow      = $this->get('Workflow');
+		$this->workflowID    = $this->workflow->id;
+		$this->extension     = $this->workflow->extension;
 
 		WorkflowHelper::addSubmenu('transitions');
 
@@ -137,22 +147,29 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', $this->escape($workflow)), 'address contact');
 
-		if ($canDo->get('core.create'))
+		$isCore = $this->workflow->core;
+		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+
+		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
+			'JTOOLBAR_BACK', $arrow
+		);
+
+		if ($canDo->get('core.create') && !$isCore)
 		{
 			ToolbarHelper::addNew('transition.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') && !$isCore)
 		{
 			ToolbarHelper::publishList('transitions.publish');
 			ToolbarHelper::unpublishList('transitions.unpublish');
 		}
 
-		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete') && !$isCore)
 		{
 			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'transitions.delete');
 		}
-		elseif ($canDo->get('core.edit.state'))
+		elseif ($canDo->get('core.edit.state') && !$isCore)
 		{
 			ToolbarHelper::trash('transitions.trash');
 		}

@@ -12,6 +12,7 @@ namespace Joomla\Component\Contact\Administrator\View\Contacts;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -150,21 +151,51 @@ class HtmlView extends BaseHtmlView
 		$canDo = ContentHelper::getActions('com_contact', 'category', $this->state->get('filter.category_id'));
 		$user  = Factory::getUser();
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{
-			ToolbarHelper::addNew('contact.add');
+			$toolbar->addNew('contact.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('contacts.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('contacts.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::custom('contacts.featured', 'featured.png', 'featured_f2.png', 'JFEATURE', true);
-			ToolbarHelper::custom('contacts.unfeatured', 'unfeatured.png', 'featured_f2.png', 'JUNFEATURE', true);
-			ToolbarHelper::archiveList('contacts.archive');
-			ToolbarHelper::checkin('contacts.checkin');
+			$dropdown = $toolbar->dropdownButton('status')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('contacts.publish')->listCheck(true);
+
+			$childBar->unpublish('contacts.unpublish')->listCheck(true);
+
+			$childBar->standardButton('featured')
+				->text('JFEATURE')
+				->task('contacts.featured')
+				->listCheck(true);
+			$childBar->standardButton('unfeatured')
+				->text('JUNFEATURE')
+				->task('contacts.unfeatured')
+				->listCheck(true);
+
+			$childBar->archive('contacts.archive')->listCheck(true);
+
+			if ($user->authorise('core.admin'))
+			{
+				$childBar->checkin('contacts.checkin')->listCheck(true);
+			}
+
+			if ($this->state->get('filter.published') != -2)
+			{
+				$childBar->trash('contacts.trash')->listCheck(true);
+			}
 		}
 
 		// Add a batch button
@@ -172,32 +203,28 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_contact')
 			&& $user->authorise('core.edit.state', 'com_contact'))
 		{
-			$title = Text::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new FileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			Toolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'contacts.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('contacts.trash');
+			$toolbar->delete('contacts.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))
 		{
-			ToolbarHelper::preferences('com_contact');
+			$toolbar->preferences('com_menus');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
+		$toolbar->help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
 
-		\JHtmlSidebar::setAction('index.php?option=com_contact');
+		HTMLHelper::_('sidebar.setAction', 'index.php?option=com_contact');
 	}
 
 	/**

@@ -32,7 +32,7 @@ Text::script('JHIDE');
 
 	<div class="mod-login__userdata userdata">
 		<div class="mod-login__username form-group">
-			<?php if (!$params->get('usetext')) : ?>
+			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
 					<input id="modlgn-username" type="text" name="username" class="form-control" placeholder="<?php echo Text::_('MOD_LOGIN_VALUE_USERNAME'); ?>">
 					<span class="input-group-append">
@@ -47,7 +47,7 @@ Text::script('JHIDE');
 		</div>
 
 		<div class="mod-login__password form-group">
-			<?php if (!$params->get('usetext')) : ?>
+			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
@@ -63,7 +63,7 @@ Text::script('JHIDE');
 
 		<?php if (count($twofactormethods) > 1) : ?>
 			<div class="mod-login__twofactor form-group">
-				<?php if (!$params->get('usetext')) : ?>
+				<?php if (!$params->get('usetext', 0)) : ?>
 					<div class="input-group">
 						<span class="input-group-prepend">
 							<span class="input-group-text icon-star hasTooltip" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>"></span>
