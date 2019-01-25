@@ -75,8 +75,6 @@ class DropdownButton extends AbstractGroupButton
 					->attributes(
 						[
 							'id' => $this->fetchId(),
-							'aria-haspopup' => 'true',
-							'aria-expanded' => 'false',
 						]
 					)
 					->render();
