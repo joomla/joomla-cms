@@ -81,8 +81,6 @@ if (Factory::getLanguage()->isRtl())
 	$label .= ' data-placement="left"';
 }
 
-//~ $privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
-
 if ($privacyArticle && Factory::getApplication()->isClient('site'))
 {
 	JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
