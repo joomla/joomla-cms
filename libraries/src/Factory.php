@@ -29,6 +29,8 @@ use Joomla\Database\DatabaseDriver;
 use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\Registry\Registry;
+use Joomla\CMS\Extension\ModuleInterface;
+use Joomla\CMS\Extension\ComponentInterface;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
@@ -122,6 +124,14 @@ abstract class Factory
 	 * @since  1.7.0
 	 */
 	public static $mailer = null;
+	
+	/**
+	 * Global loaded extensions through the container
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  4.0.0
+	 */
+	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
 
 	/**
 	 * Get the global application object. When the global application doesn't exist, an exception is thrown.
