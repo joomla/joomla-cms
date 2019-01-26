@@ -25,7 +25,7 @@ use Joomla\CMS\Language\Text;
 				<?php endif; ?>
 			</th>
 			<th scope="col" style="width:30%"><?php echo Text::_('JCLIENT'); ?></th>
-			<th scope="col" style="width:20%"><?php echo Text::_('MOD_LOGGED_LAST_ACTIVITY'); ?></th>
+			<th scope="col" style="width:20%"><?php echo Text::_('JDATE'); ?></th>
 		</tr>
 	</thead>
 	<tbody>
