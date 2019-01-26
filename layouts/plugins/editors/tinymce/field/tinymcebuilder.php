@@ -58,8 +58,8 @@ extract($displayData);
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('jquery.ui', array('core', 'sortable'));
 HTMLHelper::_('stylesheet', 'media/vendor/tinymce/skins/lightgray/skin.min.css', array('version' => 'auto', 'relative' => false));
-HTMLHelper::_('stylesheet', 'editors/tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
-HTMLHelper::_('script', 'editors/tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'plg_editors_tinymce/tinymce-builder.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'plg_editors_tinymce/tinymce-builder.js', array('version' => 'auto', 'relative' => true));
 
 if ($languageFile)
 {
