@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-
+<nav aria-label="<?php echo $module->name; ?>">
 <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="mod-breadcrumbs breadcrumb">
 	<?php if ($params->get('showHere', 1)) : ?>
 		<li class="mod-breadcrumbs__here float-left">
@@ -64,3 +64,4 @@ use Joomla\CMS\Language\Text;
 		<?php endif;
 	endforeach; ?>
 </ol>
+</div>
