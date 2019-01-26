@@ -36,6 +36,7 @@ $wa->enableAsset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
+HTMLHelper::_('stylesheet', 'https://fonts.googleapis.com/css?family=Fira+Sans:400');
 // Logo file or site title param
 if ($this->params->get('logoFile'))
 {
