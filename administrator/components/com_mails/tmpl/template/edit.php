@@ -17,32 +17,20 @@ use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Mails\Administrator\Helper\MailsHelper;
 
+$app = Factory::getApplication();
+$doc = Factory::getDocument();
+
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('script', 'com_mails/admin-email-template-edit.min.js', ['version' => 'auto', 'relative' => true]);
 
 $this->useCoreUI = true;
 
-$app = Factory::getApplication();
 $input = $app->input;
 list($component, $sub_id) = explode('.', $this->master->template_id, 2);
 
-$doc = Factory::getDocument();
-$doc->addScriptDeclaration('
-document.addEventListener(\'DOMContentLoaded\', () => {
-	var templateData = ' . json_encode($this->templateData) . ';
-	document.querySelectorAll(\'#item-form joomla-field-switcher\').forEach(function (el) {
-		el.addEventListener(\'joomla.switcher.on\', function() {
-			var el2 = document.getElementById(this.id.substring(0, this.id.length - 9));
-			el2.disabled = false;
-			el2.value = templateData[this.id.slice(6, -9)].translated;
-		});
-		el.addEventListener(\'joomla.switcher.off\', function() {
-			var el2 = document.getElementById(this.id.substring(0, this.id.length - 9));
-			el2.disabled = true;
-			el2.value = templateData[this.id.slice(6, -9)].master;
-		});
-	});
-});');
+$doc->addScriptOptions('com_mails', ['templateData' => $this->templateData]);
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_mails&layout=edit&template_id=' . $this->item->template_id . '&language=' . $this->item->language); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
@@ -68,28 +56,32 @@ document.addEventListener(\'DOMContentLoaded\', () => {
 			</div>
 		</div>
 
-		<?php if ($this->form->getField('body')) : ?>
+		<?php if ($fieldBody = $this->form->getField('body')) : ?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php echo $this->form->renderField('body'); ?>
 			</div>
 			<div class="col-md-3">
 				<?php echo $this->form->getField('body_switcher')->input; ?>
-				<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
-				<?php echo MailsHelper::mailtags($this->master, 'body'); ?>
+				<div class="tags-container-body <?php echo $fieldBody->disabled ? 'hidden' : ''; ?>">
+					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
+					<?php echo MailsHelper::mailtags($this->master, 'body'); ?>
+				</div>
 			</div>
 		</div>
 		<?php endif; ?>
 
-		<?php if ($this->form->getField('htmlbody')) : ?>
+		<?php if ($fieldHtmlBody = $this->form->getField('htmlbody')) : ?>
 		<div class="row">
 			<div class="col-md-9">
 				<?php echo $this->form->renderField('htmlbody'); ?>
 			</div>
 			<div class="col-md-3">
 				<?php echo $this->form->getField('htmlbody_switcher')->input; ?>
-				<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
-				<?php echo MailsHelper::mailtags($this->master, 'htmlbody'); ?>
+				<div class="tags-container-htmlbody <?php echo $fieldHtmlBody->disabled ? 'hidden' : ''; ?>">
+					<h2><?php echo Text::_('COM_MAILS_FIELDSET_TAGS_LABEL'); ?></h2>
+					<?php echo MailsHelper::mailtags($this->master, 'htmlbody'); ?>
+				</div>
 			</div>
 		</div>
 		<?php endif; ?>
