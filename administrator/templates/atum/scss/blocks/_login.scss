@@ -35,6 +35,9 @@
 
   .login {
     width: 410px;
+	background:var(--white);
+	padding:15px;
+	color:var(--font-color-dark);
 
     @include media-breakpoint-down(sm) {
       padding: 0 15px;
@@ -80,4 +83,14 @@
   .custom-select {
     max-width: none;
   }
+}
+
+
+.com_login .sidebar-wrapper .main-brand{
+	margin-top:20px;
+	color:var(--font-color-light);
+}
+.com_login .sidebar-wrapper .main-brand h1,
+.com_login .sidebar-wrapper .main-brand a{
+	color:var(--font-color-light);
 }
