@@ -52,7 +52,7 @@ jQuery(document).ready(function ($) {
 						option.text(this.value).val(customTagPrefix + this.value);
 						option.attr('selected','selected');
 
-						// Append the option an repopulate the chosen field
+						// Append the option and repopulate the chosen field
 						$(options.selector).append(option);
 					}
 				}
