@@ -111,7 +111,7 @@ Text::script('MESSAGE');
 					</div>
 				<?php endif; ?>
 				<div id="page-permissions" class="tab-pane">
-					<div class="row">
+					<div class="col-md-12">
 						<?php echo $this->loadTemplate('permissions'); ?>
 					</div>
 				</div>
