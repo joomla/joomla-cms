@@ -51,4 +51,15 @@ interface WorkflowServiceInterface
 	 * @since   4.0.0
 	 */
 	public static function getConditions($extension): array;
+
+	/**
+	 * Returns a table name for the state association
+	 *
+	 * @param   string  $section  An optional section to differ different areas in the component
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowTableBySection(string $section = null) : string;
 }
