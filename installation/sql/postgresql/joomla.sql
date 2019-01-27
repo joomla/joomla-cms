@@ -1812,7 +1812,7 @@ COMMENT ON COLUMN "#__usergroups"."rgt" IS 'Nested set rgt.';
 
 INSERT INTO "#__usergroups" ("id", "parent_id", "lft", "rgt", "title") VALUES
 (1, 0, 1, 18, 'Public'),
-(2, 1, 8, 15, 'Registered'),r
+(2, 1, 8, 15, 'Registered'),
 (3, 2, 9, 14, 'Author'),
 (4, 3, 10, 13, 'Editor'),
 (5, 4, 11, 12, 'Publisher'),
@@ -1839,7 +1839,7 @@ CREATE TABLE IF NOT EXISTS "#__users" (
   "lastvisitDate" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "activation" varchar(100) DEFAULT '' NOT NULL,
   "params" text NOT NULL,
-  "lastResetTime" timestamp witrhout time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "lastResetTime" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "resetCount" bigint DEFAULT 0 NOT NULL,
   "otpKey" varchar(1000) DEFAULT '' NOT NULL,
   "otep" varchar(1000) DEFAULT '' NOT NULL,
