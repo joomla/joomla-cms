@@ -45,8 +45,8 @@ abstract class MailsHelper
 		foreach ($mail->params['tags'] as $tag)
 		{
 			$html .= '<li class="list-group-item">'
-				. '<a href="#" onclick="Joomla.editors.instances[\'jform_' . $fieldname . '\'].replaceSelection(\'{' . strtoupper($tag) . '}\');'
-					. 'return false;" title="' . $tag . '">' . $tag . '</a>'
+				. '<a href="#" class="edit-action-add-tag" data-tag="{' . strtoupper($tag) . '}" data-target="' . $fieldname . '"'
+					. ' title="' . $tag . '">' . $tag . '</a>'
 				. '</li>';
 		}
 

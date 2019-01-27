@@ -9,13 +9,17 @@
   class EmailTemplateEdit {
 
     constructor(form, options) {
+      // Set elements
       this.form = form;
-      this.templateData = options && options.templateData ? options.templateData : {};
       this.inputSubject = this.form.querySelector('#jform_subject');
       this.inputBody    = this.form.querySelector('#jform_body');
       this.inputHtmlBody = this.form.querySelector('#jform_htmlbody');
 
-      console.log(this);
+      // Set options
+      this.templateData = options && options.templateData ? options.templateData : {};
+
+      // Add back reference
+      this.form.EmailTemplateEdit = this;
     }
 
     setBodyValue(value) {
@@ -42,10 +46,39 @@
       }
     }
 
+    insertTag(tag, targetField) {
+      if (!tag) return false;
+
+      let input;
+      switch (targetField) {
+        case 'body':
+          input = this.inputBody;
+          break;
+        case 'htmlbody':
+          input = this.inputHtmlBody;
+          break;
+        default:
+          return false;
+      }
+
+      if (input.disabled) return false;
+
+      if (Joomla.editors.instances[input.id]) {
+        Joomla.editors.instances[input.id].replaceSelection(tag);
+      } else {
+        input.value += ' ' + tag;
+      }
+
+      return true;
+    }
+
     bindListeners() {
+
+      // To enable editing of specific input
       this.form.addEventListener('joomla.switcher.on', (event) => {
         const type = event.target.id.slice(6, -9);
         const inputValue = this.templateData[type] ? this.templateData[type].translated : '';
+        let tagsContainer;
 
         switch (type) {
           case 'subject':
@@ -55,17 +88,28 @@
           case 'body':
             this.inputBody.disabled = false;
             this.setBodyValue(inputValue);
+
+            tagsContainer = this.form.querySelector('.tags-container-body');
             break;
           case 'htmlbody':
             this.inputHtmlBody.disabled = false;
             this.setHtmlBodyValue(inputValue);
+
+            tagsContainer = this.form.querySelector('.tags-container-htmlbody');
             break;
+        }
+
+        // Show Tags section
+        if (tagsContainer) {
+          tagsContainer.classList.remove('hidden');
         }
       });
 
+      // To disable editing of specific input
       this.form.addEventListener('joomla.switcher.off', (event) => {
         const type = event.target.id.slice(6, -9);
         const inputValue = this.templateData[type] ? this.templateData[type].master : '';
+        let tagsContainer;
 
         switch (type) {
           case 'subject':
@@ -75,14 +119,31 @@
           case 'body':
             this.setBodyValue(inputValue);
             this.inputBody.disabled = true;
+
+            tagsContainer = this.form.querySelector('.tags-container-body');
             break;
           case 'htmlbody':
             this.setHtmlBodyValue(inputValue);
             this.inputHtmlBody.disabled = true;
+
+            tagsContainer = this.form.querySelector('.tags-container-htmlbody');
             break;
         }
 
+        // Hide Tags section
+        if (tagsContainer) {
+          tagsContainer.classList.add('hidden');
+        }
       });
+
+      // Buttons for inserting a tag
+      this.form.querySelectorAll('.edit-action-add-tag').forEach((button) => {
+        button.addEventListener('click', (event) => {
+          event.preventDefault();
+          const el = event.target;
+          this.insertTag(el.dataset.tag, el.dataset.target)
+        });
+      })
     }
 
   }
