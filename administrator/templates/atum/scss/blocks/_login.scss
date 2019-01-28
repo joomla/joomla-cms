@@ -1,13 +1,15 @@
 // Login page
 
 .view-login {
-  background: var(--primary);
-  /**
-   * Note IDE's will consider this file import to fail in SCSS but this is correct for the final
-   * compiled CSS file
-   */
-  background-image: url("../images/joomla-pattern.svg");
-  background-size: 200px;
+	.container-main{
+		background: var(--background-color-light);
+		/**
+		* Note IDE's will consider this file import to fail in SCSS but this is correct for the final
+		* compiled CSS file
+		*/
+		background-image: url("../images/joomla-pattern.svg");
+		background-size: 200px;
+	}
 
   .login-bg-grad {
     position: fixed;
@@ -38,10 +40,19 @@
 	background:var(--white);
 	padding:15px;
 	color:var(--font-color-dark);
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -206px;
+    margin-left: -205px;
 
     @include media-breakpoint-down(sm) {
       padding: 0 15px;
     }
+	
+	#content img{
+		height:70px;
+	}
   }
 
   .login-box {
@@ -51,6 +62,11 @@
     a {
       color: $white;
     }
+  }
+  
+  header .logo img{
+	height:30px;
+	margin-left:30px;
   }
 
   .form-group {
@@ -83,12 +99,34 @@
   .custom-select {
     max-width: none;
   }
+  
+  #sidebar-wrapper{
+	
+	 @include media-breakpoint-down(sm) {
+		order:2;		
+	}
+  }
+  
+  .container-main,
+  .sidebar-wrapper{
+	 @include media-breakpoint-down(sm){
+		max-width:100% !important;
+		flex: 1 0 100% !important;
+	}
+  }
+  
+  .d-flex{
+	@include media-breakpoint-down(sm){
+		flex-wrap:wrap;
+	}
+  }
 }
 
 
 .com_login .sidebar-wrapper .main-brand{
-	margin-top:20px;
+	margin-top:100px;
 	color:var(--font-color-light);
+	text-align:center;
 }
 .com_login .sidebar-wrapper .main-brand h1,
 .com_login .sidebar-wrapper .main-brand a{

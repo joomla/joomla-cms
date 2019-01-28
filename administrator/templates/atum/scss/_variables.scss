@@ -32,6 +32,7 @@ $cyan:                             #108193;
 --font-color-light:#fff;
 --font-color-dark:var--(gray-600);
 --link-color:$gray-600;
+--main-bg:      #ebeff5;
 }
 
 $theme-colors: ();
@@ -48,7 +49,6 @@ $theme-colors: map-merge((
 
 $colors: (
   primary-dark: #2b5c91,
-  main-bg:      #ebeff5,
   success-border: darken(theme-color("success"), 5%),
   info-border: darken(theme-color("info"), 7%),
   warning-border: darken(theme-color("warning"), 5%),
@@ -115,7 +115,7 @@ $extrabold-weight:                 800;
 $black-weight:                     900;
 
 // Text
-$body-color:                       var(--dark);
+$body-color:                       var(--font-color-dark);
 
 // Tables
 $table-bg:                         transparent;
