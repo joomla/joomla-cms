@@ -591,6 +591,12 @@ class ItemModel extends AdminModel
 		$form->setFieldAttribute('menutype', 'accesstype', $action);
 		$form->setFieldAttribute('type', 'clientid', $clientId);
 
+		// Remove show_associations field if associations is not enabled
+		if (!Associations::isEnabled())
+		{
+			$form->removeField('show_associations', 'params');
+		}
+
 		return $form;
 	}
 
