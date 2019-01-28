@@ -60,7 +60,7 @@ abstract class TagsPopularHelper
 		$query->where($db->quoteName('t.published') . ' = 1 ');
 
 		// Filter by Parent Tag
-		$parentTags = $params->get('parentTag', 0);
+		$parentTags = $params->get('parentTag', array());
 
 		if ($parentTags)
 		{

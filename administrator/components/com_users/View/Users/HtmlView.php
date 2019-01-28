@@ -138,28 +138,40 @@ class HtmlView extends BaseHtmlView
 		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::_('COM_USERS_VIEW_USERS_TITLE'), 'users user');
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::addNew('user.add');
+			$toolbar->addNew('user.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::divider();
-			ToolbarHelper::publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
-			ToolbarHelper::unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
-			ToolbarHelper::custom('users.unblock', 'unblock.png', 'unblock_f2.png', 'COM_USERS_TOOLBAR_UNBLOCK', true);
-			ToolbarHelper::divider();
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
+		{	
+			$dropdown = $toolbar->dropdownButton('status')
+					->text('JTOOLBAR_CHANGE_STATUS')
+					->toggleSplit(false)
+					->icon('fa fa-globe')
+					->buttonClass('btn btn-info')
+					->listCheck(true);
+
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('users.activate', 'COM_USERS_TOOLBAR_ACTIVATE', true);
+			$childBar->unpublish('users.block', 'COM_USERS_TOOLBAR_BLOCK', true);
+			$childBar->standardButton('unblock')
+					->text('COM_USERS_TOOLBAR_UNBLOCK')
+					->task('users.unblock')
+					->listCheck(true);
 		}
 
 		if ($canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'users.delete', 'JTOOLBAR_DELETE');
-			ToolbarHelper::divider();
+			$toolbar->delete('users.delete')
+				->text('JTOOLBAR_DELETE')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		// Add a batch button
@@ -167,22 +179,18 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_users')
 			&& $user->authorise('core.edit.state', 'com_users'))
 		{
-			$title = Text::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new LayoutFile instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences('com_users');
-			ToolbarHelper::divider();
+			$toolbar->preferences('com_users');
 		}
 
-		ToolbarHelper::help('JHELP_USERS_USER_MANAGER');
+		$toolbar->help('JHELP_USERS_USER_MANAGER');
 	}
 
 	/**
