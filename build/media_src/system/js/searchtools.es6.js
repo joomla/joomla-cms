@@ -437,7 +437,7 @@ Joomla = window.Joomla || {};
                 $option.setAttribute('selected', 'selected');
               }
 
-              // Append the option an repopulate the chosen field
+              // Append the option and repopulate the chosen field
               this.orderFieldName.innerHTML += $option;
             }
           }
@@ -477,7 +477,7 @@ Joomla = window.Joomla || {};
           option.value = newValue;
           option.setAttribute('selected', 'selected');
 
-          // Append the option an repopulate the chosen field
+          // Append the option and repopulate the chosen field
           field.appendChild(option);
         }
 
