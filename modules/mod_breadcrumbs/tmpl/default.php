@@ -71,4 +71,4 @@ defined('_JEXEC') or die;
 			<?php endif;
 		endforeach; ?>
 	</ul>
-</nav>
+</div>
