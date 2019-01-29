@@ -80,6 +80,16 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 */
 	protected $useVersioning = true;
 
+
+	/**
+	 * Internal marker to keep track when need to recheck dependencies
+	 *
+	 * @var    bool
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $dependenciesIsActual = false;
+
 	/**
 	 * Class constructor
 	 *
@@ -128,7 +138,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 		$this->activeAssets[$name] = static::ASSET_STATE_ACTIVE;
 
-		$this->enableDependencies($asset);
+		// To re-check dependencies
+		$this->dependenciesIsActual = false;
 
 		return $this;
 	}
@@ -146,8 +157,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	{
 		unset($this->activeAssets[$name]);
 
-		// Re-check dependencies
-		$this->enableDependencies();
+		// To re-check dependencies
+		$this->dependenciesIsActual = false;
 
 		return $this;
 	}
@@ -165,6 +176,12 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	{
 		// Check whether asset exists first
 		$this->registry->get($name);
+
+		// Make sure that all dependencies are active
+		if (!$this->dependenciesIsActual)
+		{
+			$this->enableDependencies();
+		}
 
 		if (!empty($this->activeAssets[$name]))
 		{
@@ -185,6 +202,12 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 */
 	public function isAssetActive(string $name): bool
 	{
+		// Make sure that all dependencies are active
+		if (!$this->dependenciesIsActual)
+		{
+			$this->enableDependencies();
+		}
+
 		return $this->getAssetState($name) !== static::ASSET_STATE_INACTIVE;
 	}
 
@@ -199,6 +222,12 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 */
 	public function getAssets(bool $sort = false): array
 	{
+		// Make sure that all dependencies are active
+		if (!$this->dependenciesIsActual)
+		{
+			$this->enableDependencies();
+		}
+
 		if ($sort)
 		{
 			return $this->calculateOrderOfActiveAssets();
@@ -253,6 +282,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 				$asset = $this->registry->get($name);
 				$this->enableDependencies($asset);
 			}
+
+			$this->dependenciesIsActual = true;
 		}
 
 		return $this;
@@ -284,7 +315,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 		}
 
 		// Resolve an Order of Assets and their Dependencies
-		$assets = $this->enableDependencies()->getAssets(true);
+		$assets = $this->getAssets(true);
 
 		// Pre-save existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->_scripts;
@@ -549,8 +580,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 */
 	public function debugAssets(): array
 	{
-		// Update dependencies
-		$assets = $this->enableDependencies()->getAssets(true);
+		// Get all active assets in final order
+		$assets = $this->getAssets(true);
 		$result = [];
 
 		foreach ($assets as $asset)
