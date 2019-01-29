@@ -124,7 +124,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 */
 	public function enableAsset(string $name): WebAssetManagerInterface
 	{
-		$asset = $this->registry->get($name);
+		// Check whether asset exists first
+		$this->registry->get($name);
 
 		// Asset already enabled
 		if (!empty($this->activeAssets[$name]))
@@ -201,12 +202,6 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 */
 	public function isAssetActive(string $name): bool
 	{
-		// Make sure that all dependencies are active
-		if (!$this->dependenciesIsActual)
-		{
-			$this->enableDependencies();
-		}
-
 		return $this->getAssetState($name) !== static::ASSET_STATE_INACTIVE;
 	}
 
