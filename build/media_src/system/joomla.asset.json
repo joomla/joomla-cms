@@ -6,6 +6,7 @@
   "assets": {
     "core": {
       "name": "core",
+      "class": "CoreAssetItem",
       "js": [
         "media/system/js/core.min.js"
       ]

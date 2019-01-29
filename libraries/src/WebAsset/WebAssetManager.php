@@ -308,6 +308,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
 				$doc->addScript($path, ['version' => $version], $attr);
 			}
+
+			$asset->onAttachCallback();
 		}
 
 		// Merge with previously added scripts

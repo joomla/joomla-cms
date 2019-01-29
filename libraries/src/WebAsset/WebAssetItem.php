@@ -271,6 +271,18 @@ class WebAssetItem implements WebAssetItemInterface
 	}
 
 	/**
+	 * Method called when asset attached to the Document
+	 *
+	 * @return void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAttachCallback(): void
+	{
+		// Pass
+	}
+
+	/**
 	 * Resolve path
 	 *
 	 * @param   string  $path  The path to resolve

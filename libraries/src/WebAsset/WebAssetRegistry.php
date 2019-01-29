@@ -168,7 +168,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 */
 	public function createAsset(string $name, array $data = []): WebAssetItem
 	{
-		$nameSpace = array_key_exists('namespace', $data) ?  $data['namespace'] : __NAMESPACE__;
+		$nameSpace = array_key_exists('namespace', $data) ?  $data['namespace'] : __NAMESPACE__ . '\\AssetItem';
 		$className = array_key_exists('class', $data) ?  $data['class'] : null;
 
 		if ($className && class_exists($nameSpace . '\\' . $className))

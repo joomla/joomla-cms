@@ -15,7 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Utility class for JavaScript behaviors
@@ -58,29 +57,12 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.3
+	 *
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
 	 */
 	public static function core()
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		HTMLHelper::_('form.csrf');
-		Factory::getDocument()->getWebAssetManager()->enableAsset('core');
-
-		// Add core and base uri paths so javascript scripts can use them.
-		Factory::getDocument()->addScriptOptions(
-			'system.paths',
-			[
-				'root' => Uri::root(true),
-				'rootFull' => Uri::root(),
-				'base' => Uri::base(true),
-			]
-		);
-
-		static::$loaded[__METHOD__] = true;
+		Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('core');
 	}
 
 	/**
