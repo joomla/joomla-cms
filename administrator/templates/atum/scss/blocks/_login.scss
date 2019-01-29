@@ -49,7 +49,7 @@
     @include media-breakpoint-down(sm) {
       padding: 0 15px;
     }
-	
+
 	#content img{
 		height:70px;
 	}
@@ -63,7 +63,7 @@
       color: $white;
     }
   }
-  
+
   header .logo img{
 	height:30px;
 	margin-left:30px;
@@ -99,14 +99,27 @@
   .custom-select {
     max-width: none;
   }
-  
+
   #sidebar-wrapper{
-	
+
 	 @include media-breakpoint-down(sm) {
-		order:2;		
+		order:2;
 	}
   }
-  
+
+  #sidebar {
+    color: var(--font-color-light);
+    position:absolute;
+    bottom: 40px;
+    width: 100%;
+    text-align: center;
+    .card {
+      .module-body {
+        padding: .75rem 1.25rem;
+      }
+    }
+  }
+
   .container-main,
   .sidebar-wrapper{
 	 @include media-breakpoint-down(sm){
@@ -114,7 +127,7 @@
 		flex: 1 0 100% !important;
 	}
   }
-  
+
   .d-flex{
 	@include media-breakpoint-down(sm){
 		flex-wrap:wrap;

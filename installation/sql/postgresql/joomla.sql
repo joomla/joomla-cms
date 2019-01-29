@@ -1330,7 +1330,8 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (17, 51, 'Breadcrumbs', '', '', 1, 'breadcrumbs', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
 (79, 52, 'Multilanguage status', '', '', 1, '', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (86, 53, 'Joomla Version', '', '', 1, 'status', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "6"}', 1, '*');
+(87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "6"}', 1, '*'),
+(88, 65, 'Need support?', '', '<p>You can find help here:<br /><a href="https://forum.joomla.org/" rel="nofollow">Joomla! Support forum</a><br /><a href="https://docs.joomla.org" rel="nofollow">Joomla! Documentation</a><br /><a href="https://www.joomla.org/" rel="nofollow">Joomla! News</a></p>', 1, 'sidebar', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 1, '{"prepare_content":1,"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*');
 
 SELECT setval('#__modules_id_seq', 88, false);
 

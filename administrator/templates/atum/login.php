@@ -40,7 +40,6 @@ $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
-$itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 $logoBlue = $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
 $logo = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
@@ -55,7 +54,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 $this->setMetaData('theme-color', '#1c3d5c');
 
 // Set page title
-$this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
+$this->setTitle(Text::sprintf('TPL_ATUM_LOGIN_SITE_TITLE', $sitename));
 
 $this->addScriptDeclaration('cssVars();')
 
@@ -66,7 +65,7 @@ $this->addScriptDeclaration('cssVars();')
 	<jdoc:include type="metas"/>
 	<jdoc:include type="styles"/>
 </head>
-<body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
+<body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task; ?>">
     <header id="header" class="header">
         <div class="d-flex align-items-center">
             <div class="header-title d-flex mr-auto">
@@ -87,7 +86,9 @@ $this->addScriptDeclaration('cssVars();')
                 <h1><?php echo $sitename; ?></h1>
                 <a href="<?php echo Uri::root(); ?>"><?php echo Text::sprintf('TPL_ATUM_LOGIN_SIDEBAR_SITENAME_LINK', $sitename); ?></a>
             </div>
-            <jdoc:include type="modules" name="sidebar" style="none"/>
+            <div id="sidebar">
+                <jdoc:include type="modules" name="sidebar" style="body"/>
+            </div>
         </div>
 
         <div class="container-fluid container-main">
