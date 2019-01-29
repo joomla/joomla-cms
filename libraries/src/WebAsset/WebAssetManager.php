@@ -80,7 +80,6 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 */
 	protected $useVersioning = true;
 
-
 	/**
 	 * Internal marker to keep track when need to recheck dependencies
 	 *
