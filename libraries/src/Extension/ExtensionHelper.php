@@ -20,6 +20,14 @@ defined('JPATH_PLATFORM') or die;
 class ExtensionHelper
 {
 	/**
+	 * Global loaded extensions through the container
+	 *
+	 * @var    CMSApplicationInterface
+	 * @since  4.0.0
+	 */
+	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
+	
+	/**
 	 * Array of core extensions
 	 * Each element is an array with elements "type", "element", "folder" and
 	 * "client_id".
