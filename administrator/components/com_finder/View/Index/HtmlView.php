@@ -127,8 +127,15 @@ class HtmlView extends BaseHtmlView
 
 		if (!$this->pluginState['plg_content_finder']->enabled)
 		{
-			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
+			if (\JFactory::getUser()->authorise('core.manage', 'com_plugin'))
+			{
+				$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
+				\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
+			}
+			else
+			{
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+			}
 		}
 		elseif ($this->get('TotalIndexed') === 0)
 		{
