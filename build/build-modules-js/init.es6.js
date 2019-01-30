@@ -15,9 +15,13 @@ const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
  * Clean the media/vendor folder
  */
 const cleanVendors = () => {
-  // Copy some assets from a PHP package
-  // @todo handle this better
   if (Fs.existsSync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'))) {
+    // Remove the vendor folder
+    FsExtra.removeSync(Path.join(RootPath, 'media/vendor'));
+    // eslint-disable-next-line no-console
+    console.error('/media/vendor has been removed.');
+
+    // Copy some assets from a PHP package
     FsExtra.copySync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'), Path.join(RootPath, 'media/vendor/debugbar'));
     // Do some cleanup
     FsExtra.removeSync(Path.join(RootPath, 'media/vendor/debugbar/vendor/font-awesome'));
@@ -27,12 +31,6 @@ const cleanVendors = () => {
     console.error('You need to run `npm install` AFTER the command `composer install`!!!. The debug plugin HASN\'T install all its front end assets');
     process.exit(1);
   }
-
-  // Remove the vendor folder
-  FsExtra.removeSync(Path.join(RootPath, 'media/vendor'));
-
-  // eslint-disable-next-line no-console
-  console.error('/media/vendor has been removed.');
 };
 
 /**
