@@ -39,14 +39,11 @@ HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . 
 $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
-$task     = $app->input->getCmd('task', '');
 $sitename = $app->get('sitename');
-$logoBlue = $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
-$logo = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Template params
-$showSitename = $this->params->get('showSitename', '1');
-$loginLogo    = $this->params->get('loginLogo', '');
+$siteLogo    = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
+$loginLogo    = $this->params->get('loginLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg');
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
@@ -65,13 +62,13 @@ $this->addScriptDeclaration('cssVars();')
 	<jdoc:include type="metas"/>
 	<jdoc:include type="styles"/>
 </head>
-<body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task; ?>">
+<body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout; ?>">
     <header id="header" class="header">
         <div class="d-flex align-items-center">
             <div class="header-title d-flex mr-auto">
                 <div class="d-flex">
                     <a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-                        <img src="<?php echo $logoBlue; ?>" alt="">
+                        <img src="<?php echo $siteLogo; ?>" alt="">
                     </a>
                 </div>
             </div>
@@ -84,7 +81,7 @@ $this->addScriptDeclaration('cssVars();')
         <div id="sidebar-wrapper" class="sidebar-wrapper">
             <div id="main-brand" class="main-brand">
                 <h1><?php echo $sitename; ?></h1>
-                <a href="<?php echo Uri::root(); ?>"><?php echo Text::sprintf('TPL_ATUM_LOGIN_SIDEBAR_SITENAME_LINK', $sitename); ?></a>
+                <a href="<?php echo Uri::root(); ?>"><span class="fa fa-external-link"></span> <?php echo Text::sprintf('TPL_ATUM_LOGIN_SIDEBAR_SITENAME_LINK', $sitename); ?></a>
             </div>
             <div id="sidebar">
                 <jdoc:include type="modules" name="sidebar" style="body"/>
@@ -96,7 +93,7 @@ $this->addScriptDeclaration('cssVars();')
                 <main class="d-flex justify-content-center align-items-center h-100">
                     <div class="login">
                         <div id="content" class="main-brand d-flex align-items-center justify-content-center">
-                            <img src="<?php echo $logo; ?>" alt="">
+                            <img src="<?php echo $loginLogo; ?>" alt="">
                         </div>
                         <jdoc:include type="message"/>
                         <jdoc:include type="component"/>

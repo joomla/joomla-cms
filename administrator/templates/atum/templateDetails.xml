@@ -50,16 +50,10 @@
 			<fieldset name="advanced" label="TPL_ATUM_LOGIN_PAGE_SETTINGS_LABEL">
 
 				<field
-					name="showSitename"
-					type="radio"
-					label="TPL_ATUM_SITENAME_LABEL"
-					class="switcher"
-					default="1"
-					filter="integer"
-					>
-					<option value="0">JHIDE</option>
-					<option value="1">JSHOW</option>
-				</field>
+					name="siteLogo"
+					type="media"
+					label="TPL_ATUM_SITE_LOGO_LABEL"
+				/>
 
 				<field
 					name="loginLogo"

@@ -8,9 +8,12 @@
 
   .logo {
     display: inline-block;
-    width: $sidebar-width-closed;
     line-height: $header-height;
     text-align: center;
+    img{
+      height:30px;
+      margin-left:30px;
+    }
   }
 
   .page-title {

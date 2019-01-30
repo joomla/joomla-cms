@@ -30,7 +30,9 @@ $itemid      = $input->get('Itemid', '');
 $cpanel      = $option === 'com_cpanel';
 $hidden      = $app->input->get('hidemainmenu');
 $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
-$logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+
+// Template params
+$siteLogo    = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
@@ -68,7 +70,7 @@ $this->addScriptDeclaration('cssVars();');
 			<div class="header-title d-flex mr-auto">
 				<div class="d-flex">
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-						<img src="<?php echo $logoBlue; ?>" alt="">
+						<img src="<?php echo $siteLogo; ?>" alt="">
 					</a>
 				</div>
 				<jdoc:include type="modules" name="title" />
