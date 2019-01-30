@@ -181,7 +181,6 @@
 
       document.body.addEventListener('click', (event) => {
         if (document.body.classList.contains('filters-shown')) {
-
           // Ignore click inside the filter container
           if (event.composedPath && typeof event.composedPath === 'function') {
             // Browser that support composedPath()
@@ -397,7 +396,7 @@
                 $option.setAttribute('selected', 'selected');
               }
 
-              // Append the option an repopulate the chosen field
+              // Append the option and repopulate the chosen field
               this.orderFieldName.innerHTML += $option;
             }
           }
@@ -437,7 +436,7 @@
           option.value = newValue;
           option.setAttribute('selected', 'selected');
 
-          // Append the option an repopulate the chosen field
+          // Append the option and repopulate the chosen field
           field.appendChild(option);
         }
 

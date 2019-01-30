@@ -28,7 +28,7 @@ $label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . 
 
 $output = '';
 
-if ($params->get('show_button'))
+if ($params->get('show_button', 0))
 {
 	$output .= $label;
 	$output .= '<div class="mod-finder__search input-group">';
@@ -61,7 +61,7 @@ if ($params->get('show_autosuggest', 1))
 <form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get">
 	<?php echo $output; ?>
 
-	<?php $show_advanced = $params->get('show_advanced'); ?>
+	<?php $show_advanced = $params->get('show_advanced', 0); ?>
 	<?php if ($show_advanced == 2) : ?>
 		<br>
 		<a href="<?php echo Route::_($route); ?>" class="mod-finder__advanced-link"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
@@ -70,5 +70,5 @@ if ($params->get('show_autosuggest', 1))
 			<?php echo HTMLHelper::_('filter.select', $query, $params); ?>
 		</div>
 	<?php endif; ?>
-	<?php echo FinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
+	<?php echo FinderHelper::getGetFields($route, (int) $params->get('set_itemid', 0)); ?>
 </form>

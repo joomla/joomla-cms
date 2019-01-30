@@ -38,17 +38,15 @@ class UserController extends BaseController
 	{
 		$this->checkToken('post');
 
-		$app    = $this->app;
-		$input  = $this->input;
-		$method = $input->getMethod();
+		$input = $this->input->getInputForRequestMethod();
 
 		// Populate the data array:
 		$data = array();
 
-		$data['return']    = base64_decode($this->input->post->get('return', '', 'BASE64'));
-		$data['username']  = $input->$method->get('username', '', 'USERNAME');
-		$data['password']  = $input->$method->get('password', '', 'RAW');
-		$data['secretkey'] = $input->$method->get('secretkey', '', 'RAW');
+		$data['return']    = base64_decode($input->get('return', '', 'BASE64'));
+		$data['username']  = $input->get('username', '', 'USERNAME');
+		$data['password']  = $input->get('password', '', 'RAW');
+		$data['secretkey'] = $input->get('secretkey', '', 'RAW');
 
 		// Check for a simple menu item id
 		if (is_numeric($data['return']))
@@ -105,7 +103,7 @@ class UserController extends BaseController
 		}
 
 		// Set the return URL in the user state to allow modification by plugins
-		$app->setUserState('users.login.form.return', $data['return']);
+		$this->app->setUserState('users.login.form.return', $data['return']);
 
 		// Get the log in options.
 		$options = array();
@@ -119,7 +117,7 @@ class UserController extends BaseController
 		$credentials['secretkey'] = $data['secretkey'];
 
 		// Perform the log in.
-		if (true !== $app->login($credentials, $options))
+		if (true !== $this->app->login($credentials, $options))
 		{
 			// Login failed !
 			// Clear user name, password and secret key before sending the login form back to the user.
@@ -127,18 +125,18 @@ class UserController extends BaseController
 			$data['username'] = '';
 			$data['password'] = '';
 			$data['secretkey'] = '';
-			$app->setUserState('users.login.form.data', $data);
-			$app->redirect(Route::_('index.php?option=com_users&view=login', false));
+			$this->app->setUserState('users.login.form.data', $data);
+			$this->app->redirect(Route::_('index.php?option=com_users&view=login', false));
 		}
 
 		// Success
 		if ($options['remember'] == true)
 		{
-			$app->setUserState('rememberLogin', true);
+			$this->app->setUserState('rememberLogin', true);
 		}
 
-		$app->setUserState('users.login.form.data', array());
-		$app->redirect(Route::_($app->getUserState('users.login.form.return'), false));
+		$this->app->setUserState('users.login.form.data', array());
+		$this->app->redirect(Route::_($this->app->getUserState('users.login.form.return'), false));
 	}
 
 	/**
@@ -160,9 +158,8 @@ class UserController extends BaseController
 		);
 
 		// Perform the log out.
-		$error  = $app->logout(null, $options);
-		$input  = $app->input;
-		$method = $input->getMethod();
+		$error = $app->logout(null, $options);
+		$input = $app->input->getInputForRequestMethod();
 
 		// Check if the log out succeeded.
 		if ($error instanceof \Exception)
@@ -171,7 +168,7 @@ class UserController extends BaseController
 		}
 
 		// Get the return URL from the request and validate that it is internal.
-		$return = $input->$method->get('return', '', 'BASE64');
+		$return = $input->get('return', '', 'BASE64');
 		$return = base64_decode($return);
 
 		// Check for a simple menu item id
