@@ -963,7 +963,6 @@ class PlgSampledataMultilang extends CMSPlugin
 	 * Method to create a category for a specific language.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
-	 * @param   stdClass  $workflowId    Workflow ID for this category.
 	 *
 	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
@@ -1027,7 +1026,6 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   integer   $categoryId    The id of the category where we want to add the article.
-	 * @param   integer   $stageId       The id of the initial stage.
 	 *
 	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
