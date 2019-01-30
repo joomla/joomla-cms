@@ -35,19 +35,15 @@ $checkboxName = $options['checkbox_name'];
 		data-placement="top"
 	></span>
 <?php else: ?>
-	<a class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $this->escape(!empty($disabled) ? 'disabled' : null); ?> <?php echo $tip ? 'hasPopover' : '' ?>"
+	<button type="submit" class="tbody-icon data-state-<?php echo $this->escape($value ?? ''); ?> <?php echo $this->escape(!empty($disabled) ? 'disabled' : null); ?>"
 		<?php if (empty($disabled)): ?>
 			href="javascript://"
 		<?php endif; ?>
-
-		title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0) ?>"
-		data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0) ?>"
-		data-placement="top"
-
 		<?php if(!empty($task) && empty($disabled)): ?>
 			onclick="return Joomla.listItemTask('<?php echo $checkboxName . $this->escape($row ?? ''); ?>', '<?php echo $this->escape(isset($task) ? $taskPrefix . $task : ''); ?>')"
 		<?php endif; ?>
 	>
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
-	</a>
+		<span class="sr-only"><?php echo Text::_($title); ?></span>
+	</button>
 <?php endif; ?>
