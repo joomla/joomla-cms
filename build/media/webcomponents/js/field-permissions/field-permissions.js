@@ -44,6 +44,17 @@ window.customElements.define('joomla-field-permissions', class extends HTMLEleme
   /**
    * Lifecycle
    */
+  disconnectedCallback() {
+    if (this.buttons) {
+      this.buttons.forEach((button) => {
+        button.removeEventListener('change', this.onDropdownChange);
+      });
+    }
+  }
+
+  /**
+   * Lifecycle
+   */
   onDropdownChange(event) {
     event.preventDefault();
     const task = event.target.getAttribute(this.buttonDataSelector);
