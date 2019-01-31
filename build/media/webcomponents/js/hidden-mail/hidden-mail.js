@@ -1,50 +1,58 @@
-;customElements.define('joomla-hidden-mail', class extends HTMLElement {
-	connectedCallback() {
-		let newEl;
-		let base = this.getAttribute('base') + '/';
+/**
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
+  constructor() {
+    super();
 
-		if (this.getAttribute('is-link') === '1') {
-			newEl = document.createElement('a');
-			newEl.setAttribute('href', 'mailto:' + this.b64DecodeUnicode(this.getAttribute('first')) + '@' + this.b64DecodeUnicode(this.getAttribute('last')));
+    this.newElement = '';
+    this.base = '';
+  }
 
-			// Get all of the original element attributes, and pass them to the link
-			for(let i = 0, l = this.attributes.length; i < l; ++i){
-				const nodeName  = this.attributes.item(i).nodeName;
+  connectedCallback() {
+    this.base = `${this.getAttribute('base')}/`;
 
-				if (nodeName) {
-					// We do care for some attributes
-					if (['is-link', 'is-email', 'first', 'last', 'text'].indexOf(nodeName) > -1) {
-						continue;
-					}
+    if (this.getAttribute('is-link') === '1') {
+      this.newElement = document.createElement('a');
+      this.newElement.setAttribute('href', `mailto:${this.constructor.b64DecodeUnicode(this.getAttribute('first'))}@${this.constructor.b64DecodeUnicode(this.getAttribute('last'))}`);
+      let i = 0;
+      const { length } = this.attributes;
 
-					const nodeValue = this.attributes.item(i).nodeValue;
+      // Get all of the original element attributes, and pass them to the link
+      for (i; i < length; i += 1) {
+        const { nodeName } = this.attributes.item(i);
 
-					newEl.setAttribute(nodeName, nodeValue);
-				}
-			}
-		} else {
-			newEl = document.createElement('span');
-		}
+        if (nodeName) {
+          // We do care for some attributes
+          if (['is-link', 'is-email', 'first', 'last', 'text'].indexOf(nodeName) === -1) {
+            const { nodeValue } = this.attributes.item(i);
 
-		if (this.getAttribute('text')) {
-			let innerStr = this.b64DecodeUnicode(this.getAttribute('text'));
+            this.newElement.setAttribute(nodeName, nodeValue);
+          }
+        }
+      }
+    } else {
+      this.newElement = document.createElement('span');
+    }
 
-			innerStr = innerStr.replace('src="images/', `src="${base}images/`).replace('src="media/', `src="${base}media/`);
-			newEl.innerHTML = innerStr;
-		} else {
-			newEl.innerText = window.atob(this.getAttribute('first')) + '@' + window.atob(this.getAttribute('last'));
-		}
+    if (this.getAttribute('text')) {
+      let innerStr = this.constructor.b64DecodeUnicode(this.getAttribute('text'));
 
-		// Remove the noscript message
-		this.innerText = '';
+      innerStr = innerStr.replace('src="images/', `src="${this.base}images/`).replace('src="media/', `src="${this.base}media/`);
+      this.newElement.innerHTML = innerStr;
+    } else {
+      this.newElement.innerText = `${window.atob(this.getAttribute('first'))}@${window.atob(this.getAttribute('last'))}`;
+    }
 
-		// Display the new element
-		this.appendChild(newEl);
-	}
+    // Remove the noscript message
+    this.innerText = '';
 
-	b64DecodeUnicode(str) {
-		return decodeURIComponent(Array.prototype.map.call(atob(str), (c) => {
-			return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-		}).join(''))
-	}
+    // Display the new element
+    this.appendChild(this.newElement);
+  }
+
+  static b64DecodeUnicode(str) {
+    return decodeURIComponent(Array.prototype.map.call(atob(str), c => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`).join(''));
+  }
 });
