@@ -14,7 +14,7 @@ window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
    * Lifecycle
    */
   disconnectedCallback() {
-    this.innerText = '';
+    this.innerHTML = '';
   }
 
   /**
