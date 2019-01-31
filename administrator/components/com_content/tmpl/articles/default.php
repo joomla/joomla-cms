@@ -229,7 +229,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id, false, 'cid', 'cb', $item->title); ?>
 								</td>
-								<td class="article-status">
+								<td class="text-center">
 									<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 								</td>
 								<td class="article-status">
