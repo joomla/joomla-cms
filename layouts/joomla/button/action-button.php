@@ -22,7 +22,6 @@ HTMLHelper::_('bootstrap.popover');
 extract($displayData, EXTR_OVERWRITE);
 
 $disabled = !empty($options['disabled']);
-$tipTitle = $options['tip_title'];
 $taskPrefix = $options['task_prefix'];
 $checkboxName = $options['checkbox_name'];
 ?>
