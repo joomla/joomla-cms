@@ -217,6 +217,10 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 						<td class="center">
 							<span class="icon-trash" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
 						</td>
+				<?php else : ?>
+						<td class="center">
+							<span class="icon-pending" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
+						</td>
 				<?php endif; ?>
 				<?php // Published Home pages ?>
 				<?php if ($status->home_language) : ?>
