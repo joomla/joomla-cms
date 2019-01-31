@@ -84,7 +84,7 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 					</td>
 				</tr>
 			<?php endif; ?>
-			<?php if ($contentlang->published == -2) : ?>
+			<?php if ($contentlang->published === -2) : ?>
 				<tr class="warning">
 					<td>
 						<span class="icon-pending" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
@@ -205,15 +205,15 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 						</td>
 				<?php endif; ?>
 				<?php // Published Content languages ?>
-				<?php if ($status->lang_code && $status->published == 1) : ?>
+				<?php if ($status->lang_code && $status->published === 1) : ?>
 						<td class="center">
 							<span class="icon-ok" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('JYES'); ?></span>
 						</td>
-				<?php elseif ($status->lang_code && $status->published == 0) : ?>
+				<?php elseif ($status->lang_code && $status->published === 0) : ?>
 						<td class="center">
 							<span class="icon-pending" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
 						</td>
-				<?php elseif ($status->lang_code && $status->published == -2) : ?>
+				<?php elseif ($status->lang_code && $status->published === -2) : ?>
 						<td class="center">
 							<span class="icon-trash" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('WARNING'); ?></span>
 						</td>
