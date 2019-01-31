@@ -227,7 +227,6 @@ $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_fi
 						<td class="center">
 							<span class="icon-not-ok" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('JNO'); ?></span>
 						</td>
-						</td>
 				<?php endif; ?>
 				</tr>
 			<?php endforeach; ?>
