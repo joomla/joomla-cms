@@ -4,7 +4,10 @@ const RootPath = require('../utils/rootpath.es6.js')._();
 const UglifyJS = require('uglify-es');
 const WalkSync = require('../utils/walk-sync.es6.js');
 
-const fixVendors = () => {
+/**
+ * Method that will minify a set of vendor javascript files
+ */
+module.exports.compile = () => {
   Promise.resolve()
     .then(() => {
       const folders = [
@@ -42,5 +45,3 @@ const fixVendors = () => {
       process.exit(1);
     });
 };
-
-module.exports.compile = fixVendors;

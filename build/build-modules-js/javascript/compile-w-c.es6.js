@@ -74,89 +74,93 @@ const createJsFiles = (inputFile, es6FileContents) => {
   });
 };
 
-const compile = (inputFile, options) => {
-  // Get the contents of the ES-XXXX file
-  let es6File = Fs.readFileSync(inputFile, 'utf8');
-  // Check if there is a css file
-  if (Fs.existsSync(inputFile.replace('/js/', '/scss/').replace('\\js\\', '\\scss\\').replace('.w-c.es6.js', '.scss'))) {
-    Sass.render({
-      file: inputFile.replace('/js/', '/scss/').replace('\\js\\', '\\scss\\').replace('.w-c.es6.js', '.scss'),
-    }, (error, result) => {
-      if (error) {
-        // eslint-disable-next-line no-console
-        console.error(`${error.column}
-                  ${error.message}
-                  ${error.line}`);
-      } else {
-        const cleaner = Postcss(
-          [
-            Autoprefixer({
-              env: {
-                targets: {
-                  browsers: [options.settings.browsers],
-                },
-              },
-            }),
-          ],
-        );
+/**
+ * Compiles any web component/custom element files from the media_source folder
+ *
+ * @param file     The full path to the file + filename + extension
+ * @param options  The options from the settings.json
+ */
+module.exports.compile = (inputFile, options) => {
+  Promise.resolve()
+    .then(() => {
+      // Get the contents of the ES-XXXX file
+      let es6File = Fs.readFileSync(inputFile, 'utf8');
+      // Check if there is a css file
+      if (Fs.existsSync(inputFile.replace('/js/', '/scss/').replace('\\js\\', '\\scss\\').replace('.w-c.es6.js', '.scss'))) {
+        Sass.render({
+          file: inputFile.replace('/js/', '/scss/').replace('\\js\\', '\\scss\\').replace('.w-c.es6.js', '.scss'),
+        }, (error, result) => {
+          if (error) {
+            // eslint-disable-next-line no-console
+            console.error(`${error.column}
+                      ${error.message}
+                      ${error.line}`);
+          } else {
+            const cleaner = Postcss(
+              [
+                Autoprefixer({
+                  env: {
+                    targets: {
+                      browsers: [options.settings.browsers],
+                    },
+                  },
+                }),
+              ],
+            );
 
-        if (typeof result === 'object' && result.css) {
-          cleaner.process(result.css.toString(), { from: undefined })
-            .then((res) => {
-              if (/{{CSS_CONTENTS_PLACEHOLDER}}/.test(es6File)) {
-                if (typeof res === 'object' && res.css) {
-                  Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
-                    es6File = es6File.replace('{{CSS_CONTENTS_PLACEHOLDER}}', cssMin.css.toString());
+            if (typeof result === 'object' && result.css) {
+              cleaner.process(result.css.toString(), { from: undefined })
+                .then((res) => {
+                  if (/{{CSS_CONTENTS_PLACEHOLDER}}/.test(es6File)) {
+                    if (typeof res === 'object' && res.css) {
+                      Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
+                        es6File = es6File.replace('{{CSS_CONTENTS_PLACEHOLDER}}', cssMin.css.toString());
+                        // eslint-disable-next-line no-console
+                        console.error(`Transpiling Web Component file: ${inputFile}`);
+                        createJsFiles(inputFile, es6File);
+                      });
+                    }
+                  } else {
+                    if (typeof res === 'object' && res.css) {
+                      Fs.writeFileSync(
+                        inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\')
+                          .replace('.w-c.es6.js', '.css'),
+                        res.css.toString(),
+                        { encoding: 'UTF-8' },
+                      );
+                      Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
+                        Fs.writeFileSync(
+                          inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\')
+                            .replace('.w-c.es6.js', '.min.css'),
+                          cssMin.css.toString(),
+                          { encoding: 'UTF-8' },
+                        );
+                      });
+                    }
+
                     // eslint-disable-next-line no-console
                     console.error(`Transpiling Web Component file: ${inputFile}`);
+
                     createJsFiles(inputFile, es6File);
-                  });
-                }
-              } else {
-                if (typeof res === 'object' && res.css) {
-                  Fs.writeFileSync(
-                    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\')
-                      .replace('.w-c.es6.js', '.css'),
-                    res.css.toString(),
-                    { encoding: 'UTF-8' },
-                  );
-                  Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
-                    Fs.writeFileSync(
-                      inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\')
-                        .replace('.w-c.es6.js', '.min.css'),
-                      cssMin.css.toString(),
-                      { encoding: 'UTF-8' },
-                    );
-                  });
-                }
+                  }
+                })
 
-                // eslint-disable-next-line no-console
-                console.error(`Transpiling Web Component file: ${inputFile}`);
+                // Handle errors
+                .catch((err) => {
+                  // eslint-disable-next-line no-console
+                  console.error(`${err}`);
+                  process.exit(-1);
+                });
+            }
+          }
+        });
+      } else {
+        // eslint-disable-next-line no-console
+        console.error(`Transpiling Web Component file: ${inputFile}`);
 
-                createJsFiles(inputFile, es6File);
-              }
-            })
-
-            // Handle errors
-            .catch((err) => {
-              // eslint-disable-next-line no-console
-              console.error(`${err}`);
-              process.exit(-1);
-            });
-        }
+        createJsFiles(inputFile, es6File);
       }
-    });
-  } else {
-    // eslint-disable-next-line no-console
-    console.error(`Transpiling Web Component file: ${inputFile}`);
-
-    createJsFiles(inputFile, es6File);
-  }
-};
-
-const compileCEjs = (inputFile, options) => {
-  Promise.resolve()
-    .then(() => compile(inputFile, options))
+    })
 
     // Handle errors
     .catch((err) => {
@@ -165,5 +169,3 @@ const compileCEjs = (inputFile, options) => {
       process.exit(-1);
     });
 };
-
-module.exports.compile = compileCEjs;

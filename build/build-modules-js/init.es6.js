@@ -3,16 +3,14 @@ const Fs = require('fs');
 const FsExtra = require('fs-extra');
 const Path = require('path');
 const RootPath = require('./utils/rootpath.es6.js')._();
-// const Recurs = require('recursive-readdir');
-// const UglyCss = require('uglifycss');
-// const UglifyJS = require('uglify-es');
-// const WalkSync = require('./utils/walk-sync.es6.js');
-// const RenameRecurs = require('./utils/rename-recurs.es6.js');
 
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 /**
- * Clean the media/vendor folder
+ * Method that will erase the media/vendor folder
+ * and populate the debugbar assets
+ * 
+ * @returns { void }
  */
 const cleanVendors = () => {
   if (Fs.existsSync(Path.join(RootPath, 'libraries/vendor/maximebf/debugbar/src/DebugBar/Resources'))) {
@@ -39,6 +37,8 @@ const cleanVendors = () => {
  * @param {string} dirName the name of the source folder
  * @param {string} name    the name of the destination folder
  * @param {string} type    the type of the folder, eg: js, css, fonts, images
+ * 
+ * @returns { void }
  */
 const copyAll = (dirName, name, type) => {
   const folderName = dirName === '/' ? '/' : `/${dirName}`;
@@ -53,6 +53,8 @@ const copyAll = (dirName, name, type) => {
  * @param {array}  files   the array of files to be be copied
  * @param {string} name    the name of the destination folder
  * @param {string} type    the type of the folder, eg: js, css, fonts, images
+ * 
+ * @returns { void }
  */
 const copyArrayFiles = (dirName, files, name, type) => {
   files.forEach((file) => {
@@ -93,6 +95,8 @@ const copyFilesTo = (files, srcDir, destDir) => {
  *
  * @param {array}  files   the array of files to be be concatenated
  * @param {string} output  the name of the output file
+ * 
+ * @returns {void}
  */
 const concatFiles = (files, output) => {
   let tempMem = '';
@@ -108,7 +112,9 @@ const concatFiles = (files, output) => {
 /**
  * Main method that will copy all vendor files according to Joomla's specs
  *
- * @param options
+ * @param options The options from setting.json
+ * 
+ * @returns {void}
  */
 const copyFiles = (options) => {
   const mediaVendorPath = Path.join(RootPath, 'media/vendor');
@@ -316,10 +322,11 @@ const copyFiles = (options) => {
 
 /**
  * Method to recreate the basic media folder structure
- * After execution the media folder is populated with empty js subdirectories
- * css subdirectories with the relative css files
+ * After execution the media folder is populated with empty js and css subdirectories
  * images subfolders with the relative files
- * any other files except .js, .scss
+ * any other files except .js, .css, .scss
+ * 
+ * @returns { void }
  */
 const recreateMediaFolder = () => {
   // eslint-disable-next-line no-console
@@ -341,16 +348,13 @@ const recreateMediaFolder = () => {
 };
 
 
-const copyAssets = (options) => {
+module.exports.copyAssets = (options) => {
   Promise.resolve()
     // Copy a fresh version of the files
     .then(cleanVendors())
 
     // Copy a fresh version of the files
     .then(recreateMediaFolder())
-
-    // Copy a fresh version of the files
-    .then(copyFiles(options))
 
     // Copy a fresh version of the files
     .then(copyFiles(options))
@@ -362,5 +366,3 @@ const copyAssets = (options) => {
       process.exit(1);
     });
 };
-
-module.exports.copyAssets = copyAssets;
