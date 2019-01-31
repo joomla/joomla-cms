@@ -1,11 +1,11 @@
 const Fs = require('fs');
 const Path = require('path');
-const RootPath = require('../utils/rootpath.es6.js')._();
 const UglifyJS = require('uglify-es');
 const WalkSync = require('../utils/walk-sync.es6.js');
+const RootPath = require('../utils/rootpath.es6.js')._();
 
 /**
- * Method that will minify a set of vendor javascript files 
+ * Method that will minify a set of vendor javascript files
  */
 module.exports.compile = () => {
   Promise.resolve()
@@ -24,6 +24,7 @@ module.exports.compile = () => {
           files.forEach(
             (file) => {
               if (file.match(/\.js/) && !file.match(/LICENSE\.md/)) {
+                // eslint-disable-next-line no-console
                 console.log(`Processing ES5 file: ${file}`);
                 // Write the file
                 Fs.writeFileSync(

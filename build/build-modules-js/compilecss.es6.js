@@ -9,13 +9,13 @@ const RootPath = require('./utils/rootpath.es6.js')._();
 /**
  * Method that will crawl the media_source folder and
  * compile any scss files to css and .min.css
- * copy any css files to the appropriate destination and 
+ * copy any css files to the appropriate destination and
  * minify them in place
- * 
- * Expects scss files to have ext: .scss 
+ *
+ * Expects scss files to have ext: .scss
  *         css files to have ext: .css
  * Ignores scss files that their filename starts with `_`
- * 
+ *
  * @param {object} options  The options
  * @param {string} path     The folder that needs to be compiled, optional
  */
@@ -25,10 +25,10 @@ module.exports.compile = (options, path) => {
     .then(() => {
       let files = [];
       let folders = [];
-    
+
       if (path) {
         const stats = Fs.lstatSync(`${RootPath}/${path}`);
-    
+
         if (stats.isDirectory()) {
           folders.push(`${RootPath}/${path}`);
         } else if (stats.isFile()) {
@@ -50,12 +50,12 @@ module.exports.compile = (options, path) => {
           `${RootPath}/installation/template/scss/template.scss`,
           `${RootPath}/installation/template/scss/template-rtl.scss`,
         ];
-    
+
         folders = [
           `${RootPath}/build/media_source`,
         ];
       }
-    
+
       // Loop to get the files that should be compiled via parameter
       folders.forEach((folder) => {
         Recurs(folder, ['*.js', '*.map', '*.svg', '*.png', '*.swf', '*.json']).then(
@@ -75,7 +75,7 @@ module.exports.compile = (options, path) => {
                     UglyCss.processFiles([file], { expandVars: false }),
                     { encoding: 'utf8' },
                   );
-    
+
                   // eslint-disable-next-line no-console
                   console.log(`CSS file copied/minified: ${file}`);
                 }
@@ -87,7 +87,7 @@ module.exports.compile = (options, path) => {
             );
           },
         );
-    
+
         files.forEach((inputFile) => {
           CompileScss.compile(inputFile, options);
         });

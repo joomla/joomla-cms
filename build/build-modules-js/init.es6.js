@@ -9,7 +9,7 @@ const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 /**
  * Method that will erase the media/vendor folder
  * and populate the debugbar assets
- * 
+ *
  * @returns { void }
  */
 const cleanVendors = () => {
@@ -37,7 +37,7 @@ const cleanVendors = () => {
  * @param {string} dirName the name of the source folder
  * @param {string} name    the name of the destination folder
  * @param {string} type    the type of the folder, eg: js, css, fonts, images
- * 
+ *
  * @returns { void }
  */
 const copyAll = (dirName, name, type) => {
@@ -53,7 +53,7 @@ const copyAll = (dirName, name, type) => {
  * @param {array}  files   the array of files to be be copied
  * @param {string} name    the name of the destination folder
  * @param {string} type    the type of the folder, eg: js, css, fonts, images
- * 
+ *
  * @returns { void }
  */
 const copyArrayFiles = (dirName, files, name, type) => {
@@ -95,7 +95,7 @@ const copyFilesTo = (files, srcDir, destDir) => {
  *
  * @param {array}  files   the array of files to be be concatenated
  * @param {string} output  the name of the output file
- * 
+ *
  * @returns {void}
  */
 const concatFiles = (files, output) => {
@@ -113,7 +113,7 @@ const concatFiles = (files, output) => {
  * Main method that will copy all vendor files according to Joomla's specs
  *
  * @param options The options from setting.json
- * 
+ *
  * @returns {void}
  */
 const copyFiles = (options) => {
@@ -246,8 +246,8 @@ const copyFiles = (options) => {
       }
     }
 
-    // Joomla's hack to expose the chosen base classes so we can extend it ourselves (it was better than the
-    // many hacks we had before. But I'm still ashamed of myself.
+    // Joomla's hack to expose the chosen base classes so we can extend it ourselves
+    // (it was better than the many hacks we had before. But I'm still ashamed of myself).
     if (packageName === 'chosen-js') {
       const dest = Path.join(mediaVendorPath, vendorName);
       const chosenPath = `${dest}/${options.settings.vendors[packageName].js['chosen.jquery.js']}`;
@@ -272,34 +272,39 @@ const copyFiles = (options) => {
         };
 
         // Update path for JS and CSS files
-        assetInfo.js && assetInfo.js.length && assetInfo.js.forEach((assetJS) => {
-          let itemPath = assetJS;
+        if (assetInfo.js && assetInfo.js.length) {
+          assetInfo.js.forEach((assetJS) => {
+            let itemPath = assetJS;
 
-          // Check for external path
-          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-            itemPath = `media/vendor/${vendorName}/js/${itemPath}`;
-          }
-          registryItem.js.push(itemPath);
+            // Check for external path
+            if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+              itemPath = `media/vendor/${vendorName}/js/${itemPath}`;
+            }
+            registryItem.js.push(itemPath);
 
-          // Check if there are any attribute to this file, then update the path
-          if (assetInfo.attribute && assetInfo.attribute[assetJS]) {
-            registryItem.attribute[itemPath] = assetInfo.attribute[assetJS];
-          }
-        });
-        assetInfo.css && assetInfo.css.length && assetInfo.css.forEach((assetCSS) => {
-          let itemPath = assetCSS;
+            // Check if there are any attribute to this file, then update the path
+            if (assetInfo.attribute && assetInfo.attribute[assetJS]) {
+              registryItem.attribute[itemPath] = assetInfo.attribute[assetJS];
+            }
+          });
+        }
 
-          // Check for external path
-          if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
-            itemPath = `media/vendor/${vendorName}/css/${itemPath}`;
-          }
-          registryItem.css.push(itemPath);
+        if (assetInfo.css && assetInfo.css.length) {
+          assetInfo.css.forEach((assetCSS) => {
+            let itemPath = assetCSS;
 
-          // Check if there are any attribute to this file, then update the path
-          if (assetInfo.attribute && assetInfo.attribute[assetCSS]) {
-            registryItem.attribute[itemPath] = assetInfo.attribute[assetCSS];
-          }
-        });
+            // Check for external path
+            if (itemPath.indexOf('http://') !== 0 && itemPath.indexOf('https://') !== 0 && itemPath.indexOf('//') !== 0) {
+              itemPath = `media/vendor/${vendorName}/css/${itemPath}`;
+            }
+            registryItem.css.push(itemPath);
+
+            // Check if there are any attribute to this file, then update the path
+            if (assetInfo.attribute && assetInfo.attribute[assetCSS]) {
+              registryItem.attribute[itemPath] = assetInfo.attribute[assetCSS];
+            }
+          });
+        }
 
         registry.assets[registryItem.name] = registryItem;
       });
@@ -325,7 +330,7 @@ const copyFiles = (options) => {
  * After execution the media folder is populated with empty js and css subdirectories
  * images subfolders with the relative files
  * any other files except .js, .css, .scss
- * 
+ *
  * @returns { void }
  */
 const recreateMediaFolder = () => {
@@ -342,6 +347,7 @@ const recreateMediaFolder = () => {
     return true;
   }, (err) => {
     if (!err) {
+      // eslint-disable-next-line no-console
       console.log('Legacy media files restored');
     }
   });

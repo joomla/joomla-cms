@@ -6,10 +6,10 @@
  * npm install
  *
  * For dedicated tasks, please run:
- * node build.js --buildCheck      === will create the error pages (for incomplete repo build PHP+NPM)
- * node build.js --copy-assets     === will clean the media/vendor folder and then will populate the folder from node_modules
- * node build.js --compile-js      === will transpile ES6 files and also uglify the ES6,ES5 files
- * node build.js --compile-css     === will compile all the scss defined files and also create a minified version of the css
+ * node build.js --build-pages  === will create the error pages (for incomplete repo build PHP+NPM)
+ * node build.js --copy-assets  === will clean the media/vendor folder and then will populate the folder from node_modules
+ * node build.js --compile-js   === will transpile ES6 files and also uglify the ES6,ES5 files
+ * node build.js --compile-css  === will compile all the scss defined files and also create a minified version of the css
  *
  */
 
@@ -41,7 +41,7 @@ Program
   .option('--build-pages', 'Creates the error pages for unsupported PHP version & incomplete environment')
   .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
-  .option('--watch, --watch path', 'Watch file changes and re-compile (Only works for the js in the media_source).')
+  .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
@@ -100,5 +100,5 @@ if (Program.compileJs) {
 
 // Compress/transpile the javascript files
 if (Program.watch) {
-  watch.run(options, Program.args[0]);
+  watch.run();
 }

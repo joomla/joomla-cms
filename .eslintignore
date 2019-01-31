@@ -18,9 +18,4 @@ joomla-field-switcher.w-c.es6.js
 joomla-field-user.w-c.es6.js
 joomla-toolbar-button.w-c.es6.js
 joomla-hidden-mail.w-c.es6.js
-
-error-pages.es6.js
-init.es6.js
-compile-w-c.es6.js
-minify-vendor.es6.js
 # End of TODO

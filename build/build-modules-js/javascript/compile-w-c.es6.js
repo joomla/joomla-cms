@@ -4,7 +4,6 @@ const Fs = require('fs');
 const Postcss = require('postcss');
 const Sass = require('node-sass');
 const Babel = require('./babel-transform.es6.js');
-const RootPath = require('../utils/rootpath.es6.js')._();
 
 const createJsFiles = (inputFile, es6FileContents) => {
   // Define some settings
@@ -113,6 +112,7 @@ module.exports.compile = (inputFile, options) => {
                 .then((res) => {
                   if (/{{CSS_CONTENTS_PLACEHOLDER}}/.test(es6File)) {
                     if (typeof res === 'object' && res.css) {
+                      // eslint-disable-next-line max-len
                       Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
                         es6File = es6File.replace('{{CSS_CONTENTS_PLACEHOLDER}}', cssMin.css.toString());
                         // eslint-disable-next-line no-console
@@ -128,6 +128,7 @@ module.exports.compile = (inputFile, options) => {
                         res.css.toString(),
                         { encoding: 'UTF-8' },
                       );
+                      // eslint-disable-next-line max-len
                       Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
                         Fs.writeFileSync(
                           inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\')

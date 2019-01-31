@@ -32,28 +32,34 @@ module.exports.run = (options) => {
 
   Recurs(dir).then(
     (files) => {
-      files.forEach((file) => {
+      files.sort().forEach((file) => {
         const languageStrings = Ini.parse(Fs.readFileSync(file, 'UTF-8'));
 
         // Build the variables into json for the unsupported page
         if (languageStrings.MIN_PHP_ERROR_LANGUAGE) {
           const name = file.replace('.ini', '').replace(/.+\//, '').replace(/.+\\/, '');
-          unsupported += `"${name}":{"language":"${languageStrings.MIN_PHP_ERROR_LANGUAGE}","header":"${languageStrings.MIN_PHP_ERROR_HEADER}","text1":"${languageStrings.MIN_PHP_ERROR_TEXT}","help-url-text":"${languageStrings.MIN_PHP_ERROR_URL_TEXT}"},`;
+          unsupported += `"${name}":{"language":"${languageStrings.MIN_PHP_ERROR_LANGUAGE}",`
+                      + `"header":"${languageStrings.MIN_PHP_ERROR_HEADER}",`
+                      + `"text1":"${languageStrings.MIN_PHP_ERROR_TEXT}",`
+                      + `"help-url-text":"${languageStrings.MIN_PHP_ERROR_URL_TEXT}"},`;
         }
 
         // Build the variables into json for the unsupported page
         if (languageStrings.BUILD_INCOMPLETE_LANGUAGE) {
           const name = file.replace('.ini', '').replace(/.+\//, '').replace(/.+\\/, '');
-          incomplete += `"${name}":{"language":"${languageStrings.BUILD_INCOMPLETE_LANGUAGE}","header":"${languageStrings.BUILD_INCOMPLETE_HEADER}","text1":"${languageStrings.BUILD_INCOMPLETE_TEXT}","help-url-text":"${languageStrings.BUILD_INCOMPLETE_URL_TEXT}"},`;
+          incomplete += `"${name}":{"language":"${languageStrings.BUILD_INCOMPLETE_LANGUAGE}",`
+                     + `"header":"${languageStrings.BUILD_INCOMPLETE_HEADER}",`
+                     + `"text1":"${languageStrings.BUILD_INCOMPLETE_TEXT}",`
+                     + `"help-url-text":"${languageStrings.BUILD_INCOMPLETE_URL_TEXT}"},`;
         }
       });
 
       unsupported = `${unsupported}}`;
       incomplete = `${incomplete}}`;
 
-      for (const name in options.settings.errorPages) {
-	      let checkContent = initTemplate;
-	      checkContent = checkContent.replace('{{jsonContents}}', name === 'incomplete' ? incomplete : unsupported);
+      Object.keys(options.settings.errorPages).sort().forEach((name) => {
+        let checkContent = initTemplate;
+        checkContent = checkContent.replace('{{jsonContents}}', name === 'incomplete' ? incomplete : unsupported);
         checkContent = checkContent.replace('{{PHP_VERSION}}', '');
         checkContent = checkContent.replace('{{Title}}', options.settings.errorPages[name].title);
         checkContent = checkContent.replace('{{Header}}', options.settings.errorPages[name].header);
@@ -83,7 +89,7 @@ module.exports.run = (options) => {
             console.log(`The ${options.settings.errorPages[name].destFile} page was created successfully!`);
           },
         );
-      }
+      });
     },
     (error) => {
       // eslint-disable-next-line no-console
