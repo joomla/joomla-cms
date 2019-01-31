@@ -10,6 +10,16 @@ window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
     this.base = '';
   }
 
+  /**
+   * Lifecycle
+   */
+  disconnectedCallback() {
+    this.innerText = '';
+  }
+
+  /**
+   * Lifecycle
+   */
   connectedCallback() {
     this.base = `${this.getAttribute('base')}/`;
 
@@ -20,18 +30,18 @@ window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
       const { length } = this.attributes;
 
       // Get all of the original element attributes, and pass them to the link
-      for (i; i < length; i += 1) {
-        const { nodeName } = this.attributes.item(i);
+      [].slice.call(this.attributes).forEach((attribute, index) => {
+        const { nodeName } = this.attributes.item(index);
 
         if (nodeName) {
           // We do care for some attributes
           if (['is-link', 'is-email', 'first', 'last', 'text'].indexOf(nodeName) === -1) {
-            const { nodeValue } = this.attributes.item(i);
+            const { nodeValue } = this.attributes.item(index);
 
             this.newElement.setAttribute(nodeName, nodeValue);
           }
         }
-      }
+      });
     } else {
       this.newElement = document.createElement('span');
     }
