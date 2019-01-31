@@ -23,6 +23,7 @@ const init = require('./build/build-modules-js/init.es6.js');
 const compileCSS = require('./build/build-modules-js/compilecss.es6.js');
 const compileJS = require('./build/build-modules-js/compilejs.es6.js');
 const minifyVendor = require('./build/build-modules-js/javascript/minify-vendor.es6.js');
+const watch = require('./build/build-modules-js/watch.es6.js')
 
 // The settings
 const options = require('./package.json');
@@ -37,9 +38,10 @@ if ('settings' in settings) {
 Program
   .version(options.version)
   .option('--copy-assets', 'Moving files from node_modules to media folder')
+  .option('--build-pages', 'Creates the error pages for unsupported PHP version & incomplete environment')
   .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
-  .option('--build-pages', 'Creates the error pages for unsupported PHP version & incomplete environment')
+  .option('--watch, --watch path', 'Watch file changes and re-compile (Only works for the js in the media_source).')
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
@@ -47,8 +49,6 @@ Program
   })
   .parse(process.argv);
 
-// @todo re implement the watch functionality...
-// .option('--watch, --watch path', 'Watch file changes and re-compile (Only work for compile-css and compile-js now).')
 
 // Show help by default
 if (!process.argv.slice(2).length) {
@@ -96,4 +96,9 @@ if (Program.compileCss) {
 // Compress/transpile the javascript files
 if (Program.compileJs) {
   compileJS.compileJS(options, Program.args[0]);
+}
+
+// Compress/transpile the javascript files
+if (Program.watch) {
+  watch.run(options, Program.args[0]);
 }

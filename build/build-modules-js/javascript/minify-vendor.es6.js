@@ -5,7 +5,7 @@ const UglifyJS = require('uglify-es');
 const WalkSync = require('../utils/walk-sync.es6.js');
 
 /**
- * Method that will minify a set of vendor javascript files
+ * Method that will minify a set of vendor javascript files 
  */
 module.exports.compile = () => {
   Promise.resolve()
