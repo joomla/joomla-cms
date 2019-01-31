@@ -111,7 +111,9 @@ Text::script('MESSAGE');
 					</div>
 				<?php endif; ?>
 				<div id="page-permissions" class="tab-pane">
+					<div class="col-md-12">
 						<?php echo $this->loadTemplate('permissions'); ?>
+					</div>
 				</div>
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
