@@ -359,6 +359,8 @@ class Content extends Table
 			{
 				$this->created_by = $user->get('id');
 			}
+
+			$this->hits = 0;
 		}
 
 		// Verify that the alias is unique
