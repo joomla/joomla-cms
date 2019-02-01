@@ -12,7 +12,6 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Object\CMSObject;
@@ -150,7 +149,9 @@ class ListView extends HtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+     *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -166,8 +167,7 @@ class ListView extends HtmlView
 		// Build toolbar
 		$this->addToolbar();
 
-		// Render the view
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

@@ -1,5 +1,46 @@
-(() => {
+Joomla = window.Joomla || {};
+
+((Joomla) => {
   'use strict';
+
+  /**
+   * Method that resets the filter inputs and submits the relative form
+   *
+   * @param {HTMLElement}  element  The element that initiates the call
+   * @returns {void}
+   * @since   4.0
+   */
+  Joomla.resetFilters = (element) => {
+    const { form } = element;
+
+    if (!form) {
+      throw new Error('Element must be inside a form!');
+    }
+
+    const elementsArray = [].slice.call(form.elements);
+
+    if (elementsArray.length) {
+      const newElementsArray = [];
+      elementsArray.forEach((elem) => {
+        // Skip the token, the task, the boxchecked and the calling element
+        if (elem.getAttribute('name') === 'task'
+          || elem.getAttribute('name') === 'boxchecked'
+          || (elem.value === '1' && /^[0-9A-F]{32}$/i.test(elem.name))
+          || elem === element) {
+          return;
+        }
+
+        newElementsArray.push(elem);
+      });
+
+      // Reset all filters
+      newElementsArray.forEach((elem) => {
+        elem.value = '';
+      });
+
+      form.submit();
+    }
+  };
 
   class Searchtools {
     constructor(elem, options) {
@@ -181,7 +222,6 @@
 
       document.body.addEventListener('click', (event) => {
         if (document.body.classList.contains('filters-shown')) {
-
           // Ignore click inside the filter container
           if (event.composedPath && typeof event.composedPath === 'function') {
             // Browser that support composedPath()
@@ -397,7 +437,7 @@
                 $option.setAttribute('selected', 'selected');
               }
 
-              // Append the option an repopulate the chosen field
+              // Append the option and repopulate the chosen field
               this.orderFieldName.innerHTML += $option;
             }
           }
@@ -437,7 +477,7 @@
           option.value = newValue;
           option.setAttribute('selected', 'selected');
 
-          // Append the option an repopulate the chosen field
+          // Append the option and repopulate the chosen field
           field.appendChild(option);
         }
 
@@ -487,4 +527,4 @@
 
   // Execute on DOM Loaded Event
   document.addEventListener('DOMContentLoaded', onBoot);
-})();
+})(Joomla);

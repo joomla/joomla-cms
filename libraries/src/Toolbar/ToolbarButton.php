@@ -516,7 +516,7 @@ abstract class ToolbarButton
 			'listCheck',
 			'listCheckMessage',
 			'form',
-			'formValidation'
+			'formValidation',
 		];
 	}
 }
