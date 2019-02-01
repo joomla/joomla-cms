@@ -59,6 +59,7 @@
 
     &.success {
       color: var(--success);
+      background: var(--success-bg);
       box-shadow: $quickicon-box-shadow-success;
     }
   }
