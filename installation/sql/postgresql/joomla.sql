@@ -792,8 +792,8 @@ CREATE INDEX "#__fields_values_idx_item_id" ON "#__fields_values" ("item_id");
 
 CREATE TABLE IF NOT EXISTS "#__finder_filters" (
   "filter_id" serial NOT NULL,
-  "title" varchar(255) DEFAULT '' NOT NULL,
-  "alias" varchar(255) DEFAULT '' NOT NULL,
+  "title" varchar(255) NOT NULL,
+  "alias" varchar(255) NOT NULL,
   "state" smallint DEFAULT 1 NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_by" integer DEFAULT 0 NOT NULL,
@@ -814,8 +814,8 @@ CREATE TABLE IF NOT EXISTS "#__finder_filters" (
 
 CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "link_id" serial NOT NULL,
-  "url" varchar(255) DEFAULT '' NOT NULL,
-  "route" varchar(255) DEFAULT '' NOT NULL,
+  "url" varchar(255) NOT NULL,
+  "route" varchar(255) NOT NULL,
   "title" varchar(400) DEFAULT NULL,
   "description" text,
   "indexdate" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
@@ -830,7 +830,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "end_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "list_price" numeric(8,2) DEFAULT 0 NOT NULL,
   "sale_price" numeric(8,2) DEFAULT 0 NOT NULL,
-  "type_id" bigint DEFAULT 0 NOT NULL,
+  "type_id" bigint NOT NULL,
   "object" bytea,
   PRIMARY KEY ("link_id")
 );
@@ -916,7 +916,7 @@ CREATE INDEX "#__finder_taxonomy_map_node_id" on "#__finder_taxonomy_map" ("node
 
 CREATE TABLE IF NOT EXISTS "#__finder_terms" (
   "term_id" serial NOT NULL,
-  "term" varchar(75) DEFAULT '' NOT NULL,
+  "term" varchar(75) NOT NULL,
   "stem" varchar(75) DEFAULT '' NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
@@ -936,7 +936,7 @@ CREATE INDEX "#__finder_terms_idx_soundex_phrase" on "#__finder_terms" ("soundex
 --
 
 CREATE TABLE IF NOT EXISTS "#__finder_terms_common" (
-  "term" varchar(75) DEFAULT '' NOT NULL,
+  "term" varchar(75) NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL
 );
 CREATE INDEX "#__finder_terms_common_idx_word_lang" on "#__finder_terms_common" ("term", "language");

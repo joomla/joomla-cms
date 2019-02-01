@@ -4,8 +4,8 @@
 
 CREATE TABLE IF NOT EXISTS `#__finder_filters` (
   `filter_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL DEFAULT '',
-  `alias` varchar(255) NOT NULL DEFAULT '',
+  `title` varchar(255) NOT NULL,
+  `alias` varchar(255) NOT NULL,
   `state` tinyint(1) NOT NULL DEFAULT 1,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_filters` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `link_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `url` varchar(255) NOT NULL DEFAULT '',
-  `route` varchar(255) NOT NULL DEFAULT '',
+  `url` varchar(255) NOT NULL,
+  `route` varchar(255) NOT NULL,
   `title` varchar(400) DEFAULT NULL,
   `description` text,
   `indexdate` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_links` (
   `end_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `list_price` double unsigned NOT NULL DEFAULT 0,
   `sale_price` double unsigned NOT NULL DEFAULT 0,
-  `type_id` int(11) NOT NULL DEFAULT 0,
+  `type_id` int(11) NOT NULL,
   `object` mediumblob,
   PRIMARY KEY (`link_id`),
   KEY `idx_type` (`type_id`),
@@ -125,7 +125,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy_map` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `term_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `term` varchar(75) NOT NULL DEFAULT '',
+  `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL DEFAULT '',
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
@@ -147,7 +147,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
-  `term` varchar(75) NOT NULL DEFAULT '',
+  `term` varchar(75) NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
   KEY `idx_word_lang` (`term`,`language`),
   KEY `idx_lang` (`language`)
