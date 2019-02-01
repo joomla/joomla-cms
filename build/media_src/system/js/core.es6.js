@@ -1205,44 +1205,38 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
   /**
    * Method that add a fade effect and transition on sidebar and content side after login and logout
-   * working with cookies, to add the animation just in that two cases
+   * working with session data, to add the animation just in that two cases
    *
    * @since   4.0.0
    */
   Joomla.fadeEffect = () => {
-    let cpanelBody = document.body.classList.contains('com_cpanel');
-    const logOutBtn = document.querySelector('.header-items a[href*="task=logout"]');
-    const sideBar = document.querySelector('.sidebar-wrapper');
-    const sidebarChildren = sideBar.children;
-    const sideChildrenLength = sidebarChildren.length;
-    const contentChildren = document.querySelector('.container-main').children;
-    const contChildrenLength = contentChildren.length;
-    const logCookie = document.cookie.replace(/(?:(?:^|.*;\s*)log\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    const logoutBtn = document.querySelector('.header-items a[href*="task=logout"]');
 
-    if ((cpanelBody) && ((logCookie) && (logCookie === 'logged-in'))) {
-      letsFade('in');
-      document.cookie = 'log= ';
-    }
-
-    if (logOutBtn) {
-      logOutBtn.addEventListener('click', () => {
-        document.cookie = 'log=logout';
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
         letsFade('out', 'wider');
       });
     }
 
+    if (document.body.classList.contains('com_cpanel') && Joomla.getOptions('fade') === 'cpanel') {
+      letsFade('in');
+    }
+
     function letsFade(fadeAction, transitAction) {
-      const fadeAct = fadeAction;
-      const transAct = transitAction;
+      const sideBar = document.querySelector('.sidebar-wrapper');
+      const sidebarChildren = sideBar.children;
+      const sideChildrenLength = sidebarChildren.length;
+      const contentChildren = document.querySelector('.container-main').children;
+      const contChildrenLength = contentChildren.length;
 
       for (let i = 0; i < sideChildrenLength; i++) {
-        sidebarChildren[i].classList.add('load-fade' + fadeAct);
+        sidebarChildren[i].classList.add('load-fade' + fadeAction);
       }
       for (let i = 0; i < contChildrenLength; i++) {
-        contentChildren[i].classList.add('load-fade' + fadeAct);
+        contentChildren[i].classList.add('load-fade' + fadeAction);
       }
-      if (transAct) {
-        sideBar.classList.add('transit-' + transAct);
+      if (transitAction) {
+        sideBar.classList.add('transit-' + transitAction);
       }
     }
   };

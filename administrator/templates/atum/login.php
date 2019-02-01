@@ -53,7 +53,10 @@ $this->setMetaData('theme-color', '#1c3d5c');
 // Set page title
 $this->setTitle(Text::sprintf('TPL_ATUM_LOGIN_SITE_TITLE', $sitename));
 
-$this->addScriptDeclaration('cssVars();')
+$this->addScriptDeclaration('cssVars();');
+
+// Trigger fade effect on dashboard
+$app->setUserState('fade', 'cpanel');
 
 ?>
 <!DOCTYPE html>
@@ -92,7 +95,7 @@ $this->addScriptDeclaration('cssVars();')
             <section id="content" class="content">
                 <main class="d-flex justify-content-center align-items-center h-100">
                     <div class="login">
-                        <div id="content" class="main-brand d-flex align-items-center justify-content-center">
+                        <div class="main-brand d-flex align-items-center justify-content-center">
                             <img src="<?php echo $loginLogo; ?>" alt="">
                         </div>
                         <jdoc:include type="message"/>
