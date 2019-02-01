@@ -129,6 +129,7 @@ class ExceptionHandler
 
 			// Reset the document object in the factory, this gives us a clean slate and lets everything render properly
 			Factory::$document = $renderer->getDocument();
+			Factory::getApplication()->loadDocument(Factory::$document);
 
 			$data = $renderer->render($error);
 

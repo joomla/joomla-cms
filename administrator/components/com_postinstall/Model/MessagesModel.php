@@ -11,12 +11,12 @@ namespace Joomla\Component\Postinstall\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\Component\Postinstall\Administrator\Helper\PostinstallHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Factory;
-use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Model class to manage postinstall messages
@@ -87,7 +87,7 @@ class MessagesModel extends BaseDatabaseModel
 	/**
 	 * Returns a list of messages from the #__postinstall_messages table
 	 *
-	 * @return  Object
+	 * @return  array
 	 *
 	 * @since   3.2
 	 */
@@ -172,7 +172,7 @@ class MessagesModel extends BaseDatabaseModel
 			$basePath = JPATH_SITE;
 		}
 
-		$lang = Factory::getLanguage();
+		$lang = Factory::getApplication()->getLanguage();
 		$lang->load($extension->element, $basePath);
 
 		// Return the localised name
@@ -208,7 +208,7 @@ class MessagesModel extends BaseDatabaseModel
 	 *
 	 * @return  mixed  False if we fail, a db cursor otherwise
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.7
 	 */
 	public function hideMessages($eid)
 	{
@@ -274,7 +274,7 @@ class MessagesModel extends BaseDatabaseModel
 				if (!in_array($hash, $language_extensions))
 				{
 					$language_extensions[] = $hash;
-					Factory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
+					Factory::getApplication()->getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
 				}
 			}
 		}
@@ -308,7 +308,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		$options = array();
 
-		Factory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
+		Factory::getApplication()->getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
 
 		foreach ($extension_ids as $eid)
 		{

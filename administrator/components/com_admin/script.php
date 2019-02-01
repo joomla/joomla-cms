@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Database\UTF8MB4SupportInterface;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Extension\ExtensionHelper;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
  * Script file of Joomla CMS
@@ -1087,6 +1087,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/controllers/module.php',
 			'/administrator/components/com_modules/controllers/modules.php',
 			'/administrator/components/com_modules/helpers/xml.php',
+			'/administrator/components/com_modules/layouts/toolbar/newmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesposition.php',
 			'/administrator/components/com_modules/models/forms/advanced.xml',

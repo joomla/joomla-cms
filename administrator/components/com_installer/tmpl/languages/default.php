@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Router\Route;
-use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.multiselect');
 
@@ -29,9 +29,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<div id="j-main-container" class="j-main-container">
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 					<?php if (empty($this->items)) : ?>
-						<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+						<div class="alert alert-warning">
+							<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+						</div>
 					<?php else : ?>
 					<table class="table">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_INSTALLER_LANGUAGES_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<td style="width:5%"></td>
@@ -71,9 +76,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $language->code; ?>
 								</td>
 								<td class="text-right">
-									    <?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
+										<?php $minorVersion = $version::MAJOR_VERSION . '.' . $version::MINOR_VERSION; ?>
 										<?php // Display a Note if language pack version is not equal to Joomla version ?>
-										<?php if (substr($language->version, 0, 3) != $minorVersion || substr($language->version, 0, 5) != $currentShortVersion) : ?>
+										<?php if (strpos($language->version, $minorVersion) !== 0 || strpos($language->version, $currentShortVersion) !== 0) : ?>
 											<span class="badge badge-warning hasTooltip" title="<?php echo Text::_('JGLOBAL_LANGUAGE_VERSION_NOT_PLATFORM'); ?>"><?php echo $language->version; ?></span>
 										<?php else : ?>
 											<span class="badge badge-success"><?php echo $language->version; ?></span>

@@ -13,8 +13,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-
-\JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -42,8 +41,8 @@ class ModulesModuleField extends \JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$clientId = Factory::getApplication()->input->get('client_id', 0, 'int');
-		$options  = \ModulesHelper::getModules($clientId);
+		$clientId = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
+		$options  = ModulesHelper::getModules($clientId);
 
 		return array_merge(parent::getOptions(), $options);
 	}

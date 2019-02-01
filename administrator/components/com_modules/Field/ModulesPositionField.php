@@ -12,18 +12,15 @@ namespace Joomla\Component\Modules\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-\JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 /**
  * Modules Position field.
  *
  * @since  3.4.2
  */
-class ModulesPositionField extends \JFormFieldList
+class ModulesPositionField extends ListField
 {
 	/**
 	 * The form field type.
@@ -42,8 +39,8 @@ class ModulesPositionField extends \JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$clientId = Factory::getApplication()->input->get('client_id', 0, 'int');
-		$options  = \ModulesHelper::getPositions($clientId);
+		$clientId = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
+		$options  = ModulesHelper::getPositions($clientId);
 
 		return array_merge(parent::getOptions(), $options);
 	}

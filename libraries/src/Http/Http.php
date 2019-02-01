@@ -16,7 +16,7 @@ use Joomla\Http\TransportInterface as FrameworkTransportInterface;
 /**
  * HTTP client class.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class Http extends FrameworkHttp
 {
@@ -27,7 +27,7 @@ class Http extends FrameworkHttp
 	 *                                                   these will be added to the request headers.
 	 * @param   FrameworkTransportInterface  $transport  The HTTP transport object.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \InvalidArgumentException
 	 */
 	public function __construct($options = [], FrameworkTransportInterface $transport = null)

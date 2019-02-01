@@ -46,8 +46,6 @@ class PlgSystemSessionGc extends CMSPlugin
 	 */
 	public function onAfterRespond()
 	{
-		$session = Factory::getSession();
-
 		if ($this->params->get('enable_session_gc', 1))
 		{
 			$probability = $this->params->get('gc_probability', 1);
@@ -57,7 +55,7 @@ class PlgSystemSessionGc extends CMSPlugin
 
 			if ($probability > 0 && $random < $probability)
 			{
-				$session->gc();
+				$this->app->getSession()->gc();
 			}
 		}
 
@@ -70,8 +68,9 @@ class PlgSystemSessionGc extends CMSPlugin
 
 			if ($probability > 0 && $random < $probability)
 			{
-				$metadataManager = new MetadataManager($this->app, $this->db);
-				$metadataManager->deletePriorTo(time() - $session->getExpire());
+				/** @var MetadataManager $metadataManager */
+				$metadataManager = Factory::getContainer()->get(MetadataManager::class);
+				$metadataManager->deletePriorTo(time() - $this->app->getSession()->getExpire());
 			}
 		}
 	}

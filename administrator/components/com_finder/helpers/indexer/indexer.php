@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\String\StringHelper;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
@@ -91,7 +92,7 @@ abstract class FinderIndexer
 	/**
 	 * Database driver cache.
 	 *
-	 * @var    JDatabaseDriver
+	 * @var    \Joomla\Database\DatabaseDriver
 	 * @since  3.8.0
 	 */
 	protected $db;
@@ -290,8 +291,8 @@ abstract class FinderIndexer
 		// Update the link counts for the terms.
 		$query->clear()
 			->update($db->quoteName('#__finder_terms', 't'))
-			->join('INNER', $db->quoteName('#__finder_links_terms', 'm') . ' ON m.term_id = t.term_id')
-			->set('t.links = t.links - 1')
+			->join('INNER', $db->quoteName('#__finder_links_terms', 'm') . ' ON ' . $db->quoteName('m.term_id') . ' = ' . $db->quoteName('t.term_id'))
+			->set($db->quoteName('links') . ' = ' . $db->quoteName('links') . ' - 1')
 			->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
 		$db->setQuery($query)->execute();
 
@@ -445,7 +446,7 @@ abstract class FinderIndexer
 	 * @param   string   $format   The format of the input.
 	 * @param   integer  $count    The number of tokens processed so far.
 	 *
-	 * @return  integer  Cummulative number of tokens extracted from the input so far.
+	 * @return  integer  Cumulative number of tokens extracted from the input so far.
 	 *
 	 * @since   3.7.0
 	 */
@@ -483,8 +484,8 @@ abstract class FinderIndexer
 	/**
 	 * Method to add a set of tokens to the database.
 	 *
-	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
+	 * @param   FinderIndexerToken[]  $tokens   An array or single FinderIndexerToken object.
+	 * @param   mixed                 $context  The context of the tokens. See context constants. [optional]
 	 *
 	 * @return  integer  The number of tokens inserted into the database.
 	 *
@@ -493,6 +494,15 @@ abstract class FinderIndexer
 	 */
 	protected function addTokensToDb($tokens, $context = '')
 	{
+		static $filterCommon, $filterNumeric;
+
+		if (is_null($filterCommon))
+		{
+			$params = ComponentHelper::getParams('com_finder');
+			$filterCommon = $params->get('filter_commonwords', false);
+			$filterNumeric = $params->get('filter_numerics', false);
+		}
+
 		// Get the database object.
 		$db = $this->db;
 
@@ -514,6 +524,16 @@ abstract class FinderIndexer
 			// Iterate through the tokens to create SQL value sets.
 			foreach ($tokens as $token)
 			{
+				if ($filterCommon && $token->common)
+				{
+					continue;
+				}
+
+				if ($filterNumeric && $token->numeric)
+				{
+					continue;
+				}
+
 				$query->values(
 					$db->quote($token->term) . ', '
 					. $db->quote($token->stem) . ', '
@@ -526,7 +546,10 @@ abstract class FinderIndexer
 				++$values;
 			}
 
-			$db->setQuery($query)->execute();
+			if ($query->values)
+			{
+				$db->setQuery($query)->execute();
+			}
 		}
 
 		return $values;

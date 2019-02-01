@@ -12,8 +12,10 @@ namespace Joomla\Component\Content\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
@@ -21,9 +23,6 @@ use Joomla\Component\Content\Site\Helper\AssociationHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Workflow\Workflow;
-use Joomla\CMS\Helper\TagsHelper;
-use Joomla\CMS\Factory;
 
 /**
  * This models supports retrieving lists of articles.
@@ -85,7 +84,7 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function populateState($ordering = 'ordering', $direction = 'ASC')
 	{
@@ -408,11 +407,11 @@ class ArticlesModel extends ListModel
 		}
 		elseif (is_array($authorId))
 		{
-			$authorId = ArrayHelper::toInteger($authorId);
-			$authorId = implode(',', $authorId);
+			$authorId = array_filter($authorId, 'is_numeric');
 
 			if ($authorId)
 			{
+				$authorId    = implode(',', $authorId);
 				$type        = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
 				$authorWhere = 'a.created_by ' . $type . ' (' . $authorId . ')';
 			}
@@ -579,7 +578,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * Overriden to inject convert the attribs field into a \JParameter object.
+	 * Overridden to inject convert the attribs field into a \JParameter object.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *
@@ -734,7 +733,7 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  integer  The starting number of items available in the data set.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getStart()
 	{

@@ -50,9 +50,6 @@ extract($displayData);
 
 if (!$readonly)
 {
-	// @TODO remove jQuery dependency once modal moves to webcomponents
-	HTMLHelper::_('jquery.framework');
-
 	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
 }
 
@@ -126,7 +123,7 @@ if (!$readonly)
 						'width'       => '100%',
 						'modalWidth'  => 80,
 						'bodyHeight'  => 60,
-						'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</a>'
+						'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>'
 					)
 				); ?>
 				</span>

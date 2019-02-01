@@ -11,21 +11,21 @@ namespace Joomla\Component\Contenthistory\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ItemModel;
-use Joomla\CMS\Table\Table;
-use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
-use Joomla\CMS\Table\ContentHistory;
-use Joomla\CMS\Table\ContentType;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Table\ContentHistory;
+use Joomla\CMS\Table\ContentType;
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Contenthistory\Administrator\Helper\ContenthistoryHelper;
 
 /**
  * Methods supporting a list of contenthistory records.
  *
  * @since  3.2
  */
-class CompareModel extends ItemModel
+class CompareModel extends ListModel
 {
 	/**
 	 * Method to get a version history row.

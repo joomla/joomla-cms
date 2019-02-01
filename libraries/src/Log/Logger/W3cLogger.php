@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * This class is designed to build log files based on the W3C specification.
  *
  * @link   https://www.w3.org/TR/WD-logfile.html
- * @since  11.1
+ * @since  1.7.0
  */
 class W3cLogger extends FormattedtextLogger
 {
@@ -26,7 +26,7 @@ class W3cLogger extends FormattedtextLogger
 	 * All fields must be named in all caps and be within curly brackets eg. {FOOBAR}.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $format = '{DATE}	{TIME}	{PRIORITY}	{CLIENTIP}	{CATEGORY}	{MESSAGE}';
 
@@ -35,7 +35,7 @@ class W3cLogger extends FormattedtextLogger
 	 *
 	 * @param   array  &$options  Log object options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(array &$options)
 	{

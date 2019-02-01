@@ -32,7 +32,7 @@ namespace
 		 *
 		 * @return  boolean  True on success.
 		 *
-		 * @since   11.1
+		 * @since   1.7.0
 		 */
 		function jimport($path, $base = null)
 		{
@@ -69,7 +69,7 @@ namespace
 			// Make sure Joomla!'s code can figure out which files exist and need be removed
 			clearstatcache();
 
-			// Remove obsolete files - prevents errors occuring in some system plugins
+			// Remove obsolete files - prevents errors occurring in some system plugins
 			if (class_exists('JoomlaInstallerScript'))
 			{
 				(new JoomlaInstallerScript)->deleteUnexistingFiles();
@@ -121,7 +121,7 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function delete($fileName)
 			{
-				$postproc = AKFactory::getPostProc();
+				$postproc = \AKFactory::getPostProc();
 				$postproc->unlink($fileName);
 			}
 		}

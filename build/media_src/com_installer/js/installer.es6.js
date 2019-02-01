@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
       url: uploadUrl,
       method: 'POST',
       perform: true,
-      data: data,
+      data,
       headers: { 'Content-Type': 'false' },
       onSuccess: (response) => {
         const res = JSON.parse(response);

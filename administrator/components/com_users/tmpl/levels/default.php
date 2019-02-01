@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -17,9 +18,6 @@ use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
-// Include the component HTML helpers.
-HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 HTMLHelper::_('behavior.multiselect');
 
 $user       = Factory::getUser();
@@ -27,29 +25,32 @@ $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $saveOrder  = $listOrder == 'a.ordering';
 
-
 if ($saveOrder && !empty($this->items))
 {
 	$saveOrderingUrl = 'index.php?option=com_users&task=levels.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
-
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=levels'); ?>" method="post" id="adminForm" name="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) : ?>
-            <div id="j-sidebar-container" class="col-md-2">
+			<div id="j-sidebar-container" class="col-md-2">
 				<?php echo $this->sidebar; ?>
-            </div>
+			</div>
 		<?php endif; ?>
-        <div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
+		<div class="<?php if (!empty($this->sidebar)) {echo 'col-md-10'; } else { echo 'col-md-12'; } ?>">
 			<div id="j-main-container" class="j-main-container">
 				<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 
 				<?php if (empty($this->items)) : ?>
-					<joomla-alert type="warning"><?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?></joomla-alert>
+					<div class="alert alert-warning">
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+					</div>
 				<?php else : ?>
 					<table class="table" id="levelList">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_USERS_LEVELS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
@@ -76,6 +77,16 @@ if ($saveOrder && !empty($this->items))
 							$canCreate = $user->authorise('core.create',     'com_users');
 							$canEdit   = $user->authorise('core.edit',       'com_users');
 							$canChange = $user->authorise('core.edit.state', 'com_users');
+
+							// Decode level groups
+							$groups = json_decode($item->rules);
+
+							// If this group is super admin and this user is not super admin, $canEdit is false
+							if (!Factory::getUser()->authorise('core.admin') && Access::checkGroup($groups[0], 'core.admin'))
+							{
+								$canEdit   = false;
+								$canChange = false;
+							}
 							?>
 							<tr class="row<?php echo $i % 2; ?>">
 								<td class="order text-center d-none d-md-table-cell">
@@ -98,7 +109,9 @@ if ($saveOrder && !empty($this->items))
 									<?php endif; ?>
 								</td>
 								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php if ($canEdit) : ?>
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									<?php endif; ?>
 								</td>
 								<th scope="row">
 									<?php if ($canEdit) : ?>

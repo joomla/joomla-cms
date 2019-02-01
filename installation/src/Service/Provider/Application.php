@@ -14,7 +14,6 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Error\Renderer\JsonRenderer;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\InstallationApplication;
-use Joomla\CMS\Log\Log;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 use Psr\Log\LoggerInterface;
@@ -43,7 +42,7 @@ class Application implements ServiceProviderInterface
 			{
 				$app = new InstallationApplication(null, $container->get('config'), null, $container);
 
-				// The session service provider needs JFactory::$application, set it if still null
+				// The session service provider needs Factory::$application, set it if still null
 				if (Factory::$application === null)
 				{
 					Factory::$application = $app;

@@ -12,7 +12,6 @@ namespace Joomla\Component\Newsfeeds\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Newsfeeds list controller class.
@@ -35,20 +34,5 @@ class NewsfeedsController extends AdminController
 	public function getModel($name = 'Newsfeed', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
-	}
-
-	/**
-	 * Function that allows child controller access to model data
-	 * after the item has been deleted.
-	 *
-	 * @param   Model    $model  The data model object.
-	 * @param   integer  $ids    The validated data.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.1
-	 */
-	protected function postDeleteHook(Model $model, $ids = null)
-	{
 	}
 }

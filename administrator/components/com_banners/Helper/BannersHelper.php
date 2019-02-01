@@ -12,11 +12,11 @@ namespace Joomla\Component\Banners\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Table\Table;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Table;
 
 /**
  * Banners component helper.
@@ -64,7 +64,7 @@ class BannersHelper extends ContentHelper
 
 			if ($purchaseType < 0 && $row->cid)
 			{
-				/** @var \Joomla\Component\Banners\Administrator\Table\Client $client */
+				/** @var \Joomla\Component\Banners\Administrator\Table\ClientTable $client */
 				$client = Table::getInstance('Client', '\\Joomla\\Component\\Banners\\Administrator\\Table\\');
 				$client->load($row->cid);
 				$purchaseType = $client->purchase_type;

@@ -12,12 +12,10 @@ namespace Joomla\Component\Content\Administrator\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Category;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Component\ComponentHelper;
 
 /**
  * Content component helper.
@@ -35,11 +33,11 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function canDeleteState($stateID)
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')
@@ -60,7 +58,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function filterTransitions($transitions, $pk, $workflow_id = 0): array
 	{
@@ -83,7 +81,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function updateContentState($pks, $condition): bool
 	{

@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Event\Event;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Event\Event;
 
 /**
  * Plain Textarea Editor Plugin

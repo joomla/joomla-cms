@@ -18,7 +18,7 @@ use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
  * RSS Feed Parser Namespace handler for MediaRSS.
  *
  * @link   http://video.search.yahoo.com/mrss
- * @since  12.3
+ * @since  3.1.4
  */
 class MediaRssParser implements NamespaceParserInterface
 {
@@ -30,7 +30,7 @@ class MediaRssParser implements NamespaceParserInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function processElementForFeed(Feed $feed, \SimpleXMLElement $el)
 	{
@@ -45,7 +45,7 @@ class MediaRssParser implements NamespaceParserInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function processElementForFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
 	{

@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 ?>
 <ul class="mod-articlescategory category-module">
@@ -66,7 +66,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 										<?php echo $readmore; ?>
 										<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 											<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
-												<?php echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
+												<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 											<?php endif; ?>
 									<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
 										<?php echo Text::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>

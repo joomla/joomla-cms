@@ -13,12 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Content\Site\Model\ArticlesModel;
+use Joomla\CMS\Uri\Uri;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -40,11 +39,13 @@ abstract class ArticlesNewsHelper
 	 */
 	public static function getList(&$params)
 	{
+		$app = Factory::getApplication();
+
 		// Get an instance of the generic articles model
-		$model = new ArticlesModel(array('ignore_request' => true));
+		$model = $app->bootComponent('com_content')
+			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
-		$app       = Factory::getApplication();
 		$appParams = $app->getParams();
 		$model->setState('params', $appParams);
 
@@ -68,15 +69,15 @@ abstract class ArticlesNewsHelper
 		$model->setState('filter.language', $app->getLanguageFilter());
 
 		// Filer by tag
-		$model->setState('filter.tag', $params->get('tag'), array());
+		$model->setState('filter.tag', $params->get('tag', array()));
 
 		//  Featured switch
 		switch ($params->get('show_featured'))
 		{
-			case '1' :
+			case 1 :
 				$model->setState('filter.featured', 'only');
 				break;
-			case '0' :
+			case 0 :
 				$model->setState('filter.featured', 'hide');
 				break;
 			default :

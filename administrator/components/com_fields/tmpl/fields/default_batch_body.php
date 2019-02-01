@@ -12,8 +12,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
-
 HTMLHelper::_('script', 'com_fields/admin-fields-default-batch.js', ['version' => 'auto', 'relative' => true]);
 
 $context   = $this->escape($this->state->get('filter.context'));

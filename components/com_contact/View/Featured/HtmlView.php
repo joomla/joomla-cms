@@ -11,11 +11,11 @@ namespace Joomla\Component\Contact\Site\View\Featured;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Factory;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * Featured View class
@@ -49,38 +49,12 @@ class HtmlView extends BaseHtmlView
 	protected $pagination;
 
 	/**
-	 * Who knows what this variable was intended for - but it's never been used
-	 *
-	 * @var         integer
-	 * @deprecated  4.0  This variable has never been used ever
-	 */
-	protected $maxLevel;
-
-	/**
-	 * Who knows what this variable was intended for - but it's never been used
-	 *
-	 * @var         array
-	 * @since       1.6.0
-	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
-	 */
-	protected $children;
-
-	/**
 	 * The page parameters
 	 *
 	 * @var    \Joomla\Registry\Registry|null
 	 * @since  4.0.0
 	 */
 	protected $params = null;
-
-	/**
-	 * Who knows what this variable was intended for - but it's never been used
-	 *
-	 * @var         array
-	 * @since       1.6.0
-	 * @deprecated  4.0  This variable has been null since 1.6.0-beta8
-	 */
-	protected $parent;
 
 	/**
 	 * The page class suffix

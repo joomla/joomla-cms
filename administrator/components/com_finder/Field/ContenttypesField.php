@@ -13,8 +13,8 @@ defined('JPATH_BASE') or die();
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Content Types Filter field for the Finder package.
@@ -58,7 +58,7 @@ class ContenttypesField extends ListField
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($db->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($db->getMessage(), 'error');
 		}
 
 		// Translate.

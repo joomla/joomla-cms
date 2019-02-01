@@ -12,15 +12,15 @@ namespace Joomla\CMS\Installation\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\CMS\Language\Text;
-use Joomla\CMS\Filesystem\File;
-use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Database configuration model for the Joomla Core Installer.
@@ -289,7 +289,7 @@ class DatabaseModel extends BaseInstallationModel
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix,
 				isset($options->db_select) ? $options->db_select : false
@@ -362,7 +362,7 @@ class DatabaseModel extends BaseInstallationModel
 					'driver'   => $options->db_type,
 					'host'     => $options->db_host,
 					'user'     => $options->db_user,
-					'password' => $options->db_pass,
+					'password' => $options->db_pass_plain,
 					'prefix'   => $options->db_prefix,
 					'select'   => $options->db_select,
 				);
@@ -731,7 +731,7 @@ class DatabaseModel extends BaseInstallationModel
 	 */
 	public function installSampleData()
 	{
-		$db = \JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Build the path to the sample data file.
 		$type = $db->getServerType();

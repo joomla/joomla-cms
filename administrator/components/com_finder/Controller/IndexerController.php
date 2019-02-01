@@ -11,13 +11,12 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Document\FactoryInterface;
-use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Session\Session;
 
@@ -378,6 +377,7 @@ class FinderIndexerResponse
 			$this->batchSize = (int) $state->batchSize;
 			$this->batchOffset = (int) $state->batchOffset;
 			$this->totalItems = (int) $state->totalItems;
+			$this->pluginState = $state->pluginState;
 
 			$this->startTime = $state->startTime;
 			$this->endTime = Factory::getDate()->toSql();

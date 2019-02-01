@@ -5,9 +5,9 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 defined('_JEXEC') or die;
 
@@ -59,11 +59,14 @@ $userId = $user->id;
 					echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this));
 				?>
 				<?php if (empty($this->workflows)) : ?>
-					<div class="alert alert-warning alert-no-items">
+					<div class="alert alert-warning">
 						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 				<?php else: ?>
 					<table class="table">
+						<caption id="captionTable" class="sr-only">
+							<?php echo Text::_('COM_WORKFLOW_WORKFLOWS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+						</caption>
 						<thead>
 							<tr>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
@@ -98,11 +101,12 @@ $userId = $user->id;
 							$transitions = Route::_('index.php?option=com_workflow&view=transitions&workflow_id=' . $item->id . '&extension=' . $extension);
 							$edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id . '&extension=' . $extension);
 
-							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
+							$isCore     = !empty($item->core);
+							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id) && !$isCore;
 							// @TODO set proper checkin fields
 							$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-							$canEditOwn = $user->authorise('core.edit.own',   $extension . '.workflow.' . $item->id) && $item->created_by == $userId;
-							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin;
+							$canEditOwn = $user->authorise('core.edit.own',   $extension . '.workflow.' . $item->id) && $item->created_by == $userId && !$isCore;
+							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin  && !$isCore;
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="0">
 								<td class="order text-center hidden-sm-down">
@@ -140,7 +144,7 @@ $userId = $user->id;
 										</a>
 										<div class="small"><?php echo $item->description; ?></div>
 									<?php else: ?>
-										<?php echo $item->title; ?>
+										<?php echo $this->escape(Text::_($item->title)); ?>
 										<div class="small"><?php echo $item->description; ?></div>
 									<?php endif; ?>
 								</th>
