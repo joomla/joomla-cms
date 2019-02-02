@@ -108,36 +108,9 @@ class PlgSampledataBlog extends CMSPlugin
 
 		// Detect language to be used.
 		$language   = Multilanguage::isEnabled() ? Factory::getLanguage()->getTag() : '*';
-		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';
+		$langSuffix = ($language !== '*') ? ' (' . $language . ')' : '';		
 
-		// Create a sample workflow
-		$workflowModel = $this->app->bootComponent('com_workflow')
-			->getMVCFactory()->createModel('Workflow', 'Administrator');
-
-		$workflow = [
-			'title'       => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_TITLE'),
-			'description' => Text::_('PLG_SAMPLEDATA_BLOG_SAMPLEDATA_CONTENT_WORKFLOW_0_DESCRIPTION'),
-			'published'   => 1,
-			'extension'   => 'com_content'
-		];
-
-		try
-		{
-			if (!$workflowModel->save($workflow))
-			{
-				throw new Exception($workflowModel->getError());
-			}
-		}
-		catch (Exception $e)
-		{
-			$response            = array();
-			$response['success'] = false;
-			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_BLOG_STEP_FAILED', 1, $e->getMessage());
-
-			return $response;
-		}
-
-		$workflow_id = (int) $workflowModel->getItem()->id;
+		$workflow_id = 1;
 
 		// Create "blog" category.
 		$categoryModel = $this->app->bootComponent('com_categories')
