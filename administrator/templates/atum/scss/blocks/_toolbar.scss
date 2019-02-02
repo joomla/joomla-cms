@@ -19,7 +19,7 @@
 
   .btn-toolbar {
     margin-bottom: 0;
-
+    flex-wrap: nowrap;
     > * {
       margin-left: .75rem;
       box-shadow: $atum-box-shadow;
