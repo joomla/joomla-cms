@@ -87,12 +87,4 @@ interface WebAssetItemInterface
 	 */
 	public function getScriptFiles($resolvePath = true): array;
 
-	/**
-	 * Method called when asset attached to the Document
-	 *
-	 * @return void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function onAttachCallback(): void;
 }

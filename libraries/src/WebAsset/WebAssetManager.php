@@ -309,7 +309,11 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 				$doc->addScript($path, ['version' => $version], $attr);
 			}
 
-			$asset->onAttachCallback();
+			// Allow to Asset to add a Script options
+			if ($asset instanceof WebAssetAttachBehaviorInterface)
+			{
+				$asset->onAttachCallback($doc);
+			}
 		}
 
 		// Merge with previously added scripts

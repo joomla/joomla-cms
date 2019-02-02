@@ -10,9 +10,10 @@ namespace Joomla\CMS\WebAsset\AssetItem;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Document\Document;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\WebAsset\WebAssetAttachBehaviorInterface;
 use Joomla\CMS\WebAsset\WebAssetItem;
 
 /**
@@ -20,19 +21,22 @@ use Joomla\CMS\WebAsset\WebAssetItem;
  *
  * @since  __DEPLOY_VERSION__
  */
-class CoreAssetItem extends WebAssetItem
+class CoreAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterface
 {
 	/**
-	 * Method called when asset attached to the Document
+	 * Method called when asset attached to the Document.
+	 * Useful for Asset to add a Script options.
+	 *
+	 * @param   Document  $doc  Active document
 	 *
 	 * @return void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAttachCallback(): void
+	public function onAttachCallback(Document $doc): void
 	{
 		// Add core and base uri paths so javascript scripts can use them.
-		Factory::getApplication()->getDocument()->addScriptOptions(
+		$doc->addScriptOptions(
 			'system.paths',
 			[
 				'root' => Uri::root(true),
