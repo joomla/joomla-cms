@@ -56,7 +56,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 		<li class="nav-item dropdown">
-			<a class="nav-link <?php echo ($hideLinks ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hideLinks ? '' : 'dropdown'); ?>" <?php echo ($hideLinks ? '' : 'href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
+			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hideLinks ? '' : 'dropdown'); ?>" <?php echo ($hideLinks ? '' : 'href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
 				<span class="fa fa-bell-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
 				<?php if (count($messages) > 0) : ?>
