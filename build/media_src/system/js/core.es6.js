@@ -4,8 +4,10 @@
  */
 
 // eslint-disable max-len
-// Patch Custom Events
-// https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+/**
+ * Patch Custom Events
+ * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+ */
 (() => {
   if (typeof window.CustomEvent === 'function') {
     return false;
@@ -193,8 +195,8 @@ window.Joomla.Modal = window.Joomla.Modal || {
    *
    * @type {{}}
    *
-   * Allows you to call Joomla.JText._() to get a translated JavaScript string
-   * pushed in with JText::script() in Joomla.
+   * Allows you to call Joomla.Text._() to get a translated JavaScript string
+   * pushed in with Text::script() in Joomla.
    */
   Joomla.Text = {
     strings: {},
@@ -226,10 +228,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
     },
 
     /**
-     * Load new strings in to Joomla.JText
+     * Load new strings in to Joomla.Text
      *
      * @param {Object} object  Object with new strings
-     * @returns {Joomla.JText}
+     * @returns {Joomla.Text}
      */
     load: (object) => {
       [].slice.call(Object.keys(object)).forEach((key) => {
@@ -473,13 +475,13 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
 
       // Title
-      title = Joomla.JText._(type);
+      title = Joomla.Text._(type);
 
       // Skip titles with untranslated strings
       if (typeof title !== 'undefined') {
         titleWrapper = document.createElement('h4');
         titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = Joomla.JText._(type) ? Joomla.JText._(type) : type;
+        titleWrapper.innerHTML = Joomla.Text._(type) ? Joomla.Text._(type) : type;
         messagesBox.appendChild(titleWrapper);
       }
 
@@ -501,7 +503,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
       }
     });
   };
-
 
   /**
    * Remove messages
@@ -571,20 +572,20 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
       encodedJson = buf.join('');
 
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
     } else if (textStatus === 'nocontent') {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
     } else if (textStatus === 'timeout') {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT')];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_TIMEOUT')];
     } else if (textStatus === 'abort') {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
     } else if (xhr.responseJSON && xhr.responseJSON.message) {
       // For vanilla XHR
-      msg.error = [`${Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
+      msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
     } else if (xhr.statusText) {
-      msg.error = [`${Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
+      msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
     } else {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
     }
 
     return msg;
@@ -907,22 +908,6 @@ window.Joomla.Modal = window.Joomla.Modal || {
     }
 
     return xhr;
-  };
-
-  /**
-   * Check if HTML5 localStorage enabled on the browser
-   *
-   * @since   4.0.0
-   */
-  Joomla.localStorageEnabled = () => {
-    const test = 'joomla-cms';
-    try {
-      localStorage.setItem(test, test);
-      localStorage.removeItem(test);
-      return true;
-    } catch (e) {
-      return false;
-    }
   };
 
   /**
