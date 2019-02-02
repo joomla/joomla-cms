@@ -5,6 +5,22 @@
 ((Joomla, document) => {
   'use strict';
 
+  /**
+   * Check if HTML5 localStorage enabled on the browser
+   *
+   * @since   4.0.0
+   */
+  Joomla.localStorageEnabled = () => {
+    const test = 'joomla-cms';
+    try {
+      localStorage.setItem(test, test);
+      localStorage.removeItem(test);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  };
+
   // eslint-disable-next-line no-new
   new window.MetisMenu('#menu');
 
