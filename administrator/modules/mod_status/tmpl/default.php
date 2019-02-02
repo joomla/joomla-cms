@@ -86,7 +86,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php endif; ?>
 
 		<li class="nav-item dropdown header-profile">
-			<a class="nav-link  <?php echo ($hideLinks ? ' disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hideLinks ? '' : 'dropdown'); ?>" <?php echo ($hideLinks ? '' : 'href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
+			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" data-toggle="<?php echo ($hideLinks ? '' : 'dropdown'); ?>" <?php echo ($hideLinks ? '' : 'href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
 				<span class="fa fa-user-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
 			</a>
