@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -120,6 +121,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return self
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function enableAsset(string $name): WebAssetManagerInterface
@@ -151,6 +154,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return self
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function disableAsset(string $name): WebAssetManagerInterface
@@ -169,6 +174,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 * @param   string  $name  The asset name
 	 *
 	 * @return  int
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -198,6 +205,8 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  bool
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function isAssetActive(string $name): bool
@@ -211,6 +220,9 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 * @param   bool  $sort  Whether need to sort the assets to follow the dependency Graph
 	 *
 	 * @return  WebAssetItem[]
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */

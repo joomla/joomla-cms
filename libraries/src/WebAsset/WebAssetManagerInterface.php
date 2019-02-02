@@ -11,6 +11,8 @@ namespace Joomla\CMS\WebAsset;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
+use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 
 /**
  * Web Asset Manager Interface
@@ -26,6 +28,8 @@ interface WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function enableAsset(string $name): self;
@@ -36,6 +40,8 @@ interface WebAssetManagerInterface
 	 * @param   string  $name  The asset name
 	 *
 	 * @return self
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
@@ -48,6 +54,8 @@ interface WebAssetManagerInterface
 	 *
 	 * @return  bool
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function isAssetActive(string $name): bool;
@@ -58,6 +66,9 @@ interface WebAssetManagerInterface
 	 * @param   bool  $sort  Whether need to sort the assets to follow the dependency Graph
 	 *
 	 * @return  WebAssetItemInterface[]
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
