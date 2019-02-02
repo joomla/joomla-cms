@@ -44,7 +44,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link <?php echo ($hideLinks ? ' disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_('index.php?option=com_messages') . '"'); ?> title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
+			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_('index.php?option=com_messages') . '"'); ?> title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
 				<span class="fa fa-envelope-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
 				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
