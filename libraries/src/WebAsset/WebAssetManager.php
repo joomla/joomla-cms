@@ -75,7 +75,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	/**
 	 * Internal marker to check the manager state, to prevent use the manager after an attach happened
 	 *
-	 * @var    array
+	 * @var    bool
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
