@@ -8,9 +8,7 @@
       "name": "template.cassiopeia.base",
       "dependencies": [
         "core",
-        "jquery-noconflict",
-        "font-awesome",
-        "bootstrap.js.bundle"
+        "font-awesome"
       ],
       "js": [
         "template.js",

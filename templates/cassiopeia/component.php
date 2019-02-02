@@ -13,9 +13,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 /** @var JDocumentHtml $this */
 
-// Add JavaScript Frameworks
-HTMLHelper::_('bootstrap.framework');
-
 // Add Stylesheets
 HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
 
