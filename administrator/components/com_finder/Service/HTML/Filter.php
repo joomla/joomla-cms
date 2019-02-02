@@ -180,6 +180,7 @@ class Filter
 			);
 
 			// Populate the toggle button.
+			// @todo Remove jQuery
 			$html .= '<button class="btn btn-secondary" type="button" onclick="jQuery(\'[id=&quot;tax-'
 				. $bk . '&quot;]\').each(function(){this.click();});"><span class="fa fa-square" aria-hidden="true"></span> '
 				. Text::_('JGLOBAL_SELECTION_INVERT') . '</button><hr>';
