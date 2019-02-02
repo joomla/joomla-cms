@@ -13,6 +13,7 @@
     },
     "keepalive": {
       "name": "keepalive",
+      "class": "KeepaliveAssetItem",
       "dependencies": [
         "core"
       ],
