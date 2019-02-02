@@ -10,6 +10,9 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('bootstrap.framework');
 
 $id = '';
 
