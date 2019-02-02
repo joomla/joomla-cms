@@ -103,8 +103,9 @@ Text::script('JHIDE');
 </form>
 <div class="text-center">
     <div>
-        <a href="<?php echo Text::_('MOD_LOGIN_REMIND_LINK'); ?>" target=""_blank">
-			<?php echo Text::_('MOD_LOGIN_REMIND'); ?>
+        <a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank">
+			<span class="fa fa-external-link" aria-hidden="true"></span>
+			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
         </a>
     </div>
 </div>
