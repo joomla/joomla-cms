@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Event\AbstractEvent;
+use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
@@ -72,6 +73,15 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	protected $activeAssets = [];
 
 	/**
+	 * Internal marker to check the manager state, to prevent use the manager after an attach happened
+	 *
+	 * @var    array
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $assetsAttached = false;
+
+	/**
 	 * Whether append asset version to asset path
 	 *
 	 * @var    bool
@@ -111,10 +121,17 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return self
 	 *
+	 * @throws InvalidActionException When the Manager already attached to a Document
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function enableAsset(string $name): WebAssetManagerInterface
 	{
+		if ($this->assetsAttached)
+		{
+			throw new InvalidActionException('WebAssetManager already attached to a Document');
+		}
+
 		$asset = $this->registry->get($name);
 
 		// Asset already enabled
@@ -140,10 +157,17 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return self
 	 *
+	 * @throws InvalidActionException When the Manager already attached to a Document
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function disableAsset(string $name): WebAssetManagerInterface
 	{
+		if ($this->assetsAttached)
+		{
+			throw new InvalidActionException('WebAssetManager already attached to a Document');
+		}
+
 		unset($this->activeAssets[$name]);
 
 		// Re-check dependencies
@@ -265,10 +289,17 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  self
 	 *
+	 * @throws InvalidActionException When the Manager already attached to a Document
+	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
 	public function attachActiveAssetsToDocument(Document $doc): WebAssetManagerInterface
 	{
+		if ($this->assetsAttached)
+		{
+			throw new InvalidActionException('WebAssetManager already attached to a Document');
+		}
+
 		// Trigger the event
 		if ($this->getDispatcher())
 		{
@@ -285,6 +316,9 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 
 		// Resolve an Order of Assets and their Dependencies
 		$assets = $this->enableDependencies()->getAssets(true);
+
+		// Prevent further use of manager if an attach  already happened
+		$this->assetsAttached = true;
 
 		// Pre-save existing Scripts, and attach them after requested assets.
 		$jsBackup = $doc->_scripts;
