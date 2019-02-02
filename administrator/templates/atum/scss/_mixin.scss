@@ -1,27 +1,27 @@
-@mixin prefix_fadeout{
+@mixin prefix-fadeout{
 	from { opacity: 1; }
     to   { opacity: 0; }
 }
 
-@mixin fadeout_page{
+@mixin fadeout-page{
 	/* Firefox < 16 */
 	@-moz-keyframes fadeout {
-		@include prefix_fadeout;
+		@include prefix-fadeout;
 	}
 	/* Safari, Chrome and Opera > 12.1 */
 	@-webkit-keyframes fadeout {
-		@include prefix_fadeout;
+		@include prefix-fadeout;
 	}
 	/* Internet Explorer */
 	@-ms-keyframes fadeout {
-		@include prefix_fadeout;
+		@include prefix-fadeout;
 	}
 	/* Opera < 12.1 */
 	@-o-keyframes fadeout {
-		@include prefix_fadeout;
+		@include prefix-fadeout;
 	}
 	@keyframes fadeout {
-		@include prefix_fadeout;
+		@include prefix-fadeout;
 	}
 
 	-webkit-animation: fadeout $fadetime; /* Safari, Chrome and Opera > 12.1 */
@@ -31,30 +31,30 @@
     animation: fadeout $fadetime;
 }
 
-@mixin prefix_fadein{
+@mixin prefix-fadein{
 	from { opacity: 0; }
     to   { opacity: 1; }
 }
 
-@mixin fadein_page{
+@mixin fadein-page{
 	/* Firefox < 16 */
 	@-moz-keyframes fadein {
-		@include prefix_fadein;
+		@include prefix-fadein;
 	}
 	/* Safari, Chrome and Opera > 12.1 */
 	@-webkit-keyframes fadein {
-		@include prefix_fadein;
+		@include prefix-fadein;
 	}
 	/* Internet Explorer */
 	@-ms-keyframes fadein {
-		@include prefix_fadein;
+		@include prefix-fadein;
 	}
 	/* Opera < 12.1 */
 	@-o-keyframes fadein {
-		@include prefix_fadein;
+		@include prefix-fadein;
 	}
 	@keyframes fadein {
-		@include prefix_fadein;
+		@include prefix-fadein;
 	}
 
 	-webkit-animation: fadein $fadetime; /* Safari, Chrome and Opera > 12.1 */

@@ -121,9 +121,9 @@
 
 // Fadeeffect for login page
 .load-fadein{
-	@include fadein_page;
+	@include fadein-page;
 }
 
 .load-fadeout{
-	 @include fadeout_page;
+	 @include fadeout-page;
 }
