@@ -84,7 +84,7 @@ $app->setUserState('fade', 'cpanel');
         <div id="sidebar-wrapper" class="sidebar-wrapper">
             <div id="main-brand" class="main-brand">
                 <h1><?php echo $sitename; ?></h1>
-                <a href="<?php echo Uri::root(); ?>"><span class="fa fa-external-link"></span> <?php echo Text::sprintf('TPL_ATUM_LOGIN_SIDEBAR_SITENAME_LINK', $sitename); ?></a>
+                <a href="<?php echo Uri::root(); ?>"> <?php echo Text::sprintf('TPL_ATUM_LOGIN_SIDEBAR_SITENAME_LINK', $sitename); ?></a>
             </div>
             <div id="sidebar">
                 <jdoc:include type="modules" name="sidebar" style="body"/>

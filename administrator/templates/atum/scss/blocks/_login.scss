@@ -11,7 +11,7 @@
 		background-size: 200px;
 		
 		@include media-breakpoint-down(sm){
-			min-height:auto;
+			min-height: calc(100vh - 35vh);
 		}
 	}
 
@@ -80,7 +80,7 @@
 
       span {
         font-size: .9rem;
-        color: #c6d2de;
+        color: theme-color("danger");
       }
     }
   }
