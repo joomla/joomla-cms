@@ -46,13 +46,13 @@ interface NodeInterface extends ImmutableNodeInterface
 	/**
 	 * Remove a specific child
 	 *
-	 * @param   integer  $id  ID of a node
+	 * @param   NodeInterface  $child  Child to remove
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeChild($id);
+	public function removeChild(NodeInterface $child);
 
 	/**
 	 * Function to set the left or right sibling of a node

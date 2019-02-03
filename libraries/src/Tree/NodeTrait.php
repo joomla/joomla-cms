@@ -43,7 +43,7 @@ trait NodeTrait
 
 		$this->_parent = $parent;
 
-		$this->_parent->_children[] = & $this;
+		$this->_parent->_children[] = &$this;
 
 		if (count($this->_parent->_children) > 1)
 		{
@@ -78,10 +78,10 @@ trait NodeTrait
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeChild($id)
+	public function removeChild(NodeInterface $child)
 	{
-		$key = array_search($this, $this->_parent->_children);
-		unset($this->_parent->_children[$key]);
+		$key = array_search($child, $this->_children);
+		unset($this->_children[$key]);
 	}
 
 	/**
