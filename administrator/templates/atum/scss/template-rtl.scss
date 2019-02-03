@@ -290,3 +290,11 @@ body {
 .text-right {
   text-align: left !important;
 }
+
+// Modal header override
+.modal-header .close {
+  margin-left: -15px;
+  margin-right: 0 !important;
+  border-left: 0 !important;
+  border-right: 1px solid var(--border);
+}
