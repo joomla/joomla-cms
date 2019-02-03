@@ -44,7 +44,7 @@ table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash {
 
 table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye:before,
 table.phpdebugbar-widgets-languageStrings span.phpdebugbar-widgets-eye-dash:before {
-    font-family: PhpDebugbarFontAwesome;
+    font-family: FontAwesome;
     margin-right: 4px;
     /*font-size: 12px;*/
 }
