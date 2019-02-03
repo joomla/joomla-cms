@@ -149,7 +149,8 @@ class CssMenu
 	/**
 	 * Method to render a given level of a menu using provided layout file
 	 *
-	 * @param   string  $layoutFile  The layout file to be used to render
+	 * @param   string    $layoutFile  The layout file to be used to render
+	 * @param   MenuItem  $node        Node to render the children of
 	 *
 	 * @return  void
 	 *
@@ -244,7 +245,7 @@ class CssMenu
 	/**
 	 * Filter and perform other preparatory tasks for loaded menu items based on access rights and module configurations for display
 	 *
-	 * @param   MenuItem  $item  A menu item to process
+	 * @param   MenuItem  $parent  A menu item to process
 	 *
 	 * @return  array
 	 *
@@ -472,7 +473,7 @@ class CssMenu
 	 * Method to get the CSS class name for an icon identifier or create one if
 	 * a custom image path is passed as the identifier
 	 *
-	 * @param  MenuItem  $node
+	 * @param   MenuItem  $node  Node to get icon data from
 	 *
 	 * @return  string	CSS class name
 	 *

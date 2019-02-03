@@ -72,7 +72,7 @@ trait NodeTrait
 	/**
 	 * Remove a specific child
 	 *
-	 * @param   integer  $id  ID of a node
+	 * @param   NodeInterface  $child  Child to remove
 	 *
 	 * @return  void
 	 *
