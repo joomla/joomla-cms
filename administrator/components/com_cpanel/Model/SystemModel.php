@@ -179,24 +179,6 @@ class SystemModel extends BaseDatabaseModel
 			);
 		}
 
-		if ($user->authorise('core.manage', 'com_redirect'))
-		{
-			$manageSection->addItem(
-				new SystemItem('MOD_MENU_MANAGE_REDIRECTS', 'index.php?option=com_redirect')
-			);
-		}
-
-		if ($user->authorise('core.manage', 'com_modules'))
-		{
-			$manageSection->addItem(
-				new SystemItem('MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE', 'index.php?option=com_modules&view=modules&client_id=0')
-			);
-
-			$manageSection->addItem(
-				new SystemItem('MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR', 'index.php?option=com_modules&view=modules&client_id=1')
-			);
-		}
-
 		if ($user->authorise('core.manage', 'com_joomlaupdate'))
 		{
 			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $joomlaUpdateModel */
