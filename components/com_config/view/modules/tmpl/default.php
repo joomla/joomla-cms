@@ -30,8 +30,6 @@ if (JFile::exists($moduleXml))
 	}
 }
 
-$hasContent = !empty($this->item['module']) && $editorText === true;
-
 // If multi-language site, make language read-only
 if (JLanguageMultilang::isEnabled())
 {
@@ -194,7 +192,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							<?php echo $this->loadTemplate('options'); ?>
 						</div>
 
-						<?php if ($hasContent) : ?>
+						<?php if ($editorText === true) : ?>
 							<div class="tab-pane" id="custom">
 								<?php echo $this->form->getInput('content'); ?>
 							</div>
