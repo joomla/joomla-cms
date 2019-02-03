@@ -46,7 +46,7 @@ const handleFile = (file) => {
     (async (file) => {
       try {
         const compressedContent = await compress(Buffer.from(Fs.readFileSync(file, 'utf8'), 'utf8'));
-        await writeFileAsync(file.replace(/\.js$/, '.js.gz'), compressedContent);
+        await writeFileAsync(file.replace(/\.js$/, '.js.br'), compressedContent);
       } catch (err) {
         console.error(err);
       }
@@ -66,17 +66,17 @@ const handleFile = (file) => {
       } else {
         console.dir(`error: ${err}`);
       }
-
-      // Brotli file
-      (async (file) => {
-        try {
-          const compressedContent = await compress(Buffer.from(Fs.readFileSync(file, 'utf8'), 'utf8'));
-          await writeFileAsync(file.replace(/\.css$/, '.css.gz'), compressedContent);
-        } catch (err) {
-          console.error(err);
-        }
-      })(file);
     });
+
+    // Brotli file
+    (async (file) => {
+      try {
+        const compressedContent = await compress(Buffer.from(Fs.readFileSync(file, 'utf8'), 'utf8'));
+        await writeFileAsync(file.replace(/\.css$/, '.css.br'), compressedContent);
+      } catch (err) {
+        console.error(err);
+      }
+    })(file);
   }
 };
 
@@ -96,12 +96,12 @@ const gzipFiles = () => {
     if (templatesFiles.length) {
       templatesFiles.forEach(file => handleFile(file));
     }
-    if (adminTemplatesFiles.length) {
-      adminTemplatesFiles.forEach(file => handleFile(file));
-    }
-    if (mediaFiles.length) {
-      mediaFiles.forEach(file => handleFile(file));
-    }
+    // if (adminTemplatesFiles.length) {
+    //   adminTemplatesFiles.forEach(file => handleFile(file));
+    // }
+    // if (mediaFiles.length) {
+    //   mediaFiles.forEach(file => handleFile(file));
+    // }
 };
 
 module.exports.run = gzipFiles;
