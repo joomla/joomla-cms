@@ -1,0 +1,100 @@
+const Fs = require('fs');
+const { gzip } = require('@gfx/zopfli');
+const { compressStream } = require('iltorb');
+const RootPath = require('./utils/rootpath.es6.js')._();
+const WalkSync = require('./utils/walk-sync.es6.js');
+
+const options = {
+  verbose: false,
+  verbose_more: false,
+  numiterations: 15,
+  blocksplitting: true,
+  blocksplittingmax: 15,
+};
+
+/**
+ * Method that will create a gzipped vestion of the given file
+ *
+ * @param   { string }  file  The path of the file
+ *
+ * @returns { void }
+ */
+const handleFile = (file) => {
+  if (file.match('/images') || file.match('\\images')) {
+    return;
+  }
+
+  if (file.match(/\.min\.js/) && !file.match(/\.min\.js\.gz/) && !file.match(/\.min\.js\.br/) && !file.toLowerCase().match(/json/) && !file.toLowerCase().match(/license/)) {
+    // eslint-disable-next-line no-console
+    console.log(`Processing: ${file}`);
+    // Gzip the file
+    Fs.readFile(file, (err, data) => {
+      if (err) throw err;
+      gzip(data, options, (error, output) => {
+        if (error) throw err;
+        // Save the gzipped file
+        Fs.writeFileSync(
+          file.replace(/\.js$/, '.js.gz'),
+          output,
+          { encoding: 'utf8' },
+        );
+      });
+    });
+
+
+    // Brotli file
+    Fs.createReadStream(file)
+      .pipe(compressStream())
+      .pipe(Fs.createWriteStream(file.replace(/\.js$/, '.js.br')));
+  }
+
+  if (file.match(/\.min\.css/) && !file.match(/\.min\.css\.gz/) && !file.match(/\.min\.css\.br/) && !file.match(/\.css\.map/) && !file.toLowerCase().match(/license/)) {
+    // eslint-disable-next-line no-console
+    console.log(`Processing: ${file}`);
+    // Gzip the file
+    Fs.readFile(file, (err, data) => {
+      if (err) throw err;
+      gzip(data, options, (error, output) => {
+        if (error) throw err;
+        // Save the gzipped file
+        Fs.writeFileSync(
+          file.replace(/\.css$/, '.css.gz'),
+          output,
+          { encoding: 'utf8' },
+        );
+      });
+    });
+
+    // Brotli file
+    Fs.createReadStream(file)
+      .pipe(compressStream())
+      .pipe(Fs.createWriteStream(file.replace(/\.css$/, '.css.br')));
+  }
+};
+
+/**
+ * Method to gzip the script and stylesheets files
+ *
+ * @returns { void }
+ */
+const gzipFiles = () => {
+  // Minify the legacy files
+  // eslint-disable-next-line no-console
+  console.log('Gziping stylesheets and scripts...');
+
+  const templatesFiles = WalkSync.run(`${RootPath}/templates`, []);
+  const adminTemplatesFiles = WalkSync.run(`${RootPath}/administrator/templates`, []);
+  const mediaFiles = WalkSync.run(`${RootPath}/media`, []);
+
+  if (templatesFiles.length) {
+    templatesFiles.forEach(file => handleFile(file));
+  }
+  if (adminTemplatesFiles.length) {
+    adminTemplatesFiles.forEach(file => handleFile(file));
+  }
+  if (mediaFiles.length) {
+    mediaFiles.forEach(file => handleFile(file));
+  }
+};
+
+module.exports.run = gzipFiles;
