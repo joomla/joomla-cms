@@ -12,7 +12,7 @@ Joomla = window.Joomla || {};
   const initStatsEvents = (callback) => {
     const messageContainer = document.getElementById('system-message-container');
     const joomlaAlert = messageContainer.querySelector('.js-pstats-alert');
-    const detailsContainer = messageContainer.querySelector('.js-pstats-data-details');
+    const detailsContainer = messageContainer.querySelector('#js-pstats-data-details');
 
     // Show details about the information being sent
     document.addEventListener('click', (event) => {
