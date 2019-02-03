@@ -45,16 +45,17 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
+$this->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.min.js');
 $this->addScriptDeclaration('cssVars();');
 
 // Trigger fade effect, when user comes from login
-if ($app->getUserState('fade') === 'cpanel') {
+if ($app->getUserState('fade') === 'cpanel')
+{
     $this->addScriptOptions('fade', $app->getUserState('fade'));
+
+	// Remove state of fade from login
+	$app->setUserState('fade', '');
 }
-
-// Remove state of fade from login
-$app->setUserState('fade', '');
-
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
