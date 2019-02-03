@@ -402,7 +402,9 @@ export default {
      * @param state
      */
     [types.SHOW_CONFIRM_DELETE_MODAL]: (state) => {
-        state.showConfirmDeleteModal = true;
+        if (state.selectedItems.length > 0) {
+            state.showConfirmDeleteModal = true;
+        }
     },
 
     /**

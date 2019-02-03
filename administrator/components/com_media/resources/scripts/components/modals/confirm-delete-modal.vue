@@ -27,7 +27,7 @@
         methods: {
             /* Delete Item */
             deleteItem() {
-                this.$store.dispatch('deleteItem', this.item);
+                this.$store.dispatch('deleteSelectedItems');
                 this.$store.commit(types.HIDE_CONFIRM_DELETE_MODAL);
             },
             /* Close the modal instance */
