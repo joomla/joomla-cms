@@ -1,9 +1,12 @@
+// Mixins
+@import "../mixin";
+
 // Sidebar
 
 .wrapper {
   transition: all .3s ease;
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
     padding-left: 0;
   }
 }
@@ -27,19 +30,27 @@
   }
 
   .view-login & {
-    flex: 1 0 400px;
-    max-width: 400px;
+    flex: 1 0 300px;
+    max-width: 300px;
 
     &.transit-narrow {
       flex: 1 0 $sidebar-width;
       transition: flex 3s;
+	  
+	  @include media-breakpoint-down(sm){
+		@include fadeout-page;
+	  }
     }
   }
 
   &.transit-wider {
-    flex: 1 0 400px;
-    max-width: 400px;
+    flex: 1 0 300px;
+    max-width: 300px;
     transition: all 3s;
+	
+	@include media-breakpoint-down(sm){
+		@include fadein-page;
+	  }
   }
 
 }

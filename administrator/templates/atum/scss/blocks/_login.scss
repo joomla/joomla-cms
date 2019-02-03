@@ -9,6 +9,10 @@
 		*/
 		background-image: url("../images/joomla-pattern.svg");
 		background-size: 200px;
+		
+		@include media-breakpoint-down(sm){
+			min-height: calc(100vh - 35vh);
+		}
 	}
 
   .login-bg-grad {
@@ -40,11 +44,15 @@
 	background:var(--white);
 	padding:15px;
 	color:var(--font-color-dark);
-	position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -206px;
-    margin-left: -205px;
+	
+	
+	 @include media-breakpoint-up(md) {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -206px;
+		margin-left: -205px;
+	}
 
     @include media-breakpoint-down(sm) {
       padding: 0 15px;
@@ -72,7 +80,7 @@
 
       span {
         font-size: .9rem;
-        color: #c6d2de;
+        color: theme-color("danger");
       }
     }
   }
@@ -113,6 +121,10 @@
         padding: .75rem 1.25rem;
       }
     }
+	 @include media-breakpoint-down(sm){
+		position:relative;
+		bottom:0;
+	 }
   }
 
   .container-main,
@@ -135,6 +147,9 @@
 	margin-top:100px;
 	color:var(--font-color-light);
 	text-align:center;
+	@include media-breakpoint-down(sm) {
+		margin-top:10px;
+	}
 }
 .com_login .sidebar-wrapper .main-brand h1,
 .com_login .sidebar-wrapper .main-brand a{

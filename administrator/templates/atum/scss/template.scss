@@ -121,9 +121,15 @@
 
 // Fadeeffect for login page
 .load-fadein{
-	@include fadein_page;
+	@include fadein-page;
 }
 
 .load-fadeout{
-	 @include fadeout_page;
+	 @include fadeout-page;
+}
+
+//extern links with icons
+a[href*="//"]:before{
+	font:normal normal normal 14px/1 FontAwesome;
+	content:"\f08e"; 
 }
