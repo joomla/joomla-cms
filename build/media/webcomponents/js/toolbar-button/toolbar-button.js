@@ -34,8 +34,6 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       throw new Error('Joomla API is not properly initiated');
     }
 
-    // We need a button to support button behavior, because we cannot currently extend HTMLButtonElement
-    this.buttonElement = this.querySelector('button, a');
     this.disabled = false;
 
     // If list selection are required, set button to disabled by default
