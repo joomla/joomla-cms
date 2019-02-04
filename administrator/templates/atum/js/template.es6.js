@@ -29,7 +29,7 @@
       sidebar.classList.add(`transit-${transitAction}`);
     }
 
-    sideBar.classList.toggle('fade-done', fadeAction !== 'out');
+    sidebar.classList.toggle('fade-done', fadeAction !== 'out');
     contentMain.classList.toggle('fade-done', fadeAction !== 'out');
   }
 
@@ -45,10 +45,7 @@
     }
 
     // Fade in dashboard when coming from login or going back to login
-    if ((document.body.classList.contains('com_cpanel') && Joomla.getOptions('fade') === 'cpanel')
-      || document.querySelector('.login-initial')) {
-      fade('in');
-    }
+    fade('in');
 
     // Fade out dashboard on logout
     if (logoutBtn) {
