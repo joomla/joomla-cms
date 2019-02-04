@@ -9,7 +9,7 @@
   },
   "engines": {
     "node": ">=8.11.4",
-    "npm": ">=5.6.0"
+    "npm": ">=5.7.0"
   },
   "scripts": {
     "build:js": "node build.js --compile-js",
