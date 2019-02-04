@@ -63,7 +63,7 @@
 
             // Display success alert
             if (success) {
-              Joomla.renderMessages({ success: [value.message] }, `.sampledata-steps-${type}-${step}`);
+              Joomla.renderMessages({ message: [value.message] }, `.sampledata-steps-${type}-${step}`);
             } else {
               Joomla.renderMessages({ error: [value.message] }, `.sampledata-steps-${type}-${step}`);
             }
