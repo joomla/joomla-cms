@@ -63,6 +63,11 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   constructor() {
     super();
 
+    // Keycodes
+    this.keyCode = {
+      ENTER: 13,
+    };
+
     if (!Joomla) {
       throw new Error('Joomla API is not properly initiated');
     }
@@ -111,7 +116,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle typing of custom term
     if (this.allowCustom) {
       this.addEventListener('keydown', (event) => {
-        if (event.keyCode !== 13 || event.target !== this.choicesInstance.input) {
+        if (event.keyCode !== this.keyCode.ENTER || event.target !== this.choicesInstance.input) {
           return;
         }
         event.preventDefault();
