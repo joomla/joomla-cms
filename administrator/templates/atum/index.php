@@ -48,26 +48,17 @@ $this->setMetaData('theme-color', '#1c3d5c');
 $this->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.min.js');
 $this->addScriptDeclaration('cssVars();');
 
-// Trigger fade effect, when user comes from login
-if ($app->getUserState('fade') === 'cpanel')
-{
-    $this->addScriptOptions('fade', $app->getUserState('fade'));
+// Opacity must be set before displaying the DOM, so don't move to a CSS file
+$css = "
+	.container-main > * {
+		opacity: 0;
+	}
+	.sidebar-wrapper > * {
+		opacity: 0;
+	}
+	";
 
-	// Remove state of fade from login
-	$app->setUserState('fade', '');
-
-	// Opacity must be set before displaying the DOM, so don't move to a CSS file
-	$css = "
-		.container-main > * {
-			opacity: 0;
-		}
-		.sidebar-wrapper > * {
-			opacity: 0;
-		}
-		";
-
-	$this->addStyleDeclaration($css);
-}
+$this->addStyleDeclaration($css);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">

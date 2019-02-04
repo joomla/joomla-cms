@@ -23,9 +23,7 @@ Joomla.fadeEffect = () => {
     });
   }
 
-  if (document.body.classList.contains('com_cpanel') && Joomla.getOptions('fade') === 'cpanel') {
-    letsFade('in');
-  }
+  letsFade('in');
 
   function letsFade(fadeAction, transitAction) {
     const sideBar = document.querySelector('.sidebar-wrapper');
@@ -44,16 +42,9 @@ Joomla.fadeEffect = () => {
     if (transitAction) {
       sideBar.classList.add('transit-' + transitAction);
     }
-	if (fadeAction === 'in')
-	{
-		sideBar.classList.add('fade-done');
-		contentMain.classList.add('fade-done');
-	}
-	else
-	{
-		sideBar.classList.remove('fade-done');
-		contentMain.classList.remove('fade-done');
-	}
+
+    sideBar.classList.toggle('fade-done', fadeAction !== 'out');
+    contentMain.classList.toggle('fade-done', fadeAction !== 'out');
   }
 };
 

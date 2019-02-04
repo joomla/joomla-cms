@@ -50,13 +50,23 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
+$this->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.min.js');
+
 // Set page title
 $this->setTitle(Text::sprintf('TPL_ATUM_LOGIN_SITE_TITLE', $sitename));
 
 $this->addScriptDeclaration('cssVars();');
+// Opacity must be set before displaying the DOM, so don't move to a CSS file
+$css = "
+	.container-main > * {
+		opacity: 0;
+	}
+	.sidebar-wrapper > * {
+		opacity: 0;
+	}
+	";
 
-// Trigger fade effect on dashboard
-$app->setUserState('fade', 'cpanel');
+$this->addStyleDeclaration($css);
 
 ?>
 <!DOCTYPE html>
