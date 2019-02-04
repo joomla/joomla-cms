@@ -226,7 +226,7 @@ class FolderlistField extends \JFormFieldList
 				}
 
 				// Remove the root part and the leading /
-				$folder = trim(str_replace($path, '', $folder), '/');
+				$folder = trim(str_replace($path, '', $folder), DIRECTORY_SEPARATOR);
 
 				$options[] = HTMLHelper::_('select.option', $folder, $folder);
 			}
