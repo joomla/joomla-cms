@@ -1366,7 +1366,8 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (17, 0),
 (79, 0),
 (86, 0),
-(87, 0);
+(87, 0),
+(88, 0);
 
 --
 -- Table structure for table `#__newsfeeds`
