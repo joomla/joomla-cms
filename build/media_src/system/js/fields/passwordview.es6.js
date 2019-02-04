@@ -27,7 +27,7 @@
 
           // Update the text for screenreaders
           srText.innerText = Joomla.JText._('JSHOW');
-        } else (target.classList.contains('icon-eye-close')) {
+        } else if (target.classList.contains('icon-eye-close')) {
           // Update the icon class
           target.classList.add('icon-eye');
           target.classList.remove('icon-eye-close');
