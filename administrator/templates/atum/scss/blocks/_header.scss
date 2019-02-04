@@ -119,6 +119,7 @@
     position: sticky;
     top: 0;
     width: 100%;
+	z-index:9999;
 
     > div {
       flex-direction: column;
