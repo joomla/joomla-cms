@@ -58,8 +58,9 @@
       padding: 0 15px;
     }
 
-	#content img{
+	img{
 		height:70px;
+		padding:15px;
 	}
   }
 
@@ -151,7 +152,15 @@
 		margin-top:10px;
 	}
 }
+
+.com_login .sidebar-wrapper #sidebar p{
+	margin-bottom:0.2rem;
+}
+
 .com_login .sidebar-wrapper .main-brand h1,
-.com_login .sidebar-wrapper .main-brand a{
+.com_login .sidebar-wrapper .main-brand a,
+.com_login .sidebar-wrapper #sidebar,
+.com_login .sidebar-wrapper #sidebar a{
 	color:var(--font-color-light);
 }
+
