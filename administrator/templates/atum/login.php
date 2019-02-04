@@ -78,12 +78,10 @@ $this->addStyleDeclaration($css);
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout; ?>">
     <header id="header" class="header">
         <div class="d-flex align-items-center">
-            <div class="header-title d-flex mr-auto">
-                <div class="d-flex">
-                    <a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-                        <img src="<?php echo $siteLogo; ?>" alt="">
-                    </a>
-                </div>
+            <div class="header-title mr-auto">
+				<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+					<img src="<?php echo $siteLogo; ?>" alt="">
+				</a>
             </div>
         </div>
     </header>
@@ -94,7 +92,7 @@ $this->addStyleDeclaration($css);
         <div id="sidebar-wrapper" class="sidebar-wrapper">
             <div id="main-brand" class="main-brand">
                 <h1><?php echo $sitename; ?></h1>
-                <a href="<?php echo Uri::root(); ?>"> <?php echo Text::sprintf('TPL_ATUM_LOGIN_SIDEBAR_SITENAME_LINK', $sitename); ?></a>
+                <a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
             </div>
             <div id="sidebar">
                 <jdoc:include type="modules" name="sidebar" style="body"/>
