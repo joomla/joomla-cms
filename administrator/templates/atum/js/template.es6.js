@@ -31,7 +31,8 @@ Joomla.fadeEffect = () => {
     const sideBar = document.querySelector('.sidebar-wrapper');
     const sidebarChildren = sideBar.children;
     const sideChildrenLength = sidebarChildren.length;
-    const contentChildren = document.querySelector('.container-main').children;
+	const contentMain = document.querySelector('.container-main');
+    const contentChildren = contentMain.children;
     const contChildrenLength = contentChildren.length;
 
     for (let i = 0; i < sideChildrenLength; i++) {
@@ -43,6 +44,16 @@ Joomla.fadeEffect = () => {
     if (transitAction) {
       sideBar.classList.add('transit-' + transitAction);
     }
+	if (fadeAction === 'in')
+	{
+		sideBar.classList.add('fade-done');
+		contentMain.classList.add('fade-done');
+	}
+	else
+	{
+		sideBar.classList.remove('fade-done');
+		contentMain.classList.remove('fade-done');
+	}
   }
 };
 

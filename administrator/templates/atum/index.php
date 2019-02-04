@@ -55,6 +55,18 @@ if ($app->getUserState('fade') === 'cpanel')
 
 	// Remove state of fade from login
 	$app->setUserState('fade', '');
+
+	// Opacity must be set before displaying the DOM, so don't move to a CSS file
+	$css = "
+		.container-main > * {
+			opacity: 0;
+		}
+		.sidebar-wrapper > * {
+			opacity: 0;
+		}
+		";
+
+	$this->addStyleDeclaration($css);
 }
 ?>
 <!DOCTYPE html>

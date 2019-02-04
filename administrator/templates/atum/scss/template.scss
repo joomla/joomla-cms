@@ -127,6 +127,13 @@
 .load-fadeout{
 	 @include fadeout-page;
 }
+// Fix blinking of fade effect
+.container-main.fade-done > * {
+	opacity: 1;
+}
+.sidebar-wrapper.fade-done > * {
+	opacity: 1;
+}
 
 //extern links with icons
 a[href*="//"]:before{
