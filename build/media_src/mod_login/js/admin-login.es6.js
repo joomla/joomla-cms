@@ -3,7 +3,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(() => {
+((Joomla, document) => {
   'use strict';
 
   const btn = document.getElementById('btn-login-submit');
@@ -54,7 +54,7 @@
           }
 
           if (response.success) {
-            letsFade('out', 'narrow');
+            Joomla.Event.dispatch(form, 'joomla:login');
             window.location.href = response.data.return;
           }
         },
@@ -64,26 +64,4 @@
       });
     });
   }
-
-  letsFade('in');
-
-  function letsFade(fadeAction, transitAction) {
-    const sideBar = document.querySelector('.sidebar-wrapper');
-    const sidebarChildren = sideBar.children;
-    const sideChildrenLength = sidebarChildren.length;
-    const contentChildren = document.querySelector('.container-main').children;
-    const contChildrenLength = contentChildren.length;
-
-    for (let i = 0; i < sideChildrenLength; i++) {
-      sidebarChildren[i].classList.add('load-fade' + fadeAction);
-    }
-
-    for (let i = 0; i < contChildrenLength; i++) {
-      contentChildren[i].classList.add('load-fade' + fadeAction);
-    }
-
-    if (transitAction) {
-      sideBar.classList.add('transit-' + transitAction);
-    }
-  }
-})();
+})(window.Joomla, document);

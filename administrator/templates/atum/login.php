@@ -24,6 +24,9 @@ $lang = Factory::getLanguage();
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
+// Add template JavaScript
+HTMLHelper::_('script', 'template.min.js', ['version' => 'auto', 'relative' => true]);
+
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);

@@ -3,48 +3,54 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// eslint-disable max-len
+((Joomla, document) => {
+  'use strict';
 
-// Only define the Joomla namespace if not defined.
-window.Joomla = window.Joomla || {};
-
-/**
- * Method that add a fade effect and transition on sidebar and content side after login and logout
- * working with session data, to add the animation just in that two cases
- *
- * @since   4.0.0
- */
-Joomla.fadeEffect = () => {
-  const logoutBtn = document.querySelector('.header-items a[href*="task=logout"]');
-
-  if (logoutBtn) {
-    logoutBtn.addEventListener('click', () => {
-      letsFade('out', 'wider');
-    });
-  }
-
-  if (document.body.classList.contains('com_cpanel') && Joomla.getOptions('fade') === 'cpanel') {
-    letsFade('in');
-  }
-
-  function letsFade(fadeAction, transitAction) {
-    const sideBar = document.querySelector('.sidebar-wrapper');
-    const sidebarChildren = sideBar.children;
+  /**
+   * Method that add a fade effect and transition on sidebar and content side after login and logout
+   *
+   * @since   4.0.0
+   */
+  function fade(fadeAction, transitAction) {
+    const sidebar = document.querySelector('.sidebar-wrapper');
+    const sidebarChildren = sidebar.children;
     const sideChildrenLength = sidebarChildren.length;
     const contentChildren = document.querySelector('.container-main').children;
     const contChildrenLength = contentChildren.length;
 
-    for (let i = 0; i < sideChildrenLength; i++) {
-      sidebarChildren[i].classList.add('load-fade' + fadeAction);
+    for (let i = 0; i < sideChildrenLength; i += 1) {
+      sidebarChildren[i].classList.add(`load-fade${fadeAction}`);
     }
-    for (let i = 0; i < contChildrenLength; i++) {
-      contentChildren[i].classList.add('load-fade' + fadeAction);
+    for (let i = 0; i < contChildrenLength; i += 1) {
+      contentChildren[i].classList.add(`load-fade${fadeAction}`);
     }
     if (transitAction) {
-      sideBar.classList.add('transit-' + transitAction);
+      sidebar.classList.add(`transit-${transitAction}`);
     }
   }
-};
 
-/** Load Method for fade effect after login and logout */
-document.addEventListener('DOMContentLoaded', Joomla.fadeEffect);
+  document.addEventListener('DOMContentLoaded', () => {
+    const loginForm = document.getElementById('form-login');
+    const logoutBtn = document.querySelector('.header-items a[href*="task=logout"]');
+
+    // Fade out login form when login was successful
+    if (loginForm) {
+      loginForm.addEventListener('joomla:login', () => {
+        fade('out', 'narrow');
+      });
+    }
+
+    // Fade in dashboard when coming from login or going back to login
+    if ((document.body.classList.contains('com_cpanel') && Joomla.getOptions('fade') === 'cpanel')
+      || document.querySelector('.login-initial')) {
+      fade('in');
+    }
+
+    // Fade out dashboard on logout
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        fade('out', 'wider');
+      });
+    }
+  });
+})(window.Joomla, document);
