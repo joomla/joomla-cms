@@ -91,7 +91,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     }
 
     // Switch attribute for native element
-    // An anchor do not support "disabled" attribute, so use class
+    // An anchor does not support "disabled" attribute, so use class
     if (this.buttonElement) {
       if (this.disabled) {
         if (this.buttonElement.nodeName === 'BUTTON') {
