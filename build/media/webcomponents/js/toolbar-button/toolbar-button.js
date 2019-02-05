@@ -36,7 +36,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
 
     this.disabled = false;
 
-    // If list selection are required, set button to disabled by default
+    // If list selection is required, set button to disabled by default
     if (this.listSelection) {
       this.setDisabled(true);
     }
