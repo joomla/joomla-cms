@@ -73,7 +73,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     }
 
     if (!window.Choices) {
-      throw new Error('JoomlaFieldFancySelect require Choices.js to work');
+      throw new Error('JoomlaFieldFancySelect requires Choices.js to work');
     }
 
     this.choicesCache = {};
