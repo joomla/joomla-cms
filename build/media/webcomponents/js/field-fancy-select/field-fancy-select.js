@@ -89,7 +89,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     this.select = this.querySelector('select');
 
     if (!this.select) {
-      throw new Error('JoomlaFieldFancySelect require <select> element to work');
+      throw new Error('JoomlaFieldFancySelect requires <select> element to work');
     }
 
     // Init Choices
