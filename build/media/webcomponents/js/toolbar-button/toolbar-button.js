@@ -57,7 +57,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
 
     if (this.listSelection) {
       if (!this.formElement) {
-        throw new Error(`The form "${formSelector}" is required to perform the task, but the form not found on the page.`);
+        throw new Error(`The form "${formSelector}" is required to perform the task, but the form was not found on the page.`);
       }
 
       // Watch on list selection
