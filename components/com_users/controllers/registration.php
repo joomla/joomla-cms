@@ -89,7 +89,7 @@ class UsersControllerRegistration extends UsersController
 					$message = JText::_('COM_USERS_REGISTRATION_ACL_ADMIN_ACTIVATION');
 				}
 
-				$this->setMessage($message);
+				$this->setMessage($message, 'warning');
 				$this->setRedirect(JRoute::_($loginUrl, false));
 
 				return false;
