@@ -31,7 +31,7 @@ Text::script('JHIDE');
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 			</label>
 			<div class="input-group">
-				
+
 				<input
 					name="username"
 					id="mod-login-username"
@@ -47,7 +47,7 @@ Text::script('JHIDE');
 				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 			</label>
 			<div class="input-group">
-				
+
 				<input
 					name="passwd"
 					id="mod-login-password"
@@ -55,9 +55,9 @@ Text::script('JHIDE');
 					class="form-control input-full"
 					required="required"
 				>
-				<span class="input-group-append">
+				<span class="input-group-append ml-2">
 					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<button class="input-group-text icon-eye input-password-toggle" aria-hidden="true" alt="show"></button>
+					<button type="button" class="input-group-text icon-eye input-password-toggle" aria-hidden="true" alt="show"></button>
 				</span>
 			</div>
 		</div>
@@ -68,7 +68,7 @@ Text::script('JHIDE');
 					<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
 				</label>
 				<div class="input-group">
-					
+
 					<input
 						name="secretkey"
 						autocomplete="off"

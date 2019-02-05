@@ -100,7 +100,7 @@ $this->addStyleDeclaration($css);
         </div>
 
         <div class="container-fluid container-main">
-            <section id="content" class="content">
+            <section id="content" class="content h-100">
                 <main class="d-flex justify-content-center align-items-center h-100">
                     <div class="login">
                         <div class="main-brand d-flex align-items-center justify-content-center">

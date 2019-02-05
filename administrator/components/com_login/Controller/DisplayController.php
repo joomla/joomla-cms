@@ -100,6 +100,7 @@ class DisplayController extends BaseController
 				{
 					$message = $result->getMessage();
 				}
+
 				$response = new JsonResponse(null, $message, true);
 			}
 
