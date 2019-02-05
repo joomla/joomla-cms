@@ -169,7 +169,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
    * Lifecycle
    */
   disconnectedCallback() {
-    // Destroy Choices instance, to unbind an event listeners
+    // Destroy Choices instance, to unbind event listeners
     if (this.choicesInstance) {
       this.choicesInstance.destroy();
       this.choicesInstance = null;
