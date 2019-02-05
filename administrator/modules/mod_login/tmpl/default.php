@@ -52,8 +52,7 @@ Text::script('JHIDE');
 			</label>
 			<div class="input-group">
 				<span class="input-group-prepend">
-					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<span class="input-group-text icon-eye" aria-hidden="true"></span>
+					<span class="input-group-text icon-key" aria-hidden="true"></span>
 				</span>
 				<input
 					name="passwd"
@@ -62,6 +61,10 @@ Text::script('JHIDE');
 					class="form-control input-full"
 					required="required"
 				>
+				<span class="input-group-append">
+					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+					<span class="input-group-text icon-eye input-password-toggle" aria-hidden="true"></span>
+				</span>
 			</div>
 		</div>
 

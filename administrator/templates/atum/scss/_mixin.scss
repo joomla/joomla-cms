@@ -29,6 +29,7 @@
     -ms-animation: fadeout $fadetime; /* Internet Explorer */
      -o-animation: fadeout $fadetime; /* Opera < 12.1 */
     animation: fadeout $fadetime;
+	opacity: 0;
 }
 
 @mixin prefix-fadein{

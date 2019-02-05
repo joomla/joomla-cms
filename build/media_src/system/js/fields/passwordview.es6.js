@@ -7,7 +7,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     [].slice.call(document.querySelectorAll('input[type="password"]')).forEach((input) => {
-      const inputGroup = input.parentNode.querySelector('.input-group-prepend, .input-group-append');
+      const inputGroup = input.parentNode.querySelector('.input-password-toggle');
 
       if (!inputGroup) {
         return;
@@ -27,7 +27,7 @@
 
           // Update the text for screenreaders
           srText.innerText = Joomla.JText._('JSHOW');
-        } else {
+        } else if (target.classList.contains('icon-eye-close')) {
           // Update the icon class
           target.classList.add('icon-eye');
           target.classList.remove('icon-eye-close');
