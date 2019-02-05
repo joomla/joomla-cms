@@ -31,11 +31,7 @@ Text::script('JHIDE');
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 			</label>
 			<div class="input-group">
-				<span class="input-group-prepend">
-					<span class="input-group-text">
-						<span class="fa fa-user" aria-hidden="true"></span>
-					</span>
-				</span>
+				
 				<input
 					name="username"
 					id="mod-login-username"
@@ -51,9 +47,7 @@ Text::script('JHIDE');
 				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 			</label>
 			<div class="input-group">
-				<span class="input-group-prepend">
-					<span class="input-group-text icon-key" aria-hidden="true"></span>
-				</span>
+				
 				<input
 					name="passwd"
 					id="mod-login-password"
@@ -63,20 +57,18 @@ Text::script('JHIDE');
 				>
 				<span class="input-group-append">
 					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<span class="input-group-text icon-eye input-password-toggle" aria-hidden="true"></span>
+					<button class="input-group-text icon-eye input-password-toggle" aria-hidden="true" alt="show"></button>
 				</span>
 			</div>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
 			<div class="form-group">
-				<label class="text-white" for="mod-login-secretkey">
+				<label for="mod-login-secretkey">
 					<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
 				</label>
 				<div class="input-group">
-					<span class="input-group-prepend">
-						<span class="input-group-text"><span class="fa fa-shield" aria-hidden="true"></span></span>
-					</span>
+					
 					<input
 						name="secretkey"
 						autocomplete="off"
@@ -89,7 +81,7 @@ Text::script('JHIDE');
 		<?php endif; ?>
 		<?php if (!empty($langs)) : ?>
 			<div class="form-group">
-				<label class="text-white" for="lang">
+				<label for="lang">
 					<?php echo Text::_('MOD_LOGIN_LANGUAGE'); ?>
 				</label>
 				<?php echo $langs; ?>
