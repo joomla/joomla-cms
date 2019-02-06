@@ -48,77 +48,65 @@ Text::script('MESSAGE');
 		<!-- End Sidebar -->
 		<!-- Begin Content -->
 		<div class="col-md-10">
-			<ul class="nav nav-tabs">
-
-				<li class="nav-item"><a class="nav-link active" href="#page-site" data-toggle="tab"><?php echo Text::_('JSITE'); ?></a></li>
-				<li class="nav-item"><a class="nav-link" href="#page-system" data-toggle="tab"><?php echo Text::_('COM_CONFIG_SYSTEM'); ?></a></li>
-				<li class="nav-item"><a class="nav-link" href="#page-server" data-toggle="tab"><?php echo Text::_('COM_CONFIG_SERVER'); ?></a></li>
-				<li class="nav-item"><a class="nav-link" href="#page-filters" data-toggle="tab"><?php echo Text::_('COM_CONFIG_TEXT_FILTERS'); ?></a></li>
+			<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'config-document')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'config-document', Text::_('JSITE')); ?>
+                <div class="row">
+                    <div class="col-lg-12 col-xl-6">
+                        <?php echo $this->loadTemplate('site'); ?>
+                        <?php echo $this->loadTemplate('metadata'); ?>
+                    </div>
+                    <div class="col-lg-12 col-xl-6">
+                        <?php echo $this->loadTemplate('seo'); ?>
+                        <?php echo $this->loadTemplate('cookie'); ?>
+                    </div>
+                </div>
+            <?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'page-system', Text::_('COM_CONFIG_SYSTEM')); ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo $this->loadTemplate('system'); ?>
+                        <?php echo $this->loadTemplate('debug'); ?>
+                        <?php echo $this->loadTemplate('cache'); ?>
+                        <?php echo $this->loadTemplate('session'); ?>
+                    </div>
+                </div>
+			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'page-server', Text::_('COM_CONFIG_SERVER')); ?>
+                <div class="row">
+                    <div class="col-lg-12 col-xl-6">
+                        <?php echo $this->loadTemplate('server'); ?>
+                        <?php echo $this->loadTemplate('locale'); ?>
+                        <?php echo $this->loadTemplate('ftp'); ?>
+                        <?php echo $this->loadTemplate('proxy'); ?>
+                    </div>
+                    <div class="col-lg-12 col-xl-6">
+                        <?php echo $this->loadTemplate('database'); ?>
+                        <?php echo $this->loadTemplate('mail'); ?>
+                    </div>
+                </div>
+			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'page-filters', Text::_('COM_CONFIG_TEXT_FILTERS')); ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php echo $this->loadTemplate('filters'); ?>
+                    </div>
+                </div>
+			<?php echo JHtml::_('uitab.endTab'); ?>
 				<?php if ($this->ftp) : ?>
-					<li class="nav-item"><a class="nav-link" href="#page-ftp" data-toggle="tab"><?php echo Text::_('COM_CONFIG_FTP_SETTINGS'); ?></a></li>
-				<?php endif; ?>
-				<li class="nav-item"><a class="nav-link" href="#page-permissions" data-toggle="tab"><?php echo Text::_('COM_CONFIG_PERMISSIONS'); ?></a></li>
-			</ul>
-			<div id="config-document" class="tab-content">
-				<div id="page-site" class="tab-pane active">
-					<div class="row">
-						<div class="col-lg-12 col-xl-6">
-							<?php echo $this->loadTemplate('site'); ?>
-							<?php echo $this->loadTemplate('metadata'); ?>
-						</div>
-						<div class="col-lg-12 col-xl-6">
-							<?php echo $this->loadTemplate('seo'); ?>
-							<?php echo $this->loadTemplate('cookie'); ?>
-						</div>
-					</div>
-				</div>
-				<div id="page-system" class="tab-pane">
-					<div class="row">
-						<div class="col-md-12">
-							<?php echo $this->loadTemplate('system'); ?>
-							<?php echo $this->loadTemplate('debug'); ?>
-							<?php echo $this->loadTemplate('cache'); ?>
-							<?php echo $this->loadTemplate('session'); ?>
-						</div>
-					</div>
-				</div>
-				<div id="page-server" class="tab-pane">
-					<div class="row">
-						<div class="col-lg-12 col-xl-6">
-							<?php echo $this->loadTemplate('server'); ?>
-							<?php echo $this->loadTemplate('locale'); ?>
-							<?php echo $this->loadTemplate('ftp'); ?>
-							<?php echo $this->loadTemplate('proxy'); ?>
-						</div>
-						<div class="col-lg-12 col-xl-6">
-							<?php echo $this->loadTemplate('database'); ?>
-							<?php echo $this->loadTemplate('mail'); ?>
-						</div>
-					</div>
-				</div>
-				<div id="page-filters" class="tab-pane">
-					<div class="row">
-						<div class="col-md-12">
-							<?php echo $this->loadTemplate('filters'); ?>
-						</div>
-					</div>
-				</div>
-				<?php if ($this->ftp) : ?>
-					<div id="page-ftp" class="tab-pane">
+					<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'page-ftp', Text::_('COM_CONFIG_FTP_SETTINGS')); ?>
 						<div class="col-md-12">
 							<?php echo $this->loadTemplate('ftplogin'); ?>
 						</div>
-					</div>
+					<?php echo JHtml::_('uitab.endTab'); ?>
 				<?php endif; ?>
-				<div id="page-permissions" class="tab-pane">
-					<div class="row">
-						<?php echo $this->loadTemplate('permissions'); ?>
-					</div>
-				</div>
+			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'page-permissions', Text::_('COM_CONFIG_PERMISSIONS')); ?>
+                <div class="row">
+                    <?php echo $this->loadTemplate('permissions'); ?>
+                </div>
+			<?php echo JHtml::_('uitab.endTab'); ?>
 				<input type="hidden" name="task" value="">
 				<?php echo HTMLHelper::_('form.token'); ?>
-			</div>
-		</div>
+        </div>
 		<!-- End Content -->
 	</div>
 </form>
