@@ -63,6 +63,29 @@ class TagsModel extends ListModel
 		$this->setState('params', $params);
 
 		$this->setState('list.limit', $params->get('maximum', 200));
+		// List state information
+		$format = $app->input->getWord('format');
+
+		if ($format === 'feed')
+		{
+			$limit = $app->get('feed_limit');
+		}
+		else
+		{
+			if ($this->state->params->get('show_pagination_limit'))
+			{
+				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
+			}
+			else
+			{
+				$limit = $this->state->params->get('maximum', 20);
+			}
+		}
+
+		$this->setState('list.limit', $limit);
+
+		$offset = $app->input->get('limitstart', 0, 'uint');
+		$this->setState('list.start', $offset);
 
 		$this->setState('filter.published', 1);
 		$this->setState('filter.access', true);
@@ -81,34 +104,6 @@ class TagsModel extends ListModel
 	}
 
 	/**
-	 * Redefine the function and add some properties to make the styling more easy
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   3.1
-	 */
-	public function getItems()
-	{
-		// Invoke the parent getItems method to get the main list
-		$items = parent::getItems();
-
-		if (!count($items))
-		{
-			$app = Factory::getApplication();
-			$menu = $app->getMenu();
-			$active = $menu->getActive();
-			$params = new Registry;
-
-			if ($active)
-			{
-				$params->loadString($active->params);
-			}
-		}
-
-		return $items;
-	}
-
-	/**
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return  string  An SQL query
@@ -117,13 +112,10 @@ class TagsModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$app            = Factory::getApplication();
 		$user           = Factory::getUser();
 		$groups         = implode(',', $user->getAuthorisedViewLevels());
 		$pid            = $this->getState('tag.parent_id');
-		$orderby        = $this->state->params->get('all_tags_orderby', 'title');
 		$published      = $this->state->params->get('published', 1);
-		$orderDirection = $this->state->params->get('all_tags_orderby_direction', 'ASC');
 		$language       = $this->getState('tag.language');
 
 		// Create a new query object.
@@ -160,30 +152,6 @@ class TagsModel extends ListModel
 			$query->where($db->quoteName('language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
 		}
 
-		// List state information
-		$format = $app->input->getWord('format');
-
-		if ($format === 'feed')
-		{
-			$limit = $app->get('feed_limit');
-		}
-		else
-		{
-			if ($this->state->params->get('show_pagination_limit'))
-			{
-				$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
-			}
-			else
-			{
-				$limit = $this->state->params->get('maximum', 20);
-			}
-		}
-
-		$this->setState('list.limit', $limit);
-
-		$offset = $app->input->get('limitstart', 0, 'uint');
-		$this->setState('list.start', $offset);
-
 		// Optionally filter on entered value
 		if ($this->state->get('list.filter'))
 		{
@@ -192,7 +160,7 @@ class TagsModel extends ListModel
 
 		$query->where($db->quoteName('a.published') . ' = ' . $published);
 
-		$query->order($db->quoteName($orderby) . ' ' . $orderDirection . ', a.title ASC');
+		$query->order($this->getState('list.ordering', 'a.ordering') . ' ' . $this->getState('list.direction', 'ASC'));
 
 		return $query;
 	}

@@ -152,7 +152,7 @@ class TagField extends ListField
 		// Preload only active values, everything else will be searched via AJAX
 		if ($this->isRemoteSearch() && $this->value)
 		{
-			$query->where('a.id IN (' . implode(',', $this->value) . ')');
+			$query->where('a.id IN (' . implode(',', (array) $this->value) . ')');
 		}
 
 		// Filter on the published state
