@@ -56,7 +56,7 @@ Text::script('MESSAGE');
 						<?php echo $this->loadTemplate('cookie'); ?>
 					</div>
 				</div>
-			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'gc_config', 'page-system', Text::_('COM_CONFIG_SYSTEM')); ?>
 				<div class="row">
 					<div class="col-md-12">
@@ -66,7 +66,7 @@ Text::script('MESSAGE');
 						<?php echo $this->loadTemplate('session'); ?>
 					</div>
 				</div>
-			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'gc_config', 'page-server', Text::_('COM_CONFIG_SERVER')); ?>
 				<div class="row">
 					<div class="col-lg-12 col-xl-6">
@@ -80,29 +80,29 @@ Text::script('MESSAGE');
 						<?php echo $this->loadTemplate('mail'); ?>
 					</div>
 				</div>
-			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'gc_config', 'page-filters', Text::_('COM_CONFIG_TEXT_FILTERS')); ?>
 				<div class="row">
 					<div class="col-md-12">
 						<?php echo $this->loadTemplate('filters'); ?>
 					</div>
 				</div>
-			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php if ($this->ftp) : ?>
 				<?php echo HTMLHelper::_('uitab.addTab', 'gc_config', 'page-ftp', Text::_('COM_CONFIG_FTP_SETTINGS')); ?>
 					<div class="col-md-12">
 						<?php echo $this->loadTemplate('ftplogin'); ?>
 					</div>
-				<?php echo JHtml::_('uitab.endTab'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'gc_config', 'page-permissions', Text::_('COM_CONFIG_PERMISSIONS')); ?>
 				<div class="row">
 					<?php echo $this->loadTemplate('permissions'); ?>
 				</div>
-			<?php echo JHtml::_('uitab.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<input type="hidden" name="task" value="">
 			<?php echo HTMLHelper::_('form.token'); ?>
-		<?php echo JHtml::_('uitab.endTabSet'); ?>
+		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 		</div>
 	</div>
 </form>

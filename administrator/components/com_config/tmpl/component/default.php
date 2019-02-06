@@ -41,7 +41,10 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 		<?php echo HTMLHelper::_('uitab.startTabSet', 'gc_config_component', array('active' => 'config-document')); ?>
 			<?php if ($this->fieldsets): ?>
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
-					<?php echo HTMLHelper::_('uitab.addTab', 'gc_config_component', $name, Text::_($fieldSet->label)); ?>
+					<?php echo HTMLHelper::_('uitab.addTab', 'gc_config_component', $name, Text::_($fieldSet->label));
+					// @todo restore controlling the tab with showon, currently not supported by joomla-tabs
+					// $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\'';
+					?>
 						<?php if (isset($fieldSet->description) && !empty($fieldSet->description)) : ?>
 							<div class="alert alert-info">
 								<span class="icon-info" aria-hidden="true"></span> <?php echo Text::_($fieldSet->description); ?>
@@ -71,7 +74,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 								</div>
 							<?php endif; ?>
 						<?php endforeach; ?>
-					<?php echo JHtml::_('uitab.endTab'); ?>
+					<?php echo HTMLHelper::_('uitab.endTab'); ?>
 				<?php endforeach; ?>
 			<?php else: ?>
 				<div class="alert alert-info">
@@ -79,7 +82,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 					<?php echo Text::_('COM_CONFIG_COMPONENT_NO_CONFIG_FIELDS_MESSAGE'); ?>
 				</div>
 			<?php endif; ?>
-			<?php echo JHtml::_('uitab.endTabSet'); ?>
+			<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 		</div>
 		<input type="hidden" name="id" value="<?php echo $this->component->id; ?>">
 		<input type="hidden" name="component" value="<?php echo $this->component->option; ?>">
