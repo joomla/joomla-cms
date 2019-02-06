@@ -13,9 +13,10 @@ $gray-700:                         #495057;
 $gray-800:                         #343a40;
 $gray-900:                         #212529;
 $black:                            #000;
+$light-blue:                       #ebeff5;
 
 // BS Colours
-$blue:                             #3073bb;
+$blue:                             #1a466b;
 $indigo:                           #0377be;
 $purple:                           #6f42c1;
 $pink:                             #e83e8c;
@@ -24,16 +25,6 @@ $yellow:                           #b35900;
 $green:                            #2f7d32;
 $teal:                             #20c997;
 $cyan:                             #108193;
-
-//variables for colors
-:root{
---background-color-light:#ebf0f5;
---background-color-dark:#1a466b;
---font-color-light:#fff;
---font-color-dark:var--(gray-600);
---link-color:$gray-600;
---main-bg:      #ebeff5;
-}
 
 $theme-colors: ();
 $theme-colors: map-merge((
@@ -67,6 +58,11 @@ $colors: (
   white-offset: #fefefe,
   focus: #39f,
   table-border: $gray-300,
+  atum-bg-dark: $blue,
+  atum-bg-light: $light-blue,
+  atum-text-dark: $gray-600,
+  atum-text-light: $white,
+  atum-link-color:$gray-600
 );
 
 // Global

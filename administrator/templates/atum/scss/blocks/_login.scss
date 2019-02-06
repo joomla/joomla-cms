@@ -2,7 +2,7 @@
 
 .view-login {
 	.container-main{
-		background: var(--background-color-light);
+		background: var(--atum-bg-light);
 		/**
 		* Note IDE's will consider this file import to fail in SCSS but this is correct for the final
 		* compiled CSS file
@@ -54,7 +54,7 @@
     width: 23rem;
 	background:var(--white);
 	padding:15px;
-	color:var(--font-color-dark);
+	color:var(--atum-text-dark);
 	border-radius:3px;
 	-webkit-box-shadow: 0px 0px 10px 0px #ccc;
 	-moz-box-shadow:    0px 0px 10px 0px #ccc;
@@ -146,7 +146,7 @@
   }
 
   #sidebar {
-    color: var(--font-color-light);
+    color: var(--atum-text-light);
     position:absolute;
     bottom: 40px;
     width: 100%;
@@ -180,7 +180,7 @@
 
 .com_login .sidebar-wrapper .main-brand{
 	margin-top:100px;
-	color:var(--font-color-light);
+	color:var(--atum-text-light);
 	text-align:center;
 	@include media-breakpoint-down(sm) {
 		margin-top:10px;
@@ -195,6 +195,6 @@
 .com_login .sidebar-wrapper .main-brand a,
 .com_login .sidebar-wrapper #sidebar,
 .com_login .sidebar-wrapper #sidebar a{
-	color:var(--font-color-light);
+	color:var(--atum-text-light);
 }
 
