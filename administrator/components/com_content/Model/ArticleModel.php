@@ -137,9 +137,6 @@ class ArticleModel extends AdminModel
 			// Reset hits because we are making a copy
 			$this->table->hits = 0;
 
-			// Unpublish because we are making a copy
-			$this->table->state = 0;
-
 			// New category ID
 			$this->table->catid = $categoryId;
 
@@ -429,12 +426,12 @@ class ArticleModel extends AdminModel
 	protected function prepareTable($table)
 	{
 		// Set the publish date to now
-		if ($table->state == 1 && (int) $table->publish_up == 0)
+		if ($table->state == Workflow::CONDITION_PUBLISHED && (int) $table->publish_up == 0)
 		{
 			$table->publish_up = Factory::getDate()->toSql();
 		}
 
-		if ($table->state == 1 && intval($table->publish_down) == 0)
+		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
 		{
 			$table->publish_down = $this->getDbo()->getNullDate();
 		}
@@ -629,8 +626,6 @@ class ArticleModel extends AdminModel
 		}
 
 		$jinput = Factory::getApplication()->input;
-		$db    = $this->getDbo();
-		$query = $db->getQuery(true);
 
 		/*
 		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
@@ -908,7 +903,6 @@ class ArticleModel extends AdminModel
 			}
 
 			$stageId = (int) $workflow->stage_id;
-			$workflowId = (int) $workflow->id;
 
 			// B/C state
 			$data['state'] = (int) $workflow->condition;
@@ -951,7 +945,6 @@ class ArticleModel extends AdminModel
 			}
 
 			$data['state'] = (int) $stage->condition;
-
 		}
 
 		// Automatic handling of alias for empty fields
@@ -1022,7 +1015,6 @@ class ArticleModel extends AdminModel
 					}
 
 					$stageId = (int) $workflow->stage_id;
-					$workflowId = (int) $workflow->id;
 
 					// B/C state
 					$table->state = $workflow->condition;
