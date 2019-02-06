@@ -26,16 +26,6 @@ $green:                            #2f7d32;
 $teal:                             #20c997;
 $cyan:                             #108193;
 
-//variables for colors
-:root{
-/*--background-color-light:#ebf0f5;
---background-color-dark:#1a466b;
---font-color-light:#fff;
---font-color-dark:var--(gray-600);
---link-color:$gray-600;
---main-bg:      #ebeff5;*/
-}
-
 $theme-colors: ();
 $theme-colors: map-merge((
   primary: $blue,
