@@ -91,7 +91,7 @@ $sidebar-width-closed:             48px;
 $main-brand-height:                48px;
 
 // Fonts
-$font-family-base:                 Arial, sans-serif;
+$font-family-sans-serif:           "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 $font-size-root:                   15px;
 $h1-font-size:                     1.857rem;
 $h2-font-size:                     1.571rem;
@@ -102,6 +102,7 @@ $h6-font-size:                     .8571rem;
 $font-size-sm:                     .8rem;
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
+$roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
 
 // Font weights
 $thin-weight:                      100;
