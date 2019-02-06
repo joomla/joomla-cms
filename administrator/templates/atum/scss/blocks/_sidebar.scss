@@ -31,7 +31,7 @@
 
   .view-login & {
     flex: 1 0 33%;
-    max-width: 30rem;
+    max-width: $sidebar-width-login;
 
     &.transit-narrow {
       flex: 1 0 $sidebar-width;
