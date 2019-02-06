@@ -33,7 +33,7 @@
     line-height: $header-height;
 
     .fa {
-      width: $header-height + 2px;
+      width: $header-height + 0.125rem;
       font-size: 1.2rem;
       color: var(--primary-dark);
       vertical-align: middle;
