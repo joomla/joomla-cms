@@ -30,13 +30,13 @@
   }
 
   .view-login & {
-    flex: 1 0 300px;
-    max-width: 300px;
+    flex: 1 0 33%;
+    max-width: 30rem;
 
     &.transit-narrow {
       flex: 1 0 $sidebar-width;
       transition: flex 3s;
-	  
+
 	  @include media-breakpoint-down(sm){
 		@include fadeout-page;
 	  }
@@ -47,7 +47,7 @@
     flex: 1 0 300px;
     max-width: 300px;
     transition: all 3s;
-	
+
 	@include media-breakpoint-down(sm){
 		@include fadein-page;
 	  }

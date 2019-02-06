@@ -68,7 +68,7 @@ $this->addStyleDeclaration($css);
 	<jdoc:include type="scripts" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : ''); ?>">
 
 	<noscript>
 		<div class="alert alert-danger" role="alert">
