@@ -47,7 +47,44 @@
 	</languages>
 	<config>
 		<fields name="params">
-			<fieldset name="advanced" label="TPL_ATUM_LOGIN_PAGE_SETTINGS_LABEL">
+			<fieldset name="colors" label="TPL_ATUM_COLORS_SETTINGS_LABEL">
+				<field
+					name="bg-dark"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_BG_DARK_LABEL"
+					default="#1a466b"
+					filter="color"
+				/>
+				<field
+					name="bg-light"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_BG_LIGHT_LABEL"
+					default="#ebeff5"
+					filter="color"
+				/>
+				<field
+					name="text-dark"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_TEXT_DARK_LABEL"
+					default="#6f7780"
+					filter="color"
+				/>
+				<field
+					name="text-light"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_TEXT_LIGHT_LABEL"
+					default="#ffffff"
+					filter="color"
+				/>
+				<field
+					name="link-color"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
+					default="#6f7780"
+					filter="color"
+				/>
+			</fieldset>
+			<fieldset name="images" label="TPL_ATUM_IMAGES_SETTINGS_LABEL">
 
 				<field
 					name="siteLogo"

@@ -49,14 +49,46 @@ $this->addScript($this->baseurl . '/templates/' . $this->template . '/js/templat
 $this->addScriptDeclaration('cssVars();');
 
 // Opacity must be set before displaying the DOM, so don't move to a CSS file
-$css = "
+$css = '
 	.container-main > * {
 		opacity: 0;
 	}
 	.sidebar-wrapper > * {
 		opacity: 0;
 	}
-	";
+';
+
+$root = [];
+
+if ($this->params->get('bg-dark'))
+{
+	$root[] = '--bg-dark: ' . $this->params->get('bg-dark') . ';';
+}
+
+if ($this->params->get('bg-light'))
+{
+	$root[] = '--bg-light: ' . $this->params->get('bg-light') . ';';
+}
+
+if ($this->params->get('text-dark'))
+{
+	$root[] = '--text-dark: ' . $this->params->get('text-dark') . ';';
+}
+
+if ($this->params->get('text-light'))
+{
+	$root[] = '--text-light: ' . $this->params->get('text-light') . ';';
+}
+
+if ($this->params->get('link-color'))
+{
+	$root[] = '--link-color: ' . $this->params->get('link-color') . ';';
+}
+
+if (count($root))
+{
+	$css .= ':root {' . implode($root) . '}';
+}
 
 $this->addStyleDeclaration($css);
 ?>

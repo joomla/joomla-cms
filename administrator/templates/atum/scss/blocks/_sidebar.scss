@@ -44,8 +44,8 @@
   }
 
   &.transit-wider {
-    flex: 1 0 300px;
-    max-width: 300px;
+    flex: 1 0 33%;
+    max-width: $sidebar-width-login;
     transition: all 3s;
 
 	@include media-breakpoint-down(sm){
