@@ -24,8 +24,8 @@ $wa    = $this->getWebAssetManager();
 // Detecting Active Variables
 $option      = $input->get('option', '');
 $view        = $input->get('view', '');
-$layout      = $input->get('layout', '');
-$task        = $input->get('task', '');
+$layout      = $input->get('layout', 'default');
+$task        = $input->get('task', 'display');
 $itemid      = $input->get('Itemid', '');
 $cpanel      = $option === 'com_cpanel';
 $hidden      = $app->input->get('hidemainmenu');

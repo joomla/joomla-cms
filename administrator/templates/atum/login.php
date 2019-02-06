@@ -38,7 +38,7 @@ HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
-$layout   = $app->input->getCmd('layout', '');
+$layout   = $app->input->getCmd('layout', 'default');
 $sitename = $app->get('sitename');
 
 // Template params
