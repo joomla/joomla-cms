@@ -708,12 +708,6 @@ class ArticleModel extends AdminModel
 			}
 		}
 
-		// Remove show_associations field if associations is not enabled
-		if (!$assoc)
-		{
-			$form->removeField('show_associations', 'attribs');
-		}
-
 		return $form;
 	}
 
