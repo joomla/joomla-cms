@@ -13,10 +13,10 @@
    */
   function fade(fadeAction, transitAction) {
     const sidebar = document.querySelector('.sidebar-wrapper');
-    const sidebarChildren = sidebar.children;
+    const sidebarChildren = sidebar ? sidebar.children : [];
     const sideChildrenLength = sidebarChildren.length;
 	const contentMain = document.querySelector('.container-main');
-    const contentChildren = contentMain.children;
+    const contentChildren = contentMain ? contentMain.children : [];
     const contChildrenLength = contentChildren.length;
 
     for (let i = 0; i < sideChildrenLength; i += 1) {
@@ -25,12 +25,16 @@
     for (let i = 0; i < contChildrenLength; i += 1) {
       contentChildren[i].classList.add(`load-fade${fadeAction}`);
     }
-    if (transitAction) {
-      sidebar.classList.add(`transit-${transitAction}`);
-    }
+	if (sidebar) {
+	  if (transitAction) {
+	    sidebar.classList.add(`transit-${transitAction}`);
+	  }
 
-    sidebar.classList.toggle('fade-done', fadeAction !== 'out');
-    contentMain.classList.toggle('fade-done', fadeAction !== 'out');
+	  sidebar.classList.toggle('fade-done', fadeAction !== 'out');
+	}
+	if (contentMain) {
+	  contentMain.classList.toggle('fade-done', fadeAction !== 'out');
+	}
   }
 
   document.addEventListener('DOMContentLoaded', () => {
