@@ -655,7 +655,7 @@ class Mail extends PHPMailer
 
 		if ($app->get('mailbcc'))
 		{
-			if ($app->addBcc($app->get('mailbcc')) === false)
+			if ($this->addBcc($app->get('mailbcc')) === false)
 			{
 				return false;
 			}
