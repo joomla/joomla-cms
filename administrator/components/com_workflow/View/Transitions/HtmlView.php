@@ -182,7 +182,7 @@ class HtmlView extends BaseHtmlView
 				if ($canDo->get('core.admin'))
 				{
 					// @ToDo Imlement the checked_out for workflows
-					//$childBar->checkin('transitions.checkin', 'JTOOLBAR_CHECKIN', true);
+					// $childBar->checkin('transitions.checkin', 'JTOOLBAR_CHECKIN', true);
 				}
 
 				if ($this->state->get('filter.published') !== '-2')
@@ -191,7 +191,7 @@ class HtmlView extends BaseHtmlView
 				}
 			}
 
-			if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete') )
+			if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
 			{
 				$toolbar->delete('transitions.delete')
 					->text('JTOOLBAR_EMPTY_TRASH')
