@@ -10,8 +10,8 @@
 
   const initTemplate = (event) => {
     const target = event && event.target ? event.target : document;
-    // Prevent clicks on buttons within a disabled fieldset
 
+    // Prevent clicks on buttons within a disabled fieldset
     const fieldsets = [].slice.call(target.querySelectorAll('fieldset.btn-group'));
     fieldsets.forEach((fieldset) => {
       if (fieldset.getAttribute('disabled') === 'true') {
@@ -29,8 +29,8 @@
 
   document.addEventListener('DOMContentLoaded', (event) => {
     initTemplate(event);
-    // Back to top
 
+    // Back to top
     const backToTop = document.getElementById('back-top');
 
     if (backToTop) {
@@ -40,7 +40,7 @@
       });
     }
   });
-  // Initialize when a part of the page was updated
 
+  // Initialize when a part of the page was updated
   document.addEventListener('joomla:updated', initTemplate);
 })(document);
