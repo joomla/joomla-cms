@@ -228,9 +228,10 @@
 		}
 
 		if (page && page.getAttribute('data-page-name')) {
-			var script = document.querySelector('script[src*="template.js"]');
-			el = document.createElement('script');
-			el.src = script.src.replace("template.js", page.getAttribute('data-page-name') + '.js');
+			var script = document.querySelector('script[src*="template.js"]') || document.querySelector('script[src*="template.min.js"]');
+			var el = document.createElement('script');
+			var initSrc = /template\.js/.test(script.src) ? 'template.js' : 'template.min.js';
+			el.src = script.src.replace(initSrc, page.getAttribute('data-page-name') + '.js');
 			document.head.appendChild(el);
 		}
 
