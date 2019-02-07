@@ -19,8 +19,6 @@ HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.combobox');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
-HTMLHelper::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_CATEGORY')));
-HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
 
 $hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
@@ -49,6 +47,7 @@ $input = Factory::getApplication()->input;
 $isModal = $input->get('layout') == 'modal' ? true : false;
 $layout  = $isModal ? 'modal' : 'edit';
 $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=component' : '';
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_modules&layout=' . $layout . $tmpl . '&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="module-form" class="form-validate">
@@ -106,6 +105,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 							?>
 							<p><?php echo $short_description; ?></p>
 							<?php if ($long_description) : ?>
+							<?php // @todo Remove jQuery ?>
 								<p class="readmore">
 									<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
 										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
@@ -139,7 +139,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 									<?php echo $this->form->getLabel('position'); ?>
 								</div>
 								<div class="controls">
-									<?php echo $this->loadTemplate('positions'); ?>
+									<?php echo $this->form->getInput('position'); ?>
 								</div>
 							</div>
 						</fieldset>

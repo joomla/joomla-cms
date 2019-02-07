@@ -14,7 +14,6 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -38,6 +37,14 @@ class ListField extends FormField
 	protected $type = 'List';
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $layout = 'joomla.form.field.list';
+
+	/**
 	 * Method to get the field input markup for a generic list.
 	 * Use the multiple attribute to enable multiselect.
 	 *
@@ -47,61 +54,11 @@ class ListField extends FormField
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$attr = '';
+		$data = $this->getLayoutData();
 
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="custom-select ' . $this->class . '"' : ' class="custom-select"';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
+		$data['options'] = (array) $this->getOptions();
 
-		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1'
-			|| (string) $this->readonly == 'true'
-			|| (string) $this->disabled == '1'
-			|| (string) $this->disabled == 'true')
-		{
-			$attr .= ' disabled="disabled"';
-		}
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Get the field options.
-		$options = (array) $this->getOptions();
-
-		// Create a read-only list (no name) with hidden input(s) to store the value(s).
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
-		{
-			$html[] = HTMLHelper::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-
-			// E.g. form field type tag sends $this->value as array
-			if ($this->multiple && is_array($this->value))
-			{
-				if (!count($this->value))
-				{
-					$this->value[] = '';
-				}
-
-				foreach ($this->value as $value)
-				{
-					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-				}
-			}
-			else
-			{
-				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
-			}
-		}
-		else
-		// Create a regular list.
-		{
-			$html[] = HTMLHelper::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
-		}
-
-		return implode($html);
+		return $this->getRenderer($this->layout)->render($data);
 	}
 
 	/**

@@ -95,8 +95,7 @@ class FieldsHelper
 		{
 			// Load the model
 			self::$fieldsCache = Factory::getApplication()->bootComponent('com_fields')
-				->createMVCFactory(Factory::getApplication())
-				->createModel('Fields', 'Administrator', ['ignore_request' => true]);
+				->getMVCFactory()->createModel('Fields', 'Administrator', ['ignore_request' => true]);
 
 			self::$fieldsCache->setState('filter.state', 1);
 			self::$fieldsCache->setState('list.limit', 0);
@@ -145,8 +144,7 @@ class FieldsHelper
 			if (self::$fieldCache === null)
 			{
 				self::$fieldCache = Factory::getApplication()->bootComponent('com_fields')
-					->createMVCFactory(Factory::getApplication())
-					->createModel('Field', 'Administrator', ['ignore_request' => true]);
+					->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 			}
 
 			$fieldIds = array_map(
@@ -312,7 +310,10 @@ class FieldsHelper
 
 			// Choose the first category available
 			$xml = new \DOMDocument;
+			libxml_use_internal_errors(true);
 			$xml->loadHTML($formField->__get('input'));
+			libxml_clear_errors();
+			libxml_use_internal_errors(false);
 			$options = $xml->getElementsByTagName('option');
 
 			if (!$assignedCatids && $firstChoice = $options->item(0))
@@ -330,26 +331,11 @@ class FieldsHelper
 		if ($form->getField('catid') && $parts[0] != 'com_fields')
 		{
 			/*
-			 * Setting the onchange event to reload the page when the category
-			 * has changed
-			*/
-			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
-
-			// Preload spindle-wheel when we need to submit form due to category selector changed
-			Factory::getDocument()->addScriptDeclaration("
-			function categoryHasChanged(element) {
-				var cat = jQuery(element);
-				if (cat.val() == '" . $assignedCatids . "')return;
-				Joomla.loadingLayer('show');
-				jQuery('input[name=task]').val('" . $section . ".reload');
-				element.form.submit();
-			}
-			jQuery( document ).ready(function() {
-				Joomla.loadingLayer('load');
-				var formControl = '#" . $form->getFormControl() . "_catid';
-				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
-			});"
-			);
+			 * Setting some parameters for the category field
+			 */
+			$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
+			$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
+			$form->setFieldAttribute('catid', 'custom-fields-section', $section);
 		}
 
 		// Getting the fields
@@ -399,8 +385,7 @@ class FieldsHelper
 		}
 
 		$model = Factory::getApplication()->bootComponent('com_fields')
-			->createMVCFactory(Factory::getApplication())
-			->createModel('Groups', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 		$model->setState('filter.context', $context);
 
 		/**
@@ -490,8 +475,7 @@ class FieldsHelper
 		$form->load($xml->saveXML());
 
 		$model = Factory::getApplication()->bootComponent('com_fields')
-			->createMVCFactory(Factory::getApplication())
-			->createModel('Field', 'Administrator', ['ignore_request' => true]);
+			->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true]);
 
 		if ((!isset($data->id) || !$data->id) && Factory::getApplication()->input->getCmd('controller') == 'modules'
 			&& Factory::getApplication()->isClient('site'))
@@ -580,8 +564,7 @@ class FieldsHelper
 			{
 				// Inherit from field group display read-only setting
 				$groupModel = $app->bootComponent('com_fields')
-					->createMVCFactory($app)
-					->createModel('Group', 'Administrator', ['ignore_request' => true]);
+					->getMVCFactory()->createModel('Group', 'Administrator', ['ignore_request' => true]);
 				$groupDisplayReadOnly = $groupModel->getItem($field->group_id)->params->get('display_readonly', '1');
 				$fieldDisplayReadOnly = $groupDisplayReadOnly;
 			}
@@ -666,7 +649,7 @@ class FieldsHelper
 
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
-			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
 			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);

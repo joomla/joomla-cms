@@ -27,7 +27,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_contact
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContactComponent extends MVCComponent implements
 	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface
@@ -47,7 +47,7 @@ class ContactComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{
@@ -63,7 +63,7 @@ class ContactComponent extends MVCComponent implements
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validateSection($section, $item = null)
 	{
@@ -93,7 +93,7 @@ class ContactComponent extends MVCComponent implements
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContexts(): array
 	{
@@ -115,7 +115,7 @@ class ContactComponent extends MVCComponent implements
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{

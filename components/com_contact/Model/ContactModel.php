@@ -152,6 +152,12 @@ class ContactModel extends FormModel
 			$data['language'] = Factory::getLanguage()->getTag();
 		}
 
+		// Add contact id to contact form data, so fields plugin can work properly
+		if (empty($data['catid']))
+		{
+			$data['catid'] = $this->getItem()->catid;
+		}
+
 		$this->preprocessData('com_contact.contact', $data);
 
 		return $data;
@@ -366,7 +372,7 @@ class ContactModel extends FormModel
 		}
 
 		// Get the profile information for the linked user
-		$userModel = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+		$userModel = $this->bootComponent('com_users')->getMVCFactory()
 			->createModel('User', 'Administrator', ['ignore_request' => true]);
 		$data = $userModel->getItem((int) $contact->user_id);
 
@@ -534,7 +540,7 @@ class ContactModel extends FormModel
 				}
 
 				// Get the profile information for the linked user
-				$userModel = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
+				$userModel = $this->bootComponent('com_users')->getMVCFactory()
 					->createModel('User', 'Administrator', ['ignore_request' => true]);
 				$data = $userModel->getItem((int) $result->user_id);
 

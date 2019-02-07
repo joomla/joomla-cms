@@ -407,11 +407,11 @@ class ArticlesModel extends ListModel
 		}
 		elseif (is_array($authorId))
 		{
-			$authorId = ArrayHelper::toInteger($authorId);
-			$authorId = implode(',', $authorId);
+			$authorId = array_filter($authorId, 'is_numeric');
 
 			if ($authorId)
 			{
+				$authorId    = implode(',', $authorId);
 				$type        = $this->getState('filter.author_id.include', true) ? 'IN' : 'NOT IN';
 				$authorWhere = 'a.created_by ' . $type . ' (' . $authorId . ')';
 			}
@@ -578,7 +578,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Method to get a list of articles.
 	 *
-	 * Overriden to inject convert the attribs field into a \JParameter object.
+	 * Overridden to inject convert the attribs field into a \JParameter object.
 	 *
 	 * @return  mixed  An array of objects on success, false on failure.
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Stages;
@@ -21,7 +21,7 @@ use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
 /**
  * Stages view class for the Workflow package.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class HtmlView extends BaseHtmlView
 {
@@ -29,7 +29,7 @@ class HtmlView extends BaseHtmlView
 	 * An array of stages
 	 *
 	 * @var     array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $stages;
 
@@ -37,7 +37,7 @@ class HtmlView extends BaseHtmlView
 	 * The model stage
 	 *
 	 * @var     object
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $stage;
 
@@ -45,7 +45,7 @@ class HtmlView extends BaseHtmlView
 	 * The HTML for displaying sidebar
 	 *
 	 * @var     string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $sidebar;
 
@@ -53,7 +53,7 @@ class HtmlView extends BaseHtmlView
 	 * The pagination object
 	 *
 	 * @var     \JPagination
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $pagination;
 
@@ -61,7 +61,7 @@ class HtmlView extends BaseHtmlView
 	 * Form object for search filters
 	 *
 	 * @var     \JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $filterForm;
 
@@ -69,15 +69,23 @@ class HtmlView extends BaseHtmlView
 	 * The active search filters
 	 *
 	 * @var     array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public $activeFilters;
+
+	/**
+	 * The current workflow
+	 *
+	 * @var     object
+	 * @since  4.0.0
+	 */
+	protected $workflow;
 
 	/**
 	 * The ID of current workflow
 	 *
 	 * @var     integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $workflowID;
 
@@ -85,7 +93,7 @@ class HtmlView extends BaseHtmlView
 	 * The name of current extension
 	 *
 	 * @var     string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension;
 
@@ -96,7 +104,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function display($tpl = null)
 	{
@@ -109,11 +117,12 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->stages        = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    	= $this->get('FilterForm');
-		$this->activeFilters 	= $this->get('ActiveFilters');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
-		$this->workflowID = $this->state->get('filter.workflow_id');
-		$this->extension = $this->state->get('filter.extension');
+		$this->workflow      = $this->get('Workflow');
+		$this->workflowID    = $this->workflow->id;
+		$this->extension     = $this->workflow->extension;
 
 		WorkflowHelper::addSubmenu('stages');
 
@@ -140,7 +149,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function addToolbar()
 	{
@@ -150,15 +159,26 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', $this->escape($workflow)), 'address contact');
 
-		if ($canDo->get('core.create'))
+		$isCore = $this->workflow->core;
+		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+
+		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
+			'JTOOLBAR_BACK', $arrow
+		);
+
+		if ($canDo->get('core.create') && !$isCore)
 		{
 			ToolbarHelper::addNew('stage.add');
 		}
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publishList('stages.publish');
-			ToolbarHelper::unpublishList('stages.unpublish');
+			if (!$isCore)
+			{
+				ToolbarHelper::publishList('stages.publish');
+				ToolbarHelper::unpublishList('stages.unpublish');
+			}
+
 			ToolbarHelper::makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 		}
 
@@ -167,11 +187,11 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::checkin('stages.checkin', 'JTOOLBAR_CHECKIN', true);
 		}
 
-		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
+		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete') && !$isCore)
 		{
 			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'stages.delete');
 		}
-		elseif ($canDo->get('core.edit.state'))
+		elseif ($canDo->get('core.edit.state') && !$isCore)
 		{
 			ToolbarHelper::trash('stages.trash');
 		}
@@ -184,7 +204,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  array  Array containing the field name to sort by as the key and display text as value
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getSortFields()
 	{

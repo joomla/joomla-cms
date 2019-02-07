@@ -121,7 +121,7 @@ class UserModel extends AdminModel
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A \JForm object on success, false on failure
@@ -146,9 +146,9 @@ class UserModel extends AdminModel
 			return false;
 		}
 
-		// Passwords fields are required when mail to user is set to No in joomla user plugin
 		$userId = $form->getValue('id');
 
+		// Passwords fields are required when mail to user is set to No in the joomla user plugin
 		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
 		{
 			$form->setFieldAttribute('password', 'required', 'true');
@@ -927,8 +927,8 @@ class UserModel extends AdminModel
 
 		if ($user->authorise('core.edit', 'com_users') && $user->authorise('core.manage', 'com_users'))
 		{
-			$model = $this->bootComponent('com_users')->createMVCFactory(Factory::getApplication())
-				->createModel('Groups', 'Administrator', ['ignore_request' => true]);
+			$model = $this->bootComponent('com_users')
+				->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
 
 			return $model->getItems();
 		}

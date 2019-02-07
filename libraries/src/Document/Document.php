@@ -13,8 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory as CmsFactory;
-use Joomla\CMS\Log\Log;
-use Joomla\CMS\WebAsset\WebAssetRegistry;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
@@ -250,8 +249,8 @@ class Document
 	/**
 	 * Web Asset instance
 	 *
-	 * @var    WebAssetRegistry
-	 * @since  __DEPLOY_VERSION__
+	 * @var    WebAssetManager
+	 * @since  4.0.0
 	 */
 	protected $webAssetManager = null;
 
@@ -322,13 +321,16 @@ class Document
 			$this->setPreloadManager(new PreloadManager);
 		}
 
-		if (array_key_exists('webAsset', $options))
+		if (array_key_exists('webAssetManager', $options))
 		{
-			$this->setWebAssetManager($options['webAsset']);
+			$this->setWebAssetManager($options['webAssetManager']);
 		}
 		else
 		{
-			$this->setWebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webasset'));
+			$webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
+			$webAssetManager->setDispatcher(CmsFactory::getApplication()->getDispatcher());
+
+			$this->setWebAssetManager($webAssetManager);
 		}
 	}
 
@@ -514,38 +516,9 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
-	 * @deprecated 4.0  The (url, mime, defer, async) method signature is deprecated, use (url, options, attributes) instead.
 	 */
 	public function addScript($url, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
-		{
-			Log::add('The addScript method signature used has changed, use (url, options, attributes) instead.', Log::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old mime type parameter.
-			if (!empty($argList[1]))
-			{
-				$attribs['mime'] = $argList[1];
-			}
-
-			// Old defer parameter.
-			if (isset($argList[2]) && $argList[2])
-			{
-				$attribs['defer'] = true;
-			}
-
-			// Old async parameter.
-			if (isset($argList[3]) && $argList[3])
-			{
-				$attribs['async'] = true;
-			}
-		}
-
 		// Default value for type.
 		if (!isset($attribs['type']) && !isset($attribs['mime']))
 		{
@@ -556,60 +529,6 @@ class Document
 		$this->_scripts[$url]['options'] = isset($this->_scripts[$url]['options']) ? array_replace($this->_scripts[$url]['options'], $options) : $options;
 
 		return $this;
-	}
-
-	/**
-	 * Adds a linked script to the page with a version to allow to flush it. Ex: myscript.js?54771616b5bceae9df03c6173babf11d
-	 * If not specified Joomla! automatically handles versioning
-	 *
-	 * @param   string  $url      URL to the linked script.
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
-	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'scriptid', 'async' => 'async', 'data-test' => 1)
-	 *
-	 * @return  Document instance of $this to allow chaining
-	 *
-	 * @since   3.2
-	 * @deprecated 4.0  This method is deprecated, use addScript(url, options, attributes) instead.
-	 */
-	public function addScriptVersion($url, $options = array(), $attribs = array())
-	{
-		Log::add('The method is deprecated, use addScript(url, attributes, options) instead.', Log::WARNING, 'deprecated');
-
-		// B/C before 3.7.0
-		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
-		{
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old version parameter.
-			$options['version'] = $argList[1] ?? 'auto';
-
-			// Old mime type parameter.
-			if (!empty($argList[2]))
-			{
-				$attribs['mime'] = $argList[2];
-			}
-
-			// Old defer parameter.
-			if (isset($argList[3]) && $argList[3])
-			{
-				$attribs['defer'] = true;
-			}
-
-			// Old async parameter.
-			if (isset($argList[4]) && $argList[4])
-			{
-				$attribs['async'] = true;
-			}
-		}
-		// Default value for version.
-		else
-		{
-			$options['version'] = 'auto';
-		}
-
-		return $this->addScript($url, $options, $attribs);
 	}
 
 	/**
@@ -697,38 +616,9 @@ class Document
 	 * @return  Document instance of $this to allow chaining
 	 *
 	 * @since   1.7.0
-	 * @deprecated 4.0  The (url, mime, media, attribs) method signature is deprecated, use (url, options, attributes) instead.
 	 */
 	public function addStyleSheet($url, $options = array(), $attribs = array())
 	{
-		// B/C before 3.7.0
-		if (is_string($options))
-		{
-			Log::add('The addStyleSheet method signature used has changed, use (url, options, attributes) instead.', Log::WARNING, 'deprecated');
-
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old mime type parameter.
-			if (!empty($argList[1]))
-			{
-				$attribs['type'] = $argList[1];
-			}
-
-			// Old media parameter.
-			if (isset($argList[2]) && $argList[2])
-			{
-				$attribs['media'] = $argList[2];
-			}
-
-			// Old attribs parameter.
-			if (isset($argList[3]) && $argList[3])
-			{
-				$attribs = array_replace($attribs, $argList[3]);
-			}
-		}
-
 		// Default value for type.
 		if (!isset($attribs['type']) && !isset($attribs['mime']))
 		{
@@ -747,60 +637,6 @@ class Document
 		}
 
 		return $this;
-	}
-
-	/**
-	 * Adds a linked stylesheet version to the page. Ex: template.css?54771616b5bceae9df03c6173babf11d
-	 * If not specified Joomla! automatically handles versioning
-	 *
-	 * @param   string  $url      URL to the linked style sheet
-	 * @param   array   $options  Array of options. Example: array('version' => 'auto', 'conditional' => 'lt IE 9')
-	 * @param   array   $attribs  Array of attributes. Example: array('id' => 'stylesheet', 'data-test' => 1)
-	 *
-	 * @return  Document instance of $this to allow chaining
-	 *
-	 * @since   3.2
-	 * @deprecated 4.0  This method is deprecated, use addStyleSheet(url, options, attributes) instead.
-	 */
-	public function addStyleSheetVersion($url, $options = array(), $attribs = array())
-	{
-		Log::add('The method is deprecated, use addStyleSheet(url, attributes, options) instead.', Log::WARNING, 'deprecated');
-
-		// B/C before 3.7.0
-		if (!is_array($options) && (!is_array($attribs) || $attribs === array()))
-		{
-			$argList = func_get_args();
-			$options = array();
-			$attribs = array();
-
-			// Old version parameter.
-			$options['version'] = $argList[1] ?? 'auto';
-
-			// Old mime type parameter.
-			if (!empty($argList[2]))
-			{
-				$attribs['mime'] = $argList[2];
-			}
-
-			// Old media parameter.
-			if (isset($argList[3]) && $argList[3])
-			{
-				$attribs['media'] = $argList[3];
-			}
-
-			// Old attribs parameter.
-			if (isset($argList[4]) && $argList[4])
-			{
-				$attribs = array_replace($attribs, $argList[4]);
-			}
-		}
-		// Default value for version.
-		else
-		{
-			$options['version'] = 'auto';
-		}
-
-		return $this->addStyleSheet($url, $options, $attribs);
 	}
 
 	/**
@@ -998,13 +834,13 @@ class Document
 	/**
 	 * Set WebAsset manager
 	 *
-	 * @param   WebAssetRegistry  $webAsset  The WebAsset instance
+	 * @param   WebAssetManager  $webAsset  The WebAsset instance
 	 *
 	 * @return  Document
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function setWebAssetManager(WebAssetRegistry $webAsset): self
+	public function setWebAssetManager(WebAssetManager $webAsset): self
 	{
 		$this->webAssetManager = $webAsset;
 
@@ -1014,11 +850,11 @@ class Document
 	/**
 	 * Return WebAsset manager
 	 *
-	 * @return  WebAssetRegistry
+	 * @return  WebAssetManager
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function getWebAssetManager(): WebAssetRegistry
+	public function getWebAssetManager(): WebAssetManager
 	{
 		return $this->webAssetManager;
 	}

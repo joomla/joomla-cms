@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Uri\Uri;
@@ -20,7 +19,7 @@ Text::script('MOD_SAMPLEDATA_CONFIRM_START');
 Text::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
 Text::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
-Factory::getDocument()->addScriptOptions(
+$app->getDocument()->addScriptOptions(
 	'sample-data',
 	[
 		'icon' => Uri::root(true) . '/media/system/images/ajax-loader.gif'
@@ -57,6 +56,6 @@ Factory::getDocument()->addScriptOptions(
 	</ul>
 <?php else : ?>
 	<div class="alert alert-warning">
-		<?php echo JText::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
+		<?php echo Text::_('MOD_SAMPLEDATA_NOTAVAILABLE'); ?>
 	</div>
 <?php endif; ?>

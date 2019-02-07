@@ -18,7 +18,6 @@ use Joomla\CMS\Session\Session;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
 
 $app       = Factory::getApplication();
 $user      = Factory::getUser();

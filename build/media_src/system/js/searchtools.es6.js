@@ -1,5 +1,46 @@
-(() => {
+Joomla = window.Joomla || {};
+
+((Joomla) => {
   'use strict';
+
+  /**
+   * Method that resets the filter inputs and submits the relative form
+   *
+   * @param {HTMLElement}  element  The element that initiates the call
+   * @returns {void}
+   * @since   4.0
+   */
+  Joomla.resetFilters = (element) => {
+    const { form } = element;
+
+    if (!form) {
+      throw new Error('Element must be inside a form!');
+    }
+
+    const elementsArray = [].slice.call(form.elements);
+
+    if (elementsArray.length) {
+      const newElementsArray = [];
+      elementsArray.forEach((elem) => {
+        // Skip the token, the task, the boxchecked and the calling element
+        if (elem.getAttribute('name') === 'task'
+          || elem.getAttribute('name') === 'boxchecked'
+          || (elem.value === '1' && /^[0-9A-F]{32}$/i.test(elem.name))
+          || elem === element) {
+          return;
+        }
+
+        newElementsArray.push(elem);
+      });
+
+      // Reset all filters
+      newElementsArray.forEach((elem) => {
+        elem.value = '';
+      });
+
+      form.submit();
+    }
+  };
 
   class Searchtools {
     constructor(elem, options) {
@@ -179,13 +220,27 @@
 
       this.checkActiveStatus(this);
 
-      document.body.addEventListener('click', () => {
+      document.body.addEventListener('click', (event) => {
         if (document.body.classList.contains('filters-shown')) {
+          // Ignore click inside the filter container
+          if (event.composedPath && typeof event.composedPath === 'function') {
+            // Browser that support composedPath()
+            if (event.composedPath().indexOf(this.filterContainer) !== -1) {
+              return;
+            }
+          } else {
+            let node = event.target;
+            while (node !== document.body) {
+              if (node === this.filterContainer) {
+                return;
+              }
+              node = node.parentNode;
+            }
+          }
+
           this.hideFilters();
         }
       });
-
-      this.filterContainer.addEventListener('click', (e) => { e.stopPropagation(); }, true);
     }
 
     checkFilter(element) {
@@ -382,7 +437,7 @@
                 $option.setAttribute('selected', 'selected');
               }
 
-              // Append the option an repopulate the chosen field
+              // Append the option and repopulate the chosen field
               this.orderFieldName.innerHTML += $option;
             }
           }
@@ -422,7 +477,7 @@
           option.value = newValue;
           option.setAttribute('selected', 'selected');
 
-          // Append the option an repopulate the chosen field
+          // Append the option and repopulate the chosen field
           field.appendChild(option);
         }
 
@@ -456,12 +511,12 @@
 
     const sort = document.getElementById('sorted');
 
-    if (sort.hasAttribute('data-caption')) {
+    if (sort && sort.hasAttribute('data-caption')) {
       const caption = sort.getAttribute('data-caption');
       document.getElementById('captionTable').textContent += caption;
     }
 
-    if (sort.hasAttribute('data-sort')) {
+    if (sort && sort.hasAttribute('data-sort')) {
       const ariasort = sort.getAttribute('data-sort');
       sort.parentNode.setAttribute('aria-sorted', ariasort);
     }
@@ -472,4 +527,4 @@
 
   // Execute on DOM Loaded Event
   document.addEventListener('DOMContentLoaded', onBoot);
-})();
+})(Joomla);

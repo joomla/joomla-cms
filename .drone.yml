@@ -7,7 +7,7 @@ pipeline:
     image: joomlaprojects/docker-phpcs
     commands:
       - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --extensions=php -p --encoding=utf-8 --standard=build/phpcs/Joomla .
+      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
   restore-cache:
@@ -28,6 +28,7 @@ pipeline:
       # needed for system testing
       - composer update joomla/test-system --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
+      - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - npm install --unsafe-perm
 
   rebuild-cache:
@@ -57,7 +58,16 @@ pipeline:
     commands:
       - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
 
-  javascript:
+  javascript-cs:
+    image: joomlaprojects/docker-systemtests:develop
+    commands:
+      - export DISPLAY=:0
+      - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
+      - sleep 3
+      - fluxbox  > /dev/null 2>&1 &
+      - cd /drone/src/github.com/joomla/joomla-cms && npm run lint:js
+
+  javascript-tests:
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0

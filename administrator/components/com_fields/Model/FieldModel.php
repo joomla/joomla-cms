@@ -343,7 +343,7 @@ class FieldModel extends AdminModel
 				$result->context = Factory::getApplication()->input->getCmd('context', $this->getState('field.context'));
 			}
 
-			if (property_exists($result, 'fieldparams'))
+			if (property_exists($result, 'fieldparams') && $result->fieldparams !== null)
 			{
 				$registry = new Registry;
 
@@ -448,7 +448,7 @@ class FieldModel extends AdminModel
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -867,7 +867,9 @@ class FieldModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'context = ' . $this->_db->quote($table->context);
+		return [
+			$this->_db->quoteName('context') . ' = ' . $this->_db->quote($table->context),
+		];
 	}
 
 	/**

@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -295,7 +296,7 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
-		$db    = Factory::getDbo();
+		$db    = Factory::getContainer()->get(DatabaseInterface::class);
 		$query = $db->getQuery(true);
 
 		// Prepare the query.
@@ -383,7 +384,7 @@ class MenusHelper extends ContentHelper
 	/**
 	 * Method to install a preset menu item into database and link it to the given menutype
 	 *
-	 * @param   \stdClass[]  &$items    The single menuitem instance with a list of its descendants
+	 * @param   \stdClass[]  $items     The single menuitem instance with a list of its descendants
 	 * @param   string       $menutype  The target menutype
 	 * @param   int          $parent    The parent id or object
 	 *
@@ -487,7 +488,7 @@ class MenusHelper extends ContentHelper
 				'browserNav'   => $item->browserNav ? 1 : 0,
 				'img'          => $item->class,
 				'access'       => $item->access,
-				'component_id' => array_search($item->element, $components),
+				'component_id' => array_search($item->element, $components) ?: 0,
 				'parent_id'    => $parent,
 				'client_id'    => 1,
 				'published'    => 1,

@@ -112,7 +112,7 @@ class ConfigController extends BaseController
 		$data = $return;
 
 		// Access backend com_config
-		$saveClass = $this->factory->createController('Application', 'Administrator');
+		$saveClass = $this->factory->createController('Application', 'Administrator', [], $this->app, $this->input);
 
 		// Get a document object
 		$document = $this->app->getDocument();

@@ -42,8 +42,8 @@ abstract class ArticlesNewsHelper
 		$app = Factory::getApplication();
 
 		// Get an instance of the generic articles model
-		$model = $app->bootComponent('com_content')->createMVCFactory($app)
-			->createModel('Articles', 'Site', ['ignore_request' => true]);
+		$model = $app->bootComponent('com_content')
+			->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
 		$appParams = $app->getParams();
@@ -69,15 +69,15 @@ abstract class ArticlesNewsHelper
 		$model->setState('filter.language', $app->getLanguageFilter());
 
 		// Filer by tag
-		$model->setState('filter.tag', $params->get('tag'), array());
+		$model->setState('filter.tag', $params->get('tag', array()));
 
 		//  Featured switch
 		switch ($params->get('show_featured'))
 		{
-			case '1' :
+			case 1 :
 				$model->setState('filter.featured', 'only');
 				break;
-			case '0' :
+			case 0 :
 				$model->setState('filter.featured', 'hide');
 				break;
 			default :

@@ -365,7 +365,7 @@ class BannerModel extends AdminModel
 	/**
 	 * Method to stick records.
 	 *
-	 * @param   array    &$pks   The ids of the items to publish.
+	 * @param   array    $pks    The ids of the items to publish.
 	 * @param   integer  $value  The value of the published state
 	 *
 	 * @return  boolean  True on success.
@@ -408,16 +408,16 @@ class BannerModel extends AdminModel
 	 *
 	 * @param   Table  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array(
-			'catid = ' . (int) $table->catid,
-			'state >= 0'
-		);
+		return [
+			$this->_db->quoteName('catid') . ' = ' . (int) $table->catid,
+			$this->_db->quoteName('state') . ' >= 0',
+		];
 	}
 
 	/**

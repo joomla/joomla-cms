@@ -51,9 +51,7 @@ abstract class JHtmlSearchtools
 			$options = static::optionsToRegistry($options);
 
 			// Load the script && css files
-			HTMLHelper::_('behavior.core');
-			HTMLHelper::_('script', 'system/searchtools.min.js', array('version' => 'auto', 'relative' => true));
-			HTMLHelper::_('stylesheet', 'system/searchtools.css', array('version' => 'auto', 'relative' => true));
+			Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('searchtools');
 
 			Factory::getDocument()->addScriptOptions('searchtools', $options);
 

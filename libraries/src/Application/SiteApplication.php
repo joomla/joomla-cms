@@ -11,6 +11,8 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\Web\WebClient;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
@@ -182,7 +184,7 @@ final class SiteApplication extends CMSApplication
 				$this->set('themeParams', $template->params);
 
 				// Add Asset registry files
-				$document->getWebAssetManager()
+				$document->getWebAssetManager()->getRegistry()
 					->addRegistryFile('media/' . $component . '/joomla.asset.json')
 					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
 
@@ -456,7 +458,8 @@ final class SiteApplication extends CMSApplication
 			$id = (int) $tid;
 		}
 
-		$cache = Factory::getCache('com_templates', '');
+		/** @var OutputController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('output', ['defaultgroup' => 'com_templates']);
 
 		if ($this->getLanguageFilter())
 		{

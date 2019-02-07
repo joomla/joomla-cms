@@ -39,12 +39,12 @@ class FeatureModel extends ArticleModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array();
+		return [];
 	}
 }

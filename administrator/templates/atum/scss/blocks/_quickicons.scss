@@ -47,6 +47,11 @@
       font-size: 2.5rem;
     }
 
+    &.warning {
+      color: var(--warning);
+      box-shadow: $quickicon-box-shadow-warning;
+    }
+
     &.danger {
       color: var(--danger);
       box-shadow: $quickicon-box-shadow-danger;

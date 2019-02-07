@@ -165,7 +165,7 @@ class PlgSearchTags extends CMSPlugin
 			}
 		}
 
-		if (!$this->params->get('show_tagged_items'))
+		if (!$this->params->get('show_tagged_items', 0))
 		{
 			return $rows;
 		}
@@ -173,7 +173,7 @@ class PlgSearchTags extends CMSPlugin
 		{
 			$final_items = $rows;
 			$tag_model   = Factory::getApplication()->bootComponent('com_tags')
-				->createMVCFactory(Factory::getApplication())->createModel('Tag', 'Site');
+				->getMVCFactory()->createModel('Tag', 'Site');
 			$tag_model->getState();
 
 			foreach ($rows as $key => $row)

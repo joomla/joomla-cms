@@ -19,7 +19,8 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\View\ViewInterface;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
@@ -156,7 +157,7 @@ class BaseController implements ControllerInterface
 	/**
 	 * Instance container containing the views.
 	 *
-	 * @var    AbstractView[]
+	 * @var    ViewInterface[]
 	 * @since  3.4
 	 */
 	protected static $views;
@@ -181,7 +182,7 @@ class BaseController implements ControllerInterface
 	 */
 	public static function addModelPath($path, $prefix = '')
 	{
-		BaseDatabaseModel::addIncludePath($path, $prefix);
+		BaseModel::addIncludePath($path, $prefix);
 	}
 
 	/**
@@ -578,6 +579,11 @@ class BaseController implements ControllerInterface
 	 */
 	protected function createModel($name, $prefix = '', $config = array())
 	{
+		if (!$prefix)
+		{
+			$prefix = $this->app->getName();
+		}
+
 		$model = $this->factory->createModel($name, $prefix, $config);
 
 		if ($model === null)
@@ -601,13 +607,18 @@ class BaseController implements ControllerInterface
 	 * @param   string  $type    The type of view.
 	 * @param   array   $config  Configuration array for the view. Optional.
 	 *
-	 * @return  AbstractView|null  View object on success; null or error result on failure.
+	 * @return  ViewInterface|null  View object on success; null or error result on failure.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception
 	 */
 	protected function createView($name, $prefix = '', $type = '', $config = array())
 	{
+		if (!$prefix)
+		{
+			$prefix = $this->app->getName();
+		}
+
 		$config['paths'] = $this->paths['view'];
 		return $this->factory->createView($name, $prefix, $type, $config);
 	}
@@ -624,10 +635,11 @@ class BaseController implements ControllerInterface
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
 	 * @since   3.0
+	 * @throws  \Exception
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 		$viewType = $document->getType();
 		$viewName = $this->input->get('view', $this->default_view);
 		$viewLayout = $this->input->get('layout', 'default', 'string');
@@ -827,7 +839,7 @@ class BaseController implements ControllerInterface
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for view. Optional.
 	 *
-	 * @return  AbstractView  Reference to the view or an error.
+	 * @return  ViewInterface  Reference to the view or an error.
 	 *
 	 * @since   3.0
 	 * @throws  \Exception

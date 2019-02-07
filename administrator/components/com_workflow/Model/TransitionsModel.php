@@ -3,9 +3,9 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 /**
  * Model class for transitions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TransitionsModel extends ListModel
 {
@@ -27,7 +27,7 @@ class TransitionsModel extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct($config = array())
 	{
@@ -60,7 +60,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function populateState($ordering = 't.ordering', $direction = 'ASC')
 	{
@@ -95,7 +95,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Table\Table  A JTable object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getTable($type = 'Transition', $prefix = 'Administrator', $config = array())
 	{
@@ -107,13 +107,15 @@ class TransitionsModel extends ListModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'workflow_id = ' . $this->getDbo()->quote((int) $table->workflow_id);
+		return [
+			$this->_db->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
+		];
 	}
 
 	/**
@@ -121,7 +123,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  string  The query to database.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getListQuery()
 	{
@@ -212,7 +214,7 @@ class TransitionsModel extends ListModel
 	 *
 	 * @return  \JForm|boolean  The \JForm object or false on error
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getFilterForm($data = array(), $loadData = true)
 	{
@@ -230,4 +232,26 @@ class TransitionsModel extends ListModel
 
 		return $form;
 	}
+
+	/**
+	 * Returns a workflow object
+	 *
+	 * @return  object  The workflow
+	 *
+	 * @since  4.0.0
+	 */
+	public function getWorkflow()
+	{
+		$table = $this->getTable('Workflow', 'Administrator');
+
+		$workflowId = (int) $this->getState('filter.workflow_id');
+
+		if ($workflowId > 0)
+		{
+			$table->load($workflowId);
+		}
+
+		return (object) $table->getProperties();
+	}
+
 }

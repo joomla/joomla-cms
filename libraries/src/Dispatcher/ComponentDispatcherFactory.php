@@ -11,7 +11,7 @@ namespace Joomla\CMS\Dispatcher;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
-use Joomla\CMS\MVC\Factory\MVCFactoryFactoryInterface;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\Input\Input;
 
 /**
@@ -33,24 +33,24 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
 	/**
 	 * The MVC factory
 	 *
-	 * @var  MVCFactoryFactoryInterface
+	 * @var  MVCFactoryInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private $mvcFactoryFactory;
+	private $mvcFactory;
 
 	/**
 	 * ComponentDispatcherFactory constructor.
 	 *
-	 * @param   string                      $namespace          The namespace
-	 * @param   MVCFactoryFactoryInterface  $mvcFactoryFactory  The MVC factory
+	 * @param   string               $namespace   The namespace
+	 * @param   MVCFactoryInterface  $mvcFactory  The MVC factory
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(string $namespace, MVCFactoryFactoryInterface $mvcFactoryFactory)
+	public function __construct(string $namespace, MVCFactoryInterface $mvcFactory)
 	{
-		$this->namespace         = $namespace;
-		$this->mvcFactoryFactory = $mvcFactoryFactory;
+		$this->namespace  = $namespace;
+		$this->mvcFactory = $mvcFactory;
 	}
 
 	/**
@@ -79,6 +79,6 @@ class ComponentDispatcherFactory implements ComponentDispatcherFactoryInterface
 			$className = ComponentDispatcher::class;
 		}
 
-		return new $className($application, $input ?: $application->input, $this->mvcFactoryFactory);
+		return new $className($application, $input ?: $application->input, $this->mvcFactory);
 	}
 }

@@ -27,81 +27,74 @@ use Joomla\Component\Categories\Administrator\Helper\CategoryAssociationHelper;
 abstract class AssociationHelper extends CategoryAssociationHelper
 {
 	/**
-	 * Cached array of the content item id.
-	 *
-	 * @var    array
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $filters = array();
-
-	/**
 	 * Method to get the associations for a given item
 	 *
-	 * @param   integer  $id    Id of the item
-	 * @param   string   $view  Name of the view
+	 * @param   integer  $id      Id of the item
+	 * @param   string   $view    Name of the view
+	 * @param   string   $layout  View layout
 	 *
 	 * @return  array   Array of associations for the item
 	 *
 	 * @since  3.0
 	 */
-	public static function getAssociations($id = 0, $view = null)
+	public static function getAssociations($id = 0, $view = null, $layout = null)
 	{
-		$jinput = Factory::getApplication()->input;
-		$view   = $view ?? $jinput->get('view');
-		$id     = empty($id) ? $jinput->getInt('id') : $id;
-		$user   = Factory::getUser();
-		$groups = $user->getAuthorisedViewLevels();
+		$jinput    = Factory::getApplication()->input;
+		$view      = $view ?? $jinput->get('view');
+		$component = $jinput->getCmd('option');
+		$id        = empty($id) ? $jinput->getInt('id') : $id;
+
+		if ($layout === null && $jinput->get('view') == $view && $component == 'com_content')
+		{
+			$layout = $jinput->get('layout', '', 'string');
+		}
 
 		if ($view === 'article')
 		{
 			if ($id)
 			{
-				if (!isset(static::$filters[$id]))
+				$user      = Factory::getUser();
+				$groups    = implode(',', $user->getAuthorisedViewLevels());
+				$db        = Factory::getDbo();
+				$advClause = array();
+
+				// Filter by user groups
+				$advClause[] = 'c2.access IN (' . $groups . ')';
+
+				// Filter by current language
+				$advClause[] = 'c2.language != ' . $db->quote(Factory::getLanguage()->getTag());
+
+				if (!$user->authorise('core.edit.state', 'com_content') && !$user->authorise('core.edit', 'com_content'))
 				{
-					$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id);
+					// Filter by start and end dates.
+					$nullDate = $db->quote($db->getNullDate());
+					$date = Factory::getDate();
 
-					$return = array();
+					$nowDate = $db->quote($date->toSql());
 
-					foreach ($associations as $tag => $item)
-					{
-						if ($item->language != Factory::getLanguage()->getTag())
-						{
-							$arrId = explode(':', $item->id);
-							$assocId = $arrId[0];
+					$advClause[] = '(c2.publish_up = ' . $nullDate . ' OR c2.publish_up <= ' . $nowDate . ')';
+					$advClause[] = '(c2.publish_down = ' . $nullDate . ' OR c2.publish_down >= ' . $nowDate . ')';
 
-							$db = Factory::getDbo();
-							$query = $db->getQuery(true)
-								->select($db->quoteName('state'))
-								->from($db->quoteName('#__content'))
-								->where($db->quoteName('id') . ' = ' . (int) $assocId)
-								->whereIn($db->qn('access'), $groups);
-							$db->setQuery($query);
-
-							$result = (int) $db->loadResult();
-
-							if ($result > 0)
-							{
-								$return[$tag] = \ContentHelperRoute::getArticleRoute((int) $item->id, (int) $item->catid, $item->language);
-							}
-						}
-
-						static::$filters[$id] = $return;
-					}
-
-
-					if (count($associations) === 0)
-					{
-						static::$filters[$id] = array();
-					}
+					// Filter by published
+					$advClause[] = 'c2.state = 1';
 				}
 
-				return static::$filters[$id];
+				$associations = Associations::getAssociations('com_content', '#__content', 'com_content.item', $id, 'id', 'alias', 'catid', $advClause);
+
+				$return = array();
+
+				foreach ($associations as $tag => $item)
+				{
+					$return[$tag] = \ContentHelperRoute::getArticleRoute($item->id, (int) $item->catid, $item->language, $layout);
+				}
+
+				return $return;
 			}
 		}
 
 		if ($view === 'category' || $view === 'categories')
 		{
-			return self::getCategoryAssociations($id, 'com_content');
+			return self::getCategoryAssociations($id, 'com_content', $layout);
 		}
 
 		return array();
@@ -112,7 +105,7 @@ abstract class AssociationHelper extends CategoryAssociationHelper
 	 *
 	 * @param   integer  $id  Id of the article
 	 *
-	 * @return  array   An array containing the association URL and the related language object
+	 * @return  array  An array containing the association URL and the related language object
 	 *
 	 * @since  3.7.0
 	 */

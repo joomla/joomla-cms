@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 /**
  * Workflow controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowController extends FormController
 {
@@ -27,7 +27,7 @@ class WorkflowController extends FormController
 	 * The extension for which the categories apply.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension;
 
@@ -39,7 +39,7 @@ class WorkflowController extends FormController
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException when no extension is set
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
@@ -65,7 +65,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowAdd($data = array())
 	{
@@ -82,12 +82,19 @@ class WorkflowController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 		$user = Factory::getUser();
+
+		$record = $this->getModel()->getItem($recordId);
+
+		if (!empty($record->id) && $record->core)
+		{
+			return false;
+		}
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.workflow.' . $recordId))
@@ -98,9 +105,6 @@ class WorkflowController extends FormController
 		// Check "edit own" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit.own', $this->extension . '.workflow.' . $recordId))
 		{
-			// Need to do a lookup from the model to get the owner
-			$record = $this->getModel()->getItem($recordId);
-
 			return !empty($record) && $record->created_by == $user->id;
 		}
 
@@ -115,7 +119,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -130,7 +134,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getRedirectToListAppend()
 	{
@@ -149,7 +153,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function postSaveHook(\JModelLegacy $model, $validData = array())
 	{
@@ -228,7 +232,7 @@ class WorkflowController extends FormController
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function save($key = null, $urlVar = null)
 	{
@@ -245,6 +249,6 @@ class WorkflowController extends FormController
 			$this->input->post->set('jform', $data);
 		}
 
-		parent::save($key, $urlVar);
+		return parent::save($key, $urlVar);
 	}
 }

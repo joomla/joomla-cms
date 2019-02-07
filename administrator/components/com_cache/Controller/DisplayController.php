@@ -11,7 +11,6 @@ namespace Joomla\Component\Cache\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
@@ -37,7 +36,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'cache');

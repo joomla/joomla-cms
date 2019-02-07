@@ -35,7 +35,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_content
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ContentComponent extends MVCComponent implements
 	BootableExtensionInterface, CategoryServiceInterface, FieldsServiceInterface, AssociationServiceInterface,
@@ -50,7 +50,7 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * The trashed condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_NAMES = [
 		self::CONDITION_PUBLISHED   => 'JPUBLISHED',
@@ -62,28 +62,28 @@ class ContentComponent extends MVCComponent implements
 	/**
 	 * The archived condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_ARCHIVED = 2;
 
 	/**
 	 * The published condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_PUBLISHED = 1;
 
 	/**
 	 * The unpublished condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_UNPUBLISHED = 0;
 
 	/**
 	 * The trashed condition
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	const CONDITION_TRASHED = -2;
 
@@ -98,7 +98,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{
@@ -118,7 +118,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  string|null  The new section
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function validateSection($section, $item = null)
 	{
@@ -151,7 +151,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getContexts(): array
 	{
@@ -172,9 +172,23 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  string|null
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getTableNameForSection(string $section = null)
+	{
+		return '#__content';
+	}
+
+	/**
+	 * Returns a table name for the state association
+	 *
+	 * @param   string  $section  An optional section to separate different areas in the component
+	 *
+	 * @return  string
+	 *
+	 * @since   4.0.0
+	 */
+	public function getWorkflowTableBySection(string $section = null) : string
 	{
 		return '#__content';
 	}
@@ -187,7 +201,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function filterTransitions($transitions, $pk): array
 	{
@@ -202,7 +216,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function countItems(array $items, string $section)
 	{
@@ -348,7 +362,7 @@ class ContentComponent extends MVCComponent implements
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function updateContentState($pks, $condition): bool
 	{

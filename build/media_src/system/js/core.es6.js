@@ -4,8 +4,10 @@
  */
 
 // eslint-disable max-len
-// Patch Custom Events
-// https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+/**
+ * Patch Custom Events
+ * https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent
+ */
 (() => {
   if (typeof window.CustomEvent === 'function') {
     return false;
@@ -31,13 +33,13 @@
 })();
 
 // Only define the Joomla namespace if not defined.
-Joomla = window.Joomla || {};
+window.Joomla = window.Joomla || {};
 
 // Only define editors if not defined
-Joomla.editors = Joomla.editors || {};
+window.Joomla.editors = window.Joomla.editors || {};
 
 // An object to hold each editor instance on page, only define if not defined.
-Joomla.editors.instances = Joomla.editors.instances || {
+window.Joomla.editors.instances = window.Joomla.editors.instances || {
   /**
    * *****************************************************************
    * All Editors MUST register, per instance, the following callbacks:
@@ -74,7 +76,7 @@ Joomla.editors.instances = Joomla.editors.instances || {
 };
 
 
-Joomla.Modal = {
+window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * *****************************************************************
    * Modals should implement
@@ -100,9 +102,9 @@ Joomla.Modal = {
    */
   current: '',
   setCurrent: (element) => {
-    this.current = element;
+    window.Joomla.current = element;
   },
-  getCurrent: () => this.current,
+  getCurrent: () => window.Joomla.current,
 };
 
 ((Joomla, document) => {
@@ -152,7 +154,7 @@ Joomla.Modal = {
   };
 
   /**
-   * Default function. Can be overriden by the component to add custom logic
+   * Default function. Can be overridden by the component to add custom logic
    *
    * @param  {String}  task            The given task
    * @param  {String}  formSelector    The form selector eg '#adminForm'
@@ -193,8 +195,8 @@ Joomla.Modal = {
    *
    * @type {{}}
    *
-   * Allows you to call Joomla.JText._() to get a translated JavaScript string
-   * pushed in with JText::script() in Joomla.
+   * Allows you to call Joomla.Text._() to get a translated JavaScript string
+   * pushed in with Text::script() in Joomla.
    */
   Joomla.Text = {
     strings: {},
@@ -226,10 +228,10 @@ Joomla.Modal = {
     },
 
     /**
-     * Load new strings in to Joomla.JText
+     * Load new strings in to Joomla.Text
      *
      * @param {Object} object  Object with new strings
-     * @returns {Joomla.JText}
+     * @returns {Joomla.Text}
      */
     load: (object) => {
       [].slice.call(Object.keys(object)).forEach((key) => {
@@ -394,8 +396,12 @@ Joomla.Modal = {
    * @param   {object}  messages JavaScript object containing the messages to render.
    *          Example:
    *          const messages = {
-   *              "message": ["Message one", "Message two"],
-   *              "error": ["Error one", "Error two"]
+   *              "message": ["This will be a green message", "So will this"],
+   *              "error": ["This will be a red message", "So will this"],
+   *              "info": ["This will be a blue message", "So will this"],
+   *              "notice": ["This will be same as info message", "So will this"],
+   *              "warning": ["This will be a orange message", "So will this"],
+   *              "my_custom_type": ["This will be same as info message", "So will this"]
    *          };
    * @param  {string} selector The selector of the container where the message will be rendered
    * @param  {bool}   keepOld  If we shall discard old messages
@@ -428,10 +434,11 @@ Joomla.Modal = {
       if (typeof window.customElements === 'object' && typeof window.customElements.get('joomla-alert') === 'function') {
         messagesBox = document.createElement('joomla-alert');
 
-        if (['notice', 'message', 'error'].indexOf(type) > -1) {
+        if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
           alertClass = (type === 'notice') ? 'info' : type;
           alertClass = (type === 'message') ? 'success' : alertClass;
           alertClass = (type === 'error') ? 'danger' : alertClass;
+          alertClass = (type === 'warning') ? 'warning' : alertClass;
         } else {
           alertClass = 'info';
         }
@@ -447,15 +454,16 @@ Joomla.Modal = {
         messagesBox = document.createElement('div');
 
         // Message class
-        if (['notice', 'message', 'error'].indexOf(type) > -1) {
+        if (['notice', 'message', 'error', 'warning'].indexOf(type) > -1) {
           alertClass = (type === 'notice') ? 'info' : type;
           alertClass = (type === 'message') ? 'success' : alertClass;
           alertClass = (type === 'error') ? 'danger' : alertClass;
+          alertClass = (type === 'warning') ? 'warning' : alertClass;
         } else {
           alertClass = 'info';
         }
 
-        messagesBox.className = `alert ${alertClass}`;
+        messagesBox.className = `alert alert-${alertClass}`;
 
         // Close button
         const buttonWrapper = document.createElement('button');
@@ -467,13 +475,13 @@ Joomla.Modal = {
       }
 
       // Title
-      title = Joomla.JText._(type);
+      title = Joomla.Text._(type);
 
       // Skip titles with untranslated strings
       if (typeof title !== 'undefined') {
         titleWrapper = document.createElement('h4');
         titleWrapper.className = 'alert-heading';
-        titleWrapper.innerHTML = Joomla.JText._(type) ? Joomla.JText._(type) : type;
+        titleWrapper.innerHTML = Joomla.Text._(type) ? Joomla.Text._(type) : type;
         messagesBox.appendChild(titleWrapper);
       }
 
@@ -495,7 +503,6 @@ Joomla.Modal = {
       }
     });
   };
-
 
   /**
    * Remove messages
@@ -565,20 +572,20 @@ Joomla.Modal = {
 
       encodedJson = buf.join('');
 
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_PARSE').replace('%s', encodedJson)];
     } else if (textStatus === 'nocontent') {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_NO_CONTENT')];
     } else if (textStatus === 'timeout') {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_TIMEOUT')];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_TIMEOUT')];
     } else if (textStatus === 'abort') {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_CONNECTION_ABORT')];
     } else if (xhr.responseJSON && xhr.responseJSON.message) {
       // For vanilla XHR
-      msg.error = [`${Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
+      msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.responseJSON.message}</em>`];
     } else if (xhr.statusText) {
-      msg.error = [`${Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
+      msg.error = [`${Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)} <em>${xhr.statusText}</em>`];
     } else {
-      msg.error = [Joomla.JText._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
+      msg.error = [Joomla.Text._('JLIB_JS_AJAX_ERROR_OTHER').replace('%s', xhr.status)];
     }
 
     return msg;
@@ -904,22 +911,6 @@ Joomla.Modal = {
   };
 
   /**
-   * Check if HTML5 localStorage enabled on the browser
-   *
-   * @since   4.0.0
-   */
-  Joomla.localStorageEnabled = () => {
-    const test = 'joomla-cms';
-    try {
-      localStorage.setItem(test, test);
-      localStorage.removeItem(test);
-      return true;
-    } catch (e) {
-      return false;
-    }
-  };
-
-  /**
    * Loads any needed polyfill for web components and async load any web components
    *
    * Parts of the WebComponents method belong to The Polymer Project Authors. License http://polymer.github.io/LICENSE.txt
@@ -1058,8 +1049,8 @@ Joomla.Modal = {
 
     // Feature detect which polyfill needs to be imported.
     let polyfills = [];
-    if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype) ||
-      (window.ShadyDOM && window.ShadyDOM.force)) {
+    if (!('attachShadow' in Element.prototype && 'getRootNode' in Element.prototype)
+      || (window.ShadyDOM && window.ShadyDOM.force)) {
       polyfills.push('sd');
     }
     if (!window.customElements || window.customElements.forcePolyfill) {
@@ -1081,8 +1072,8 @@ Joomla.Modal = {
       t2.content.appendChild(document.createElement('div'));
       t.content.appendChild(t2);
       const clone = t.cloneNode(true);
-      return (clone.content.childNodes.length === 0 ||
-        clone.content.firstChild.content.childNodes.length === 0);
+      return (clone.content.childNodes.length === 0
+        || clone.content.firstChild.content.childNodes.length === 0);
     })();
 
     // NOTE: any browser that does not have template or ES6 features

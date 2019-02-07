@@ -14,6 +14,7 @@ use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\OpenHandler;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Log\Log;
@@ -30,7 +31,6 @@ use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
-use Joomla\Plugin\System\Debug\DebugMonitor;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
@@ -91,7 +91,7 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    CMSApplication
 	 * @since  3.3
 	 */
 	protected $app;
@@ -106,14 +106,14 @@ class PlgSystemDebug extends CMSPlugin
 
 	/**
 	 * @var DebugBar
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $debugBar;
 
 	/**
 	 * The query monitor.
 	 *
-	 * @var    DebugMonitor
+	 * @var    \Joomla\Database\Monitor\DebugMonitor
 	 * @since  4.0.0
 	 */
 	private $queryMonitor;
@@ -122,7 +122,7 @@ class PlgSystemDebug extends CMSPlugin
 	 * AJAX marker
 	 *
 	 * @var   bool
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected $isAjax = false;
 
@@ -165,10 +165,14 @@ class PlgSystemDebug extends CMSPlugin
 		// @todo Remove when a standard autoloader is available.
 		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
 
-		// Attach our query monitor to the database driver
-		$this->queryMonitor = new DebugMonitor(JDEBUG);
+		/** @var \Joomla\Database\Monitor\DebugMonitor */
+		$this->queryMonitor = $this->db->getMonitor();
 
-		$this->db->setMonitor($this->queryMonitor);
+		if (!$this->params->get('queries', 1))
+		{
+			// Remove the database driver monitor
+			$this->db->setMonitor(null);
+		}
 
 		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getClientId();
 
@@ -280,6 +284,14 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
+		// Use our own jQuery and font-awesome instead of the debug bar shipped version
+		$assetManager = $this->app->getDocument()->getWebAssetManager();
+		$assetManager->enableAsset('jquery-noconflict');
+		$assetManager->enableAsset('font-awesome');
+		$debugBarRenderer->disableVendor('jquery');
+		$debugBarRenderer->setEnableJqueryNoConflict(false);
+		$debugBarRenderer->disableVendor('fontawesome');
+
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')
 		{
@@ -316,7 +328,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function onAjaxDebug()
 	{
@@ -348,7 +360,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return $this
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function setupLogging(): self
 	{
@@ -359,7 +371,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything'))
+		if ($this->params->get('log-everything', 0))
 		{
 			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
 		}
@@ -420,7 +432,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', null);
+		$filterGroups = (array) $this->params->get('filter_groups', array());
 
 		if (!empty($filterGroups))
 		{
@@ -457,8 +469,8 @@ class PlgSystemDebug extends CMSPlugin
 
 		$db = $event->getDriver();
 
-		// Set a dummy monitor to avoid monitoring the following queries
-		$db->setMonitor(new DebugMonitor);
+		// Remove the monitor to avoid monitoring the following queries
+		$db->setMonitor(null);
 
 		$this->totalQueries = $db->getCount();
 
@@ -499,9 +511,9 @@ class PlgSystemDebug extends CMSPlugin
 
 		if ($this->params->get('query_explains') && in_array($db->getServerType(), ['mysql', 'postgresql'], true))
 		{
-			$log = $this->queryMonitor->getLog();
+			$logs = $this->queryMonitor->getLogs();
 
-			foreach ($log as $k => $query)
+			foreach ($logs as $k => $query)
 			{
 				$dbVersion56 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.6', '>=');
 
@@ -541,7 +553,7 @@ class PlgSystemDebug extends CMSPlugin
 	 *
 	 * @return $this
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function collectLogs(): self
 	{
@@ -578,7 +590,7 @@ class PlgSystemDebug extends CMSPlugin
 				case 'deprecated':
 					if (!$logDeprecated && !$logDeprecatedCore)
 					{
-						continue;
+						break;
 					}
 					$file = $entry->callStack[2]['file'] ?? '';
 					$line = $entry->callStack[2]['line'] ?? '';
@@ -599,13 +611,13 @@ class PlgSystemDebug extends CMSPlugin
 					{
 						if (!$logDeprecatedCore)
 						{
-							continue;
+							break;
 						}
 						$category .= '-core';
 					}
 					elseif (!$logDeprecated)
 					{
-						continue;
+						break;
 					}
 
 					$message = [

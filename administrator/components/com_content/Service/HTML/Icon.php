@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 use Joomla\Registry\Registry;
 
@@ -106,7 +107,8 @@ class Icon
 		$link     = $base . Route::_(\ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
 
-		$status = 'width=400,height=350,menubar=yes,resizable=yes';
+		$height = Factory::getApplication()->get('captcha', '0') === '0' ? 450 : 550;
+		$status = 'width=400,height=' . $height . ',menubar=yes,resizable=yes';
 
 		$text = LayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
 
@@ -145,7 +147,7 @@ class Icon
 		}
 
 		// Ignore if the state is negative (trashed).
-		if ($article->state < 0)
+		if (!in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED]))
 		{
 			return;
 		}
@@ -174,7 +176,7 @@ class Icon
 		$contentUrl = \ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
-		if ($article->state == 0)
+		if ($article->state == Workflow::CONDITION_UNPUBLISHED)
 		{
 			$overlib = Text::_('JUNPUBLISHED');
 		}
@@ -231,16 +233,14 @@ class Icon
 	/**
 	 * Method to generate a link to print an article
 	 *
-	 * @param   object    $article  Not used, @deprecated for 4.0
-	 * @param   Registry  $params   The item parameters
-	 * @param   array     $attribs  Not used, @deprecated for 4.0
-	 * @param   boolean   $legacy   True to use legacy images, false to use icomoon based graphic
+	 * @param   Registry  $params  The item parameters
+	 * @param   boolean   $legacy  True to use legacy images, false to use icomoon based graphic
 	 *
 	 * @return  string  The HTML markup for the popup link
 	 *
 	 * @since  4.0.0
 	 */
-	public function print_screen($article, $params, $attribs = array(), $legacy = false)
+	public function print_screen($params, $legacy = false)
 	{
 		$text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
 

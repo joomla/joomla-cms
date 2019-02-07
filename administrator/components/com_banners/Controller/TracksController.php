@@ -161,7 +161,7 @@ class TracksController extends BaseController
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->document = Factory::getDocument();
+			$view->document = $this->app->getDocument();
 
 			$view->display();
 		}
