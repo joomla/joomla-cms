@@ -864,9 +864,9 @@ class MenusHelper extends ContentHelper
 		$item->icon       = (string) $node['icon'];
 		$item->browserNav = (string) $node['target'];
 		$item->access     = (int) $node['access'];
-		$item->setParams(new Registry(trim($node->params)));
 		$item->scope      = (string) $node['scope'] ?: 'default';
-		$item->submenu    = array();
+		$item->setParams(new Registry(trim($node->params)));
+		$item->getParams()->set('menu-permission', (string) $node['permission']);
 
 		if ($item->type == 'separator' && trim($item->title, '- '))
 		{
@@ -876,6 +876,14 @@ class MenusHelper extends ContentHelper
 		if ($item->type == 'heading' || $item->type == 'container')
 		{
 			$item->link = '#';
+		}
+
+		if ((string) $node['quicktask'])
+		{
+			$item->getParams()->set('menu-quicktask', (string) $node['quicktask']);
+			$item->getParams()->set('menu-quicktask-title', (string) $node['quicktask-title']);
+			$item->getParams()->set('menu-quicktask-icon', (string) $node['quicktask-icon']);
+			$item->getParams()->set('menu-quicktask-permission', (string) $node['quicktask-permission']);
 		}
 
 		// Translate attributes for iterator values

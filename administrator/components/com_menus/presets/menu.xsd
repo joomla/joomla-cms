@@ -65,5 +65,10 @@
 		<xs:attribute type="xs:string" name="sql_order" use="optional"/>
 		<xs:attribute type="browserNavType" name="target" use="optional" default=""/>
 		<xs:attribute type="scopeType" name="scope" use="optional" default="default"/>
+		<xs:attribute type="xs:string" name="permission" use="optional"/>
+		<xs:attribute type="xs:string" name="quicktask" use="optional"/>
+		<xs:attribute type="xs:string" name="quicktask-title" use="optional"/>
+		<xs:attribute type="xs:string" name="quicktask-icon" use="optional"/>
+		<xs:attribute type="xs:string" name="quicktask-permission" use="optional"/>
 	</xs:complexType>
 </xs:schema>
