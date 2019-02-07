@@ -86,7 +86,6 @@ module.exports.run = (path) => {
         // @todo css
       });
       monitor.on('changed', (file) => {
-        console.log(file)
         if (file.match(/\.js$/) && (file.match(/\.es5\.js$/) || file.match(/\.es6\.js$/) || file.match(/\.w-c\.es6\.js$/))) {
           debounce(HandleJsFile.run(file, forFolder), 300);
         }
@@ -135,5 +134,4 @@ module.exports.run = (path) => {
       });
     });
   }
-
 };

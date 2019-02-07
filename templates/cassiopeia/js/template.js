@@ -4,11 +4,6 @@
 **/
 
 /**
- * PLEASE DO NOT MODIFY THIS FILE. WORK ON THE ES6 VERSION.
- * OTHERWISE YOUR CHANGES WILL BE REPLACED ON THE NEXT BUILD.
- */
-
-/**
  * @package     Joomla.Site
  * @subpackage  Templates.Cassiopeia
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
