@@ -5,7 +5,12 @@ const Postcss = require('postcss');
 const Sass = require('node-sass');
 const Babel = require('./babel-transform.es6.js');
 
-const createJsFiles = (inputFile, es6FileContents) => {
+// The settings
+const { options } = require('../utils/get-options.es6');
+
+const createJsFiles = (inputFile, es6FileContents, folder) => {
+  let outputFiles = [];
+
   // Define some settings
   const settings = [
     {
@@ -16,7 +21,7 @@ const createJsFiles = (inputFile, es6FileContents) => {
           },
         }],
       ],
-      comments: true,
+      comments: false,
     },
     {
       presets: [
@@ -40,7 +45,7 @@ const createJsFiles = (inputFile, es6FileContents) => {
       plugins: [
         '@babel/plugin-transform-classes',
       ],
-      comments: true,
+      comments: false,
 
     },
     {
@@ -61,12 +66,21 @@ const createJsFiles = (inputFile, es6FileContents) => {
     },
   ];
 
-  const outputFiles = [
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.js'),
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.min.js'),
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '-es5.js'),
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '-es5.min.js'),
-  ];
+  if (folder === 'media') {
+    outputFiles = [
+      inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.js'),
+      inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.min.js'),
+      inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '-es5.js'),
+      inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '-es5.min.js'),
+    ];
+  } else if (folder === 'templates') {
+    outputFiles = [
+      inputFile.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.w-c.es6.js', '.js'),
+      inputFile.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.w-c.es6.js', '.min.js'),
+      inputFile.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.w-c.es6.js', '-es5.js'),
+      inputFile.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.w-c.es6.js', '-es5.min.js'),
+    ];
+  }
 
   settings.forEach((setting, index) => {
     Babel.run(es6FileContents, setting, outputFiles[index]);
@@ -77,17 +91,24 @@ const createJsFiles = (inputFile, es6FileContents) => {
  * Compiles any web component/custom element files from the media_source folder
  *
  * @param file     The full path to the file + filename + extension
- * @param options  The options from the settings.json
  */
-module.exports.compile = (inputFile, options) => {
+module.exports.compile = (inputFile, folder) => {
   Promise.resolve()
     .then(() => {
       // Get the contents of the ES-XXXX file
       let es6File = Fs.readFileSync(inputFile, 'utf8');
+      let scssFile = '';
+
+      if (folder === 'media') {
+        scssFile = inputFile.replace('/src/js/', '/src/scss/').replace('\\src\\js\\', '\\src\\scss\\').replace('.w-c.es6.js', '.scss');
+      } else if (folder === 'templates') {
+        scssFile = inputFile.replace('/src/js/', '/src/scss/').replace('\\src\\js\\', '\\src\\scss\\').replace('.w-c.es6.js', '.scss');
+      }
+
       // Check if there is a css file
-      if (Fs.existsSync(inputFile.replace('/js/', '/scss/').replace('\\js\\', '\\scss\\').replace('.w-c.es6.js', '.scss'))) {
+      if (Fs.existsSync(scssFile)) {
         Sass.render({
-          file: inputFile.replace('/js/', '/scss/').replace('\\js\\', '\\scss\\').replace('.w-c.es6.js', '.scss'),
+          file: scssFile,
         }, (error, result) => {
           if (error) {
             // eslint-disable-next-line no-console
@@ -115,34 +136,36 @@ module.exports.compile = (inputFile, options) => {
                       // eslint-disable-next-line max-len
                       Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
                         es6File = es6File.replace('{{CSS_CONTENTS_PLACEHOLDER}}', cssMin.css.toString());
-                        // eslint-disable-next-line no-console
-                        console.error(`Transpiling Web Component file: ${inputFile}`);
-                        createJsFiles(inputFile, es6File);
+
+                        createJsFiles(inputFile, es6File, folder);
                       });
                     }
                   } else {
                     if (typeof res === 'object' && res.css) {
+                      let scssOutFile = '';
+
+                      if (folder === 'media') {
+                        scssOutFile = inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\');
+                      } else if (folder === 'templates') {
+                        scssOutFile = inputFile.replace('/src/js/', '/css/').replace('\\src\\js\\', '\\css\\');
+                      }
+
                       Fs.writeFileSync(
-                        inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\')
-                          .replace('.w-c.es6.js', '.css'),
+                        scssOutFile.replace('.w-c.es6.js', '.css'),
                         res.css.toString(),
                         { encoding: 'UTF-8' },
                       );
                       // eslint-disable-next-line max-len
                       Postcss([CssNano]).process(res.css.toString(), { from: undefined }).then((cssMin) => {
                         Fs.writeFileSync(
-                          inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\')
-                            .replace('.w-c.es6.js', '.min.css'),
+                          scssOutFile.replace('.w-c.es6.js', '.min.css'),
                           cssMin.css.toString(),
                           { encoding: 'UTF-8' },
                         );
                       });
                     }
 
-                    // eslint-disable-next-line no-console
-                    console.error(`Transpiling Web Component file: ${inputFile}`);
-
-                    createJsFiles(inputFile, es6File);
+                    createJsFiles(inputFile, es6File, folder);
                   }
                 })
 
@@ -156,10 +179,7 @@ module.exports.compile = (inputFile, options) => {
           }
         });
       } else {
-        // eslint-disable-next-line no-console
-        console.error(`Transpiling Web Component file: ${inputFile}`);
-
-        createJsFiles(inputFile, es6File);
+        createJsFiles(inputFile, es6File, folder);
       }
     })
 

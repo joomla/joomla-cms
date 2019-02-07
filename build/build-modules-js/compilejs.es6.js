@@ -17,8 +17,8 @@ const RootPath = require('./utils/rootpath.es6.js')._();
  * @param { object } options The options from settings.json
  * @param { string } path    The folder that needs to be compiled, optional
  */
-module.exports.compileJS = (options, path) => {
-  Promise.resolve(options, path)
+module.exports.compileJS = (path) => {
+  Promise.resolve(path)
     // Compile the scss files
     .then(() => {
       let folders = [];
@@ -34,18 +34,24 @@ module.exports.compileJS = (options, path) => {
       } else {
         folders = [
           `${RootPath}/build/media_source`,
-          `${RootPath}/administrator/templates/atum/js`,
-          `${RootPath}/templates/cassiopeia/js`,
+          `${RootPath}/administrator/templates`,
+          `${RootPath}/templates`,
         ];
       }
 
       // Loop to get some text for the packgage.json
       folders.forEach((folder) => {
-        Recurs(folder, ['*.min.js', '*.map', '*.scss', '*.css', '*.svg', '*.png', '*.swf', '*.gif', '*.json']).then(
+        Recurs(folder, ['*.min.js', '*.map', '*.scss', '*.css', '*.svg', '*.png', '*.jpg', '*.gif', '*.ico', '*.swf', '*.json', '*.php', '*.ini', '*.xml', '*.html', '.DS_Store']).then(
           (files) => {
             files.forEach(
               (file) => {
-                HandleFile.run(file, options);
+                if (folder === folders[0]) {
+                  HandleFile.run(file, 'media');
+                } else if (folder === folders[1] || folder === folders[2]) {
+                  if (file.includes('/src/js/')) {
+                    HandleFile.run(file, 'templates');
+                  }
+                }
               },
               (error) => {
                 // eslint-disable-next-line no-console

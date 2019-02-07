@@ -3,5 +3,19 @@
  * @license		GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-/* Import project-level system CSS */
-@import url(../../../../../media/system/css/system.css);
+/* Start Common Styles */
+
+body {
+	text-align: right;
+}
+
+.TD{
+	text-align: left;
+}
+
+#errorboxbody {
+	text-align: right;
+}
+#techinfo {
+	text-align: right;
+}

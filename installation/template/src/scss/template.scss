@@ -1,12 +1,12 @@
 // Variables
-@import "../../../administrator/templates/atum/scss/variables";
+@import "../../../../administrator/templates/atum/src/scss/variables";
 $fa-font-path: "../../../media/vendor/font-awesome/fonts";
 
 // Bootstrap
-@import "../../../media/vendor/bootstrap/scss/bootstrap";
+@import "../../../../media/vendor/bootstrap/scss/bootstrap";
 
 // FontAwesome
-@import "../../../media/vendor/font-awesome/scss/font-awesome";
+@import "../../../../media/vendor/font-awesome/scss/font-awesome";
 
 body {
   background-color: #1c3d5c;

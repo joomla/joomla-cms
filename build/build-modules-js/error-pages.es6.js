@@ -5,6 +5,9 @@ const UglifyCss = require('uglifycss');
 const UglifyJs = require('uglify-es');
 const RootPath = require('./utils/rootpath.es6.js')._();
 
+// The settings
+const { options } = require('./utils/get-options.es6');
+
 const dir = `${RootPath}/installation/language`;
 const srcPath = `${RootPath}/build/warning_page`;
 
@@ -22,7 +25,7 @@ let unsupported = 'window.errorLocale = {';
  * And also specific strings in the languages in the installation folder!
  * Also the base strings are held in build/build-modules-js/settings.json
  */
-module.exports.run = (options) => {
+module.exports.run = () => {
   const initTemplate = Fs.readFileSync(`${srcPath}/template.html`, 'utf-8');
   let cssContent = Fs.readFileSync(`${srcPath}/template.css`, 'utf-8');
   let jsContent = Fs.readFileSync(`${srcPath}/template.js`, 'utf-8');

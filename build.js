@@ -26,13 +26,7 @@ const minifyVendor = require('./build/build-modules-js/javascript/minify-vendor.
 const watch = require('./build/build-modules-js/watch.es6.js')
 
 // The settings
-const options = require('./package.json');
-const settings = require('./build/build-modules-js/settings.json');
-
-// Merge Joomla's specific settings to the main package.json object
-if ('settings' in settings) {
-  options.settings = settings.settings;
-}
+const { options } = require('./build/build-modules-js/utils/get-options.es6');
 
 // Initialize the CLI
 Program
@@ -59,8 +53,8 @@ if (!process.argv.slice(2).length) {
 // Update the vendor folder
 if (Program.copyAssets) {
   Promise.resolve()
-    .then(init.copyAssets(options))
-    .then(minifyVendor.compile(options))
+    .then(init.copyAssets())
+    .then(minifyVendor.compile())
 
     // Exit with success
     .then(() => process.exit(0))
@@ -77,9 +71,7 @@ if (Program.copyAssets) {
 // Creates the error pages for unsupported PHP version & incomplete environment
 if (Program.buildPages) {
   Promise.resolve()
-    .then(() => {
-      errorPages.run(options);
-      })
+    .then(errorPages.run)
     // Handle errors
     .catch((err) => {
       // eslint-disable-next-line no-console
@@ -90,15 +82,15 @@ if (Program.buildPages) {
 
 // Convert scss to css
 if (Program.compileCss) {
-  compileCSS.compile(options, Program.args[0]);
+  compileCSS.compile(Program.args[0]);
 }
 
 // Compress/transpile the javascript files
 if (Program.compileJs) {
-  compileJS.compileJS(options, Program.args[0]);
+  compileJS.compileJS(Program.args[0]);
 }
 
 // Compress/transpile the javascript files
 if (Program.watch) {
-  watch.run();
+  watch.run(Program.args[0]);
 }

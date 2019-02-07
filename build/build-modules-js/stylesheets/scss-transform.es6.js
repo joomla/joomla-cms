@@ -6,8 +6,16 @@ const Postcss = require('postcss');
 const Sass = require('node-sass');
 const MakeDir = require('../utils/make-dir.es6.js');
 
-module.exports.compile = (file, options) => {
-  const cssFile = file.replace('/scss/', '/css/').replace('.scss', '.css').replace('/build/media_source/', '/media/');
+// The settings
+const { options } = require('../utils/get-options.es6');
+
+module.exports.compile = (file, folder) => {
+  let cssFile = '';
+  if (folder === 'media') {
+    cssFile = file.replace('/scss/', '/css/').replace('.scss', '.css').replace('/build/media_source/', '/media/');
+  } else if (folder === 'templates') {
+    cssFile = file.replace('/src/scss/', '/css/').replace('.scss', '.css').replace('\\src\\scss\\', '\\css\\');
+  }
 
   Sass.render({
     file,
@@ -49,7 +57,7 @@ module.exports.compile = (file, options) => {
             );
 
             // eslint-disable-next-line no-console
-            console.log(`SCSS File compiled: ${cssFile}`);
+            console.log(`SCSS File compiled to: ${cssFile}`);
           });
         });
     }

@@ -1,19 +1,19 @@
 // Bootstrap functions
-@import "../../../../media/vendor/bootstrap/scss/functions";
+@import "../../../../../media/vendor/bootstrap/scss/functions";
 
 // Atum Variables
 @import "variables";
 
 // Bootstrap other
-@import "../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../media/vendor/bootstrap/scss/custom-forms";
+@import "../../../../../media/vendor/bootstrap/scss/mixins";
+@import "../../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../../media/vendor/bootstrap/scss/custom-forms";
 
 // Alert
-@import "../../../../build/media_source/system/scss/jalert";
+@import "../../../../../build/media_source/system/scss/jalert";
 
 // jQuery Minicolors
-@import "../../../../build/media_source/system/scss/jquery-minicolors";
+@import "../../../../../build/media_source/system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first

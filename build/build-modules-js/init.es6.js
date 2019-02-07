@@ -4,6 +4,9 @@ const FsExtra = require('fs-extra');
 const Path = require('path');
 const RootPath = require('./utils/rootpath.es6.js')._();
 
+// The settings
+const { options } = require('./utils/get-options.es6.js');
+
 const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 /**
@@ -112,11 +115,9 @@ const concatFiles = (files, output) => {
 /**
  * Main method that will copy all vendor files according to Joomla's specs
  *
- * @param options The options from setting.json
- *
  * @returns {void}
  */
-const copyFiles = (options) => {
+const copyFiles = () => {
   const mediaVendorPath = Path.join(RootPath, 'media/vendor');
   const registry = {
     name: options.name,
@@ -354,7 +355,7 @@ const recreateMediaFolder = () => {
 };
 
 
-module.exports.copyAssets = (options) => {
+module.exports.copyAssets = () => {
   Promise.resolve()
     // Copy a fresh version of the files
     .then(cleanVendors())
@@ -363,7 +364,7 @@ module.exports.copyAssets = (options) => {
     .then(recreateMediaFolder())
 
     // Copy a fresh version of the files
-    .then(copyFiles(options))
+    .then(copyFiles())
 
     // Handle errors
     .catch((error) => {
