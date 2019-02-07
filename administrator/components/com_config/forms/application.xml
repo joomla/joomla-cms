@@ -471,6 +471,28 @@
 		/>
 
 		<field
+			name="mailcc"
+			type="email"
+			label="COM_CONFIG_FIELD_MAIL_ADD_CC_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_ADD_CC_DESC"
+			filter="string"
+			size="30"
+			validate="email"
+			showon="mailonline:1"
+		/>
+
+		<field
+			name="mailbcc"
+			type="email"
+			label="COM_CONFIG_FIELD_MAIL_ADD_BCC_LABEL"
+			description="COM_CONFIG_FIELD_MAIL_ADD_BCC_DESC"
+			filter="string"
+			size="30"
+			validate="email"
+			showon="mailonline:1"
+		/>
+
+		<field
 			name="mailer"
 			type="list"
 			label="COM_CONFIG_FIELD_MAIL_MAILER_LABEL"
