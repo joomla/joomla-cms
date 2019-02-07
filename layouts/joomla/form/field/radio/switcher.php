@@ -58,10 +58,7 @@ if (empty($options))
 $format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
-HTMLHelper::_('webcomponent',
-	'system/webcomponents/joomla-field-switcher.min.js',
-	['version' => 'auto', 'relative' => true]
-);
+HTMLHelper::_('webcomponent', 'system/fields/joomla-field-switcher.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Set the type of switcher
 $type = '';
