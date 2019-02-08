@@ -26,8 +26,6 @@ window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
     if (this.getAttribute('is-link') === '1') {
       this.newElement = document.createElement('a');
       this.newElement.setAttribute('href', `mailto:${this.constructor.b64DecodeUnicode(this.getAttribute('first'))}@${this.constructor.b64DecodeUnicode(this.getAttribute('last'))}`);
-      let i = 0;
-      const { length } = this.attributes;
 
       // Get all of the original element attributes, and pass them to the link
       [].slice.call(this.attributes).forEach((attribute, index) => {
