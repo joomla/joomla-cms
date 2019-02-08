@@ -33,7 +33,7 @@ extract($displayData);
 // Add script
 if ($multiple)
 {
-	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-subform.min.js', ['version' => 'auto', 'relative' => true]);
+	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-subform.min.js', ['version' => 'auto', 'relative' => true]);
 }
 $sublayout = empty($groupByFieldset) ? 'section' : 'section-byfieldsets';
 ?>
