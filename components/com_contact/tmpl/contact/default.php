@@ -141,6 +141,6 @@ $tparams = $this->item->params;
 				</dd>
 			</dl>
 		</div>
-    <?php endif; ?>
+	<?php endif; ?>
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>
