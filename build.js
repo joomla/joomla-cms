@@ -18,12 +18,12 @@ const Program = require('commander');
 // eslint-disable-next-line import/no-extraneous-dependencies
 
 // Joomla Build modules
-const errorPages = require('./build/build-modules-js/error-pages.es6');
-const init = require('./build/build-modules-js/init.es6');
-const compileCSS = require('./build/build-modules-js/compilecss.es6');
-const compileJS = require('./build/build-modules-js/compilejs.es6');
-const minifyVendor = require('./build/build-modules-js/javascript/minify-vendor.es6');
-const watch = require('./build/build-modules-js/watch.es6');
+const errorPages = require('./build/build-modules-js/error-pages.es6.js');
+const init = require('./build/build-modules-js/init.es6.js');
+const compileCSS = require('./build/build-modules-js/compilecss.es6.js');
+const compileJS = require('./build/build-modules-js/compilejs.es6.js');
+const minifyVendor = require('./build/build-modules-js/javascript/minify-vendor.es6.js');
+const watch = require('./build/build-modules-js/watch.es6.js');
 const gzipAssets = require('./build/build-modules-js/gzip-assets.es6');
 
 // The settings
