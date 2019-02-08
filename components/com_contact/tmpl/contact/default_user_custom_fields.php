@@ -35,7 +35,7 @@ $userFieldGroups    = array();
 
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
 	<?php $id = ApplicationHelper::stringURLSafe($groupTitle); ?>
-    <?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
+	<?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 
 	<div class="com-contact__user-fields contact-profile" id="user-custom-fields-<?php echo $id; ?>">
 		<dl class="dl-horizontal">
