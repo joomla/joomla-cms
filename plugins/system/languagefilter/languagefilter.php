@@ -190,7 +190,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 		/** @var JApplicationCms $app */
 		$app = $event->getApplication();
 
-		if (!$app->isSite())
+		if (!$app->isClient('site'))
 		{
 			return;
 		}

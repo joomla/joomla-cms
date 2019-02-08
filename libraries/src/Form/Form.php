@@ -1142,7 +1142,12 @@ class Form
 			if ($input->exists($key))
 			{
 				$fieldObj = $this->loadField($field, $group);
-				$output->set($key, $fieldObj->filter($input->get($key, (string) $field['default']), $group, $input));
+
+				// Only set into the output if the field was supposed to render on the page (i.e. setup returned true)
+				if ($fieldObj)
+				{
+					$output->set($key, $fieldObj->filter($input->get($key, (string) $field['default']), $group, $input));
+				}
 			}
 		}
 
@@ -1199,13 +1204,22 @@ class Form
 
 			$fieldObj = $this->loadField($field, $group);
 
-			$valid = $fieldObj->validate($input->get($key), $group, $input);
-
-			// Check for an error.
-			if ($valid instanceof \Exception)
+			if ($fieldObj)
 			{
-				$this->errors[] = $valid;
-				$return         = false;
+				$valid = $fieldObj->validate($input->get($key), $group, $input);
+
+				// Check for an error.
+				if ($valid instanceof \Exception)
+				{
+					$this->errors[] = $valid;
+					$return         = false;
+				}
+			}
+			elseif (!$fieldObj && $input->exists($key))
+			{
+				// The field returned false from setup and shouldn't be included in the page body - yet we received
+				// a value for it. This is probably some sort of injection attack and should be rejected
+				$this->errors[] = new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $key));
 			}
 		}
 
