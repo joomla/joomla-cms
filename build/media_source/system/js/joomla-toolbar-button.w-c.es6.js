@@ -73,10 +73,6 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
    * Lifecycle
    */
   disconnectedCallback() {
-    if (this.formElement.boxchecked) {
-      this.formElement.boxchecked.removeEventListener('change');
-    }
-
     this.removeEventListener('click');
   }
 
