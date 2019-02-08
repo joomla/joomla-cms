@@ -158,7 +158,12 @@ if ($saveOrder)
 											<?php if ($categories) : ?>
 												<?php echo implode(', ', $categories); ?>
 											<?php else : ?>
-												<?php echo JText::_('JALL'); ?>
+												<?php $category_ids = FieldsHelper::getAssignedCategoriesIds($item->id); ?>
+												<?php if (in_array('-1', $category_ids)) : ?>
+													<?php echo JText::_('JNONE'); ?>
+												<?php else: ?>
+													<?php echo JText::_('JALL'); ?>
+												<?php endif; ?>
 											<?php endif; ?>
 										<?php endif; ?>
 									</div>
