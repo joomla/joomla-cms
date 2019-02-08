@@ -53,8 +53,9 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 								$groupClass = $field->type === 'Spacer' ? ' field-spacer' : '';
 							?>
 							<?php if ($field->showon) : ?>
-							<?php // @todo restore controlling the tab with showon, currently not supported by joomla-tabs
-								  // $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
+							<?php
+								// @todo restore controlling the tab with showon, currently not supported by joomla-tabs
+								// $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($fieldSet->showon, $this->formControl)) . '\''; ?>
 								<?php HTMLHelper::_('script', 'system/showon.min.js', array('version' => 'auto', 'relative' => true)); ?>
 								<?php $dataShowOn = ' data-showon=\'' . json_encode(FormHelper::parseShowOnConditions($field->showon, $field->formControl, $field->group)) . '\''; ?>
 							<?php endif; ?>
