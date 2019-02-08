@@ -118,7 +118,7 @@ $tparams = $this->item->params;
 		<?php echo '<h3>' . JText::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
 
 		<?php echo $this->loadTemplate('profile'); ?>
-    <?php endif; ?>
+	<?php endif; ?>
 
 	<?php if ($tparams->get('show_user_custom_fields') && $this->contactUser) : ?>
 		<?php echo $this->loadTemplate('user_custom_fields'); ?>
