@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 
@@ -72,6 +73,20 @@ class JFormFieldterms extends JFormFieldRadio
 	{
 		$data = parent::getLayoutData();
 
+		$article = false;
+		$termsArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+
+		if ($termsArticle && Factory::getApplication()->isClient('site'))
+		{
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . (int) $termsArticle);
+			$db->setQuery($query);
+			$article = $db->loadObject();
+		}
+
 
 		$extraData = array(
 			'termsnote' => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_USER_TERMS_NOTE_FIELD_DEFAULT'),
@@ -80,7 +95,8 @@ class JFormFieldterms extends JFormFieldRadio
 			'translateLabel' => $this->translateLabel,
 			'translateDescription' => $this->translateDescription,
 			'translateHint' => $this->translateHint,
-			'termsArticle' => $this->element['article'] > 0 ? (int) $this->element['article'] : 0,
+			'termsArticle' => $termsArticle,
+			'article' => $article,
 		);
 
 		return array_merge($data, $extraData);
