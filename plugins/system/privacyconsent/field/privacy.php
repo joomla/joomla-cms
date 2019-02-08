@@ -73,6 +73,20 @@ class JFormFieldprivacy extends JFormFieldRadio
 	{
 		$data = parent::getLayoutData();
 
+		$article = false;
+		$privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+
+		if ($privacyArticle && Factory::getApplication()->isClient('site'))
+		{
+			$db    = Factory::getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
+				->from($db->quoteName('#__content'))
+				->where($db->quoteName('id') . ' = ' . (int) $privacyArticle);
+			$db->setQuery($query);
+			$article = $db->loadObject();
+		}
+
 		$extraData = array(
 			'privacynote' => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT'),
 			'options' => $this->getOptions(),
@@ -80,7 +94,8 @@ class JFormFieldprivacy extends JFormFieldRadio
 			'translateLabel' => $this->translateLabel,
 			'translateDescription' => $this->translateDescription,
 			'translateHint' => $this->translateHint,
-			'privacyArticle' => $this->element['article'] > 0 ? (int) $this->element['article'] : 0,
+			'privacyArticle' => $privacyArticle,
+			'article' => $article,
 		);
 
 		return array_merge($data, $extraData);
