@@ -26,7 +26,7 @@
 				label="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_LABEL"
 				description="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_DESC"
 				icon="list"
-				layout="joomla.form.field.subform.repeatable"
+				layout="joomla.form.field.subform.repeatable-table"
 				min="1"
 				multiple="true"
 				>
