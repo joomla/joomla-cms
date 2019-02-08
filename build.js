@@ -107,5 +107,5 @@ if (Program.watch) {
 
 // Gzip all the script and stylesheets
 if (Program.buildGzip) {
-  gzipAssets.run(options, Program.args[0]);
+  gzipAssets.run(Program.args[0]);
 }

@@ -24,25 +24,25 @@ const handleFile = (file, enableBrotli) => {
     return;
   }
 
-  if (enableBrotli) {
-    if (file.match(/\.min\.js/) && !file.match(/\.min\.js\.gz/) && !file.match(/\.min\.js\.br/) && !file.toLowerCase().match(/json/) && !file.toLowerCase().match(/license/)) {
-      // eslint-disable-next-line no-console
-      console.log(`Processing: ${file}`);
-      // Gzip the file
-      Fs.readFile(file, (err, data) => {
-        if (err) throw err;
-        gzip(data, options, (error, output) => {
-          if (error) throw err;
-          // Save the gzipped file
-          Fs.writeFileSync(
-            file.replace(/\.js$/, '.js.gz'),
-            output,
-            { encoding: 'utf8' },
-          );
-        });
+
+  if (file.match(/\.min\.js/) && !file.match(/\.min\.js\.gz/) && !file.match(/\.min\.js\.br/) && !file.toLowerCase().match(/json/) && !file.toLowerCase().match(/license/)) {
+    // eslint-disable-next-line no-console
+    console.log(`Processing: ${file}`);
+    // Gzip the file
+    Fs.readFile(file, (err, data) => {
+      if (err) throw err;
+      gzip(data, options, (error, output) => {
+        if (error) throw err;
+        // Save the gzipped file
+        Fs.writeFileSync(
+          file.replace(/\.js$/, '.js.gz'),
+          output,
+          { encoding: 'utf8' },
+        );
       });
+    });
 
-
+    if (enableBrotli) {
       // Brotli file
       Fs.createReadStream(file)
         .pipe(compressStream())
@@ -67,10 +67,12 @@ const handleFile = (file, enableBrotli) => {
       });
     });
 
-    // Brotli file
-    Fs.createReadStream(file)
-      .pipe(compressStream())
-      .pipe(Fs.createWriteStream(file.replace(/\.css$/, '.css.br')));
+    if (enableBrotli) {
+      // Brotli file
+      Fs.createReadStream(file)
+        .pipe(compressStream())
+        .pipe(Fs.createWriteStream(file.replace(/\.css$/, '.css.br')));
+    }
   }
 };
 
