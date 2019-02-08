@@ -48,7 +48,8 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
    * Lifecycle
    */
   connectedCallback() {
-    // We need a button to support button behavior, because we cannot currently extend HTMLButtonElement
+    // We need a button to support button behavior, 
+    // because we cannot currently extend HTMLButtonElement
     this.buttonElement = this.querySelector('button, a');
 
     // Check whether we have a form
