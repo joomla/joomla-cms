@@ -11,6 +11,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('radio');
@@ -85,8 +86,30 @@ class JFormFieldterms extends JFormFieldRadio
 				->where($db->quoteName('id') . ' = ' . (int) $termsArticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
-		}
 
+			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
+
+			if (Associations::isEnabled())
+			{
+				$termsAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $termsArticle);
+			}
+
+			$currentLang = Factory::getLanguage()->getTag();
+
+			if (isset($termsAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $termsAssociated))
+			{
+				$article->link = ContentHelperRoute::getArticleRoute(
+					$termsAssociated[$currentLang]->id,
+					$termsAssociated[$currentLang]->catid,
+					$termsAssociated[$currentLang]->language
+				);
+			}
+			else
+			{
+				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
+				$article->link = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+			}
+		}
 
 		$extraData = array(
 			'termsnote' => !empty($this->element['note']) ? $this->element['note'] : Text::_('PLG_USER_TERMS_NOTE_FIELD_DEFAULT'),

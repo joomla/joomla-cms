@@ -11,7 +11,6 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
@@ -85,36 +84,13 @@ if (Factory::getLanguage()->isRtl())
 	$label .= ' data-placement="left"';
 }
 
+$attribs          = array();
+$attribs['class'] = 'modal';
+$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
+
 if ($article)
 {
-	JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
-
-	$attribs          = array();
-	$attribs['class'] = 'modal';
-	$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
-	if (Associations::isEnabled())
-	{
-		$termsAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $termsArticle);
-	}
-
-	$currentLang = Factory::getLanguage()->getTag();
-
-	if (isset($termsAssociated) && $currentLang !== $article->language && array_key_exists($currentLang, $termsAssociated))
-	{
-		$url  = ContentHelperRoute::getArticleRoute(
-			$termsAssociated[$currentLang]->id,
-			$termsAssociated[$currentLang]->catid,
-			$termsAssociated[$currentLang]->language
-		);
-		$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
-	}
-	else
-	{
-		$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-		$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
-		$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
-	}
+	$link = HTMLHelper::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
 }
 else
 {
