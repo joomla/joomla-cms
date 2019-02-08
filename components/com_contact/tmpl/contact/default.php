@@ -112,7 +112,7 @@ $tparams = $this->item->params;
 		<?php echo '<h3>' . JText::_('JGLOBAL_ARTICLES') . '</h3>'; ?>
 
 		<?php echo $this->loadTemplate('articles'); ?>
-    <?php endif; ?>
+	<?php endif; ?>
 
 	<?php if ($tparams->get('show_profile') && $this->item->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
 		<?php echo '<h3>' . JText::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
