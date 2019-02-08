@@ -74,7 +74,7 @@ $this->addScriptDeclaration('cssVars();');
 				<?php else : ?>
 					<a class="logo">
 						<img src="<?php echo $logoBlue; ?>" alt="">
-					</a>				
+					</a>
 				<?php endif; ?>
 				</div>
 				<jdoc:include type="modules" name="title" />
