@@ -83,6 +83,16 @@ class PlgFieldsSubfields extends FieldsPlugin
 			$valuefield->setAttribute('context', $formData->context);
 		}
 
+		// When this is not a new instance (editing an existing instance)
+		if (isset($formData->id) && $formData->id > 0)
+		{
+			// Don't allow the 'repeat' attribute to be edited
+			foreach ($xmlxpath->evaluate('//field[@name="repeat"]') as $field)
+			{
+				$field->setAttribute('readonly', '1');
+			}
+		}
+
 		// And now load our manipulated form definition into the JForm
 		$form->load($xml->saveXML(), true, '/form/*');
 	}
