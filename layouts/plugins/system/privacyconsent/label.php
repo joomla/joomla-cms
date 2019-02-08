@@ -11,6 +11,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
 extract($displayData);
 
@@ -82,17 +83,13 @@ if (Factory::getLanguage()->isRtl())
 	$label .= ' data-placement="left"';
 }
 
+$attribs          = array();
+$attribs['class'] = 'modal';
+$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
+
 if ($article)
 {
-	JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
-
-	$attribs          = array();
-	$attribs['class'] = 'modal';
-	$attribs['rel']   = '{handler: \'iframe\', size: {x:800, y:500}}';
-
-	$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-	$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
-	$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
+	$link = JHtml::_('link', Route::_($article->link . '&tmpl=component'), $text, $attribs);
 }
 else
 {

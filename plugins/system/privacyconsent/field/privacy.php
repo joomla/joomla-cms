@@ -85,6 +85,11 @@ class JFormFieldprivacy extends JFormFieldRadio
 				->where($db->quoteName('id') . ' = ' . (int) $privacyArticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
+
+			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
+
+			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
+			$article->link  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
 		}
 
 		$extraData = array(
