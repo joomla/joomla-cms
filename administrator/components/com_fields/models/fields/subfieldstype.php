@@ -115,7 +115,7 @@ class JFormFieldSubfieldstype extends JFormFieldList
 
 		if ($return)
 		{
-			$this->context  = (string) $this->element['context'];
+			$this->context = (string) $this->element['context'];
 		}
 
 		return $return;

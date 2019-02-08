@@ -18,10 +18,10 @@ $result = '';
 // Iterate over each row that we have
 foreach ($field->subfields_rows as $subfields_row)
 {
-	/* Placeholder array to generate this rows output */
+	// Placeholder array to generate this rows output
 	$row_output = array();
 
-	/* Iterate over each sub field inside of that row */
+	// Iterate over each sub field inside of that row
 	foreach ($subfields_row as $subfield)
 	{
 		$class   = trim($subfield->params->get('render_class', ''));
@@ -50,11 +50,11 @@ foreach ($field->subfields_rows as $subfields_row)
 		continue 1;
 	}
 
-	$result .= ('<li>' . implode(', ', $row_output) . '</li>');
+	$result .= '<li>' . implode(', ', $row_output) . '</li>';
 }
 ?>
 
-<?php if (trim($result) != ''): ?>
+<?php if (trim($result) != '') : ?>
 	<ul class="fields-container">
 		<?php echo $result; ?>
 	</ul>
