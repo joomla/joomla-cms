@@ -267,8 +267,11 @@ class CssMenu
 		$noSeparator = true;
 		$children = $parent->getChildren();
 
-		// Call preprocess for the menu items on plugins.
-		// Plugins should normally process the current level only unless their logic needs deep levels too.
+		/**
+		 * Trigger onPreprocessMenuItems for the current level of backend menu items.
+		 * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
+		 * but new nodes will only be run through this method if their parents have not been processed yet.
+		 */
 		$this->application->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', $children, $this->params, $this->enabled));
 
 
