@@ -3,7 +3,6 @@
 .nav.nav-tabs {
   flex-wrap: unset;
   align-items: stretch;
-  justify-content: space-around;
   padding: 0;
   margin: 0 0 1rem;
   text-align: center;
@@ -12,9 +11,8 @@
   @include media-breakpoint-down(sm) {
     flex-direction: column;
   }
-
+ 
   .nav-item {
-    width: 100%;
     margin-bottom: 0;
     margin-left: 0;
   }
@@ -32,4 +30,10 @@
   padding: 0;
   background: transparent;
   border: 0;
+}
+ 
+@media (max-width: 1290px) {
+  .nav.nav-tabs {
+    flex-wrap:wrap;
+  }
 }
