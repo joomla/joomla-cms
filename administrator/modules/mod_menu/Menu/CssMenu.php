@@ -130,10 +130,9 @@ class CssMenu
 				// In recovery mode, load the preset inside a special root node.
 				$this->root = new MenuItem(['level' => 0]);
 				$heading = new MenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
-				$heading->level = $this->root->level + 1;
-
-				$heading = MenusHelper::loadPreset('joomla', true, $heading);
 				$this->root->addChild($heading);
+
+				MenusHelper::loadPreset('joomla', true, $heading);
 
 				$this->preprocess($this->root);
 
@@ -183,14 +182,14 @@ class CssMenu
 	/**
 	 * Check the flat list of menu items for important links
 	 *
-	 * @param   array     $items   The menu items array
+	 * @param   MenuItem  $node    The menu items array
 	 * @param   Registry  $params  Module options
 	 *
 	 * @return  boolean  Whether to show recovery menu
 	 *
 	 * @since   3.8.0
 	 */
-	protected function check($items, Registry $params)
+	protected function check($node, Registry $params)
 	{
 		$me          = $this->application->getIdentity();
 		$authMenus   = $me->authorise('core.manage', 'com_menus');
@@ -201,6 +200,7 @@ class CssMenu
 			return false;
 		}
 
+		$items      = $node->getChildren(true);
 		$types      = ArrayHelper::getColumn($items, 'type');
 		$elements   = ArrayHelper::getColumn($items, 'element');
 		$rMenu      = $authMenus && !in_array('com_menus', $elements);
