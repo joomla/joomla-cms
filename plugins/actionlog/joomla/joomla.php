@@ -931,8 +931,8 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			return;
 		}
 
-        $userId   = $jUser->id ?: $user['id'];
-        $username = $jUser->username ?: $user['username'];
+		$userId   = $jUser->id ?: $user['id'];
+		$username = $jUser->username ?: $user['username'];
 
 		$message = array(
 			'action'      => 'checkin',
