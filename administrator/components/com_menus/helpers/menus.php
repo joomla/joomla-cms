@@ -339,6 +339,8 @@ class MenusHelper
 	 * @return  array
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0  This method will return a node object to iterate over in 4.0. 
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{

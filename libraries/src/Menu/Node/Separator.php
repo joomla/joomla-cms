@@ -17,6 +17,8 @@ use Joomla\CMS\Menu\Node;
  * @see    Node
  *
  * @since  3.8.0
+ *
+ * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
  */
 class Separator extends Node
 {
@@ -35,6 +37,8 @@ class Separator extends Node
 	 * @param   string  $title  The title of the node
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
 	 */
 	public function __construct($title = null)
 	{
@@ -51,6 +55,8 @@ class Separator extends Node
 	 * @return  mixed
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
 	 */
 	public function get($name)
 	{

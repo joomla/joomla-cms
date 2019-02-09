@@ -15,6 +15,8 @@ defined('JPATH_PLATFORM') or die;
  * @see    Node
  *
  * @since  3.8.0
+ *
+ * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
  */
 class Container extends Heading
 {
