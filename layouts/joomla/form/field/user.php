@@ -50,7 +50,7 @@ extract($displayData);
 
 if (!$readonly)
 {
-	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
+	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
 }
 
 $uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
