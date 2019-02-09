@@ -188,11 +188,9 @@
 		name="created_time"
 		type="calendar"
 		label="JGLOBAL_CREATED_DATE"
-		class="readonly"
 		translateformat="true"
 		showtime="true"
 		size="22"
-		readonly="true"
 		filter="user_utc"
 	/>
 
