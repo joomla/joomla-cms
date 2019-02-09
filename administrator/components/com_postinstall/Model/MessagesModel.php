@@ -87,7 +87,7 @@ class MessagesModel extends BaseDatabaseModel
 	/**
 	 * Returns a list of messages from the #__postinstall_messages table
 	 *
-	 * @return  Object
+	 * @return  array
 	 *
 	 * @since   3.2
 	 */

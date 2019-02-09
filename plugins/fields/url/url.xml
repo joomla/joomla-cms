@@ -34,13 +34,14 @@
 					<option value="file">FILE</option>
 					<option value="mailto">MAILTO</option>
 				</field>
-	
+
 				<field
 					name="relative"
 					type="radio"
 					label="PLG_FIELDS_URL_PARAMS_RELATIVE_LABEL"
 					class="switcher"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

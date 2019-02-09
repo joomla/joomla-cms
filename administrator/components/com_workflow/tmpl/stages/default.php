@@ -30,6 +30,8 @@ $saveOrderingUrl = '';
 
 $saveOrder = ($listOrder == 's.ordering');
 
+$isCore = $this->workflow->core;
+
 if ($saveOrder)
 {
 	$saveOrderingUrl = 'index.php?option=com_workflow&task=stages.saveOrderAjax&workflow_id=' . (int) $this->workflowID . '&extension=' . $this->escape($this->extension) . '&' . Session::getFormToken() . '=1';
@@ -116,14 +118,14 @@ if ($saveOrder)
 									</td>
 									<td class="text-center">
 										<div class="btn-group">
-											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange); ?>
+											<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'stages.', $canChange && !$isCore); ?>
 										</div>
 									</td>
 									<td class="text-center">
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->default, $i, 'stages.', $canChange); ?>
 									</td>
 									<th scope="row">
-										<?php if ($canEdit) : ?>
+										<?php if ($canEdit && !$isCore) : ?>
 											<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
 												<?php echo $editIcon; ?><?php echo $this->escape(Text::_($item->title)); ?>
