@@ -37,6 +37,13 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php endif; ?>
 
 		<li class="nav-item">
+			<a class="nav-link" href="<?php echo Route::_('index.php'); ?>" title="<?php echo Text::_('MOD_STATUS_SHOWADMIN'); ?>" target="_blank">
+				<span class="fa fa-home" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('MOD_STATUS_SHOWADMIN'); ?></span>
+			</a>
+		</li>
+
+		<li class="nav-item">
 			<a class="nav-link" href="<?php echo Uri::root(); ?>" title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">
 				<span class="fa fa-external-link" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
