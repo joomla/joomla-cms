@@ -73,7 +73,15 @@ class CssMenu
 	 */
 	protected $application;
 
+	/**
+	 * A counter for unique IDs
+	 *
+	 * @var   int
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $counter = 0;
+
 	/**
 	 * CssMenu constructor.
 	 *
@@ -93,7 +101,7 @@ class CssMenu
 	 * @param   Registry  $params   Menu configuration parameters
 	 * @param   bool      $enabled  Whether the menu should be enabled or disabled
 	 *
-	 * @return  void
+	 * @return  MenuItem  Root node of the menu tree
 	 *
 	 * @since   3.7.0
 	 */
@@ -516,7 +524,7 @@ class CssMenu
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getCounter()
 	{
