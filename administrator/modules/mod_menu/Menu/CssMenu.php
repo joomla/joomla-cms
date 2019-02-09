@@ -73,7 +73,15 @@ class CssMenu
 	 */
 	protected $application;
 
+	/**
+	 * A counter for unique IDs
+	 *
+	 * @var   int
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
 	protected $counter = 0;
+
 	/**
 	 * CssMenu constructor.
 	 *
@@ -93,7 +101,7 @@ class CssMenu
 	 * @param   Registry  $params   Menu configuration parameters
 	 * @param   bool      $enabled  Whether the menu should be enabled or disabled
 	 *
-	 * @return  void
+	 * @return  MenuItem  Root node of the menu tree
 	 *
 	 * @since   3.7.0
 	 */
@@ -122,10 +130,9 @@ class CssMenu
 				// In recovery mode, load the preset inside a special root node.
 				$this->root = new MenuItem(['level' => 0]);
 				$heading = new MenuItem(['title' => 'MOD_MENU_RECOVERY_MENU_ROOT', 'type' => 'heading']);
-				$heading->level = $this->root->level + 1;
-
-				$heading = MenusHelper::loadPreset('joomla', true, $heading);
 				$this->root->addChild($heading);
+
+				MenusHelper::loadPreset('joomla', true, $heading);
 
 				$this->preprocess($this->root);
 
@@ -175,14 +182,14 @@ class CssMenu
 	/**
 	 * Check the flat list of menu items for important links
 	 *
-	 * @param   array     $items   The menu items array
+	 * @param   MenuItem  $node    The menu items array
 	 * @param   Registry  $params  Module options
 	 *
 	 * @return  boolean  Whether to show recovery menu
 	 *
 	 * @since   3.8.0
 	 */
-	protected function check($items, Registry $params)
+	protected function check($node, Registry $params)
 	{
 		$me          = $this->application->getIdentity();
 		$authMenus   = $me->authorise('core.manage', 'com_menus');
@@ -193,6 +200,7 @@ class CssMenu
 			return false;
 		}
 
+		$items      = $node->getChildren(true);
 		$types      = ArrayHelper::getColumn($items, 'type');
 		$elements   = ArrayHelper::getColumn($items, 'element');
 		$rMenu      = $authMenus && !in_array('com_menus', $elements);
@@ -259,8 +267,11 @@ class CssMenu
 		$noSeparator = true;
 		$children = $parent->getChildren();
 
-		// Call preprocess for the menu items on plugins.
-		// Plugins should normally process the current level only unless their logic needs deep levels too.
+		/**
+		 * Trigger onPreprocessMenuItems for the current level of backend menu items.
+		 * $children is an array of MenuItem objects. A plugin can traverse the whole tree,
+		 * but new nodes will only be run through this method if their parents have not been processed yet.
+		 */
 		$this->application->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.module', $children, $this->params, $this->enabled));
 
 
@@ -516,7 +527,7 @@ class CssMenu
 	 *
 	 * @return  string
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getCounter()
 	{

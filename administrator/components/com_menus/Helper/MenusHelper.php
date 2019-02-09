@@ -406,22 +406,21 @@ class MenusHelper extends ContentHelper
 	 */
 	public static function installPreset($preset, $menutype)
 	{
-		$items = MenuHelper::loadPreset($preset, false);
+		$root = static::loadPreset($preset, false);
 
-		if (count($items) == 0)
+		if (count($root->getChildren()) == 0)
 		{
 			throw new \Exception(Text::_('COM_MENUS_PRESET_LOAD_FAILED'));
 		}
 
-		static::installPresetItems($items, $menutype, 1);
+		static::installPresetItems($root, $menutype, 1);
 	}
 
 	/**
 	 * Method to install a preset menu item into database and link it to the given menutype
 	 *
-	 * @param   \stdClass[]  $items     The single menuitem instance with a list of its descendants
-	 * @param   string       $menutype  The target menutype
-	 * @param   int          $parent    The parent id or object
+	 * @param   MenuItem  $node      The parent node of the items to process
+	 * @param   string    $menutype  The target menutype
 	 *
 	 * @return  void
 	 *
@@ -429,10 +428,11 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected static function installPresetItems(&$items, $menutype, $parent = 1)
+	protected static function installPresetItems($node, $menutype)
 	{
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
+		$items = $node->getChildren();
 
 		static $components = array();
 
@@ -445,7 +445,7 @@ class MenusHelper extends ContentHelper
 
 		Factory::getApplication()->triggerEvent('onPreprocessMenuItems', array('com_menus.administrator.import', &$items, null, true));
 
-		foreach ($items as &$item)
+		foreach ($items as $item)
 		{
 			/** @var  \JTableMenu  $table */
 			$table = Table::getInstance('Menu');
@@ -465,7 +465,7 @@ class MenusHelper extends ContentHelper
 					'menutype'  => $menutype,
 					'type'      => $item->type,
 					'title'     => $item->title,
-					'parent_id' => $parent,
+					'parent_id' => $item->getParent()->id,
 					'client_id' => 1,
 				);
 				$table->load($keys);
@@ -491,7 +491,7 @@ class MenusHelper extends ContentHelper
 					'menutype'  => $menutype,
 					'type'      => $item->type,
 					'link'      => $item->link,
-					'parent_id' => $parent,
+					'parent_id' => $item->getParent()->id,
 					'client_id' => 1,
 				);
 				$table->load($keys);
@@ -524,7 +524,7 @@ class MenusHelper extends ContentHelper
 				'img'          => $item->class,
 				'access'       => $item->access,
 				'component_id' => array_search($item->element, $components) ?: 0,
-				'parent_id'    => $parent,
+				'parent_id'    => $item->getParent()->id,
 				'client_id'    => 1,
 				'published'    => 1,
 				'language'     => '*',
@@ -537,7 +537,7 @@ class MenusHelper extends ContentHelper
 				throw new \Exception('Bind failed: ' . $table->getError());
 			}
 
-			$table->setLocation($parent, 'last-child');
+			$table->setLocation($item->getParent()->id, 'last-child');
 
 			if (!$table->check())
 			{
@@ -551,9 +551,9 @@ class MenusHelper extends ContentHelper
 
 			$item->id = $table->get('id');
 
-			if (!empty($item->submenu))
+			if ($item->hasChildren())
 			{
-				static::installPresetItems($item->submenu, $menutype, $item->id);
+				static::installPresetItems($item, $menutype);
 			}
 		}
 	}
