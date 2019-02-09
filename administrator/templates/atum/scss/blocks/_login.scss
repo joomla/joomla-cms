@@ -56,6 +56,8 @@
 	padding:15px;
 	color:var(--atum-text-dark);
 	border-radius:3px;
+    margin-top: 10rem;
+    align-self: flex-start;
 	-webkit-box-shadow: 0px 0px 10px 0px #ccc;
 	-moz-box-shadow:    0px 0px 10px 0px #ccc;
 	box-shadow:         0px 0px 10px 0px #ccc;
@@ -147,10 +149,10 @@
 
   #sidebar {
     color: var(--atum-text-light);
-    position:absolute;
-    bottom: 40px;
     width: 100%;
     text-align: center;
+    align-self: flex-end;
+
     .card {
       .module-body {
         padding: .75rem 1.25rem;
@@ -182,6 +184,8 @@
 	margin-top:100px;
 	color:var(--atum-text-light);
 	text-align:center;
+	flex: 1;
+	flex-basis: auto;
 	@include media-breakpoint-down(sm) {
 		margin-top:10px;
 	}
