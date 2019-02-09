@@ -924,7 +924,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterCheckin($table)
 	{
 		$context = $this->app->input->get('option');
-		$jUser    = Factory::getUser();
+		$jUser   = Factory::getUser();
 
 		if (!$this->checkLoggable($context))
 		{
