@@ -58,3 +58,4 @@ Text::script('COM_MEDIA_SHARE_DESC', true);
 Text::script('COM_MEDIA_ACTION_SHARE', true);
 Text::script('COM_MEDIA_SHARE_COPY_FAILED_ERROR', true);
 Text::script('JACTION_CREATE', true);
+Text::script('COM_MEDIA_FOLDER_NAME', true);
