@@ -14,10 +14,8 @@ use Joomla\CMS\Menu\Node;
 /**
  * A Component type of node for MenuTree
  *
- * @see    Node
- *
- * @since  3.8.0
- *
+ * @see         Node
+ * @since       3.8.0
  * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
  */
 class Component extends Node

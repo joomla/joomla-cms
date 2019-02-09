@@ -12,8 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Menu Tree class to represent a menu tree hierarchy
  *
- * @since  3.8.0
- *
+ * @since       3.8.0
  * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
  */
 class Tree

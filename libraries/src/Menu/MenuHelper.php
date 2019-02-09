@@ -14,8 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Menu Helper utility
  *
- * @since  3.8.0
- *
+ * @since       3.8.0
  * @deprecated  4.0
  */
 class MenuHelper

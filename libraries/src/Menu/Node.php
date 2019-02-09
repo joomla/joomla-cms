@@ -14,10 +14,8 @@ use Joomla\Registry\Registry;
 /**
  * A Node for MenuTree
  *
- * @see    Tree
- *
- * @since  3.8.0
- *
+ * @see         Tree
+ * @since       3.8.0
  * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
  */
 class Node

@@ -14,10 +14,8 @@ use Joomla\CMS\Menu\Node;
 /**
  * A Heading type of node for MenuTree
  *
- * @see    Node
- *
- * @since  3.8.0
- *
+ * @see         Node
+ * @since       3.8.0
  * @deprecated  4.0  Use Joomla\CMS\Menu\MenuItem
  */
 class Heading extends Node
