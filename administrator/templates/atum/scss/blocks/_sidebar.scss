@@ -119,10 +119,9 @@
       }
 
       &.menu-quicktask {
-        width: 1rem;
-        height: 1rem;
-        flex-basis: 1rem;
+        flex-basis: 2.5rem;
         padding: 4px 5px;
+        text-align: center;
 
         &::before {
           background-image: none;
