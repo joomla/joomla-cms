@@ -402,7 +402,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.8.0
 	 */
 	public static function installPreset($preset, $menutype)
 	{
