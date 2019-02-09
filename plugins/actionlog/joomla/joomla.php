@@ -924,25 +924,28 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	public function onAfterCheckin($table)
 	{
 		$context = $this->app->input->get('option');
-		$user    = Factory::getUser();
+		$jUser    = Factory::getUser();
 
 		if (!$this->checkLoggable($context))
 		{
 			return;
 		}
 
+        $userId   = $jUser->id ?: $user['id'];
+        $username = $jUser->username ?: $user['username'];
+
 		$message = array(
 			'action'      => 'checkin',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
-			'id'          => $user->id,
-			'title'       => $user->name,
-			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-			'userid'      => $user->id,
-			'username'    => $user->name,
-			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'id'          => $user['id'],
+			'title'       => $user['name'],
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			'userid'      => $userId,
+			'username'    => $username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
 			'table'       => $table,
 		);
 
-		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CHECKIN', $context, $user->id);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CHECKIN', $context, $userId);
 	}
 }
