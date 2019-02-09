@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,22 @@ JHtml::_('behavior.keepalive');
 JHtml::_('behavior.combobox');
 JHtml::_('formbehavior.chosen', 'select');
 
-$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom';
+jimport('joomla.filesystem.file');
+
+$editorText  = false;
+$moduleXml   = JPATH_SITE . '/modules/' . $this->item['module'] . '/' . $this->item['module'] . '.xml';
+
+if (JFile::exists($moduleXml))
+{
+	$xml = simplexml_load_file($moduleXml);
+
+	if (isset($xml->customContent))
+	{
+		$editorText = true;
+	}
+}
+
+$hasContent = empty($this->item['module']) || $this->item['module'] === 'custom' || $this->item['module'] === 'mod_custom' || $editorText === true;
 
 // If multi-language site, make language read-only
 if (JLanguageMultilang::isEnabled())
