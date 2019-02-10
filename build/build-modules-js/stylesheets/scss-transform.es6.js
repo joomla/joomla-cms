@@ -14,7 +14,7 @@ module.exports.compile = (file, folder) => {
   if (folder === 'media') {
     cssFile = file.replace('/scss/', '/css/').replace('.scss', '.css').replace('/build/media_source/', '/media/');
   } else if (folder === 'templates') {
-    cssFile = file.replace('/src/scss/', '/css/').replace('.scss', '.css').replace('\\src\\scss\\', '\\css\\');
+    cssFile = file.replace('/assets_source/scss/', '/css/').replace('.scss', '.css').replace('\\assets_source\\scss\\', '\\css\\');
   }
 
   Sass.render({

@@ -58,7 +58,7 @@ module.exports.compile = (path) => {
                   if (folder.includes(`${RootPath}/build/media_source`)) {
                     mediaFiles.push(file);
                   } else if (folder.includes('/template')) {
-                    if (file.includes('/src/scss/')) {
+                    if (file.includes('/assets_source/scss/')) {
                       templateFiles.push(file);
                     }
                   }
@@ -75,12 +75,12 @@ module.exports.compile = (path) => {
                       { encoding: 'utf8' },
                     );
                   } else if (folder.includes(`${RootPath}/administrator/templates`) || folder.includes(`${RootPath}/templates`)) {
-                    if (file.match('/src/css/')) {
+                    if (file.match('/assets_source/css/')) {
                       // Ensure that the directories exist or create them
-                      MakeDir.run(Path.dirname(file.replace('/src/css/', '/css/').replace('\\src\\css\\', '\\css\\')));
-                      Fs.copyFileSync(file, file.replace('/src/css/', '/css/').replace('\\src\\css\\', '\\css\\'));
+                      MakeDir.run(Path.dirname(file.replace('/assets_source/css/', '/css/').replace('\\assets_source\\css\\', '\\css\\')));
+                      Fs.copyFileSync(file, file.replace('/assets_source/css/', '/css/').replace('\\assets_source\\css\\', '\\css\\'));
                       Fs.writeFileSync(
-                        file.replace('/src/css/', '/css/').replace('\\src\\css\\', '\\css\\').replace('.css', '.min.css'),
+                        file.replace('/assets_source/css/', '/css/').replace('\\assets_source\\css\\', '\\css\\').replace('.css', '.min.css'),
                         UglyCss.processFiles([file], { expandVars: false }),
                         { encoding: 'utf8' },
                       );

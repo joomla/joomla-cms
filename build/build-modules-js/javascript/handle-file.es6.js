@@ -22,9 +22,9 @@ module.exports.run = (file, folder) => {
       console.log(`Es5 file copied/minified: ${file}`);
     } else if (folder === 'templates') {
       // Ensure that the directories exist or create them
-      MakeDir.run(Path.dirname(file).replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\'));
-      Fs.copyFileSync(file, file.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.es5.js', '.js'));
-      Fs.writeFileSync(file.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.es5.js', '.min.js'), UglifyJS.minify(Fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
+      MakeDir.run(Path.dirname(file).replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\'));
+      Fs.copyFileSync(file, file.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\').replace('.es5.js', '.js'));
+      Fs.writeFileSync(file.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\').replace('.es5.js', '.min.js'), UglifyJS.minify(Fs.readFileSync(file, 'utf8')).code, { encoding: 'utf8' });
       // eslint-disable-next-line no-console
       console.log(`Es5 file copied/minified: ${file}`);
     }

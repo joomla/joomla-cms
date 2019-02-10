@@ -75,10 +75,10 @@ const createJsFiles = (inputFile, es6FileContents, folder) => {
     ];
   } else if (folder === 'templates') {
     outputFiles = [
-      inputFile.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.w-c.es6.js', '.js'),
-      inputFile.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.w-c.es6.js', '.min.js'),
-      inputFile.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.w-c.es6.js', '-es5.js'),
-      inputFile.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\').replace('.w-c.es6.js', '-es5.min.js'),
+      inputFile.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\').replace('.w-c.es6.js', '.js'),
+      inputFile.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\').replace('.w-c.es6.js', '.min.js'),
+      inputFile.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\').replace('.w-c.es6.js', '-es5.js'),
+      inputFile.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\').replace('.w-c.es6.js', '-es5.min.js'),
     ];
   }
 
@@ -100,9 +100,9 @@ module.exports.compile = (inputFile, folder) => {
       let scssFile = '';
 
       if (folder === 'media') {
-        scssFile = inputFile.replace('/src/js/', '/src/scss/').replace('\\src\\js\\', '\\src\\scss\\').replace('.w-c.es6.js', '.scss');
+        scssFile = inputFile.replace('/js/', '/scss/').replace('\\js\\', '\\scss\\').replace('.w-c.es6.js', '.scss');
       } else if (folder === 'templates') {
-        scssFile = inputFile.replace('/src/js/', '/src/scss/').replace('\\src\\js\\', '\\src\\scss\\').replace('.w-c.es6.js', '.scss');
+        scssFile = inputFile.replace('/assets_source/js/', '/assets_source/scss/').replace('\\assets_source\\js\\', '\\assets_source\\scss\\').replace('.w-c.es6.js', '.scss');
       }
 
       // Check if there is a css file
@@ -147,7 +147,7 @@ module.exports.compile = (inputFile, folder) => {
                       if (folder === 'media') {
                         scssOutFile = inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('/js/', '/css/').replace('\\js\\', '\\css\\');
                       } else if (folder === 'templates') {
-                        scssOutFile = inputFile.replace('/src/js/', '/css/').replace('\\src\\js\\', '\\css\\');
+                        scssOutFile = inputFile.replace('/assets_source/js/', '/css/').replace('\\assets_source\\js\\', '\\css\\');
                       }
 
                       Fs.writeFileSync(

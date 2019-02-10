@@ -36,7 +36,7 @@ module.exports.compileJS = (path) => {
           `${RootPath}/build/media_source`,
           `${RootPath}/administrator/templates`,
           `${RootPath}/templates`,
-          `${RootPath}/installation/template/src`,
+          `${RootPath}/installation/template/assets_source`,
         ];
       }
 
@@ -52,7 +52,7 @@ module.exports.compileJS = (path) => {
                   folder === folders[1]
                   || folder === folders[2]
                   || folder === folders[3]) {
-                  if (file.includes('/src/js/')) {
+                  if (file.includes('/assets_source/js/')) {
                     HandleFile.run(file, 'templates');
                   }
                 }

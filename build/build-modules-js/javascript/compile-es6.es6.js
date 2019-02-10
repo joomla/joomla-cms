@@ -91,14 +91,14 @@ module.exports.compile = (file, folder) => {
         MakeDir.run(Path.dirname(file).replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\'));
       } else if (folder === 'templates') {
         jsFile = [
-          `${filePath.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\')}.js`,
-          `${filePath.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\')}.min.js`,
-          `${filePath.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\')}.es6.js`,
-          `${filePath.replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\')}.es6.min.js`,
+          `${filePath.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\')}.js`,
+          `${filePath.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\')}.min.js`,
+          `${filePath.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\')}.es6.js`,
+          `${filePath.replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\')}.es6.min.js`,
         ];
 
         // Ensure that the directories exist or create them
-        MakeDir.run(Path.dirname(file).replace('/src/js/', '/js/').replace('\\src\\js\\', '\\js\\'));
+        MakeDir.run(Path.dirname(file).replace('/assets_source/js/', '/js/').replace('\\assets_source\\js\\', '\\js\\'));
       }
 
 
