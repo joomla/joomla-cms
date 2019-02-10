@@ -254,7 +254,7 @@ class SiteRouter extends Router
 			}
 
 			// Menu links are not valid URLs. Find the first parent that isn't a menulink
-			if ($found->type == 'menulink')
+			if ($found && $found->type == 'menulink')
 			{
 				while ($found->hasParent() && $found->type == 'menulink')
 				{
