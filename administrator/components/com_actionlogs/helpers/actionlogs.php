@@ -245,7 +245,7 @@ class ActionlogsHelper
 			}
 		}
 
-		if ($component==='com_plugins')
+		if ($component === 'com_plugins')
 		{
 			$urlVar = 'extension_id';
 		}
