@@ -26,10 +26,5 @@ Issue #
 
 
 
-### Compliance & Legal
-(Check if this change requires any compliance with upstream license/trademark)
-
-
-
 ### Could This PR Have An Impact On Security
 (E.g if it changes input filtering/or ACL)
