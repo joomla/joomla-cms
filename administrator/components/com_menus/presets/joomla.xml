@@ -161,6 +161,7 @@
 			title="MOD_MENU_COM_USERS_USERS"
 			type="heading"
 			class="class:users"
+			alias="users"
 	>
 		<menuitem
 				title="MOD_MENU_COM_USERS_USER_MANAGER"
