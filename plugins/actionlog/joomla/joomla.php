@@ -919,7 +919,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.3
 	 */
 	public function onAfterCheckin($table)
 	{
