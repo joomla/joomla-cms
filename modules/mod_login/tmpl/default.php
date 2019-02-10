@@ -51,6 +51,7 @@ Text::script('JHIDE');
 				<div class="input-group">
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
 					<span class="input-group-append">
+						<label for="modlgn-passwd" class="sr-only"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
 						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
 						<span class="input-group-text icon-eye" aria-hidden="true"></span>
 					</span>
