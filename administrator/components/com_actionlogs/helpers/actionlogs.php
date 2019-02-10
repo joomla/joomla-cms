@@ -245,9 +245,9 @@ class ActionlogsHelper
 			}
 		}
 
-		if (empty($urlVar))
+		if ($component==='com_plugins')
 		{
-			$urlVar = 'id';
+			$urlVar = 'extension_id';
 		}
 
 		// Return default link to avoid having to implement getContentTypeLink in most of our components
