@@ -521,22 +521,22 @@ class FOFDispatcher extends FOFUtilsObject
 
 					if (empty($this->fofAuth_Key))
 					{
-						continue;
+						continue 2;
 					}
 
 					if (!isset($_SERVER['PHP_AUTH_USER']))
 					{
-						continue;
+						continue 2;
 					}
 
 					if (!isset($_SERVER['PHP_AUTH_PW']))
 					{
-						continue;
+						continue 2;
 					}
 
 					if ($_SERVER['PHP_AUTH_USER'] != '_fof_auth')
 					{
-						continue;
+						continue 2;
 					}
 
 					$encryptedData = $_SERVER['PHP_AUTH_PW'];
@@ -549,7 +549,7 @@ class FOFDispatcher extends FOFUtilsObject
 
 					if (empty($encryptedData))
 					{
-						continue;
+						continue 2;
 					}
 
 					$authInfo = $this->_decryptWithTOTP($encryptedData);
@@ -558,12 +558,12 @@ class FOFDispatcher extends FOFUtilsObject
 				case 'HTTPBasicAuth_Plaintext':
 					if (!isset($_SERVER['PHP_AUTH_USER']))
 					{
-						continue;
+						continue 2;
 					}
 
 					if (!isset($_SERVER['PHP_AUTH_PW']))
 					{
-						continue;
+						continue 2;
 					}
 
 					$authInfo = array(
@@ -577,7 +577,7 @@ class FOFDispatcher extends FOFUtilsObject
 
 					if (empty($jsonencoded))
 					{
-						continue;
+						continue 2;
 					}
 
 					$authInfo = json_decode($jsonencoded, true);
@@ -606,7 +606,7 @@ class FOFDispatcher extends FOFUtilsObject
 					break;
 
 				default:
-					continue;
+					continue 2;
 
 					break;
 			}
