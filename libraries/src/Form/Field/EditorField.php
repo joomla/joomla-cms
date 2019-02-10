@@ -250,6 +250,7 @@ class EditorField extends \JFormFieldTextarea
 			'autofocus' => $this->autofocus,
 			'readonly'  => $this->readonly || $this->disabled,
 			'syntax'    => (string) $this->element['syntax'],
+			'readonlymode'    => (string) $this->element['readonlymode'],
 		);
 
 		return $editor->display(

@@ -36,6 +36,7 @@
 			syntax="php"
 			filter="raw"
 			readonly="true"
+                        readonlymode="true"
 		/>
 
 		<field
