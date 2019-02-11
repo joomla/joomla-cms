@@ -935,10 +935,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'checkin',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user->id,
-			'title'       => $user->name,
+			'title'       => $user->username,
 			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'userid'      => $user->id,
-			'username'    => $user->name,
+			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'table'       => $table,
 		);
