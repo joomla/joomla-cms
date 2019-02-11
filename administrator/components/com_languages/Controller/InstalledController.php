@@ -50,8 +50,17 @@ class InstalledController extends BaseController
 				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 			}
 
-			$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
-			$type = 'message';
+			if (Multilanguage::isEnabled())
+			{
+				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_MULTILANG_SAVED');
+				$type = 'message';
+			}
+			else
+			{
+				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
+				$type = 'message';
+			}
+			
 		}
 		else
 		{
