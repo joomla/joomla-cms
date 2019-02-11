@@ -22,6 +22,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     extension: options.uploadPath.split('.').pop(),
     contents: `data:image/${options.uploadPath.split('.').pop()};base64,${options.contents}`,
   };
+
   Joomla.MediaManager.Edit.history = {};
   Joomla.MediaManager.Edit.current = {};
 
@@ -75,7 +76,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     const links = [].slice.call(tabsUlElement.querySelectorAll('a'));
 
     links.forEach((link) => {
-      if (!link.classList.contains('active')) {
+      if (!link.hasAttribute('active')) {
         return;
       }
 
@@ -90,7 +91,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
       // Move the container to the correct tab
       const mediaContainer = document.getElementById('media-manager-edit-container');
-      const tab = document.getElementById(link.id.id.replace('tab-', ''));
+      const tab = document.getElementById(link.id.replace('tab-', ''));
       tab.insertAdjacentElement('afterbegin', mediaContainer);
 
       activate(link.id.replace('tab-attrib-', ''), data);
