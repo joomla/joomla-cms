@@ -164,7 +164,11 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
         break;
       case 'cancel':
-        window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+        if (window.self !== window.top) {
+          window.parent.Joomla.Modal.getCurrent().close();
+        } else {
+          window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
+        }
         break;
       case 'reset':
         Joomla.MediaManager.Edit.Reset('initial');
