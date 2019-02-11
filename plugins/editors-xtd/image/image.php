@@ -76,7 +76,7 @@ class PlgButtonImage extends CMSPlugin
 				'modalWidth' => '80',
 				'tinyPath'   => $link,
 				'confirmCallback' => 'Joomla.getImage(Joomla.selectedFile, \'' . $name . '\')',
-				'confirmText' => 'Insert Image' // Needs to be translated
+				'confirmText' => Text::_('PLG_IMAGE_BUTTON_INSERT') // Needs to be translated
 			];
 
 			return $button;
