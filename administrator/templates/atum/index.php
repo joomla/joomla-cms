@@ -95,7 +95,7 @@ if (count($root))
 	$css .= ':root {' . implode($root) . '}';
 }
 
-//$this->addStyleDeclaration($css);
+$this->addStyleDeclaration($css);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
