@@ -193,6 +193,9 @@ Desktop.ini
 /libraries/vendor/simplepie/simplepie/build
 /libraries/vendor/simplepie/simplepie/idn/ReadMe.txt
 /libraries/vendor/simplepie/simplepie/composer.json
+/libraries/vendor/typo3/phar-stream-wrapper/README.md
+/libraries/vendor/typo3/phar-stream-wrapper/LICENSE
+/libraries/vendor/typo3/phar-stream-wrapper/.gitignore
 
 # System Test related files
 tests/codeception/acceptance.suite.yml
