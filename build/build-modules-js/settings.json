@@ -4,63 +4,6 @@
       "last 1 version",
       "not ie < 11"
     ],
-    "elements": [
-      "field-media",
-      "field-user",
-      "field-switcher",
-      "field-send-test-mail",
-      "field-module-order",
-      "field-permissions",
-      "field-simple-color",
-      "field-send-test-mail",
-      "field-subform",
-      "field-fancy-select",
-      "editor-codemirror",
-      "hidden-mail",
-      "editor-none",
-      "toolbar-button"
-    ],
-    "webcomponents": {
-      "field-media": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-switcher": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-simple-color": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-send-test-mail": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "editor-codemirror": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "editor-none": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-module-order": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-hidden-mail": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-subform": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-fancy-select": {
-        "js": "media/system/webcomponents/js"
-      }
-    },
     "vendors": {
       "awesomplete": {
         "name": "awesomplete",
