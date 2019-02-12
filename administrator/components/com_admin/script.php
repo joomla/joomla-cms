@@ -1983,6 +1983,8 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper/path.php',
 			'/libraries/src/Mail/language/phpmailer.lang-joomla.php',
 			'/plugins/captcha/recaptcha/recaptchalib.php',
+			// Joomla! 3.9.4
+			'/libraries/src/Filesystem/Support/Stringcontroller.php',
 
 			/*
 			 * Legacy FOF
@@ -2250,8 +2252,6 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/support',
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
-			// Joomla! 3.9.4
-			'/libraries/src/Filesystem/Support/Stringcontroller.php',
 		);
 
 		jimport('joomla.filesystem.file');
