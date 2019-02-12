@@ -29,7 +29,7 @@ HTMLHelper::_('script', 'com_cpanel/admin-system-loader.js', ['version' => 'auto
 				<li class="list-group-item">
 					<a href="<?php echo $item->getLink(); ?>"><?php echo Text::_($item->getTitle()); ?>
 					<?php if (!empty($item->getType())) : ?>
-						<span class="fa fa-spin fa-spinner pull-right mt-1 system-counter" data-type="<?php echo $item->getMethod(); ?>">
+						<span class="fa fa-spin fa-spinner pull-right mt-1 system-counter" data-type="<?php echo $item->getType(); ?>">
 
 						</span>
 					<?php endif; ?>

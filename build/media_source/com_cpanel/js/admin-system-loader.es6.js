@@ -16,13 +16,20 @@
       url: 'index.php?option=com_cpanel&task=system.loadSystemInfo&format=json',
       method: 'POST',
       data: 'type=' + type,
-      onSuccess: (response) => {
-        if (response.count > 0)
+      onSuccess: (resp) => {
+        const response = JSON.parse(resp);
+
+        if (response.error || !response.success)
+        {
+          elements[i].classList.remove('fa-spin', 'fa-spinner');
+          elements[i].classList.add('text-danger', 'fa-remove');
+        }
+        else if (response.data)
         {
           const elem = document.createElement('span');
 
-          elem.addAttribute('class', 'pull-right badge badge-pill badge-warning');
-          elem.innerHTML = parseInt(response.count);
+          elem.classList.add('pull-right', 'badge', 'badge-pill', 'badge-warning');
+          elem.innerHTML = response.data;
 
           elements[i].parentNode.replaceChild(elem, elements[i]);
         }
