@@ -130,6 +130,7 @@ class PlgEditorCodemirror extends CMSPlugin
 		{
 			$options->readOnly = 'nocursor';
 
+
 			if (!empty($params['readonlymode']))
 			{
 				$options->readOnly = $params['readonlymode'];
