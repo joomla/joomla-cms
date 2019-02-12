@@ -93,6 +93,11 @@ if ($this->params->get('link-color'))
 	$root[] = '--atum-link-color: ' . $this->params->get('link-color') . ';';
 }
 
+if ($this->params->get('special-color'))
+{
+	$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
+}
+
 if (count($root))
 {
 	$css .= ':root {' . implode($root) . '}';

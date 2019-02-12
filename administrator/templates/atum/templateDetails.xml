@@ -83,6 +83,13 @@
 					default="#6f7780"
 					filter="color"
 				/>
+				<field
+					name="special-color"
+					type="color"
+					label="TPL_ATUM_COLORS_SETTINGS_SPECIAL_COLOR_LABEL"
+					default="#1a466b"
+					filter="color"
+				/>
 			</fieldset>
 			<fieldset name="images" label="TPL_ATUM_IMAGES_SETTINGS_LABEL">
 
