@@ -22,7 +22,6 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     extension: options.uploadPath.split('.').pop(),
     contents: `data:image/${options.uploadPath.split('.').pop()};base64,${options.contents}`,
   };
-
   Joomla.MediaManager.Edit.history = {};
   Joomla.MediaManager.Edit.current = {};
 
