@@ -166,7 +166,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
         break;
       case 'cancel':
         if (window.self !== window.top) {
-          window.parent.Joomla.Modal.getCurrent().close();
+          window.location = `${pathName}?option=com_media&path=${fileDirectory}&tmpl=component`;
         } else {
           window.location = `${pathName}?option=com_media&path=${fileDirectory}`;
         }
