@@ -2258,7 +2258,7 @@ class JoomlaInstallerScript
 
 		foreach ($files as $file)
 		{
-			if (JFile::exists(realpath(JPATH_ROOT . $file)) && !JFile::delete(realpath(JPATH_ROOT . $file)))
+			if (realpath(JPATH_ROOT . $file) === JPATH_ROOT . $file && !JFile::delete(JPATH_ROOT . $file))
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
 			}
