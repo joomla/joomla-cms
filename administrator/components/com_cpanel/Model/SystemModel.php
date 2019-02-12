@@ -94,7 +94,7 @@ class SystemModel extends BaseDatabaseModel
 			$messages      = count($messagesModel->getItems());
 
 			$infoSection->addItem(
-				new SystemItem('MOD_MENU_INFORMATION_POST_INSTALL_MESSAGES', 'index.php?option=com_postinstall', $messages)
+				new SystemItem('MOD_MENU_INFORMATION_POST_INSTALL_MESSAGES', 'index.php?option=com_postinstall', 'postinstall')
 			);
 		}
 
