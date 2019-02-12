@@ -2250,13 +2250,15 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/support',
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
+			// Joomla! 3.9.4
+			'libraries/src/Filesystem/Support/Stringcontroller.php',
 		);
 
 		jimport('joomla.filesystem.file');
 
 		foreach ($files as $file)
 		{
-			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
+			if (JFile::exists(realpath(JPATH_ROOT . $file)) && !JFile::delete(realpath(JPATH_ROOT . $file)))
 			{
 				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br />';
 			}
