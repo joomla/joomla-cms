@@ -2251,7 +2251,7 @@ class JoomlaInstallerScript
 			'/libraries/joomla/filesystem/wrapper',
 			'/libraries/joomla/filesystem',
 			// Joomla! 3.9.4
-			'libraries/src/Filesystem/Support/Stringcontroller.php',
+			'/libraries/src/Filesystem/Support/Stringcontroller.php',
 		);
 
 		jimport('joomla.filesystem.file');
