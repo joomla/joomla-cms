@@ -218,8 +218,7 @@
         const div = this.querySelector('.field-media-preview');
 
         if (!value) {
-          // @todo remove Font awesome dependency
-          div.innerHTML = '<span class="field-media-preview-icon fa fa-picture-o"></span>';
+          div.innerHTML = '<span class="field-media-preview-icon"></span>';
         } else {
           div.innerHTML = '';
           const imgPreview = new Image();

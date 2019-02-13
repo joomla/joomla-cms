@@ -139,7 +139,7 @@ $url    = ($readonly ? ''
 	Text::script('JLIB_FORM_MEDIA_PREVIEW_EMPTY', true);
 	?>
 	<?php if ($showPreview) : ?>
-		<div class="field-media-preview">
+		<div class="field-media-preview" role="presentation">
 			<?php echo ' ' . $previewImgEmpty; ?>
 			<?php echo ' ' . $previewImg; ?>
 		</div>
