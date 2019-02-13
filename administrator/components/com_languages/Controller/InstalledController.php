@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\MultiLanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
@@ -52,8 +53,16 @@ class InstalledController extends BaseController
 
 			if (Multilanguage::isEnabled())
 			{
-				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_MULTILANG_SAVED');
-				$type = 'message';
+				if ($model->getState('client_id') == 0)
+				{
+					$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_MULTILANG_SAVED');
+					$type = 'message';
+				}
+				else
+				{
+					$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
+					$type = 'message';
+				}
 			}
 			else
 			{
