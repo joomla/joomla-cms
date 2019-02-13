@@ -60,6 +60,8 @@ $css = '
 
 $root = [];
 
+$steps = 10;
+
 if ($this->params->get('bg-dark'))
 {
 	$root[] = '--atum-bg-dark: ' . $this->params->get('bg-dark') . ';';
@@ -82,7 +84,12 @@ if ($this->params->get('text-light'))
 
 if ($this->params->get('link-color'))
 {
-	$root[] = '--atum-link-color: ' . $this->params->get('link-color') . ';';
+	$linkcolor = trim($this->params->get('link-color'), '#');
+
+	list($red, $green, $blue) = str_split($linkcolor, 2);
+
+	$root[] = '--atum-link-color: #' . $linkcolor . ';';
+	$root[] = '--atum-link-hover: #' . dechex(max(0, hexdec($red) - $steps)) . dechex(max(0, hexdec($green) - $steps)) . dechex(max(0, hexdec($blue) - $steps)) . ';';
 }
 
 if ($this->params->get('special-color'))
