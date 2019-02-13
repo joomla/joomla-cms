@@ -140,7 +140,9 @@
 }
 
 //extern links with icons
-a[href*="//"]:before{
-	font:normal normal normal 14px/1 FontAwesome;
-	content:"\f08e  ";
+a[href*="//"]:before{	
+	//:not(span){	
+		font:normal normal normal 14px/1 FontAwesome;
+		content:"\f08e  ";
+	//}	
 }

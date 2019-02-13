@@ -13,10 +13,12 @@ $gray-700:                         #495057;
 $gray-800:                         #343a40;
 $gray-900:                         #212529;
 $black:                            #000;
-$light-blue:                       #ebeff5;
+$light-blue:                       #E0E8EF;
+$dark-blue:                        #001B4C;
+$blue-a700:						   #4D78A3;
 
 // BS Colours
-$blue:                             #1a466b;
+$blue:                             #003E7C;
 $indigo:                           #0377be;
 $purple:                           #6f42c1;
 $pink:                             #e83e8c;
@@ -35,16 +37,16 @@ $theme-colors: map-merge((
   warning: $yellow,
   danger: $red,
   light: $gray-100,
-  dark: $gray-900
+  dark: $gray-900,
+  atum-link-color:$blue-a700
 ), $theme-colors);
 
 $colors: (
-  primary-dark: #2b5c91,
+  //primary-dark: #2b5c91,
   success-border: darken(theme-color("success"), 5%),
   info-border: darken(theme-color("info"), 7%),
   warning-border: darken(theme-color("warning"), 5%),
-  danger-border: darken(theme-color("danger"), 5%),
-  link-hover: darken(theme-color("primary"), 15%),
+  danger-border: darken(theme-color("danger"), 5%),  
   sidebar-bg: #122942,
   sidebar-sub-bg: #1b3654,
   sidebar-text-color: #7189a4,
@@ -62,7 +64,8 @@ $colors: (
   atum-bg-light: $light-blue,
   atum-text-dark: $gray-600,
   atum-text-light: $white,
-  atum-link-color:$gray-600
+  atum-special-color:$dark-blue,
+  link-hover: darken(theme-color("atum-link-color"), 15%)
 );
 
 // Global
@@ -124,6 +127,7 @@ $table-cell-padding:               8px 12px;
 $btn-border-radius:                0;
 $btn-border-radius-lg:             0;
 $btn-border-radius-sm:             0;
+
 
 // Dropdowns
 $dropdown-padding-y:               0;
@@ -199,7 +203,7 @@ $grid-gutter-width:                15px;
 $breadcrumb-bg:                    var(--white);
 
 // Links
-$link-color:                       var(--primary);
+$link-color:                       var(--atum-link-color);
 $link-hover-color:                 var(--link-hover);
 
 //Time for fadeeffect login-light-bg

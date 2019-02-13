@@ -52,14 +52,14 @@
 					name="bg-dark"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_BG_DARK_LABEL"
-					default="#1a466b"
+					default="#003E7C"
 					filter="color"
 				/>
 				<field
 					name="bg-light"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_BG_LIGHT_LABEL"
-					default="#ebeff5"
+					default="#E0E8EF"
 					filter="color"
 				/>
 				<field
@@ -80,14 +80,14 @@
 					name="link-color"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_LINK_COLOR_LABEL"
-					default="#6f7780"
+					default="#4D78A3"
 					filter="color"
 				/>
 				<field
 					name="special-color"
 					type="color"
 					label="TPL_ATUM_COLORS_SETTINGS_SPECIAL_COLOR_LABEL"
-					default="#1a466b"
+					default="#001B4C"
 					filter="color"
 				/>
 			</fieldset>

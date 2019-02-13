@@ -20,7 +20,7 @@
     margin: 0 5px;
     font-size: 1.2rem;
     line-height: $header-height;
-    color: var(--primary-dark);
+    color: var(--atum-special-color);
 
     [class^='icon-'] {
       margin-right: 10px;
@@ -35,7 +35,7 @@
     .fa {
       width: $header-height + 0.125rem;
       font-size: 1.2rem;
-      color: var(--primary-dark);
+      color: var(--atum-special-color);
       vertical-align: middle;
       transition: all .2s ease-in-out;
     }
@@ -69,7 +69,7 @@
 
   .dropdown-item {
     @include hover-focus {
-      color: var(--primary-dark);
+      color: var(--atum-special-color);
     }
   }
 
@@ -97,7 +97,7 @@
     padding-top: .5rem;
     padding-bottom: .5rem;
     color: $white;
-    background-color: var(--primary-dark);
+    background-color: var(--atum-bg-dark);
     box-shadow: $atum-box-shadow;
   }
 
@@ -109,7 +109,7 @@
     margin-right: .9rem;
     margin-bottom: 0;
     font-size: $h5-font-size;
-    color: var(--primary-dark);
+    color: var(--atum-special-color);
   }
 }
 

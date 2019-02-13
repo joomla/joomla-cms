@@ -32,7 +32,7 @@
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(45deg,
-            rgba(color("primary-dark"), .9) 30%,
+            rgba(color("atum-bg-dark"), .9) 30%,
             rgba(color("login-light-bg"), .2) 100%);
   }
 
@@ -79,16 +79,19 @@
 				right: 0;
 				font-size: 0.75rem;
 			}
+			
 		}
 	}
+	
 	#btn-login-submit {
 		text-transform: uppercase;
 	}
   }
-
+	
+			
   .login-box {
     background: var(--login-main-bg);
-    box-shadow: 0 0 20px var(--primary-dark);
+    box-shadow: 0 0 20px var(--atum-bg-dark);
 
     a {
       color: $white;
@@ -178,7 +181,9 @@
 	}
   }
 }
-
+label{
+		color:var(--atum-special-color);
+	}
 
 .com_login .sidebar-wrapper .main-brand{
 	margin-top:100px;

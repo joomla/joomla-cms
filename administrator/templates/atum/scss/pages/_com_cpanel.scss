@@ -15,7 +15,7 @@
 
   &-help {
     &__header {
-      color: var(--primary-dark);
+      color: var(--atum-special-color);
     }
 
     a {
@@ -42,7 +42,7 @@
     }
 
     &__header {
-      color: var(--primary-dark);
+      color: var(--atum-special-color);
 
       span {
         margin-right: 5px;
@@ -107,7 +107,7 @@
   .card-header {
     padding-left: 0;
     font-size: $h5-font-size;
-    color: var(--primary-dark);
+    color: var(--atum-special-color);
   }
 
   .module-actions {
@@ -121,7 +121,7 @@
       width: 2.6em;
       height: 2.6em;
       line-height: 2.6em;
-      color: var(--primary-dark);
+      color: var(--atum-special-color);
       text-align: center;
     }
   }
