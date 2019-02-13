@@ -133,7 +133,7 @@ if ($saveOrder && !empty($this->items))
 								   	</div>
 								</td>	
 								<td class="text-center">
-								    <div class="btn-group">
+									<div class="btn-group">
 								    <?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
 									</div>	
 								</td>
