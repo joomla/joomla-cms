@@ -10,37 +10,37 @@
         <div class="media-browser-item-info">
             {{ item.name }} {{ item.filetype }}
         </div>
-        <a href="#" class="media-browser-select" title="Select"
+        <a href="#" class="media-browser-select" :title="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')"
           @click.stop="toggleSelect()"
           :aria-label="translate('COM_MEDIA_TOGGLE_SELECT_ITEM')">
         </a>
         <div class="media-browser-actions" :class="{'active': showActions}">
-            <a href="#" class="action-toggle" title="Actions"
+            <a href="#" class="action-toggle" :title="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')"
               :aria-label="translate('COM_MEDIA_OPEN_ITEM_ACTIONS')">
                 <span class="image-browser-action fa fa-ellipsis-h" aria-hidden="true"
                       @click.stop="showActions = true"></span>
             </a>
             <div class="media-browser-actions-list">
-                <a href="#" class="action-preview" title="Preview"
+                <a href="#" class="action-preview" :title="translate('COM_MEDIA_ACTION_PREVIEW')"
                   :aria-label="translate('COM_MEDIA_ACTION_PREVIEW')">
                     <span class="image-browser-action fa fa-search-plus" aria-hidden="true"
                           @click.stop="openPreview()"></span>
                 </a>
-                <a href="#" class="action-download" title="Download"
+                <a href="#" class="action-download" :title="translate('COM_MEDIA_ACTION_DOWNLOAD')"
                    :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')">
                     <span class="image-browser-action fa fa-download" aria-hidden="true"
                           @click.stop="download()"></span>
                 </a>
-                <a href="#" class="action-rename" title="Rename"
+                <a href="#" class="action-rename" :title="translate('COM_MEDIA_ACTIN_RENAME')"
                   :aria-label="translate('COM_MEDIA_ACTIN_RENAME')">
                     <span class="image-browser-action fa fa-text-width" aria-hidden="true"
                           @click.stop="openRenameModal()"></span>
                 </a>
-                <a href="#" class="action-url" title="Share"
+                <a href="#" class="action-url" :title="translate('COM_MEDIA_ACTION_SHARE')"
                   :aria-label="translate('COM_MEDIA_ACTION_SHARE')">
                     <span class="image-browser-action fa fa-link" aria-hidden="true" @click.stop="openShareUrlModal()"></span>
                 </a>
-                <a href="#" class="action-delete" title="Delete"
+                <a href="#" class="action-delete" :title="translate('COM_MEDIA_ACTION_DELETE')"
                   :aria-label="translate('COM_MEDIA_ACTION_DELETE')">
                     <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>
                 </a>
