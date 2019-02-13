@@ -116,12 +116,14 @@
 
     li {
       position: relative;
+      display: flex;
     }
 
     a {
       display: block;
       padding: 4px 5px 4px 34px;
       color: var(--sidebar-child-link-color);
+      flex-basis: 100%;
 
       &:hover {
         color: $white;
@@ -142,6 +144,17 @@
         content: "";
         background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTI1NiA4QzExOSA4IDggMTE5IDggMjU2czExMSAyNDggMjQ4IDI0OCAyNDgtMTExIDI0OC0yNDhTMzkzIDggMjU2IDh6bTAgNDQ4Yy0xMTAuNSAwLTIwMC04OS41LTIwMC0yMDBTMTQ1LjUgNTYgMjU2IDU2czIwMCA4OS41IDIwMCAyMDAtODkuNSAyMDAtMjAwIDIwMHoiLz48L3N2Zz4=");
         opacity: .5;
+      }
+
+      &.menu-quicktask {
+        flex-basis: 2.5rem;
+        padding: 4px 5px;
+        text-align: center;
+
+        &::before {
+          background-image: none;
+          width: 0;
+        }
       }
     }
 

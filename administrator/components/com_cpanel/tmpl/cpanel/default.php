@@ -30,6 +30,26 @@ $user = Factory::getUser();
 	<?php endif; ?>
 </div>
 <div class="row">
+    <?php if ($this->cpanel && $this->menuitem->hasChildren()) : ?>
+        <?php foreach ($this->menuitem->getChildren() as $item) : ?>
+            <?php if ($item->hasChildren()) : ?>
+            <h3><?php echo $item->title; ?></h3>
+            <ul>
+                <?php foreach ($item->getChildren() as $child) : ?>
+                    <li><a href="<?php echo $child->link; ?>"><?php echo $child->title; ?></a>
+                        <?php if($child->hasChildren()) : ?>
+                        <ul>
+		                    <?php foreach ($child->getChildren() as $subchild) : ?>
+                            <li><a href="<?php echo $subchild->link; ?>"><?php echo $subchild->title; ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    <?php endif; ?>
 	<?php
 	$cols = 0;
 	foreach ($this->modules as $module)
