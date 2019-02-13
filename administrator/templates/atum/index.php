@@ -62,27 +62,32 @@ $root = [];
 
 if ($this->params->get('bg-dark'))
 {
-	$root[] = '--bg-dark: ' . $this->params->get('bg-dark') . ';';
+	$root[] = '--atum-bg-dark: ' . $this->params->get('bg-dark') . ';';
 }
 
 if ($this->params->get('bg-light'))
 {
-	$root[] = '--bg-light: ' . $this->params->get('bg-light') . ';';
+	$root[] = '--atum-bg-light: ' . $this->params->get('bg-light') . ';';
 }
 
 if ($this->params->get('text-dark'))
 {
-	$root[] = '--text-dark: ' . $this->params->get('text-dark') . ';';
+	$root[] = '--atum-text-dark: ' . $this->params->get('text-dark') . ';';
 }
 
 if ($this->params->get('text-light'))
 {
-	$root[] = '--text-light: ' . $this->params->get('text-light') . ';';
+	$root[] = '--atum-text-light: ' . $this->params->get('text-light') . ';';
 }
 
 if ($this->params->get('link-color'))
 {
-	$root[] = '--link-color: ' . $this->params->get('link-color') . ';';
+	$root[] = '--atum-link-color: ' . $this->params->get('link-color') . ';';
+}
+
+if ($this->params->get('special-color'))
+{
+	$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
 }
 
 if (count($root))
