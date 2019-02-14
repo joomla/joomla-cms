@@ -36,7 +36,8 @@
 			type="text"
 			label="INSTL_ADMIN_USER_LABEL"
 			id="admin_user"
-			class="inputbox"
+			class="validate-username"
+			validate="username"
 			required="true"
 		/>
 
