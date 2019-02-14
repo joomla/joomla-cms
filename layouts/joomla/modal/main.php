@@ -37,10 +37,10 @@ extract($displayData);
 
 $modalClasses = array('modal');
 
-if (!isset($params['animation']) || $params['animation'])
+/*if (!isset($params['animation']) || $params['animation'])
 {
 	$modalClasses[] = 'fade';
-}
+}*/
 
 $modalWidth       = isset($params['modalWidth']) ? round((int) $params['modalWidth'], -1) : '';
 $modalDialogClass = '';
@@ -55,7 +55,8 @@ $modalAttributes = array(
 	'class'    => 'joomla-modal ' .implode(' ', $modalClasses)
 );
 
-if (isset($params['backdrop']))
+
+if (!isset($params['backdrop']))
 {
 	$modalAttributes['data-backdrop'] = (is_bool($params['backdrop']) ? ($params['backdrop'] ? 'true' : 'false') : $params['backdrop']);
 }
