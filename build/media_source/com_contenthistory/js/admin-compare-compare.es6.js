@@ -5,6 +5,26 @@
 (() => {
   'use strict';
 
+  const decodeHtmlspecialChars = (text) => {
+    const map = {
+      '&amp;': '&',
+      '&#038;': '&',
+      '&lt;': '<',
+      '&gt;': '>',
+      '&quot;': '"',
+      '&#039;': "'",
+      '&#8217;': '’',
+      '&#8216;': '‘',
+      '&#8211;': '–',
+      '&#8212;': '—',
+      '&#8230;': '…',
+      '&#8221;': '”',
+    };
+
+    /* eslint-disable */
+    return text.replace(/\&[\w\d\#]{2,5}\;/g, (m) => { const n = map[m]; return n; });
+  };
+
   const compare = (original, changed) => {
     const display = changed.nextElementSibling;
     let color = '';
@@ -25,7 +45,7 @@
       span = document.createElement('span');
       span.style.backgroundColor = color;
       span.style.borderRadius = '.2rem';
-      span.appendChild(document.createTextNode(part.value));
+      span.appendChild(document.createTextNode(decodeHtmlspecialChars(part.value)));
       fragment.appendChild(span);
     });
 
