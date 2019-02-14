@@ -166,7 +166,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<?php else : ?> 
 										<span class="icon-unpublish" aria-hidden="true"></span>
 										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
-									<?php endif ; ?> 									
+									<?php endif; ?>
 								</td>
 								<?php endif; ?>
 								<td>
