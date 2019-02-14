@@ -72,7 +72,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 								<?php if ($tfa) : ?> 
 								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
 									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
-								</th>		
+								</th>
 								<?php endif; ?>
 								<th scope="col" style="width:12%">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
