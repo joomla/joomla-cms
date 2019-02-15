@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
 
@@ -22,22 +21,6 @@ JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com
  */
 class PlgPrivacyUser extends PrivacyPlugin
 {
-	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.9.0
-	 */
-	protected $db;
-
-	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Performs validation to determine if the data associated with a remove information request can be processed
 	 *
@@ -100,7 +83,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$domains[] = $this->createUserDomain($userTable);
 		$domains[] = $this->createNotesDomain($userTable);
 		$domains[] = $this->createProfileDomain($userTable);
-		$domains[] = $this->createUserCustomFieldsDomain($userTable);
+		$domains[] = $this->createCustomFieldsDomain('com_users.user', array($userTable));
 
 		return $domains;
 	}
@@ -179,7 +162,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 */
 	private function createNotesDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('user notes', 'Joomla! user notes data');
+		$domain = $this->createDomain('user_notes', 'joomla_user_notes_data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')
@@ -213,7 +196,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 */
 	private function createProfileDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('user profile', 'Joomla! user profile data');
+		$domain = $this->createDomain('user_profile', 'joomla_user_profile_data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')
@@ -242,7 +225,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 */
 	private function createUserDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('users', 'Joomla! users table data');
+		$domain = $this->createDomain('users', 'joomla_users_data');
 		$domain->addItem($this->createItemForUserTable($user));
 
 		return $domain;
@@ -271,38 +254,5 @@ class PlgPrivacyUser extends PrivacyPlugin
 		}
 
 		return $this->createItemFromArray($data, $user->id);
-	}
-
-	/**
-	 * Create the domain for the user custom fields
-	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
-	 *
-	 * @return  PrivacyExportDomain
-	 *
-	 * @since   3.9.0
-	 */
-	private function createUserCustomFieldsDomain(JTableUser $user)
-	{
-		$domain = $this->createDomain('user custom fields', 'Joomla! user custom fields data');
-
-		// Get item's fields, also preparing their value property for manual display
-		$fields = FieldsHelper::getFields('com_users.user', $user);
-
-		foreach ($fields as $field)
-		{
-			$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
-
-			$data = array(
-				'user_id'     => $user->id,
-				'field_name'  => $field->name,
-				'field_title' => $field->title,
-				'field_value' => $fieldValue,
-			);
-
-			$domain->addItem($this->createItemFromArray($data));
-		}
-
-		return $domain;
 	}
 }
