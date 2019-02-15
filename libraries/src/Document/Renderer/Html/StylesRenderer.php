@@ -42,6 +42,18 @@ class StylesRenderer extends DocumentRenderer
 
 		$defaultCssMimes = array('text/css');
 
+		// Reorder stylesheet links
+		uasort($this->_doc->_styleSheets, function($attribs1, $attribs2) {
+			$styleSheet1 = isset($attribs1['options']['order']) ? (int)$attribs1['options']['order'] : 1;
+			$styleSheet2 = isset($attribs2['options']['order']) ? (int)$attribs2['options']['order'] : 1;
+
+			if ($styleSheet1 === $styleSheet2) {
+				return 0;
+			}
+
+			return ($styleSheet1 < $styleSheet2) ? -1 : 1;
+		});
+
 		// Generate stylesheet links
 		foreach ($this->_doc->_styleSheets as $src => $attribs)
 		{
