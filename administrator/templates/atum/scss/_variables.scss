@@ -46,8 +46,7 @@ $colors: (
   success-border: darken(theme-color("success"), 5%),
   info-border: darken(theme-color("info"), 7%),
   warning-border: darken(theme-color("warning"), 5%),
-  danger-border: darken(theme-color("danger"), 5%),  
-  sidebar-bg: #122942,
+  danger-border: darken(theme-color("danger"), 5%),
   sidebar-sub-bg: #1b3654,
   sidebar-text-color: #7189a4,
   sidebar-link-color: #e3eaf1,
@@ -103,17 +102,6 @@ $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
 
-// Font weights
-$thin-weight:                      100;
-$extralight-weight:                200;
-$light-weight:                     300;
-$normal-weight:                    400;
-$medium-weight:                    500;
-$semibold-weight:                  600;
-$bold-weight:                      700;
-$extrabold-weight:                 800;
-$black-weight:                     900;
-
 // Text
 $body-color:                       var(--font-color-dark);
 
@@ -122,12 +110,6 @@ $table-bg:                         transparent;
 $table-bg-accent:                  rgba(0, 0, 0, .03);
 $table-border-color:               var(--table-border);
 $table-cell-padding:               8px 12px;
-
-// Buttons + Forms
-$btn-border-radius:                0;
-$btn-border-radius-lg:             0;
-$btn-border-radius-sm:             0;
-
 
 // Dropdowns
 $dropdown-padding-y:               0;
@@ -139,7 +121,6 @@ $dropdown-spacer:                  0;
 
 // Tabs
 $nav-tabs-border-width:            0;
-$nav-tabs-border-radius:           0;
 $nav-tabs-link-active-bg:          rgba($black, .2);
 
 // Tables
