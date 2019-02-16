@@ -8,11 +8,11 @@
 # READ THIS COMPLETELY IF YOU CHOOSE TO USE THIS FILE!
 #
 # The line 'Options +FollowSymLinks' may cause problems with some server configurations.
-# It is required for the use of mod_rewrite, but it may have already been set by your 
+# It is required for the use of mod_rewrite, but it may have already been set by your
 # server administrator in a way that disallows changing it in this .htaccess file.
-# If using it causes your site to produce an error, comment it out (add # to the 
-# beginning of the line), reload your site in your browser and test your sef urls. If 
-# they work, then it has been set by your server administrator and you do not need to 
+# If using it causes your site to produce an error, comment it out (add # to the
+# beginning of the line), reload your site in your browser and test your sef urls. If
+# they work, then it has been set by your server administrator and you do not need to
 # set it here.
 ##
 
@@ -35,7 +35,7 @@ Options -Indexes
 RewriteEngine On
 
 ## Begin - Rewrite rules to block out some common exploits.
-# If you experience problems on your site then comment out the operations listed 
+# If you experience problems on your site then comment out the operations listed
 # below by adding a # to the beginning of the line.
 # This attempts to block the most common type of exploit `attempts` on Joomla!
 #
