@@ -33,15 +33,15 @@ class SystemController extends BaseController
 		switch ($type)
 		{
 			case 'postinstall':
-				$count = $this->countPostInstallMessages();
+				$count = $this->countItems('com_postinstall', 'Messages');
 				break;
 
 			case 'installationwarnings':
-				$count = $this->countInstallWarnings();
+				$count = $this->countItems('com_installer', 'Warnings');
 				break;
 
 			case 'checkins':
-				$count = $this->countCheckins();
+				$count = $this->countItems('com_checkin', 'Checkin');
 				break;
 
 			case 'databaseupdate':
@@ -57,7 +57,7 @@ class SystemController extends BaseController
 				break;
 
 			case 'extensiondiscover':
-				$count = $this->countExtensionDiscover();
+				$count = $this->countItems('com_installer', 'Discover');
 				break;
 
 			default:
@@ -68,21 +68,6 @@ class SystemController extends BaseController
 		}
 
 		echo new JsonResponse($count);
-	}
-
-	protected function countPostInstallMessages()
-	{
-		return $this->countItems('com_postinstall', 'Messages');
-	}
-
-	protected function countInstallWarnings()
-	{
-		return $this->countItems('com_installer', 'Warnings');
-	}
-
-	protected function countCheckins()
-	{
-		return $this->countItems('com_checkin', 'Checkin');
 	}
 
 	protected function countDatabaseUpdates()
@@ -141,11 +126,6 @@ class SystemController extends BaseController
 		$items     = count($model->getItems());
 
 		return $items;
-	}
-
-	protected function countExtensionDiscover()
-	{
-		return $this->countItems('com_installer', 'Discover');
 	}
 
 	protected function countItems($extension, $model)
