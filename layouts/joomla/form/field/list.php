@@ -56,7 +56,7 @@ $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
-$attr .= (!empty($description)) ? ' aria-describedby="' . $aria . '"' : '';
+$attr .= !empty($description) ? ' aria-describedby="' . $aria . '"' : '';
 
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
