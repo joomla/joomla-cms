@@ -47,9 +47,11 @@ extract($displayData);
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
+$aria = $name . '-desc';
 
 $attributes = array(
 	!empty($size) ? 'size="' . $size . '"' : '',
+	!empty($description) ? ' aria-describedby="' . $aria . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
