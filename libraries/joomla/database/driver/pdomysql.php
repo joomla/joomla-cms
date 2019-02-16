@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -153,6 +153,17 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 
 		// Set sql_mode to non_strict mode
 		$this->connection->query("SET @@SESSION.sql_mode = '';");
+
+		// Disable query cache and turn profiling ON in debug mode.
+		if ($this->debug)
+		{
+			$this->connection->query('SET query_cache_type = 0;');
+
+			if ($this->hasProfiling())
+			{
+				$this->connection->query('SET profiling_history_size = 100, profiling = 1;');
+			}
+		}
 	}
 
 	/**
@@ -381,20 +392,6 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	}
 
 	/**
-	 * Get the version of the database connector.
-	 *
-	 * @return  string  The database connector version.
-	 *
-	 * @since   3.4
-	 */
-	public function getVersion()
-	{
-		$this->connect();
-
-		return $this->getOption(PDO::ATTR_SERVER_VERSION);
-	}
-
-	/**
 	 * Locks a table in the database.
 	 *
 	 * @param   string  $table  The name of the table to unlock.
@@ -456,12 +453,18 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 	 */
 	public function escape($text, $extra = false)
 	{
-		$this->connect();
-
-		if (is_int($text) || is_float($text))
+		if (is_int($text))
 		{
 			return $text;
 		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
+		$this->connect();
 
 		$result = substr($this->connection->quote($text), 1, -1);
 
@@ -570,5 +573,19 @@ class JDatabaseDriverPdomysql extends JDatabaseDriverPdo
 				$this->transactionDepth++;
 			}
 		}
+	}
+
+	/**
+	 * Internal function to check if profiling is available.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.1
+	 */
+	private function hasProfiling()
+	{
+		$result = $this->setQuery("SHOW VARIABLES LIKE 'have_profiling'")->loadAssoc();
+
+		return isset($result);
 	}
 }

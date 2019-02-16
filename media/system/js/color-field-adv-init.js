@@ -1,23 +1,23 @@
-jQuery(document).ready(function ($){
+jQuery(function ($){
+	initMinicolors();
+	$('body').on('subform-row-add', initMinicolors);
 
-	function initMinicolors(event, container) {
-		$(container || document).find('.minicolors').each(function() {
-			$(this).minicolors({
-				control: $(this).attr('data-control') || 'hue',
-				format: $(this).attr('data-validate') === 'color'
-					? 'hex'
-					: ($(this).attr('data-format') === 'rgba'
-						? 'rgb'
-						: $(this).attr('data-format'))
-					|| 'hex',
-				keywords: $(this).attr('data-keywords') || '',
-				opacity: $(this).attr('data-format') === 'rgba' ? true : false || false,
-				position: $(this).attr('data-position') || 'default',
-				theme: 'bootstrap'
+	function initMinicolors(event, container)
+	{
+		container = container || document;
+
+		$(container).find('.minicolors').each(function() {
+			var $this = $(this);
+			var format = $this.data('validate') === 'color' ? 'hex' : $this.data('format') || 'hex';
+
+			$this.minicolors({
+				control: $this.data('control') || 'hue',
+				format: format === 'rgba' ? 'rgb' : format,
+				keywords: $this.data('keywords') || '',
+				opacity: format === 'rgba',
+				position: $this.data('position') || 'default',
+				theme: $this.data('theme') || 'bootstrap',
 			});
 		});
 	}
-
-	initMinicolors();
-	$(document).on('subform-row-add', initMinicolors);
 });

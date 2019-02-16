@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_media
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ jQuery(document).ready(function($){
 		</div>
 
 		<div class="small">
-			<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL, '/', rawurlencode($video->name); ?>" title="<?php echo $this->escape($video->name); ?>">
+			<a class="video-preview" href="<?php echo COM_MEDIA_BASEURL, '/', rawurlencode($video->path_relative); ?>" title="<?php echo $this->escape($video->name); ?>">
 				<?php echo JHtml::_('string.truncate', $this->escape($video->name), 10, false); ?>
 			</a>
 		</div>

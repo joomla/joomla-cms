@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -513,7 +513,7 @@ class FieldsModelField extends JModelAdmin
 
 		// Get the form.
 		$form = $this->loadForm(
-			'com_fields.field' . $context, 'field',
+			'com_fields.field.' . $context, 'field',
 			array(
 				'control'   => 'jform',
 				'load_data' => true,
@@ -960,11 +960,17 @@ class FieldsModelField extends JModelAdmin
 		}
 
 		// Setting the context for the category field
-		$cat = JCategories::getInstance(str_replace('com_', '', $component));
+		$cat = JCategories::getInstance(str_replace('com_', '', $component) . '.' . $section);
+
+		// If there is no category for the component and section, so check the component only
+		if (!$cat)
+		{
+			$cat = JCategories::getInstance(str_replace('com_', '', $component));
+		}
 
 		if ($cat && $cat->get('root')->hasChildren())
 		{
-			$form->setFieldAttribute('assigned_cat_ids', 'extension', $component);
+			$form->setFieldAttribute('assigned_cat_ids', 'extension', $cat->getExtension());
 		}
 		else
 		{
