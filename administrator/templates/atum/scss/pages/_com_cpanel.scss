@@ -125,4 +125,19 @@
       text-align: center;
     }
   }
+  .cpanel-add-module {
+    border: 0.125rem var(--atum-bg-dark) dashed;
+	text-decoration: none;
+	background-color: var(--white);
+	span {
+		position: relative;
+	}
+	.fa {
+		position: absolute;
+		top: 50%;
+		left: 25%;
+		transform: translateY(-50%);
+		font-size: 7rem;
+	}
+  }
 }

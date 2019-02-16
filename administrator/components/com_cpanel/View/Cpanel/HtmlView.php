@@ -38,6 +38,8 @@ class HtmlView extends BaseHtmlView
 
 	protected $menuitem;
 
+	protected $position = 'cpanel';
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -52,12 +54,11 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::help('screen.cpanel');
 
 		$app = Factory::getApplication();
-		$this->cpanel = $app->input->getCmd('cpanel');
-		$position = 'cpanel';
+		$this->cpanel = $app->input->getCmd('extension');
 
 		if ($this->cpanel)
 		{
-			$position .= '-' . $this->cpanel;
+			$this->position .= '-' . $this->cpanel;
 			$modules = ModuleHelper::getModules('menu');
 			$module = false;
 
@@ -92,7 +93,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Display the cpanel modules
-		$this->modules = ModuleHelper::getModules($position);
+		$this->modules = ModuleHelper::getModules($this->position);
 
 		parent::display($tpl);
 	}
