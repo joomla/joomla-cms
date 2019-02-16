@@ -63,6 +63,7 @@ $document = Factory::getDocument();
  */
 
 $inputvalue = '';
+$aria = $name . '-desc';
 
 // Build the attributes array.
 $attributes = array();
@@ -110,6 +111,7 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
             id="<?php echo $id; ?>"
             name="<?php echo $name; ?>"
 			value="<?php echo htmlspecialchars(($value !== '0000-00-00 00:00:00') ? $value : '', ENT_COMPAT, 'UTF-8'); ?>"
+			<?php echo !empty($description) ? ' aria-describedby="' . $aria . '"' : ''; ?>
 			<?php echo $attributes; ?>
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
