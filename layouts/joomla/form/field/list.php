@@ -47,7 +47,7 @@ extract($displayData);
 
 $html = array();
 $attr = '';
-$id    = $name . '-desc';
+$aria = $name . '-desc';
 
 // Initialize the field attributes.
 $attr .= !empty($class) ? ' class="custom-select ' . $class . '"' : ' class="custom-select"';
@@ -56,9 +56,7 @@ $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
-
-// Check for description and add aria
-$attr .= (!empty($description)) ? ' aria-describedby="' . $id . '"' : '';
+$attr .= (!empty($description)) ? ' aria-describedby="' . $aria . '"' : '';
 
 
 // To avoid user's confusion, readonly="readonly" should imply disabled="disabled".
