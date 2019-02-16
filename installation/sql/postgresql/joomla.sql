@@ -754,17 +754,17 @@ CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "title" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
-  "state" smallint DEFAULT '0' NOT NULL,
-  "checked_out" integer DEFAULT '0' NOT NULL,
+  "state" smallint DEFAULT 0 NOT NULL,
+  "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "ordering" integer DEFAULT '0' NOT NULL,
+  "ordering" integer DEFAULT 0 NOT NULL,
   "params" text DEFAULT '' NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "created_by" bigint DEFAULT '0' NOT NULL,
+  "created_by" bigint DEFAULT 0 NOT NULL,
   "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "modified_by" bigint DEFAULT '0' NOT NULL,
-  "access" bigint DEFAULT '1' NOT NULL,
+  "modified_by" bigint DEFAULT 0 NOT NULL,
+  "access" bigint DEFAULT 1 NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__fields_groups_idx_checked_out" ON "#__fields_groups" ("checked_out");
