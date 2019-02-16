@@ -72,7 +72,7 @@
         this.spans[1].classList.add('active');
 
         // Aria-label ONLY in the container span!
-        this.inputsContainer.setAttribute('aria-labeledby', `${this.id}-lbl`); // this.spans[1].innerHTML);
+        this.inputsContainer.setAttribute('aria-labelledby', `${this.id}-lbl`); // this.spans[1].innerHTML);
       } else {
         this.spans[0].classList.add('active');
 
