@@ -16,7 +16,7 @@ $html = HTMLHelper::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
 	<nav  class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL'); ?>">
-		<ul>
+		<ul class="nav justify-content-between">
 			<?php echo $html; ?>
 		</ul>
 	</nav>
