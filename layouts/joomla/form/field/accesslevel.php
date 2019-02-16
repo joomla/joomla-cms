@@ -46,6 +46,7 @@ extract($displayData);
  */
 
 $attr = '';
+$aria = $name . '-desc';
 
 // Initialize some field attributes.
 $attr .= !empty($class) ? ' class="custom-select ' . $class . '"' : ' class="custom-select"';
@@ -55,5 +56,6 @@ $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
+$attr .= (!empty($description)) ? ' aria-describedby="' . $aria . '"' : '';
 
 echo HTMLHelper::_('access.level', $name, $value, $attr, $options, $id);
