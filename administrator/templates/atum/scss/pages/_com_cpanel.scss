@@ -129,15 +129,20 @@
     border: 0.125rem var(--atum-bg-dark) dashed;
 	text-decoration: none;
 	background-color: var(--white);
+	position: relative;
 	span {
 		position: relative;
 	}
-	.fa {
+	.cpanel-add-module-icon {
 		position: absolute;
-		top: 50%;
-		left: 25%;
-		transform: translateY(-50%);
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+	.fa {
 		font-size: 7rem;
+		transform: translateX(-100%);
 	}
   }
 }

@@ -59,10 +59,14 @@ $user = Factory::getUser();
 		echo ModuleHelper::renderModule($module, array('style' => 'well'));
 	}
 	?>
+	<?php if ($user->authorise('core.create', 'com_modules')) : ?>
 	<div class="col-md-6">
 		<a href="<?php echo Route::_('index.php?option=com_cpanel&task=addModule&position=' . $this->escape($this->position)); ?>" class="cpanel-add-module text-center py-5 w-100 d-block">
-			<span class="fa fa-plus-square-o text-light"></span>
+			<div class="cpanel-add-module-icon text-center">
+				<span class="fa fa-plus-square-o text-light"></span>
+			</div>
 			<span><?php echo Text::_('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
 		</a>
 	</div>
+	<?php endif; ?>
 </div>
