@@ -29,9 +29,6 @@ $fieldsets = $this->form->getFieldsets();
 				<?php echo $field->label; ?>
 			</div>
 			<div class="controls">
-				<?php if ($field->fieldname == 'password2') : ?>
-					<?php // Disables autocomplete ?> <input type="password" style="display:none">
-				<?php endif; ?>
 				<?php echo $field->input; ?>
 			</div>
 		</div>

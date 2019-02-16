@@ -21,7 +21,7 @@
 			name="password2" 
 			type="password"
 			label="JGLOBAL_PASSWORD"
-			autocomplete="off"
+			autocomplete="new-password"
 			class="validate-password"
 			field="password"
 			filter="raw"
