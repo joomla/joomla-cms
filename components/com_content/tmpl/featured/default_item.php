@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Workflow\Workflow;
 
 // Create a shortcut for params.
 $params  = &$this->item->params;
@@ -31,7 +32,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 <?php endif; ?>
 
 <div class="item-content">
-	<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
+	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
 		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != Factory::getDbo()->getNullDate())) : ?>
 		<div class="system-unpublished">
 	<?php endif; ?>
@@ -48,7 +49,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 		</h2>
 	<?php endif; ?>
 
-	<?php if ($this->item->state == 0) : ?>
+	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED) : ?>
 		<span class="badge badge-warning"><?php echo Text::_('JUNPUBLISHED'); ?></span>
 	<?php endif; ?>
 	<?php if (strtotime($this->item->publish_up) > strtotime(Factory::getDate())) : ?>
@@ -103,7 +104,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php endif; ?>
 
-	<?php if ($this->item->state == 0 || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
+	<?php if ($this->item->state == Workflow::CONDITION_UNPUBLISHED || strtotime($this->item->publish_up) > strtotime(Factory::getDate())
 		|| ((strtotime($this->item->publish_down) < strtotime(Factory::getDate())) && $this->item->publish_down != $this->db->getNullDate() )) : ?>
 		</div>
 	<?php endif; ?>
