@@ -42,7 +42,6 @@ $theme-colors: map-merge((
 ), $theme-colors);
 
 $colors: (
-  //primary-dark: #2b5c91,
   success-border: darken(theme-color("success"), 5%),
   info-border: darken(theme-color("info"), 7%),
   warning-border: darken(theme-color("warning"), 5%),
@@ -64,8 +63,8 @@ $colors: (
   atum-text-dark: $gray-600,
   atum-text-light: $white,
   atum-special-color:$dark-blue,
-  atum-link-hover:darken($dark-blue, 15%),
-  link-hover: darken(theme-color("atum-link-color"), 15%)
+  atum-link-color: $blue-a700,
+  atum-link-hover-color: darken($blue-a700, 15%),
 );
 
 // Global
@@ -194,7 +193,7 @@ $breadcrumb-bg:                    var(--white);
 
 // Links
 $link-color:                       var(--atum-link-color);
-$link-hover-color:                 var(--link-hover);
+$link-hover-color:                 var(--atum-link-hover-color);
 
 //Time for fadeeffect login-light-bg
 $fadetime: 1s;

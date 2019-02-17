@@ -131,6 +131,10 @@
 	text-decoration: none;
 	background-color: var(--white);
 	position: relative;
+	@hover {
+		background-color: var(--atum-bg-dark);
+		color: var(--white);
+	}
 	span {
 		position: relative;
 	}

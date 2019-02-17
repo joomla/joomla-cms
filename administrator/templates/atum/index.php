@@ -89,7 +89,7 @@ if ($this->params->get('link-color'))
 	list($red, $green, $blue) = str_split($linkcolor, 2);
 
 	$root[] = '--atum-link-color: #' . $linkcolor . ';';
-	$root[] = '--atum-link-hover: #' . dechex(max(0, hexdec($red) - $steps)) . dechex(max(0, hexdec($green) - $steps)) . dechex(max(0, hexdec($blue) - $steps)) . ';';
+	$root[] = '--atum-link-hover-color: #' . dechex(max(0, hexdec($red) - $steps)) . dechex(max(0, hexdec($green) - $steps)) . dechex(max(0, hexdec($blue) - $steps)) . ';';
 }
 
 if ($this->params->get('special-color'))
