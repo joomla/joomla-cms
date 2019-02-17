@@ -10,12 +10,11 @@
     const elements = document.querySelectorAll('.system-counter');
 
     for (let i = 0, l = elements.length; l > i; i += 1) {
-      const type = elements[i].getAttribute('data-type');
+      const badgeurl = elements[i].getAttribute('data-url');
 
     Joomla.request({
-      url: 'index.php?option=com_cpanel&task=system.loadSystemInfo&format=json',
+      url: badgeurl,
       method: 'POST',
-      data: 'type=' + type,
       onSuccess: (resp) => {
         const response = JSON.parse(resp);
 
