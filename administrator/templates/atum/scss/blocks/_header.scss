@@ -17,6 +17,8 @@
   }
 
   .page-title {
+    position: absolute;
+    left: 16.35rem;
     margin: 0 5px;
     font-size: 1.2rem;
     line-height: $header-height;
@@ -113,7 +115,7 @@
 
     .fa {
       padding: 1rem;
-      background-color: var(--atum-bg-dark-bright);//lighten(color("primary-light"), 5%);
+      background-color: var(--atum-bg-dark-bright);
       width: 3rem;
     }
 
