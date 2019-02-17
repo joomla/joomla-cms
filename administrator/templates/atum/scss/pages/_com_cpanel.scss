@@ -134,7 +134,7 @@
 	transition: all .3s ease-in;
 	@include hover-focus-active() {
 		background-color: var(--atum-bg-dark);
-		color: var(--white);
+		color: var(--atum-link-hover-color);
 		border-color: var(--white);
 		.cpanel-add-module-icon {
 			.fa {

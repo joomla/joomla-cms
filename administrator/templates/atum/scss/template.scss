@@ -125,24 +125,22 @@
 
 // Fadeeffect for login page
 .load-fadein{
-	@include fadein-page;
+  @include fadein-page;
 }
 
 .load-fadeout{
-	 @include fadeout-page;
+   @include fadeout-page;
 }
 // Fix blinking of fade effect
 .container-main.fade-done > * {
-	opacity: 1;
+  opacity: 1;
 }
 .sidebar-wrapper.fade-done > * {
-	opacity: 1;
+  opacity: 1;
 }
 
 //extern links with icons
-a[href*="//"]:before{	
-	//:not(span){	
-		font:normal normal normal 14px/1 FontAwesome;
-		content:"\f08e  ";
-	//}	
+a[href*="//"]:before{
+  font:normal normal normal 14px/1 FontAwesome;
+  content:"\f08e  ";
 }
