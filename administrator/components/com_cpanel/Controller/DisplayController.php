@@ -11,7 +11,9 @@ namespace Joomla\Component\Cpanel\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Cpanel Controller
@@ -50,5 +52,20 @@ class DisplayController extends BaseController
 		$this->input->set('tmpl', 'cpanel');
 
 		return parent::display($cachable, $urlparams);
+	}
+
+	public function addModule()
+	{
+		$position = $this->input->get('position', 'cpanel');
+
+		if (substr($position, 0, 6) != 'cpanel')
+		{
+			$position = 'cpanel';
+		}
+
+		Factory::getApplication()->setUserState('com_modules.modules.filter.position', $position);
+		Factory::getApplication()->setUserState('com_modules.modules.client_id', '1');
+
+		$this->setRedirect(Route::_('index.php?option=com_modules&view=select', false));
 	}
 }

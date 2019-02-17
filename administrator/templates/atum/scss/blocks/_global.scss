@@ -3,7 +3,6 @@
 html,
 body {
   height: 100%;
-  font-size: $font-size-root;
 }
 
 body {
@@ -17,11 +16,11 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: $bold-weight;
+  font-weight: $font-weight-bold;
 }
 
 h1 {
-  font-weight: $normal-weight;
+  font-weight: $font-weight-normal;
 }
 
 small,
@@ -31,7 +30,7 @@ small,
 
 legend {
   font-size: 1.2rem;
-  font-weight: $bold-weight;
+  font-weight: $font-weight-bold;
   ;
 }
 
@@ -56,3 +55,14 @@ textarea {
   word-break: break-all;
   word-wrap: break-word;
 }
+
+.content{
+	font-size: $content-font-size;
+}
+label, caption{
+	font-size: $label-font-size;
+}
+
+
+
+

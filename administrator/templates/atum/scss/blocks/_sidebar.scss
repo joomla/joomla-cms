@@ -1,9 +1,12 @@
+// Mixins
+@import "../mixin";
+
 // Sidebar
 
 .wrapper {
   transition: all .3s ease;
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
     padding-left: 0;
   }
 }
@@ -16,7 +19,7 @@
   flex-direction: column;
   flex: 1 0 $sidebar-width;
   max-width: $sidebar-width;
-  background-color: var(--sidebar-bg);
+  background-color: var(--atum-bg-dark);
   box-shadow: $atum-box-shadow;
   transition: all .3s ease;
   overflow: hidden;
@@ -25,6 +28,31 @@
     padding: 15px;
     margin-top: auto;
   }
+
+  .view-login & {
+    flex: 1 0 33%;
+    max-width: $sidebar-width-login;
+
+    &.transit-narrow {
+      flex: 1 0 $sidebar-width;
+      transition: flex 3s;
+
+	  @include media-breakpoint-down(sm){
+		@include fadeout-page;
+	  }
+    }
+  }
+
+  &.transit-wider {
+    flex: 1 0 33%;
+    max-width: $sidebar-width-login;
+    transition: all 3s;
+
+	@include media-breakpoint-down(sm){
+		@include fadein-page;
+	  }
+  }
+
 }
 
 .menu-toggle-icon {
@@ -88,12 +116,14 @@
 
     li {
       position: relative;
+      display: flex;
     }
 
     a {
       display: block;
       padding: 4px 5px 4px 34px;
       color: var(--sidebar-child-link-color);
+      flex-basis: 100%;
 
       &:hover {
         color: $white;
@@ -114,6 +144,17 @@
         content: "";
         background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTI1NiA4QzExOSA4IDggMTE5IDggMjU2czExMSAyNDggMjQ4IDI0OCAyNDgtMTExIDI0OC0yNDhTMzkzIDggMjU2IDh6bTAgNDQ4Yy0xMTAuNSAwLTIwMC04OS41LTIwMC0yMDBTMTQ1LjUgNTYgMjU2IDU2czIwMCA4OS41IDIwMCAyMDAtODkuNSAyMDAtMjAwIDIwMHoiLz48L3N2Zz4=");
         opacity: .5;
+      }
+
+      &.menu-quicktask {
+        flex-basis: 2.5rem;
+        padding: 4px 5px;
+        text-align: center;
+
+        &::before {
+          background-image: none;
+          width: 0;
+        }
       }
     }
 

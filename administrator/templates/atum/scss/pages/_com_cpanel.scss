@@ -15,7 +15,7 @@
 
   &-help {
     &__header {
-      color: var(--primary-dark);
+      color: var(--atum-special-color);
     }
 
     a {
@@ -42,7 +42,7 @@
     }
 
     &__header {
-      color: var(--primary-dark);
+      color: var(--atum-special-color);
 
       span {
         margin-right: 5px;
@@ -107,7 +107,8 @@
   .card-header {
     padding-left: 0;
     font-size: $h5-font-size;
-    color: var(--primary-dark);
+    color: var(--atum-special-color);
+	font-weight: $font-weight-normal;
   }
 
   .module-actions {
@@ -121,8 +122,28 @@
       width: 2.6em;
       height: 2.6em;
       line-height: 2.6em;
-      color: var(--primary-dark);
+      color: var(--atum-special-color);
       text-align: center;
     }
+  }
+  .cpanel-add-module {
+    border: 0.125rem var(--atum-bg-dark) dashed;
+	text-decoration: none;
+	background-color: var(--white);
+	position: relative;
+	span {
+		position: relative;
+	}
+	.cpanel-add-module-icon {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+	.fa {
+		font-size: 7rem;
+		transform: translateX(-100%);
+	}
   }
 }

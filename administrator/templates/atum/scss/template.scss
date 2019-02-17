@@ -4,16 +4,23 @@
 // Atum Variables
 @import "variables";
 
+// Mixins
+@import "mixin";
+
 // Bootstrap other
 @import "../../../../media/vendor/bootstrap/scss/mixins";
 @import "../../../../media/vendor/bootstrap/scss/variables";
+@import "../../../../media/vendor/bootstrap/scss/root";
 @import "../../../../media/vendor/bootstrap/scss/custom-forms";
 
+// Fonts
+@import "../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+
 // Alert
-@import "../../../../build/media/system/scss/jalert";
+@import "../../../../build/media_source/system/scss/jalert";
 
 // jQuery Minicolors
-@import "../../../../build/media/system/scss/jquery-minicolors";
+@import "../../../../build/media_source/system/scss/jquery-minicolors";
 
 // Blocks
 @import "blocks/global"; // Leave this first
@@ -67,13 +74,13 @@
 .container-main {
   position: relative;
   min-height: calc(100vh - #{$header-height});
-  background-color: var(--main-bg);
+  background-color: var(--atum-bg-light);
 }
 
 .list-view-main {
 
   .container-main {
-    background-color: var(--main-bg);
+    background-color: var(--atum-bg-light);
   }
 
 }
@@ -114,4 +121,28 @@
 // Quickicon specific
 .message-alert {
   text-align: right !important;
+}
+
+// Fadeeffect for login page
+.load-fadein{
+	@include fadein-page;
+}
+
+.load-fadeout{
+	 @include fadeout-page;
+}
+// Fix blinking of fade effect
+.container-main.fade-done > * {
+	opacity: 1;
+}
+.sidebar-wrapper.fade-done > * {
+	opacity: 1;
+}
+
+//extern links with icons
+a[href*="//"]:before{	
+	//:not(span){	
+		font:normal normal normal 14px/1 FontAwesome;
+		content:"\f08e  ";
+	//}	
 }

@@ -1,5 +1,7 @@
 @import "../../../../media/vendor/bootstrap/scss/functions";
 
+
+
 $white:                            #fff;
 $gray-100:                         #f8f9fa;
 $gray-200:                         #e9ecef;
@@ -11,9 +13,12 @@ $gray-700:                         #495057;
 $gray-800:                         #343a40;
 $gray-900:                         #212529;
 $black:                            #000;
+$light-blue:                       #E0E8EF;
+$dark-blue:                        #001B4C;
+$blue-a700:						   #4D78A3;
 
 // BS Colours
-$blue:                             #3073bb;
+$blue:                             #003E7C;
 $indigo:                           #0377be;
 $purple:                           #6f42c1;
 $pink:                             #e83e8c;
@@ -32,7 +37,8 @@ $theme-colors: map-merge((
   warning: $yellow,
   danger: $red,
   light: $gray-100,
-  dark: $gray-900
+  dark: $gray-900,
+  atum-link-color:$blue-a700
 ), $theme-colors);
 
 $colors: (
@@ -40,12 +46,11 @@ $colors: (
   primary-light:  #3a87cb,
   primary-bright: #45a0f1,
   main-bg:        #ebeff5,
+  //primary-dark: #2b5c91,
   success-border: darken(theme-color("success"), 5%),
   info-border: darken(theme-color("info"), 7%),
   warning-border: darken(theme-color("warning"), 5%),
   danger-border: darken(theme-color("danger"), 5%),
-  link-hover: darken(theme-color("primary"), 15%),
-  sidebar-bg: #122942,
   sidebar-sub-bg: #1b3654,
   sidebar-text-color: #7189a4,
   sidebar-link-color: #e3eaf1,
@@ -58,6 +63,13 @@ $colors: (
   white-offset: #fefefe,
   focus: #39f,
   table-border: $gray-300,
+  atum-bg-dark: $blue,
+  atum-bg-light: $light-blue,
+  atum-text-dark: $gray-600,
+  atum-text-light: $white,
+  atum-special-color:$dark-blue,
+  atum-link-hover:darken($dark-blue, 15%),
+  link-hover: darken(theme-color("atum-link-color"), 15%)
 );
 
 // Global
@@ -66,10 +78,10 @@ $enable-rounded:                   false;
 $border-radius:                    none;
 $input-btn-padding-y:              .6rem;
 $input-btn-padding-x:              1rem;
-$input-max-width:                  240px;
+$input-max-width:                  15rem;
 
 // Header
-$header-height:                    55px;
+$header-height:                    3.5rem;
 
 // Toolbar
 $atum-toolbar-line-height:         2.3rem;
@@ -77,47 +89,43 @@ $atum-toolbar-line-height:         2.3rem;
 // Sidebar
 $atum-level-1-bg:                  rgba($black, .65);
 $atum-level-2-bg:                  rgba($black, .05);
-$sidebar-width:                    250px;
-$sidebar-width-closed:             48px;
-$main-brand-height:                48px;
+$sidebar-width:                    15.625rem;
+$sidebar-width-login:              28.75rem;
+$sidebar-width-closed:             3rem;
+$main-brand-height:                3rem;
 
 // Fonts
-$font-family-base:                 Arial, sans-serif;
-$font-size-root:                   15px;
-$h1-font-size:                     1.857rem;
-$h2-font-size:                     1.571rem;
-$h3-font-size:                     1.286rem;
+$font-family-sans-serif:           "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$h1-font-size:                     1.65rem;
+$h2-font-size:                     1.5rem;
+$h3-font-size:                     1.25rem;
 $h4-font-size:                     1rem;
 $h5-font-size:                     .9286rem;
 $h6-font-size:                     .8571rem;
 $font-size-sm:                     .8rem;
+//$lead-font-size
+$display1-size:1rem;
+$display2-size:.875rem;
+//$display3-size
+//$display4-size
+//$blockquote-font-size
+$content-font-size:					0.875rem;
+$label-font-size:					0.75rem;
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
+$roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
 
 // Font weights
-$thin-weight:                      100;
-$extralight-weight:                200;
-$light-weight:                     300;
-$normal-weight:                    400;
-$medium-weight:                    500;
-$semibold-weight:                  600;
-$bold-weight:                      700;
-$extrabold-weight:                 800;
-$black-weight:                     900;
+
 
 // Text
-$body-color:                       var(--dark);
+$body-color:                       var(--font-color-dark);
 
 // Tables
 $table-bg:                         transparent;
 $table-bg-accent:                  rgba(0, 0, 0, .03);
 $table-border-color:               var(--table-border);
 $table-cell-padding:               8px 12px;
-
-// Buttons + Forms
-$btn-border-radius:                0;
-$btn-border-radius-lg:             0;
-$btn-border-radius-sm:             0;
 
 // Dropdowns
 $dropdown-padding-y:               0;
@@ -129,7 +137,6 @@ $dropdown-spacer:                  0;
 
 // Tabs
 $nav-tabs-border-width:            0;
-$nav-tabs-border-radius:           0;
 $nav-tabs-link-active-bg:          rgba($black, .2);
 
 // Tables
@@ -176,7 +183,7 @@ $custom-select-bg:                 var(--white-offset);
 
 // Modals
 $zindex-modal:                     1080;
-$modal-header-height:              46px;
+$modal-header-height:              2.875rem;
 
 // Quickicons
 $quickicon-bg:                     var(--white);
@@ -193,5 +200,13 @@ $grid-gutter-width:                15px;
 $breadcrumb-bg:                    var(--white);
 
 // Links
-$link-color:                       var(--primary);
+$link-color:                       var(--atum-link-color);
 $link-hover-color:                 var(--link-hover);
+
+//Time for fadeeffect login-light-bg
+$fadetime: 1s;
+
+
+
+
+

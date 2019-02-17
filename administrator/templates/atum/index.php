@@ -24,13 +24,15 @@ $wa    = $this->getWebAssetManager();
 // Detecting Active Variables
 $option      = $input->get('option', '');
 $view        = $input->get('view', '');
-$layout      = $input->get('layout', '');
-$task        = $input->get('task', '');
+$layout      = $input->get('layout', 'default');
+$task        = $input->get('task', 'display');
 $itemid      = $input->get('Itemid', '');
 $cpanel      = $option === 'com_cpanel';
 $hidden      = $app->input->get('hidemainmenu');
 $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
-$logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+
+// Template params
+$siteLogo    = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
@@ -43,8 +45,64 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
+$this->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.min.js');
 $this->addScriptDeclaration('cssVars();');
 
+// Opacity must be set before displaying the DOM, so don't move to a CSS file
+$css = '
+	.container-main > * {
+		opacity: 0;
+	}
+	.sidebar-wrapper > * {
+		opacity: 0;
+	}
+';
+
+$root = [];
+
+$steps = 10;
+
+if ($this->params->get('bg-dark'))
+{
+	$root[] = '--atum-bg-dark: ' . $this->params->get('bg-dark') . ';';
+}
+
+if ($this->params->get('bg-light'))
+{
+	$root[] = '--atum-bg-light: ' . $this->params->get('bg-light') . ';';
+}
+
+if ($this->params->get('text-dark'))
+{
+	$root[] = '--atum-text-dark: ' . $this->params->get('text-dark') . ';';
+}
+
+if ($this->params->get('text-light'))
+{
+	$root[] = '--atum-text-light: ' . $this->params->get('text-light') . ';';
+}
+
+if ($this->params->get('link-color'))
+{
+	$linkcolor = trim($this->params->get('link-color'), '#');
+
+	list($red, $green, $blue) = str_split($linkcolor, 2);
+
+	$root[] = '--atum-link-color: #' . $linkcolor . ';';
+	$root[] = '--atum-link-hover: #' . dechex(max(0, hexdec($red) - $steps)) . dechex(max(0, hexdec($green) - $steps)) . dechex(max(0, hexdec($blue) - $steps)) . ';';
+}
+
+if ($this->params->get('special-color'))
+{
+	$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
+}
+
+if (count($root))
+{
+	$css .= ':root {' . implode($root) . '}';
+}
+
+$this->addStyleDeclaration($css);
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
@@ -54,7 +112,7 @@ $this->addScriptDeclaration('cssVars();');
 	<jdoc:include type="scripts" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ($task ? ' task-' . $task : ''); ?>">
 
 	<noscript>
 		<div class="alert alert-danger" role="alert">
@@ -67,9 +125,15 @@ $this->addScriptDeclaration('cssVars();');
 		<div class="d-flex align-items-center">
 			<div class="header-title d-flex mr-auto">
 				<div class="d-flex">
+				<?php if (!$hidden) : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+						<img src="<?php echo $siteLogo; ?>" alt="">
+					</a>
+				<?php else : ?>
+					<a class="logo">
 						<img src="<?php echo $logoBlue; ?>" alt="">
 					</a>
+				<?php endif; ?>
 				</div>
 				<jdoc:include type="modules" name="title" />
 			</div>

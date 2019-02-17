@@ -29,3 +29,13 @@
     @include button-variant($value, $value);
   }
 }
+
+.btn-primary{
+	background-color:var(--atum-link-color);
+	border-color:var(--atum-link-color);
+}
+
+.input-group-text{
+	background-color:var(--atum-link-color);
+	border-color:var(--atum-link-color);
+}

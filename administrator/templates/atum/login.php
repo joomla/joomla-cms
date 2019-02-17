@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
@@ -37,24 +38,79 @@ HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
 $view     = $app->input->getCmd('view', '');
-$layout   = $app->input->getCmd('layout', '');
-$task     = $app->input->getCmd('task', '');
-$itemid   = $app->input->getCmd('Itemid', '');
+$layout   = $app->input->getCmd('layout', 'default');
 $sitename = $app->get('sitename');
 
 // Template params
-$showSitename = $this->params->get('showSitename', '1');
-$loginLogo    = $this->params->get('loginLogo', '');
+$siteLogo    = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
+$loginLogo    = $this->params->get('loginLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg');
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
-// Set page title
-$this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
+$this->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.min.js');
 
-$this->addScriptDeclaration('cssVars();')
+// Set page title
+$this->setTitle(Text::sprintf('TPL_ATUM_LOGIN_SITE_TITLE', $sitename));
+
+$this->addScriptDeclaration('cssVars();');
+// Opacity must be set before displaying the DOM, so don't move to a CSS file
+$css = '
+	.container-main > * {
+		opacity: 0;
+	}
+	.sidebar-wrapper > * {
+		opacity: 0;
+	}
+';
+
+$root = [];
+
+$steps = 10;
+
+if ($this->params->get('bg-dark'))
+{
+	$root[] = '--atum-bg-dark: ' . $this->params->get('bg-dark') . ';';
+}
+
+if ($this->params->get('bg-light'))
+{
+	$root[] = '--atum-bg-light: ' . $this->params->get('bg-light') . ';';
+}
+
+if ($this->params->get('text-dark'))
+{
+	$root[] = '--atum-text-dark: ' . $this->params->get('text-dark') . ';';
+}
+
+if ($this->params->get('text-light'))
+{
+	$root[] = '--atum-text-light: ' . $this->params->get('text-light') . ';';
+}
+
+if ($this->params->get('link-color'))
+{
+	$linkcolor = trim($this->params->get('link-color'), '#');
+
+	list($red, $green, $blue) = str_split($linkcolor, 2);
+
+	$root[] = '--atum-link-color: #' . $linkcolor . ';';
+	$root[] = '--atum-link-hover: #' . dechex(max(0, hexdec($red) - $steps)) . dechex(max(0, hexdec($green) - $steps)) . dechex(max(0, hexdec($blue) - $steps)) . ';';
+}
+
+if ($this->params->get('special-color'))
+{
+	$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
+}
+
+if (count($root))
+{
+	$css .= ':root {' . implode($root) . '}';
+}
+
+$this->addStyleDeclaration($css);
 
 ?>
 <!DOCTYPE html>
@@ -63,47 +119,45 @@ $this->addScriptDeclaration('cssVars();')
 	<jdoc:include type="metas"/>
 	<jdoc:include type="styles"/>
 </head>
-<body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
-	<?php // Container ?>
-	<main class="d-flex justify-content-center align-items-center h-100">
-		<div class="login-bg-grad"></div>
-		<div class="login">
-			<div class="login-logo">
-				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg"
-					 alt="">
-			</div>
-			<div id="content">
-				<noscript>
-					<div class="alert alert-danger" role="alert">
-						<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-					</div>
-				</noscript>
-				<h1 class="m-3 h4 text-light"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
-				<div id="element-box" class="login-box">
-					<?php if ($showSitename || $loginLogo) : ?>
-						<div class="p-4 bg-white text-center">
-							<?php if ($showSitename) : ?>
-								<h2 class="m-0 text-primary"><?php echo $sitename; ?></h2>
-							<?php endif; ?>
-							<?php if ($loginLogo) : ?>
-								<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
-							<?php endif; ?>
-						</div>
-					<?php endif; ?>
-					<div class="p-4">
-						<jdoc:include type="message"/>
-						<jdoc:include type="component"/>
-					</div>
-				</div>
-			</div>
-			<div class="mt-4 d-none d-md-flex justify-content-between">
-				<a href="<?php echo Uri::root(); ?>" target="_blank" class="text-white"><span
-							class="fa fa-external-link mr-1"
-							aria-hidden="true"></span><?php echo Text::_('TPL_ATUM_VIEW_SITE'); ?></a> <span
-						class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
-			</div>
-		</div>
-	</main>
+<body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout; ?>">
+    <header id="header" class="header">
+        <div class="d-flex align-items-center">
+            <div class="header-title mr-auto">
+				<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+					<img src="<?php echo $siteLogo; ?>" alt="">
+				</a>
+            </div>
+        </div>
+    </header>
+
+    <div id="wrapper" class="d-flex wrapper">
+
+	    <?php // Sidebar ?>
+        <div id="sidebar-wrapper" class="sidebar-wrapper">
+            <div id="main-brand" class="main-brand">
+                <h2><?php echo $sitename; ?></h2>
+                <a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
+            </div>
+            <div id="sidebar">
+                <jdoc:include type="modules" name="sidebar" style="body"/>
+            </div>
+        </div>
+
+        <div class="container-fluid container-main">
+            <section id="content" class="content h-100">
+                <main class="d-flex justify-content-center align-items-center h-100">
+                    <div class="login">
+                        <div class="main-brand d-flex align-items-center justify-content-center">
+	                        <img src="<?php echo $loginLogo; ?>" alt="">
+                        </div>
+	                    <h1><?php echo Text::_('TPL_ATUM_LOGIN_HEADING'); ?></h1>
+                        <jdoc:include type="message"/>
+                        <jdoc:include type="component"/>
+                    </div>
+                </main>
+            </section>
+        </div>
+    </div>
 	<jdoc:include type="modules" name="debug" style="none"/>
 	<jdoc:include type="scripts"/>
 </body>

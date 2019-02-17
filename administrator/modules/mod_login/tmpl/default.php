@@ -27,15 +27,11 @@ Text::script('JHIDE');
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 	<fieldset>
 		<div class="form-group">
-			<label class="text-white" for="mod-login-username">
+			<label for="mod-login-username">
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
 			</label>
 			<div class="input-group">
-				<span class="input-group-prepend">
-					<span class="input-group-text">
-						<span class="fa fa-user" aria-hidden="true"></span>
-					</span>
-				</span>
+
 				<input
 					name="username"
 					id="mod-login-username"
@@ -47,14 +43,11 @@ Text::script('JHIDE');
 			</div>
 		</div>
 		<div class="form-group">
-			<label class="text-white" for="mod-login-password">
+			<label for="mod-login-password">
 				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 			</label>
 			<div class="input-group">
-				<span class="input-group-prepend">
-					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<span class="input-group-text icon-eye" aria-hidden="true"></span>
-				</span>
+
 				<input
 					name="passwd"
 					id="mod-login-password"
@@ -62,18 +55,20 @@ Text::script('JHIDE');
 					class="form-control input-full"
 					required="required"
 				>
+				<span class="input-group-append ml-2">
+					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
+					<button type="button" class="input-group-text icon-eye input-password-toggle" aria-hidden="true" alt="show"></button>
+				</span>
 			</div>
 		</div>
 
 		<?php if (count($twofactormethods) > 1): ?>
 			<div class="form-group">
-				<label class="text-white" for="mod-login-secretkey">
+				<label for="mod-login-secretkey">
 					<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
 				</label>
 				<div class="input-group">
-					<span class="input-group-prepend">
-						<span class="input-group-text"><span class="fa fa-shield" aria-hidden="true"></span></span>
-					</span>
+
 					<input
 						name="secretkey"
 						autocomplete="off"
@@ -86,7 +81,7 @@ Text::script('JHIDE');
 		<?php endif; ?>
 		<?php if (!empty($langs)) : ?>
 			<div class="form-group">
-				<label class="text-white" for="lang">
+				<label for="lang">
 					<?php echo Text::_('MOD_LOGIN_LANGUAGE'); ?>
 				</label>
 				<?php echo $langs; ?>
@@ -95,21 +90,16 @@ Text::script('JHIDE');
 		<div class="form-group">
 			<button class="btn btn-primary btn-block btn-lg mt-4" id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
 		</div>
-		<div class="text-center">
-			<div>
-				<a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=remind">
-					<?php echo Text::_('MOD_LOGIN_REMIND'); ?>
-				</a>
-			</div>
-			<div>
-				<a href="<?php echo Uri::root(); ?>index.php?option=com_users&view=reset">
-					<?php echo Text::_('MOD_LOGIN_RESET'); ?>
-				</a>
-			</div>
-		</div>
 		<input type="hidden" name="option" value="com_login">
 		<input type="hidden" name="task" value="login">
 		<input type="hidden" name="return" value="<?php echo $return; ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 	</fieldset>
 </form>
+<div class="text-center">
+    <div>
+        <a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank">
+			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
+        </a>
+    </div>
+</div>
