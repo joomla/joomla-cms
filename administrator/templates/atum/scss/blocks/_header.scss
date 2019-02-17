@@ -31,7 +31,7 @@
 
   .nav-item:hover,
   .nav-item.show {
-    background-color: var(--main-bg);
+    background-color: var(--atum-bg-dark);
   }
 
   .nav-link {
@@ -39,7 +39,7 @@
     padding: 0;
     margin: 0 0.6rem;
     line-height: $header-height;
-    min-width: $header-height - 5px;
+    min-width: $header-height - 0.3125rem;
 
     .fa {
       width: $header-height + 0.125rem;
@@ -162,7 +162,6 @@
   }
 
   .dropdown-header {
-    background-color: var(--primary-dark);
     padding-top: .5rem;
     padding-bottom: .5rem;
     color: $white;
