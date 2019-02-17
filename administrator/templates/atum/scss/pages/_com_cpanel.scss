@@ -131,9 +131,15 @@
 	text-decoration: none;
 	background-color: var(--white);
 	position: relative;
-	@hover {
+	@include hover-focus-active() {
 		background-color: var(--atum-bg-dark);
 		color: var(--white);
+		border-color: var(--white);
+		.cpanel-add-module-icon {
+			.fa {
+				opacity: 0.3;
+			}
+		}
 	}
 	span {
 		position: relative;
@@ -144,10 +150,10 @@
 		left: 0;
 		right: 0;
 		bottom: 0;
-	}
-	.fa {
-		font-size: 7rem;
-		transform: translateX(-100%);
+		.fa {
+			font-size: 7rem;
+			transform: translateX(-100%);
+		}
 	}
   }
 }
