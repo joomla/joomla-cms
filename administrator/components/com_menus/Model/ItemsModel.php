@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -484,6 +485,36 @@ class ItemsModel extends ListModel
 		$query->order($db->escape($this->getState('list.ordering', 'a.lft')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
+	}
+
+	/**
+	 * Method to allow derived classes to preprocess the form.
+	 *
+	 * @param   Form    $form   A Form object.
+	 * @param   mixed   $data   The data expected for the form.
+	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
+	 *
+	 * @return  void
+	 *
+	 * @since   3.2
+	 * @throws  \Exception if there is an error in the form event.
+	 */
+	protected function preprocessForm(Form $form = null, $data, $group = 'content')
+	{
+		$name = $form->getName();
+
+		if ($name == 'com_menus.items.filter')
+		{
+			$clientId = $this->getState('filter.client_id');
+			$form->setFieldAttribute('menutype', 'clientid', $clientId);
+		}
+		elseif (false !== strpos($name, 'com_menus.items.modal.'))
+		{
+			$form->removeField('client_id');
+
+			$clientId = $this->getState('filter.client_id');
+			$form->setFieldAttribute('menutype', 'clientid', $clientId);
+		}
 	}
 
 	/**
