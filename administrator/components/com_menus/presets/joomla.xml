@@ -226,7 +226,7 @@
 			type="component"
 			element="com_cpanel"
 			class="class:cog"
-			link="index.php?option=com_cpanel&amp;view=system"
+			link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=system"
 	/>
 	<menuitem
 			title="MOD_MENU_HELP"

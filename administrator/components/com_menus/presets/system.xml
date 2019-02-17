@@ -45,6 +45,7 @@
             element="com_checkin"
             link="index.php?option=com_checkin"
             permission="core.manage;com_checkin"
+            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=checkins"
             />
     </menuitem>
 
@@ -59,6 +60,7 @@
             element="com_installer"
             link="index.php?option=com_installer&amp;view=warnings"
             permission="core.manage;com_installer"
+            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=installationwarnings"
             />
 
         <menuitem
@@ -67,6 +69,7 @@
             element="com_postinstall"
             link="index.php?option=com_postinstall"
             permission="core.manage;com_postinstall"
+            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=postinstall"
             />
 
         <menuitem
@@ -83,6 +86,7 @@
             element="com_installer"
             link="index.php?option=com_installer&amp;view=database"
             permission="core.manage;com_installer"
+            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=databaseupdate"
             />
     </menuitem>
 
@@ -104,6 +108,7 @@
             type="component"
             element="com_installer"
             link="index.php?option=com_installer&amp;view=discover"
+            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=extensiondiscover"
             />
 
         <menuitem
@@ -203,6 +208,7 @@
                 element="com_joomlaupdate"
                 link="index.php?option=com_joomlaupdate"
                 permission="core.manage;com_joomlaupdate"
+                ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=systemupdate"
         />
 
         <menuitem
@@ -211,6 +217,7 @@
                 element="com_installer"
                 link="index.php?option=com_installer&amp;view=update"
                 permission="core.manage;com_installer"
+                ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=extensionupdate"
         />
 
         <menuitem

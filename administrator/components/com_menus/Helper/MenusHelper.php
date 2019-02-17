@@ -867,6 +867,7 @@ class MenusHelper extends ContentHelper
 		$item->access     = (int) $node['access'];
 		$item->scope      = (string) $node['scope'] ?: 'default';
 		$item->permission = (string) $node['permission'];
+		$item->ajaxbadge  = (string) $node['ajax-badge'];
 		$item->setParams(new Registry(trim($node->params)));
 		$item->getParams()->set('menu-permission', (string) $node['permission']);
 
