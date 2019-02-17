@@ -11,6 +11,7 @@ namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -31,6 +32,13 @@ class HtmlView extends BaseHtmlView
 	protected $modules = null;
 
 	/**
+	 * Array of cpanel modules
+	 *
+	 * @var  array
+	 */
+	protected $quickicons = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -39,12 +47,19 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
+		$app = Factory::getApplication();
+
 		// Set toolbar items for the page
 		ToolbarHelper::title(Text::_('COM_CPANEL'), 'home-2 cpanel');
 		ToolbarHelper::help('screen.cpanel');
 
 		// Display the cpanel modules
-		$this->modules = ModuleHelper::getModules('cpanel');
+		$dashboard = $app->input->getCmd('dashboard');
+		$position = $dashboard ? 'cpanel-' . $dashboard : 'cpanel';
+		$this->modules = ModuleHelper::getModules($position);
+
+		$quickicons = $dashboard ? 'icon-' . $dashboard : 'icon';
+		$this->quickicons = ModuleHelper::getModules($quickicons);
 
 		parent::display($tpl);
 	}

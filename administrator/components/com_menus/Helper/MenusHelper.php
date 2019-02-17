@@ -611,6 +611,8 @@ class MenusHelper extends ContentHelper
 
 			static::addPreset('joomla', 'JLIB_MENUS_PRESET_JOOMLA', JPATH_ADMINISTRATOR . '/components/com_menus/presets/joomla.xml');
 			static::addPreset('modern', 'JLIB_MENUS_PRESET_MODERN', JPATH_ADMINISTRATOR . '/components/com_menus/presets/modern.xml');
+			static::addPreset('system', 'JLIB_MENUS_PRESET_SYSTEM', JPATH_ADMINISTRATOR . '/components/com_menus/presets/system.xml');
+			static::addPreset('user', 'JLIB_MENUS_PRESET_USER', JPATH_ADMINISTRATOR . '/components/com_menus/presets/user.xml');
 
 			// Load from template folder automatically
 			$app = Factory::getApplication();
@@ -737,7 +739,6 @@ class MenusHelper extends ContentHelper
 
 		if ($item->link = in_array($item->type, array('separator', 'heading', 'container')) ? '#' : trim($item->link))
 		{
-			$item->submenu    = array();
 			$item->class      = $item->img ?? '';
 			$item->scope      = $item->scope ?? null;
 			$item->browserNav = $item->browserNav ? '_blank' : '';
@@ -865,6 +866,7 @@ class MenusHelper extends ContentHelper
 		$item->browserNav = (string) $node['target'];
 		$item->access     = (int) $node['access'];
 		$item->scope      = (string) $node['scope'] ?: 'default';
+		$item->permission = (string) $node['permission'];
 		$item->setParams(new Registry(trim($node->params)));
 		$item->getParams()->set('menu-permission', (string) $node['permission']);
 

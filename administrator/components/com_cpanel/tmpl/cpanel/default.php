@@ -15,23 +15,21 @@ use Joomla\CMS\Helper\ModuleHelper;
 $user = Factory::getUser();
 ?>
 
+<?php if ($this->quickicons) : ?>
 <div class="row">
-	<?php $iconmodules = ModuleHelper::getModules('icon');
-	if ($iconmodules) : ?>
-		<div class="col-md-12">
-			<?php
-			// Display the submenu position modules
-			foreach ($iconmodules as $iconmodule)
-			{
-				echo ModuleHelper::renderModule($iconmodule);
-			}
-			?>
-		</div>
-	<?php endif; ?>
+	<div class="col-md-12">
+    	<?php
+		// Display the submenu position modules
+		foreach ($this->quickicons as $iconmodule)
+		{
+			echo ModuleHelper::renderModule($iconmodule);
+		}
+		?>
+	</div>
 </div>
+<?php endif; ?>
 <div class="row">
 	<?php
-	$cols = 0;
 	foreach ($this->modules as $module)
 	{
 		echo ModuleHelper::renderModule($module, array('style' => 'well'));
