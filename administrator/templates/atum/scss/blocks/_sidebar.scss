@@ -117,12 +117,14 @@
 
     li {
       position: relative;
+      display: flex;
     }
 
     a {
       display: block;
       padding: 4px 5px 4px 34px;
       color: var(--atum-text-light);
+      flex-basis: 100%;
 
       &:hover {
         color: $white;
