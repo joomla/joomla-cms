@@ -15,6 +15,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 
+require_once 'function.php';
+
 /** @var JDocumentHtml $this */
 
 $app  = Factory::getApplication();
@@ -94,10 +96,8 @@ if ($this->params->get('link-color'))
 {
 	$linkcolor = trim($this->params->get('link-color'), '#');
 
-	list($red, $green, $blue) = str_split($linkcolor, 2);
-
 	$root[] = '--atum-link-color: #' . $linkcolor . ';';
-	$root[] = '--atum-link-hover: #' . dechex(max(0, hexdec($red) - $steps)) . dechex(max(0, hexdec($green) - $steps)) . dechex(max(0, hexdec($blue) - $steps)) . ';';
+	$root[] = '--atum-link-hover-color: ' . atum_brightness($linkcolor, -40)  . ';';
 }
 
 if ($this->params->get('special-color'))
@@ -135,7 +135,7 @@ $this->addStyleDeclaration($css);
 	    <?php // Sidebar ?>
         <div id="sidebar-wrapper" class="sidebar-wrapper">
             <div id="main-brand" class="main-brand">
-                <h1><?php echo $sitename; ?></h1>
+                <h2><?php echo $sitename; ?></h2>
                 <a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
             </div>
             <div id="sidebar">
@@ -148,8 +148,9 @@ $this->addStyleDeclaration($css);
                 <main class="d-flex justify-content-center align-items-center h-100">
                     <div class="login">
                         <div class="main-brand d-flex align-items-center justify-content-center">
-                            <img src="<?php echo $loginLogo; ?>" alt="">
+	                        <img src="<?php echo $loginLogo; ?>" alt="">
                         </div>
+	                    <h1><?php echo Text::_('TPL_ATUM_LOGIN_HEADING'); ?></h1>
                         <jdoc:include type="message"/>
                         <jdoc:include type="component"/>
                     </div>

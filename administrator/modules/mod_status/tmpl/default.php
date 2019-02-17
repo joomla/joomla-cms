@@ -24,7 +24,8 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 <div class="ml-auto">
 	<ul class="nav text-center">
 		<?php // Check if the multilangstatus module is present and enabled in the site ?>
-		<?php if (class_exists(MultilangstatusAdminHelper::class) && MultilangstatusAdminHelper::isEnabled()) : ?>
+		<?php if (class_exists(MultilangstatusAdminHelper::class)
+			&& MultilangstatusAdminHelper::isEnabled()) : ?>
 			<?php if (Multilanguage::isEnabled()) : ?>
 				<?php // Publish and display the module ?>
 				<?php MultilangstatusAdminHelper::publish(); ?>
@@ -37,69 +38,134 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php endif; ?>
 
 		<li class="nav-item">
-			<a class="nav-link" href="<?php echo Uri::root(); ?>" title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>" target="_blank">
-				<span class="fa fa-external-link" aria-hidden="true"></span>
+			<a class="nav-link link-title" href="<?php echo Uri::root(); ?>"
+				title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>"
+				target="_blank">
 				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
+				<?php echo $sitename ?>
 			</a>
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link dropdown-toggle" href="<?php echo Route::_('index.php?option=com_messages'); ?>" title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
-				<span class="fa fa-envelope-o" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
-				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
-				<?php if ($countUnread > 0) : ?>
-					<span class="badge badge-pill badge-danger"><?php echo $countUnread; ?></span>
-				<?php endif; ?>
-			</a>
-		</li>
-
-		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
-		<li class="nav-item dropdown">
-			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
-				<span class="fa fa-bell-o" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
-				<?php if (count($messages) > 0) : ?>
-					<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
-				<?php endif; ?>
-			</a>
-			<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
-				<div class="list-group">
-					<?php if (empty($messages)) : ?>
-					<p class="list-group-item text-center">
-						<strong><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></strong>
-					</p>
-					<?php endif; ?>
-					<?php foreach ($messages as $message) : ?>
-					<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
-						<h5 class="list-group-item-heading"><?php echo HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?></h5>
-						<p class="list-group-item-text small">
-							<?php echo HTMLHelper::_('string.truncate', Text::_($message->description_key), 120, false, false); ?>
-						</p>
-					</a>
-					<?php endforeach; ?>
-				</div>
-			</div>
-		</li>
-		<?php endif; ?>
-
-		<li class="nav-item dropdown header-profile">
-			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
-				<span class="fa fa-user-o" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
+			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+			   title="<?php echo Text::_('MOD_STATUS_QUICKSTART'); ?>">
+				<span class="fa fa-rocket" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('MOD_STATUS_QUICKSTART'); ?></span>
+				<span class="fa fa-angle-down" aria-hidden="true"></span>
 			</a>
 			<div class="dropdown-menu dropdown-menu-right">
 				<div class="dropdown-header">
-					<span class="fa fa-user-o" aria-hidden="true"></span>
-					<?php echo $user->name; ?>
+					<?php echo Text::_('MOD_STATUS_QUICKSTART_HEADER'); ?>
 				</div>
-				<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
-				<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
-					<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
-				<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_login&task=logout&'
-					. Session::getFormToken() . '=1'); ?>"><?php echo Text::_('JLOGOUT'); ?></a>
+				<?php if ($user->authorise('core.edit', 'com_content')) : ?>
+					<?php $route = 'index.php?option=com_content&amp;view=article&amp;layout=edit'; ?>
+					<div class="dropdown-item">
+						<a href="<?php echo Route::_($route); ?>">
+							<?php echo Text::_('MOD_STATUS_NEW_ARTICLE'); ?>
+							<span class="fa fa-plus-circle" aria-hidden="true"></span>
+						</a>
+					</div>
+				<?php endif; ?>
+				<?php if ($user->authorise('core.edit', 'com_categories')) : ?>
+					<?php $route = 'index.php?option=com_categories&amp;view=category&amp;layout=edit'; ?>
+					<div class="dropdown-item">
+						<a href="<?php echo Route::_($route); ?>">
+							<?php echo Text::_('MOD_STATUS_CREATE_CATEGORY'); ?>
+							<span class="fa fa-plus-circle" aria-hidden="true"></span>
+						</a>
+					</div>
+				<?php endif; ?>
+				<?php if ($user->authorise('core.manage', 'com_cache')) : ?>
+					<?php $route = 'index.php?option=com_cache'; ?>
+					<div class="dropdown-item">
+						<a href="<?php echo Route::_($route); ?>"><?php echo Text::_('MOD_STATUS_CLEAR_CACHE'); ?></a>
+					</div>
+				<?php endif; ?>
+				<?php if ($user->authorise('core.edit', 'com_newsfeeds')) : ?>
+					<?php $route = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=edit'; ?>
+					<div class="dropdown-item">
+						<a href="<?php echo Route::_($route); ?>">
+							<?php echo Text::_('MOD_STATUS_CREATE_NEWSLETTER'); ?>
+							<span class="fa fa-plus-circle" aria-hidden="true"></span>
+						</a>
+					</div>
+				<?php endif; ?>
+				<div class="dropdown-item">
+					<a href="<?php Uri::root(); ?>">
+						<?php echo Text::_('MOD_STATUS_BE_HAPPY'); ?>
+						<span class="fa fa-plus-circle" aria-hidden="true"></span>
+					</a>
+				</div>
 			</div>
 		</li>
 
+		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+					title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
+					<span class="fa fa-bell-o" aria-hidden="true"></span>
+					<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
+					<span class="fa fa-angle-down" aria-hidden="true"></span>
+					<?php if (count($messages) > 0) : ?>
+						<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
+					<?php endif; ?>
+				</a>
+				<div class="dropdown-menu dropdown-menu-right">
+					<div class="dropdown-header">
+						<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>
+					</div>
+					<?php if (empty($messages)) : ?>
+						<div class="dropdown-item dropdown-message">
+							<p class="text-center"><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></p>
+						</div>
+					<?php endif; ?>
+					<?php foreach ($messages as $message) : ?>
+						<div class="dropdown-item closeMessageWrapper">
+							<?php $route = 'index.php?option=com_postinstall&amp;eid=700'; ?>
+							<?php $title = HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?>
+							<a href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>"><?php echo $title; ?></a>
+							<?php $route = 'index.php?option=com_postinstall&amp;task=message.unpublish&amp;id=' . $message->postinstall_message_id; ?>
+							<a class="closeMessage" href="<?php echo Route::_($route); ?>"
+							   title="<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>">
+								<span class="fa fa-close" aria-hidden="true"></span>
+								<span class="sr-only"><?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?></span>
+							</a>
+						</div>
+					<?php endforeach; ?>
+				</div>
+			</li>
+		<?php endif; ?>
+
+		<li class="nav-item dropdown header-profile">
+			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+				title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
+				<span class="fa fa-user-circle" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
+				<span class="fa fa-angle-down" aria-hidden="true"></span>
+			</a>
+			<div class="dropdown-menu dropdown-menu-right">
+				<div class="dropdown-header iconsLeftHeader"><?php echo $user->name; ?></div>
+				<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
+				<div class="dropdown-item iconsLeft">
+					<a href="<?php echo Route::_($route); ?>">
+						<span class="fa fa-user-o"></span>
+						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?>
+					</a>
+				</div>
+				<div class="dropdown-item iconsLeft">
+					<a href="#">
+						<span class="fa fa-universal-access"></span>
+						<?php echo Text::_('MOD_STATUS_ACCESSIBILITY_SETTINGS'); ?>
+					</a>
+				</div>
+				<div class="dropdown-item iconsLeft">
+					<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
+					<a href="<?php echo Route::_($route); ?>">
+						<span class="fa fa-power-off"></span>
+						<?php echo Text::_('JLOGOUT'); ?>
+					</a>
+				</div>
+			</div>
+		</li>
 	</ul>
 </div>

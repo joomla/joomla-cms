@@ -42,13 +42,17 @@ $theme-colors: map-merge((
 ), $theme-colors);
 
 $colors: (
-  //primary-dark: #2b5c91,
+  // @TODO REMOVE THIS VARIABLES AND THEIR USAGE AND REPLACE WITH THE DIFFERENT SUBCOLORS
+  //primary-dark:   #2b5c91,
+ // primary-light:  #3a87cb,
+ // primary-bright: #45a0f1,
+  // END @TODO
   success-border: darken(theme-color("success"), 5%),
   info-border: darken(theme-color("info"), 7%),
   warning-border: darken(theme-color("warning"), 5%),
   danger-border: darken(theme-color("danger"), 5%),
   sidebar-sub-bg: #1b3654,
-  sidebar-text-color: #7189a4,
+ // sidebar-text-color: #7189a4,
   sidebar-link-color: #e3eaf1,
   sidebar-link-color-hover: var(--white),
   sidebar-child-link-color: #cbd6e2,
@@ -64,7 +68,10 @@ $colors: (
   atum-text-dark: $gray-600,
   atum-text-light: $white,
   atum-special-color:$dark-blue,
-  link-hover: darken(theme-color("atum-link-color"), 15%)
+  atum-link-color: $blue-a700,
+  atum-link-hover-color: darken($blue-a700, 15%),
+  atum-bg-dark-light:lighten($blue, 20%),
+  atum-bg-dark-bright:lighten($blue, 40%),
 );
 
 // Global
@@ -91,13 +98,21 @@ $main-brand-height:                3rem;
 
 // Fonts
 $font-family-sans-serif:           "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$h1-font-size:                     1.857rem;
-$h2-font-size:                     1.571rem;
-$h3-font-size:                     1.286rem;
+$h1-font-size:                     1.65rem;
+$h2-font-size:                     1.5rem;
+$h3-font-size:                     1.25rem;
 $h4-font-size:                     1rem;
 $h5-font-size:                     .9286rem;
 $h6-font-size:                     .8571rem;
 $font-size-sm:                     .8rem;
+//$lead-font-size
+$display1-size:1rem;
+$display2-size:.875rem;
+//$display3-size
+//$display4-size
+//$blockquote-font-size
+$content-font-size:					0.875rem;
+$label-font-size:					0.75rem;
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
@@ -185,7 +200,12 @@ $breadcrumb-bg:                    var(--white);
 
 // Links
 $link-color:                       var(--atum-link-color);
-$link-hover-color:                 var(--link-hover);
+$link-hover-color:                 var(--atum-link-hover-color);
 
 //Time for fadeeffect login-light-bg
 $fadetime: 1s;
+
+
+
+
+
