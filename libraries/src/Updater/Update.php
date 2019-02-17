@@ -376,7 +376,7 @@ class Update extends \JObject
 						$dbVersion    = $db->getVersion();
 						$supportedDbs = $this->currentUpdate->supported_databases;
 
-						// Do we have a entry for the database?
+						// Do we have an entry for the database?
 						if (isset($supportedDbs->$dbType))
 						{
 							$minumumVersion = $supportedDbs->$dbType;
