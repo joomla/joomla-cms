@@ -131,6 +131,7 @@
 	text-decoration: none;
 	background-color: var(--white);
 	position: relative;
+	transition: all .3s ease-in;
 	@include hover-focus-active() {
 		background-color: var(--atum-bg-dark);
 		color: var(--white);
@@ -151,6 +152,7 @@
 		right: 0;
 		bottom: 0;
 		.fa {
+			transition: all .3s ease-in;
 			font-size: 7rem;
 			transform: translateX(-100%);
 		}
