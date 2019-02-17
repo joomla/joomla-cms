@@ -33,6 +33,10 @@
 .btn-primary{
 	background-color:var(--atum-link-color);
 	border-color:var(--atum-link-color);
+	@include hover-focus-active {
+		background-color: var(--atum-link-hover-color);
+		border-color: var(--atum-link-hover-color);
+	}
 }
 
 .input-group-text{
