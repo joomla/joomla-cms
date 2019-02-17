@@ -10,9 +10,9 @@
     display: inline-block;
     line-height: $header-height;
     text-align: center;
-    img{
-      height:30px;
-      margin-left:30px;
+    img {
+      height: 1.3rem;
+      margin-left: 0.8rem;
     }
   }
 
@@ -27,10 +27,17 @@
     }
   }
 
+  .nav-item:hover,
+  .nav-item.show {
+    background-color: var(--main-bg);
+  }
+
   .nav-link {
     position: relative;
     padding: 0;
+    margin: 0 0.6rem;
     line-height: $header-height;
+    min-width: $header-height - 5px;
 
     .fa {
       width: $header-height + 0.125rem;
@@ -56,20 +63,79 @@
     }
   }
 
+  .link-title {
+    text-decoration: underline;
+  }
+
   .dropdown-menu {
     min-width: 280px;
     padding: 0;
     border: 0;
     z-index: 1041;
+    background-color: var(--primary-light);
 
     h2 {
       font-size: $h5-font-size;
     }
+
+    .dropdown-message {
+      font-weight: bold;
+      color: $gray-900;
+    }
   }
 
   .dropdown-item {
+    color: $white;
+    background-color: var(--primary-light);
+    padding: 0;
+
     @include hover-focus {
       color: var(--atum-special-color);
+    }
+
+    a {
+      display: inline-block;
+      width: 100%;
+      color: $white;
+      padding-left: 0.75rem;
+      line-height: 3;
+
+      &:hover {
+        color: var(--primary-dark);
+        text-decoration: none;
+      }
+
+      .fa {
+        float: right;
+      }
+    }
+
+    .fa {
+      padding: 1rem;
+      background-color: lighten(color("primary-light"), 5%);
+      width: 3rem;
+    }
+
+    &.closeMessageWrapper > a:first-child {
+      width: calc(100% - 3.5rem);
+    }
+
+    .closeMessage {
+      float: right;
+      padding: 0;
+      width: 3rem;
+    }
+
+    &.iconsLeft {
+
+      a {
+        padding-left: 0;
+      }
+
+      .fa {
+        float: left;
+        margin-right: 0.75rem;
+      }
     }
   }
 
@@ -94,11 +160,19 @@
   }
 
   .dropdown-header {
+    background-color: var(--primary-dark);
     padding-top: .5rem;
     padding-bottom: .5rem;
     color: $white;
     background-color: var(--atum-bg-dark);
     box-shadow: $atum-box-shadow;
+    color: $white;
+    font-size: inherit;
+    padding: 1rem 0.75rem;
+
+    &.iconsLeftHeader {
+      padding-left: 3.75rem;
+    }
   }
 
   .list-group-item-text:last-child {
