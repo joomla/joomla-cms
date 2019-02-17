@@ -487,36 +487,6 @@ class ItemsModel extends ListModel
 	}
 
 	/**
-	 * Method to allow derived classes to preprocess the form.
-	 *
-	 * @param   \JForm  $form   A \JForm object.
-	 * @param   mixed   $data   The data expected for the form.
-	 * @param   string  $group  The name of the plugin group to import (defaults to "content").
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 * @throws  \Exception if there is an error in the form event.
-	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
-	{
-		$name = $form->getName();
-
-		if ($name == 'com_menus.items.filter')
-		{
-			$clientId = $this->getState('filter.client_id');
-			$form->setFieldAttribute('menutype', 'clientid', $clientId);
-		}
-		elseif (false !== strpos($name, 'com_menus.items.modal.'))
-		{
-			$form->removeField('client_id');
-
-			$clientId = $this->getState('filter.client_id');
-			$form->setFieldAttribute('menutype', 'clientid', $clientId);
-		}
-	}
-
-	/**
 	 * Get the client id for a menu
 	 *
 	 * @param   string   $menuType  The menutype identifier for the menu
