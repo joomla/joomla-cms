@@ -113,7 +113,7 @@ class JHelpTest extends TestCase
 	 */
 	public function testCreateSiteList()
 	{
-		$helpsite = array(
+		$helpsite = (object) array(
 			'text' => 'English (GB) help.joomla.org',
 			'value' => 'http://help.joomla.org'
 		);
