@@ -56,5 +56,13 @@ textarea {
   word-wrap: break-word;
 }
 
+.content{
+	font-size: $content-font-size;
+}
+label, caption{
+	font-size: $label-font-size;
+}
+
+
 
 
