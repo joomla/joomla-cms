@@ -137,9 +137,6 @@ class ArticleModel extends AdminModel
 			// Reset hits because we are making a copy
 			$this->table->hits = 0;
 
-			// Unpublish because we are making a copy
-			$this->table->state = 0;
-
 			// New category ID
 			$this->table->catid = $categoryId;
 
@@ -429,12 +426,12 @@ class ArticleModel extends AdminModel
 	protected function prepareTable($table)
 	{
 		// Set the publish date to now
-		if ($table->state == 1 && (int) $table->publish_up == 0)
+		if ($table->state == Workflow::CONDITION_PUBLISHED && (int) $table->publish_up == 0)
 		{
 			$table->publish_up = Factory::getDate()->toSql();
 		}
 
-		if ($table->state == 1 && intval($table->publish_down) == 0)
+		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
 		{
 			$table->publish_down = $this->getDbo()->getNullDate();
 		}
@@ -711,12 +708,6 @@ class ArticleModel extends AdminModel
 			}
 		}
 
-		// Remove show_associations field if associations is not enabled
-		if (!$assoc)
-		{
-			$form->removeField('show_associations', 'attribs');
-		}
-
 		return $form;
 	}
 
@@ -960,7 +951,6 @@ class ArticleModel extends AdminModel
 			}
 
 			$data['state'] = (int) $stage->condition;
-
 		}
 
 		// Automatic handling of alias for empty fields
