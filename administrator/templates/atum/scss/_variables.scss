@@ -43,16 +43,16 @@ $theme-colors: map-merge((
 
 $colors: (
   // @TODO REMOVE THIS VARIABLES AND THEIR USAGE AND REPLACE WITH THE DIFFERENT SUBCOLORS
-  primary-dark:   #2b5c91,
-  primary-light:  #3a87cb,
-  primary-bright: #45a0f1,
+  //primary-dark:   #2b5c91,
+ // primary-light:  #3a87cb,
+ // primary-bright: #45a0f1,
   // END @TODO
   success-border: darken(theme-color("success"), 5%),
   info-border: darken(theme-color("info"), 7%),
   warning-border: darken(theme-color("warning"), 5%),
   danger-border: darken(theme-color("danger"), 5%),
   sidebar-sub-bg: #1b3654,
-  sidebar-text-color: #7189a4,
+ // sidebar-text-color: #7189a4,
   sidebar-link-color: #e3eaf1,
   sidebar-link-color-hover: var(--white),
   sidebar-child-link-color: #cbd6e2,
@@ -70,6 +70,8 @@ $colors: (
   atum-special-color:$dark-blue,
   atum-link-color: $blue-a700,
   atum-link-hover-color: darken($blue-a700, 15%),
+  atum-bg-dark-light:lighten($blue, 20%),
+  atum-bg-dark-bright:lighten($blue, 40%),
 );
 
 // Global

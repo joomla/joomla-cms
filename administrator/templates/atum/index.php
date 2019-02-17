@@ -66,7 +66,14 @@ $steps = 10;
 
 if ($this->params->get('bg-dark'))
 {
-	$root[] = '--atum-bg-dark: ' . $this->params->get('bg-dark') . ';';
+	
+	$bgcolor = trim($this->params->get('bg-dark'), '#');
+
+	list($red, $green, $blue) = str_split($bgcolor, 2);
+
+	$root[] = '--atum-bg-dark: #' . $bgcolor . ';';
+	$root[] = '--atum-bg-dark-light: ' . atum_brightness($bgcolor, +20)  . ';';
+	$root[] = '--atum-bg-dark-bright: ' . atum_brightness($bgcolor, +40)  . ';';
 }
 
 if ($this->params->get('bg-light'))

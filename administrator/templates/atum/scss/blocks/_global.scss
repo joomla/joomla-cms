@@ -63,6 +63,17 @@ label, caption{
 	font-size: $label-font-size;
 }
 
+.btn-primary:hover{
+	background-color:$link-hover-color;
+	border-color:$link-hover-color;
+}
+
+.logo{
+	img path{
+		fill:var(--atum-text-dark);
+	}
+}
+
 
 
 

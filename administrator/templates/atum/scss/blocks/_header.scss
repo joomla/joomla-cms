@@ -35,12 +35,12 @@
   .nav-link {
     position: relative;
     padding: 0;
-    margin: 0 0.6rem;
+    margin: 0 0.8rem;
     line-height: $header-height;
     min-width: $header-height - 0.3125rem;
 
     .fa {
-      width: $header-height + 0.125rem;
+      width: 1.5rem;
       font-size: 1.2rem;
       color: var(--atum-special-color);
       vertical-align: middle;
@@ -72,7 +72,7 @@
     padding: 0;
     border: 0;
     z-index: 1041;
-    background-color: var(--primary-light);
+    background-color: var(--atum-bg-dark-light);
 
     h2 {
       font-size: $h5-font-size;
@@ -86,7 +86,7 @@
 
   .dropdown-item {
     color: $white;
-    background-color: var(--primary-light);
+    background-color: var(--atum-bg-dark-light);
     padding: 0;
 
     @include hover-focus {
@@ -96,13 +96,14 @@
     a {
       display: inline-block;
       width: 100%;
-      color: $white;
+      color: var(--atum-text-light);
       padding-left: 0.75rem;
       line-height: 3;
 
       &:hover {
-        color: var(--primary-dark);
+        color: var(--atum-text-light);
         text-decoration: none;
+		background:var(--atum-bg-dark);
       }
 
       .fa {
@@ -112,7 +113,7 @@
 
     .fa {
       padding: 1rem;
-      background-color: lighten(color("primary-light"), 5%);
+      background-color: var(--atum-bg-dark-bright);//lighten(color("primary-light"), 5%);
       width: 3rem;
     }
 
