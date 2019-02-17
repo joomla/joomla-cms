@@ -46,11 +46,10 @@ extract($displayData);
 
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
-$aria = $name . '-desc';
 
 $attributes = array(
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($description) ? ' aria-describedby="' . $aria . '"' : '',
+	!empty($description) ? ' aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',

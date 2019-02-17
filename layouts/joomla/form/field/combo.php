@@ -45,7 +45,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 HTMLHelper::_('behavior.combobox');
 
 $attr = '';
-$aria = $name . '-desc';
 
 // Initialize some field attributes.
 $attr .= !empty($class) ? ' class="awesomplete form-control ' . $class . '"' : ' class="awesomplete form-control"';
@@ -53,7 +52,7 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= !empty($readonly) ? ' readonly' : '';
 $attr .= !empty($disabled) ? ' disabled' : '';
 $attr .= !empty($required) ? ' required' : '';
-$attr .= (!empty($description)) ? ' aria-describedby="' . $aria . '"' : '';
+$attr .= (!empty($description)) ? ' aria-describedby="' . $name . '-desc"' : '';
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';

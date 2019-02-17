@@ -45,11 +45,10 @@ extract($displayData);
  */
 
 // Initialize some field attributes.
-$aria = $name . '-desc';
 
 $attributes = array(
 	$class ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($description) ? ' aria-describedby="' . $aria . '"' : '',
+	!empty($description) ? ' aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',

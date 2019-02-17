@@ -47,13 +47,12 @@ extract($displayData);
 // Initialize some field attributes.
 $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete === 'autocomplete="on"' ? '' : $autocomplete;
-$aria = $name . '-desc';
 
 $attributes = array(
 	$columns ?: '',
 	$rows ?: '',
 	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($description) ? ' aria-describedby="' . $aria . '"' : '',
+	!empty($description) ? ' aria-describedby="' . $name . '-desc"' : '',
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$disabled ? 'disabled' : '',
 	$readonly ? 'readonly' : '',
