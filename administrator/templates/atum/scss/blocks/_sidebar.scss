@@ -67,32 +67,34 @@
 
   // All list items
   li {
-    color: var(--sidebar-text-color);
+    color: var(--atum-text-light);
     list-style-type: none;
   }
 
   // All links
   a {
     position: relative;
-    color: var(--sidebar-link-color);
+    color: var(--atum-text-light);
 
     &:hover {
-      color: var(--sidebar-link-color-hover);
+      color: var(--atum-text-light);
       text-decoration: none;
+	  
     }
   }
 
   // 1st level items
   > li {
     > ul {
-      background-color: var(--sidebar-sub-bg);
+      background-color: var(--atum-bg-dark-light);
     }
     > a {
       display: block;
       padding: 10px 6px;
 
       &:hover {
-        background-color: rgba(0,0,0,.4);
+        //background-color: rgba(0,0,0,.4);
+		 background-color: var(--atum-bg-dark-light);
       }
     }
     &.active > a {
@@ -105,7 +107,7 @@
         left: 0;
         width: 3px;
         content: "";
-        background-color: var(--primary);
+        background-color: var(--atum-bg-dark);
       }
     }
   }
@@ -122,7 +124,7 @@
     a {
       display: block;
       padding: 4px 5px 4px 34px;
-      color: var(--sidebar-child-link-color);
+      color: var(--atum-text-light);
       flex-basis: 100%;
 
       &:hover {
@@ -132,7 +134,7 @@
 
       &.active {
         color: $white;
-        background-color: var(--primary);
+        background-color: var(--atum-bg-dark);
       }
 
       &::before {
@@ -162,7 +164,7 @@
       top: 16px;
       width: .4rem;
       height: .4rem;
-      border-color: var(--sidebar-text-color);
+      border-color: var(--atum-text-light);
     }
 
     // 3rd level items
@@ -189,7 +191,7 @@
   .divider {
     height: 1px;
     margin: 4px 18px;
-    background-color: var(--sidebar-text-color);
+    background-color: var(--atum-text-light);
     opacity: .2;
   }
 
@@ -222,7 +224,7 @@
     right: 1em;
     width: .5rem;
     height: .5rem;
-    color: $white;
+    color: va(--atum-text-light);
     content: "";
     border-color: initial;
     border-style: solid;
