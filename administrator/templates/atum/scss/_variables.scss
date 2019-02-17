@@ -189,3 +189,26 @@ $link-hover-color:                 var(--link-hover);
 
 //Time for fadeeffect login-light-bg
 $fadetime: 1s;
+
+//Font-sizes
+$h1-font-size:2.125rem;
+$h2-font-size:1.25rem;
+$h3-font-size:3rem;
+$h4-font-size:2.125rem;
+$h5-font-size:1.5rem;
+$h6-font-size:1.25rem;
+
+$lead-font-size:
+$display1-size:1rem;
+$display2-size:.875rem;
+//$display3-size
+//$display4-size
+//$blockquote-font-size
+
+.content{
+	font-size: 0.875rem;
+}
+label, caption{
+	font-size: 0.75rem;
+}
+
