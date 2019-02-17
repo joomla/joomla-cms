@@ -1027,7 +1027,7 @@ abstract class FormField
 	 * @param   Registry  $input  An optional Registry object with the entire data set to validate
 	 *                            against the entire form.
 	 *
-	 * @return  boolean  Boolean true if field value is valid, Exception on failure.
+	 * @return  boolean|\Exception  Boolean true if field value is valid, Exception on failure.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \InvalidArgumentException
