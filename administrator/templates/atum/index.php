@@ -14,6 +14,8 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+require_once 'function.php';
+
 /** @var JDocumentHtml $this */
 
 $app   = Factory::getApplication();
@@ -89,7 +91,7 @@ if ($this->params->get('link-color'))
 	list($red, $green, $blue) = str_split($linkcolor, 2);
 
 	$root[] = '--atum-link-color: #' . $linkcolor . ';';
-	$root[] = '--atum-link-hover-color: #' . dechex(max(0, hexdec($red) - $steps)) . dechex(max(0, hexdec($green) - $steps)) . dechex(max(0, hexdec($blue) - $steps)) . ';';
+	$root[] = '--atum-link-hover-color: ' . atum_brightness($linkcolor, -40)  . ';';
 }
 
 if ($this->params->get('special-color'))
