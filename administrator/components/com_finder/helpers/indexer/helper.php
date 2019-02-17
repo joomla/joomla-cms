@@ -269,26 +269,40 @@ class FinderIndexerHelper
 	 */
 	public static function isCommon($token, $lang)
 	{
-		static $data;
-		static $default;
+		static $data, $default, $multilingual;
 
-		$langCode = $lang;
-
-		// If language requested is wildcard, use the default language.
-		if ($lang == '*')
+		if (is_null($multilingual))
 		{
-			$default = $default === null ? substr(self::getDefaultLanguage(), 0, 2) : $default;
-			$langCode = $default;
+			$multilingual = Multilanguage::isEnabled();
+			$config = ComponentHelper::getParams('com_finder');
+
+			if ($config->get('language_default', '') == '')
+			{
+				$default = '*';
+			}
+			elseif ($config->get('language_default', '') == '-1')
+			{
+				$default = self::getPrimaryLanguage(self::getDefaultLanguage());
+			}
+			else
+			{
+				$default = self::getPrimaryLanguage($config->get('language_default'));
+			}
+		}
+
+		if (!$multilingual || $lang == '*')
+		{
+			$lang = $default;
 		}
 
 		// Load the common tokens for the language if necessary.
-		if (!isset($data[$langCode]))
+		if (!isset($data[$lang]))
 		{
-			$data[$langCode] = self::getCommonWords($langCode);
+			$data[$lang] = self::getCommonWords($lang);
 		}
 
 		// Check if the token is in the common array.
-		return in_array($token, $data[$langCode], true);
+		return in_array($token, $data[$lang], true);
 	}
 
 	/**
