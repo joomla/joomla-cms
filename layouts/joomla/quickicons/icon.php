@@ -14,8 +14,13 @@ use Joomla\CMS\Language\Text;
 $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
 $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['target'] . '"');
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
+
+// The title for the link (a11y)
 $title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
+
+// The information 
 $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
+
 $class = '';
 
 if ($id && is_numeric($id))
@@ -27,17 +32,19 @@ if ($id && is_numeric($id))
 <li class="col">
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['amount'])): ?>
-			<div class="quickicon-amount d-flex align-middle"><?php echo (int) $displayData['amount'];  ?></div>
+			<div class="quickicon-amount d-flex align-items-end"><?php echo (int) $displayData['amount'];  ?></div>
 		<?php elseif ( isset($displayData['image'])): ?>
-			<div class="quickicon-icon d-flex align-middle ">
-				<span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span>
+			<div class="quickicon-icon d-flex align-items-end">
+				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 			</div>
 		<?php endif; ?>
-		<?php if (isset($displayData['name'])): ?>
-			<div class="quickicon-name d-flex d-flex align-middle"><?php echo htmlspecialchars($displayData['name']); ?></div>
+		<?php // Name indicates the component	
+			if (isset($displayData['name'])): ?>
+			<div class="quickicon-name d-flex align-items-center"><?php echo htmlspecialchars($displayData['name']); ?></div>
 		<?php endif; ?>
-		<?php if (isset($displayData['text'])): ?>
-			<div class="quickicon-text d-flex d-flex align-middle"><?php echo $text; ?></div>
+		<?php // Information or action	
+		if (isset($displayData['text'])): ?>
+			<div class="quickicon-text d-flex align-items-center"><?php echo $text; ?></div>
 		<?php endif; ?>
 	</a>
 </li>

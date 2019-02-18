@@ -9,14 +9,11 @@
    min-width: 160px;
   }
   .quickicon-amount {
-    font-size: 3rem;
-    height: 3.2rem;
+    font-size: 3rem;npm icon: 
     font-weight: 200;
     letter-spacing: -0.2rem;
   }
- .quickicon-icon {
-    height: 3.2rem;
-  }
+
 .quickicon-name {
 	color: $body-color;
   }
@@ -30,7 +27,7 @@
     background: $quickicon-bg;
     box-shadow: $quickicon-box-shadow;
     transition: all .25s ease;
-    padding-bottom: .5rem;
+	text-align: center;
 
     > div {
       flex: 1 0 0;
@@ -56,7 +53,6 @@
     .fa {
       margin: 5px auto 0;
       font-size: 2.5rem;
-      font-weight: 200; 
     }
 
     &.warning {

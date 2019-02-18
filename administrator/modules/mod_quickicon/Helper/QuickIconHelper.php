@@ -77,7 +77,6 @@ abstract class QuickIconHelper
 					array(
 						'link'   => Route::_('index.php?option=com_config'),
 						'image'  => 'fa fa-cog',
-						'name'   => Text::_('MOD_QUICKICON_CONFIGURATION'),
 						'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
 						'group'  => 'MOD_QUICKICON_CONFIGURATION',
@@ -117,7 +116,7 @@ abstract class QuickIconHelper
 					array(
 						'amount' => self::countModules(),
 						'link'   => Route::_('index.php?option=com_modules'),
-						'name'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
+						'text'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
 						'access' => array('core.manage', 'com_modules'),
 						'group'  => 'MOD_QUICKICON_STRUCTURE'
 					)
