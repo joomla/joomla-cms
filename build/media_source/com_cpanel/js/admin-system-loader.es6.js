@@ -2,48 +2,66 @@
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
-(() => {
+((document, Joomla) => {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', () => {
-  // Get the elements
-    const elements = document.querySelectorAll('.system-counter');
+  const init = () => {
+    // Cleanup
+    document.removeEventListener('DOMContentLoaded', init);
 
-    for (let i = 0, l = elements.length; l > i; i += 1) {
-      const type = elements[i].getAttribute('data-type');
+    // Get the elements
+     const elements = [].slice.call(document.querySelectorAll('.system-counter'));
 
-    Joomla.request({
-      url: 'index.php?option=com_cpanel&task=system.loadSystemInfo&format=json',
-      method: 'POST',
-      data: 'type=' + type,
-      onSuccess: (resp) => {
-        const response = JSON.parse(resp);
+    if (elements.length) {
+      elements.forEach((element) => {
+        const type = element.getAttribute('data-type');
 
-        if (response.error || !response.success)
-        {
-          elements[i].classList.remove('fa-spin', 'fa-spinner');
-          elements[i].classList.add('text-danger', 'fa-remove');
+        if (type && Joomla && Joomla.request && typeof Joomla.request === 'function') {
+          Joomla.request({
+            url: 'index.php?option=com_cpanel&task=system.loadSystemInfo&format=json',
+            method: 'POST',
+            data: `type=${type}`,
+            onSuccess: (resp) => {
+              let response;
+              try {
+                response = JSON.parse(resp);
+              } catch (error) {
+                throw new Error('Failed to parse JSON')
+              }
+
+              if (response.error || !response.success) {
+                element.classList.remove('fa-spin');
+                element.classList.remove('fa-spinner');
+                element.classList.add('text-danger');
+                element.classList.add('fa-remove');
+              } else if (response.data) {
+                const elem = document.createElement('span');
+
+                elem.classList.add('pull-right');
+                elem.classList.add('badge');
+                elem.classList.add('badge-pill');
+                elem.classList.add('badge-warning');
+                elem.innerHTML = response.data;
+
+                element.parentNode.replaceChild(elem, element);
+              } else {
+                element.classList.remove('fa-spin');
+                element.classList.remove('fa-spinner');
+                element.classList.add('fa-check');
+                element.classList.add('text-success');
+              }
+            },
+            onError: () => {
+              element.classList.remove('fa-spin');
+              element.classList.remove('fa-spinner');
+              element.classList.add('text-danger');
+              element.classList.add('fa-remove');
+            }
+          });
         }
-        else if (response.data)
-        {
-          const elem = document.createElement('span');
-
-          elem.classList.add('pull-right', 'badge', 'badge-pill', 'badge-warning');
-          elem.innerHTML = response.data;
-
-          elements[i].parentNode.replaceChild(elem, elements[i]);
-        }
-        else
-        {
-          elements[i].classList.remove('fa-spin', 'fa-spinner');
-          elements[i].classList.add('text-success', 'fa-check');
-        }
-      },
-      onError: () => {
-        elements[i].classList.remove('fa-spin', 'fa-spinner');
-        elements[i].classList.add('text-danger', 'fa-remove');
-      }
-    });
+      });
     }
-  });
-})();
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+})(document, Joomla);
