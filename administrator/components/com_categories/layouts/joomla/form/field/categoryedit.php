@@ -119,12 +119,26 @@ else
 	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
+if ($customFields === true)
+{
+	$attr2 .= ' data-custom-fields-catid="' . $customFieldsCatId . '" data-custom-fields-section="' . $customFieldsSection . '"';
+	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
+}
+else
+{
+	$attr2 .= $onchange ? ' onchange="' . $onchange . '"' : '';
+}
+
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 
+// Pass the element id to the javascript
+\Joomla\CMS\Factory::getDocument()->addScriptOptions('category-change', $id);
+
+HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+HTMLHelper::_('webcomponent', 'system/fields/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode($html); ?></joomla-field-fancy-select>

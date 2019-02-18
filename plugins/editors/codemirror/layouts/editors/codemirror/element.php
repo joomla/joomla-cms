@@ -35,7 +35,7 @@ $editor          = 'editor="' . Uri::root(false) . ltrim(HTMLHelper::_('script',
 
 HTMLHelper::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS, array('version' => 'auto'));
 HTMLHelper::_('stylesheet', $basePath . 'lib/addons' . $extCSS, array('version' => 'auto'));
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-codemirror.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('webcomponent', 'plg_editors_codemirror/joomla-editor-codemirror.min.js', array('version' => 'auto', 'relative' => true));
 
 ?>
 <joomla-editor-codemirror <?php echo $editor, $modPath, $fsCombo, $option; ?>>
