@@ -22,7 +22,6 @@
 				element="com_content"
 				link="index.php?option=com_content"
 				quicktask="index.php?option=com_content&amp;task=article.add"
-				quicktask-title="MOD_MENU_COM_CONTENT_ARTICLE_ADD"
 				>
 		</menuitem>
 		<menuitem
@@ -76,6 +75,7 @@
 				type="component"
 				element="com_modules"
 				link="index.php?option=com_modules&amp;client_id=0"
+				quicktask="index.php?option=com_modules&amp;view=select"
 		/>
 		<menuitem
 				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
@@ -128,7 +128,8 @@
 					element="com_menus"
 					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
 					icon="{sql:icon}"
-					class="class:menu">
+					class="class:menu"
+					quicktask="index.php?option=com_menus&amp;task=item.add&amp;menutype={sql:menutype}">
 			</menuitem>
 		</menuitem>
 		<menuitem
@@ -167,7 +168,8 @@
 				title="MOD_MENU_COM_USERS_USER_MANAGER"
 				type="component"
 				element="com_users"
-				link="index.php?option=com_users&amp;view=users">
+				link="index.php?option=com_users&amp;view=users"
+				quicktask="index.php?option=com_users&amp;task=user.add">
 		</menuitem>
 		<menuitem
 				title="MOD_MENU_COM_USERS_GROUPS"

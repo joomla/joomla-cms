@@ -109,7 +109,7 @@ if ($current->getParams()->get('menu-quicktask', false))
 {
 	$params = $current->getParams();
 	$user = $this->application->getIdentity();
-	$link = $params->get('menu-quicktask');
+	$link = $params->get('menu-quicktask-link');
 	$icon = $params->get('menu-quicktask-icon', 'new');
 	$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
 	$permission = $params->get('menu-quicktask-permission');
