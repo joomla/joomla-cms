@@ -26,6 +26,9 @@ $lang = Factory::getLanguage();
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
+// Load template JS file
+HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto', 'relative' => true]);
+
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
@@ -44,20 +47,19 @@ $layout   = $app->input->getCmd('layout', 'default');
 $sitename = $app->get('sitename');
 
 // Template params
-$siteLogo    = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
-$loginLogo    = $this->params->get('loginLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg');
+$siteLogo  = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
+$loginLogo = $this->params->get('loginLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg');
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
-$this->addScript($this->baseurl . '/templates/' . $this->template . '/js/template.min.js');
-
 // Set page title
 $this->setTitle(Text::sprintf('TPL_ATUM_LOGIN_SITE_TITLE', $sitename));
 
 $this->addScriptDeclaration('cssVars();');
+
 // Opacity must be set before displaying the DOM, so don't move to a CSS file
 $css = '
 	.container-main > * {
@@ -97,7 +99,7 @@ if ($this->params->get('link-color'))
 	$linkcolor = trim($this->params->get('link-color'), '#');
 
 	$root[] = '--atum-link-color: #' . $linkcolor . ';';
-	$root[] = '--atum-link-hover-color: ' . atum_brightness($linkcolor, -40)  . ';';
+	$root[] = '--atum-link-hover-color: ' . atum_brightness($linkcolor, -40) . ';';
 }
 
 if ($this->params->get('special-color'))
@@ -120,45 +122,46 @@ $this->addStyleDeclaration($css);
 	<jdoc:include type="styles"/>
 </head>
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout; ?>">
-    <header id="header" class="header">
-        <div class="d-flex align-items-center">
-            <div class="header-title mr-auto">
-				<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
-					<img src="<?php echo $siteLogo; ?>" alt="">
-				</a>
-            </div>
-        </div>
-    </header>
+<header id="header" class="header">
+	<div class="d-flex align-items-center">
+		<div class="header-title mr-auto">
+			<a class="logo" href="<?php echo Route::_('index.php'); ?>"
+			   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+				<img src="<?php echo $siteLogo; ?>" alt="">
+			</a>
+		</div>
+	</div>
+</header>
 
-    <div id="wrapper" class="d-flex wrapper">
+<div id="wrapper" class="d-flex wrapper">
 
-	    <?php // Sidebar ?>
-        <div id="sidebar-wrapper" class="sidebar-wrapper">
-            <div id="main-brand" class="main-brand">
-                <h2><?php echo $sitename; ?></h2>
-                <a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
-            </div>
-            <div id="sidebar">
-                <jdoc:include type="modules" name="sidebar" style="body"/>
-            </div>
-        </div>
+	<?php // Sidebar ?>
+	<div id="sidebar-wrapper" class="sidebar-wrapper">
+		<div id="main-brand" class="main-brand">
+			<h2><?php echo $sitename; ?></h2>
+			<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
+		</div>
+		<div id="sidebar">
+			<jdoc:include type="modules" name="sidebar" style="body"/>
+		</div>
+	</div>
 
-        <div class="container-fluid container-main">
-            <section id="content" class="content h-100">
-                <main class="d-flex justify-content-center align-items-center h-100">
-                    <div class="login">
-                        <div class="main-brand d-flex align-items-center justify-content-center">
-	                        <img src="<?php echo $loginLogo; ?>" alt="">
-                        </div>
-	                    <h1><?php echo Text::_('TPL_ATUM_LOGIN_HEADING'); ?></h1>
-                        <jdoc:include type="message"/>
-                        <jdoc:include type="component"/>
-                    </div>
-                </main>
-            </section>
-        </div>
-    </div>
-	<jdoc:include type="modules" name="debug" style="none"/>
-	<jdoc:include type="scripts"/>
+	<div class="container-fluid container-main">
+		<section id="content" class="content h-100">
+			<main class="d-flex justify-content-center align-items-center h-100">
+				<div class="login">
+					<div class="main-brand d-flex align-items-center justify-content-center">
+						<img src="<?php echo $loginLogo; ?>" alt="">
+					</div>
+					<h1><?php echo Text::_('TPL_ATUM_LOGIN_HEADING'); ?></h1>
+					<jdoc:include type="message"/>
+					<jdoc:include type="component"/>
+				</div>
+			</main>
+		</section>
+	</div>
+</div>
+<jdoc:include type="modules" name="debug" style="none"/>
+<jdoc:include type="scripts"/>
 </body>
 </html>
