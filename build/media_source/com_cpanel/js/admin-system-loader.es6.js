@@ -10,7 +10,7 @@
     document.removeEventListener('DOMContentLoaded', init);
 
     // Get the elements
-     const elements = [].slice.call(document.querySelectorAll('.system-counter'));
+    const elements = [].slice.call(document.querySelectorAll('.system-counter'));
 
     if (elements.length) {
       elements.forEach((element) => {
@@ -26,7 +26,7 @@
               try {
                 response = JSON.parse(resp);
               } catch (error) {
-                throw new Error('Failed to parse JSON')
+                throw new Error('Failed to parse JSON');
               }
 
               if (response.error || !response.success) {
@@ -56,12 +56,12 @@
               element.classList.remove('fa-spinner');
               element.classList.add('text-danger');
               element.classList.add('fa-remove');
-            }
+            },
           });
         }
       });
     }
-  }
+  };
 
   document.addEventListener('DOMContentLoaded', init);
 })(document, Joomla);
