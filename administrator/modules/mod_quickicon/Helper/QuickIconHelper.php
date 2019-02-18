@@ -21,6 +21,7 @@ use Joomla\CMS\Router\Route;
 use Joomla\Component\Categories\Administrator\Model\CategoriesModel;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Component\Installer\Administrator\Model\ManageModel;
+use Joomla\Component\Content\Administrator\Model\ModulesModel;
 use Joomla\Component\Menus\Administrator\Model\ItemsModel;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
@@ -74,27 +75,32 @@ abstract class QuickIconHelper
 				
 				self::$buttons[$key] = array(
 					array(
+						'link'   => Route::_('index.php?option=com_config'),
+						'image'  => 'fa fa-cog',
+						'name'   => Text::_('MOD_QUICKICON_CONFIGURATION'),
+						'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
+						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
+						'group'  => 'MOD_QUICKICON_CONFIGURATION',
+					),
+					array(
 						'amount' => self::countUsers(),
 						'link'   => Route::_('index.php?option=com_users&task=user.add'),
-//						'image'  => 'fa fa-users',
 						'name'   => Text::_('MOD_QUICKICON_USER_MANAGER'),
 						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
+						'group'  => 'MOD_QUICKICON_USERS',
 					),
 					array(
 						'amount' => self::countMenuItems(),
 						'link'   => Route::_('index.php?option=com_menus&task=item.add'),
-//						'image'  => 'fa fa-list',
 						'name'   => Text::_('MOD_QUICKICON_MENUITEMS_MANAGER'),
 						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 						'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
+						'group'  => 'MOD_QUICKICON_STRUCTURE',
 					),
 					array(
 						'amount' => self::countArticles(),
 						'link'   => Route::_('index.php?option=com_content&task=article.add'),
-//						'image'  => 'fa fa-pencil-square',
 						'name'   => Text::_('MOD_QUICKICON_ARTICLE_MANAGER'),
 						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
@@ -103,12 +109,18 @@ abstract class QuickIconHelper
 					array(
 						'amount' => self::countArticleCategories(),
 						'link'   => Route::_('index.php?option=com_categories&task=category.add'),
-//						'image'  => 'fa fa-pencil-square',
 						'name'   => Text::_('MOD_QUICKICON_CATEGORY_MANAGER'),
 						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
 					),
+					array(
+						'amount' => self::countModules(),
+						'link'   => Route::_('index.php?option=com_modules'),
+						'name'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
+						'access' => array('core.manage', 'com_modules'),
+						'group'  => 'MOD_QUICKICON_STRUCTURE'
+					)
 				);
 			}
 			else
@@ -150,6 +162,32 @@ abstract class QuickIconHelper
 		return self::$buttons[$key];
 	}
 	
+	/**
+	 * Method to get the number of published modules in frontend.
+	 * 
+	 * @return  integer  The amount of published modules in frontend
+	 *
+	 * @since   4.0
+	 */
+	private function countModules()
+	{
+		$app = Factory::getApplication();
+		
+		// Get an instance of the generic articles model (administrator)
+		$model = $app->bootComponent('com_modules')->getMVCFactory()
+			->createModel('Modules', 'Administrator', ['ignore_request' => true]);
+
+		// $model->setState('list.select', 'COUNT(a.id) as amount'); doesn't work 
+		$model->setState('list.select', '*');
+
+		// Set the Start and Limit to 'all'
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.published', 1);
+		$model->setState('filter.client_id', 0);
+
+		return  count($model->getItems());
+	}
 	/**
 	 * Method to get the number of published articles.
 	 * 
@@ -228,9 +266,7 @@ abstract class QuickIconHelper
 		$model->setState('list.limit', 0);
 		$model->setState('filter.state', 0);
 
-		$result = $model->getItems();
-
-		return count($result);
+		return count($model->getItems());
 	}
 
 	
