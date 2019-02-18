@@ -6,6 +6,22 @@
 ((window, document, Joomla) => {
   let matchesFn = 'matches';
 
+  const closest = (element, selector) => {
+    let parent;
+    let el = element;
+
+    // Traverse parents
+    while (el) {
+      parent = el.parentElement;
+      if (parent && parent[matchesFn](selector)) {
+        return parent;
+      }
+      el = parent;
+    }
+
+    return null;
+  };
+
   Joomla.unpublishModule = (element) => {
     // Get variables
     const baseUrl = 'index.php?option=com_modules&task=modules.unpublish&format=json';
@@ -15,38 +31,23 @@
       url: `${baseUrl}&cid=${id}`,
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      onSuccess: (resp) => {
+      onSuccess: () => {
         const wrapper = closest(element, '.module-wrapper');
         wrapper.parentNode.removeChild(wrapper);
 
         Joomla.renderMessages({
-          message: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')]
+          message: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS')],
         });
       },
       onError: () => {
         Joomla.renderMessages({
-          error: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')]
+          error: [Joomla.JText._('COM_CPANEL_UNPUBLISH_MODULE_ERROR')],
         });
       },
     });
   };
-
-  const closest = (element, selector) => {
-    let parent;
-
-    // Traverse parents
-    while (element) {
-      parent = element.parentElement;
-      if (parent && parent[matchesFn](selector)) {
-        return parent;
-      }
-      element = parent;
-    }
-
-    return null;
-  }
 
   const onBoot = () => {
     // Find matchesFn with vendor prefix
