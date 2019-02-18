@@ -59,11 +59,6 @@
       }
     }
 
-    disconnectedCallback() {
-      this.buttonSelect.removeEventListener('click', this);
-      this.modal.removeEventListener('hide', this);
-    }
-
     // Opens the modal
     modalOpen() {
       const self = this;
