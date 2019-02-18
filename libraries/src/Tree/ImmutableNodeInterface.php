@@ -40,7 +40,7 @@ interface ImmutableNodeInterface
 	/**
 	 * Get the root of the tree
 	 * 
-	 * @return  NodeInterface
+	 * @return  ImmutableNodeInterface
 	 * 
 	 * @since   __DEPLOY_VERSION__
 	 */
