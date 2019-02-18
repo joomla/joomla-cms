@@ -63,7 +63,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
 				<?php endif; ?>
 			</a>
-			<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
+			<div class="dropdown-menu dropdown-menu-right dropdown-notifications border-0">
 				<div class="list-group">
 					<?php if (empty($messages)) : ?>
 					<p class="list-group-item text-center">
