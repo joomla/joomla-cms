@@ -13,8 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-require_once 'function.php';
+use OzdemirBurak\Iris\Color\Hex;
 
 /** @var JDocumentHtml $this */
 
@@ -72,8 +71,15 @@ if ($this->params->get('bg-dark'))
 	list($red, $green, $blue) = str_split($bgcolor, 2);
 
 	$root[] = '--atum-bg-dark: #' . $bgcolor . ';';
-	$root[] = '--atum-bg-dark-light: ' . atum_brightness($bgcolor, +20) . ';';
-	$root[] = '--atum-bg-dark-bright: ' . atum_brightness($bgcolor, +40) . ';';
+
+	try {
+		$color = new Hex($bgcolor);
+
+		$root[] = '--atum-bg-dark-light: ' . ((clone $color)->lighten(20)) . ';';
+		$root[] = '--atum-bg-dark-bright: ' . ((clone $color)->lighten(40)) . ';';
+	} catch (Exception $ex) {
+
+	}
 }
 
 if ($this->params->get('bg-light'))
@@ -98,7 +104,15 @@ if ($this->params->get('link-color'))
 	list($red, $green, $blue) = str_split($linkcolor, 2);
 
 	$root[] = '--atum-link-color: #' . $linkcolor . ';';
-	$root[] = '--atum-link-hover-color: ' . atum_brightness($linkcolor, -40) . ';';
+
+	try {
+		$color = new Hex($linkcolor);
+		$color->darken(20);
+
+		$root[] = '--atum-link-hover-color: ' . $color . ';';
+	} catch (Exception $ex) {
+
+	}
 }
 
 if ($this->params->get('special-color'))

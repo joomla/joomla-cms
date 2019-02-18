@@ -14,8 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-
-require_once 'function.php';
+use OzdemirBurak\Iris\Color\Hex;
 
 /** @var JDocumentHtml $this */
 
@@ -99,7 +98,15 @@ if ($this->params->get('link-color'))
 	$linkcolor = trim($this->params->get('link-color'), '#');
 
 	$root[] = '--atum-link-color: #' . $linkcolor . ';';
-	$root[] = '--atum-link-hover-color: ' . atum_brightness($linkcolor, -40) . ';';
+
+	try {
+		$color = new Hex($linkcolor);
+		$color->darken(40);
+
+		$root[] = '--atum-link-hover-color: ' . $color . ';';
+	} catch (Exception $ex) {
+
+	}
 }
 
 if ($this->params->get('special-color'))
