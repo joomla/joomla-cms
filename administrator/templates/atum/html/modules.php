@@ -78,7 +78,7 @@ function modChrome_well($module, &$params, &$attribs)
 			echo '<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton-' . $id . '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . ' ' . $module->title . '</span></span></a>';
 			echo '<div class="dropdown-menu dropdown-menu-' . $dropdownPosition . '" aria-labelledby="dropdownMenuButton-' . $id . '">';
 			echo '<a class="dropdown-item" href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . $id) . '">' . Text::_('JACTION_EDIT') . '</a>';
-			echo '<a class="dropdown-item unpublish-module" data-module-id="' . $id . '">' . Text::_('ACTION_UNPUBLISH') . '</a>';
+			echo '<a class="dropdown-item unpublish-module" data-module-id="' . $id . '">' . Text::_('JACTION_UNPUBLISH') . '</a>';
 			echo '</div>';
 			echo '</div>';
 		}
@@ -126,7 +126,7 @@ function modChrome_body($module, &$params, &$attribs)
 			echo '<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton-' . $id . '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . ' ' . $module->title . '</span></span></a>';
 			echo '<div class="dropdown-menu dropdown-menu-' . $dropdownPosition . '" aria-labelledby="dropdownMenuButton-' . $id . '">';
 			echo '<a class="dropdown-item" href="' . Route::_('index.php?option=com_modules&task=module.edit&id=' . $id) . '">' . Text::_('JACTION_EDIT') . '</a>';
-			echo '<a class="dropdown-item unpublish-module" data-module-id="' . $id . '">' . Text::_('ACTION_UNPUBLISH') . '</a>';
+			echo '<a class="dropdown-item unpublish-module" data-module-id="' . $id . '">' . Text::_('JACTION_UNPUBLISH') . '</a>';
 			echo '</div>';
 			echo '</div>';
 		}
