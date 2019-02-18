@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Categories\Administrator\Model\CategoriesModel;
+use Joomla\Component\Checkin\Administrator\Model\CheckinModel;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Component\Installer\Administrator\Model\ManageModel;
 use Joomla\Component\Content\Administrator\Model\ModulesModel;
@@ -63,7 +64,7 @@ abstract class QuickIconHelper
 		}
 
 		$key = (string) $params;
-
+		
 		if (!isset(self::$buttons[$key]))
 		{
 			$context = $params->get('context', 'mod_quickicon');
@@ -119,6 +120,13 @@ abstract class QuickIconHelper
 						'text'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
 						'access' => array('core.manage', 'com_modules'),
 						'group'  => 'MOD_QUICKICON_STRUCTURE'
+					),
+					array(
+						'amount' => self::countCheckin(),
+						'link'   => Route::_('index.php?option=com_checkin'),
+						'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
+						'access' => array('core.manage', 'com_checkin'),
+						'group'  => 'MOD_QUICKICON_CONTENT'
 					)
 				);
 			}
@@ -294,5 +302,21 @@ abstract class QuickIconHelper
 		$result = $model->getItems();
 
 		return count($result);
+	}
+
+	/**
+	 * Method to get checkin
+	 * 
+	 * @return  integer  The amount of checkins
+	 *
+	 * @since   4.0
+	 */
+	private function countCheckin()
+	{
+		$app = Factory::getApplication();
+		
+		$model = $app->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
+	
+		return $model->getTotal();
 	}
 }
