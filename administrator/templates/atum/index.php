@@ -75,8 +75,8 @@ if ($this->params->get('bg-dark'))
 	try {
 		$color = new Hex($bgcolor);
 
-		$root[] = '--atum-bg-dark-light: ' . ((clone $color)->lighten(20)) . ';';
-		$root[] = '--atum-bg-dark-bright: ' . ((clone $color)->lighten(40)) . ';';
+		$root[] = '--atum-bg-dark-light: ' . (clone $color)->lighten(20) . ';';
+		$root[] = '--atum-bg-dark-bright: ' . (clone $color)->lighten(40) . ';';
 	} catch (Exception $ex) {
 
 	}
@@ -107,9 +107,8 @@ if ($this->params->get('link-color'))
 
 	try {
 		$color = new Hex($linkcolor);
-		$color->darken(20);
 
-		$root[] = '--atum-link-hover-color: ' . $color . ';';
+		$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
 	} catch (Exception $ex) {
 
 	}
