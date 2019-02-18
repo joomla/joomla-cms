@@ -9,7 +9,7 @@ const MakeDir = require('../utils/make-dir.es6.js');
  * @param settings      the settings for the transpiler
  * @param output        the full pat + filename + extension of the trnspiled file
  */
-module.exports.run = (fileContents, settings, output) => {
+module.exports.run = (fileContents, settings, output, embededScript) => {
   Babel.transform(fileContents, settings, (error, result) => {
     if (error) {
       // eslint-disable-next-line no-console
@@ -22,7 +22,7 @@ module.exports.run = (fileContents, settings, output) => {
 
     Fs.writeFile(
       output,
-      result.code, // + os.EOL
+      embededScript ? embededScript + result.code : result.code, // + os.EOL
       (fsError) => {
         if (fsError) {
           // eslint-disable-next-line no-console

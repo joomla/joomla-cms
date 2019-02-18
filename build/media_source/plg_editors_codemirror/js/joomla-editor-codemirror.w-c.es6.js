@@ -1,3 +1,5 @@
+/**{{embed='media/vendor/codemirror/lib/codemirror-ce.min.js'}}**/
+
 customElements.define('joomla-editor-codemirror', class extends HTMLElement {
   constructor() {
     super();
@@ -9,8 +11,6 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
     this.toggleFullScreen = this.toggleFullScreen.bind(this);
     this.closeFullScreen = this.closeFullScreen.bind(this);
     this.setup = this.setup.bind(this);
-    this.loadCm = this.loadCm.bind(this);
-    this.isCmReady = this.isCmReady.bind(this);
 
     // Watch for children changes.
     // eslint-disable-next-line no-return-assign
@@ -44,16 +44,12 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
   }
 
   connectedCallback() {
-    if (!document.head.querySelector('#cm-editor')) {
-      this.loadCm();
-    }
-
     // Note the mutation observer won't fire for initial contents,
     // so the initialize is called also here.
     this.element = this.querySelector('textarea');
 
     if (this.element) {
-      this.isCmReady();
+      this.setup();
     }
   }
 
@@ -113,27 +109,6 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
     this.instance = window.CodeMirror.fromTextArea(element, this.options);
   }
 
-  loadCm() {
-    if (!document.head.querySelector('#cm-editor')) {
-      // Script needs to be loaded
-      const xhr = new XMLHttpRequest();
-      xhr.responseType = 'blob';
-      xhr.open('GET', this.getAttribute('editor'), true);
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4) {
-          if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-            const script = document.createElement('script');
-            script.src = URL.createObjectURL(xhr.response);
-            script.async = false;
-            script.id = 'cm-editor';
-            document.body.appendChild(script);
-          }
-        }
-      };
-      xhr.send();
-    }
-  }
-
   /* eslint-enable */
   toggleFullScreen() {
     this.instance.setOption('fullScreen', !this.instance.getOption('fullScreen'));
@@ -158,15 +133,7 @@ customElements.define('joomla-editor-codemirror', class extends HTMLElement {
         delete Joomla.editors.instances[this.element.id];
       }
 
-      this.isCmReady();
-    }
-  }
-
-  isCmReady() {
-    if (typeof window.CodeMirror === 'function') {
       this.setup();
-    } else {
-      return setTimeout(() => { this.isCmReady() }, 10);
     }
   }
 });
