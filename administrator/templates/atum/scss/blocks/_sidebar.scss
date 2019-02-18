@@ -37,9 +37,18 @@
       flex: 1 0 $sidebar-width;
       transition: flex 3s;
 
-	  @include media-breakpoint-down(sm){
-		@include fadeout-page;
-	  }
+      @include media-breakpoint-down(sm) {
+        @include fadeout-page;
+      }
+    }
+
+    &.transit-narrow-closed {
+      flex: 1 0 $sidebar-width-closed;
+      transition: flex 3s;
+
+      @include media-breakpoint-down(sm) {
+        @include fadeout-page;
+      }
     }
   }
 
@@ -48,9 +57,9 @@
     max-width: $sidebar-width-login;
     transition: all 3s;
 
-	@include media-breakpoint-down(sm){
-		@include fadein-page;
-	  }
+    @include media-breakpoint-down(sm) {
+      @include fadein-page;
+    }
   }
 
 }
@@ -88,16 +97,18 @@
     > ul {
       background-color: var(--atum-bg-dark-light);
     }
+
     > a {
       display: block;
       padding: 10px 6px;
 
       &:hover {
-		 background-color: var(--atum-bg-dark-light);
+        background-color: var(--atum-bg-dark-light);
       }
     }
+
     &.active > a {
-      background-color: rgba(0,0,0,.4);
+      background-color: rgba(0, 0, 0, .4);
 
       &::before {
         position: absolute;
@@ -128,7 +139,7 @@
 
       &:hover {
         color: $white;
-        background-color: rgba(0,0,0,.4);
+        background-color: rgba(0, 0, 0, .4);
       }
 
       &.active {
@@ -182,6 +193,7 @@
   .divider,
   .menuitem-group {
     list-style: none;
+
     a::before {
       display: none;
     }
@@ -204,9 +216,11 @@
   .collapse {
     display: none;
   }
+
   .collapse.in {
     display: block;
   }
+
   .collapsing {
     position: relative;
     height: 0;
@@ -223,7 +237,7 @@
     right: 1em;
     width: .5rem;
     height: .5rem;
-    color: va(--atum-text-light);
+    color: var(--atum-text-light);
     content: "";
     border-color: initial;
     border-style: solid;
@@ -258,6 +272,16 @@
   .sidebar-wrapper {
     flex: 1 0 $sidebar-width-closed;
     max-width: $sidebar-width-closed;
+
+    &.transit-wider-closed {
+      flex: 1 0 33%;
+      max-width: $sidebar-width-login;
+      transition: flex 3s;
+
+      @include media-breakpoint-down(sm) {
+        @include fadein-page;
+      }
+    }
   }
 
   .sidebar-item-title,

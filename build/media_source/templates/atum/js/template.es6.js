@@ -27,9 +27,13 @@
     }
     if (sidebar) {
       if (transitAction) {
-        sidebar.classList.add(`transit-${transitAction}`);
+        //transition class depends on the width of the sidebar
+        if (typeof Storage !== 'undefined' && localStorage.getItem('atum-sidebar') === 'closed') {
+          sidebar.classList.add(`transit-${transitAction}-closed`);
+        } else {
+          sidebar.classList.add(`transit-${transitAction}`);
+        }
       }
-
       sidebar.classList.toggle('fade-done', fadeAction !== 'out');
     }
     if (contentMain) {
