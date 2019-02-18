@@ -71,7 +71,7 @@ const createJsFiles = (inputFile, es6FileContents, embededScript) => {
     },
   ];
 
-  const path = inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\')
+  const path = inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\');
   const outputFiles = [
     path.replace('.w-c.es6.js', '.js'),
     path.replace('.w-c.es6.js', '.min.js'),
