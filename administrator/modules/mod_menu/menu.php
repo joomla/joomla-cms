@@ -30,6 +30,7 @@ class JAdminCssMenu
 	 *
 	 * @var    Tree
 	 * @since  3.8.0
+	 * @deprecated  4.0
 	 */
 	protected $tree;
 
@@ -90,6 +91,8 @@ class JAdminCssMenu
 	 * @return  Tree
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0
 	 */
 	public function getTree()
 	{
@@ -446,6 +449,8 @@ class JAdminCssMenu
 	 * @return  void
 	 *
 	 * @since   3.8.0
+	 *
+	 * @deprecated  4.0
 	 */
 	protected function populateTree($levels)
 	{
