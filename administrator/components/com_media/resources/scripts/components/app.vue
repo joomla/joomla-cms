@@ -20,7 +20,6 @@
 
 <script>
     import * as types from "./../store/mutation-types";
-    import Api from "./../app/Api";
 
     export default {
         name: 'media-app',
