@@ -32,6 +32,10 @@ div.calendar-container table body td {
 	line-height: 2em;
 }
 
+.calendar-container table {
+	border-collapse: separate;
+}
+
 div.calendar-container table td.title { /* This holds the current "month, year" */
 	vertical-align: middle;
 	text-align: center;
