@@ -104,7 +104,7 @@ module.exports.compile = (inputFile, options) => {
         if (Fs.existsSync(Path.resolve(RootPath, parts[1]))) {
           const replacement = Fs.readFileSync(Path.resolve(RootPath, parts[1]), 'utf8');
           if (replacement) {
-            embededScript = replacement
+            embededScript = replacement;
           }
         }
       }
