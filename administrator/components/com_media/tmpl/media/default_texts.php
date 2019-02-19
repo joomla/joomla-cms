@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-Text::script('COM_MEDIA_ACTIN_RENAME', true);
+Text::script('COM_MEDIA_ACTION_RENAME', true);
 Text::script('COM_MEDIA_ACTION_DELETE', true);
 Text::script('COM_MEDIA_ACTION_EDIT', true);
 Text::script('COM_MEDIA_ACTION_PREVIEW', true);
