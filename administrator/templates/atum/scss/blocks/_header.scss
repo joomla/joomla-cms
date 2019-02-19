@@ -27,6 +27,7 @@
     img {
       height: 1.3rem;
       margin-left: 0.8rem;
+      max-width: calc(15.625rem - 0.8rem);
 
       &.logo-small {
         display: none;
@@ -48,9 +49,11 @@
   .nav-item:hover,
   .nav-item.show {
     background-color: var(--atum-bg-dark);
-    .nav-link{
-      .fa{
-        color:var(--atum-text-light);
+
+    .nav-link {
+      color: var(--atum-text-light);
+      .fa {
+        color: var(--atum-text-light);
       }
     }
 
@@ -62,7 +65,7 @@
     margin: 0 0.8rem;
     line-height: $header-height;
     min-width: $header-height - 0.3125rem;
-	display:inline;
+    display: inline;
 
     .fa {
       width: 1.5rem;
@@ -85,7 +88,7 @@
     &:hover .fa {
       font-size: 1.3rem;
       transition: all .2s ease-in-out;
-      color:var(--atum-text-light);
+      color: var(--atum-text-light);
     }
   }
 
