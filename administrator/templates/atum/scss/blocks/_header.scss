@@ -8,9 +8,13 @@
   .logo {
     display: inline-block;
     line-height: $header-height;
-    text-align: center;
+    width: $sidebar-width;
+    transition: width .3s ease;
 
     &.small {
+      width: $sidebar-width-closed;
+      transition: width .3s ease;
+
       img:not(.logo-small) {
         display: none;
       }
@@ -31,9 +35,7 @@
   }
 
   .page-title {
-    position: absolute;
-    left: 16.35rem;
-    margin: 0 5px;
+    margin: 0 7.5px;
     font-size: 1.2rem;
     line-height: $header-height;
     color: var(--atum-special-color);
