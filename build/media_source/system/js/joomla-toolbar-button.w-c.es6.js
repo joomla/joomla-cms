@@ -2,6 +2,7 @@
  * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 window.customElements.define('joomla-toolbar-button', class extends HTMLElement {
   // Attribute getters
   get task() {
@@ -41,6 +42,8 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       this.setDisabled(true);
     }
 
+    this.onChange = this.onChange.bind(this);
+
     this.addEventListener('click', event => this.executeTask(event));
   }
 
@@ -62,10 +65,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       }
 
       // Watch on list selection
-      this.formElement.boxchecked.addEventListener('change', (event) => {
-        // Check whether we have selected something
-        this.setDisabled(event.target.value < 1);
-      });
+      this.formElement.boxchecked.addEventListener('change', this.onChange);
     }
   }
 
@@ -74,10 +74,15 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
    */
   disconnectedCallback() {
     if (this.formElement.boxchecked) {
-      this.formElement.boxchecked.removeEventListener('change');
+      this.formElement.boxchecked.removeEventListener('change', this.onChange);
     }
 
     this.removeEventListener('click');
+  }
+
+  onChange(event) {
+    // Check whether we have selected something
+    this.setDisabled(event.target.value < 1);
   }
 
   setDisabled(disabled) {
