@@ -129,7 +129,7 @@ class SystemController extends BaseController
 
 		$joomlaUpdate = $model->getUpdateInformation();
 
-		$hasUpdate = $joomlaUpdate['hasUpdate'] ? $joomlaUpdate['latest'] : '';
+		$hasUpdate = $joomlaUpdate['hasUpdate'] ? '&#x200E;' . $joomlaUpdate['latest'] : '';
 
 		return $hasUpdate;
 	}
