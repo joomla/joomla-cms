@@ -113,6 +113,7 @@ class SystemController extends BaseController
 	 * @return string  The version number or empty string
 	 *
 	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function countSystemUpdates()
 	{
