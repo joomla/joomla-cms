@@ -103,7 +103,9 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								</th>
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</td>
+                                </td>
+                                <th scope="col" style="width:1%" class="text-center">
+                                    <?php echo JText::_('JFEATURED'); ?>
 								<th scope="col" style="width:1%; min-width:85px" class="text-center">
 									<?php echo JText::_('JSTATUS'); ?>
 								</th>
@@ -206,11 +208,15 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								</td>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-								</td>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group tbody-icon mr-1">
+                                    <?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
+                                    </div>
+                                </td>    
 								<td class="article-status">
 									<div class="d-flex">
 										<div class="btn-group tbody-icon mr-1">
-										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 										<?php
 
 											$options = [
