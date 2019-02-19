@@ -8,6 +8,11 @@ $fa-font-path: "../../../media/vendor/font-awesome/fonts";
 // FontAwesome
 @import "../../../media/vendor/font-awesome/scss/font-awesome";
 
+// Backend Template stuff
+@import "../../../administrator/templates/atum/scss/mixin";
+@import "../../../administrator/templates/atum/scss/blocks/global";
+@import "../../../administrator/templates/atum/scss/blocks/header";
+
 body {
   background: var(--atum-bg-light);
   background-image: url(../../../administrator/templates/atum/images/joomla-pattern.svg);
@@ -24,11 +29,6 @@ body {
   min-height: 100vh;
 }
 
-.j-header {
-  display: flex;
-  flex-direction: row;
-  color: #fff;
-}
 
 .j-container {
   width: 100%;
@@ -37,36 +37,6 @@ body {
   h1 {
     color: $dark-blue;
     text-align: center;
-  }
-}
-
-.j-footer {
-  padding: 10px 20px;
-  margin-top: auto;
-  font-size: .8rem;
-  color: $gray-500;
-  text-align: right;
-  background-color: #fff;
-  a {
-    color: $dark-blue;
-    text-decoration: underline;
-  }
-}
-
-.j-header-logo {
-  img {
-    height: 1.3rem;
-    margin: 0.8rem;
-    width: auto;
-  }
-}
-
-.j-header-help {
-  margin: 20px 20px 20px auto;
-  a {
-    padding: 1rem;
-    font-size: 2rem;
-    color: $dark-blue;
   }
 }
 
@@ -275,16 +245,4 @@ caption {
 }
 .badge-warning {
   color: #292b2c;
-}
-
-.fa-eye:before, .icon-eye-open:before, .icon-eye:before {
-  font-family: FontAwesome;
-  cursor: pointer;
-  content: "\f06e";
-}
-
-.fa-eye-slash:before, .icon-eye-close:before, .icon-eye-blocked:before, .icon-eye-2:before {
-  font-family: FontAwesome;
-  cursor: pointer;
-  content: "\f070";
 }
