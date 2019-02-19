@@ -26,36 +26,25 @@
  */
 window.customElements.define('joomla-field-fancy-select', class extends HTMLElement {
   // Attributes to monitor
-  get allowCustom() {
-    return this.hasAttribute('allow-custom');
-  }
-  get remoteSearch() {
-    return this.hasAttribute('remote-search');
-  }
-  get url() {
-    return this.getAttribute('url');
-  }
-  get termKey() {
-    return this.getAttribute('term-key') || 'term';
-  }
-  get minTermLength() {
-    return parseInt(this.getAttribute('min-term-length')) || 1;
-  }
-  get newItemPrefix() {
-    return this.getAttribute('new-item-prefix') || '';
-  }
-  get placeholder() {
-    return this.getAttribute('placeholder');
-  }
-  get searchPlaceholder() {
-    return this.getAttribute('search-placeholder');
-  }
-  get value() {
-    return this.choicesInstance.getValue(true);
-  }
-  set value($val) {
-    this.choicesInstance.setValueByChoice($val);
-  }
+  get allowCustom() { return this.hasAttribute('allow-custom'); }
+
+  get remoteSearch() { return this.hasAttribute('remote-search'); }
+
+  get url() { return this.getAttribute('url'); }
+
+  get termKey() { return this.getAttribute('term-key') || 'term'; }
+
+  get minTermLength() { return parseInt(this.getAttribute('min-term-length')) || 1; }
+
+  get newItemPrefix() { return this.getAttribute('new-item-prefix') || ''; }
+
+  get placeholder() { return this.getAttribute('placeholder'); }
+
+  get searchPlaceholder() { return this.getAttribute('search-placeholder'); }
+
+  get value() {return this.choicesInstance.getValue(true); }
+
+  set value($val) { this.choicesInstance.setValueByChoice($val); }
 
   /**
    * Lifecycle
