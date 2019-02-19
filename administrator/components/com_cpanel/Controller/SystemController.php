@@ -168,6 +168,7 @@ class SystemController extends BaseController
 	 * @return integer The number of items
 	 *
 	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function countItems($extension, $model)
 	{
