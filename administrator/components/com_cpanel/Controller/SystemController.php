@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\CMS\Updater\Updater;
 /**
  * Cpanel System Controller
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 class SystemController extends BaseController
 {
@@ -30,6 +30,7 @@ class SystemController extends BaseController
 	 * @throws \Exception
 	 *
 	 * @return void
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function loadSystemInfo()
 	{
@@ -112,6 +113,7 @@ class SystemController extends BaseController
 	 * @return string  The version number or empty string
 	 *
 	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function countSystemUpdates()
 	{
@@ -138,6 +140,7 @@ class SystemController extends BaseController
 	 * @return integer  Number of available updates
 	 *
 	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function countExtensionUpdates()
 	{
@@ -189,6 +192,7 @@ class SystemController extends BaseController
 	 * @return integer The number of items
 	 *
 	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function countItems($extension, $modelname)
 	{
