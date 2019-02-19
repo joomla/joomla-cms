@@ -140,6 +140,7 @@ class SystemController extends BaseController
 	 * @return integer  Number of available updates
 	 *
 	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function countExtensionUpdates()
 	{
