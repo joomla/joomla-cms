@@ -23,14 +23,14 @@ $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option = $input->get('option', '');
-$view   = $input->get('view', '');
-$layout = $input->get('layout', 'default');
-$task   = $input->get('task', 'display');
-$itemid = $input->get('Itemid', '');
-$cpanel = $option === 'com_cpanel';
-$hidden = $app->input->get('hidemainmenu');
-$logo   = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
+$option     = $input->get('option', '');
+$view       = $input->get('view', '');
+$layout     = $input->get('layout', 'default');
+$task       = $input->get('task', 'display');
+$itemid     = $input->get('Itemid', '');
+$cpanel     = $option === 'com_cpanel';
+$hidden     = $app->input->get('hidemainmenu');
+$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 // Template params
 $siteLogo  = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
@@ -183,7 +183,7 @@ $this->addStyleDeclaration($css);
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
 			<jdoc:include type="modules" name="menu" style="none"/>
 			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
-				<img src="<?php echo $logo; ?>" alt="">
+				<img src="<?php echo $joomlaLogo; ?>" alt="">
 			</div>
 		</div>
 	<?php endif; ?>

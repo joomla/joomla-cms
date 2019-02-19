@@ -6,6 +6,7 @@
 ((Joomla, document) => {
   'use strict';
 
+  const sidebar = document.querySelector('.sidebar-wrapper');
   const storageEnabled = typeof Storage !== 'undefined';
 
   /**
@@ -36,7 +37,6 @@
    * @since   4.0.0
    */
   function fade(fadeAction, transitAction) {
-    const sidebar = document.querySelector('.sidebar-wrapper');
     const sidebarChildren = sidebar ? sidebar.children : [];
     const sideChildrenLength = sidebarChildren.length;
     const contentMain = document.querySelector('.container-main');
@@ -88,8 +88,12 @@
       });
     }
 
-    // Make logo big or small like the (collapsed) menu in sidebar
-    changeLogo();
+    // Make logo big or small like the sidebar
+    if (!sidebar) {
+      changeLogo('closed');
+    } else {
+      changeLogo();
+    }
 
     window.addEventListener('joomla:menu-toggle', (event) => {
       changeLogo(event.detail);
