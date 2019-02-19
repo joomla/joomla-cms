@@ -305,7 +305,7 @@ class PlgFinderContent extends FinderIndexerAdapter
 		}
 
 		// Add the category taxonomy data.
-		$categories = jcategories::getInstance('com_content');
+		$categories = JCategories::getInstance('com_content');
 		$category = $categories->get($item->catid);
 		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
 

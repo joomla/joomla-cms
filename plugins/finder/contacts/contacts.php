@@ -357,7 +357,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		$item->addTaxonomy('Type', 'Contact');
 
 		// Add the category taxonomy data.
-		$categories = jcategories::getInstance('com_contact');
+		$categories = JCategories::getInstance('com_contact');
 		$category = $categories->get($item->catid);
 		$item->addNestedTaxonomy('Category', $category, $category->published, $category->access, $category->language);
 
