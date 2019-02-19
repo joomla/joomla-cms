@@ -1,4 +1,3 @@
-
 // Header
 
 .header {
@@ -10,9 +9,24 @@
     display: inline-block;
     line-height: $header-height;
     text-align: center;
+
+    &.small {
+      img:not(.logo-small) {
+        display: none;
+      }
+
+      img.logo-small {
+        display: inline-block;
+      }
+    }
+
     img {
       height: 1.3rem;
       margin-left: 0.8rem;
+
+      &.logo-small {
+        display: none;
+      }
     }
   }
 
@@ -105,7 +119,7 @@
       &:hover {
         color: var(--atum-text-light);
         text-decoration: none;
-		background:var(--atum-bg-dark);
+        background: var(--atum-bg-dark);
       }
 
       .fa {
@@ -163,12 +177,9 @@
   }
 
   .dropdown-header {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
     color: $white;
     background-color: var(--atum-bg-dark);
     box-shadow: $atum-box-shadow;
-    color: $white;
     font-size: inherit;
     padding: 1rem 0.75rem;
 
@@ -195,7 +206,7 @@
     position: sticky;
     top: 0;
     width: 100%;
-	z-index:9999;
+    z-index: 9999;
 
     > div {
       flex-direction: column;

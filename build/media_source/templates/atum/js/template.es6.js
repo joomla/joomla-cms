@@ -6,6 +6,30 @@
 ((Joomla, document) => {
   'use strict';
 
+  const storageEnabled = typeof Storage !== 'undefined';
+
+  /**
+   * Shrink or extend the logo, depending on sidebar
+   *
+   * @param {string} [change] is the sidebar 'open' or 'closed'
+   */
+  function changeLogo(change) {
+    const logo = document.querySelector('.logo');
+    if (!logo) {
+      return;
+    }
+
+    const state = change
+        || (storageEnabled && localStorage.getItem('atum-sidebar'))
+        || 'closed';
+
+    if (state === 'closed') {
+      logo.classList.add('small');
+    } else {
+      logo.classList.remove('small');
+    }
+  }
+
   /**
    * Method that add a fade effect and transition on sidebar and content side after login and logout
    *
@@ -27,9 +51,11 @@
     }
     if (sidebar) {
       if (transitAction) {
-        //transition class depends on the width of the sidebar
-        if (typeof Storage !== 'undefined' && localStorage.getItem('atum-sidebar') === 'closed') {
+        // Transition class depends on the width of the sidebar
+        if (storageEnabled
+            && localStorage.getItem('atum-sidebar') === 'closed') {
           sidebar.classList.add(`transit-${transitAction}-closed`);
+          changeLogo('small');
         } else {
           sidebar.classList.add(`transit-${transitAction}`);
         }
@@ -61,5 +87,12 @@
         fade('out', 'wider');
       });
     }
+
+    // Make logo big or small like the (collapsed) menu in sidebar
+    changeLogo();
+
+    window.addEventListener('joomla:menu-toggle', (event) => {
+      changeLogo(event.detail);
+    });
   });
 })(window.Joomla, document);

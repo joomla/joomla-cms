@@ -33,7 +33,8 @@ $hidden = $app->input->get('hidemainmenu');
 $logo   = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 // Template params
-$siteLogo = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
+$siteLogo  = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
+$smallLogo = $this->params->get('smallLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg');
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
@@ -72,12 +73,15 @@ if ($this->params->get('bg-dark'))
 
 	$root[] = '--atum-bg-dark: #' . $bgcolor . ';';
 
-	try {
+	try
+	{
 		$color = new Hex($bgcolor);
 
 		$root[] = '--atum-bg-dark-light: ' . (clone $color)->lighten(20) . ';';
 		$root[] = '--atum-bg-dark-bright: ' . (clone $color)->lighten(40) . ';';
-	} catch (Exception $ex) {
+	}
+	catch (Exception $ex)
+	{
 
 	}
 }
@@ -105,11 +109,14 @@ if ($this->params->get('link-color'))
 
 	$root[] = '--atum-link-color: #' . $linkcolor . ';';
 
-	try {
+	try
+	{
 		$color = new Hex($linkcolor);
 
 		$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
-	} catch (Exception $ex) {
+	}
+	catch (Exception $ex)
+	{
 
 	}
 }
@@ -151,10 +158,12 @@ $this->addStyleDeclaration($css);
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 					   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $siteLogo; ?>" alt="">
+						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
 					</a>
 				<?php else : ?>
 					<a class="logo">
-						<img src="<?php echo $logoBlue; ?>" alt="">
+						<img src="<?php echo $siteLogo; ?>" alt="">
+						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
 					</a>
 				<?php endif; ?>
 			</div>
