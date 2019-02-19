@@ -25,7 +25,7 @@
  * search-placeholder="" The value of the search inputs placeholder.
  */
 window.customElements.define('joomla-field-fancy-select', class extends HTMLElement {
-  // Properties getters/setters
+  // Attributes to monitor
   get allowCustom() {
     return this.hasAttribute('allow-custom');
   }
