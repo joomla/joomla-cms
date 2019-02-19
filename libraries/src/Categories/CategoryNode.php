@@ -15,7 +15,6 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;
-use Joomla\CMS\Tree\NodeInterface;
 
 /**
  * Helper class to load Categorytree
