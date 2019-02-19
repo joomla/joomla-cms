@@ -11,13 +11,22 @@ namespace Joomla\Module\Quickicon\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Categories\Administrator\Model\CategoriesModel;
+use Joomla\Component\Checkin\Administrator\Model\CheckinModel;
+use Joomla\Component\Content\Administrator\Model\ArticlesModel;
+use Joomla\Component\Content\Administrator\Model\ModulesModel;
+use Joomla\Component\Installer\Administrator\Model\ManageModel;
+use Joomla\Component\Menus\Administrator\Model\ItemsModel;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Helper for mod_quickicon
@@ -33,7 +42,7 @@ abstract class QuickIconHelper
 	 * @since   1.6
 	 */
 	protected static $buttons = array();
-
+	
 	/**
 	 * Helper method to return button list.
 	 *
@@ -55,7 +64,7 @@ abstract class QuickIconHelper
 		}
 
 		$key = (string) $params;
-
+		
 		if (!isset(self::$buttons[$key]))
 		{
 			$context = $params->get('context', 'mod_quickicon');
@@ -64,22 +73,8 @@ abstract class QuickIconHelper
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				$application->getLanguage()->load('mod_quickicon');
-
+				
 				self::$buttons[$key] = array(
-					array(
-						'link'   => Route::_('index.php?option=com_content&task=article.add'),
-						'image'  => 'fa fa-pencil-square',
-						'text'   => Text::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
-						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
-					array(
-						'link'   => Route::_('index.php?option=com_media'),
-						'image'  => 'fa fa-image',
-						'text'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
-						'access' => array('core.manage', 'com_media'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
 					array(
 						'link'   => Route::_('index.php?option=com_config'),
 						'image'  => 'fa fa-cog',
@@ -88,11 +83,50 @@ abstract class QuickIconHelper
 						'group'  => 'MOD_QUICKICON_CONFIGURATION',
 					),
 					array(
+						'amount' => self::countUsers(),
+						'link'   => Route::_('index.php?option=com_users&task=user.add'),
+						'name'   => Text::_('MOD_QUICKICON_USER_MANAGER'),
+						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
+						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+						'group'  => 'MOD_QUICKICON_USERS',
+					),
+					array(
+						'amount' => self::countMenuItems(),
+						'link'   => Route::_('index.php?option=com_menus&task=item.add'),
+						'name'   => Text::_('MOD_QUICKICON_MENUITEMS_MANAGER'),
+						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
+						'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
+						'group'  => 'MOD_QUICKICON_STRUCTURE',
+					),
+					array(
+						'amount' => self::countArticles(),
+						'link'   => Route::_('index.php?option=com_content&task=article.add'),
+						'name'   => Text::_('MOD_QUICKICON_ARTICLE_MANAGER'),
+						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
+						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
+						'group'  => 'MOD_QUICKICON_CONTENT',
+					),
+					array(
+						'amount' => self::countArticleCategories(),
+						'link'   => Route::_('index.php?option=com_categories&task=category.add'),
+						'name'   => Text::_('MOD_QUICKICON_CATEGORY_MANAGER'),
+						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
+						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+						'group'  => 'MOD_QUICKICON_CONTENT',
+					),
+					array(
+						'amount' => self::countModules(),
 						'link'   => Route::_('index.php?option=com_modules'),
-						'image'  => 'fa fa-cubes',
 						'text'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
 						'access' => array('core.manage', 'com_modules'),
 						'group'  => 'MOD_QUICKICON_STRUCTURE'
+					),
+					array(
+						'amount' => self::countCheckin(),
+						'link'   => Route::_('index.php?option=com_checkin'),
+						'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
+						'access' => array('core.manage', 'com_checkin'),
+						'group'  => 'MOD_QUICKICON_CONTENT'
 					)
 				);
 			}
@@ -114,8 +148,10 @@ abstract class QuickIconHelper
 				foreach ($response as $icon)
 				{
 					$default = array(
+						'amount' => null,
 						'link'   => null,
-						'image'  => 'fa fa-cog',
+						'name' => null,
+						'image'  => null,
 						'text'   => null,
 						'access' => true,
 						'group'  => 'MOD_QUICKICON_EXTENSIONS',
@@ -131,5 +167,156 @@ abstract class QuickIconHelper
 		}
 
 		return self::$buttons[$key];
+	}
+	
+	/**
+	 * Method to get the number of published modules in frontend.
+	 * 
+	 * @return  integer  The amount of published modules in frontend
+	 *
+	 * @since   4.0
+	 */
+	private function countModules()
+	{
+		$app = Factory::getApplication();
+		
+		// Get an instance of the generic articles model (administrator)
+		$model = $app->bootComponent('com_modules')->getMVCFactory()
+			->createModel('Modules', 'Administrator', ['ignore_request' => true]);
+
+		// $model->setState('list.select', 'COUNT(a.id) as amount'); doesn't work 
+		$model->setState('list.select', '*');
+
+		// Set the Start and Limit to 'all'
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.published', 1);
+		$model->setState('filter.client_id', 0);
+
+		return  count($model->getItems());
+	}
+	/**
+	 * Method to get the number of published articles.
+	 * 
+	 * @return  integer  The amount of published articles
+	 *
+	 * @since   4.0
+	 */
+	private function countArticles()
+	{
+		$app = Factory::getApplication();
+		
+		// Get an instance of the generic articles model (administrator)
+		$model = $app->bootComponent('com_content')->getMVCFactory()
+			->createModel('Articles', 'Administrator', ['ignore_request' => true]);
+
+		// Count IDs
+		$model->setState('list.select', 'COUNT(a.id) as amount');
+
+		// Set the Start and Limit to 'all'
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.published', 1);
+
+		$result = $model->getItems();
+		
+		return reset($result)->amount;
+	}
+	
+	/**
+	 * Method to get the number of published menu tems.
+	 * 
+	 * @return  integer  The amount of active menu Items
+	 *
+	 * @since   4.0
+	 */
+	private function countMenuItems()
+	{
+		$app = Factory::getApplication();
+		
+		// Get an instance of the generic articles model (administrator)
+		$model = $app->bootComponent('com_menus')->getMVCFactory()->createModel('Items', 'Administrator', ['ignore_request' => true]);
+		
+		// Count IDs
+		$model->setState('list.select', 'COUNT(a.id) as amount');
+		
+		// Set the Start and Limit to 'all'
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.published', 1);
+		$model->setState('filter.client_id', 0);
+
+		$result = $model->getItems();
+		
+		return reset($result)->amount;
+	}
+	
+	/**
+	 * Method to get the number of extensions
+	 * 
+	 * @return  integer  The amount of active extensions
+	 *
+	 * @since   4.0
+	 */
+	private function countUsers()
+	{
+		$app = Factory::getApplication();
+		
+		// Get an instance of the generic articles model (administrator)
+		$model = $app->bootComponent('com_users')->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
+		
+		// Count IDs
+		$model->setState('list.select', '*');
+		
+		// Set the Start and Limit to 'all'
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.state', 0);
+
+		return count($model->getItems());
+	}
+
+	
+	/**
+	 * Method to get the number of content categories
+	 * 
+	 * @return  integer  The amount of active menu Items
+	 *
+	 * @since   4.0
+	 */
+	private function countArticleCategories()
+	{
+		$app = Factory::getApplication();
+		
+		// Get an instance of the generic articles model (administrator)
+		$model = $app->bootComponent('com_categories')->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
+
+		// Count IDs
+		$model->setState('list.select', 'COUNT(a.id) as amount');
+		
+		// Set the Start and Limit to 'all'
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.published', 1);
+		
+		$result = $model->getItems();
+
+		return count($result);
+	}
+
+	/**
+	 * Method to get checkin
+	 * 
+	 * @return  integer  The amount of checkins
+	 *
+	 * @since   4.0
+	 */
+	private function countCheckin()
+	{
+		$app = Factory::getApplication();
+		
+		$model = $app->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
+	
+		return $model->getTotal();
 	}
 }

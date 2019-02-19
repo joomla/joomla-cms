@@ -1,30 +1,42 @@
 // Quick Icons
 
 .quick-icons {
+	
   ul {
-    display: inline;
     list-style: none;
   }
-
   li {
-    float: left;
+   min-width: 160px;
+   padding-bottom: 6px;
   }
-
+  .quickicon-amount {
+    font-size: 3rem;
+    font-weight: 300;
+    letter-spacing: -0.2rem;
+  }
+  .thsd {
+	  font-size: 0.9rem;
+	  letter-spacing: normal;
+	  font-weight: normal;
+  }
+.quickicon-name {
+	color: $body-color;
+  }
   a {
     display: inline-flex;
+    min-height: 120px;
     flex-direction: column;
-    width: 140px;
-    height: 120px;
+    width: 100%;
     margin-right: 15px;
     margin-bottom: 15px;
-    color: var(--atum-link-color);
-    text-align: center;
     background: $quickicon-bg;
     box-shadow: $quickicon-box-shadow;
     transition: all .25s ease;
+	text-align: center;
 
     > div {
       flex: 1 0 0;
+      margin: 0 auto;
     }
 
     &:hover,
@@ -40,6 +52,7 @@
       padding: 0 1rem;
       font-size: 1rem;
       line-height: 1.1;
+      text-decoration: underline;
     }
 
     .fa {
