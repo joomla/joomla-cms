@@ -39,7 +39,7 @@ $userFieldGroups    = array();
 	<?php if ($presentation_style == 'sliders') : ?>
 		<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
 	<?php elseif ($presentation_style == 'tabs') : ?>
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-profile', $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')); ?>
+		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-' . $id, $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')); ?>
 	<?php elseif ($presentation_style == 'plain') : ?>
 		<?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 	<?php endif; ?>

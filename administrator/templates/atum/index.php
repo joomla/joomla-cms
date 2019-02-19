@@ -17,7 +17,7 @@ use Joomla\CMS\Router\Route;
 /** @var JDocumentHtml $this */
 
 $app   = Factory::getApplication();
-$lang  = Factory::getLanguage();
+$lang  = $app->getLanguage();
 $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
@@ -67,9 +67,15 @@ $this->addScriptDeclaration('cssVars();');
 		<div class="d-flex align-items-center">
 			<div class="header-title d-flex mr-auto">
 				<div class="d-flex">
+				<?php if (!$hidden) : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>" aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $logoBlue; ?>" alt="">
 					</a>
+				<?php else : ?>
+					<a class="logo">
+						<img src="<?php echo $logoBlue; ?>" alt="">
+					</a>
+				<?php endif; ?>
 				</div>
 				<jdoc:include type="modules" name="title" />
 			</div>

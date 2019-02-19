@@ -22,7 +22,7 @@ class FilesystemHelper
 	/**
 	 * Remote file size function for streams that don't support it
 	 *
-	 * @param   string  $url  TODO Add text
+	 * @param   string  $url  Link identifier
 	 *
 	 * @return  mixed
 	 *

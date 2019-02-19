@@ -79,7 +79,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  object  StdClass object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function storeFileInfo($path, $name, $template)
 	{
@@ -106,7 +106,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  object  stdClass object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getTemplateList()
 	{
@@ -146,7 +146,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  object  stdClass object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getUpdatedList($state = false, $all = false, $cleanup = false)
 	{
@@ -218,7 +218,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  array  A array of all core files.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCoreList()
 	{
@@ -269,7 +269,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function prepareCoreFiles($dir, $element, $template)
 	{
@@ -317,7 +317,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  integer  Number of files changed.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function publish($ids, $value, $exid)
 	{
@@ -463,7 +463,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  string  $corefile The full path and file name for the target file, or boolean false if the file is not found in any of the paths.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCoreFile($file, $client_id)
 	{
@@ -554,7 +554,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return  string $fileName  The filtered name without Date
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function getSafeName($name)
 	{
@@ -587,7 +587,7 @@ class TemplateModel extends FormModel
 	 *
 	 * @return boolean Return true if date is valid and false if not.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private function validateDate($date)
 	{

@@ -131,7 +131,7 @@ class HtmlView extends BaseHtmlView
 			. Text::_('JCANCEL')
 			. '</button>'
 			. '<button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true"'
-			. ' onclick="jQuery(\'#modal-cog iframe\').contents().find(\'#saveBtn\').click();">'
+			. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal-cog\', buttonSelector: \'#saveBtn\'})">'
 			. Text::_('JSAVE')
 			. '</button>'
 		);

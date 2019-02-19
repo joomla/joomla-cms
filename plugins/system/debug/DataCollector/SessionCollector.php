@@ -15,7 +15,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
 /**
  * SessionDataCollector
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SessionCollector  extends AbstractDataCollector
 {
@@ -23,14 +23,14 @@ class SessionCollector  extends AbstractDataCollector
 	 * Collector name.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $name = 'session';
 
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array Collected data
 	 */
@@ -49,7 +49,7 @@ class SessionCollector  extends AbstractDataCollector
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return string
 	 */
@@ -62,7 +62,7 @@ class SessionCollector  extends AbstractDataCollector
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array
 	 */

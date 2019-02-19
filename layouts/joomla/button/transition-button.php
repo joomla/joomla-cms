@@ -46,7 +46,7 @@ $checkboxName = $options['checkbox_name'];
 		title="<?php echo HTMLHelper::_('tooltipText', Text::_($tipTitle ? : $title), '', 0); ?>"
 		data-content="<?php echo HTMLHelper::_('tooltipText', Text::_($title), '', 0); ?>"
 		data-placement="top"
-		onclick="jQuery(this).nextAll().toggleClass('d-none');"
+		onclick="Joomla.toggleAllNextElements(this, 'd-none')"
 	>
 		<span class="<?php echo $this->escape($icon ?? ''); ?>" aria-hidden="true"></span>
 	</a>

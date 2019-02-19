@@ -37,7 +37,17 @@ class TagsController extends BaseController
 			'parent_id' => $this->input->get('parent_id', 0, 'int')
 		);
 
-		if ($results = TagsHelper::searchTags($filters))
+		$user = $this->app->getIdentity();
+
+		if ((!$user->authorise('core.edit.state', 'com_tags')) && (!$user->authorise('core.edit', 'com_tags')))
+		{
+			// Filter on published for those who do not have edit or edit.state rights.
+			$filters['published'] = 1;
+		}
+
+		$results = TagsHelper::searchTags($filters);
+
+		if ($results)
 		{
 			// Output a JSON object
 			echo json_encode($results);

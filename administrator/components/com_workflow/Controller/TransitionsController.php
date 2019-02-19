@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -18,7 +18,7 @@ use Joomla\CMS\Router\Route;
 /**
  * Workflow Transitions controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TransitionsController extends AdminController
 {
@@ -26,7 +26,7 @@ class TransitionsController extends AdminController
 	 * The workflow where the transition takes place
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $workflowId;
 
@@ -34,7 +34,7 @@ class TransitionsController extends AdminController
 	 * The extension
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension;
 
@@ -46,7 +46,7 @@ class TransitionsController extends AdminController
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException when no extension or workflow id is set
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
@@ -85,7 +85,7 @@ class TransitionsController extends AdminController
 	 *
 	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getModel($name = 'Transition', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
@@ -97,7 +97,7 @@ class TransitionsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function delete()
 	{
@@ -116,7 +116,7 @@ class TransitionsController extends AdminController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function publish()
 	{

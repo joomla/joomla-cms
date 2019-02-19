@@ -14,7 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\MenuHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
  * Administrator Menu Presets list field.
@@ -42,7 +42,7 @@ class MenuPresetField extends ListField
 	protected function getOptions()
 	{
 		$options = array();
-		$presets = MenuHelper::getPresets();
+		$presets = MenusHelper::getPresets();
 
 		foreach ($presets as $preset)
 		{

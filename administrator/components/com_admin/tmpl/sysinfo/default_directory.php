@@ -13,12 +13,14 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<fieldset class="adminform">
-	<legend><?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?></legend>
+<div class="sysinfo">
 	<table class="table">
+		<caption class="sr-only">
+			<?php echo Text::_('COM_ADMIN_DIRECTORY_PERMISSIONS'); ?>
+		</caption>
 		<thead>
 			<tr>
-				<th scope="col" style="width:650px">
+				<th scope="col" style="width:850px">
 					<?php echo Text::_('COM_ADMIN_DIRECTORY'); ?>
 				</th>
 				<th scope="col">
@@ -26,16 +28,11 @@ use Joomla\CMS\Language\Text;
 				</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<td colspan="2">&#160;</td>
-			</tr>
-		</tfoot>
 		<tbody>
 			<?php foreach ($this->directory as $dir => $info) : ?>
 				<tr>
 					<th scope="row">
-						<?php echo HTMLHelper::_('directory.message', $dir, $info['message']); ?>
+						<?php echo '&#x200E;' . HTMLHelper::_('directory.message', $dir, $info['message']); ?>
 					</th>
 					<td>
 						<?php echo HTMLHelper::_('directory.writable', $info['writable']); ?>
@@ -44,4 +41,4 @@ use Joomla\CMS\Language\Text;
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-</fieldset>
+</div>

@@ -44,6 +44,7 @@
 			type="tag"
 			label="JOPTION_SELECT_TAG"
 			mode="nested"
+			custom="false"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_TAG</option>

@@ -42,7 +42,7 @@ class DisplayController extends BaseController
 
 		if ($input->get('view') === 'contacts' && $input->get('layout') === 'modal')
 		{
-			HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
+			HTMLHelper::_('stylesheet', 'system/adminlist.css', ['version' => 'auto', 'relative' => true]);
 			$config['base_path'] = JPATH_COMPONENT_ADMINISTRATOR;
 		}
 

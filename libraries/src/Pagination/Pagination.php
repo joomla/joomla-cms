@@ -737,11 +737,7 @@ class Pagination
 
 		if ($this->pagesCurrent > 1)
 		{
-			$page = ($this->pagesCurrent - 2) * $this->limit;
-
-			// Set the empty for removal from route
-			// @todo remove code: $page = $page == 0 ? '' : $page;
-
+			$page                 = ($this->pagesCurrent - 2) * $this->limit;
 			$data->start->base    = '0';
 			$data->start->link    = Route::_($params . '&' . $this->prefix . 'limitstart=0');
 			$data->previous->base = $page;

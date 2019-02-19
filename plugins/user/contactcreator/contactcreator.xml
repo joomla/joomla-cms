@@ -32,6 +32,7 @@
 					type="category"
 					label="JCATEGORY"
 					extension="com_contact"
+					filter="integer"
 				/>
 
 				<field
@@ -40,6 +41,7 @@
 					class="switcher"
 					label="PLG_CONTACTCREATOR_FIELD_AUTOPUBLISH_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

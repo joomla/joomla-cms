@@ -12,9 +12,7 @@ namespace Joomla\Component\Mailto\Site\View\Mailto;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\String\PunycodeHelper;
 
 /**
  * Class for Mail.
@@ -34,60 +32,9 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$data = $this->getData();
-
-		if ($data === false)
-		{
-			return false;
-		}
-
-		$this->set('data', $data);
+		$this->form = $this->get('Form');
+		$this->link = urldecode(Factory::getApplication()->input->get('link', '', 'BASE64'));
 
 		return parent::display($tpl);
-	}
-
-	/**
-	 * Get the form data
-	 *
-	 * @return  object|false
-	 *
-	 * @since  1.5
-	 */
-	protected function getData()
-	{
-		$user = Factory::getUser();
-		$app  = Factory::getApplication();
-		$data = new \stdClass;
-
-		$input      = $app->input;
-		$method     = $input->getMethod();
-		$data->link = urldecode($input->$method->get('link', '', 'BASE64'));
-
-		if ($data->link == '')
-		{
-			throw new \Exception(Text::_('COM_MAILTO_LINK_IS_MISSING'), 400);
-		}
-
-		// Load with previous data, if it exists
-		$mailto  = $app->input->post->getString('mailto', '');
-		$sender  = $app->input->post->getString('sender', '');
-		$from    = $app->input->post->getString('from', '');
-		$subject = $app->input->post->getString('subject', '');
-
-		if ($user->get('id') > 0)
-		{
-			$data->sender = $user->get('name');
-			$data->from   = $user->get('email');
-		}
-		else
-		{
-			$data->sender = $sender;
-			$data->from   = PunycodeHelper::emailToPunycode($from);
-		}
-
-		$data->subject = $subject;
-		$data->mailto  = PunycodeHelper::emailToPunycode($mailto);
-
-		return $data;
 	}
 }

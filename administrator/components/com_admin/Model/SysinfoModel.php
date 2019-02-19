@@ -168,7 +168,7 @@ class SysInfoModel extends BaseDatabaseModel
 	/**
 	 * Remove sections of data marked as private in the privateSettings
 	 *
-	 * @param   array   $dataArray  Array with data tha may contain private informati
+	 * @param   array   $dataArray  Array with data that may contain private information
 	 * @param   string  $dataType   Type of data to search for a specific section in the privateSettings array
 	 *
 	 * @return  array

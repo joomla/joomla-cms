@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
 	<?php endif; ?>
 
 	<?php if (($showmode > 0) && count($names)) : ?>
-		<?php if ($params->get('filter_groups')) : ?>
+		<?php if ($params->get('filter_groups', 0)) : ?>
 			<p><?php echo Text::_('MOD_WHOSONLINE_SAME_GROUP_MESSAGE'); ?></p>
 		<?php endif; ?>
 		<ul class="nav flex-column">

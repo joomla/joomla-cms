@@ -22,7 +22,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_users
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class UsersComponent extends MVCComponent implements BootableExtensionInterface, RouterServiceInterface
 {
@@ -40,7 +40,7 @@ class UsersComponent extends MVCComponent implements BootableExtensionInterface,
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

@@ -53,9 +53,9 @@ class MenuHelper
 		else
 		{
 			$path           = $base->tree;
-			$start          = (int) $params->get('startLevel');
-			$end            = (int) $params->get('endLevel');
-			$showAll        = $params->get('showAllChildren');
+			$start          = (int) $params->get('startLevel', 1);
+			$end            = (int) $params->get('endLevel', 0);
+			$showAll        = $params->get('showAllChildren', 1);
 			$items          = $menu->getItems('menutype', $params->get('menutype'));
 			$hidden_parents = array();
 			$lastitem       = 0;

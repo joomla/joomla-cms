@@ -21,7 +21,6 @@ if (Factory::getApplication()->isClient('site'))
 }
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
 HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 HTMLHelper::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => true));
 

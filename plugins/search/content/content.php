@@ -97,6 +97,8 @@ class PlgSearchContent extends CMSPlugin
 				$wheres2[] = 'a.metakey LIKE ' . $text;
 				$wheres2[] = 'a.metadesc LIKE ' . $text;
 
+				$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
+
 				// Join over Fields.
 				$subQuery = $db->getQuery(true);
 				$subQuery->select("cfv.item_id")
@@ -151,6 +153,8 @@ class PlgSearchContent extends CMSPlugin
 					$wheres2[] = 'LOWER(a.fulltext) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metakey) LIKE LOWER(' . $word . ')';
 					$wheres2[] = 'LOWER(a.metadesc) LIKE LOWER(' . $word . ')';
+
+					$relevance[] = ' CASE WHEN ' . $wheres2[0] . ' THEN 5 ELSE 0 END ';
 
 					if ($phrase === 'all')
 					{
@@ -271,6 +275,12 @@ class PlgSearchContent extends CMSPlugin
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
 				. ' ELSE ' . $query->castAsChar('c.id') . ' END AS catslug';
 
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
+
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created, a.language, a.catid')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')
 				->select('c.title AS section')
@@ -333,6 +343,12 @@ class PlgSearchContent extends CMSPlugin
 			$case_when1 = ' CASE WHEN ' . $query->charLength('c.alias', '!=', '0')
 				. ' THEN ' . $query->concatenate(array($query->castAsChar('c.id'), 'c.alias'), ':')
 				. ' ELSE ' . $query->castAsChar('c.id') . ' END AS catslug';
+
+			if (!empty($relevance))
+			{
+				$query->select(implode(' + ', $relevance) . ' AS relevance');
+				$order = ' relevance DESC, ' . $order;
+			}
 
 			$query->select('a.title AS title, a.metadesc, a.metakey, a.created AS created')
 				->select($query->concatenate(array('a.introtext', 'a.fulltext')) . ' AS text')

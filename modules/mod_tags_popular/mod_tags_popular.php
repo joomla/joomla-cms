@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\Module\TagsPopular\Site\Helper\TagsPopularHelper;
 
 $cacheparams = new \stdClass;
 $cacheparams->cachemode = 'safeuri';

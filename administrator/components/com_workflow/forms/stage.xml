@@ -27,6 +27,7 @@
 			type="workflowcondition"
 			label="COM_WORKFLOW_CONDITION"
 			description="COM_WORKFLOW_CONDITION_DESC"
+			hide_all="true"
 		/>
 	</fieldset>
 
@@ -56,7 +57,7 @@
 	</fieldset>
 
 	<fieldset name="permissions" label="JCONFIG_PERMISSIONS_LABEL">
-		<field 
+		<field
 			name="asset_id"
 			type="hidden"
 			filter="unset"

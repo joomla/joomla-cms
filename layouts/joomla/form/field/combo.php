@@ -44,6 +44,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.combobox');
 
+$attr = '';
+
+// Initialize some field attributes.
 $attr .= !empty($class) ? ' class="awesomplete form-control ' . $class . '"' : ' class="awesomplete form-control"';
 $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= !empty($readonly) ? ' readonly' : '';

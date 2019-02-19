@@ -100,10 +100,13 @@ class RulesRule extends FormRule
 			"/access/section[@name='" . $section . "']/"
 		);
 
-		// Iterate over the asset actions and add to the actions.
-		foreach ($elActions as $item)
+		if ($elActions)
 		{
-			$actions[] = $item->name;
+			// Iterate over the asset actions and add to the actions.
+			foreach ($elActions as $item)
+			{
+				$actions[] = $item->name;
+			}
 		}
 
 		// Iterate over the children and add to the actions.

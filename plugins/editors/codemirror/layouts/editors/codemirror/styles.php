@@ -32,7 +32,7 @@ $g                   = hexdec($color{3} . $color{4});
 $b                   = hexdec($color{5} . $color{6});
 $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
-HTMLHelper::_('stylesheet', 'editors/codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'plg_editors_codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
 
 Factory::getDocument()->addStyleDeclaration(
 <<<CSS

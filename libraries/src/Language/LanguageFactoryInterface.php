@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Interface defining a factory which can create language objects
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface LanguageFactoryInterface
 {
@@ -25,7 +25,7 @@ interface LanguageFactoryInterface
 	 *
 	 * @return  Language
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createLanguage($lang, $debug = false): Language;
 }

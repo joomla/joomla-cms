@@ -75,11 +75,15 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
+		Text::script('MESSAGE');
+		Text::script('ERROR');
+		Text::script('INFO');
+		Text::script('WARNING');
 
 		$this->app->getDocument()->addScriptOptions(
 			'js-joomla-update',

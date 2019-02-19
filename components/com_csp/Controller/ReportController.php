@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Csp\Administrator\Table\ReportTable;
 use Joomla\Registry\Registry;
 
 /**
@@ -94,7 +93,7 @@ class ReportController extends BaseController
 			$this->app->close();
 		}
 
-		$table = new ReportTable(Factory::getDbo());
+		$table = $this->app->bootComponent('com_csp')->getMVCFactory()->createTable('Report', 'Administrator');
 
 		$table->bind($report);
 		$table->store();

@@ -25,7 +25,7 @@ use Joomla\CMS\Language\Text;
 <?php endif; ?>
 
 <div class="com-contact__links contact-links">
-	<ul class="nav nav-pills flex-column">
+	<ul class="nav flex-column">
 		<?php
 		// Letters 'a' to 'e'
 		foreach (range('a', 'e') as $char) :

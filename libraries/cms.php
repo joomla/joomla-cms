@@ -17,25 +17,25 @@ trigger_error(
 	E_USER_DEPRECATED
 );
 
-// Set the platform root path as a constant if necessary.
+// Set the platform root path as a constant if necessary
 if (!defined('JPATH_PLATFORM'))
 {
 	define('JPATH_PLATFORM', __DIR__);
 }
 
-// Import the library loader if necessary.
+// Import the library loader if necessary
 if (!class_exists('JLoader'))
 {
 	require_once JPATH_PLATFORM . '/loader.php';
 }
 
-// Make sure that the Joomla Platform has been successfully loaded.
+// Make sure that the Joomla Platform has been successfully loaded
 if (!class_exists('JLoader'))
 {
 	throw new RuntimeException('Joomla Platform not loaded.');
 }
 
-// Register the library base path for CMS libraries.
+// Register the library base path for CMS libraries
 JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Create the Composer autoloader
@@ -45,13 +45,13 @@ $loader->unregister();
 // Decorate Composer autoloader
 spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
 
-// Register the class aliases for Framework classes that have replaced their Platform equivilents
+// Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
 
 // Register a handler for uncaught exceptions that shows a pretty error page when possible
 set_exception_handler(array('JErrorPage', 'render'));
 
-// Define the Joomla version if not already defined.
+// Define the Joomla version if not already defined
 if (!defined('JVERSION'))
 {
 	$jversion = new JVersion;

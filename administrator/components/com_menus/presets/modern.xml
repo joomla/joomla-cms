@@ -151,7 +151,7 @@
 			sql_where="a.client_id = 0"
 			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
 			sql_group="a.id, a.title, a.menutype, m.language, l.image"
-			sql_order="a.title ASC">
+			sql_order="a.id DESC">
 			<menuitem
 				title="{sql:title} "
 				type="component"
@@ -175,7 +175,7 @@
 			sql_select="title, menutype"
 			sql_from="#__menu_types"
 			sql_where="client_id = 1"
-			sql_order="title ASC">
+			sql_order="id DESC">
 			<menuitem
 				title="{sql:title}"
 				type="component"

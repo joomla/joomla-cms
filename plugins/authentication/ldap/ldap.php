@@ -82,7 +82,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 				catch (ConnectionException $exception)
 				{
 					$response->status = Authentication::STATUS_FAILURE;
-					$response->error_message = Text::_('JGLOBAL_AUTH_NO_BIND');
+					$response->error_message = Text::_('JGLOBAL_AUTH_NOT_CONNECT');
 
 					return;
 				}
@@ -110,7 +110,7 @@ class PlgAuthenticationLdap extends CMSPlugin
 				if (!$entry)
 				{
 					$response->status = Authentication::STATUS_FAILURE;
-					$response->error_message = Text::_('JGLOBAL_AUTH_NO_USER');
+					$response->error_message = Text::_('JGLOBAL_AUTH_NOT_CONNECT');
 
 					return;
 				}

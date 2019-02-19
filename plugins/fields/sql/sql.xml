@@ -30,13 +30,14 @@
 					filter="raw"
 					required="true"
 				/>
-	
+
 				<field
 					name="multiple"
 					type="radio"
 					class="switcher"
 					default="0"
 					label="PLG_FIELDS_SQL_PARAMS_MULTIPLE_LABEL"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

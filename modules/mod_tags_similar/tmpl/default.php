@@ -9,11 +9,8 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\RouteHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-
-JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/route.php');
 ?>
 
 <div class="mod-tagssimilar tagssimilar">
@@ -22,15 +19,14 @@ JLoader::register('TagsHelperRoute', JPATH_BASE . '/components/com_tags/helpers/
 	<?php foreach ($list as $i => $item) : ?>
 		<li>
 			<?php if (($item->type_alias === 'com_users.category') || ($item->type_alias === 'com_banners.category')) : ?>
-				<?php if (!empty($item->core_title)) :
-					echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8');
-				endif; ?>
+				<?php if (!empty($item->core_title)) : ?>
+					<?php echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8'); ?>
+				<?php endif; ?>
 			<?php else : ?>
-				<?php $item->route = new RouteHelper; ?>
-				<a href="<?php echo Route::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
-					<?php if (!empty($item->core_title)) :
-						echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8');
-					endif; ?>
+                <a href="<?php echo Route::_($item->link); ?>">
+					<?php if (!empty($item->core_title)) : ?>
+						<?php echo htmlspecialchars($item->core_title, ENT_COMPAT, 'UTF-8'); ?>
+					<?php endif; ?>
 				</a>
 			<?php endif; ?>
 		</li>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
-		<field 
-			name="id" 
+	<fieldset addfieldprefix="Joomla\Component\Modules\Administrator\Field">
+		<field
+			name="id"
 			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			readonly="true"
 		/>
 
-		<field 
-			name="title" 
+		<field
+			name="title"
 			type="text"
 			label="JGLOBAL_TITLE"
 			size="40"
@@ -18,16 +18,16 @@
 			required="true"
 		/>
 
-		<field 
-			name="note" 
+		<field
+			name="note"
 			type="text"
 			label="COM_MODULES_FIELD_NOTE_LABEL"
 			maxlength="255"
 			size="40"
 		/>
 
-		<field 
-			name="module" 
+		<field
+			name="module"
 			type="hidden"
 			label="COM_MODULES_FIELD_MODULE_LABEL"
 			readonly="readonly"
@@ -35,7 +35,7 @@
 		/>
 
 		<field
-			name="showtitle" 
+			name="showtitle"
 			type="radio"
 			label="COM_MODULES_FIELD_SHOWTITLE_LABEL"
 			class="switcher"
@@ -46,7 +46,7 @@
 		</field>
 
 		<field
-			name="published" 
+			name="published"
 			type="list"
 			label="JSTATUS"
 			class="custom-select-color-state"
@@ -78,38 +78,38 @@
 			size="22"
 		/>
 
-		<field 
-			name="client_id" 
+		<field
+			name="client_id"
 			type="hidden"
 			label="COM_MODULES_FIELD_CLIENT_ID_LABEL"
 			readonly="true"
 			size="1"
 		/>
 
-		<field 
-			name="position" 
-			type="moduleposition"
+		<field
+			name="position"
+			type="ModulesPositionedit"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			default=""
 			maxlength="50"
 		/>
 
-		<field 
-			name="access" 
+		<field
+			name="access"
 			type="accesslevel"
 			label="JFIELD_ACCESS_LABEL"
 			size="1"
 		/>
 
-		<field 
-			name="ordering" 
+		<field
+			name="ordering"
 			type="moduleorder"
 			label="JFIELD_ORDERING_LABEL"
 			linked="position"
 		/>
 
-		<field 
-			name="content" 
+		<field
+			name="content"
 			type="editor"
 			label="COM_MODULES_FIELD_CONTENT_LABEL"
 			buttons="true"
@@ -117,32 +117,32 @@
 			hide="readmore,pagebreak,module"
 		/>
 
-		<field 
-			name="language" 
+		<field
+			name="language"
 			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			>
 			<option value="*">JALL</option>
 		</field>
 
-		<field 
-			name="assignment" 
+		<field
+			name="assignment"
 			type="hidden"
 		/>
 
-		<field 
-			name="assigned" 
+		<field
+			name="assigned"
 			type="hidden"
 		/>
 
-		<field 
-			name="asset_id" 
+		<field
+			name="asset_id"
 			type="hidden"
 			filter="unset"
 		/>
 
-		<field 
-			name="rules" 
+		<field
+			name="rules"
 			type="rules"
 			label="JFIELD_RULES_LABEL"
 			translate_label="false"

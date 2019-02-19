@@ -73,8 +73,6 @@ class HtmlView extends BaseHtmlView
 		$this->form  = $this->get('Form');
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
-		$this->canDo = ContentHelper::getActions('com_tags');
-		$this->assoc = $this->get('Assoc');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -82,8 +80,8 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		Factory::getApplication()->input->set('hidemainmenu', true);
 		$this->addToolbar();
+
 		parent::display($tpl);
 	}
 
@@ -96,26 +94,18 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
+		Factory::getApplication()->input->set('hidemainmenu', true);
+
 		$user       = Factory::getUser();
 		$userId     = $user->get('id');
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
-		// Need to load the menu language file as mod_menu hasn't been loaded yet.
-		$lang = Factory::getLanguage();
-		$lang->load('com_tags', JPATH_BASE, null, false, true)
-		|| $lang->load('com_tags', JPATH_ADMINISTRATOR . '/components/com_tags', null, false, true);
+		$canDo = ContentHelper::getActions('com_tags');
 
-		// Get the results for each action.
-		$canDo = $this->canDo;
-		$title = Text::_('COM_TAGS_BASE_' . ($isNew ? 'ADD' : 'EDIT') . '_TITLE');
+		ToolbarHelper::title($isNew ? Text::_('COM_TAGS_MANAGER_TAG_NEW') : Text::_('COM_TAGS_MANAGER_TAG_EDIT'), 'tag');
 
-		/**
-		 * Prepare the toolbar.
-		 */
-		ToolbarHelper::title($title, ' fa fa-tag');
-
-		// For new records, check the create permission.
+		// Build the actions for new and existing records.
 		if ($isNew)
 		{
 			ToolbarHelper::saveGroup(
@@ -129,8 +119,6 @@ class HtmlView extends BaseHtmlView
 
 			ToolbarHelper::cancel('tag.cancel');
 		}
-
-		// If not checked out, can save the item.
 		else
 		{
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
@@ -144,13 +132,14 @@ class HtmlView extends BaseHtmlView
 				$toolbarButtons[] = ['apply', 'tag.apply'];
 				$toolbarButtons[] = ['save', 'tag.save'];
 
+				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create'))
 				{
 					$toolbarButtons[] = ['save2new', 'tag.save2new'];
 				}
 			}
 
-			// If an existing item, can save to a copy.
+			// If checked out, we can still save
 			if ($canDo->get('core.create'))
 			{
 				$toolbarButtons[] = ['save2copy', 'tag.save2copy'];
@@ -171,6 +160,5 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER_EDIT');
-		ToolbarHelper::divider();
 	}
 }

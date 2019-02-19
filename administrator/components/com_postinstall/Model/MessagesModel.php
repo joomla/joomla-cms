@@ -87,7 +87,7 @@ class MessagesModel extends BaseDatabaseModel
 	/**
 	 * Returns a list of messages from the #__postinstall_messages table
 	 *
-	 * @return  Object
+	 * @return  array
 	 *
 	 * @since   3.2
 	 */
@@ -172,7 +172,7 @@ class MessagesModel extends BaseDatabaseModel
 			$basePath = JPATH_SITE;
 		}
 
-		$lang = Factory::getLanguage();
+		$lang = Factory::getApplication()->getLanguage();
 		$lang->load($extension->element, $basePath);
 
 		// Return the localised name
@@ -274,7 +274,7 @@ class MessagesModel extends BaseDatabaseModel
 				if (!in_array($hash, $language_extensions))
 				{
 					$language_extensions[] = $hash;
-					Factory::getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
+					Factory::getApplication()->getLanguage()->load($item->language_extension, $item->language_client_id == 0 ? JPATH_SITE : JPATH_ADMINISTRATOR);
 				}
 			}
 		}
@@ -308,7 +308,7 @@ class MessagesModel extends BaseDatabaseModel
 
 		$options = array();
 
-		Factory::getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
+		Factory::getApplication()->getLanguage()->load('files_joomla.sys', JPATH_SITE, null, false, false);
 
 		foreach ($extension_ids as $eid)
 		{

@@ -21,9 +21,6 @@ $direction = $doc->direction === 'rtl' ? 'float-right' : '';
 $class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
 
 // Recurse through children of root node if they exist
-$menuTree = $menu->getTree();
-$root     = $menuTree->reset();
-
 if ($root->hasChildren())
 {
 	echo '<nav class="main-nav-container" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
@@ -36,12 +33,7 @@ if ($root->hasChildren())
 	echo '</li>';
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
-	$menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'));
+	$menu->renderSubmenu(ModuleHelper::getLayoutPath('mod_menu', 'default_submenu'), $root);
 
 	echo "</ul></nav>\n";
-
-	if ($css = $menuTree->getCss())
-	{
-		$doc->addStyleDeclaration(implode("\n", $css));
-	}
 }

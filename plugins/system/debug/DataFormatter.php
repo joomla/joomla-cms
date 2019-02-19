@@ -14,7 +14,7 @@ use DebugBar\DataFormatter\DataFormatter as DebugBarDataFormatter;
 /**
  * DataFormatter
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class DataFormatter extends DebugBarDataFormatter
 {
@@ -26,7 +26,7 @@ class DataFormatter extends DebugBarDataFormatter
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function formatPath($path, $replacement = ''): string
 	{
@@ -40,7 +40,7 @@ class DataFormatter extends DebugBarDataFormatter
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function formatCallerInfo(array $call): string
 	{

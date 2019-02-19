@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
-	<fieldset>
+	<fieldset addfieldprefix="Joomla\Component\Modules\Administrator\Field">
 		<field 
 			name="id" 
 			type="number"
@@ -90,7 +90,7 @@
 
 		<field
 			name="position" 
-			type="moduleposition"
+			type="ModulesPositionedit"
 			label="COM_MODULES_FIELD_POSITION_LABEL"
 			default=""
 			maxlength="50"

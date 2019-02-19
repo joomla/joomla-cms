@@ -35,8 +35,9 @@
 			type="category"
 			label="JOPTION_SELECT_CATEGORY"
 			multiple="true"
-			class="multipleCategories"
 			extension="com_content"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			onchange="this.form.submit();"
 		/>
 
@@ -45,7 +46,8 @@
 			type="accesslevel"
 			label="JOPTION_SELECT_ACCESS"
 			multiple="true"
-			class="multipleAccessLevels"
+			layout="joomla.form.field.accesslevel-fancy-select"
+			hint="JOPTION_SELECT_ACCESS"
 			onchange="this.form.submit();"
 		/>
 
@@ -54,7 +56,8 @@
 			type="author"
 			label="JOPTION_SELECT_AUTHOR"
 			multiple="true"
-			class="multipleAuthors"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_AUTHOR"
 			onchange="this.form.submit();"
 			>
 			<option value="0">JNONE</option>
@@ -75,8 +78,9 @@
 			type="tag"
 			labl="JOPTION_SELECT_TAG"
 			multiple="true"
-			class="multipleTags"
 			mode="nested"
+			custom="false"
+			hint="JOPTION_SELECT_TAG"
 			onchange="this.form.submit();"
 		/>
 

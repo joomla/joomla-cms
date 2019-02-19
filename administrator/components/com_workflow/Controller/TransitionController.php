@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\Controller;
@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 /**
  * Transition controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TransitionController extends FormController
 {
@@ -27,7 +27,7 @@ class TransitionController extends FormController
 	 * The workflow where the transition takes place
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $workflowId;
 
@@ -35,7 +35,7 @@ class TransitionController extends FormController
 	 * The extension
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension;
 
@@ -47,7 +47,7 @@ class TransitionController extends FormController
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException when no extension or workflow id is set
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
@@ -84,11 +84,20 @@ class TransitionController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowAdd($data = array())
 	{
 		$user = Factory::getUser();
+
+		$model = $this->getModel('Workflow');
+
+		$workflow = $model->getItem($this->workflowId);
+
+		if ($workflow->core)
+		{
+			return false;
+		}
 
 		return $user->authorise('core.create', $this->extension);
 	}
@@ -101,12 +110,25 @@ class TransitionController extends FormController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
 		$recordId = isset($data[$key]) ? (int) $data[$key] : 0;
 		$user = Factory::getUser();
+
+		$model = $this->getModel();
+
+		$item = $model->getItem($recordId);
+
+		$model = $this->getModel('Workflow');
+
+		$workflow = $model->getItem($item->workflow_id);
+
+		if ($workflow->core)
+		{
+			return false;
+		}
 
 		// Check "edit" permission on record asset (explicit or inherited)
 		if ($user->authorise('core.edit', $this->extension . '.transition.' . $recordId))
@@ -134,7 +156,7 @@ class TransitionController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getRedirectToItemAppend($recordId = null, $urlVar = 'id')
 	{
@@ -149,7 +171,7 @@ class TransitionController extends FormController
 	 *
 	 * @return  string  The arguments to append to the redirect URL.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function getRedirectToListAppend()
 	{

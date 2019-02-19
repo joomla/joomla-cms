@@ -27,7 +27,6 @@ Text::script('MESSAGE');
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.tabstate');
-HTMLHelper::_('formbehavior.chosen', '.chosen-custom-value', null, array('disable_search_threshold' => 0));
 
 // @TODO delete this when custom elements modal is merged
 HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version' => 'auto', 'relative' => true]);

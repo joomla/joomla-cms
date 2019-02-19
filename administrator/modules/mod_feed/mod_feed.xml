@@ -39,6 +39,7 @@
 					label="MOD_FEED_FIELD_RTL_LABEL"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -50,6 +51,7 @@
 					label="MOD_FEED_FIELD_DESCRIPTION_LABEL"
 					class="switcher"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -61,6 +63,7 @@
 					label="MOD_FEED_FIELD_IMAGE_LABEL"
 					class="switcher"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -71,6 +74,7 @@
 					type="number"
 					label="MOD_FEED_FIELD_ITEMS_LABEL"
 					default="3"
+					filter="integer"
 				/>
 
 				<field
@@ -79,6 +83,7 @@
 					label="MOD_FEED_FIELD_ITEMDESCRIPTION_LABEL"
 					class="switcher"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -105,6 +110,7 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -115,6 +121,7 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
  					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

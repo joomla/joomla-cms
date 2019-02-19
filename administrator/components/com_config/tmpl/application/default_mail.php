@@ -16,7 +16,7 @@ use Joomla\CMS\Session\Session;
 defined('_JEXEC') or die;
 
 HTMLHelper::_('form.csrf');
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-send-test-mail.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/fields/joomla-field-send-test-mail.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load JavaScript message titles
 Text::script('ERROR');

@@ -17,7 +17,12 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\User\User;
 use Joomla\CMS\Workflow\Workflow;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\Component\Content\Administrator\Table\ArticleTable;
+use Joomla\Component\Messages\Administrator\Model\MessageModel;
+use Joomla\Component\Workflow\Administrator\Model\StagesModel;
+use Joomla\Component\Workflow\Administrator\Table\StageTable;
+use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -31,9 +36,46 @@ class PlgContentJoomla extends CMSPlugin
 	 * Database Driver Instance
 	 *
 	 * @var    \Joomla\Database\DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
+
+	/**
+	 * The save event.
+	 *
+	 * @param   string   $context  The context
+	 * @param   object   $table    The item
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onContentBeforeSave($context, $table, $isNew, $data)
+	{
+		// Check we are handling the frontend edit form.
+		if (!in_array($context, ['com_workflow.stage', 'com_workflow.workflow']) || $isNew)
+		{
+			return true;
+		}
+
+		$item = clone $table;
+
+		$item->load($table->id);
+
+		if ($item->published != -2 && $data['published'] == -2)
+		{
+			switch ($context)
+			{
+				case 'com_workflow.workflow':
+					return $this->_canDeleteWorkflow($item->id);
+
+				case 'com_workflow.stage':
+					return $this->_canDeleteStage($item->id);
+			}
+		}
+	}
 
 	/**
 	 * Example after save content method
@@ -126,7 +168,7 @@ class PlgContentJoomla extends CMSPlugin
 	public function onContentBeforeDelete($context, $data)
 	{
 		// Skip plugin if we are deleting something other than categories
-		if (!in_array($context, ['com_categories.category', 'com_workflow.stage']))
+		if (!in_array($context, ['com_categories.category', 'com_workflow.stage', 'com_workflow.workflow']))
 		{
 			return true;
 		}
@@ -136,9 +178,47 @@ class PlgContentJoomla extends CMSPlugin
 			case 'com_categories.category':
 				return $this->_canDeleteCategories($data);
 
+			case 'com_workflow.workflow':
+				return $this->_canDeleteWorkflow($data->id);
+
 			case 'com_workflow.stage':
-				return $this->_canDeleteStages($data->id);
+				return $this->_canDeleteStage($data->id);
 		}
+	}
+
+	/**
+	 * Don't allow workflows/stages to be deleted if they contain items
+	 *
+	 * @param   string  $context  The context for the content passed to the plugin.
+	 * @param   object  $pks      The IDs of the records which will be changed.
+	 * @param   object  $value    The new state.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public function onContentBeforeChangeState($context, $pks, $value)
+	{
+		if ($value != -2 || !in_array($context, ['com_workflow.workflow', 'com_workflow.stage']))
+		{
+			return true;
+		}
+
+		$result = true;
+
+		foreach ($pks as $id)
+		{
+			switch ($context)
+			{
+				case 'com_workflow.workflow':
+					return $result && $this->_canDeleteWorkflow($id);
+
+				case 'com_workflow.stage':
+					$result = $result && $this->_canDeleteStage($id);
+			}
+		}
+
+		return true;
 	}
 
 	/**
@@ -218,55 +298,124 @@ class PlgContentJoomla extends CMSPlugin
 	}
 
 	/**
+	 * Checks if a given workflow can be deleted
+	 *
+	 * @param   int  $pk  The stage ID
+	 *
+	 * @return  boolean
+	 *
+	 * @since  4.0.0
+	 */
+	private function _canDeleteWorkflow($pk)
+	{
+		// Check if this workflow is the default stage
+		$table = new WorkflowTable($this->db);
+
+		$table->load($pk);
+
+		if (empty($table->id))
+		{
+			return true;
+		}
+
+		if ($table->default)
+		{
+			throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
+		}
+
+		$parts = explode('.', $table->extension);
+
+		$component = Factory::getApplication()->bootComponent($parts[0]);
+
+		$section = '';
+
+		if (!empty($parts[1]))
+		{
+			$section = $parts[1];
+		}
+
+		// No core interface => we're ok
+		if (!$component instanceof WorkflowServiceInterface)
+		{
+			return true;
+		}
+
+		$model = new StagesModel(['ignore_request' => true]);
+
+		$model->setState('filter.workflow_id', $pk);
+		$model->setState('filter.extension', $table->extension);
+
+		$stages = $model->getItems();
+
+		$stage_ids = ArrayHelper::getColumn($stages, 'id');
+
+		$result = $this->_countItemsInStage($stage_ids, $table->extension);
+
+		// Return false if db error
+		if ($result > 0)
+		{
+			throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_WORKFLOW_IS_ASSIGNED'));
+		}
+
+		return true;
+	}
+
+	/**
 	 * Checks if a given stage can be deleted
 	 *
 	 * @param   int  $pk  The stage ID
 	 *
 	 * @return  boolean
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
-	private function _canDeleteStages($pk)
+	private function _canDeleteStage($pk)
 	{
-		// Check if this function is enabled.
-		if (!$this->params->def('check_stages', 1))
+		$table = new StageTable($this->db);
+
+		$table->load($pk);
+
+		if (empty($table->id))
 		{
 			return true;
 		}
 
-		$extension = Factory::getApplication()->input->getString('extension');
-
-		// Default to true if not a core extension
-		$result = true;
-
-		$tableInfo = [
-			'com_content' => array('table_name' => '#__content')
-		];
-
-		// Now check to see if this is a known core extension
-		if (isset($tableInfo[$extension]))
+		// Check if this stage is the default stage
+		if ($table->default)
 		{
-			// See if this category has any content items
-			$count = $this->_countItemsFromState($extension, $pk, $tableInfo[$extension]['table_name']);
-
-			// Return false if db error
-			if ($count === false)
-			{
-				$result = false;
-			}
-			else
-			{
-				// Show error if items are found assigned to the stage
-				if ($count > 0)
-				{
-					$msg = Text::_('COM_WORKFLOW_MSG_DELETE_IS_ASSIGNED');
-					Factory::getApplication()->enqueueMessage($msg, 'error');
-					$result = false;
-				}
-			}
+			throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_IS_DEFAULT'));
 		}
 
-		return $result;
+		$workflow = new WorkflowTable($this->db);
+
+		$workflow->load($table->workflow_id);
+
+		if (empty($workflow->id))
+		{
+			return true;
+		}
+
+		$parts = explode('.', $workflow->extension);
+
+		$component = Factory::getApplication()->bootComponent($parts[0]);
+
+		// No core interface => we're ok
+		if (!$component instanceof WorkflowServiceInterface)
+		{
+			return true;
+		}
+
+		$stage_ids = [$table->id];
+
+		$result = $this->_countItemsInStage($stage_ids, $workflow->extension);
+
+		// Return false if db error
+		if ($result > 0)
+		{
+			throw new Exception(Text::_('COM_WORKFLOW_MSG_DELETE_STAGE_IS_ASSIGNED'));
+		}
+
+		return true;
 	}
 
 	/**
@@ -302,6 +451,65 @@ class PlgContentJoomla extends CMSPlugin
 		}
 
 		return $count;
+	}
+
+
+
+	/**
+	 * Get count of items in assigned to a stage
+	 *
+	 * @param   array   $stage_ids  The stage ids to test for
+	 * @param   string  $extension  The extension of the workflow
+	 *
+	 * @return  bool
+	 *
+	 * @since   4.0.0
+	 */
+	private function _countItemsInStage(array $stage_ids, string $extension) : bool
+	{
+		$db = $this->db;
+
+		$parts = explode('.', $extension);
+
+		$stage_ids = ArrayHelper::toInteger($stage_ids);
+		$stage_ids = array_filter($stage_ids);
+
+		$section = '';
+
+		if (!empty($parts[1]))
+		{
+			$section = $parts[1];
+		}
+
+		$component = Factory::getApplication()->bootComponent($parts[0]);
+
+		$table = $component->getWorkflowTableBySection($section);
+
+		if (empty($stage_ids) || !$table)
+		{
+			return true;
+		}
+
+		$query = $db->getQuery(true);
+
+		$query	->select('COUNT(' . $db->quoteName('b.id') . ')')
+				->from($query->quoteName('#__workflow_associations', 'wa'))
+				->from($query->quoteName('#__workflow_stages', 's'))
+				->from($db->quoteName($table, 'b'))
+				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('s.id'))
+				->where($db->quoteName('wa.item_id') . ' = ' . $db->quoteName('b.id'))
+				->whereIn($db->quoteName('s.id'), $stage_ids);
+
+		try
+		{
+			return (int) $db->setQuery($query)->loadResult();
+		}
+		catch (Exception $ex)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		return false;
 	}
 
 	/**
@@ -362,42 +570,6 @@ class PlgContentJoomla extends CMSPlugin
 	}
 
 	/**
-	 * Get count of items assigned to a stage
-	 *
-	 * @param   string   $extension  The extension to search for
-	 * @param   integer  $stage_id   ID of the stage to check
-	 * @param   string   $table      The table to search for
-	 *
-	 * @return  mixed  count of items found or false if db error
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private function _countItemsFromState($extension, $stage_id, $table)
-	{
-		$query = $this->db->getQuery(true);
-
-		$query	->select('COUNT(' . $this->db->quoteName('wa.item_id') . ')')
-				->from($query->quoteName('#__workflow_associations', 'wa'))
-				->from($this->db->quoteName($table, 'b'))
-				->where($this->db->quoteName('wa.item_id') . ' = ' . $query->quoteName('b.id'))
-				->where($this->db->quoteName('wa.stage_id') . ' = ' . (int) $stage_id)
-				->where($this->db->quoteName('wa.extension') . ' = ' . $this->db->quote($extension));
-
-		try
-		{
-			$count = $this->db->setQuery($query)->loadResult();
-		}
-		catch (RuntimeException $e)
-		{
-			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
-
-			return false;
-		}
-
-		return $count;
-	}
-
-	/**
 	 * Change the state in core_content if the stage in a table is changed
 	 *
 	 * @param   string   $context  The context for the content passed to the plugin.
@@ -416,7 +588,7 @@ class PlgContentJoomla extends CMSPlugin
 		{
 			foreach ($pks as $pk)
 			{
-				if (!$this->_canDeleteStages($pk))
+				if (!$this->_canDeleteStage($pk))
 				{
 					return false;
 				}
@@ -456,11 +628,11 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Messaging for changed items
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = JFactory::getApplication()->get('debug_lang');
+		$debug = Factory::getApplication()->get('debug_lang');
 		$result = true;
 
 		$article = new ArticleTable($db);

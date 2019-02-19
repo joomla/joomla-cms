@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Table\Table;
 /**
  * Transition table
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class TransitionTable extends Table
 {
@@ -26,7 +26,7 @@ class TransitionTable extends Table
 	 *
 	 * @param   \JDatabaseDriver  $db  Database connector object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct(\JDatabaseDriver $db)
 	{
@@ -42,7 +42,7 @@ class TransitionTable extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _getAssetName()
 	{
@@ -58,7 +58,7 @@ class TransitionTable extends Table
 	 *
 	 * @return  string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _getAssetTitle()
 	{
@@ -73,7 +73,7 @@ class TransitionTable extends Table
 	 *
 	 * @return  integer  The id of the asset's parent
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function _getAssetParentId(Table $table = null, $id = null)
 	{

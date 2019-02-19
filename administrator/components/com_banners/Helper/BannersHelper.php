@@ -64,7 +64,7 @@ class BannersHelper extends ContentHelper
 
 			if ($purchaseType < 0 && $row->cid)
 			{
-				/** @var \Joomla\Component\Banners\Administrator\Table\Client $client */
+				/** @var \Joomla\Component\Banners\Administrator\Table\ClientTable $client */
 				$client = Table::getInstance('Client', '\\Joomla\\Component\\Banners\\Administrator\\Table\\');
 				$client->load($row->cid);
 				$purchaseType = $client->purchase_type;

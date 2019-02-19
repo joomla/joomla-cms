@@ -15,7 +15,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * Editor Pagebreak buton
+ * Editor Pagebreak button
  *
  * @since  1.5
  */

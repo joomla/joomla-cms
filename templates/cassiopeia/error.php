@@ -27,7 +27,7 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 $menu     = $app->getMenu()->getActive();
-$pageclass = $menu->params->get('pageclass_sfx');
+$pageclass = $menu !== null ? $menu->params->get('pageclass_sfx', '') : '';
 
 // Add JavaScript Frameworks
 HTMLHelper::_('bootstrap.framework');

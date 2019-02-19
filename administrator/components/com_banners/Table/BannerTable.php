@@ -200,8 +200,7 @@ class BannerTable extends Table
 
 			if ($purchaseType < 0 && $this->cid)
 			{
-				/** @var ClientTable $client */
-				$client = Table::getInstance('Client', __NAMESPACE__ . '\\', array('dbo' => $db));
+				$client = new ClientTable($db);
 				$client->load($this->cid);
 				$purchaseType = $client->purchase_type;
 			}

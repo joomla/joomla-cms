@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Category factory interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface CategoryFactoryInterface
 {
@@ -25,7 +25,7 @@ interface CategoryFactoryInterface
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @throws  SectionNotFoundException
 	 */

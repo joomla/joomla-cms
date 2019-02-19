@@ -129,7 +129,7 @@ class LinkTable extends Table
 	}
 
 	/**
-	 * Overriden store method to set dates.
+	 * Overridden store method to set dates.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *

@@ -8,10 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 
-HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
 ?>
 
 <div class="container">

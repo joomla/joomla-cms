@@ -41,7 +41,7 @@ class ComponentDispatcher extends Dispatcher
 	 *
 	 * @var  MVCFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private $mvcFactory;
 

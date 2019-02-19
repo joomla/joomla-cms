@@ -3,9 +3,9 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 namespace Joomla\Component\Workflow\Administrator\Model;
 
@@ -17,7 +17,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 /**
  * Model class for stages
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class StagesModel extends ListModel
 {
@@ -27,7 +27,7 @@ class StagesModel extends ListModel
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @see     JController
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct($config = array())
 	{
@@ -59,7 +59,7 @@ class StagesModel extends ListModel
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function populateState($ordering = 's.ordering', $direction = 'ASC')
 	{
@@ -89,14 +89,14 @@ class StagesModel extends ListModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getReorderConditions($table)
 	{
 		return [
-			'workflow_id = ' . (int) $table->workflow_id
+			$this->_db->quoteName('workflow_id') . ' = ' . (int) $table->workflow_id,
 		];
 	}
 
@@ -109,7 +109,7 @@ class StagesModel extends ListModel
 	 *
 	 * @return  \Joomla\CMS\Table\Table  A JTable object
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getTable($type = 'Stage', $prefix = 'Administrator', $config = array())
 	{
@@ -121,7 +121,7 @@ class StagesModel extends ListModel
 	 *
 	 * @return  string  The query to database.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getListQuery()
 	{
@@ -184,5 +184,26 @@ class StagesModel extends ListModel
 		$query->order($db->escape($this->getState('list.ordering', 's.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 
 		return $query;
+	}
+
+	/**
+	 * Returns a workflow object
+	 *
+	 * @return  object  The workflow
+	 *
+	 * @since  4.0.0
+	 */
+	public function getWorkflow()
+	{
+		$table = $this->getTable('Workflow', 'Administrator');
+
+		$workflowId = (int) $this->getState('filter.workflow_id');
+
+		if ($workflowId > 0)
+		{
+			$table->load($workflowId);
+		}
+
+		return (object) $table->getProperties();
 	}
 }

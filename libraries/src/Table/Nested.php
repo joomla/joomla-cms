@@ -901,7 +901,7 @@ class Nested extends Table
 		// Unlock the table for writing.
 		$this->_unlock();
 
-		if ($this->hasField('published'))
+		if ($result && $this->hasField('published'))
 		{
 			$this->recursiveUpdatePublishedColumn($this->$k);
 		}
@@ -1333,11 +1333,9 @@ class Nested extends Table
 				->where('parent_id = %d');
 
 			// If the table has an ordering field, use that for ordering.
-			$orderingField = $this->getColumnAlias('ordering');
-
-			if ($this->hasField($orderingField))
+			if ($this->hasField('ordering'))
 			{
-				$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
+				$query->order('parent_id, ' . $this->_db->quoteName($this->getColumnAlias('ordering')) . ', lft');
 			}
 			else
 			{

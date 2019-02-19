@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 
@@ -230,97 +229,6 @@ class TagsModel extends ListModel
 	}
 
 	/**
-	 * Method override to check-in a record or an array of record
-	 *
-	 * @param   mixed  $pks  The ID of the primary key or an array of IDs
-	 *
-	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
-	 *
-	 * @since   3.0.1
-	 */
-	public function checkin($pks = array())
-	{
-		$pks = (array) $pks;
-
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
-		$table = $this->getTable();
-		$count = 0;
-
-		if (empty($pks))
-		{
-			$pks = array((int) $this->getState($this->getName() . '.id'));
-		}
-
-		// Check in all items.
-		foreach ($pks as $pk)
-		{
-			if ($table->load($pk))
-			{
-				if ($table->checked_out > 0)
-				{
-					// Only attempt to check the row in if it exists.
-					if ($pk)
-					{
-						$user = Factory::getUser();
-
-						// Get an instance of the row to checkin.
-						$table = $this->getTable();
-
-						if (!$table->load($pk))
-						{
-							$this->setError($table->getError());
-
-							return false;
-						}
-
-						// Check if this is the user having previously checked out the row.
-						if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
-						{
-							$this->setError(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
-
-							return false;
-						}
-
-						// Attempt to check the row in.
-						if (!$table->checkin($pk))
-						{
-							$this->setError($table->getError());
-
-							return false;
-						}
-					}
-
-					$count++;
-				}
-			}
-			else
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-		}
-
-		return $count;
-	}
-
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $type    The table name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  \Joomla\CMS\Table\Table  A Table object
-	 *
-	 * @since   3.1
-	 */
-	public function getTable($type = 'Tag', $prefix = 'Administrator', $config = array())
-	{
-		return parent::getTable($type, $prefix, $config);
-	}
-
-	/**
 	 * Method to get an array of data items.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
@@ -354,7 +262,6 @@ class TagsModel extends ListModel
 	public function countItems(&$items, $extension)
 	{
 		$parts = explode('.', $extension);
-		$section = null;
 
 		if (count($parts) < 2)
 		{

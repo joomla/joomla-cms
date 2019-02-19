@@ -862,14 +862,7 @@ class Access
 		if (!isset(self::$groupsByUser[$storeId]))
 		{
 			// TODO: Uncouple this from ComponentHelper and allow for a configuration setting or value injection.
-			if (class_exists('ComponentHelper'))
-			{
-				$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
-			}
-			else
-			{
-				$guestUsergroup = 1;
-			}
+			$guestUsergroup = ComponentHelper::getParams('com_users')->get('guest_usergroup', 1);
 
 			// Guest user (if only the actually assigned group is requested)
 			if (empty($userId) && !$recursive)

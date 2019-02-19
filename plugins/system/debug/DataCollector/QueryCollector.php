@@ -12,14 +12,14 @@ namespace Joomla\Plugin\System\Debug\DataCollector;
 use DebugBar\DataCollector\AssetProvider;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Database\Monitor\DebugMonitor;
 use Joomla\Plugin\System\Debug\AbstractDataCollector;
-use Joomla\Plugin\System\Debug\DebugMonitor;
 use Joomla\Registry\Registry;
 
 /**
  * QueryDataCollector
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class QueryCollector extends AbstractDataCollector implements AssetProvider
 {
@@ -27,7 +27,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 * Collector name.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $name = 'queries';
 
@@ -35,7 +35,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 * The query monitor.
 	 *
 	 * @var    DebugMonitor
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $queryMonitor;
 
@@ -43,7 +43,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 * Profile data.
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $profiles;
 
@@ -51,7 +51,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 * Explain data.
 	 *
 	 * @var   array
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $explains;
 
@@ -59,7 +59,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 * Accumulated Duration.
 	 *
 	 * @var   integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $accumulatedDuration = 0;
 
@@ -67,7 +67,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 * Accumulated Memory.
 	 *
 	 * @var   integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $accumulatedMemory = 0;
 
@@ -79,7 +79,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 * @param   array         $profiles      Profile data.
 	 * @param   array         $explains      Explain data
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function __construct(Registry $params, DebugMonitor $queryMonitor, array $profiles, array $explains)
 	{
@@ -94,7 +94,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array Collected data
 	 */
@@ -114,14 +114,14 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 				'xdebug_link'              => $this->getXdebugLinkTemplate(),
 				'root_path'                => JPATH_ROOT
 			],
-			'count'      => \count($this->queryMonitor->getLog()),
+			'count'      => \count($this->queryMonitor->getLogs()),
 		];
 	}
 
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return string
 	 */
@@ -134,7 +134,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array
 	 */
@@ -157,7 +157,7 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	/**
 	 * Assets for the collector.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array
 	 */
@@ -172,20 +172,20 @@ class QueryCollector extends AbstractDataCollector implements AssetProvider
 	/**
 	 * Prepare the executed statements data.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array
 	 */
 	private function getStatements(): array
 	{
 		$statements    = [];
-		$log           = $this->queryMonitor->getLog();
+		$logs          = $this->queryMonitor->getLogs();
 		$timings       = $this->queryMonitor->getTimings();
 		$memoryLogs    = $this->queryMonitor->getMemoryLogs();
 		$stacks        = $this->queryMonitor->getCallStacks();
 		$collectStacks = $this->params->get('query_traces');
 
-		foreach ($log as $id => $item)
+		foreach ($logs as $id => $item)
 		{
 			$queryTime   = 0;
 			$queryMemory = 0;

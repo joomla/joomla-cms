@@ -79,6 +79,14 @@ abstract class AdminModel extends FormModel
 	protected $event_before_save = null;
 
 	/**
+	 * The event to trigger before changing the published state of the data.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $event_before_change_state = null;
+
+	/**
 	 * The event to trigger after changing the published state of the data.
 	 *
 	 * @var    string
@@ -212,6 +220,15 @@ abstract class AdminModel extends FormModel
 		elseif (empty($this->event_before_save))
 		{
 			$this->event_before_save = 'onContentBeforeSave';
+		}
+
+		if (isset($config['event_before_change_state']))
+		{
+			$this->event_before_change_state = $config['event_before_change_state'];
+		}
+		elseif (empty($this->event_before_change_state))
+		{
+			$this->event_before_change_state = 'onContentBeforeChangeState';
 		}
 
 		if (isset($config['event_change_state']))
@@ -950,7 +967,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -1004,6 +1021,8 @@ abstract class AdminModel extends FormModel
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
+		$context = $this->option . '.' . $this->name;
+
 		// Include the plugins for the change of state event.
 		\JPluginHelper::importPlugin($this->events_map['change_state']);
 
@@ -1037,6 +1056,16 @@ abstract class AdminModel extends FormModel
 			}
 		}
 
+		// Trigger the change state event.
+		$result = Factory::getApplication()->triggerEvent($this->event_before_change_state, array($context, $pks, $value));
+
+		if (in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
 		// Attempt to change the state of the records.
 		if (!$table->publish($pks, $value, $user->get('id')))
 		{
@@ -1044,8 +1073,6 @@ abstract class AdminModel extends FormModel
 
 			return false;
 		}
-
-		$context = $this->option . '.' . $this->name;
 
 		// Trigger the change state event.
 		$result = Factory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));

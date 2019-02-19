@@ -41,7 +41,7 @@ class AfterExtensionBootEvent extends AbstractImmutableEvent
 	 */
 	public function getExtensionName(): string
 	{
-		return $this->getArgument('extensionName');
+		return $this->arguments['extensionName'];
 	}
 
 	/**
@@ -53,6 +53,6 @@ class AfterExtensionBootEvent extends AbstractImmutableEvent
 	 */
 	public function getContainer(): Container
 	{
-		return $this->getArgument('container');
+		return $this->arguments['container'];
 	}
 }

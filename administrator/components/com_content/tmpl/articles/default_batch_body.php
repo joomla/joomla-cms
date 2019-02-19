@@ -32,7 +32,7 @@ $user = \Joomla\CMS\Factory::getUser();
 		<?php if ($published >= 0) : ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.', ['extension' => 'com_content']); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.item', ['extension' => 'com_content']); ?>
 			</div>
 		</div>
 		<?php endif; ?>

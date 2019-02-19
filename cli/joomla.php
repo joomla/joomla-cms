@@ -9,6 +9,20 @@
 // We are a valid entry point.
 const _JEXEC = 1;
 
+/**
+ * Define the application's minimum supported PHP version as a constant so it can be referenced within the application.
+ */
+const JOOMLA_MINIMUM_PHP = '7.0';
+
+if (version_compare(PHP_VERSION, JOOMLA_MINIMUM_PHP, '<'))
+{
+	echo 'Sorry, your PHP version is not supported.' . PHP_EOL;
+	echo 'Your host needs to use PHP version ' . JOOMLA_MINIMUM_PHP . ' or newer to run this version of Joomla!' . PHP_EOL;
+	echo 'You are currently running PHP version ' . PHP_VERSION . '.' . PHP_EOL;
+
+	exit;
+}
+
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {

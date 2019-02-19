@@ -24,6 +24,7 @@
 					type="number"
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
 					default="50"
+					filter="integer"
 				/>
 
 				<field
@@ -32,6 +33,7 @@
 					class="switcher"
 					label="PLG_SEARCH_TAGS_FIELD_SHOW_TAGGED_ITEMS_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>

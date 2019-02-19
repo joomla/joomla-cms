@@ -11,21 +11,26 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
+/** @var  \Joomla\Component\Cpanel\Administrator\View\System\HtmlView  $this */
 ?>
 
 <div class="com-cpanel-system">
-	<?php foreach ($this->links as $name => $links) : ?>
+	<?php foreach ($this->links as $section) : ?>
 	<div class="com-cpanel-system__category">
 		<h2 class="com-cpanel-system__header">
-			<?php if ($this->headerIcons[$name]) : ?>
-				<span class="fa fa-<?php echo $this->headerIcons[$name]; ?>" aria-hidden="true"></span>
-			<?php endif; ?>
-			<?php echo Text::_($name); ?>
+			<span class="fa fa-<?php echo $section->getIcon(); ?>" aria-hidden="true"></span>
+			<?php echo Text::_($section->getTitle()); ?>
 		</h2>
 		<ul class="list-group list-group-flush">
-			<?php foreach ($links as $id => $link) : ?>
+			<?php foreach ($section->getItems() as $item) : ?>
 				<li class="list-group-item">
-					<a href="<?php echo $link['link']; ?>"><?php echo Text::_($link['title']); ?></a>
+					<a href="<?php echo $item->getLink(); ?>"><?php echo Text::_($item->getTitle()); ?>
+					<?php if (!empty($item->getBadge())) : ?>
+						<span class="pull-right badge badge-pill badge-warning">
+							<?php echo '&#x200E;' . Text::_($item->getBadge()); ?>
+						</span>
+					<?php endif; ?>
+					</a>
 				</li>
 			<?php endforeach; ?>
 		</ul>

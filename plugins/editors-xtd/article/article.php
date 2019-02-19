@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 
 /**
- * Editor Article buton
+ * Editor Article button
  *
  * @since  1.5
  */

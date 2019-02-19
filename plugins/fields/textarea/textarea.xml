@@ -26,6 +26,7 @@
 					type="number"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
 					default="10"
+					filter="integer"
 				/>
 
 				<field
@@ -33,6 +34,7 @@
 					type="number"
 					label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
 					default="10"
+					filter="integer"
 				/>
 
 				<field
@@ -48,6 +50,7 @@
 					label="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_LABEL"
 					class="list"
 					default="JComponentHelper::filterText"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>

@@ -13,7 +13,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\Breadcrumbs\Site\Helper\BreadcrumbsHelper;
 
 // Get the breadcrumbs
-$list  = BreadcrumbsHelper::getList($params);
+$list  = BreadcrumbsHelper::getList($params, $app);
 $count = count($list);
 
 require ModuleHelper::getLayoutPath('mod_breadcrumbs', $params->get('layout', 'default'));

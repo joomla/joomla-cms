@@ -26,7 +26,7 @@ $extension = $this->escape($this->state->get('filter.extension'));
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.access.', []); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
 			</div>
 		</div>
 	</div>

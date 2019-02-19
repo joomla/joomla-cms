@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\Database\DatabaseInterface;
 /**
  * Default router factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class RouterFactory implements RouterFactoryInterface
 {
@@ -35,7 +35,7 @@ class RouterFactory implements RouterFactoryInterface
 	 *
 	 * @var CategoryFactoryInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $categoryFactory;
 
@@ -44,7 +44,7 @@ class RouterFactory implements RouterFactoryInterface
 	 *
 	 * @var DatabaseInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $db;
 
@@ -73,7 +73,7 @@ class RouterFactory implements RouterFactoryInterface
 	 *
 	 * @return  RouterInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
 	{

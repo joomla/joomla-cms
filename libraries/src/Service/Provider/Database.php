@@ -90,6 +90,11 @@ class Database implements ServiceProviderInterface
 					'prefix'   => $conf->get('dbprefix'),
 				];
 
+				if (JDEBUG)
+				{
+					$options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor;
+				}
+
 				try
 				{
 					$db = DatabaseDriver::getInstance($options);

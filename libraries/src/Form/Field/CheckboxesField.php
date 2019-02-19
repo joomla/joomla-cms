@@ -49,7 +49,7 @@ class CheckboxesField extends \JFormFieldList
 	protected $forceMultiple = true;
 
 	/**
-	 * The comma seprated list of checked checkboxes value.
+	 * The comma separated list of checked checkboxes value.
 	 *
 	 * @var    mixed
 	 * @since  3.2

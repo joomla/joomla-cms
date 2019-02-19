@@ -52,6 +52,7 @@ class CategoriesView extends HtmlView
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @since   3.2
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -97,7 +98,7 @@ class CategoriesView extends HtmlView
 
 		$this->prepareDocument();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use Joomla\Registry\Registry;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -316,5 +317,68 @@ class CalendarField extends FormField
 		);
 
 		return array_merge($data, $extraData);
+	}
+
+	/**
+	 * Method to filter a field value.
+	 *
+	 * @param   mixed     $value  The optional value to use as the default for the field.
+	 * @param   string    $group  The optional dot-separated form group path on which to find the field.
+	 * @param   Registry  $input  An optional Registry object with the entire data set to filter
+	 *                            against the entire form.
+	 *
+	 * @return  mixed   The filtered value.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function filter($value, $group = null, Registry $input = null)
+	{
+		// Make sure there is a valid SimpleXMLElement.
+		if (!($this->element instanceof \SimpleXMLElement))
+		{
+			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', get_class($this)));
+		}
+
+		// Get the field filter type.
+		$filter = (string) $this->element['filter'];
+
+		$return = $value;
+
+		switch (strtoupper($filter))
+		{
+			// Convert a date to UTC based on the server timezone offset.
+			case 'SERVER_UTC':
+				if ((int) $value > 0)
+				{
+					// Get the server timezone setting.
+					$offset = Factory::getConfig()->get('offset');
+
+					// Return an SQL formatted datetime string in UTC.
+					$return = Factory::getDate($value, $offset)->toSql();
+				}
+				else
+				{
+					$return = '';
+				}
+				break;
+
+			// Convert a date to UTC based on the user timezone offset.
+			case 'USER_UTC':
+				if ((int) $value > 0)
+				{
+					// Get the user timezone setting defaulting to the server timezone setting.
+					$offset = Factory::getUser()->getParam('timezone', Factory::getConfig()->get('offset'));
+
+					// Return an SQL formatted datetime string in UTC.
+					$return = Factory::getDate($value, $offset)->toSql();
+				}
+				else
+				{
+					$return = '';
+				}
+				break;
+		}
+
+		return $return;
 	}
 }

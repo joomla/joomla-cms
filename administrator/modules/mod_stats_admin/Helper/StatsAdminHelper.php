@@ -11,9 +11,11 @@ namespace Joomla\Module\StatsAdmin\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Helper class for admin stats module
@@ -25,21 +27,21 @@ class StatsAdminHelper
 	/**
 	 * Method to retrieve information about the site
 	 *
-	 * @param   JObject  &$params  Params object
+	 * @param   Registry           $params  The module parameters
+	 * @param   CMSApplication     $app     The application
+	 * @param   DatabaseInterface  $db      The database
 	 *
 	 * @return  array  Array containing site information
 	 *
 	 * @since   3.0
 	 */
-	public static function getStats(&$params)
+	public static function getStats(Registry $params, CMSApplication $app, DatabaseInterface $db)
 	{
-		$app   = Factory::getApplication();
-		$db    = Factory::getDbo();
 		$rows  = array();
 		$query = $db->getQuery(true);
 
-		$serverinfo = $params->get('serverinfo');
-		$siteinfo   = $params->get('siteinfo');
+		$serverinfo = $params->get('serverinfo', 0);
+		$siteinfo   = $params->get('siteinfo', 0);
 
 		$i = 0;
 

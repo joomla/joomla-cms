@@ -16,7 +16,7 @@ use Joomla\Plugin\System\Debug\AbstractDataCollector;
 /**
  * LanguageErrorsDataCollector
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LanguageErrorsCollector extends AbstractDataCollector implements AssetProvider
 {
@@ -24,7 +24,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	 * Collector name.
 	 *
 	 * @var   string
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $name = 'languageErrors';
 
@@ -32,14 +32,14 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	 * The count.
 	 *
 	 * @var   integer
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private $count = 0;
 
 	/**
 	 * Called by the DebugBar when data needs to be collected
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array Collected data
 	 */
@@ -58,7 +58,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	/**
 	 * Returns the unique name of the collector
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return string
 	 */
@@ -71,7 +71,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	 * Returns a hash where keys are control names and their values
 	 * an array of options as defined in {@see DebugBar\JavascriptRenderer::addControl()}
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 *
 	 * @return array
 	 */
@@ -98,7 +98,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	 *  - css: an array of filenames
 	 *  - js: an array of filenames
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @return array
 	 */
 	public function getAssets()
@@ -114,7 +114,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function getData(): array
 	{
@@ -141,7 +141,7 @@ class LanguageErrorsCollector extends AbstractDataCollector implements AssetProv
 	 *
 	 * @return int
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	private function getCount(): int
 	{

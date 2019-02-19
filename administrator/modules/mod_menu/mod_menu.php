@@ -15,7 +15,8 @@ use Joomla\Module\Menu\Administrator\Menu\CssMenu;
 $enabled = !$app->input->getBool('hidemainmenu');
 
 $menu = new CssMenu($app);
-$menu->load($params, $enabled);
+$root = $menu->load($params, $enabled);
+$root->level = 0;
 
 // Render the module layout
 require ModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));

@@ -156,9 +156,7 @@ class StyleController extends FormController
 
 			return true;
 		}
-		else
-		{
-			parent::save($key, $urlVar);
-		}
+
+		return parent::save($key, $urlVar);
 	}
 }

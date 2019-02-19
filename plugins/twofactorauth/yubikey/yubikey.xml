@@ -25,6 +25,7 @@
 					type="list"
 					label="PLG_TWOFACTORAUTH_YUBIKEY_SECTION_LABEL"
 					default="3"
+					filter="integer"
 					>
 					<option value="1">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_SITE</option>
 					<option value="2">PLG_TWOFACTORAUTH_YUBIKEY_SECTION_ADMIN</option>

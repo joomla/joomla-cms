@@ -134,7 +134,7 @@ class ViewController extends CacheController
 	 *
 	 * @return  boolean  True if cache stored
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function store($data, $id, $group = null, $wrkarounds = true)
 	{

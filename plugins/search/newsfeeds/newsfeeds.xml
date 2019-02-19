@@ -24,6 +24,7 @@
 					type="number"
 					label="JFIELD_PLG_SEARCH_SEARCHLIMIT_LABEL"
 					default="50"
+					filter="integer"
 				/>
 
 				<field
@@ -32,6 +33,7 @@
 					class="switcher"
 					label="JFIELD_PLG_SEARCH_ALL_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
@@ -43,6 +45,7 @@
 					class="switcher"
 					label="JFIELD_PLG_SEARCH_ARCHIVED_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>

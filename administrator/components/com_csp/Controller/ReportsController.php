@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
- * Search master display controller.
+ * Reports list controller class.
  *
  * @since  4.0.0
  */

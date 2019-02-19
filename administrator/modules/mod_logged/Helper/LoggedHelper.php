@@ -11,10 +11,12 @@ namespace Joomla\Module\Logged\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Helper for mod_logged
@@ -26,16 +28,17 @@ abstract class LoggedHelper
 	/**
 	 * Get a list of logged users.
 	 *
-	 * @param   \Joomla\Registry\Registry  &$params  The module parameters.
+	 * @param   Registry           $params  The module parameters
+	 * @param   CMSApplication     $app     The application
+	 * @param   DatabaseInterface  $db      The database
 	 *
 	 * @return  mixed  An array of users, or false on error.
 	 *
 	 * @throws  \RuntimeException
 	 */
-	public static function getList(&$params)
+	public static function getList(Registry $params, CMSApplication $app, DatabaseInterface $db)
 	{
-		$db    = Factory::getDbo();
-		$user  = Factory::getUser();
+		$user  = $app->getIdentity();
 		$query = $db->getQuery(true)
 			->select('s.time, s.client_id, u.id, u.name, u.username')
 			->from('#__session AS s')

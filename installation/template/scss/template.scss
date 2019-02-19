@@ -281,3 +281,15 @@ caption {
 .badge-warning {
   color: #292b2c;
 }
+
+.fa-eye:before, .icon-eye-open:before, .icon-eye:before {
+  font-family: FontAwesome;
+  cursor: pointer;
+  content: "\f06e";
+}
+
+.fa-eye-slash:before, .icon-eye-close:before, .icon-eye-blocked:before, .icon-eye-2:before {
+  font-family: FontAwesome;
+  cursor: pointer;
+  content: "\f070";
+}

@@ -355,9 +355,13 @@ class MessageModel extends AdminModel
 
 			// Build the email subject and message
 			$sitename = Factory::getApplication()->get('sitename');
+			$fromName = $fromUser->get('name');
 			$siteURL  = Uri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
-			$subject  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE_ARRIVED'), $sitename);
-			$msg      = sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
+			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
+			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
+
+			$subj	  = sprintf($lang->_('COM_MESSAGES_NEW_MESSAGE'), $fromName, $sitename);
+			$msg 	  = $subject . "\n\n" . $message . "\n\n" . sprintf($lang->_('COM_MESSAGES_PLEASE_LOGIN'), $siteURL);
 
 			// Send the email
 			$mailer = Factory::getMailer();
@@ -394,7 +398,7 @@ class MessageModel extends AdminModel
 					return true;
 				}
 
-				$mailer->setSubject($subject);
+				$mailer->setSubject($subj);
 				$mailer->setBody($msg);
 
 				$mailer->Send();
@@ -405,7 +409,7 @@ class MessageModel extends AdminModel
 				{
 					Log::add(Text::_($exception->getMessage()), Log::WARNING, 'jerror');
 
-					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
+					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
 
 					return false;
 				}
@@ -413,7 +417,7 @@ class MessageModel extends AdminModel
 				{
 					Factory::getApplication()->enqueueMessage(Text::_($exception->errorMessage()), 'warning');
 
-					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'), 500);
+					$this->setError(Text::_('COM_MESSAGES_ERROR_MAIL_FAILED'));
 
 					return false;
 				}

@@ -25,6 +25,7 @@
 					class="switcher"
 					label="PLG_SYSTEM_LOG_FIELD_LOG_USERNAME_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

@@ -18,12 +18,17 @@ use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Application\InstallationApplication;
+use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\SessionFactory;
 use Joomla\CMS\Session\Storage\JoomlaStorage;
+use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
+use Joomla\DI\Exception\DependencyResolutionException;
 use Joomla\DI\ServiceProviderInterface;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Event\Priority;
 use Joomla\Registry\Registry;
+use Joomla\Session\SessionEvent;
 use Joomla\Session\SessionEvents;
 use Joomla\Session\SessionInterface;
 use Joomla\Session\Storage\RuntimeStorage;
@@ -192,6 +197,57 @@ class Session implements ServiceProviderInterface
 				},
 				true
 			);
+
+		$container->alias(MetadataManager::class, 'session.metadata_manager')
+			->share(
+				'session.metadata_manager',
+				function (Container $container)
+				{
+					/*
+					 * Normally we should inject the application as a dependency via $container->get() however there is not
+					 * a 'app' or CMSApplicationInterface::class key for the primary application of the request so we need to
+					 * rely on the application having been injected to the global Factory otherwise we cannot build the service
+					 */
+					if (!Factory::$application)
+					{
+						throw new DependencyResolutionException(
+							sprintf(
+								'Creating the "session.metadata_manager" service requires %s::$application be initialised.',
+								Factory::class
+							)
+						);
+					}
+
+					return new MetadataManager(Factory::$application, $container->get(DatabaseInterface::class));
+				},
+				true
+			);
+
+		/*
+		 * This is all sorts of hacky but there is no way to create an event listener with an injected database driver and the dispatcher
+		 * doesn't have a native form of "lazy" listeners; there is a better way but we don't have it at the moment.
+		 */
+
+		if ($container->has(DispatcherInterface::class))
+		{
+			/** @var DispatcherInterface $dispatcher */
+			$dispatcher = $container->get(DispatcherInterface::class);
+			$dispatcher->addListener(
+				SessionEvents::START,
+				function (SessionEvent $event) use ($container)
+				{
+					/** @var Registry $config */
+					$config = $container->get('config');
+
+					if ($config->get('session_metadata', true) && $event->getSession()->has('user'))
+					{
+						/** @var MetadataManager $metadataManager */
+						$metadataManager = $container->get(MetadataManager::class);
+						$metadataManager->createOrUpdateRecord($event->getSession(), $event->getSession()->get('user'));
+					}
+				}
+			);
+		}
 	}
 
 	/**
@@ -213,7 +269,7 @@ class Session implements ServiceProviderInterface
 
 		if (method_exists($app, 'afterSessionStart'))
 		{
-			$dispatcher->addListener(SessionEvents::START, [$app, 'afterSessionStart']);
+			$dispatcher->addListener(SessionEvents::START, [$app, 'afterSessionStart'], Priority::HIGH);
 		}
 
 		$session = new \Joomla\CMS\Session\Session($storage, $dispatcher, $options);

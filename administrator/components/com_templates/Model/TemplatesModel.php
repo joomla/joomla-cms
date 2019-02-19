@@ -87,7 +87,7 @@ class TemplatesModel extends ListModel
 	 *
 	 * @return   boolean  False if records not found/else integer.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function updated($exid)
 	{

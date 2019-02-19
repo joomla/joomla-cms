@@ -99,7 +99,7 @@ class AdministratorApplication extends CMSApplication
 				$this->set('themeParams', $template->params);
 
 				// Add Asset registry files
-				$document->getWebAssetManager()
+				$document->getWebAssetManager()->getRegistry()
 					->addRegistryFile('media/' . $component . '/joomla.asset.json')
 					->addRegistryFile('administrator/templates/' . $template->template . '/joomla.asset.json');
 

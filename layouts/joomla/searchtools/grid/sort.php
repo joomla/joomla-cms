@@ -33,8 +33,8 @@ endif;
 	data-direction="<?php echo strtoupper($data->direction); ?>"
 	data-caption="<?php echo $caption; ?>"
 	<?php if (!empty($sort)) : ?>
-		data-sort="<?php echo $sort; ?>
-	<?php endif; ?>">
+		data-sort="<?php echo $sort; ?>"
+	<?php endif; ?>>
 	<?php if (!empty($data->title)) : ?>
 		<span>
 			<?php echo Text::_($data->title); ?>

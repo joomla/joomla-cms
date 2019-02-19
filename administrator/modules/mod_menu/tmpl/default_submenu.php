@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Menu\Node\Separator;
 
 /**
  * =========================================================================================================
@@ -19,7 +18,6 @@ use Joomla\CMS\Menu\Node\Separator;
  * =========================================================================================================
  */
 /** @var  \Joomla\Module\Menu\Administrator\Menu\CssMenu  $this */
-$current = $this->tree->getCurrent();
 $class   = '';
 
 // Build the CSS class suffix
@@ -27,15 +25,15 @@ if (!$this->enabled)
 {
 	$class = ' class="disabled"';
 }
-elseif ($current instanceOf Separator)
+elseif ($current->type == 'separator')
 {
-	$class = $current->get('title') ? ' class="menuitem-group"' : ' class="divider"';
+	$class = $current->title ? ' class="menuitem-group"' : ' class="divider"';
 }
 elseif ($current->hasChildren())
 {
 	$class = ' class="dropdown-submenu"';
 
-	if ($current->getLevel() == 1)
+	if ($current->level == 1)
 	{
 		$class = ' class="parent"';
 	}
@@ -46,7 +44,7 @@ elseif ($current->hasChildren())
 }
 
 // Set the correct aria role and print the item
-if ($current instanceOf Separator)
+if ($current->type == 'separator')
 {
 	echo '<li' . $class . ' role="presentation">';
 }
@@ -64,7 +62,7 @@ if ($current->hasChildren())
 {
 	$linkClass[] = 'has-arrow';
 
-	if ($current->getLevel() > 2)
+	if ($current->level > 2)
 	{
 		$dataToggle  = ' data-toggle="dropdown"';
 	}
@@ -81,22 +79,22 @@ $linkClass = ' class="' . implode(' ', $linkClass) . '" ';
 $link      = $current->get('link');
 
 // Get the menu icon
-$icon      = $this->tree->getIconClass();
-$iconClass = ($icon != '' && $current->getLevel() == 1) ? '<span class="' . $icon . ' aria-hidden="true"></span>' : '';
+$icon      = $this->getIconClass($current);
+$iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
 
-if ($link !== null && $current->get('target') !== null && $current->get('target') !== '')
+if ($link != '' && $current->target != '')
 {
-	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->get('target') . "\">"
+	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->target . "\">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
+		. '<span class="sidebar-item-title">' . Text::_($current->title) . "</span></a>";
 }
-elseif ($link !== null)
+elseif ($link != '')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
 		. $iconClass
 		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
 }
-elseif ($current->get('title') !== null && $current->get('class') !== 'separator')
+elseif ($current->title != '' && $current->get('class') !== 'separator')
 {
 	echo "<a" . $linkClass . $dataToggle . ">"
 		. $iconClass
@@ -110,19 +108,19 @@ else
 // Recurse through children if they exist
 if ($this->enabled && $current->hasChildren())
 {
-	if ($current->getLevel() > 1)
+	if ($current->level > 1)
 	{
 		$id = $current->get('id') ? ' id="menu-' . strtolower($current->get('id')) . '"' : '';
 
-		echo '<ul' . $id . ' class="collapse collapse-level-' . $current->getLevel() . '">' . "\n";
+		echo '<ul' . $id . ' class="collapse collapse-level-' . $current->level . '">' . "\n";
 	}
 	else
 	{
-		echo '<ul id="collapse' . $this->tree->getCounter() . '" class="collapse-level-1 collapse" role="menu" aria-haspopup="true">' . "\n";
+		echo '<ul id="collapse' . $this->getCounter() . '" class="collapse-level-1 collapse" role="menu" aria-haspopup="true">' . "\n";
 	}
 
 	// WARNING: Do not use direct 'include' or 'require' as it is important to isolate the scope for each call
-	$this->renderSubmenu(__FILE__);
+	$this->renderSubmenu(__FILE__, $current);
 
 	echo "</ul>\n";
 }

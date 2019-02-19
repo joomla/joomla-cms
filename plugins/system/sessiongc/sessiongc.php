@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\MetadataManager;
 
@@ -67,7 +68,8 @@ class PlgSystemSessionGc extends CMSPlugin
 
 			if ($probability > 0 && $random < $probability)
 			{
-				$metadataManager = new MetadataManager($this->app, $this->db);
+				/** @var MetadataManager $metadataManager */
+				$metadataManager = Factory::getContainer()->get(MetadataManager::class);
 				$metadataManager->deletePriorTo(time() - $this->app->getSession()->getExpire());
 			}
 		}

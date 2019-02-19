@@ -9,6 +9,7 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
 /**
@@ -77,6 +78,6 @@ abstract class JModelDatabase extends JModelBase
 	 */
 	protected function loadDb()
 	{
-		return JFactory::getDbo();
+		return Factory::getDbo();
 	}
 }

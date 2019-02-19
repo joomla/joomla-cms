@@ -17,7 +17,7 @@ use Joomla\CMS\Language\Text;
 /**
  * Workflow Stages field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowstageField extends GroupedlistField
 {
@@ -25,7 +25,7 @@ class WorkflowstageField extends GroupedlistField
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'Workflowstage';
 
@@ -33,7 +33,7 @@ class WorkflowstageField extends GroupedlistField
 	 * The component and section separated by ".".
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $extension = '';
 
@@ -41,7 +41,7 @@ class WorkflowstageField extends GroupedlistField
 	 * Show only the stages which has an item attached
 	 *
 	 * @var     boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $activeonly = false;
 
@@ -56,7 +56,7 @@ class WorkflowstageField extends GroupedlistField
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
@@ -87,7 +87,7 @@ class WorkflowstageField extends GroupedlistField
 	 *
 	 * @return  array  The field option objects as a nested array in groups.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @throws  \UnexpectedValueException
 	 */
 	protected function getGroups()
@@ -103,7 +103,8 @@ class WorkflowstageField extends GroupedlistField
 				->from($db->quoteName('#__workflows', 'w'))
 				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
 				->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
-				->order($db->quoteName('w.ordering'));
+				->order($db->quoteName('w.ordering'))
+				->order($db->quoteName('ws.ordering'));
 
 		if ($this->activeonly)
 		{

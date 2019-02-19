@@ -3,9 +3,9 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
- * @since       __DEPLOY_VERSION__
+ * @since       4.0.0
  */
 
 namespace Joomla\Component\Workflow\Administrator\Model;
@@ -21,7 +21,7 @@ use Joomla\String\StringHelper;
 /**
  * Model class for workflow
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WorkflowModel extends AdminModel
 {
@@ -32,7 +32,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function populateState()
 	{
@@ -54,7 +54,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return	array  Contains the modified title and alias.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function generateNewTitle($category_id, $alias, $title)
 	{
@@ -76,7 +76,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return  boolean True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function save($data)
 	{
@@ -175,7 +175,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return \JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -230,7 +230,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return mixed  The data for the form.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function loadFormData()
 	{
@@ -257,7 +257,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = 'content')
 	{
@@ -275,13 +275,15 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'extension = ' . $this->getDbo()->quote($table->extension);
+		return [
+			$this->_db->quoteName('extension') . ' = ' . $this->_db->quote($table->extension),
+		];
 	}
 
 	/**
@@ -292,7 +294,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setDefault($pk, $value = 1)
 	{
@@ -341,11 +343,11 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return  boolean  True if allowed to delete the record. Defaults to the permission for the component.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->published != -2)
+		if (empty($record->id) || $record->published != -2 || $record->core)
 		{
 			return false;
 		}
@@ -360,11 +362,16 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return  boolean  True if allowed to change the state of the record. Defaults to the permission set in the component.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function canEditState($record)
 	{
 		$user = Factory::getUser();
+
+		if (!empty($record->core))
+		{
+			return false;
+		}
 
 		// Check for existing workflow.
 		if (!empty($record->id))
@@ -384,7 +391,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function publish(&$pks, $value = 1)
 	{

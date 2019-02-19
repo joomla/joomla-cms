@@ -129,55 +129,66 @@ class HtmlView extends BaseHtmlView
 		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
 
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{
-			ToolbarHelper::addNew('newsfeed.add');
+			$toolbar->addNew('newsfeed.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::publish('newsfeeds.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('newsfeeds.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('newsfeeds.archive');
-		}
+		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+		{		
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
-		if ($canDo->get('core.admin'))
-		{
-			ToolbarHelper::checkin('newsfeeds.checkin');
+			$childBar = $dropdown->getChildToolbar();
+
+			$childBar->publish('newsfeeds.publish')->listCheck(true);
+			$childBar->unpublish('newsfeeds.unpublish')->listCheck(true);
+			$childBar->archive('newsfeeds.archive')->listCheck(true);
+
+			if ($user->authorise('core.admin'))
+			{
+				$childBar->checkin('newsfeeds.checkin')->listCheck(true);
+			}
+
+			if (!$this->state->get('filter.published') == -2)
+			{
+				$childBar->trash('newsfeeds.trash')->listCheck(true);
+			}
 		}
 
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_newsfeeds')
 			&& $user->authorise('core.edit', 'com_newsfeeds')
 			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
-		{
-			$title = Text::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new FileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+		{	
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
 		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'newsfeeds.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('newsfeeds.trash');
+			$toolbar->delete('newsfeeds.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))
 		{
-			ToolbarHelper::preferences('com_newsfeeds');
+			$toolbar->preferences('com_newsfeeds');
 		}
 
-		ToolbarHelper::help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
+		$toolbar->help('JHELP_COMPONENTS_NEWSFEEDS_FEEDS');
 	}
 
 	/**

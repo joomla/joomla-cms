@@ -27,6 +27,7 @@
 					label="PLG_FIELDS_USERGROUPLIST_PARAMS_MULTIPLE_LABEL"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

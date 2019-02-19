@@ -153,7 +153,7 @@ class HtmlView extends BaseHtmlView
 		$user       = Factory::getUser();
 
 		// Get the toolbar object instance
-		$bar = Toolbar::getInstance('toolbar');
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_categories')
@@ -190,19 +190,38 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories($component, 'core.create')) > 0)
 		{
-			ToolbarHelper::addNew('category.add');
+			$toolbar->addNew('category.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
 		{
-			ToolbarHelper::publish('categories.publish', 'JTOOLBAR_PUBLISH', true);
-			ToolbarHelper::unpublish('categories.unpublish', 'JTOOLBAR_UNPUBLISH', true);
-			ToolbarHelper::archiveList('categories.archive');
-		}
+			$dropdown = $toolbar->dropdownButton('status-group')
+				->text('JTOOLBAR_CHANGE_STATUS')
+				->toggleSplit(false)
+				->icon('fa fa-globe')
+				->buttonClass('btn btn-info')
+				->listCheck(true);
 
-		if (Factory::getUser()->authorise('core.admin'))
-		{
-			ToolbarHelper::checkin('categories.checkin');
+			$childBar = $dropdown->getChildToolbar();
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->publish('categories.publish')->listCheck(true);
+
+				$childBar->unpublish('categories.unpublish')->listCheck(true);
+
+				$childBar->archive('categories.archive')->listCheck(true);
+			}
+
+			if (Factory::getUser()->authorise('core.admin'))
+			{
+				$childBar->checkin('categories.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
+			{
+				$childBar->trash('categories.trash')->listCheck(true);
+			}
 		}
 
 		// Add a batch button
@@ -210,32 +229,30 @@ class HtmlView extends BaseHtmlView
 			&& $canDo->get('core.edit')
 			&& $canDo->get('core.edit.state'))
 		{
-			$title = Text::_('JTOOLBAR_BATCH');
-
-			// Instantiate a new \ileLayout instance and render the batch button
-			$layout = new FileLayout('joomla.toolbar.batch');
-
-			$dhtml = $layout->render(array('title' => $title));
-			$bar->appendButton('Custom', $dhtml, 'batch');
+			$toolbar->popupButton('batch')
+				->text('JTOOLBAR_BATCH')
+				->selector('collapseModal')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			ToolbarHelper::custom('categories.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
+			$toolbar->standardButton('refresh')
+				->text('JTOOLBAR_REBUILD')
+				->task('categories.rebuild');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete', $component))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'categories.delete', 'JTOOLBAR_EMPTY_TRASH');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('categories.trash');
+			$toolbar->delete('categories.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences($component);
+			$toolbar->preferences($component);
 		}
 
 		// Compute the ref_key if it does exist in the component
@@ -261,7 +278,7 @@ class HtmlView extends BaseHtmlView
 			$url = null;
 		}
 
-		ToolbarHelper::help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
+		$toolbar->help($ref_key, ComponentHelper::getParams($component)->exists('helpURL'), $url);
 	}
 
 	/**

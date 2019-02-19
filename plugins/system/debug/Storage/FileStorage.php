@@ -14,7 +14,7 @@ use Joomla\Filesystem\Folder;
 /**
  * Stores collected data into files
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FileStorage extends \DebugBar\Storage\FileStorage
 {
@@ -26,7 +26,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function save($id, $data)
 	{
@@ -47,7 +47,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	 *
 	 * @return  array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function get($id)
 	{
@@ -66,7 +66,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	 *
 	 * @return  array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function find(array $filters = [], $max = 20, $offset = 0)
 	{
@@ -128,7 +128,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 	 *
 	 * @return string
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function makeFilename($id)
 	{

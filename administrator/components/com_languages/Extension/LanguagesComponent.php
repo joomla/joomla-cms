@@ -20,7 +20,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_languages
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class LanguagesComponent extends MVCComponent implements BootableExtensionInterface
 {
@@ -37,7 +37,7 @@ class LanguagesComponent extends MVCComponent implements BootableExtensionInterf
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

@@ -68,8 +68,6 @@ class GroupModel extends AdminModel
 	}
 
 	/**
-<<<<<<< HEAD:administrator/components/com_fields/Model/GroupModel.php
-=======
 	 * Method to get a table object, load it if necessary.
 	 *
 	 * @param   string  $name     The table name. Optional.
@@ -81,18 +79,16 @@ class GroupModel extends AdminModel
 	 * @since   3.7.0
 	 * @throws  Exception
 	 */
-	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
+	public function getTable($name = 'Group', $prefix = 'Administrator', $options = array())
 	{
-		if (strpos(JPATH_COMPONENT, 'com_fields') === false)
-		{
-			$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
-		}
+		// Default to text type
+		$table       = parent::getTable($name, $prefix, $options);
+		$table->type = 'text';
 
-		return JTable::getInstance($name, $prefix, $options);
+		return $table;
 	}
 
 	/**
->>>>>>> 3.8.7:administrator/components/com_fields/models/group.php
 	 * Abstract method for getting the form from the model.
 	 *
 	 * @param   array    $data      Data for the form.
@@ -218,7 +214,9 @@ class GroupModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return 'context = ' . $this->_db->quote($table->context);
+		return [
+			$this->_db->quoteName('context') . ' = ' . $this->_db->quote($table->context),
+		];
 	}
 
 	/**

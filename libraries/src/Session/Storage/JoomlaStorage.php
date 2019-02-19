@@ -112,7 +112,8 @@ class JoomlaStorage extends NativeStorage
 			$config        = Factory::getConfig();
 			$cookie_domain = $config->get('cookie_domain', '');
 			$cookie_path   = $config->get('cookie_path', '/');
-			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain);
+			$cookie = session_get_cookie_params();
+			setcookie($session_name, '', time() - 42000, $cookie_path, $cookie_domain, $cookie['secure'], true);
 		}
 
 		$this->data = new Registry;

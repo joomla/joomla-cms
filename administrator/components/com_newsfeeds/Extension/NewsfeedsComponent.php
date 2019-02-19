@@ -26,7 +26,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_newsfeeds
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class NewsfeedsComponent extends MVCComponent implements
 	BootableExtensionInterface, CategoryServiceInterface, AssociationServiceInterface, RouterServiceInterface
@@ -47,7 +47,7 @@ class NewsfeedsComponent extends MVCComponent implements
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

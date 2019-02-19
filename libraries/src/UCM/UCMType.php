@@ -95,7 +95,7 @@ class UCMType implements UCM
 
 		// Make the best guess we can in the absence of information.
 		$this->alias = $alias ?: $app->input->get('option') . '.' . $app->input->get('view');
-		$this->type  = $this->getType();
+		$this->type  = $this->getTypeByAlias($this->alias);
 	}
 
 	/**
@@ -111,7 +111,7 @@ class UCMType implements UCM
 	{
 		if (!$pk)
 		{
-			$pk = $this->getTypeId();
+			return $this->getTypeByAlias($this->alias);
 		}
 
 		$query = $this->db->getQuery(true);

@@ -28,7 +28,7 @@ class FeedView extends CategoryFeedView
 
 	/**
 	 * Method to reconcile non standard names from components to usage in this class.
-	 * Typically overriden in the component feed view class.
+	 * Typically overridden in the component feed view class.
 	 *
 	 * @param   object  $item  The item for a feed, an element of the $items array.
 	 *
