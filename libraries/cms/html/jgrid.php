@@ -353,7 +353,7 @@ abstract class JHtmlJGrid
 			$prefix = array_key_exists('prefix', $options) ? $options['prefix'] : '';
 		}
 
-		$text = $editorName . '<br>' . HTMLHelper::_('date', $time, Text::_('DATE_FORMAT_LC')) . '<br>' . HTMLHelper::_('date', $time, 'H:i');
+		$text = $editorName . "\n" . HTMLHelper::_('date', $time, Text::_('DATE_FORMAT_LC')) . "\n" . HTMLHelper::_('date', $time, 'H:i');
 		$active_title = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKIN'), $text, 0);
 		$inactive_title = HTMLHelper::_('tooltipText', Text::_('JLIB_HTML_CHECKED_OUT'), $text, 0);
 

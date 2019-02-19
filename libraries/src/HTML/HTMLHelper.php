@@ -1028,12 +1028,12 @@ abstract class HTMLHelper
 			// Use only the title, if title and text are the same.
 			elseif ($title === $content)
 			{
-				$result = '<strong>' . $title . '</strong>';
+				$result = $title;
 			}
 			// Use a formatted string combining the title and content.
 			elseif ($content !== '')
 			{
-				$result = '<strong>' . $title . '</strong><br>' . $content;
+				$result = $title . "\n" . $content;
 			}
 			else
 			{
