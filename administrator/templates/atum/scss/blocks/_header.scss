@@ -48,6 +48,12 @@
   .nav-item:hover,
   .nav-item.show {
     background-color: var(--atum-bg-dark);
+    .nav-link{
+      .fa{
+        color:var(--atum-text-light);
+      }
+    }
+
   }
 
   .nav-link {
@@ -56,6 +62,7 @@
     margin: 0 0.8rem;
     line-height: $header-height;
     min-width: $header-height - 0.3125rem;
+	display:inline;
 
     .fa {
       width: 1.5rem;
@@ -78,6 +85,7 @@
     &:hover .fa {
       font-size: 1.3rem;
       transition: all .2s ease-in-out;
+      color:var(--atum-text-light);
     }
   }
 
@@ -90,7 +98,7 @@
     padding: 0;
     border: 0;
     z-index: 1041;
-    background-color: var(--atum-bg-dark-light);
+    background-color: var(--atum-bg-dark-70);
 
     h2 {
       font-size: $h5-font-size;
@@ -98,13 +106,13 @@
 
     .dropdown-message {
       font-weight: bold;
-      color: $gray-900;
+      color: var(--atum-text-light);
     }
   }
 
   .dropdown-item {
     color: $white;
-    background-color: var(--atum-bg-dark-light);
+    background-color: var(--atum-bg-dark-70);
     padding: 0;
 
     @include hover-focus {
@@ -131,7 +139,7 @@
 
     .fa {
       padding: 1rem;
-      background-color: var(--atum-bg-dark-bright);
+      background-color: var(--atum-bg-dark-80-hover);
       width: 3rem;
     }
 

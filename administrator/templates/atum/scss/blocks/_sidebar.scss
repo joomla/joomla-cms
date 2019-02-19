@@ -74,6 +74,17 @@
   width: $sidebar-width;
   opacity: 1;
 
+  ul.collapse{
+    li{
+      display:block;
+
+    }
+  }
+
+  .open> a{
+    box-shadow: 0 2px 4px -4px rgba(0, 0, 0, 0.4);
+  }
+
   // All list items
   li {
     color: var(--atum-text-light);
@@ -90,12 +101,15 @@
       text-decoration: none;
 
     }
+    &:focus{
+      border:1px solid var(--atum-contrast);
+    }
   }
 
   // 1st level items
   > li {
     > ul {
-      background-color: var(--atum-bg-dark-light);
+      background-color: var(--atum-bg-dark-70);
     }
 
     > a {
@@ -103,12 +117,12 @@
       padding: 10px 6px;
 
       &:hover {
-        background-color: var(--atum-bg-dark-light);
+        background-color: var(--atum-bg-dark-80);
       }
     }
 
     &.active > a {
-      background-color: rgba(0, 0, 0, .4);
+      //background-color: rgba(0, 0, 0, .4);
 
       &::before {
         position: absolute;
@@ -125,6 +139,8 @@
   // 2nd level items
   ul {
     padding: 0;
+
+
 
     li {
       position: relative;
@@ -154,7 +170,7 @@
         width: .5rem;
         height: .5rem;
         content: "";
-        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTI1NiA4QzExOSA4IDggMTE5IDggMjU2czExMSAyNDggMjQ4IDI0OCAyNDgtMTExIDI0OC0yNDhTMzkzIDggMjU2IDh6bTAgNDQ4Yy0xMTAuNSAwLTIwMC04OS41LTIwMC0yMDBTMTQ1LjUgNTYgMjU2IDU2czIwMCA4OS41IDIwMCAyMDAtODkuNSAyMDAtMjAwIDIwMHoiLz48L3N2Zz4=");
+        //background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTI1NiA4QzExOSA4IDggMTE5IDggMjU2czExMSAyNDggMjQ4IDI0OCAyNDgtMTExIDI0OC0yNDhTMzkzIDggMjU2IDh6bTAgNDQ4Yy0xMTAuNSAwLTIwMC04OS41LTIwMC0yMDBTMTQ1LjUgNTYgMjU2IDU2czIwMCA4OS41IDIwMCAyMDAtODkuNSAyMDAtMjAwIDIwMHoiLz48L3N2Zz4=");
         opacity: .5;
       }
 
@@ -167,6 +183,8 @@
           background-image: none;
           width: 0;
         }
+
+
       }
     }
 
@@ -180,8 +198,10 @@
     // 3rd level items
     ul {
 
+        background-color:var(--atum-bg-dark-80);
+
       a {
-        padding-left: 50px;
+        padding-left: 34px;
       }
 
       a::before {
@@ -202,7 +222,7 @@
   .divider {
     height: 1px;
     margin: 4px 18px;
-    background-color: var(--atum-text-light);
+    background-color: var(--atum-bg-dark-70);
     opacity: .2;
   }
 
@@ -248,6 +268,7 @@
   }
 
   .active {
+
     > .has-arrow::after {
       transform: rotate(-135deg) translate(0, -50%);
     }
