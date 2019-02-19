@@ -64,7 +64,7 @@ class SystemController extends BaseController
 				break;
 
 			case 'extensiondiscover':
-				$count = $this->countItems('com_installer', 'Discover');
+				$count = $this->countExtensionDiscover();
 				break;
 
 			default:
@@ -147,11 +147,35 @@ class SystemController extends BaseController
 		}
 
 		$boot    = Factory::getApplication()->bootComponent('com_installer');
+		$model   = $boot->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
+
+		$model->findUpdates();
+
+		$items   = count($model->getItems());
+
+		return $items;
+	}
+
+	/**
+	 * Returns the number of available extensions for installation
+	 *
+	 * @return integer  Number of available updates
+	 *
+	 * @throws \Exception
+	 */
+	protected function countExtensionDiscover()
+	{
+		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
+		{
+			throw new \Exception(Text::_('JGLOBAL_AUTH_ACCESS_DENIED'));
+		}
+
+		$boot    = Factory::getApplication()->bootComponent('com_installer');
 		$model   = $boot->getMVCFactory()->createModel('Discover', 'Administrator', ['ignore_request' => true]);
 
 		$model->discover();
 
-		$items     = count($model->getItems());
+		$items   = count($model->getItems());
 
 		return $items;
 	}
@@ -166,7 +190,7 @@ class SystemController extends BaseController
 	 *
 	 * @throws \Exception
 	 */
-	protected function countItems($extension, $model)
+	protected function countItems($extension, $modelname)
 	{
 		if (!Factory::getUser()->authorise('core.manage', $extension))
 		{
@@ -174,9 +198,9 @@ class SystemController extends BaseController
 		}
 
 		$boot    = Factory::getApplication()->bootComponent($extension);
-		$model   = $boot->getMVCFactory()->createModel($model, 'Administrator', ['ignore_request' => true]);
+		$model   = $boot->getMVCFactory()->createModel($modelname, 'Administrator', ['ignore_request' => true]);
 
-		$items     = count($model->getItems());
+		$items   = count($model->getItems());
 
 		return $items;
 	}
