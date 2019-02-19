@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.user
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -83,7 +83,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$domains[] = $this->createUserDomain($userTable);
 		$domains[] = $this->createNotesDomain($userTable);
 		$domains[] = $this->createProfileDomain($userTable);
-		$domains[] = $this->createCustomFieldsDomain('com_users.user', $userTable);
+		$domains[] = $this->createCustomFieldsDomain('com_users.user', array($userTable));
 
 		return $domains;
 	}
