@@ -84,6 +84,7 @@ class SystemController extends BaseController
 	 * @return integer  Number of database table errors
 	 *
 	 * @throws \Exception
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected function countDatabaseUpdates()
 	{
