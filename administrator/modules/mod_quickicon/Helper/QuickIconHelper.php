@@ -74,61 +74,94 @@ abstract class QuickIconHelper
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				$application->getLanguage()->load('mod_quickicon');
 				
-				self::$buttons[$key] = array(
-					array(
+				self::$buttons[$key] = [];
+				
+				self::$buttons[$key][] = 
+					[
 						'link'   => Route::_('index.php?option=com_config'),
 						'image'  => 'fa fa-cog',
 						'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
 						'group'  => 'MOD_QUICKICON_CONFIGURATION',
-					),
-					array(
-						'amount' => self::countUsers(),
-						'link'   => Route::_('index.php?option=com_users&task=user.add'),
-						'name'   => Text::_('MOD_QUICKICON_USER_MANAGER'),
-						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
-						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
-						'group'  => 'MOD_QUICKICON_USERS',
-					),
-					array(
-						'amount' => self::countMenuItems(),
-						'link'   => Route::_('index.php?option=com_menus&task=item.add'),
-						'name'   => Text::_('MOD_QUICKICON_MENUITEMS_MANAGER'),
-						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
-						'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
-						'group'  => 'MOD_QUICKICON_STRUCTURE',
-					),
-					array(
+					];
+				
+				if ($params->get('show_users', '1'))
+				{
+					self::$buttons[$key][] =  
+						[
+							'amount' => self::countUsers(),
+							'link'   => Route::_('index.php?option=com_users&task=user.add'),
+							'name'   => Text::_('MOD_QUICKICON_USER_MANAGER'),
+							'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
+							'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+							'group'  => 'MOD_QUICKICON_USERS',
+						];
+				}
+				
+				if ($params->get('show_menuItems', '1'))
+				{
+					self::$buttons[$key][] = 
+						[
+							'amount' => self::countMenuItems(),
+							'link'   => Route::_('index.php?option=com_menus&task=item.add'),
+							'name'   => Text::_('MOD_QUICKICON_MENUITEMS_MANAGER'),
+							'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
+							'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
+							'group'  => 'MOD_QUICKICON_STRUCTURE',
+						];
+				}
+
+				self::$buttons[$key][] = 
+					[
 						'amount' => self::countArticles(),
 						'link'   => Route::_('index.php?option=com_content&task=article.add'),
 						'name'   => Text::_('MOD_QUICKICON_ARTICLE_MANAGER'),
 						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
-					array(
+					];
+				
+												
+				if ($params->get('show_categories', '1'))
+				{
+				self::$buttons[$key][] =  
+					[
 						'amount' => self::countArticleCategories(),
 						'link'   => Route::_('index.php?option=com_categories&task=category.add'),
 						'name'   => Text::_('MOD_QUICKICON_CATEGORY_MANAGER'),
 						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
-					),
-					array(
-						'amount' => self::countModules(),
-						'link'   => Route::_('index.php?option=com_modules'),
-						'text'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
-						'access' => array('core.manage', 'com_modules'),
-						'group'  => 'MOD_QUICKICON_STRUCTURE'
-					),
-					array(
-						'amount' => self::countCheckin(),
-						'link'   => Route::_('index.php?option=com_checkin'),
-						'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
-						'access' => array('core.manage', 'com_checkin'),
-						'group'  => 'MOD_QUICKICON_CONTENT'
-					)
-				);
+
+					];
+				}
+				
+												
+				if ($params->get('show_modules', '1'))
+				{
+					self::$buttons[$key][] = 
+						[
+							'amount' => self::countModules(),
+							'link'   => Route::_('index.php?option=com_modules'),
+							'text'   => Text::_('MOD_QUICKICON_MODULE_MANAGER'),
+							'access' => array('core.manage', 'com_modules'),
+							'group'  => 'MOD_QUICKICON_STRUCTURE'
+
+						];
+				}
+				
+												
+				if ($params->get('show_cjheckin', '1'))
+				{
+					self::$buttons[$key][] = 
+						[
+							'amount' => self::countCheckin(),
+							'link'   => Route::_('index.php?option=com_checkin'),
+							'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
+							'access' => array('core.manage', 'com_checkin'),
+							'group'  => 'MOD_QUICKICON_CONTENT'
+						];
+				}
 			}
 			else
 			{

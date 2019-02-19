@@ -37,12 +37,13 @@ if ($id && is_numeric($id))
 <li class="col">
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['amount'])): ?>
-			<div class="quickicon-amount d-flex align-items-end">
+			<div class="d-flex align-items-end">
 				<?php
-				if ((int) $amount <  100000):
-					echo $amount ; 
+				$amount = (int) $displayData['amount'];
+				if ($amount <  100000):
+					echo '<span class="quickicon-amount">' . $amount . '</span>'; 
 				else:
-					echo floor($amount / 1000) . '<span class="thsd">' . TEXT::_('Thsd.') . '</span>';
+					echo '<span class="quickicon-amount">' . floor($amount / 1000) . '<span class="thsd">' . $amount % 1000 . '</span></span>';
 				endif;
 				?>
 			</div>
