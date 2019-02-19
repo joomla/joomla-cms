@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $id      = empty($displayData['id']) ? '' : (' id="' . $displayData['id'] . '"');
@@ -21,6 +22,10 @@ $title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($disp
 // The information 
 $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
+// The number as string 
+// $amount = HTMLHelper::_('string.abridge', '5757575757575757', 3, 3, false);
+$amount = 
+
 $class = '';
 
 if ($id && is_numeric($id))
@@ -32,7 +37,15 @@ if ($id && is_numeric($id))
 <li class="col">
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 		<?php if (isset($displayData['amount'])): ?>
-			<div class="quickicon-amount d-flex align-items-end"><?php echo (int) $displayData['amount'];  ?></div>
+			<div class="quickicon-amount d-flex align-items-end">
+				<?php
+				if ((int) $amount <  100000):
+					echo $amount ; 
+				else:
+					echo floor($amount / 1000) . '<span class="thsd">' . TEXT::_('Thsd.') . '</span>';
+				endif;
+				?>
+			</div>
 		<?php elseif ( isset($displayData['image'])): ?>
 			<div class="quickicon-icon d-flex align-items-end">
 				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>

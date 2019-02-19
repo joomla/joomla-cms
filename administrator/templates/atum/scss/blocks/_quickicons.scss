@@ -7,11 +7,17 @@
   }
   li {
    min-width: 160px;
+   padding-bottom: 6px;
   }
   .quickicon-amount {
     font-size: 3rem;
-    font-weight: 200;
+    font-weight: 300;
     letter-spacing: -0.2rem;
+  }
+  .thsd {
+	  font-size: 0.9rem;
+	  letter-spacing: normal;
+	  font-weight: normal;
   }
 .quickicon-name {
 	color: $body-color;
