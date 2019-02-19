@@ -18,7 +18,7 @@ $dark-blue:                        #001B4C;
 $blue-a700:						   #4D78A3;
 
 // BS Colours
-$blue:                             #003E7C;
+$blue:                             hsl(210, 100%, 24.5%);
 $indigo:                           #0377be;
 $purple:                           #6f42c1;
 $pink:                             #e83e8c;
@@ -27,6 +27,24 @@ $yellow:                           #b35900;
 $green:                            #2f7d32;
 $teal:                             #20c997;
 $cyan:                             #108193;
+
+//color-60 is the base
+$color-60:                         $blue;
+
+$color-0:                          adjust-color($color-60, $hue: -5%, $saturation: -93%, $lightness: +24.5%);
+$color-10:                         adjust-color($color-60, $hue: -6%, $saturation: -86%, $lightness: +20.5%);
+$color-20:                         adjust-color($color-60, $hue: -6%, $saturation: -76%, $lightness: +16.5%);
+$color-30:                         adjust-color($color-60, $hue: -5%, $saturation: -60%, $lightness: +12%);
+$color-40:                         adjust-color($color-60, $hue: -3%, $saturation: -41%, $lightness: +8%);
+$color-50:                         adjust-color($color-60, $hue: -1%, $saturation: -19%, $lightness: +4%);
+
+
+
+$color-70:                         adjust-color($color-60, $hue: +4%, $lightness: -6%);
+$color-80:                         adjust-color($color-60, $hue: +7%, $lightness: -11.5%);
+$color-90:                         adjust-color($color-60, $hue: +10%, $saturation: -1%, $lightness: -17%);
+
+$color-constrast:                  adjust-color($color-60, $hue: -30%, $lightness: +16%);
 
 $theme-colors: ();
 $theme-colors: map-merge((
@@ -63,8 +81,21 @@ $colors: (
   atum-special-color:$dark-blue,
   atum-link-color: $blue-a700,
   atum-link-hover-color: darken($blue-a700, 15%),
-  atum-bg-dark-light: lighten($blue, 20%),
-  atum-bg-dark-bright: lighten($blue, 40%),
+  //atum-bg-dark-light: lighten($blue, 20%),
+  //atum-bg-dark-bright: lighten($blue, 40%),
+
+  //      atum-bg-body: adjust-color($color-10, $alpha: 0.7),
+  //      atum-bg-surface: #fff,
+        atum-contrast: $color-constrast,
+   //     atum-bg-sidebar-base: $color-60,
+        atum-bg-dark-70: $color-70,
+        atum-bg-dark-80: $color-80,
+        atum-bg-dark-90: $color-90,
+        atum-bg-dark-30: $color-30,
+        atum-bg-dark-hover: #rgba($color-50, 0.5),
+        atum-bg-dark-70--hover: #rgba($color-60, 0.5),
+        atum-bg-dark-80-hover: #rgba($color-70, 0.5),
+        atum-bg-dark-90-hover: #rgba($color-80, 0.5),
 );
 
 // Global
