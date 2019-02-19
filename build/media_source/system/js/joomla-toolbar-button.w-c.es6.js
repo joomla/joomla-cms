@@ -5,25 +5,15 @@
 
 window.customElements.define('joomla-toolbar-button', class extends HTMLElement {
   // Attribute getters
-  get task() {
-    return this.getAttribute('task');
-  }
+  get task() { return this.getAttribute('task'); }
 
-  get listSelection() {
-    return this.hasAttribute('list-selection');
-  }
+  get listSelection() { return this.hasAttribute('list-selection'); }
 
-  get form() {
-    return this.getAttribute('form');
-  }
+  get form() { return this.getAttribute('form'); }
 
-  get formValidation() {
-    return this.hasAttribute('form-validation');
-  }
+  get formValidation() { return this.hasAttribute('form-validation'); }
 
-  get confirmMessage() {
-    return this.getAttribute('confirm-message');
-  }
+  get confirmMessage() { return this.getAttribute('confirm-message'); }
 
   /**
    * Lifecycle
