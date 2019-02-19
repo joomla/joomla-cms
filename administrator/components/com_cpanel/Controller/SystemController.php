@@ -20,7 +20,7 @@ use Joomla\CMS\Updater\Updater;
 /**
  * Cpanel System Controller
  *
- * @since  1.5
+ * @since  __DEPLOY_VERSION__
  */
 class SystemController extends BaseController
 {
