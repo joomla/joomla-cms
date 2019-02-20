@@ -154,6 +154,7 @@ class CoreInstallCommand extends AbstractCommand
 	 * @param   array  $options  Options array
 	 *
 	 * @return bool|\Joomla\Database\DatabaseInterface
+	 *
 	 * @since 4.0
 	 * @throws \Exception
 	 */
@@ -314,22 +315,22 @@ class CoreInstallCommand extends AbstractCommand
 
 		array_walk(
 			$optionalKeys, function ($value, $key) use (&$options) {
-			if (!isset($options[$value]))
-			{
-				switch ($value)
+				if (!isset($options[$value]))
 				{
-					case 'db_prefix':
-						$options[$value] = (new PrefixField)->getPrefix();
-						break;
-					case 'db_old':
-						$options[$value] = 'backup';
-						break;
-					default:
-						$options[$value] = '';
-						break;
+					switch ($value)
+					{
+						case 'db_prefix':
+							$options[$value] = (new PrefixField)->getPrefix();
+							break;
+						case 'db_old':
+							$options[$value] = 'backup';
+							break;
+						default:
+							$options[$value] = '';
+							break;
+					}
 				}
 			}
-		}
 		);
 
 		if ($validate)

@@ -29,13 +29,13 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class UpdateCoreCommand extends \Joomla\Console\Command\AbstractCommand
 {
-    /**
-     * The default command name
-     *
-     * @var    string
-     * @since  __DEPLOY_VERSION__
-     */
-    protected static $defaultName = 'core:update';
+	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $defaultName = 'core:update';
 
 	/**
 	 * Stores the Input Object
