@@ -11,7 +11,9 @@ namespace TYPO3\PharStreamWrapper;
  * The TYPO3 project - inspiring people to share!
  */
 
-class Manager implements Assertable
+use TYPO3\PharStreamWrapper\Resolver\BaseNameResolver;
+
+class Manager implements Assertable, Resolvable
 {
     /**
      * @var self
@@ -24,13 +26,19 @@ class Manager implements Assertable
     private $behavior;
 
     /**
+     * @var Resolvable
+     */
+    private $resolver;
+
+    /**
      * @param Behavior $behaviour
+     * @param Resolvable $resolver
      * @return self
      */
-    public static function initialize(Behavior $behaviour)
+    public static function initialize(Behavior $behaviour, Resolvable $resolver = null)
     {
         if (self::$instance === null) {
-            self::$instance = new self($behaviour);
+            self::$instance = new self($behaviour, $resolver);
             return self::$instance;
         }
         throw new \LogicException(
@@ -67,10 +75,15 @@ class Manager implements Assertable
 
     /**
      * @param Behavior $behaviour
+     * @param Resolvable $resolver
      */
-    private function __construct(Behavior $behaviour)
+    private function __construct(Behavior $behaviour, Resolvable $resolver = null)
     {
+        if ($resolver === null) {
+            $resolver = new BaseNameResolver();
+        }
         $this->behavior = $behaviour;
+        $this->resolver = $resolver;
     }
 
     /**
@@ -81,5 +94,15 @@ class Manager implements Assertable
     public function assert($path, $command)
     {
         return $this->behavior->assert($path, $command);
+    }
+
+    /**
+     * @param string $path
+     * @param null|int $flags
+     * @return string|null
+     */
+    public function resolveBaseName($path, $flags = null)
+    {
+        return $this->resolver->resolveBaseName($path, $flags);
     }
 }
