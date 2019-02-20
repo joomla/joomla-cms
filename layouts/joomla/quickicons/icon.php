@@ -22,10 +22,6 @@ $title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($disp
 // The information 
 $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
-// The number as string 
-// $amount = HTMLHelper::_('string.abridge', '5757575757575757', 3, 3, false);
-$amount = 
-
 $class = '';
 
 if ($id && is_numeric($id))
