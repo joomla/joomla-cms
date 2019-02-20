@@ -20,6 +20,7 @@ Text::script('COM_MEDIA_CREATE_NEW_FOLDER_ERROR', true);
 Text::script('COM_MEDIA_DECREASE_GRID', true);
 Text::script('COM_MEDIA_DELETE_ERROR', true);
 Text::script('COM_MEDIA_DELETE_SUCCESS', true);
+Text::script('COM_MEDIA_DROP_FILE', true);
 Text::script('COM_MEDIA_CONFIRM_DELETE_MODEL_DESC', true);
 Text::script('COM_MEDIA_CONFIRM_DELETE_MODEL_HEADING', true);
 Text::script('COM_MEDIA_CONFIRM_DELETE_MODEL', true);
