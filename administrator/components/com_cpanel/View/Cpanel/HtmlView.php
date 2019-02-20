@@ -39,6 +39,13 @@ class HtmlView extends BaseHtmlView
 	protected $quickicons = null;
 
 	/**
+	 * Moduleposition to load
+	 *
+	 * @var  string
+	 */
+	protected $position = null;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -55,8 +62,8 @@ class HtmlView extends BaseHtmlView
 
 		// Display the cpanel modules
 		$dashboard = $app->input->getCmd('dashboard');
-		$position = $dashboard ? 'cpanel-' . $dashboard : 'cpanel';
-		$this->modules = ModuleHelper::getModules($position);
+		$this->position = $dashboard ? 'cpanel-' . $dashboard : 'cpanel';
+		$this->modules = ModuleHelper::getModules($this->position);
 
 		$quickicons = $dashboard ? 'icon-' . $dashboard : 'icon';
 		$this->quickicons = ModuleHelper::getModules($quickicons);

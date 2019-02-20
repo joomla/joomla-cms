@@ -613,6 +613,10 @@ class MenusHelper extends ContentHelper
 			static::addPreset('modern', 'JLIB_MENUS_PRESET_MODERN', JPATH_ADMINISTRATOR . '/components/com_menus/presets/modern.xml');
 			static::addPreset('system', 'JLIB_MENUS_PRESET_SYSTEM', JPATH_ADMINISTRATOR . '/components/com_menus/presets/system.xml');
 			static::addPreset('user', 'JLIB_MENUS_PRESET_USER', JPATH_ADMINISTRATOR . '/components/com_menus/presets/user.xml');
+			static::addPreset('content', 'JLIB_MENUS_PRESET_CONTENT', JPATH_ADMINISTRATOR . '/components/com_menus/presets/content.xml');
+			static::addPreset('menus', 'JLIB_MENUS_PRESET_MENUS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/menus.xml');
+			static::addPreset('components', 'JLIB_MENUS_PRESET_COMPONENTS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/components.xml');
+			static::addPreset('users', 'JLIB_MENUS_PRESET_USERS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/users.xml');
 
 			// Load from template folder automatically
 			$app = Factory::getApplication();
@@ -824,9 +828,19 @@ class MenusHelper extends ContentHelper
 					}
 
 					// Iterate over the matching records, items goes in the same level (not $item->submenu) as this node.
-					foreach ($results as $result)
+					if ('self' == (string) $element['sql_target'])
 					{
-						static::loadXml($element->menuitem, $parent, $result);
+						foreach ($results as $result)
+						{
+							static::loadXml($element->menuitem, $child, $result);
+						}
+					}
+					else
+					{
+						foreach ($results as $result)
+						{
+							static::loadXml($element->menuitem, $parent, $result);
+						}
 					}
 				}
 			}
@@ -869,6 +883,7 @@ class MenusHelper extends ContentHelper
 		$item->scope      = (string) $node['scope'] ?: 'default';
 		$item->permission = (string) $node['permission'];
 		$item->ajaxbadge  = (string) $node['ajax-badge'];
+		$item->dashboard  = (string) $node['dashboard'];
 		$item->setParams(new Registry(trim($node->params)));
 		$item->getParams()->set('menu-permission', (string) $node['permission']);
 

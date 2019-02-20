@@ -15,6 +15,7 @@
 			title="MOD_MENU_COM_CONTENT"
 			type="heading"
 			class="class:file-text"
+			dashboard="content"
 	>
 		<menuitem
 				title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
@@ -90,6 +91,7 @@
 			title="MOD_MENU_MENUS"
 			type="heading"
 			class="class:list"
+			dashboard="menus"
 	>
 		<menuitem
 				title="MOD_MENU_MENU_MANAGER"
@@ -156,6 +158,7 @@
 			title="MOD_MENU_COMPONENTS"
 			type="container"
 			class="class:cube"
+			dashboard="components"
 	/>
 
 	<menuitem
@@ -163,6 +166,7 @@
 			type="heading"
 			class="class:users"
 			alias="users"
+			dashboard="users"
 	>
 		<menuitem
 				title="MOD_MENU_COM_USERS_USER_MANAGER"

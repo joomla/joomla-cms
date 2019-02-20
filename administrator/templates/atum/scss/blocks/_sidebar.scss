@@ -69,6 +69,17 @@
   li {
     color: var(--atum-text-light);
     list-style-type: none;
+    position: relative;
+    > a.btn-dashboard {
+      position: absolute;
+      right: 40px;
+      height: 44px;
+      top: 0;
+      display: none;
+    }
+    &:hover > a.btn-dashboard {
+      display:block;
+    }
   }
 
   // All links

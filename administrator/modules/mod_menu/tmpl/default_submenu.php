@@ -105,12 +105,20 @@ else
 	echo '<span>' . Text::_($current->get('title')) . '</span>';
 }
 
+if ($current->dashboard)
+{
+	echo '<a class="btn-dashboard" href="'
+		. JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard)
+		. '"><span class="fa fa-th-large" title="'
+		. htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')) . '"></span></a>';
+}
+
 if ($current->getParams()->get('menu-quicktask', false))
 {
 	$params = $current->getParams();
 	$user = $this->application->getIdentity();
 	$link = $params->get('menu-quicktask-link');
-	$icon = $params->get('menu-quicktask-icon', 'new');
+	$icon = $params->get('menu-quicktask-icon', 'plus');
 	$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
 	$permission = $params->get('menu-quicktask-permission');
 	$scope = $current->scope !== 'default' ? $current->scope : null;
@@ -118,7 +126,7 @@ if ($current->getParams()->get('menu-quicktask', false))
 	if (!$permission || $user->authorise($permission, $scope))
 	{
 		echo '<a href="' . $link . '" class="menu-quicktask">';
-		echo '<span class="icon-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
+		echo '<span class="fa fa-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
 		echo '<span class="sr-only">' . Text::_($title) . '</span>';
 		echo '</a>';
 	}
