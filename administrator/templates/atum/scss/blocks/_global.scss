@@ -64,8 +64,8 @@ label, caption{
 }
 
 .btn-primary:hover{
-	background-color:$link-hover-color;
-	border-color:$link-hover-color;
+	background-color:var(--atum-bg-dark-70);
+	border-color:var(--atum-bg-dark-70);
 }
 
 .logo{

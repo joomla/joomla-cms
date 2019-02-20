@@ -50,6 +50,8 @@
         @include fadeout-page;
       }
     }
+
+
   }
 
   &.transit-wider {
@@ -75,7 +77,7 @@
   opacity: 1;
 
   ul.collapse{
-    li{
+    li.dropdown-submenu{
       display:block;
 
     }
@@ -84,6 +86,8 @@
   .open> a{
     box-shadow: 0 2px 4px -4px rgba(0, 0, 0, 0.4);
   }
+
+
 
   // All list items
   li {
@@ -103,6 +107,7 @@
     }
     &:focus{
       border:1px solid var(--atum-contrast);
+      margin:0 3px;
     }
   }
 
@@ -206,6 +211,11 @@
 
       a::before {
         left: 34px;
+      }
+
+      //4th level
+      ul{
+        background-color: var(--atum-bg-dark-90);
       }
     }
   }

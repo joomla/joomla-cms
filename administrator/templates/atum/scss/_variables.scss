@@ -83,19 +83,21 @@ $colors: (
   atum-link-hover-color: darken($blue-a700, 15%),
   //atum-bg-dark-light: lighten($blue, 20%),
   //atum-bg-dark-bright: lighten($blue, 40%),
-
   //      atum-bg-body: adjust-color($color-10, $alpha: 0.7),
   //      atum-bg-surface: #fff,
-        atum-contrast: $color-constrast,
    //     atum-bg-sidebar-base: $color-60,
+        atum-contrast: $color-constrast,
+        atum-bg-dark-10: $color-10,
+        atum-bg-dark-20: $color-20,
+        atum-bg-dark-40: $color-40,
         atum-bg-dark-70: $color-70,
         atum-bg-dark-80: $color-80,
         atum-bg-dark-90: $color-90,
         atum-bg-dark-30: $color-30,
-        atum-bg-dark-hover: #rgba($color-50, 0.5),
-        atum-bg-dark-70--hover: #rgba($color-60, 0.5),
-        atum-bg-dark-80-hover: #rgba($color-70, 0.5),
-        atum-bg-dark-90-hover: #rgba($color-80, 0.5),
+  //      atum-bg-dark-hover: #rgba($color-50, 0.5),
+  //   atum-bg-dark-70--hover: #rgba($color-60, 0.5),
+   //    atum-bg-dark-80-hover: #rgba($color-70, 0.5),
+  //      atum-bg-dark-90-hover: #rgba($color-80, 0.5),
 );
 
 // Global
