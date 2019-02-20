@@ -10,9 +10,11 @@ namespace Joomla\CMS\Form;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Log\Log;
+use Joomla\Registry\Registry;
 use Joomla\String\Normalise;
 use Joomla\String\StringHelper;
 
@@ -960,6 +962,167 @@ abstract class FormField
 		$data = array_merge($this->getLayoutData(), $data);
 
 		return $this->getRenderer($this->renderLayout)->render($data);
+	}
+
+	/**
+	 * Method to filter a field value.
+	 *
+	 * @param   mixed     $value  The optional value to use as the default for the field.
+	 * @param   string    $group  The optional dot-separated form group path on which to find the field.
+	 * @param   Registry  $input  An optional Registry object with the entire data set to filter
+	 *                            against the entire form.
+	 *
+	 * @return  mixed   The filtered value.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function filter($value, $group = null, Registry $input = null)
+	{
+		// Make sure there is a valid SimpleXMLElement.
+		if (!($this->element instanceof \SimpleXMLElement))
+		{
+			throw new \UnexpectedValueException(sprintf('%s::filter `element` is not an instance of SimpleXMLElement', get_class($this)));
+		}
+
+		// Get the field filter type.
+		$filter = (string) $this->element['filter'];
+
+		if ($filter != '')
+		{
+			$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
+
+			if (($value === '' || $value === null) && !$required)
+			{
+				return '';
+			}
+
+			if (strpos($filter, '::') !== false && is_callable(explode('::', $filter)))
+			{
+				return call_user_func(explode('::', $filter), $value);
+			}
+
+			// Load the JFormRule object for the field. JFormRule objects take precedence over PHP functions
+			$obj = FormHelper::loadFilterType($filter);
+
+			// Run the filter rule.
+			if ($obj)
+			{
+				return $obj->filter($this->element, $value, $group, $input, $this->form);
+			}
+
+			if (function_exists($filter))
+			{
+				return call_user_func($filter, $value);
+			}
+		}
+
+		return InputFilter::getInstance()->clean($value, $filter);
+	}
+
+	/**
+	 * Method to validate a JFormField object based on field data.
+	 *
+	 * @param   mixed     $value  The optional value to use as the default for the field.
+	 * @param   string    $group  The optional dot-separated form group path on which to find the field.
+	 * @param   Registry  $input  An optional Registry object with the entire data set to validate
+	 *                            against the entire form.
+	 *
+	 * @return  boolean|\Exception  Boolean true if field value is valid, Exception on failure.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws  \InvalidArgumentException
+	 * @throws  \UnexpectedValueException
+	 */
+	public function validate($value, $group = null, \Joomla\Registry\Registry $input = null)
+	{
+		// Make sure there is a valid SimpleXMLElement.
+		if (!($this->element instanceof \SimpleXMLElement))
+		{
+			throw new \UnexpectedValueException(sprintf('%s::validate `element` is not an instance of SimpleXMLElement', get_class($this)));
+		}
+
+		$valid = true;
+
+		// Check if the field is required.
+		$required = ((string) $this->element['required'] == 'true' || (string) $this->element['required'] == 'required');
+
+		// If the field is required and the value is empty return an error message.
+		if ($required && (($value === '') || ($value === null)))
+		{
+			if ($this->element['label'])
+			{
+				$message = Text::_($this->element['label']);
+			}
+			else
+			{
+				$message = Text::_($this->element['name']);
+			}
+
+			$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_REQUIRED', $message);
+
+			return new \RuntimeException($message);
+		}
+
+		// Get the field validation rule.
+		if ($type = (string) $this->element['validate'])
+		{
+			// Load the JFormRule object for the field.
+			$rule = FormHelper::loadRuleType($type);
+
+			// If the object could not be loaded return an error message.
+			if ($rule === false)
+			{
+				throw new \UnexpectedValueException(sprintf('%s::validate() rule `%s` missing.', get_class($this), $type));
+			}
+
+			try
+			{
+				// Run the field validation rule test.
+				$valid = $rule->test($this->element, $value, $group, $input, $this->form);
+			}
+			catch (\Exception $e)
+			{
+				return $e;
+			}
+		}
+
+		// Check if the field is valid.
+		if ($valid === false)
+		{
+			// Does the field have a defined error message?
+			$message = (string) $this->element['message'];
+
+			if ($message)
+			{
+				$message = Text::_($this->element['message']);
+			}
+			else
+			{
+				$message = Text::_($this->element['label']);
+				$message = Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $message);
+			}
+
+			return new \UnexpectedValueException($message);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Method to post-process a field value.
+	 *
+	 * @param   mixed     $value  The optional value to use as the default for the field.
+	 * @param   string    $group  The optional dot-separated form group path on which to find the field.
+	 * @param   Registry  $input  An optional Registry object with the entire data set to filter
+	 *                            against the entire form.
+	 *
+	 * @return  mixed   The processed value.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function postProcess($value, $group = null, Registry $input = null)
+	{
+		return $value;
 	}
 
 	/**
