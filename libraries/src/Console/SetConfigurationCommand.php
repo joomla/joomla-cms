@@ -452,50 +452,51 @@ class SetConfigurationCommand extends AbstractCommand
 		}
 	}
 
-    /**
-     * Internal function to execute the command.
-     *
-     * @param   InputInterface $input The input to inject into the command.
-     * @param   OutputInterface $output The output to inject into the command.
-     *
-     * @return  integer  The command exit code
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function doExecute(InputInterface $input, OutputInterface $output): int
-    {
-        $this->configureIO();
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface  $input  The input to inject into the command.
+	 * @param   OutputInterface $output The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws \Exception
+	 */
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	{
+		$this->configureIO();
 
-        $options = $this->getOptions();
+		$options = $this->getOptions();
 
-        $options = $this->retrieveOptionsFromInput($options);
+		$options = $this->retrieveOptionsFromInput($options);
 
-        $valid = $this->validateOptions($options);
+		$valid = $this->validateOptions($options);
 
 
-        if (!$valid)
-        {
-            return self::CONFIG_VALIDATION_FAILED;
-        }
+		if (!$valid)
+		{
+			return self::CONFIG_VALIDATION_FAILED;
+		}
 
-        $initialOptions = $this->getInitialConfigurationOptions()->toArray();
+		$initialOptions = $this->getInitialConfigurationOptions()->toArray();
 
-        $combinedOptions = array_merge($initialOptions, $options);
+		$combinedOptions = array_merge($initialOptions, $options);
 
-        $db = $this->checkDb($combinedOptions);
+		$db = $this->checkDb($combinedOptions);
 
-        if ($db === false)
-        {
-            return self::DB_VALIDATION_FAILED;
-        }
+		if ($db === false)
+		{
+			return self::DB_VALIDATION_FAILED;
+		}
 
-        if ($this->saveConfiguration($options))
-        {
-            $this->options ?: $this->ioStyle->success('Configuration set');
+		if ($this->saveConfiguration($options))
+		{
+			$this->options ?: $this->ioStyle->success('Configuration set');
 
-            return self::CONFIG_SET_SUCCESSFUL;
-        }
+			return self::CONFIG_SET_SUCCESSFUL;
+		}
 
-        return self::CONFIG_SET_FAILED;
-    }
+		return self::CONFIG_SET_FAILED;
+	}
 }

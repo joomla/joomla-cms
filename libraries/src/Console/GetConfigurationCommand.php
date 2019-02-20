@@ -224,52 +224,52 @@ class GetConfigurationCommand extends AbstractCommand
 		$this->setHelp($help);
 	}
 
-    /**
-     * Internal function to execute the command.
-     *
-     * @param   InputInterface $input The input to inject into the command.
-     * @param   OutputInterface $output The output to inject into the command.
-     *
-     * @return  integer  The command exit code
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function doExecute(InputInterface $input, OutputInterface $output): int
-    {
-        $this->configureIO();
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface  $input  The input to inject into the command.
+	 * @param   OutputInterface $output The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	{
+		$this->configureIO();
 
-        $configs = $this->formatConfig($this->getApplication()->getConfig()->toArray());
+		$configs = $this->formatConfig($this->getApplication()->getConfig()->toArray());
 
-        $option = $this->cliInput->getArgument('option');
-        $group = $this->cliInput->getOption('group');
+		$option = $this->cliInput->getArgument('option');
+		$group = $this->cliInput->getOption('group');
 
-        if ($group)
-        {
-            return $this->processGroupOptions($group);
-        }
+		if ($group)
+		{
+			return $this->processGroupOptions($group);
+		}
 
-        if ($option)
-        {
-            return $this->processSingleOption($option);
-        }
+		if ($option)
+		{
+			return $this->processSingleOption($option);
+		}
 
-        if (!$option && !$group)
-        {
-            $options = [];
+		if (!$option && !$group)
+		{
+			$options = [];
 
-            array_walk(
-                $configs,
-                function ($value, $key) use (&$options) {
-                    $options[] = [$key, $value];
-                }
-            );
+			array_walk(
+				$configs,
+				function ($value, $key) use (&$options) {
+					$options[] = [$key, $value];
+				}
+			);
 
-            $this->ioStyle->title("Current options in Configuration");
-            $this->ioStyle->table(['Option', 'Value'], $options);
+			$this->ioStyle->title("Current options in Configuration");
+			$this->ioStyle->table(['Option', 'Value'], $options);
 
-            return 0;
-        }
+			return 0;
+		}
 
-        return 1;
-    }
+		return 1;
+	}
 }

@@ -145,17 +145,17 @@ class UpdateCoreCommand extends \Joomla\Console\Command\AbstractCommand
 		return true;
 	}
 
-    /**
-     * Execute the command.
-     *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return  integer  The exit code for the command.
-     *
-     * @throws \Exception
-     * @since   4.0.0
-     *
-     */
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface  $input  The input to inject into the command.
+	 * @param   OutputInterface $output The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws \Exception
+	 */
 	public function doExecute(InputInterface $input, OutputInterface $output): int
 	{
 		$this->configureIO();

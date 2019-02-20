@@ -185,39 +185,39 @@ class ExtensionsListCommand extends AbstractCommand
 		return $extensions;
 	}
 
-    /**
-     * Internal function to execute the command.
-     *
-     * @param   InputInterface $input The input to inject into the command.
-     * @param   OutputInterface $output The output to inject into the command.
-     *
-     * @return  integer  The command exit code
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function doExecute(InputInterface $input, OutputInterface $output): int
-    {
-        $this->configureIO();
-        $extensions = $this->getExtensions();
-        $type = $this->cliInput->getOption('type');
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface  $input  The input to inject into the command.
+	 * @param   OutputInterface $output The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	{
+		$this->configureIO();
+		$extensions = $this->getExtensions();
+		$type = $this->cliInput->getOption('type');
 
-        if ($type)
-        {
-            $extensions = $this->filterExtensionsBasedOn($type);
-        }
+		if ($type)
+		{
+			$extensions = $this->filterExtensionsBasedOn($type);
+		}
 
-        if (empty($extensions))
-        {
-            $this->ioStyle->error("Cannot find extensions of the type '$type' specified.");
+		if (empty($extensions))
+		{
+			$this->ioStyle->error("Cannot find extensions of the type '$type' specified.");
 
-            return 0;
-        }
+			return 0;
+		}
 
-        $extensions = $this->getExtensionsNameAndId($extensions);
+		$extensions = $this->getExtensionsNameAndId($extensions);
 
-        $this->ioStyle->title('Installed extensions.');
-        $this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
+		$this->ioStyle->title('Installed extensions.');
+		$this->ioStyle->table(['Name', 'Extension ID', 'Version', 'Type', 'Active'], $extensions);
 
-        return 0;
-    }
+		return 0;
+	}
 }

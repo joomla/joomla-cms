@@ -64,7 +64,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 	/**
 	 * Gets the extension from DB
 	 *
-	 * @return bool
+	 * @return boolean
 	 *
 	 * @since 4.0
 	 */
@@ -73,58 +73,58 @@ class ExtensionRemoveCommand extends AbstractCommand
 		return Table::getInstance('extension');
 	}
 
-    /**
-     * Internal function to execute the command.
-     *
-     * @param   InputInterface $input The input to inject into the command.
-     * @param   OutputInterface $output The output to inject into the command.
-     *
-     * @return  integer  The command exit code
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function doExecute(InputInterface $input, OutputInterface $output): int
-    {
-        $this->configureIO();
-        $extension_id = $this->cliInput->getArgument('extension_id');
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface  $input  The input to inject into the command.
+	 * @param   OutputInterface $output The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	{
+		$this->configureIO();
+		$extensionId = $this->cliInput->getArgument('extensionId');
 
-        $extension = $this->getExtension();
+		$extension = $this->getExtension();
 
-        if ((int) $extension_id === 0 || !$extension->load($extension_id))
-        {
-            $this->ioStyle->error("Extension with ID of $extension_id not found.");
+		if ((int) $extensionId === 0 || !$extension->load($extensionId))
+		{
+			$this->ioStyle->error("Extension with ID of $extensionId not found.");
 
-            return 0;
-        }
+			return 0;
+		}
 
-        $response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
+		$response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
 
-        if (strtolower($response) === 'yes')
-        {
-            if ($extension->type && $extension->type != 'language')
-            {
-                $installer = Installer::getInstance();
-                $result    = $installer->uninstall($extension->type, $extension_id);
+		if (strtolower($response) === 'yes')
+		{
+			if ($extension->type && $extension->type != 'language')
+			{
+				$installer = Installer::getInstance();
+				$result    = $installer->uninstall($extension->type, $extensionId);
 
-                if ($result)
-                {
-                    $this->ioStyle->success('Extension removed!');
-                }
-            }
-        }
-        elseif (strtolower($response) === 'no')
-        {
-            $this->ioStyle->note('Extension not removed.');
+				if ($result)
+				{
+					$this->ioStyle->success('Extension removed!');
+				}
+			}
+		}
+		elseif (strtolower($response) === 'no')
+		{
+			$this->ioStyle->note('Extension not removed.');
 
-            return 0;
-        }
-        else
-        {
-            $this->ioStyle->warning('Invalid response');
+			return 0;
+		}
+		else
+		{
+			$this->ioStyle->warning('Invalid response');
 
-            return 2;
-        }
+			return 2;
+		}
 
-        return 0;
-    }
+		return 0;
+	}
 }

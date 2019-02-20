@@ -14,7 +14,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installation\Form\Field\Installation\PrefixField;
-use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
 use Joomla\CMS\Installation\Model\SetupModel;
@@ -150,14 +149,14 @@ class CoreInstallCommand extends AbstractCommand
 
 
 	/**
-	* Verifies database connection
-	*
-	* @param   array  $options  Options array
-	*
-	* @return bool|\Joomla\Database\DatabaseInterface
-	*
-	* @throws \Exception
-	*/
+	 * Verifies database connection
+	 *
+	 * @param   array  $options  Options array
+	 *
+	 * @return bool|\Joomla\Database\DatabaseInterface
+	 * @since 4.0
+	 * @throws \Exception
+	 */
 	public function checkDatabaseConnection($options)
 	{
 		// Get the options as an object for easier handling.
@@ -315,22 +314,22 @@ class CoreInstallCommand extends AbstractCommand
 
 		array_walk(
 			$optionalKeys, function ($value, $key) use (&$options) {
-				if (!isset($options[$value]))
+			if (!isset($options[$value]))
+			{
+				switch ($value)
 				{
-					switch ($value)
-					{
-						case 'db_prefix':
-							$options[$value] = (new PrefixField)->getPrefix();
-							break;
-						case 'db_old':
-							$options[$value] = 'backup';
-							break;
-						default:
-							$options[$value] = '';
-							break;
-					}
+					case 'db_prefix':
+						$options[$value] = (new PrefixField)->getPrefix();
+						break;
+					case 'db_old':
+						$options[$value] = 'backup';
+						break;
+					default:
+						$options[$value] = '';
+						break;
 				}
 			}
+		}
 		);
 
 		if ($validate)
@@ -652,113 +651,113 @@ class CoreInstallCommand extends AbstractCommand
 		return $this->setup->validate($data);
 	}
 
-    /**
-     * Internal function to execute the command.
-     *
-     * @param   InputInterface $input The input to inject into the command.
-     * @param   OutputInterface $output The output to inject into the command.
-     *
-     * @return  integer  The command exit code
-     *
-     * @since   __DEPLOY_VERSION__
-     * @throws \Exception
-     */
-    protected function doExecute(InputInterface $input, OutputInterface $output): int
-    {
-        $this->configureIO();
-        $this->progressBar->setMessage("Starting Joomla! installation ...");
-        $this->progressBar->start();
-        define('JPATH_COMPONENT', JPATH_BASE . '/installation');
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface $input The input to inject into the command.
+	 * @param   OutputInterface $output The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 * @throws \Exception
+	 */
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	{
+		$this->configureIO();
+		$this->progressBar->setMessage("Starting Joomla! installation ...");
+		$this->progressBar->start();
+		define('JPATH_COMPONENT', JPATH_BASE . '/installation');
 
-        if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
-        {
-            $this->progressBar->finish();
-            $this->ioStyle->warning("Joomla! is already installed and set up.");
+		if (file_exists(JPATH_CONFIGURATION . '/configuration.php'))
+		{
+			$this->progressBar->finish();
+			$this->ioStyle->warning("Joomla! is already installed and set up.");
 
-            return self::JOOMLA_ALREADY_SETUP;
-        }
+			return self::JOOMLA_ALREADY_SETUP;
+		}
 
-        if (!Folder::exists(JPATH_INSTALLATION))
-        {
-            $this->ioStyle->warning("Installation directory cannot be found.");
+		if (!Folder::exists(JPATH_INSTALLATION))
+		{
+			$this->ioStyle->warning("Installation directory cannot be found.");
 
-            return self::INSTALLATION_DIRECTORY_NOT_FOUND;
-        }
+			return self::INSTALLATION_DIRECTORY_NOT_FOUND;
+		}
 
-        $this->progressBar->advance();
-        $this->setup = new SetupModel;
-        $this->check = new ChecksModel;
+		$this->progressBar->advance();
+		$this->setup = new SetupModel;
+		$this->check = new ChecksModel;
 
-        $this->progressBar->setMessage("Running checks ...");
-        $passed = $this->runChecks();
+		$this->progressBar->setMessage("Running checks ...");
+		$passed = $this->runChecks();
 
-        if (!$passed)
-        {
-            $this->progressBar->finish();
-            $this->ioStyle->warning('These settings are recommended for PHP to ensure full compatibility with Joomla.');
-            $this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
+		if (!$passed)
+		{
+			$this->progressBar->finish();
+			$this->ioStyle->warning('These settings are recommended for PHP to ensure full compatibility with Joomla.');
+			$this->ioStyle->table(['Label', 'State', 'Notice'], $this->envOptions);
 
-            return self::PHP_OPTIONS_NOT_SET;
-        }
+			return self::PHP_OPTIONS_NOT_SET;
+		}
 
-        $this->progressBar->advance();
-        $file = $this->cliInput->getOption('file');
+		$this->progressBar->advance();
+		$file = $this->cliInput->getOption('file');
 
-        if ($file)
-        {
-            $this->progressBar->setMessage("Loading file ...");
-            $result = $this->processNonInteractiveInstallation($file);
+		if ($file)
+		{
+			$this->progressBar->setMessage("Loading file ...");
+			$result = $this->processNonInteractiveInstallation($file);
 
-            if (!is_array($result))
-            {
-                $this->progressBar->finish();
+			if (!is_array($result))
+			{
+				$this->progressBar->finish();
 
-                return self::BAD_INPUT_FILE;
-            }
+				return self::BAD_INPUT_FILE;
+			}
 
-            $this->progressBar->setMessage("File loaded");
-            $this->progressBar->advance();
-            $options = $result;
-        }
-        else
-        {
-            $this->progressBar->setMessage("Collecting options ...");
-            $options = $this->collectOptions();
-        }
+			$this->progressBar->setMessage("File loaded");
+			$this->progressBar->advance();
+			$options = $result;
+		}
+		else
+		{
+			$this->progressBar->setMessage("Collecting options ...");
+			$options = $this->collectOptions();
+		}
 
-        $this->progressBar->setMessage("Checking database connection ...");
-        $this->progressBar->advance();
-        $validConnection = $this->checkDatabaseConnection($options);
-        $this->progressBar->advance();
+		$this->progressBar->setMessage("Checking database connection ...");
+		$this->progressBar->advance();
+		$validConnection = $this->checkDatabaseConnection($options);
+		$this->progressBar->advance();
 
-        if ($validConnection)
-        {
-            $model = new ConfigurationModel;
+		if ($validConnection)
+		{
+			$model = new ConfigurationModel;
 
-            $this->progressBar->setMessage("Writing configuration ...");
-            Factory::getSession()->set('setup.options', $options);
+			$this->progressBar->setMessage("Writing configuration ...");
+			Factory::getSession()->set('setup.options', $options);
 
-            Factory::getSession()->set('setup.options', $options);
-            $completed = $model->setup($options);
-            $this->progressBar->advance();
+			Factory::getSession()->set('setup.options', $options);
+			$completed = $model->setup($options);
+			$this->progressBar->advance();
 
-            if ($completed)
-            {
-                $this->progressBar->setMessage("Finishing installation ...");
-                $this->progressBar->finish();
-                $this->ioStyle->success("Joomla! installation completed successfully!");
+			if ($completed)
+			{
+				$this->progressBar->setMessage("Finishing installation ...");
+				$this->progressBar->finish();
+				$this->ioStyle->success("Joomla! installation completed successfully!");
 
-                return self::INSTALLATION_SUCCESSFUL;
-            }
+				return self::INSTALLATION_SUCCESSFUL;
+			}
 
-            $this->progressBar->finish();
-            $this->ioStyle->error("Joomla! installation was unsuccessful!");
+			$this->progressBar->finish();
+			$this->ioStyle->error("Joomla! installation was unsuccessful!");
 
-            return self::INSTALLATION_UNSUCCESSFUL;
-        }
+			return self::INSTALLATION_UNSUCCESSFUL;
+		}
 
-        $this->progressBar->finish();
+		$this->progressBar->finish();
 
-        return self::INSTALLATION_UNSUCCESSFUL;
-    }
+		return self::INSTALLATION_UNSUCCESSFUL;
+	}
 }

@@ -71,33 +71,33 @@ class SiteDownCommand extends AbstractCommand
 		$this->setHelp($help);
 	}
 
-    /**
-     * Internal function to execute the command.
-     *
-     * @param   InputInterface $input The input to inject into the command.
-     * @param   OutputInterface $output The output to inject into the command.
-     *
-     * @return  integer  The command exit code
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function doExecute(InputInterface $input, OutputInterface $output): int
-    {
-        $this->configureIO();
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface  $input  The input to inject into the command.
+	 * @param   OutputInterface $output The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	{
+		$this->configureIO();
 
-        $command = $this->getApplication()->getCommand('config:set');
+		$command = $this->getApplication()->getCommand('config:set');
 
-        $command->setOptions('offline=true');
+		$command->setOptions('offline=true');
 
-        $returnCode = $command->doExecute($input, $output);
+		$returnCode = $command->doExecute($input, $output);
 
-        if ($returnCode === 0)
-        {
-            $this->ioStyle->success("Successfully set site to offline");
+		if ($returnCode === 0)
+		{
+			$this->ioStyle->success("Successfully set site to offline");
 
-            return self::SITE_DOWN_SUCCESSFUL;
-        }
+			return self::SITE_DOWN_SUCCESSFUL;
+		}
 
-        return self::SITE_DOWN_FAILED;
-    }
+		return self::SITE_DOWN_FAILED;
+	}
 }

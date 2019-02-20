@@ -100,38 +100,38 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 		}
 	}
 
-    /**
-     * Internal function to execute the command.
-     *
-     * @param   InputInterface $input The input to inject into the command.
-     * @param   OutputInterface $output The output to inject into the command.
-     *
-     * @return  integer  The command exit code
-     *
-     * @since   __DEPLOY_VERSION__
-     */
-    protected function doExecute(InputInterface $input, OutputInterface $output): int
-    {
-        $symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface  $input  The input to inject into the command.
+	 * @param   OutputInterface $output The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	{
+		$symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 
-        $model = $this->getUpdateInfo();
-        $data  = $model->getUpdateInformation();
-        $symfonyStyle->title('Joomla! Updates');
+		$model = $this->getUpdateInfo();
+		$data  = $model->getUpdateInformation();
+		$symfonyStyle->title('Joomla! Updates');
 
-        if (!$data['hasUpdate'])
-        {
-            $symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
+		if (!$data['hasUpdate'])
+		{
+			$symfonyStyle->success('You already have the latest Joomla version ' . $data['latest']);
 
-            return 0;
-        }
+			return 0;
+		}
 
-        $symfonyStyle->note('New Joomla Version ' . $data['latest'] . ' is available.');
+		$symfonyStyle->note('New Joomla Version ' . $data['latest'] . ' is available.');
 
-        if (!isset($data['object']->downloadurl->_data))
-        {
-            $symfonyStyle->warning('We cannot find an update URL');
-        }
+		if (!isset($data['object']->downloadurl->_data))
+		{
+			$symfonyStyle->warning('We cannot find an update URL');
+		}
 
-        return 0;
-    }
+		return 0;
+	}
 }
