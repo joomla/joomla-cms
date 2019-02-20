@@ -68,14 +68,16 @@ abstract class QuickIconHelper
 		if (!isset(self::$buttons[$key]))
 		{
 			$context = $params->get('context', 'mod_quickicon');
+			
+			self::$buttons[$key] = [];
 
 			if ($context === 'mod_quickicon')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				$application->getLanguage()->load('mod_quickicon');
 				
-				self::$buttons[$key] = [];
-				
+
+
 				self::$buttons[$key][] = 
 					[
 						'link'   => Route::_('index.php?option=com_config'),
@@ -84,7 +86,7 @@ abstract class QuickIconHelper
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
 						'group'  => 'MOD_QUICKICON_CONFIGURATION',
 					];
-				
+
 				if ($params->get('show_users', '1'))
 				{
 					self::$buttons[$key][] =  
@@ -97,7 +99,7 @@ abstract class QuickIconHelper
 							'group'  => 'MOD_QUICKICON_USERS',
 						];
 				}
-				
+
 				if ($params->get('show_menuItems', '1'))
 				{
 					self::$buttons[$key][] = 
@@ -120,8 +122,7 @@ abstract class QuickIconHelper
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
 					];
-				
-												
+									
 				if ($params->get('show_categories', '1'))
 				{
 				self::$buttons[$key][] =  
@@ -135,8 +136,7 @@ abstract class QuickIconHelper
 
 					];
 				}
-				
-												
+	
 				if ($params->get('show_modules', '1'))
 				{
 					self::$buttons[$key][] = 
@@ -150,7 +150,6 @@ abstract class QuickIconHelper
 						];
 				}
 				
-												
 				if ($params->get('show_checkin', '1'))
 				{
 					self::$buttons[$key][] = 
@@ -162,10 +161,6 @@ abstract class QuickIconHelper
 							'group'  => 'MOD_QUICKICON_CONTENT'
 						];
 				}
-			}
-			else
-			{
-				self::$buttons[$key] = array();
 			}
 
 			// Include buttons defined by published quickicon plugins
