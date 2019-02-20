@@ -1332,7 +1332,12 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (79, 52, 'Multilanguage status', '', '', 1, '', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (86, 53, 'Joomla Version', '', '', 1, 'status', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
 (87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "6"}', 1, '*'),
-(88, 65, 'Need support?', '', '<p>You can find help here:<br /><a href="https://forum.joomla.org/" rel="nofollow">Joomla! Support forum</a><br /><a href="https://docs.joomla.org" rel="nofollow">Joomla! Documentation</a><br /><a href="https://www.joomla.org/" rel="nofollow">Joomla! News</a></p>', 1, 'sidebar', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 1, '{"prepare_content":1,"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*');
+(88, 65, 'Need support?', '', '<p>You can find help here:<br /><a href="https://forum.joomla.org/" rel="nofollow">Joomla! Support forum</a><br /><a href="https://docs.joomla.org" rel="nofollow">Joomla! Documentation</a><br /><a href="https://www.joomla.org/" rel="nofollow">Joomla! News</a></p>', 1, 'sidebar', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_custom', 1, 1, '{"prepare_content":1,"layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*'),
+(89, 0, 'System Submenu', '', NULL, 1, 'cpanel-system', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"system","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*'),
+(90, 0, 'Content Submenu', '', NULL, 1, 'cpanel-content', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"content","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*'),
+(91, 0, 'Menus Submenu', '', NULL, 1, 'cpanel-menus', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"menus","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*'),
+(92, 0, 'Components Submenu', '', NULL, 1, 'cpanel-components', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"components","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*'),
+(93, 0, 'Users Submenu', '', NULL, 1, 'cpanel-content', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"users","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 1, '*');
 
 SELECT setval('#__modules_id_seq', 88, false);
 
@@ -1368,7 +1373,12 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (79, 0),
 (86, 0),
 (87, 0),
-(88, 0);
+(88, 0),
+(89, 0),
+(90, 0),
+(91, 0),
+(92, 0),
+(93, 0);
 
 --
 -- Table structure for table `#__newsfeeds`
