@@ -98,6 +98,11 @@
 					type="media"
 					label="TPL_ATUM_SITE_LOGO_LABEL"
 				/>
+				<field
+					name="smallLogo"
+					type="media"
+					label="TPL_ATUM_SITE_LOGO_SMALL_LABEL"
+				/>
 
 				<field
 					name="loginLogo"

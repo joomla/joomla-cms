@@ -3,8 +3,32 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-((Joomla, document) => {
+((Joomla, doc) => {
   'use strict';
+
+  const storageEnabled = typeof Storage !== 'undefined';
+
+  /**
+   * Shrink or extend the logo, depending on sidebar
+   *
+   * @param {string} [change] is the sidebar 'open' or 'closed'
+   */
+  function changeLogo(change) {
+    const logo = doc.querySelector('.logo');
+    if (!logo) {
+      return;
+    }
+
+    const state = change
+        || (storageEnabled && localStorage.getItem('atum-sidebar'))
+        || 'closed';
+
+    if (state === 'closed') {
+      logo.classList.add('small');
+    } else {
+      logo.classList.remove('small');
+    }
+  }
 
   /**
    * Method that add a fade effect and transition on sidebar and content side after login and logout
@@ -12,10 +36,10 @@
    * @since   4.0.0
    */
   function fade(fadeAction, transitAction) {
-    const sidebar = document.querySelector('.sidebar-wrapper');
+    const sidebar = doc.querySelector('.sidebar-wrapper');
     const sidebarChildren = sidebar ? sidebar.children : [];
     const sideChildrenLength = sidebarChildren.length;
-    const contentMain = document.querySelector('.container-main');
+    const contentMain = doc.querySelector('.container-main');
     const contentChildren = contentMain ? contentMain.children : [];
     const contChildrenLength = contentChildren.length;
 
@@ -27,9 +51,11 @@
     }
     if (sidebar) {
       if (transitAction) {
-        //transition class depends on the width of the sidebar
-        if (typeof Storage !== 'undefined' && localStorage.getItem('atum-sidebar') === 'closed') {
+        // Transition class depends on the width of the sidebar
+        if (storageEnabled
+            && localStorage.getItem('atum-sidebar') === 'closed') {
           sidebar.classList.add(`transit-${transitAction}-closed`);
+          changeLogo('small');
         } else {
           sidebar.classList.add(`transit-${transitAction}`);
         }
@@ -41,9 +67,10 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('form-login');
-    const logoutBtn = document.querySelector('.header-items a[href*="task=logout"]');
+  doc.addEventListener('DOMContentLoaded', () => {
+    const loginForm = doc.getElementById('form-login');
+    const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
+    const sidebar = doc.querySelector('.sidebar-wrapper');
 
     // Fade out login form when login was successful
     if (loginForm) {
@@ -61,5 +88,16 @@
         fade('out', 'wider');
       });
     }
+
+    // Make logo big or small like the sidebar
+    if (!sidebar) {
+      changeLogo('closed');
+    } else {
+      changeLogo();
+    }
+
+    window.addEventListener('joomla:menu-toggle', (event) => {
+      changeLogo(event.detail);
+    });
   });
 })(window.Joomla, document);
