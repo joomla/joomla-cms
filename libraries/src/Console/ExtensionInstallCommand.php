@@ -152,8 +152,8 @@ class ExtensionInstallCommand extends AbstractCommand
 	/**
 	 * Internal function to execute the command.
 	 *
-	 * @param   InputInterface  $input  The input to inject into the command.
-	 * @param   OutputInterface $output The output to inject into the command.
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
 	 *
 	 * @return  integer  The command exit code
 	 *
