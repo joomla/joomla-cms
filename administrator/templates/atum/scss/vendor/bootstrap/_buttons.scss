@@ -2,6 +2,7 @@
 .btn-primary{
   background-color:var(--atum-bg-dark);
   border-color:var(--atum-bg-dark);
+  color:var(--atum-text-light);
   @include hover-focus-active {
     background-color: var(--atum-bg-dark-70);
     border-color: var(--atum-bg-dark-70);
@@ -10,7 +11,7 @@
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
-    background-color: var(--atum-bg-dark0);
+    background-color: var(--atum-bg-dark);
     border-color: var(--atum-bg-dark);
   }
 }

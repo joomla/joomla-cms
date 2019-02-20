@@ -1,6 +1,10 @@
 // Login page
 
 .view-login {
+	h1{
+		color:var(--atum-special-color);
+
+	}
 	.container-main{
 		background: var(--atum-bg-light);
 		/**
@@ -79,16 +83,16 @@
 				right: 0;
 				font-size: 0.75rem;
 			}
-			
+
 		}
 	}
-	
+
 	#btn-login-submit {
 		text-transform: uppercase;
 	}
   }
-	
-			
+
+
   .login-box {
     background: var(--login-main-bg);
     box-shadow: 0 0 20px var(--atum-bg-dark);
