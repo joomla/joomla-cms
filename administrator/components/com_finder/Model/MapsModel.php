@@ -169,6 +169,10 @@ class MapsModel extends ListModel
 			->from($db->quoteName('#__finder_taxonomy', 'a'))
 			->where('a.parent_id != 0');
 
+		// Join to get the branch title
+		$query->select([$query->qn('b.id', 'branch_id'), $query->qn('b.title', 'branch_title')])
+			->leftJoin($query->qn('#__finder_taxonomy', 'b') . ' ON b.level = 1 AND b.lft <= a.lft AND a.rgt <= b.rgt');
+
 		// Join to get the map links.
 		$stateQuery = $db->getQuery(true)
 			->select('m.node_id')

@@ -483,14 +483,14 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			// Set the internal state.
 			$state = $memory;
 		}
-		// We must be setting the tables to the MyISAM engine.
+		// We must be setting the tables to the InnoDB engine.
 		elseif ($memory === false && $state !== false)
 		{
-			// Set the tokens table to MyISAM.
+			// Set the tokens table to InnoDB.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = INNODB');
 			$db->execute();
 
-			// Set the tokens aggregate table to MyISAM.
+			// Set the tokens aggregate table to InnoDB.
 			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = INNODB');
 			$db->execute();
 

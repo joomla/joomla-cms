@@ -84,15 +84,15 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 							</td>
 							<th scope="row">
 								<?php
-								/**if (trim($item->parent_title, '**') === 'Language')
+								if (trim($item->branch_title, '**') === 'Language')
 								{
 									$title = FinderHelperLanguage::branchLanguageTitle($item->title);
 								}
 								else
-								{**/
+								{
 									$key = FinderHelperLanguage::branchSingular($item->title);
 									$title = $lang->hasKey($key) ? Text::_($key) : $item->title;
-								//}
+								}
 								?>
 								<?php echo str_repeat('<span class="gi">&mdash;</span>', $item->level - 1); ?>
 								<label for="cb<?php echo $i; ?>" style="display:inline-block;">
