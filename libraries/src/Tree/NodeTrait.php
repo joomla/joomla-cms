@@ -10,13 +10,18 @@ namespace Joomla\CMS\Tree;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Tree\ImmutableNodeTrait;
+use Joomla\CMS\Tree\NodeInterface;
+
 /**
- * Interface for a node class
+ * Defines the trait for a Node Interface Trait Class.
  *
  * @since  __DEPLOY_VERSION__
  */
-interface NodeInterface extends ImmutableNodeInterface
+trait NodeTrait
 {
+	use ImmutableNodeTrait;
+
 	/**
 	 * Set the parent of this node
 	 *
@@ -28,7 +33,25 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setParent(NodeInterface $parent);
+	public function setParent(NodeInterface $parent)
+	{
+		if (!is_null($this->_parent))
+		{
+			$key = array_search($this, $this->_parent->_children);
+			unset($this->_parent->_children[$key]);
+		}
+
+		$this->_parent = $parent;
+
+		$this->_parent->_children[] = &$this;
+
+		if (count($this->_parent->_children) > 1)
+		{
+			end($this->_parent->_children);
+			$this->_leftSibling = prev($this->_parent->_children);
+			$this->_leftSibling->_rightSibling = $this;
+		}
+	}
 
 	/**
 	 * Add child to this node
@@ -41,7 +64,10 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addChild(NodeInterface $child);
+	public function addChild(NodeInterface $child)
+	{
+		$child->setParent($this);
+	}
 
 	/**
 	 * Remove a specific child
@@ -52,7 +78,11 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeChild(NodeInterface $child);
+	public function removeChild(NodeInterface $child)
+	{
+		$key = array_search($child, $this->_children);
+		unset($this->_children[$key]);
+	}
 
 	/**
 	 * Function to set the left or right sibling of a node
@@ -64,5 +94,15 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setSibling(NodeInterface $sibling, $right = true);
+	public function setSibling(NodeInterface $sibling, $right = true)
+	{
+		if ($right)
+		{
+			$this->_rightSibling = $sibling;
+		}
+		else
+		{
+			$this->_leftSibling = $sibling;
+		}
+	}
 }
