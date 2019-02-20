@@ -518,7 +518,7 @@ Joomla = window.Joomla || {};
 
     if (sort && sort.hasAttribute('data-sort')) {
       const ariasort = sort.getAttribute('data-sort');
-      sort.parentNode.setAttribute('aria-sorted', ariasort);
+      sort.parentNode.setAttribute('aria-sort', ariasort);
     }
 
     // Cleanup

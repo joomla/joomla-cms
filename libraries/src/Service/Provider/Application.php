@@ -17,13 +17,13 @@ use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Session\Session;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\ContainerLoader;
 use Joomla\Console\Loader\LoaderInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
-use Joomla\Session\Storage\RuntimeStorage;
+use Joomla\Event\DispatcherInterface;
+use Joomla\Session\SessionInterface;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -57,9 +57,9 @@ class Application implements ServiceProviderInterface
 						Factory::$application = $app;
 					}
 
-					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+					$app->setDispatcher($container->get(DispatcherInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
-					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+					$app->setSession($container->get(SessionInterface::class));
 
 					return $app;
 				},
@@ -79,9 +79,9 @@ class Application implements ServiceProviderInterface
 						Factory::$application = $app;
 					}
 
-					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+					$app->setDispatcher($container->get(DispatcherInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
-					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+					$app->setSession($container->get(SessionInterface::class));
 
 					return $app;
 				},
@@ -93,18 +93,19 @@ class Application implements ServiceProviderInterface
 				BaseConsoleApplication::class,
 				function (Container $container)
 				{
-					$app = new ConsoleApplication(null, $container->get('config'));
+					$dispatcher = $container->get(DispatcherInterface::class);
 
-					$dispatcher = $container->get('Joomla\Event\DispatcherInterface');
+					$app = new ConsoleApplication(null, null, $container->get('config'), $dispatcher, $container);
 
-					$session = new Session(new RuntimeStorage);
-					$session->setDispatcher($dispatcher);
+					// The session service provider needs Factory::$application, set it if still null
+					if (Factory::$application === null)
+					{
+						Factory::$application = $app;
+					}
 
 					$app->setCommandLoader($container->get(LoaderInterface::class));
-					$app->setContainer($container);
-					$app->setDispatcher($dispatcher);
 					$app->setLogger($container->get(LoggerInterface::class));
-					$app->setSession($session);
+					$app->setSession($container->get(SessionInterface::class));
 
 					return $app;
 				},
@@ -117,8 +118,8 @@ class Application implements ServiceProviderInterface
 				function (Container $container)
 				{
 					$mapping = [
-						'session:gc'          => SessionGcCommand::class,
-						'session:metadata:gc' => SessionMetadataGcCommand::class,
+						SessionGcCommand::getDefaultName()         => SessionGcCommand::class,
+						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
 					];
 
 					return new ContainerLoader($container, $mapping);

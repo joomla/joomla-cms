@@ -10,7 +10,9 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Console\AbstractCommand;
+use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -21,15 +23,26 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class RemoveOldFilesCommand extends AbstractCommand
 {
 	/**
-	 * Execute the command.
+	 * The default command name
 	 *
-	 * @return  integer  The exit code for the command.
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $defaultName = 'update:joomla:remove-old-files';
+
+	/**
+	 * Internal function to execute the command.
+	 *
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
 	 *
 	 * @since   4.0.0
 	 */
-	public function execute(): int
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+		$symfonyStyle = new SymfonyStyle($input, $output);
 
 		$symfonyStyle->title('Removing Old Files');
 
@@ -44,15 +57,14 @@ class RemoveOldFilesCommand extends AbstractCommand
 	}
 
 	/**
-	 * Initialise the command.
+	 * Configure the command.
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	protected function initialise()
+	protected function configure()
 	{
-		$this->setName('update:joomla:remove-old-files');
 		$this->setDescription('Removes old system files');
 		$this->setHelp(
 <<<EOF

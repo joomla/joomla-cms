@@ -468,26 +468,28 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/console.git",
-                "reference": "0005ce3616d0a8c2aae26dfbd95f7fcb82adb7d6"
+                "reference": "b8ab98ec0fab96002b22399dea8c2ff206a87380"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/console/zipball/0005ce3616d0a8c2aae26dfbd95f7fcb82adb7d6",
-                "reference": "0005ce3616d0a8c2aae26dfbd95f7fcb82adb7d6",
+                "url": "https://api.github.com/repos/joomla-framework/console/zipball/b8ab98ec0fab96002b22399dea8c2ff206a87380",
+                "reference": "b8ab98ec0fab96002b22399dea8c2ff206a87380",
                 "shasum": ""
             },
             "require": {
                 "joomla/application": "~2.0",
+                "joomla/event": "~2.0",
+                "joomla/string": "~2.0",
                 "php": "~7.0",
                 "symfony/console": "~3.4|~4.0"
             },
             "require-dev": {
                 "joomla/coding-standards": "~2.0@alpha",
-                "joomla/symfony-event-dispatcher-bridge": "~2.0",
-                "phpunit/phpunit": "~6.3"
+                "phpunit/phpunit": "~6.3",
+                "psr/container": "~1.0"
             },
             "suggest": {
-                "joomla/symfony-event-dispatcher-bridge": "To bridge symfony/event-dispatcher with joomla/event"
+                "psr/container-implementation": "To use the ContainerLoader"
             },
             "type": "joomla-package",
             "extra": {
@@ -511,7 +513,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2018-10-16T23:36:27+00:00"
+            "time": "2019-02-09T20:37:08+00:00"
         },
         {
             "name": "joomla/controller",
@@ -4425,7 +4427,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier Gómez",
+                    "name": "Javier Gomez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
