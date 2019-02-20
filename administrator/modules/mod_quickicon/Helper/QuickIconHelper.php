@@ -64,11 +64,11 @@ abstract class QuickIconHelper
 		}
 
 		$key = (string) $params;
-		
+
 		if (!isset(self::$buttons[$key]))
 		{
 			$context = $params->get('context', 'mod_quickicon');
-			
+
 			self::$buttons[$key] = [];
 
 			if ($context === 'mod_quickicon')
@@ -76,8 +76,6 @@ abstract class QuickIconHelper
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				$application->getLanguage()->load('mod_quickicon');
 				
-
-
 				self::$buttons[$key][] = 
 					[
 						'link'   => Route::_('index.php?option=com_config'),
@@ -95,7 +93,7 @@ abstract class QuickIconHelper
 							'link'   => Route::_('index.php?option=com_users&task=user.add'),
 							'name'   => Text::_('MOD_QUICKICON_USER_MANAGER'),
 							'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
-							'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+							'access' => array('core.manage', 'com_users', 'core.create', 'com_users'),
 							'group'  => 'MOD_QUICKICON_USERS',
 						];
 				}
@@ -122,21 +120,33 @@ abstract class QuickIconHelper
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
 					];
-									
+		
 				if ($params->get('show_categories', '1'))
 				{
-				self::$buttons[$key][] =  
-					[
-						'amount' => self::countArticleCategories(),
-						'link'   => Route::_('index.php?option=com_categories&task=category.add'),
-						'name'   => Text::_('MOD_QUICKICON_CATEGORY_MANAGER'),
-						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
-						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
+					self::$buttons[$key][] =  
+						[
+							'amount' => self::countArticleCategories(),
+							'link'   => Route::_('index.php?option=com_categories&task=category.add'),
+							'name'   => Text::_('MOD_QUICKICON_CATEGORY_MANAGER'),
+							'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
+							'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
+							'group'  => 'MOD_QUICKICON_CONTENT',
 
-					];
+						];
 				}
-	
+
+				if ($params->get('show_media', '1'))
+				{
+					self::$buttons[$key][] =  
+						[
+							'image'  => 'fa fa-image',
+							'link'   => Route::_('index.php?option=com_media'),
+							'text'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
+							'access' => array('core.manage', 'com_media'),
+							'group'  => 'MOD_QUICKICON_CONTENT',
+						];
+				}
+
 				if ($params->get('show_modules', '1'))
 				{
 					self::$buttons[$key][] = 
@@ -149,7 +159,7 @@ abstract class QuickIconHelper
 
 						];
 				}
-				
+
 				if ($params->get('show_checkin', '1'))
 				{
 					self::$buttons[$key][] = 
