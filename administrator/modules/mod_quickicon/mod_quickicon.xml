@@ -30,6 +30,56 @@
 					description="MOD_QUICKICON_GROUP_DESC"
 					default="mod_quickicon"
 				/>
+				<field
+					name="show_users"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_USERS_LABEL"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="show_categories"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_CATEGORIES_LABEL"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="show_checkin"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_CHECKINS_LABEL"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="show_menuItems"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_MENUITEMS_LABEL"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field
+					name="show_modules"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_MODULES_LABEL"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field
