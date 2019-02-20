@@ -1,21 +1,21 @@
 // Buttons
 .btn-primary{
-  background-color:var(--atum-link-color);
-  border-color:var(--atum-link-color);
+  background-color:var(--atum-bg-dark);
+  border-color:var(--atum-bg-dark);
   @include hover-focus-active {
-    background-color: var(--atum-link-hover-color);
-    border-color: var(--atum-link-hover-color);
+    background-color: var(--atum-bg-dark-70);
+    border-color: var(--atum-bg-dark-70);
 	box-shadow: none;
   }
   &:not(:disabled):not(.disabled):active,
   &:not(:disabled):not(.disabled).active,
   .show > &.dropdown-toggle {
-    background-color: var(--atum-link-hover-color);
-    border-color: var(--atum-link-hover-color);
+    background-color: var(--atum-bg-dark0);
+    border-color: var(--atum-bg-dark);
   }
 }
 
 .input-group-text{
-  background-color:var(--atum-link-color);
-  border-color:var(--atum-link-color);
+  background-color:var(--atum-bg-dark);
+  border-color:var(--atum-bg-dark);
 }

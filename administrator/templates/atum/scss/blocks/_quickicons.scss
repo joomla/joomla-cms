@@ -7,7 +7,6 @@
   }
   li {
    min-width: 160px;
-   padding-bottom: 6px;
   }
   .quickicon-amount {
     font-size: 3rem;
@@ -20,7 +19,7 @@
 	  font-weight: normal;
   }
 .quickicon-name {
-	color: $body-color;
+	color: $body-color !important;
   }
   a {
     display: inline-flex;
@@ -29,10 +28,11 @@
     width: 100%;
     margin-right: 15px;
     margin-bottom: 15px;
+    padding-bottom: 6px;
     background: $quickicon-bg;
     box-shadow: $quickicon-box-shadow;
     transition: all .25s ease;
-	text-align: center;
+    text-align: center;
 
     > div {
       flex: 1 0 0;
