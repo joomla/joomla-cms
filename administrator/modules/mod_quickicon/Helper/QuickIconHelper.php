@@ -151,7 +151,7 @@ abstract class QuickIconHelper
 				}
 				
 												
-				if ($params->get('show_cjheckin', '1'))
+				if ($params->get('show_checkin', '1'))
 				{
 					self::$buttons[$key][] = 
 						[
