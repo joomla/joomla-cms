@@ -1,4 +1,3 @@
-
 // Header
 
 .header {
@@ -9,17 +8,35 @@
   .logo {
     display: inline-block;
     line-height: $header-height;
-    text-align: center;
+    width: $sidebar-width;
+    transition: width .3s ease;
+
+    &.small {
+      width: $sidebar-width-closed;
+      transition: width .3s ease;
+
+      img:not(.logo-small) {
+        display: none;
+      }
+
+      img.logo-small {
+        display: inline-block;
+      }
+    }
+
     img {
       height: 1.3rem;
       margin-left: 0.8rem;
+      max-width: calc(15.625rem - 0.8rem);
+
+      &.logo-small {
+        display: none;
+      }
     }
   }
 
   .page-title {
-    position: absolute;
-    left: 16.35rem;
-    margin: 0 5px;
+    margin: 0 7.5px;
     font-size: 1.2rem;
     line-height: $header-height;
     color: var(--atum-special-color);
@@ -32,9 +49,11 @@
   .nav-item:hover,
   .nav-item.show {
     background-color: var(--atum-bg-dark);
-    .nav-link{
-      .fa{
-        color:var(--atum-text-light);
+
+    .nav-link {
+      color: var(--atum-text-light);
+      .fa {
+        color: var(--atum-text-light);
       }
     }
 
@@ -46,7 +65,7 @@
     margin: 0 0.8rem;
     line-height: $header-height;
     min-width: $header-height - 0.3125rem;
-	display:inline;
+    display: inline;
 
     .fa {
       width: 1.5rem;
@@ -69,7 +88,7 @@
     &:hover .fa {
       font-size: 1.3rem;
       transition: all .2s ease-in-out;
-      color:var(--atum-text-light);
+      color: var(--atum-text-light);
     }
   }
 
@@ -113,7 +132,7 @@
       &:hover {
         color: var(--atum-text-light);
         text-decoration: none;
-		background:var(--atum-bg-dark);
+        background: var(--atum-bg-dark);
       }
 
       .fa {
@@ -171,12 +190,9 @@
   }
 
   .dropdown-header {
-    padding-top: .5rem;
-    padding-bottom: .5rem;
     color: $white;
     background-color: var(--atum-bg-dark);
     box-shadow: $atum-box-shadow;
-    color: $white;
     font-size: inherit;
     padding: 1rem 0.75rem;
 
@@ -203,7 +219,7 @@
     position: sticky;
     top: 0;
     width: 100%;
-	z-index:9999;
+    z-index: 9999;
 
     > div {
       flex-direction: column;

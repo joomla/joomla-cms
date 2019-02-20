@@ -23,23 +23,28 @@ $input = $app->input;
 $wa    = $this->getWebAssetManager();
 
 // Detecting Active Variables
-$option = $input->get('option', '');
-$view   = $input->get('view', '');
-$layout = $input->get('layout', 'default');
-$task   = $input->get('task', 'display');
-$itemid = $input->get('Itemid', '');
-$cpanel = $option === 'com_cpanel';
-$hidden = $app->input->get('hidemainmenu');
-$logo   = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
+$option     = $input->get('option', '');
+$view       = $input->get('view', '');
+$layout     = $input->get('layout', 'default');
+$task       = $input->get('task', 'display');
+$itemid     = $input->get('Itemid', '');
+$cpanel     = $option === 'com_cpanel';
+$hiddenMenu = $app->input->get('hidemainmenu');
+$joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 // Template params
-$siteLogo = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
+$siteLogo  = $this->params->get('siteLogo')
+	? JUri::root() . $this->params->get('siteLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
+$smallLogo = $this->params->get('smallLogo')
+	? JUri::root() . $this->params->get('smallLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
 
 // Load specific template related JS
 HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
@@ -72,20 +77,23 @@ if ($this->params->get('bg-dark'))
 
 	$root[] = '--atum-bg-dark: #' . $bgcolor . ';';
 
-	try {
-		$color = new Hex($bgcolor);
-		$colorHsl=$color->toHsl();
+	try
+	{
+		$color    = new Hex($bgcolor);
+		$colorHsl = $color->toHsl();
 
-		$root[] = '--atum-contrast: ' . (clone $colorHsl)->lighten(-6)->spin(-30)->toHex()  . ';';
-		$root[] = '--atum-bg-dark-10: ' . (clone $colorHsl)->desaturate(86)->lighten(20.5)->spin(-6)->toHex()  . ';';
-        $root[] = '--atum-bg-dark-20: ' . (clone $colorHsl)->desaturate(76)->lighten(16.5)->spin(-6)->toHex()  . ';';
-        $root[] = '--atum-bg-dark-30: ' . (clone $colorHsl)->desaturate(60)->lighten(12)->spin(-5)->toHex()  . ';';
-        $root[] = '--atum-bg-dark-40: ' . (clone $colorHsl)->desaturate(41)->lighten(8)->spin(-3)->toHex()  . ';';
-        $root[] = '--atum-bg-dark-50: ' . (clone $colorHsl)->desaturate(19)->lighten(4)->spin(-1)->toHex()  . ';';
-        $root[] = '--atum-bg-dark-70: ' . (clone $colorHsl)->lighten(-6)->spin(4)->toHex()  . ';';
-        $root[] = '--atum-bg-dark-80: ' . (clone $colorHsl)->lighten(-11.5)->spin(7)->toHex()  . ';';
-        $root[] = '--atum-bg-dark-90: ' . (clone $colorHsl)->desaturate(1)->lighten(-17)->spin(10)->toHex()  . ';';
-	} catch (Exception $ex) {
+		$root[] = '--atum-contrast: ' . (clone $colorHsl)->lighten(-6)->spin(-30)->toHex() . ';';
+		$root[] = '--atum-bg-dark-10: ' . (clone $colorHsl)->desaturate(86)->lighten(20.5)->spin(-6)->toHex() . ';';
+		$root[] = '--atum-bg-dark-20: ' . (clone $colorHsl)->desaturate(76)->lighten(16.5)->spin(-6)->toHex() . ';';
+		$root[] = '--atum-bg-dark-30: ' . (clone $colorHsl)->desaturate(60)->lighten(12)->spin(-5)->toHex() . ';';
+		$root[] = '--atum-bg-dark-40: ' . (clone $colorHsl)->desaturate(41)->lighten(8)->spin(-3)->toHex() . ';';
+		$root[] = '--atum-bg-dark-50: ' . (clone $colorHsl)->desaturate(19)->lighten(4)->spin(-1)->toHex() . ';';
+		$root[] = '--atum-bg-dark-70: ' . (clone $colorHsl)->lighten(-6)->spin(4)->toHex() . ';';
+		$root[] = '--atum-bg-dark-80: ' . (clone $colorHsl)->lighten(-11.5)->spin(7)->toHex() . ';';
+		$root[] = '--atum-bg-dark-90: ' . (clone $colorHsl)->desaturate(1)->lighten(-17)->spin(10)->toHex() . ';';
+	}
+	catch (Exception $ex)
+	{
 
 	}
 }
@@ -113,11 +121,14 @@ if ($this->params->get('link-color'))
 
 	$root[] = '--atum-link-color: #' . $linkcolor . ';';
 
-	try {
+	try
+	{
 		$color = new Hex($linkcolor);
 
 		$root[] = '--atum-link-hover-color: ' . (clone $color)->darken(20) . ';';
-	} catch (Exception $ex) {
+	}
+	catch (Exception $ex)
+	{
 
 	}
 }
@@ -155,14 +166,17 @@ $this->addStyleDeclaration($css);
 	<div class="d-flex align-items-center">
 		<div class="header-title d-flex mr-auto">
 			<div class="d-flex">
-				<?php if (!$hidden) : ?>
+				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
+				<?php if ($hiddenMenu || $cpanel) : ?>
+					<div class="logo">
+						<img src="<?php echo $siteLogo; ?>" alt="">
+						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
+					</div>
+				<?php else : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
 					   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $siteLogo; ?>" alt="">
-					</a>
-				<?php else : ?>
-					<a class="logo">
-						<img src="<?php echo $logoBlue; ?>" alt="">
+						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
 					</a>
 				<?php endif; ?>
 			</div>
@@ -175,14 +189,14 @@ $this->addStyleDeclaration($css);
 </header>
 
 <?php // Wrapper ?>
-<div id="wrapper" class="d-flex wrapper<?php echo $hidden ? '0' : ''; ?>">
+<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
 
 	<?php // Sidebar ?>
-	<?php if (!$hidden) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
+	<?php if (!$hiddenMenu) : ?>
+		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
 			<jdoc:include type="modules" name="menu" style="none"/>
 			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
-				<img src="<?php echo $logo; ?>" alt="">
+				<img src="<?php echo $joomlaLogo; ?>" alt="">
 			</div>
 		</div>
 	<?php endif; ?>

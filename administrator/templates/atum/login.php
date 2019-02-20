@@ -46,8 +46,13 @@ $layout   = $app->input->getCmd('layout', 'default');
 $sitename = $app->get('sitename');
 
 // Template params
-$siteLogo  = $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
-$loginLogo = $this->params->get('loginLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg');
+$siteLogo = $this->params->get('siteLogo')
+	? JUri::root() . $this->params->get('siteLogo')
+	: $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
+$loginLogo = $this->params->get('loginLogo')
+	? JUri::root() . $this->params->get('loginLogo')
+	: $this->params->get('loginLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg');
+
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
