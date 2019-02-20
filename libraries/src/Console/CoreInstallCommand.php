@@ -340,9 +340,7 @@ class CoreInstallCommand extends AbstractCommand
 			return $validator ? $options : null;
 		}
 
-
 		return $options;
-
 	}
 
 	/**
