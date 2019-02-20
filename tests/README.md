@@ -5,7 +5,7 @@ Joomla maintains a range of different methods to run automated tests on its code
 
 Unit tests
 ==========
-The unit tests are checking the specific PHP code of the Joomla framework with the help of PHPUnit. The actual unit tests can be found in /tests/unit/. For further information on the tests and on how to run them, please go to https://github.com/joomla/test-unit
+The unit tests are checking the specific PHP code of the Joomla framework with the help of PHPUnit. For further information on the tests and on how to run them, please check out tests/unit/README.md
 
 Javascript tests
 ==========

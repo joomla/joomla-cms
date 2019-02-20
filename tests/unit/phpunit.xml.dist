@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit bootstrap="bootstrap.php" colors="false">
+
+	<testsuites>
+		<testsuite name="libraries-cms">
+			<directory>suites/libraries/cms</directory>
+		</testsuite>
+		<testsuite name="libraries-legacy">
+			<directory>suites/libraries/legacy</directory>
+		</testsuite>
+		<testsuite name="libraries-4.0">
+			<directory>suites/libraries/src</directory>
+		</testsuite>
+	</testsuites>
+
+</phpunit>

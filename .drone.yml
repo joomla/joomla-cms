@@ -23,8 +23,6 @@ pipeline:
     image: joomlaprojects/docker-tools:develop
     commands:
       - composer install --no-progress --no-suggest
-      # needed for unit testing
-      - composer update joomla/test-unit --no-progress --no-suggest
       # needed for system testing
       - composer update joomla/test-system --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
@@ -44,19 +42,19 @@ pipeline:
     group: unit
     image: joomlaprojects/docker-php70:develop
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - ./libraries/vendor/bin/phpunit --configuration ./tests/unit/phpunit.xml.dist
 
   php71-unit:
     group: unit
     image: joomlaprojects/docker-php71:develop
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - ./libraries/vendor/bin/phpunit --configuration ./tests/unit/phpunit.xml.dist
 
   php72-unit:
     group: unit
     image: joomlaprojects/docker-php72:develop
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - ./libraries/vendor/bin/phpunit --configuration ./tests/unit/phpunit.xml.dist
 
   javascript-cs:
     image: joomlaprojects/docker-systemtests:develop
