@@ -101,6 +101,7 @@
     color: var(--atum-text-light);
 
     &:hover {
+
       color: var(--atum-text-light);
       text-decoration: none;
 
@@ -158,7 +159,7 @@
       color: var(--atum-text-light);
       flex-basis: 100%;
 
-      &:hover {
+      &[href]:hover {
         color: $white;
         background-color: rgba(0, 0, 0, .4);
       }
