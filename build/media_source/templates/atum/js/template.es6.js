@@ -3,10 +3,9 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-((Joomla, document) => {
+((Joomla, doc) => {
   'use strict';
 
-  const sidebar = document.querySelector('.sidebar-wrapper');
   const storageEnabled = typeof Storage !== 'undefined';
 
   /**
@@ -15,7 +14,7 @@
    * @param {string} [change] is the sidebar 'open' or 'closed'
    */
   function changeLogo(change) {
-    const logo = document.querySelector('.logo');
+    const logo = doc.querySelector('.logo');
     if (!logo) {
       return;
     }
@@ -37,9 +36,10 @@
    * @since   4.0.0
    */
   function fade(fadeAction, transitAction) {
+    const sidebar = doc.querySelector('.sidebar-wrapper');
     const sidebarChildren = sidebar ? sidebar.children : [];
     const sideChildrenLength = sidebarChildren.length;
-    const contentMain = document.querySelector('.container-main');
+    const contentMain = doc.querySelector('.container-main');
     const contentChildren = contentMain ? contentMain.children : [];
     const contChildrenLength = contentChildren.length;
 
@@ -67,9 +67,10 @@
     }
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('form-login');
-    const logoutBtn = document.querySelector('.header-items a[href*="task=logout"]');
+  doc.addEventListener('DOMContentLoaded', () => {
+    const loginForm = doc.getElementById('form-login');
+    const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
+    const sidebar = doc.querySelector('.sidebar-wrapper');
 
     // Fade out login form when login was successful
     if (loginForm) {

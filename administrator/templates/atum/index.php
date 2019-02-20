@@ -29,17 +29,16 @@ $layout     = $input->get('layout', 'default');
 $task       = $input->get('task', 'display');
 $itemid     = $input->get('Itemid', '');
 $cpanel     = $option === 'com_cpanel';
-$hidden     = $app->input->get('hidemainmenu');
+$hiddenMenu = $app->input->get('hidemainmenu');
 $joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
 // Template params
 $siteLogo = $this->params->get('siteLogo')
 	? JUri::root() . $this->params->get('siteLogo')
-	: $this->params->get('siteLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg');
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
 $smallLogo = $this->params->get('smallLogo')
 	? JUri::root() . $this->params->get('smallLogo')
-	: $this->params->get('smallLogo', $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg');
-
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
@@ -159,14 +158,15 @@ $this->addStyleDeclaration($css);
 	<div class="d-flex align-items-center">
 		<div class="header-title d-flex mr-auto">
 			<div class="d-flex">
-				<?php if (!$hidden) : ?>
-					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
-					   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
+				<?php if ($hiddenMenu || $cpanel) : ?>
+					<div class="logo">
 						<img src="<?php echo $siteLogo; ?>" alt="">
 						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
-					</a>
+					</div>
 				<?php else : ?>
-					<a class="logo">
+					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
+					   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $siteLogo; ?>" alt="">
 						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
 					</a>
@@ -181,11 +181,11 @@ $this->addStyleDeclaration($css);
 </header>
 
 <?php // Wrapper ?>
-<div id="wrapper" class="d-flex wrapper<?php echo $hidden ? '0' : ''; ?>">
+<div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
 
 	<?php // Sidebar ?>
-	<?php if (!$hidden) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
+	<?php if (!$hiddenMenu) : ?>
+		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
 			<jdoc:include type="modules" name="menu" style="none"/>
 			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
 				<img src="<?php echo $joomlaLogo; ?>" alt="">
