@@ -9,7 +9,7 @@
             ref="browserItems">
             <div class="media-dragoutline">
                 <span class="fa fa-cloud-upload upload-icon" aria-hidden="true"></span>
-                <p>Drop file(s) to Upload</p>
+                <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
             </div>
             <div v-if="listView === 'table'" class="media-browser-table">
                 <div class="media-browser-table-head">
