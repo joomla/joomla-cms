@@ -46,59 +46,6 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			</a>
 		</li>
 
-		<li class="nav-item">
-			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
-			   title="<?php echo Text::_('MOD_STATUS_QUICKSTART'); ?>">
-				<span class="fa fa-rocket" aria-hidden="true"></span>
-				<span class="sr-only"><?php echo Text::_('MOD_STATUS_QUICKSTART'); ?></span>
-				<span class="fa fa-angle-down" aria-hidden="true"></span>
-			</a>
-			<div class="dropdown-menu dropdown-menu-right">
-				<div class="dropdown-header">
-					<?php echo Text::_('MOD_STATUS_QUICKSTART_HEADER'); ?>
-				</div>
-				<?php if ($user->authorise('core.edit', 'com_content')) : ?>
-					<?php $route = 'index.php?option=com_content&amp;view=article&amp;layout=edit'; ?>
-					<div class="dropdown-item">
-						<a href="<?php echo Route::_($route); ?>">
-							<?php echo Text::_('MOD_STATUS_NEW_ARTICLE'); ?>
-							<span class="fa fa-plus-circle" aria-hidden="true"></span>
-						</a>
-					</div>
-				<?php endif; ?>
-				<?php if ($user->authorise('core.edit', 'com_categories')) : ?>
-					<?php $route = 'index.php?option=com_categories&amp;view=category&amp;layout=edit'; ?>
-					<div class="dropdown-item">
-						<a href="<?php echo Route::_($route); ?>">
-							<?php echo Text::_('MOD_STATUS_CREATE_CATEGORY'); ?>
-							<span class="fa fa-plus-circle" aria-hidden="true"></span>
-						</a>
-					</div>
-				<?php endif; ?>
-				<?php if ($user->authorise('core.manage', 'com_cache')) : ?>
-					<?php $route = 'index.php?option=com_cache'; ?>
-					<div class="dropdown-item">
-						<a href="<?php echo Route::_($route); ?>"><?php echo Text::_('MOD_STATUS_CLEAR_CACHE'); ?></a>
-					</div>
-				<?php endif; ?>
-				<?php if ($user->authorise('core.edit', 'com_newsfeeds')) : ?>
-					<?php $route = 'index.php?option=com_newsfeeds&amp;view=newsfeed&amp;layout=edit'; ?>
-					<div class="dropdown-item">
-						<a href="<?php echo Route::_($route); ?>">
-							<?php echo Text::_('MOD_STATUS_CREATE_NEWSLETTER'); ?>
-							<span class="fa fa-plus-circle" aria-hidden="true"></span>
-						</a>
-					</div>
-				<?php endif; ?>
-				<div class="dropdown-item">
-					<a href="<?php Uri::root(); ?>">
-						<?php echo Text::_('MOD_STATUS_BE_HAPPY'); ?>
-						<span class="fa fa-plus-circle" aria-hidden="true"></span>
-					</a>
-				</div>
-			</div>
-		</li>
-
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
