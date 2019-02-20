@@ -11,9 +11,10 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Installer\Installer;
-use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\Table\Table;
-use Joomla\Console\AbstractCommand;
+use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Input\InputArgument;
 
@@ -38,59 +39,6 @@ class ExtensionRemoveCommand extends AbstractCommand
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 	}
 
-
-	/**
-	 * Execute the command.
-	 *
-	 * @return  integer  The exit code for the command.
-	 *
-	 * @since   4.0.0
-	 */
-	public function execute(): int
-	{
-		$this->configureIO();
-		$extension_id = $this->cliInput->getArgument('extension_id');
-
-		$extension = $this->getExtension();
-
-		if ((int) $extension_id === 0 || !$extension->load($extension_id))
-		{
-			$this->ioStyle->error("Extension with ID of $extension_id not found.");
-
-			return 0;
-		}
-
-		$response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
-
-		if (strtolower($response) === 'yes')
-		{
-			if ($extension->type && $extension->type != 'language')
-			{
-				$installer = Installer::getInstance();
-				$result    = $installer->uninstall($extension->type, $extension_id);
-
-				if ($result)
-				{
-					$this->ioStyle->success('Extension removed!');
-				}
-			}
-		}
-		elseif (strtolower($response) === 'no')
-		{
-			$this->ioStyle->note('Extension not removed.');
-
-			return 0;
-		}
-		else
-		{
-			$this->ioStyle->warning('Invalid response');
-
-			return 2;
-		}
-
-		return 0;
-	}
-
 	/**
 	 * Initialise the command.
 	 *
@@ -98,7 +46,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function initialise()
+	protected function configure()
 	{
 		$this->setName('extension:remove');
 		$this->addArgument(
@@ -124,4 +72,59 @@ class ExtensionRemoveCommand extends AbstractCommand
 	{
 		return Table::getInstance('extension');
 	}
+
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface $input The input to inject into the command.
+     * @param   OutputInterface $output The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO();
+        $extension_id = $this->cliInput->getArgument('extension_id');
+
+        $extension = $this->getExtension();
+
+        if ((int) $extension_id === 0 || !$extension->load($extension_id))
+        {
+            $this->ioStyle->error("Extension with ID of $extension_id not found.");
+
+            return 0;
+        }
+
+        $response = $this->ioStyle->ask('Are you sure you want to remove this extension?', 'yes/no');
+
+        if (strtolower($response) === 'yes')
+        {
+            if ($extension->type && $extension->type != 'language')
+            {
+                $installer = Installer::getInstance();
+                $result    = $installer->uninstall($extension->type, $extension_id);
+
+                if ($result)
+                {
+                    $this->ioStyle->success('Extension removed!');
+                }
+            }
+        }
+        elseif (strtolower($response) === 'no')
+        {
+            $this->ioStyle->note('Extension not removed.');
+
+            return 0;
+        }
+        else
+        {
+            $this->ioStyle->warning('Invalid response');
+
+            return 2;
+        }
+
+        return 0;
+    }
 }

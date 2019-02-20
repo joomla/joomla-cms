@@ -10,9 +10,11 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Console\AbstractCommand;
+use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\Input;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -78,52 +80,6 @@ class GetConfigurationCommand extends AbstractCommand
 		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 	}
 
-
-	/**
-	 * Execute the command.
-	 *
-	 * @return  integer  The exit code for the command.
-	 *
-	 * @since   4.0.0
-	 */
-	public function execute(): int
-	{
-		$this->configureIO();
-
-		$configs = $this->formatConfig($this->getApplication()->getConfig()->toArray());
-
-		$option = $this->cliInput->getArgument('option');
-		$group = $this->cliInput->getOption('group');
-
-		if ($group)
-		{
-			return $this->processGroupOptions($group);
-		}
-
-		if ($option)
-		{
-			return $this->processSingleOption($option);
-		}
-
-		if (!$option && !$group)
-		{
-			$options = [];
-
-			array_walk(
-				$configs,
-				function ($value, $key) use (&$options) {
-					$options[] = [$key, $value];
-				}
-			);
-
-			$this->ioStyle->title("Current options in Configuration");
-			$this->ioStyle->table(['Option', 'Value'], $options);
-
-			return 0;
-		}
-
-		return 1;
-	}
 
 	/**
 	 * Displays logically grouped options
@@ -243,7 +199,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function initialise()
+	protected function configure()
 	{
 		$groups = $this->getGroups();
 
@@ -267,4 +223,53 @@ class GetConfigurationCommand extends AbstractCommand
 
 		$this->setHelp($help);
 	}
+
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface $input The input to inject into the command.
+     * @param   OutputInterface $output The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO();
+
+        $configs = $this->formatConfig($this->getApplication()->getConfig()->toArray());
+
+        $option = $this->cliInput->getArgument('option');
+        $group = $this->cliInput->getOption('group');
+
+        if ($group)
+        {
+            return $this->processGroupOptions($group);
+        }
+
+        if ($option)
+        {
+            return $this->processSingleOption($option);
+        }
+
+        if (!$option && !$group)
+        {
+            $options = [];
+
+            array_walk(
+                $configs,
+                function ($value, $key) use (&$options) {
+                    $options[] = [$key, $value];
+                }
+            );
+
+            $this->ioStyle->title("Current options in Configuration");
+            $this->ioStyle->table(['Option', 'Value'], $options);
+
+            return 0;
+        }
+
+        return 1;
+    }
 }

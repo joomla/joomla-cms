@@ -10,7 +10,9 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Console\AbstractCommand;
+use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -52,40 +54,13 @@ class SiteUpCommand extends AbstractCommand
 	}
 
 	/**
-	 * Execute the command.
-	 *
-	 * @return  integer  The exit code for the command.
-	 *
-	 * @since   4.0.0
-	 */
-	public function execute(): int
-	{
-		$this->configureIO();
-
-		$command = $this->getApplication()->getCommand('config:set');
-
-		$command->setOptions('offline=false');
-
-		$returnCode = $command->execute();
-
-		if ($returnCode === 0)
-		{
-			$this->ioStyle->success("Website is now online");
-
-			return self::SITE_UP_SUCCESSFUL;
-		}
-
-		return self::SITE_UP_FAILED;
-	}
-
-	/**
 	 * Initialise the command.
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	protected function initialise()
+	protected function configure()
 	{
 		$this->setName('site:up');
 		$this->setDescription('Puts the site into online mode');
@@ -95,4 +70,34 @@ class SiteUpCommand extends AbstractCommand
 
 		$this->setHelp($help);
 	}
+
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface $input The input to inject into the command.
+     * @param   OutputInterface $output The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO();
+
+        $command = $this->getApplication()->getCommand('config:set');
+
+        $command->setOptions('offline=false');
+
+        $returnCode = $command->doExecute($input, $output);
+
+        if ($returnCode === 0)
+        {
+            $this->ioStyle->success("Website is now online");
+
+            return self::SITE_UP_SUCCESSFUL;
+        }
+
+        return self::SITE_UP_FAILED;
+    }
 }

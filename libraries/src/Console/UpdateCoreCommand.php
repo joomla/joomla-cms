@@ -10,12 +10,15 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\Application\Cli\CliInput;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 
@@ -24,8 +27,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  4.0.0
  */
-class UpdateCoreCommand extends AbstractCommand
+class UpdateCoreCommand extends \Joomla\Console\Command\AbstractCommand
 {
+    /**
+     * The default command name
+     *
+     * @var    string
+     * @since  __DEPLOY_VERSION__
+     */
+    protected static $defaultName = 'core:update';
+
 	/**
 	 * Stores the Input Object
 	 * @var CliInput
@@ -134,16 +145,18 @@ class UpdateCoreCommand extends AbstractCommand
 		return true;
 	}
 
-	/**
-	 * Execute the command.
-	 *
-	 * @return  integer  The exit code for the command.
-	 *
-	 * @since   4.0.0
-	 *
-	 * @throws null
-	 */
-	public function execute(): int
+    /**
+     * Execute the command.
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return  integer  The exit code for the command.
+     *
+     * @throws \Exception
+     * @since   4.0.0
+     *
+     */
+	public function doExecute(InputInterface $input, OutputInterface $output): int
 	{
 		$this->configureIO();
 
@@ -189,9 +202,8 @@ class UpdateCoreCommand extends AbstractCommand
 	 *
 	 * @since   4.0.0
 	 */
-	protected function initialise()
+	protected function configure()
 	{
-		$this->setName('core:update');
 		$this->setDescription('Updates joomla core');
 
 		$help = "The <info>%command.name%</info> Updates the Joomla core \n <info>php %command.full_name%</info>";

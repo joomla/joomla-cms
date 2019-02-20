@@ -13,12 +13,14 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\Console\AbstractCommand;
+use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 use Symfony\Component\Console\Input\Input;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -157,53 +159,6 @@ class SetConfigurationCommand extends AbstractCommand
 	}
 
 	/**
-	 * Execute the command.
-	 *
-	 * @return integer The exit code for the command.
-	 *
-	 * @since 4.0
-	 *
-	 * @throws void
-	 */
-	public function execute(): int
-	{
-		$this->configureIO();
-
-		$options = $this->getOptions();
-
-		$options = $this->retrieveOptionsFromInput($options);
-
-		$valid = $this->validateOptions($options);
-
-
-		if (!$valid)
-		{
-			return self::CONFIG_VALIDATION_FAILED;
-		}
-
-		$initialOptions = $this->getInitialConfigurationOptions()->toArray();
-
-		$combinedOptions = array_merge($initialOptions, $options);
-
-		$db = $this->checkDb($combinedOptions);
-
-		if ($db === false)
-		{
-			return self::DB_VALIDATION_FAILED;
-		}
-
-		if ($this->saveConfiguration($options))
-		{
-			$this->options ?: $this->ioStyle->success('Configuration set');
-
-			return self::CONFIG_SET_SUCCESSFUL;
-		}
-
-		return self::CONFIG_SET_FAILED;
-	}
-
-
-	/**
 	 * Sets the options array
 	 *
 	 * @param   string  $options  Options string
@@ -292,7 +247,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 *
 	 * @since 4.0
 	 */
-	protected function initialise()
+	protected function configure()
 	{
 		$this->setName('config:set');
 		$this->setDescription('Sets a value for a configuration option');
@@ -496,4 +451,51 @@ class SetConfigurationCommand extends AbstractCommand
 			return false;
 		}
 	}
+
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface $input The input to inject into the command.
+     * @param   OutputInterface $output The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO();
+
+        $options = $this->getOptions();
+
+        $options = $this->retrieveOptionsFromInput($options);
+
+        $valid = $this->validateOptions($options);
+
+
+        if (!$valid)
+        {
+            return self::CONFIG_VALIDATION_FAILED;
+        }
+
+        $initialOptions = $this->getInitialConfigurationOptions()->toArray();
+
+        $combinedOptions = array_merge($initialOptions, $options);
+
+        $db = $this->checkDb($combinedOptions);
+
+        if ($db === false)
+        {
+            return self::DB_VALIDATION_FAILED;
+        }
+
+        if ($this->saveConfiguration($options))
+        {
+            $this->options ?: $this->ioStyle->success('Configuration set');
+
+            return self::CONFIG_SET_SUCCESSFUL;
+        }
+
+        return self::CONFIG_SET_FAILED;
+    }
 }

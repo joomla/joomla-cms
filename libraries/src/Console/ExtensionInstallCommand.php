@@ -12,9 +12,11 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
-use Joomla\Console\AbstractCommand;
+use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -52,79 +54,31 @@ class ExtensionInstallCommand extends AbstractCommand
 	}
 
 	/**
-	 * Execute the command.
-	 *
-	 * @return  integer  The exit code for the command.
-	 *
-	 * @since   4.0.0
-	 */
-	public function execute(): int
-	{
-		$this->configureIO();
-
-		$from = $this->cliInput->getArgument('from');
-
-		if ($from === 'path')
-		{
-			$result = $this->processPathInstallation($this->cliInput->getOption('path'));
-
-			if (!$result)
-			{
-				$this->ioStyle->error('Unable to install extension');
-			}
-			else
-			{
-				$this->ioStyle->success('Extension installed successfully.');
-			}
-		}
-		elseif ($from === 'url')
-		{
-			$result = $this->processUrlInstallation($this->cliInput->getOption('url'));
-
-			if (!$result)
-			{
-				$this->ioStyle->error('Unable to install extension');
-			}
-			else
-			{
-				$this->ioStyle->success('Extension installed successfully.');
-			}
-		}
-		else
-		{
-			$this->ioStyle->error('Invalid argument supplied for command.');
-		}
-
-		return 0;
-	}
-
-	/**
 	 * Initialise the command.
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	protected function initialise()
+	protected function configure()
 	{
-		$this->setName('extension:install');
-		$this->addArgument(
+        $this->setName('extension:install');
+        $this->addArgument(
 			'from',
 			InputArgument::REQUIRED,
 			'Where do you want to install from?? (path OR url)'
 		);
+        $this->addOption('path', null, InputOption::VALUE_REQUIRED, 'The path to the extension');
+        $this->addOption('url', null, InputOption::VALUE_REQUIRED, 'The url to the extension');
 
-		$this->addOption('path', null, InputOption::VALUE_REQUIRED, 'The path to the extension');
-		$this->addOption('url', null, InputOption::VALUE_REQUIRED, 'The url to the extension');
+        $this->setDescription('Installs an extension from a URL or from a Path.');
 
-		$this->setDescription('Installs an extension from a URL or from a Path.');
-
-		$help = "The <info>%command.name%</info> is used for installing extensions \n 
+        $help = "The <info>%command.name%</info> is used for installing extensions \n 
 					--path=<path_to_extension> OR --url=<url_to_download_extension> \n 
 					<info>php %command.full_name%</info>";
-		
-		$this->setHelp($help);
-	}
+
+        $this->setHelp($help);
+    }
 
 	/**
 	 * Used for installing extension from a path
@@ -195,4 +149,53 @@ class ExtensionInstallCommand extends AbstractCommand
 		return $result;
 	}
 
+    /**
+     * Internal function to execute the command.
+     *
+     * @param   InputInterface $input The input to inject into the command.
+     * @param   OutputInterface $output The output to inject into the command.
+     *
+     * @return  integer  The command exit code
+     *
+     * @since   __DEPLOY_VERSION__
+     */
+    protected function doExecute(InputInterface $input, OutputInterface $output): int
+    {
+        $this->configureIO();
+
+        $from = $this->cliInput->getArgument('from');
+
+        if ($from === 'path')
+        {
+            $result = $this->processPathInstallation($this->cliInput->getOption('path'));
+
+            if (!$result)
+            {
+                $this->ioStyle->error('Unable to install extension');
+            }
+            else
+            {
+                $this->ioStyle->success('Extension installed successfully.');
+            }
+        }
+        elseif ($from === 'url')
+        {
+            $result = $this->processUrlInstallation($this->cliInput->getOption('url'));
+
+            if (!$result)
+            {
+                $this->ioStyle->error('Unable to install extension');
+            }
+            else
+            {
+                $this->ioStyle->success('Extension installed successfully.');
+            }
+        }
+        else
+        {
+            $this->ioStyle->error('Invalid argument supplied for command.');
+        }
+
+        return 0;
+    }
 }
