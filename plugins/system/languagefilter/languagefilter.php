@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,7 +113,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				}
 			}
 		}
-		// If language filter plugin is executed in a admin page (ex: JRoute site).
+		// If language filter plugin is executed in an admin page (ex: JRoute site).
 		else
 		{
 			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
