@@ -325,29 +325,29 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	public function getLocaliseAdmin(DatabaseInterface $db = null)
 	{
-		$langfiles = array();
+		$langfiles = [];
 
 		// If db connection, fetch them from the database.
 		if ($db)
 		{
-			foreach (LanguageHelper::getInstalledLanguages() as $clientId => $language)
+			foreach (LanguageHelper::getInstalledLanguages() as $clientId => $languages)
 			{
 				$clientName = $clientId === 0 ? 'site' : 'admin';
 
-				foreach ($language as $languageCode => $lang)
+				foreach ($languages as $language)
 				{
-					$langfiles[$clientName][] = $lang->element;
+					$langfiles[$clientName][] = $language->element;
 				}
 			}
-		}
-		// Read the folder names in the site and admin area.
-		else
-		{
-			$langfiles['site']  = Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE));
-			$langfiles['admin'] = Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR));
+
+			return $langfiles;
 		}
 
-		return $langfiles;
+		// Read the folder names in the site and admin area.
+		return [
+				'site' => Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE)),
+				'admin' => Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR)),
+			];
 	}
 
 	/**
