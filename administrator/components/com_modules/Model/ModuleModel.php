@@ -877,7 +877,7 @@ class ModuleModel extends AdminModel
 
 		// Load the default site params
 		\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-		$form->loadFile('site', false);
+		$form->loadFile('site');
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
