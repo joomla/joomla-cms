@@ -31,12 +31,14 @@ $cyan:                             #108193;
 //color-60 is the base
 $color-60:                         $blue;
 
-$color-0:                          adjust-color($color-60, $hue: -5%, $saturation: -93%, $lightness: +24.5%);
-$color-10:                         adjust-color($color-60, $hue: -6%, $saturation: -86%, $lightness: +20.5%);
-$color-20:                         adjust-color($color-60, $hue: -6%, $saturation: -76%, $lightness: +16.5%);
-$color-30:                         adjust-color($color-60, $hue: -5%, $saturation: -60%, $lightness: +12%);
-$color-40:                         adjust-color($color-60, $hue: -3%, $saturation: -41%, $lightness: +8%);
-$color-50:                         adjust-color($color-60, $hue: -1%, $saturation: -19%, $lightness: +4%);
+
+$color-0:                          adjust-color($color-60, $hue: -5%, $saturation: -91%, $lightness: +71.4%);
+$color-5:                          adjust-color($color-60, $hue: -6%, $saturation: -86%, $lightness: +65.1%);
+$color-10:                         adjust-color($color-60, $hue: -6%, $saturation: -82%, $lightness: +59.4%);
+$color-20:                         adjust-color($color-60, $hue: -6%, $saturation: -76%, $lightness: +47.3%);
+$color-30:                         adjust-color($color-60, $hue: -5%, $saturation: -57%, $lightness: +34.3%);
+$color-40:                         adjust-color($color-60, $hue: -3%, $saturation: -39%, $lightness: +21.4%);
+$color-50:                         adjust-color($color-60, $hue: -1%, $saturation: -18%, $lightness: +10%);
 
 
 
@@ -75,7 +77,7 @@ $colors: (
   focus: #39f,
   table-border: $gray-300,
   atum-bg-dark: $blue,
-  atum-bg-light: $light-blue,
+  atum-bg-light: $color-5,
   atum-text-dark: $gray-600,
   atum-text-light: $white,
   atum-special-color:$dark-blue,
