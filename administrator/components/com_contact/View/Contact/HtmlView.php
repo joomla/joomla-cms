@@ -112,9 +112,10 @@ class HtmlView extends BaseHtmlView
 			// For new records, check the create permission.
 			if ($isNew && (count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0))
 			{
+				ToolbarHelper::apply('contact.apply');
+
 				ToolbarHelper::saveGroup(
 					[
-						['apply', 'contact.apply'],
 						['save', 'contact.save'],
 						['save2new', 'contact.save2new']
 					],
@@ -134,7 +135,8 @@ class HtmlView extends BaseHtmlView
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				$toolbarButtons[] = ['apply', 'contact.apply'];
+				ToolbarHelper::apply('contact.apply');
+
 				$toolbarButtons[] = ['save', 'contact.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.

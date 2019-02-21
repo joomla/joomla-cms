@@ -107,7 +107,8 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit'))
 		{
-			$toolbarButtons[] = ['apply', 'override.apply'];
+			ToolbarHelper::apply('override.apply');
+				
 			$toolbarButtons[] = ['save', 'override.save'];
 		}
 

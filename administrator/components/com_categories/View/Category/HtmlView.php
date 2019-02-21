@@ -186,9 +186,9 @@ class HtmlView extends BaseHtmlView
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories($component, 'core.create')) > 0))
 		{
+			ToolbarHelper::apply('category.apply');
 			ToolbarHelper::saveGroup(
 				[
-					['apply', 'category.apply'],
 					['save', 'category.save'],
 					['save2new', 'category.save2new']
 				],
@@ -209,7 +209,8 @@ class HtmlView extends BaseHtmlView
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				$toolbarButtons[] = ['apply', 'category.apply'];
+				ToolbarHelper::apply('category.apply');
+
 				$toolbarButtons[] = ['save', 'category.save'];
 
 				if ($canDo->get('core.create'))

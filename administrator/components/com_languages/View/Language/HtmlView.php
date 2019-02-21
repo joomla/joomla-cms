@@ -98,7 +98,8 @@ class HtmlView extends BaseHtmlView
 
 		if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit')))
 		{
-			$toolbarButtons[] = ['apply', 'language.apply'];
+			ToolbarHelper::apply('language.apply');
+				
 			$toolbarButtons[] = ['save', 'language.save'];
 		}
 
