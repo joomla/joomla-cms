@@ -195,7 +195,7 @@ class GetConfigurationCommand extends AbstractCommand
 	/**
 	 * Formats the Configuration value
 	 *
-	 * @param   mixed $value Value to be formatted
+	 * @param   mixed  $value  Value to be formatted
 	 *
 	 * @return string
 	 *
