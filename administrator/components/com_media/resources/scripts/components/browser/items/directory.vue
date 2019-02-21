@@ -23,7 +23,7 @@
             </a>
             <div class="media-browser-actions-list">
                 <a href="#" class="action-rename"
-                  :aria-label="translate('COM_MEDIA_ACTIN_RENAME')">
+                  :aria-label="translate('COM_MEDIA_ACTION_RENAME')">
                     <span class="image-browser-action fa fa-text-width" aria-hidden="true"
                           @click.stop="openRenameModal()"></span>
                 </a>
