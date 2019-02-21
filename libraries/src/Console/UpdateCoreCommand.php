@@ -15,7 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
-use Joomla\Console\AbstractCommand;
+use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,7 +27,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  *
  * @since  4.0.0
  */
-class UpdateCoreCommand extends \Joomla\Console\Command\AbstractCommand
+class UpdateCoreCommand extends AbstractCommand
 {
 	/**
 	 * The default command name
@@ -93,18 +93,21 @@ class UpdateCoreCommand extends \Joomla\Console\Command\AbstractCommand
 	/**
 	 * Configures the IO
 	 *
+	 * @param   InputInterface   $input   Console Input
+	 * @param   OutputInterface  $output  Console Output
 	 * @return void
 	 *
 	 * @since 4.0
+	 *
 	 */
-	private function configureIO()
+	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
 		ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message%');
-		$this->progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 8);
+		$this->progressBar = new ProgressBar($output, 8);
 		$this->progressBar->setFormat('custom');
 
-		$this->cliInput = $this->getApplication()->getConsoleInput();
-		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+		$this->cliInput = $input;
+		$this->ioStyle = new SymfonyStyle($input, $output);
 	}
 
 	/**
@@ -158,7 +161,7 @@ class UpdateCoreCommand extends \Joomla\Console\Command\AbstractCommand
 	 */
 	public function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->configureIO();
+		$this->configureIO($input, $output);
 
 		$this->progressBar->setMessage("Starting up ...");
 		$this->progressBar->start();

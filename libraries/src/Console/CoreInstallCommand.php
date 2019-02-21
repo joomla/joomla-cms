@@ -125,26 +125,27 @@ class CoreInstallCommand extends AbstractCommand
 	/**
 	 * Configures the IO
 	 *
+	 * @param   InputInterface   $input   Console Input
+	 * @param   OutputInterface  $output  Console Output
 	 * @return void
 	 *
 	 * @since 4.0
 	 *
-	 * @throws null
 	 */
-	private function configureIO()
+	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
 		$language = Factory::getLanguage();
 		$language->load('', JPATH_INSTALLATION, null, false, false) ||
 		$language->load('', JPATH_INSTALLATION, null, true);
 
 		$this->registry = new Registry;
-		$this->cliInput = $this->getApplication()->getConsoleInput();
+		$this->cliInput = $input;
 
 		ProgressBar::setFormatDefinition('custom', ' %current%/%max% -- %message%');
-		$this->progressBar = new ProgressBar($this->getApplication()->getConsoleOutput(), 7);
+		$this->progressBar = new ProgressBar($output, 7);
 		$this->progressBar->setFormat('custom');
 
-		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+		$this->ioStyle = new SymfonyStyle($input, $output);
 	}
 
 
@@ -663,7 +664,7 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->configureIO();
+		$this->configureIO($input, $output);
 		$this->progressBar->setMessage("Starting Joomla! installation ...");
 		$this->progressBar->start();
 		define('JPATH_COMPONENT', JPATH_BASE . '/installation');

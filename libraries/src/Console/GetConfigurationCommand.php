@@ -70,14 +70,17 @@ class GetConfigurationCommand extends AbstractCommand
 	/**
 	 * Configures the IO
 	 *
+	 * @param   InputInterface   $input   Console Input
+	 * @param   OutputInterface  $output  Console Output
 	 * @return void
 	 *
 	 * @since 4.0
+	 *
 	 */
-	private function configureIO()
+	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
-		$this->cliInput = $this->getApplication()->getConsoleInput();
-		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+		$this->cliInput = $input;
+		$this->ioStyle = new SymfonyStyle($input, $output);
 	}
 
 
@@ -265,7 +268,7 @@ class GetConfigurationCommand extends AbstractCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->configureIO();
+		$this->configureIO($input, $output);
 
 		$configs = $this->formatConfig($this->getApplication()->getConfig()->toArray());
 

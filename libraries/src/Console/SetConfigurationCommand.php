@@ -79,17 +79,20 @@ class SetConfigurationCommand extends AbstractCommand
 	/**
 	 * Configures the IO
 	 *
+	 * @param   InputInterface   $input   Console Input
+	 * @param   OutputInterface  $output  Console Output
 	 * @return void
 	 *
 	 * @since 4.0
+	 *
 	 */
-	private function configureIO()
+	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
 		$language = Factory::getLanguage();
 		$language->load('', JPATH_INSTALLATION, null, false, false) ||
 		$language->load('', JPATH_INSTALLATION, null, true);
-		$this->cliInput = $this->getApplication()->getConsoleInput();
-		$this->ioStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+		$this->cliInput = $input;
+		$this->ioStyle = new SymfonyStyle($input, $output);
 	}
 
 
@@ -465,7 +468,7 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->configureIO();
+		$this->configureIO($input, $output);
 
 		$options = $this->getOptions();
 

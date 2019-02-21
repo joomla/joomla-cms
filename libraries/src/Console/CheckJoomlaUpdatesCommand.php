@@ -112,7 +112,7 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+		$symfonyStyle = new SymfonyStyle($input, $output);
 
 		$model = $this->getUpdateInfo();
 		$data  = $model->getUpdateInformation();
