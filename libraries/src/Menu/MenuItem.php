@@ -10,16 +10,20 @@ namespace Joomla\CMS\Menu;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\Tree\NodeInterface;
+use Joomla\CMS\Tree\NodeTrait;
 use Joomla\Registry\Registry;
 
 /**
  * Object representing a menu item
  *
  * @since  3.7.0
- * @note   This class will no longer extend stdClass in Joomla 4
  */
-class MenuItem extends \stdClass
+class MenuItem implements NodeInterface
 {
+	use NodeTrait;
+
 	/**
 	 * Primary key
 	 *
