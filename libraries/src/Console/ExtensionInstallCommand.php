@@ -53,6 +53,7 @@ class ExtensionInstallCommand extends AbstractCommand
 	 *
 	 * @param   InputInterface   $input   Console Input
 	 * @param   OutputInterface  $output  Console Output
+	 *
 	 * @return void
 	 *
 	 * @since 4.0

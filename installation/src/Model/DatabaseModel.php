@@ -684,7 +684,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Handle default backend language setting. This feature is available for localized versions of Joomla.
-		$languages = Factory::getApplication()->getLocaliseAdmin($db);
+		$languages = $this->getLocaliseAdmin($db);
 
 		if (in_array($options->language, $languages['admin']) || in_array($options->language, $languages['site']))
 		{
@@ -727,6 +727,42 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		return $return;
+	}
+
+	/**
+	 * Returns the installed language in the administrative and frontend area.
+	 *
+	 * @param   DatabaseInterface  $db  Database driver.
+	 *
+	 * @return  array  Array with installed language packs in admin and site area.
+	 *
+	 * @since   4.0
+	 */
+	public function getLocaliseAdmin(DatabaseInterface $db = null)
+	{
+		$langfiles = [];
+
+		// If db connection, fetch them from the database.
+		if ($db)
+		{
+			foreach (LanguageHelper::getInstalledLanguages() as $clientId => $languages)
+			{
+				$clientName = $clientId === 0 ? 'site' : 'admin';
+
+				foreach ($languages as $language)
+				{
+					$langfiles[$clientName][] = $language->element;
+				}
+			}
+
+			return $langfiles;
+		}
+
+		// Read the folder names in the site and admin area.
+		return [
+			'site' => Folder::folders(LanguageHelper::getLanguagePath(JPATH_SITE)),
+			'admin' => Folder::folders(LanguageHelper::getLanguagePath(JPATH_ADMINISTRATOR)),
+		];
 	}
 
 	/**
