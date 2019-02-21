@@ -97,6 +97,11 @@
       // Get a label
       const label = element.form.querySelector(`label[for="${element.id}"]`);
 
+      let labelControl;
+      if (label) {
+        labelControl = label.closest('div.control-group');
+      }
+
       element.classList.remove('form-control-success');
       element.classList.remove('valid');
       element.classList.add('form-control-danger');
@@ -109,13 +114,14 @@
       let mesgCont;
       const message = element.getAttribute('data-validation-text');
 
-      if (label) {
-        mesgCont = label.querySelector('span.form-control-feedback');
+      if (labelControl) {
+        mesgCont = labelControl.querySelector('span.form-control-feedback');
       }
 
       if (!mesgCont) {
         const elMsg = document.createElement('span');
         elMsg.classList.add('form-control-feedback');
+        elMsg.classList.add('invalid');
         if (empty && empty === 'checkbox') {
           elMsg.innerHTML = message || Joomla.JText._('JLIB_FORM_FIELD_REQUIRED_CHECK');
         } else if (empty && empty === 'value') {
@@ -124,8 +130,8 @@
           elMsg.innerHTML = message || Joomla.JText._('JLIB_FORM_FIELD_INVALID_VALUE');
         }
 
-        if (label) {
-          label.appendChild(elMsg);
+        if (labelControl) {
+          labelControl.appendChild(elMsg);
         }
       }
 
@@ -141,8 +147,13 @@
       let message;
       const label = element.form.querySelector(`label[for="${element.id}"]`);
 
+      let labelControl;
       if (label) {
-        message = label.querySelector('span.form-control-feedback');
+        labelControl = label.closest('div.control-group');
+      }
+
+      if (labelControl) {
+        message = labelControl.querySelector('span.form-control-feedback');
       }
 
       element.classList.remove('form-control-danger');
@@ -153,10 +164,8 @@
       element.parentNode.classList.remove('has-success');
 
       // Remove message
-      if (message) {
-        if (label) {
-          label.removeChild(message);
-        }
+      if (message && labelControl) {
+        labelControl.removeChild(message);
       }
 
       // Restore Label
