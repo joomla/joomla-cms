@@ -29,15 +29,13 @@ HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css',
-	['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
 
 // Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css',
-	['version' => 'auto']);
+HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -158,7 +156,15 @@ $this->addStyleDeclaration($css);
 	<jdoc:include type="metas"/>
 	<jdoc:include type="styles"/>
 </head>
+
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout; ?>">
+
+<noscript>
+	<div class="alert alert-danger" role="alert">
+		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+	</div>
+</noscript>
+
 <header id="header" class="header">
 	<div class="d-flex align-items-center">
 		<div class="header-title mr-auto">

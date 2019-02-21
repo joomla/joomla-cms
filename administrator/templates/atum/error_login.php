@@ -23,21 +23,16 @@ $lang = $app->getLanguage();
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
-// Load template JS file
-HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
-
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css',
-	['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
 
 // Load specific language related CSS
-HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css',
-	['version' => 'auto']);
+HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -45,7 +40,7 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', 'default');
 $sitename = $app->get('sitename');
 
-// Template params
+// Logos (params are not available)
 $siteLogo  = $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
 $loginLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
@@ -74,7 +69,15 @@ $css = '
 	<jdoc:include type="metas"/>
 	<jdoc:include type="styles"/>
 </head>
+
 <body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout; ?>">
+
+<noscript>
+	<div class="alert alert-danger" role="alert">
+		<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+	</div>
+</noscript>
+
 <header id="header" class="header">
 	<div class="d-flex align-items-center">
 		<div class="header-title mr-auto">
@@ -100,11 +103,6 @@ $css = '
 
 	<div class="container-fluid container-main">
 		<section id="content" class="content h-100">
-			<noscript>
-				<div class="alert alert-danger" role="alert">
-					<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-				</div>
-			</noscript>
 			<?php // Begin Content ?>
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div id="element-box" class="card">
@@ -129,8 +127,7 @@ $css = '
 									<?php $this->setError($this->_error->getPrevious()); ?>
 									<?php while ($loop === true) : ?>
 										<p><strong><?php echo Text::_('JERROR_LAYOUT_PREVIOUS_ERROR'); ?></strong></p>
-										<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES,
-												'UTF-8'); ?></p>
+										<p><?php echo htmlspecialchars($this->_error->getMessage(), ENT_QUOTES, 'UTF-8'); ?></p>
 										<?php echo $this->renderBacktrace(); ?>
 										<?php $loop = $this->setError($this->_error->getPrevious()); ?>
 									<?php endwhile; ?>

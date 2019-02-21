@@ -32,13 +32,9 @@ $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
 $joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
-// Template params
-$siteLogo  = $this->params->get('siteLogo')
-	? JUri::root() . $this->params->get('siteLogo')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
-$smallLogo = $this->params->get('smallLogo')
-	? JUri::root() . $this->params->get('smallLogo')
-	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+// Logos (params are not available)
+$siteLogo  = $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
+$smallLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));

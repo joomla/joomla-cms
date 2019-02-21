@@ -47,6 +47,7 @@ $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
 
 // Load specific template related JS
+// TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
 HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
 
 // Set some meta data
@@ -174,7 +175,7 @@ $this->addStyleDeclaration($css);
 					</div>
 				<?php else : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
-					   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+						aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $siteLogo; ?>" alt="">
 						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
 					</a>
@@ -206,7 +207,7 @@ $this->addStyleDeclaration($css);
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
 			<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse"
-			   data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
+				data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
 				<span class="icon-wrench"></span></a>
 			<div id="subhead" class="subhead">
 				<div id="container-collapse" class="container-collapse"></div>
