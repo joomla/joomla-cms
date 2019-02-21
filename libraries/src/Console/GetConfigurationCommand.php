@@ -185,11 +185,38 @@ class GetConfigurationCommand extends AbstractCommand
 			return 1;
 		}
 
-		$value = $this->getApplication()->get($option) ?: 'Not set';
+		$value = $this->resolveConfigValue($this->getApplication()->get($option));
 
 		$this->ioStyle->table(['Option', 'Value'], [[$option, $value]]);
 
 		return 0;
+	}
+
+	/**
+	 * @param $value
+	 *
+	 * @return string
+	 *
+	 * @since version
+	 */
+	protected function resolveConfigValue($value)
+	{
+		if ($value === false)
+		{
+			return "false";
+		}
+		elseif ($value === true)
+		{
+			return 'true';
+		}
+		elseif ($value === null)
+		{
+			return "Not Set";
+		}
+		else
+		{
+			return $value;
+		}
 	}
 
 	/**
