@@ -1,4 +1,4 @@
-// com_cpanel
+cpanel-add-module-icon// com_cpanel
 
 .com-cpanel {
 
@@ -134,7 +134,7 @@
 	transition: all .3s ease-in;
 	@include hover-focus-active() {
 		background-color: var(--atum-bg-dark);
-		color: var(--atum-link-hover-color);
+		color: var(--atum-text-light);
 		border-color: var(--white);
 		.cpanel-add-module-icon {
 			.fa {
