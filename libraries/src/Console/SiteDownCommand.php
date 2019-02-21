@@ -23,6 +23,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SiteDownCommand extends AbstractCommand
 {
 	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected static $defaultName = 'site:down';
+
+	/**
 	 * SymfonyStyle Object
 	 * @var SymfonyStyle
 	 * @since 4.0
@@ -65,7 +73,6 @@ class SiteDownCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->setName('site:down');
 		$this->setDescription('Puts the site into offline mode');
 
 		$help = "The <info>%command.name%</info> Puts the site into offline mode

@@ -25,6 +25,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class GetConfigurationCommand extends AbstractCommand
 {
 	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected static $defaultName = 'config:get';
+
+	/**
 	 * Stores the Input Object
 	 * @var Input
 	 * @since 4.0
@@ -242,7 +250,6 @@ class GetConfigurationCommand extends AbstractCommand
 
 		$groupNames = implode(', ', $groupNames);
 
-		$this->setName('config:get');
 		$this->setDescription('Displays the current value of a configuration option');
 
 		$this->addArgument('option', null, 'Name of the option');

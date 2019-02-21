@@ -27,6 +27,14 @@ use Symfony\Component\Console\Input\InputArgument;
 class ExtensionRemoveCommand extends AbstractCommand
 {
 	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected static $defaultName = 'extension:remove';
+
+	/**
 	 * @var InputInterface
 	 * @since version
 	 */
@@ -63,7 +71,6 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->setName('extension:remove');
 		$this->addArgument(
 			'extension_id',
 			InputArgument::REQUIRED,
@@ -100,7 +107,7 @@ class ExtensionRemoveCommand extends AbstractCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$this->configureIO();
+		$this->configureIO($input, $output);
 		$extensionId = $this->cliInput->getArgument('extensionId');
 
 		$extension = $this->getExtension();

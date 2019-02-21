@@ -31,6 +31,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SetConfigurationCommand extends AbstractCommand
 {
 	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected static $defaultName = 'config:set';
+
+	/**
 	 * Stores the Input Object
 	 * @var Input
 	 * @since 4.0
@@ -252,7 +260,6 @@ class SetConfigurationCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->setName('config:set');
 		$this->setDescription('Sets a value for a configuration option');
 
 		$this->addArgument(

@@ -24,6 +24,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CheckJoomlaUpdatesCommand extends AbstractCommand
 {
 	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected static $defaultName = 'check-updates';
+
+	/**
 	 * Stores the Update Information
 	 * @var UpdateModel
 	 * @since 4.0
@@ -40,7 +48,6 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	protected function configure()
 	{
 		$help = "The <info>%command.name%</info> Checks for Joomla updates.\n Usage: <info>php %command.full_name%</info>";
-		$this->setName('check-updates');
 		$this->setDescription('Checks for Joomla updates');
 		$this->setHelp($help);
 	}

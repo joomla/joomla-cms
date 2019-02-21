@@ -27,15 +27,23 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ExtensionInstallCommand extends AbstractCommand
 {
 	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected static $defaultName = 'extension:install';
+
+	/**
 	 * Stores the Input Object
-	 * @var
+	 * @var InputInterface
 	 * @since 4.0
 	 */
 	private $cliInput;
 
 	/**
 	 * SymfonyStyle Object
-	 * @var
+	 * @var SymfonyStyle
 	 * @since 4.0
 	 */
 	private $ioStyle;
@@ -65,7 +73,6 @@ class ExtensionInstallCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->setName('extension:install');
 		$this->addArgument(
 			'from',
 			InputArgument::REQUIRED,

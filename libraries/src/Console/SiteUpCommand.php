@@ -23,6 +23,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SiteUpCommand extends AbstractCommand
 {
 	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected static $defaultName = 'site:up';
+
+	/**
 	 * SymfonyStyle Object
 	 * @var SymfonyStyle
 	 * @since 4.0
@@ -65,7 +73,6 @@ class SiteUpCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->setName('site:up');
 		$this->setDescription('Puts the site into online mode');
 
 		$help = "The <info>%command.name%</info> Puts the site into online mode

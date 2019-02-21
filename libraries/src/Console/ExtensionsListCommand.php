@@ -24,14 +24,24 @@ use Symfony\Component\Console\Input\InputOption;
  */
 class ExtensionsListCommand extends AbstractCommand
 {
-	/*
+	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected static $defaultName = 'extension:list';
+
+	/**
 	 * Stores the installed Extensions
+	 * @var array
+	 * @since 4.0
 	 */
 	private $extensions;
 
 	/**
 	 * Stores the Input Object
-	 * @var
+	 * @var InputInterface
 	 * @since 4.0
 	 */
 	private $cliInput;
@@ -68,7 +78,6 @@ class ExtensionsListCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->setName('extension:list');
 		$this->setDescription('List installed extensions');
 
 		$this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of the extension');

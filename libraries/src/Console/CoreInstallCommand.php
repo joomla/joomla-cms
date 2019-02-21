@@ -38,6 +38,14 @@ use Symfony\Component\Console\Helper\ProgressBar;
 class CoreInstallCommand extends AbstractCommand
 {
 	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  4.0
+	 */
+	protected static $defaultName = 'core:install';
+
+	/**
 	 * Stores the Input Object
 	 * @var Input
 	 * @since 4.0
@@ -432,8 +440,6 @@ class CoreInstallCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->setName('core:install');
-
 		$this->setDescription('Sets up the Joomla! CMS.');
 
 		$this->addOption('file', 'f', InputOption::VALUE_REQUIRED, 'Type of the extension');

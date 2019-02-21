@@ -33,7 +33,7 @@ class UpdateCoreCommand extends AbstractCommand
 	 * The default command name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0
 	 */
 	protected static $defaultName = 'core:update';
 
