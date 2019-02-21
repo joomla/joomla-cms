@@ -76,14 +76,17 @@ abstract class QuickIconHelper
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				$application->getLanguage()->load('mod_quickicon');
 				
-				self::$buttons[$key][] = 
-					[
-						'link'   => Route::_('index.php?option=com_config'),
-						'image'  => 'fa fa-cog',
-						'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
-						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group'  => 'MOD_QUICKICON_CONFIGURATION',
-					];
+				if ($params->get('show_global', '1'))
+				{				
+					self::$buttons[$key][] = 
+						[
+							'link'   => Route::_('index.php?option=com_config'),
+							'image'  => 'fa fa-cog',
+							'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
+							'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
+							'group'  => 'MOD_QUICKICON_CONFIGURATION',
+						];
+				}
 
 				if ($params->get('show_users', '1'))
 				{
@@ -111,15 +114,18 @@ abstract class QuickIconHelper
 						];
 				}
 
-				self::$buttons[$key][] = 
-					[
-						'amount' => self::countArticles(),
-						'link'   => Route::_('index.php?option=com_content&task=article.add'),
-						'name'   => Text::_('MOD_QUICKICON_ARTICLE_MANAGER'),
-						'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
-						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
-					];
+				if ($params->get('show_articles', '1'))
+				{
+					self::$buttons[$key][] = 
+						[
+							'amount' => self::countArticles(),
+							'link'   => Route::_('index.php?option=com_content&task=article.add'),
+							'name'   => Text::_('MOD_QUICKICON_ARTICLE_MANAGER'),
+							'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
+							'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
+							'group'  => 'MOD_QUICKICON_CONTENT',
+						];
+				}
 		
 				if ($params->get('show_categories', '1'))
 				{
