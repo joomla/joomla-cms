@@ -9,6 +9,12 @@
   @include media-breakpoint-down(sm) {
     padding-left: 0;
   }
+
+  &.closed {
+    .main-nav {
+      max-width:3rem;
+    }
+  }
 }
 
 .sidebar-wrapper {
@@ -51,7 +57,6 @@
       }
     }
 
-
   }
 
   &.transit-wider {
@@ -76,18 +81,16 @@
   width: $sidebar-width;
   opacity: 1;
 
-  ul.collapse{
-    li.dropdown-submenu{
-      display:block;
+  ul.collapse {
+    li.dropdown-submenu {
+      display: block;
 
     }
   }
 
-  .open> a{
-    box-shadow: 0 2px 4px -4px rgba(0, 0, 0, 0.4);
+  .open > a {
+    box-shadow: 0 2px 4px -4px rgba(0, 0, 0, 0.5);
   }
-
-
 
   // All list items
   li {
@@ -99,6 +102,8 @@
   a {
     position: relative;
     color: var(--atum-text-light);
+    height: 3.2rem;
+    line-height: 3.2rem;
 
     &:hover {
 
@@ -106,10 +111,14 @@
       text-decoration: none;
 
     }
-    &:focus{
-      -moz-box-shadow:    inset 0 0 2px 2px var(--atum-contrast);
+    &:focus {
+     /* -moz-box-shadow: inset 0 0 2px 2px var(--atum-contrast);
       -webkit-box-shadow: inset 0 0 2px 2px var(--atum-contrast);
-      box-shadow:         inset 0 0 2px 2px var(--atum-contrast);
+      box-shadow: inset 0 0 2px 2px var(--atum-contrast);*/
+      outline-offset: -0.25rem;
+      outline-color: var(--atum-contrast);
+      outline-width: 0.25rem;
+
     }
   }
 
@@ -121,7 +130,7 @@
 
     > a {
       display: block;
-      padding: 10px 6px;
+      padding: 0 0.35rem;
 
       &:hover {
         background-color: var(--atum-bg-dark-80);
@@ -130,15 +139,17 @@
 
     &.active > a {
       //background-color: rgba(0, 0, 0, .4);
+      box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
+      z-index: 10;
 
       &::before {
-       /* position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        width: 3px;
-        content: "";
-        background-color: var(--atum-bg-dark);*/
+        /*    position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            width: 0.25rem;
+            content: "";
+            background-color: var(--atum-contrast);*/
       }
     }
   }
@@ -146,8 +157,8 @@
   // 2nd level items
   ul {
     padding: 0;
-
-
+    z-index: 20;
+    background-color: var(--atum-bg-dark-70);
 
     li {
       position: relative;
@@ -156,7 +167,7 @@
 
     a {
       display: block;
-      padding: 4px 5px 4px 34px;
+      padding: 0 1.25rem 0 1.25rem;
       color: var(--atum-text-light);
       flex-basis: 100%;
 
@@ -165,21 +176,22 @@
         background-color: rgba(0, 0, 0, .4);
       }
 
-      &.active {
+      &.active > a {
         color: $white;
-        background-color: var(--atum-bg-dark);
-      }
+        background-color: var(--atum-bg-dark-80);
+          box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
+          z-index: 20;
 
-      &::before {
-        position: absolute;
-        top: 12px;
-        left: 18px;
-        width: .5rem;
-        height: .5rem;
-        content: "";
-        //background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTI1NiA4QzExOSA4IDggMTE5IDggMjU2czExMSAyNDggMjQ4IDI0OCAyNDgtMTExIDI0OC0yNDhTMzkzIDggMjU2IDh6bTAgNDQ4Yy0xMTAuNSAwLTIwMC04OS41LTIwMC0yMDBTMTQ1LjUgNTYgMjU2IDU2czIwMCA4OS41IDIwMCAyMDAtODkuNSAyMDAtMjAwIDIwMHoiLz48L3N2Zz4=");
-        opacity: .5;
-      }
+          &::before {
+            position: absolute;
+            top: 0.15rem;
+            bottom: 0.15rem;
+            left: 0;
+            width: 0.25rem;
+            content: "";
+            background-color: var(--atum-contrast);
+          }
+        }
 
       &.menu-quicktask {
         flex-basis: 2.5rem;
@@ -191,12 +203,15 @@
           width: 0;
         }
 
+        &:hover {
+          background: var(--atum-contrast);
+          color: var(--atum-bg-dark-90);
+        }
 
       }
     }
 
     .has-arrow::after {
-      top: 16px;
       width: .4rem;
       height: .4rem;
       border-color: var(--atum-text-light);
@@ -205,18 +220,40 @@
     // 3rd level items
     ul {
 
-        background-color:var(--atum-bg-dark-80);
+      background-color: var(--atum-bg-dark-80);
+      z-index: 30;
 
       a {
-        padding-left: 34px;
+        padding-left: 1.25rem;
+
+        &.active {
+          color: $white;
+          background-color: var(--atum-bg-dark-90);
+
+          &.active > a {
+            box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
+            z-index: 20;
+          }
+
+          &::before {
+            position: absolute;
+            top: 0.15rem;
+            bottom: 0.15rem;
+            left: 0;
+            width: 0.275rem;
+            content: "";
+            background-color: var(--atum-contrast);
+          }
+
+        }
       }
 
       a::before {
-        left: 34px;
+        left: 1.25rem;
       }
 
       //4th level
-      ul{
+      ul {
         background-color: var(--atum-bg-dark-90);
       }
     }
@@ -239,7 +276,7 @@
   }
 
   .menuitem-group {
-    margin-top: 10px;
+    margin-top: 0.65rem;
     font-size: .75rem;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -265,7 +302,7 @@
   // Dropdown indicator
   .has-arrow::after {
     position: absolute;
-    top: 21px;
+    top: 50%;
     right: 0.9em;
     width: .5rem;
     height: .5rem;

@@ -56,7 +56,7 @@ $theme-colors: map-merge((
   danger: $red,
   light: $gray-100,
   dark: $gray-900,
-  atum-link-color:$blue-a700
+  atum-link-color:$color-60
 ), $theme-colors);
 
 $colors: (
@@ -79,8 +79,8 @@ $colors: (
   atum-text-dark: $gray-600,
   atum-text-light: $white,
   atum-special-color:$dark-blue,
-  atum-link-color: $blue-a700,
-  atum-link-hover-color: darken($blue-a700, 15%),
+  atum-link-color: $color-60,
+  atum-link-hover-color: darken($color-60, 15%),
   //atum-bg-dark-light: lighten($blue, 20%),
   //atum-bg-dark-bright: lighten($blue, 40%),
   //      atum-bg-body: adjust-color($color-10, $alpha: 0.7),
