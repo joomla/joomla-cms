@@ -23,7 +23,7 @@ $indigo:                           #0377be;
 $purple:                           #6f42c1;
 $pink:                             #e83e8c;
 $red:                              #c52827;
-$yellow:                           #f27042;
+$yellow:                           #d43900;
 $green:                            #2f7d32;
 $teal:                             #20c997;
 $cyan:                             #108193;
@@ -103,6 +103,14 @@ $colors: (
    //    atum-bg-dark-80-hover: #rgba($color-70, 0.5),
   //      atum-bg-dark-90-hover: #rgba($color-80, 0.5),
 );
+
+
+// Alerts
+
+$alert-border-level:                0;
+$alert-color-level:                 0;
+
+
 
 // Global
 $atum-box-shadow:                  0 1px 2px rgba($black, .25);
