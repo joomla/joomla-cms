@@ -185,7 +185,7 @@ class GetConfigurationCommand extends AbstractCommand
 			return 1;
 		}
 
-		$value = $this->resolveConfigValue($this->getApplication()->get($option));
+		$value = $this->formatConfigValue($this->getApplication()->get($option));
 
 		$this->ioStyle->table(['Option', 'Value'], [[$option, $value]]);
 
@@ -193,13 +193,15 @@ class GetConfigurationCommand extends AbstractCommand
 	}
 
 	/**
-	 * @param $value
+	 * Formats the Configuration value
+	 *
+	 * @param   mixed $value Value to be formatted
 	 *
 	 * @return string
 	 *
 	 * @since version
 	 */
-	protected function resolveConfigValue($value)
+	protected function formatConfigValue($value)
 	{
 		if ($value === false)
 		{

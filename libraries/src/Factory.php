@@ -309,10 +309,7 @@ abstract class Factory
 
 		if (is_null($id))
 		{
-			if (!isset($instance) || !($instance instanceof User))
-			{
-				$instance = User::getInstance();
-			}
+			$instance = User::getInstance();
 		}
 		// Check if we have a string as the id or if the numeric id is the current instance
 		elseif (!($instance instanceof User) || is_string($id) || $instance->id !== $id)
