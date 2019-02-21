@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ConsoleApplication;
+use Joomla\CMS\Application\ExtensionNamespaceMapper;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
@@ -33,6 +34,7 @@ use Psr\Log\LoggerInterface;
  */
 class Application implements ServiceProviderInterface
 {
+	use ExtensionNamespaceMapper;
 	/**
 	 * Registers the service provider with a DI container.
 	 *
@@ -44,6 +46,9 @@ class Application implements ServiceProviderInterface
 	 */
 	public function register(Container $container)
 	{
+		// Registers the Extension Loader
+		$this->createExtensionNamespaceMap();
+
 		$container->alias(AdministratorApplication::class, 'JApplicationAdministrator')
 			->share(
 				'JApplicationAdministrator',

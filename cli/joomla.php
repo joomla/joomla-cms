@@ -75,8 +75,8 @@ $app = \Joomla\CMS\Factory::getContainer()->get(\Joomla\Console\Application::cla
 \Joomla\CMS\Factory::$application = $app;
 
 // Registers the Extension Loader
-JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
-$extensionPsr4Loader = new \JNamespacePsr4Map;
-$extensionPsr4Loader->load();
+//JLoader::register('JNamespacePsr4Map', JPATH_LIBRARIES . '/namespacemap.php');
+//$extensionPsr4Loader = new \JNamespacePsr4Map;
+//$extensionPsr4Loader->load();
 
 $app->execute();
