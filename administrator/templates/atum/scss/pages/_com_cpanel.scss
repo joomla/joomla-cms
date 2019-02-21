@@ -1,4 +1,4 @@
-// com_cpanel
+cpanel-add-module-icon// com_cpanel
 
 .com-cpanel {
 
@@ -127,15 +127,18 @@
     }
   }
   .cpanel-add-module {
-    border: 0.125rem var(--atum-bg-dark) dashed;
-	text-decoration: none;
-	background-color: var(--white);
-	position: relative;
+    background-color: var(--atum-bg-light);
+    color: var(--atum-text-dark);
+    border: 0.125rem var(--white) dashed;
+
+    position: relative;
 	transition: all .3s ease-in;
+
 	@include hover-focus-active() {
-		background-color: var(--atum-bg-dark);
-		color: var(--atum-link-hover-color);
-		border-color: var(--white);
+      border-color: var(--atum-bg-dark);
+      text-decoration: none;
+      background-color: var(--white);
+
 		.cpanel-add-module-icon {
 			.fa {
 				opacity: 0.3;

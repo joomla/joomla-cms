@@ -3,6 +3,9 @@
 .table {
 
   thead {
+    th {
+      font-size: $label-font-size;
+    }
     th,
     td {
       font-weight: $font-weight-normal;

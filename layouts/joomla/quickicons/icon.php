@@ -24,7 +24,7 @@ $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $
 
 $class = '';
 
-if ($id && is_numeric($id))
+if ($id !== '')
 {
 	$class = ($displayData['id'] === 'plg_quickicon_joomlaupdate' || $displayData['id'] === 'plg_quickicon_extensionupdate') ? ' class="pulse"' : '';
 }
@@ -32,8 +32,9 @@ if ($id && is_numeric($id))
 ?>
 <li class="col">
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+			
 		<?php if (isset($displayData['amount'])): ?>
-			<div class="d-flex align-items-end">
+			<div class="quickicon-amount d-flex align-items-end">
 				<?php
 				$amount = (int) $displayData['amount'];
 				if ($amount <  100000):

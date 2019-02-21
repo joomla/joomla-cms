@@ -15,6 +15,7 @@
 			title="MOD_MENU_COM_CONTENT"
 			type="heading"
 			class="class:file-text"
+			dashboard="content"
 	>
 		<menuitem
 				title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
@@ -22,7 +23,6 @@
 				element="com_content"
 				link="index.php?option=com_content"
 				quicktask="index.php?option=com_content&amp;task=article.add"
-				quicktask-title="MOD_MENU_COM_CONTENT_ARTICLE_ADD"
 				>
 		</menuitem>
 		<menuitem
@@ -76,6 +76,7 @@
 				type="component"
 				element="com_modules"
 				link="index.php?option=com_modules&amp;client_id=0"
+				quicktask="index.php?option=com_modules&amp;view=select"
 		/>
 		<menuitem
 				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_ADMINISTRATOR"
@@ -90,6 +91,7 @@
 			title="MOD_MENU_MENUS"
 			type="heading"
 			class="class:list"
+			dashboard="menus"
 	>
 		<menuitem
 				title="MOD_MENU_MENU_MANAGER"
@@ -128,7 +130,8 @@
 					element="com_menus"
 					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
 					icon="{sql:icon}"
-					class="class:menu">
+					class="class:menu"
+					quicktask="index.php?option=com_menus&amp;task=item.add&amp;menutype={sql:menutype}">
 			</menuitem>
 		</menuitem>
 		<menuitem
@@ -155,6 +158,7 @@
 			title="MOD_MENU_COMPONENTS"
 			type="container"
 			class="class:cube"
+			dashboard="components"
 	/>
 
 	<menuitem
@@ -162,12 +166,14 @@
 			type="heading"
 			class="class:users"
 			alias="users"
+			dashboard="users"
 	>
 		<menuitem
 				title="MOD_MENU_COM_USERS_USER_MANAGER"
 				type="component"
 				element="com_users"
-				link="index.php?option=com_users&amp;view=users">
+				link="index.php?option=com_users&amp;view=users"
+				quicktask="index.php?option=com_users&amp;task=user.add">
 		</menuitem>
 		<menuitem
 				title="MOD_MENU_COM_USERS_GROUPS"
@@ -227,7 +233,7 @@
 			type="component"
 			element="com_cpanel"
 			class="class:cog"
-			link="index.php?option=com_cpanel&amp;view=system"
+			link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=system"
 	/>
 	<menuitem
 			title="MOD_MENU_HELP"
