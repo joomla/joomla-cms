@@ -214,7 +214,7 @@ abstract class QuickIconHelper
 	 *
 	 * @since   4.0
 	 */
-	private function countModules()
+	private static function countModules()
 	{
 		$app = Factory::getApplication();
 		
@@ -240,7 +240,7 @@ abstract class QuickIconHelper
 	 *
 	 * @since   4.0
 	 */
-	private function countArticles()
+	private static function countArticles()
 	{
 		$app = Factory::getApplication();
 		
@@ -268,7 +268,7 @@ abstract class QuickIconHelper
 	 *
 	 * @since   4.0
 	 */
-	private function countMenuItems()
+	private static function countMenuItems()
 	{
 		$app = Factory::getApplication();
 		
@@ -296,7 +296,7 @@ abstract class QuickIconHelper
 	 *
 	 * @since   4.0
 	 */
-	private function countUsers()
+	private static function countUsers()
 	{
 		$app = Factory::getApplication();
 		
@@ -322,7 +322,7 @@ abstract class QuickIconHelper
 	 *
 	 * @since   4.0
 	 */
-	private function countArticleCategories()
+	private static function countArticleCategories()
 	{
 		$app = Factory::getApplication();
 		
@@ -349,7 +349,7 @@ abstract class QuickIconHelper
 	 *
 	 * @since   4.0
 	 */
-	private function countCheckin()
+	private static function countCheckin()
 	{
 		$app = Factory::getApplication();
 		
