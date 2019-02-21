@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @link   http://www.w3.org/TR/html4/interact/forms.html
  * @link   http://www.w3.org/TR/html5/forms.html
- * @since  11.1
+ * @since  1.7.0
  */
 class Form
 {
@@ -33,7 +33,7 @@ class Form
 	 * The Registry data store for form fields during display.
 	 *
 	 * @var    Registry
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $data;
 
@@ -41,7 +41,7 @@ class Form
 	 * The form object errors array.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $errors = array();
 
@@ -49,7 +49,7 @@ class Form
 	 * The name of the form instance.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $name;
 
@@ -57,7 +57,7 @@ class Form
 	 * The form object options for use in rendering and validation.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $options = array();
 
@@ -65,7 +65,7 @@ class Form
 	 * The form XML definition.
 	 *
 	 * @var    \SimpleXMLElement
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $xml;
 
@@ -73,7 +73,7 @@ class Form
 	 * Form instances.
 	 *
 	 * @var    Form[]
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $forms = array();
 
@@ -91,7 +91,7 @@ class Form
 	 * @param   string  $name     The name of the form.
 	 * @param   array   $options  An array of form options.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($name, array $options = array())
 	{
@@ -112,7 +112,7 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($data)
 	{
@@ -141,7 +141,7 @@ class Form
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function bindLevel($group, $data)
 	{
@@ -191,7 +191,7 @@ class Form
 	 *
 	 * @return  mixed  Array or false.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function filter($data, $group = null)
 	{
@@ -240,7 +240,7 @@ class Form
 	 *
 	 * @return  array  Array of error messages or RuntimeException objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getErrors()
 	{
@@ -256,7 +256,7 @@ class Form
 	 *
 	 * @return  \JFormField|boolean  The JFormField object for the field or boolean false on error.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getField($name, $group = null, $value = null)
 	{
@@ -289,7 +289,7 @@ class Form
 	 *
 	 * @return  mixed  The attribute value for the field.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function getFieldAttribute($name, $attribute, $default = null, $group = null)
@@ -322,9 +322,9 @@ class Form
 	 *
 	 * @param   string  $set  The optional name of the fieldset.
 	 *
-	 * @return  array  The array of JFormField objects in the fieldset.
+	 * @return  \JFormField[]  The array of JFormField objects in the fieldset.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getFieldset($set = null)
 	{
@@ -373,7 +373,7 @@ class Form
 	 *
 	 * @return  array  The array of fieldset objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getFieldsets($group = null)
 	{
@@ -483,7 +483,7 @@ class Form
 	 *
 	 * @return  string  The form control string.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getFormControl()
 	{
@@ -497,9 +497,9 @@ class Form
 	 * @param   boolean  $nested  True to also include fields in nested groups that are inside of the
 	 *                            group for which to find fields.
 	 *
-	 * @return  array    The array of JFormField objects in the field group.
+	 * @return  \JFormField[]  The array of JFormField objects in the field group.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getGroup($group, $nested = false)
 	{
@@ -541,7 +541,7 @@ class Form
 	 *
 	 * @return  string  The form field markup.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getInput($name, $group = null, $value = null)
 	{
@@ -562,7 +562,7 @@ class Form
 	 *
 	 * @return  string  The form field label.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getLabel($name, $group = null)
 	{
@@ -580,7 +580,7 @@ class Form
 	 *
 	 * @return  string  The name of the form.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getName()
 	{
@@ -596,7 +596,7 @@ class Form
 	 *
 	 * @return  mixed  The value of the field or the default value if empty.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getValue($name, $group = null, $default = null)
 	{
@@ -712,7 +712,7 @@ class Form
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function load($data, $replace = true, $xpath = false)
 	{
@@ -836,7 +836,7 @@ class Form
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function loadFile($file, $reset = true, $xpath = false)
 	{
@@ -867,7 +867,7 @@ class Form
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function removeField($name, $group = null)
@@ -900,7 +900,7 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function removeGroup($group)
@@ -930,7 +930,7 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function reset($xml = false)
 	{
@@ -958,7 +958,7 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function setField(\SimpleXMLElement $element, $group = null, $replace = true, $fieldset = 'default')
@@ -1051,7 +1051,7 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function setFieldAttribute($name, $attribute, $value, $group = null)
@@ -1095,7 +1095,7 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function setFields(&$elements, $group = null, $replace = true, $fieldset = 'default')
@@ -1142,7 +1142,7 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setValue($name, $group = null, $value = null)
 	{
@@ -1177,7 +1177,7 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function validate($data, $group = null)
 	{
@@ -1244,7 +1244,7 @@ class Form
 	 *
 	 * @return  mixed   The filtered value.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function filterField($element, $value)
 	{
@@ -1587,7 +1587,7 @@ class Form
 	 *
 	 * @return  \SimpleXMLElement|boolean  The XML element object for the field or boolean false on error.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function findField($name, $group = null)
 	{
@@ -1678,7 +1678,7 @@ class Form
 	 *
 	 * @return  \SimpleXMLElement[]|boolean  Boolean false on error or array of SimpleXMLElement objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function &findFieldsByFieldset($name)
 	{
@@ -1711,7 +1711,7 @@ class Form
 	 *
 	 * @return  \SimpleXMLElement[]|boolean  Boolean false on error or array of SimpleXMLElement objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function &findFieldsByGroup($group = null, $nested = false)
 	{
@@ -1784,7 +1784,7 @@ class Form
 	 *
 	 * @return  \SimpleXMLElement[]|boolean  An array of XML element objects for the group or boolean false on error.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function &findGroup($group)
 	{
@@ -1868,7 +1868,7 @@ class Form
 	 *
 	 * @return  \JFormField|boolean  The JFormField object for the field or boolean false on error.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function loadField($element, $group = null, $value = null)
 	{
@@ -1940,7 +1940,8 @@ class Form
 	 *
 	 * @return  FormField|boolean  FormField object on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
+	 * @deprecated  4.0  Use FormHelper::loadFieldType() directly
 	 */
 	protected function loadFieldType($type, $new = true)
 	{
@@ -1956,7 +1957,8 @@ class Form
 	 * @return  FormRule|boolean  FormRule object on success, false otherwise.
 	 *
 	 * @see     FormHelper::loadRuleType()
-	 * @since   11.1
+	 * @since   1.7.0
+	 * @deprecated  4.0  Use FormHelper::loadRuleType() directly
 	 */
 	protected function loadRuleType($type, $new = true)
 	{
@@ -1968,7 +1970,7 @@ class Form
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @todo    Maybe we should receive all addXXXpaths attributes at once?
 	 */
 	protected function syncPaths()
@@ -2056,7 +2058,7 @@ class Form
 	 *
 	 * @return  boolean  Boolean true if field value is valid, Exception on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  \UnexpectedValueException
 	 */
@@ -2066,6 +2068,19 @@ class Form
 
 		// Check if the field is required.
 		$required = ((string) $element['required'] == 'true' || (string) $element['required'] == 'required');
+
+		if ($input)
+		{
+			$disabled = ((string) $element['disabled'] == 'true' || (string) $element['disabled'] == 'disabled');
+
+			$fieldExistsInRequestData = $input->exists((string) $element['name']) || $input->exists($group . '.' . (string) $element['name']);
+
+			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
+			if ($disabled && $fieldExistsInRequestData)
+			{
+				return new \RuntimeException(\JText::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $element['name']));
+			}
+		}
 
 		if ($required)
 		{
@@ -2140,7 +2155,7 @@ class Form
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addFieldPath($new = null)
 	{
@@ -2155,7 +2170,7 @@ class Form
 	 * @return  array  The list of paths that have been added.
 	 *
 	 * @see     FormHelper::addFormPath()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addFormPath($new = null)
 	{
@@ -2170,7 +2185,7 @@ class Form
 	 * @return  array  The list of paths that have been added.
 	 *
 	 * @see     FormHelper::addRulePath()
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addRulePath($new = null)
 	{
@@ -2189,7 +2204,7 @@ class Form
 	 *
 	 * @return  Form  JForm instance.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \InvalidArgumentException if no data provided.
 	 * @throws  \RuntimeException if the form could not be loaded.
 	 */
@@ -2239,7 +2254,7 @@ class Form
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function addNode(\SimpleXMLElement $source, \SimpleXMLElement $new)
 	{
@@ -2267,7 +2282,7 @@ class Form
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function mergeNode(\SimpleXMLElement $source, \SimpleXMLElement $new)
 	{
@@ -2293,7 +2308,7 @@ class Form
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected static function mergeNodes(\SimpleXMLElement $source, \SimpleXMLElement $new)
 	{

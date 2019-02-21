@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -389,13 +389,6 @@ class UsersModelProfile extends JModelForm
 			$this->setError($user->getError());
 
 			return false;
-		}
-
-		// Some contexts may not use tags data at all, so we allow callers to disable loading tag data
-		if ($this->getState('load_tags', true))
-		{
-			$user->tags = new JHelperTags;
-			$user->tags->getTagIds($user->id, 'com_users.user');
 		}
 
 		return $user->id;

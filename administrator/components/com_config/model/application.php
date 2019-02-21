@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,6 +97,7 @@ class ConfigModelApplication extends ConfigModelForm
 	public function save($data)
 	{
 		$app = JFactory::getApplication();
+		$dispatcher = JEventDispatcher::getInstance();
 
 		// Check that we aren't setting wrong database configuration
 		$options = array(
@@ -394,8 +395,21 @@ class ConfigModelApplication extends ConfigModelForm
 		$this->cleanCache('_system', 0);
 		$this->cleanCache('_system', 1);
 
+		$result = $dispatcher->trigger('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -410,6 +424,8 @@ class ConfigModelApplication extends ConfigModelForm
 	 */
 	public function removeroot()
 	{
+		$dispatcher = JEventDispatcher::getInstance();
+
 		// Get the previous configuration.
 		$prev = new JConfig;
 		$prev = ArrayHelper::fromObject($prev);
@@ -418,8 +434,21 @@ class ConfigModelApplication extends ConfigModelForm
 		unset($prev['root_user']);
 		$config = new Registry($prev);
 
+		$result = $dispatcher->trigger('onApplicationBeforeSave', array($config));
+
+		// Store the data.
+		if (in_array(false, $result, true))
+		{
+			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_UNKNOWN_BEFORE_SAVING'));
+		}
+
 		// Write the configuration file.
-		return $this->writeConfigFile($config);
+		$result = $this->writeConfigFile($config);
+
+		// Trigger the after save event.
+		$dispatcher->trigger('onApplicationAfterSave', array($config));
+
+		return $result;
 	}
 
 	/**
@@ -457,6 +486,12 @@ class ConfigModelApplication extends ConfigModelForm
 		if (!JFile::write($file, $configuration))
 		{
 			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
+		}
+
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
