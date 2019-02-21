@@ -23,7 +23,7 @@ $indigo:                           #0377be;
 $purple:                           #6f42c1;
 $pink:                             #e83e8c;
 $red:                              #c52827;
-$yellow:                           #b35900;
+$yellow:                           #f27042;
 $green:                            #2f7d32;
 $teal:                             #20c997;
 $cyan:                             #108193;
@@ -62,10 +62,10 @@ $theme-colors: map-merge((
 ), $theme-colors);
 
 $colors: (
-  success-border: darken(theme-color("success"), 5%),
-  info-border: darken(theme-color("info"), 7%),
-  warning-border: darken(theme-color("warning"), 5%),
-  danger-border: darken(theme-color("danger"), 5%),
+  success-border: theme-color("success"),
+  info-border: theme-color("info"),
+  warning-border: theme-color("warning"),
+  danger-border: theme-color("danger"),
   sidebar-link-color: #e3eaf1,
   sidebar-link-color-hover: var(--white),
   sidebar-child-link-color: #cbd6e2,
