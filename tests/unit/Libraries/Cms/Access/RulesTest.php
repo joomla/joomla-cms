@@ -330,4 +330,24 @@ class RulesTest extends UnitTestCase
 		$this->assertTrue($allowed->get('edit'));
 		$this->assertNull($allowed->get('delete'));
 	}
+
+	public function testToString()
+	{
+		$ruleData = [
+			'create' => [
+				-42 => 1
+			],
+			'edit' => [
+				-42 => 1
+			],
+			'delete' => [
+				-42 => 0,
+				2 => 1
+			]
+		];
+
+		$rules = new Rules($ruleData);
+
+		$this->assertEquals(json_encode($ruleData),(string) $rules);
+	}
 }
