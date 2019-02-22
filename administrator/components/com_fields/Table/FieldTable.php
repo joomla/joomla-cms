@@ -144,10 +144,11 @@ class FieldTable extends Table
 		else
 		{
 			$this->modified_time = $this->getDbo()->getNullDate();
+			$this->modified_by = 0;
 
-			if (!(int) $this->modified_time)
+			if (!(int) $this->created_time)
 			{
-				$this->modified_time = $date->toSql();
+				$this->created_time = $date->toSql();
 			}
 
 			if (empty($this->created_user_id))

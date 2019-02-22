@@ -103,6 +103,7 @@ class GroupTable extends Table
 		else
 		{
 			$this->modified = $this->getDbo()->getNullDate();
+			$this->modified_by = 0;
 
 			if (!(int) $this->created)
 			{
