@@ -7,22 +7,25 @@
  * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Tests\Unit\Cms;
+
+use Joomla\CMS\Version;
+use Tests\Unit\UnitTestCase;
+
 /**
- * Test class for JVersion.
+ * Test class for Version.
  *
  * @package     Joomla.UnitTest
  * @subpackage  Version
  * @since       3.0
  */
-class JVersionTest extends \PHPUnit\Framework\TestCase
+class VersionTest extends UnitTestCase
 {
 	/**
-	 * Object under test
-	 *
-	 * @var    JVersion
+	 * @var    Version
 	 * @since  3.0
 	 */
-	protected $object;
+	protected $version;
 
 	/**
 	 * Sets up the fixture, for example, opens a network connection.
@@ -34,7 +37,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function setUp()
 	{
-		$this->object = new JVersion;
+		$this->version = new Version;
 	}
 
 	/**
@@ -47,7 +50,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	protected function tearDown()
 	{
-		unset($this->object);
+		unset($this->version);
 		parent::tearDown();
 	}
 
@@ -60,7 +63,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testIsCompatible()
 	{
-		$this->assertTrue($this->object->isCompatible('2.5'));
+		$this->assertTrue($this->version->isCompatible('2.5'));
 	}
 
 	/**
@@ -72,7 +75,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetHelpVersion()
 	{
-		$this->assertInternalType('string', $this->object->getHelpVersion());
+		$this->assertInternalType('string', $this->version->getHelpVersion());
 	}
 
 	/**
@@ -84,7 +87,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetShortVersion()
 	{
-		$this->assertEquals(JVERSION, $this->object->getShortVersion());
+		$this->assertEquals(JVERSION, $this->version->getShortVersion());
 	}
 
 	/**
@@ -96,7 +99,7 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testGetLongVersion()
 	{
-		$this->assertInternalType('string', $this->object->getLongVersion());
+		$this->assertInternalType('string', $this->version->getLongVersion());
 	}
 
 	/**
@@ -106,9 +109,9 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0
 	 */
-	public function testGetUserAgent_maskFalse()
+	public function testGetUserAgentForMaskNotContainingMozillaVersion()
 	{
-		$this->assertNotContains('Mozilla/5.0 ', $this->object->getUserAgent('', false, true));
+		$this->assertNotContains('Mozilla/5.0 ', $this->version->getUserAgent('', false, true));
 	}
 
 	/**
@@ -118,9 +121,9 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0
 	 */
-	public function testGetUserAgent_maskTrue()
+	public function testGetUserAgentForMaskContainingMozillaVersion()
 	{
-		$this->assertContains('Mozilla/5.0 ', $this->object->getUserAgent('', true, true));
+		$this->assertContains('Mozilla/5.0 ', $this->version->getUserAgent('', true, true));
 	}
 
 	/**
@@ -130,9 +133,9 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0
 	 */
-	public function testGetUserAgent_ComponentNull()
+	public function testGetUserAgentForEmptyComponentString()
 	{
-		$this->assertContains('Framework', $this->object->getUserAgent('', false, true));
+		$this->assertContains('Framework', $this->version->getUserAgent('', false, true));
 	}
 
 	/**
@@ -142,8 +145,8 @@ class JVersionTest extends \PHPUnit\Framework\TestCase
 	 *
 	 * @since   3.0
 	 */
-	public function testGetUserAgent_ComponentNotNull()
+	public function testGetUserAgentForComponentMatchingTheSpecifiedOption()
 	{
-		$this->assertContains('Component_test', $this->object->getUserAgent('Component_test', false, true));
+		$this->assertContains('Component_test', $this->version->getUserAgent('Component_test', false, true));
 	}
 }
