@@ -248,11 +248,11 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$toolbar->addButtonPath(['MyTestPath1', 'MyTestPath2']);
 		$newValue = $toolbar->getButtonPath();
 
-		$this->assertEquals('MyTestPath2' . DIRECTORY_SEPARATOR,$newValue[0]);
-		$this->assertEquals('MyTestPath1' . DIRECTORY_SEPARATOR,$newValue[1]);
+		$this->assertEquals('MyTestPath2' . DIRECTORY_SEPARATOR, $newValue[0]);
+		$this->assertEquals('MyTestPath1' . DIRECTORY_SEPARATOR, $newValue[1]);
 		for ($i = 0; $i < $initialCount; $i++)
 		{
-			$this->assertEquals($initialValue[$i],$newValue[$i+2]);
+			$this->assertEquals($initialValue[$i], $newValue[$i+2]);
 		}
 	}
 
@@ -272,7 +272,7 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 		$toolbar->addButtonPath('MyTestPath');
 		$newValue = $toolbar->getButtonPath();
 
-		$this->assertEquals('MyTestPath' . DIRECTORY_SEPARATOR,$newValue[0]);
+		$this->assertEquals('MyTestPath' . DIRECTORY_SEPARATOR, $newValue[0]);
 		for ($i = 0; $i < $initialCount; $i++)
 		{
 			$this->assertEquals($initialValue[$i], $newValue[$i + 1]);
@@ -290,6 +290,6 @@ class ToolbarTest extends \PHPUnit\Framework\TestCase
 	{
 		$toolbarFactoryMock = $this->createMock(ToolbarFactoryInterface::class);
 
-		return new Toolbar($name, $toolbarFactoryMock);;
+		return new Toolbar($name, $toolbarFactoryMock);
 	}
 }

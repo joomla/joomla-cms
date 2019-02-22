@@ -348,6 +348,6 @@ class RulesTest extends UnitTestCase
 
 		$rules = new Rules($ruleData);
 
-		$this->assertEquals(json_encode($ruleData),(string) $rules);
+		$this->assertEquals(json_encode($ruleData), (string) $rules);
 	}
 }

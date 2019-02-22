@@ -166,6 +166,6 @@ class RuleTest extends UnitTestCase
 
 		$rule = new Rule($ruleData);
 
-		$this->assertEquals(json_encode($ruleData),(string) $rule);
+		$this->assertEquals(json_encode($ruleData), (string) $rule);
 	}
 }

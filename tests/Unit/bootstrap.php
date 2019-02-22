@@ -28,11 +28,13 @@ ini_set('precision', 14);
  */
 $rootDirectory = getcwd();
 
-if (!defined('JPATH_BASE')) {
-    define('JPATH_BASE', $rootDirectory);
+if (!defined('JPATH_BASE'))
+{
+	define('JPATH_BASE', $rootDirectory);
 }
-if (!defined('JPATH_ROOT')) {
-    define('JPATH_ROOT', JPATH_BASE);
+if (!defined('JPATH_ROOT'))
+{
+	define('JPATH_ROOT', JPATH_BASE);
 }
 if (!defined('JPATH_PLATFORM'))
 {
