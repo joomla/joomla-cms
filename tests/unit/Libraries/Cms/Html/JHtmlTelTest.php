@@ -7,6 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Tests\Unit\Libraries\Cms\Html;
+
+use JHtmlTel;
+use Tests\Unit\UnitTestCase;
+
+
 /**
  * Test class for JHtmlTel.
  *
@@ -14,7 +20,7 @@
  * @subpackage  Html
  * @since       3.1
  */
-class JHtmlTelTest extends \PHPUnit\Framework\TestCase
+class JHtmlTelTest extends UnitTestCase
 {
 	/**
 	 * Tests the JHtmlTel::tel method.
