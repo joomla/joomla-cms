@@ -54,18 +54,39 @@
       background-color: $gray-600;
       border-color: $gray-600;
     }
+
+    &-action {
+
+      .fa:first-child {
+        background-color: transparent;
+        margin-right: 0;
+      }
+
+      &::after {
+        background-color: rgba(0,0,0,.2);
+        border: none;
+        content: '\f078';
+        font-family: FontAwesome;
+        height: auto;
+        margin: 0 -22px 0 16px;
+        vertical-align: 0;
+        width: 38px;
+      }
+
+    }
   }
 
   .dropdown-item {
 
-    &:hover {
+    &:hover:not(.disabled) {
       color: #212529;
+      cursor: pointer;
     }
   }
 
   .dropdown-toggle {
 
-    &.btn {
+    &.btn:not(.btn-action) {
       background-color: rgba(0, 0, 0, .2);
     }
 

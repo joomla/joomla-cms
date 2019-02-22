@@ -1,7 +1,9 @@
 // Dropdown
 
 .btn-group .dropdown-menu {
-  box-shadow: $atum-box-shadow;
+  background: $white;
+  box-shadow: $dropdown-box-shadow;
+  min-width: 100%;
 
   [class^='icon-'],
   [class*=' icon-'] {
@@ -9,30 +11,43 @@
   }
 }
 
-.dropdown-item:hover,
-.dropdown-item:focus {
-  .btn-primary + .dropdown-menu  & {
-    background-color: theme-color("primary");
+.dropdown-item {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+  &:hover,
+  &:focus {
+    .btn-primary + .dropdown-menu & {
+      background-color: theme-color("primary");
+    }
+
+    .btn-secondary + .dropdown-menu & {
+      background-color: theme-color("secondary");
+    }
+
+    .btn-success + .dropdown-menu & {
+      background-color: theme-color("success");
+    }
+
+    .btn-danger + .dropdown-menu & {
+      background-color: theme-color("danger");
+    }
+
+    .btn-info + .dropdown-menu & {
+      background-color: theme-color("info");
+    }
+
+    .dropdown-status-group .dropdown-menu  &:not(.disabled) {
+      background-color: #efefef;
+    }
   }
 
-  .btn-secondary + .dropdown-menu  & {
-    background-color: theme-color("secondary");
+  & + .dropdown-item {
+    border-top: 1px solid rgba(0, 0, 0, .1);
   }
 
-  .btn-success + .dropdown-menu  & {
-    background-color: theme-color("success");
-  }
+  .dropdown-status-group .dropdown-menu &:not(.disabled) {
+    color: theme-color("action");
 
-  .btn-danger + .dropdown-menu  & {
-    background-color: theme-color("danger");
-  }
 
-  .btn-info + .dropdown-menu  & ,
-  .dropdown-status-group .dropdown-menu  & {
-    background-color: theme-color("info");
   }
-}
-
-.dropdown-item + .dropdown-item {
-  border-top: 1px solid rgba(0, 0, 0, .1);
 }
