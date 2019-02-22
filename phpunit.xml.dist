@@ -3,8 +3,8 @@
 
 	<testsuites>
 
-		<testsuite name="libraries-cms">
-			<directory suffix="Test.php">./tests/Unit/Libraries/Cms</directory>
+		<testsuite name="libraries">
+			<directory suffix="Test.php">./tests/Unit/Libraries</directory>
 		</testsuite>
 
 	</testsuites>
