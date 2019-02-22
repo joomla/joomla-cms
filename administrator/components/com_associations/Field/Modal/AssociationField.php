@@ -59,13 +59,13 @@ class AssociationField extends FormField
 		$urlSelect = $linkAssociations . '&amp;' . Session::getFormToken() . '=1';
 
 		// Select custom association button
-		$html[] = '<a'
+		$html[] = '<button'
 			. ' id="select-change"'
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' data-toggle="modal"'
 			. ' data-select="' . Text::_('COM_ASSOCIATIONS_SELECT_TARGET') . '"'
 			. ' data-change="' . Text::_('COM_ASSOCIATIONS_CHANGE_TARGET') . '"'
-			. ' role="button"'
+			. ' type="button"'
 			. ' href="#associationSelect' . $this->id . 'Modal">'
 			. '<span class="icon-file" aria-hidden="true"></span> '
 			. '<span id="select-change-text"></span>'
@@ -75,6 +75,7 @@ class AssociationField extends FormField
 		$html[] = '<button'
 			. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 			. ' onclick="return Joomla.submitbutton(\'undo-association\');"'
+			. ' type="button"'
 			. ' id="remove-assoc">'
 			. '<span class="icon-remove" aria-hidden="true"></span> ' . Text::_('JCLEAR')
 			. '</button>';
