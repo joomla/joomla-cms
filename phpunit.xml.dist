@@ -2,9 +2,11 @@
 <phpunit bootstrap="tests/unit/bootstrap.php" colors="false">
 
 	<testsuites>
+
 		<testsuite name="libraries-cms">
-			<directory>tests/unit/suites/libraries/cms</directory>
+			<directory suffix="Test.php">./tests/Unit/Libraries/Cms</directory>
 		</testsuite>
+
 	</testsuites>
 
 </phpunit>

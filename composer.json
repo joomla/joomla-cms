@@ -45,6 +45,11 @@
             "Joomla\\CMS\\": "libraries/src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests"
+        }
+    },
     "require": {
         "php": ">=7.0",
         "joomla/application": "~2.0@dev",
