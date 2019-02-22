@@ -55,10 +55,11 @@ else
 {
 	foreach ($tmpl->getGroup('') as $field) {
 		$table_head .= '<th>' . strip_tags($field->label);
+		$description = JText::_($field->description);
 
-		if (!empty(JText::_($field->description)))
+		if (!empty($description))
 		{
-			$table_head .= '<br /><small style="font-weight:normal">' . JText::_($field->description) . '</small>';
+			$table_head .= '<br /><small style="font-weight:normal">' . $description . '</small>';
 		}
 
 		$table_head .= '</th>';
