@@ -104,7 +104,7 @@ class HtmlView extends BaseHtmlView
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || $canDo->get('core.create')))
 		{
-			$toolbarButtons[] = ['apply', 'client.apply'];
+			ToolbarHelper::apply('client.apply');
 			$toolbarButtons[] = ['save', 'client.save'];
 		}
 
