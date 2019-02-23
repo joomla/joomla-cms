@@ -14,6 +14,8 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Tagging\Tag;
+use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -285,5 +287,51 @@ class TagField extends ListField
 		}
 
 		return $this->comParams->get('tag_field_ajax_mode', 1) == 1;
+	}
+
+	/**
+	 * Method to filter a field value. Here we create new tags.
+	 *
+	 * @param   mixed     $value  The optional value to use as the default for the field.
+	 * @param   string    $group  The optional dot-separated form group path on which to find the field.
+	 * @param   Registry  $input  An optional Registry object with the entire data set to filter
+	 *                            against the entire form.
+	 *
+	 * @return  mixed   The filtered value.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function filter($value, $group = null, Registry $input = null)
+	{
+		if (is_array($value))
+		{
+			foreach ($value as $i => &$v)
+			{
+				if (is_numeric($v))
+				{
+					continue;
+				}
+
+				if (!$this->allowCustom())
+				{
+					unset($value[$i]);
+					continue;
+				}
+
+				if (strpos($v, '#new#') === 0)
+				{
+					$tag = new Tag();
+					$tag->title = substr($v, 5);
+					
+				}
+			}
+		}
+		else
+		{
+
+		}
+		var_dump(is_numeric($value), $value);die;
+
+		return $value;
 	}
 }

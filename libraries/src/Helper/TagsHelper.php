@@ -138,6 +138,7 @@ class TagsHelper extends CMSHelper
 						$aliases = array_merge($aliases, $pathParts);
 					}
 				}
+				$tag->value = (string) $tag->value;
 			}
 
 			// Get the aliases titles in one single query and map the results
