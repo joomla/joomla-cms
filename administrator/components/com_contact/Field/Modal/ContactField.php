@@ -139,7 +139,7 @@ class ContactField extends FormField
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
-				. ' href="#ModalSelect' . $modalId . '"'
+				. ' data-target="#ModalSelect' . $modalId . '"'
 				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
 				. '</button>';
@@ -153,7 +153,7 @@ class ContactField extends FormField
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
-				. ' href="#ModalNew' . $modalId . '"'
+				. ' data-target="#ModalNew' . $modalId . '"'
 				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_NEW_CONTACT') . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
 				. '</button>';
@@ -167,7 +167,7 @@ class ContactField extends FormField
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
 				. ' type="button"'
-				. ' href="#ModalEdit' . $modalId . '"'
+				. ' data-target="#ModalEdit' . $modalId . '"'
 				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_EDIT_CONTACT') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
 				. '</button>';
@@ -179,7 +179,7 @@ class ContactField extends FormField
 			$html .= '<button'
 				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
 				. ' id="' . $this->id . '_clear"'
-				. ' href="#"'
+				. ' data-target="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
 				. '<span class="icon-remove" aria-hidden="true"></span>' . Text::_('JCLEAR')
 				. '</button>';
