@@ -124,7 +124,6 @@ class DebuguserModel extends ListModel
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
 		$app = Factory::getApplication();
-		Factory::getLanguage()->load('com_workflow', JPATH_ADMINISTRATOR);
 
 		// Adjust the context to support modal layouts.
 		$layout = $app->input->get('layout', 'default');
