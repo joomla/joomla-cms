@@ -18,8 +18,9 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelper;
 
-$hideLinks = $app->input->getBool('hidemainmenu');
+HTMLHelper::_('bootstrap.framework');
 
+$hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
