@@ -47,6 +47,7 @@ $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr')
 HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', ['version' => 'auto']);
 
 // Load specific template related JS
+// TODO: Adapt refactored build tools pt.2 @see https://issues.joomla.org/tracker/joomla-cms/23786
 HTMLHelper::_('script', 'media/templates/' . $this->template . '/js/template.min.js', ['version' => 'auto']);
 
 // Set some meta data
@@ -83,11 +84,13 @@ if ($this->params->get('bg-dark'))
 		$colorHsl = $color->toHsl();
 
 		$root[] = '--atum-contrast: ' . (clone $colorHsl)->lighten(-6)->spin(-30)->toHex() . ';';
-		$root[] = '--atum-bg-dark-10: ' . (clone $colorHsl)->desaturate(86)->lighten(20.5)->spin(-6)->toHex() . ';';
-		$root[] = '--atum-bg-dark-20: ' . (clone $colorHsl)->desaturate(76)->lighten(16.5)->spin(-6)->toHex() . ';';
-		$root[] = '--atum-bg-dark-30: ' . (clone $colorHsl)->desaturate(60)->lighten(12)->spin(-5)->toHex() . ';';
-		$root[] = '--atum-bg-dark-40: ' . (clone $colorHsl)->desaturate(41)->lighten(8)->spin(-3)->toHex() . ';';
-		$root[] = '--atum-bg-dark-50: ' . (clone $colorHsl)->desaturate(19)->lighten(4)->spin(-1)->toHex() . ';';
+		$root[] = '--atum-bg-dark-0: ' . (clone $colorHsl)->desaturate(86)->lighten(71.4)->spin(-6)->toHex() . ';';
+		$root[] = '--atum-bg-dark-5: ' . (clone $colorHsl)->desaturate(86)->lighten(65.1)->spin(-6)->toHex() . ';';
+		$root[] = '--atum-bg-dark-10: ' . (clone $colorHsl)->desaturate(86)->lighten(59.4)->spin(-6)->toHex() . ';';
+		$root[] = '--atum-bg-dark-20: ' . (clone $colorHsl)->desaturate(76)->lighten(47.3)->spin(-6)->toHex() . ';';
+		$root[] = '--atum-bg-dark-30: ' . (clone $colorHsl)->desaturate(60)->lighten(34.3)->spin(-5)->toHex() . ';';
+		$root[] = '--atum-bg-dark-40: ' . (clone $colorHsl)->desaturate(41)->lighten(21.4)->spin(-3)->toHex() . ';';
+		$root[] = '--atum-bg-dark-50: ' . (clone $colorHsl)->desaturate(19)->lighten(10)->spin(-1)->toHex() . ';';
 		$root[] = '--atum-bg-dark-70: ' . (clone $colorHsl)->lighten(-6)->spin(4)->toHex() . ';';
 		$root[] = '--atum-bg-dark-80: ' . (clone $colorHsl)->lighten(-11.5)->spin(7)->toHex() . ';';
 		$root[] = '--atum-bg-dark-90: ' . (clone $colorHsl)->desaturate(1)->lighten(-17)->spin(10)->toHex() . ';';
@@ -174,7 +177,7 @@ $this->addStyleDeclaration($css);
 					</div>
 				<?php else : ?>
 					<a class="logo" href="<?php echo Route::_('index.php'); ?>"
-					   aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
+						aria-label="<?php echo Text::_('TPL_BACK_TO_CONTROL_PANEL'); ?>">
 						<img src="<?php echo $siteLogo; ?>" alt="">
 						<img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
 					</a>
@@ -206,7 +209,7 @@ $this->addStyleDeclaration($css);
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
 			<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse"
-			   data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
+				data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
 				<span class="icon-wrench"></span></a>
 			<div id="subhead" class="subhead">
 				<div id="container-collapse" class="container-collapse"></div>

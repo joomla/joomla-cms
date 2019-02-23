@@ -52,6 +52,7 @@
 
     .nav-link {
       color: var(--atum-text-light);
+
       .fa {
         color: var(--atum-text-light);
       }
@@ -77,12 +78,19 @@
 
     .badge {
       position: absolute;
-      top: 7px;
-      right: 7px;
+      top: .4rem;
+      right: .4rem;
     }
 
-    &.dropdown-toggle::after {
-      display: none;
+    &.dropdown-toggle {
+      // Overwrite default button styling
+      background-color: transparent;
+      border: $dropdown-border-width;
+      outline: 0;
+
+      &::after {
+        display: none;
+      }
     }
 
     &:hover .fa {
@@ -97,19 +105,31 @@
   }
 
   .dropdown-menu {
-    min-width: 280px;
-    padding: 0;
-    border: 0;
-    z-index: 1041;
+    min-width: 18rem;
     background-color: var(--atum-bg-dark-70);
-
-    h2 {
-      font-size: $h5-font-size;
-    }
 
     .dropdown-message {
       font-weight: bold;
       color: var(--atum-text-light);
+    }
+
+    &.icons-left {
+
+      .dropdown-item {
+
+        a {
+          padding-left: 0;
+        }
+
+        .fa {
+          float: left;
+          margin-right: 0.75rem;
+        }
+      }
+
+      .dropdown-header {
+        padding-left: 3.75rem;
+      }
     }
   }
 
@@ -146,26 +166,14 @@
       width: 3rem;
     }
 
-    &.closeMessageWrapper > a:first-child {
+    &.message-wrapper > a:first-child {
       width: calc(100% - 3.5rem);
     }
 
-    .closeMessage {
+    .close-message {
       float: right;
       padding: 0;
       width: 3rem;
-    }
-
-    &.iconsLeft {
-
-      a {
-        padding-left: 0;
-      }
-
-      .fa {
-        float: left;
-        margin-right: 0.75rem;
-      }
     }
   }
 
@@ -195,10 +203,6 @@
     box-shadow: $atum-box-shadow;
     font-size: inherit;
     padding: 1rem 0.75rem;
-
-    &.iconsLeftHeader {
-      padding-left: 3.75rem;
-    }
   }
 
   .list-group-item-text:last-child {

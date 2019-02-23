@@ -48,7 +48,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+				<button class="nav-link dropdown-toggle" data-toggle="dropdown" type="button"
 					title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
 					<span class="fa fa-bell-o" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
@@ -56,7 +56,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					<?php if (count($messages) > 0) : ?>
 						<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
 					<?php endif; ?>
-				</a>
+				</button>
 				<div class="dropdown-menu dropdown-menu-right">
 					<div class="dropdown-header">
 						<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>
@@ -67,12 +67,12 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						</div>
 					<?php endif; ?>
 					<?php foreach ($messages as $message) : ?>
-						<div class="dropdown-item closeMessageWrapper">
+						<div class="dropdown-item message-wrapper">
 							<?php $route = 'index.php?option=com_postinstall&amp;eid=700'; ?>
 							<?php $title = HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?>
 							<a href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>"><?php echo $title; ?></a>
 							<?php $route = 'index.php?option=com_postinstall&amp;task=message.unpublish&amp;id=' . $message->postinstall_message_id; ?>
-							<a class="closeMessage" href="<?php echo Route::_($route); ?>"
+							<a class="close-message" href="<?php echo Route::_($route); ?>"
 							   title="<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>">
 								<span class="fa fa-close" aria-hidden="true"></span>
 								<span class="sr-only"><?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?></span>
@@ -84,28 +84,28 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php endif; ?>
 
 		<li class="nav-item dropdown header-profile">
-			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"
+			<button class="nav-link dropdown-toggle" data-toggle="dropdown" type="button"
 				title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
 				<span class="fa fa-user-circle" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
 				<span class="fa fa-angle-down" aria-hidden="true"></span>
-			</a>
-			<div class="dropdown-menu dropdown-menu-right">
-				<div class="dropdown-header iconsLeftHeader"><?php echo $user->name; ?></div>
+			</button>
+			<div class="dropdown-menu dropdown-menu-right icons-left">
+				<div class="dropdown-header"><?php echo $user->name; ?></div>
 				<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
-				<div class="dropdown-item iconsLeft">
+				<div class="dropdown-item">
 					<a href="<?php echo Route::_($route); ?>">
 						<span class="fa fa-user-o"></span>
 						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?>
 					</a>
 				</div>
-				<div class="dropdown-item iconsLeft">
+				<div class="dropdown-item">
 					<a href="#">
 						<span class="fa fa-universal-access"></span>
 						<?php echo Text::_('MOD_STATUS_ACCESSIBILITY_SETTINGS'); ?>
 					</a>
 				</div>
-				<div class="dropdown-item iconsLeft">
+				<div class="dropdown-item">
 					<?php $route = 'index.php?option=com_login&task=logout&amp;' . Session::getFormToken() . '=1'; ?>
 					<a href="<?php echo Route::_($route); ?>">
 						<span class="fa fa-power-off"></span>
