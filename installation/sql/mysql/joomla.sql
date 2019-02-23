@@ -2089,8 +2089,8 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 --
 
 INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', '0', 0),
-(2, 58, 2, 1, 1, 'JPUBLISHED', '', '1', 1),
+(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', '0', 1),
+(2, 58, 2, 1, 1, 'JPUBLISHED', '', '1', 0),
 (3, 59, 3, 1, 1, 'JTRASHED', '', '-2', 0),
 (4, 60, 4, 1, 1, 'JARCHIVED', '', '2', 0);
 

@@ -8,10 +8,8 @@
       "name": "template.atum.base",
       "dependencies": [
         "core",
-        "jquery-noconflict",
         "font-awesome",
         "bootstrap.css",
-        "bootstrap.js.bundle",
         "css-vars-ponyfill"
       ],
       "js": []
