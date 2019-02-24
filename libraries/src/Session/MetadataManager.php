@@ -288,7 +288,7 @@ final class MetadataManager
 	{
 		$query = $this->db->getQuery(true);
 
-		$time = $session->isNew() ? time() : $session->get('session.timer.start');
+		$time = time();
 
 		$setValues = [
 			$this->db->quoteName('guest') . ' = :guest',
