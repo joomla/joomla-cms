@@ -17,7 +17,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 $lang = Factory::getLanguage();
 
 // Add JavaScript Frameworks
-HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
