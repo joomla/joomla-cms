@@ -401,6 +401,7 @@
 			description="COM_CONTACT_FIELD_INFORMATION_WEBPAGE_DESC"
 			size="30"
 			filter="url"
+			validate="url"
 		/>
 
 		<field
@@ -786,6 +787,7 @@
 				description="COM_CONTACT_FIELD_LINKA_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -803,6 +805,7 @@
 				description="COM_CONTACT_FIELD_LINKB_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -820,6 +823,7 @@
 				description="COM_CONTACT_FIELD_LINKC_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -837,6 +841,7 @@
 				description="COM_CONTACT_FIELD_LINKD_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
@@ -854,6 +859,7 @@
 				description="COM_CONTACT_FIELD_LINKE_DESC"
 				size="30"
 				filter="url"
+				validate="url"
 			/>
 
 			<field
