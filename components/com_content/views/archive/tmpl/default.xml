@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_content_archive_view_default_title" option="com_content_archive_view_default_option">
+	<layout title="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_TITLE" option="COM_CONTENT_ARCHIVE_VIEW_DEFAULT_OPTION">
 		<help
 			key = "JHELP_MENUS_MENU_ITEM_ARTICLE_ARCHIVED"
 		/>
