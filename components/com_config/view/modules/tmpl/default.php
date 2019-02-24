@@ -192,7 +192,7 @@ JFactory::getDocument()->addScriptDeclaration("
 							<?php echo $this->loadTemplate('options'); ?>
 						</div>
 
-						<?php if ($editorText === true) : ?>
+						<?php if ($editorText) : ?>
 							<div class="tab-pane" id="custom">
 								<?php echo $this->form->getInput('content'); ?>
 							</div>
