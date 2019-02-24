@@ -89,14 +89,10 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_ADMIN_VIEW_PROFILE_TITLE'), 'user user-profile');
 
-		ToolbarHelper::saveGroup(
-			[
-				['apply', 'profile.apply'],
-				['save', 'profile.save']
-			],
-			'btn-success'
-		);
-
+		ToolbarHelper::apply('profile.apply');
+		ToolbarHelper::divider();
+		ToolbarHelper::save('profile.save');
+		ToolbarHelper::divider();
 		ToolbarHelper::cancel('profile.cancel', 'JTOOLBAR_CLOSE');
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_ADMIN_USER_PROFILE_EDIT');
