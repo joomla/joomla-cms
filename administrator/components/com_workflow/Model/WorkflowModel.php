@@ -113,12 +113,12 @@ class WorkflowModel extends AdminModel
 				[
 					'title' => 'JUNPUBLISHED',
 					'condition' => Workflow::CONDITION_UNPUBLISHED,
+					'default' => 1,
 					'transition' => 'Unpublish'
 				],
 				[
 					'title' => 'JPUBLISHED',
 					'condition' => Workflow::CONDITION_PUBLISHED,
-					'default' => 1,
 					'transition' => 'Publish'
 				],
 				[
