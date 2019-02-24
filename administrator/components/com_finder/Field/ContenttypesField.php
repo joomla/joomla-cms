@@ -3,26 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('JPATH_BASE') or die();
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
-
-FormHelper::loadFieldClass('list');
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Content Types Filter field for the Finder package.
  *
  * @since  3.6.0
  */
-class ContenttypesField extends \JFormFieldList
+class ContenttypesField extends ListField
 {
 	/**
 	 * The form field type.
@@ -59,7 +58,7 @@ class ContenttypesField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $db->getMessage());
+			Factory::getApplication()->enqueueMessage($db->getMessage(), 'error');
 		}
 
 		// Translate.

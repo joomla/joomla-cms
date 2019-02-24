@@ -1,1 +1,0 @@
-<?php /* @codingStandardsIgnoreFile Empty file */

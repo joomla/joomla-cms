@@ -3,12 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-namespace Joomla\Component\Finder\Administrator\Helper;
 
-use Joomla\CMS\Helper\ContentHelper;
+namespace Joomla\Component\Finder\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
@@ -41,24 +40,29 @@ class FinderHelper
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_FINDER_SUBMENU_INDEX'),
 			'index.php?option=com_finder&view=index',
-			$vName == 'index'
+			$vName === 'index'
 		);
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_FINDER_SUBMENU_MAPS'),
 			'index.php?option=com_finder&view=maps',
-			$vName == 'maps'
+			$vName === 'maps'
 		);
 		\JHtmlSidebar::addEntry(
 			\JText::_('COM_FINDER_SUBMENU_FILTERS'),
 			'index.php?option=com_finder&view=filters',
-			$vName == 'filters'
+			$vName === 'filters'
+		);
+		\JHtmlSidebar::addEntry(
+			\JText::_('COM_FINDER_SUBMENU_SEARCHES'),
+			'index.php?option=com_finder&view=searches',
+			$vName === 'searches'
 		);
 	}
 
 	/**
 	 * Gets the finder system plugin extension id.
 	 *
-	 * @return  int  The finder system plugin extension id.
+	 * @return  integer  The finder system plugin extension id.
 	 *
 	 * @since   3.6.0
 	 */
@@ -78,37 +82,9 @@ class FinderHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Gets a list of the actions that can be performed.
-	 *
-	 * @return  \JObject  A JObject containing the allowed actions.
-	 *
-	 * @since   2.5
-	 * @deprecated  3.2  Use \JHelperContent::getActions() instead
-	 */
-	public static function getActions()
-	{
-		// Log usage of deprecated function
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated. Use JHelperContent::getActions() with new arguments order instead.', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		// Get list of actions
-		return ContentHelper::getActions('com_finder');
 	}
 }

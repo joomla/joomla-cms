@@ -3,24 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Categories\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Category Edit field..
  *
  * @since  1.6
  */
-class CategoryeditField extends \JFormFieldList
+class CategoryeditField extends ListField
 {
 	/**
 	 * To allow creation of new categories.
@@ -37,6 +39,14 @@ class CategoryeditField extends \JFormFieldList
 	 * @since  1.6
 	 */
 	public $type = 'CategoryEdit';
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $layout = 'joomla.form.field.categoryedit';
 
 	/**
 	 * Method to attach a JForm object to the field.
@@ -58,7 +68,7 @@ class CategoryeditField extends \JFormFieldList
 
 		if ($return)
 		{
-			$this->allowAdd = isset($this->element['allowAdd']) ? $this->element['allowAdd'] : '';
+			$this->allowAdd = isset($this->element['allowAdd']) ? (boolean) $this->element['allowAdd'] : false;
 		}
 
 		return $return;
@@ -67,7 +77,7 @@ class CategoryeditField extends \JFormFieldList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -78,7 +88,8 @@ class CategoryeditField extends \JFormFieldList
 		switch ($name)
 		{
 			case 'allowAdd':
-				return $this->$name;
+				return (bool) $this->$name;
+
 		}
 
 		return parent::__get($name);
@@ -87,7 +98,7 @@ class CategoryeditField extends \JFormFieldList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -121,11 +132,11 @@ class CategoryeditField extends \JFormFieldList
 	protected function getOptions()
 	{
 		$options = array();
-		$published = $this->element['published'] ?: array(0, 1);
+		$published = $this->element['published'] ? explode(',', (string) $this->element['published']) : array(0, 1);
 		$name = (string) $this->element['name'];
 
 		// Let's get the id for the current item, either category or content item.
-		$jinput = \JFactory::getApplication()->input;
+		$jinput = Factory::getApplication()->input;
 
 		// Load the category options for a given extension.
 
@@ -143,23 +154,26 @@ class CategoryeditField extends \JFormFieldList
 			$extension = $this->element['extension'] ? (string) $this->element['extension'] : (string) $jinput->get('option', 'com_content');
 		}
 
-		$db   = \JFactory::getDbo();
-		$user = \JFactory::getUser();
+		// Account for case that a submitted form has a multi-value category id field (e.g. a filtering form), just use the first category
+		$oldCat = is_array($oldCat)
+			? (int) reset($oldCat)
+			: (int) $oldCat;
+
+		$db   = Factory::getDbo();
+		$user = Factory::getUser();
 
 		$query = $db->getQuery(true)
-			->select('DISTINCT a.id AS value, a.title AS text, a.level, a.published, a.lft');
-		$subQuery = $db->getQuery(true)
-			->select('id,title,level,published,parent_id,extension,lft,rgt')
-			->from('#__categories');
+			->select('a.id AS value, a.title AS text, a.level, a.published, a.lft, a.language')
+			->from('#__categories AS a');
 
 		// Filter by the extension type
 		if ($this->element['parent'] == true || $jinput->get('option') == 'com_categories')
 		{
-			$subQuery->where('(extension = ' . $db->quote($extension) . ' OR parent_id = 0)');
+			$query->where('(a.extension = ' . $db->quote($extension) . ' OR a.parent_id = 0)');
 		}
 		else
 		{
-			$subQuery->where('(extension = ' . $db->quote($extension) . ')');
+			$query->where('(a.extension = ' . $db->quote($extension) . ')');
 		}
 
 		// Filter language
@@ -173,29 +187,21 @@ class CategoryeditField extends \JFormFieldList
 			{
 				$language = $db->quote($this->element['language']);
 			}
-			$subQuery->where($db->quoteName('language') . ' IN (' . $language . ')');
+
+			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 
 		// Filter on the published state
-		if (is_numeric($published))
-		{
-			$subQuery->where('published = ' . (int) $published);
-		}
-		elseif (is_array($published))
-		{
-			$subQuery->where('published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
-		}
+		$query->where('a.published IN (' . implode(',', ArrayHelper::toInteger($published)) . ')');
 
 		// Filter categories on User Access Level
 		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
 			$groups = implode(',', $user->getAuthorisedViewLevels());
-			$subQuery->where('access IN (' . $groups . ')');
+			$query->where('a.access IN (' . $groups . ')');
 		}
 
-		$query->from('(' . (string) $subQuery . ') AS a')
-			->join('LEFT', $db->quoteName('#__categories') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 		$query->order('a.lft ASC');
 
 		// If parent isn't explicitly stated but we are in com_categories assume we want parents
@@ -223,7 +229,7 @@ class CategoryeditField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		// Pad the option text with spaces using depth level as a multiplier.
@@ -234,32 +240,23 @@ class CategoryeditField extends \JFormFieldList
 			{
 				if ($options[$i]->level == 0)
 				{
-					$options[$i]->text = \JText::_('JGLOBAL_ROOT_PARENT');
+					$options[$i]->text = Text::_('JGLOBAL_ROOT_PARENT');
 				}
 			}
 
-			// Displays language code if not set to All
-			$db = \JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select($db->quoteName('language'))
-				->where($db->quoteName('id') . '=' . (int) $options[$i]->value)
-				->from($db->quoteName('#__categories'));
-
-			$db->setQuery($query);
-			$language = $db->loadResult();
-
 			if ($options[$i]->published == 1)
 			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . $options[$i]->text;
+				$options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . $options[$i]->text;
 			}
 			else
 			{
-				$options[$i]->text = str_repeat('- ', $options[$i]->level) . '[' . $options[$i]->text . ']';
+				$options[$i]->text = str_repeat('- ', !$options[$i]->level ? 0 : $options[$i]->level - 1) . '[' . $options[$i]->text . ']';
 			}
 
-			if ($language !== '*')
+			// Displays language code if not set to All
+			if ($options[$i]->language !== '*')
 			{
-				$options[$i]->text = $options[$i]->text . ' (' . $language . ')';
+				$options[$i]->text = $options[$i]->text . ' (' . $options[$i]->language . ')';
 			}
 		}
 
@@ -329,11 +326,11 @@ class CategoryeditField extends \JFormFieldList
 			if ($row->parent_id == '1')
 			{
 				$parent = new \stdClass;
-				$parent->text = \JText::_('JGLOBAL_ROOT_PARENT');
+				$parent->text = Text::_('JGLOBAL_ROOT_PARENT');
 				array_unshift($options, $parent);
 			}
 
-			array_unshift($options, \JHtml::_('select.option', '0', \JText::_('JGLOBAL_ROOT')));
+			array_unshift($options, HTMLHelper::_('select.option', '0', Text::_('JGLOBAL_ROOT')));
 		}
 
 		// Merge any additional options in the XML definition.
@@ -350,88 +347,18 @@ class CategoryeditField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
-		$html = array();
-		$class = array();
-		$attr = '';
+		$data = $this->getLayoutData();
 
-		// Initialize some field attributes.
-		$class[] = !empty($this->class) ? $this->class : '';
+		$data['options']        = $this->getOptions();
+		$data['allowCustom']    = $this->allowAdd;
+		$data['refreshPage']    = (boolean) $this->element['refresh-enabled'];
+		$data['refreshCatId']   = (string) $this->element['refresh-cat-id'];
+		$data['refreshSection'] = (string) $this->element['refresh-section'];
 
-		if ($this->allowAdd)
-		{
-			$customGroupText = \JText::_('JGLOBAL_CUSTOM_CATEGORY');
+		$renderer = $this->getRenderer($this->layout);
+		$renderer->setComponent('com_categories');
+		$renderer->setClient(1);
 
-			$class[] = 'chzn-custom-value';
-			$attr .= ' data-custom_group_text="' . $customGroupText . '" '
-					. 'data-no_results_text="' . \JText::_('JGLOBAL_ADD_CUSTOM_CATEGORY') . '" '
-					. 'data-placeholder="' . \JText::_('JGLOBAL_TYPE_OR_SELECT_CATEGORY') . '" ';
-		}
-
-		if ($class)
-		{
-			$attr .= 'class="' . implode(' ', $class) . '"';
-		}
-
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
-
-		// To avoid user's confusion, readonly="true" should imply disabled="true".
-		if ((string) $this->readonly == '1'
-			|| (string) $this->readonly == 'true'
-			|| (string) $this->disabled == '1'
-			|| (string) $this->disabled == 'true')
-		{
-			$attr .= ' disabled="disabled"';
-		}
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Get the field options.
-		$options = (array) $this->getOptions();
-
-		// Create a read-only list (no name) with hidden input(s) to store the value(s).
-		if ((string) $this->readonly == '1' || (string) $this->readonly == 'true')
-		{
-			$html[] = \JHtml::_('select.genericlist', $options, '', trim($attr), 'value', 'text', $this->value, $this->id);
-
-			// E.g. form field type tag sends $this->value as array
-			if ($this->multiple && is_array($this->value))
-			{
-				if (!count($this->value))
-				{
-					$this->value[] = '';
-				}
-
-				foreach ($this->value as $value)
-				{
-					$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '">';
-				}
-			}
-			else
-			{
-				$html[] = '<input type="hidden" name="' . $this->name . '" value="' . htmlspecialchars($this->value, ENT_COMPAT, 'UTF-8') . '">';
-			}
-		}
-		else
-		{
-			// Create a regular list.
-			if (count($options) === 0)
-			{
-				// All Categories have been deleted, so we need a new category (This will create on save if selected).
-				$options[0]            = new \stdClass;
-				$options[0]->value     = 'Uncategorised';
-				$options[0]->text      = 'Uncategorised';
-				$options[0]->level     = '1';
-				$options[0]->published = '1';
-				$options[0]->lft       = '1';
-			}
-
-			$html[] = \JHtml::_('select.genericlist', $options, $this->name, trim($attr), 'value', 'text', $this->value, $this->id);
-		}
-
-		return implode($html);
+		return $renderer->render($data);
 	}
 }

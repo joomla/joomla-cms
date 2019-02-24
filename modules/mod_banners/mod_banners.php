@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,8 @@ $headerText = trim($params->get('header_text'));
 $footerText = trim($params->get('footer_text'));
 
 BannersHelper::updateReset();
-$list = &ModBannersHelper::getList($params);
-$moduleclass_sfx = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
+
+$model = $app->bootComponent('com_banners')->getMVCFactory()->createModel('Banners', 'Site', ['ignore_request' => true]);
+$list  = ModBannersHelper::getList($params, $model, $app);
 
 require ModuleHelper::getLayoutPath('mod_banners', $params->get('layout', 'default'));

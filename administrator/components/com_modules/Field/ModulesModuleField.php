@@ -3,17 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-
-\JLoader::register('ModulesHelper', JPATH_ADMINISTRATOR . '/components/com_modules/helpers/modules.php');
+use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -41,8 +41,8 @@ class ModulesModuleField extends \JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$clientId = Factory::getApplication()->input->get('client_id', 0, 'int');
-		$options  = \ModulesHelper::getModules($clientId);
+		$clientId = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
+		$options  = ModulesHelper::getModules($clientId);
 
 		return array_merge(parent::getOptions(), $options);
 	}

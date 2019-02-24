@@ -9,15 +9,23 @@
 }
 
 .icon-white {
-  color: $white-offset;
+  color: $white;
 }
 
 .icon-publish {
-  color: $brand-success;
+  color: theme-color("success");
+
+  .dropdown-status-group & {
+    color: inherit;
+  }
 }
 
 .icon-unpublish {
-  color: $brand-danger;
+  color: theme-color("danger");
+
+  .dropdown-status-group & {
+    color: inherit;
+  }
 }
 
 
@@ -26,37 +34,39 @@
   text-align: center;
   background-color: transparent;
   border: 0;
-  span {
+
+  [class^='icon-'],
+  [class*=' icon-'] {
     width: 26px;
     height: 26px;
     font-size: 1rem;
     line-height: 22px;
     color: #ccc;
-    border: 2px solid #ccc;
+    border: 2px solid var(--border);
     border-radius: 50%;
   }
+
   .icon-publish {
-    color: $brand-success;
-    border-color: $brand-success;
+    color: var(--success);
+    border-color: var(--success);
   }
+
   .icon-featured {
-    color: $brand-warning;
-    border-color: $brand-warning;
+    color: var(--primary);
+    border-color: var(--primary);
   }
-  .icon-unpublish {
-    color: $brand-danger;
-    border-color: $brand-danger;
-  }
+
   .icon-archive {
-    color: $gray;
-    border-color: $gray;
+    color: $gray-700;
+    border-color: $gray-700;
   }
+
   .icon-checkedout {
     width: auto;
     height: auto;
     font-size: 1.2rem;
     line-height: 1rem;
-    color: $gray;
+    color: $gray-700;
     border: 0;
   }
 }

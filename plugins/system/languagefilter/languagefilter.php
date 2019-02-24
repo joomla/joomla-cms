@@ -3,25 +3,36 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Association\AssociationServiceInterface;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 /**
  * Joomla! Language Filter Plugin.
  *
  * @since  1.6
  */
-class PlgSystemLanguageFilter extends JPlugin
+class PlgSystemLanguageFilter extends CMSPlugin
 {
 	/**
 	 * The routing mode.
@@ -91,24 +102,24 @@ class PlgSystemLanguageFilter extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		$this->app = JFactory::getApplication();
+		$this->app = Factory::getApplication();
 
 		if ($this->app->isClient('site'))
 		{
 			// Setup language data.
 			$this->mode_sef     = $this->app->get('sef', 0);
-			$this->sefs         = JLanguageHelper::getLanguages('sef');
-			$this->lang_codes   = JLanguageHelper::getLanguages('lang_code');
-			$this->default_lang = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+			$this->sefs         = LanguageHelper::getLanguages('sef');
+			$this->lang_codes   = LanguageHelper::getLanguages('lang_code');
+			$this->default_lang = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 
-			$levels = JFactory::getUser()->getAuthorisedViewLevels();
+			$levels = Factory::getUser()->getAuthorisedViewLevels();
 
 			foreach ($this->sefs as $sef => $language)
 			{
 				// @todo: In Joomla 2.5.4 and earlier access wasn't set. Non modified Content Languages got 0 as access value
 				// we also check if frontend language exists and is enabled
 				if (($language->access && !in_array($language->access, $levels))
-					|| (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0))))
+					|| (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))))
 				{
 					unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
 				}
@@ -132,20 +143,20 @@ class PlgSystemLanguageFilter extends JPlugin
 			$router = $this->app->getRouter();
 
 			// Attach build rules for language SEF.
-			$router->attachBuildRule(array($this, 'preprocessBuildRule'), JRouter::PROCESS_BEFORE);
-			$router->attachBuildRule(array($this, 'buildRule'), JRouter::PROCESS_DURING);
+			$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
+			$router->attachBuildRule(array($this, 'buildRule'), Router::PROCESS_BEFORE);
 
 			if ($this->mode_sef)
 			{
-				$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), JRouter::PROCESS_AFTER);
+				$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), Router::PROCESS_AFTER);
 			}
 			else
 			{
-				$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), JRouter::PROCESS_AFTER);
+				$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), Router::PROCESS_AFTER);
 			}
 
 			// Attach parse rules for language SEF.
-			$router->attachParseRule(array($this, 'parseRule'), JRouter::PROCESS_DURING);
+			$router->attachParseRule(array($this, 'parseRule'), Router::PROCESS_BEFORE);
 		}
 	}
 
@@ -179,7 +190,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		/** @var JApplicationCms $app */
 		$app = $event->getApplication();
 
-		if (!$app->isSite())
+		if (!$app->isClient('site'))
 		{
 			return;
 		}
@@ -326,7 +337,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				// No language code. Try using browser settings or default site language
 				if (!$lang_code && $this->params->get('detect_browser', 0) == 1)
 				{
-					$lang_code = JLanguageHelper::detectLanguage();
+					$lang_code = LanguageHelper::detectLanguage();
 				}
 
 				if (!$lang_code)
@@ -379,7 +390,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (!$lang_code && $this->params->get('detect_browser', 1))
 			{
-				$lang_code = JLanguageHelper::detectLanguage();
+				$lang_code = LanguageHelper::detectLanguage();
 			}
 
 			if (!isset($this->lang_codes[$lang_code]))
@@ -412,7 +423,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			if (!$lang_code && $this->params->get('detect_browser', 1))
 			{
-				$lang_code = JLanguageHelper::detectLanguage();
+				$lang_code = LanguageHelper::detectLanguage();
 			}
 
 			if (!isset($this->lang_codes[$lang_code]))
@@ -431,7 +442,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				if ($this->params->get('detect_browser', 1))
 				{
-					$lang_code = JLanguageHelper::detectLanguage();
+					$lang_code = LanguageHelper::detectLanguage();
 
 					if (!isset($this->lang_codes[$lang_code]))
 					{
@@ -496,11 +507,11 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Set the request var.
 		$this->app->input->set('language', $lang_code);
 		$this->app->set('language', $lang_code);
-		$language = JFactory::getLanguage();
+		$language = Factory::getLanguage();
 
 		if ($language->getTag() !== $lang_code)
 		{
-			$language_new = JLanguage::getInstance($lang_code);
+			$language_new = Language::getInstance($lang_code);
 
 			foreach ($language->getPaths() as $extension => $files)
 			{
@@ -517,7 +528,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				$language_new->load($extension);
 			}
 
-			JFactory::$language = $language_new;
+			Factory::$language = $language_new;
 			$this->app->loadLanguage($language_new);
 		}
 
@@ -545,7 +556,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserBeforeSave($user, $isnew, $new)
 	{
-		if (array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
+		if (array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{
 			$registry = new Registry($user['params']);
 			$this->user_lang_code = $registry->get('language');
@@ -564,7 +575,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 *
 	 * @param   array    $user     Holds the new user data.
 	 * @param   boolean  $isnew    True if a new user is stored.
-	 * @param   boolean  $success  True if user was succesfully stored in the database.
+	 * @param   boolean  $success  True if user was successfully stored in the database.
 	 * @param   string   $msg      Message.
 	 *
 	 * @return  void
@@ -573,7 +584,7 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
-		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', '1') == '1')
+		if ($success && array_key_exists('params', $user) && $this->params->get('automatic_change', 1) == 1)
 		{
 			$registry = new Registry($user['params']);
 			$lang_code = $registry->get('language');
@@ -623,7 +634,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		{
 			if ($this->params->get('automatic_change', 1))
 			{
-				$assoc = JLanguageAssociations::isEnabled();
+				$assoc = Associations::isEnabled();
 				$lang_code = $user['language'];
 
 				// If no language is specified for this user, we set it to the site default language
@@ -632,13 +643,11 @@ class PlgSystemLanguageFilter extends JPlugin
 					$lang_code = $this->default_lang;
 				}
 
-				jimport('joomla.filesystem.folder');
-
 				// The language has been deleted/disabled or the related content language does not exist/has been unpublished
 				// or the related home page does not exist/has been unpublished
 				if (!array_key_exists($lang_code, $this->lang_codes)
-					|| !array_key_exists($lang_code, JLanguageMultilang::getSiteHomePages())
-					|| !JFolder::exists(JPATH_SITE . '/language/' . $lang_code))
+					|| !array_key_exists($lang_code, Multilanguage::getSiteHomePages())
+					|| !Folder::exists(JPATH_SITE . '/language/' . $lang_code))
 				{
 					$lang_code = $this->current_lang;
 				}
@@ -663,7 +672,7 @@ class PlgSystemLanguageFilter extends JPlugin
 					}
 
 					// Retrieves the Itemid from a login form.
-					$uri = new JUri($this->app->getUserState('users.login.form.return'));
+					$uri = new Uri($this->app->getUserState('users.login.form.return'));
 
 					if ($uri->getVar('Itemid'))
 					{
@@ -714,14 +723,14 @@ class PlgSystemLanguageFilter extends JPlugin
 					$this->setLanguageCookie($lang_code);
 
 					// Change the language code.
-					JFactory::getLanguage()->setLanguage($lang_code);
+					Factory::getContainer()->get(\Joomla\CMS\Language\LanguageFactoryInterface::class)->createLanguage($lang_code);
 				}
 			}
 			else
 			{
 				if ($this->app->getUserState('users.login.form.return'))
 				{
-					$this->app->setUserState('users.login.form.return', JRoute::_($this->app->getUserState('users.login.form.return'), false));
+					$this->app->setUserState('users.login.form.return', Route::_($this->app->getUserState('users.login.form.return'), false));
 				}
 			}
 		}
@@ -736,24 +745,24 @@ class PlgSystemLanguageFilter extends JPlugin
 	 */
 	public function onAfterDispatch()
 	{
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 
 		if ($this->app->isClient('site') && $this->params->get('alternate_meta', 1) && $doc->getType() === 'html')
 		{
 			$languages             = $this->lang_codes;
-			$homes                 = JLanguageMultilang::getSiteHomePages();
+			$homes                 = Multilanguage::getSiteHomePages();
 			$menu                  = $this->app->getMenu();
 			$active                = $menu->getActive();
-			$levels                = JFactory::getUser()->getAuthorisedViewLevels();
+			$levels                = Factory::getUser()->getAuthorisedViewLevels();
 			$remove_default_prefix = $this->params->get('remove_default_prefix', 0);
-			$server                = JUri::getInstance()->toString(array('scheme', 'host', 'port'));
+			$server                = Uri::getInstance()->toString(array('scheme', 'host', 'port'));
 			$is_home               = false;
 			$currentInternalUrl    = 'index.php?' . http_build_query($this->app->getRouter()->getVars());
 
 			if ($active)
 			{
-				$active_link  = JRoute::_($active->link . '&Itemid=' . $active->id);
-				$current_link = JRoute::_($currentInternalUrl);
+				$active_link  = Route::_($active->link . '&Itemid=' . $active->id);
+				$current_link = Route::_($currentInternalUrl);
 
 				// Load menu associations
 				if ($active_link === $current_link)
@@ -768,12 +777,22 @@ class PlgSystemLanguageFilter extends JPlugin
 
 			// Load component associations.
 			$option = $this->app->input->get('option');
-			$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-			JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
-			if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+			$component = $this->app->bootComponent($option);
+
+			if ($component instanceof AssociationServiceInterface)
 			{
-				$cassociations = call_user_func(array($cName, 'getAssociations'));
+				$cassociations = $component->getAssociationsExtension()->getAssociationsForItem();
+			}
+			else
+			{
+				$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
+				JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+
+				if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
+				{
+					$cassociations = call_user_func(array($cName, 'getAssociations'));
+				}
 			}
 
 			// For each language...
@@ -782,7 +801,7 @@ class PlgSystemLanguageFilter extends JPlugin
 				switch (true)
 				{
 					// Language without frontend UI || Language without specific home menu || Language without authorized access level
-					case (!array_key_exists($i, JLanguageHelper::getInstalledLanguages(0))):
+					case (!array_key_exists($i, LanguageHelper::getInstalledLanguages(0))):
 					case (!isset($homes[$i])):
 					case (isset($language->access) && $language->access && !in_array($language->access, $levels)):
 						unset($languages[$i]);
@@ -790,24 +809,24 @@ class PlgSystemLanguageFilter extends JPlugin
 
 					// Home page
 					case ($is_home):
-						$language->link = JRoute::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
+						$language->link = Route::_('index.php?lang=' . $language->sef . '&Itemid=' . $homes[$i]->id);
 						break;
 
 					// Current language link
 					case ($i === $this->current_lang):
-						$language->link = JRoute::_($currentInternalUrl);
+						$language->link = Route::_($currentInternalUrl);
 						break;
 
 					// Component association
 					case (isset($cassociations[$i])):
-						$language->link = JRoute::_($cassociations[$i] . '&lang=' . $language->sef);
+						$language->link = Route::_($cassociations[$i]);
 						break;
 
 					// Menu items association
 					// Heads up! "$item = $menu" here below is an assignment, *NOT* comparison
 					case (isset($associations[$i]) && ($item = $menu->getItem($associations[$i]))):
 
-						$language->link = JRoute::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
+						$language->link = Route::_('index.php?Itemid=' . $item->id . '&lang=' . $language->sef);
 						break;
 
 					// Too bad...
@@ -875,7 +894,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		// If not, set the user language in the session (that is already saved in a cookie).
 		else
 		{
-			JFactory::getSession()->set('plg_system_languagefilter.language', $languageCode);
+			$this->app->getSession()->set('plg_system_languagefilter.language', $languageCode);
 		}
 	}
 
@@ -896,7 +915,7 @@ class PlgSystemLanguageFilter extends JPlugin
 		// Else get the user language from the session.
 		else
 		{
-			$languageCode = JFactory::getSession()->get('plg_system_languagefilter.language');
+			$languageCode = $this->app->getSession()->get('plg_system_languagefilter.language');
 		}
 
 		// Let's be sure we got a valid language code. Fallback to null.

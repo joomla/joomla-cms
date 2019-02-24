@@ -3,12 +3,13 @@
 	<name>mod_logged</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_LOGGED_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Logged</namespace>
 	<files>
 		<filename module="mod_logged">mod_logged.php</filename>
 		<folder>tmpl</folder>
@@ -23,18 +24,18 @@
 			<fieldset name="basic">
 				<field
 					name="count"
-					type="text"
+					type="number"
 					label="MOD_LOGGED_FIELD_COUNT_LABEL"
-					description="MOD_LOGGED_FIELD_COUNT_DESC" 
 					default="5"
+					filter="integer"
 				/>
 
 				<field
 					name="name"
 					type="list"
 					label="MOD_LOGGED_NAME"
-					description="MOD_LOGGED_FIELD_NAME_DESC"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">MOD_LOGGED_NAME</option>
 					<option value="0">JGLOBAL_USERNAME</option>
@@ -45,14 +46,13 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
-					description="JFIELD_ALT_MODULE_LAYOUT_DESC" 
-				/>
+					class="custom-select"
+ 				/>
 
 				<field
 					name="moduleclass_sfx"
 					type="textarea"
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
-					description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC"
 					rows="3"
 				/>
 
@@ -60,9 +60,9 @@
 					name="automatic_title"
 					type="radio"
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
-					description="COM_MODULES_FIELD_AUTOMATIC_TITLE_DESC"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

@@ -3,7 +3,7 @@
 	<name>plg_fields_editor</name>
 	<author>Joomla! Project</author>
 	<creationDate>March 2016</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -25,19 +25,18 @@
 					name="buttons"
 					type="radio"
 					label="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_SHOW_BUTTONS_DESC"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
 					name="hide"
 					type="plugins"
 					label="PLG_FIELDS_EDITOR_PARAMS_BUTTONS_HIDE_LABEL"
-					description="JGLOBAL_SELECT_SOME_OPTIONS"
 					folder="editors-xtd"
 					multiple="true"
 				/>
@@ -46,7 +45,6 @@
 					name="width"
 					type="text"
 					label="PLG_FIELDS_EDITOR_PARAMS_WIDTH_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_WIDTH_DESC"
 					default="100%"
 					size="5"
 				/>
@@ -55,7 +53,6 @@
 					name="height"
 					type="text"
 					label="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_HEIGHT_DESC"
 					default="250px"
 					size="5"
 				/>
@@ -64,9 +61,9 @@
 					name="filter"
 					type="list"
 					label="PLG_FIELDS_EDITOR_PARAMS_FILTER_LABEL"
-					description="PLG_FIELDS_EDITOR_PARAMS_FILTER_DESC"
-					class="btn-group"
+					class="list"
 					default="JComponentHelper::filterText"
+					validate="options"
 					>
 					<option value="0">JNO</option>
 					<option value="raw">JLIB_FILTER_PARAMS_RAW</option>

@@ -3,9 +3,8 @@
 
 	<field
 		name="id"
-		type="text"
+		type="number"
 		label="JGLOBAL_FIELD_ID_LABEL"
-		description="JGLOBAL_FIELD_ID_DESC"
 		default="0"
 		class="readonly"
 		readonly="true"
@@ -13,9 +12,8 @@
 
 	<field
 		name="hits"
-		type="text"
+		type="number"
 		label="JGLOBAL_HITS"
-		description="COM_CATEGORIES_FIELD_HITS_DESC"
 		default="0"
 		class="readonly"
 		readonly="true"
@@ -26,15 +24,12 @@
 		type="hidden"
 		filter="unset"
 		label="JFIELD_ASSET_ID_LABEL"
-		description="JFIELD_ASSET_ID_DESC"
 	/>
 
 	<field
 		name="parent_id"
-		class="advancedSelect"
 		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
-		description="COM_CATEGORIES_FIELD_PARENT_DESC"
 	/>
 
 	<field
@@ -59,7 +54,6 @@
 		name="path"
 		type="text"
 		label="COM_CATEGORIES_PATH_LABEL"
-		description="COM_CATEGORIES_PATH_DESC"
 		class="readonly"
 		size="40"
 		readonly="true"
@@ -74,8 +68,6 @@
 		name="title"
 		type="text"
 		label="JGLOBAL_TITLE"
-		description="JFIELD_TITLE_DESC"
-		class="input-xxlarge"
 		size="40"
 		required="true"
 	/>
@@ -84,7 +76,6 @@
 		name="alias"
 		type="text"
 		label="JFIELD_ALIAS_LABEL"
-		description="JFIELD_ALIAS_DESC"
 		size="45"
 		hint="JFIELD_ALIAS_PLACEHOLDER"
 	/>
@@ -93,7 +84,6 @@
 		name="version_note"
 		type="text"
 		label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
-		description="JGLOBAL_FIELD_VERSION_NOTE_DESC"
 		size="45"
 		maxlength="255"
 	/>
@@ -102,7 +92,6 @@
 		name="note"
 		type="text"
 		label="COM_CATEGORIES_FIELD_NOTE_LABEL"
-		description="COM_CATEGORIES_FIELD_NOTE_DESC"
 		size="40"
 		maxlength="255"
 	/>
@@ -111,7 +100,6 @@
 		name="description"
 		type="editor"
 		label="JGLOBAL_DESCRIPTION"
-		description="COM_CATEGORIES_DESCRIPTION_DESC"
 		filter="JComponentHelper::filterText"
 		buttons="true"
 		hide="readmore,pagebreak"
@@ -121,7 +109,6 @@
 		name="published"
 		type="list"
 		label="JSTATUS"
-		description="JFIELD_PUBLISHED_DESC"
 		default="1"
 		class="custom-select-color-state"
 		size="1"
@@ -136,7 +123,6 @@
 		name="buttonspacer"
 		type="spacer"
 		label="JGLOBAL_ACTION_PERMISSIONS_LABEL"
-		description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 	/>
 
 	<field
@@ -155,14 +141,12 @@
 		name="access"
 		type="accesslevel"
 		label="JFIELD_ACCESS_LABEL"
-		description="JFIELD_ACCESS_DESC"
 	/>
 
 	<field
 		name="metadesc"
 		type="textarea"
 		label="JFIELD_META_DESCRIPTION_LABEL"
-		description="JFIELD_META_DESCRIPTION_DESC"
 		rows="3"
 		cols="40"
 	/>
@@ -171,7 +155,6 @@
 		name="metakey"
 		type="textarea"
 		label="JFIELD_META_KEYWORDS_LABEL"
-		description="JFIELD_META_KEYWORDS_DESC"
 		rows="3"
 		cols="40"
 	/>
@@ -180,7 +163,6 @@
 		name="created_user_id"
 		type="user"
 		label="JGLOBAL_FIELD_CREATED_BY_LABEL"
-		desc="JGLOBAL_FIELD_CREATED_BY_DESC"
 	/>
 
 	<field
@@ -214,7 +196,6 @@
 		name="language"
 		type="contentlanguage"
 		label="JFIELD_LANGUAGE_LABEL"
-		description="COM_CATEGORIES_FIELD_LANGUAGE_DESC"
 		>
 		<option value="*">JALL</option>
 	</field>
@@ -223,8 +204,6 @@
 		name="tags"
 		type="tag"
 		label="JTAG"
-		class="col-sm-12"
-		description="JTAG_DESC"
 		multiple="true"
 	/>
 
@@ -248,7 +227,7 @@
 				name="category_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
-				description="JFIELD_ALT_COMPONENT_LAYOUT_DESC"
+				class="custom-select"
 				view="category"
 				useglobal="true"
 			/>
@@ -257,14 +236,12 @@
 				name="image"
 				type="media"
 				label="COM_CATEGORIES_FIELD_IMAGE_LABEL"
-				description="COM_CATEGORIES_FIELD_IMAGE_DESC"
 			/>
 
 			<field
 				name="image_alt"
 				type="text"
 				label="COM_CATEGORIES_FIELD_IMAGE_ALT_LABEL"
-				description="COM_CATEGORIES_FIELD_IMAGE_ALT_DESC"
 				size="20"
 			/>
 		</fieldset>
@@ -278,7 +255,6 @@
 				name="author"
 				type="text"
 				label="JAUTHOR"
-				description="JFIELD_METADATA_AUTHOR_DESC"
 				size="30"
 			/>
 
@@ -286,7 +262,6 @@
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
-				description="JFIELD_METADATA_ROBOTS_DESC"
 				>
 				<option value="">JGLOBAL_USE_GLOBAL</option>
 				<option value="index, follow">JGLOBAL_INDEX_FOLLOW</option>

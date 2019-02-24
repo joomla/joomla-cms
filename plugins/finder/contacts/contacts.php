@@ -3,12 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Finder.Contacts
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\Database\DatabaseQuery;
 use Joomla\Registry\Registry;
 
 JLoader::register('FinderIndexerAdapter', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/indexer/adapter.php');
@@ -125,6 +128,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		{
 			return true;
 		}
+
 		// Remove the items.
 		return $this->remove($id);
 	}
@@ -240,7 +244,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	/**
 	 * Method to index an item. The item must be a FinderIndexerResult object.
 	 *
-	 * @param   FinderIndexerResult  $item    The item to index as an FinderIndexerResult object.
+	 * @param   FinderIndexerResult  $item    The item to index as a FinderIndexerResult object.
 	 * @param   string               $format  The item format
 	 *
 	 * @return  void
@@ -251,7 +255,7 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	protected function index(FinderIndexerResult $item, $format = 'html')
 	{
 		// Check if the extension is enabled
-		if (JComponentHelper::isEnabled($this->extension) === false)
+		if (ComponentHelper::isEnabled($this->extension) === false)
 		{
 			return;
 		}
@@ -261,10 +265,11 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Initialize the item parameters.
 		$item->params = new Registry($item->params);
 
-		// Build the necessary route and path information.
+		// Create a URL as identifier to recognise items again.
 		$item->url = $this->getUrl($item->id, $this->extension, $this->layout);
+
+		// Build the necessary route and path information.
 		$item->route = ContactHelperRoute::getContactRoute($item->slug, $item->catslug, $item->language);
-		$item->path = FinderIndexerHelper::getContentPath($item->route);
 
 		// Get the menu title if it exists.
 		$title = $this->getItemMenuTitle($item->url);
@@ -388,9 +393,6 @@ class PlgFinderContacts extends FinderIndexerAdapter
 		// Load dependent classes.
 		JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 
-		// This is a hack to get around the lack of a route helper.
-		FinderIndexerHelper::getContentPath('index.php?option=com_contact');
-
 		return true;
 	}
 
@@ -405,10 +407,10 @@ class PlgFinderContacts extends FinderIndexerAdapter
 	 */
 	protected function getListQuery($query = null)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Check if we can use the supplied SQL query.
-		$query = $query instanceof JDatabaseQuery ? $query : $db->getQuery(true)
+		$query = $query instanceof DatabaseQuery ? $query : $db->getQuery(true)
 			->select('a.id, a.name AS title, a.alias, a.con_position AS position, a.address, a.created AS start_date')
 			->select('a.created_by_alias, a.modified, a.modified_by')
 			->select('a.metakey, a.metadesc, a.metadata, a.language')

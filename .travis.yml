@@ -3,36 +3,23 @@ sudo: false
 
 language: php
 
-env:
-  global:
-    - RUN_UNIT_TESTS="yes"
-    - INSTALL_MEMCACHE="yes"
-    - INSTALL_MEMCACHED="yes"
-    - INSTALL_REDIS="yes"
-
 matrix:
   fast_finish: true
   include:
-    - php: 5.5
-      env: INSTALL_APCU="yes"
-    - php: 5.6
-      env: INSTALL_APCU="yes"
-    - php: 7.0
-      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
-    - php: 7.1
-      env: INSTALL_APCU="yes" INSTALL_APCU_BC_BETA="no" INSTALL_MEMCACHE="no" INSTALL_MEMCACHED="no" INSTALL_REDIS="no" # Disabled apcu_bc install until https://github.com/travis-ci/travis-ci/issues/5207 is resolved
-
-services:
-  - memcache
-  - memcached
-  - redis-server
+    - php: nightly
+  allow_failures:
+    - php: nightly
 
 before_script:
-  # Make sure all dev dependencies are installed
-  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then bash build/travis/unit-tests.sh $PWD; fi
+  # Abort travis execution if setup fails
+  - set -e
+  # Disable xdebug.
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+  # Make sure all dev dependencies are installed, ignore platform requirements because Travis is missing the LDAP tooling on all new images
+  - composer install --ignore-platform-reqs
 
 script:
-  - if [[ $RUN_UNIT_TESTS == "yes" ]]; then libraries/vendor/bin/phpunit --configuration travisci-phpunit.xml; fi
+  - libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
 
 branches:
   except:

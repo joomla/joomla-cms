@@ -3,18 +3,17 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-// Include the helper functions only once
-JLoader::register('ModArticlesCategoryHelper', __DIR__ . '/helper.php');
-
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper;
 
-$input = JFactory::getApplication()->input;
+$input = Factory::getApplication()->input;
 
 // Prep for Normal or Dynamic Modes
 $mode   = $params->get('mode', 'normal');
@@ -53,9 +52,9 @@ switch ($mode)
 
 $cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
 
-$cacheparams               = new stdClass;
+$cacheparams               = new \stdClass;
 $cacheparams->cachemode    = 'id';
-$cacheparams->class        = 'ModArticlesCategoryHelper';
+$cacheparams->class        = ArticlesCategoryHelper::class;
 $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = $cacheid;
@@ -67,7 +66,6 @@ if (!empty($list))
 	$grouped                    = false;
 	$article_grouping           = $params->get('article_grouping', 'none');
 	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-	$moduleclass_sfx            = htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8');
 	$item_heading               = $params->get('item_heading');
 
 	if ($article_grouping !== 'none')
@@ -78,11 +76,11 @@ if (!empty($list))
 		{
 			case 'year' :
 			case 'month_year' :
-				$list = ModArticlesCategoryHelper::groupByDate($list, $article_grouping, $article_grouping_direction, $params->get('month_year_format', 'F Y'));
+				$list = ArticlesCategoryHelper::groupByDate($list, $article_grouping_direction, $article_grouping, $params->get('month_year_format', 'F Y'));
 				break;
 			case 'author' :
 			case 'category_title' :
-				$list = ModArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
+				$list = ArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
 				break;
 			default:
 				break;

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,9 +12,6 @@ defined('_JEXEC') or die;
 /** @var JDocumentHtml $this */
 
 $app = JFactory::getApplication();
-
-// Add html5 shiv
-JHtml::_('script', 'jui/html5.js', ['version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9']);
 
 // Styles
 JHtml::_('stylesheet', 'templates/system/css/offline.css', ['version' => 'auto']);
@@ -71,7 +68,7 @@ $twofactormethods = JAuthenticationHelper::getTwoFactorMethods();
 				<input type="text" name="secretkey" class="inputbox" alt="<?php echo JText::_('JGLOBAL_SECRETKEY'); ?>" id="secretkey" />
 			</p>
 		<?php endif; ?>
-		<p id="submit-buton">
+		<p id="submit-button">
 			<input type="submit" name="Submit" class="button login" value="<?php echo JText::_('JLOGIN'); ?>" />
 		</p>
 		<input type="hidden" name="option" value="com_users" />

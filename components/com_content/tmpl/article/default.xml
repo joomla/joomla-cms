@@ -18,7 +18,6 @@
 				name="id" 
 				type="modal_article"
 				label="COM_CONTENT_FIELD_SELECT_ARTICLE_LABEL"
-				description="COM_CONTENT_FIELD_SELECT_ARTICLE_DESC"
 				required="true"
 				select="true"
 				new="true"
@@ -33,14 +32,16 @@
 
 		<!-- Basic options. -->
 		<fieldset name="basic"
-			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL">
+			label="COM_CONTENT_ATTRIBS_ARTICLE_SETTINGS_LABEL"
+			addfieldprefix="Joomla\Component\Content\Administrator\Field"
+		>
 
 		<field
 			name="show_title"
 			type="list"
 			label="JGLOBAL_SHOW_TITLE_LABEL"
-			description="JGLOBAL_SHOW_TITLE_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -50,8 +51,8 @@
 			name="link_titles"
 			type="list"
 			label="JGLOBAL_LINKED_TITLES_LABEL"
-			description="JGLOBAL_LINKED_TITLES_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -61,8 +62,8 @@
 			name="show_intro"
 			type="list"
 			label="JGLOBAL_SHOW_INTRO_LABEL"
-			description="JGLOBAL_SHOW_INTRO_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -72,7 +73,6 @@
 			name="info_block_position"
 			type="list"
 			label="COM_CONTENT_FIELD_INFOBLOCK_POSITION_LABEL"
-			description="COM_CONTENT_FIELD_INFOBLOCK_POSITION_DESC"
 			useglobal="true"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>
@@ -84,8 +84,8 @@
 			name="info_block_show_title"
 			type="list"
 			label="COM_CONTENT_FIELD_INFOBLOCK_TITLE_LABEL"
-			description="COM_CONTENT_FIELD_INFOBLOCK_TITLE_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option	value="1">JSHOW</option>
 			<option	value="0">JHIDE</option>
@@ -95,8 +95,8 @@
 			name="show_category"
 			type="list"
 			label="JGLOBAL_SHOW_CATEGORY_LABEL"
-			description="JGLOBAL_SHOW_CATEGORY_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -106,8 +106,8 @@
 			name="link_category"
 			type="list"
 			label="JGLOBAL_LINK_CATEGORY_LABEL"
-			description="JGLOBAL_LINK_CATEGORY_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -117,8 +117,8 @@
 			name="show_parent_category"
 			type="list"
 			label="JGLOBAL_SHOW_PARENT_CATEGORY_LABEL"
-			description="JGLOBAL_SHOW_PARENT_CATEGORY_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -128,8 +128,8 @@
 			name="link_parent_category"
 			type="list"
 			label="JGLOBAL_LINK_PARENT_CATEGORY_LABEL"
-			description="JGLOBAL_LINK_PARENT_CATEGORY_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -137,10 +137,10 @@
 
 		<field
 			name="show_associations"
-			type="list"
+			type="assoc"
 			label="JGLOBAL_SHOW_ASSOCIATIONS_LABEL"
-			description="JGLOBAL_SHOW_ASSOCIATIONS_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -150,8 +150,8 @@
 			name="show_author"
 			type="list"
 			label="JGLOBAL_SHOW_AUTHOR_LABEL"
-			description="JGLOBAL_SHOW_AUTHOR_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -161,8 +161,8 @@
 			name="link_author"
 			type="list"
 			label="JGLOBAL_LINK_AUTHOR_LABEL"
-			description="JGLOBAL_LINK_AUTHOR_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -172,8 +172,8 @@
 			name="show_create_date"
 			type="list"
 			label="JGLOBAL_SHOW_CREATE_DATE_LABEL"
-			description="JGLOBAL_SHOW_CREATE_DATE_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -183,8 +183,8 @@
 			name="show_modify_date"
 			type="list"
 			label="JGLOBAL_SHOW_MODIFY_DATE_LABEL"
-			description="JGLOBAL_SHOW_MODIFY_DATE_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -194,8 +194,8 @@
 			name="show_publish_date"
 			type="list"
 			label="JGLOBAL_SHOW_PUBLISH_DATE_LABEL"
-			description="JGLOBAL_SHOW_PUBLISH_DATE_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -205,8 +205,8 @@
 			name="show_item_navigation"
 			type="list"
 			label="JGLOBAL_SHOW_NAVIGATION_LABEL"
-			description="JGLOBAL_SHOW_NAVIGATION_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -216,8 +216,8 @@
 			name="show_vote"
 			type="list"
 			label="JGLOBAL_SHOW_VOTE_LABEL"
-			description="JGLOBAL_SHOW_VOTE_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -229,6 +229,7 @@
 			label="JGLOBAL_SHOW_ICONS_LABEL"
 			description="JGLOBAL_SHOW_ICONS_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -240,6 +241,7 @@
 			label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
 			description="JGLOBAL_SHOW_PRINT_ICON_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -251,6 +253,7 @@
 			label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
 			description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -260,8 +263,8 @@
 			name="show_hits"
 			type="list"
 			label="JGLOBAL_SHOW_HITS_LABEL"
-			description="JGLOBAL_SHOW_HITS_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -271,8 +274,8 @@
 			name="show_tags"
 			type="list"
 			label="JGLOBAL_SHOW_TAGS_LABEL"
-			description="JGLOBAL_SHOW_TAGS_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JSHOW</option>
 			<option value="0">JHIDE</option>
@@ -284,6 +287,7 @@
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"
 			description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 			useglobal="true"
+			class="chzn-color"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -292,7 +296,6 @@
 			name="urls_position"
 			type="list"
 			label="COM_CONTENT_FIELD_URLSPOSITION_LABEL"
-			description="COM_CONTENT_FIELD_URLSPOSITION_DESC"
 			useglobal="true"
 			>
 			<option value="0">COM_CONTENT_FIELD_OPTION_ABOVE</option>

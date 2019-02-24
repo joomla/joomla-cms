@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Messages\Administrator\Field;
 
 defined('_JEXEC') or die;
@@ -53,7 +54,7 @@ class UserMessagesField extends \JFormFieldUser
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseNotice(500, $e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'notice');
 
 			return null;
 		}

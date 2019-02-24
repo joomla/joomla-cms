@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Search\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Transliterate;
 use Joomla\String\StringHelper;
@@ -45,7 +47,7 @@ class SearchHelper
 	 */
 	public static function santiseSearchWord(&$searchword, $searchphrase)
 	{
-		$lang          = \JFactory::getLanguage();
+		$lang          = Factory::getLanguage();
 		$tag           = $lang->getTag();
 		$search_ignore = $lang->getIgnoredSearchWords();
 		$ignored       = false;
@@ -101,7 +103,7 @@ class SearchHelper
 	{
 		$restriction = false;
 
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		// Limit searchword to a maximum of characters.
 		$upper_limit = $lang->getUpperLimitSearchWord();
@@ -120,34 +122,6 @@ class SearchHelper
 		}
 
 		return $restriction;
-	}
-
-	/**
-	 * Logs a search term.
-	 *
-	 * @param   string  $search_term  The term being searched.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.5
-	 * @deprecated  4.0  Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.
-	 */
-	public static function logSearch($search_term)
-	{
-		try
-		{
-			\JLog::add(
-				sprintf('%s() is deprecated. Use \Joomla\CMS\Helper\SearchHelper::logSearch() instead.', __METHOD__),
-				\JLog::WARNING,
-				'deprecated'
-			);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
-
-		\Joomla\CMS\Helper\SearchHelper::logSearch($search_term, 'com_search');
 	}
 
 	/**
@@ -255,7 +229,7 @@ class SearchHelper
 	 */
 	public static function _smartSubstr($text, $searchword)
 	{
-		$lang        = \JFactory::getLanguage();
+		$lang        = Factory::getLanguage();
 		$length      = $lang->getSearchDisplayedCharactersNumber();
 		$ltext       = self::remove_accents($text);
 		$textlen     = StringHelper::strlen($ltext);

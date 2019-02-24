@@ -3,16 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Field;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 FormHelper::loadFieldClass('list');
 
@@ -58,11 +60,11 @@ class TypeField extends \JFormFieldList
 	{
 		$options = parent::getOptions();
 
-		$fieldTypes = \FieldsHelper::getFieldTypes();
+		$fieldTypes = FieldsHelper::getFieldTypes();
 
 		foreach ($fieldTypes as $fieldType)
 		{
-			$options[] = \JHtml::_('select.option', $fieldType['type'], $fieldType['label']);
+			$options[] = HTMLHelper::_('select.option', $fieldType['type'], $fieldType['label']);
 		}
 
 		// Sorting the fields based on the text which is displayed
@@ -74,37 +76,22 @@ class TypeField extends \JFormFieldList
 			}
 		);
 
-		// Reload the page when the type changes
-		$uri = clone Uri::getInstance('index.php');
+		$js = <<<JS
+(function () {
+  window.typeHasChanged = function(element) {
+    Joomla.loadingLayer('show');
+    document.querySelector('input[name=task]').value = 'field.reload';
+    element.form.submit();
+  };
 
-		// Removing the catid parameter from the actual URL and set it as
-		// return
-		$returnUri = clone Uri::getInstance();
-		$returnUri->setVar('catid', null);
-		$uri->setVar('return', base64_encode($returnUri->toString()));
+  document.addEventListener('DOMContentLaoded', function() {
+    Joomla.loadingLayer('load');
+  });
+})();
+JS;
 
-		// Setting the options
-		$uri->setVar('option', 'com_fields');
-		$uri->setVar('task', 'field.storeform');
-		$uri->setVar('context', 'com_fields.field');
-		$uri->setVar('formcontrol', $this->form->getFormControl());
-		$uri->setVar('userstatevariable', 'com_fields.edit.field.data');
-		$uri->setVar('view', null);
-		$uri->setVar('layout', null);
-
-
-		Factory::getDocument()->addScriptDeclaration("
-			jQuery( document ).ready(function() {
-				Joomla.loadingLayer('load');
-			});
-			function typeHasChanged(element){
-				Joomla.loadingLayer('show');
-				var cat = jQuery(element);
-				jQuery('input[name=task]').val('field.storeform');
-				element.form.action='" . $uri . "';
-				element.form.submit();
-			}
-		");
+		// @todo move the script to a file
+		Factory::getDocument()->addScriptDeclaration($js);
 
 		return $options;
 	}

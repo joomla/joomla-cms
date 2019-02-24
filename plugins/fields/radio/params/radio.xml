@@ -4,11 +4,10 @@
 		<fieldset name="fieldparams">
 			<field
 				name="options"
-				type="subform" 
+				type="subform"
 				label="PLG_FIELDS_RADIO_PARAMS_OPTIONS_LABEL"
-				description="PLG_FIELDS_RADIO_PARAMS_OPTIONS_DESC"
 				layout="joomla.form.field.subform.repeatable-table"
-				icon="list" 
+				icon="list"
 				multiple="true"
 				>
 				<form hidden="true" name="list_templates_modal" repeat="true">
@@ -36,8 +35,6 @@
 				name="class"
 				type="textarea"
 				label="COM_FIELDS_FIELD_CLASS_LABEL"
-				description="COM_FIELDS_FIELD_CLASS_DESC"
-				class="input-xxlarge"
 				size="40"
 				default="btn-group"
 			/>

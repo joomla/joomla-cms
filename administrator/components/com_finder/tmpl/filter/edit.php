@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,8 @@ JHtml::_('behavior.tabstate');
 JText::script('COM_FINDER_FILTER_SHOW_ALL', true);
 JText::script('COM_FINDER_FILTER_HIDE_ALL', true);
 
+$this->useCoreUI = true;
+
 JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
@@ -24,16 +26,16 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 
 	<?php echo JLayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<?php echo JHtml::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
+	<?php echo JHtml::_('uitab.addTab', 'myTab', 'details', JText::_('COM_FINDER_EDIT_FILTER')); ?>
 	<div class="row">
 		<div class="col-md-9">
 			<?php if ($this->total > 0) : ?>
 				<div class="well">
 					<?php echo $this->form->renderField('map_count'); ?>
 				</div>
-				<button class="btn btn-secondary" type="button" onclick="jQuery('.filter-node').each(function(){ this.click(); });">
+				<button class="btn btn-secondary filter-toggle-all" type="button">
 					<span class="fa fa-square" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?></button>
 
 				<button class="btn btn-secondary float-right" type="button" id="expandAccordion"><?php echo JText::_('COM_FINDER_FILTER_SHOW_ALL'); ?></button>
@@ -43,20 +45,22 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 			<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 		</div>
 		<div class="col-md-3">
-			<div class="card card-block card-light">
-				<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+			<div class="card card-light">
+				<div class="card-body">
+					<?php echo JLayoutHelper::render('joomla.edit.global', $this); ?>
+				</div>
 			</div>
 		</div>
 	</div>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo JHtml::_('uitab.endTab'); ?>
 
-	<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+	<?php echo JHtml::_('uitab.addTab', 'myTab', 'publishing', JText::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 	<?php echo JLayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-	<?php echo JHtml::_('bootstrap.endTab'); ?>
+	<?php echo JHtml::_('uitab.endTab'); ?>
 
 	<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
 
-	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	<?php echo JHtml::_('uitab.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd'); ?>">

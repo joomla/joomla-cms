@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,8 +56,9 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 ?>
 
 <fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' checkboxes'); ?>"
-	<?php echo $required ? 'required aria-required="true"' : ''; ?>
+	<?php echo $required ? 'required' : ''; ?>
 	<?php echo $autofocus ? 'autofocus' : ''; ?>>
+	<legend><?php echo $label; ?></legend>
 
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
@@ -65,9 +66,9 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 			$checked = in_array((string) $option->value, $checkedOptions, true) ? 'checked' : '';
 
 			// In case there is no stored value, use the option's default state.
-			$checked     = (!$hasValue && $option->checked) ? 'checked' : $checked;
-			$optionClass = !empty($option->class) ? 'class="form-check-input ' . $option->class . '"' : ' class="form-check-input"';
-			$disabled    = !empty($option->disable) || $disabled ? 'disabled' : '';
+			$checked        = (!$hasValue && $option->checked) ? 'checked' : $checked;
+			$optionClass    = !empty($option->class) ? 'class="form-check-input ' . $option->class . '"' : ' class="form-check-input"';
+			$optionDisabled = !empty($option->disable) || $disabled ? 'disabled' : '';
 
 			// Initialize some JavaScript option attributes.
 			$onclick  = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
@@ -75,11 +76,11 @@ $alt = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
 			$oid        = $id . $i;
 			$value      = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-			$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
+			$attributes = array_filter(array($checked, $optionClass, $optionDisabled, $onchange, $onclick));
 		?>
 		<div class="form-check form-check-inline">
+		<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
 			<label for="<?php echo $oid; ?>" class="form-check-label">
-				<?php echo sprintf($format, $oid, $name, $value, implode(' ', $attributes)); ?>
 				<?php echo $option->text; ?>
 			</label>
 		</div>

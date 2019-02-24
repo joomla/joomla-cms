@@ -3,13 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Redirect\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
@@ -47,54 +50,25 @@ class RedirectHelper
 	{
 		// Build the active state filter options.
 		$options   = array();
-		$options[] = \JHtml::_('select.option', '*', 'JALL');
-		$options[] = \JHtml::_('select.option', '1', 'JENABLED');
-		$options[] = \JHtml::_('select.option', '0', 'JDISABLED');
-		$options[] = \JHtml::_('select.option', '2', 'JARCHIVED');
-		$options[] = \JHtml::_('select.option', '-2', 'JTRASHED');
+		$options[] = HTMLHelper::_('select.option', '*', 'JALL');
+		$options[] = HTMLHelper::_('select.option', '1', 'JENABLED');
+		$options[] = HTMLHelper::_('select.option', '0', 'JDISABLED');
+		$options[] = HTMLHelper::_('select.option', '2', 'JARCHIVED');
+		$options[] = HTMLHelper::_('select.option', '-2', 'JTRASHED');
 
 		return $options;
 	}
 
 	/**
-	 * Determines if the plugin for Redirect to work is enabled.
-	 *
-	 * @return  boolean
-	 *
-	 * @since   1.6
-	 */
-	public static function isEnabled()
-	{
-		$db    = \JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('enabled'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
-			->where($db->quoteName('element') . ' = ' . $db->quote('redirect'));
-		$db->setQuery($query);
-
-		try
-		{
-			$result = (boolean) $db->loadResult();
-		}
-		catch (\RuntimeException $e)
-		{
-			\JError::raiseWarning(500, $e->getMessage());
-		}
-
-		return $result;
-	}
-
-	/**
 	 * Gets the redirect system plugin extension id.
 	 *
-	 * @return  int  The redirect system plugin extension id.
+	 * @return  integer  The redirect system plugin extension id.
 	 *
 	 * @since   3.6.0
 	 */
 	public static function getRedirectPluginId()
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
@@ -108,7 +82,7 @@ class RedirectHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			\JError::raiseWarning(500, $e->getMessage());
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
 
 		return $result;

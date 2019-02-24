@@ -3,46 +3,79 @@
  * @package     Joomla.Plugin
  * @subpackage  Media-Action.resize
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JLoader::import('components.com_media.libraries.media.plugin.mediaaction', JPATH_ADMINISTRATOR);
+use Joomla\Image\Image;
 
 /**
  * Media Manager Resize Action
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
-class PlgMediaActionResize extends MediaActionPlugin
+class PlgMediaActionResize extends \Joomla\Component\Media\Administrator\Plugin\MediaActionPlugin
 {
 	/**
-	 * Load the javascript files of the plugin.
+	 * The save event.
+	 *
+	 * @param   string   $context  The context
+	 * @param   object   $item     The item
+	 * @param   boolean  $isNew    Is new item
+	 * @param   array    $data     The validated data
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	protected function loadJs()
+	public function onContentBeforeSave($context, $item, $isNew, $data = array())
 	{
-		parent::loadJs();
+		if ($context != 'com_media.file')
+		{
+			return;
+		}
 
-		JHtml::_('script', 'vendor/cropperjs/cropper.min.js', array('version' => 'auto', 'relative' => true));
-	}
+		if (!$this->params->get('batch_width') && !$this->params->get('batch_height'))
+		{
+			return;
+		}
 
-	/**
-	 * Load the CSS files of the plugin.
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function loadCss()
-	{
-		parent::loadCss();
+		if (!in_array($item->extension, ['jpg', 'jpeg', 'png', 'gif']))
+		{
+			return;
+		}
 
-		JHtml::_('stylesheet', 'vendor/cropperjs/cropper.min.css', array('version' => 'auto', 'relative' => true));
+		$imgObject = new Image(imagecreatefromstring($item->data));
+
+		if ($imgObject->getWidth() < $this->params->get('batch_width', 0)
+			&& $imgObject->getHeight() < $this->params->get('batch_height', 0))
+		{
+			return;
+		}
+
+		$imgObject->resize(
+			$this->params->get('batch_width', 0),
+			$this->params->get('batch_height', 0),
+			false,
+			Image::SCALE_INSIDE
+		);
+
+		$type = IMAGETYPE_JPEG;
+
+		switch ($item->extension)
+		{
+			case 'gif':
+				$type = IMAGETYPE_GIF;
+				break;
+			case 'png':
+				$type = IMAGETYPE_PNG;
+		}
+
+		ob_start();
+		$imgObject->toFile(null, $type);
+		$item->data = ob_get_contents();
+		ob_end_clean();
 	}
 }
