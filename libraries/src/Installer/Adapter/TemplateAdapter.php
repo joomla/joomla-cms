@@ -537,12 +537,13 @@ class TemplateAdapter extends InstallerAdapter
 			$this->extension->element = $this->element;
 
 			// There is no folder for templates
-			$this->extension->folder    = '';
-			$this->extension->enabled   = 1;
-			$this->extension->protected = 0;
-			$this->extension->access    = 1;
-			$this->extension->client_id = $this->clientId;
-			$this->extension->params    = $this->parent->getParams();
+			$this->extension->folder       = '';
+			$this->extension->enabled      = 1;
+			$this->extension->protected    = 0;
+			$this->extension->access       = 1;
+			$this->extension->client_id    = $this->clientId;
+			$this->extension->params       = $this->parent->getParams();
+			$this->extension->changelogurl = $this->changelogurl;
 		}
 
 		// Name might change in an update
