@@ -405,7 +405,6 @@
 				label="COM_CONTACT_FIELD_PARAMS_NAME_LABEL"
 				description="COM_CONTACT_FIELD_PARAMS_NAME_DESC"
 				useglobal="true"
-				showon="show_info:1"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
