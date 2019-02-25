@@ -13,6 +13,9 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Menu\MenuItem;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+use Joomla\Utilities\ArrayHelper;
+
 
 /**
  * Helper class to handle permissions in mod_submenu
@@ -55,6 +58,32 @@ abstract class Menu
 				{
 					$parent->removeChild($item);
 					continue;
+				}
+			}
+
+			// Populate automatic children for container items
+			if ($item->type === 'container')
+			{
+				$exclude    = (array) $item->params->get('hideitems') ?: array();
+				$components = MenusHelper::getMenuItems('main', false, $exclude);
+
+				// We are adding the nodes first to preprocess them, then sort them and add them again.
+				foreach ($components->getChildren() as $c)
+				{
+					if (!$c->hasChildren())
+					{
+						$temp = clone $c;
+						$c->addChild($temp);
+					}
+					$parent->addChild($c);
+				}
+
+				//self::preprocess($item);
+				$children = ArrayHelper::sortObjects($parent->getChildren(), 'text', 1, false, true);
+
+				foreach ($children as $c)
+				{
+					$parent->addChild($c);
 				}
 			}
 
