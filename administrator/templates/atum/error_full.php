@@ -32,6 +32,10 @@ $cpanel     = $option === 'com_cpanel';
 $hiddenMenu = $app->input->get('hidemainmenu');
 $joomlaLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 
+// Add JavaScript
+HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
+
 // Logos (params are not available)
 $siteLogo  = $this->baseurl . '/templates/' . $this->template . '/images/logo-joomla-blue.svg';
 $smallLogo = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';

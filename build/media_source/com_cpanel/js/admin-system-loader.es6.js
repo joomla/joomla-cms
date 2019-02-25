@@ -16,32 +16,41 @@
       url: badgeurl,
       method: 'POST',
       onSuccess: (resp) => {
-        const response = JSON.parse(resp);
-
-        if (response.error || !response.success)
-        {
-          elements[i].classList.remove('fa-spin', 'fa-spinner');
-          elements[i].classList.add('text-danger', 'fa-remove');
+        let response;
+        try {
+          response = JSON.parse(resp);
+        } catch (error) {
+          throw new Error('Failed to parse JSON');
         }
-        else if (response.data)
-        {
+
+        if (response.error || !response.success) {
+          element.classList.remove('fa-spin');
+          element.classList.remove('fa-spinner');
+          element.classList.add('text-danger');
+          element.classList.add('fa-remove');
+        } else if (response.data) {
           const elem = document.createElement('span');
 
-          elem.classList.add('pull-right', 'badge', 'badge-pill', 'badge-warning');
+          elem.classList.add('pull-right');
+          elem.classList.add('badge');
+          elem.classList.add('badge-pill');
+          elem.classList.add('badge-warning');
           elem.innerHTML = response.data;
 
-          elements[i].parentNode.replaceChild(elem, elements[i]);
-        }
-        else
-        {
-          elements[i].classList.remove('fa-spin', 'fa-spinner');
-          elements[i].classList.add('text-success', 'fa-check');
+          element.parentNode.replaceChild(elem, element);
+        } else {
+          element.classList.remove('fa-spin');
+          element.classList.remove('fa-spinner');
+          element.classList.add('fa-check');
+          element.classList.add('text-success');
         }
       },
       onError: () => {
-        elements[i].classList.remove('fa-spin', 'fa-spinner');
-        elements[i].classList.add('text-danger', 'fa-remove');
-      }
+        element.classList.remove('fa-spin');
+        element.classList.remove('fa-spinner');
+        element.classList.add('text-danger');
+        element.classList.add('fa-remove');
+      },
     });
     }
   });
