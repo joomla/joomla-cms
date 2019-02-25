@@ -13,30 +13,38 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('script', 'com_cpanel/admin-system-loader.js', ['version' => 'auto', 'relative' => true]);
+$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
+$columns = (int) ($bootstrapSize ? $bootstrapSize : 3) / 3;
+$columnSize = 12 / $columns;
 
 /** @var  \Joomla\CMS\Menu\MenuItem  $root */
 ?>
-
-<div class="com-cpanel-system">
+<div class="col-md-<?php echo $bootstrapSize; ?> row">
+	<?php if ($canEdit) : ?>
+        <div class="module-actions">
+            <a href="<?php echo Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id); ?>">
+                <span class="fa fa-cog"><span class="sr-only"><?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?></span></span></a>
+        </div>
+	<?php endif; ?>
 	<?php foreach ($root->getChildren() as $child) : ?>
-        <?php if ($child->hasChildren()) : ?>
-		<div class="com-cpanel-system__category">
-			<h2 class="com-cpanel-system__header">
-				<span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span>
-				<?php echo Text::_($child->title); ?>
-			</h2>
-			<ul class="list-group list-group-flush">
-				<?php foreach ($child->getChildren() as $item) : ?>
-					<li class="list-group-item">
-						<a href="<?php echo $item->link; ?>"><?php echo Text::_($item->title); ?>
-                            <?php if ($item->ajaxbadge) : ?>
-                                <span class="fa fa-spin fa-spinner pull-right mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
-                            <?php endif; ?>
-						</a>
-					</li>
-				<?php endforeach; ?>
-			</ul>
-		</div>
-        <?php endif; ?>
+		<?php if ($child->hasChildren()) : ?>
+			<div class="card mb-3 col-md-<?php echo $columnSize; ?>">
+				<h2>
+					<span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span>
+					<?php echo Text::_($child->title); ?>
+				</h2>
+				<ul class="list-group list-group-flush">
+					<?php foreach ($child->getChildren() as $item) : ?>
+						<li class="list-group-item">
+							<a href="<?php echo $item->link; ?>"><?php echo Text::_($item->title); ?>
+								<?php if ($item->ajaxbadge) : ?>
+									<span class="fa fa-spin fa-spinner pull-right mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+								<?php endif; ?>
+							</a>
+						</li>
+					<?php endforeach; ?>
+				</ul>
+        	</div>
+    	<?php endif; ?>
 	<?php endforeach; ?>
 </div>
