@@ -170,7 +170,7 @@ class Users
 				1 => array(
 					'task'           => 'unblock',
 					'text'           => '',
-					'active_title'   => 'COM_USERS_USER_FIELD_BLOCK_DESC',
+					'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
 					'inactive_title' => '',
 					'tip'            => true,
 					'active_class'   => 'unpublish',
@@ -202,7 +202,7 @@ class Users
 				0 => array(
 					'task'           => 'block',
 					'text'           => '',
-					'active_title'   => 'COM_USERS_USER_FIELD_BLOCK_DESC',
+					'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
 					'inactive_title' => '',
 					'tip'            => true,
 					'active_class'   => 'publish',

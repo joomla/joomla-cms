@@ -137,9 +137,6 @@ class ArticleModel extends AdminModel
 			// Reset hits because we are making a copy
 			$this->table->hits = 0;
 
-			// Unpublish because we are making a copy
-			$this->table->state = 0;
-
 			// New category ID
 			$this->table->catid = $categoryId;
 
@@ -429,12 +426,12 @@ class ArticleModel extends AdminModel
 	protected function prepareTable($table)
 	{
 		// Set the publish date to now
-		if ($table->state == 1 && (int) $table->publish_up == 0)
+		if ($table->state == Workflow::CONDITION_PUBLISHED && (int) $table->publish_up == 0)
 		{
 			$table->publish_up = Factory::getDate()->toSql();
 		}
 
-		if ($table->state == 1 && intval($table->publish_down) == 0)
+		if ($table->state == Workflow::CONDITION_PUBLISHED && intval($table->publish_down) == 0)
 		{
 			$table->publish_down = $this->getDbo()->getNullDate();
 		}
@@ -665,6 +662,44 @@ class ArticleModel extends AdminModel
 		}
 		else
 		{
+			// For new articles we load the potential state + associations
+			if ($formField = $form->getField('catid'))
+			{
+				$assignedCatids = (int) ($data['catid'] ?? $form->getValue('catid'));
+
+				$assignedCatids = is_array($assignedCatids)
+					? (int) reset($assignedCatids)
+					: (int) $assignedCatids;
+
+				// Try to get the category from the html code of the field
+				if (empty($assignedCatids))
+				{
+					$assignedCatids = $formField->getAttribute('default', null);
+
+					// Choose the first category available
+					$xml = new \DOMDocument;
+					libxml_use_internal_errors(true);
+					$xml->loadHTML($formField->__get('input'));
+					libxml_clear_errors();
+					libxml_use_internal_errors(false);
+					$options = $xml->getElementsByTagName('option');
+
+					if (!$assignedCatids && $firstChoice = $options->item(0))
+					{
+						$assignedCatids = $firstChoice->getAttribute('value');
+					}
+				}
+
+				// Activate the reload of the form when category is changed
+				$form->setFieldAttribute('catid', 'refresh-enabled', true);
+				$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
+				$form->setFieldAttribute('catid', 'refresh-section', 'article');
+
+				$workflow = $this->getWorkflowByCategory($assignedCatids);
+
+				$form->setFieldAttribute('transition', 'workflow_stage', (int) $workflow->stage_id);
+			}
+
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
@@ -709,12 +744,6 @@ class ArticleModel extends AdminModel
 				$form->setFieldAttribute('language', 'filter', 'unset');
 				$form->setFieldAttribute('catid', 'filter', 'unset');
 			}
-		}
-
-		// Remove show_associations field if associations is not enabled
-		if (!$assoc)
-		{
-			$form->removeField('show_associations', 'attribs');
 		}
 
 		return $form;
@@ -921,15 +950,10 @@ class ArticleModel extends AdminModel
 
 			// B/C state
 			$data['state'] = (int) $workflow->condition;
-
-			// No transition for new articles
-			if (isset($data['transition']))
-			{
-				unset($data['transition']);
-			}
 		}
 		// Calculate new status depending on transition
-		elseif (!empty($data['transition']))
+
+		if (!empty($data['transition']))
 		{
 			// Check if the user is allowed to execute this transition
 			if (!$user->authorise('core.execute.transition', 'com_content.transition.' . (int) $data['transition']))
@@ -960,7 +984,6 @@ class ArticleModel extends AdminModel
 			}
 
 			$data['state'] = (int) $stage->condition;
-
 		}
 
 		// Automatic handling of alias for empty fields
@@ -1003,12 +1026,6 @@ class ArticleModel extends AdminModel
 				$this->featured($this->getState($this->getName() . '.id'), $data['featured']);
 			}
 
-			// Run the transition and update the workflow association
-			if (!empty($data['transition']))
-			{
-				$this->runTransition((int) $this->getState($this->getName() . '.id'), (int) $data['transition']);
-			}
-
 			// Let's check if we have workflow association (perhaps something went wrong before)
 			if (empty($stageId))
 			{
@@ -1043,6 +1060,12 @@ class ArticleModel extends AdminModel
 			if (!empty($stageId))
 			{
 				$workflow->createAssociation($this->getState($this->getName() . '.id'), (int) $stageId);
+			}
+
+			// Run the transition and update the workflow association
+			if (!empty($data['transition']))
+			{
+				$this->runTransition((int) $this->getState($this->getName() . '.id'), (int) $data['transition']);
 			}
 
 			return true;
