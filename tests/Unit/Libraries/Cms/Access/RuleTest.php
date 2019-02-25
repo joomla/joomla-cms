@@ -22,12 +22,12 @@ use Tests\Unit\UnitTestCase;
 class RuleTest extends UnitTestCase
 {
 	/**
- * Tests the \Joomla\CMS\Access\Rule::__construct and \Joomla\CMS\Access\Rule::__toString methods.
- *
- * @return  void
- *
- * @since   11.1
- */
+	 * Tests the \Joomla\CMS\Access\Rule::__construct and \Joomla\CMS\Access\Rule::__toString methods.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function testIsConstructableWithString()
 	{
 		$ruleData = [

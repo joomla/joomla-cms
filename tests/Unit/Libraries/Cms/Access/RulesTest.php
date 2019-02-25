@@ -86,12 +86,12 @@ class RulesTest extends UnitTestCase
 	}
 
 	/**
- * Tests the \Joomla\CMS\Access\Rules::mergeAction method.
- *
- * @return  void
- *
- * @since   11.1
- */
+	 * Tests the \Joomla\CMS\Access\Rules::mergeAction method.
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function testMergeAction()
 	{
 		$ruleIdentities = [
