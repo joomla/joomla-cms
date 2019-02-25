@@ -365,8 +365,8 @@ class AtomParserTest extends UnitTestCase
 		// @see https://github.com/sebastianbergmann/phpunit-mock-objects/issues/417
 		$xmlElement = new SimpleXMLElement('<entry><id>http://example.com/id</id><title>title</title><updated>August 25, 1991</updated><summary>summary</summary></entry>');
 
-		$feedMock = $this->createMock(FeedEntry::class);
-		$feedMock
+		$feedEntryMock = $this->createMock(FeedEntry::class);
+		$feedEntryMock
 			->method('__set')
 			->withConsecutive(
 				['uri', 'http://example.com/id'],
@@ -380,6 +380,6 @@ class AtomParserTest extends UnitTestCase
 		$reflectionClass = new ReflectionClass($atomParser);
 		$method = $reflectionClass->getMethod('processFeedEntry');
 		$method->setAccessible(true);
-		$method->invoke($atomParser, $feedMock, $xmlElement);
+		$method->invoke($atomParser, $feedEntryMock, $xmlElement);
 	}
 }
