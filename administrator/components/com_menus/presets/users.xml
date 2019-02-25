@@ -7,8 +7,6 @@
             title="MOD_MENU_COM_USERS_USERS"
             type="heading"
             class="class:users"
-            alias="users"
-            dashboard="users"
     >
         <menuitem
                 title="MOD_MENU_COM_USERS_USER_MANAGER"
@@ -29,9 +27,12 @@
                 element="com_users"
                 link="index.php?option=com_users&amp;view=levels">
         </menuitem>
-        <menuitem
-                type="separator"
-        />
+    </menuitem>
+    <menuitem
+            title="MOD_MENU_COM_USERS_FIELDS"
+            type="heading"
+            class="class:users"
+    >
         <menuitem
                 title="MOD_MENU_FIELDS"
                 type="component"
@@ -44,9 +45,12 @@
                 element="com_fields"
                 link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
         />
-        <menuitem
-                type="separator"
-        />
+    </menuitem>
+    <menuitem
+            title="MOD_MENU_COM_USERS_MISC"
+            type="heading"
+            class="class:users"
+    >
         <menuitem
                 title="MOD_MENU_COM_USERS_NOTES"
                 type="component"
@@ -59,9 +63,6 @@
                 element="com_categories"
                 link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users">
         </menuitem>
-        <menuitem
-                type="separator"
-        />
         <menuitem
                 title="MOD_MENU_MASS_MAIL_USERS"
                 type="component"
