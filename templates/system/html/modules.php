@@ -68,21 +68,6 @@ function modChrome_table($module, &$params, &$attribs)
 }
 
 /*
- * Module chrome that wraps the tabled module output in a <td> tag of another table
- */
-function modChrome_horz($module, &$params, &$attribs)
-{ ?>
-	<table cellspacing="1" cellpadding="0" width="100%">
-		<tr>
-			<td>
-				<?php modChrome_table($module, $params, $attribs); ?>
-			</td>
-		</tr>
-	</table>
-	<?php
-}
-
-/*
  * xhtml (divs and font header tags)
  * With the new advanced parameter it does the same as the html5 chrome
  */
@@ -105,26 +90,6 @@ function modChrome_xhtml($module, &$params, &$attribs)
 			<?php echo $module->content; ?>
 		</<?php echo $moduleTag; ?>>
 	<?php endif;
-}
-
-/*
- * Module chrome that allows for rounded corners by wrapping in nested div tags
- */
-function modChrome_rounded($module, &$params, &$attribs)
-{ ?>
-		<div class="module <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
-			<div>
-				<div>
-					<div>
-						<?php if ((bool) $module->showtitle) : ?>
-							<h3><?php echo $module->title; ?></h3>
-						<?php endif; ?>
-					<?php echo $module->content; ?>
-					</div>
-				</div>
-			</div>
-		</div>
-	<?php
 }
 
 /*
