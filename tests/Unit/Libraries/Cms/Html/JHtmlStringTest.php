@@ -8,7 +8,7 @@
  */
 
 use JHtmlString;
-use Tests\Unit\UnitTestCase;
+use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Tests for JHtmlString.

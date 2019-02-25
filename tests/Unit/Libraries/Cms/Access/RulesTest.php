@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Tests\Unit\Libraries\Cms\Access;
+namespace Joomla\Tests\Unit\Libraries\Cms\Access;
 
 use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Access\Rules;
 use Joomla\CMS\Object\CMSObject;
-use Tests\Unit\UnitTestCase;
+use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for \Joomla\CMS\Access\Rules.

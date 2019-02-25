@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Tests\Unit\Cms\Environment;
+namespace Joomla\Tests\Unit\Cms\Environment;
 
 use Joomla\CMS\Environment\Browser;
-use Tests\Unit\UnitTestCase;
+use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for JBrowser.

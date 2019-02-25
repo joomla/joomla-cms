@@ -7,10 +7,10 @@
  * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Tests\Unit\Cms;
+namespace Joomla\Tests\Unit\Cms;
 
 use Joomla\CMS\Version;
-use Tests\Unit\UnitTestCase;
+use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for Version.

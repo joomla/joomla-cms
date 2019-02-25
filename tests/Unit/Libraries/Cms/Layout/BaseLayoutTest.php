@@ -7,11 +7,11 @@
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Tests\Unit\Cms\Layout;
+namespace Joomla\Tests\Unit\Cms\Layout;
 
 use Joomla\CMS\Layout\BaseLayout;
 use Joomla\Registry\Registry;
-use Tests\Unit\UnitTestCase;
+use Joomla\Tests\Unit\UnitTestCase;
 
 class BaseLayoutTest extends UnitTestCase
 {

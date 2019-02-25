@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Tests\Unit\Libraries\Cms\Html;
+namespace Joomla\Tests\Unit\Libraries\Cms\Html;
 
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Document\FactoryInterface;
 use Joomla\CMS\Document\HtmlDocument;
 use Joomla\CMS\Document\RawDocument;
 use Joomla\CMS\WebAsset\WebAssetManager;
-use Tests\Unit\UnitTestCase;
+use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for Document.

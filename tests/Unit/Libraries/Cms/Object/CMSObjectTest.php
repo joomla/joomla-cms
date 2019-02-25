@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Tests\Unit\Cms\Object;
+namespace Joomla\Tests\Unit\Cms\Object;
 
 use Exception;
 use Joomla\CMS\Object\CMSObject;
-use Tests\Unit\UnitTestCase;
+use Joomla\Tests\Unit\UnitTestCase;
 
 /**
  * Test class for JObject.

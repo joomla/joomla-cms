@@ -7,7 +7,7 @@
  * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
 
-namespace Tests\Unit;
+namespace Joomla\Tests\Unit;
 
 /**
  * Base Unit Test case for common behaviour across unit tests

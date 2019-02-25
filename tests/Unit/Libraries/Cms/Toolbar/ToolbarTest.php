@@ -7,7 +7,7 @@
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Tests\Unit\Cms\Toolbar;
+namespace Joomla\Tests\Unit\Cms\Toolbar;
 
 use InvalidArgumentException;
 use Joomla\CMS\Toolbar\Toolbar;

@@ -47,7 +47,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests"
+            "Joomla\\Tests\\": "tests"
         }
     },
     "require": {
