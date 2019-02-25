@@ -55,7 +55,7 @@ if ($id !== '')
 		<?php endif; ?>
 		<?php // Information or action	
 		if (isset($displayData['text'])): ?>
-			<div class="quickicon-text d-flex align-items-center"><?php echo $text; ?></div>
+			<div class="quickicon-text d-flex align-items-end"><?php echo $text; ?></div>
 		<?php endif; ?>
 	</a>
 </li>
