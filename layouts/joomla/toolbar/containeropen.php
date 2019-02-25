@@ -15,4 +15,4 @@ use Joomla\CMS\Language\Text;
 HTMLHelper::_('script', 'legacy/toolbar.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 <nav aria-label="<?php echo Text::_('JTOOLBAR'); ?>"> 
-<div class="btn-toolbar d-flex" role="toolbar" aria-label="<?php echo Text::_('JTOOLBAR'); ?>" id="<?php echo $displayData['id']; ?>">
+<div class="btn-toolbar d-flex" role="toolbar" id="<?php echo $displayData['id']; ?>">
