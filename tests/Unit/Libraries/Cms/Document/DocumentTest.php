@@ -7,49 +7,31 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Tests\Unit\Libraries\Cms\Html;
+
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Document\FactoryInterface;
+use Joomla\CMS\Document\HtmlDocument;
+use Joomla\CMS\Document\RawDocument;
+use Joomla\CMS\WebAsset\WebAssetManager;
+use Tests\Unit\UnitTestCase;
+
 /**
- * Test class for JDocument.
+ * Test class for Document.
  */
-class JDocumentTest extends \PHPUnit\Framework\TestCase
+class DocumentTest extends UnitTestCase
 {
-	/**
-	 * @var  JDocument
-	 */
-	protected $object;
-
-	/**
-	 * Sets up the fixture, for example, open a network connection.
-	 * This method is called before a test is executed.
-	 */
-	protected function setUp()
-	{
-		parent::setUp();
-
-		$this->object = new JDocument;
-	}
-
-	/**
-	 * Tears down the fixture, for example, closes a network connection.
-	 * This method is called after a test is executed.
-	 */
-	protected function tearDown()
-	{
-		JDocument::$_buffer = null;
-		unset($this->object);
-		parent::tearDown();
-	}
-
 	/**
 	 * Provides constructor data for test methods
 	 *
 	 * @return  array
 	 */
-	public function constructData()
+	public function constructData(): array
 	{
-		return array(
-			array(
-				array('lineend' => "\12"),
-				array(
+		return [
+			[
+				['lineend' => "\12"],
+				[
 					'lineend' => "\12",
 					'charset' => 'utf-8',
 					'language' => 'en-gb',
@@ -57,11 +39,11 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 					'tab' => "\11",
 					'link' => '',
 					'base' => ''
-				)
-			),
-			array(
-				array('charset' => "euc-jp", 'mediaversion' => '1a2b3c4d'),
-				array(
+				]
+			],
+			[
+				['charset' => "euc-jp", 'mediaversion' => '1a2b3c4d'],
+				[
 					'lineend' => "\12",
 					'charset' => 'euc-jp',
 					'language' => 'en-gb',
@@ -70,13 +52,15 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 					'link' => '',
 					'base' => '',
 					'mediaversion' => '1a2b3c4d'
-				)
-			),
-			array(
-				array('language' => "de-de", 'direction' => 'rtl',
-					'tab' => 'Crazy Tab', 'link' => 'http://joomla.org',
-					'base' => 'http://base.joomla.org/dir'),
-				array(
+				]
+			],
+			[
+				[
+					'language' => "de-de", 'direction' => 'rtl',
+					'tab'      => 'Crazy Tab', 'link' => 'http://joomla.org',
+					'base'     => 'http://base.joomla.org/dir'
+				],
+				[
 					'lineend' => "\12",
 					'charset' => 'utf-8',
 					'language' => 'de-de',
@@ -84,9 +68,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 					'tab' => "Crazy Tab",
 					'link' => 'http://joomla.org',
 					'base' => 'http://base.joomla.org/dir'
-				)
-			)
-		);
+				]
+			]
+		];
 	}
 
 	/**
@@ -97,15 +81,15 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testInjectingOptionsIntoTheObjectConstructor($options, $expects)
 	{
-		$object = new JDocument($options);
+		$document = $this->createDocument($options);
 
-		$this->assertAttributeSame($expects['lineend'], '_lineEnd', $object);
-		$this->assertAttributeSame($expects['charset'], '_charset', $object);
-		$this->assertAttributeSame($expects['language'], 'language', $object);
-		$this->assertAttributeSame($expects['direction'], 'direction', $object);
-		$this->assertAttributeSame($expects['tab'], '_tab', $object);
-		$this->assertAttributeSame($expects['link'], 'link', $object);
-		$this->assertAttributeSame($expects['base'], 'base', $object);
+		$this->assertAttributeSame($expects['lineend'], '_lineEnd', $document);
+		$this->assertAttributeSame($expects['charset'], '_charset', $document);
+		$this->assertAttributeSame($expects['language'], 'language', $document);
+		$this->assertAttributeSame($expects['direction'], 'direction', $document);
+		$this->assertAttributeSame($expects['tab'], '_tab', $document);
+		$this->assertAttributeSame($expects['link'], 'link', $document);
+		$this->assertAttributeSame($expects['base'], 'base', $document);
 	}
 
 	/**
@@ -113,7 +97,10 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testRetrievingAnInstanceOfTheHtmlDocument()
 	{
-		$this->assertInstanceOf('JDocumentHtml', JDocument::getInstance());
+		$this->assertInstanceOf(
+			HtmlDocument::class,
+			Document::getInstance('html',  $this->getDocumentDependencyMocks())
+		);
 	}
 
 	/**
@@ -121,9 +108,12 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testRetrievingANonExistantTypeFetchesARawDocument()
 	{
-		$doc = JDocument::getInstance('custom');
-		$this->assertInstanceOf('JDocumentRaw', $doc);
-		$this->assertAttributeSame('custom', '_type', $doc);
+		$type = 'does-not-exist';
+
+		$document = Document::getInstance($type, $this->getDocumentDependencyMocks());
+
+		$this->assertInstanceOf(RawDocument::class, $document);
+		$this->assertAttributeSame($type, '_type', $document);
 	}
 
 	/**
@@ -131,7 +121,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetTypeReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setType('raw'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setType('raw'));
 	}
 
 	/**
@@ -139,7 +131,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetTypeIsNull()
 	{
-		$this->assertNull($this->object->getType());
+		$this->assertNull($this->createDocument()->getType());
 	}
 
 	/**
@@ -147,7 +139,12 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetBufferReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setBuffer('My awesome content'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setBuffer('My awesome content'));
+
+		// Cleanup
+		$document::$_buffer = null;
 	}
 
 	/**
@@ -155,7 +152,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetBufferIsNull()
 	{
-		$this->assertNull($this->object->getBuffer());
+		$this->assertNull($this->createDocument()->getBuffer());
 	}
 
 	/**
@@ -163,7 +160,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetMetadataForGeneratorReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setMetaData('generator', 'My Custom Generator'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setMetaData('generator', 'My Custom Generator'));
 	}
 
 	/**
@@ -171,7 +170,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetMetaDataWithGenerator()
 	{
-		$this->assertSame('Joomla! - Open Source Content Management', $this->object->getMetaData('generator'));
+		$this->assertSame('Joomla! - Open Source Content Management', $this->createDocument()->getMetaData('generator'));
 	}
 
 	/**
@@ -179,7 +178,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetMetadataForDescriptionReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setMetaData('description', 'My Description'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setMetaData('description', 'My Description'));
 	}
 
 	/**
@@ -187,7 +188,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetMetaDataWithDescription()
 	{
-		$this->assertEmpty($this->object->getMetaData('description'));
+		$this->assertEmpty($this->createDocument()->getMetaData('description'));
 	}
 
 	/**
@@ -195,7 +196,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetMetadataForCustomParamsReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setMetaData('myMetaTag', 'myMetaContent'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setMetaData('myMetaTag', 'myMetaContent'));
 	}
 
 	/**
@@ -203,9 +206,11 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivTrueAndDataNotSet()
 	{
-		$this->object->setMetaData('myMetaTag', 'myMetaContent');
+		$document = $this->createDocument();
 
-		$this->assertEmpty($this->object->getMetaData('myMetaTag', true));
+		$document->setMetaData('myMetaTag', 'myMetaContent');
+
+		$this->assertEmpty($document->getMetaData('myMetaTag', true));
 	}
 
 	/**
@@ -213,9 +218,11 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivTrueAndDataSet()
 	{
-		$this->object->setMetaData('myMetaTag', 'myMetaContent', true);
+		$document = $this->createDocument();
 
-		$this->assertSame('myMetaContent', $this->object->getMetaData('myMetaTag', true));
+		$document->setMetaData('myMetaTag', 'myMetaContent', true);
+
+		$this->assertSame('myMetaContent', $document->getMetaData('myMetaTag', true));
 	}
 
 	/**
@@ -223,9 +230,11 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivFalseAndDataNotSet()
 	{
-		$this->object->setMetaData('myMetaTag', 'myMetaContent', true);
+		$document = $this->createDocument();
 
-		$this->assertEmpty($this->object->getMetaData('myMetaTag'));
+		$document->setMetaData('myMetaTag', 'myMetaContent', true);
+
+		$this->assertEmpty($document->getMetaData('myMetaTag'));
 	}
 
 	/**
@@ -233,9 +242,11 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheReturnForGetMetaDataWithCustomParamAndHttpEquivFalseAndDataSet()
 	{
-		$this->object->setMetaData('myMetaTag', 'myMetaContent');
+		$document = $this->createDocument();
 
-		$this->assertSame('myMetaContent', $this->object->getMetaData('myMetaTag'));
+		$document->setMetaData('myMetaTag', 'myMetaContent');
+
+		$this->assertSame('myMetaContent', $document->getMetaData('myMetaTag'));
 	}
 
 	/**
@@ -243,30 +254,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureAddScriptReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addScript('https://www.joomla.org/media/system/js/core.js'));
-	}
+		$document = $this->createDocument();
 
-	/**
-	 * @testdox  Test that addScriptVersion with default params returns an instance of $this
-	 */
-	public function testEnsureAddScriptVersionWithDefaultParamsReturnsThisObject()
-	{
-		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.js'));
-	}
-
-	/**
-	 * @testdox  Test that addScriptVersion with default params and $this->mediaVersion set returns an instance of $this
-	 *
-	 * @covers   JDocument::addScriptVersion
-	 * @uses     JDocument::addScript
-	 * @uses     JDocument::getMediaVersion
-	 * @uses     JDocument::setMediaVersion
-	 */
-	public function testEnsureAddScriptVersionWithDefaultParamsAndMediaVersionSetReturnsThisObject()
-	{
-		$this->object->setMediaVersion('1a2b3c4d');
-
-		$this->assertSame($this->object, $this->object->addScriptVersion('https://www.joomla.org/media/system/js/core.js'));
+		$this->assertSame($document, $document->addScript('https://www.joomla.org/media/system/js/core.js'));
 	}
 
 	/**
@@ -274,7 +264,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureAddScriptDeclarationReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addScriptDeclaration('<script>this.window.close();</script>'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->addScriptDeclaration('<script>this.window.close();</script>'));
 	}
 
 	/**
@@ -282,8 +274,10 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureTwoAddScriptDeclarationCallsReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addScriptDeclaration('<script>this.document.id();</script>'));
-		$this->assertSame($this->object, $this->object->addScriptDeclaration('<script>this.window.close();</script>'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->addScriptDeclaration('<script>this.document.id();</script>'));
+		$this->assertSame($document, $document->addScriptDeclaration('<script>this.window.close();</script>'));
 	}
 
 	/**
@@ -291,30 +285,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureAddStylesheetReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addStyleSheet('https://www.joomla.org/media/system/css/system.css'));
-	}
+		$document = $this->createDocument();
 
-	/**
-	 * @testdox  Test that addStyleSheetVersion with default params returns an instance of $this
-	 */
-	public function testEnsureAddStylesheetVersionWithDefaultParamsReturnsThisObject()
-	{
-		$this->assertSame($this->object, $this->object->addStyleSheetVersion('https://www.joomla.org/media/system/css/system.css'));
-	}
-
-	/**
-	 * @testdox  Test that addStyleSheetVersion with default params and $this->mediaVersion set returns an instance of $this
-	 *
-	 * @covers   JDocument::addStyleSheetVersion
-	 * @uses     JDocument::addStylesheet
-	 * @uses     JDocument::getMediaVersion
-	 * @uses     JDocument::setMediaVersion
-	 */
-	public function testEnsureAddStylesheetVersionWithDefaultParamsAndMediaVersionSetReturnsThisObject()
-	{
-		$this->object->setMediaVersion('1a2b3c4d');
-
-		$this->assertSame($this->object, $this->object->addStyleSheetVersion('https://www.joomla.org/media/system/css/system.css'));
+		$this->assertSame($document, $document->addStyleSheet('https://www.joomla.org/media/system/css/system.css'));
 	}
 
 	/**
@@ -322,7 +295,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureAddStyleDeclarationReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addStyleDeclaration('<style>div { padding: 0; }</style>'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->addStyleDeclaration('<style>div { padding: 0; }</style>'));
 	}
 
 	/**
@@ -330,8 +305,10 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureTwoAddStyleDeclarationCallsReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->addStyleDeclaration('<style>div { padding: 0; }</style>'));
-		$this->assertSame($this->object, $this->object->addStyleDeclaration('<style>h1 { font-size: 4px; }</style>'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->addStyleDeclaration('<style>div { padding: 0; }</style>'));
+		$this->assertSame($document, $document->addStyleDeclaration('<style>h1 { font-size: 4px; }</style>'));
 	}
 
 	/**
@@ -339,7 +316,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetCharsetReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setCharset('utf-8'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setCharset('utf-8'));
 	}
 
 	/**
@@ -347,7 +326,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetCharset()
 	{
-		$this->assertSame('utf-8', $this->object->getCharset());
+		$this->assertSame('utf-8', $this->createDocument()->getCharset());
 	}
 
 	/**
@@ -355,7 +334,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetLanguageReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setLanguage('de-de'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setLanguage('de-de'));
 	}
 
 	/**
@@ -363,7 +344,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetLanguage()
 	{
-		$this->assertSame('en-gb', $this->object->getLanguage());
+		$this->assertSame('en-gb', $this->createDocument()->getLanguage());
 	}
 
 	/**
@@ -371,7 +352,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetDirectionReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setDirection('rtl'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setDirection('rtl'));
 	}
 
 	/**
@@ -379,7 +362,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetDirection()
 	{
-		$this->assertSame('ltr', $this->object->getDirection());
+		$this->assertSame('ltr', $this->createDocument()->getDirection());
 	}
 
 	/**
@@ -387,7 +370,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetTitleReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setTitle('Joomla! Rocks'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setTitle('Joomla! Rocks'));
 	}
 
 	/**
@@ -395,7 +380,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetTitle()
 	{
-		$this->assertEmpty($this->object->getTitle());
+		$this->assertEmpty($this->createDocument()->getTitle());
 	}
 
 	/**
@@ -403,7 +388,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetBaseReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setBase('https://www.joomla.org'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setBase('https://www.joomla.org'));
 	}
 
 	/**
@@ -411,7 +398,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetBase()
 	{
-		$this->assertEmpty($this->object->getBase());
+		$this->assertEmpty($this->createDocument()->getBase());
 	}
 
 	/**
@@ -419,7 +406,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetDescriptionReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setDescription('Joomla!'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setDescription('Joomla!'));
 	}
 
 	/**
@@ -427,7 +416,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetDescription()
 	{
-		$this->assertEmpty($this->object->getDescription());
+		$this->assertEmpty($this->createDocument()->getDescription());
 	}
 
 	/**
@@ -435,7 +424,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetLinkReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setLink('https://www.joomla.org'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setLink('https://www.joomla.org'));
 	}
 
 	/**
@@ -443,7 +434,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetLink()
 	{
-		$this->assertEmpty($this->object->getLink());
+		$this->assertEmpty($this->createDocument()->getLink());
 	}
 
 	/**
@@ -451,7 +442,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetGeneratorReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setGenerator('Joomla! Content Management System'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setGenerator('Joomla! Content Management System'));
 	}
 
 	/**
@@ -459,7 +452,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetGenerator()
 	{
-		$this->assertSame('Joomla! - Open Source Content Management', $this->object->getGenerator());
+		$this->assertSame('Joomla! - Open Source Content Management', $this->createDocument()->getGenerator());
 	}
 
 	/**
@@ -467,7 +460,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetModifiedDateReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setModifiedDate('2014-10-17'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setModifiedDate('2014-10-17'));
 	}
 
 	/**
@@ -475,7 +470,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetModifiedDate()
 	{
-		$this->assertEmpty($this->object->getModifiedDate());
+		$this->assertEmpty($this->createDocument()->getModifiedDate());
 	}
 
 	/**
@@ -483,7 +478,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetMimeEncodingReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setMimeEncoding('application/json'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setMimeEncoding('application/json'));
 	}
 
 	/**
@@ -491,7 +488,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetMimeEncoding()
 	{
-		$this->assertEmpty($this->object->getMimeEncoding());
+		$this->assertEmpty($this->createDocument()->getMimeEncoding());
 	}
 
 	/**
@@ -499,7 +496,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetLineEndWinReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setLineEnd('win'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setLineEnd('win'));
 	}
 
 	/**
@@ -507,7 +506,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetLineEndUnixReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setLineEnd('unix'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setLineEnd('unix'));
 	}
 
 	/**
@@ -515,7 +516,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetLineEndMacReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setLineEnd('mac'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setLineEnd('mac'));
 	}
 
 	/**
@@ -523,7 +526,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetLineEndCustomReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setLineEnd('special'));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setLineEnd('special'));
 	}
 
 	/**
@@ -531,7 +536,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetLineEnd()
 	{
-		$this->assertSame("\12", $this->object->_getLineEnd());
+		$this->assertSame("\12", $this->createDocument()->_getLineEnd());
 	}
 
 	/**
@@ -539,7 +544,9 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureSetTabReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->setTab("\t"));
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->setTab("\t"));
 	}
 
 	/**
@@ -547,7 +554,7 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testTheDefaultReturnForGetTab()
 	{
-		$this->assertSame("\11", $this->object->_getTab());
+		$this->assertSame("\11", $this->createDocument()->_getTab());
 	}
 
 	/**
@@ -556,23 +563,16 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 * @covers   JDocument::loadRenderer
 	 * @uses     JDocument::setType
 	 */
-	public function testEnsureLoadRendererReturnsCorrectObject()
+	public function testEnsureLoadRendererReturnsCorrectObjectFromFactory()
 	{
-		$this->object->setType('html');
-		$this->assertInstanceOf('JDocumentRendererHtmlHead', $this->object->loadRenderer('head'));
-	}
+		$documentDependencyMocks = $this->getDocumentDependencyMocks();
+		$documentDependencyMocks['factory']
+			->expects($this->once())
+			->method('createRenderer');
 
-	/**
-	 * @testdox  Test that loadRenderer throws an exception for an unknown renderer type
-	 * @expectedException  RuntimeException
-	 *
-	 * @covers   JDocument::loadRenderer
-	 * @uses     JDocument::setType
-	 */
-	public function testEnsureLoadRendererThrowsException()
-	{
-		$this->object->setType('html');
-		$this->object->loadRenderer('unknown');
+		$document = $this->createDocument($documentDependencyMocks);
+
+		$document->loadRenderer('head');
 	}
 
 	/**
@@ -580,6 +580,37 @@ class JDocumentTest extends \PHPUnit\Framework\TestCase
 	 */
 	public function testEnsureParseReturnsThisObject()
 	{
-		$this->assertSame($this->object, $this->object->parse());
+		$document = $this->createDocument();
+
+		$this->assertSame($document, $document->parse());
+	}
+
+	/**
+	 * Helper function to create a document with mocked dependencies
+	 *
+	 * @param array $options
+	 *
+	 * @return Document
+	 */
+	protected function createDocument(array $options = []): Document
+	{
+		$mergedOptions = array_merge($this->getDocumentDependencyMocks(), $options);
+
+		$object = new Document($mergedOptions);
+
+		return $object;
+	}
+
+	/**
+	 * Helper function to get mocked constructor dependencies of the document
+	 *
+	 * @return array
+	 */
+	protected function getDocumentDependencyMocks(): array
+	{
+		return [
+			'factory' => $this->createMock(FactoryInterface::class),
+			'webAssetManager' =>  $this->createMock(WebAssetManager::class),
+		];
 	}
 }
