@@ -52,11 +52,18 @@ JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relati
 $autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
+
 $attributes = array(
 	!empty($size) ? ' size="' . $size . '"' : '',
 	$disabled ? ' disabled' : '',
 	$readonly ? ' readonly' : '',
-	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
+	$dataAttribute,
 	strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$autocomplete,
 	$autofocus ? ' autofocus' : '',
