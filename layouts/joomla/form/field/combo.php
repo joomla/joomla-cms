@@ -53,7 +53,12 @@ $attr .= !empty($disabled) ? ' disabled' : '';
 $attr .= !empty($required) ? ' required aria-required="true"' : '';
 
 // Data attributes - data-*
-$attr .= !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '';
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
