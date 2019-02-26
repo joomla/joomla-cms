@@ -108,28 +108,23 @@
     min-width: 18rem;
     background-color: var(--atum-bg-dark-70);
 
-    .dropdown-message {
-      font-weight: bold;
-      color: var(--atum-text-light);
+    &.icons-left .dropdown-item {
+      a {
+        padding-left: 0;
+      }
+
+      .fa {
+        float: left;
+        margin-right: 0.75rem;
+      }
     }
 
-    &.icons-left {
-
-      .dropdown-item {
-
-        a {
-          padding-left: 0;
-        }
-
-        .fa {
-          float: left;
-          margin-right: 0.75rem;
-        }
-      }
-
-      .dropdown-header {
-        padding-left: 3.75rem;
-      }
+    .dropdown-header {
+      color: $white;
+      background-color: var(--atum-bg-dark);
+      box-shadow: $atum-box-shadow;
+      font-size: inherit;
+      padding: 1rem 0.75rem;
     }
   }
 
@@ -137,10 +132,6 @@
     color: $white;
     background-color: var(--atum-bg-dark-70);
     padding: 0;
-
-    @include hover-focus {
-      color: var(--atum-special-color);
-    }
 
     a {
       display: inline-block;
@@ -150,7 +141,6 @@
       line-height: 3;
 
       &:hover {
-        color: var(--atum-text-light);
         text-decoration: none;
         background: var(--atum-bg-dark);
       }
@@ -162,12 +152,7 @@
 
     .fa {
       padding: 1rem;
-      background-color: var(--atum-bg-dark-80-hover);
       width: 3rem;
-    }
-
-    &.message-wrapper > a:first-child {
-      width: calc(100% - 3.5rem);
     }
 
     .close-message {
@@ -175,38 +160,14 @@
       padding: 0;
       width: 3rem;
     }
-  }
 
-  .dropdown-menu::after {
-    left: .65rem;
-  }
-
-  .dropdown-menu-right::after {
-    right: .65rem;
-    left: auto;
-  }
-
-  .header-profile {
-
-    .dropdown-menu {
-      padding-top: 0;
-
-      &::after {
-        color: var(--atum-bg-light);
-      }
+    &.message-wrapper > a:first-child {
+      width: calc(100% - 3.5rem);
     }
-  }
 
-  .dropdown-header {
-    color: $white;
-    background-color: var(--atum-bg-dark);
-    box-shadow: $atum-box-shadow;
-    font-size: inherit;
-    padding: 1rem 0.75rem;
-  }
-
-  .list-group-item-text:last-child {
-    margin-bottom: 0;
+    &.dropdown-message > a {
+      padding-left: 0;
+    }
   }
 
   .joomla-version {
