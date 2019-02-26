@@ -7,7 +7,7 @@
             </div>
         </div>
         <div slot="footer">
-            <button class="btn btn-danger" @click="deleteItem()">{{ translate('COM_MEDIA_CONFIRM_DELETE_MODEL') }}</button>
+            <button id="media-delete-item" class="btn btn-danger" @click="deleteItem()">{{ translate('COM_MEDIA_CONFIRM_DELETE_MODEL') }}</button>
             <button class="btn btn-success" @click="close()">{{ translate('JCANCEL') }}</button>
         </div>
     </media-modal>
