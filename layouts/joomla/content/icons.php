@@ -26,9 +26,7 @@ $articleId = $displayData['item']->id;
 				<span class="fa fa-cog" aria-hidden="true"></span>
 			</button>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton-<?php echo $articleId; ?>">
-				<?php if ($canEdit) : ?>
-					<?php echo HTMLHelper::_('icon.edit', $displayData['item'], $displayData['params']); ?>
-				<?php endif; ?>
+				<?php echo HTMLHelper::_('icon.edit', $displayData['item'], $displayData['params']); ?>
 			</div>
 		</div>
 	</div>
