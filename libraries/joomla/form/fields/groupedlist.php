@@ -159,7 +159,10 @@ class JFormFieldGroupedList extends JFormField
 		$attr .= !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Data attributes - data-*
-		$attr .= !empty($this->dataAttributes) ? ' ' . implode(' ', $this->dataAttributes) : '';
+		foreach ($this->dataAttributes as $key => $value)
+		{
+			$attr .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+		}
 
 		// Get the field groups.
 		$groups = (array) $this->getGroups();
