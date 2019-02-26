@@ -202,7 +202,7 @@ class FeedEntryTest extends UnitTestCase
 		$this->feedEntry->addCategory($name, $uri);
 
 		$this->assertCount(1, $this->feedEntry->categories);
-		$this->assertTrue(array_key_exists($name, $this->feedEntry->categories));
+		$this->assertArrayHasKey($name, $this->feedEntry->categories);
 		$this->assertEquals($uri, $this->feedEntry->categories[$name]);
 	}
 
@@ -229,7 +229,7 @@ class FeedEntryTest extends UnitTestCase
 		$this->assertCount(3, $this->feedEntry->categories);
 		foreach ($categories as $category)
 		{
-			$this->assertTrue(array_key_exists($category['name'], $this->feedEntry->categories));
+			$this->assertArrayHasKey($category['name'], $this->feedEntry->categories);
 			$this->assertEquals($category['uri'], $this->feedEntry->categories[$category['name']]);
 		}
 	}
@@ -354,7 +354,7 @@ class FeedEntryTest extends UnitTestCase
 		$this->feedEntry->removeCategory($name);
 
 		$this->assertCount(0, $this->feedEntry->categories);
-		$this->assertFalse(array_key_exists($name, $this->feedEntry->categories));
+		$this->assertArrayNotHasKey($name, $this->feedEntry->categories);
 	}
 
 	/**
