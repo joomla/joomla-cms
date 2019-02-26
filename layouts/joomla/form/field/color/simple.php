@@ -49,7 +49,13 @@ extract($displayData);
 $class         = ' class="' . trim('simplecolors chzn-done ' . $class) . '"';
 $disabled      = $disabled ? ' disabled' : '';
 $readonly      = $readonly ? ' readonly' : '';
-$dataAttribute = !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '';
+
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
 
 // Include jQuery
 JHtml::_('jquery.framework');
