@@ -28,11 +28,14 @@
 		/>
 		<field
 			name="admin_user"
-			type="text"
+			type="installation.username"
 			label="INSTL_ADMIN_USER_DESC"
 			id="admin_user"
 			class="form-control"
+			validate="username"
 			required="true"
+			size="30"
+			message="INSTL_USERNAME_INVALID"
 		/>
 		<field
 			name="admin_password"
