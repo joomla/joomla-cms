@@ -61,7 +61,7 @@ class FeedEntryTest extends UnitTestCase
 	}
 
 	/**
-	 * Tests the FeedEntry::__get method when the property has been set to a value.
+	 * Tests the FeedEntry::__get method with default property.
 	 *
 	 * @return  void
 	 *

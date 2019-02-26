@@ -379,7 +379,8 @@ class FeedParserTest extends UnitTestCase
 		do
 		{
 			$xmlReader->read();
-		} while ($xmlReader->name != $moveTo && $xmlReader->nodeType != XMLReader::END_ELEMENT);
+		}
+		while ($xmlReader->name != $moveTo && $xmlReader->nodeType != XMLReader::END_ELEMENT);
 
 		return $xmlReader;
 	}
@@ -461,7 +462,8 @@ class FeedParserStub extends FeedParser
 	 *
 	 * @since   4.0
 	 */
-	public function processFeedEntry(FeedEntry $entry, SimpleXMLElement $el) {
+	public function processFeedEntry(FeedEntry $entry, SimpleXMLElement $el)
+	{
 		$this->processFeedEntryCalledWith[] = [
 			'entry' => $entry,
 			'el'   => $el,
@@ -505,7 +507,8 @@ class FeedParserStub extends FeedParser
  *
  * Helper Class to test an unregistered namespace
  */
-class FeedParserStubUnregistered implements NamespaceParserInterface {
+class FeedParserStubUnregistered implements NamespaceParserInterface
+{
 
 	/**
 	 * Method to handle an element for the feed given that a certain namespace is present.
