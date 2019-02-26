@@ -77,7 +77,12 @@ $alt    = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
 				$oid        = $id . $i;
 				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$dataAttribute = !empty($option->dataAttributes) ? ' ' . $option->dataAttributes : '';
+				$dataAttribute = '';
+
+				foreach ($option->dataAttributes as $key => $value)
+				{
+					$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+				}
 				$attributes = array_filter(array($checked, $optionClass, $disabled, $style, $onchange, $onclick, $dataAttribute));
 			?>
 
