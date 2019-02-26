@@ -49,11 +49,18 @@ extract($displayData);
 JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
+
 // Initialize some field attributes.
 $attributes = array(
 	$class ? 'class="' . $class . '"' : '',
 	$disabled ? 'disabled' : '',
-	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
+	$dataAttribute,
 	$readonly ? 'readonly' : '',
 	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
 	!empty($max) ? 'max="' . $max . '"' : '',
