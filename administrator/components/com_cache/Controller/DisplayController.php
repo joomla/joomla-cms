@@ -63,9 +63,6 @@ class DisplayController extends BaseController
 			// Push document object into the view.
 			$view->document = $document;
 
-			// Load the submenu.
-			CacheHelper::addSubmenu($this->input->get('view', 'cache'));
-
 			$view->display();
 		}
 	}
