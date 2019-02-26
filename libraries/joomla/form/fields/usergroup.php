@@ -54,7 +54,10 @@ class JFormFieldUsergroup extends JFormField
 		$attr .= !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
 
 		// Data attributes - data-*
-		$attr .= !empty($this->dataAttributes) ? ' ' . implode(' ', $this->dataAttributes) : '';
+		foreach ($this->dataAttributes as $key => $value)
+		{
+			$attr .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+		}
 
 		// Iterate through the children and build an array of options.
 		foreach ($this->element->children() as $option)
