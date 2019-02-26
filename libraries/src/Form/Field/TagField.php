@@ -99,6 +99,12 @@ class TagField extends ListField
 				$this->value = explode(',', $this->value);
 			}
 
+			// Integer is given
+			if (is_int($this->value))
+			{
+				$this->value = array($this->value);
+			}
+
 			$data['value'] = $this->value;
 		}
 

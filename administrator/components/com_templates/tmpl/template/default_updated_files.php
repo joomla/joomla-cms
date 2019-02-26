@@ -40,7 +40,7 @@ $input = Factory::getApplication()->input;
 								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_MODIFIED_DATE'); ?>
 							</th>
 							<th scope="col">
-								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_ACTION'); ?>
+								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_SOURCE'); ?>
 							</th>
 						</tr>
 					</thead>
