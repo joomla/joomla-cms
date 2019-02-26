@@ -68,12 +68,19 @@ if ($meter)
 JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
+
 $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	!$autocomplete ? 'autocomplete="off"' : '',
 	!empty($class) ? 'class="' . $class . '"' : '',
 	$readonly ? 'readonly' : '',
-	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
+	$dataAttribute,
 	$disabled ? 'disabled' : '',
 	!empty($size) ? 'size="' . $size . '"' : '',
 	!empty($maxLength) ? 'maxlength="' . $maxLength . '"' : '',
