@@ -51,6 +51,14 @@ JHtml::_('jquery.framework');
 JHtml::_('script', 'system/html5fallback.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
 $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize());
+
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
+
 ?>
 <input type="file"
 	name="<?php echo $name; ?>"
@@ -61,7 +69,7 @@ $maxSize = JHtml::_('number.bytes', JUtility::getMaxUploadSize());
 	<?php echo !empty($multiple) ? ' multiple' : ''; ?>
 	<?php echo $disabled ? ' disabled' : ''; ?>
 	<?php echo $autofocus ? ' autofocus' : ''; ?>
-	<?php echo !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : ''; ?>
+	<?php echo $dataAttribute; ?>
 	<?php echo !empty($onchange) ? ' onchange="' . $onchange . '"' : ''; ?>
 	<?php echo $required ? ' required aria-required="true"' : ''; ?> /><br>
 	<?php echo JText::sprintf('JGLOBAL_MAXIMUM_UPLOAD_SIZE_LIMIT', $maxSize); ?>
