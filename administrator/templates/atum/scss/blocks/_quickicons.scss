@@ -7,6 +7,10 @@
   }
   li {
    min-width: 10rem;
+   position: relative;
+  }
+  .quickicon-name {
+	  font-size: 1rem;
   }
   .quickicon-amount {
     font-size: 3rem;
@@ -18,10 +22,17 @@
 	  letter-spacing: normal;
 	  font-weight: normal;
   }
-.quickicon-name {
-	color: $body-color !important;
+  .quickicon-text {
+	  min-height: 1.2rem;
   }
-  a {
+ .quickicon-linkadd {
+    position: absolute;
+    bottom: 1.2rem;
+    font-size: .9rem;
+    border-top: 1px solid $light_blue;
+    text-decoration: underline;
+  }
+  a:not(.quickicon-linkadd) {
     display: inline-flex;
     min-height: 120px;
     flex-direction: column;
@@ -33,7 +44,7 @@
     box-shadow: $quickicon-box-shadow;
     transition: all .25s ease;
     text-align: center;
-
+	
     > div {
       flex: 1 0 0;
       margin: 0 auto;
@@ -50,9 +61,7 @@
       display: block;
       width: 100%;
       padding: 0 1rem;
-      font-size: 1rem;
       line-height: 1.1;
-      text-decoration: underline;
     }
 
     .fa {

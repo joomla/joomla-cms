@@ -17,16 +17,18 @@ $target  = empty($displayData['target']) ? '' : (' target="' . $displayData['tar
 $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['onclick'] . '"');
 
 // The title for the link (a11y)
-$title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
+$title   = empty($displayData['title']) ? '&nbsp;' : (' title="' . $this->escape($displayData['title']) . '"');
 
 // The information 
-$text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
+$text    = empty($displayData['text']) ? '&nbsp;' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
 $class = '';
 
 if ($id !== '')
 {
-	$class = ($displayData['id'] === 'plg_quickicon_joomlaupdate' || $displayData['id'] === 'plg_quickicon_extensionupdate') ? ' class="pulse"' : '';
+	$class = ($displayData['id'] === 'plg_quickicon_joomlaupdate' 
+		|| $displayData['id'] === 'plg_quickicon_extensionupdate'
+		|| $displayData['id'] === 'plg_quickicon_overridecheck') ? ' class="pulse"' : '';
 }
 
 ?>
@@ -44,18 +46,29 @@ if ($id !== '')
 				endif;
 				?>
 			</div>
-		<?php elseif ( isset($displayData['image'])): ?>
+		<?php elseif (isset($displayData['image'])): ?>
 			<div class="quickicon-icon d-flex align-items-end">
 				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 			</div>
 		<?php endif; ?>
 		<?php // Name indicates the component	
 			if (isset($displayData['name'])): ?>
-			<div class="quickicon-name d-flex align-items-center"><?php echo htmlspecialchars($displayData['name']); ?></div>
+			<div class="quickicon-name d-flex align-items-end"><?php echo htmlspecialchars($displayData['name']); ?></div>
 		<?php endif; ?>
 		<?php // Information or action	
-		if (isset($displayData['text'])): ?>
+			if (isset($displayData['text'])): ?>
 			<div class="quickicon-text d-flex align-items-end"><?php echo $text; ?></div>
 		<?php endif; ?>
+		<?php // Placeholer for the link 
+			if (isset($displayData['linkadd'])): ?>
+			<div class="quickicon-text d-flex align-items-end"></div>
+		<?php endif; ?>
 	</a>
+	<?php // Add the plus 	
+		if (isset($displayData['linkadd']) && !empty($displayData['linkadd'])): ?>
+				<a class="btn-block text-center quickicon-linkadd j-links-link" href="<?php echo $displayData['linkadd']; ?>">
+				<?php echo Text::_('MOD_QUICKICON_ADD_NEW'); ?>
+				</a>	
+	<?php endif; ?>
 </li>
+

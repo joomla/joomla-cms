@@ -95,9 +95,9 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] =  
 						[
 							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_users&task=user.add'),
+							'link'   => Route::_('index.php?option=com_users'),
+							'linkadd'   => Route::_('index.php?option=com_users&task=user.add'),
 							'name'   => Text::plural('MOD_QUICKICON_USER_MANAGER', $amount),
-							'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 							'access' => array('core.manage', 'com_users', 'core.create', 'com_users'),
 							'group'  => 'MOD_QUICKICON_USERS',
 						];
@@ -110,9 +110,9 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] =  
 						[
 							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_menus&task=item.add'),
+							'link'   => Route::_('index.php?option=com_users'),
+							'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
 							'name'   => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', $amount),
-							'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 							'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
 							'group'  => 'MOD_QUICKICON_STRUCTURE',
 						];
@@ -125,9 +125,9 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] =  
 						[
 							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_content&task=article.add'),
+							'link'   => Route::_('index.php?option=com_content'),
+							'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
 							'name'   => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', $amount),
-							'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 							'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
 							'group'  => 'MOD_QUICKICON_CONTENT',
 						];
@@ -140,9 +140,9 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] =  
 						[
 							'amount' => $amount,
+							'link'   => Route::_('index.php?option=com_categories'),
 							'link'   => Route::_('index.php?option=com_categories&task=category.add'),
 							'name'   => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', $amount),
-							'text'   => Text::_('MOD_QUICKICON_ADD_NEW'),
 							'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
 							'group'  => 'MOD_QUICKICON_CONTENT',
 
@@ -204,6 +204,7 @@ abstract class QuickIconHelper
 					$default = array(
 						'amount' => null,
 						'link'   => null,
+						'linkadd'   => null,
 						'name' => null,
 						'image'  => null,
 						'text'   => null,
