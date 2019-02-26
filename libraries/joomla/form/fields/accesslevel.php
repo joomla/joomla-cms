@@ -52,7 +52,10 @@ class JFormFieldAccessLevel extends JFormFieldList
 		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
 
 		// Data attributes - data-*
-		$attr .= !empty($this->dataAttributes) ? ' ' . implode(' ', $this->dataAttributes) : '';
+		foreach ($this->dataAttributes as $key => $value)
+		{
+			$attr .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+		}
 
 		// Get the field options.
 		$options = $this->getOptions();
