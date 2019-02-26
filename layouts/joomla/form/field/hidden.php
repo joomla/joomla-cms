@@ -48,7 +48,12 @@ extract($displayData);
 $class         = !empty($class) ? ' class="' . $class . '"' : '';
 $disabled      = $disabled ? ' disabled' : '';
 $onchange      = $onchange ? ' onchange="' . $onchange . '"' : '';
-$dataAttribute = !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '';
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
 ?>
 <input type="hidden" name="<?php
 echo $name; ?>" id="<?php
