@@ -49,6 +49,13 @@ extract($displayData);
 $autocomplete = !$autocomplete ? 'autocomplete="off"' : 'autocomplete="' . $autocomplete . '"';
 $autocomplete = $autocomplete == 'autocomplete="on"' ? '' : $autocomplete;
 
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
+
 $attributes = array(
 	$spellcheck ? '' : 'spellcheck="false"',
 	!empty($size) ? 'size="' . $size . '"' : '',
@@ -61,7 +68,7 @@ $attributes = array(
 	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
 	$required ? 'required aria-required="true"' : '',
 	$autofocus ? 'autofocus' : '',
-	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
+	$dataAttribute,
 );
 
 // Including fallback code for HTML5 non supported browsers.
