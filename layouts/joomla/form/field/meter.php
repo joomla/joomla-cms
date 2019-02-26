@@ -66,9 +66,16 @@ $data .= ' data-min="' . $min . '"';
 $data .= ' data-step="' . $step . '"';
 $data .= ' data-value="' . $value . '"';
 
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
+
 $attributes = array(
 	$class,
-	!empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '',
+	$dataAttribute,
 	!empty($width) ? ' style="width:' . $width . ';"' : '',
 	$data
 );
