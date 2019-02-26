@@ -28,7 +28,7 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setParent($parent);
+	public function setParent(NodeInterface $parent);
 
 	/**
 	 * Add child to this node
@@ -41,18 +41,18 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function addChild($child);
+	public function addChild(NodeInterface $child);
 
 	/**
 	 * Remove a specific child
 	 *
-	 * @param   integer  $id  ID of a node
+	 * @param   NodeInterface  $child  Child to remove
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function removeChild($id);
+	public function removeChild(NodeInterface $child);
 
 	/**
 	 * Function to set the left or right sibling of a node
@@ -64,5 +64,5 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setSibling($sibling, $right = true);
+	public function setSibling(NodeInterface $sibling, $right = true);
 }
