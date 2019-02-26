@@ -565,6 +565,7 @@ class ModuleModel extends AdminModel
 		else
 		{
 			$form = $this->loadForm('com_modules.module', 'module', array('control' => 'jform', 'load_data' => $loadData), true);
+			$form->setFieldAttribute('language', 'type', 'contentlanguage');
 		}
 
 		if (empty($form))
@@ -875,9 +876,12 @@ class ModuleModel extends AdminModel
 			}
 		}
 
-		// Load the default site params
-		\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-		$form->loadFile('site');
+		/**
+		 * Load the default module params - We are loading this
+		 * here to have a specific order for the parameters;
+		 * specific module parameters first, then general parameters after that.
+		 */
+		$form->loadFile('params');
 
 		// Trigger the default form events.
 		parent::preprocessForm($form, $data, $group);
