@@ -367,6 +367,7 @@ class AtomParserTest extends UnitTestCase
 
 		$feedEntryMock = $this->createMock(FeedEntry::class);
 		$feedEntryMock
+			->expects($this->any())
 			->method('__set')
 			->withConsecutive(
 				['uri', 'http://example.com/id'],
