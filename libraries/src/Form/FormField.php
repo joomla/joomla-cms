@@ -553,7 +553,7 @@ abstract class FormField
 				// Detect data attribute(s)
 				if (strpos($name, "data-") === 0)
 				{
-					$this->dataAttributes[$name] = $name . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+					$this->dataAttributes[$name] = htmlspecialchars($value, ENT_COMPAT, 'UTF-8');
 				}
 				else
 				{
