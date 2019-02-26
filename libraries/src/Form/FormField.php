@@ -640,7 +640,7 @@ abstract class FormField
 			if (strpos($key, "data-") === 0)
 			{
 				// Data attribute key value pair
-				$this->dataAttributes[$key] = $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+				$this->dataAttributes[$key] = $value;
 			}
 		}
 
