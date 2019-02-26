@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Recaptcha Plugin
@@ -121,7 +122,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		$dom->appendChild($ele);
-		return $dom->saveXML($ele);
+		return $dom->saveHTML($ele);
 	}
 
 	/**
@@ -139,7 +140,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		$input      = \JFactory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '1.0');
-		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$remoteip   = IpHelper::getIp();
 
 		switch ($version)
 		{

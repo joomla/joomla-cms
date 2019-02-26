@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,13 +30,15 @@ $fields = $displayData->get('fields') ?: array(
 	'featured',
 	'sticky',
 	'access',
+	'id',
 	'language',
 	'tags',
 	'note',
 	'version_note',
 );
 
-$hiddenFields = $displayData->get('hidden_fields') ?: array();
+$hiddenFields   = $displayData->get('hidden_fields') ?: array();
+$hiddenFields[] = 'id';
 
 if (!$saveHistory)
 {

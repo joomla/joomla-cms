@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  User
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,13 +13,13 @@
  *
  * @package     Joomla.UnitTest
  * @subpackage  User
- * @since       12.1
+ * @since       3.0.0
  */
 class JUserTest extends TestCaseDatabase
 {
 	/**
 	 * @var    JUser
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $object;
 
@@ -30,7 +30,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function setUp()
 	{
@@ -53,7 +53,7 @@ class JUserTest extends TestCaseDatabase
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function tearDown()
 	{
@@ -67,7 +67,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  PHPUnit_Extensions_Database_DataSet_CsvDataSet
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function getDataSet()
 	{
@@ -87,7 +87,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function casesGetInstance()
 	{
@@ -111,7 +111,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @covers  JUser::getInstance
 	 * @dataProvider casesGetInstance
@@ -130,7 +130,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @covers  JUser::getInstance
 	 */
@@ -153,7 +153,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @covers JUser::defParam
 	 * @covers JUser::getParam
@@ -184,7 +184,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function casesAuthorise()
 	{
@@ -238,7 +238,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @covers  JUser::authorise
 	 * @dataProvider  casesAuthorise
@@ -269,7 +269,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function casesGetAuthorisedViewLevels()
 	{
@@ -297,7 +297,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @covers  JUser::getAuthorisedViewLevels
 	 * @dataProvider  casesGetAuthorisedViewLevels
@@ -325,7 +325,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @covers  JUser::setLastVisit
 	 */
 	public function testSetLastVisit()
@@ -382,7 +382,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  array
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function casesLoad()
 	{
@@ -419,7 +419,7 @@ class JUserTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @dataProvider casesLoad
 	 * @covers  JUser::load

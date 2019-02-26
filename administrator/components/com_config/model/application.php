@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -486,6 +486,12 @@ class ConfigModelApplication extends ConfigModelForm
 		if (!JFile::write($file, $configuration))
 		{
 			throw new RuntimeException(JText::_('COM_CONFIG_ERROR_WRITE_FAILED'));
+		}
+
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
 		}
 
 		// Attempt to make the file unwriteable if using FTP.
