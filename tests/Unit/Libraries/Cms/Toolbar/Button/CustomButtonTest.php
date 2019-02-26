@@ -7,7 +7,7 @@
  * @license	    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Cms\Toolbar\Button;
+namespace Joomla\Tests\Unit\Libraries\Cms\Toolbar\Button;
 
 use Joomla\CMS\Toolbar\Button\CustomButton;
 use Joomla\Tests\Unit\UnitTestCase;

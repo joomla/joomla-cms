@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Cms\Environment;
+namespace Joomla\Tests\Unit\Libraries\Cms\Environment;
 
 use Joomla\CMS\Environment\Browser;
 use Joomla\Tests\Unit\UnitTestCase;

@@ -7,11 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
+
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedParser;
 use Joomla\CMS\Feed\Parser\NamespaceParserInterface;
 use Joomla\Tests\Unit\UnitTestCase;
+use ReflectionClass;
+use SimpleXMLElement;
+use XMLReader;
 
 /**
  * Test class for FeedParser.
@@ -534,7 +539,7 @@ class FeedParserStubUnregistered implements NamespaceParserInterface
 	 *
 	 * @since   3.1.4
 	 */
-	public function processElementForFeedEntry(FeedEntry $entry, \SimpleXMLElement $el)
+	public function processElementForFeedEntry(FeedEntry $entry, SimpleXMLElement $el)
 	{
 	}
 }

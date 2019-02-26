@@ -7,7 +7,7 @@
  * @license        GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Cms\Layout;
+namespace Joomla\Tests\Unit\Libraries\Cms\Layout;
 
 use Joomla\CMS\Layout\BaseLayout;
 use Joomla\Registry\Registry;

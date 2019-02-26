@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Cms\Feed\Parser;
+namespace Joomla\Tests\Unit\Libraries\Cms\Feed\Parser;
 
 use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;

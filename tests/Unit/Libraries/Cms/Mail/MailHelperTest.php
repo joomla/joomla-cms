@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Cms\Mail;
+namespace Joomla\Tests\Unit\Libraries\Cms\Mail;
 
 use Joomla\CMS\Mail\MailHelper;
 use Joomla\Tests\Unit\UnitTestCase;

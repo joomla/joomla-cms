@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Cms\Microdata;
+namespace Joomla\Tests\Unit\Libraries\Cms\Microdata;
 
 use Joomla\CMS\Microdata\Microdata;
 use Joomla\Tests\Unit\UnitTestCase;

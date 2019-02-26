@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Cms\Feed;
+namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
 
 use InvalidArgumentException;
 use Joomla\CMS\Date\Date;
@@ -15,7 +15,6 @@ use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedPerson;
 use Joomla\Tests\Unit\UnitTestCase;
-use stdClass;
 
 /**
  * Test class for Feed.

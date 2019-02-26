@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Tests\Unit\Cms\Feed;
+namespace Joomla\Tests\Unit\Libraries\Cms\Feed;
 
 use InvalidArgumentException;
 use Joomla\CMS\Feed\FeedFactory;
