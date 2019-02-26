@@ -66,9 +66,16 @@ $disabled     = $disabled ? ' disabled' : '';
 $readonly     = $readonly ? ' readonly' : '';
 $hint         = strlen($hint) ? ' placeholder="' . $this->escape($hint) . '"' : ' placeholder="' . $placeholder . '"';
 $autocomplete = ! $autocomplete ? ' autocomplete="off"' : '';
-$dataAttribute = !empty($dataAttributes) ? ' ' . implode(' ', $dataAttributes) : '';
+
 // Force LTR input value in RTL, due to display issues with rgba/hex colors
-$direction    = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
+$direction = $lang->isRtl() ? ' dir="ltr" style="text-align:right"' : '';
+
+$dataAttribute = '';
+
+foreach ($dataAttributes as $key => $value)
+{
+	$dataAttribute .= ' ' . $key . '="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"';
+}
 
 // Including fallback code for HTML5 non supported browsers.
 JHtml::_('jquery.framework');
