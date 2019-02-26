@@ -384,45 +384,6 @@
 			</field>
 
 			<field 
-				name="show_icons" 
-				type="list"
-				label="JGLOBAL_SHOW_ICONS_LABEL"
-				description="JGLOBAL_SHOW_ICONS_DESC"
-				useglobal="true"
-				class="chzn-color"
-				>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field 
-				name="show_print_icon" 
-				type="list"
-				label="JGLOBAL_SHOW_PRINT_ICON_LABEL"
-				description="JGLOBAL_SHOW_PRINT_ICON_DESC"
-				useglobal="true"
-				class="chzn-color"
-				>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field 
-				name="show_email_icon" 
-				type="list"
-				label="JGLOBAL_SHOW_EMAIL_ICON_LABEL"
-				description="JGLOBAL_SHOW_EMAIL_ICON_DESC"
-				useglobal="true"
-				class="chzn-color"
-				>
-				<option value="use_article">COM_CONTENT_FIELD_VALUE_USE_ARTICLE_SETTINGS</option>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
-			<field 
 				name="show_hits" 
 				type="list"
 				label="JGLOBAL_SHOW_HITS_LABEL"
