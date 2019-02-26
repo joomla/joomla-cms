@@ -110,8 +110,9 @@ class FeedEntryTest extends UnitTestCase
 		$date = new Date('October 12, 2011');
 		$this->feedEntry->updatedDate = $date;
 
-		$this->assertInstanceOf(Date::class, $this->feedEntry->updatedDate);
-		$this->assertSame($date, $this->feedEntry->updatedDate);
+		$updatedDate = $this->feedEntry->updatedDate;
+		$this->assertInstanceOf(Date::class, $updatedDate);
+		$this->assertSame($date, $updatedDate);
 	}
 
 	/**
@@ -129,9 +130,10 @@ class FeedEntryTest extends UnitTestCase
 
 		$this->feedEntry->author = $person;
 
-		$this->assertInstanceOf(FeedPerson::class, $this->feedEntry->author);
-		$this->assertEquals($name, $this->feedEntry->author->name);
-		$this->assertEquals($email, $this->feedEntry->author->email);
+		$author = $this->feedEntry->author;
+		$this->assertInstanceOf(FeedPerson::class, $author);
+		$this->assertEquals($name, $author->name);
+		$this->assertEquals($email, $author->email);
 	}
 
 	/**
@@ -201,9 +203,10 @@ class FeedEntryTest extends UnitTestCase
 		$uri = 'http://www.example.com';
 		$this->feedEntry->addCategory($name, $uri);
 
-		$this->assertCount(1, $this->feedEntry->categories);
-		$this->assertArrayHasKey($name, $this->feedEntry->categories);
-		$this->assertEquals($uri, $this->feedEntry->categories[$name]);
+		$categories = $this->feedEntry->categories;
+		$this->assertCount(1, $categories);
+		$this->assertArrayHasKey($name, $categories);
+		$this->assertEquals($uri, $categories[$name]);
 	}
 
 	/**
@@ -226,11 +229,12 @@ class FeedEntryTest extends UnitTestCase
 			$this->feedEntry->addCategory($category['name'], $category['uri']);
 		}
 
-		$this->assertCount(3, $this->feedEntry->categories);
+		$feedCategories = $this->feedEntry->categories;
+		$this->assertCount(3, $feedCategories);
 		foreach ($categories as $category)
 		{
-			$this->assertArrayHasKey($category['name'], $this->feedEntry->categories);
-			$this->assertEquals($category['uri'], $this->feedEntry->categories[$category['name']]);
+			$this->assertArrayHasKey($category['name'], $feedCategories);
+			$this->assertEquals($category['uri'], $feedCategories[$category['name']]);
 		}
 	}
 
@@ -248,9 +252,10 @@ class FeedEntryTest extends UnitTestCase
 
 		$this->feedEntry->addContributor($name, $email);
 
-		$this->assertCount(1, $this->feedEntry->contributors);
-		$this->assertEquals($name, $this->feedEntry->contributors[0]->name);
-		$this->assertEquals($email, $this->feedEntry->contributors[0]->email);
+		$contributors = $this->feedEntry->contributors;
+		$this->assertCount(1, $contributors);
+		$this->assertEquals($name, $contributors[0]->name);
+		$this->assertEquals($email, $contributors[0]->email);
 	}
 
 	/**
@@ -268,9 +273,10 @@ class FeedEntryTest extends UnitTestCase
 		$this->feedEntry->addContributor($name, $email);
 		$this->feedEntry->addContributor($name, $email);
 
-		$this->assertCount(1, $this->feedEntry->contributors);
-		$this->assertEquals($name, $this->feedEntry->contributors[0]->name);
-		$this->assertEquals($email, $this->feedEntry->contributors[0]->email);
+		$contributors = $this->feedEntry->contributors;
+		$this->assertCount(1, $contributors);
+		$this->assertEquals($name, $contributors[0]->name);
+		$this->assertEquals($email, $contributors[0]->email);
 	}
 
 	/**
@@ -293,11 +299,12 @@ class FeedEntryTest extends UnitTestCase
 			$this->feedEntry->addContributor($contributor['name'], $contributor['email']);
 		}
 
-		$this->assertCount(3, $this->feedEntry->contributors);
+		$feedContributors = $this->feedEntry->contributors;
+		$this->assertCount(3, $feedContributors);
 		foreach ($contributors as $index => $contributor)
 		{
-			$this->assertEquals($contributor['name'], $this->feedEntry->contributors[$index]->name);
-			$this->assertEquals($contributor['email'], $this->feedEntry->contributors[$index]->email);
+			$this->assertEquals($contributor['name'], $feedContributors[$index]->name);
+			$this->assertEquals($contributor['email'], $feedContributors[$index]->email);
 		}
 	}
 
@@ -315,8 +322,9 @@ class FeedEntryTest extends UnitTestCase
 
 		$this->feedEntry->addLink($feedLink);
 
-		$this->assertCount(1, $this->feedEntry->links);
-		$this->assertEquals($link, $this->feedEntry->links[0]->uri);
+		$feedLinks = $this->feedEntry->links;
+		$this->assertCount(1, $feedLinks);
+		$this->assertEquals($link, $feedLinks[0]->uri);
 	}
 
 	/**
@@ -334,8 +342,9 @@ class FeedEntryTest extends UnitTestCase
 		$this->feedEntry->addLink($feedLink);
 		$this->feedEntry->addLink($feedLink);
 
-		$this->assertCount(1, $this->feedEntry->links);
-		$this->assertEquals($link, $this->feedEntry->links[0]->uri);
+		$feedLinks = $this->feedEntry->links;
+		$this->assertCount(1, $feedLinks);
+		$this->assertEquals($link, $feedLinks[0]->uri);
 	}
 
 	/**
@@ -353,8 +362,9 @@ class FeedEntryTest extends UnitTestCase
 		$this->feedEntry->addCategory($name, $uri);
 		$this->feedEntry->removeCategory($name);
 
-		$this->assertCount(0, $this->feedEntry->categories);
-		$this->assertArrayNotHasKey($name, $this->feedEntry->categories);
+		$categories = $this->feedEntry->categories;
+		$this->assertCount(0, $categories);
+		$this->assertArrayNotHasKey($name, $categories);
 	}
 
 	/**
@@ -411,10 +421,11 @@ class FeedEntryTest extends UnitTestCase
 
 		$this->feedEntry->setAuthor($name, $email, $uri, $type);
 
-		$this->assertInstanceOf(FeedPerson::class, $this->feedEntry->author);
-		$this->assertEquals($name, $this->feedEntry->author->name);
-		$this->assertEquals($email, $this->feedEntry->author->email);
-		$this->assertEquals($uri, $this->feedEntry->author->uri);
-		$this->assertEquals($type, $this->feedEntry->author->type);
+		$author = $this->feedEntry->author;
+		$this->assertInstanceOf(FeedPerson::class, $author);
+		$this->assertEquals($name, $author->name);
+		$this->assertEquals($email, $author->email);
+		$this->assertEquals($uri, $author->uri);
+		$this->assertEquals($type, $author->type);
 	}
 }
