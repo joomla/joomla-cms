@@ -118,7 +118,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'type'     => $params->text_prefix . '_TYPE_' . $params->type_title,
 			'id'       => $id,
 			'title'    => $article->get($params->title_holder),
-			'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id)
+			'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id, $params->id_holder)
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -267,7 +267,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 				'type'        => $params->text_prefix . '_TYPE_' . $params->type_title,
 				'id'          => $pk,
 				'title'       => $items[$pk]->{$params->title_holder},
-				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk)
+				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk, $params->id_holder)
 			);
 
 			$messages[] = $message;
@@ -908,5 +908,41 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		);
 
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_REMIND', $context, $user->id);
+	}
+
+	/**
+	 * On after Check-in request
+	 *
+	 * Method is called after user request to check-in items.
+	 *
+	 * @param   array  $table  Holds the table name.
+	 *
+	 * @return  void
+	 *
+	 * @since   3.9.3
+	 */
+	public function onAfterCheckin($table)
+	{
+		$context = $this->app->input->get('option');
+		$user    = Factory::getUser();
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$message = array(
+			'action'      => 'checkin',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->username,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->username,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'table'       => $table,
+		);
+
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CHECKIN', $context, $user->id);
 	}
 }
