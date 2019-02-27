@@ -150,8 +150,8 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 			}
 
 			$query = $this->db->getQuery(true);
-			$query->select($query->qn(array_keys($fields)))
-				->from($query->qn($table));
+			$query->select($query->quoteName(array_keys($fields)))
+				->from($query->quoteName($table));
 			$this->db->setQuery($query);
 
 			$rows = $this->db->loadObjectList();

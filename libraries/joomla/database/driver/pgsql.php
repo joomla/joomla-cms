@@ -317,7 +317,7 @@ class JDatabaseDriverPgsql extends JDatabaseDriverPdo
 				$query = $this->getQuery(true)
 					->select('attname')
 					->from('pg_attribute')
-					->join('LEFT', 'pg_class ON pg_class.relname=' . $this->q($table))
+					->join('LEFT', 'pg_class ON pg_class.relname=' . $this->quote($table))
 					->where('attnum=' . $numCol . ' AND attrelid=pg_class.oid');
 				$this->setQuery($query);
 				$colNames[] = $this->loadResult();

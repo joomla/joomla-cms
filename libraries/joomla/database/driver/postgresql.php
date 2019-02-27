@@ -538,7 +538,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$query = $this->getQuery(true)
 				->select('attname')
 				->from('pg_attribute')
-				->join('LEFT', 'pg_class ON pg_class.relname=' . $this->q($table))
+				->join('LEFT', 'pg_class ON pg_class.relname=' . $this->quote($table))
 				->where('attnum=' . $numCol . ' AND attrelid=pg_class.oid');
 			$this->setQuery($query);
 			$colNames[] = $this->loadResult();
@@ -593,7 +593,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		{
 			$name = array(
 				's.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type', 'info.minimum_value', 'info.maximum_value',
-				'info.increment', 'info.cycle_option'
+				'info.increment', 'info.cycle_option',
 			);
 			$as = array('sequence', 'schema', 'table', 'column', 'data_type', 'minimum_value', 'maximum_value', 'increment', 'cycle_option');
 
