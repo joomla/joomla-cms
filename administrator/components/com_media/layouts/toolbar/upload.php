@@ -13,6 +13,6 @@ use Joomla\CMS\Language\Text;
 
 $title = Text::_('JTOOLBAR_UPLOAD');
 ?>
-<button class="btn btn-sm btn-success" onclick="MediaManager.Event.fire('onClickUpload');">
+<button class="btn btn-sm btn-success" onclick="MediaManager.Event.fire('onClickUpload');" type="button">
 	<span class="icon-upload" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
 </button>
