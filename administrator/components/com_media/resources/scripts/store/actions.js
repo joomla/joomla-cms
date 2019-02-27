@@ -163,27 +163,6 @@ export const uploadFile = (context, payload) => {
 }
 
 /**
- * Delete a single item
- * @param context
- * @param payload object: the item to delete
- */
-export const deleteItem = (context, payload) => {
-    context.commit(types.SET_IS_LOADING, true);
-    const item = payload;
-    api.delete(item.path)
-        .then(() => {
-            context.commit(types.DELETE_SUCCESS, item);
-            context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-            context.commit(types.SET_IS_LOADING, false);
-        })
-        .catch(error => {
-            // TODO error handling
-            context.commit(types.SET_IS_LOADING, false);
-            console.log("error", error);
-        })
-}
-
-/**
  * Rename an item
  * @param context
  * @param payload object: the old and the new path
