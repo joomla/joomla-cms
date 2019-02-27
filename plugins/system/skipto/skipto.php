@@ -55,12 +55,12 @@ class PlgSystemSkipto extends CMSPlugin
             Factory::getDocument()->addScriptOptions(
                 'settings', 
                 array (
-                    'buttonLabel:'      => 'PLG_SYSTEM_SKIPTO_SKIP_TO',
-                    'buttonDivTitle:'   => 'PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD',
-                    'menuLabel:'        => 'PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE',
-                    'landmarksLabel:'   => 'PLG_SYSTEM_SKIPTO_SKIP_TO',
-                    'headingsLabel:'    => 'PLG_SYSTEM_SKIPTO_PAGE_OUTLINE',
-                    'contentLabel:'     =>' PLG_SYSTEM_SKIPTO_CONTENT',
+                    'buttonLabel:'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+                    'buttonDivTitle:'   => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
+                    'menuLabel:'        => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
+                    'landmarksLabel:'   => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+                    'headingsLabel:'    => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
+                    'contentLabel:'     => Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
                 )
              );
 			HTMLHelper::_('script', 'vendor/skipto/js/skipTo.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
@@ -68,23 +68,3 @@ class PlgSystemSkipto extends CMSPlugin
 		}
 	}
 }
-
-// <script>
-// var SkipToConfig =
-// {
-// 	"settings": {
-// 		"skipTo": {
-// 			"headings"     : "h1, h2, h3, h4",
-// 			"main"         : "main, [role=main]",
-// 			"landmarks"    : "[role=navigation], [role=search]",
-// 			"sections"     : "nav",
-// 			"ids"          : "#SkipToA1, #SkipToA2",
-// 			"customClass"  : "MyClass",
-// 			"accesskey"    : "0",
-// 			"wrap"         : "true",
-// 			"visibility"   : "onfocus",
-// 			"attachElement": ".MyCustomClass" // or "attachElement": "#MyCustomId"
-// 		}
-// 	}
-// };
-// </script>
