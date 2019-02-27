@@ -32,6 +32,10 @@ div.calendar-container table body td {
 	line-height: 2em;
 }
 
+.calendar-container table {
+	border-collapse: separate;
+}
+
 div.calendar-container table td.title { /* This holds the current "month, year" */
 	vertical-align: middle;
 	text-align: center;
@@ -150,7 +154,7 @@ a.js-btn.btn.btn-exit, a.js-btn.btn.btn-today, a.js-btn.btn.btn-clear {
 	padding: 8px 8px 8px 0;
 }
 .time .time-title {
-	background-image: url("data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAdlJREFUeNqklUsohFEUx7/5kgWGjEcRJULJSmJhITQLr8UoFko2k2SDLGZD2SglJcXOxo6Fx0ayUt4jWXgNG2rIwsgMJZPn/+o/dRvfa8yp33zfPfecM+e795x7bYqxtIAaUA2KgA3cgn3gBcsgrMQg3eAAfJtwBYa0Atg0dAugg+/3YAUcgkvqCkAVcIIy6raBCwT0/mRdymYG5Bt8VQoYBe+0Pwdpik6mwuAVNMawbJXgmr7e6FVokzKt1XBOZnYuneB54Jn+w/LEMZXTOo65nN80yNxNmyBIF4o6Ku6AXccpmzbzJstyQbs+FT/1VC6CFyU+mePTqbIBhBwp8csGn8UqO0qIz8AhstNBk8BP4As4RGCVyk8LgUVVlFvIXFXZ+4qUuZY8gn6W1QmYBKkadklM9PfLJriTYxYyEYFXpZp3s8Yj0kv9mhi0cuCTlsVMuqRWbpL0Xuo8YpAotaQnhgoQSzEAMjhuZoywfMb0UCmyKP1HmSXzJBQxpqIn9zhxA0piCJoFdqXu/bOpmeCMBiF+ZoJJ0E7gp0/AKCF71M1xCkZ4NRWSCjAIdiQ7v9UlHAcPUdfQh1QJEd7ArOg0K1dTRHJAO2hg8zhoH2IVbYElvaPgR4ABAFM/gtHnpJfxAAAAAElFTkSuQmCC");
+	background-image: url("data:image/svg+xml,%3C%3Fxml version='1.0' encoding='utf-8'%3F%3E%3Csvg width='22' height='22' viewBox='0 0 1792 1792' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1024 544v448q0 14-9 23t-23 9h-320q-14 0-23-9t-9-23v-64q0-14 9-23t23-9h224v-352q0-14 9-23t23-9h64q14 0 23 9t9 23zm416 352q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z'/%3E%3C/svg%3E");
 	background-repeat: no-repeat;
 	background-position: center;
 }
