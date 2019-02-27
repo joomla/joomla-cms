@@ -171,10 +171,14 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::addNew('stage.add');
 		}
 
-		if ($canDo->get('core.edit.state') && !$isCore)
+		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publishList('stages.publish');
-			ToolbarHelper::unpublishList('stages.unpublish');
+			if (!$isCore)
+			{
+				ToolbarHelper::publishList('stages.publish');
+				ToolbarHelper::unpublishList('stages.unpublish');
+			}
+
 			ToolbarHelper::makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 		}
 
