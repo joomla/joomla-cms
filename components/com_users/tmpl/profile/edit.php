@@ -129,8 +129,8 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 						<?php echo Text::_('JSUBMIT'); ?>
 					</span>
 				</button>
-                                <button type="button" onclick="window.location.href='<?php echo Route::_('index.php?option=com_users&view=profile'); ?>'"><?php echo Text::_('JCANCEL'); ?></button>
-				<input type="hidden" name="option" value="com_users">
+                                <button class="btn btn-danger" type="button" onclick="window.location.href='<?php echo Route::_('index.php?option=com_users&view=profile'); ?>'"><?php echo Text::_('JCANCEL'); ?></button>
+                                <input type="hidden" name="option" value="com_users">
 				<input type="hidden" name="task" value="profile.save">
 			</div>
 		</div>
