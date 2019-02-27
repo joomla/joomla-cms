@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-Text::script('COM_MEDIA_ACTIN_RENAME', true);
+Text::script('COM_MEDIA_ACTION_RENAME', true);
 Text::script('COM_MEDIA_ACTION_DELETE', true);
 Text::script('COM_MEDIA_ACTION_EDIT', true);
 Text::script('COM_MEDIA_ACTION_PREVIEW', true);
@@ -50,7 +50,7 @@ Text::script('COM_MEDIA_SERVER_ERROR', true);
 Text::script('COM_MEDIA_TOGGLE_INFO', true);
 Text::script('COM_MEDIA_TOGGLE_LIST_VIEW', true);
 Text::script('COM_MEDIA_TOGGLE_SELECT_ITEM', true);
-Text::script('COM_MEDIA_UPDLOAD_SUCCESS', true);
+Text::script('COM_MEDIA_UPLOAD_SUCCESS', true);
 Text::script('JCANCEL', true);
 Text::script('JAPPLY', true);
 Text::script('JACTION_CREATE', true);
@@ -60,3 +60,5 @@ Text::script('COM_MEDIA_SHARE', true);
 Text::script('COM_MEDIA_SHARE_DESC', true);
 Text::script('COM_MEDIA_ACTION_SHARE', true);
 Text::script('COM_MEDIA_SHARE_COPY_FAILED_ERROR', true);
+Text::script('COM_MEDIA_TOOLBAR_LABEL', true);
+Text::script('COM_MEDIA_BREADCRUMB_LABEL', true);
