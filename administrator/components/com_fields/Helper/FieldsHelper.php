@@ -333,9 +333,9 @@ class FieldsHelper
 			/*
 			 * Setting some parameters for the category field
 			 */
-			$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
-			$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
-			$form->setFieldAttribute('catid', 'custom-fields-section', $section);
+			$form->setFieldAttribute('catid', 'refresh-enabled', true);
+			$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
+			$form->setFieldAttribute('catid', 'refresh-section', $section);
 		}
 
 		// Getting the fields
