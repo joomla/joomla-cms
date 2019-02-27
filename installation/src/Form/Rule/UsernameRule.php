@@ -38,6 +38,7 @@ class UsernameRule extends FormRule
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
 		$filterInput = InputFilter::getInstance();
+
 		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $value) || strlen(utf8_decode($value)) < 2
 			|| $filterInput->clean($value, 'TRIM') !== $value
 			|| strlen(utf8_decode($value)) > $element['size'])
