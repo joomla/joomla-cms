@@ -21,7 +21,6 @@
 <script>
     import * as types from "./../store/mutation-types";
     import {notifications} from "./../app/Notifications";
-    import Api from "./../app/Api";
 
     export default {
         name: 'media-app',
