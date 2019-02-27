@@ -25,7 +25,7 @@ function updateUrlPath(path) {
 
 /**
  * Get contents of a directory from the api
- * @param commit
+ * @param context
  * @param payload
  */
 export const getContents = (context, payload) => {
@@ -104,7 +104,7 @@ export const download = (context, payload) => {
 
 /**
  * Toggle the selection state of an item
- * @param commit
+ * @param context
  * @param payload
  */
 export const toggleBrowserItemSelect = (context, payload) => {
@@ -115,11 +115,11 @@ export const toggleBrowserItemSelect = (context, payload) => {
     } else {
         context.commit(types.UNSELECT_BROWSER_ITEM, item);
     }
-}
+};
 
 /**
  * Create a new folder
- * @param commit
+ * @param context
  * @param payload object with the new folder name and its parent directory
  */
 export const createDirectory = (context, payload) => {
@@ -139,7 +139,7 @@ export const createDirectory = (context, payload) => {
 
 /**
  * Create a new folder
- * @param commit
+ * @param context
  * @param payload object with the new folder name and its parent directory
  */
 export const uploadFile = (context, payload) => {
@@ -188,9 +188,8 @@ export const renameItem = (context, payload) => {
 /**
  * Delete the selected items
  * @param context
- * @param payload object
  */
-export const deleteSelectedItems = (context, payload) => {
+export const deleteSelectedItems = (context) => {
     context.commit(types.SET_IS_LOADING, true);
     // Get the selected items from the store
     const selectedItems = context.state.selectedItems;
@@ -211,4 +210,4 @@ export const deleteSelectedItems = (context, payload) => {
     } else {
         // TODO notify the user that he has to select at least one item
     }
-}
+};
