@@ -44,6 +44,7 @@ class UsernameRule extends FormRule
 		{
 			return false;
 		}
+
 		return true;
 	}
 }
