@@ -65,15 +65,10 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 
 		foreach ($this->from as $table)
 		{
-			// Replace the magic prefix if found.
-			$table = $this->getGenericTableName($table);
-
 			// Get the details columns information.
 			$fields = $this->db->getTableColumns($table, false);
-			$prefix = $this->db->getPrefix();
-			$table_name = str_replace('#__', $prefix, $table);
-			$keys = $this->db->getTableKeys($table_name);
-			$sequences = $this->db->getTableSequences($table_name);
+			$keys = $this->db->getTableKeys($table);
+			$sequences = $this->db->getTableSequences($table);
 
 			$buffer[] = '  <table_structure name="' . $table . '">';
 
@@ -108,7 +103,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 				foreach ($keys as $key)
 				{
 					$buffer[] = '   <key Index="' . $key->idxName . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
-						' Key_name="' . $this->db->getNamesKey($table_name, $key->indKey) . '"' . ' Query=\'' . $key->Query . '\' />';
+						' Key_name="' . $this->db->getNamesKey($table, $key->indKey) . '"' . ' Query=\'' . $key->Query . '\' />';
 				}
 			}
 
@@ -132,9 +127,6 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 
 		foreach ($this->from as $table)
 		{
-			// Replace the magic prefix if found.
-			$table = $this->getGenericTableName($table);
-
 			// Get the details columns information.
 			$fields  = $this->db->getTableColumns($table, false);
 			$colblob = array();
