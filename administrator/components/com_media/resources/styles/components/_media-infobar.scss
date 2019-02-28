@@ -33,14 +33,8 @@
     padding-left: ($col-gutter-width / 2);
   }
   dt {
-    flex: 0 0 $info-dt-width;
-    max-width: $info-dt-width;
     font-weight: normal;
     color: rgba(0, 0, 0, .54);
-  }
-  dd {
-    flex: 0 0 $info-dd-width;
-    max-width: $info-dd-width;
   }
 }
 
