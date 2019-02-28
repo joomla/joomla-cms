@@ -62,7 +62,6 @@
     "fs-extra": "^7.0.1",
     "ini": "^1.3.5",
     "jasmine-core": "^3.3.0",
-    "joomla-javascript-tests": "github:joomla/test-javascript#4.0-dev",
     "karma": "^4.0.0",
     "karma-coverage": "^1.1.2",
     "karma-firefox-launcher": "^1.1.0",

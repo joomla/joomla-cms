@@ -11,7 +11,7 @@
 describe('Joomla switcher tests', () => {
   // Set up the script
   beforeEach(() => {
-    fixture.setBase('node_modules/joomla-javascript-tests/src/joomla-switcher')
+    fixture.setBase('tests/javascript/joomla-switcher')
     html_fixture = fixture.load('fixtures/fixture.html');
     window.fix = html_fixture[0];
   });
