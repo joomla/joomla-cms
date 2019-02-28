@@ -51,18 +51,18 @@ class PlgSystemSkipto extends CMSPlugin
 
 		if ($this->app->isClient('administrator'))
 		{
-            // Add strings for translations in Javascript.
-            Factory::getDocument()->addScriptOptions(
-                'settings', 
-                array (
-                    'buttonLabel:'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-                    'buttonDivTitle:'   => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
-                    'menuLabel:'        => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
-                    'landmarksLabel:'   => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-                    'headingsLabel:'    => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-                    'contentLabel:'     => Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
-                )
-             );
+			// Add strings for translations in Javascript.
+			Factory::getDocument()->addScriptOptions(
+				'settings', 
+				array (
+					'buttonLabel:'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+					'buttonDivTitle:'   => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
+					'menuLabel:'        => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
+					'landmarksLabel:'   => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+					'headingsLabel:'    => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
+					'contentLabel:'     => Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
+				)
+			);
 			HTMLHelper::_('script', 'vendor/skipto/js/skipTo.js', ['version' => 'auto', 'relative' => true]);
 			HTMLHelper::_('stylesheet', 'vendor/skipto/css/SkipTo.css', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		}
