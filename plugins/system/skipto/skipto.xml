@@ -10,7 +10,7 @@
 	<version>4.0.0</version>
 	<description>PLG_SYSTEM_SKIPTO_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="system">skipto.php</filename>
+		<filename plugin="skipto">skipto.php</filename>
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.plg_system_skipto.ini</language>
