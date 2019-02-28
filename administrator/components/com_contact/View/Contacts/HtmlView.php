@@ -219,7 +219,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))
 		{
-			$toolbar->preferences('com_menus');
+			$toolbar->preferences('com_contact');
 		}
 
 		$toolbar->help('JHELP_COMPONENTS_CONTACTS_CONTACTS');
