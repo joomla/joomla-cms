@@ -24,7 +24,6 @@ const compileCSS = require('./build/build-modules-js/compilecss.es6.js');
 const compileJS = require('./build/build-modules-js/compilejs.es6.js');
 const minifyVendor = require('./build/build-modules-js/javascript/minify-vendor.es6.js');
 const watch = require('./build/build-modules-js/watch.es6.js');
-const gzipAssets = require('./build/build-modules-js/gzip-assets.es6');
 
 // The settings
 const options = require('./package.json');
@@ -43,7 +42,6 @@ Program
   .option('--compile-js, --compile-js path', 'Handles ES6, ES5 and web component scripts')
   .option('--compile-css, --compile-css path', 'Compiles all the scss files to css')
   .option('--watch', 'Watch file changes and re-compile (ATM only works for the js in the media_source).')
-  .option('--build-gzip', 'Creates the gzipped files for all js and css files')
   .on('--help', () => {
     // eslint-disable-next-line no-console
     console.log(`Version: ${options.version}`);
@@ -103,9 +101,4 @@ if (Program.compileJs) {
 // Compress/transpile the javascript files
 if (Program.watch) {
   watch.run();
-}
-
-// Gzip all the script and stylesheets
-if (Program.buildGzip) {
-  gzipAssets.run(Program.args[0]);
 }

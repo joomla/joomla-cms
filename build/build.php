@@ -204,7 +204,11 @@ if ($composerReturnCode !== 0)
 	exit(1);
 }
 
+system('npm install @gfx/zopfli iltorb --unsafe-perm', $npmReturnCode);
 system('npm install --unsafe-perm', $npmReturnCode);
+
+// Create gzipped version of the static assets
+system('npm run gzip');
 
 if ($npmReturnCode !== 0)
 {
