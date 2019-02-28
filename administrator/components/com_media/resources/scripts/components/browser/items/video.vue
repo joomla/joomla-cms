@@ -1,5 +1,5 @@
 <template>
-    <div class="media-browser-image" @dblclick="openPreview()" @mouseleave="hideActions()">
+    <div class="media-browser-image" @dblclick="openPreview()" @mouseleave="hideActions">
         <div class="media-browser-item-preview">
             <div class="file-background">
                 <div class="file-icon">
@@ -27,7 +27,7 @@
                     <li>
                         <button type="button" class="action-preview" ref="actionPreview" @keyup.enter="openPreview()"
                            :aria-label="translate('COM_MEDIA_ACTION_PREVIEW')" @keyup.space="openPreview()"
-                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
+                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions"
                            @keyup.up="$refs.actionDelete.focus()" @keyup.down="$refs.actionDownload.focus()">
                             <span class="image-browser-action fa fa-search-plus" aria-hidden="true"
                                   @click.stop="openPreview()"></span>
@@ -36,7 +36,7 @@
                     <li>
                         <button type="button" class="action-download" ref="actionDownload" @keyup.enter="download()"
                            :aria-label="translate('COM_MEDIA_ACTION_DOWNLOAD')" @keyup.space="download()"
-                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
+                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions"
                            @keyup.up="$refs.actionPreview.focus()" @keyup.down="$refs.actionRename.focus()">
                             <span class="image-browser-action fa fa-download" aria-hidden="true"
                                   @click.stop="download()"></span>
@@ -45,7 +45,7 @@
                     <li>
                         <button type="button" class="action-rename" ref="actionRename" @keyup.enter="openRenameModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_RENAME')" @keyup.space="openRenameModal()"
-                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
+                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions"
                           @keyup.up="$refs.actionDownload.focus()" @keyup.down="$refs.actionShare.focus()">
                             <span class="image-browser-action fa fa-text-width" aria-hidden="true"
                                   @click.stop="openRenameModal()"></span>
@@ -54,7 +54,7 @@
                     <li>
                         <button type="button" class="action-url" ref="actionShare" @keyup.enter="openShareUrlModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_SHARE')" @keyup.space="openShareUrlModal()"
-                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
+                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions"
                           @keyup.up="$refs.actionRename.focus()" @keyup.down="$refs.actionDelete.focus()">
                             <span class="image-browser-action fa fa-link" aria-hidden="true" @click.stop="openShareUrlModal()"></span>
                         </button>
@@ -62,7 +62,7 @@
                     <li>
                         <button type="button" class="action-delete" ref="actionDelete" @keyup.enter="openConfirmDeleteModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_DELETE')" @keyup.space="openConfirmDeleteModal()"
-                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
+                           @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions"
                            @keyup.up="$refs.actionShare.focus()" @keyup.down="$refs.actionPreview.focus()">
                             <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>
                         </button>
@@ -121,7 +121,16 @@
                 this.$nextTick(() => this.$refs.actionDelete.focus());
             },
             /* Hide actions dropdown */
-            hideActions() {
+            hideActions(event) {
+                // In safari there's a mouse leave event when going into the list of items. This shouldn't hide the
+                // dropdown. So check we are coming in from a mouse event (keyboard is fine), we're going somewhere
+                // in the window (toElement is not null) and then check the class list to check if it's one of the
+                // actions
+                if (event instanceof MouseEvent && event.toElement &&
+                    event.toElement.classList.contains('image-browser-action')) {
+                    return;
+                }
+
                 this.showActions = false;
                 this.$nextTick(() => this.$refs.actionToggle.focus());
             },

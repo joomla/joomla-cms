@@ -1,5 +1,5 @@
 <template>
-    <div class="media-browser-item-file" @mouseleave="hideActions()">
+    <div class="media-browser-item-file" @mouseleave="hideActions">
         <div class="media-browser-item-preview">
             <div class="file-background">
                 <div class="file-icon">
@@ -36,7 +36,7 @@
                     <li>
                         <button type="button" class="action-rename" ref="actionRename" @keyup.space="openRenameModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_RENAME')" @keyup.enter="openRenameModal()"
-                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
+                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions"
                           @keyup.up="$refs.actionDownload.focus()" @keyup.down="$refs.actionUrl.focus()">
                             <span class="image-browser-action fa fa-text-width" aria-hidden="true"
                                   @click.stop="openRenameModal()"></span>
@@ -45,7 +45,7 @@
                     <li>
                         <button type="button" class="action-url" ref="actionUrl" @keyup.space="openShareUrlModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_SHARE')" @keyup.enter="openShareUrlModal()"
-                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
+                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions"
                           @keyup.up="$refs.actionRename.focus()" @keyup.down="$refs.actionDelete.focus()">
                             <span class="image-browser-action fa fa-link" aria-hidden="true" @click.stop="openShareUrlModal()"></span>
                         </button>
@@ -53,7 +53,7 @@
                     <li>
                         <button type="button" class="action-delete" ref="actionDelete" @keyup.space="openConfirmDeleteModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_DELETE')" @keyup.enter="openConfirmDeleteModal()"
-                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
+                          @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions"
                           @keyup.up="$refs.actionUrl.focus()" @keyup.down="$refs.actionDownload.focus()">
                             <span class="image-browser-action fa fa-trash" aria-hidden="true" @click.stop="openConfirmDeleteModal()"></span>
                         </button>
@@ -111,7 +111,16 @@
                 this.$nextTick(() => this.$refs.actionDelete.focus());
             },
             /* Hide actions dropdown */
-            hideActions() {
+            hideActions(event) {
+                // In safari there's a mouse leave event when going into the list of items. This shouldn't hide the
+                // dropdown. So check we are coming in from a mouse event (keyboard is fine), we're going somewhere
+                // in the window (toElement is not null) and then check the class list to check if it's one of the
+                // actions
+                if (event instanceof MouseEvent && event.toElement &&
+                    event.toElement.classList.contains('image-browser-action')) {
+                    return;
+                }
+
                 this.showActions = false;
                 this.$nextTick(() => this.$refs.actionToggle.focus());
             },
