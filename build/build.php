@@ -206,12 +206,18 @@ if ($composerReturnCode !== 0)
 
 system('npm install --unsafe-perm', $npmReturnCode);
 
-// Create gzipped version of the static assets
-system('npm run gzip', $npmReturnCode);
-
 if ($npmReturnCode !== 0)
 {
 	echo "`npm install` did not complete as expected.\n";
+	exit(1);
+}
+
+// Create gzipped version of the static assets
+system('npm run gzip', $gzipReturnCode);
+
+if ($gzipReturnCode !== 0)
+{
+	echo "`npm run gzip` did not complete as expected.\n";
 	exit(1);
 }
 
