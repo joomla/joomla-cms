@@ -1,11 +1,13 @@
 /**
- * Requires npm install @gfx/zopfli iltorb
+ * For creating Brotli files you need to install iltorb
+ * and import it like:
+ * const { compressStream } = require('iltorb');
  */
 const Fs = require('fs');
 const { gzip } = require('@gfx/zopfli');
-const { compressStream } = require('iltorb');
 const RootPath = require('./utils/rootpath.es6.js')._();
 const WalkSync = require('./utils/walk-sync.es6.js');
+const compressStream = '';
 
 const options = {
   verbose: false,
@@ -32,7 +34,7 @@ const handleFile = (file, enableBrotli) => {
     // eslint-disable-next-line no-console
     console.log(`Processing: ${file}`);
 
-    if (enableBrotli) {
+    if (enableBrotli && compressStream) {
       // Brotli file
       Fs.createReadStream(file)
         .pipe(compressStream())
@@ -58,7 +60,7 @@ const handleFile = (file, enableBrotli) => {
     // eslint-disable-next-line no-console
     console.log(`Processing: ${file}`);
 
-    if (enableBrotli) {
+    if (enableBrotli && compressStream) {
       // Brotli file
       Fs.createReadStream(file)
         .pipe(compressStream())
