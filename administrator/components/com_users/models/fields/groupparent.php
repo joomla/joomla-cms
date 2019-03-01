@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,6 +32,31 @@ class JFormFieldGroupParent extends JFormFieldList
 	protected $type = 'GroupParent';
 
 	/**
+	 * Method to clean the Usergroup Options from all children starting by an given father
+	 *
+	 * @param   array    The usergroup options to clean
+	 * @param   integer  The father ID to start with
+	 *
+	 * @return  array  The cleaned field options
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function cleanOptionsChildrenByFather($userGroupsOptions, $fatherId)
+	{
+		foreach ($userGroupsOptions as $userGroupsOptionsId => $userGroupsOptionsData)
+		{
+			if ((int) $userGroupsOptionsData->parent_id === (int) $fatherId)
+			{
+				unset($userGroupsOptions[$userGroupsOptionsId]);
+
+				$userGroupsOptions = $this->checkTheChildren($userGroupsOptions, $userGroupsOptionsId);
+			}
+		}
+
+		return $userGroupsOptions;
+	}
+
+	/**
 	 * Method to get the field options.
 	 *
 	 * @return  array  The field option objects
@@ -49,21 +74,11 @@ class JFormFieldGroupParent extends JFormFieldList
 			unset($options[$currentGroupId]);
 		}
 
-		// Prevent parenting direct children and children of children of this item.
-		foreach ($options as $optionsId => $optionsData)
+		// We should not remove any groups when we are creating a new group
+		if (!is_null($currentGroupId))
 		{
-			if ((int) $optionsData->parent_id === (int) $currentGroupId)
-			{
-				unset($options[$optionsId]);
-
-				foreach ($options as $subOptionsId => $subOptionsData)
-				{
-					if ((int) $subOptionsData->parent_id === $optionsId)
-					{
-						unset($options[$subOptionsId]);
-					}
-				}
-			}
+			// Prevent parenting direct children and children of children of this item.
+			$options = $this->cleanOptionsChildrenByFather($options, $currentGroupId);
 		}
 
 		$options      = array_values($options);
