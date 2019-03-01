@@ -7,8 +7,8 @@ const Fs = require('fs');
 const { gzip } = require('@gfx/zopfli');
 const RootPath = require('./utils/rootpath.es6.js')._();
 const WalkSync = require('./utils/walk-sync.es6.js');
-const compressStream = '';
 
+const compressStream = '';
 const options = {
   verbose: false,
   verbose_more: false,
