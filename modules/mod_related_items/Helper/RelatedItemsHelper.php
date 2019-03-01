@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
@@ -42,10 +41,9 @@ abstract class RelatedItemsHelper
 		$maximum = (int) $params->get('maximum', 5);
 
 		// Get an instance of the generic articles model
-		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_content/Model');
-		$articles = BaseDatabaseModel::getInstance('ArticlesModel', 'Joomla\\Component\\Content\\Site\\Model\\', array('ignore_request' => true));
+		$articles = $app->bootComponent('com_content')->getMVCFactory()->createModel('Articles', 'Site', ['ignore_request' => true]);
 
-		if ($articles === false)
+		if ($articles === null)
 		{
 			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
