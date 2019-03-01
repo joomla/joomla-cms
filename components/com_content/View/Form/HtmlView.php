@@ -125,10 +125,7 @@ class HtmlView extends BaseHtmlView
 		if (!empty($this->item->id))
 		{
 			$this->item->tags->getItemTags('com_content.article', $this->item->id);
-		}
 
-		if (!empty($this->item) && isset($this->item->id))
-		{
 			$this->item->images = json_decode($this->item->images);
 			$this->item->urls = json_decode($this->item->urls);
 

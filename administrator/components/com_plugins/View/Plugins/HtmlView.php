@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
@@ -99,19 +100,31 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_PLUGINS_MANAGER_PLUGINS'), 'power-cord plugin');
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
+		$dropdown = $toolbar->dropdownButton('status-group')
+			->text('JTOOLBAR_CHANGE_STATUS')
+			->toggleSplit(false)
+			->icon('fa fa-globe')
+			->buttonClass('btn btn-info')
+			->listCheck(true);
+
+		$childBar = $dropdown->getChildToolbar();
+
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::publish('plugins.publish', 'JTOOLBAR_ENABLE', true);
-			ToolbarHelper::unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE', true);
-			ToolbarHelper::checkin('plugins.checkin');
+			$childBar->publish('plugins.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+			$childBar->unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
+			$childBar->checkin('plugins.checkin');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			ToolbarHelper::preferences('com_plugins');
+			$toolbar->preferences('com_plugins');
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
+		$toolbar->help('JHELP_EXTENSIONS_PLUGIN_MANAGER');
 
 	}
 
