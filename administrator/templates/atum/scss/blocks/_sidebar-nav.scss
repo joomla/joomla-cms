@@ -4,6 +4,17 @@
 
   ul {
     padding-left: .5rem;
+
+    .active{
+
+      a{
+        color: #fff;
+      }
+    }
+  }
+
+  .active{
+    background-color: #3071a9;
   }
 
   li {
@@ -25,6 +36,11 @@
 
     a {
       color: darken(theme-color("primary"), 12%);
+    }
+
+    .active {
+      text-decoration: underline;
+      color: #fff;
     }
   }
 }
