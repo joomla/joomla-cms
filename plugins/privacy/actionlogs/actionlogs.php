@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Privacy.actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,22 +19,6 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
  */
 class PlgPrivacyActionlogs extends PrivacyPlugin
 {
-	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.9.0
-	 */
-	protected $db;
-
-	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Processes an export request for Joomla core actionlog data
 	 *
@@ -69,11 +53,18 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$data = ActionlogsHelper::getCsvData($data);
-		array_shift($data);
+		$data    = ActionlogsHelper::getCsvData($data);
+		$isFirst = true;
 
 		foreach ($data as $item)
 		{
+			if ($isFirst)
+			{
+				$isFirst = false;
+
+				continue;
+			}
+
 			$domain->addItem($this->createItemFromArray($item));
 		}
 

@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -243,7 +243,7 @@ jQuery(document).ready(function($) {
 			{
 				document.getElementById('select-change-text').innerHTML =  document.getElementById('select-change').getAttribute('data-select');
 			}
-			// If we are editing a association.
+			// If we are editing an association.
 			else
 			{
 				// Show change language button

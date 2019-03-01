@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -172,7 +172,7 @@ class ContentModelArchive extends ContentModelArticles
 	 *
 	 * @return  array  An array of results.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 * @throws  RuntimeException
 	 */
 	protected function _getList($query, $limitstart=0, $limit=0)
