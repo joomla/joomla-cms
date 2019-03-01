@@ -113,9 +113,7 @@ class FormView extends HtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
-	 *
-	 * @throws  \Exception
+	 * @return   mixed
 	 */
 	public function display($tpl = null)
 	{
@@ -131,7 +129,8 @@ class FormView extends HtmlView
 		// Build toolbar
 		$this->addToolbar();
 
-		parent::display($tpl);
+		// Render the view
+		return parent::display($tpl);
 	}
 
 	/**

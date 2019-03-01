@@ -11,10 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\OutputFilter;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-HTMLHelper::_('bootstrap.framework');
 
 // Check if feed URL has been set
 if (empty ($rssurl))
@@ -31,7 +28,7 @@ if (!empty($feed) && is_string($feed))
 else
 {
 	$lang      = Factory::getLanguage();
-	$myrtl     = $params->get('rssrtl', 0);
+	$myrtl     = $params->get('rssrtl');
 	$direction = ' ';
 
 	if ($lang->isRtl() && $myrtl == 0)
@@ -90,30 +87,31 @@ else
 	<?php // Show items ?>
 	<?php if (!empty($feed)) : ?>
 		<ul class="newsfeed<?php echo $params->get('moduleclass_sfx'); ?> list-group">
-		<?php for ($i = 0; $i < $params->get('rssitems', 3); $i++) :
+		<?php for ($i = 0; $i < $params->get('rssitems', 5); $i++) :
 
 			if (!$feed->offsetExists($i)) :
 				break;
 			endif;
-			$uri  = $feed[$i]->uri || !$feed[$i]->isPermaLink ? trim($feed[$i]->uri) : trim($feed[$i]->guid);
-			$uri  = !$uri || stripos($uri, 'http') !== 0 ? $rssurl : $uri;
-			$text = $feed[$i]->content !== '' ? trim($feed[$i]->content) : '';
+			$uri  = (!empty($feed[$i]->uri) || !is_null($feed[$i]->uri)) ? $feed[$i]->uri : $feed[$i]->guid;
+			$uri  = substr($uri, 0, 4) != 'http' ? $params->get('rsslink') : $uri;
+			$text = !empty($feed[$i]->content) ||  !is_null($feed[$i]->content) ? $feed[$i]->content : $feed[$i]->description;
 			?>
 				<li class="list-group-item mb-2">
 					<?php if (!empty($uri)) : ?>
 						<h5 class="feed-link">
 						<a href="<?php echo $uri; ?>" target="_blank">
-						<?php echo trim($feed[$i]->title); ?></a></h5>
+						<?php  echo $feed[$i]->title; ?></a></h5>
 					<?php else : ?>
-						<h5 class="feed-link"><?php echo trim($feed[$i]->title); ?></h5>
-					<?php endif; ?>
+						<h5 class="feed-link"><?php echo $feed[$i]->title; ?></h5>
+					<?php  endif; ?>
 
-					<?php if ($params->get('rssitemdesc', 1) && $text !== '') : ?>
+					<?php if ($params->get('rssitemdesc') && !empty($text)) : ?>
 						<div class="feed-item-description">
 						<?php
 							// Strip the images.
 							$text = OutputFilter::stripImages($text);
-							$text = JHtml::_('string.truncate', $text, $params->get('word_count', 0), true, false);
+							// Strip HTML
+							$text = strip_tags($text);
 							echo str_replace('&apos;', "'", $text);
 						?>
 						</div>

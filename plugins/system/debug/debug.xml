@@ -27,7 +27,6 @@
 					description="PLG_DEBUG_FIELD_REFRESH_ASSETS_DESC"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -38,7 +37,6 @@
 					type="usergrouplist"
 					label="PLG_DEBUG_FIELD_ALLOWED_GROUPS_LABEL"
 					multiple="true"
-					filter="int_array"
 					size="10"
 				/>
 
@@ -48,7 +46,6 @@
 					label="PLG_DEBUG_FIELD_MEMORY_LABEL"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -60,7 +57,6 @@
 					label="PLG_DEBUG_FIELD_REQUEST_LABEL"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -72,7 +68,6 @@
 					label="PLG_DEBUG_FIELD_SESSION_LABEL"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -84,7 +79,6 @@
 					label="PLG_DEBUG_FIELD_PROFILING_LABEL"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -96,7 +90,6 @@
 					label="PLG_DEBUG_FIELD_QUERIES_LABEL"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -109,7 +102,6 @@
 					class="switcher"
 					default="0"
 					showon="queries:1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -122,7 +114,6 @@
 					class="switcher"
 					default="0"
 					showon="queries:1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -135,7 +126,6 @@
 					class="switcher"
 					default="0"
 					showon="queries:1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -153,7 +143,6 @@
 					label="PLG_DEBUG_FIELD_LANGUAGE_ERRORFILES_LABEL"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -165,7 +154,6 @@
 					label="PLG_DEBUG_FIELD_LANGUAGE_FILES_LABEL"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -177,7 +165,6 @@
 					label="PLG_DEBUG_FIELD_LANGUAGE_STRING_LABEL"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -189,7 +176,6 @@
 					label="PLG_DEBUG_FIELD_STRIP_FIRST_LABEL"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -273,7 +259,6 @@
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_LABEL"
 					class="switcher"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -285,7 +270,6 @@
 					label="PLG_DEBUG_FIELD_LOG_DEPRECATED_CORE_LABEL"
 					class="switcher"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -297,7 +281,6 @@
 					label="PLG_DEBUG_FIELD_LOG_EVERYTHING_LABEL"
 					class="switcher"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

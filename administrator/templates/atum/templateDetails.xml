@@ -15,7 +15,6 @@
 		<filename>error_login.php</filename>
 		<filename>favicon.ico</filename>
 		<filename>index.php</filename>
-		<filename>joomla.asset.json</filename>
 		<filename>login.php</filename>
 		<filename>templateDetails.xml</filename>
 		<filename>template_preview.png</filename>
@@ -23,6 +22,7 @@
 		<folder>css</folder>
 		<folder>html</folder>
 		<folder>images</folder>
+		<folder>img</folder>
 		<folder>js</folder>
 		<folder>language</folder>
 		<folder>scss</folder>
@@ -56,8 +56,8 @@
 					default="1"
 					filter="integer"
 					>
-					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+					<option value="0">JHIDE</option>
 				</field>
 
 				<field

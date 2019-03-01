@@ -11,10 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Factory;
-use Joomla\CMS\Table\Nested;
-use Joomla\Database\DatabaseDriver;
+use Joomla\CMS\Table\Table;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -22,58 +19,18 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5
  */
-class MapTable extends Nested
+class MapTable extends Table
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database Driver connector object.
+	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__finder_taxonomy', 'id', $db);
-		$this->access = (int) Factory::getConfig()->get('access');
-	}
-
-	/**
-	 * Override check function
-	 *
-	 * @return  boolean
-	 *
-	 * @see     Table::check()
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function check()
-	{
-		try
-		{
-			parent::check();
-		}
-		catch (\Exception $e)
-		{
-			$this->setError($e->getMessage());
-
-			return false;
-		}
-
-		// Check for a title.
-		if (trim($this->title) == '')
-		{
-			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
-
-			return false;
-		}
-
-		$this->alias = ApplicationHelper::stringURLSafe($this->title, $this->language);
-
-		if (trim($this->alias) == '')
-		{
-			$this->alias = md5(serialize($this->getProperties()));
-		}
-
-		return true;
 	}
 
 	/**

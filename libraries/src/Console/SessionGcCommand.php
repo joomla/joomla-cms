@@ -10,14 +10,11 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\Console\Command\AbstractCommand;
+use Joomla\Console\AbstractCommand;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Session\SessionInterface;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Console command for performing session garbage collection
@@ -29,30 +26,19 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 	use ContainerAwareTrait;
 
 	/**
-	 * The default command name
+	 * Execute the command.
 	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $defaultName = 'session:gc';
-
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
+	 * @return  integer  The exit code for the command.
 	 *
 	 * @since   4.0.0
 	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	public function execute(): int
 	{
-		$symfonyStyle = new SymfonyStyle($input, $output);
+		$symfonyStyle = $this->createSymfonyStyle();
 
 		$symfonyStyle->title('Running Session Garbage Collection');
 
-		$session = $this->getSessionService($input->getOption('application'));
+		$session = $this->getSessionService($this->getApplication()->getConsoleInput()->getOption('application'));
 
 		$gcResult = $session->gc();
 
@@ -72,14 +58,15 @@ class SessionGcCommand extends AbstractCommand implements ContainerAwareInterfac
 	}
 
 	/**
-	 * Configure the command.
+	 * Initialise the command.
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function initialise()
 	{
+		$this->setName('session:gc');
 		$this->setDescription('Performs session garbage collection');
 		$this->addOption('application', 'app', InputOption::VALUE_OPTIONAL, 'The application to perform garbage collection for.', 'site');
 		$this->setHelp(

@@ -43,7 +43,7 @@ echo HTMLHelper::_('bootstrap.renderModal',
 						. ' onclick="window.parent.Joomla.Modal.getCurrent().close();">'
 						. Text::_('COM_BANNERS_CANCEL') . '</a>'
 						. '<button class="btn btn-success" type="button"'
-						. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal_downloadModal\', buttonSelector: \'#exportBtn\'})">'
+						. ' onclick="jQuery(\'#modal_downloadModal iframe\').contents().find(\'#exportBtn\').click();">'
 						. Text::_('COM_BANNERS_TRACKS_EXPORT') . '</button>',
 	]
 );

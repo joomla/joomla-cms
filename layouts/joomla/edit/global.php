@@ -28,7 +28,6 @@ if ($component === 'com_categories')
 $saveHistory = ComponentHelper::getParams($component)->get('save_history', 0);
 
 $fields = $displayData->get('fields') ?: array(
-	'transition',
 	array('parent', 'parent_id'),
 	array('published', 'state', 'enabled'),
 	array('category', 'catid'),
@@ -40,6 +39,11 @@ $fields = $displayData->get('fields') ?: array(
 	'note',
 	'version_note',
 );
+
+if (isset($displayData->get('item')->id) && ($displayData->get('item')->id !== null))
+{
+	array_unshift($fields, 'transition');
+}
 
 $hiddenFields = $displayData->get('hidden_fields') ?: array();
 

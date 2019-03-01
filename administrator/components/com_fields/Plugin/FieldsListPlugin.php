@@ -11,7 +11,6 @@ namespace Joomla\Component\Fields\Administrator\Plugin;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -26,13 +25,13 @@ class FieldsListPlugin extends FieldsPlugin
 	 *
 	 * @param   \stdClass    $field   The field.
 	 * @param   \DOMElement  $parent  The field node parent.
-	 * @param   Form         $form    The form.
+	 * @param   \JForm       $form    The form.
 	 *
 	 * @return  \DOMElement
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, \DOMElement $parent, Form $form)
+	public function onCustomFieldsPrepareDom($field, \DOMElement $parent, \JForm $form)
 	{
 		$fieldNode = parent::onCustomFieldsPrepareDom($field, $parent, $form);
 

@@ -119,27 +119,12 @@ else
 	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
-if ($refreshPage === true)
-{
-	$attr2 .= ' data-refresh-catid="' . $refreshCatId . '" data-refresh-section="' . $refreshSection . '"';
-	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
-
-	HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
-
-	// Pass the element id to the javascript
-	Factory::getDocument()->addScriptOptions('category-change', $id);
-}
-else
-{
-	$attr2 .= $onchange ? ' onchange="' . $onchange . '"' : '';
-}
-
 Text::script('JGLOBAL_SELECT_NO_RESULTS_MATCH');
 Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
+HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
 <joomla-field-fancy-select <?php echo $attr2; ?>><?php echo implode($html); ?></joomla-field-fancy-select>

@@ -91,7 +91,7 @@ class HtmlView extends BaseHtmlView
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			ToolbarHelper::apply('link.apply');
+			$toolbarButtons[] = ['apply', 'link.apply'];
 			$toolbarButtons[] = ['save', 'link.save'];
 		}
 

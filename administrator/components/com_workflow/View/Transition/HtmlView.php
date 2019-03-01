@@ -133,8 +133,7 @@ class HtmlView extends BaseHtmlView
 			// For new records, check the create permission.
 			if ($canDo->get('core.edit'))
 			{
-				ToolbarHelper::apply('transition.apply');
-				$toolbarButtons = [['save', 'transition.save'], ['save2new', 'transition.save2new']];
+				$toolbarButtons = [['apply', 'transition.apply'], ['save', 'transition.save'], ['save2new', 'transition.save2new']];
 			}
 
 			ToolbarHelper::saveGroup(
@@ -149,8 +148,7 @@ class HtmlView extends BaseHtmlView
 
 			if ($itemEditable)
 			{
-				ToolbarHelper::apply('transition.apply');
-				$toolbarButtons = [['save', 'transition.save']];
+				$toolbarButtons = [['apply', 'transition.apply'], ['save', 'transition.save']];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create'))

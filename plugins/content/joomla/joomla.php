@@ -36,7 +36,7 @@ class PlgContentJoomla extends CMSPlugin
 	 * Database Driver Instance
 	 *
 	 * @var    \Joomla\Database\DatabaseDriver
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
 
@@ -50,7 +50,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentBeforeSave($context, $table, $isNew, $data)
 	{
@@ -195,7 +195,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onContentBeforeChangeState($context, $pks, $value)
 	{
@@ -304,7 +304,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function _canDeleteWorkflow($pk)
 	{
@@ -367,7 +367,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	private function _canDeleteStage($pk)
 	{
@@ -463,7 +463,7 @@ class PlgContentJoomla extends CMSPlugin
 	 *
 	 * @return  bool
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function _countItemsInStage(array $stage_ids, string $extension) : bool
 	{
@@ -628,11 +628,11 @@ class PlgContentJoomla extends CMSPlugin
 			return true;
 		}
 
-		$user = Factory::getUser();
+		$user = JFactory::getUser();
 
 		// Messaging for changed items
 		$default_language = JComponentHelper::getParams('com_languages')->get('administrator');
-		$debug = Factory::getApplication()->get('debug_lang');
+		$debug = JFactory::getApplication()->get('debug_lang');
 		$result = true;
 
 		$article = new ArticleTable($db);

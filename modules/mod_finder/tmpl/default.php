@@ -19,7 +19,7 @@ use Joomla\Module\Finder\Site\Helper\FinderHelper;
 $lang = Factory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 
-$input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="js-finder-search-query form-control" value="' . htmlspecialchars(Factory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
+$input = '<input type="text" name="q" class="js-finder-search-query form-control" value="' . htmlspecialchars(Factory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
 	. ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '">';
 
 $showLabel  = $params->get('show_label', 1);
@@ -28,7 +28,7 @@ $label      = '<label for="mod-finder-searchword' . $module->id . '" class="' . 
 
 $output = '';
 
-if ($params->get('show_button', 0))
+if ($params->get('show_button'))
 {
 	$output .= $label;
 	$output .= '<div class="mod-finder__search input-group">';
@@ -61,7 +61,7 @@ if ($params->get('show_autosuggest', 1))
 <form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get">
 	<?php echo $output; ?>
 
-	<?php $show_advanced = $params->get('show_advanced', 0); ?>
+	<?php $show_advanced = $params->get('show_advanced'); ?>
 	<?php if ($show_advanced == 2) : ?>
 		<br>
 		<a href="<?php echo Route::_($route); ?>" class="mod-finder__advanced-link"><?php echo Text::_('COM_FINDER_ADVANCED_SEARCH'); ?></a>
@@ -70,5 +70,5 @@ if ($params->get('show_autosuggest', 1))
 			<?php echo HTMLHelper::_('filter.select', $query, $params); ?>
 		</div>
 	<?php endif; ?>
-	<?php echo FinderHelper::getGetFields($route, (int) $params->get('set_itemid', 0)); ?>
+	<?php echo FinderHelper::getGetFields($route, (int) $params->get('set_itemid')); ?>
 </form>

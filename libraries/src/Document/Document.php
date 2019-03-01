@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\Application\AbstractWebApplication;
 use Joomla\CMS\Date\Date;
 use Joomla\CMS\Factory as CmsFactory;
-use Joomla\CMS\WebAsset\WebAssetManager;
+use Joomla\CMS\WebAsset\WebAssetRegistry;
 use Symfony\Component\WebLink\HttpHeaderSerializer;
 
 /**
@@ -249,7 +249,7 @@ class Document
 	/**
 	 * Web Asset instance
 	 *
-	 * @var    WebAssetManager
+	 * @var    WebAssetRegistry
 	 * @since  4.0.0
 	 */
 	protected $webAssetManager = null;
@@ -321,16 +321,13 @@ class Document
 			$this->setPreloadManager(new PreloadManager);
 		}
 
-		if (array_key_exists('webAssetManager', $options))
+		if (array_key_exists('webAsset', $options))
 		{
-			$this->setWebAssetManager($options['webAssetManager']);
+			$this->setWebAssetManager($options['webAsset']);
 		}
 		else
 		{
-			$webAssetManager = new WebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webassetregistry'));
-			$webAssetManager->setDispatcher(CmsFactory::getApplication()->getDispatcher());
-
-			$this->setWebAssetManager($webAssetManager);
+			$this->setWebAssetManager(\Joomla\CMS\Factory::getContainer()->get('webasset'));
 		}
 	}
 
@@ -834,13 +831,13 @@ class Document
 	/**
 	 * Set WebAsset manager
 	 *
-	 * @param   WebAssetManager  $webAsset  The WebAsset instance
+	 * @param   WebAssetRegistry  $webAsset  The WebAsset instance
 	 *
 	 * @return  Document
 	 *
 	 * @since   4.0.0
 	 */
-	public function setWebAssetManager(WebAssetManager $webAsset): self
+	public function setWebAssetManager(WebAssetRegistry $webAsset): self
 	{
 		$this->webAssetManager = $webAsset;
 
@@ -850,11 +847,11 @@ class Document
 	/**
 	 * Return WebAsset manager
 	 *
-	 * @return  WebAssetManager
+	 * @return  WebAssetRegistry
 	 *
 	 * @since   4.0.0
 	 */
-	public function getWebAssetManager(): WebAssetManager
+	public function getWebAssetManager(): WebAssetRegistry
 	{
 		return $this->webAssetManager;
 	}

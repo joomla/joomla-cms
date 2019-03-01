@@ -14,7 +14,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Banners\Administrator\Helper\BannersHelper;
 
@@ -88,54 +87,34 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_BANNERS_MANAGER_CLIENTS'), 'bookmark banners-clients');
 
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
-
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->addNew('client.add');
+			ToolbarHelper::addNew('client.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
-		{		
-			$dropdown = $toolbar->dropdownButton('status')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
-				->listCheck(true);
-
-			$childBar = $dropdown->getChildToolbar();
-
-			$childBar->publish('clients.publish')->listCheck(true);
-			$childBar->unpublish('clients.unpublish')->listCheck(true);
-			$childBar->archive('clients.archive')->listCheck(true);
-
-			if ($canDo->get('core.admin'))
-			{
-				$childBar->checkin('clients.checkin')->listCheck(true);
-			}
-
-			if (!$this->state->get('filter.state') == -2)
-			{
-				$childBar->trash('clients.trash')->listCheck(true);
-			}
+		if ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::publish('clients.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('clients.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::archiveList('clients.archive');
+			ToolbarHelper::checkin('clients.checkin');
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			$toolbar->delete('clients.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'clients.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::trash('clients.trash');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			$toolbar->preferences('com_banners');
+			ToolbarHelper::preferences('com_banners');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_BANNERS_CLIENTS');
+		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_CLIENTS');
 	}
 
 	/**

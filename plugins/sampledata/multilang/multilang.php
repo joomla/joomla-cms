@@ -364,11 +364,29 @@ class PlgSampledataMultilang extends CMSPlugin
 			return $response;
 		}
 
+		if (!ComponentHelper::isEnabled('com_workflow'))
+		{
+			$response            = array();
+			$response['success'] = true;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_STEP_SKIPPED', 6, 'com_workflow');
+
+			return $response;
+		}
+
 		$siteLanguages = $this->getInstalledlangsFrontend();
+
+		if (!$tableWorkflow = $this->addWorkflow())
+		{
+			$response            = array();
+			$response['success'] = false;
+			$response['message'] = Text::sprintf('PLG_SAMPLEDATA_MULTILANG_ERROR_WORKFLOW', 6);
+
+			return $response;
+		}
 
 		foreach ($siteLanguages as $siteLang)
 		{
-			if (!$tableCategory = $this->addCategory($siteLang))
+			if (!$tableCategory = $this->addCategory($siteLang, $tableWorkflow->id))
 			{
 				$response            = array();
 				$response['success'] = false;
@@ -379,7 +397,7 @@ class PlgSampledataMultilang extends CMSPlugin
 
 			$groupedAssociations['com_categories.item'][$siteLang->language] = $tableCategory->id;
 
-			if (!$tableArticle = $this->addArticle($siteLang, $tableCategory->id))
+			if (!$tableArticle = $this->addArticle($siteLang, $tableCategory->id, $tableWorkflow->stageId))
 			{
 				$response            = array();
 				$response['success'] = false;
@@ -960,15 +978,50 @@ class PlgSampledataMultilang extends CMSPlugin
 	}
 
 	/**
+	 * Method to create a workflow for a specific language.
+	 *
+	 * @return  JTable|boolean  Workflow Object. False otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public function addWorkflow()
+	{
+		$workflowModel =  $this->app->bootComponent('com_workflow')
+			->getMVCFactory()->createModel('Workflow', 'Administrator');
+
+		$workflow = [
+			'title'       => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_TITLE'),
+			'description' => Text::_('PLG_SAMPLEDATA_MULTILANG_CONTENT_WORKFLOW_DESCRIPTION'),
+			'published'   => 1,
+			'extension'   => 'com_content'
+		];
+
+		$workflowModel->save($workflow);
+
+		$workflow = $workflowModel->getItem();
+
+		$query = $this->db->getQuery(true)
+				->select($this->db->quoteName('id'))
+				->from($this->db->quoteName('#__workflow_stages'))
+				->where($this->db->quoteName('workflow_id') . ' = ' . (int) $workflow->id)
+				->where($this->db->quoteName('default') . ' = 1');
+
+		$workflow->stageId = (int) $this->db->setQuery($query)->loadResult();
+
+		return $workflow;
+	}
+
+	/**
 	 * Method to create a category for a specific language.
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
+	 * @param   stdClass  $workflowId    Workflow ID for this category.
 	 *
 	 * @return  JTable|boolean  Category Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-	public function addCategory($itemLanguage)
+	public function addCategory($itemLanguage, $workflowId = 0)
 	{
 		$newlanguage = new Language($itemLanguage->language, false);
 		$newlanguage->load('joomla', JPATH_ADMINISTRATOR, $itemLanguage->language, true);
@@ -983,7 +1036,7 @@ class PlgSampledataMultilang extends CMSPlugin
 			'description'     => '',
 			'published'       => 1,
 			'access'          => 1,
-			'params'          => '{"target":"","image":"", "workflow_id":"1"}',
+			'params'          => '{"target":"","image":"", "workflow_id":"' . (int) $workflowId . '"}',
 			'metadesc'        => '',
 			'metakey'         => '',
 			'metadata'        => '{"page_title":"","author":"","robots":""}',
@@ -1026,12 +1079,13 @@ class PlgSampledataMultilang extends CMSPlugin
 	 *
 	 * @param   stdClass  $itemLanguage  Language Object.
 	 * @param   integer   $categoryId    The id of the category where we want to add the article.
+	 * @param   integer   $stageId       The id of the initial stage.
 	 *
 	 * @return  JTable|boolean  Article Object. False otherwise.
 	 *
 	 * @since   4.0.0
 	 */
-	private function addArticle($itemLanguage, $categoryId)
+	private function addArticle($itemLanguage, $categoryId, $stageId)
 	{
 		$db = Factory::getDbo();
 
@@ -1066,7 +1120,6 @@ class PlgSampledataMultilang extends CMSPlugin
 			'metakey'          => '',
 			'metadesc'         => '',
 			'language'         => $itemLanguage->language,
-			'state'            => 1,
 			'featured'         => 1,
 			'attribs'          => array(),
 			'rules'            => array(),
@@ -1110,8 +1163,8 @@ class PlgSampledataMultilang extends CMSPlugin
 
 		$assoc = new stdClass;
 
-		$assoc->item_id   = $newId;
-		$assoc->stage_id  = 2;
+		$assoc->item_id = $newId;
+		$assoc->stage_id = $stageId;
 		$assoc->extension = 'com_content';
 
 		try

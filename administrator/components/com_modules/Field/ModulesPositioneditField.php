@@ -18,7 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 /**
  * Edit Modules Position field.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class ModulesPositioneditField extends FormField
 {
@@ -26,7 +26,7 @@ class ModulesPositioneditField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $type = 'ModulesPositionedit';
 
@@ -34,7 +34,7 @@ class ModulesPositioneditField extends FormField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.form.field.modulespositionedit';
 
@@ -43,13 +43,13 @@ class ModulesPositioneditField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function getInput()
 	{
 		$data = $this->getLayoutData();
 
-		$clientId  = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
+		$clientId  = Factory::getApplication()->input->get('client_id', 0, 'int');
 		$positions = HTMLHelper::_('modules.positions', $clientId, 1, $this->value);
 
 		$data['client']    = $clientId;

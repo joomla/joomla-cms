@@ -12,7 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 use Joomla\CMS\Document\Document;
-use Joomla\CMS\WebAsset\WebAssetManager;
 
 /**
  * Event class for WebAsset events
@@ -40,27 +39,6 @@ class WebAssetBeforeAttachEvent extends AbstractEvent
 		}
 
 		parent::__construct($name, $arguments);
-	}
-
-	/**
-	 * Setter for the subject argument
-	 *
-	 * @param   WebAssetManager  $value  The value to set
-	 *
-	 * @return  WebAssetManager
-	 *
-	 * @throws  BadMethodCallException  if the argument is not of the expected type
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function setSubject($value)
-	{
-		if (!$value || !($value instanceof WebAssetManager))
-		{
-			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
-		}
-
-		return $value;
 	}
 
 	/**

@@ -70,13 +70,15 @@ class ApplicationController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		$this->checkToken();
+		if (!Session::checkToken())
+		{
+			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'), 'error');
+		}
 
 		// Check if the user is authorized to do this.
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'), 'error');
-			return false;
 		}
 
 		// Set FTP credentials, if given.
@@ -106,36 +108,26 @@ class ApplicationController extends BaseController
 		// Validate the posted data.
 		$return = $model->validate($form, $data);
 
+		// Save the posted data in the session.
+		$this->app->setUserState('com_config.config.global.data', $data);
+
 		// Check for validation errors.
 		if ($return === false)
 		{
-			// Get the validation messages.
-			$errors = $model->getErrors();
-
-			// Push up to three validation messages out to the user.
-			for ($i = 0, $n = count($errors); $i < $n && $i < 3; $i++)
-			{
-				if ($errors[$i] instanceof \Exception)
-				{
-					$this->app->enqueueMessage($errors[$i]->getMessage(), 'warning');
-				}
-				else
-				{
-					$this->app->enqueueMessage($errors[$i], 'warning');
-				}
-			}
-
-			// Save the posted data in the session.
-			$this->app->setUserState('com_config.config.global.data', $data);
+			/*
+			 * The validate method enqueued all messages for us, so we just need to redirect back.
+			 */
 
 			// Redirect back to the edit screen.
 			$this->setRedirect(Route::_('index.php?option=com_config', false));
-			return false;
 		}
 
 		// Attempt to save the configuration.
 		$data   = $return;
 		$return = $model->save($data);
+
+		// Save the validated data in the session.
+		$this->app->setUserState('com_config.config.global.data', $data);
 
 		// Check the return value.
 		if ($return === false)
@@ -145,8 +137,7 @@ class ApplicationController extends BaseController
 			 */
 
 			// Save failed, go back to the screen and display a notice.
-			$this->setRedirect(Route::_('index.php?option=com_config', false));
-			return false;
+			$this->app->redirect(Route::_('index.php?option=com_config', false));
 		}
 
 		// Set the success message.
@@ -179,14 +170,12 @@ class ApplicationController extends BaseController
 		if (!Session::checkToken('get'))
 		{
 			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'), 'error');
-			return false;
 		}
 
 		// Check if the user is authorized to do this.
 		if (!$this->app->getIdentity()->authorise('core.admin'))
 		{
 			$this->setRedirect('index.php', Text::_('JERROR_ALERTNOAUTHOR'), 'error');
-			return false;
 		}
 
 		// Initialise model.
@@ -203,7 +192,6 @@ class ApplicationController extends BaseController
 		{
 			// Save failed, go back to the screen and display a notice.
 			$this->setRedirect('index.php', Text::_('JERROR_SAVE_FAILED', $e->getMessage()), 'error');
-			return false;
 		}
 
 		// Set the redirect based on the task.

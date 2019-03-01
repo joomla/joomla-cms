@@ -36,7 +36,7 @@ $id    = $name . '-desc';
 	<?php if (empty($options['hiddenLabel'])) : ?>
 		<div class="control-label"><?php echo $label; ?></div>
 	<?php endif; ?>
-	<div class="controls">
+	<div class="controls"<?php if (!empty($description)) : ?> aria-describedby="<?php echo $id; ?>"<?php endif; ?>>
 		<?php echo $input; ?>
 	</div>
 	<?php if (!empty($description)) : ?>

@@ -13,8 +13,10 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -64,6 +66,14 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * Array used for displaying the levels filter
+	 *
+	 * @return  \stdClass[]
+	 * @since  4.0.0
+	 */
+	protected $f_levels;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -90,6 +100,21 @@ class HtmlView extends BaseHtmlView
 			$this->ordering[$item->parent_id][] = $item->id;
 		}
 
+		// Levels filter.
+		$options   = array();
+		$options[] = HTMLHelper::_('select.option', '1', Text::_('J1'));
+		$options[] = HTMLHelper::_('select.option', '2', Text::_('J2'));
+		$options[] = HTMLHelper::_('select.option', '3', Text::_('J3'));
+		$options[] = HTMLHelper::_('select.option', '4', Text::_('J4'));
+		$options[] = HTMLHelper::_('select.option', '5', Text::_('J5'));
+		$options[] = HTMLHelper::_('select.option', '6', Text::_('J6'));
+		$options[] = HTMLHelper::_('select.option', '7', Text::_('J7'));
+		$options[] = HTMLHelper::_('select.option', '8', Text::_('J8'));
+		$options[] = HTMLHelper::_('select.option', '9', Text::_('J9'));
+		$options[] = HTMLHelper::_('select.option', '10', Text::_('J10'));
+
+		$this->f_levels = $options;
+
 		// We don't need toolbar in the modal window.
 		if ($this->getLayout() !== 'modal')
 		{
@@ -115,71 +140,61 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
+		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_tags');
 		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		ToolbarHelper::title(Text::_('COM_TAGS_MANAGER_TAGS'), 'tags');
 
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->addNew('tag.add');
+			ToolbarHelper::addNew('tag.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+		if ($canDo->get('core.edit.state'))
 		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
-				->listCheck(true);
+			ToolbarHelper::publish('tags.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('tags.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::archiveList('tags.archive');
+		}
 
-			$childBar = $dropdown->getChildToolbar();
-
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->publish('tags.publish')->listCheck(true);
-				$childBar->unpublish('tags.unpublish')->listCheck(true);
-				$childBar->archive('tags.archive')->listCheck(true);
-			}
-
-			if ($user->authorise('core.admin'))
-			{
-				$childBar->checkin('tags.checkin')->listCheck(true);
-			}
-
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->trash('tags.trash')->listCheck(true);
-			}
+		if ($canDo->get('core.admin'))
+		{
+			ToolbarHelper::checkin('tags.checkin');
 		}
 
 		// Add a batch button
-		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
+		if ($user->authorise('core.create', 'com_tags')
+			&& $user->authorise('core.edit', 'com_tags')
+			&& $user->authorise('core.edit.state', 'com_tags'))
 		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			$title = Text::_('JTOOLBAR_BATCH');
+
+			// Instantiate a new FileLayout instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			$toolbar->delete('tags.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'tags.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::trash('tags.trash');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			$toolbar->preferences('com_tags');
+			ToolbarHelper::preferences('com_tags');
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_TAGS_MANAGER');
+		ToolbarHelper::help('JHELP_COMPONENTS_TAGS_MANAGER');
 	}
 
 	/**

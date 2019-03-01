@@ -148,7 +148,7 @@ class HtmlView extends BaseHtmlView
 		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		if ($state->get('client_id') == 1)
 		{
@@ -161,68 +161,52 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->standardButton('new', 'JTOOLBAR_NEW')
-				->onclick("location.href='index.php?option=com_modules&amp;view=select'");
+			// Instantiate a new FileLayout instance and render the layout
+			$layout = new FileLayout('toolbar.newmodule');
 
-			$toolbar->standardButton('copy')
-				->text('JTOOLBAR_DUPLICATE')
-				->task('modules.duplicate')
-				->listCheck(true);
+			$bar->appendButton('Custom', $layout->render(array()), 'new');
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if ($canDo->get('core.create'))
 		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
-				->listCheck(true);
+			ToolbarHelper::custom('modules.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
+		}
 
-			$childBar = $dropdown->getChildToolbar();
-
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->publish('modules.publish')->listCheck(true);
-
-				$childBar->unpublish('modules.unpublish')->listCheck(true);
-			}
-
-			if (Factory::getUser()->authorise('core.admin'))
-			{
-				$childBar->checkin('modules.checkin')->listCheck(true);
-			}
-
-			if ($canDo->get('core.edit.state') && $this->state->get('filter.published') != -2)
-			{
-				$childBar->trash('modules.trash')->listCheck(true);
-			}
+		if ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::publish('modules.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('modules.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::checkin('modules.checkin');
 		}
 
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_modules') && $user->authorise('core.edit', 'com_modules')
 			&& $user->authorise('core.edit.state', 'com_modules'))
 		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			$title = Text::_('JTOOLBAR_BATCH');
+
+			// Instantiate a new FileLayout instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
 		{
-			$toolbar->delete('modules.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'modules.delete', 'JTOOLBAR_EMPTY_TRASH');
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::trash('modules.trash');
 		}
 
 		if ($canDo->get('core.admin'))
 		{
-			$toolbar->preferences('com_modules');
+			ToolbarHelper::preferences('com_modules');
 		}
 
-		$toolbar->help('JHELP_EXTENSIONS_MODULE_MANAGER');
+		ToolbarHelper::help('JHELP_EXTENSIONS_MODULE_MANAGER');
 
 		if (\JHtmlSidebar::getEntries())
 		{

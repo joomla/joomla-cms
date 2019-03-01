@@ -25,7 +25,7 @@ function updateUrlPath(path) {
 
 /**
  * Get contents of a directory from the api
- * @param context
+ * @param commit
  * @param payload
  */
 export const getContents = (context, payload) => {
@@ -104,7 +104,7 @@ export const download = (context, payload) => {
 
 /**
  * Toggle the selection state of an item
- * @param context
+ * @param commit
  * @param payload
  */
 export const toggleBrowserItemSelect = (context, payload) => {
@@ -115,11 +115,11 @@ export const toggleBrowserItemSelect = (context, payload) => {
     } else {
         context.commit(types.UNSELECT_BROWSER_ITEM, item);
     }
-};
+}
 
 /**
  * Create a new folder
- * @param context
+ * @param commit
  * @param payload object with the new folder name and its parent directory
  */
 export const createDirectory = (context, payload) => {
@@ -139,7 +139,7 @@ export const createDirectory = (context, payload) => {
 
 /**
  * Create a new folder
- * @param context
+ * @param commit
  * @param payload object with the new folder name and its parent directory
  */
 export const uploadFile = (context, payload) => {
@@ -159,6 +159,27 @@ export const uploadFile = (context, payload) => {
                     uploadFile(context, payload);
                 }
             }
+        })
+}
+
+/**
+ * Delete a single item
+ * @param context
+ * @param payload object: the item to delete
+ */
+export const deleteItem = (context, payload) => {
+    context.commit(types.SET_IS_LOADING, true);
+    const item = payload;
+    api.delete(item.path)
+        .then(() => {
+            context.commit(types.DELETE_SUCCESS, item);
+            context.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+            context.commit(types.SET_IS_LOADING, false);
+        })
+        .catch(error => {
+            // TODO error handling
+            context.commit(types.SET_IS_LOADING, false);
+            console.log("error", error);
         })
 }
 
@@ -188,8 +209,9 @@ export const renameItem = (context, payload) => {
 /**
  * Delete the selected items
  * @param context
+ * @param payload object
  */
-export const deleteSelectedItems = (context) => {
+export const deleteSelectedItems = (context, payload) => {
     context.commit(types.SET_IS_LOADING, true);
     // Get the selected items from the store
     const selectedItems = context.state.selectedItems;
@@ -210,4 +232,4 @@ export const deleteSelectedItems = (context) => {
     } else {
         // TODO notify the user that he has to select at least one item
     }
-};
+}

@@ -15,6 +15,7 @@
 
 <script>
     import * as types from "../../store/mutation-types";
+    import * as item from "../../components/browser/items/item";
 
     export default {
         name: 'media-preview-modal',

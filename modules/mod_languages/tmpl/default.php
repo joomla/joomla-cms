@@ -21,16 +21,16 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 	<div class="mod-languages__pretext pretext"><p><?php echo $headerText; ?></p></div>
 <?php endif; ?>
 
-<?php if ($params->get('dropdown', 0) && !$params->get('dropdownimage', 1)) : ?>
+<?php if ($params->get('dropdown', 1) && !$params->get('dropdownimage', 0)) : ?>
 	<form name="lang" method="post" action="<?php echo htmlspecialchars(Uri::current(), ENT_COMPAT, 'UTF-8'); ?>">
 	<select class="inputbox advancedSelect" onchange="document.location.replace(this.value);" >
 	<?php foreach ($list as $language) : ?>
-		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
+		<option dir=<?php echo $language->rtl ? '"rtl"' : '"ltr"'; ?> value="<?php echo $language->link; ?>" <?php echo $language->active ? 'selected="selected"' : ''; ?>>
 		<?php echo $params->get('full_name', 1) ? $language->title_native : strtoupper($language->sef); ?></option>
 	<?php endforeach; ?>
 	</select>
 	</form>
-<?php elseif ($params->get('dropdown', 0) && $params->get('dropdownimage', 1)) : ?>
+<?php elseif ($params->get('dropdown', 1) && $params->get('dropdownimage', 0)) : ?>
 	<div class="mod-languages__select btn-group">
 		<?php foreach ($list as $language) : ?>
 			<?php if ($language->active) : ?>
@@ -43,11 +43,11 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 				</a>
 			<?php endif; ?>
 		<?php endforeach; ?>
-		<ul class="<?php echo $params->get('lineheight', 0) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo Factory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
+		<ul class="<?php echo $params->get('lineheight', 1) ? 'lang-block' : 'lang-inline'; ?> dropdown-menu" dir="<?php echo Factory::getLanguage()->isRtl() ? 'rtl' : 'ltr'; ?>">
 		<?php foreach ($list as $language) : ?>
-			<?php if (!$language->active || $params->get('show_active', 1)) : ?>
+			<?php if (!$language->active || $params->get('show_active', 0)) : ?>
 				<li<?php echo $language->active ? ' class="lang-active"' : ''; ?>>
-				<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
+				<a href="<?php echo $language->link; ?>">
 					<?php if ($language->image) : ?>
 						<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', '', null, true); ?>
 					<?php endif; ?>
@@ -61,9 +61,9 @@ HTMLHelper::_('stylesheet', 'mod_languages/template.css', array('version' => 'au
 <?php else : ?>
 	<ul class="mod-languages__list <?php echo $params->get('inline', 1) ? 'lang-inline' : 'lang-block'; ?>">
 	<?php foreach ($list as $language) : ?>
-		<?php if (!$language->active || $params->get('show_active', 1)) : ?>
+		<?php if (!$language->active || $params->get('show_active', 0)) : ?>
 			<li<?php echo $language->active ? ' class="lang-active"' : ''; ?> dir="<?php echo $language->rtl ? 'rtl' : 'ltr'; ?>">
-			<a href="<?php echo htmlspecialchars($language->link, ENT_QUOTES, 'UTF-8'); ?>">
+			<a href="<?php echo $language->link; ?>">
 			<?php if ($params->get('image', 1)) : ?>
 				<?php if ($language->image) : ?>
 					<?php echo HTMLHelper::_('image', 'mod_languages/' . $language->image . '.gif', $language->title_native, array('title' => $language->title_native), true); ?>

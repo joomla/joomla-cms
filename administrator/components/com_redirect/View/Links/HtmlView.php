@@ -143,79 +143,71 @@ class HtmlView extends BaseHtmlView
 		$state = $this->get('State');
 		$canDo = ContentHelper::getActions('com_redirect');
 
-		$toolbar = Toolbar::getInstance('toolbar');
-
 		ToolbarHelper::title(Text::_('COM_REDIRECT_MANAGER_LINKS'), 'refresh redirect');
 
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->addNew('link.add');
+			ToolbarHelper::addNew('link.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
+		if ($canDo->get('core.edit.state'))
 		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
-				->listCheck(true);
-
-			$childBar = $dropdown->getChildToolbar();
-
 			if ($state->get('filter.state') != 2)
 			{
-				$childBar->publish('links.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
-				$childBar->unpublish('links.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
+				ToolbarHelper::divider();
+				ToolbarHelper::publish('links.publish', 'JTOOLBAR_ENABLE', true);
+				ToolbarHelper::unpublish('links.unpublish', 'JTOOLBAR_DISABLE', true);
 			}
 
 			if ($state->get('filter.state') != -1)
 			{
+				ToolbarHelper::divider();
+
 				if ($state->get('filter.state') != 2)
 				{
-					$childBar->archive('links.archive')->listCheck(true);
+					ToolbarHelper::archiveList('links.archive');
 				}
 				elseif ($state->get('filter.state') == 2)
 				{
-					$childBar->unarchive('links.unarchive')->listCheck(true);
+					ToolbarHelper::unarchiveList('links.publish', 'JTOOLBAR_UNARCHIVE');
 				}
 			}
-
-			if (!$state->get('filter.state') == -2)
-			{
-				$childBar->trash('links.trash')->listCheck(true);
-			}
-		}
-
-		if ($canDo->get('core.delete'))
-		{ 
-			$toolbar->delete('links.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
-		}
-
-		if (!$state->get('filter.state') == -2 && $canDo->get('core.delete'))
-		{
-			$toolbar->confirmButton('delete')
-				->text('COM_REDIRECT_TOOLBAR_PURGE')
-				->message('COM_REDIRECT_CONFIRM_PURGE')
-				->task('links.purge');
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BULK_IMPORT')
-				->selector('collapseModal')
-				->listCheck(false);
+			// Get the toolbar object instance
+			$bar = Toolbar::getInstance('toolbar');
+
+			$title = Text::_('JTOOLBAR_BULK_IMPORT');
+
+			HTMLHelper::_('bootstrap.renderModal', 'collapseModal');
+
+			// Instantiate a new FileLayout instance and render the batch button
+			$layout = new FileLayout('toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
+			$bar->appendButton('Custom', $dhtml, 'batch');
+		}
+
+		if ($state->get('filter.state') == -2 && $canDo->get('core.delete'))
+		{
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'links.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::divider();
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::custom('links.purge', 'delete', 'delete', 'COM_REDIRECT_TOOLBAR_PURGE', false);
+			ToolbarHelper::trash('links.trash');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			$toolbar->preferences('com_redirect');
+			ToolbarHelper::preferences('com_redirect');
+			ToolbarHelper::divider();
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_REDIRECT_MANAGER');
+		ToolbarHelper::help('JHELP_COMPONENTS_REDIRECT_MANAGER');
 	}
 }

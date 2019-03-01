@@ -266,9 +266,10 @@
 
 			<field
 				name="display_readonly"
-				type="list"
+				type="radio"
 				label="JFIELD_DISPLAY_READONLY_LABEL"
 				description="JFIELD_DISPLAY_READONLY_DESC"
+				class="btn-group btn-group-yesno"
 				default="2"
 				>
 				<option value="2">JGLOBAL_INHERIT</option>

@@ -47,7 +47,6 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWONARTICLEPAGE_DESC"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -65,7 +64,6 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_CATEGORY_FIELD_COUNT_DESC"
 					default="0"
-					filter="integer"
 				/>
 
 				<field
@@ -91,7 +89,6 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATFILTERINGTYPE_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
@@ -103,9 +100,10 @@
 					label="JCATEGORY"
 					extension="com_content"
 					multiple="true"
-					filter="int_array"
-					class="multipleCategories"
-				/>
+					size="5"
+					>
+					<option value="">JOPTION_ALL_CATEGORIES</option>
+				</field>
 
 				<field
 					name="show_child_category_articles"
@@ -113,7 +111,6 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWCHILDCATEGORYARTICLES_LABEL"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUDE_VALUE</option>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUDE_VALUE</option>
@@ -124,7 +121,6 @@
 					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_CATDEPTH_LABEL"
 					default="1"
-					filter="integer"
 				/>
 
 				<field
@@ -140,7 +136,6 @@
 					description="JTAG_FIELD_SELECT_DESC"
 					mode="nested"
 					multiple="true"
-					filter="int_array"
 					class="multipleTags"
 				/>
 
@@ -156,7 +151,6 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORFILTERING_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
@@ -164,12 +158,16 @@
 
 				<field
 					name="created_by"
-					type="author"
+					type="sql"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHOR_LABEL"
 					multiple="true"
-					filter="int_array"
-					class="multipleAuthors"
-				/>
+					size="5"
+					query="select id, name, username from #__users where id IN (select distinct(created_by) from #__content) order by name ASC"
+					key_field="id"
+					value_field="name"
+					>
+					<option value="">JOPTION_SELECT_AUTHORS</option>
+				</field>
 
 				<field
 					name="filteringspacer3"
@@ -183,7 +181,6 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIASFILTERING_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">MOD_ARTICLES_CATEGORY_OPTION_EXCLUSIVE_VALUE</option>
 					<option value="1">MOD_ARTICLES_CATEGORY_OPTION_INCLUSIVE_VALUE</option>
@@ -194,11 +191,13 @@
 					type="sql"
 					label="MOD_ARTICLES_CATEGORY_FIELD_AUTHORALIAS_LABEL"
 					multiple="true"
+					size="5"
 					query="select distinct(created_by_alias) from #__content where created_by_alias != '' order by created_by_alias ASC"
 					key_field="created_by_alias"
 					value_field="created_by_alias"
-					class="multipleAuthorAliases"
-				/>
+					>
+					<option value="">JOPTION_SELECT_AUTHOR_ALIASES</option>
+				</field>
 
 				<field
 					name="filteringspacer4"
@@ -237,9 +236,15 @@
 					label="MOD_ARTICLES_CATEGORY_FIELD_DATERANGEFIELD_LABEL"
 					default="a.created"
 					>
-					<option value="a.created">MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE</option>
-					<option value="a.modified">MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE</option>
-					<option value="a.publish_up">MOD_ARTICLES_CATEGORY_OPTION_STARTPUBLISHING_VALUE</option>
+					<option value="a.created">
+						MOD_ARTICLES_CATEGORY_OPTION_CREATED_VALUE
+					</option>
+					<option value="a.modified">
+						MOD_ARTICLES_CATEGORY_OPTION_MODIFIED_VALUE
+					</option>
+					<option value="a.publish_up">
+						MOD_ARTICLES_CATEGORY_OPTION_STARTPUBLISHING_VALUE
+					</option>
 				</field>
 
 				<field
@@ -267,7 +272,6 @@
 					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_RELATIVEDATE_LABEL"
 					default="30"
-					filter="integer"
 				/>
 
 			</fieldset>
@@ -357,7 +361,6 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_LINKTITLES_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -369,7 +372,6 @@
 					class="switcher"
 					label="JDATE"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -400,7 +402,6 @@
 					class="switcher"
 					label="JCATEGORY"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -412,7 +413,6 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWHITS_LABEL"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -424,7 +424,6 @@
 					class="switcher"
 					label="JAUTHOR"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -436,7 +435,6 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORY_FIELD_SHOWINTROTEXT_LABEL"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -447,7 +445,6 @@
 					type="number"
 					label="MOD_ARTICLES_CATEGORY_FIELD_INTROTEXTLIMIT_LABEL"
 					default="100"
-					filter="integer"
 				/>
 
 				<field
@@ -456,7 +453,6 @@
 					class="switcher"
 					label="JGLOBAL_SHOW_READMORE_LABEL"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -468,7 +464,6 @@
 					class="switcher"
 					label="JGLOBAL_SHOW_READMORE_TITLE_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -479,7 +474,6 @@
 					type="number"
 					label="JGLOBAL_SHOW_READMORE_LIMIT_LABEL"
 					default="15"
-					filter="integer"
 				/>
 
 			</fieldset>
@@ -505,7 +499,6 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -516,7 +509,6 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
-					filter="integer"
 				/>
 			</fieldset>
 		</fields>

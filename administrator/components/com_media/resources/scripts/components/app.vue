@@ -20,7 +20,7 @@
 
 <script>
     import * as types from "./../store/mutation-types";
-    import {notifications} from "./../app/Notifications";
+    import Api from "./../app/Api";
 
     export default {
         name: 'media-app',
@@ -45,13 +45,7 @@
         created() {
             // Listen to the toolbar events
             MediaManager.Event.listen('onClickCreateFolder', () => this.$store.commit(types.SHOW_CREATE_FOLDER_MODAL));
-            MediaManager.Event.listen('onClickDelete', () =>  {
-                if (this.$store.state.selectedItems.length > 0) {
-                    this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
-                } else {
-                    notifications.error('COM_MEDIA_PLEASE_SELECT_ITEM');
-                }
-            });
+            MediaManager.Event.listen('onClickDelete', () => this.$store.dispatch('deleteSelectedItems'));
         },
         mounted() {
             // Set the full height and add event listener when dom is updated

@@ -133,29 +133,35 @@ class HtmlView extends BaseHtmlView
 			{
 				if ($this->state->get('filter.published') != 2)
 				{
-					$childBar->publish('banners.publish')->listCheck(true);
-
-					$childBar->unpublish('banners.unpublish')->listCheck(true);
+					$childBar->standardButton('publish')
+						->text('JTOOLBAR_PUBLISH')
+						->task('banners.publish')
+						->listCheck(true);
+					$childBar->standardButton('unpublish')
+						->text('JTOOLBAR_UNPUBLISH')
+						->task('banners.unpublish')
+						->listCheck(true);
 				}
 
 				if ($this->state->get('filter.published') != -1)
 				{
 					if ($this->state->get('filter.published') != 2)
 					{
-						$childBar->archive('banners.archive')->listCheck(true);
+						$childBar->standardButton('archive')
+							->text('JTOOLBAR_ARCHIVE')
+							->task('banners.archive')
+							->listCheck(true);
 					}
 					elseif ($this->state->get('filter.published') == 2)
 					{
-						$childBar->publish('publish')->task('banners.publish')->listCheck(true);
+						$childBar->standardButton('publish')
+							->text('JTOOLBAR_PUBLISH')
+							->task('banners.publish')
+							->listCheck(true);
 					}
 				}
 
 				$childBar->checkin('banners.checkin')->listCheck(true);
-
-				if ($this->state->get('filter.published') != -2)
-				{
-					$childBar->trash('banners.trash')->listCheck(true);
-				}
 			}
 
 			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
@@ -165,6 +171,13 @@ class HtmlView extends BaseHtmlView
 					->message('JGLOBAL_CONFIRM_DELETE')
 					->listCheck(true);
 			}
+			elseif ($canDo->get('core.edit.state'))
+			{
+				$childBar->standardButton('trash')
+					->text('JTOOLBAR_TRASH')
+					->task('banners.trash')
+					->listCheck(true);
+			}
 		}
 
 		// Add a batch button
@@ -172,10 +185,13 @@ class HtmlView extends BaseHtmlView
 			&& $user->authorise('core.edit', 'com_banners')
 			&& $user->authorise('core.edit.state', 'com_banners'))
 		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			$title = Text::_('JTOOLBAR_BATCH');
+
+			// Instantiate a new FileLayout instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(array('title' => $title));
+			Toolbar::getInstance('toolbar')->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($user->authorise('core.admin', 'com_banners') || $user->authorise('core.options', 'com_banners'))

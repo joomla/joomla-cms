@@ -10,16 +10,48 @@ namespace Joomla\CMS\WebAsset;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Document\Document;
+use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Filesystem\Path;
-use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
+use Joomla\Event\DispatcherAwareInterface;
+use Joomla\Event\DispatcherAwareTrait;
 
 /**
- * Web Asset Registry class
+ * Web Asset Factory class
  *
  * @since  4.0.0
  */
-class WebAssetRegistry implements WebAssetRegistryInterface
+class WebAssetRegistry implements DispatcherAwareInterface
 {
+	use DispatcherAwareTrait;
+
+	/**
+	 * Mark the new registry file
+	 *
+	 * @var integer
+	 *
+	 * @since  4.0.0
+	 */
+	const REGISTRY_FILE_NEW = 1;
+
+	/**
+	 * Mark already parsed registry file
+	 *
+	 * @var integer
+	 *
+	 * @since  4.0.0
+	 */
+	const REGISTRY_FILE_PARSED = 2;
+
+	/**
+	 * Mark a broken/non-existing registry file
+	 *
+	 * @var integer
+	 *
+	 * @since  4.0.0
+	 */
+	const REGISTRY_FILE_INVALID = -1;
+
 	/**
 	 * Files with Asset info. File path should be relative.
 	 *
@@ -66,16 +98,7 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 *
 	 * @since  4.0.0
 	 */
-	protected $dataFilesNew = [];
-
-	/**
-	 * List of parsed files
-	 *
-	 * @var array
-	 *
-	 * @since  4.0.0
-	 */
-	protected $dataFilesParsed = [];
+	protected $dataFiles = [];
 
 	/**
 	 * Registry of available Assets
@@ -87,40 +110,108 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	protected $assets = [];
 
 	/**
+	 * Weight off the heaviest and active asset
+	 *
+	 * @var float
+	 *
+	 * @since  4.0.0
+	 */
+	protected $lastItemWeight = 1;
+
+	/**
+	 * Whether append asset version to asset path
+	 *
+	 * @var    bool
+	 *
+	 * @since  4.0.0
+	 */
+	protected $useVersioning = true;
+
+	/**
 	 * Get an existing Asset from a registry, by asset name.
+	 * Return asset object or false if asset does not exist.
 	 *
 	 * @param   string  $name  Asset name
 	 *
-	 * @return  WebAssetItem
-	 *
-	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @return  WebAssetItem|null
 	 *
 	 * @since   4.0.0
 	 */
-	public function get(string $name): WebAssetItemInterface
+	public function getAsset(string $name)
 	{
 		// Check if any new file was added
 		$this->parseRegistryFiles();
 
-		if (empty($this->assets[$name]))
+		if (!empty($this->assets[$name]))
 		{
-			throw new UnknownAssetException($name);
+			return $this->assets[$name];
 		}
 
-		return $this->assets[$name];
+		return null;
+	}
+
+	/**
+	 * Search for all active assets.
+	 *
+	 * @return  WebAssetItem[]  Array with active assets
+	 *
+	 * @since   4.0.0
+	 */
+	public function getActiveAssets(): array
+	{
+		$assets = array_filter(
+			$this->assets,
+			function($asset)
+			{
+				/** @var WebAssetItem $asset */
+				return $asset->isActive();
+			}
+		);
+
+		return $assets;
+	}
+
+	/**
+	 * Search for assets with specific state.
+	 *
+	 * @param   int  $state  Asset state
+	 *
+	 * @return  WebAssetItem[]  Array with active assets
+	 *
+	 * @since   4.0.0
+	 */
+	public function getAssetsByState(int $state = WebAssetItem::ASSET_STATE_ACTIVE): array
+	{
+		$assets = array_filter(
+			$this->assets,
+			function($asset) use ($state)
+			{
+				/** @var WebAssetItem $asset */
+				return $asset->getState() === $state;
+			}
+		);
+
+		return $assets;
 	}
 
 	/**
 	 * Add Asset to registry of known assets
 	 *
-	 * @param   WebAssetItemInterface  $asset  Asset instance
+	 * @param   WebAssetItem  $asset  Asset instance
 	 *
 	 * @return  self
 	 *
 	 * @since   4.0.0
 	 */
-	public function add(WebAssetItemInterface $asset): WebAssetRegistryInterface
+	public function addAsset(WebAssetItem $asset): self
 	{
+		// Check whether the asset already exists, so we must copy its state before override
+		if (!empty($this->assets[$asset->getName()]))
+		{
+			$existing = $this->assets[$asset->getName()];
+			$asset->setState($existing->getState());
+		}
+
 		$this->assets[$asset->getName()] = $asset;
 
 		return $this;
@@ -135,25 +226,351 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function remove(string $name): WebAssetRegistryInterface
+	public function removeAsset(string $name): self
 	{
-		unset($this->assets[$name]);
+		if (!empty($this->assets[$name]))
+		{
+			unset($this->assets[$name]);
+		}
 
 		return $this;
 	}
 
 	/**
-	 * Check whether the asset exists in the registry.
+	 * Change the asset State
 	 *
-	 * @param   string  $name  Asset name
+	 * @param   string   $name   Asset name
+	 * @param   integer  $state  New state
 	 *
-	 * @return  bool
+	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @throws  \RuntimeException if asset with given name does not exist
+	 *
+	 * @since   4.0.0
 	 */
-	public function exists(string $name): bool
+	public function setAssetState(string $name, int $state = WebAssetItem::ASSET_STATE_ACTIVE): self
 	{
-		return !empty($this->assets[$name]);
+		$asset = $this->getAsset($name);
+
+		if (!$asset)
+		{
+			throw new \RuntimeException('Asset "' . $name . '" does not exist');
+		}
+
+		$currentState = $asset->getState();
+
+		// Asset already has the requested state
+		if ($currentState === $state)
+		{
+			return $this;
+		}
+
+		// Change state
+		$asset->setState($state);
+
+		// Update Dependency
+		$this->updateDependency();
+
+		// Trigger the event
+		$event = AbstractEvent::create(
+			'onWebAssetStateChangedExternally',
+			[
+				'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetStateChangedEvent',
+				'subject'  => $this,
+				'asset'    => $asset,
+				'oldState' => $currentState,
+				'newState' => $state,
+			]
+		);
+		$this->getDispatcher()->dispatch($event->getName(), $event);
+
+		return $this;
+	}
+
+	/**
+	 * Activate the Asset item
+	 *
+	 * @param   string  $name  The asset name
+	 *
+	 * @return self
+	 *
+	 * @since  4.0.0
+	 */
+	public function enableAsset(string $name): self
+	{
+		return $this->setAssetState($name, WebAssetItem::ASSET_STATE_ACTIVE);
+	}
+
+	/**
+	 * Deactivate the Asset item
+	 *
+	 * @param   string  $name  The asset name
+	 *
+	 * @return self
+	 *
+	 * @since  4.0.0
+	 */
+	public function disableAsset(string $name): self
+	{
+		return $this->setAssetState($name, WebAssetItem::ASSET_STATE_INACTIVE);
+	}
+
+	/**
+	 * Attach active assets to the document
+	 *
+	 * @param   Document  $doc  Document for attach StyleSheet/JavaScript
+	 *
+	 * @return  self
+	 *
+	 * @since  4.0.0
+	 */
+	public function attachActiveAssetsToDocument(Document $doc): self
+	{
+		// Resolve Dependency
+		$this->updateDependency()->calculateWeightOfActiveAssets();
+
+		// Trigger the event
+		$event = AbstractEvent::create(
+			'onWebAssetBeforeAttach',
+			[
+				'eventClass' => 'Joomla\\CMS\\Event\\WebAsset\\WebAssetBeforeAttachEvent',
+				'subject'  => $this,
+				'document' => $doc,
+			]
+		);
+		$this->getDispatcher()->dispatch($event->getName(), $event);
+
+		$assets = $this->sortAssetsByWeight($this->getActiveAssets());
+
+		// Pre-save existing Scripts, and attach them after requested assets.
+		$jsBackup = $doc->_scripts;
+		$doc->_scripts = [];
+
+		// Attach active assets to the document
+		foreach ($assets as $asset)
+		{
+			$paths = $asset->getAssetFiles();
+
+			// Add StyleSheets of the asset
+			foreach ($paths['stylesheet'] as $path => $attr)
+			{
+				unset($attr['__isExternal'], $attr['__pathOrigin']);
+				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
+				$doc->addStyleSheet($path, ['version' => $version], $attr);
+			}
+
+			// Add Scripts of the asset
+			foreach ($paths['script'] as $path => $attr)
+			{
+				unset($attr['__isExternal'], $attr['__pathOrigin']);
+				$version = $this->useVersioning ? ($asset->getVersion() ?: 'auto') : false;
+				$doc->addScript($path, ['version' => $version], $attr);
+			}
+		}
+
+		// Merge with previously added scripts
+		$doc->_scripts = array_replace($doc->_scripts, $jsBackup);
+
+		return $this;
+	}
+
+	/**
+	 * Update Dependencies state for all active Assets
+	 *
+	 * @return  self
+	 *
+	 * @since  4.0.0
+	 */
+	protected function updateDependency(): self
+	{
+		// First, deactivate all Dependency
+		foreach ($this->getAssetsByState(WebAssetItem::ASSET_STATE_DEPENDANCY) as $depItem)
+		{
+			$depItem->setState(WebAssetItem::ASSET_STATE_INACTIVE);
+		}
+
+		// Second, get list of active assets and enable their dependencies
+		$assets = $this->getAssetsByState(WebAssetItem::ASSET_STATE_ACTIVE);
+
+		foreach ($assets as $asset)
+		{
+			$this->updateItemDependency($asset);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Update Dependencies state for given Asset
+	 *
+	 * @param   WebAssetItem  $asset  Asset instance
+	 *
+	 * @return  self
+	 *
+	 * @throws  \RuntimeException When Dependency cannot be resolved
+	 *
+	 * @since  4.0.0
+	 */
+	protected function updateItemDependency(WebAssetItem $asset): self
+	{
+		foreach ($this->getDependenciesForAsset($asset, true) as $depItem)
+		{
+			// Set dependency state only when it is inactive, to keep a manually activated Asset in their original state
+			if (!$depItem->isActive())
+			{
+				$depItem->setState(WebAssetItem::ASSET_STATE_DEPENDANCY);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Calculate weight of active Assets, by its Dependencies
+	 *
+	 * @return  self
+	 *
+	 * @since  4.0.0
+	 */
+	protected function calculateWeightOfActiveAssets(): self
+	{
+		// See https://en.wikipedia.org/wiki/Topological_sorting#Kahn.27s_algorithm
+		$result        = [];
+		$graphOutgoing = [];
+		$graphIncoming = [];
+		$activeAssets  = $this->getActiveAssets();
+
+		// Build Graphs of Outgoing and Incoming connections
+		foreach ($activeAssets as $asset)
+		{
+			$name = $asset->getName();
+			$graphOutgoing[$name] = array_combine($asset->getDependencies(), $asset->getDependencies());
+
+			if (!array_key_exists($name, $graphIncoming))
+			{
+				$graphIncoming[$name] = [];
+			}
+
+			foreach ($asset->getDependencies() as $depName)
+			{
+				$graphIncoming[$depName][$name] = $name;
+			}
+		}
+
+		// Find items without incoming connections
+		$emptyIncoming = array_keys(
+			array_filter(
+				$graphIncoming,
+				function ($el){
+					return !$el;
+				}
+			)
+		);
+
+		// Loop through, and sort the graph
+		while ($emptyIncoming)
+		{
+			// Add the node without incoming connection to the result
+			$item = array_shift($emptyIncoming);
+			$result[] = $item;
+
+			// Check of each neighbor of the node
+			foreach (array_reverse($graphOutgoing[$item]) as $neighbor)
+			{
+				// Remove incoming connection of already visited node
+				unset($graphIncoming[$neighbor][$item]);
+
+				// If there no more incoming connections add the node to queue
+				if (empty($graphIncoming[$neighbor]))
+				{
+					$emptyIncoming[] = $neighbor;
+				}
+			}
+		}
+
+		// Update a weight for each active asset
+		foreach (array_reverse($result) as $index => $name)
+		{
+			$activeAssets[$name]->setWeight($index + 1);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Return dependancy for Asset as array of AssetItem objects
+	 *
+	 * @param   WebAssetItem  $asset          Asset instance
+	 * @param   boolean       $recursively    Whether to search for dependancy recursively
+	 * @param   WebAssetItem  $recursionRoot  Initial item to prevent loop
+	 *
+	 * @return  WebAssetItem[]
+	 *
+	 * @throws  \RuntimeException When Dependency cannot be found
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getDependenciesForAsset(WebAssetItem $asset, $recursively = false, WebAssetItem $recursionRoot = null): array
+	{
+		$assets        = [];
+		$recursionRoot = $recursionRoot ?? $asset;
+
+		foreach ($asset->getDependencies() as $depName)
+		{
+			// Skip already loaded in recursion
+			if ($recursionRoot->getName() === $depName)
+			{
+				continue;
+			}
+
+			$dep = $this->getAsset($depName);
+
+			if (!$dep)
+			{
+				throw new \RuntimeException('Cannot find Dependency "' . $depName . '" for Asset "' . $asset->getName() . '"');
+			}
+
+			$assets[$depName] = $dep;
+
+			if (!$recursively)
+			{
+				continue;
+			}
+
+			$parentDeps = $this->getDependenciesForAsset($dep, true, $recursionRoot);
+			$assets     = array_replace($assets, $parentDeps);
+		}
+
+		return $assets;
+	}
+
+	/**
+	 * Sort assets by its weight
+	 *
+	 * @param   WebAssetItem[]  $assets  Array of assets to sort
+	 *
+	 * @return  WebAssetItem[]
+	 *
+	 * @since   4.0.0
+	 */
+	public function sortAssetsByWeight(array $assets): array
+	{
+		uasort(
+			$assets,
+			function($a, $b)
+			{
+				/** @var WebAssetItem $a */
+				/** @var WebAssetItem $b */
+				if ($a->getWeight() === $b->getWeight())
+				{
+					return 0;
+				}
+
+				return $a->getWeight() > $b->getWeight() ? 1 : -1;
+			}
+		);
+
+		return $assets;
 	}
 
 	/**
@@ -184,15 +601,12 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	{
 		$path = Path::clean($path);
 
-		if (isset($this->dataFilesNew[$path]) || isset($this->dataFilesParsed[$path]))
+		if (isset($this->dataFiles[$path]))
 		{
 			return $this;
 		}
 
-		if (is_file(JPATH_ROOT . '/' . $path))
-		{
-			$this->dataFilesNew[$path] = $path;
-		}
+		$this->dataFiles[$path] = is_file(JPATH_ROOT . '/' . $path) ? static::REGISTRY_FILE_NEW : static::REGISTRY_FILE_INVALID;
 
 		return $this;
 	}
@@ -206,18 +620,27 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 	 */
 	protected function parseRegistryFiles()
 	{
-		if (!$this->dataFilesNew)
+		// Filter new asset data files and parse each
+		$constantIsNew = static::REGISTRY_FILE_NEW;
+		$files = array_filter(
+			$this->dataFiles,
+			function($state) use ($constantIsNew)
+			{
+				return $state === $constantIsNew;
+			}
+		);
+
+		if (!$files)
 		{
 			return;
 		}
 
-		foreach ($this->dataFilesNew as $path)
+		foreach (array_keys($files) as $path)
 		{
 			$this->parseRegistryFile($path);
 
 			// Mark as parsed (not new)
-			unset($this->dataFilesNew[$path]);
-			$this->dataFilesParsed[$path] = $path;
+			$this->dataFiles[$path] = static::REGISTRY_FILE_PARSED;
 		}
 	}
 
@@ -263,7 +686,54 @@ class WebAssetRegistry implements WebAssetRegistryInterface
 
 			$item['assetSource'] = $assetSource;
 			$assetItem = $this->createAsset($item['name'], $item);
-			$this->add($assetItem);
+			$this->addAsset($assetItem);
 		}
+	}
+
+	/**
+	 * Dump available assets to simple array, with some basic info
+	 *
+	 * @param   bool  $onlyActive  Return only active Assets
+	 *
+	 * @return  array
+	 *
+	 * @since   4.0.0
+	 */
+	public function debugAssets(bool $onlyActive = false): array
+	{
+		// Update dependencies
+		$this->updateDependency()->calculateWeightOfActiveAssets();
+
+		$assets = $onlyActive ? $this->getActiveAssets() : $this->assets;
+		$assets = $this->sortAssetsByWeight($assets);
+		$result = [];
+
+		foreach ($assets as $asset)
+		{
+			$result[$asset->getName()] = [
+				'name'   => $asset->getName(),
+				'deps'   => implode(', ', $asset->getDependencies()),
+				'state'  => $asset->getState(),
+				'weight' => $asset->getWeight(),
+			];
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Whether append asset version to asset path
+	 *
+	 * @param   bool  $useVersioning  Boolean flag
+	 *
+	 * @return  self
+	 *
+	 * @since   4.0.0
+	 */
+	public function useVersioning(bool $useVersioning): self
+	{
+		$this->useVersioning = $useVersioning;
+
+		return $this;
 	}
 }

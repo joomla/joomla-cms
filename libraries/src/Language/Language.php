@@ -775,10 +775,13 @@ class Language
 			$strings = $this->parse($filename);
 		}
 
-		if (is_array($strings) && count($strings))
+		if ($strings)
 		{
-			$this->strings = array_replace($this->strings, $strings, $this->override);
-			$result = true;
+			if (is_array($strings) && count($strings))
+			{
+				$this->strings = array_replace($this->strings, $strings, $this->override);
+				$result = true;
+			}
 		}
 
 		// Record the result of loading the extension's file.

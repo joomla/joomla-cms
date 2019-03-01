@@ -102,11 +102,11 @@ $userId = $user->id;
 							$edit = Route::_('index.php?option=com_workflow&task=workflow.edit&id=' . $item->id . '&extension=' . $extension);
 
 							$isCore     = !empty($item->core);
-							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id);
+							$canEdit    = $user->authorise('core.edit', $extension . '.workflow.' . $item->id) && !$isCore;
 							// @TODO set proper checkin fields
 							$canCheckin = true || $user->authorise('core.admin', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-							$canEditOwn = $user->authorise('core.edit.own',   $extension . '.workflow.' . $item->id) && $item->created_by == $userId;
-							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin;
+							$canEditOwn = $user->authorise('core.edit.own',   $extension . '.workflow.' . $item->id) && $item->created_by == $userId && !$isCore;
+							$canChange  = $user->authorise('core.edit.state', $extension . '.workflow.' . $item->id) && $canCheckin  && !$isCore;
 							?>
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="0">
 								<td class="order text-center hidden-sm-down">
@@ -133,11 +133,11 @@ $userId = $user->id;
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
-										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange && !$isCore); ?>
+										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'workflows.', $canChange); ?>
 									</div>
 								</td>
 								<th scope="row">
-									<?php if (!$isCore && ($canEdit || $canEditOwn)) : ?>
+									<?php if ($canEdit || $canEditOwn) : ?>
 										<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 										<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT', true); ?> <?php echo Text::_($item->title, true); ?>">
 											<?php echo $editIcon; ?><?php echo $this->escape(Text::_($item->title)); ?>

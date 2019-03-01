@@ -55,6 +55,5 @@ $attr .= $multiple ? ' multiple' : '';
 $attr .= $required ? ' required' : '';
 $attr .= $autofocus ? ' autofocus' : '';
 $attr .= $onchange ? ' onchange="' . $onchange . '"' : '';
-$attr .= !empty($description) ? ' aria-describedby="' . $name . '-desc"' : '';
 
 echo HTMLHelper::_('access.level', $name, $value, $attr, $options, $id);

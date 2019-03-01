@@ -43,7 +43,7 @@ class SectionField extends \JFormFieldList
 		$return = parent::setup($element, $value, $group);
 
 		// Onchange must always be the change context function
-		$this->onchange = 'fieldsChangeContext(this.value);';
+		$this->onchange = 'fieldsChangeContext(jQuery(this).val());';
 
 		return $return;
 	}

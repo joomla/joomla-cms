@@ -51,7 +51,6 @@ $autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
 
 $attributes = array(
 	!empty($size) ? ' size="' . $size . '"' : '',
-	!empty($description) ? ' aria-describedby="' . $name . '-desc"' : '',
 	$disabled ? ' disabled' : '',
 	$readonly ? ' readonly' : '',
 	strlen($hint) ? ' placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',

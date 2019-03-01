@@ -121,7 +121,7 @@ namespace Joomla\CMS\Filesystem
 			 */
 			public static function delete($fileName)
 			{
-				$postproc = \AKFactory::getPostProc();
+				$postproc = AKFactory::getPostProc();
 				$postproc->unlink($fileName);
 			}
 		}

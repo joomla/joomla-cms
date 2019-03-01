@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($this->canDo->get('core.edit'))
 			{
-				ToolbarHelper::apply('menu.apply');
+				$toolbarButtons[] = ['apply', 'menu.apply'];
 			}
 
 			$toolbarButtons[] = ['save', 'menu.save'];
@@ -111,8 +111,7 @@ class HtmlView extends BaseHtmlView
 		// If user can edit, can save the item.
 		if (!$isNew && $this->canDo->get('core.edit'))
 		{
-			ToolbarHelper::apply('menu.apply');
-
+			$toolbarButtons[] = ['apply', 'menu.apply'];
 			$toolbarButtons[] = ['save', 'menu.save'];
 		}
 

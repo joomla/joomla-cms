@@ -252,19 +252,15 @@ class PlgFinderCategories extends FinderIndexerAdapter
 			return;
 		}
 
-		// Extract the extension element
-		$parts = explode('.', $item->extension);
-		$extension_element = $parts[0];
-
 		// Check if the extension that owns the category is also enabled.
-		if (ComponentHelper::isEnabled($extension_element) === false)
+		if (ComponentHelper::isEnabled($item->extension) === false)
 		{
 			return;
 		}
 
 		$item->setLanguage();
 
-		$extension = ucfirst(substr($extension_element, 4));
+		$extension = ucfirst(substr($item->extension, 4));
 
 		// Initialize the item parameters.
 		$item->params = new Registry($item->params);
@@ -299,9 +295,7 @@ class PlgFinderCategories extends FinderIndexerAdapter
 		 * Need to import component route helpers dynamically, hence the reason it's handled here.
 		 */
 		$class = $extension . 'HelperRoute';
-
-		// Need to import component route helpers dynamically, hence the reason it's handled here.
-		JLoader::register($class, JPATH_SITE . '/components/' . $extension_element . '/helpers/route.php');
+		JLoader::register($class, JPATH_SITE . '/components/' . $item->extension . '/helpers/route.php');
 
 		if (class_exists($class) && method_exists($class, 'getCategoryRoute'))
 		{

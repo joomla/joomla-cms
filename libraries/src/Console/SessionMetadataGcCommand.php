@@ -11,11 +11,9 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Session\MetadataManager;
-use Joomla\Console\Command\AbstractCommand;
+use Joomla\Console\AbstractCommand;
+use Joomla\Database\DatabaseInterface;
 use Joomla\Session\SessionInterface;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
  * Console command for performing session metadata garbage collection
@@ -25,20 +23,12 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SessionMetadataGcCommand extends AbstractCommand
 {
 	/**
-	 * The default command name
+	 * The database object.
 	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $defaultName = 'session:metadata:gc';
-
-	/**
-	 * The session metadata manager.
-	 *
-	 * @var    MetadataManager
+	 * @var    DatabaseInterface
 	 * @since  4.0.0
 	 */
-	private $metadataManager;
+	private $db;
 
 	/**
 	 * The session object.
@@ -51,38 +41,35 @@ class SessionMetadataGcCommand extends AbstractCommand
 	/**
 	 * Instantiate the command.
 	 *
-	 * @param   SessionInterface  $session          The session object.
-	 * @param   MetadataManager   $metadataManager  The session metadata manager.
+	 * @param   SessionInterface   $session  The session object.
+	 * @param   DatabaseInterface  $db       The database object.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(SessionInterface $session, MetadataManager $metadataManager)
+	public function __construct(SessionInterface $session, DatabaseInterface $db)
 	{
-		$this->session         = $session;
-		$this->metadataManager = $metadataManager;
+		$this->session = $session;
+		$this->db      = $db;
 
 		parent::__construct();
 	}
 
 	/**
-	 * Internal function to execute the command.
+	 * Execute the command.
 	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
+	 * @return  integer  The exit code for the command.
 	 *
 	 * @since   4.0.0
 	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	public function execute(): int
 	{
-		$symfonyStyle = new SymfonyStyle($input, $output);
+		$symfonyStyle = $this->createSymfonyStyle();
 
 		$symfonyStyle->title('Running Session Metadata Garbage Collection');
 
 		$sessionExpire = $this->session->getExpire();
 
-		$this->metadataManager->deletePriorTo(time() - $sessionExpire);
+		(new MetadataManager($this->getApplication(), $this->db))->deletePriorTo(time() - $sessionExpire);
 
 		$symfonyStyle->success('Metadata garbage collection completed.');
 
@@ -90,14 +77,15 @@ class SessionMetadataGcCommand extends AbstractCommand
 	}
 
 	/**
-	 * Configure the command.
+	 * Initialise the command.
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function initialise()
 	{
+		$this->setName('session:metadata:gc');
 		$this->setDescription('Performs session metadata garbage collection');
 		$this->setHelp(
 <<<EOF

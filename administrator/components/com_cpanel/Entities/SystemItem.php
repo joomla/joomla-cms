@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 /**
  * Class representing a item in the system view.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class SystemItem
 {
@@ -33,29 +33,29 @@ class SystemItem
 	private $link;
 
 	/**
-	 * An optional type for the ajax request
+	 * An optional badge of the item
 	 *
 	 * @var string|null
 	 */
-	private $type;
+	private $badge;
 
 	/**
 	 * Class constructor.
 	 *
 	 * @param   string  $title  The title of the item
 	 * @param   string  $link   The link for the item
-	 * @param   string  $type   The type, requested by the ajax request
+	 * @param   string  $badge  The optional badge for the item
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function __construct($title, $link, $type = '')
+	public function __construct($title, $link, $badge = '')
 	{
 		$this->title = $title;
 		$this->link  = $link;
 
-		if (!empty($type))
+		if (!empty($badge))
 		{
-			$this->type = $type;
+			$this->badge = $badge;
 		}
 	}
 
@@ -64,7 +64,7 @@ class SystemItem
 	 *
 	 * @return  string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getTitle()
 	{
@@ -76,7 +76,7 @@ class SystemItem
 	 *
 	 * @return  string
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getLink()
 	{
@@ -84,14 +84,14 @@ class SystemItem
 	}
 
 	/**
-	 * The type to load in the notification badge if there is one. Else null.
+	 * The string to display in the notification badge if there is one. Else null.
 	 *
 	 * @return string|null
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
-	public function getType()
+	public function getBadge()
 	{
-		return $this->type;
+		return $this->badge;
 	}
 }

@@ -9,7 +9,6 @@
 namespace Joomla\Component\Finder\Administrator\Table;
 
 use Joomla\CMS\Table\Table;
-use Joomla\Database\DatabaseDriver;
 
 defined('_JEXEC') or die;
 
@@ -23,11 +22,11 @@ class LinkTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   DatabaseDriver  $db  Database Driver connector object.
+	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver connector object.
 	 *
 	 * @since   2.5
 	 */
-	public function __construct(DatabaseDriver $db)
+	public function __construct(\JDatabaseDriver $db)
 	{
 		parent::__construct('#__finder_links', 'link_id', $db);
 	}

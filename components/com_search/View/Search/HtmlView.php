@@ -154,9 +154,18 @@ class HtmlView extends BaseHtmlView
 		$searchWord = $state->get('keyword');
 		$params     = $app->getParams();
 
-		$menu  = $app->getMenu()->getActive();
+		$menus = $app->getMenu();
+		$menu  = $menus->getActive();
 
-		if (!$menu)
+		// Because the application sets a default page title, we need to get it right from the menu item itself
+		if (is_object($menu))
+		{
+			if (!$menu->params->get('page_title'))
+			{
+				$params->set('page_title', Text::_('COM_SEARCH_SEARCH'));
+			}
+		}
+		else
 		{
 			$params->set('page_title', Text::_('COM_SEARCH_SEARCH'));
 		}

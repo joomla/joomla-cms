@@ -18,9 +18,8 @@ use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Module\Multilangstatus\Administrator\Helper\MultilangstatusAdminHelper;
 
-HTMLHelper::_('bootstrap.framework');
-
 $hideLinks = $app->input->getBool('hidemainmenu');
+
 ?>
 <div class="ml-auto">
 	<ul class="nav text-center">
@@ -45,7 +44,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		</li>
 
 		<li class="nav-item">
-			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_('index.php?option=com_messages') . '"'); ?> title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
+			<a class="nav-link dropdown-toggle" href="<?php echo Route::_('index.php?option=com_messages'); ?>" title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
 				<span class="fa fa-envelope-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
 				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
@@ -57,53 +56,49 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 		<li class="nav-item dropdown">
-			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'data-toggle="dropdown" href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
+			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
 				<span class="fa fa-bell-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
 				<?php if (count($messages) > 0) : ?>
 					<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
 				<?php endif; ?>
 			</a>
-			<?php if (!$hideLinks) : ?>
-				<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
-					<div class="list-group">
-						<?php if (empty($messages)) : ?>
-						<p class="list-group-item text-center">
-							<strong><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></strong>
+			<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
+				<div class="list-group">
+					<?php if (empty($messages)) : ?>
+					<p class="list-group-item text-center">
+						<strong><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></strong>
+					</p>
+					<?php endif; ?>
+					<?php foreach ($messages as $message) : ?>
+					<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
+						<h5 class="list-group-item-heading"><?php echo HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?></h5>
+						<p class="list-group-item-text small">
+							<?php echo HTMLHelper::_('string.truncate', Text::_($message->description_key), 120, false, false); ?>
 						</p>
-						<?php endif; ?>
-						<?php foreach ($messages as $message) : ?>
-						<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
-							<h5 class="list-group-item-heading"><?php echo HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?></h5>
-							<p class="list-group-item-text small">
-								<?php echo HTMLHelper::_('string.truncate', Text::_($message->description_key), 120, false, false); ?>
-							</p>
-						</a>
-						<?php endforeach; ?>
-					</div>
+					</a>
+					<?php endforeach; ?>
 				</div>
-			<?php endif; ?>
+			</div>
 		</li>
 		<?php endif; ?>
 
 		<li class="nav-item dropdown header-profile">
-			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'data-toggle="dropdown" href="#"'); ?> title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
+			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
 				<span class="fa fa-user-o" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
 			</a>
-			<?php if (!$hideLinks) : ?>
-				<div class="dropdown-menu dropdown-menu-right">
-					<div class="dropdown-header">
-						<span class="fa fa-user-o" aria-hidden="true"></span>
-						<?php echo $user->name; ?>
-					</div>
-					<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
-					<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
-						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
-					<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_login&task=logout&'
-						. Session::getFormToken() . '=1'); ?>"><?php echo Text::_('JLOGOUT'); ?></a>
+			<div class="dropdown-menu dropdown-menu-right">
+				<div class="dropdown-header">
+					<span class="fa fa-user-o" aria-hidden="true"></span>
+					<?php echo $user->name; ?>
 				</div>
-			<?php endif; ?>
+				<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
+				<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
+					<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
+				<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_login&task=logout&'
+					. Session::getFormToken() . '=1'); ?>"><?php echo Text::_('JLOGOUT'); ?></a>
+			</div>
 		</li>
 
 	</ul>

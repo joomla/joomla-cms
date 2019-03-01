@@ -181,15 +181,19 @@ class HtmlView extends AbstractView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  void
+	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @throws  \Exception
 	 * @see     \JViewLegacy::loadTemplate()
 	 * @since   3.0
 	 */
 	public function display($tpl = null)
 	{
 		$result = $this->loadTemplate($tpl);
+
+		if ($result instanceof \Exception)
+		{
+			return $result;
+		}
 
 		echo $result;
 	}

@@ -43,7 +43,6 @@
 					class="switcher"
 					label="MOD_SEARCH_FIELD_BUTTON_LABEL"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -55,7 +54,6 @@
 					class="switcher"
 					label="MOD_SEARCH_FIELD_IMAGEBUTTON_LABEL"
 					default="0"
-					filter="integer"
 					showon="button:1"
 					>
 					<option value="0">JNO</option>
@@ -75,7 +73,6 @@
 					class="switcher"
 					label="MOD_SEARCH_FIELD_OPENSEARCH_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -93,7 +90,6 @@
 					type="menuitem"
 					label="MOD_SEARCH_FIELD_SETITEMID_LABEL"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">MOD_SEARCH_SELECT_MENU_ITEMID</option>
 				</field>
@@ -118,7 +114,6 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -129,7 +124,6 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
-					filter="integer"
 				/>
 
 				<field

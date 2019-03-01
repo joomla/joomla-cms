@@ -28,7 +28,6 @@
 					type="number"
 					label="MOD_LATEST_FIELD_COUNT_LABEL"
 					default="5"
-					filter="integer"
 				/>
 
 				<field
@@ -48,7 +47,6 @@
 					id="catid"
 					extension="com_content"
 					default=""
-					filter="integer"
 					>
 					<option value="">JOPTION_ANY_CATEGORY</option>
 				</field>
@@ -74,7 +72,7 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea"
+					type="textarea" 
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
 				/>
@@ -85,7 +83,6 @@
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
 					class="switcher"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

@@ -25,13 +25,12 @@ abstract class ContentHelperRoute
 	 * @param   integer  $id        The route of the content item.
 	 * @param   integer  $catid     The category ID.
 	 * @param   integer  $language  The language code.
-	 * @param   string   $layout    The layout value.
 	 *
 	 * @return  string  The article route.
 	 *
 	 * @since   1.5
 	 */
-	public static function getArticleRoute($id, $catid = 0, $language = 0, $layout = null)
+	public static function getArticleRoute($id, $catid = 0, $language = 0)
 	{
 		// Create the link
 		$link = 'index.php?option=com_content&view=article&id=' . $id;
@@ -46,11 +45,6 @@ abstract class ContentHelperRoute
 			$link .= '&lang=' . $language;
 		}
 
-		if ($layout)
-		{
-			$link .= '&layout=' . $layout;
-		}
-
 		return $link;
 	}
 
@@ -59,13 +53,12 @@ abstract class ContentHelperRoute
 	 *
 	 * @param   integer  $catid     The category ID.
 	 * @param   integer  $language  The language code.
-	 * @param   string   $layout    The layout value.
 	 *
 	 * @return  string  The article route.
 	 *
 	 * @since   1.5
 	 */
-	public static function getCategoryRoute($catid, $language = 0, $layout = null)
+	public static function getCategoryRoute($catid, $language = 0)
 	{
 		if ($catid instanceof CategoryNode)
 		{
@@ -78,19 +71,16 @@ abstract class ContentHelperRoute
 
 		if ($id < 1)
 		{
-			return '';
+			$link = '';
 		}
-
-		$link = 'index.php?option=com_content&view=category&id=' . $id;
-
-		if ($language && $language !== '*' && Multilanguage::isEnabled())
+		else
 		{
-			$link .= '&lang=' . $language;
-		}
+			$link = 'index.php?option=com_content&view=category&id=' . $id;
 
-		if ($layout)
-		{
-			$link .= '&layout=' . $layout;
+			if ($language && $language !== '*' && Multilanguage::isEnabled())
+			{
+				$link .= '&lang=' . $language;
+			}
 		}
 
 		return $link;

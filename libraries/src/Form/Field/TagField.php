@@ -51,7 +51,7 @@ class TagField extends ListField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.form.field.tag';
 
@@ -99,12 +99,6 @@ class TagField extends ListField
 				$this->value = explode(',', $this->value);
 			}
 
-			// Integer is given
-			if (is_int($this->value))
-			{
-				$this->value = array($this->value);
-			}
-
 			$data['value'] = $this->value;
 		}
 
@@ -126,7 +120,7 @@ class TagField extends ListField
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published'] ?: array(0, 1);
+		$published = $this->element['published']?: array(0, 1);
 		$app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
 
@@ -295,7 +289,7 @@ class TagField extends ListField
 	 *
 	 * @return  boolean
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function isRemoteSearch()
 	{

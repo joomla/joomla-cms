@@ -134,55 +134,55 @@ class ContactField extends FormField
 		// Select contact button
 		if ($allowSelect)
 		{
-			$html .= '<button'
-				. ' class="btn btn-primary hasTooltip' . ($value ? ' hidden' : '') . '"'
+			$html .= '<a'
+				. ' class="btn btn-primary hasTooltip' . ($value ? ' sr-only' : '') . '"'
 				. ' id="' . $this->id . '_select"'
 				. ' data-toggle="modal"'
-				. ' type="button"'
-				. ' data-target="#ModalSelect' . $modalId . '"'
+				. ' role="button"'
+				. ' href="#ModalSelect' . $modalId . '"'
 				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_CHANGE_CONTACT') . '">'
 				. '<span class="icon-file" aria-hidden="true"></span> ' . Text::_('JSELECT')
-				. '</button>';
+				. '</a>';
 		}
 
 		// New contact button
 		if ($allowNew)
 		{
-			$html .= '<button'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? ' hidden' : '') . '"'
+			$html .= '<a'
+				. ' class="btn btn-secondary hasTooltip' . ($value ? ' sr-only' : '') . '"'
 				. ' id="' . $this->id . '_new"'
 				. ' data-toggle="modal"'
-				. ' type="button"'
-				. ' data-target="#ModalNew' . $modalId . '"'
+				. ' role="button"'
+				. ' href="#ModalNew' . $modalId . '"'
 				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_NEW_CONTACT') . '">'
 				. '<span class="icon-new" aria-hidden="true"></span> ' . Text::_('JACTION_CREATE')
-				. '</button>';
+				. '</a>';
 		}
 
 		// Edit contact button
 		if ($allowEdit)
 		{
-			$html .= '<button'
-				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' hidden') . '"'
+			$html .= '<a'
+				. ' class="btn btn-secondary hasTooltip' . ($value ? '' : ' sr-only') . '"'
 				. ' id="' . $this->id . '_edit"'
 				. ' data-toggle="modal"'
-				. ' type="button"'
-				. ' data-target="#ModalEdit' . $modalId . '"'
+				. ' role="button"'
+				. ' href="#ModalEdit' . $modalId . '"'
 				. ' title="' . HTMLHelper::tooltipText('COM_CONTACT_EDIT_CONTACT') . '">'
 				. '<span class="icon-edit" aria-hidden="true"></span> ' . Text::_('JACTION_EDIT')
-				. '</button>';
+				. '</a>';
 		}
 
 		// Clear contact button
 		if ($allowClear)
 		{
-			$html .= '<button'
-				. ' class="btn btn-secondary' . ($value ? '' : ' hidden') . '"'
+			$html .= '<a'
+				. ' class="btn btn-secondary' . ($value ? '' : ' sr-only') . '"'
 				. ' id="' . $this->id . '_clear"'
-				. ' type="button"'
+				. ' href="#"'
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
 				. '<span class="icon-remove" aria-hidden="true"></span>' . Text::_('JCLEAR')
-				. '</button>';
+				. '</a>';
 		}
 
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)

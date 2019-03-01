@@ -331,11 +331,26 @@ class FieldsHelper
 		if ($form->getField('catid') && $parts[0] != 'com_fields')
 		{
 			/*
-			 * Setting some parameters for the category field
-			 */
-			$form->setFieldAttribute('catid', 'refresh-enabled', true);
-			$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
-			$form->setFieldAttribute('catid', 'refresh-section', $section);
+			 * Setting the onchange event to reload the page when the category
+			 * has changed
+			*/
+			$form->setFieldAttribute('catid', 'onchange', 'categoryHasChanged(this);');
+
+			// Preload spindle-wheel when we need to submit form due to category selector changed
+			Factory::getDocument()->addScriptDeclaration("
+			function categoryHasChanged(element) {
+				var cat = jQuery(element);
+				if (cat.val() == '" . $assignedCatids . "')return;
+				Joomla.loadingLayer('show');
+				jQuery('input[name=task]').val('" . $section . ".reload');
+				element.form.submit();
+			}
+			jQuery( document ).ready(function() {
+				Joomla.loadingLayer('load');
+				var formControl = '#" . $form->getFormControl() . "_catid';
+				if (!jQuery(formControl).val() != '" . $assignedCatids . "'){jQuery(formControl).val('" . $assignedCatids . "');}
+			});"
+			);
 		}
 
 		// Getting the fields
@@ -649,7 +664,7 @@ class FieldsHelper
 
 		$query->select($db->quoteName('c.title'))
 			->from($db->quoteName('#__fields_categories', 'a'))
-			->join('INNER', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
+			->join('LEFT', $db->quoteName('#__categories', 'c') . ' ON a.category_id = c.id')
 			->where('field_id = ' . $fieldId);
 
 		$db->setQuery($query);

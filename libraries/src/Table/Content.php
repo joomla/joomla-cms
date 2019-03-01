@@ -240,9 +240,6 @@ class Content extends Table
 			{
 				$this->metadata = '{}';
 			}
-
-			// Hits must be zero on a new item
-			$this->hits = 0;
 		}
 
 		// Set publish_up to null date if not set

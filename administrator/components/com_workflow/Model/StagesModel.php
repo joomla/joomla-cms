@@ -191,7 +191,7 @@ class StagesModel extends ListModel
 	 *
 	 * @return  object  The workflow
 	 *
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public function getWorkflow()
 	{

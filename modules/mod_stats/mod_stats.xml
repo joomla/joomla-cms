@@ -29,7 +29,6 @@
 					class="switcher"
 					label="MOD_STATS_FIELD_SERVERINFO_LABEL"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -41,7 +40,6 @@
 					class="switcher"
 					label="MOD_STATS_FIELD_SITEINFO_LABEL"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -53,7 +51,6 @@
 					class="switcher"
 					label="MOD_STATS_FIELD_COUNTER_LABEL"
 					default="0"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -64,7 +61,6 @@
 					type="number"
 					label="MOD_STATS_FIELD_INCREASECOUNTER_LABEL"
 					default="0"
-					filter="integer"
 				/>
 			</fieldset>
 			<fieldset name="advanced">
@@ -77,7 +73,7 @@
 
 				<field
 					name="moduleclass_sfx"
-					type="textarea"
+					type="textarea" 
 					label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL"
 					rows="3"
 				/>
@@ -87,7 +83,6 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -98,7 +93,6 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
-					filter="integer"
 				/>
 
 				<field

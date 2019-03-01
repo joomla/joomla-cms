@@ -237,8 +237,13 @@ class HtmlView extends BaseHtmlView
 			// Add an Apply and save button
 			if ($this->type == 'file')
 			{
-				ToolbarHelper::apply('template.apply');
-				ToolbarHelper::save('template.save');
+				ToolbarHelper::saveGroup(
+					[
+						['apply', 'template.apply'],
+						['save', 'template.save']
+					],
+					'btn-success'
+				);
 			}
 			// Add a Crop and Resize button
 			elseif ($this->type == 'image')

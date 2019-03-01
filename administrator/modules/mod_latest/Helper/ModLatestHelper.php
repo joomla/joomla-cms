@@ -42,7 +42,7 @@ abstract class ModLatestHelper
 			' a.access, a.created, a.created_by, a.created_by_alias, a.featured, a.state, a.publish_up, a.publish_down');
 
 		// Set Ordering filter
-		switch ($params->get('ordering', 'c_dsc'))
+		switch ($params->get('ordering'))
 		{
 			case 'm_dsc':
 				$model->setState('list.ordering', 'modified DESC, created');
@@ -57,7 +57,7 @@ abstract class ModLatestHelper
 		}
 
 		// Set Category Filter
-		$categoryId = $params->get('catid', null);
+		$categoryId = $params->get('catid');
 
 		if (is_numeric($categoryId))
 		{
@@ -67,7 +67,7 @@ abstract class ModLatestHelper
 		// Set User Filter.
 		$userId = $user->get('id');
 
-		switch ($params->get('user_id', '0'))
+		switch ($params->get('user_id'))
 		{
 			case 'by_me':
 				$model->setState('filter.author_id', $userId);
@@ -88,6 +88,8 @@ abstract class ModLatestHelper
 		if ($error = $model->getError())
 		{
 			throw new \Exception($error, 500);
+
+			return false;
 		}
 
 		// Set the links
@@ -113,8 +115,8 @@ abstract class ModLatestHelper
 	 */
 	public static function getTitle($params)
 	{
-		$who   = $params->get('user_id', 0);
-		$catid = (int) $params->get('catid', null);
+		$who   = $params->get('user_id');
+		$catid = (int) $params->get('catid');
 		$type  = $params->get('ordering') === 'c_dsc' ? '_CREATED' : '_MODIFIED';
 		$title = '';
 

@@ -6,14 +6,12 @@
 				name="rows"
 				type="number"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_ROWS_LABEL"
-				filter="integer"
 			/>
 
 			<field
 				name="cols"
 				type="number"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_COLS_LABEL"
-				filter="integer"
 			/>
 
 			<field
@@ -28,7 +26,6 @@
 				type="list"
 				label="PLG_FIELDS_TEXTAREA_PARAMS_FILTER_LABEL"
 				class="list"
-				validate="options"
 				>
 				<option value="">COM_FIELDS_FIELD_USE_GLOBAL</option>
 				<option value="0">JNO</option>

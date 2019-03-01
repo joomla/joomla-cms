@@ -10,4 +10,3 @@
 defined('JPATH_BASE') or die;
 ?>
 </div>
-</nav>

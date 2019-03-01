@@ -56,10 +56,10 @@ class XmlView extends BaseHtmlView
 
 		if ($menutype)
 		{
-			$root = MenusHelper::getMenuItems($menutype, true);
+			$items = MenusHelper::getMenuItems($menutype, true);
 		}
 
-		if ($root->hasChildren())
+		if (empty($items))
 		{
 			Log::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), Log::WARNING, 'jerror');
 
@@ -68,7 +68,7 @@ class XmlView extends BaseHtmlView
 			return;
 		}
 
-		$this->items = $root->getChildren();
+		$this->items = MenuHelper::createLevels($items);
 
 		$xml = new \SimpleXMLElement('<menu ' .
 			'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .

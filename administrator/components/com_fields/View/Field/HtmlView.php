@@ -117,10 +117,9 @@ class HtmlView extends BaseHtmlView
 		// For new records, check the create permission.
 		if ($isNew)
 		{
-			ToolbarHelper::apply('field.apply');
-			
 			ToolbarHelper::saveGroup(
 				[
+					['apply', 'field.apply'],
 					['save', 'field.save'],
 					['save2new', 'field.save2new']
 				],
@@ -139,8 +138,7 @@ class HtmlView extends BaseHtmlView
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				ToolbarHelper::apply('field.apply');
-				
+				$toolbarButtons[] = ['apply', 'field.apply'];
 				$toolbarButtons[] = ['save', 'field.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.

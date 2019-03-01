@@ -26,7 +26,6 @@
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_TITLE_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -38,7 +37,6 @@
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEX_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -48,6 +46,7 @@
 					name="article_index_text"
 					type="text"
 					label="PLG_CONTENT_PAGEBREAK_SITE_ARTICLEINDEXTEXT"
+					default=""
 					showon="article_index:1"
 				/>
 
@@ -57,7 +56,6 @@
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_TOC_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -69,7 +67,6 @@
 					class="switcher"
 					label="PLG_CONTENT_PAGEBREAK_SHOW_ALL_LABEL"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>

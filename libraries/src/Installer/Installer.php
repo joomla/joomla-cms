@@ -995,7 +995,7 @@ class Installer extends \JAdapter
 				if (count($queries) === 0)
 				{
 					// No queries to process
-					continue;
+					return 0;
 				}
 
 				$isUtf8mb4Db = $db instanceof UTF8MB4SupportInterface;

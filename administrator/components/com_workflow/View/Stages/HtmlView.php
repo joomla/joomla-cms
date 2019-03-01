@@ -77,7 +77,7 @@ class HtmlView extends BaseHtmlView
 	 * The current workflow
 	 *
 	 * @var     object
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $workflow;
 
@@ -160,25 +160,16 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', $this->escape($workflow)), 'address contact');
 
 		$isCore = $this->workflow->core;
-		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
-
-		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
-			'JTOOLBAR_BACK', $arrow
-		);
 
 		if ($canDo->get('core.create') && !$isCore)
 		{
 			ToolbarHelper::addNew('stage.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') && !$isCore)
 		{
-			if (!$isCore)
-			{
-				ToolbarHelper::publishList('stages.publish');
-				ToolbarHelper::unpublishList('stages.unpublish');
-			}
-
+			ToolbarHelper::publishList('stages.publish');
+			ToolbarHelper::unpublishList('stages.unpublish');
 			ToolbarHelper::makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
 		}
 

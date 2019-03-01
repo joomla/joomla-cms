@@ -129,7 +129,6 @@ class SiteMenu extends AbstractMenu
 
 			if (isset($this->getMenu()[$item->parent_id]))
 			{
-				$item->setParent($this->getMenu()[$item->parent_id]);
 				$parent_tree  = $this->getMenu()[$item->parent_id]->tree;
 			}
 

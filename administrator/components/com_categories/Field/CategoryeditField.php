@@ -44,7 +44,7 @@ class CategoryeditField extends ListField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $layout = 'joomla.form.field.categoryedit';
 
@@ -68,7 +68,7 @@ class CategoryeditField extends ListField
 
 		if ($return)
 		{
-			$this->allowAdd = isset($this->element['allowAdd']) ? (boolean) $this->element['allowAdd'] : false;
+			$this->allowAdd = $this->element['allowAdd'] ?? '';
 		}
 
 		return $return;
@@ -88,8 +88,7 @@ class CategoryeditField extends ListField
 		switch ($name)
 		{
 			case 'allowAdd':
-				return (bool) $this->$name;
-
+				return $this->$name;
 		}
 
 		return parent::__get($name);
@@ -349,11 +348,8 @@ class CategoryeditField extends ListField
 	{
 		$data = $this->getLayoutData();
 
-		$data['options']        = $this->getOptions();
-		$data['allowCustom']    = $this->allowAdd;
-		$data['refreshPage']    = (boolean) $this->element['refresh-enabled'];
-		$data['refreshCatId']   = (string) $this->element['refresh-cat-id'];
-		$data['refreshSection'] = (string) $this->element['refresh-section'];
+		$data['options']     = $this->getOptions();
+		$data['allowCustom'] = $this->allowAdd;
 
 		$renderer = $this->getRenderer($this->layout);
 		$renderer->setComponent('com_categories');

@@ -86,10 +86,13 @@ class HtmlView extends BaseHtmlView
 		// If not checked out, can save the item.
 		if ($canDo->get('core.edit'))
 		{
-			ToolbarHelper::apply('plugin.apply');
-
-			ToolbarHelper::save('plugin.save');
-
+			ToolbarHelper::saveGroup(
+				[
+					['apply', 'plugin.apply'],
+					['save', 'plugin.save']
+				],
+				'btn-success'
+			);
 		}
 
 		ToolbarHelper::cancel('plugin.cancel', 'JTOOLBAR_CLOSE');

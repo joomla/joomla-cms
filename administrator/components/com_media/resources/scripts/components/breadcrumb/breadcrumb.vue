@@ -1,11 +1,9 @@
 <template>
-    <nav class="media-breadcrumb" role="navigation" :aria-label="translate('COM_MEDIA_BREADCRUMB_LABEL')">
-        <ol>
-            <li class="media-breadcrumb-item" v-for="(val,index) in crumbs">
-                <a href="#" @click.stop.prevent="onCrumbClick(val)" v-bind:aria-current="(index === Object.keys(crumbs).length - 1) ? 'page' : undefined">{{ val.name }}</a>
-            </li>
-        </ol>
-    </nav>
+    <ol class="media-breadcrumb">
+        <li class="media-breadcrumb-item" v-for="crumb in crumbs">
+            <a @click.stop.prevent="onCrumbClick(crumb)">{{ crumb.name }}</a>
+        </li>
+    </ol>
 </template>
 
 <script>
@@ -64,7 +62,7 @@
                 });
 
                 return driveObject;
-            },
+            }
         },
     }
 </script>

@@ -136,7 +136,6 @@
 		name="alias"
 		type="text"
 		label="JFIELD_ALIAS_LABEL"
-		hint="JFIELD_ALIAS_PLACEHOLDER"
 		size="40"
 	/>
 

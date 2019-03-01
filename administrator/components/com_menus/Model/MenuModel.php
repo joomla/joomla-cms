@@ -246,7 +246,7 @@ class MenuModel extends FormModel
 		}
 
 		// Trigger the before event.
-		$result = Factory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew, $data));
+		$result = Factory::getApplication()->triggerEvent('onContentBeforeSave', array($this->_context, &$table, $isNew));
 
 		// Store the data.
 		if (in_array(false, $result, true) || !$table->store())

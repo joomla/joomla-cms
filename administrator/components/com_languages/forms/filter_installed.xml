@@ -3,7 +3,7 @@
 	<field
 		name="client_id"
 		type="list"
-		onchange="Joomla.resetFilters(this)"
+		onchange="jQuery('#filter_search, select[id^=filter_], #list_fullordering').val('');this.form.submit();"
 		filtermode="selector"
 		>
 		<option value="0">JSITE</option>

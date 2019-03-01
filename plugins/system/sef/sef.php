@@ -44,7 +44,7 @@ class PlgSystemSef extends CMSPlugin
 			return;
 		}
 
-		$sefDomain = $this->params->get('domain', false);
+		$sefDomain = $this->params->get('domain', '');
 
 		// Don't add a canonical html tag if no alternative domain has added in SEF plugin domain field.
 		if (empty($sefDomain))

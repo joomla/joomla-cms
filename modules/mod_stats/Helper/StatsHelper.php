@@ -36,10 +36,10 @@ class StatsHelper
 		$db         = Factory::getDbo();
 		$rows       = array();
 		$query      = $db->getQuery(true);
-		$serverinfo = $params->get('serverinfo', 0);
-		$siteinfo   = $params->get('siteinfo', 0);
-		$counter    = $params->get('counter', 0);
-		$increase   = $params->get('increase', 0);
+		$serverinfo = $params->get('serverinfo');
+		$siteinfo   = $params->get('siteinfo');
+		$counter    = $params->get('counter');
+		$increase   = $params->get('increase');
 
 		$i = 0;
 

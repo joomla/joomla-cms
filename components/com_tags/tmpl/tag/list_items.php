@@ -18,6 +18,7 @@ HTMLHelper::_('behavior.core');
 
 HTMLHelper::_('script', 'com_tags/tag-list.js', ['version' => 'auto', 'relative' => true]);
 
+$n         = count($this->items);
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
@@ -56,7 +57,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</fieldset>
 	<?php endif; ?>
 
-    <?php if (empty($this->items)) : ?>
+	<?php if ($this->items === false || $n === 0) : ?>
 		<p><?php echo Text::_('COM_TAGS_NO_ITEMS'); ?></p>
 	<?php else : ?>
 		<table class="com-tags-tag-list__category category table table-striped table-bordered table-hover">
@@ -83,13 +84,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			<?php endif; ?>
 			<tbody>
 				<?php foreach ($this->items as $i => $item) : ?>
-                    <?php if ($item->core_state == 0) : ?>
+					<?php if ($this->items[$i]->core_state == 0) : ?>
 						<tr class="table-danger">
 					<?php else : ?>
 						<tr>
 					<?php endif; ?>
 						<td <?php if ($this->params->get('show_headings')) echo "headers=\"categorylist_header_title\""; ?> class="list-title">
-                            <a href="<?php echo Route::_($item->link); ?>">
+							<a href="<?php echo Route::_(TagsHelperRoute::getItemRoute($item->content_item_id, $item->core_alias, $item->core_catid, $item->core_language, $item->type_alias, $item->router)); ?>">
 								<?php echo $this->escape($item->core_title); ?>
 							</a>
 							<?php if ($item->core_state == 0) : ?>
@@ -112,7 +113,10 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				<?php endforeach; ?>
 			</tbody>
 		</table>
-		<?php // Add pagination links ?>
+	<?php endif; ?>
+
+	<?php // Add pagination links ?>
+	<?php if (!empty($this->items)) : ?>
 		<?php if (($this->params->def('show_pagination', 2) == 1 || ($this->params->get('show_pagination') == 2)) && ($this->pagination->pagesTotal > 1)) : ?>
 			<div class="com-tags-tag-list__pagination w-100">
 				<?php if ($this->params->def('show_pagination_results', 1)) : ?>

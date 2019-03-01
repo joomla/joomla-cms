@@ -171,7 +171,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkSession()
 	{
-		$this->getContainer()->get(MetadataManager::class)->createOrUpdateRecord($this->getSession(), $this->getIdentity());
+		$metadataManager = new MetadataManager($this, Factory::getDbo());
+		$metadataManager->createRecordIfNonExisting(Factory::getSession(), Factory::getUser());
 	}
 
 	/**
@@ -662,6 +663,32 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Trigger the onAfterInitialise event.
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterInitialise');
+	}
+
+	/**
+	 * Is admin interface?
+	 *
+	 * @return  boolean  True if this application is administrator.
+	 *
+	 * @since   3.2
+	 * @deprecated  Use isClient('administrator') instead.
+	 */
+	public function isAdmin()
+	{
+		return $this->isClient('administrator');
+	}
+
+	/**
+	 * Is site interface?
+	 *
+	 * @return  boolean  True if this application is site.
+	 *
+	 * @since   3.2
+	 * @deprecated  Use isClient('site') instead.
+	 */
+	public function isSite()
+	{
+		return $this->isClient('site');
 	}
 
 	/**

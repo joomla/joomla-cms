@@ -148,11 +148,6 @@ class FieldTable extends Table
 				$this->created_time = $date->toSql();
 			}
 
-			if (!(int) $this->modified_time)
-			{
-				$this->modified_time = $date->toSql();
-			}
-
 			if (empty($this->created_user_id))
 			{
 				$this->created_user_id = $user->get('id');

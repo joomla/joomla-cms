@@ -222,15 +222,20 @@ class PlgUserProfile extends CMSPlugin
 	/**
 	 * Adds additional fields to the user editing form
 	 *
-	 * @param   Form   $form  The form to be altered.
+	 * @param   JForm  $form  The form to be altered.
 	 * @param   mixed  $data  The associated data for the form.
 	 *
 	 * @return  boolean
 	 *
 	 * @since   1.6
 	 */
-	public function onContentPrepareForm(Form $form, $data)
+	public function onContentPrepareForm($form, $data)
 	{
+		if (!($form instanceof Form))
+		{
+			throw new RuntimeException(Text::_('JERROR_NOT_A_FORM'), 500);
+		}
+
 		// Check we are manipulating a valid form.
 		$name = $form->getName();
 
@@ -277,11 +282,11 @@ class PlgUserProfile extends CMSPlugin
 			$form->setFieldAttribute('tos', 'description', 'PLG_USER_PROFILE_FIELD_TOS_DESC_SITE', 'profile');
 		}
 
-		$tosArticle = $this->params->get('register_tos_article');
-		$tosEnabled = $this->params->get('register-require_tos', 0);
+		$tosarticle = $this->params->get('register_tos_article');
+		$tosenabled = $this->params->get('register-require_tos', 0);
 
 		// We need to be in the registration form and field needs to be enabled
-		if ($name !== 'com_users.registration' || !$tosEnabled)
+		if ($name !== 'com_users.registration' || !$tosenabled)
 		{
 			// We only want the TOS in the registration form
 			$form->removeField('tos', 'profile');
@@ -289,7 +294,7 @@ class PlgUserProfile extends CMSPlugin
 		else
 		{
 			// Push the TOS article ID into the TOS field.
-			$form->setFieldAttribute('tos', 'article', $tosArticle, 'profile');
+			$form->setFieldAttribute('tos', 'article', $tosarticle, 'profile');
 		}
 
 		foreach ($fields as $field)
@@ -386,11 +391,11 @@ class PlgUserProfile extends CMSPlugin
 		// Check that the tos is checked if required ie only in registration from frontend.
 		$task       = Factory::getApplication()->input->getCmd('task');
 		$option     = Factory::getApplication()->input->getCmd('option');
-		$tosArticle = $this->params->get('register_tos_article');
-		$tosEnabled = ($this->params->get('register-require_tos', 0) == 2);
+		$tosarticle = $this->params->get('register_tos_article');
+		$tosenabled = ($this->params->get('register-require_tos', 0) == 2);
 
 		// Check that the tos is checked.
-		if ($task === 'register' && $tosEnabled && $tosArticle && $option === 'com_users' && !$data['profile']['tos'])
+		if ($task === 'register' && $tosenabled && $tosarticle && $option === 'com_users' && !$data['profile']['tos'])
 		{
 			throw new InvalidArgumentException(Text::_('PLG_USER_PROFILE_FIELD_TOS_DESC_SITE'));
 		}

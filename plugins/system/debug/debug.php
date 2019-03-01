@@ -31,6 +31,7 @@ use Joomla\Plugin\System\Debug\DataCollector\LanguageStringsCollector;
 use Joomla\Plugin\System\Debug\DataCollector\ProfileCollector;
 use Joomla\Plugin\System\Debug\DataCollector\QueryCollector;
 use Joomla\Plugin\System\Debug\DataCollector\SessionCollector;
+use Joomla\Plugin\System\Debug\DebugMonitor;
 use Joomla\Plugin\System\Debug\Storage\FileStorage;
 
 /**
@@ -113,7 +114,7 @@ class PlgSystemDebug extends CMSPlugin
 	/**
 	 * The query monitor.
 	 *
-	 * @var    \Joomla\Database\Monitor\DebugMonitor
+	 * @var    DebugMonitor
 	 * @since  4.0.0
 	 */
 	private $queryMonitor;
@@ -165,14 +166,10 @@ class PlgSystemDebug extends CMSPlugin
 		// @todo Remove when a standard autoloader is available.
 		JLoader::registerNamespace('Joomla\\Plugin\\System\\Debug', __DIR__, false, false, 'psr4');
 
-		/** @var \Joomla\Database\Monitor\DebugMonitor */
-		$this->queryMonitor = $this->db->getMonitor();
+		// Attach our query monitor to the database driver
+		$this->queryMonitor = new DebugMonitor(JDEBUG);
 
-		if (!$this->params->get('queries', 1))
-		{
-			// Remove the database driver monitor
-			$this->db->setMonitor(null);
-		}
+		$this->db->setMonitor($this->queryMonitor);
 
 		$storagePath = JPATH_CACHE . '/plg_system_debug_' . $this->app->getClientId();
 
@@ -371,7 +368,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// Log everything (except deprecated APIs, these are logged separately with the option above).
-		if ($this->params->get('log-everything', 0))
+		if ($this->params->get('log-everything'))
 		{
 			JLog::addLogger(array('text_file' => 'everything.php'), JLog::ALL, array('deprecated', 'databasequery'), true);
 		}
@@ -432,7 +429,7 @@ class PlgSystemDebug extends CMSPlugin
 		}
 
 		// If the user is not allowed to view the output then end here.
-		$filterGroups = (array) $this->params->get('filter_groups', array());
+		$filterGroups = (array) $this->params->get('filter_groups', null);
 
 		if (!empty($filterGroups))
 		{
@@ -469,8 +466,8 @@ class PlgSystemDebug extends CMSPlugin
 
 		$db = $event->getDriver();
 
-		// Remove the monitor to avoid monitoring the following queries
-		$db->setMonitor(null);
+		// Set a dummy monitor to avoid monitoring the following queries
+		$db->setMonitor(new DebugMonitor);
 
 		$this->totalQueries = $db->getCount();
 
@@ -511,9 +508,9 @@ class PlgSystemDebug extends CMSPlugin
 
 		if ($this->params->get('query_explains') && in_array($db->getServerType(), ['mysql', 'postgresql'], true))
 		{
-			$logs = $this->queryMonitor->getLogs();
+			$log = $this->queryMonitor->getLog();
 
-			foreach ($logs as $k => $query)
+			foreach ($log as $k => $query)
 			{
 				$dbVersion56 = $db->getServerType() === 'mysql' && version_compare($db->getVersion(), '5.6', '>=');
 

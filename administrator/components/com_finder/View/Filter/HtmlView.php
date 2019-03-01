@@ -123,10 +123,9 @@ class HtmlView extends BaseHtmlView
 			// For new records, check the create permission.
 			if ($canDo->get('core.create'))
 			{
-				ToolbarHelper::apply('filter.apply');
-				
 				ToolbarHelper::saveGroup(
 					[
+						['apply', 'filter.apply'],
 						['save', 'filter.save'],
 						['save2new', 'filter.save2new']
 					],
@@ -144,8 +143,7 @@ class HtmlView extends BaseHtmlView
 			// Since it's an existing record, check the edit permission.
 			if (!$checkedOut && $canDo->get('core.edit'))
 			{
-				ToolbarHelper::apply('filter.apply');
-				
+				$toolbarButtons[] = ['apply', 'filter.apply'];
 				$toolbarButtons[] = ['save', 'filter.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.

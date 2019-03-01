@@ -16,7 +16,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
-use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
@@ -136,53 +135,40 @@ class HtmlView extends BaseHtmlView
 
 		ToolbarHelper::title(Text::_('COM_USERS_VIEW_NOTES_TITLE'), 'users user');
 
-		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
-
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->addNew('note.add');
+			ToolbarHelper::addNew('note.add');
 		}
 
-		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
+		if ($canDo->get('core.edit.state'))
 		{
-			$dropdown = $toolbar->dropdownButton('status')
-					->text('JTOOLBAR_CHANGE_STATUS')
-					->toggleSplit(false)
-					->icon('fa fa-globe')
-					->buttonClass('btn btn-info')
-					->listCheck(true);
+			ToolbarHelper::divider();
+			ToolbarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
 
-			$childBar = $dropdown->getChildToolbar();
-
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->publish('notes.publish')->listCheck(true);
-				$childBar->unpublish('notes.unpublish')->listCheck(true);
-				$childBar->archive('notes.archive')->listCheck(true);
-				$childBar->checkin('notes.checkin')->listCheck(true);
-			}
-
-			if (!$this->state->get('filter.published') == -2 && $canDo->get('core.edit.state'))
-			{
-				$childBar->trash('notes.trash');
-			}
+			ToolbarHelper::divider();
+			ToolbarHelper::archiveList('notes.archive');
+			ToolbarHelper::checkin('notes.checkin');
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			$toolbar->delete('notes.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
+			ToolbarHelper::divider();
+		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::trash('notes.trash');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			$toolbar->preferences('com_users');
+			ToolbarHelper::preferences('com_users');
+			ToolbarHelper::divider();
 		}
 
-		$toolbar->help('JHELP_USERS_USER_NOTES');
+		ToolbarHelper::help('JHELP_USERS_USER_NOTES');
 
 		HTMLHelper::_('sidebar.setAction', 'index.php?option=com_users&view=notes');
 	}

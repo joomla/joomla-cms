@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
-use Joomla\CMS\Session\MetadataManager;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
 
@@ -55,7 +54,7 @@ class Console implements ServiceProviderInterface
 			SessionMetadataGcCommand::class,
 			function (Container $container)
 			{
-				return new SessionMetadataGcCommand($container->get('session'), $container->get(MetadataManager::class));
+				return new SessionMetadataGcCommand($container->get('session'), $container->get('db'));
 			},
 			true
 		);

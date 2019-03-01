@@ -12,9 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Updater\Updater;
-use Joomla\Console\Command\AbstractCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Joomla\Console\AbstractCommand;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
@@ -25,26 +23,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CheckUpdatesCommand extends AbstractCommand
 {
 	/**
-	 * The default command name
+	 * Execute the command.
 	 *
-	 * @var    string
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected static $defaultName = 'update:extensions:check';
-
-	/**
-	 * Internal function to execute the command.
-	 *
-	 * @param   InputInterface   $input   The input to inject into the command.
-	 * @param   OutputInterface  $output  The output to inject into the command.
-	 *
-	 * @return  integer  The command exit code
+	 * @return  integer  The exit code for the command.
 	 *
 	 * @since   4.0.0
 	 */
-	protected function doExecute(InputInterface $input, OutputInterface $output): int
+	public function execute(): int
 	{
-		$symfonyStyle = new SymfonyStyle($input, $output);
+		$symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
 
 		$symfonyStyle->title('Fetching Extension Updates');
 
@@ -62,14 +49,15 @@ class CheckUpdatesCommand extends AbstractCommand
 	}
 
 	/**
-	 * Configure the command.
+	 * Initialise the command.
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	protected function configure()
+	protected function initialise()
 	{
+		$this->setName('update:extensions:check');
 		$this->setDescription('Checks for pending extension updates');
 		$this->setHelp(
 <<<EOF

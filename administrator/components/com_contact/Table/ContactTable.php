@@ -191,12 +191,6 @@ class ContactTable extends Table
 			return false;
 		}
 
-		if (!$this->id)
-		{
-			// Hits must be zero on a new item
-			$this->hits = 0;
-		}
-
 		/*
 		 * Clean up keywords -- eliminate extra spaces between phrases
 		 * and cr (\r) and lf (\n) characters from string.

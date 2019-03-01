@@ -41,7 +41,7 @@ class ModulesModuleField extends \JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$clientId = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
+		$clientId = Factory::getApplication()->input->get('client_id', 0, 'int');
 		$options  = ModulesHelper::getModules($clientId);
 
 		return array_merge(parent::getOptions(), $options);

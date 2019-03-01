@@ -13,11 +13,9 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<div class="sysinfo">
+<fieldset class="adminform">
+	<legend><?php echo Text::_('COM_ADMIN_RELEVANT_PHP_SETTINGS'); ?></legend>
 	<table class="table">
-		<caption class="sr-only">
-			<?php echo Text::_('COM_ADMIN_PHP_SETTINGS'); ?>
-		</caption>
 		<thead>
 			<tr>
 				<th scope="col" style="width:250px">
@@ -28,6 +26,12 @@ use Joomla\CMS\Language\Text;
 				</th>
 			</tr>
 		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="2">&#160;
+				</td>
+			</tr>
+		</tfoot>
 		<tbody>
 			<tr>
 				<th scope="row">
@@ -143,4 +147,4 @@ use Joomla\CMS\Language\Text;
 			</tr>
 		</tbody>
 	</table>
-</div>
+</fieldset>

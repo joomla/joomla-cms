@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
 use Joomla\CMS\Event\AbstractImmutableEvent;
+use Joomla\CMS\WebAsset\WebAssetRegistry;
 
 /**
  * Event class for WebAsset events
@@ -38,5 +39,26 @@ abstract class AbstractEvent extends AbstractImmutableEvent
 		}
 
 		parent::__construct($name, $arguments);
+	}
+
+	/**
+	 * Setter for the subject argument
+	 *
+	 * @param   WebAssetRegistry  $value  The value to set
+	 *
+	 * @return  WebAssetRegistry
+	 *
+	 * @throws  BadMethodCallException  if the argument is not of the expected type
+	 *
+	 * @since   4.0.0
+	 */
+	protected function setSubject($value)
+	{
+		if (!$value || !($value instanceof WebAssetRegistry))
+		{
+			throw new BadMethodCallException("Argument 'subject' of event {$this->name} is not of the expected type");
+		}
+
+		return $value;
 	}
 }

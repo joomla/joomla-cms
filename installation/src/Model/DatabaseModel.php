@@ -180,16 +180,9 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Validate database name.
-		if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
+		if (!preg_match('#^[a-zA-Z][0-9a-zA-Z_$]*$#', $options->db_name))
 		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'warning');
-
-			return false;
-		}
-
-		if (in_array($options->db_type, ['mysql', 'mysqli']) && preg_match('#[\\\\\/\.]#', $options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_MYSQL'), 'warning');
+			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG'), 'warning');
 
 			return false;
 		}
@@ -296,7 +289,7 @@ class DatabaseModel extends BaseInstallationModel
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass_plain,
+				$options->db_pass,
 				$options->db_name,
 				$options->db_prefix,
 				isset($options->db_select) ? $options->db_select : false
@@ -369,7 +362,7 @@ class DatabaseModel extends BaseInstallationModel
 					'driver'   => $options->db_type,
 					'host'     => $options->db_host,
 					'user'     => $options->db_user,
-					'password' => $options->db_pass_plain,
+					'password' => $options->db_pass,
 					'prefix'   => $options->db_prefix,
 					'select'   => $options->db_select,
 				);
@@ -738,7 +731,7 @@ class DatabaseModel extends BaseInstallationModel
 	 */
 	public function installSampleData()
 	{
-		$db = Factory::getDbo();
+		$db = \JFactory::getDbo();
 
 		// Build the path to the sample data file.
 		$type = $db->getServerType();

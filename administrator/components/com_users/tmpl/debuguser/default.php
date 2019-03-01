@@ -27,28 +27,28 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col">
+						<th>
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_TITLE', 'a.title', $listDirn, $listOrder); ?>
 						</th>
-						<th scope="col">
+						<th>
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ASSET_NAME', 'a.name', $listDirn, $listOrder); ?>
 						</th>
 						<?php foreach ($this->actions as $key => $action) : ?>
-						<th style="width:6%" class="text-center" scope="col">
+						<th style="width:6%" class="text-center">
 							<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $key, $action[1]); ?>"><?php echo Text::_($key); ?></span>
 						</th>
 						<?php endforeach; ?>
-						<th style="width:6%" scope="col">
+						<th style="width:6%">
 							<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_LFT', 'a.lft', $listDirn, $listOrder); ?>
 						</th>
-						<th style="width:3%" scope="col">
+						<th style="width:3%">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
-						<tr class="row0" scope="row">
+						<tr class="row0">
 							<td>
 								<?php echo $this->escape($item->title); ?>
 							</td>
@@ -62,24 +62,19 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								if ($check === true) :
 									$class  = 'text-success icon-ok';
 									$button = 'btn-success';
-									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW');
 								elseif ($check === false) :
 									$class  = 'icon-remove';
 									$button = 'btn-danger';
-									$text   = Text::_('COM_USERS_DEBUG_EXPLICIT_DENY');
 								elseif ($check === null) :
 									$class  = 'text-danger icon-ban-circle';
 									$button = 'btn-warning';
-									$text   = Text::_('COM_USERS_DEBUG_IMPLICIT_DENY');
 								else :
 									$class  = '';
 									$button = '';
-									$text   = '';
 								endif;
 								?>
 							<td class="text-center">
-								<span class="<?php echo $class; ?>" aria-hidden="true"></span>
-								<span class="sr-only"> <?php echo $text; ?></span>
+								<span class="<?php echo $class; ?>"></span>
 							</td>
 							<?php endforeach; ?>
 							<td>
@@ -95,7 +90,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 			</table>
 			<div class="legend">
 				<span class="text-danger icon-ban-circle" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_IMPLICIT_DENY'); ?>&nbsp;
-				<span class="text-success icon-ok" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
+				<span class="icon-ok" aria-hidden="true"></span>&nbsp;<?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_ALLOW'); ?>&nbsp;
 				<span class="icon-remove icon-remove" aria-hidden="true">&nbsp;</span><?php echo Text::_('COM_USERS_DEBUG_EXPLICIT_DENY'); ?>
 			</div>
 

@@ -20,7 +20,7 @@ use Joomla\Component\Cpanel\Administrator\Entities\SystemItem;
 /**
  * Model to get a list of system icons.
  *
- * @since  4.0.0
+ * @since  __DEPLOY_VERSION__
  */
 class SystemModel extends BaseDatabaseModel
 {
@@ -29,7 +29,7 @@ class SystemModel extends BaseDatabaseModel
 	 *
 	 * @return  array
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getItems()
 	{
@@ -64,22 +64,37 @@ class SystemModel extends BaseDatabaseModel
 
 		if ($user->authorise('core.manage', 'com_checkin'))
 		{
+			/** @var \Joomla\Component\Checkin\Administrator\Model\CheckinModel $checkinModel */
+			$checkinModel = $this->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
+			$checkins     = count($checkinModel->getItems());
+
 			$maintainSection->addItem(
-				new SystemItem('MOD_MENU_GLOBAL_CHECKIN', 'index.php?option=com_checkin', 'checkins')
+				new SystemItem('MOD_MENU_GLOBAL_CHECKIN', 'index.php?option=com_checkin', $checkins)
 			);
 		}
 
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
+			/** @var \Joomla\Component\Installer\Administrator\Extension\InstallerComponent $installerComponent */
+			$installerComponent = $this->bootComponent('com_installer');
+
+			/** @var \Joomla\Component\Installer\Administrator\Model\WarningsModel $warningsModel */
+			$warningsModel = $installerComponent->getMVCFactory()->createModel('Warnings', 'Administrator', ['ignore_request' => true]);
+			$warningMessages = count($warningsModel->getItems());
+
 			$infoSection->addItem(
-				new SystemItem('MOD_MENU_INFORMATION_WARNINGS', 'index.php?option=com_installer&view=warnings', 'installationwarnings')
+				new SystemItem('MOD_MENU_INFORMATION_WARNINGS', 'index.php?option=com_installer&view=warnings', $warningMessages)
 			);
 		}
 
 		if ($user->authorise('core.manage', 'com_postinstall'))
 		{
+			/** @var \Joomla\Component\Postinstall\Administrator\Model\MessagesModel $messagesModel */
+			$messagesModel = $this->bootComponent('com_postinstall')->getMVCFactory()->createModel('Messages', 'Administrator', ['ignore_request' => true]);
+			$messages      = count($messagesModel->getItems());
+
 			$infoSection->addItem(
-				new SystemItem('MOD_MENU_INFORMATION_POST_INSTALL_MESSAGES', 'index.php?option=com_postinstall', 'postinstall')
+				new SystemItem('MOD_MENU_INFORMATION_POST_INSTALL_MESSAGES', 'index.php?option=com_postinstall', $messages)
 			);
 		}
 
@@ -92,19 +107,38 @@ class SystemModel extends BaseDatabaseModel
 
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
+			/** @var \Joomla\Component\Installer\Administrator\Model\DatabaseModel $warningsModel */
+			$databaseModel  = $installerComponent->getMVCFactory()->createModel('Database', 'Administrator', ['ignore_request' => true]);
+			$changeSet      = $databaseModel->getItems();
+			$changeSetCount = 0;
+
+			foreach ($changeSet as $item)
+			{
+				$changeSetCount += $item['errorsCount'];
+			}
+
 			$infoSection->addItem(
-				new SystemItem('MOD_MENU_SYSTEM_INFORMATION_DATABASE', 'index.php?option=com_installer&view=database', 'databaseupdate')
+				new SystemItem(
+					'MOD_MENU_SYSTEM_INFORMATION_DATABASE',
+					'index.php?option=com_installer&view=database',
+					$changeSetCount === 0 ? '' : $changeSetCount
+				)
 			);
 		}
 
 		// Install
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
+			/** @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $discoverModel */
+			$discoverModel = $this->bootComponent('com_installer')->getMVCFactory()->createModel('Discover', 'Administrator', ['ignore_request' => true]);
+			$discoverModel->discover();
+			$discoveredExtensions = count($discoverModel->getItems());
+
 			$installSection->addItem(
 				new SystemItem('MOD_MENU_INSTALL_EXTENSIONS', 'index.php?option=com_installer&view=install')
 			);
 			$installSection->addItem(
-				new SystemItem('MOD_MENU_INSTALL_DISCOVER', 'index.php?option=com_installer&view=discover', 'extensiondiscover')
+				new SystemItem('MOD_MENU_INSTALL_DISCOVER', 'index.php?option=com_installer&view=discover', $discoveredExtensions)
 			);
 			$installSection->addItem(
 				new SystemItem('MOD_MENU_INSTALL_LANGUAGES', 'index.php?option=com_installer&view=languages')
@@ -165,15 +199,27 @@ class SystemModel extends BaseDatabaseModel
 
 		if ($user->authorise('core.manage', 'com_joomlaupdate'))
 		{
+			/** @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $joomlaUpdateModel */
+			$joomlaUpdateModel = $this->bootComponent('com_joomlaupdate')->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
+			$joomlaUpdateModel->refreshUpdates(true);
+			$joomlaUpdate      = $joomlaUpdateModel->getUpdateInformation();
+			$hasUpdate         = $joomlaUpdate['hasUpdate'] ? $joomlaUpdate['latest'] : '';
+
 			$updateSection->addItem(
-				new SystemItem('MOD_MENU_UPDATE_JOOMLA', 'index.php?option=com_joomlaupdate', 'systemupdate')
+				new SystemItem('MOD_MENU_UPDATE_JOOMLA', 'index.php?option=com_joomlaupdate', $hasUpdate)
 			);
 		}
 
 		if ($user->authorise('core.manage', 'com_installer'))
 		{
+			Updater::getInstance()->findUpdates();
+
+			/** @var \Joomla\Component\Installer\Administrator\Model\UpdateModel $updateModel */
+			$updateModel     = $installerComponent->getMVCFactory()->createModel('Update', 'Administrator', ['ignore_request' => true]);
+			$extensionsCount = count($updateModel->getItems());
+
 			$updateSection->addItem(
-				new SystemItem('MOD_MENU_UPDATE_EXTENSIONS', 'index.php?option=com_installer&view=update', 'extensionupdate')
+				new SystemItem('MOD_MENU_UPDATE_EXTENSIONS', 'index.php?option=com_installer&view=update', $extensionsCount)
 			);
 
 			$updateSection->addItem(

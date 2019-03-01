@@ -18,7 +18,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 use Joomla\Registry\Registry;
 
@@ -107,8 +106,7 @@ class Icon
 		$link     = $base . Route::_(\ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language), false);
 		$url      = 'index.php?option=com_mailto&tmpl=component&template=' . $template . '&link=' . MailtoHelper::addLink($link);
 
-		$height = Factory::getApplication()->get('captcha', '0') === '0' ? 450 : 550;
-		$status = 'width=400,height=' . $height . ',menubar=yes,resizable=yes';
+		$status = 'width=400,height=350,menubar=yes,resizable=yes';
 
 		$text = LayoutHelper::render('joomla.content.icons.email', array('params' => $params, 'legacy' => $legacy));
 
@@ -147,7 +145,7 @@ class Icon
 		}
 
 		// Ignore if the state is negative (trashed).
-		if (!in_array($article->state, [Workflow::CONDITION_UNPUBLISHED, Workflow::CONDITION_PUBLISHED]))
+		if ($article->state < 0)
 		{
 			return;
 		}
@@ -176,7 +174,7 @@ class Icon
 		$contentUrl = \ContentHelperRoute::getArticleRoute($article->slug, $article->catid, $article->language);
 		$url        = $contentUrl . '&task=article.edit&a_id=' . $article->id . '&return=' . base64_encode($uri);
 
-		if ($article->state == Workflow::CONDITION_UNPUBLISHED)
+		if ($article->state == 0)
 		{
 			$overlib = Text::_('JUNPUBLISHED');
 		}
@@ -244,6 +242,6 @@ class Icon
 	{
 		$text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
 
-		return '<button type="button" onclick="window.print();return false;">' . $text . '</button>';
+		return '<a href="#" onclick="window.print();return false;">' . $text . '</a>';
 	}
 }

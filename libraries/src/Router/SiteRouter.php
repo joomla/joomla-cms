@@ -225,45 +225,54 @@ class SiteRouter extends Router
 		else
 		{
 			// Get menu items.
-			$items    = $this->menu->getItems('parent_id', 1);
-			$lang_tag = $this->app->getLanguage()->getTag();
-			$found   = null;
+			$items = $this->menu->getMenu();
 
-			foreach ($segments as $segment)
+			$found           = false;
+			$route_lowercase = StringHelper::strtolower($route);
+			$lang_tag        = $this->app->getLanguage()->getTag();
+
+			// Iterate through all items and check route matches.
+			foreach ($items as $item)
 			{
-				$matched = false;
-
-				foreach ($items as $item)
+				if ($item->route && StringHelper::strpos($route_lowercase . '/', $item->route . '/') === 0 && $item->type !== 'menulink')
 				{
-					if ($item->alias == $segment
-						&& (!$this->app->getLanguageFilter() 
-						|| ($item->language === '*' 
-						|| $item->language === $lang_tag)))
+					// Usual method for non-multilingual site.
+					if (!$this->app->getLanguageFilter())
 					{
-						$found = $item;
-						$matched = true;
-						$items = $item->getChildren();
-						break;
+						// Exact route match. We can break iteration because exact item was found.
+						if ($item->route === $route_lowercase)
+						{
+							$found = $item;
+							break;
+						}
+
+						// Partial route match. Item with highest level takes priority.
+						if (!$found || $found->level < $item->level)
+						{
+							$found = $item;
+						}
 					}
-				}
+					// Multilingual site.
+					elseif ($item->language === '*' || $item->language === $lang_tag)
+					{
+						// Exact route match.
+						if ($item->route === $route_lowercase)
+						{
+							$found = $item;
 
-				if (!$matched)
-				{
-					break;
-				}
-			}
+							// Break iteration only if language is matched.
+							if ($item->language === $lang_tag)
+							{
+								break;
+							}
+						}
 
-			// Menu links are not valid URLs. Find the first parent that isn't a menulink
-			if ($found && $found->type == 'menulink')
-			{
-				while ($found->hasParent() && $found->type == 'menulink')
-				{
-					$found = $found->getParent();
-				}
-
-				if ($found->type == 'menulink')
-				{
-					$found = null;
+						// Partial route match. Item with highest level or same language takes priority.
+						if (!$found || $found->level < $item->level || $item->language === $lang_tag)
+						{
+							$found = $item;
+						}
+					}
 				}
 			}
 
@@ -374,9 +383,7 @@ class SiteRouter extends Router
 	public function parsePaginationData(&$router, &$uri)
 	{
 		// Process the pagination support
-		$start = $uri->getVar('start');
-
-		if ($start !== null)
+		if ($uri->getVar('start'))
 		{
 			$uri->setVar('limitstart', $uri->getVar('start'));
 			$uri->delVar('start');
@@ -516,9 +523,7 @@ class SiteRouter extends Router
 	 */
 	public function buildPaginationData(&$router, &$uri)
 	{
-		$limitstart = $uri->getVar('limitstart');
-
-		if ($limitstart !== null)
+		if ($uri->getVar('limitstart'))
 		{
 			$uri->setVar('start', (int) $uri->getVar('limitstart'));
 			$uri->delVar('limitstart');

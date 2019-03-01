@@ -15,7 +15,6 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\CMS\MVC\Model\ModelInterface;
 use Joomla\CMS\Table\Table;
 use Joomla\Input\Input;
 
@@ -54,7 +53,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  ModelInterface  The model object
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -76,7 +75,7 @@ class LegacyFactory implements MVCFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
+	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception

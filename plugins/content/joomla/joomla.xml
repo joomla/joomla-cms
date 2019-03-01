@@ -26,7 +26,6 @@
 					label="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_LABEL"
 					description="PLG_CONTENT_JOOMLA_FIELD_CHECK_CATEGORIES_DESC"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
@@ -39,7 +38,6 @@
 					description="PLG_CONTENT_JOOMLA_FIELD_EMAIL_NEW_FE_DESC"
 					class="switcher"
 					default="1"
-					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

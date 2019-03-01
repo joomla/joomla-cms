@@ -78,7 +78,7 @@ class DownloadModel extends FormModel
 	 */
 	protected function loadFormData()
 	{
-		$data = (object) array(
+		$data = array(
 			'basename'   => $this->getState('basename'),
 			'compressed' => $this->getState('compressed'),
 		);

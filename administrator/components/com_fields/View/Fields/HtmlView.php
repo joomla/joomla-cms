@@ -138,7 +138,7 @@ class HtmlView extends BaseHtmlView
 		$canDo     = ContentHelper::getActions($component, 'field', $fieldId);
 
 		// Get the toolbar object instance
-		$toolbar = Toolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Avoid nonsense situation.
 		if ($component == 'com_fields')
@@ -158,61 +158,53 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.create'))
 		{
-			$toolbar->addNew('field.add');
+			ToolbarHelper::addNew('field.add');
 		}
 
-		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
+		if ($canDo->get('core.edit.state'))
 		{
-			$dropdown = $toolbar->dropdownButton('status-group')
-				->text('JTOOLBAR_CHANGE_STATUS')
-				->toggleSplit(false)
-				->icon('fa fa-globe')
-				->buttonClass('btn btn-info')
-				->listCheck(true);
-
-			$childBar = $dropdown->getChildToolbar();
-
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->publish('fields.publish')->listCheck(true);
-
-				$childBar->unpublish('fields.unpublish')->listCheck(true);
-
-				$childBar->archive('fields.archive')->listCheck(true);
-			}
-
-			if (Factory::getUser()->authorise('core.admin'))
-			{
-				$childBar->checkin('fields.checkin')->listCheck(true);
-			}
-
-			if ($canDo->get('core.edit.state'))
-			{
-				$childBar->trash('fields.trash')->listCheck(true);
-			}
+			ToolbarHelper::publish('fields.publish', 'JTOOLBAR_PUBLISH', true);
+			ToolbarHelper::unpublish('fields.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			ToolbarHelper::archiveList('fields.archive');
 		}
 
+		if (Factory::getUser()->authorise('core.admin'))
+		{
+			ToolbarHelper::checkin('fields.checkin');
+		}
 
 		// Add a batch button
 		if ($canDo->get('core.create') && $canDo->get('core.edit') && $canDo->get('core.edit.state'))
 		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			$title = Text::_('JTOOLBAR_BATCH');
+
+			// Instantiate a new FileLayout instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
+
+			$dhtml = $layout->render(
+				array(
+					'title' => $title,
+				)
+			);
+
+			$bar->appendButton('Custom', $dhtml, 'batch');
 		}
 
 		if ($this->state->get('filter.state') == -2 && $canDo->get('core.delete', $component))
 		{
 			ToolbarHelper::deleteList('', 'fields.delete', 'JTOOLBAR_EMPTY_TRASH');
 		}
+		elseif ($canDo->get('core.edit.state'))
+		{
+			ToolbarHelper::trash('fields.trash');
+		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			$toolbar->preferences($component);
+			ToolbarHelper::preferences($component);
 		}
 
-		$toolbar->help('JHELP_COMPONENTS_FIELDS_FIELDS');
+		ToolbarHelper::help('JHELP_COMPONENTS_FIELDS_FIELDS');
 	}
 
 	/**

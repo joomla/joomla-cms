@@ -23,7 +23,9 @@ use Joomla\Component\Mailto\Site\Helper\MailtoHelper;
 /**
  * Mailer Component Controller.
  *
- * @since  1.5
+ * @package     Joomla.Site
+ * @subpackage  com_mailto
+ * @since       1.5
  */
 class DisplayController extends BaseController
 {
@@ -32,10 +34,11 @@ class DisplayController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   1.5
+	 * @since 1.5
 	 */
 	public function mailto()
 	{
+		$this->app->getSession()->set('com_mailto.formtime', time());
 		$this->input->set('view', 'mailto');
 		$this->display();
 	}
@@ -52,33 +55,24 @@ class DisplayController extends BaseController
 		// Check for request forgeries
 		$this->checkToken();
 
-		/** @var \Joomla\Component\Mailto\Site\Model\MailtoModel $model */
-		$model   = $this->getModel('mailto');
-		$data    = $model->getData();
+		$session = $this->app->getSession();
+		$timeout = $session->get('com_mailto.formtime', 0);
 
-		// Validate the posted data.
-		$form = $model->getForm();
-
-		if (!$form)
+		if ($timeout == 0 || time() - $timeout < 20)
 		{
-			throw new \RuntimeException($model->getError());
+			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
+
+			return $this->mailto();
 		}
 
-		if (!$model->validate($form, $data))
+		$SiteName = $this->app->get('sitename');
+		$link     = MailtoHelper::validateHash($this->input->get('link', '', 'post'));
+
+		// Verify that this is a local link
+		if (!$link || !Uri::isInternal($link))
 		{
-			$errors = $model->getErrors();
-
-			foreach ($errors as $error)
-			{
-				$errorMessage = $error;
-
-				if ($error instanceof \Exception)
-				{
-					$errorMessage = $error->getMessage();
-				}
-
-				$this->app->enqueueMessage($errorMessage, 'error');
-			}
+			// Non-local url...
+			$this->setMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'), 'notice');
 
 			return $this->mailto();
 		}
@@ -92,16 +86,24 @@ class DisplayController extends BaseController
 			'cc:'
 		);
 
+		// An array of the input fields to scan for injected headers
+		$fields = array(
+			'mailto',
+			'sender',
+			'from',
+			'subject',
+		);
+
 		/*
 		 * Here is the meat and potatoes of the header injection test.  We
 		 * iterate over the array of form input and check for header strings.
 		 * If we find one, send an unauthorized header and die.
 		 */
-		foreach ($data as $key => $value)
+		foreach ($fields as $field)
 		{
 			foreach ($headers as $header)
 			{
-				if (strpos($value, $header) !== false)
+				if (strpos($this->input->post->getString($field), $header) !== false)
 				{
 					throw new \Exception('', 403);
 				}
@@ -113,36 +115,25 @@ class DisplayController extends BaseController
 		 */
 		unset($headers, $fields);
 
-		$siteName = $this->app->get('sitename');
-		$link     = MailtoHelper::validateHash($this->input->post->get('link', '', 'post'));
-
-		// Verify that this is a local link
-		if (!$link || !Uri::isInternal($link))
-		{
-			// Non-local url...
-			$this->app->enqueueMessage(Text::_('COM_MAILTO_EMAIL_NOT_SENT'));
-
-			return $this->mailto();
-		}
-
-		$subject_default = Text::sprintf('COM_MAILTO_SENT_BY', $data['sender']);
-		$subject         = $data['subject'] !== '' ? $data['subject'] : $subject_default;
+		$email           = $this->input->post->getString('mailto', '');
+		$sender          = $this->input->post->getString('sender', '');
+		$from            = $this->input->post->getString('from', '');
+		$subject_default = Text::sprintf('COM_MAILTO_SENT_BY', $sender);
+		$subject         = $this->input->post->getString('subject', '') !== '' ? $this->input->post->getString('subject') : $subject_default;
 
 		// Check for a valid to address
 		$error = false;
 
-		if (!$data['emailto'] || !MailHelper::isEmailAddress($data['emailto']))
+		if (!$email || !MailHelper::isEmailAddress($email))
 		{
-			$error = Text::sprintf('COM_MAILTO_EMAIL_INVALID', $data['emailto']);
-
+			$error = Text::sprintf('COM_MAILTO_EMAIL_INVALID', $email);
 			$this->app->enqueueMessage($error, 'warning');
 		}
 
 		// Check for a valid from address
-		if (!$data['emailfrom'] || !MailHelper::isEmailAddress($data['emailfrom']))
+		if (!$from || !MailHelper::isEmailAddress($from))
 		{
-			$error = Text::sprintf('COM_MAILTO_EMAIL_INVALID', $data['emailfrom']);
-
+			$error = Text::sprintf('COM_MAILTO_EMAIL_INVALID', $from);
 			$this->app->enqueueMessage($error, 'warning');
 		}
 
@@ -153,21 +144,21 @@ class DisplayController extends BaseController
 
 		// Build the message to send
 		$msg  = Text::_('COM_MAILTO_EMAIL_MSG');
-		$body = sprintf($msg, $siteName, $data['sender'], $data['emailfrom'], $link);
+		$body = sprintf($msg, $SiteName, $sender, $from, $link);
 
 		// Clean the email data
 		$subject = MailHelper::cleanSubject($subject);
 		$body    = MailHelper::cleanBody($body);
 
 		// To send we need to use punycode.
-		$data['emailfrom'] = PunycodeHelper::emailToPunycode($data['emailfrom']);
-		$data['emailfrom'] = MailHelper::cleanAddress($data['emailfrom']);
-		$data['emailto']   = PunycodeHelper::emailToPunycode($data['emailto']);
+		$from  = PunycodeHelper::emailToPunycode($from);
+		$from  = MailHelper::cleanAddress($from);
+		$email = PunycodeHelper::emailToPunycode($email);
 
 		// Try to send the email
 		try
 		{
-			$return = Factory::getMailer()->sendMail($data['emailfrom'], $data['sender'], $data['emailto'], $subject, $body);
+			$return = Factory::getMailer()->sendMail($from, $sender, $email, $subject, $body);
 		}
 		catch (\Exception $exception)
 		{
