@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -604,7 +604,7 @@ abstract class FormField
 		{
 			$this->value = (array) json_decode($value);
 		}
-		else 
+		else
 		{
 			$this->value = $value;
 		}
@@ -1037,7 +1037,9 @@ abstract class FormField
 	 */
 	protected function getLayoutPaths()
 	{
-		return array();
+		$renderer = new FileLayout('default');
+
+		return $renderer->getDefaultIncludePaths();
 	}
 
 	/**

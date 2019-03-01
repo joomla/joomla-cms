@@ -3,13 +3,14 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\Registry\Registry;
+use Joomla\Utilities\IpHelper;
 
 /**
  * Content Component Article Model
@@ -269,7 +270,7 @@ class ContentModelArticle extends JModelItem
 	{
 		if ($rate >= 1 && $rate <= 5 && $pk > 0)
 		{
-			$userIP = $_SERVER['REMOTE_ADDR'];
+			$userIP = IpHelper::getIp();
 
 			// Initialize variables.
 			$db    = $this->getDbo();
