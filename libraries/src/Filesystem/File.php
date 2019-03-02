@@ -447,7 +447,15 @@ class File
 			else
 			{
 				$file = $pathObject->clean($file);
-				$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
+				if(is_writable($file))
+				{
+					$ret = is_int(file_put_contents($file, $buffer)) ? true : false;
+				}
+				else
+				{
+					echo dirname($file) . ": Permission denied";
+					$ret = false;
+				}
 			}
 
 			return $ret;
