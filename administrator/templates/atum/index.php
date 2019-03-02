@@ -31,6 +31,7 @@ $cpanel      = $option === 'com_cpanel';
 $hidden      = $app->input->get('hidemainmenu');
 $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.svg';
 $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+$menuLayout  = $this->params->get('menuLayout', 'side');
 
 // Enable assets
 $wa->enableAsset('template.atum.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
@@ -54,7 +55,7 @@ $this->addScriptDeclaration('cssVars();');
 	<jdoc:include type="scripts" />
 </head>
 
-<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid; ?>">
+<body class="admin <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' menu-' . $menuLayout; ?>">
 
 	<noscript>
 		<div class="alert alert-danger" role="alert">
@@ -92,7 +93,7 @@ $this->addScriptDeclaration('cssVars();');
 		<?php if (!$hidden) : ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hidden ? 'data-hidden="' . $hidden . '"' : ''; ?>>
 			<jdoc:include type="modules" name="menu" style="none" />
-			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
+			<div id="main-brand" class="main-brand align-items-center justify-content-center">
 				<img src="<?php echo $logo; ?>" alt="">
 			</div>
 		</div>

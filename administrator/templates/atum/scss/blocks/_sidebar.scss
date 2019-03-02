@@ -22,6 +22,7 @@
   overflow: hidden;
 
   .main-brand {
+    display: flex;
     padding: 15px;
     margin-top: auto;
   }
@@ -36,6 +37,7 @@
 .main-nav {
   width: $sidebar-width;
   opacity: 1;
+  flex-direction: column;
 
   // All list items
   li {
@@ -230,4 +232,61 @@
       visibility: hidden;
     }
   }
+}
+
+// Menu Top
+.menu-top {
+
+  > .wrapper {
+    flex-direction: column;
+  }
+
+  .sidebar-wrapper {
+    flex: 1 0 100%;
+    max-width: 100%;
+    z-index: 1060;
+    overflow: visible;
+  }
+
+  .main-nav {
+    flex-direction: row;
+    width: 100%;
+
+    ul {
+      padding: 5px 0px;
+      a {
+        padding-right: 20px;
+      }
+    }
+
+    > li {
+
+      > a {
+        padding-right: 14px;
+        &.has-arrow {
+          padding-right: 30px;
+        }
+        &::before {
+          display: none;
+        }
+      }
+
+      + li {
+        border-left: 1px solid rgba(255,255,255,.1);
+        &:last-of-type {
+          border-right: 1px solid rgba(255,255,255,.1);
+        }
+      }
+    }
+  }
+
+  .menu-collapse,
+  .main-brand {
+    display: none;
+  }
+
+  .collapse-level-1 {
+    position: absolute;
+  }
+  
 }

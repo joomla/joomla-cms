@@ -18,14 +18,14 @@ HTMLHelper::_('script', 'mod_menu/admin-menu.min.js', ['version' => 'auto', 'rel
 
 $doc       = $app->getDocument();
 $direction = $doc->direction === 'rtl' ? 'float-right' : '';
-$class     = $enabled ? 'nav flex-column main-nav ' . $direction : 'nav flex-column main-nav disabled ' . $direction;
+$class     = $enabled ? 'nav main-nav ' . $direction : 'nav main-nav disabled ' . $direction;
 
 // Recurse through children of root node if they exist
 if ($root->hasChildren())
 {
 	echo '<nav class="main-nav-container" aria-label="' . Text::_('MOD_MENU_ARIA_MAIN_MENU') . '">';
 	echo '<ul id="menu" class="' . $class . '" role="menu">' . "\n";
-	echo '<li role="menuitem">';
+	echo '<li role="menuitem" class="menu-collapse">';
 	echo '<a id="menu-collapse" href="#">';
 	echo '<span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>';
 	echo '<span class="sidebar-item-title">' . Text::_('MOD_MENU_TOGGLE_MENU') . '</span>';

@@ -46,6 +46,21 @@
 	</languages>
 	<config>
 		<fields name="params">
+			<fieldset name="general" label="TPL_ATUM_GENREAL_SETTINGS_LABEL">
+
+				<field
+					name="menuLayout"
+					type="radio"
+					label="TPL_ATUM_MENULAYOUT_LABEL"
+					class="btn-group"
+					default="side"
+					>
+					<option value="side">TPL_ATUM_MENULAYOUT_SIDE_LABEL</option>
+					<option value="top">TPL_ATUM_MENULAYOUT_TOP_LABEL</option>
+				</field>
+
+			</fieldset>
+
 			<fieldset name="advanced" label="TPL_ATUM_LOGIN_PAGE_SETTINGS_LABEL">
 
 				<field
