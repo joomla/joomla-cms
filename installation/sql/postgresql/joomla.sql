@@ -684,7 +684,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (490, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
 (491, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 4, 0),
 (492, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(493, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(493, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -755,17 +755,17 @@ CREATE TABLE IF NOT EXISTS "#__fields_groups" (
   "title" varchar(255) DEFAULT '' NOT NULL,
   "note" varchar(255) DEFAULT '' NOT NULL,
   "description" text NOT NULL,
-  "state" smallint DEFAULT '0' NOT NULL,
-  "checked_out" integer DEFAULT '0' NOT NULL,
+  "state" smallint DEFAULT 0 NOT NULL,
+  "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "ordering" integer DEFAULT '0' NOT NULL,
+  "ordering" integer DEFAULT 0 NOT NULL,
   "params" text DEFAULT '' NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "created_by" bigint DEFAULT '0' NOT NULL,
+  "created_by" bigint DEFAULT 0 NOT NULL,
   "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "modified_by" bigint DEFAULT '0' NOT NULL,
-  "access" bigint DEFAULT '1' NOT NULL,
+  "modified_by" bigint DEFAULT 0 NOT NULL,
+  "access" bigint DEFAULT 1 NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__fields_groups_idx_checked_out" ON "#__fields_groups" ("checked_out");
@@ -877,24 +877,31 @@ CREATE INDEX "#__finder_logging_idx_searchterm" on "#__finder_logging" ("searcht
 CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
   "id" serial NOT NULL,
   "parent_id" integer DEFAULT 0 NOT NULL,
-  "title" varchar(255) NOT NULL,
+  "lft" integer DEFAULT 0 NOT NULL,
+  "rgt" integer DEFAULT 0 NOT NULL,
+  "level" integer DEFAULT 0 NOT NULL,
+  "path" VARCHAR(400) NOT NULL DEFAULT '',
+  "title" VARCHAR(255) NOT NULL DEFAULT '',
+  "alias" VARCHAR(400) NOT NULL DEFAULT '',
   "state" smallint DEFAULT 1 NOT NULL,
-  "access" smallint DEFAULT 0 NOT NULL,
-  "ordering" smallint DEFAULT 0 NOT NULL,
+  "access" smallint DEFAULT 1 NOT NULL,
+  "language" varchar(7) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__finder_taxonomy_parent_id" on "#__finder_taxonomy" ("parent_id");
 CREATE INDEX "#__finder_taxonomy_state" on "#__finder_taxonomy" ("state");
-CREATE INDEX "#__finder_taxonomy_ordering" on "#__finder_taxonomy" ("ordering");
 CREATE INDEX "#__finder_taxonomy_access" on "#__finder_taxonomy" ("access");
+CREATE INDEX "#__finder_taxonomy_path" on "#__finder_taxonomy" ("path");
+CREATE INDEX "#__finder_taxonomy_lft_rgt" on "#__finder_taxonomy" ("lft", "rgt");
+CREATE INDEX "#__finder_taxonomy_alias" on "#__finder_taxonomy" ("alias");
+CREATE INDEX "#__finder_taxonomy_language" on "#__finder_taxonomy" ("language");
 CREATE INDEX "#__finder_taxonomy_idx_parent_published" on "#__finder_taxonomy" ("parent_id", "state", "access");
 
 --
 -- Dumping data for table `#__finder_taxonomy`
 --
 
-INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "title", "state", "access", "ordering") VALUES
-(1, 0, 'ROOT', 0, 0, 0);
+INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "lft", "rgt", "level", "path", "title", "alias", "state", "access", "language") VALUES
+(1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 
 SELECT setval('#__finder_taxonomy_id_seq', 2, false);
 
@@ -2098,8 +2105,8 @@ CREATE INDEX "#__workflow_stages_idx_default" ON "#__workflow_stages" ("default"
 --
 
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default") VALUES
-(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 0),
-(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 1),
+(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1),
+(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0),
 (3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0),
 (4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0);
 

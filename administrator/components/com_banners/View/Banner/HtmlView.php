@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_banners', 'core.create')) > 0))
 		{
-			$toolbarButtons[] = ['apply', 'banner.apply'];
+			ToolbarHelper::apply('banner.apply');
 			$toolbarButtons[] = ['save', 'banner.save'];
 
 			if ($canDo->get('core.create'))
