@@ -49,7 +49,7 @@ class JFormFieldGroupParent extends JFormFieldList
 			{
 				unset($userGroupsOptions[$userGroupsOptionsId]);
 
-				$userGroupsOptions = $this->checkTheChildren($userGroupsOptions, $userGroupsOptionsId);
+				$userGroupsOptions = $this->cleanOptionsChildrenByFather($userGroupsOptions, $userGroupsOptionsId);
 			}
 		}
 
