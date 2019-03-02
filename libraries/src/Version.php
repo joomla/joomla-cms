@@ -68,7 +68,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const DEV_STATUS = 'Development';
+	const DEV_STATUS = 'Stable';
 
 	/**
 	 * Code name.
