@@ -752,7 +752,7 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   `created_by` int(10) unsigned NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
-  `access` int(11) NOT NULL DEFAULT '1',
+  `access` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
