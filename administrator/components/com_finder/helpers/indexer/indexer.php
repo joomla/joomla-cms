@@ -100,7 +100,7 @@ abstract class FinderIndexer
 	/**
 	 * Reusable Query Template. To be used with clone.
 	 *
-	 * @var    JDatabaseQuery
+	 * @var    Joomla\Database\QueryInterface
 	 * @since  3.8.0
 	 */
 	protected $addTokensToDbQueryTemplate;
