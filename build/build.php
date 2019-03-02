@@ -310,6 +310,9 @@ $doNotPackage = array(
 	'scss-lint.yml',
 	'tests',
 	'travisci-phpunit.xml',
+	'codeception.yml',
+	'RoboFile.php',
+	'CODE_OF_CONDUCT.md',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
