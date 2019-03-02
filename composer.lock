@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "eaf1a1e3cee304f5e2de585867dc0561",
+    "content-hash": "9870443c0387f9ba2d819085f35e5c86",
     "packages": [
         {
             "name": "google/recaptcha",
@@ -1672,6 +1672,46 @@
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
             "time": "2018-07-26T09:03:18+00:00"
+        },
+        {
+            "name": "typo3/phar-stream-wrapper",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
+                "reference": "0469d9fefa0146ea4299d3b11cfbb76faa7045bf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/0469d9fefa0146ea4299d3b11cfbb76faa7045bf",
+                "reference": "0469d9fefa0146ea4299d3b11cfbb76faa7045bf",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.3.3|^7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.36"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TYPO3\\PharStreamWrapper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Interceptors for PHP's native phar:// stream handling",
+            "homepage": "https://typo3.org/",
+            "keywords": [
+                "phar",
+                "php",
+                "security",
+                "stream-wrapper"
+            ],
+            "time": "2018-10-18T08:46:28+00:00"
         }
     ],
     "packages-dev": [
@@ -2006,6 +2046,7 @@
                 "testing",
                 "xunit"
             ],
+            "abandoned": true,
             "time": "2015-08-07T04:57:38+00:00"
         },
         {
