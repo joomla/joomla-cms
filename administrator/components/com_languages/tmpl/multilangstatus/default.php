@@ -70,6 +70,19 @@ $nocontent_languages    = array_diff($sitelangs, $content_languages);
 				</tr>
 			<?php endforeach; ?>
 		<?php endif; ?>
+		<?php foreach ($this->statuses as $status) : ?>
+			<?php if ($status->lang_code && $status->published == -2) : ?>
+				<tr class="table-warning">
+					<td>
+						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					</td>
+					<td>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_TRASHED', $status->lang_code); ?>
+					</td>
+				</tr>
+			<?php endif; ?>
+		<?php endforeach; ?>
 		<?php if ($notice_disabled) : ?>
 			<tr class="table-warning">
 				<td>
