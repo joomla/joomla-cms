@@ -61,7 +61,7 @@ class InstalledController extends BaseController
 				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
 				$type = 'message';
 			}
-			
+
 		}
 		else
 		{
