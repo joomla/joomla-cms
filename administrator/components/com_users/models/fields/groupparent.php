@@ -34,8 +34,8 @@ class JFormFieldGroupParent extends JFormFieldList
 	/**
 	 * Method to clean the Usergroup Options from all children starting by an given father
 	 *
-	 * @param   array    The usergroup options to clean
-	 * @param   integer  The father ID to start with
+	 * @param   array    $userGroupsOptions  The usergroup options to clean
+	 * @param   integer  $fatherId           The father ID to start with
 	 *
 	 * @return  array  The cleaned field options
 	 *
