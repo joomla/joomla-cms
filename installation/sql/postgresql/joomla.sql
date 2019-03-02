@@ -761,7 +761,7 @@ CREATE TABLE "#__fields_groups" (
   "created_by" bigint DEFAULT 0 NOT NULL,
   "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_by" bigint DEFAULT 0 NOT NULL,
-  "access" bigint DEFAULT '1' NOT NULL,
+  "access" bigint DEFAULT 1 NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__fields_groups_idx_checked_out" ON "#__fields_groups" ("checked_out");
