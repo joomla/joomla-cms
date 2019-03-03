@@ -173,8 +173,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
             {
                 var result = JSON.parse(response);
                 document.querySelectorAll('#changelog_modal .modal-body')[0].innerHTML = result.data;
-
-                // Do nothing
             },
             onError: function(xhr)
             {
