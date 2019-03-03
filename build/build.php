@@ -285,6 +285,7 @@ $doNotPackage = array(
 	'.drone.yml',
 	'.eslintignore',
 	'.eslintrc',
+	'.editorconfig',
 	'.github',
 	'.gitignore',
 	'.hound.yml',
