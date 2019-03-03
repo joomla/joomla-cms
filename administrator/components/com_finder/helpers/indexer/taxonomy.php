@@ -172,7 +172,7 @@ class FinderIndexerTaxonomy
 		$result = $db->loadObject();
 
 		// Check if the database matches the input data.
-		if (!empty($result) && $result->state == $node->state && $result->access == $node->access)
+		if ((bool) $result && $result->state == $node->state && $result->access == $node->access)
 		{
 			// The data matches, add the item to the cache.
 			static::$nodes[$parent_id . ':' . $node->title] = $result;
