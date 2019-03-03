@@ -205,6 +205,9 @@ class CalendarField extends FormField
 		{
 			$showTime = (string) $this->element['showtime'];
 
+			$lang  = \JFactory::getLanguage();
+			$debug = $lang->setDebug(false);
+
 			if ($showTime && $showTime != 'false')
 			{
 				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATETIME');
@@ -213,6 +216,8 @@ class CalendarField extends FormField
 			{
 				$this->format = Text::_('DATE_FORMAT_CALENDAR_DATE');
 			}
+
+			$lang->setDebug($debug);
 		}
 
 		// If a known filter is given use it.

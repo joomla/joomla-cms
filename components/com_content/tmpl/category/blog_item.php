@@ -46,9 +46,9 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php if ($useDefList && ($info == 0 || $info == 2)) : ?>
 		<?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'above')); ?>
-		<?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
-			<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
-		<?php endif; ?>
+	<?php endif; ?>
+	<?php if ($info == 0 && $params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
+		<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
 	<?php endif; ?>
 
 	<?php if (!$params->get('show_intro')) : ?>
@@ -61,8 +61,10 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php echo $this->item->introtext; ?>
 
-	<?php if ($useDefList && ($info == 1 || $info == 2)) : ?>
-		<?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+	<?php if ($info == 1 || $info == 2) : ?>
+		<?php if ($useDefList) : ?>
+			<?php echo LayoutHelper::render('joomla.content.info_block', array('item' => $this->item, 'params' => $params, 'position' => 'below')); ?>
+		<?php endif; ?>
 		<?php if ($params->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 			<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags->itemTags); ?>
 		<?php endif; ?>

@@ -59,7 +59,7 @@
 		<field
 			name="transition"
 			type="transition"
-			component="com_content"
+			extension="com_content"
 			label="COM_CONTENT_TRANSITION"
 		>
 		</field>
