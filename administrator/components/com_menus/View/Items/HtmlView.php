@@ -385,7 +385,9 @@ class HtmlView extends BaseHtmlView
 			{
 				if ($this->state->get('filter.client_id') == 0)
 				{
-					$childBar->makeDefault('items.setDefault')->listCheck(true);
+					$childBar->makeDefault('items.setDefault')
+						->text('COM_MENUS_TOOLBAR_SET_HOME')
+						->listCheck(true);
 				}
 
 				if (!$protected)
