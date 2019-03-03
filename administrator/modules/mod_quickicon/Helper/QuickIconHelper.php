@@ -187,7 +187,7 @@ abstract class QuickIconHelper
 							'link'   => Route::_('index.php?option=com_plugins'),
 							'text'   => Text::plural('MOD_QUICKICON_PLUGIN_MANAGER', $amount),
 							'access' => array('core.manage', 'com_plugins'),
-							'group'  => 'MOD_QUICKICON_MAINTAIN'
+							'group'  => 'MOD_QUICKICON_MAINTENANCE'
 
 						];
 				}
@@ -199,7 +199,7 @@ abstract class QuickIconHelper
 							'amount' => self::countCheckin(),
 							'link'   => Route::_('index.php?option=com_checkin'),
 							'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
-							'access' => array('core.manage', 'com_checkin'),
+							'access' => array('core.admin', 'com_checkin'),
 							'group'  => 'MOD_QUICKICON_CONTENT'
 						];
 				}
@@ -249,8 +249,7 @@ abstract class QuickIconHelper
 	private static function countModules()
 	{
 		$app = Factory::getApplication();
-		
-		// Get an instance of the generic articles model (administrator)
+
 		$model = $app->bootComponent('com_modules')->getMVCFactory()
 			->createModel('Modules', 'Administrator', ['ignore_request' => true]);
 
@@ -303,7 +302,7 @@ abstract class QuickIconHelper
 	{
 		$app = Factory::getApplication();
 		
-		// Get an instance of the generic articles model (administrator)
+		// Get an instance of the menuitems model (administrator)
 		$model = $app->bootComponent('com_menus')->getMVCFactory()->createModel('Items', 'Administrator', ['ignore_request' => true]);
 		
 		// Count IDs
@@ -321,9 +320,9 @@ abstract class QuickIconHelper
 	}
 	
 	/**
-	 * Method to get the number of extensions
+	 * Method to get the number of users
 	 * 
-	 * @return  integer  The amount of active extensions
+	 * @return  integer  The amount of active users
 	 *
 	 * @since   4.0
 	 */
@@ -331,10 +330,8 @@ abstract class QuickIconHelper
 	{
 		$app = Factory::getApplication();
 		
-		// Get an instance of the generic articles model (administrator)
 		$model = $app->bootComponent('com_users')->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
-		
-		// Count IDs
+
 		$model->setState('list.select', '*');
 		
 		// Set the Start and Limit to 'all'
@@ -356,10 +353,8 @@ abstract class QuickIconHelper
 	{
 		$app = Factory::getApplication();
 		
-		// Get an instance of the generic articles model (administrator)
 		$model = $app->bootComponent('com_plugins')->getMVCFactory()->createModel('Plugins', 'Administrator', ['ignore_request' => true]);
 
-		// Count IDs
 		$model->setState('list.select', '*');
 		
 		// Set the Start and Limit to 'all'
@@ -373,7 +368,7 @@ abstract class QuickIconHelper
 	/**
 	 * Method to get the number of content categories
 	 * 
-	 * @return  integer  The amount of content categories
+	 * @return  integer  The amount of published content categories
 	 *
 	 * @since   4.0
 	 */
@@ -381,13 +376,10 @@ abstract class QuickIconHelper
 	{
 		$app = Factory::getApplication();
 		
-		// Get an instance of the generic articles model (administrator)
 		$model = $app->bootComponent('com_categories')->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
 
-		// Count IDs
 		$model->setState('list.select', 'COUNT(a.id) as amount');
 		
-		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
