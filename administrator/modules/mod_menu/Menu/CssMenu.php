@@ -375,6 +375,11 @@ class CssMenu
 				$parent->removeChild($item);
 				continue;
 			}
+			elseif ($item->element === 'com_joomlaupdate' && !$user->authorise('core.admin'))
+			{
+				$parent->removeChild($item);
+				continue;
+			}
 			elseif ($item->element === 'com_admin')
 			{
 				parse_str($item->link, $query);
