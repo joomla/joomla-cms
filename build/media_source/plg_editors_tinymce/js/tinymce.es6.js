@@ -84,7 +84,7 @@
 
       if (buttonValues.length) {
         options.setup = (editor) => {
-          editor.addButton('jxtdbuttons', {
+          editor.ui.registry.addButton('jxtdbuttons', {
             type: 'menubutton',
             text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
             icon: 'none icon-joomla',

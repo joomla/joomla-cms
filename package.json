@@ -42,7 +42,7 @@
     "metismenujs": "^1.0.3",
     "popper.js": "^1.14.3",
     "punycode": "1.4.1",
-    "tinymce": "4.8.3"
+    "tinymce": "~5.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

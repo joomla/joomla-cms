@@ -161,7 +161,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$user     = Factory::getUser();
 		$language = Factory::getLanguage();
-		$theme    = 'modern';
+		$theme    = 'silver';
 		$ugroups  = array_combine($user->getAuthorisedGroups(), $user->getAuthorisedGroups());
 
 		// Prepare the parameters
@@ -358,7 +358,6 @@ class PlgEditorTinymce extends CMSPlugin
 			'autolink',
 			'lists',
 			'save',
-			'colorpicker',
 			'importcss',
 		);
 
@@ -455,7 +454,7 @@ class PlgEditorTinymce extends CMSPlugin
 		}
 
 		// Check for extra plugins, from the setoptions form
-		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1, 'contextmenu' => 1) as $pName => $def)
+		foreach (array('wordcount' => 1, 'advlist' => 1, 'autosave' => 1) as $pName => $def)
 		{
 			if ($levelParams->get($pName, $def))
 			{
@@ -625,7 +624,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
-		$doc->addScriptOptions('plg_editor_tinymce', $options);
+		//$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
 	}
@@ -945,8 +944,6 @@ class PlgEditorTinymce extends CMSPlugin
 			'removeformat'  => array('label' => 'Clear formatting'),
 
 			// Buttons from the plugins
-			'forecolor'      => array('label' => 'Text color', 'plugin' => 'textcolor'),
-			'backcolor'      => array('label' => 'Background color', 'plugin' => 'textcolor'),
 			'anchor'         => array('label' => 'Anchor', 'plugin' => 'anchor'),
 			'hr'             => array('label' => 'Horizontal line', 'plugin' => 'hr'),
 			'ltr'            => array('label' => 'Left to right', 'plugin' => 'directionality'),
