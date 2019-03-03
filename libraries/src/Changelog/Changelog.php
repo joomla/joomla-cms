@@ -107,6 +107,14 @@ class Changelog extends CMSObject
 	protected $note = array();
 
 	/**
+	 * List of node items
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $items = array();
+
+	/**
 	 * Resource handle for the XML Parser
 	 *
 	 * @var    resource
@@ -128,7 +136,23 @@ class Changelog extends CMSObject
 	 * @var    \stdClass
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $currentUpdate;
+	protected $currentChangelog;
+
+	/**
+	 * The version to match the changelog
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	private $matchVersion = '';
+
+	/**
+	 * Object containing the latest changelog data
+	 *
+	 * @var    \stdClass
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $latest;
 
 	/**
 	 * Gets the reference to the current direct parent
@@ -137,7 +161,7 @@ class Changelog extends CMSObject
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function _getStackLocation()
+	protected function getStackLocation()
 	{
 		return implode('->', $this->stack);
 	}
@@ -149,9 +173,23 @@ class Changelog extends CMSObject
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function _getLastTag()
+	protected function getLastTag()
 	{
 		return $this->stack[count($this->stack) - 1];
+	}
+
+	/**
+	 * Set the version to match.
+	 *
+	 * @param   string  $version  The version to match
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION_
+	 */
+	public function setVersion(string $version)
+	{
+		$this->matchVersion = $version;
 	}
 
 	/**
@@ -166,10 +204,10 @@ class Changelog extends CMSObject
 	 * @note    This is public because it is called externally
 	 * @since   1.7.0
 	 */
-	public function _startElement($parser, $name, $attrs = array())
+	public function startElement($parser, $name, $attrs = array())
 	{
 		$this->stack[] = $name;
-		$tag           = $this->_getStackLocation();
+		$tag           = $this->getStackLocation();
 
 		// Reset the data
 		if (isset($this->$tag))
@@ -177,19 +215,24 @@ class Changelog extends CMSObject
 			$this->$tag->_data = '';
 		}
 
-		$name = strtolower($name);
-
-		if (!isset($this->currentUpdate->$name))
+		switch ($name)
 		{
-			$this->currentUpdate->$name = new \stdClass;
-		}
+			default:
+				$name = strtolower($name);
 
-		$this->currentUpdate->$name->_data = '';
+				if (!isset($this->currentChangelog->$name))
+				{
+					$this->currentChangelog->$name = new \stdClass;
+				}
 
-		foreach ($attrs as $key => $data)
-		{
-			$key = strtolower($key);
-			$this->currentUpdate->$name->$key = $data;
+				$this->currentChangelog->$name->_data = '';
+
+				foreach ($attrs as $key => $data)
+				{
+					$key                                 = strtolower($key);
+					$this->currentChangelog->$name->$key = $data;
+				}
+				break;
 		}
 	}
 
@@ -204,106 +247,30 @@ class Changelog extends CMSObject
 	 * @note    This is public because it is called externally
 	 * @since   1.7.0
 	 */
-	public function _endElement($parser, $name)
+	public function endElement($parser, $name)
 	{
 		array_pop($this->stack);
 
 		switch ($name)
 		{
-			// Closing update, find the latest version and check
-			case 'UPDATE':
-				$product = strtolower(InputFilter::getInstance()->clean(Version::PRODUCT, 'cmd'));
-
-				// Support for the min_dev_level and max_dev_level attributes is deprecated, a regexp should be used instead
-				if (isset($this->currentUpdate->targetplatform->min_dev_level) || isset($this->currentUpdate->targetplatform->max_dev_level))
+			case 'SECURITY':
+			case 'FIX':
+			case 'LANGUAGE':
+			case 'ADDITION':
+			case 'CHANGE':
+			case 'REMOVE':
+			case 'NOTE':
+				$name = strtolower($name);
+				$this->currentChangelog->$name->_data = $this->items;
+				$this->items = array();
+				break;
+			case 'CHANGELOG':
+				if (preg_match('/^' . $this->matchVersion . '/', $this->get('version', JVERSION)))
 				{
-					Log::add(
-						'Support for the min_dev_level and max_dev_level attributes of an update\'s <targetplatform> tag is deprecated and'
-						. ' will be removed in 4.0. The full version should be specified in the version attribute and may optionally be a regexp.',
-						Log::WARNING,
-						'deprecated'
-					);
-				}
-
-				/*
-				 * Check that the product matches and that the version matches (optionally a regexp)
-				 *
-				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
-				 */
-				$patchVersion = $this->get('jversion.dev_level', Version::PATCH_VERSION);
-				$patchMinimumSupported = !isset($this->currentUpdate->targetplatform->min_dev_level)
-					|| $patchVersion >= $this->currentUpdate->targetplatform->min_dev_level;
-
-				$patchMaximumSupported = !isset($this->currentUpdate->targetplatform->max_dev_level)
-					|| $patchVersion <= $this->currentUpdate->targetplatform->max_dev_level;
-
-				if (isset($this->currentUpdate->targetplatform->name)
-					&& $product == $this->currentUpdate->targetplatform->name
-					&& preg_match('/^' . $this->currentUpdate->targetplatform->version . '/', $this->get('jversion.full', JVERSION))
-					&& $patchMinimumSupported
-					&& $patchMaximumSupported)
-				{
-					$phpMatch = false;
-
-					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
-					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum->_data, '>='))
-					{
-						$phpMatch = true;
-					}
-
-					$dbMatch = false;
-
-					// Check if DB & version is supported via <supported_databases> tag, assume supported if tag isn't present
-					if (isset($this->currentUpdate->supported_databases))
-					{
-						$db           = Factory::getDbo();
-						$dbType       = strtolower($db->getServerType());
-						$dbVersion    = $db->getVersion();
-						$supportedDbs = $this->currentUpdate->supported_databases;
-
-						// Do we have a entry for the database?
-						if (isset($supportedDbs->$dbType))
-						{
-							$minumumVersion = $supportedDbs->$dbType;
-							$dbMatch        = version_compare($dbVersion, $minumumVersion, '>=');
-						}
-					}
-					else
-					{
-						// Set to true if the <supported_databases> tag is not set
-						$dbMatch = true;
-					}
-
-					// Check minimum stability
-					$stabilityMatch = true;
-
-					if (isset($this->currentUpdate->stability) && ($this->currentUpdate->stability < $this->minimum_stability))
-					{
-						$stabilityMatch = false;
-					}
-
-					if ($phpMatch && $stabilityMatch && $dbMatch)
-					{
-						if (isset($this->latest))
-						{
-							if (version_compare($this->currentUpdate->version->_data, $this->latest->version->_data, '>') == 1)
-							{
-								$this->latest = $this->currentUpdate;
-							}
-						}
-						else
-						{
-							$this->latest = $this->currentUpdate;
-						}
-					}
-					else
-					{
-						$this->latest = new \stdClass;
-						$this->latest->php_minimum = $this->currentUpdate->php_minimum;
-					}
+					$this->latest = $this->currentChangelog;
 				}
 				break;
-			case 'UPDATES':
+			case 'CHANGELOGS':
 				// If the latest item is set then we transfer it to where we want to
 				if (isset($this->latest))
 				{
@@ -313,12 +280,12 @@ class Changelog extends CMSObject
 					}
 
 					unset($this->latest);
-					unset($this->currentUpdate);
+					unset($this->currentChangelog);
 				}
-				elseif (isset($this->currentUpdate))
+				elseif (isset($this->currentChangelog))
 				{
 					// The update might be for an older version of j!
-					unset($this->currentUpdate);
+					unset($this->currentChangelog);
 				}
 				break;
 		}
@@ -335,40 +302,39 @@ class Changelog extends CMSObject
 	 * @note    This is public because its called externally.
 	 * @since   1.7.0
 	 */
-	public function _characterData($parser, $data)
+	public function characterData($parser, $data)
 	{
-		$tag = $this->_getLastTag();
+		$tag = $this->getLastTag();
 
-		// Throw the data for this item together
-		$tag = strtolower($tag);
-
-		if ($tag == 'tag')
+		switch ($tag)
 		{
-			$this->currentUpdate->stability = $this->stabilityTagToInteger((string) $data);
+			case 'ITEM':
+				$this->items[] = $data;
+				break;
+			case 'SECURITY':
+			case 'FIX':
+			case 'LANGUAGE':
+			case 'ADDITION':
+			case 'CHANGE':
+			case 'REMOVE':
+			case 'NOTE':
+				break;
+			default:
+				// Throw the data for this item together
+				$tag = strtolower($tag);
 
-			return;
-		}
-
-		if ($tag == 'downloadsource')
-		{
-			// Grab the last source so we can append the URL
-			$source = end($this->downloadSources);
-			$source->url = $data;
-
-			return;
-		}
-
-		if (isset($this->currentUpdate->$tag))
-		{
-			$this->currentUpdate->$tag->_data .= $data;
+				if (isset($this->currentChangelog->$tag))
+				{
+					$this->currentChangelog->$tag->_data .= $data;
+				}
+				break;
 		}
 	}
 
 	/**
 	 * Loads an XML file from a URL.
 	 *
-	 * @param   string  $url                The URL.
-	 * @param   int     $minimum_stability  The minimum stability required for updating the extension {@see Updater}
+	 * @param   string  $url  The URL.
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -398,11 +364,12 @@ class Changelog extends CMSObject
 			return false;
 		}
 
+		$this->currentChangelog = new \stdClass;
 
 		$this->xmlParser = xml_parser_create('');
 		xml_set_object($this->xmlParser, $this);
-		xml_set_element_handler($this->xmlParser, '_startElement', '_endElement');
-		xml_set_character_data_handler($this->xmlParser, '_characterData');
+		xml_set_element_handler($this->xmlParser, 'startElement', 'endElement');
+		xml_set_character_data_handler($this->xmlParser, 'characterData');
 
 		if (!xml_parse($this->xmlParser, $response->body))
 		{

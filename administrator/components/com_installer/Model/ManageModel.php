@@ -11,15 +11,14 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Changelog\Changelog;
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Extension;
-use Joomla\CMS\Changelog\Changelog;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
 
@@ -406,7 +405,9 @@ class ManageModel extends InstallerModel
 					array(
 						'element',
 						'type',
-						'changelogurl'
+						'changelogurl',
+						'manifest_cache',
+						'client_id'
 					)
 				)
 			)
@@ -414,7 +415,9 @@ class ManageModel extends InstallerModel
 			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
 		$db->setQuery($query);
 
-		$extension = $db->loadObject();
+		$extensions = $db->loadObjectList();
+		$this->translate($extensions);
+		$extension = array_shift($extensions);
 
 		if (!$extension->changelogurl)
 		{
@@ -422,33 +425,8 @@ class ManageModel extends InstallerModel
 		}
 
 		$changelog = new Changelog;
+		$changelog->setVersion($extension->version);
 		$changelog->loadFromXml($extension->changelogurl);
-
-		// Get the changelog details
-		$http   = HttpFactory::getHttp([], array('curl', 'stream'));
-		$result = $http->get($extension->changelogurl);
-
-		if ($result->code !== 200)
-		{
-			return '';
-		}
-
-		$xml = new \SimpleXMLElement($result->body);
-
-		// Check if there is a changelog section
-		if (!$xml->changelog)
-		{
-			return '';
-		}
-
-		// Get the changelog
-		$changelog = $xml->changelog;
-
-		// Validate the extension
-		if ((string) $changelog->element !== $extension->element && (string) $changelog->type !== $extension->type)
-		{
-			return '';
-		}
 
 		// Read all the entries
 		$entries = array(
@@ -456,20 +434,14 @@ class ManageModel extends InstallerModel
 			'fix'      => array(),
 			'addition' => array(),
 			'change'   => array(),
-			'removed'  => array(),
+			'remove'   => array(),
 			'language' => array(),
 			'note'     => array()
 		);
 
-		foreach ((array) $changelog as $changeType => $item)
-		{
-			if (!isset($entries[(string) $changeType]))
-			{
-				continue;
-			}
-
-			$entries[(string) $changeType] = array_values((array) $item->item);
-		}
+		array_walk($entries, function (&$value, $name) use ($changelog) {
+			$value = $changelog->get($name)->_data;
+		});
 
 		$layout = new FileLayout('joomla.installer.changelog');
 		$output = $layout->render($entries);
