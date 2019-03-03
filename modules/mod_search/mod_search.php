@@ -22,7 +22,9 @@ if ($params->get('opensearch', 1))
 {
 	$ostitle = $params->get('opensearch_title', Text::_('MOD_SEARCH_SEARCHBUTTON_TEXT') . ' ' . $app->get('sitename'));
 	$app->getDocument()->addHeadLink(
-		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('&option=com_search&format=opensearch&Itemid=' . $mitemid), 'search', 'rel',
+		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('&option=com_search&format=opensearch&Itemid=' . $mitemid),
+		'search',
+		'rel',
 		[
 			'title' => htmlspecialchars($ostitle, ENT_COMPAT, 'UTF-8'),
 			'type' => 'application/opensearchdescription+xml'
