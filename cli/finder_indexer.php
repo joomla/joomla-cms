@@ -59,7 +59,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 * @var    string
 	 * @since  2.5
 	 */
-	private $time = null;
+	private $time;
 
 	/**
 	 * Start time for each batch
@@ -67,7 +67,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 	 * @var    string
 	 * @since  2.5
 	 */
-	private $qtime = null;
+	private $qtime;
 
 	/**
 	 * Static filters information.
@@ -192,7 +192,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 				JFactory::getApplication()->triggerEvent('onBuildIndex');
 
 				// Batch reporting.
-				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', ($i + 1), round(microtime(true) - $this->qtime, 3)), true);
+				$this->out(JText::sprintf('FINDER_CLI_BATCH_COMPLETE', $i + 1, round(microtime(true) - $this->qtime, 3)), true);
 			}
 		}
 		catch (Exception $e)
@@ -327,7 +327,7 @@ class FinderCli extends \Joomla\CMS\Application\CliApplication
 		foreach ($filters as $filter)
 		{
 			// Skip empty filters.
-			if ($filter->data == '')
+			if ($filter->data === '')
 			{
 				continue;
 			}
