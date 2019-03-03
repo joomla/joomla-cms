@@ -57,7 +57,7 @@ RoboFile.php  @rdeutz
 travis-phpunit.xml  @rdeutz
 
 # Core JS
-media/*/js/*  @dgt41
+media/*/js/*  @dgrammatiko
 
 # CSP Tooling
 plugins/system/httpheaders/*  @zero-24
