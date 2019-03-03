@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -54,7 +54,7 @@ class Xcache extends Storage
 		// Check if id exists
 		if (!xcache_isset($sess_id))
 		{
-			return;
+			return '';
 		}
 
 		return (string) xcache_get($sess_id);

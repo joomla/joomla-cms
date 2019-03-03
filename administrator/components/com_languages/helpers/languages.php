@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,7 +80,7 @@ class LanguagesHelper
 	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
 	 *
 	 * @since   2.5
-	 * @deprecated   __DEPLOY_VERSION__ Use JLanguageHelper::parseIniFile() instead.
+	 * @deprecated   3.9.0 Use JLanguageHelper::parseIniFile() instead.
 	 */
 	public static function parseFile($fileName)
 	{

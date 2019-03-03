@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -511,12 +511,12 @@ abstract class ModArticlesCategoryHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function groupByTags($list, $direction = 'ksort')
 	{
 		$grouped  = array();
-		$untagged = JText::_('MOD_ARTICLES_CATEGORY_UNTAGGED');
+		$untagged = array();
 
 		if (!$list)
 		{
@@ -534,11 +534,16 @@ abstract class ModArticlesCategoryHelper
 			}
 			else
 			{
-				$grouped[$untagged][] = $item;
+				$untagged[] = $item;
 			}
 		}
 
 		$direction($grouped);
+
+		if ($untagged)
+		{
+			$grouped['MOD_ARTICLES_CATEGORY_UNTAGGED'] = $untagged;
+		}
 
 		return $grouped;
 	}

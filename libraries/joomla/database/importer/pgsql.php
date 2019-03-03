@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PDO PostgreSQL Database Importer.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JDatabaseImporterPgsql extends JDatabaseImporterPostgresql
 {
@@ -21,7 +21,7 @@ class JDatabaseImporterPgsql extends JDatabaseImporterPostgresql
 	 *
 	 * @return  JDatabaseImporterPgsql  Method supports chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \Exception if an error is encountered.
 	 */
 	public function check()

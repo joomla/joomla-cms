@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Language helper class
  *
- * @since  11.1
+ * @since  1.5
  */
 class LanguageHelper
 {
@@ -30,7 +30,7 @@ class LanguageHelper
 	 *
 	 * @return  array  List of system languages
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -57,7 +57,7 @@ class LanguageHelper
 	 *
 	 * @return  string  locale or null if not found
 	 *
-	 * @since   11.1
+	 * @since   1.5
 	 */
 	public static function detectLanguage()
 	{
@@ -107,7 +107,7 @@ class LanguageHelper
 	 *
 	 * @return  array  An array of published languages
 	 *
-	 * @since   11.1
+	 * @since   1.6
 	 */
 	public static function getLanguages($key = 'default')
 	{
@@ -232,6 +232,11 @@ class LanguageHelper
 			{
 				$clientPath = (int) $language->client_id === 0 ? JPATH_SITE : JPATH_ADMINISTRATOR;
 				$metafile   = self::getLanguagePath($clientPath, $language->element) . '/' . $language->element . '.xml';
+
+				if (!is_file($metafile))
+				{
+					$metafile = self::getLanguagePath($clientPath, $language->element) . '/langmetadata.xml';
+				}
 
 				// Process the language metadata.
 				if ($processMetaData)
@@ -415,7 +420,7 @@ class LanguageHelper
 	 *
 	 * @return  boolean  True if saved, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function parseIniFile($fileName, $debug = false)
 	{
@@ -425,9 +430,16 @@ class LanguageHelper
 			return array();
 		}
 
-		// @deprecated __DEPLOY_VERSION__ Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
+		// @deprecated 3.9.0 Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
 		if (!defined('_QQ_'))
 		{
+			/**
+			 * Defines a placeholder for a double quote character (") in a language file
+			 *
+			 * @var    string
+			 * @since  1.6
+			 * @deprecated  4.0 Use escaped double quotes (\") instead.
+			 */
 			define('_QQ_', '"');
 		}
 
@@ -539,7 +551,13 @@ class LanguageHelper
 	 */
 	public static function getMetadata($lang)
 	{
-		$file   = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+		$file = self::getLanguagePath(JPATH_BASE, $lang) . '/' . $lang . '.xml';
+
+		if (!is_file($file))
+		{
+			$file = self::getLanguagePath(JPATH_BASE, $lang) . '/langmetadata.xml';
+		}
+
 		$result = null;
 
 		if (is_file($file))
@@ -605,6 +623,11 @@ class LanguageHelper
 			{
 				$dirPathParts = pathinfo($directory);
 				$file         = $directory . '/' . $dirPathParts['filename'] . '.xml';
+
+				if (!is_file($file))
+				{
+					$file = $directory . '/langmetadata.xml';
+				}
 
 				if (!is_file($file))
 				{

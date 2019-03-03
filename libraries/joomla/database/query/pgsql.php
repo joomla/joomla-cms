@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PDO PostgreSQL Query Building Class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JDatabaseQueryPgsql extends JDatabaseQueryPostgresql implements JDatabaseQueryPreparable
 {
@@ -20,7 +20,7 @@ class JDatabaseQueryPgsql extends JDatabaseQueryPostgresql implements JDatabaseQ
 	 * Holds key / value pair of bound objects.
 	 *
 	 * @var    mixed
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $bounded = array();
 
@@ -38,7 +38,7 @@ class JDatabaseQueryPgsql extends JDatabaseQueryPostgresql implements JDatabaseQ
 	 *
 	 * @return  JDatabaseQueryPgsql
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function bind($key = null, &$value = null, $dataType = PDO::PARAM_STR, $length = 0, $driverOptions = array())
 	{
@@ -82,7 +82,7 @@ class JDatabaseQueryPgsql extends JDatabaseQueryPostgresql implements JDatabaseQ
 	 *
 	 * @return  mixed
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function &getBounded($key = null)
 	{
@@ -104,7 +104,7 @@ class JDatabaseQueryPgsql extends JDatabaseQueryPostgresql implements JDatabaseQ
 	 *
 	 * @return  JDatabaseQueryPgsql  Returns this object to allow chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function clear($clause = null)
 	{

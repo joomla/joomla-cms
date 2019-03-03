@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,8 @@ abstract class JHtmlGrid
 	 * @return  string   The boolean setting widget.
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function boolean($i, $value, $taskOn = null, $taskOff = null)
 	{
@@ -318,6 +320,8 @@ abstract class JHtmlGrid
 	 * @return  void
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0 This is only used in hathor and will be removed without replacement
 	 */
 	public static function behavior()
 	{
