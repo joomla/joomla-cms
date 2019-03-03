@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Installer\Administrator\Model\ManageModel;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -71,7 +72,7 @@ class ManageController extends BaseController
 		}
 		else
 		{
-			/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
+			/** @var ManageModel $model */
 			$model = $this->getModel('manage');
 
 			// Change the state of the records.
@@ -111,7 +112,7 @@ class ManageController extends BaseController
 		// Check for request forgeries.
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
+		/** @var ManageModel $model */
 		$model = $this->getModel('manage');
 
 		$eid = $this->input->get('cid', array(), 'array');
@@ -134,7 +135,7 @@ class ManageController extends BaseController
 		// Check for request forgeries.
 		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
-		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
+		/** @var ManageModel $model */
 		$model = $this->getModel('manage');
 
 		$uid = $this->input->get('cid', array(), 'array');
@@ -152,7 +153,7 @@ class ManageController extends BaseController
 	 */
 	public function loadChangelog()
 	{
-		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
+		/** @var ManageModel $model */
 		$model = $this->getModel('manage');
 
 		$eid = $this->input->get('eid', 0, 'int');

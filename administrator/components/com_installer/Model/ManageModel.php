@@ -19,6 +19,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Table\Extension;
+use Joomla\CMS\Changelog\Changelog;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
 
@@ -398,7 +399,7 @@ class ManageModel extends InstallerModel
 	public function loadChangelog($eid)
 	{
 		// Get the changelog URL
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(
@@ -420,8 +421,11 @@ class ManageModel extends InstallerModel
 			return '';
 		}
 
+		$changelog = new Changelog;
+		$changelog->loadFromXml($extension->changelogurl);
+
 		// Get the changelog details
-		$http = HttpFactory::getHttp([], array('curl', 'stream'));
+		$http   = HttpFactory::getHttp([], array('curl', 'stream'));
 		$result = $http->get($extension->changelogurl);
 
 		if ($result->code !== 200)
@@ -457,8 +461,13 @@ class ManageModel extends InstallerModel
 			'note'     => array()
 		);
 
-		foreach ((array) $changelog->entries as $changeType => $item)
+		foreach ((array) $changelog as $changeType => $item)
 		{
+			if (!isset($entries[(string) $changeType]))
+			{
+				continue;
+			}
+
 			$entries[(string) $changeType] = array_values((array) $item->item);
 		}
 
