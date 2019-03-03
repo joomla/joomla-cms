@@ -94,10 +94,10 @@ class LibraryAdapter extends InstallerAdapter
 		// Clobber any possible pending updates
 		/** @var Update $update */
 		$update = Table::getInstance('update');
-		$uid = $update->find(
+		$uid    = $update->find(
 			array(
 				'element' => $this->element,
-				'type' => $this->type,
+				'type'    => $this->type,
 			)
 		);
 
@@ -109,8 +109,8 @@ class LibraryAdapter extends InstallerAdapter
 		// Lastly, we will copy the manifest file to its appropriate place.
 		if ($this->route !== 'discover_install')
 		{
-			$manifest = array();
-			$manifest['src'] = $this->parent->getPath('manifest');
+			$manifest         = array();
+			$manifest['src']  = $this->parent->getPath('manifest');
 			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
 
 			if (!$this->parent->copyFiles(array($manifest), true))
@@ -122,7 +122,7 @@ class LibraryAdapter extends InstallerAdapter
 			// If there is a manifest script, let's copy it.
 			if ($this->manifest_script)
 			{
-				$path['src'] = $this->parent->getPath('source') . '/' . $this->manifest_script;
+				$path['src']  = $this->parent->getPath('source') . '/' . $this->manifest_script;
 				$path['dest'] = $this->parent->getPath('extension_root') . '/' . $this->manifest_script;
 
 				if ($this->parent->isOverwrite() || !file_exists($path['dest']))
@@ -221,9 +221,9 @@ class LibraryAdapter extends InstallerAdapter
 			$this->parent->setPath('source', JPATH_PLATFORM . '/' . $this->getElement());
 		}
 
-		$extension = 'lib_' . $this->getElement();
+		$extension   = 'lib_' . $this->getElement();
 		$librarypath = (string) $this->getManifest()->libraryname;
-		$source = $path ?: JPATH_PLATFORM . '/' . $librarypath;
+		$source      = $path ?: JPATH_PLATFORM . '/' . $librarypath;
 
 		$this->doLoadLanguage($extension, $source, JPATH_SITE);
 	}
@@ -250,7 +250,7 @@ class LibraryAdapter extends InstallerAdapter
 	 */
 	public function prepareDiscoverInstall()
 	{
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
+		$manifestPath           = JPATH_MANIFESTS . '/libraries/' . $this->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 		$this->setManifest($this->parent->getManifest());
@@ -372,10 +372,10 @@ class LibraryAdapter extends InstallerAdapter
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
-			$this->extension->state = 0;
-			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = 1;
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->state          = 0;
+			$this->extension->name           = $manifest_details['name'];
+			$this->extension->enabled        = 1;
+			$this->extension->params         = $this->parent->getParams();
 
 			if (!$this->extension->store())
 			{
@@ -445,8 +445,8 @@ class LibraryAdapter extends InstallerAdapter
 		 */
 
 		// Set the extensions name
-		$name = (string) $this->getManifest()->name;
-		$name = InputFilter::getInstance()->clean($name, 'string');
+		$name    = (string) $this->getManifest()->name;
+		$name    = InputFilter::getInstance()->clean($name, 'string');
 		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
 
 		$this->name    = $name;
@@ -454,8 +454,8 @@ class LibraryAdapter extends InstallerAdapter
 
 		// We don't want to compromise this instance!
 		$installer = new Installer;
-		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true)
+		$db        = $this->parent->getDbo();
+		$query     = $db->getQuery(true)
 			->select($db->quoteName('extension_id'))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
@@ -472,7 +472,7 @@ class LibraryAdapter extends InstallerAdapter
 
 			// Clear the cached data
 			$this->currentExtensionId = null;
-			$this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->db));
+			$this->extension          = Table::getInstance('Extension', 'JTable', array('dbo' => $this->db));
 		}
 
 		// Now create the new files
@@ -494,8 +494,8 @@ class LibraryAdapter extends InstallerAdapter
 		foreach ($file_list as $file)
 		{
 			$manifest_details = Installer::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
-			$file = File::stripExt($file);
-			$extension = Table::getInstance('extension');
+			$file             = File::stripExt($file);
+			$extension        = Table::getInstance('extension');
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
 			$extension->set('element', $file);
@@ -520,13 +520,13 @@ class LibraryAdapter extends InstallerAdapter
 	public function refreshManifestCache()
 	{
 		// Need to find to find where the XML file is since we don't store this normally
-		$manifestPath = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
+		$manifestPath           = JPATH_MANIFESTS . '/libraries/' . $this->parent->extension->element . '.xml';
 		$this->parent->manifest = $this->parent->isManifest($manifestPath);
 		$this->parent->setPath('manifest', $manifestPath);
 
-		$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
+		$manifest_details                        = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 		$this->parent->extension->manifest_cache = json_encode($manifest_details);
-		$this->parent->extension->name = $manifest_details['name'];
+		$this->parent->extension->name           = $manifest_details['name'];
 
 		try
 		{

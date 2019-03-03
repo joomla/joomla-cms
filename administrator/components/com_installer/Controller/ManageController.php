@@ -11,9 +11,11 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
@@ -48,6 +50,8 @@ class ManageController extends BaseController
 	 * Enable/Disable an extension (if supported).
 	 *
 	 * @return  void
+	 *
+	 * @throws  \Exception
 	 *
 	 * @since   1.6
 	 */
@@ -98,6 +102,8 @@ class ManageController extends BaseController
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.5
 	 */
 	public function remove()
@@ -135,5 +141,29 @@ class ManageController extends BaseController
 		$uid = ArrayHelper::toInteger($uid, array());
 		$model->refresh($uid);
 		$this->setRedirect(Route::_('index.php?option=com_installer&view=manage', false));
+	}
+
+	/**
+	 * Load the changelog for a given extension.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function loadChangelog()
+	{
+		/* @var \Joomla\Component\Installer\Administrator\Model\ManageModel $model */
+		$model = $this->getModel('manage');
+
+		$eid = $this->input->get('eid', 0, 'int');
+
+		if (!$eid)
+		{
+			return;
+		}
+
+		$output = $model->loadChangelog($eid);
+
+		echo (new JsonResponse($output));
 	}
 }

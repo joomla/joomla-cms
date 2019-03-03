@@ -443,10 +443,10 @@ class PluginAdapter extends InstallerAdapter
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
-			$this->extension->state = 0;
-			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = 'editors' === $this->extension->folder ? 1 : 0;
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->state          = 0;
+			$this->extension->name           = $manifest_details['name'];
+			$this->extension->enabled        = 'editors' === $this->extension->folder ? 1 : 0;
+			$this->extension->params         = $this->parent->getParams();
 
 			if (!$this->extension->store())
 			{

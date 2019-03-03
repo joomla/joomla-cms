@@ -30,14 +30,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
 					<?php endif; ?>
-
 					<?php if ($this->ftp) : ?>
 						<?php echo $this->loadTemplate('ftp'); ?>
 					<?php endif; ?>
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 						<div class="alert alert-info">
-							<?php echo JText::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
+							<?php echo Text::_('COM_INSTALLER_MSG_UPDATE_NOUPDATES'); ?>
 						</div>
 					<?php else : ?>
 						<table class="table">
@@ -46,9 +45,9 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 							</caption>
 							<thead>
 							<tr>
-								<td style="width:1%" class="text-center">
+								<th style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
-								</td>
+								</th>
 								<th scope="col">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'u.name', $listDirn, $listOrder); ?>
 								</th>

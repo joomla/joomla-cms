@@ -13,9 +13,12 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
 
@@ -64,6 +67,8 @@ class ManageModel extends InstallerModel
 	 *
 	 * @return  void
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.6
 	 */
 	protected function populateState($ordering = 'name', $direction = 'asc')
@@ -94,6 +99,8 @@ class ManageModel extends InstallerModel
 	 *
 	 * @return  boolean  True on success
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.5
 	 */
 	public function publish(&$eid = array(), $value = 1)
@@ -117,7 +124,7 @@ class ManageModel extends InstallerModel
 		}
 
 		// Get a table object for the extension type
-		$table = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$table = new Extension($this->getDbo());
 
 		// Enable the extension in the table and store it in the database
 		foreach ($eid as $i => $id)
@@ -200,6 +207,8 @@ class ManageModel extends InstallerModel
 	 *
 	 * @return  boolean  True on success
 	 *
+	 * @throws  \Exception
+	 *
 	 * @since   1.5
 	 */
 	public function remove($eid = array())
@@ -225,7 +234,7 @@ class ManageModel extends InstallerModel
 		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
 
 		// Uninstall the chosen extensions
-		$msgs = array();
+		$msgs   = array();
 		$result = false;
 
 		foreach ($eid as $id)
@@ -235,7 +244,7 @@ class ManageModel extends InstallerModel
 			$result = false;
 
 			$langstring = 'COM_INSTALLER_TYPE_TYPE_' . strtoupper($row->type);
-			$rowtype = Text::_($langstring);
+			$rowtype    = Text::_($langstring);
 
 			if (strpos($rowtype, $langstring) !== false)
 			{
@@ -375,5 +384,87 @@ class ManageModel extends InstallerModel
 		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
 
 		return $query;
+	}
+
+	/**
+	 * Load the changelog details for a given extension.
+	 *
+	 * @param   integer  $eid  The extension ID
+	 *
+	 * @return  string  The output to show in the modal.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function loadChangelog($eid)
+	{
+		// Get the changelog URL
+		$db = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select(
+				$db->quoteName(
+					array(
+						'element',
+						'type',
+						'changelogurl'
+					)
+				)
+			)
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
+		$db->setQuery($query);
+
+		$extension = $db->loadObject();
+
+		if (!$extension->changelogurl)
+		{
+			return '';
+		}
+
+		// Get the changelog details
+		$http = HttpFactory::getHttp([], array('curl', 'stream'));
+		$result = $http->get($extension->changelogurl);
+
+		if ($result->code !== 200)
+		{
+			return '';
+		}
+
+		$xml = new \SimpleXMLElement($result->body);
+
+		// Check if there is a changelog section
+		if (!$xml->changelog)
+		{
+			return '';
+		}
+
+		// Get the changelog
+		$changelog = $xml->changelog;
+
+		// Validate the extension
+		if ((string) $changelog->element !== $extension->element && (string) $changelog->type !== $extension->type)
+		{
+			return '';
+		}
+
+		// Read all the entries
+		$entries = array(
+			'security' => array(),
+			'fix'      => array(),
+			'addition' => array(),
+			'change'   => array(),
+			'removed'  => array(),
+			'language' => array(),
+			'note'     => array()
+		);
+
+		foreach ((array) $changelog->entries as $changeType => $item)
+		{
+			$entries[(string) $changeType] = array_values((array) $item->item);
+		}
+
+		$layout = new FileLayout('joomla.installer.changelog');
+		$output = $layout->render($entries);
+
+		return $output;
 	}
 }

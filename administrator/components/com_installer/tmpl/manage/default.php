@@ -107,36 +107,34 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->type_translated; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php if ($item->version != ''): ?>
-										<?php if ($item->changelogurl != null): ?>
-											<a href="#changelog_modal<?php echo $item->extension_id; ?>" data-toggle="modal"><?php echo $item->version?></a>
+									<?php if ($item->version !== '') : ?>
+										<?php if ($item->changelogurl !== null) : ?>
+											<a href="#changelog_modal" onclick="loadChangelog(<?php echo $item->extension_id; ?>); return false;" data-toggle="modal">
+												<?php echo $item->version?>
+											</a>
 											<?php
-											echo Jhtml::_(
+											echo HTMLHelper::_(
 												'bootstrap.renderModal',
-												'changelog_modal' . $item->extension_id,
+												'changelog_modal',
 												array(
 													'title' => $item->version . " - " . $item->name,
-													'bodyHeight'  => '60',
-													'modalWidth'  => '60',
 												),
-												'<iframe src="' . $item->changelogurl . '"></iframe>');
+												''
+											);
 											?>
 										<?php else : ?>
 											<?php echo $item->version; ?>
 										<?php endif; ?>
-									<?php else:
+									<?php else :
 										echo '&#160;';
 									endif; ?>
-									<?php if ($item->changelogurl != null):?>
-										<i class="fa fa-info" aria-hidden="true"></i>
-									<?php endif; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
+									<?php echo isset($item->creationDate) && $item->creationDate !== '' ? $item->creationDate : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
-										<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
+										<?php echo isset($item->author) && $item->author !== '' ? $item->author : '&#160;'; ?>
 									</span>
 								</td>
 								<td class="d-none d-md-table-cell">
@@ -165,3 +163,23 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</div>
 	</form>
 </div>
+<script type="application/javascript">
+	function loadChangelog(extensionId) {
+	    var url = 'index.php?option=com_installer&task=manage.loadChangelog&eid=' + extensionId + '&format=json';
+
+        Joomla.request({
+            url:    url,
+            onSuccess: function(response, xhr)
+            {
+                var result = JSON.parse(response);
+                document.querySelectorAll('#changelog_modal .modal-body')[0].innerHTML = result.data;
+
+                // Do nothing
+            },
+            onError: function(xhr)
+            {
+                // Do nothing
+            }
+        });
+	}
+</script>
