@@ -182,7 +182,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -472,7 +472,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Method to get all transitions at once for all articles
 	 *
-	 * @return  array
+	 * @return  array|boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -572,34 +572,5 @@ class ArticlesModel extends ListModel
 		}
 
 		return $this->cache[$store];
-	}
-
-	/**
-	 * Method to get a list of articles.
-	 * Overridden to add a check for access levels.
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   1.6.1
-	 */
-	public function getItems()
-	{
-		$items = parent::getItems();
-
-		if (Factory::getApplication()->isClient('site'))
-		{
-			$groups = Factory::getUser()->getAuthorisedViewLevels();
-
-			foreach (array_keys($items) as $x)
-			{
-				// Check the access level. Remove articles the user shouldn't see
-				if (!in_array($items[$x]->access, $groups))
-				{
-					unset($items[$x]);
-				}
-			}
-		}
-
-		return $items;
 	}
 }
