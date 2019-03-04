@@ -244,6 +244,6 @@ class Icon
 	{
 		$text = LayoutHelper::render('joomla.content.icons.print_screen', array('params' => $params, 'legacy' => $legacy));
 
-		return '<a href="#" onclick="window.print();return false;">' . $text . '</a>';
+		return '<button type="button" onclick="window.print();return false;">' . $text . '</button>';
 	}
 }

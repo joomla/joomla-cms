@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+
+HTMLHelper::_('script', 'com_cpanel/admin-system-loader.js', ['version' => 'auto', 'relative' => true]);
 
 /** @var  \Joomla\Component\Cpanel\Administrator\View\System\HtmlView  $this */
 ?>
@@ -25,9 +28,9 @@ use Joomla\CMS\Language\Text;
 			<?php foreach ($section->getItems() as $item) : ?>
 				<li class="list-group-item">
 					<a href="<?php echo $item->getLink(); ?>"><?php echo Text::_($item->getTitle()); ?>
-					<?php if (!empty($item->getBadge())) : ?>
-						<span class="pull-right badge badge-pill badge-warning">
-							<?php echo '&#x200E;' . Text::_($item->getBadge()); ?>
+					<?php if (!empty($item->getType())) : ?>
+						<span class="fa fa-spin fa-spinner pull-right mt-1 system-counter" data-type="<?php echo $item->getType(); ?>">
+
 						</span>
 					<?php endif; ?>
 					</a>
