@@ -16,9 +16,9 @@ $notice_disabled        = !$this->language_filter && ($this->homes > 1 || $this-
 $notice_switchers       = !$this->switchers && ($this->homes > 1 || $this->language_filter);
 
 // Defining arrays
-$content_languages      = array_column($this->contentlangs, 'lang_code');
-$sitelangs              = array_column($this->site_langs, 'element');
-$home_pages             = array_column($this->homepages, 'language');
+$content_languages = array_column($this->contentlangs, 'lang_code');
+$sitelangs         = array_column($this->site_langs, 'element');
+$home_pages        = array_column($this->homepages, 'language');
 ?>
 <div class="mod-multilangstatus">
 	<?php if (!$this->language_filter && $this->switchers == 0) : ?>
@@ -56,22 +56,20 @@ $home_pages             = array_column($this->homepages, 'language');
 				</td>
 			</tr>
 		<?php endif; ?>
-		<?php // Displays error when the Content Language is trashed ?>
 		<?php foreach ($this->statuses as $status) : ?>
-			<?php if ($status->lang_code && $status->published == -2) : ?>
+			<?php // Displays error when the Content Language is trashed ?>
+			<?php if ($status->element && $status->published == -2) : ?>
 				<tr class="table-warning">
 					<td>
 						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
 					</td>
 					<td>
-						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_TRASHED', $status->lang_code); ?>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_CONTENT_LANGUAGE_TRASHED', $status->element); ?>
 					</td>
 				</tr>
 			<?php endif; ?>
-		<?php endforeach; ?>
-		<?php // Displays error when both Content Language and Home page are unpublished ?>
-		<?php foreach ($this->statuses as $status) : ?>
+			<?php // Displays error when both Content Language and Home page are unpublished ?>
 			<?php if ($status->lang_code && $status->published == 0 && !$status->home_language) : ?>
 				<tr class="table-warning">
 					<td>
