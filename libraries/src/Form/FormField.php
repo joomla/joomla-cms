@@ -604,7 +604,14 @@ abstract class FormField
 		$this->default = isset($element['value']) ? (string) $element['value'] : $this->default;
 
 		// Set the field default value.
-		$this->value = $value;
+		if ($element['multiple'] && is_string($value) && is_array(json_decode($value, true)))
+		{
+			$this->value = (array) json_decode($value);
+		}
+		else 
+		{
+			$this->value = $value;
+		}
 
 		foreach ($attributes as $attributeName)
 		{
@@ -1027,7 +1034,7 @@ abstract class FormField
 	 * @param   Registry  $input  An optional Registry object with the entire data set to validate
 	 *                            against the entire form.
 	 *
-	 * @return  boolean  Boolean true if field value is valid, Exception on failure.
+	 * @return  boolean|\Exception  Boolean true if field value is valid, Exception on failure.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 * @throws  \InvalidArgumentException
