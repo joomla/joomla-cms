@@ -57,12 +57,12 @@ class PlgSystemSkipto extends CMSPlugin
 				[
 					'settings' => [
 						'skipTo' => [
-							'buttonLabel:'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-							'buttonDivTitle:'   => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
-							'menuLabel:'        => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
-							'landmarksLabel:'   => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-							'headingsLabel:'    => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-							'contentLabel:'     => Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
+							'buttonLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+							'buttonDivTitle' 	=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
+							'menuLabel'			=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
+							'landmarksLabel'	=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+							'headingsLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
+							'contentLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
 						]
 					]
 				]
