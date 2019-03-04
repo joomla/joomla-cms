@@ -189,7 +189,7 @@ class ManageModel extends InstallerModel
 
 		// Get an installer object for the extension type
 		$installer = Installer::getInstance();
-		$result = 0;
+		$result    = 0;
 
 		// Uninstall the chosen extensions
 		foreach ($eid as $id)
@@ -231,7 +231,7 @@ class ManageModel extends InstallerModel
 
 		// Get an installer object for the extension type
 		$installer = Installer::getInstance();
-		$row = new \Joomla\CMS\Table\Extension($this->getDbo());
+		$row       = new \Joomla\CMS\Table\Extension($this->getDbo());
 
 		// Uninstall the chosen extensions
 		$msgs   = array();
@@ -389,13 +389,14 @@ class ManageModel extends InstallerModel
 	/**
 	 * Load the changelog details for a given extension.
 	 *
-	 * @param   integer  $eid  The extension ID
+	 * @param   integer  $eid     The extension ID
+	 * @param   string   $source  The view the changelog is for
 	 *
 	 * @return  string  The output to show in the modal.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function loadChangelog($eid)
+	public function loadChangelog($eid, $source)
 	{
 		// Get the changelog URL
 		$db    = $this->getDbo();
@@ -403,16 +404,21 @@ class ManageModel extends InstallerModel
 			->select(
 				$db->quoteName(
 					array(
-						'element',
-						'type',
-						'changelogurl',
-						'manifest_cache',
-						'client_id'
+						'extensions.element',
+						'extensions.type',
+						'extensions.changelogurl',
+						'extensions.manifest_cache',
+						'extensions.client_id'
 					)
 				)
 			)
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('extension_id') . ' = ' . (int) $eid);
+			->select($db->quoteName('updates.version', 'updateVersion'))
+			->from($db->quoteName('#__extensions', 'extensions'))
+			->leftJoin(
+				$db->quoteName('#__updates', 'updates')
+				. ' ON ' . $db->quoteName('updates.extension_id') . ' = ' . $db->quoteName('extensions.extension_id')
+			)
+			->where($db->quoteName('extensions.extension_id') . ' = ' . (int) $eid);
 		$db->setQuery($query);
 
 		$extensions = $db->loadObjectList();
@@ -425,7 +431,7 @@ class ManageModel extends InstallerModel
 		}
 
 		$changelog = new Changelog;
-		$changelog->setVersion($extension->version);
+		$changelog->setVersion($source === 'manage' ? $extension->version : $extension->updateVersion);
 		$changelog->loadFromXml($extension->changelogurl);
 
 		// Read all the entries
@@ -444,7 +450,8 @@ class ManageModel extends InstallerModel
 			{
 				$value = $changelog->get($name)->data;
 			}
-		});
+		}
+		);
 
 		$layout = new FileLayout('joomla.installer.changelog');
 		$output = $layout->render($entries);

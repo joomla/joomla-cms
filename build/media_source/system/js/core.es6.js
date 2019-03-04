@@ -917,13 +917,14 @@ window.Joomla.Modal = window.Joomla.Modal || {
   /**
    * Load the changelog data
    *
-   * @param extensionId
+   * @param extensionId The extension ID to load the changelog for
+   * @param source The view the changelog is for
    *
    * @since   4.0.0
    */
-  Joomla.loadChangelog = (extensionId) => {
+  Joomla.loadChangelog = (extensionId, view) => {
     Joomla.request({
-      url: 'index.php?option=com_installer&task=manage.loadChangelog&eid=' + extensionId + '&format=json',
+      url: 'index.php?option=com_installer&task=manage.loadChangelog&eid=' + extensionId + '&source=' + view + '&format=json',
       onSuccess: function(response)
       {
         let result = JSON.parse(response);

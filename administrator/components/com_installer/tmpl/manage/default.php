@@ -109,7 +109,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php if ($item->version !== '') : ?>
 										<?php if ($item->changelogurl !== null) : ?>
-											<a href="#changelogModal" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>); return false;" data-toggle="modal">
+											<a href="#changelogModal" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'manage'); return false;" data-toggle="modal">
 												<?php echo $item->version?>
 											</a>
 											<?php

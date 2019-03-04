@@ -156,14 +156,15 @@ class ManageController extends BaseController
 		/** @var ManageModel $model */
 		$model = $this->getModel('manage');
 
-		$eid = $this->input->get('eid', 0, 'int');
+		$eid    = $this->input->get('eid', 0, 'int');
+		$source = $this->input->get('source', 'manage', 'string');
 
 		if (!$eid)
 		{
 			return;
 		}
 
-		$output = $model->loadChangelog($eid);
+		$output = $model->loadChangelog($eid, $source);
 
 		echo (new JsonResponse($output));
 	}
