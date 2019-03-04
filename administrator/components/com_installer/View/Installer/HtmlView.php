@@ -112,7 +112,5 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::divider();
 		}
 
-		// Render side bar.
-		$this->sidebar = \JHtmlSidebar::render();
 	}
 }

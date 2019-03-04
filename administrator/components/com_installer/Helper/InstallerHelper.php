@@ -33,46 +33,6 @@ class InstallerHelper
 	 */
 	public static function addSubmenu($vName = 'install')
 	{
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_INSTALL'),
-			'index.php?option=com_installer',
-			$vName == 'install'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_UPDATE'),
-			'index.php?option=com_installer&view=update',
-			$vName == 'update'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_MANAGE'),
-			'index.php?option=com_installer&view=manage',
-			$vName == 'manage'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_DISCOVER'),
-			'index.php?option=com_installer&view=discover',
-			$vName == 'discover'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_DATABASE'),
-			'index.php?option=com_installer&view=database',
-			$vName == 'database'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_WARNINGS'),
-			'index.php?option=com_installer&view=warnings',
-			$vName == 'warnings'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_LANGUAGES'),
-			'index.php?option=com_installer&view=languages',
-			$vName == 'languages'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('COM_INSTALLER_SUBMENU_UPDATESITES'),
-			'index.php?option=com_installer&view=updatesites',
-			$vName == 'updatesites'
-		);
 	}
 
 	/**
