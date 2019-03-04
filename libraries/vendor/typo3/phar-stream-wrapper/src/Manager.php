@@ -11,9 +11,11 @@ namespace TYPO3\PharStreamWrapper;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\PharStreamWrapper\Resolver\BaseNameResolver;
+use TYPO3\PharStreamWrapper\Resolver\PharInvocation;
+use TYPO3\PharStreamWrapper\Resolver\PharInvocationCollection;
+use TYPO3\PharStreamWrapper\Resolver\PharInvocationResolver;
 
-class Manager implements Assertable, Resolvable
+class Manager
 {
     /**
      * @var self
@@ -31,14 +33,23 @@ class Manager implements Assertable, Resolvable
     private $resolver;
 
     /**
+     * @var Collectable
+     */
+    private $collection;
+
+    /**
      * @param Behavior $behaviour
      * @param Resolvable $resolver
+     * @param Collectable $collection
      * @return self
      */
-    public static function initialize(Behavior $behaviour, Resolvable $resolver = null)
-    {
+    public static function initialize(
+        Behavior $behaviour,
+        Resolvable $resolver = null,
+        Collectable $collection = null
+    ) {
         if (self::$instance === null) {
-            self::$instance = new self($behaviour, $resolver);
+            self::$instance = new self($behaviour, $resolver, $collection);
             return self::$instance;
         }
         throw new \LogicException(
@@ -76,14 +87,22 @@ class Manager implements Assertable, Resolvable
     /**
      * @param Behavior $behaviour
      * @param Resolvable $resolver
+     * @param Collectable $collection
      */
-    private function __construct(Behavior $behaviour, Resolvable $resolver = null)
-    {
-        if ($resolver === null) {
-            $resolver = new BaseNameResolver();
+    private function __construct(
+        Behavior $behaviour,
+        Resolvable $resolver = null,
+        Collectable $collection = null
+    ) {
+        if ($collection === null) {
+            $collection = new PharInvocationCollection();
         }
-        $this->behavior = $behaviour;
+        if ($resolver === null) {
+            $resolver = new PharInvocationResolver();
+        }
+        $this->collection = $collection;
         $this->resolver = $resolver;
+        $this->behavior = $behaviour;
     }
 
     /**
@@ -99,10 +118,18 @@ class Manager implements Assertable, Resolvable
     /**
      * @param string $path
      * @param null|int $flags
-     * @return string|null
+     * @return null|PharInvocation
      */
-    public function resolveBaseName($path, $flags = null)
+    public function resolve($path, $flags = null)
     {
-        return $this->resolver->resolveBaseName($path, $flags);
+        return $this->resolver->resolve($path, $flags);
+    }
+
+    /**
+     * @return Collectable
+     */
+    public function getCollection()
+    {
+        return $this->collection;
     }
 }

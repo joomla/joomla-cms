@@ -16,7 +16,7 @@ namespace TYPO3\PharStreamWrapper;
  * (and should not) maintain any runtime state information. In order to resolve
  * Phar archive paths according resolvers have to be used.
  *
- * @see \TYPO3\PharStreamWrapper\Resolvable::resolveBaseName()
+ * @see \TYPO3\PharStreamWrapper\Resolvable::resolve()
  */
 class Helper
 {

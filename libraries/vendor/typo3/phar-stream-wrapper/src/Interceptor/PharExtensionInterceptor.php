@@ -45,11 +45,11 @@ class PharExtensionInterceptor implements Assertable
      */
     private function baseFileContainsPharExtension($path)
     {
-        $baseFile = Manager::instance()->resolveBaseName($path);
-        if ($baseFile === null) {
+        $invocation = Manager::instance()->resolve($path);
+        if ($invocation === null) {
             return false;
         }
-        $fileExtension = pathinfo($baseFile, PATHINFO_EXTENSION);
+        $fileExtension = pathinfo($invocation->getBaseName(), PATHINFO_EXTENSION);
         return strtolower($fileExtension) === 'phar';
     }
 }

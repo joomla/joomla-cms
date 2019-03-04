@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1489a13cd292b7008ddca103d793d0e5",
+    "content-hash": "4fb2cf95954e5222f187ff2959187d72",
     "packages": [
         {
             "name": "brumann/polyfill-unserialize",
@@ -1711,16 +1711,16 @@
         },
         {
             "name": "typo3/phar-stream-wrapper",
-            "version": "v2.x-dev",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TYPO3/phar-stream-wrapper.git",
-                "reference": "eaf0a7362e982084d95f1880d04864fbeca59bb4"
+                "reference": "b7a21f0859059ed5d9754af8c11f852d43762334"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/eaf0a7362e982084d95f1880d04864fbeca59bb4",
-                "reference": "eaf0a7362e982084d95f1880d04864fbeca59bb4",
+                "url": "https://api.github.com/repos/TYPO3/phar-stream-wrapper/zipball/b7a21f0859059ed5d9754af8c11f852d43762334",
+                "reference": "b7a21f0859059ed5d9754af8c11f852d43762334",
                 "shasum": ""
             },
             "require": {
@@ -1750,7 +1750,7 @@
                 "security",
                 "stream-wrapper"
             ],
-            "time": "2019-02-19T22:35:18+00:00"
+            "time": "2019-03-01T17:43:52+00:00"
         }
     ],
     "packages-dev": [
@@ -3349,9 +3349,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "typo3/phar-stream-wrapper": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

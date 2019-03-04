@@ -13,12 +13,19 @@ namespace TYPO3\PharStreamWrapper;
 
 use TYPO3\PharStreamWrapper\Resolver\PharInvocation;
 
-interface Resolvable
+interface Collectable
 {
     /**
-     * @param string $path
-     * @param null|int $flags
+     * @param PharInvocation $invocation
+     * @param null $flags
+     * @return bool
+     */
+    public function collect(PharInvocation $invocation, $flags = null);
+
+    /**
+     * @param callable $callback
+     * @param bool $reverse
      * @return null|PharInvocation
      */
-    public function resolve($path, $flags = null);
+    public function findByCallback($callback, $reverse = false);
 }
