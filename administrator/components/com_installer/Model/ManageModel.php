@@ -447,10 +447,10 @@ class ManageModel extends InstallerModel
 
 		array_walk($entries, function (&$value, $name) use ($changelog) {
 			if ($field = $changelog->get($name))
-			{
+				{
 				$value = $changelog->get($name)->data;
 			}
-		}
+			}
 		);
 
 		$layout = new FileLayout('joomla.installer.changelog');
