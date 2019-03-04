@@ -147,7 +147,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
-
-		\JHtmlSidebar::setAction('index.php?option=com_templates&view=styles');
 	}
 }
