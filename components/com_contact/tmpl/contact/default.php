@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -18,6 +20,8 @@ use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
 
 $cparams = ComponentHelper::getParams('com_media');
 $tparams = $this->item->params;
+$canDo   = ContentHelper::getActions('com_contact', 'category', $this->item->catid);
+$canEdit = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == Factory::getUser()->id);
 ?>
 
 <div class="com-contact contact" itemscope itemtype="https://schema.org/Person">
@@ -35,6 +39,22 @@ $tparams = $this->item->params;
 				<?php endif; ?>
 				<span class="contact-name" itemprop="name"><?php echo $this->item->name; ?></span>
 			</h2>
+		</div>
+	<?php endif; ?>
+
+	<?php if ($canEdit) : ?>
+		<div class="icons">
+			<div class="btn-group pull-right">
+				<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $this->item->id; ?>"
+					aria-label="<?php echo JText::_('JUSER_TOOLS'); ?>"
+					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					<span class="icon-cog" aria-hidden="true"></span>
+					<span class="caret" aria-hidden="true"></span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton-<?php echo $this->item->id; ?>">
+					<li class="edit-icon"> <?php echo JHtml::_('contacticon.edit', $this->item, $tparams); ?> </li>
+				</ul>
+			</div>
 		</div>
 	<?php endif; ?>
 
