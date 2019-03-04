@@ -118,7 +118,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'type'     => $params->text_prefix . '_TYPE_' . $params->type_title,
 			'id'       => $id,
 			'title'    => $article->get($params->title_holder),
-			'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id)
+			'itemlink' => ActionlogsHelper::getContentTypeLink($option, $contentType, $id, $params->id_holder)
 		);
 
 		$this->addLog(array($message), $messageLanguageKey, $context);
@@ -267,7 +267,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 				'type'        => $params->text_prefix . '_TYPE_' . $params->type_title,
 				'id'          => $pk,
 				'title'       => $items[$pk]->{$params->title_holder},
-				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk)
+				'itemlink'    => ActionlogsHelper::getContentTypeLink($option, $contentType, $pk, $params->id_holder)
 			);
 
 			$messages[] = $message;
@@ -919,7 +919,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.3
 	 */
 	public function onAfterCheckin($table)
 	{
@@ -935,10 +935,10 @@ class PlgActionlogJoomla extends ActionLogPlugin
 			'action'      => 'checkin',
 			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
 			'id'          => $user->id,
-			'title'       => $user->name,
+			'title'       => $user->username,
 			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'userid'      => $user->id,
-			'username'    => $user->name,
+			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'table'       => $table,
 		);
