@@ -113,7 +113,7 @@ $this->addScriptDeclaration('cssVars();');
 								</div>
 							</div>
 						</div>
-					</div>	
+					</div>
 			<?php endif; ?>
 			<section id="content" class="content">
 				<?php // Begin Content ?>
