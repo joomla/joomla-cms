@@ -109,13 +109,13 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</td>
 									<td class="hidden-sm-down text-center">
 										<?php if ($item->changelogurl !== null) : ?>
-                                        <a href="#changelog_modal" class="btn btn-info btn-xs" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>); return false;" data-toggle="modal">
+                                        <a href="#changelogModal" class="btn btn-info btn-xs" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>); return false;" data-toggle="modal">
 	                                        <?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
                                         </a>
 										<?php
 										echo HTMLHelper::_(
 											'bootstrap.renderModal',
-											'changelog_modal',
+											'changelogModal',
 											array(
 												'title' => $item->version . " - " . $item->name,
 											),

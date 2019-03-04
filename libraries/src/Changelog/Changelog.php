@@ -18,6 +18,7 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Version;
 use Joomla\Registry\Registry;
+use RuntimeException;
 
 /**
  * Changelog class.
@@ -212,7 +213,7 @@ class Changelog extends CMSObject
 		// Reset the data
 		if (isset($this->$tag))
 		{
-			$this->$tag->_data = '';
+			$this->$tag->data = '';
 		}
 
 		switch ($name)
@@ -225,7 +226,7 @@ class Changelog extends CMSObject
 					$this->currentChangelog->$name = new \stdClass;
 				}
 
-				$this->currentChangelog->$name->_data = '';
+				$this->currentChangelog->$name->data = '';
 
 				foreach ($attrs as $key => $data)
 				{
@@ -261,11 +262,11 @@ class Changelog extends CMSObject
 			case 'REMOVE':
 			case 'NOTE':
 				$name = strtolower($name);
-				$this->currentChangelog->$name->_data = $this->items;
+				$this->currentChangelog->$name->data = $this->items;
 				$this->items = array();
 				break;
 			case 'CHANGELOG':
-				if (version_compare($this->currentChangelog->version->_data, $this->matchVersion, '==') === true)
+				if (version_compare($this->currentChangelog->version->data, $this->matchVersion, '==') === true)
 				{
 					$this->latest = $this->currentChangelog;
 				}
@@ -328,7 +329,7 @@ class Changelog extends CMSObject
 
 				if (isset($this->currentChangelog->$tag))
 				{
-					$this->currentChangelog->$tag->_data .= $data;
+					$this->currentChangelog->$tag->data .= $data;
 				}
 				break;
 		}
@@ -354,7 +355,7 @@ class Changelog extends CMSObject
 			$http     = HttpFactory::getHttp($httpOption);
 			$response = $http->get($url);
 		}
-		catch (\RuntimeException $e)
+		catch (RuntimeException $e)
 		{
 			$response = null;
 		}

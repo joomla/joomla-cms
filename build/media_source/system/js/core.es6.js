@@ -922,18 +922,12 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @since   4.0.0
    */
   Joomla.loadChangelog = (extensionId) => {
-    var url = 'index.php?option=com_installer&task=manage.loadChangelog&eid=' + extensionId + '&format=json';
-
     Joomla.request({
-      url:    url,
-      onSuccess: function(response, xhr)
+      url: 'index.php?option=com_installer&task=manage.loadChangelog&eid=' + extensionId + '&format=json',
+      onSuccess: function(response)
       {
-        var result = JSON.parse(response);
-        document.querySelectorAll('#changelog_modal .modal-body')[0].innerHTML = result.data;
-      },
-      onError: function(xhr)
-      {
-        // Do nothing
+        let result = JSON.parse(response);
+        document.querySelectorAll('#changelogModal .modal-body')[0].innerHTML = result.data;
       }
     });
   };

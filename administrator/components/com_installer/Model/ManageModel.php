@@ -442,7 +442,7 @@ class ManageModel extends InstallerModel
 		array_walk($entries, function (&$value, $name) use ($changelog) {
 			if ($field = $changelog->get($name))
 			{
-				$value = $changelog->get($name)->_data;
+				$value = $changelog->get($name)->data;
 			}
 		});
 
