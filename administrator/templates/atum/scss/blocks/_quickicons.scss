@@ -1,13 +1,22 @@
 // Quick Icons
 
 .quick-icons {
-	
+
   ul {
     list-style: none;
   }
   li {
    min-width: 10rem;
+   min-height: 7.5rem;
    position: relative;
+   background: $quickicon-bg;
+   box-shadow: $quickicon-box-shadow;
+   margin-left: 15px;
+   margin-right: 15px;
+   @include hover-focus-active {
+      text-decoration: none;
+      box-shadow: $quickicon-box-shadow-hover;
+   }
   }
   .quickicon-name {
 	  font-size: 1rem;
@@ -26,35 +35,22 @@
 	  min-height: 1.2rem;
   }
  .quickicon-linkadd {
-    position: absolute;
-    bottom: 1.2rem;
     font-size: .9rem;
     border-top: 1px solid $light_blue;
     text-decoration: underline;
   }
   a:not(.quickicon-linkadd) {
     display: inline-flex;
-    min-height: 120px;
+    min-height: 6rem;
     flex-direction: column;
     width: 100%;
-    margin-right: 15px;
-    margin-bottom: 15px;
     padding-bottom: 6px;
-    background: $quickicon-bg;
-    box-shadow: $quickicon-box-shadow;
     transition: all .25s ease;
     text-align: center;
-	
+
     > div {
       flex: 1 0 0;
       margin: 0 auto;
-    }
-
-    &:hover,
-    &:hover,
-    &:focus {
-      text-decoration: none;
-      box-shadow: $quickicon-box-shadow-hover;
     }
 
     .j-links-link {
