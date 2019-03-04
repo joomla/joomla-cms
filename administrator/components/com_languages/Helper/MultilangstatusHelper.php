@@ -101,8 +101,8 @@ abstract class MultilangstatusHelper
 
 		// Select the language home pages.
 		$query->select('l.home AS home')
-			->select('l.language AS home_language')
-			->join('LEFT', '#__menu AS l ON l.language = a.lang_code AND l.home=1 AND l.published=1 AND l.language <> \'*\'')
+			->select('l.published AS home_published')
+			->join('LEFT', '#__menu AS l ON l.language = a.lang_code AND l.home=1 AND l.language <> \'*\'')
 			->select('e.enabled AS enabled')
 			->select('e.element AS element')
 			->join('LEFT', '#__extensions  AS e ON e.element = a.lang_code')

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 
-$notice_homes     = $this->homes == 2 || $this->homes == 1 || $this->homes - 1 != count($this->contentlangs) && ($this->language_filter || $this->switchers != 0) && count($this->site_langs) == count($this->contentlangs);
+$notice_homes     = $this->homes == 2 || $this->homes == 1 || $this->homes - 1 != count($this->contentlangs) && ($this->language_filter || $this->switchers != 0);
 $notice_disabled  = !$this->language_filter && ($this->homes > 1 || $this->switchers != 0);
 $notice_switchers = !$this->switchers && ($this->homes > 1 || $this->language_filter);
 
@@ -57,7 +57,7 @@ $home_pages        = array_column($this->homepages, 'language');
 			</tr>
 		<?php endif; ?>
 		<?php foreach ($this->statuses as $status) : ?>
-			<?php // Displays error when the Content Language is trashed ?>
+			<?php // Displays error when the Content Language is trashed. ?>
 			<?php if ($status->element && $status->published == -2) : ?>
 				<tr class="table-warning">
 					<td>
@@ -69,8 +69,20 @@ $home_pages        = array_column($this->homepages, 'language');
 					</td>
 				</tr>
 			<?php endif; ?>
-			<?php // Displays error when both Content Language and Home page are unpublished ?>
-			<?php if ($status->lang_code && $status->published == 0 && !$status->home_language) : ?>
+			<?php // Displays error when Site language and Content language are published but Home page is unpublished, trashed or missing. ?>
+			<?php if ($status->lang_code && $status->published == 1 && $status->home_published != 1) : ?>
+				<tr class="table-warning">
+					<td>
+						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
+						<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+					</td>
+					<td>
+						<?php echo Text::sprintf('COM_LANGUAGES_MULTILANGSTATUS_HOME_NOTPUBLISHED', $status->lang_code, $status->lang_code); ?>
+					</td>
+				</tr>
+			<?php endif; ?>
+			<?php // Displays error when both Content Language and Home page are unpublished. ?>
+			<?php if ($status->lang_code && $status->published == 0 && $status->home_published != 1) : ?>
 				<tr class="table-warning">
 					<td>
 						<span class="fa fa-exclamation-triangle" aria-hidden="true"></span>
@@ -270,17 +282,18 @@ $home_pages        = array_column($this->homepages, 'language');
 						<?php endif; ?>
 					</td>
 				<?php // Published Home pages ?>
-				<?php if ($status->home_language) : ?>
-						<td class="text-center">
+					<td class="text-center">
+						<?php if ($status->home_published == 1) : ?>
 							<span class="fa fa-check" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JYES'); ?></span>
-						</td>
-				<?php else : ?>
-						<td class="text-center">
+						<?php elseif ($status->home_published == 0) : ?>
 							<span class="fa fa-times" aria-hidden="true"></span>
 							<span class="sr-only"><?php echo Text::_('JNO'); ?></span>
-						</td>
-				<?php endif; ?>
+						<?php elseif ($status->home_published == -2) : ?>
+							<span class="fa fa-trash" aria-hidden="true"></span>
+							<span class="sr-only"><?php echo Text::_('WARNING'); ?></span>
+						<?php endif; ?>
+					</td>
 				</tr>
 			<?php endforeach; ?>
 			<?php foreach ($this->contentlangs as $contentlang) : ?>
