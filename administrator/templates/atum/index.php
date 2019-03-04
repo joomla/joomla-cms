@@ -104,14 +104,16 @@ $this->addScriptDeclaration('cssVars();');
 				<?php // Subheader ?>
 				<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse" data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
 					<span class="icon-wrench"></span></a>
-				<div id="subhead" class="subhead">
-						<div id="container-collapse" class="container-collapse"></div>
-						<div class="row">
-							<div class="col-md-12">
-								<jdoc:include type="modules" name="toolbar" style="no" />
+					<div class="subhead-collapse" id="atumJsData" data-tmpl-sticky="<?php echo $stickyBar; ?>" data-tmpl-offset="<?php echo $offset; ?>">
+				        <div id="subhead" class="subhead">
+							<div id="container-collapse" class="container-collapse"></div>
+							<div class="row">
+								<div class="col-md-12">
+									<jdoc:include type="modules" name="toolbar" style="no" />
+								</div>
 							</div>
-					</div>
-				</div>
+						</div>
+					</div>	
 			<?php endif; ?>
 			<section id="content" class="content">
 				<?php // Begin Content ?>
