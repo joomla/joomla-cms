@@ -11,10 +11,13 @@ use Joomla\CMS\Language\Text;
 
 defined('JPATH_BASE') or die;
 
-$output = '';
+array_walk($displayData, function ($items, $changeType) {
+	// If there are no items, continue
+	if (empty($items))
+	{
+		return;
+	}
 
-foreach ($displayData as $changeType => $items)
-{
 	switch ($changeType)
 	{
 		case 'security':
@@ -41,18 +44,15 @@ foreach ($displayData as $changeType => $items)
 			break;
 	}
 
-	$output .= '<div class="pull-left">';
-	$output .= '<div class="badge ' . $class . '">' . Text::_('COM_INSTALLER_CHANGELOG_' . $changeType) . '</div>';
-	$output .= '<ul>';
+	?>
+    <div class="pull-left">
+        <div class="badge <?php echo $class; ?>"><?php echo Text::_('COM_INSTALLER_CHANGELOG_' . $changeType); ?></div>
+        <ul>
+            <li><?php echo implode('</li><li>', $items); ?></li>
 
-	foreach ($items as $item)
-	{
-		$output .= '<li>' . $item . '</li>';
-	}
-
-	$output .= '</ul>';
-	$output .= '</div>';
-	$output .= '<div class="clearfix"></div>';
+        </ul>
+    </div>
+    <div class="clearfix"></div>
+	<?php
 }
-
-echo $output;
+);

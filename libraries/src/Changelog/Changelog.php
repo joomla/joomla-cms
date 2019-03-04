@@ -265,10 +265,13 @@ class Changelog extends CMSObject
 				$this->items = array();
 				break;
 			case 'CHANGELOG':
-				if (preg_match('/^' . $this->matchVersion . '/', $this->get('version', JVERSION)))
+				if (version_compare($this->currentChangelog->version->_data, $this->matchVersion, '==') === true)
 				{
 					$this->latest = $this->currentChangelog;
 				}
+
+				// No version match, empty it
+				$this->currentChangelog = new \stdClass;
 				break;
 			case 'CHANGELOGS':
 				// If the latest item is set then we transfer it to where we want to

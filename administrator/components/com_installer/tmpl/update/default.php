@@ -108,21 +108,20 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<span class="badge badge-success"><?php echo $item->version; ?></span>
 									</td>
 									<td class="hidden-sm-down text-center">
-										<?php if ($item->changelogurl != null):?>
-										<button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#changelog_modal<?php echo $item->extension_id; ?>"><?php echo \JText::_('COM_INSTALLER_CHANGELOG'); ?></button>
-
+										<?php if ($item->changelogurl !== null) : ?>
+                                        <a href="#changelog_modal" class="btn btn-info btn-xs" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>); return false;" data-toggle="modal">
+	                                        <?php echo Text::_('COM_INSTALLER_CHANGELOG'); ?>
+                                        </a>
 										<?php
 										echo HTMLHelper::_(
 											'bootstrap.renderModal',
-											'changelog_modal' . $item->extension_id,
+											'changelog_modal',
 											array(
 												'title' => $item->version . " - " . $item->name,
-												'bodyHeight'  => '60',
-												'modalWidth'  => '60',
 											),
-											'<iframe src="' . $item->changelogurl . '"></iframe>');
+											''
+										);
 										?>
-
 										<?php else:?>
 										<span>
 											<?php echo Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE')?>

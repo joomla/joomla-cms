@@ -109,7 +109,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td class="d-none d-md-table-cell">
 									<?php if ($item->version !== '') : ?>
 										<?php if ($item->changelogurl !== null) : ?>
-											<a href="#changelog_modal" onclick="loadChangelog(<?php echo $item->extension_id; ?>); return false;" data-toggle="modal">
+											<a href="#changelog_modal" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>); return false;" data-toggle="modal">
 												<?php echo $item->version?>
 											</a>
 											<?php
@@ -163,21 +163,3 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 		</div>
 	</form>
 </div>
-<script type="application/javascript">
-	function loadChangelog(extensionId) {
-	    var url = 'index.php?option=com_installer&task=manage.loadChangelog&eid=' + extensionId + '&format=json';
-
-        Joomla.request({
-            url:    url,
-            onSuccess: function(response, xhr)
-            {
-                var result = JSON.parse(response);
-                document.querySelectorAll('#changelog_modal .modal-body')[0].innerHTML = result.data;
-            },
-            onError: function(xhr)
-            {
-                // Do nothing
-            }
-        });
-	}
-</script>

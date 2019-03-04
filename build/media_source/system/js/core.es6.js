@@ -915,6 +915,30 @@ window.Joomla.Modal = window.Joomla.Modal || {
   };
 
   /**
+   * Load the changelog data
+   *
+   * @param extensionId
+   *
+   * @since   4.0.0
+   */
+  Joomla.loadChangelog = (extensionId) => {
+    var url = 'index.php?option=com_installer&task=manage.loadChangelog&eid=' + extensionId + '&format=json';
+
+    Joomla.request({
+      url:    url,
+      onSuccess: function(response, xhr)
+      {
+        var result = JSON.parse(response);
+        document.querySelectorAll('#changelog_modal .modal-body')[0].innerHTML = result.data;
+      },
+      onError: function(xhr)
+      {
+        // Do nothing
+      }
+    });
+  };
+
+  /**
    * Loads any needed polyfill for web components and async load any web components
    *
    * Parts of the WebComponents method belong to The Polymer Project Authors. License http://polymer.github.io/LICENSE.txt
