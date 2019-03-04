@@ -114,8 +114,8 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			$childBar->publish('plugins.publish')->listCheck(true);
-			$childBar->unpublish('plugins.unpublish')->listCheck(true);
+			$childBar->publish('plugins.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+			$childBar->unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 			$childBar->checkin('plugins.checkin');
 		}
 
