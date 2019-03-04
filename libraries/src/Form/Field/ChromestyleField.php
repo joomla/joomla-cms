@@ -222,7 +222,6 @@ class ChromestyleField extends \JFormFieldGroupedList
 		$template = new \stdClass;
 		$template->element = 'system';
 		$template->name    = 'system';
-		$template->enabled = 1;
 
 		return $template;
 	}
@@ -242,10 +241,11 @@ class ChromestyleField extends \JFormFieldGroupedList
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name, enabled')
+		$query->select('element, name')
 			->from('#__extensions')
 			->where('client_id = ' . $this->clientId)
-			->where('type = ' . $db->quote('template'));
+			->where('type = ' . $db->quote('template'))
+			->where('enabled = 1');
 
 		// Set the query and load the templates.
 		$db->setQuery($query);
