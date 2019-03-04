@@ -251,6 +251,25 @@ class ProfileController extends BaseController
 	}
 
 	/**
+	 * Method to cancel an edit.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function cancel()
+	{
+		// Check for request forgeries.
+		$this->checkToken();
+
+		// Flush the data from the session.
+		$this->app->setUserState('com_users.edit.profile', null);
+
+		// Redirect to user profile.
+		$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
+	}
+
+	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
 	 * @param   BaseDatabaseModel  $model      The data model object.
