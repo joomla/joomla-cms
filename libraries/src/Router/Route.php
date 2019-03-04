@@ -111,18 +111,18 @@ class Route
 		 */
 		if ((int) $ssl || $uri->isSsl())
 		{
-			static $host_port;
+			static $scheme_host_port;
 
-			if (!is_array($host_port))
+			if (!is_array($scheme_host_port))
 			{
 				$uri2      = Uri::getInstance();
-				$host_port = array($uri2->getHost(), $uri2->getPort());
+				$scheme_host_port = array(((int) $ssl === 1 || $uri2->isSsl()) ? 'https' : 'http', $uri2->getHost(), $uri2->getPort());
 			}
 
 			// Determine which scheme we want.
-			$uri->setScheme(((int) $ssl === 1 || $uri->isSsl()) ? 'https' : 'http');
-			$uri->setHost($host_port[0]);
-			$uri->setPort($host_port[1]);
+			$uri->setScheme($scheme_host_port[0]);
+			$uri->setHost($scheme_host_port[1]);
+			$uri->setPort($scheme_host_port[2]);
 			$scheme = array_merge($scheme, array('host', 'port', 'scheme'));
 		}
 
