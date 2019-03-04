@@ -111,6 +111,5 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_installer');
 			ToolbarHelper::divider();
 		}
-
 	}
 }
