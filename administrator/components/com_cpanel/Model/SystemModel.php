@@ -145,6 +145,13 @@ class SystemModel extends BaseDatabaseModel
 			);
 		}
 
+		if ($user->authorise('core.manage', 'com_redirect'))
+		{
+			$manageSection->addItem(
+				new SystemItem('MOD_MENU_MANAGE_REDIRECTS', 'index.php?option=com_redirect')
+			);
+		}
+
 		if ($user->authorise('core.manage', 'com_joomlaupdate'))
 		{
 			$updateSection->addItem(
