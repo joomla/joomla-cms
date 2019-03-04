@@ -237,14 +237,20 @@ class HtmlView extends BaseHtmlView
 					->text('JUNFEATURE')
 					->task('articles.unfeatured')
 					->listCheck(true);
-
-				$childBar->checkin('articles.checkin')->listCheck(true);
 			}
 
 			if ($canDo->get('core.execute.transition'))
 			{
 				$childBar->archive('articles.archive')->listCheck(true);
+			}
 
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->checkin('articles.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.execute.transition'))
+			{
 				$childBar->trash('articles.trash')->listCheck(true);
 			}
 		}
