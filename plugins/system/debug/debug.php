@@ -198,6 +198,11 @@ class PlgSystemDebug extends CMSPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
 		{
+			// Use our own jQuery and font-awesome instead of the debug bar shipped version
+			$assetManager = $this->app->getDocument()->getWebAssetManager();
+			$assetManager->enableAsset('jquery-noconflict');
+			$assetManager->enableAsset('font-awesome');
+
 			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
 			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
@@ -284,13 +289,16 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
-		// Use our own jQuery and font-awesome instead of the debug bar shipped version
-		$assetManager = $this->app->getDocument()->getWebAssetManager();
-		$assetManager->enableAsset('jquery-noconflict');
-		$assetManager->enableAsset('font-awesome');
 		$debugBarRenderer->disableVendor('jquery');
 		$debugBarRenderer->setEnableJqueryNoConflict(false);
 		$debugBarRenderer->disableVendor('fontawesome');
+
+		/**
+		 * @todo disable highlightjs from the DebugBar, import it through NPM
+		 *       and deliver it through Joomla's API
+		 *       Also every DebuBar script and stylesheet needs to use Joomla's API
+		 *       $debugBarRenderer->disableVendor('highlightjs');
+		 */
 
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')
@@ -318,9 +326,7 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
-		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
-
-		echo str_replace('</body>', $debugBarRenderer->render() . '</body>', $contents);
+		echo str_replace('</body>', $debugBarRenderer->renderHead() . $debugBarRenderer->render() . '</body>', $contents);
 	}
 
 	/**

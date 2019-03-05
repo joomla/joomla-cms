@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Workflow\Workflow;
@@ -113,12 +114,12 @@ class WorkflowModel extends AdminModel
 				[
 					'title' => 'JUNPUBLISHED',
 					'condition' => Workflow::CONDITION_UNPUBLISHED,
+					'default' => 1,
 					'transition' => 'Unpublish'
 				],
 				[
 					'title' => 'JPUBLISHED',
 					'condition' => Workflow::CONDITION_PUBLISHED,
-					'default' => 1,
 					'transition' => 'Publish'
 				],
 				[
@@ -259,7 +260,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @since  4.0.0
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$extension = Factory::getApplication()->input->get('extension');
 

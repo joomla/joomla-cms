@@ -30,6 +30,8 @@ class DiscoverController extends BaseController
 	 */
 	public function refresh()
 	{
+		$this->checkToken();
+
 		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover();
@@ -45,6 +47,8 @@ class DiscoverController extends BaseController
 	 */
 	public function install()
 	{
+		$this->checkToken();
+
 		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->discover_install();
@@ -60,6 +64,8 @@ class DiscoverController extends BaseController
 	 */
 	public function purge()
 	{
+		$this->checkToken();
+
 		/* @var \Joomla\Component\Installer\Administrator\Model\DiscoverModel $model */
 		$model = $this->getModel('discover');
 		$model->purge();
