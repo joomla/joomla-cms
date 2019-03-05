@@ -59,7 +59,7 @@ class PlgContentPagebreak extends CMSPlugin
 		$style = $this->params->get('style', 'pages');
 
 		// Expression to search for.
-		$regex = '#<hr(.*)class="system-pagebreak"(.*)\/>#iU';
+		$regex = '#<hr(.*)class="system-pagebreak"(.*)>#iU';
 
 		$input = Factory::getApplication()->input;
 
