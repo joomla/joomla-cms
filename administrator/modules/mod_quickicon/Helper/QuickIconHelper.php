@@ -142,7 +142,7 @@ abstract class QuickIconHelper
 						[
 							'amount' => $amount,
 							'link'   => Route::_('index.php?option=com_categories'),
-							'link'   => Route::_('index.php?option=com_categories&task=category.add'),
+							'linkadd'   => Route::_('index.php?option=com_categories&task=category.add'),
 							'name'   => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', $amount),
 							'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
 							'group'  => 'MOD_QUICKICON_CONTENT',

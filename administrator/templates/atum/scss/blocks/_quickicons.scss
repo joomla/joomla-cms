@@ -38,7 +38,11 @@
  .quickicon-linkadd {
     font-size: .9rem;
     border-top: 1px solid $light_blue;
-    text-decoration: underline;
+    text-decoration: none;
+   @include hover-focus-active {
+      text-decoration: none;
+      box-shadow: $quickicon-box-shadow-hover;
+   }
   }
   a:not(.quickicon-linkadd) {
     display: inline-flex;
@@ -47,7 +51,11 @@
     width: 100%;
     padding-bottom: 6px;
     transition: all .25s ease;
-    text-align: center;
+    text-align: center;  
+   @include hover-focus-active {
+      text-decoration: none;
+      box-shadow: $quickicon-box-shadow-hover;
+   }
 
     > div {
       flex: 1 0 0;

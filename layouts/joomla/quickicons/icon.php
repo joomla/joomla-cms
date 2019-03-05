@@ -63,6 +63,7 @@ if ($id !== '')
 	<?php // Add the link to the edit-form
 		if (!empty($displayData['linkadd'])): ?>
 			<a class="btn-block text-center quickicon-linkadd j-links-link py-1" href="<?php echo $displayData['linkadd']; ?>">
+				<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>
 				<?php echo Text::_('MOD_QUICKICON_ADD_NEW'); ?>
 			</a>
 	<?php endif; ?>
