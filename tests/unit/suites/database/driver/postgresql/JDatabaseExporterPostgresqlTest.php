@@ -220,7 +220,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$expecting = '<?xml version="1.0"?>
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="jos_dbtest">
+  <table_structure name="#__dbtest">
    <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" Is_called="f" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
@@ -286,7 +286,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$expecting = '<?xml version="1.0"?>
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
-  <table_structure name="jos_dbtest">
+  <table_structure name="#__dbtest">
    <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" Is_called="f" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
@@ -329,7 +329,7 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 
 		$this->assertEquals(
 			array(
-				'  <table_structure name="jos_dbtest">',
+				'  <table_structure name="#__dbtest">',
 				'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
 				$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" Is_called="f" />',
 				'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',

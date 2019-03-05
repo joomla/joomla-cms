@@ -65,6 +65,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 
 		foreach ($this->from as $table)
 		{
+			$table = $this->getGenericTableName($table);
 			// Get the details columns information.
 			$fields = $this->db->getTableColumns($table, false);
 			$keys = $this->db->getTableKeys($table);
@@ -127,6 +128,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 
 		foreach ($this->from as $table)
 		{
+			$table = $this->getGenericTableName($table);
 			// Get the details columns information.
 			$fields  = $this->db->getTableColumns($table, false);
 			$colblob = array();

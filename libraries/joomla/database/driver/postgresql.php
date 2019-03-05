@@ -491,8 +491,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
+		$tableSub = $this->replacePrefix($table);
 
-		if (in_array($table, $tableList))
+		if (in_array($tableSub, $tableList))
 		{
 			// Get the details columns information.
 			$this->setQuery('
@@ -505,7 +506,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				FROM pg_indexes
 				LEFT JOIN pg_class AS pgClassFirst ON indexname=pgClassFirst.relname
 				LEFT JOIN pg_index AS pgIndex ON pgClassFirst.oid=pgIndex.indexrelid
-				WHERE tablename=' . $this->quote($table) . ' ORDER BY indkey'
+				WHERE tablename=' . $this->quote($tableSub) . ' ORDER BY indkey'
 			);
 
 			$keys = $this->loadObjectList();
@@ -530,6 +531,8 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	{
 		$this->connect();
 
+		$tableSub = $this->replacePrefix($table);
+
 		$tabInd = explode(' ', $indKey);
 		$colNames = array();
 
@@ -538,7 +541,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			$query = $this->getQuery(true)
 				->select('attname')
 				->from('pg_attribute')
-				->join('LEFT', 'pg_class ON pg_class.relname=' . $this->quote($table))
+				->join('LEFT', 'pg_class ON pg_class.relname=' . $this->quote($tableSub))
 				->where('attnum=' . $numCol . ' AND attrelid=pg_class.oid');
 			$this->setQuery($query);
 			$colNames[] = $this->loadResult();
@@ -588,8 +591,9 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 
 		// To check if table exists and prevent SQL injection
 		$tableList = $this->getTableList();
+		$tableSub = $this->replacePrefix($table);
 
-		if (in_array($table, $tableList))
+		if (in_array($tableSub, $tableList))
 		{
 			$name = array(
 				's.relname', 'n.nspname', 't.relname', 'a.attname', 'info.data_type', 'info.minimum_value', 'info.maximum_value',
@@ -612,7 +616,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 				->join('LEFT', 'pg_namespace n ON n.oid=t.relnamespace')
 				->join('LEFT', 'pg_attribute a ON a.attrelid=t.oid AND a.attnum=d.refobjsubid')
 				->join('LEFT', 'information_schema.sequences AS info ON info.sequence_name=s.relname')
-				->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($table));
+				->where("s.relkind='S' AND d.deptype='a' AND t.relname=" . $this->quote($tableSub));
 			$this->setQuery($query);
 			$seq = $this->loadObjectList();
 
