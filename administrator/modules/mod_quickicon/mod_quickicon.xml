@@ -110,6 +110,16 @@
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
 				</field>
+				<field
+					name="show_plugins"
+					type="radio"
+					class="switcher"
+					label="MOD_QUICKICON_SHOW_PLUGINS_LABEL"
+					default="1"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
 			</fieldset>
 			<fieldset name="advanced">
 				<field

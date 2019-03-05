@@ -1,12 +1,26 @@
 // Quick Icons
 
 .quick-icons {
-	
+
   ul {
     list-style: none;
   }
   li {
    min-width: 10rem;
+   min-height: 7.5rem;
+   position: relative;
+   background: $quickicon-bg;
+   box-shadow: $quickicon-box-shadow;
+   margin-left: 15px;
+   margin-right: 15px;
+   padding: 0;
+   @include hover-focus-active {
+      text-decoration: none;
+      box-shadow: $quickicon-box-shadow-hover;
+   }
+  }
+  .quickicon-name {
+	  font-size: 1rem;
   }
   .quickicon-amount {
     font-size: 3rem;
@@ -18,41 +32,41 @@
 	  letter-spacing: normal;
 	  font-weight: normal;
   }
-.quickicon-name {
-	color: $body-color !important;
+  .quickicon-text {
+	  min-height: 1.2rem;
   }
-  a {
+ .quickicon-linkadd {
+    font-size: .9rem;
+    border-top: 1px solid $light_blue;
+    text-decoration: none;
+   @include hover-focus-active {
+      text-decoration: none;
+      box-shadow: $quickicon-box-shadow-hover;
+   }
+  }
+  a:not(.quickicon-linkadd) {
     display: inline-flex;
-    min-height: 120px;
+    min-height: 6rem;
     flex-direction: column;
     width: 100%;
-    margin-right: 15px;
-    margin-bottom: 15px;
     padding-bottom: 6px;
-    background: $quickicon-bg;
-    box-shadow: $quickicon-box-shadow;
     transition: all .25s ease;
-    text-align: center;
+    text-align: center;  
+   @include hover-focus-active {
+      text-decoration: none;
+      box-shadow: $quickicon-box-shadow-hover;
+   }
 
     > div {
       flex: 1 0 0;
       margin: 0 auto;
     }
 
-    &:hover,
-    &:hover,
-    &:focus {
-      text-decoration: none;
-      box-shadow: $quickicon-box-shadow-hover;
-    }
-
     .j-links-link {
       display: block;
       width: 100%;
       padding: 0 1rem;
-      font-size: 1rem;
       line-height: 1.1;
-      text-decoration: underline;
     }
 
     .fa {
