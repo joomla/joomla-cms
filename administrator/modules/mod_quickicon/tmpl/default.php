@@ -17,7 +17,7 @@ $html = HTMLHelper::_('icons.buttons', $buttons);
 <?php if (!empty($html)) : ?>
 	<nav  class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL'); ?>">
 		<div  role="quickicons">
-			<ul class="nav d-flex flex-wrap">
+			<ul class="nav flex-wrap row">
 				<?php echo $html; ?>
 			</ul>
 		</div>
