@@ -20,7 +20,7 @@ $user      = Factory::getUser();
 ?>
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
-	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="document.querySelector('.chk-menulink').setAttribute('checked', !document.querySelector('.chk-menulink').getAttribute('checked'));">
+	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="jQuery('.chk-menulink').attr('checked', !jQuery('.chk-menulink').attr('checked'));">
 		<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT_ALL'); ?>
 	</button>
 </div>
