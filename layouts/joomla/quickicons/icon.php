@@ -20,7 +20,7 @@ $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['o
 $title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
 
 // The information
-$text    = empty($displayData['text']) ? '&nbsp;' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
+$text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
 $class = '';
 
