@@ -63,7 +63,8 @@ class Route
 		try
 		{
 			// Before __DEPLOY_VERSION__ this method accepted -1. This B/C will be removed in Joomla 4.0.
-			if ($tls == -1) {
+			if ($tls == -1)
+			{
 				$tls = self::TLS_DISABLE;
 			}
 
