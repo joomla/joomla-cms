@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -335,7 +335,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return "DATEADD('" . $datePart . "', '" . $interval . "', '" . $date . "'" . ')';
+		return 'DATEADD(' . $datePart . ', ' . $interval . ', ' . $date . ')';
 	}
 
 	/**
