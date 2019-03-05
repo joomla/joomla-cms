@@ -625,7 +625,7 @@ abstract class HTMLHelper
 		}
 
 		// If only path is required
-		if ($returnPath)
+		if ($returnPath === 1)
 		{
 			return $file;
 		}
@@ -799,26 +799,19 @@ abstract class HTMLHelper
 			}
 		}
 
-		if (count($includes) === 1)
+		foreach ($includes as $include)
 		{
-			$potential = $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '');
+			$potential = $include . ((strpos($include, '?') === false) ? $version : '');
+			$components = Factory::getDocument()->getScriptOptions('webcomponents');
 
-			if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
+			if (in_array($potential, $components))
 			{
-				Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
-				return;
+				continue;
 			}
 
-			return;
+			$components[] = $potential;
+			Factory::getDocument()->addScriptOptions('webcomponents', $components);
 		}
-
-		$potential = $includes . ((strpos($includes, '?') === false) ? $version : '');
-
-		if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
-		{
-			Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
-		}
-
 	}
 
 	/**
