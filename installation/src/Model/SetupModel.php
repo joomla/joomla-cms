@@ -230,7 +230,9 @@ class SetupModel extends BaseInstallationModel
 		if ($return === false)
 		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message)
+			$messages = array_reverse($form->getErrors());
+
+			foreach ($messages as $message)
 			{
 				if ($message instanceof \Exception)
 				{

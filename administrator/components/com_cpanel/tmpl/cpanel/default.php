@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $user = Factory::getUser();
 ?>
@@ -18,6 +19,7 @@ $user = Factory::getUser();
 <div class="row">
 	<?php $iconmodules = ModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
+        <?php HTMLHelper::_('bootstrap.framework'); ?>
 		<div class="col-md-12">
 			<?php
 			// Display the submenu position modules

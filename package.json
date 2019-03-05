@@ -18,14 +18,14 @@
     "lint:js": "npx eslint .",
     "test": "npx karma start node_modules/joomla-javascript-tests/src/karma.conf.js --single-run",
     "install": "node build.js --copy-assets && node build.js --build-pages",
-    "postinstall": "node build.js --compile-js && node build.js --compile-css && cd administrator/components/com_media && npm install && npm ci && npm run build",
+    "postinstall": "node build.js --compile-js && node build.js --compile-css && cd administrator/components/com_media && npm ci && npm run build",
     "update": "node build.js --copy-assets && node build.js --build-pages && node build.js --compile-js && node build.js --compile-css"
   },
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
     "@webcomponents/webcomponentsjs": "2.1.2",
     "awesomplete": "github:LeaVerou/awesomplete",
-    "bootstrap": "4.1.3",
+    "bootstrap": "~4.3",
     "choices.js": "^3.0.4",
     "chosen-js": "1.6.2",
     "codemirror": "5.38.0",
