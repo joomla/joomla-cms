@@ -22,13 +22,13 @@ use Joomla\CMS\Language\Text;
 			<?php echo Text::_('COM_USERS_PROFILE_NAME_LABEL'); ?>
 		</dt>
 		<dd>
-			<?php echo $this->data->name; ?>
+			<?php echo $this->escape($this->data->name); ?>
 		</dd>
 		<dt>
 			<?php echo Text::_('COM_USERS_PROFILE_USERNAME_LABEL'); ?>
 		</dt>
 		<dd>
-			<?php echo htmlspecialchars($this->data->username, ENT_COMPAT, 'UTF-8'); ?>
+			<?php echo $this->escape($this->data->username); ?>
 		</dd>
 		<dt>
 			<?php echo Text::_('COM_USERS_PROFILE_REGISTERED_DATE_LABEL'); ?>
