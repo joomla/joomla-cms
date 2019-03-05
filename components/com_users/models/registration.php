@@ -120,7 +120,8 @@ class UsersModelRegistration extends JModelForm
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
 				$linkMode,
-				true);
+				true
+			);
 
 			$data['fromname'] = $config->get('fromname');
 			$data['mailfrom'] = $config->get('mailfrom');
@@ -483,7 +484,8 @@ class UsersModelRegistration extends JModelForm
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
 				$linkMode,
-				true);
+				true
+			);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',
@@ -525,7 +527,8 @@ class UsersModelRegistration extends JModelForm
 				'index.php?option=com_users&task=registration.activate&token=' . $data['activation'],
 				false,
 				$linkMode,
-				true);
+				true
+			);
 
 			$emailSubject = JText::sprintf(
 				'COM_USERS_EMAIL_ACCOUNT_DETAILS',

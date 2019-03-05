@@ -62,7 +62,7 @@ class Route
 	{
 		try
 		{
-			// Before __DEPLOY_VERSION__ this method accepted -1. This B/C will be removed in Joomla 4.0.
+			// @deprecated  4.0 Before __DEPLOY_VERSION__ this method accepted -1. This B/C will be removed in Joomla 4.0.
 			if ($tls == -1)
 			{
 				$tls = self::TLS_DISABLE;
@@ -75,7 +75,7 @@ class Route
 		}
 		catch (\RuntimeException $e)
 		{
-			// Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
+			// @deprecated  4.0 Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
 			return null;
 		}
 	}
