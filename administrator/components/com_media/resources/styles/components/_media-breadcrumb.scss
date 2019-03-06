@@ -64,3 +64,32 @@
 .breadcrumb-item + .breadcrumb-item::before {
   display: none;
 }
+
+/* RTL override */
+
+html[dir=rtl] .media-breadcrumb {
+  margin: 0 0 0 auto;
+}
+
+html[dir=rtl] .media-breadcrumb-item::after, .media-breadcrumb-item::before {
+  right: 100%;
+  border-right: 10px solid transparent;
+  border-left: 0;
+}
+
+html[dir=rtl] .media-breadcrumb-item {
+  padding: 0 22px 0 8px;
+}
+
+html[dir=rtl] .media-breadcrumb-item::before {
+  border-right-color: #fafafa;
+}
+
+html[dir=rtl] .media-breadcrumb-item:first-of-type {
+  padding-right: 16px;
+  padding-left: 0;
+}
+
+html[dir=rtl] .media-breadcrumb-item:last-of-type::after {
+  border-right: 10px solid #fff;
+}
