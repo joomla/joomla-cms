@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('webcomponent', 'system/fields/joomla-toolbar-button.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
+HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
 
 /**
  * @var  int     $id
