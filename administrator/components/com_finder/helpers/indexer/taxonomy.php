@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\Component\Finder\Administrator\Table\MapTable;
 
@@ -158,7 +159,7 @@ class FinderIndexerTaxonomy
 		}
 
 		// Check to see if the node is in the table.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
@@ -233,7 +234,7 @@ class FinderIndexerTaxonomy
 	public static function addMap($linkId, $nodeId)
 	{
 		// Insert the map.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('link_id'))
@@ -265,10 +266,10 @@ class FinderIndexerTaxonomy
 	 */
 	public static function getBranchTitles()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Set user variables
-		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
 		// Create a query to get the taxonomy branch titles.
 		$query = $db->getQuery(true)
@@ -297,10 +298,10 @@ class FinderIndexerTaxonomy
 	 */
 	public static function getNodeByTitle($branch, $title)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Set user variables
-		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
 		// Create a query to get the node.
 		$query = $db->getQuery(true)
@@ -333,7 +334,7 @@ class FinderIndexerTaxonomy
 	public static function removeMaps($linkId)
 	{
 		// Delete the maps.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__finder_taxonomy_map'))
 			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
@@ -354,7 +355,7 @@ class FinderIndexerTaxonomy
 	public static function removeOrphanNodes()
 	{
 		// Delete all orphaned nodes.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query     = $db->getQuery(true);
 		$subquery  = $db->getQuery(true);
 		$subquery1 = $db->getQuery(true);
@@ -390,7 +391,7 @@ class FinderIndexerTaxonomy
 	{
 		if (!count(self::$taxonomies))
 		{
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select(array('id','parent_id','lft','rgt','level','path','title','alias','state','access','language'))

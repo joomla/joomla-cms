@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Application\AbstractApplication;
+use Joomla\CMS\Factory;
 use Joomla\Controller\AbstractController;
 use Joomla\Input\Input;
 
@@ -58,7 +59,7 @@ abstract class JControllerBase extends AbstractController implements JController
 	 */
 	protected function loadApplication()
 	{
-		$this->setApplication(JFactory::getApplication());
+		$this->setApplication(Factory::getApplication());
 	}
 
 	/**

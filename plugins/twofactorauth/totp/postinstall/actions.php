@@ -11,6 +11,8 @@
  * two-factor authentication code.
  */
 
+use Joomla\CMS\Factory;
+
 /**
  * Checks if the plugin is enabled. If not it returns true, meaning that the
  * message concerning two factor authentication should be displayed.
@@ -21,7 +23,7 @@
  */
 function twofactorauth_postinstall_condition()
 {
-	$db = JFactory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+	$db = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
 
 	$query = $db->getQuery(true)
 		->select('*')
@@ -47,7 +49,7 @@ function twofactorauth_postinstall_condition()
 function twofactorauth_postinstall_action()
 {
 	// Enable the plugin
-	$db = JFactory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+	$db = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
 
 	$query = $db->getQuery(true)
 		->update($db->quoteName('#__extensions'))
@@ -58,6 +60,6 @@ function twofactorauth_postinstall_action()
 	$db->execute();
 
 	// Redirect the user to their profile editor page
-	$url = 'index.php?option=com_users&task=user.edit&id=' . JFactory::getUser()->id;
-	JFactory::getApplication()->redirect($url);
+	$url = 'index.php?option=com_users&task=user.edit&id=' . Factory::getUser()->id;
+	Factory::getApplication()->redirect($url);
 }

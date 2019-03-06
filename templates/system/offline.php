@@ -9,9 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /** @var JDocumentHtml $this */
 
-$app = JFactory::getApplication();
+$app = Factory::getApplication();
 
 // Styles
 JHtml::_('stylesheet', 'templates/system/css/offline.css', ['version' => 'auto']);

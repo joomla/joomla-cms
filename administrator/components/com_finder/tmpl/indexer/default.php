@@ -9,11 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('script', 'com_finder/indexer.min.js', array('version' => 'auto', 'relative' => true));
-JFactory::getDocument()->addScriptDeclaration('var msg = "' . Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
+Factory::getDocument()->addScriptDeclaration('var msg = "' . Text::_('COM_FINDER_INDEXER_MESSAGE_COMPLETE') . '";');
 ?>
 
 <div class="text-center">
@@ -26,5 +27,5 @@ JFactory::getDocument()->addScriptDeclaration('var msg = "' . Text::_('COM_FINDE
 	<dl id="finder-debug-data" class="row">
 	</dl>
 	<?php endif; ?>
-	<input id="finder-indexer-token" type="hidden" name="<?php echo JFactory::getSession()->getFormToken(); ?>" value="1">
+	<input id="finder-indexer-token" type="hidden" name="<?php echo Factory::getSession()->getFormToken(); ?>" value="1">
 </div>

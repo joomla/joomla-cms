@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Indexer class supporting MySQL(i) for the Finder indexer package.
  *
@@ -109,7 +111,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		$entry->route = $item->route;
 		$entry->title = $item->title;
 		$entry->description = $item->description;
-		$entry->indexdate = JFactory::getDate()->toSql();
+		$entry->indexdate = Factory::getDate()->toSql();
 		$entry->state = (int) $item->state;
 		$entry->access = (int) $item->access;
 		$entry->language = $item->language;

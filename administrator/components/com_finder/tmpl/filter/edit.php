@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+
 JHtml::_('behavior.formvalidator');
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.core');
@@ -63,6 +65,6 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 	<?php echo JHtml::_('uitab.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="">
-	<input type="hidden" name="return" value="<?php echo JFactory::getApplication()->input->get('return', '', 'cmd'); ?>">
+	<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', '', 'cmd'); ?>">
 	<?php echo JHtml::_('form.token'); ?>
 </form>

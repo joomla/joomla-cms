@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 // @TODO Remove when webcomponents get merged into the core
 
 /**
@@ -39,7 +41,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 			'content' => $content,
 		);
 
-		$app        = JFactory::getApplication();
+		$app        = Factory::getApplication();
 		$chromePath = JPATH_THEMES . '/' . $app->getTemplate() . '/html/message.php';
 
 		if (file_exists($chromePath))
@@ -70,7 +72,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 		$lists = array();
 
 		// Get the message queue
-		$messages = JFactory::getApplication()->getMessageQueue();
+		$messages = Factory::getApplication()->getMessageQueue();
 
 		// Build the sorted message list
 		if (is_array($messages) && !empty($messages))

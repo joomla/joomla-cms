@@ -19,7 +19,7 @@ use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
-$lang          = JFactory::getLanguage();
+$lang          = Factory::getLanguage();
 $branchFilter  = $this->escape($this->state->get('filter.branch'));
 Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' => true]);

@@ -31,6 +31,8 @@ require_once JPATH_LIBRARIES . '/bootstrap.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+use Joomla\CMS\Factory;
+
 /**
  * Utility CLI to generate a stubs file holding mapped classes.
  *
@@ -98,7 +100,7 @@ PHP;
 	}
 }
 
-JFactory::getContainer()->share(
+Factory::getContainer()->share(
 	'StubGenerator',
 	function (\Joomla\DI\Container $container)
 	{
@@ -114,6 +116,6 @@ JFactory::getContainer()->share(
 	true
 );
 
-$app = JFactory::getContainer()->get('StubGenerator');
-JFactory::$application = $app;
+$app = Factory::getContainer()->get('StubGenerator');
+Factory::$application = $app;
 $app->execute();
