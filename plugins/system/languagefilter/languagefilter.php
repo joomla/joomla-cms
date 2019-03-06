@@ -835,6 +835,7 @@ class PlgSystemLanguageFilter extends JPlugin
 
 				foreach ($languages as $i => &$language)
 				{
+					$i = substr($i, 0, 2);
 					$doc->addHeadLink($server . $language->link, 'alternate', 'rel', array('hreflang' => $i));
 				}
 
