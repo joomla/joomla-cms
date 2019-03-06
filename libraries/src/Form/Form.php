@@ -1193,7 +1193,16 @@ class Form
 		// Validate the fields.
 		foreach ($fields as $field)
 		{
-			$name = (string) $field['name'];
+			$name     = (string) $field['name'];
+			$disabled = ((string) $field['disabled'] == 'true' || (string) $field['disabled'] == 'disabled');
+
+			$fieldExistsInRequestData = $input->exists($name) || $input->exists($group . '.' . $name);
+
+			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
+			if ($disabled && $fieldExistsInRequestData)
+			{
+				throw new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $name));
+			}
 
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
