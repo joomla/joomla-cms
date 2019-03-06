@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -225,7 +224,7 @@ class FinderIndexerHelper
 	{
 		static $types;
 
-		$db    = Factory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Check if the types are loaded.
@@ -318,7 +317,7 @@ class FinderIndexerHelper
 	 */
 	public static function getCommonWords($lang)
 	{
-		$db = Factory::getDbo();
+		$db = JFactory::getDbo();
 
 		// Create the query to load all the common terms for the language.
 		$query = $db->getQuery(true)
@@ -399,7 +398,7 @@ class FinderIndexerHelper
 		// Load the finder plugin group.
 		JPluginHelper::importPlugin('finder');
 
-		Factory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
+		JFactory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
 
 		return true;
 	}
@@ -449,7 +448,7 @@ class FinderIndexerHelper
 		}
 
 		// Fire the onContentPrepare event.
-		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
+		JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
 
 		return $content->text;
 	}

@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -78,7 +77,7 @@ class IndexModel extends ListModel
 	 */
 	protected function canDelete($record)
 	{
-		return Factory::getUser()->authorise('core.delete', $this->option);
+		return \JFactory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -92,7 +91,7 @@ class IndexModel extends ListModel
 	 */
 	protected function canEditState($record)
 	{
-		return Factory::getUser()->authorise('core.edit.state', $this->option);
+		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -122,7 +121,7 @@ class IndexModel extends ListModel
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the onContentBeforeDelete event.
-					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+					$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -139,7 +138,7 @@ class IndexModel extends ListModel
 					}
 
 					// Trigger the onContentAfterDelete event.
-					Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+					\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 				}
 				else
 				{
@@ -416,7 +415,7 @@ class IndexModel extends ListModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = Factory::getUser();
+		$user = \JFactory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
@@ -449,7 +448,7 @@ class IndexModel extends ListModel
 		$context = $this->option . '.' . $this->name;
 
 		// Trigger the onContentChangeState event.
-		$result = Factory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
+		$result = \JFactory::getApplication()->triggerEvent('onContentChangeState', array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{

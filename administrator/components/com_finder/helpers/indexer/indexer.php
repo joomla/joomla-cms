@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Factory;
 use Joomla\String\StringHelper;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
@@ -113,7 +112,7 @@ abstract class FinderIndexer
 	 */
 	public function __construct()
 	{
-		$this->db = Factory::getDbo();
+		$this->db = JFactory::getDbo();
 
 		$db = $this->db;
 
@@ -143,7 +142,7 @@ abstract class FinderIndexer
 	public static function getInstance()
 	{
 		// Setup the adapter for the indexer.
-		$serverType = Factory::getDbo()->getServerType();
+		$serverType = JFactory::getDbo()->getServerType();
 
 		$path = __DIR__ . '/driver/' . $serverType . '.php';
 		$class = 'FinderIndexerDriver' . ucfirst($serverType);
@@ -177,7 +176,7 @@ abstract class FinderIndexer
 		}
 
 		// If we couldn't load from the internal state, try the session.
-		$session = Factory::getSession();
+		$session = JFactory::getSession();
 		$data = $session->get('_finder.state', null);
 
 		// If the state is empty, load the values for the first time.
@@ -198,7 +197,7 @@ abstract class FinderIndexer
 			);
 
 			// Set the current time as the start time.
-			$data->startTime = Factory::getDate()->toSql();
+			$data->startTime = JFactory::getDate()->toSql();
 
 			// Set the remaining default values.
 			$data->batchSize   = (int) $data->options->get('batch_size', 50);
@@ -208,7 +207,7 @@ abstract class FinderIndexer
 		}
 
 		// Setup the profiler if debugging is enabled.
-		if (Factory::getApplication()->get('debug'))
+		if (JFactory::getApplication()->get('debug'))
 		{
 			static::$profiler = JProfiler::getInstance('FinderIndexer');
 		}
@@ -240,7 +239,7 @@ abstract class FinderIndexer
 		static::$state = $data;
 
 		// Set the new session state.
-		Factory::getSession()->set('_finder.state', $data);
+		JFactory::getSession()->set('_finder.state', $data);
 
 		return true;
 	}
@@ -258,7 +257,7 @@ abstract class FinderIndexer
 		self::$state = null;
 
 		// Reset the session state to null.
-		Factory::getSession()->set('_finder.state', null);
+		JFactory::getSession()->set('_finder.state', null);
 	}
 
 	/**

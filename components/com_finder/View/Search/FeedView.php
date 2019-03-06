@@ -11,7 +11,6 @@ namespace Joomla\Component\Finder\Site\View\Search;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
@@ -34,7 +33,7 @@ class FeedView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		// Get the application
-		$app = Factory::getApplication();
+		$app = \JFactory::getApplication();
 
 		// Adjust the list limit to the feed limit.
 		$app->input->set('limit', $app->get('feed_limit'));

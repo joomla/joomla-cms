@@ -11,7 +11,6 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
@@ -70,7 +69,7 @@ class StatisticsModel extends BaseDatabaseModel
 		$db->setQuery($query);
 		$data->type_list = $db->loadObjectList();
 
-		$lang  = Factory::getLanguage();
+		$lang  = \JFactory::getLanguage();
 		$plugins = PluginHelper::getPlugin('finder');
 
 		foreach ($plugins as $plugin)
