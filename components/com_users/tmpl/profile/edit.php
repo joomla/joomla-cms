@@ -127,7 +127,7 @@ HTMLHelper::_('script', 'com_users/two-factor-switcher.min.js', array('version' 
 				<button type="submit" class="btn btn-primary validate" name="task" value="profile.save">
 					<?php echo Text::_('JSUBMIT'); ?>
 				</button>
-				<button type="submit" class="btn btn-danger" name="task" value="profile.cancel">
+				<button type="submit" class="btn btn-danger" name="task" value="profile.cancel" formnovalidate>
 					<?php echo Text::_('JCANCEL'); ?>
 				</button>
 				<input type="hidden" name="option" value="com_users">
