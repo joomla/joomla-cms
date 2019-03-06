@@ -1142,7 +1142,12 @@ class Form
 			if ($input->exists($key))
 			{
 				$fieldObj = $this->loadField($field, $group);
-				$output->set($key, $fieldObj->filter($input->get($key, (string) $field['default']), $group, $input));
+
+				// Only set into the output if the field was supposed to render on the page (i.e. setup returned true)
+				if ($fieldObj)
+				{
+					$output->set($key, $fieldObj->filter($input->get($key, (string) $field['default']), $group, $input));
+				}
 			}
 		}
 
@@ -1188,7 +1193,16 @@ class Form
 		// Validate the fields.
 		foreach ($fields as $field)
 		{
-			$name = (string) $field['name'];
+			$name     = (string) $field['name'];
+			$disabled = ((string) $field['disabled'] == 'true' || (string) $field['disabled'] == 'disabled');
+
+			$fieldExistsInRequestData = $input->exists($name) || $input->exists($group . '.' . $name);
+
+			// If the field is disabled but it is passed in the request this is invalid as disabled fields are not added to the request
+			if ($disabled && $fieldExistsInRequestData)
+			{
+				throw new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $name));
+			}
 
 			// Get the field groups for the element.
 			$attrs = $field->xpath('ancestor::fields[@name]/@name');
@@ -1199,13 +1213,22 @@ class Form
 
 			$fieldObj = $this->loadField($field, $group);
 
-			$valid = $fieldObj->validate($input->get($key), $group, $input);
-
-			// Check for an error.
-			if ($valid instanceof \Exception)
+			if ($fieldObj)
 			{
-				$this->errors[] = $valid;
-				$return         = false;
+				$valid = $fieldObj->validate($input->get($key), $group, $input);
+
+				// Check for an error.
+				if ($valid instanceof \Exception)
+				{
+					$this->errors[] = $valid;
+					$return         = false;
+				}
+			}
+			elseif (!$fieldObj && $input->exists($key))
+			{
+				// The field returned false from setup and shouldn't be included in the page body - yet we received
+				// a value for it. This is probably some sort of injection attack and should be rejected
+				$this->errors[] = new \RuntimeException(Text::sprintf('JLIB_FORM_VALIDATE_FIELD_INVALID', $key));
 			}
 		}
 
