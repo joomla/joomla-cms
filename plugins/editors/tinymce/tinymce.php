@@ -47,7 +47,7 @@ class PlgEditorTinymce extends CMSPlugin
 	/**
 	 * Loads the application object
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  3.2
 	 */
 	protected $app = null;
@@ -192,10 +192,10 @@ class PlgEditorTinymce extends CMSPlugin
 		$levelParams->loadObject($extraOptions);
 
 		// List the skins
-		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins' . '/*', GLOB_ONLYDIR);
+		$skindirs = glob(JPATH_ROOT . '/media/vendor/tinymce/skins/ui' . '/*', GLOB_ONLYDIR);
 
 		// Set the selected skin
-		$skin = 'lightgray';
+		$skin = 'oxide';
 		$side = $app->isClient('administrator') ? 'skin_admin' : 'skin';
 
 		if ((int) $levelParams->get($side, 0) < count($skindirs))
@@ -624,7 +624,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 		$options['tinyMCE']['default'] = $scriptOptions;
 
-		//$doc->addScriptOptions('plg_editor_tinymce', $options);
+		$doc->addScriptOptions('plg_editor_tinymce', $options);
 
 		return $editor;
 	}
