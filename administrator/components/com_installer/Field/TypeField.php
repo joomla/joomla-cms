@@ -17,7 +17,7 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 FormHelper::loadFieldClass('list');
 
 /**
- * Type field.
+ * Form field for a list of extension types.
  *
  * @since  3.5
  */
