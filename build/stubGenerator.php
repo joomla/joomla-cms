@@ -11,6 +11,7 @@ const _JEXEC = 1;
 
 // Import namespaced classes
 use Joomla\CMS\Application\CliApplication;
+use Joomla\CMS\Factory;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -30,8 +31,6 @@ require_once JPATH_LIBRARIES . '/bootstrap.php';
 // Configure error reporting to maximum for CLI output.
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-use Joomla\CMS\Factory;
 
 /**
  * Utility CLI to generate a stubs file holding mapped classes.
