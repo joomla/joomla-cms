@@ -372,6 +372,13 @@
           "dist/metismenujs.min.js": "js/metismenujs.min.js",
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
         }
+      },
+      "accessibility": {
+        "name": "accessibility",
+        "licenseFilename": "LICENSE",
+        "js": {
+          "dist/accessibility.min.js": "js/accessibility.js"
+        }
       }
     },
     "errorPages": {
