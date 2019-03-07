@@ -945,4 +945,60 @@ class PlgActionlogJoomla extends ActionLogPlugin
 
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CHECKIN', $context, $user->id);
 	}
+
+	/**
+	 * On after log action purge
+	 *
+	 * Method is called after user request to clean action log items.
+	 *
+	 * @param   array  $group  Holds the group name.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAfterLogPurge($group = '')
+	{
+		$context = $this->app->input->get('option');
+		$user    = Factory::getUser();
+		$message = array(
+			'action'      => 'actionlogs',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->name,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->name,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_LOG', $context, $user->id);
+	}
+
+	/**
+	 * On after log export
+	 *
+	 * Method is called after user request to export action log items.
+	 *
+	 * @param   array  $group  Holds the group name.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAfterLogExport($group = '')
+	{
+		$context = $this->app->input->get('option');
+		$user    = Factory::getUser();
+		$message = array(
+			'action'      => 'actionlogs',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->name,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->name,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_LOGEXPORT', $context, $user->id);
+	}
 }
