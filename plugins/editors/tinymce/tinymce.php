@@ -344,6 +344,16 @@ class PlgEditorTinymce extends CMSPlugin
 			$html_width = '';
 		}
 
+		if (is_numeric($html_width))
+		{
+			$html_width .= 'px';
+		}
+
+		if (is_numeric($html_height))
+		{
+			$html_height .= 'px';
+		}
+
 		// The param is true for vertical resizing only, false or both
 		$resizing          = (bool) $levelParams->get('resizing', true);
 		$resize_horizontal = (bool) $levelParams->get('resize_horizontal', true);
