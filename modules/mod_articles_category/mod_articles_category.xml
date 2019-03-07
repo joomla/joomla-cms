@@ -100,6 +100,7 @@
 					multiple="true"
 					filter="int_array"
 					class="multipleCategories"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field
@@ -165,6 +166,7 @@
 					multiple="true"
 					filter="int_array"
 					class="multipleAuthors"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field
@@ -194,6 +196,7 @@
 					key_field="created_by_alias"
 					value_field="created_by_alias"
 					class="multipleAuthorAliases"
+					layout="joomla.form.field.list-fancy-select"
 				/>
 
 				<field
