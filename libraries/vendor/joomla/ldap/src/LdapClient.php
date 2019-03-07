@@ -197,11 +197,11 @@ class LdapClient
 		}
 
 		if ($this->ignore_reqcert_tls)
- 		{ 
-		        putenv('LDAPTLS_REQCERT=never');
+		{
+			putenv('LDAPTLS_REQCERT=never');
 		}
-			
-	        if ($this->ldap_debug)
+
+		if ($this->ldap_debug)
 		{
 			ldap_set_option(NULL, LDAP_OPT_DEBUG_LEVEL, 7);
 		}
