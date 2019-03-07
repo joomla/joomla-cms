@@ -303,12 +303,15 @@ class ComponentHelper
 	public static function renderComponent($option, $params = array())
 	{
 		$app = Factory::getApplication();
-
-		// Load template language files.
-		$template = $app->getTemplate(true)->template;
 		$lang = Factory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+
+		if (!$app->isClient('api'))
+		{
+			// Load template language files.
+			$template = $app->getTemplate(true)->template;
+			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+		}
 
 		if (empty($option))
 		{

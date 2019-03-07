@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 Text::script('COM_MEDIA_ACTION_DELETE', true);
+Text::script('COM_MEDIA_ACTION_DOWNLOAD', true);
 Text::script('COM_MEDIA_ACTION_EDIT', true);
 Text::script('COM_MEDIA_ACTION_PREVIEW', true);
 Text::script('COM_MEDIA_ACTION_RENAME', true);
@@ -25,6 +26,7 @@ Text::script('COM_MEDIA_CREATE_NEW_FOLDER_SUCCESS', true);
 Text::script('COM_MEDIA_DECREASE_GRID', true);
 Text::script('COM_MEDIA_DELETE_ERROR', true);
 Text::script('COM_MEDIA_DELETE_SUCCESS', true);
+Text::script('COM_MEDIA_DROP_FILE', true);
 Text::script('COM_MEDIA_ERROR', true);
 Text::script('COM_MEDIA_ERROR_NOT_AUTHENTICATED', true);
 Text::script('COM_MEDIA_ERROR_NOT_AUTHORIZED', true);
