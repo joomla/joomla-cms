@@ -45,14 +45,18 @@ array_walk($displayData, function ($items, $changeType) {
 	}
 
 	?>
-    <div class="pull-left">
-        <div class="badge <?php echo $class; ?>"><?php echo Text::_('COM_INSTALLER_CHANGELOG_' . $changeType); ?></div>
-        <ul>
-            <li><?php echo implode('</li><li>', $items); ?></li>
-
-        </ul>
+    <div class="changelog">
+    	<div class="changelog__item">
+	    	<div class="changelog__tag">
+	    		<span class="badge <?php echo $class; ?>"><?php echo Text::_('COM_INSTALLER_CHANGELOG_' . $changeType); ?></span>
+	    	</div>
+	    	<div class="changelog__list">
+	    		<ul>
+		            <li><?php echo implode('</li><li>', $items); ?></li>
+		        </ul>
+	    	</div>
+	    </div>
     </div>
-    <div class="clearfix"></div>
 	<?php
 }
 );
