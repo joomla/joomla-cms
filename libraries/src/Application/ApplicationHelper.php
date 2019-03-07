@@ -144,6 +144,12 @@ class ApplicationHelper
 			$obj->name = 'installation';
 			$obj->path = JPATH_INSTALLATION;
 			self::$_clients[2] = clone $obj;
+
+			// API Client
+			$obj->id = 3;
+			$obj->name = 'api';
+			$obj->path = JPATH_API;
+			self::$_clients[3] = clone $obj;
 		}
 
 		// If no client id has been passed return the whole array
