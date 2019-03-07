@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -120,14 +120,6 @@ class InstallationModelDatabase extends JModelBase
 		if (empty($options->db_host) || empty($options->db_user))
 		{
 			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
-
-			return false;
-		}
-
-		// Ensure that a database name was input.
-		if (empty($options->db_name))
-		{
-			JFactory::getApplication()->enqueueMessage(JText::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
 
 			return false;
 		}
