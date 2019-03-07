@@ -1001,4 +1001,39 @@ class PlgActionlogJoomla extends ActionLogPlugin
 		);
 		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_LOGEXPORT', $context, $user->id);
 	}
+
+	/**
+	 * On after Cache purge
+	 *
+	 * Method is called after user request to clean cached items.
+	 *
+	 * @param   string  $group  Holds the group name.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAfterPurge($group = 'all')
+	{
+		$context = $this->app->input->get('option');
+		$user    = JFactory::getUser();
+
+		if (!$this->checkLoggable($context))
+		{
+			return;
+		}
+
+		$message = array(
+			'action'      => 'cache',
+			'type'        => 'PLG_ACTIONLOG_JOOMLA_TYPE_USER',
+			'id'          => $user->id,
+			'title'       => $user->name,
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'userid'      => $user->id,
+			'username'    => $user->name,
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+			'group'       => $group,
+		);
+		$this->addLog(array($message), 'PLG_ACTIONLOG_JOOMLA_USER_CACHE', $context, $user->id);
+	}
 }
