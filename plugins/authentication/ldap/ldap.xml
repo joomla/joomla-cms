@@ -20,6 +20,19 @@
 		<fields name="params">
 			<fieldset name="basic">
 				<field
+					name="ldap_debug"
+					type="radio"
+					label="PLG_LDAP_FIELD_LDAPDEBUG_LABEL"
+					description="PLG_LDAP_FIELD_LDAPDEBUG_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
 					name="host"
 					type="text"
 					label="PLG_LDAP_FIELD_HOST_LABEL"
@@ -59,6 +72,19 @@
 					type="radio"
 					label="PLG_LDAP_FIELD_NEGOCIATE_LABEL"
 					description="PLG_LDAP_FIELD_NEGOCIATE_DESC"
+					default="0"
+					filter="integer"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+
+				<field
+					name="ignore_reqcert_tls"
+					type="radio"
+					label="PLG_LDAP_FIELD_REQCERT_LABEL"
+					description="PLG_LDAP_FIELD_REQCERT_DESC"
 					default="0"
 					filter="integer"
 					class="btn-group btn-group-yesno"
