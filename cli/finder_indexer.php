@@ -21,6 +21,8 @@
 // We are a valid entry point.
 const _JEXEC = 1;
 
+use Joomla\CMS\Factory;
+
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
 {
@@ -37,8 +39,6 @@ define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/com_f
 
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
-
-use Joomla\CMS\Factory;
 
 // Load Library language
 $lang = Factory::getLanguage();
