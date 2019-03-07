@@ -515,6 +515,9 @@ class PlgEditorTinymce extends CMSPlugin
 			$scriptOptions['uploadUri']       = $uploadUrl;
 		}
 
+		// Convert pt to px in dropdown
+		$scriptOptions['fontsize_formats'] = '8px 10px 12px 14px 18px 24px 36px';
+
 		// User custom plugins and buttons
 		$custom_plugin = trim($levelParams->get('custom_plugin', ''));
 		$custom_button = trim($levelParams->get('custom_button', ''));

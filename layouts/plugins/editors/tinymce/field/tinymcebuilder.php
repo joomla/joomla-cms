@@ -80,17 +80,17 @@ Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
 
 	<p><?php echo Text::_('PLG_TINY_SET_SOURCE_PANEL_DESCRIPTION'); ?></p>
 
-	<div class="mce-tinymce mce-container mce-panel">
-		<div class="mce-container-body mce-stack-layout">
+	<div class="tox tox-tinymce">
+		<div class="tox-editor-container">
 
-			<div class="mce-container mce-menubar mce-toolbar mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-menu source" data-group="menu"
+			<div class="tox-menubar">
+				<div class="timymce-builder-menu source" data-group="menu"
 					data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 				</div>
 			</div>
 
-			<div class="mce-toolbar-grp mce-container mce-panel mce-stack-layout-item">
-				<div class="mce-container-body mce-flow-layout timymce-builder-toolbar source" data-group="toolbar"
+			<div class="tox-toolbar">
+				<div class="timymce-builder-toolbar source" data-group="toolbar"
 					data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 				</div>
 			</div>
@@ -167,17 +167,17 @@ Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
 					</div>
 				</div>
 
-				<div class="mce-tinymce mce-container mce-panel">
-					<div class="mce-container-body mce-stack-layout">
-						<div class="mce-container mce-menubar mce-toolbar timymce-builder-menu target"
+				<div class="tox tox-tinymce">
+					<div class="tox-editor-container">
+						<div class="tox-menubar timymce-builder-menu target"
 							data-group="menu" data-set="<?php echo $num; ?>"
 							data-value="<?php echo $this->escape(json_encode($valMenu)); ?>">
 						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						<div class="tox-toolbar timymce-builder-toolbar target"
 						    data-group="toolbar1" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar1)); ?>">
 						</div>
-						<div class="mce-toolbar-grp mce-container mce-panel timymce-builder-toolbar target"
+						<div class="tox-toolbar timymce-builder-toolbar target"
 						    data-group="toolbar2" data-set="<?php echo $num; ?>"
 						    data-value="<?php echo $this->escape(json_encode($valBar2)); ?>">
 						</div>
