@@ -36,8 +36,8 @@ class DatabaseController extends BaseController
 	 */
 	public function fix()
 	{
-		// Check for request forgeries
-		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		// Check for request forgeries.
+		$this->checkToken();
 
 		// Get items to fix the database.
 		$cid = $this->input->get('cid', array(), 'array');
