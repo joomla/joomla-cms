@@ -235,7 +235,7 @@ class HtmlView extends BaseHtmlView
 				->listCheck(true);
 		}
 
-		if ($canDo->get('core.admin'))
+		if ($canDo->get('core.admin') && !$this->state->get('filter.published') != -2)
 		{
 			$toolbar->standardButton('refresh')
 				->text('JTOOLBAR_REBUILD')
