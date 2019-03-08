@@ -123,7 +123,7 @@ final class MetadataManager
 		$exists = $this->checkSessionRecordExists($session->getId());
 
 		// Do not try to touch the database if we can't determine the record state
-		if ($exists === self::$sessionRecordDoesNotExist)
+		if ($exists === self::$sessionRecordUnknown)
 		{
 			return;
 		}
