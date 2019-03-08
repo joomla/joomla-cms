@@ -83,8 +83,8 @@
 				<field
 					name="ignore_reqcert_tls"
 					type="radio"
-					label="PLG_LDAP_FIELD_REQCERT_LABEL"
-					description="PLG_LDAP_FIELD_REQCERT_DESC"
+					label="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_LABEL"
+					description="PLG_LDAP_FIELD_IGNORE_REQCERT_TLS_DESC"
 					default="0"
 					filter="integer"
 					class="btn-group btn-group-yesno"
