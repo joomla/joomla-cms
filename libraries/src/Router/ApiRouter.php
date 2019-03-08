@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Router\Exception\RouteNotFoundException;
-use Joomla\Router\Router;
-use Joomla\Router\Route;
 
 /**
  * Joomla! API Router class
