@@ -14,11 +14,18 @@ namespace TYPO3\PharStreamWrapper\Interceptor;
 use TYPO3\PharStreamWrapper\Assertable;
 use TYPO3\PharStreamWrapper\Exception;
 use TYPO3\PharStreamWrapper\Manager;
+use TYPO3\PharStreamWrapper\Phar\DeserializationException;
+use TYPO3\PharStreamWrapper\Phar\Reader;
 
-class PharExtensionInterceptor implements Assertable
+/**
+ * @internal Experimental implementation of checking against serialized objects in Phar meta-data
+ * @internal This functionality has not been 100% pentested...
+ */
+class PharMetaDataInterceptor implements Assertable
 {
     /**
-     * Determines whether the base file name has a ".phar" suffix.
+     * Determines whether the according Phar archive contains
+     * (potential insecure) serialized objects.
      *
      * @param string $path
      * @param string $command
@@ -27,15 +34,15 @@ class PharExtensionInterceptor implements Assertable
      */
     public function assert($path, $command)
     {
-        if ($this->baseFileContainsPharExtension($path)) {
+        if ($this->baseFileDoesNotHaveMetaDataIssues($path)) {
             return true;
         }
         throw new Exception(
             sprintf(
-                'Unexpected file extension in "%s"',
+                'Problematic meta-data in "%s"',
                 $path
             ),
-            1535198703
+            1539632368
         );
     }
 
@@ -43,13 +50,19 @@ class PharExtensionInterceptor implements Assertable
      * @param string $path
      * @return bool
      */
-    private function baseFileContainsPharExtension($path)
+    private function baseFileDoesNotHaveMetaDataIssues($path)
     {
         $invocation = Manager::instance()->resolve($path);
         if ($invocation === null) {
             return false;
         }
-        $fileExtension = pathinfo($invocation->getBaseName(), PATHINFO_EXTENSION);
-        return strtolower($fileExtension) === 'phar';
+
+        try {
+            $reader = new Reader($invocation->getBaseName());
+            $reader->resolveContainer()->getManifest()->deserializeMetaData();
+        } catch (DeserializationException $exception) {
+            return false;
+        }
+        return true;
     }
 }
