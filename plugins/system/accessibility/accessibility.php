@@ -51,10 +51,12 @@ class PlgSystemAccessibility extends CMSPlugin
 
 		if ($this->app->isClient('administrator'))
 		{
-		// Add strings for translations in Javascript.
-	    //	Factory::getDocument()->addScriptOptions(
-        //todo    
-
+		/** 
+		* Add strings for translations in Javascript.
+	    *	Factory::getDocument()->addScriptOptions(
+        * todo    
+		*/
+		
 		HTMLHelper::_('script', 'vendor/accessibility/accessibility.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		$document->addScriptDeclaration("window.addEventListener('load', function() { new Accessibility(); }, false);");
 		}
