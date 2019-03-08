@@ -12,6 +12,8 @@
    * Shrink or extend the logo, depending on sidebar
    *
    * @param {string} [change] is the sidebar 'open' or 'closed'
+   *
+   * @since   4.0.0
    */
   function changeLogo(change) {
     const logo = doc.querySelector('.logo');
@@ -20,8 +22,7 @@
     }
 
     const state = change
-        || (storageEnabled && localStorage.getItem('atum-sidebar'))
-        || 'closed';
+        || (storageEnabled && localStorage.getItem('atum-sidebar'));
 
     if (state === 'closed') {
       logo.classList.add('small');
@@ -31,7 +32,8 @@
   }
 
   /**
-   * Method that add a fade effect and transition on sidebar and content side after login and logout
+   * Method that add a fade effect and transition on sidebar and content side
+   * after login and logout
    *
    * @since   4.0.0
    */

@@ -33,11 +33,11 @@
       event.preventDefault();
       segments.push('format=json');
 
-      for (let elementIndex = 0; elementIndex < form.elements.length; elementIndex++) {
-        const element = form.elements[elementIndex];
+      for (let eIndex = 0; eIndex < form.elements.length; eIndex += 1) {
+        const element = form.elements[eIndex];
 
         if (element.hasAttribute('name') && element.nodeName === 'INPUT') {
-          segments.push(encodeURIComponent(element.name) + '=' + encodeURIComponent(element.value));
+          segments.push(`${encodeURIComponent(element.name)}=${encodeURIComponent(element.value)}`);
         }
       }
 
