@@ -11,6 +11,7 @@ namespace Joomla\CMS\Extension\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\MVC\Factory\ApiMVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -58,7 +59,15 @@ class MVCFactory implements ServiceProviderInterface
 			MVCFactoryInterface::class,
 			function (Container $container)
 			{
-				$factory = new \Joomla\CMS\MVC\Factory\MVCFactory($this->namespace);
+				if (\Joomla\CMS\Factory::getApplication()->isClient('api'))
+				{
+					$factory = new ApiMVCFactory($this->namespace);
+				}
+				else
+				{
+					$factory = new \Joomla\CMS\MVC\Factory\MVCFactory($this->namespace);
+				}
+
 				$factory->setFormFactory($container->get(FormFactoryInterface::class));
 
 				return $factory;
