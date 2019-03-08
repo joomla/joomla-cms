@@ -39,7 +39,7 @@ class JFormFieldGroupParent extends JFormFieldList
 	 *
 	 * @return  array  The cleaned field options
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.4
 	 */
 	private function cleanOptionsChildrenByFather($userGroupsOptions, $fatherId)
 	{
