@@ -71,7 +71,9 @@ class PlgSystemSkipto extends CMSPlugin
 		HTMLHelper::_('script', 'vendor/skipto/skipTo.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('stylesheet', 'vendor/skipto/SkipTo.css', ['version' => 'auto', 'relative' => true]);
 
-		$document->addScriptDeclaration("window.skipToMenuInit(Joomla.getOptions('skipto-settings'))");
+		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
+			window.skipToMenuInit(Joomla.getOptions('skipto-settings'));
+		});");
 		}
 	}
 }
