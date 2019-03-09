@@ -92,7 +92,7 @@ class LdapClient
 	 * Ignore TLS Certificate (encrypted communications)
          *
          * @var    boolean
-         * @since  1.0
+         * @since  __DEPLOY_VERSION__
          */
 	 public $ignore_reqcert_tls = null;
 
@@ -100,7 +100,7 @@ class LdapClient
 	 * Enable LDAP debug (encrypted communications)
          *
          * @var    boolean
-         * @since  1.0
+         * @since  __DEPLOY_VERSION__
          */
 	 public $ldap_debug = null;
 
