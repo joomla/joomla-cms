@@ -21,7 +21,6 @@
                 name="location"
                 type="url"
                 label="COM_INSTALLER_UPDATESITE_EDIT_UPDATESITE_URL"
-                description="COM_INSTALLER_UPDATESITE_EDIT_UPDATESITE_URL_DESC"
                 size="40"
                 validate="url"
                 filter="url"

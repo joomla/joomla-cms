@@ -16,7 +16,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
- * Item Model for a Contact.
+ * Item Model for an update site.
  *
  * @since  __DEPLOY_VERSION__
  */
