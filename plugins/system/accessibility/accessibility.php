@@ -53,8 +53,8 @@ class PlgSystemAccessibility extends CMSPlugin
 		{
 		/** 
 		* Add strings for translations in Javascript.
-	    *	Factory::getDocument()->addScriptOptions(
-        * todo    
+		* Factory::getDocument()->addScriptOptions(
+		* todo    
 		*/
 		
 		HTMLHelper::_('script', 'vendor/accessibility/accessibility.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
