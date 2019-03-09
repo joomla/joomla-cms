@@ -2,7 +2,7 @@
 <form>
 	<field
 		name="id"
-		type="text"
+		type="number"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		default="0"
 		class="readonly"
@@ -11,7 +11,7 @@
 
 	<field
 		name="hits"
-		type="text"
+		type="number"
 		label="JGLOBAL_HITS"
 		class="readonly"
 		default="0"
@@ -62,7 +62,6 @@
 		name="title"
 		type="text"
 		label="JGLOBAL_TITLE"
-		class="input-xxlarge"
 		size="40"
 		required="true"
 	/>
@@ -137,6 +136,7 @@
 		name="alias"
 		type="text"
 		label="JFIELD_ALIAS_LABEL"
+		hint="JFIELD_ALIAS_PLACEHOLDER"
 		size="40"
 	/>
 
@@ -212,6 +212,7 @@
 				name="tag_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				labelclass="control-label"
 				useglobal="true"
 				extension="com_tags"

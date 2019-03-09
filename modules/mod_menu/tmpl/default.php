@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ModuleHelper;
 
 $id = '';
 
@@ -16,9 +18,9 @@ if ($tagId = $params->get('tag_id', ''))
 	$id = ' id="' . $tagId . '"';
 }
 
-// The menu class is deprecated. Use nav instead
+// The menu class is deprecated. Use mod-menu instead
 ?>
-<ul<?php echo $id; ?> class="nav flex-column<?php echo $class_sfx; ?>">
+<ul<?php echo $id; ?> class="mod-menu nav<?php echo $class_sfx; ?>">
 <?php foreach ($list as $i => &$item)
 {
 	$class = 'nav-item';
@@ -73,18 +75,18 @@ if ($tagId = $params->get('tag_id', ''))
 		case 'component':
 		case 'heading':
 		case 'url':
-			require JModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
+			require ModuleHelper::getLayoutPath('mod_menu', 'default_' . $item->type);
 			break;
 
 		default:
-			require JModuleHelper::getLayoutPath('mod_menu', 'default_url');
+			require ModuleHelper::getLayoutPath('mod_menu', 'default_url');
 			break;
 	endswitch;
 
 	// The next item is deeper.
 	if ($item->deeper)
 	{
-		echo '<ul class="list-unstyled small">';
+		echo '<ul class="mod-menu__sub list-unstyled small">';
 	}
 	// The next item is shallower.
 	elseif ($item->shallower)

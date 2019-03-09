@@ -3,21 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
+
 // Initiasile related data.
-JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 $menuTypes = MenusHelper::getMenuLinks();
-$user      = JFactory::getUser();
+$user      = Factory::getUser();
 ?>
-<label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo JText::_('JGLOBAL_MENU_SELECTION'); ?></label>
+<label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
-	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="jQuery('.chk-menulink').attr('checked', !jQuery('.chk-menulink').attr('checked'));">
-		<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT_ALL'); ?>
+	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="document.querySelector('.chk-menulink').setAttribute('checked', !document.querySelector('.chk-menulink').getAttribute('checked'));">
+		<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT_ALL'); ?>
 	</button>
 </div>
 <div id="menu-assignment" class="menu-assignment">
@@ -26,15 +30,15 @@ $user      = JFactory::getUser();
 		<?php foreach ($menuTypes as &$type) : ?>
 			<li>
 				<div class="menu-links-block">
-					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick="jQuery('.<?php echo $type->menutype; ?>').attr('checked', !jQuery('.<?php echo $type->menutype; ?>').attr('checked'));">
-						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo JText::_('JGLOBAL_SELECTION_INVERT'); ?>
+					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick="document.querySelector('.<?php echo $type->menutype; ?>').setAttribute('checked', !document.querySelector('.<?php echo $type->menutype; ?>').getAttribute('checked'));">
+						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?>
 					</button>
 					<h5><?php echo $type->title ?: $type->menutype; ?></h5>
-	
+
 					<?php foreach ($type->links as $link) : ?>
 						<label class="checkbox small" for="link<?php echo (int) $link->value; ?>" >
 						<input type="checkbox" name="jform[assigned][]" value="<?php echo (int) $link->value; ?>" id="link<?php echo (int) $link->value; ?>"<?php if ($link->template_style_id == $this->item->id) : ?> checked="checked"<?php endif; ?><?php if ($link->checked_out && $link->checked_out != $user->id) : ?> disabled="disabled"<?php else : ?> class="chk-menulink <?php echo $type->menutype; ?>"<?php endif; ?> />
-						<?php echo JLayoutHelper::render('joomla.html.treeprefix', array('level' => $link->level)) . $link->text; ?>
+						<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $link->level)) . $link->text; ?>
 						</label>
 					<?php endforeach; ?>
 

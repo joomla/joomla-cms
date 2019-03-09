@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Field;
 
 defined('_JEXEC') or die;
@@ -42,7 +43,7 @@ class SectionField extends \JFormFieldList
 		$return = parent::setup($element, $value, $group);
 
 		// Onchange must always be the change context function
-		$this->onchange = 'fieldsChangeContext(jQuery(this).val());';
+		$this->onchange = 'fieldsChangeContext(this.value);';
 
 		return $return;
 	}
@@ -55,17 +56,18 @@ class SectionField extends \JFormFieldList
 	 *
 	 * @since   3.7.0
 	 */
-	protected function getInput ()
+	protected function getInput()
 	{
 		// Add the change context function to the document
 		Factory::getDocument()->addScriptDeclaration(
-				"function fieldsChangeContext(context)
+			"function fieldsChangeContext(context)
 				{
 					var regex = new RegExp(\"([?;&])context[^&;]*[;&]?\");
 					var url = window.location.href;
 					var query = url.replace(regex, \"$1\").replace(/&$/, '');
     					window.location.href = (query.length > 2 ? query + \"&\" : \"?\") + (context ? \"context=\" + context : '');
-				}");
+				}"
+		);
 
 		return parent::getInput();
 	}

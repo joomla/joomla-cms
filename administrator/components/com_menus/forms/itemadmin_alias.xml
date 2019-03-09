@@ -39,6 +39,13 @@
 				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_LABEL"
 			/>
 
+			<field 
+				name="menu_image_css"
+				type="text" 
+				label="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_LABEL"
+				description="COM_MENUS_ITEM_FIELD_MENU_IMAGE_CSS_DESC" 
+			/>
+
 			<field
 				name="menu_text"
 				type="radio"

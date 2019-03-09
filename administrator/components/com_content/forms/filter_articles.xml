@@ -10,42 +10,61 @@
 		/>
 
 		<field
-			name="published"
-			type="status"
+			name="stage"
+			type="workflowstage"
 			onchange="this.form.submit();"
+			activeonly="true"
+			extension="com_content"
 			>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
+			<option value="">JOPTION_SELECT_STAGE</option>
+		</field>
+
+		<field
+			name="condition"
+			type="workflowcondition"
+			onchange="this.form.submit();"
+			extension="com_content"
+			>
+			<option value="">JOPTION_SELECT_CONDITION</option>
 		</field>
 
 		<field
 			name="category_id"
 			type="category"
+			label="JOPTION_SELECT_CATEGORY"
+			multiple="true"
 			extension="com_content"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_CATEGORY"
 			onchange="this.form.submit();"
 			published="0,1,2"
-			>
-			<option value="">JOPTION_SELECT_CATEGORY</option>
-		</field>
+		/>
 
 		<field
 			name="access"
 			type="accesslevel"
+			label="JOPTION_SELECT_ACCESS"
+			multiple="true"
+			layout="joomla.form.field.accesslevel-fancy-select"
+			hint="JOPTION_SELECT_ACCESS"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_ACCESS</option>
-		</field>
+		/>
 
 		<field
 			name="author_id"
 			type="author"
+			multiple="true"
+			layout="joomla.form.field.list-fancy-select"
+			hint="JOPTION_SELECT_AUTHOR"
 			onchange="this.form.submit();"
 			>
-			<option value="">JOPTION_SELECT_AUTHOR</option>
+			<option value="0">JNONE</option>
 		</field>
 
 		<field
 			name="language"
 			type="contentlanguage"
+			label="JOPTION_SELECT_LANGUAGE"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_LANGUAGE</option>
@@ -55,11 +74,12 @@
 		<field
 			name="tag"
 			type="tag"
+			multiple="true"
+			hint="JOPTION_SELECT_TAG"
 			mode="nested"
+			custom="false"
 			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_TAG</option>
-		</field>
+		/>
 
 		<field
 			name="level"
@@ -71,13 +91,14 @@
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_MAX_LEVELS</option>
-        	</field>
+		</field>
 	</fields>
 
 	<fields name="list">
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.id DESC"
 			>
@@ -98,8 +119,8 @@
 			<option value="association DESC" requires="associations">JASSOCIATIONS_DESC</option>
 			<option value="a.created_by ASC">JAUTHOR_ASC</option>
 			<option value="a.created_by DESC">JAUTHOR_DESC</option>
-			<option value="language ASC">JGRID_HEADING_LANGUAGE_ASC</option>
-			<option value="language DESC">JGRID_HEADING_LANGUAGE_DESC</option>
+			<option value="language ASC" requires="multilanguage">JGRID_HEADING_LANGUAGE_ASC</option>
+			<option value="language DESC" requires="multilanguage">JGRID_HEADING_LANGUAGE_DESC</option>
 			<option value="a.created ASC">JDATE_ASC</option>
 			<option value="a.created DESC">JDATE_DESC</option>
 			<option value="a.modified ASC">COM_CONTENT_MODIFIED_ASC</option>
@@ -121,6 +142,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

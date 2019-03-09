@@ -3,34 +3,36 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
+
 /** @var JDocumentHtml $this */
 
-$app  = JFactory::getApplication();
-$lang = JFactory::getLanguage();
+$app  = Factory::getApplication();
+$lang = Factory::getLanguage();
 
 // Add JavaScript Frameworks
-JHtml::_('script', 'media/vendor/flying-focus-a11y/js/flying-focus.min.js', ['version' => 'auto']);
+HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
-JHtml::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
-JHtml::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
-JHtml::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
-
-// Alerts
-JHtml::_('webcomponent', ['joomla-alert' => 'system/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
-
+HTMLHelper::_('stylesheet', 'bootstrap.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'font-awesome.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
-JHtml::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
 
 // Load specific language related CSS
-JHtml::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
+HTMLHelper::_('stylesheet', 'administrator/language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -40,88 +42,69 @@ $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
 $sitename = $app->get('sitename');
 
+// Template params
+$showSitename = $this->params->get('showSitename', '1');
+$loginLogo    = $this->params->get('loginLogo', '');
+
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
 $this->setMetaData('theme-color', '#1c3d5c');
 
+// Set page title
+$this->setTitle($sitename . ' - ' . Text::_('JACTION_LOGIN_ADMIN'));
+
+$this->addScriptDeclaration('cssVars();')
+
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $this->language; ?>" dir="<?php echo $this->direction; ?>">
 <head>
-	<jdoc:include type="metas" />
-	<jdoc:include type="styles" />
-	<style>
-		.login-initial {
-			display: none;
-		}
-		<?php // Check if debug is on ?>
-		<?php if ($app->get('debug_lang', 1) || $app->get('debug', 1)) : ?>
-		.view-login .container {
-			position: static;
-			margin-top: 20px;
-			margin-left: auto;
-			margin-right: auto;
-		}
-		.view-login .navbar-fixed-bottom {
-			display: none;
-		}
-		<?php endif; ?>
-	</style>
+	<jdoc:include type="metas"/>
+	<jdoc:include type="styles"/>
 </head>
-
 <body class="site <?php echo $option . ' view-' . $view . ' layout-' . $layout . ' task-' . $task . ' itemid-' . $itemid . ' '; ?>">
 	<?php // Container ?>
-	<div class="container">
-		<div class="login-logo">
-			<img class="card-img-top" src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo.svg" alt="<?php echo $sitename; ?>">
-		</div>
-		<div id="content">
-			<noscript>
-				<div class="alert alert-danger" role="alert">
-					<?php echo JText::_('JGLOBAL_WARNJAVASCRIPT'); ?>
-				</div>
-			</noscript>
-			<?php // Begin Content ?>
-			<div id="element-box" class="login card card-block">
-				<h1 class="text-center mt-1 mb-4"><?php echo JText::_('MOD_LOGIN_LOGIN_TITLE'); ?></h1>
-				<jdoc:include type="message" />
-				<jdoc:include type="component" />
+	<main class="d-flex justify-content-center align-items-center h-100">
+		<div class="login-bg-grad"></div>
+		<div class="login">
+			<div class="login-logo">
+				<img src="<?php echo $this->baseurl; ?>/templates/<?php echo $this->template; ?>/images/logo-joomla-white.svg"
+					 alt="">
 			</div>
-			<?php // End Content ?>
+			<div id="content">
+				<noscript>
+					<div class="alert alert-danger" role="alert">
+						<?php echo Text::_('JGLOBAL_WARNJAVASCRIPT'); ?>
+					</div>
+				</noscript>
+				<h1 class="m-3 h4 text-light"><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
+				<div id="element-box" class="login-box">
+					<?php if ($showSitename || $loginLogo) : ?>
+						<div class="p-4 bg-white text-center">
+							<?php if ($showSitename) : ?>
+								<h2 class="m-0 text-primary"><?php echo $sitename; ?></h2>
+							<?php endif; ?>
+							<?php if ($loginLogo) : ?>
+								<img src="<?php echo JURI::root() . '/' . $loginLogo; ?>" class="img-fluid my-2" alt="">
+							<?php endif; ?>
+						</div>
+					<?php endif; ?>
+					<div class="p-4">
+						<jdoc:include type="message"/>
+						<jdoc:include type="component"/>
+					</div>
+				</div>
+			</div>
+			<div class="mt-4 d-none d-md-flex justify-content-between">
+				<a href="<?php echo Uri::root(); ?>" target="_blank" class="text-white"><span
+							class="fa fa-external-link mr-1"
+							aria-hidden="true"></span><?php echo Text::_('TPL_ATUM_VIEW_SITE'); ?></a> <span
+						class="text-white">&nbsp;&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
+			</div>
 		</div>
-	</div>
-
-	<nav class="navbar fixed-bottom hidden-xs-down">
-		<ul class="nav nav-fill">
-			<li class="nav-item">
-				<a href="<?php echo JUri::root(); ?>" target="_blank" class="float-left"><span class="fa fa-external-link"></span> <?php echo JText::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
-			</li>
-			<li class="nav-item">
-				<a class="login-joomla hasTooltip" href="https://www.joomla.org" target="_blank" title="<?php echo JHtml::tooltipText('TPL_ATUM_ISFREESOFTWARE'); ?>">
-					<span class="fa fa-joomla"></span>
-					<span class="sr-only"><?php echo JText::_('TPL_ATUM_GOTO_JOOMLA_HOME_PAGE'); ?></span>
-				</a>
-			</li>
-			<li class="nav-item">
-				<span class="text-white float-right">&copy; <?php echo date('Y'); ?> <?php echo $sitename; ?></span>
-			</li>
-		</ul>
-	</nav>
-
-	<jdoc:include type="modules" name="debug" style="none" />
-
-	<jdoc:include type="scripts" />
-	<script>
-		(function() {
-			var formTmp = document.querySelector('.login-initial');
-			if (formTmp) {
-				formTmp.style.display = 'block';
-				if (!document.querySelector('joomla-alert')) {
-					document.getElementById('mod-login-username').focus();
-				}
-			}
-		})();
-	</script>
+	</main>
+	<jdoc:include type="modules" name="debug" style="none"/>
+	<jdoc:include type="scripts"/>
 </body>
 </html>

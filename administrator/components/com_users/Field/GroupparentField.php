@@ -3,15 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
 
@@ -22,7 +24,7 @@ FormHelper::loadFieldClass('list');
  *
  * @since  1.6
  */
-class GroupparentField extends \JFormFieldList
+class GroupparentField extends ListField
 {
 	/**
 	 * The form field type.

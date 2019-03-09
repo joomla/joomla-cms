@@ -3,21 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\String\StringHelper;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
+JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
 JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
-JLoader::register('FinderIndexerStemmer', __DIR__ . '/stemmer.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
-
-jimport('joomla.filesystem.file');
 
 /**
  * Main indexer class for the Finder indexer package.
@@ -91,6 +90,48 @@ abstract class FinderIndexer
 	public static $profiler;
 
 	/**
+	 * Database driver cache.
+	 *
+	 * @var    \Joomla\Database\DatabaseDriver
+	 * @since  3.8.0
+	 */
+	protected $db;
+
+	/**
+	 * Reusable Query Template. To be used with clone.
+	 *
+	 * @var    Joomla\Database\QueryInterface
+	 * @since  3.8.0
+	 */
+	protected $addTokensToDbQueryTemplate;
+
+	/**
+	 * FinderIndexer constructor.
+	 *
+	 * @since  3.8.0
+	 */
+	public function __construct()
+	{
+		$this->db = JFactory::getDbo();
+
+		$db = $this->db;
+
+		// Set up query template for addTokensToDb
+		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
+			->columns(
+				array(
+					$db->quoteName('term'),
+					$db->quoteName('stem'),
+					$db->quoteName('common'),
+					$db->quoteName('phrase'),
+					$db->quoteName('weight'),
+					$db->quoteName('context'),
+					$db->quoteName('language')
+				)
+			);
+	}
+
+	/**
 	 * Returns a reference to the FinderIndexer object.
 	 *
 	 * @return  FinderIndexer instance based on the database driver
@@ -129,7 +170,7 @@ abstract class FinderIndexer
 	public static function getState()
 	{
 		// First, try to load from the internal state.
-		if (!empty(static::$state))
+		if ((bool) static::$state)
 		{
 			return static::$state;
 		}
@@ -169,12 +210,6 @@ abstract class FinderIndexer
 		if (JFactory::getApplication()->get('debug'))
 		{
 			static::$profiler = JProfiler::getInstance('FinderIndexer');
-		}
-
-		// Setup the stemmer.
-		if ($data->options->get('stem', 1) && $data->options->get('stemmer', 'porter_en'))
-		{
-			FinderIndexerHelper::$stemmer = FinderIndexerStemmer::getInstance($data->options->get('stemmer', 'porter_en'));
 		}
 
 		// Set the state.
@@ -248,7 +283,45 @@ abstract class FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract public function remove($linkId);
+	public function remove($linkId)
+	{
+		$db    = $this->db;
+		$query = $db->getQuery(true);
+
+		// Update the link counts for the terms.
+		$query->clear()
+			->update($db->quoteName('#__finder_terms', 't'))
+			->join('INNER', $db->quoteName('#__finder_links_terms', 'm') . ' ON ' . $db->quoteName('m.term_id') . ' = ' . $db->quoteName('t.term_id'))
+			->set($db->quoteName('links') . ' = ' . $db->quoteName('links') . ' - 1')
+			->where($db->quoteName('m.link_id') . ' = ' . (int) $linkId);
+		$db->setQuery($query)->execute();
+
+		// Remove all records from the mapping tables.
+		$query->clear()
+			->delete($db->quoteName('#__finder_links_terms'))
+			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+		$db->setQuery($query)->execute();
+
+		// Delete all orphaned terms.
+		$query->clear()
+			->delete($db->quoteName('#__finder_terms'))
+			->where($db->quoteName('links') . ' <= 0');
+		$db->setQuery($query)->execute();
+
+		// Delete the link from the index.
+		$query->clear()
+			->delete($db->quoteName('#__finder_links'))
+			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
+		$db->setQuery($query)->execute();
+
+		// Remove the taxonomy maps.
+		FinderIndexerTaxonomy::removeMaps($linkId);
+
+		// Remove the orphaned taxonomy nodes.
+		FinderIndexerTaxonomy::removeOrphanNodes();
+
+		return true;
+	}
 
 	/**
 	 * Method to optimize the index. We use this method to remove unused terms
@@ -334,7 +407,7 @@ abstract class FinderIndexer
 						$string = substr($buffer, 0, $ls);
 
 						// Adjust the buffer based on the last space for the next iteration and trim.
-						$buffer = JString::trim(substr($buffer, $ls));
+						$buffer = StringHelper::trim(substr($buffer, $ls));
 					}
 					// No space character was found.
 					else
@@ -351,8 +424,7 @@ abstract class FinderIndexer
 				// Parse, tokenise and add tokens to the database.
 				$count = $this->tokenizeToDbShort($string, $context, $lang, $format, $count);
 
-				unset($string);
-				unset($tokens);
+				unset($string, $tokens);
 			}
 
 			return $count;
@@ -373,7 +445,7 @@ abstract class FinderIndexer
 	 * @param   string   $format   The format of the input.
 	 * @param   integer  $count    The number of tokens processed so far.
 	 *
-	 * @return  integer  Cummulative number of tokens extracted from the input so far.
+	 * @return  integer  Cumulative number of tokens extracted from the input so far.
 	 *
 	 * @since   3.7.0
 	 */
@@ -391,6 +463,11 @@ abstract class FinderIndexer
 		// Tokenize the input.
 		$tokens = FinderIndexerHelper::tokenize($input, $lang);
 
+		if (count($tokens) == 0)
+		{
+			return $count;
+		}
+
 		// Add the tokens to the database.
 		$count += $this->addTokensToDb($tokens, $context);
 
@@ -406,19 +483,86 @@ abstract class FinderIndexer
 	/**
 	 * Method to add a set of tokens to the database.
 	 *
-	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
+	 * @param   FinderIndexerToken[]|FinderIndexerToken  $tokens   An array or single FinderIndexerToken object.
+	 * @param   mixed                                    $context  The context of the tokens. See context constants. [optional]
 	 *
 	 * @return  integer  The number of tokens inserted into the database.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract protected function addTokensToDb($tokens, $context = '');
+	protected function addTokensToDb($tokens, $context = '')
+	{
+		static $filterCommon, $filterNumeric;
+
+		if (is_null($filterCommon))
+		{
+			$params = ComponentHelper::getParams('com_finder');
+			$filterCommon = $params->get('filter_commonwords', false);
+			$filterNumeric = $params->get('filter_numerics', false);
+		}
+
+		// Get the database object.
+		$db = $this->db;
+
+		$query = clone $this->addTokensToDbQueryTemplate;
+
+		// Count the number of token values.
+		$values = 0;
+
+		// Iterate through the tokens to create SQL value sets.
+		if (!is_a($tokens, 'FinderIndexerToken'))
+		{
+			foreach ($tokens as $token)
+			{
+				if ($filterCommon && $token->common)
+				{
+					continue;
+				}
+
+				if ($filterNumeric && $token->numeric)
+				{
+					continue;
+				}
+
+				$query->values(
+					$db->quote($token->term) . ', '
+					. $db->quote($token->stem) . ', '
+					. (int) $token->common . ', '
+					. (int) $token->phrase . ', '
+					. $db->quote($token->weight) . ', '
+					. (int) $context . ', '
+					. $db->quote($token->language)
+				);
+				$values++;
+			}
+		}
+		else
+		{
+			$query->values(
+				$db->quote($tokens->term) . ', '
+				. $db->quote($tokens->stem) . ', '
+				. (int) $tokens->common . ', '
+				. (int) $tokens->phrase . ', '
+				. $db->escape((float) $tokens->weight) . ', '
+				. (int) $context . ', '
+				. $db->quote($tokens->language)
+			);
+			$values++;
+		}
+
+		if ($query->values)
+		{
+			$db->setQuery($query)->execute();
+		}
+
+		return $values;
+	}
 
 	/**
-	 * Method to switch the token tables from Memory tables to MyISAM tables
+	 * Method to switch the token tables from Memory tables to Disk tables
 	 * when they are close to running out of memory.
+	 * Since this is not supported/implemented in all DB-drivers, the default is a stub method, which simply returns true.
 	 *
 	 * @param   boolean  $memory  Flag to control how they should be toggled.
 	 *
@@ -427,5 +571,8 @@ abstract class FinderIndexer
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract protected function toggleTables($memory);
+	protected function toggleTables($memory)
+	{
+		return true;
+	}
 }

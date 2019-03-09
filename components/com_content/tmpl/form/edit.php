@@ -3,16 +3,24 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.tabstate');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.formvalidator');
-JHtml::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0));
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Router\Route;
+
+HTMLHelper::_('behavior.tabstate');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.formvalidator');
+
+HTMLHelper::_('script', 'com_content/form-edit.js', ['version' => 'auto', 'relative' => true]);
+
 $this->tab_name = 'com-content-form';
 $this->ignore_fieldsets = array('image-intro', 'image-full', 'jmetadata', 'item_associations');
 
@@ -26,19 +34,8 @@ if (!$editoroptions)
 {
 	$params->show_urls_images_frontend = '0';
 }
-
-JFactory::getDocument()->addScriptDeclaration("
-	Joomla.submitbutton = function(task)
-	{
-		if (task == 'article.cancel' || document.formvalidator.isValid(document.getElementById('adminForm')))
-		{
-			" . $this->form->getField('articletext')->save() . "
-			Joomla.submitform(task);
-		}
-	}
-");
 ?>
-<div class="edit item-page<?php echo $this->pageclass_sfx; ?>">
+<div class="edit item-page">
 	<?php if ($params->get('show_page_heading')) : ?>
 	<div class="page-header">
 		<h1>
@@ -47,11 +44,11 @@ JFactory::getDocument()->addScriptDeclaration("
 	</div>
 	<?php endif; ?>
 
-	<form action="<?php echo JRoute::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
+	<form action="<?php echo Route::_('index.php?option=com_content&a_id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate form-vertical">
 		<fieldset>
-			<?php echo JHtml::_('bootstrap.startTabSet', $this->tab_name, array('active' => 'editor')); ?>
+			<?php echo HTMLHelper::_('uitab.startTabSet', $this->tab_name, array('active' => 'editor')); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'editor', JText::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'editor', Text::_('COM_CONTENT_ARTICLE_CONTENT')); ?>
 				<?php echo $this->form->renderField('title'); ?>
 
 				<?php if (is_null($this->item->id)) : ?>
@@ -63,10 +60,10 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php if ($this->captchaEnabled) : ?>
 					<?php echo $this->form->renderField('captcha'); ?>
 				<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 			<?php if ($params->get('show_urls_images_frontend')) : ?>
-			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'images', JText::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'images', Text::_('COM_CONTENT_IMAGES_AND_URLS')); ?>
 				<?php echo $this->form->renderField('image_intro', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_alt', 'images'); ?>
 				<?php echo $this->form->renderField('image_intro_caption', 'images'); ?>
@@ -96,12 +93,12 @@ JFactory::getDocument()->addScriptDeclaration("
 						<?php echo $this->form->getInput('targetc', 'urls'); ?>
 					</div>
 				</div>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 			<?php endif; ?>
 
-			<?php echo JLayoutHelper::render('joomla.edit.params', $this); ?>
+			<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'publishing', JText::_('COM_CONTENT_PUBLISHING')); ?>
+			<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'publishing', Text::_('COM_CONTENT_PUBLISHING')); ?>
 				<?php echo $this->form->renderField('catid'); ?>
 				<?php echo $this->form->renderField('tags'); ?>
 				<?php if ($params->get('save_history', 0)) : ?>
@@ -110,10 +107,12 @@ JFactory::getDocument()->addScriptDeclaration("
 				<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 					<?php echo $this->form->renderField('created_by_alias'); ?>
 				<?php endif; ?>
+				<?php if ((int) $this->item->id > 0) : ?>
+					<?php echo $this->form->renderField('transition'); ?>
+				<?php endif; ?>
 				<?php if ($this->item->params->get('access-change')) : ?>
-					<?php echo $this->form->renderField('state'); ?>
 					<?php echo $this->form->renderField('featured'); ?>
-					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>					
+					<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
 						<?php echo $this->form->renderField('publish_up'); ?>
 						<?php echo $this->form->renderField('publish_down'); ?>
 					<?php endif; ?>
@@ -124,44 +123,44 @@ JFactory::getDocument()->addScriptDeclaration("
 						<div class="control-label">
 						</div>
 						<div class="controls">
-							<?php echo JText::_('COM_CONTENT_ORDERING'); ?>
+							<?php echo Text::_('COM_CONTENT_ORDERING'); ?>
 						</div>
 					</div>
 				<?php endif; ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
+			<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-			<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'language', JText::_('JFIELD_LANGUAGE_LABEL')); ?>
+			<?php if (Multilanguage::isEnabled()) : ?>
+				<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'language', Text::_('JFIELD_LANGUAGE_LABEL')); ?>
+					<?php echo $this->form->renderField('language'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
+			<?php else: ?>
 				<?php echo $this->form->renderField('language'); ?>
-			<?php echo JHtml::_('bootstrap.endTab'); ?>
-
-			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>	
-				<?php echo JHtml::_('bootstrap.addTab', $this->tab_name, 'metadata', JText::_('COM_CONTENT_METADATA')); ?>
-					<?php echo $this->form->renderField('metadesc'); ?>
-					<?php echo $this->form->renderField('metakey'); ?>
-				<?php echo JHtml::_('bootstrap.endTab'); ?>
 			<?php endif; ?>
 
-			<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+			<?php if ($params->get('show_publishing_options', 1) == 1) : ?>
+				<?php echo HTMLHelper::_('uitab.addTab', $this->tab_name, 'metadata', Text::_('COM_CONTENT_METADATA')); ?>
+					<?php echo $this->form->renderField('metadesc'); ?>
+					<?php echo $this->form->renderField('metakey'); ?>
+				<?php echo HTMLHelper::_('uitab.endTab'); ?>
+			<?php endif; ?>
+
+			<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 			<input type="hidden" name="task" value="">
 			<input type="hidden" name="return" value="<?php echo $this->return_page; ?>">
-			<?php echo JHtml::_('form.token'); ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</fieldset>
-		<div class="btn-toolbar">
-			<div class="btn-group">
-				<button type="button" class="btn btn-primary" onclick="Joomla.submitbutton('article.save')">
-					<span class="icon-ok"></span><?php echo JText::_('JSAVE') ?>
-				</button>
-			</div>
-			<div class="btn-group">
-				<button type="button" class="btn" onclick="Joomla.submitbutton('article.cancel')">
-					<span class="icon-cancel"></span><?php echo JText::_('JCANCEL') ?>
-				</button>
-			</div>
+		<div class="mb-2">
+			<button type="button" class="btn btn-primary" data-submit-task="article.save">
+				<span class="fa fa-check" aria-hidden="true"></span>
+				<?php echo Text::_('JSAVE'); ?>
+			</button>
+			<button type="button" class="btn btn-danger" data-submit-task="article.cancel">
+				<span class="fa fa-times-cancel" aria-hidden="true"></span>
+				<?php echo Text::_('JCANCEL'); ?>
+			</button>
 			<?php if ($params->get('save_history', 0) && $this->item->id) : ?>
-			<div class="btn-group">
 				<?php echo $this->form->getInput('contenthistory'); ?>
-			</div>
 			<?php endif; ?>
 		</div>
 	</form>

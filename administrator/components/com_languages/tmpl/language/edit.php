@@ -3,42 +3,30 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.tabstate');
 
-JFactory::getDocument()->addScriptDeclaration(
-	'
-	jQuery(document).ready(function() {
-		jQuery("#jform_image").on("change", function() {
-			var flag = this.value;
-			if (flag) {
-				jQuery("#flag img").attr("src", "' . JUri::root(true) . '" + "/media/mod_languages/images/" + flag + ".gif").attr("alt", flag);
-			}
-			else
-			{
-				jQuery("#flag img").removeAttr("src").removeAttr("alt");
-			}
-	});
-});'
-);
+HTMLHelper::_('script', 'com_languages/admin-language-edit-change-flag.js', ['version' => 'auto', 'relative' => true]);
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
+<form action="<?php echo Route::_('index.php?option=com_languages&view=language&layout=edit&lang_id=' . (int) $this->item->lang_id); ?>" method="post" name="adminForm" id="language-form" class="form-validate">
 
-	<?php echo JLayoutHelper::render('joomla.edit.item_title', $this); ?>
+	<h2><?php echo $this->form->getValue('title'); ?></h2>
 
 	<fieldset>
-	<?php echo JHtml::_('bootstrap.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'details', JText::_('JDETAILS')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('JDETAILS')); ?>
 			<?php echo $this->form->renderField('title'); ?>
 			<?php echo $this->form->renderField('title_native'); ?>
 			<?php echo $this->form->renderField('lang_code'); ?>
@@ -50,7 +38,7 @@ JFactory::getDocument()->addScriptDeclaration(
 				<div class="controls">
 					<?php echo $this->form->getInput('image'); ?>
 					<span id="flag">
-						<?php echo JHtml::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
+						<?php echo HTMLHelper::_('image', 'mod_languages/' . $this->form->getValue('image') . '.gif', $this->form->getValue('image'), null, true); ?>
 					</span>
 				</div>
 			</div>
@@ -61,18 +49,18 @@ JFactory::getDocument()->addScriptDeclaration(
 			<?php echo $this->form->renderField('access'); ?>
 			<?php echo $this->form->renderField('description'); ?>
 			<?php echo $this->form->renderField('lang_id'); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'metadata', JText::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'metadata', Text::_('JGLOBAL_FIELDSET_METADATA_OPTIONS')); ?>
 		<?php echo $this->form->renderFieldset('metadata'); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-		<?php echo JHtml::_('bootstrap.addTab', 'myTab', 'site_name', JText::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL')); ?>
+		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'site_name', Text::_('COM_LANGUAGES_FIELDSET_SITE_NAME_LABEL')); ?>
 		<?php echo $this->form->renderFieldset('site_name'); ?>
-		<?php echo JHtml::_('bootstrap.endTab'); ?>
+		<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-	<?php echo JHtml::_('bootstrap.endTabSet'); ?>
+	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 	</fieldset>
 	<input type="hidden" name="task" value="">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

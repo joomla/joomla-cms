@@ -1,73 +1,30 @@
 // Sidebar
 
 .wrapper {
-  padding-left: 250px;
   transition: all .3s ease;
 
   @include media-breakpoint-down(md) {
     padding-left: 0;
   }
-
 }
 
 .sidebar-wrapper {
-  position: fixed;
-  left: 0;
-  z-index: 10;
-  width: 250px;
-  height: 100%;
-  margin-left: 0;
-  background-color: $atum-template-color;
-  box-shadow: 0 3px 10px rgba(0,0,0,.5);
+  position: relative;
+  top: 0;
+  z-index: 1041;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 $sidebar-width;
+  max-width: $sidebar-width;
+  background-color: var(--sidebar-bg);
+  box-shadow: $atum-box-shadow;
   transition: all .3s ease;
-  .sidebar-brand {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    overflow: hidden;
-
-  }
-
-  @include media-breakpoint-down(md) {
-    margin-top: 3px;
-
-    .main-nav {
-      max-height: calc(100vh - 147px);
-    }
-
-  }
+  overflow: hidden;
 
   .main-brand {
-    margin-left: 5px;
-    font-size: 30px;
-    line-height: 96px;
-    text-align: center;
-    text-indent: 0;
-    border: 0;
-    box-shadow: none;
-
-    a {
-      display: block;
-      margin-right: 5px;
-      overflow: hidden;
-      border: 0;
-      box-shadow: none;
-
-      &:hover {
-        background: none;
-      }
-
-    }
-
-    img {
-      width: 190px;
-    }
-
+    padding: 15px;
+    margin-top: auto;
   }
-
 }
 
 .menu-toggle-icon {
@@ -77,248 +34,178 @@
 
 // Sidebar navigation
 .main-nav {
-  position: relative;
-  z-index: 1;
-  width: 250px;
-  height: calc(100vh - 96px);
-  list-style: none;
-  background-color: $atum-template-color;
+  width: $sidebar-width;
   opacity: 1;
 
-  // Animated child background
-  &::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 0;
-    content: "";
-    background-color: $atum-sidebar-child-bg;
-    transition: all .3s ease;
+  // All list items
+  li {
+    color: var(--sidebar-text-color);
+    list-style-type: none;
   }
 
-  // Parent items
+  // All links
+  a {
+    position: relative;
+    color: var(--sidebar-link-color);
+
+    &:hover {
+      color: var(--sidebar-link-color-hover);
+      text-decoration: none;
+    }
+  }
+
+  // 1st level items
   > li {
-    background-color: $atum-template-color;
-    border-bottom: 1px solid rgba(0,0,0,.15);
-    &:first-of-type {
-      border-top: 1px solid rgba(0,0,0,.15);
+    > ul {
+      background-color: var(--sidebar-sub-bg);
+    }
+    > a {
+      display: block;
+      padding: 10px 6px;
+
+      &:hover {
+        background-color: rgba(0,0,0,.4);
+      }
+    }
+    &.active > a {
+      background-color: rgba(0,0,0,.4);
+
+      &::before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 3px;
+        content: "";
+        background-color: var(--primary);
+      }
+    }
+  }
+
+  // 2nd level items
+  ul {
+    padding: 0;
+
+    li {
+      position: relative;
     }
 
-  }
-
-  li {
-    max-height: 40px;
-    line-height: 40px;
     a {
-      position: relative;
       display: block;
-      max-height: 40px;
-      overflow: hidden;
-      color: $white;
-      text-decoration: none;
-      cursor: pointer;
-      opacity: 1;
+      padding: 4px 5px 4px 34px;
+      color: var(--sidebar-child-link-color);
 
       &:hover {
         color: $white;
-        text-decoration: none;
-        background-color: rgba(0,0,0,.2);
+        background-color: rgba(0,0,0,.4);
       }
 
-      &:active,
-      &:focus {
-        text-decoration: none;
-        outline: 0;
-        box-shadow: inset 0 0 0 1px #78aeda;
+      &.active {
+        color: $white;
+        background-color: var(--primary);
       }
 
+      &::before {
+        position: absolute;
+        top: 12px;
+        left: 18px;
+        width: .5rem;
+        height: .5rem;
+        content: "";
+        background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBmaWxsPSJ3aGl0ZSI+PHBhdGggZD0iTTI1NiA4QzExOSA4IDggMTE5IDggMjU2czExMSAyNDggMjQ4IDI0OCAyNDgtMTExIDI0OC0yNDhTMzkzIDggMjU2IDh6bTAgNDQ4Yy0xMTAuNSAwLTIwMC04OS41LTIwMC0yMDBTMTQ1LjUgNTYgMjU2IDU2czIwMCA4OS41IDIwMCAyMDAtODkuNSAyMDAtMjAwIDIwMHoiLz48L3N2Zz4=");
+        opacity: .5;
+      }
     }
 
-    a:not([href]):not([tabindex]) {
-      color: $white;
+    .has-arrow::after {
+      top: 16px;
+      width: .4rem;
+      height: .4rem;
+      border-color: var(--sidebar-text-color);
     }
 
+    // 3rd level items
     ul {
-      position: absolute;
-      top: 0;
-      left: 50px;
-      z-index: -3;
-      display: block;
-      width: 200px;
-      height: 100%;
-      padding: 0;
-      opacity: 0;
-      transition: left .2s ease, opacity .2s ease;
-      transition-delay: 0;
-      ul {
-        display: none;
-        opacity: 1;
+
+      a {
+        padding-left: 50px;
       }
 
-      li {
-        text-indent: 15px;
+      a::before {
+        left: 34px;
       }
-    }
-
-  }
-
-  .close {
-    padding: 2px 10px;
-    font-size: 1.7rem;
-    color: rgba(255, 255, 255, .8);
-    text-indent: 0;
-    text-shadow: none;
-    &:hover {
-      background-color: transparent;
     }
   }
 
-  .open {
-
-    > a {
-
-      + ul {
-        left: 50px;
-        z-index: 1;
-        opacity: 1;
-        transition-delay: .2s;
-      }
-
+  .divider,
+  .menuitem-group {
+    list-style: none;
+    a::before {
+      display: none;
     }
-
   }
 
-  li li {
-    line-height: 2.2rem;
-    border: 0;
-    box-shadow: none;
+  .divider {
+    height: 1px;
+    margin: 4px 18px;
+    background-color: var(--sidebar-text-color);
+    opacity: .2;
+  }
 
-    a {
-      box-shadow: none;
+  .menuitem-group {
+    margin-top: 10px;
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
 
-      &:hover {
-        background-color: $atum-template-color-light;
-        box-shadow: inset 2px 0 2px rgba(0,0,0,.1);
-      }
+  .collapse {
+    display: none;
+  }
+  .collapse.in {
+    display: block;
+  }
+  .collapsing {
+    position: relative;
+    height: 0;
+    overflow: hidden;
+    transition-timing-function: ease;
+    transition-duration: .35s;
+    transition-property: height, visibility;
+  }
 
+  // Dropdown indicator
+  .has-arrow::after {
+    position: absolute;
+    top: 21px;
+    right: 1em;
+    width: .5rem;
+    height: .5rem;
+    color: $white;
+    content: "";
+    border-color: initial;
+    border-style: solid;
+    border-width: 1px 0 0 1px;
+    transition: all .3s ease-out;
+    transform: rotate(-45deg) translate(0, -50%);
+    transform-origin: top;
+  }
+
+  .active {
+    > .has-arrow::after {
+      transform: rotate(-135deg) translate(0, -50%);
     }
-
-    > span {
-      color: rgba($white, .4);
-    }
-
-    &:first-of-type {
-      margin: 6px 0 0;
-      color: rgba($white, .7);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    &:last-of-type {
-      > a {
-        border-bottom: 0;
-      }
-
-    }
-
   }
 
   // Parent icons
   .fa {
     position: relative;
-    top: -2px;
+    top: -1px;
     display: inline-block;
-    margin: 0 12px;
-    font-size: 20px;
+    margin: 0 5px;
+    font-size: 1.1rem;
     text-align: center;
     vertical-align: middle;
-  }
-
-  // 2nd level items
-  .collapse-level-1 {
-    a::before {
-      display: none;
-    }
-    li {
-      position: relative;
-      &:hover ul {
-        display: block !important;
-      }
-    }
-  }
-
-  // 3rd level items
-  .collapse-level-2 {
-    position: absolute;
-    top: 0;
-    left: 100% !important;
-    height: auto;
-    padding: 2px 0;
-    background-color: darken($atum-template-color, 6%);
-    border-radius: 0 $border-radius $border-radius 0;
-    box-shadow: 0 0 8px rgba($black,.2);
-
-    > li > a {
-      color: $white;
-      text-indent: 15px;
-
-    }
-
-    li:first-of-type {
-      display: none;
-    }
-
-  }
-
-  // Parent arrow indicator
-  .parent .collapse-arrow::after {
-    position: absolute;
-    top: 0;
-    right: 15px;
-    font-family: FontAwesome;
-    font-size: .75rem;
-    color: $white;
-    visibility: visible;
-    content: "\f0da";
-    transition-delay: .25s;
-
-  }
-
-  .closed & {
-    overflow-x: hidden;
-  }
-
-}
-
-
-// Child open
-.child-open {
-  overflow: visible;
-  &::after {
-    width: 200px;
-    // opacity: 1;
-  }
-  > li {
-    &.parent > .collapse-arrow::after {
-      visibility: hidden;
-      opacity: 0;
-      transition-delay: 0s;
-    }
-    &.open > a::before {
-      position: absolute;
-      top: 1px;
-      bottom: 1px;
-      left: 0;
-      width: 3px;
-      content: "";
-      background-color: $atum-sidebar-active;
-    }
-  }
-  .open {
-    > ul {
-      display: block;
-    }
   }
 
 }
@@ -326,37 +213,21 @@
 // Sidebar Closed
 .closed {
 
-  @include media-breakpoint-up(lg) {
-    padding-left: 50px;
+  .sidebar-wrapper {
+    flex: 1 0 $sidebar-width-closed;
+    max-width: $sidebar-width-closed;
   }
 
-  .child-open::after {
+  .sidebar-item-title,
+  .has-arrow::after {
     display: none;
   }
-  .sidebar-wrapper {
-    width: 50px;
-    overflow: hidden;
+
+  .main-nav {
+    > li > ul {
+      height: 0;
+      padding: 0;
+      visibility: hidden;
+    }
   }
-
-  .parent .collapse-arrow::after {
-    visibility: hidden;
-    transition-delay: 0s !important;
-  }
-
-  .menu-toggle-icon::before {
-    content: "\f054";
-  }
-
-}
-
-// Edit view
-.layout-edit .sidebar-wrapper .no-dropdown:hover {
-  color: $white;
-  cursor: not-allowed;
-  background: none;
-}
-
-.sidebar-item-title {
-  visibility: visible !important;
-  opacity: 1 !important;
 }

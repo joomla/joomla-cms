@@ -39,13 +39,13 @@
 			label="COM_USERS_MAIL_FIELD_SEND_AS_BLIND_CARBON_COPY_LABEL"
 			default="1"
 			value="1"
+			checked="1"
 		/>
 
 		<field
 			name="subject" 
 			type="text"
 			label="COM_USERS_MAIL_FIELD_SUBJECT_LABEL"
-			class="input-xlarge"
 			maxlength="150"
 			size="30"
 		/>
@@ -54,7 +54,6 @@
 			name="message" 
 			type="textarea"
 			label="COM_USERS_MAIL_FIELD_MESSAGE_LABEL"
-			class="input-full vert"
 			cols="70"
 			rows="20"
 		/>

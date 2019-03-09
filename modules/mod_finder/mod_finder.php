@@ -3,15 +3,19 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Helper\ModuleHelper;
-use Joomla\Module\Finder\Site\Helper\FinderHelper;
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Module\Finder\Site\Helper\FinderHelper;
 
 JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
 JLoader::register('FinderHelperLanguage', JPATH_ADMINISTRATOR . '/components/com_finder/helpers/language.php');
@@ -23,17 +27,17 @@ if (!defined('FINDER_PATH_INDEXER'))
 
 JLoader::register('FinderIndexerQuery', FINDER_PATH_INDEXER . '/query.php');
 
+$cparams = ComponentHelper::getParams('com_finder');
+
 // Check for OpenSearch
-if ($params->get('opensearch', 1))
+if ($params->get('opensearch', $cparams->get('opensearch', 1)))
 {
-/*
-This code intentionally commented
-	$ostitle = $params->get('opensearch_title', JText::_('MOD_FINDER_SEARCHBUTTON_TEXT') . ' ' . Factory::getApplication()->get('sitename'));
+	$defaultTitle = Text::_('MOD_FINDER_OPENSEARCH_NAME') . ' ' . Factory::getApplication()->get('sitename');
+	$ostitle = $params->get('opensearch_name', $cparams->get('opensearch_name', $defaultTitle));
 	Factory::getDocument()->addHeadLink(
-		JUri::getInstance()->toString(array('scheme', 'host', 'port')) . JRoute::_('&option=com_finder&format=opensearch'),
+		Uri::getInstance()->toString(array('scheme', 'host', 'port')) . Route::_('index.php?option=com_finder&view=search&format=opensearch'),
 		'search', 'rel', array('title' => $ostitle, 'type' => 'application/opensearchdescription+xml')
 	);
-*/
 }
 
 // Get the route.

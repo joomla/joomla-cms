@@ -3,16 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_popular
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Module\Popular\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
-use Joomla\Component\Content\Administrator\Model\Articles;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Registry\Registry;
 
 /**
@@ -25,25 +28,27 @@ abstract class PopularHelper
 	/**
 	 * Get a list of the most popular articles.
 	 *
-	 * @param   Registry  &$params  The module parameters.
-	 * @param   Articles  $model    The model.
+	 * @param   Registry       &$params  The module parameters.
+	 * @param   ArticlesModel  $model    The model.
 	 *
 	 * @return  mixed  An array of articles, or false on error.
+	 *
+	 * @throws  \Exception
 	 */
-	public static function getList(Registry &$params, Articles $model)
+	public static function getList(Registry &$params, ArticlesModel $model)
 	{
 		$user = Factory::getUser();
 
 		// Set List SELECT
 		$model->setState('list.select', 'a.id, a.title, a.checked_out, a.checked_out_time, ' .
-				' a.created, a.hits');
+				' a.publish_up, a.hits');
 
 		// Set Ordering filter
 		$model->setState('list.ordering', 'a.hits');
 		$model->setState('list.direction', 'DESC');
 
 		// Set Category Filter
-		$categoryId = $params->get('catid');
+		$categoryId = $params->get('catid', null);
 
 		if (is_numeric($categoryId))
 		{
@@ -53,7 +58,7 @@ abstract class PopularHelper
 		// Set User Filter.
 		$userId = $user->get('id');
 
-		switch ($params->get('user_id'))
+		switch ($params->get('user_id', '0'))
 		{
 			case 'by_me':
 				$model->setState('filter.author_id', $userId);
@@ -73,21 +78,17 @@ abstract class PopularHelper
 
 		if ($error = $model->getError())
 		{
-			\JError::raiseError(500, $error);
-
-			return false;
+			throw new \Exception($error, 500);
 		}
 
 		// Set the links
 		foreach ($items as &$item)
 		{
+			$item->link = '';
+
 			if ($user->authorise('core.edit', 'com_content.article.' . $item->id))
 			{
-				$item->link = \JRoute::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
-			}
-			else
-			{
-				$item->link = '';
+				$item->link = Route::_('index.php?option=com_content&task=article.edit&id=' . $item->id);
 			}
 		}
 
@@ -103,27 +104,25 @@ abstract class PopularHelper
 	 */
 	public static function getTitle($params)
 	{
-		$who   = $params->get('user_id');
-		$catid = (int) $params->get('catid');
+		$who   = $params->get('user_id', 0);
+		$catid = (int) $params->get('catid', null);
+		$title = '';
 
 		if ($catid)
 		{
 			$category = Categories::getInstance('Content')->get($catid);
+			$title    = Text::_('MOD_POPULAR_UNEXISTING');
 
 			if ($category)
 			{
 				$title = $category->title;
 			}
-			else
-			{
-				$title = \JText::_('MOD_POPULAR_UNEXISTING');
-			}
-		}
-		else
-		{
-			$title = '';
 		}
 
-		return \JText::plural('MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''), (int) $params->get('count'), $title);
+		return Text::plural(
+			'MOD_POPULAR_TITLE' . ($catid ? '_CATEGORY' : '') . ($who != '0' ? "_$who" : ''),
+			(int) $params->get('count', 5),
+			$title
+		);
 	}
 }

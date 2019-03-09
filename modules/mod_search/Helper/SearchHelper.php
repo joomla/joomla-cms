@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,12 @@ namespace Joomla\Module\Search\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
+
 /**
  * Helper for mod_search
  *
- * @package     Joomla.Site
- * @subpackage  mod_search
- * @since       1.5
+ * @since  1.5
  */
 class SearchHelper
 {
@@ -31,6 +31,6 @@ class SearchHelper
 	 */
 	public static function getSearchImage($button_text)
 	{
-		return \JHtml::_('image', 'searchButton.gif', $button_text, null, true, true);
+		return HTMLHelper::_('image', 'searchButton.gif', $button_text, null, true, true);
 	}
 }
