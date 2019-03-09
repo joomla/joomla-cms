@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
@@ -20,9 +21,9 @@ $columnSize = 12 / $columns;
 /** @var  \Joomla\CMS\Menu\MenuItem  $root */
 ?>
 <div class="col-md-<?php echo $bootstrapSize; ?> row">
-	<?php if ($canEdit) : ?>
+	<?php if (Factory::getUser()->authorise('core.edit', 'com_modules')) : ?>
         <div class="module-actions">
-            <a href="<?php echo Route::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id); ?>">
+            <a href="<?php echo 'index.php?option=com_modules&task=module.edit&id=' . (int) $module->id; ?>">
                 <span class="fa fa-cog"><span class="sr-only"><?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?></span></span></a>
         </div>
 	<?php endif; ?>
