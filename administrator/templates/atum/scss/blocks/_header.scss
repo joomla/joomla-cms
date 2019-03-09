@@ -68,6 +68,7 @@
     min-width: $header-height - 0.3125rem;
     display: inline;
 
+
     .fa {
       width: 1.5rem;
       font-size: 1.2rem;
@@ -102,6 +103,9 @@
 
   .link-title {
     text-decoration: underline;
+    width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .dropdown-menu {
