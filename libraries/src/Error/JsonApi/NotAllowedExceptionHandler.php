@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -30,7 +30,7 @@ class NotAllowedExceptionHandler implements ExceptionHandlerInterface
 	 *
 	 * @return bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function manages(Exception $e)
 	{
@@ -44,7 +44,7 @@ class NotAllowedExceptionHandler implements ExceptionHandlerInterface
 	 *
 	 * @return  \Tobscure\JsonApi\Exception\Handler\ResponseBag
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function handle(Exception $e)
 	{

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Authentication.joomla
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\Authentication\Authentication;
 /**
  * Joomla Authentication plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgApiAuthenticationBasic extends CMSPlugin
 {
@@ -26,7 +26,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	 * The application object
 	 *
 	 * @type   \Joomla\CMS\Application\CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -34,7 +34,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	 * The application object
 	 *
 	 * @type   \Joomla\Database\DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 
@@ -47,7 +47,7 @@ class PlgApiAuthenticationBasic extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onUserAuthenticate($credentials, $options, &$response)
 	{
