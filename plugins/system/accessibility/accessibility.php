@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
- * System plugin to add additional accessibility features to the administrator interface.".
+ * System plugin to add additional accessibility features to the administrator interface.
  *
  * @since  __DEPLOY_VERSION__
  */
