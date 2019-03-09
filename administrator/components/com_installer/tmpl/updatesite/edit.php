@@ -7,15 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die;
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=updatesite&layout=edit&update_site_id=' . (int) $this->item->update_site_id); ?>"
+<form action="<?php echo Route::_('index.php?option=com_installer&view=updatesite&layout=edit&update_site_id=' . (int) $this->item->update_site_id); ?>"
       method="post" name="adminForm" id="adminForm">
 	<div class="form-horizontal">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_INSTALLER_UPDATESITE_EDIT_DETAILS'); ?></legend>
 			<div class="row">
 				<div class="col">
 					<?php foreach ($this->form->getFieldset() as $field): ?>
@@ -29,5 +30,5 @@ defined('_JEXEC') or die;
 		</fieldset>
 	</div>
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

@@ -432,6 +432,8 @@ class UpdatesitesModel extends InstallerModel
 					's.type AS update_site_type',
 					's.location',
 					's.enabled',
+					's.checked_out',
+					's.checked_out_time',
 					'e.extension_id',
 					'e.name',
 					'e.type',
@@ -445,6 +447,8 @@ class UpdatesitesModel extends InstallerModel
 			->from('#__update_sites AS s')
 			->innerJoin('#__update_sites_extensions AS se ON (se.update_site_id = s.update_site_id)')
 			->innerJoin('#__extensions AS e ON (e.extension_id = se.extension_id)')
+			->select('u.name as editor')
+			->leftJoin('#__users as u ON (s.checked_out = u.id)')
 			->where('state = 0');
 
 		// Process select filters.

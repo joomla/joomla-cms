@@ -22,7 +22,7 @@
                 type="url"
                 label="COM_INSTALLER_UPDATESITE_EDIT_UPDATESITE_URL"
                 description="COM_INSTALLER_UPDATESITE_EDIT_UPDATESITE_URL_DESC"
-                class="input-xxlarge"
+                size="40"
                 validate="url"
                 filter="url"
                 default=""

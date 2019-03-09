@@ -10,6 +10,8 @@ namespace Joomla\Component\Installer\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Exception;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -17,7 +19,7 @@ use Joomla\CMS\Table\Table;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Updatesite extends Table
+class UpdatesiteTable extends Table
 {
 
 	/**
@@ -39,7 +41,7 @@ class Updatesite extends Table
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @see     \JTable::check
+	 * @see     Table::check
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function check()
@@ -48,9 +50,9 @@ class Updatesite extends Table
 		{
 			parent::check();
 		}
-		catch (\Exception $e)
+		catch (Exception $exception)
 		{
-			$this->setError($e->getMessage());
+			$this->setError($exception->getMessage());
 
 			return false;
 		}
@@ -58,7 +60,7 @@ class Updatesite extends Table
 		// Check for valid name
 		if (trim($this->location) == '')
 		{
-			$this->setError(\JText::_('COM_INSTALLER_UPDATESITE_EDIT_VALID_NAME'));
+			$this->setError(Text::_('COM_INSTALLER_UPDATESITE_EDIT_VALID_NAME'));
 
 			return false;
 		}

@@ -6,35 +6,41 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\View\Updatesite;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Exception;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 /**
- * View to edit a contact.
+ * View to edit an update site.
  *
  * @since  __DEPLOY_VERSION__
  */
-class Html extends HtmlView
+class HtmlView extends InstallerViewDefault
 {
 	/**
-	 * The \JForm object
+	 * The Form object
+	 *
+	 * @var  Form
 	 *
 	 * @since   __DEPLOY_VERSION__
-	 *
-	 * @var  \JForm
 	 */
 	protected $form;
 
 	/**
 	 * The active item
 	 *
-	 * @since   __DEPLOY_VERSION__
-	 *
 	 * @var  object
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected $item;
 
@@ -43,15 +49,15 @@ class Html extends HtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
 		// Initialise variables.
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
+		$this->form = $this->get('Form');
+		$this->item = $this->get('Item');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -59,9 +65,7 @@ class Html extends HtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		$this->addToolbar();
-
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -69,20 +73,22 @@ class Html extends HtmlView
 	 *
 	 * @return  void
 	 *
+	 * @throws  Exception
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$userId     = $user->id;
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
 		// Since we don't track these assets at the item level, use the category id.
 		$canDo = ContentHelper::getActions('com_installer', 'updatesite');
 
-		\JToolbarHelper::title(\JText::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE'), 'address contact');
+		ToolbarHelper::title(Text::_('COM_INSTALLER_UPDATESITE_EDIT_TITLE'), 'address contact');
 
 		// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 		$itemEditable = $canDo->get('core.edit');
@@ -96,11 +102,11 @@ class Html extends HtmlView
 			$toolbarButtons[] = ['save', 'updatesite.save'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
-		\JToolbarHelper::cancel('updatesite.cancel', 'JTOOLBAR_CLOSE');
+		ToolbarHelper::cancel('updatesite.cancel', 'JTOOLBAR_CLOSE');
 	}
 }
