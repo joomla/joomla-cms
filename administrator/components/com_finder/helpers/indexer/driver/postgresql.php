@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -56,7 +56,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$isNew = empty($link->link_id) ? true : false;
 
 		// Check the signatures. If they match, the item is up to date.
-		if (!$isNew && $curSig == $oldSig)
+		if (!$isNew && $curSig === $oldSig)
 		{
 			return $linkId;
 		}
@@ -169,8 +169,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
-							$ip = str_replace('/', ' ', $ip);
-							$ip = str_replace('-', ' ', $ip);
+							$ip = str_replace(array('/', '-'), ' ', $ip);
 						}
 
 						// Tokenize a string of content and add it to the database.
@@ -297,7 +296,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			' WHERE ta.term_id = 0'
 		);
 
-		if ($db->loadRow() == null)
+		if ($db->loadRow() === null)
 		{
 			$db->setQuery(
 				'INSERT INTO ' . $db->quoteName('#__finder_terms') .

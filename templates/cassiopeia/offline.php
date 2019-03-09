@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('bootstrap.loadCss', false, $this->direction);
 
 // Logo file or site title param
-$sitename = $app->get('sitename');
+$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
 if ($this->params->get('logoFile'))
 {
@@ -69,10 +69,10 @@ else
 			<?php if (!empty($logo)) : ?>
 				<h1><?php echo $logo; ?></h1>
 			<?php else : ?>
-				<h1><?php echo htmlspecialchars($app->get('sitename')); ?></h1>
+				<h1><?php echo $sitename; ?></h1>
 			<?php endif; ?>
 			<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
-				<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename')); ?>">
+				<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo $sitename; ?>">
 			<?php endif; ?>
 			<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 				<p><?php echo $app->get('offline_message'); ?></p>
