@@ -10,6 +10,7 @@
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('behavior.core');
 HTMLHelper::_('webcomponent', 'system/joomla-toolbar-button.min.js', ['relative' => true, 'version' => 'auto', 'detectDebug' => true]);
@@ -52,8 +53,11 @@ elseif (!empty($onclick))
 <<?php echo $tagName; ?>
 	class="<?php echo $btnClass ?? ''; ?>"
 	<?php echo $htmlAttributes ?? ''; ?>
-	>
+	title="<?php echo Text::_('JGLOBAL_OPENS_IN_A_NEW_WINDOW'); ?>">
 	<span class="<?php echo trim($class ?? ''); ?>" aria-hidden="true"></span>
 	<?php echo $text ?? ''; ?>
+	<span class="sr-only">
+		<?php echo Text::_('JGLOBAL_OPENS_IN_A_NEW_WINDOW'); ?>
+	</span>	
 </<?php echo $tagName; ?>>
 </joomla-toolbar-button>
