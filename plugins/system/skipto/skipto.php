@@ -52,6 +52,7 @@ class PlgSystemSkipto extends CMSPlugin
 		if ($this->app->isClient('administrator'))
 		{
 		// Add strings for translations in Javascript.
+		$this->loadLanguage();
 		Factory::getDocument()->addScriptOptions(
 			'skipto-settings',
 				[
@@ -72,7 +73,8 @@ class PlgSystemSkipto extends CMSPlugin
 		HTMLHelper::_('stylesheet', 'vendor/skipto/SkipTo.css', ['version' => 'auto', 'relative' => true]);
 
 		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
-			window.skipToMenuInit(Joomla.getOptions('skipto-settings'));
+			window.SkipToConfig = Joomla.getOptions('skipto-settings');
+			window.skipToMenuInit();
 		});");
 		}
 	}
