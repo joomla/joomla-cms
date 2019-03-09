@@ -764,6 +764,13 @@ class BaseController implements ControllerInterface
 			// Task is a reserved state
 			$model->setState('task', $this->task);
 
+			// We don't have the concept on a menu tree in the api app, so skip setting it's information and
+			// return early
+			if ($this->app->isClient('api'))
+			{
+				return $model;
+			}
+
 			// Let's get the application object and set menu information if it's available
 			$menu = Factory::getApplication()->getMenu();
 
