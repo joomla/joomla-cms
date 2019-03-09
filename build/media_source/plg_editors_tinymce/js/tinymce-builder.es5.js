@@ -64,9 +64,9 @@
         var $copyHelper = null, removeIntent = false, self = this;
         this.$sourceMenu.sortable({
             connectWith: this.$targetMenu,
-            items: '.mce-btn',
+            items: '.tox-mbtn',
             cancel: '',
-            placeholder: 'mce-btn ui-state-highlight',
+            placeholder: 'tox-mbtn ui-state-highlight',
             start: function(event, ui) {
                 self.$targetMenu.addClass('drop-area-highlight');
             },
@@ -82,9 +82,9 @@
 
         this.$sourceToolbar.sortable({
             connectWith: this.$targetToolbar,
-            items: '.mce-btn',
+            items: '.tox-mbtn',
             cancel: '',
-            placeholder: 'mce-btn ui-state-highlight',
+            placeholder: 'tox-mbtn ui-state-highlight',
             start: function(event, ui) {
                 self.$targetToolbar.addClass('drop-area-highlight');
             },
@@ -99,9 +99,9 @@
         });
 
         $().add(this.$targetMenu).add(this.$targetToolbar).sortable({
-            items: '.mce-btn',
+            items: '.tox-mbtn',
             cancel: '',
-            placeholder: 'mce-btn ui-state-highlight',
+            placeholder: 'tox-mbtn ui-state-highlight',
             receive: function(event, ui) {
                 $copyHelper = null;
                 var $el = ui.item, $cont = $(this);
@@ -189,12 +189,15 @@
             'class': 'mce-btn',
             'data-name': name,
             'data-toggle': 'tooltip',
-            'title': tinymce.translate(info.label)
+            'title': tinymce.translate(info.label),
         });
         var $btn = $('<button/>', {
-            'type': 'button'
+            'type': 'button',
+            'data-name': name,
+			'class': 'tox-mbtn tox-mbtn--select',
+            'data-toggle': 'tooltip',
+            'title': tinymce.translate(info.label),
         });
-        $element.append($btn);
 
         if (type === 'menu') {
             $btn.html('<span class="mce-txt">' + tinymce.translate(info.label) + '</span> <i class="mce-caret"></i>');
@@ -203,7 +206,7 @@
             $btn.html(info.text ? tinymce.translate(info.text) : '<i class="mce-ico mce-i-' + name + '"></i>');
         }
 
-        return $element;
+        return $btn;
     };
 
     /**

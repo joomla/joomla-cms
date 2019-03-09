@@ -83,10 +83,8 @@ Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
 	<div class="tox tox-tinymce">
 		<div class="tox-editor-container">
 
-			<div class="tox-menubar">
-				<div class="timymce-builder-menu source" data-group="menu"
-					data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
-				</div>
+			<div class="tox-menubar timymce-builder-menu source" data-group="menu"
+				data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 			</div>
 
 			<div class="tox-toolbar">

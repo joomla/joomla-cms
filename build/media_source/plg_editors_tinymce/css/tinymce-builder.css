@@ -16,15 +16,15 @@
 	margin-bottom: 20px;
 	clear: both;
 }
-.mce-panel .drop-area-highlight {
+#joomla-tinymce-builder .drop-area-highlight {
 	background-color: #d0d0d0;
 }
-.mce-panel .mce-btn.ui-state-highlight {
+#joomla-tinymce-builder .tox-mbtn.ui-state-highlight {
 	height: 28px;
 	width: 40px;
 	background-color: #409740;
 	border: 1px solid #f0f0f0;
 }
-.timymce-builder-toolbar .mce-btn.ui-state-highlight {
+.timymce-builder-toolbar .tox-mbtn.ui-state-highlight {
 	height: 22px;
 }
