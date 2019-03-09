@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -199,7 +199,7 @@ class ArticlesModel extends ListModel
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down'
+				', a.publish_up, a.publish_down, a.introtext'
 			)
 		);
 		$query->from('#__content AS a');
@@ -572,5 +572,32 @@ class ArticlesModel extends ListModel
 		}
 
 		return $this->cache[$store];
+	}
+
+	/**
+	 * Method to get a list of articles.
+	 * Overridden to add a check for access levels.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		$asset = new \Joomla\CMS\Table\Asset($this->getDbo());
+
+		foreach (array_keys($items) as $x)
+		{
+			$items[$x]->typeAlias = 'com_content.article';
+
+			$asset->loadByName('com_content.article.' . $items[$x]->id);
+
+			// Re-inject the asset id.
+			$items[$x]->asset_id = $asset->id;
+		}
+
+		return $items;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1080,7 +1080,7 @@ class Form
 	 *
 	 * @return  mixed  Array or false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function process($data, $group = null)
 	{
@@ -1104,7 +1104,7 @@ class Form
 	 *
 	 * @return  mixed  Array or false.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function filter($data, $group = null)
 	{
@@ -1797,7 +1797,7 @@ class Form
 	 * @return  array  The list of paths that have been added.
 	 *
 	 * @see     FormHelper::addFilterPath()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function addFilterPath($new = null)
 	{
