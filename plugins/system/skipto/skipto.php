@@ -46,10 +46,35 @@ class PlgSystemSkipto extends CMSPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
+		$section         = (int) $this->params->get('section_skipto', 2);
+		$current_section = 0;
+
 		// Get the document object.
 		$document = Factory::getDocument();
 
-		if ($this->app->isClient('administrator'))
+		try
+		{
+			$app = Factory::getApplication();
+
+			if ($app->isClient('administrator'))
+			{
+				$current_section = 2;
+			}
+			elseif ($app->isClient('site'))
+			{
+				$current_section = 1;
+			}
+		}
+		catch (Exception $exc)
+		{
+			$current_section = 0;
+		}
+
+		if (!($current_section & $section))
+		{
+			return false;
+		}
+
 		{
 		// Add strings for translations in Javascript.
 		$this->loadLanguage();
