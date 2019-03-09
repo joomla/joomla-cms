@@ -955,7 +955,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.4
 	 */
 	public function onAfterLogPurge($group = '')
 	{
@@ -983,7 +983,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.4
 	 */
 	public function onAfterLogExport($group = '')
 	{
@@ -1011,7 +1011,7 @@ class PlgActionlogJoomla extends ActionLogPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.4
 	 */
 	public function onAfterPurge($group = 'all')
 	{
