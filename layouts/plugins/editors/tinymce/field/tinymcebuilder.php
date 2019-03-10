@@ -87,10 +87,8 @@ Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
 				data-value="<?php echo $this->escape(json_encode($menubarSource)); ?>">
 			</div>
 
-			<div class="tox-toolbar">
-				<div class="timymce-builder-toolbar source" data-group="toolbar"
-					data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
-				</div>
+			<div class="tox-toolbar timymce-builder-toolbar source" data-group="toolbar"
+				data-value="<?php echo $this->escape(json_encode($buttonsSource)); ?>">
 			</div>
 
 		</div>
@@ -165,7 +163,9 @@ Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
 					</div>
 				</div>
 
-				<div class="tox tox-tinymce">
+				<div class="clearfix mb-1"></div>
+
+				<div class="tox tox-tinymce mb-3">
 					<div class="tox-editor-container">
 						<div class="tox-menubar timymce-builder-menu target"
 							data-group="menu" data-set="<?php echo $num; ?>"
