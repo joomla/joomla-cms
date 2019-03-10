@@ -3,6 +3,7 @@
 .view-login {
 	h1{
 		color:var(--atum-special-color);
+		font-weight:bold;
 
 	}
 	.container-main{
@@ -91,7 +92,14 @@
 		text-transform: uppercase;
 	}
   }
+	.input-password-toggle{
+		border-color:var(--atum-bg-dark-80);
+		box-shadow: 0 0 4px 0 rgba(0,0,0,0.15 );
 
+		&hover{
+			border-color: var(--atum-bg-dark-90);
+		}
+	}
 
   .login-box {
     background: var(--login-main-bg);
@@ -152,6 +160,14 @@
 	 @include media-breakpoint-down(sm) {
 		order:2;
 	}
+	  #main-brand{
+		  a{
+			  font-size:.875rem;
+		  }
+	  }
+	  .card-header{
+		  font-size: 1.125rem;
+	  }
   }
 
   #sidebar {
@@ -159,6 +175,7 @@
     width: 100%;
     text-align: center;
     align-self: flex-end;
+	  font-size:0.875rem;
 
     .card {
       .module-body {
@@ -169,6 +186,7 @@
 		position:relative;
 		bottom:0;
 	 }
+
   }
 
   .container-main,

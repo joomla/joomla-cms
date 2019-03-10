@@ -57,7 +57,7 @@ Text::script('JHIDE');
 				>
 				<span class="input-group-append ml-2">
 					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<button type="button" class="input-group-text icon-eye input-password-toggle" aria-hidden="true" alt="show"></button>
+					<button type="button" class="input-group-text icon-eye input-password-toggle" aria-hidden="true" ></button>
 				</span>
 			</div>
 		</div>
