@@ -221,13 +221,13 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__dbtest">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+   <sequence Name="#__dbtest_id_seq" Schema="public" Table="#__dbtest" Column="id" Type="bigint" Start_Value="' .
 			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" Is_called="f" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
    <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
-   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />
+   <key Index="#__dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />
   </table_structure>
  </database>
 </postgresqldump>';
@@ -287,13 +287,13 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 <postgresqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
  <database name="">
   <table_structure name="#__dbtest">
-   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+   <sequence Name="#__dbtest_id_seq" Schema="public" Table="#__dbtest" Column="id" Type="bigint" Start_Value="' .
 			$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" Is_called="f" />
    <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />
    <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />
    <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />
    <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />
-   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />
+   <key Index="#__dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />
   </table_structure>
  </database>
 </postgresqldump>';
@@ -330,13 +330,13 @@ class JDatabaseExporterPostgresqlTest extends TestCase
 		$this->assertEquals(
 			array(
 				'  <table_structure name="#__dbtest">',
-				'   <sequence Name="jos_dbtest_id_seq" Schema="public" Table="jos_dbtest" Column="id" Type="bigint" Start_Value="' .
+				'   <sequence Name="#__dbtest_id_seq" Schema="public" Table="#__dbtest" Column="id" Type="bigint" Start_Value="' .
 				$start_val . '" Min_Value="1" Max_Value="9223372036854775807" Last_Value="1" Increment="1" Cycle_option="NO" Is_called="f" />',
 				'   <field Field="id" Type="integer" Null="NO" Default="nextval(\'jos_dbtest_id_seq\'::regclass)" Comments="" />',
 				'   <field Field="title" Type="character varying(50)" Null="NO" Default="NULL" Comments="" />',
 				'   <field Field="start_date" Type="timestamp without time zone" Null="NO" Default="NULL" Comments="" />',
 				'   <field Field="description" Type="text" Null="NO" Default="NULL" Comments="" />',
-				'   <key Index="jos_dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />',
+				'   <key Index="#__dbtest_pkey" is_primary="TRUE" is_unique="TRUE" Key_name="id" Query=\'ALTER TABLE "jos_dbtest" ADD PRIMARY KEY (id)\' />',
 				'  </table_structure>'
 			),
 			TestReflection::invoke($instance, 'buildXmlStructure')

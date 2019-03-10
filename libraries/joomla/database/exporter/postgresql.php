@@ -83,8 +83,8 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 						$sequence->start_value = null;
 					}
 
-					$buffer[] = '   <sequence Name="' . $sequence->sequence . '"' . ' Schema="' . $sequence->schema . '"' .
-						' Table="' . $sequence->table . '"' . ' Column="' . $sequence->column . '"' . ' Type="' . $sequence->data_type . '"' .
+					$buffer[] = '   <sequence Name="' . $this->getGenericTableName($sequence->sequence) . '"' . ' Schema="' . $sequence->schema . '"' .
+						' Table="' . $table . '"' . ' Column="' . $sequence->column . '"' . ' Type="' . $sequence->data_type . '"' .
 						' Start_Value="' . $sequence->start_value . '"' . ' Min_Value="' . $sequence->minimum_value . '"' .
 						' Max_Value="' . $sequence->maximum_value . '"' . ' Last_Value="' . $this->db->getSequenceLastValue($sequence->sequence) . '"' .
 						' Increment="' . $sequence->increment . '"' . ' Cycle_option="' . $sequence->cycle_option . '"' .
@@ -104,7 +104,7 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 			{
 				foreach ($keys as $key)
 				{
-					$buffer[] = '   <key Index="' . $key->idxName . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
+					$buffer[] = '   <key Index="' . $this->getGenericTableName($key->idxName) . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
 						' Key_name="' . $this->db->getNamesKey($table, $key->indKey) . '"' . ' Query=\'' . $key->Query . '\' />';
 				}
 			}
