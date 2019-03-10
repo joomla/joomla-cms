@@ -76,12 +76,8 @@ class PlgSystemShortcuts extends CMSPlugin
 		}
 
 		{
-        HTMLHelper::_('script', 'vendor/mousetrap/mousetrap.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+		HTMLHelper::_('script', 'vendor/mousetrap/mousetrap.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('script', 'plg_system_shortcuts/shortcuts.js', array('version' => 'auto', 'relative' => true), ['defer' => true]);
-		// $document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
-		// 	window.SkipToConfig = Joomla.getOptions('skipto-settings');
-		// 	window.skipToMenuInit();
-		// });");
 		}
 	}
 }
