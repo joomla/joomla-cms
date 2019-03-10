@@ -1588,7 +1588,19 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$subquery->where($quotedOrderingField . ' >= 0');
 		$query->where($quotedOrderingField . ' >= 0');
 
-		$query->innerJoin('(' . (string) $subquery . ') AS sq ON ' . implode(' AND ', $innerOn));
+		// Mysql diverge from Postgresql when UPDATE with JOIN
+		if ($this->_db->name === 'mysql')
+		{
+			$query->innerJoin('(' . (string) $subquery . ') AS sq ON ' . implode(' AND ', $innerOn));
+		}
+		else
+		{
+			$query->innerJoin('(' . (string) $subquery . ') AS sq ' );
+			foreach ($innerOn as $key)
+			{
+				$query->where($key);
+			}
+		}
 
 		// Pre-processing by observers
 		$event = AbstractEvent::create(
