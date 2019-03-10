@@ -9,7 +9,7 @@
             ref="browserItems">
             <div class="media-dragoutline">
                 <span class="fa fa-cloud-upload upload-icon" aria-hidden="true"></span>
-                <p>Drop file(s) to Upload</p>
+                <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
             </div>
             <div v-if="listView === 'table'" class="media-browser-table">
                 <div class="media-browser-table-head">
@@ -18,8 +18,8 @@
                         <li class="name">{{ translate('COM_MEDIA_MEDIA_NAME') }}</li>
                         <li class="size">{{ translate('COM_MEDIA_MEDIA_SIZE') }}</li>
                         <li class="dimension">{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</li>
-                        <li class="created">{{ translate('COM_MEDIA_MEDIA_CREATED_AT') }}</li>
-                        <li class="modified">{{ translate('COM_MEDIA_MEDIA_MODIFIED_AT') }}</li>
+                        <li class="created">{{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}</li>
+                        <li class="modified">{{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}</li>
                     </ul>
                 </div>
                 <media-browser-item v-for="item in items" :key="item.path" :item="item"></media-browser-item>
