@@ -2,7 +2,7 @@
 
 // Fix position
 .choices__list--dropdown {
-  z-index: 10;
+  z-index: $zindex-popover;
 }
 
 // Fix close button

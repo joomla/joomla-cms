@@ -115,7 +115,7 @@ cpanel-add-module-icon// com_cpanel
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 2;
+    z-index: $zindex-actions;
 
     > a {
       display: inline-block;

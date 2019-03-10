@@ -5,7 +5,7 @@
   top: 0;
   right: 0;
   left: 0;
-  z-index: 1040;
+  z-index: $zindex-toolbar;
   width: auto;
   min-height: 43px;
   padding: 13px 0;
@@ -39,7 +39,7 @@
     [class*=' icon-'],
     [class^='#{$fa-css-prefix}-'],
     [class*=' #{$fa-css-prefix}-'] {
-      z-index: -1;
+      z-index: $zindex-negative;
       display: inline-block;
       width: 38px;
       height: auto;

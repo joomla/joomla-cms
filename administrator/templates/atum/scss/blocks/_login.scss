@@ -33,7 +33,7 @@
 
   .login-bg-grad {
     position: fixed;
-    z-index: -1;
+    z-index: $zindex-negative;
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(45deg,

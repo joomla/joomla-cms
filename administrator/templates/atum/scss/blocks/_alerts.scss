@@ -16,7 +16,7 @@
   position: fixed;
   top: 15px;
   left: 50%;
-  z-index: 1080;
+  z-index: $zindex-alerts;
   margin-left: 125px;
   transition: all .5s ease;
   transform: translateX(-50%);

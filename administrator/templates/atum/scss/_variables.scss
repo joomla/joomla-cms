@@ -219,7 +219,6 @@ $list-group-bg:                    var(--white-offset);
 $custom-select-bg:                 var(--white-offset);
 
 // Modals
-$zindex-modal:                     1080;
 $modal-header-height:              2.875rem;
 
 // Quickicons
@@ -243,7 +242,14 @@ $link-hover-color:                 var(--atum-link-hover-color);
 //Time for fadeeffect login-light-bg
 $fadetime: 1s;
 
-
-
-
-
+// Z-Index list
+$zindex-negative:                  -1;
+$zindex-actions:                   2;
+$zindex-header:                    1000;
+$zindex-sidebar:                   1010;
+$zindex-toolbar:                   1020;
+$zindex-alerts:                    1030;
+$zindex-modal-backdrop:            1040;
+$zindex-modal:                     1050;
+$zindex-popover:                   1060;
+$zindex-tooltip:                   1070;
