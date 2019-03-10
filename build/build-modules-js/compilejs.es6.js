@@ -34,7 +34,6 @@ module.exports.compileJS = (options, path) => {
       } else {
         folders = [
           `${RootPath}/build/media_source`,
-          `${RootPath}/administrator/templates/atum/js`,
           `${RootPath}/templates/cassiopeia/js`,
         ];
       }
