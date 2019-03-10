@@ -378,31 +378,7 @@ class ContentModelArticle extends JModelAdmin
 			return false;
 		}
 
-		$jinput = JFactory::getApplication()->input;
-
-		/*
-		 * The front end calls this model and uses a_id to avoid id clashes so we need to check for that first.
-		 * The back end uses id so we use that the rest of the time and set it to 0 by default.
-		 */
-		$id = $jinput->get('a_id', $jinput->get('id', 0));
-
-		// Determine correct permissions to check.
-		if ($this->getState('article.id'))
-		{
-			$id = $this->getState('article.id');
-
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-
-			// Existing record. Can only edit own articles in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
-		}
-		else
-		{
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
-		}
-
+		$id   = $this->getState('article.id');
 		$user = JFactory::getUser();
 
 		// Check for existing article.
@@ -431,7 +407,7 @@ class ContentModelArticle extends JModelAdmin
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated
-		if ($this->getState('article.id') && $app->isClient('site') && $assoc)
+		if ($id != 0 && $app->isClient('site') && $assoc)
 		{
 			$associations = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $id);
 
