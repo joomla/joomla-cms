@@ -1596,6 +1596,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		else
 		{
 			$query->innerJoin('(' . (string) $subquery . ') AS sq ' );
+
 			foreach ($innerOn as $key)
 			{
 				$query->where($key);
