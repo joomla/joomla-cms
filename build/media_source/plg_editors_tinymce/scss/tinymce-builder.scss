@@ -4,27 +4,17 @@
  */
 
 #joomla-tinymce-builder {
-	margin-left: -220px;
-}
-.mce-menubar,
-.mce-panel {
-	min-height: 18px;
-	border-bottom: 1px solid rgba(217,217,217,.52);
-	white-space: normal;
-}
-.mce-tinymce {
-	margin-bottom: 20px;
-	clear: both;
-}
-#joomla-tinymce-builder .drop-area-highlight {
-	background-color: #d0d0d0;
-}
-#joomla-tinymce-builder .tox-mbtn.ui-state-highlight {
-	height: 28px;
-	width: 40px;
-	background-color: #409740;
-	border: 1px solid #f0f0f0;
-}
-.timymce-builder-toolbar .tox-mbtn.ui-state-highlight {
-	height: 22px;
+  margin-left: -220px;
+  .tox-mbtn {
+	.ui-state-highlight {
+      width: 40px;
+	  height: 22px;
+	  background-color: #409740;
+	  border: 1px solid #f0f0f0;
+	  display: inline-block;
+	}
+  }
+  .drop-area-highlight {
+    background-color: #d0d0d0;
+  }
 }
