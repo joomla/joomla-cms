@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Extension.Finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\String\StringHelper;
 /**
  * Finder extension plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgExtensionFinder extends CMSPlugin
 {
@@ -28,7 +28,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
@@ -54,7 +54,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
@@ -70,7 +70,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onExtensionBeforeUninstall($installer, $eid, $removed)
 	{
@@ -89,7 +89,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 * 
 	 * @return  object
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLanguage($eid)
 	{
@@ -112,7 +112,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 * 
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function addCommonWords($extension)
 	{
@@ -177,7 +177,7 @@ class PlgExtensionFinder extends CMSPlugin
 	 * 
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function removeCommonWords($extension)
 	{
