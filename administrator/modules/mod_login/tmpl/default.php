@@ -66,6 +66,9 @@ Text::script('JHIDE');
 			<div class="form-group">
 				<label for="mod-login-secretkey">
 					<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
+                    <span class="text-right">
+                        <?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
+                    </span>
 				</label>
 				<div class="input-group">
 

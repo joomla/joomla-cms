@@ -1,11 +1,7 @@
 // Login page
 
 .view-login {
-	h1{
-		color:var(--atum-special-color);
-		font-weight:bold;
 
-	}
 	.container-main{
 		background: var(--atum-bg-light);
 		/**
@@ -127,6 +123,10 @@
 		@include media-breakpoint-down(xs){
 			width:100%;
 		}
+		  &.text-right{
+			  color: var(--atum-special-color);
+			  font-size: .75rem;
+		  }
       }
     }
   }
@@ -140,7 +140,10 @@
   h1 {
     margin: 0;
     text-align: center;
-  }
+	color:var(--atum-special-color);
+	font-weight:bold;
+	padding-bottom:1rem;
+	}
 
   .btn {
 

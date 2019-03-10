@@ -23,9 +23,17 @@
     > * {
       margin-left: .75rem;
       box-shadow: $atum-box-shadow;
+      margin-bottom:10px;
 
       &:first-child {
         margin-left: 0;
+      }
+
+      &.ml-auto{
+        @include media-breakpoint-down(md){
+          margin-right: auto !important;
+          margin-left:.75 !important;
+        }
       }
     }
   }
