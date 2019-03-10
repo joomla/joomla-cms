@@ -12,6 +12,7 @@
     "npm": ">=5.7.0"
   },
   "scripts": {
+    "namespace": "node build.js --namespace",
     "build:js": "node build.js --compile-js",
     "build:css": "node build.js --compile-css",
     "watch": "node build.js --watch",

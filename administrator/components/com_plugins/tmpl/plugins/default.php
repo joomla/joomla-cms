@@ -35,7 +35,7 @@ if ($saveOrder)
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-warning">
-				<?php echo JText::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?>
+				<?php echo Text::_('COM_PLUGINS_MSG_MANAGE_NO_PLUGINS'); ?>
 			</div>
 		<?php else : ?>
 			<table class="table" id="pluginList">

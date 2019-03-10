@@ -14,7 +14,7 @@
 namespace
 {
 	// Require the restoration environment or fail cold. Prevents direct web access.
-	defined('_AKEEBA_RESTORATION') or die();
+	defined('_AKEEBA_RESTORATION') or die;
 
 	// Fake a miniature Joomla environment
 	if (!defined('_JEXEC'))

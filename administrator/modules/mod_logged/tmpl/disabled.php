@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 ?>
 <p class="card-text">
-	<?php echo JText::_('MOD_LOGGED_NO_SESSION_METADATA'); ?>
+	<?php echo Text::_('MOD_LOGGED_NO_SESSION_METADATA'); ?>
 </p>

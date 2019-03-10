@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -28,7 +29,7 @@ class SearchesController extends BaseController
 	public function reset()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$model = $this->getModel('Searches');
 

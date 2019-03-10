@@ -11,6 +11,7 @@ namespace Joomla\CMS\Language;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\String\StringHelper;
 
 /**
@@ -980,7 +981,7 @@ class Language
 	}
 
 	/**
-	 * Determine who called Language or JText.
+	 * Determine who called Language or Text.
 	 *
 	 * @return  array  Caller information.
 	 *
@@ -1006,7 +1007,7 @@ class Language
 			$class = @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ($class != '\\Joomla\\CMS\\Language\\Language' && $class != 'JText')
+			if ($class != '\\Joomla\\CMS\\Language\\Language' && $class != 'Text')
 			{
 				$info['function'] = @ $step['function'];
 				$info['class'] = $class;

@@ -251,7 +251,7 @@ abstract class AdminModel extends FormModel
 			), $config['events_map']
 		);
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the Text message prefix. Defaults to the option.
 		if (isset($config['text_prefix']))
 		{
 			$this->text_prefix = strtoupper($config['text_prefix']);

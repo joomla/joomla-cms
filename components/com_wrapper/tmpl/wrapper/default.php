@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => 'auto', 'relative' => true));
 
@@ -40,6 +41,6 @@ HTMLHelper::_('script', 'com_wrapper/iframe-height.min.js', array('version' => '
 			title="<?php echo $this->escape($this->params->get('page_title')); ?>"
 		<?php endif; ?>
 		class="com-wrapper__iframe wrapper <?php echo $this->pageclass_sfx; ?>">
-		<?php echo JText::_('COM_WRAPPER_NO_IFRAMES'); ?>
+		<?php echo Text::_('COM_WRAPPER_NO_IFRAMES'); ?>
 	</iframe>
 </div>

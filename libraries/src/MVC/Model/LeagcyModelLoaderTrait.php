@@ -10,6 +10,8 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Trait which contains the legacy getInstance functionality
  *
@@ -137,7 +139,7 @@ trait LeagcyModelLoaderTrait
 
 			if (!class_exists($modelClass))
 			{
-				\JLog::add(\JText::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
+				\JLog::add(Text::sprintf('JLIB_APPLICATION_ERROR_MODELCLASS_NOT_FOUND', $modelClass), \JLog::WARNING, 'jerror');
 
 				return false;
 			}

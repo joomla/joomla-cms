@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Parser base class for the Finder indexer package.
  *
@@ -51,7 +53,7 @@ abstract class FinderIndexerParser
 		if (!file_exists($path))
 		{
 			// Throw invalid format exception.
-			throw new Exception(JText::sprintf('COM_FINDER_INDEXER_INVALID_PARSER', $format));
+			throw new Exception(Text::sprintf('COM_FINDER_INDEXER_INVALID_PARSER', $format));
 		}
 
 		// Instantiate the parser.

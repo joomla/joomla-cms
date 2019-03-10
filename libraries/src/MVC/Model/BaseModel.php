@@ -10,7 +10,10 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
+use LeagcyModelLoaderTrait;
+use StateBehaviorTrait;
 
 /**
  * Base class for a Joomla Model
@@ -19,8 +22,8 @@ use Joomla\CMS\Object\CMSObject;
  */
 abstract class BaseModel extends CMSObject implements ModelInterface, StatefulModelInterface
 {
-	use StateBehaviorTrait;
-	use LeagcyModelLoaderTrait;
+	
+	
 
 	/**
 	 * The model (base) name
@@ -85,7 +88,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 
 			if (!preg_match('/Model(.*)/i', get_class($this), $r))
 			{
-				throw new \Exception(\JText::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
+				throw new \Exception(Text::_('JLIB_APPLICATION_ERROR_MODEL_GET_NAME'), 500);
 			}
 
 			$this->name = str_replace(['\\', 'model'], '', strtolower($r[1]));

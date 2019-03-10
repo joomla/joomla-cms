@@ -36,11 +36,11 @@ $js = <<<JS
 				  span.classList.toggle('icon-minus')
 				}
 
-				if (button.getAttribute('aria-label') === Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'))
+				if (button.getAttribute('aria-label') === Joomla.Text._('JGLOBAL_EXPAND_CATEGORIES'))
 				{
-					button.setAttribute('aria-label', Joomla.JText._('JGLOBAL_COLLAPSE_CATEGORIES'));
+					button.setAttribute('aria-label', Joomla.Text._('JGLOBAL_COLLAPSE_CATEGORIES'));
 				} else {
-					button.setAttribute('aria-label', Joomla.JText._('JGLOBAL_EXPAND_CATEGORIES'));
+					button.setAttribute('aria-label', Joomla.Text._('JGLOBAL_EXPAND_CATEGORIES'));
 				}
 			})
 	  })

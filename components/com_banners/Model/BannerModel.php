@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
@@ -44,7 +45,7 @@ class BannerModel extends BaseDatabaseModel
 
 		if (empty($item))
 		{
-			throw new Exception(JText::_('JERROR_PAGE_NOT_FOUND'), 404);
+			throw new Exception(Text::_('JERROR_PAGE_NOT_FOUND'), 404);
 		}
 
 		$id = $this->getState('banner.id');

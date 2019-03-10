@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 // Set the platform root path as a constant if necessary.
 defined('JPATH_PLATFORM') or define('JPATH_PLATFORM', __DIR__);
 
@@ -63,7 +65,7 @@ if (array_key_exists('REQUEST_METHOD', $_SERVER))
 }
 
 // Register classes that don't follow the autoloader convention.
-JLoader::register('JText', JPATH_PLATFORM . '/joomla/language/text.php');
+JLoader::register('Text', JPATH_PLATFORM . '/joomla/language/text.php');
 JLoader::register('JRoute', JPATH_PLATFORM . '/joomla/application/route.php');
 
 // Register the Crypto lib

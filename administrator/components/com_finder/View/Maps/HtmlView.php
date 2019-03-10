@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Administrator\View\Maps;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -136,7 +137,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_finder');
 
-		ToolbarHelper::title(\JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
+		ToolbarHelper::title(Text::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
 
 		if ($canDo->get('core.edit.state'))
 		{

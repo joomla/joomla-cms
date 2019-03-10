@@ -16,6 +16,9 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use of formvalidation is deprecated use formvalidator instead.'
+ Log::WARNING
+ 'deprecated');
 
 /**
  * Utility class for JavaScript behaviors
@@ -99,7 +102,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function formvalidation()
 	{
-		Log::add('The use of formvalidation is deprecated use formvalidator instead.', Log::WARNING, 'deprecated');
+		Log::add('The 
 
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))
@@ -646,7 +649,7 @@ abstract class JHtmlBehavior
 		$jsscript = 1;
 
 		// To keep the code simple here, run strings through Text::_() using array_map()
-		$callback = array('JText', '_');
+		$callback = array('Text', '_');
 		$weekdays_full = array_map(
 			$callback, array(
 				'SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY',

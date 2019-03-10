@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
+use FormFactoryAwareTrait;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -31,7 +32,7 @@ use Joomla\CMS\Uri\Uri;
  */
 class FormController extends BaseController implements FormFactoryAwareInterface
 {
-	use FormFactoryAwareTrait;
+	
 
 	/**
 	 * The context for storing internal data, e.g. record.
@@ -97,7 +98,7 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 			$this->option = ComponentHelper::getComponentName($this, $this->getName());
 		}
 
-		// Guess the \JText message prefix. Defaults to the option.
+		// Guess the Text message prefix. Defaults to the option.
 		if (empty($this->text_prefix))
 		{
 			$this->text_prefix = strtoupper($this->option);
