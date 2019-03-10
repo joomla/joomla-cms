@@ -104,8 +104,9 @@ class JDatabaseExporterPostgresql extends JDatabaseExporter
 			{
 				foreach ($keys as $key)
 				{
-					$buffer[] = '   <key Index="' . $this->getGenericTableName($key->idxName) . '"' . ' is_primary="' . $key->isPrimary . '"' . ' is_unique="' . $key->isUnique . '"' .
-						' Key_name="' . $this->db->getNamesKey($table, $key->indKey) . '"' . ' Query=\'' . $key->Query . '\' />';
+					$buffer[] = '   <key Index="' . $this->getGenericTableName($key->idxName) . '"' . ' is_primary="' . $key->isPrimary . '"' .
+						' is_unique="' . $key->isUnique . '"' . ' Key_name="' . $this->db->getNamesKey($table, $key->indKey) . '"' .
+						' Query=\'' . $key->Query . '\' />';
 				}
 			}
 
