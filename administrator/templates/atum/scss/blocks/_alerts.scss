@@ -1,14 +1,16 @@
 // Alerts
 
+@import "../variables";
+
 .j-main-container {
 
   .alert {
     margin: 1rem 0;
-    border:2px solid;
-    border-left:none;
-    border-right:none;
+    border: 2px solid;
+    border-left: none;
+    border-right: none;
     box-shadow: $atum-box-shadow;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
   }
 }
 

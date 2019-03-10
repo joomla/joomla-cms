@@ -12,8 +12,7 @@
         color: $custom-select-color;
         background-color: var(--white-offset);
       }
-
-	}
+    }
 
     &.custom-select-danger {
       color: var(--white-offset);
@@ -23,9 +22,6 @@
         color: $custom-select-color;
         background-color: var(--white-offset);
       }
-
-	}
-
+    }
   }
-
 }

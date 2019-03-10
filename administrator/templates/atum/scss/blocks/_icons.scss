@@ -1,5 +1,7 @@
 // Icons
 
+@import "../variables";
+
 .icon-back::before {
   content: "\e008";
 }
@@ -27,7 +29,6 @@
     color: inherit;
   }
 }
-
 
 .tbody-icon {
   padding: 0 3px;

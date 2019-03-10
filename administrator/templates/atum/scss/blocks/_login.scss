@@ -1,35 +1,33 @@
 // Login page
 
+@import "../variables";
+
 .view-login {
-	h1{
-		color:var(--atum-special-color);
-		font-weight:bold;
+  h1 {
+    color: var(--atum-special-color);
+    font-weight: bold;
 
-	}
-	.container-main{
-		background: var(--atum-bg-light);
-		/**
-		* Note IDE's will consider this file import to fail in SCSS but this is correct for the final
-		* compiled CSS file
-		*/
-		background-image: url("../images/joomla-pattern.svg");
-		background-size: 200px;
+  }
+  .container-main {
+    // Note IDE's will consider this file import to fail in SCSS but this is correct for the final compiled CSS file
+    background: var(--atum-bg-light) url("../images/joomla-pattern.svg");
+    background-size: 200px;
 
-		@include media-breakpoint-down(sm){
-			min-height: calc(100vh - 35vh);
-			flex-wrap: wrap;
-			align-items: center;
-			justify-content: center;
-			display:flex;
-		}
+    @include media-breakpoint-down(sm) {
+      min-height: calc(100vh - 35vh);
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      display: flex;
+    }
 
-		#content{
-			@include media-breakpoint-down(sm){
-				padding:0;
-				max-width: 98%;
-			}
-		}
-	}
+    #content {
+      @include media-breakpoint-down(sm) {
+        padding: 0;
+        max-width: 98%;
+      }
+    }
+  }
 
   .login-bg-grad {
     position: fixed;
@@ -57,49 +55,51 @@
 
   .login {
     width: 23rem;
-	background:var(--white);
-	padding:15px;
-	color:var(--atum-text-dark);
-	border-radius:3px;
+    background: var(--white);
+    padding: 15px;
+    color: var(--atum-text-dark);
+    border-radius: 3px;
     margin-top: 10rem;
     align-self: flex-start;
-	-webkit-box-shadow: 0px 0px 10px 0px #ccc;
-	-moz-box-shadow:    0px 0px 10px 0px #ccc;
-	box-shadow:         0px 0px 10px 0px #ccc;
-	@include media-breakpoint-down(md)
-	{
-		margin-top: 3rem;
-	}
-	img{
-		height:4.4rem;
-		padding:15px;
-	}
-	#form-login {
-		.form-group {
-			position: relative;
-			.form-control-feedback {
-				text-align: right;
-				position: absolute;
-				bottom: -1.1rem;
-				right: 0;
-				font-size: 0.75rem;
-			}
+    box-shadow: 0 0 10px 0 #ccc;
 
-		}
-	}
+    @include media-breakpoint-down(md) {
+      margin-top: 3rem;
+    }
 
-	#btn-login-submit {
-		text-transform: uppercase;
-	}
+    img {
+      height: 4.4rem;
+      padding: 15px;
+    }
+
+    #form-login {
+
+      .form-group {
+        position: relative;
+
+        .form-control-feedback {
+          text-align: right;
+          position: absolute;
+          bottom: -1.1rem;
+          right: 0;
+          font-size: 0.75rem;
+        }
+      }
+    }
+
+    #btn-login-submit {
+      text-transform: uppercase;
+    }
   }
-	.input-password-toggle{
-		border-color:var(--atum-bg-dark-80);
-		box-shadow: 0 0 4px 0 rgba(0,0,0,0.15 );
 
-		&hover{
-			border-color: var(--atum-bg-dark-90);
-		}
-	}
+  .input-password-toggle {
+    border-color: var(--atum-bg-dark-80);
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+
+    &hover {
+      border-color: var(--atum-bg-dark-90);
+    }
+  }
 
   .login-box {
     background: var(--login-main-bg);
@@ -111,30 +111,31 @@
   }
 
   .form-group {
+
     label {
       display: flex;
       align-items: flex-end;
       justify-content: space-between;
 
-	  @include media-breakpoint-down(xs){
-		display:block;
-	  }
+      @include media-breakpoint-down(xs) {
+        display: block;
+      }
 
       span {
         font-size: .9rem;
         color: theme-color("danger");
 
-		@include media-breakpoint-down(xs){
-			width:100%;
-		}
+        @include media-breakpoint-down(xs) {
+          width: 100%;
+        }
       }
     }
   }
 
   input:focus,
-  select:focus{
-	box-shadow:inset 0 0 1px 1px #3b97f9;
-	background: #fff;
+  select:focus {
+    box-shadow: inset 0 0 1px 1px #3b97f9;
+    background: #fff;
   }
 
   h1 {
@@ -155,19 +156,20 @@
     max-width: none;
   }
 
-  #sidebar-wrapper{
+  #sidebar-wrapper {
 
-	 @include media-breakpoint-down(sm) {
-		order:2;
-	}
-	  #main-brand{
-		  a{
-			  font-size:.875rem;
-		  }
-	  }
-	  .card-header{
-		  font-size: 1.125rem;
-	  }
+    @include media-breakpoint-down(sm) {
+      order: 2;
+    }
+
+    #main-brand {
+      a {
+        font-size: .875rem;
+      }
+    }
+    .card-header {
+      font-size: 1.125rem;
+    }
   }
 
   #sidebar {
@@ -175,57 +177,62 @@
     width: 100%;
     text-align: center;
     align-self: flex-end;
-	  font-size:0.875rem;
+    font-size: 0.875rem;
 
     .card {
+
       .module-body {
         padding: .75rem 1.25rem;
       }
     }
-	 @include media-breakpoint-down(sm){
-		position:relative;
-		bottom:0;
-	 }
 
+    @include media-breakpoint-down(sm) {
+      position: relative;
+      bottom: 0;
+    }
   }
 
   .container-main,
-  .sidebar-wrapper{
-	 @include media-breakpoint-down(sm){
-		max-width:100% !important;
-		flex: 1 0 100% !important;
-	}
+  .sidebar-wrapper {
+
+    @include media-breakpoint-down(sm) {
+      max-width: 100% !important;
+      flex: 1 0 100% !important;
+    }
   }
 
-  .d-flex{
-	@include media-breakpoint-down(sm){
-		flex-wrap:wrap;
-	}
+  .d-flex {
+
+    @include media-breakpoint-down(sm) {
+      flex-wrap: wrap;
+    }
   }
 }
-label{
-		color:var(--atum-special-color);
-	}
 
-.com_login .sidebar-wrapper .main-brand{
-	margin-top:100px;
-	color:var(--atum-text-light);
-	text-align:center;
-	flex: 1;
-	flex-basis: auto;
-	@include media-breakpoint-down(sm) {
-		margin-top:10px;
-	}
+label {
+  color: var(--atum-special-color);
 }
 
-.com_login .sidebar-wrapper #sidebar p{
-	margin-bottom:0.2rem;
+.com_login .sidebar-wrapper .main-brand {
+  margin-top: 100px;
+  color: var(--atum-text-light);
+  text-align: center;
+  flex: 1;
+  flex-basis: auto;
+
+  @include media-breakpoint-down(sm) {
+    margin-top: 10px;
+  }
+}
+
+.com_login .sidebar-wrapper #sidebar p {
+  margin-bottom: 0.2rem;
 }
 
 .com_login .sidebar-wrapper .main-brand h1,
 .com_login .sidebar-wrapper .main-brand a,
 .com_login .sidebar-wrapper #sidebar,
-.com_login .sidebar-wrapper #sidebar a{
-	color:var(--atum-text-light);
+.com_login .sidebar-wrapper #sidebar a {
+  color: var(--atum-text-light);
 }
 

@@ -38,6 +38,7 @@ body {
 }
 
 .dropdown-menu-right {
+
   &::after {
     right: auto;
     left: .9rem;
@@ -93,7 +94,7 @@ body {
     [class*=' icon-'],
     [class^='icon-'] {
       border-right: 0;
-      border-left: 1px solid rgba($white,.15);
+      border-left: 1px solid rgba($white, .15);
     }
   }
 }
@@ -124,7 +125,7 @@ body {
   .has-arrow::after {
     left: 1rem;
     right: inherit;
-    transform: rotate(135deg) translate(0,-50%);
+    transform: rotate(135deg) translate(0, -50%);
   }
 
   ul a::before {
@@ -172,7 +173,8 @@ body {
 // Toolbar
 .subhead {
 
-  .btn, .btn-sm {
+  .btn,
+  .btn-sm {
     [class*=' fa-'],
     [class^='fa-'],
     [class^='icon-'],
@@ -196,7 +198,6 @@ body {
     }
   }
 }
-
 
 // com_cpanel
 .com_cpanel {

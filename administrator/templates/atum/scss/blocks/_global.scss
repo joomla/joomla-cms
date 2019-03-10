@@ -1,5 +1,7 @@
 // Global
 
+@import "../variables";
+
 html,
 body {
   height: 100%;
@@ -31,10 +33,9 @@ small,
 legend {
   font-size: 1.2rem;
   font-weight: $font-weight-bold;
-  ;
 }
 
-// focus-visible polyfil rule
+// focus-visible polyfill rule
 .js-focus-visible :focus:not(.focus-visible) {
   outline: none;
 }
@@ -50,28 +51,31 @@ textarea {
     outline: auto 2px var(--focus);
   }
 }
+
 // Break up text in cells to prevent overflow
 .break-word {
   word-break: break-all;
   word-wrap: break-word;
 }
 
-.content{
-	font-size: $content-font-size;
-}
-label, caption{
-	font-size: $label-font-size;
+.content {
+  font-size: $content-font-size;
 }
 
-.btn-primary:hover{
-	background-color:var(--atum-bg-dark-70);
-	border-color:var(--atum-bg-dark-70);
+label,
+caption {
+  font-size: $label-font-size;
 }
 
-.logo{
-	img path{
-		fill:var(--atum-text-dark);
-	}
+.btn-primary:hover {
+  background-color: var(--atum-bg-dark-70);
+  border-color: var(--atum-bg-dark-70);
+}
+
+.logo {
+  img path {
+    fill: var(--atum-text-dark);
+  }
 }
 
 .container-main,
@@ -132,25 +136,27 @@ label, caption{
 }
 
 // Fadeeffect for login page
-.load-fadein{
+.load-fadein {
   @include fadein-page;
 }
 
-.load-fadeout{
-   @include fadeout-page;
+.load-fadeout {
+  @include fadeout-page;
 }
+
 // Fix blinking of fade effect
 .container-main.fade-done > * {
   opacity: 1;
 }
+
 .sidebar-wrapper.fade-done > * {
   opacity: 1;
 }
 
-//extern links with icons
-a[href*="//"]:before{
-  font:normal normal normal 14px/1 FontAwesome;
-  content:"\f08e  ";
+// extern links with icons
+a[href*="//"]:before {
+  font: normal normal normal 14px/1 FontAwesome;
+  content: "\f08e  ";
 }
 
 

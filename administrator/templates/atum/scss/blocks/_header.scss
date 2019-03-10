@@ -1,5 +1,7 @@
 // Header
 
+@import "../variables";
+
 .header {
   position: relative;
   background: $white;
@@ -67,7 +69,6 @@
     line-height: $header-height;
     min-width: $header-height - 0.3125rem;
     display: inline;
-
 
     .fa {
       width: 1.5rem;
