@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Decorator for an event listener to be pulled from the service container.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class LazyServiceEventListener
 {
@@ -26,7 +26,7 @@ final class LazyServiceEventListener
 	 * The ID of the service from the container to be used
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $serviceId;
 
@@ -34,7 +34,7 @@ final class LazyServiceEventListener
 	 * The method from the service to be called
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $method;
 
@@ -45,7 +45,7 @@ final class LazyServiceEventListener
 	 * @param   string  $method     The method from the service to be called if necessary
 	 *                              (if left empty, the service must be a callable; i.e. have an `__invoke()` method on a class)
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException if the service ID is empty
 	 */
 	public function __construct(string $serviceId, string $method = '')
@@ -71,7 +71,7 @@ final class LazyServiceEventListener
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException if the constructor's $method parameter is empty when not executing a callable service
 	 * @throws  \RuntimeException if the service cannot be executed
 	 */
