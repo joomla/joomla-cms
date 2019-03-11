@@ -1,17 +1,12 @@
 // Login page
-
 @import "../variables";
 
 .view-login {
 
-	.container-main{
-		background: var(--atum-bg-light);
-		/**
-		* Note IDE's will consider this file import to fail in SCSS but this is correct for the final
-		* compiled CSS file
-		*/
-		background-image: url("../images/joomla-pattern.svg");
-		background-size: 200px;
+  .container-main {
+    background: var(--atum-bg-light) url("../images/joomla-pattern.svg");
+    // Note IDE's will consider this file import to fail in SCSS but this is correct for the final compiled CSS file
+    background-size: 200px;
 
     @include media-breakpoint-down(sm) {
       min-height: calc(100vh - 35vh);
@@ -22,6 +17,7 @@
     }
 
     #content {
+
       @include media-breakpoint-down(sm) {
         padding: 0;
         max-width: 98%;
@@ -125,13 +121,14 @@
         font-size: .9rem;
         color: theme-color("danger");
 
-		@include media-breakpoint-down(xs){
-			width:100%;
-		}
-		  &.text-right{
-			  color: var(--atum-special-color);
-			  font-size: .75rem;
-		  }
+        @include media-breakpoint-down(xs) {
+          width: 100%;
+        }
+
+        &.text-right {
+          color: var(--atum-special-color);
+          font-size: .75rem;
+        }
       }
     }
   }
@@ -145,10 +142,10 @@
   h1 {
     margin: 0;
     text-align: center;
-	color:var(--atum-special-color);
-	font-weight:bold;
-	padding-bottom:1rem;
-	}
+    color: var(--atum-special-color);
+    font-weight: bold;
+    padding-bottom: 1rem;
+  }
 
   .btn {
 
@@ -170,10 +167,12 @@
     }
 
     #main-brand {
+
       a {
         font-size: .875rem;
       }
     }
+
     .card-header {
       font-size: 1.125rem;
     }
