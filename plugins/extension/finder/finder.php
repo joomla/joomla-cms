@@ -64,15 +64,13 @@ class PlgExtensionFinder extends CMSPlugin
 	/**
 	 * Remove common words to finder after language got uninstalled
 	 *
-	 * @param   JInstaller  $installer  Installer instance
-	 * @param   integer     $eid        Extension id
-	 * @param   boolean     $removed    Installation result
+	 * @param   integer  $eid  Extension id
 	 *
 	 * @return  void
 	 *
 	 * @since   4.0.0
 	 */
-	public function onExtensionBeforeUninstall($installer, $eid, $removed)
+	public function onExtensionBeforeUninstall($eid)
 	{
 		$extension = $this->getLanguage($eid);
 
