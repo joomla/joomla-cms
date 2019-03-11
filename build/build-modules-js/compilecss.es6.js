@@ -86,10 +86,12 @@ module.exports.compile = (options, path) => {
                 console.error(`something exploded ${error}`);
               },
             );
+
+            return files;
           },
         ).then(
-          () => {
-            files.forEach(
+          (scssFiles) => {
+            scssFiles.forEach(
               (inputFile) => {
                 CompileScss.compile(inputFile, options);
               }
