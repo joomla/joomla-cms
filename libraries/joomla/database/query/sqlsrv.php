@@ -335,7 +335,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return "DATEADD('" . $datePart . "', '" . $interval . "', '" . $date . "'" . ')';
+		return 'DATEADD(' . $datePart . ', ' . $interval . ', ' . $date . ')';
 	}
 
 	/**
