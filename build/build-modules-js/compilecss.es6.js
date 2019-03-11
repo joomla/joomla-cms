@@ -56,10 +56,6 @@ module.exports.compile = (options, path) => {
         ];
       }
 
-      files.forEach((inputFile) => {
-        CompileScss.compile(inputFile, options);
-      });
-
       // Loop to get the files that should be compiled via parameter
       folders.forEach((folder) => {
         Recurs(folder, ['*.js', '*.map', '*.svg', '*.png', '*.gif', '*.swf', '*.html', '*.json']).then(
@@ -68,7 +64,7 @@ module.exports.compile = (options, path) => {
               (file) => {
                 // Don't take files with "_" but "file" has the full path, so check via match
                 if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^\/\\]+$/)) {
-                  CompileScss.compile(file, options);
+                  files.push(file);
                 }
                 if (file.match(/\.css/)) {
                   // CSS file, we will copy the file and then minify it in place
@@ -91,6 +87,14 @@ module.exports.compile = (options, path) => {
               },
             );
           },
+        ).then(
+          () => {
+            files.forEach(
+              (inputFile) => {
+                CompileScss.compile(inputFile, options);
+              }
+            )
+          }
         );
       });
     })
