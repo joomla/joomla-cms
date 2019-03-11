@@ -757,7 +757,7 @@ class Installer extends \JAdapter
 		PluginHelper::importPlugin('extension');
 		Factory::getApplication()->triggerEvent(
 			'onExtensionBeforeUninstall',
-			array('eid' => $identifier)
+			array('installer' => clone $this, 'eid' => $identifier, 'removed' => $result)
 		);
 
 		// Run the uninstall
