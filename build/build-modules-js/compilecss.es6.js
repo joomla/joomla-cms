@@ -63,7 +63,7 @@ module.exports.compile = (options, path) => {
             filesRc.forEach(
               (file) => {
                 // Don't take files with "_" but "file" has the full path, so check via match
-                if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^\/\\]+$/)) {
+                if (file.match(/\.scss$/) && !file.match(/(\/|\\)_[^/\\]+$/)) {
                   files.push(file);
                 }
                 if (file.match(/\.css/)) {
@@ -94,9 +94,9 @@ module.exports.compile = (options, path) => {
             scssFiles.forEach(
               (inputFile) => {
                 CompileScss.compile(inputFile, options);
-              }
-            )
-          }
+              },
+            );
+          },
         );
       });
     })

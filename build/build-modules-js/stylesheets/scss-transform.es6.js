@@ -8,8 +8,8 @@ const MakeDir = require('../utils/make-dir.es6.js');
 
 module.exports.compile = (file, options) => {
   const cssFile = file.replace('/scss/', '/css/').replace('\\scss\\', '\\css\\')
-          .replace('.scss', '.css').replace('/build/media_source/', '/media/')
-          .replace('\\build\\media_source\\', '\\media\\');
+    .replace('.scss', '.css').replace('/build/media_source/', '/media/')
+    .replace('\\build\\media_source\\', '\\media\\');
 
   Sass.render({
     file,
