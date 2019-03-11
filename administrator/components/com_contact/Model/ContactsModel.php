@@ -251,6 +251,13 @@ class ContactsModel extends ListModel
 				);
 		}
 
+		// Filter by featured.
+		$featured = (string) $this->getState('filter.featured');
+		if (in_array($featured, ['0','1']))
+		{
+			$query->where('a.featured =' . (int) $featured);
+		}
+
 		// Filter by access level.
 		if ($access = $this->getState('filter.access'))
 		{
