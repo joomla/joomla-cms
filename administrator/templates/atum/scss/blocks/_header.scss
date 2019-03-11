@@ -104,9 +104,14 @@
 
   .link-title {
     text-decoration: underline;
-    width: 50px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+
+    @include media-breakpoint-down(lg){
+      width: 60px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+    }
   }
 
   .dropdown-menu {
