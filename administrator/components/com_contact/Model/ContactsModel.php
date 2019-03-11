@@ -253,7 +253,6 @@ class ContactsModel extends ListModel
 
 		// Filter by featured.
 		$featured = (string) $this->getState('filter.featured');
-		
 
 		if (in_array($featured, ['0','1']))
 		{
