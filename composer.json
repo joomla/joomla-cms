@@ -45,6 +45,11 @@
             "Joomla\\CMS\\": "libraries/src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Joomla\\Tests\\": "tests"
+        }
+    },
     "require": {
         "php": ">=7.0",
         "joomla/application": "~2.0@dev",
@@ -65,6 +70,7 @@
         "joomla/oauth1": "~2.0@dev",
         "joomla/oauth2": "~2.0@dev",
         "joomla/registry": "~2.0@dev",
+        "joomla/router": "~2.0@dev",
         "joomla/session": "~2.0@dev",
         "joomla/string": "~2.0@dev",
         "joomla/uri": "~2.0@dev",
@@ -86,6 +92,8 @@
         "symfony/yaml": "3.4.*",
         "wamania/php-stemmer": "^1.2",
         "maximebf/debugbar": "^1.15",
+        "tobscure/json-api": "^0.4.1",
+        "willdurand/negotiation": "^2.3",
         "ext-json": "*"
     },
     "require-dev": {
@@ -98,6 +106,6 @@
         "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla-projects/robo-joomla": "dev-develop",
         "joomla/test-system": "dev-4.0-dev",
-        "joomla/test-unit": "dev-4.0-dev"
+        "joomla/test-api": "dev-4.0-dev"
     }
 }

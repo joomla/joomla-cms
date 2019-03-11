@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -981,7 +981,7 @@ abstract class FormField
 	 *
 	 * @return  mixed   The filtered value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function filter($value, $group = null, Registry $input = null)
 	{
@@ -1036,7 +1036,7 @@ abstract class FormField
 	 *
 	 * @return  boolean|\Exception  Boolean true if field value is valid, Exception on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 * @throws  \UnexpectedValueException
 	 */
@@ -1125,7 +1125,7 @@ abstract class FormField
 	 *
 	 * @return  mixed   The processed value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function postProcess($value, $group = null, Registry $input = null)
 	{

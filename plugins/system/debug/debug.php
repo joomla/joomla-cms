@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -196,7 +196,7 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterDispatch()
 	{
 		// Only if debugging or language debug is enabled.
-		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
+		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && strtolower($this->app->getDocument()->getType()) === 'html')
 		{
 			// Use our own jQuery and font-awesome instead of the debug bar shipped version
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
@@ -224,7 +224,7 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterRespond()
 	{
 		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang || $this->isAjax)
+		if (!JDEBUG && !$this->debugLang || $this->isAjax || strtolower($this->app->getDocument()->getType()) !== 'html')
 		{
 			return;
 		}

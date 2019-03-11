@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,8 +15,9 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormFactoryAwareTrait;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\Utilities\ArrayHelper;
 use Joomla\CMS\Pagination\Pagination;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Model class for handling lists of items.
@@ -221,7 +222,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	/**
 	 * Method to get a \JPagination object for the data set.
 	 *
-	 * @return  \JPagination  A \JPagination object for the data set.
+	 * @return  Pagination  A Pagination object for the data set.
 	 *
 	 * @since   1.6
 	 */
@@ -343,7 +344,7 @@ class ListModel extends BaseDatabaseModel implements ListModelInterface
 	 * @param   array    $data      data
 	 * @param   boolean  $loadData  load current data
 	 *
-	 * @return  Form
+	 * @return  Form|null  The \JForm object or null if the form can't be found
 	 *
 	 * @since   3.2
 	 */
