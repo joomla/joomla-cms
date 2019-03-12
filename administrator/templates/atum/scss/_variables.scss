@@ -58,7 +58,8 @@ $theme-colors: map-merge((
   danger: $red,
   light: $gray-100,
   dark: $gray-900,
-  atum-link-color:$color-60
+  atum-link-color:$color-60,
+  action: #0382C5
 ), $theme-colors);
 
 $colors: (
@@ -167,6 +168,7 @@ $table-cell-padding:               8px 12px;
 // Dropdowns
 $dropdown-padding-y:               0;
 $dropdown-border-width:            0;
+$dropdown-box-shadow: 0 1px 2px rgba($black, .30);
 $dropdown-link-hover-color:        $white;
 $dropdown-item-padding-y:          .5rem;
 $dropdown-item-padding-x:          .75rem;
