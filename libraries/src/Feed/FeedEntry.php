@@ -11,6 +11,7 @@ namespace Joomla\CMS\Feed;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Feed\FeedPerson;
 
 /**
  * Class to encapsulate a feed entry for the Joomla Platform.
@@ -77,7 +78,7 @@ class FeedEntry
 			$value = new Date($value);
 		}
 
-		// Validate that any authors that are set are instances of JFeedPerson or null.
+		// Validate that any authors that are set are instances of FeedPerson or null.
 		if (($name == 'author') && (!($value instanceof FeedPerson) || ($value === null)))
 		{
 			throw new \InvalidArgumentException(
