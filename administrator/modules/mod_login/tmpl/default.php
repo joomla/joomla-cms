@@ -57,7 +57,7 @@ Text::script('JHIDE');
 				>
 				<span class="input-group-append ml-2">
 					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<button type="button" class="input-group-text icon-eye input-password-toggle" aria-hidden="true" alt="show"></button>
+					<button type="button" class="input-group-text icon-eye input-password-toggle" aria-hidden="true" ></button>
 				</span>
 			</div>
 		</div>
@@ -66,6 +66,9 @@ Text::script('JHIDE');
 			<div class="form-group">
 				<label for="mod-login-secretkey">
 					<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
+                    <span class="text-right">
+                        <?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
+                    </span>
 				</label>
 				<div class="input-group">
 

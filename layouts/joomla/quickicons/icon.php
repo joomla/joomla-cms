@@ -36,7 +36,7 @@ if ($id !== '')
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 
 		<?php if (isset($displayData['amount'])): ?>
-			<div class="quickicon-amount d-flex align-items-end">
+			<div class="quickicon-icon d-flex align-self-end">
 				<?php
 				$amount = (int) $displayData['amount'];
 				if ($amount <  100000):
