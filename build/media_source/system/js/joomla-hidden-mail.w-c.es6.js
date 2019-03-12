@@ -1,50 +1,66 @@
-customElements.define('joomla-hidden-mail', class extends HTMLElement {
+/**
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ */
+window.customElements.define('joomla-hidden-mail', class extends HTMLElement {
+  constructor() {
+    super();
+
+    this.newElement = '';
+    this.base = '';
+  }
+
+  /**
+   * Lifecycle
+   */
+  disconnectedCallback() {
+    this.innerHTML = '';
+  }
+
+  /**
+   * Lifecycle
+   */
   connectedCallback() {
-    let newEl;
-    const base = `${this.getAttribute('base')}/`;
+    this.base = `${this.getAttribute('base')}/`;
 
     if (this.getAttribute('is-link') === '1') {
-      newEl = document.createElement('a');
-      newEl.setAttribute('href', `mailto:${this.b64DecodeUnicode(this.getAttribute('first'))}@${this.b64DecodeUnicode(this.getAttribute('last'))}`);
+      this.newElement = document.createElement('a');
+      this.newElement.setAttribute('href', `mailto:${this.constructor.b64DecodeUnicode(this.getAttribute('first'))}@${this.constructor.b64DecodeUnicode(this.getAttribute('last'))}`);
 
       // Get all of the original element attributes, and pass them to the link
-      for (let i = 0, l = this.attributes.length; i < l; i + 1) {
-        const { nodeName } = this.attributes.item(i);
+      [].slice.call(this.attributes).forEach((attribute, index) => {
+        const { nodeName } = this.attributes.item(index);
 
         if (nodeName) {
           // We do care for some attributes
-          if (['is-link', 'is-email', 'first', 'last', 'text'].indexOf(nodeName) > -1) {
-            // eslint-disable-next-line no-continue
-            continue;
+          if (['is-link', 'is-email', 'first', 'last', 'text'].indexOf(nodeName) === -1) {
+            const { nodeValue } = this.attributes.item(index);
+
+            this.newElement.setAttribute(nodeName, nodeValue);
           }
-
-          const { nodeValue } = this.attributes.item(i);
-
-          newEl.setAttribute(nodeName, nodeValue);
         }
-      }
+      });
     } else {
-      newEl = document.createElement('span');
+      this.newElement = document.createElement('span');
     }
 
     if (this.getAttribute('text')) {
-      let innerStr = this.b64DecodeUnicode(this.getAttribute('text'));
+      let innerStr = this.constructor.b64DecodeUnicode(this.getAttribute('text'));
 
-      innerStr = innerStr.replace('src="images/', `src="${base}images/`).replace('src="media/', `src="${base}media/`);
-      newEl.innerHTML = innerStr;
+      innerStr = innerStr.replace('src="images/', `src="${this.base}images/`).replace('src="media/', `src="${this.base}media/`);
+      this.newElement.innerHTML = innerStr;
     } else {
-      newEl.innerText = `${window.atob(this.getAttribute('first'))}@${window.atob(this.getAttribute('last'))}`;
+      this.newElement.innerText = `${window.atob(this.getAttribute('first'))}@${window.atob(this.getAttribute('last'))}`;
     }
 
     // Remove the noscript message
     this.innerText = '';
 
     // Display the new element
-    this.appendChild(newEl);
+    this.appendChild(this.newElement);
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  b64DecodeUnicode(str) {
+  static b64DecodeUnicode(str) {
     return decodeURIComponent(Array.prototype.map.call(atob(str), c => `%${(`00${c.charCodeAt(0).toString(16)}`).slice(-2)}`).join(''));
   }
 });

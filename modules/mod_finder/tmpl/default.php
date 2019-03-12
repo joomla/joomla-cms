@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ use Joomla\Module\Finder\Site\Helper\FinderHelper;
 $lang = Factory::getLanguage();
 $lang->load('com_finder', JPATH_SITE);
 
-$input = '<input type="text" name="q" class="js-finder-search-query form-control" value="' . htmlspecialchars(Factory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
+$input = '<input type="text" name="q" id="mod-finder-searchword' . $module->id . '" class="js-finder-search-query form-control" value="' . htmlspecialchars(Factory::getApplication()->input->get('q', '', 'string'), ENT_COMPAT, 'UTF-8') . '"'
 	. ' placeholder="' . Text::_('MOD_FINDER_SEARCH_VALUE') . '">';
 
 $showLabel  = $params->get('show_label', 1);
