@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
@@ -54,7 +55,7 @@ class BreadcrumbsHelper
 
 		$count = count($items);
 
-		// Don't use $items here as it references JPathway properties directly
+		// Don't use $items here as it references Pathway properties directly
 		$crumbs = array();
 
 		for ($i = 0; $i < $count; $i ++)

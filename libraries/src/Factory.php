@@ -795,9 +795,9 @@ abstract class Factory
 	 * @param   string   $ua           UA User agent to use
 	 * @param   boolean  $uamask       User agent masking (prefix Mozilla)
 	 *
-	 * @return  \JStream
+	 * @return  \Stream
 	 *
-	 * @see     \JStream
+	 * @see     \Stream
 	 * @since   1.7.0
 	 */
 	public static function getStream($use_prefix = true, $use_network = true, $ua = 'Joomla', $uamask = false)

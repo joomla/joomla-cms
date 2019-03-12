@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\LanguageHelper;
@@ -787,7 +788,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			else
 			{
 				$cName = StringHelper::ucfirst(StringHelper::str_ireplace('com_', '', $option)) . 'HelperAssociation';
-				JLoader::register($cName, JPath::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
+				JLoader::register($cName, Path::clean(JPATH_COMPONENT_SITE . '/helpers/association.php'));
 
 				if (class_exists($cName) && is_callable(array($cName, 'getAssociations')))
 				{

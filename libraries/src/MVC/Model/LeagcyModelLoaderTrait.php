@@ -10,6 +10,7 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -57,12 +58,12 @@ trait LeagcyModelLoaderTrait
 			{
 				if (!in_array($includePath, $paths[$prefix]))
 				{
-					array_unshift($paths[$prefix], \JPath::clean($includePath));
+					array_unshift($paths[$prefix], Path::clean($includePath));
 				}
 
 				if (!in_array($includePath, $paths['']))
 				{
-					array_unshift($paths[''], \JPath::clean($includePath));
+					array_unshift($paths[''], Path::clean($includePath));
 				}
 			}
 		}
@@ -123,11 +124,11 @@ trait LeagcyModelLoaderTrait
 
 		if (!class_exists($modelClass))
 		{
-			$path = \JPath::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
+			$path = Path::find(self::addIncludePath(null, $prefix), self::_createFileName('model', array('name' => $type)));
 
 			if (!$path)
 			{
-				$path = \JPath::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
+				$path = Path::find(self::addIncludePath(null, ''), self::_createFileName('model', array('name' => $type)));
 			}
 
 			if (!$path)
