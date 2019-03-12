@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\User\User;
@@ -29,7 +30,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  3.1
 	 */
 	protected $state;
@@ -45,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Tag data for the current tag or tags (on success, false on failure)
 	 *
-	 * @var    \JObject|boolean
+	 * @var    CMSObject|boolean
 	 * @since  3.1
 	 */
 	protected $item;

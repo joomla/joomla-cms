@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Updater\Updater;
 use Joomla\Component\Joomlaupdate\Administrator\Helper\Select as JoomlaupdateHelperSelect;
@@ -83,7 +84,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  4.0.0
 	 */
 	public $state;

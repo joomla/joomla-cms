@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -60,7 +61,7 @@ class HtmlView extends BaseHtmlView
 	protected $pagination;
 
 	/**
-	 * @var  \JObject
+	 * @var  CMSObject
 	 *
 	 * @since  3.7.0
 	 */

@@ -14,8 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Mail\MailHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Featured View class
@@ -35,7 +36,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item details
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  1.6.0
 	 */
 	protected $items;

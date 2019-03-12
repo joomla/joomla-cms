@@ -12,6 +12,7 @@ namespace Joomla\Component\Messages\Administrator\View\Config;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * View to edit messages user configuration.
@@ -37,7 +38,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 

@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Table;
 use Joomla\String\StringHelper;
@@ -130,7 +131,7 @@ class GroupModel extends AdminModel
 	 */
 	protected function preprocessForm(\JForm $form, $data, $group = '')
 	{
-		$obj = is_array($data) ? ArrayHelper::toObject($data, 'JObject') : $data;
+		$obj = is_array($data) ? ArrayHelper::toObject($data, 'CMSObject') : $data;
 
 		if (isset($obj->parent_id) && $obj->parent_id == 0 && $obj->id > 0)
 		{

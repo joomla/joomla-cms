@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Newsfeeds\Administrator\Helper\NewsfeedsHelper;
@@ -31,7 +32,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The list of newsfeeds
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  1.6
 	 */
 	protected $items;
@@ -47,7 +48,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  1.6
 	 */
 	protected $state;

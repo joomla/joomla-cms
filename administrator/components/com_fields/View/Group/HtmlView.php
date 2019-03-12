@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
@@ -34,14 +35,14 @@ class HtmlView extends BaseHtmlView
 	protected $form;
 
 	/**
-	 * @var  \JObject
+	 * @var  CMSObject
 	 *
 	 * @since  3.7.0
 	 */
 	protected $item;
 
 	/**
-	 * @var  \JObject
+	 * @var  CMSObject
 	 *
 	 * @since  3.7.0
 	 */
@@ -50,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 *
 	 * @since  3.7.0
 	 */

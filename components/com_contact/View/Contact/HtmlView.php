@@ -13,10 +13,11 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
@@ -47,7 +48,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The item object details
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  1.6
 	 */
 	protected $item;

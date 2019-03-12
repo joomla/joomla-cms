@@ -9,12 +9,14 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Object\CMSObject;
+
 /**
  * Mock JSite class used to fool the frontend search plugins because they route the results.
  *
  * @since  1.5
  */
-class JSite extends JObject
+class JSite extends CMSObject
 {
 	/**
 	 * False method to fool the frontend search plugins.

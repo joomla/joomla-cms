@@ -9,12 +9,14 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Object\CMSObject;
+
 /**
  * Adapter Instance Class
  *
  * @since  1.7.0
  */
-class JAdapterInstance extends JObject
+class JAdapterInstance extends CMSObject
 {
 	/**
 	 * Parent

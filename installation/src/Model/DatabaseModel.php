@@ -18,6 +18,7 @@ use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Database\DatabaseInterface;
 use Joomla\Database\UTF8MB4SupportInterface;
 use Joomla\Utilities\ArrayHelper;
@@ -1009,7 +1010,7 @@ class DatabaseModel extends BaseInstallationModel
 	 * Method to create a new database.
 	 *
 	 * @param   \JDatabaseDriver  $db       JDatabase object.
-	 * @param   \JObject          $options  JObject coming from "initialise" function to pass user
+	 * @param   CMSObject          $options  CMSObject coming from "initialise" function to pass user
 	 *                                      and database name to database driver.
 	 * @param   boolean           $utf      True if the database supports the UTF-8 character set.
 	 *

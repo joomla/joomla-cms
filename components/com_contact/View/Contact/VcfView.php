@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * View to create a VCF for a contact item
@@ -24,7 +25,7 @@ class VcfView extends AbstractView
 	/**
 	 * The contact item
 	 *
-	 * @var   \JObject
+	 * @var   CMSObject
 	 */
 	protected $item;
 

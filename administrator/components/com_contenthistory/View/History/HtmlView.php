@@ -12,6 +12,7 @@ namespace Joomla\Component\Contenthistory\Administrator\View\History;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * View class for a list of contenthistory.
@@ -37,7 +38,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 

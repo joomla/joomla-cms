@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory as JFactory;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Adapter Class
@@ -18,7 +19,7 @@ use Joomla\CMS\Factory as JFactory;
  *
  * @since  1.7.0
  */
-class JAdapter extends JObject
+class JAdapter extends CMSObject
 {
 	/**
 	 * Associative array of adapters
