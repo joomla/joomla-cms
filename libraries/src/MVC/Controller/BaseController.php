@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -763,6 +763,13 @@ class BaseController implements ControllerInterface
 		{
 			// Task is a reserved state
 			$model->setState('task', $this->task);
+
+			// We don't have the concept on a menu tree in the api app, so skip setting it's information and
+			// return early
+			if ($this->app->isClient('api'))
+			{
+				return $model;
+			}
 
 			// Let's get the application object and set menu information if it's available
 			$menu = Factory::getApplication()->getMenu();
