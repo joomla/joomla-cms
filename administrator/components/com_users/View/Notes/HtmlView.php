@@ -149,7 +149,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status')
 					->text('JTOOLBAR_CHANGE_STATUS')
 					->toggleSplit(false)
-					->icon('fa fa-globe')
+					->icon('fa fa-exchange')
 					->buttonClass('btn btn-action')
 					->listCheck(true);
 
