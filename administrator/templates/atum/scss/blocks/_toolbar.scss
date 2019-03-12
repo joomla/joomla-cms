@@ -23,17 +23,26 @@
     > * {
       margin-left: .75rem;
       box-shadow: $atum-box-shadow;
-      margin-bottom:10px;
+      margin-bottom: 10px;
 
       &:first-child {
         margin-left: 0;
       }
 
-      &.ml-auto{
-        @include media-breakpoint-down(md){
+      &.ml-auto {
+        @include media-breakpoint-down(md) {
           margin-right: auto !important;
-          margin-left:.75 !important;
+          margin-left: .75rem !important;
         }
+      }
+    }
+  }
+
+  .btn-group {
+    .btn {
+      .fa:first-child, [class^=icon-]:first-child{
+        background-color: transparent;
+        margin-right: 0;
       }
     }
   }
@@ -62,26 +71,6 @@
       background-color: $gray-600;
       border-color: $gray-600;
     }
-
-    &-action {
-
-      .fa:first-child {
-        background-color: transparent;
-        margin-right: 0;
-      }
-
-      &::after {
-        background-color: rgba(0,0,0,.2);
-        border: none;
-        content: '\f078';
-        font-family: FontAwesome;
-        height: auto;
-        margin: 0 -22px 0 16px;
-        vertical-align: 0;
-        width: 38px;
-      }
-
-    }
   }
 
   .dropdown-item {
@@ -94,7 +83,7 @@
 
   .dropdown-toggle {
 
-    &.btn:not(.btn-action) {
+    &.btn {
       background-color: rgba(0, 0, 0, .2);
     }
 
@@ -104,6 +93,15 @@
 
     &.btn-success {
       background-color: darken(theme-color("success"), 8%);
+      padding: 0;
+
+      &::after {
+        border: none;
+        content: '\f078';
+        font-family: FontAwesome;
+        vertical-align: 0;
+        width: 38px;
+      }
     }
 
     &.btn-info {
@@ -112,6 +110,26 @@
 
     &.btn-danger {
       background-color: darken(theme-color("danger"), 8%);
+    }
+
+    &.btn-action {
+      background-color: (theme-color("action"));
+
+      &:hover:not([disabled]) {
+        background-color: darken(theme-color("action"), 8%);
+      }
+
+      &::after {
+        background-color: rgba(0, 0, 0, .2);
+        border: none;
+        content: '\f078';
+        font-family: FontAwesome;
+        height: auto;
+        margin: 0 -22px 0 16px;
+        vertical-align: 0;
+        width: 38px;
+        line-height: 2.35;
+      }
     }
   }
 }

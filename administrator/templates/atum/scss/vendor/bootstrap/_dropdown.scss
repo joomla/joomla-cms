@@ -24,10 +24,6 @@
       background-color: theme-color("secondary");
     }
 
-    .btn-success + .dropdown-menu & {
-      background-color: theme-color("success");
-    }
-
     .btn-danger + .dropdown-menu & {
       background-color: theme-color("danger");
     }
@@ -36,7 +32,7 @@
       background-color: theme-color("info");
     }
 
-    .dropdown-status-group .dropdown-menu  &:not(.disabled) {
+    .btn-group.show .dropdown-menu &:not(.disabled) {
       background-color: #efefef;
     }
   }
@@ -47,7 +43,9 @@
 
   .dropdown-status-group .dropdown-menu &:not(.disabled) {
     color: theme-color("action");
+  }
 
-
+  .dropdown-save-group .dropdown-menu &:not(.disabled) {
+    color: theme-color("success");
   }
 }
