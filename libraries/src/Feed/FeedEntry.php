@@ -11,7 +11,10 @@ namespace Joomla\CMS\Feed;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedPerson;
+
+
 
 /**
  * Class to encapsulate a feed entry for the Joomla Platform.
@@ -90,7 +93,7 @@ class FeedEntry
 			);
 		}
 
-		// Validate that any sources that are set are instances of JFeed or null.
+		// Validate that any sources that are set are instances of Feed or null.
 		if (($name == 'source') && (!($value instanceof Feed) || ($value === null)))
 		{
 			throw new \InvalidArgumentException(

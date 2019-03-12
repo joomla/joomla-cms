@@ -11,6 +11,7 @@ namespace Joomla\Module\Feed\Site\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
 
@@ -26,7 +27,7 @@ class FeedHelper
 	 *
 	 * @param   \Joomla\Registry\Registry  $params  module parameters
 	 *
-	 * @return  JFeedReader|string
+	 * @return  FeedReader|string
 	 */
 	public static function getFeed($params)
 	{

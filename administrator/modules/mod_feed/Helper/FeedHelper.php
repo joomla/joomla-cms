@@ -11,6 +11,7 @@ namespace Joomla\Module\Feed\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Feed\Feed;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Language\Text;
 
@@ -26,7 +27,7 @@ class FeedHelper
 	 *
 	 * @param   JRegisty  $params  The parameters object.
 	 *
-	 * @return  JFeedReader|string  Return a JFeedReader object or a string message if error.
+	 * @return  FeedReader|string  Return a FeedReader object or a string message if error.
 	 *
 	 * @since   1.5
 	 */
