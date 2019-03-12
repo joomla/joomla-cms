@@ -18,6 +18,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -1524,11 +1525,11 @@ class TemplateModel extends FormModel
 
 			if (file_exists(Path::clean($path . $fileName)))
 			{
-				$JImage = new \JImage(Path::clean($path . $fileName));
+				$Image = new Image(Path::clean($path . $fileName));
 				$image['address'] = $uri . $fileName;
 				$image['path']    = $fileName;
-				$image['height']  = $JImage->getHeight();
-				$image['width']   = $JImage->getWidth();
+				$image['height']  = $Image->getHeight();
+				$image['width']   = $Image->getWidth();
 			}
 
 			else
@@ -1563,11 +1564,11 @@ class TemplateModel extends FormModel
 			$client   = ApplicationHelper::getClientInfo($template->client_id);
 			$relPath  = base64_decode($file);
 			$path     = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
-			$JImage   = new \JImage($path);
+			$Image   = new Image($path);
 
 			try
 			{
-				$image = $JImage->crop($w, $h, $x, $y, true);
+				$image = $Image->crop($w, $h, $x, $y, true);
 				$image->toFile($path);
 
 				return true;
@@ -1599,11 +1600,11 @@ class TemplateModel extends FormModel
 			$relPath = base64_decode($file);
 			$path    = Path::clean($client->path . '/templates/' . $template->element . '/' . $relPath);
 
-			$JImage = new \JImage($path);
+			$Image = new Image($path);
 
 			try
 			{
-				$image = $JImage->resize($width, $height, true, 1);
+				$image = $Image->resize($width, $height, true, 1);
 				$image->toFile($path);
 
 				return true;

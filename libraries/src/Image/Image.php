@@ -11,9 +11,12 @@ namespace Joomla\CMS\Image;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Image\Image;
 use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
 use Joomla\Image\Image as FrameworkImage;
+
+
 
 /**
  * Class to manipulate an image.
@@ -119,7 +122,7 @@ class Image extends FrameworkImage
 			imagecopyresampled($handle, $this->handle, 0, 0, $left, $top, $width, $height, $width, $height);
 		}
 
-		// If we are cropping to a new image, create a new JImage object.
+		// If we are cropping to a new image, create a new Image object.
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
@@ -243,7 +246,7 @@ class Image extends FrameworkImage
 			);
 		}
 
-		// If we are resizing to a new image, create a new JImage object.
+		// If we are resizing to a new image, create a new Image object.
 		if ($createNew)
 		{
 			// @codeCoverageIgnoreStart
