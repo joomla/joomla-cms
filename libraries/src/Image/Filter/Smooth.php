@@ -13,8 +13,11 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
+use Joomla\Image\Filter\Smooth instead.'
+ Log::WARNING
+ 'deprecated');
 
-Log::add('JImageFilterSmooth is deprecated, use Joomla\Image\Filter\Smooth instead.', Log::WARNING, 'deprecated');
+Log::add('ImageFilterSmooth is deprecated, 
 
 /**
  * Image Filter class adjust the smoothness of an image.

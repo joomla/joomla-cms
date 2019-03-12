@@ -11,6 +11,7 @@ namespace Joomla\CMS\Image;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
 use Joomla\Image\Image as FrameworkImage;
 
@@ -280,7 +281,7 @@ class Image extends FrameworkImage
 		$type = strtolower(preg_replace('#[^A-Z0-9_]#i', '', $type));
 
 		// Verify that the filter type exists.
-		$className = 'JImageFilter' . ucfirst($type);
+		$className = 'ImageFilter' . ucfirst($type);
 
 		if (!class_exists($className))
 		{

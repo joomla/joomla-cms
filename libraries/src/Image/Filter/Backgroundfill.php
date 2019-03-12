@@ -13,8 +13,11 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
+use Joomla\Image\Filter\Backgroundfill instead.'
+ Log::WARNING
+ 'deprecated');
 
-Log::add('JImageFilterBackgroundfill is deprecated, use Joomla\Image\Filter\Backgroundfill instead.', Log::WARNING, 'deprecated');
+Log::add('ImageFilterBackgroundfill is deprecated, 
 
 /**
  * Image Filter class fill background with color;

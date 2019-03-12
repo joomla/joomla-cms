@@ -13,8 +13,11 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
+use Joomla\Image\Filter\Sketchy instead.'
+ Log::WARNING
+ 'deprecated');
 
-Log::add('JImageFilterSketchy is deprecated, use Joomla\Image\Filter\Sketchy instead.', Log::WARNING, 'deprecated');
+Log::add('ImageFilterSketchy is deprecated, 
 
 /**
  * Image Filter class to make an image appear "sketchy".
