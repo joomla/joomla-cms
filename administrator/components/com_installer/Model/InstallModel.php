@@ -15,6 +15,7 @@ use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Input\Files;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
@@ -254,7 +255,7 @@ class InstallModel extends BaseDatabaseModel
 		// Get the uploaded file information.
 		$input    = Factory::getApplication()->input;
 
-		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See \JInputFiles::get.
+		// Do not change the filter type 'raw'. We need this to let files containing PHP code to upload. See Files::get.
 		$userfile = $input->files->get('install_package', null, 'raw');
 
 		// Make sure that file uploads are enabled in php.
