@@ -4,13 +4,15 @@ const RootPath = require('./utils/rootpath.es6.js')._();
 
 
 const jregex = /defined\('(JPATH_BASE|_JEXEC|JPATH_PLATFORM)'\) or die;/gm;
-const oldClassName = 'JPath';
-const newClassName = 'Path';
-const classUse  = 'use Joomla\\CMS\\Filesystem\\Path;';
+const oldClassName = 'JFile';
+const classUse  = 'use Joomla\\CMS\\Filesystem\\File;';
+const newClassName = classUse.substr(classUse.lastIndexOf('\\') + 1).slice(0, -1);
 const root = `${RootPath}/`;
 const filesToIgnore = [
 	'classmap.php',
 	'finder_indexer.php',
+	'behavior.php',
+	'restore.php',
 	'com_finder',
 	'Provider',
 ]
@@ -58,8 +60,7 @@ const readFile = (path) => {
 };
 
 const getInstances = (content, path) => {
-	//const regex = /[^\s*](?=\S)(?!\/\*\*)(?!\/\/)(?!\*)(\\?JText)/gm;
-	const regex = /(?=\S)(?!\/\*\*)(?!\/\/)(?!\*)(\\?JPath)/gm;
+	const regex = /(?=\S)(?!\/\*\*)(?!\/\/)(?!\*)(\\?JFile)/gm;
 	const matches = content.match(regex);
 
 	if (matches !== null) {

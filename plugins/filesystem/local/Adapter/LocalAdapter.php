@@ -25,6 +25,8 @@ use Joomla\Component\Media\Administrator\Exception\FileNotFoundException;
 use Joomla\Component\Media\Administrator\Exception\InvalidPathException;
 use Joomla\Image\Image;
 
+
+
 /**
  * Local file adapter.
  *
@@ -615,7 +617,7 @@ class LocalAdapter implements AdapterInterface
 
 		if (is_dir($destinationPath))
 		{
-			// We need to bypass exception thrown in JFolder when destination exists
+			// We need to bypass exception thrown in Folder when destination exists
 			// So we only copy it in forced condition, then delete the source to simulate a move
 			if (!Folder::copy($sourcePath, $destinationPath, '', true))
 			{
@@ -800,7 +802,7 @@ class LocalAdapter implements AdapterInterface
 		$helper = new MediaHelper;
 
 		// @todo find a better way to check the input, by not writing the file to the disk
-		$tmpFile = Path::clean(dirname($localPath) . '/' . uniqid() . '.' . \JFile::getExt($name));
+		$tmpFile = Path::clean(dirname($localPath) . '/' . uniqid() . '.' . File::getExt($name));
 
 		if (!File::write($tmpFile, $mediaContent))
 		{

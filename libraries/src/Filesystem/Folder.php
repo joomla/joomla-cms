@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\Client\FtpClient;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
@@ -261,7 +262,7 @@ abstract class Folder
 
 				if ($inBaseDir == false)
 				{
-					// Return false for JFolder::create because the path to be created is not in open_basedir
+					// Return false for Folder::create because the path to be created is not in open_basedir
 					Log::add(__METHOD__ . ': ' . Text::_('JLIB_FILESYSTEM_ERROR_FOLDER_PATH'), Log::WARNING, 'jerror');
 
 					return false;
@@ -671,7 +672,7 @@ abstract class Folder
 
 		if ($level == 0)
 		{
-			$GLOBALS['_JFolder_folder_tree_index'] = 0;
+			$GLOBALS['_Folder_folder_tree_index'] = 0;
 		}
 
 		if ($level < $maxLevel)
@@ -681,7 +682,7 @@ abstract class Folder
 			// First path, index foldernames
 			foreach ($folders as $name)
 			{
-				$id = ++$GLOBALS['_JFolder_folder_tree_index'];
+				$id = ++$GLOBALS['_Folder_folder_tree_index'];
 				$fullName = Path::clean($path . '/' . $name);
 				$dirs[] = array(
 					'id' => $id,

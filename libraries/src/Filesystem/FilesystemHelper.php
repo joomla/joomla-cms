@@ -10,6 +10,8 @@ namespace Joomla\CMS\Filesystem;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Filesystem\FilesystemHelper;
+
 /**
  * File system helper
  *
@@ -298,7 +300,7 @@ class FilesystemHelper
 	/**
 	 * Calculates the maximum upload file size and returns string with unit or the size in bytes
 	 *
-	 * Call it with JFilesystemHelper::fileUploadMaxSize();
+	 * Call it with FilesystemHelper::fileUploadMaxSize();
 	 *
 	 * @param   bool  $unit_output  This parameter determines whether the return value should be a string with a unit
 	 *
