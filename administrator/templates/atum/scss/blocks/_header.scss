@@ -1,5 +1,4 @@
 // Header
-
 @import "../variables";
 
 .header {
@@ -59,7 +58,6 @@
         color: var(--atum-text-light);
       }
     }
-
   }
 
   .nav-link {
@@ -105,7 +103,7 @@
   .link-title {
     text-decoration: underline;
 
-    @include media-breakpoint-down(lg){
+    @include media-breakpoint-down(lg) {
       width: 60px;
       white-space: nowrap;
       overflow: hidden;

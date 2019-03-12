@@ -58,7 +58,6 @@
         @include fadeout-page;
       }
     }
-
   }
 
   &.transit-wider {
@@ -70,7 +69,6 @@
       @include fadein-page;
     }
   }
-
 }
 
 .menu-toggle-icon {
@@ -87,7 +85,6 @@
 
     li.dropdown-submenu {
       display: block;
-
     }
   }
 
@@ -348,6 +345,7 @@
   }
 
   .main-nav {
+
     > li > ul {
       height: 0;
       padding: 0;
