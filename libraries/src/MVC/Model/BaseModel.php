@@ -12,8 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Object\CMSObject;
-use LeagcyModelLoaderTrait;
-use StateBehaviorTrait;
 
 /**
  * Base class for a Joomla Model
@@ -22,8 +20,8 @@ use StateBehaviorTrait;
  */
 abstract class BaseModel extends CMSObject implements ModelInterface, StatefulModelInterface
 {
-	
-	
+	use LeagcyModelLoaderTrait;
+	use StateBehaviorTrait;
 
 	/**
 	 * The model (base) name

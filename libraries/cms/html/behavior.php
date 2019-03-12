@@ -16,9 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
-use of formvalidation is deprecated use formvalidator instead.'
- Log::WARNING
- 'deprecated');
 
 /**
  * Utility class for JavaScript behaviors
@@ -102,7 +99,7 @@ abstract class JHtmlBehavior
 	 */
 	public static function formvalidation()
 	{
-		Log::add('The 
+		Log::add('The use of formvalidation is deprecated use formvalidator instead.', Log::WARNING, 'deprecated');
 
 		// Only load once
 		if (isset(static::$loaded[__METHOD__]))

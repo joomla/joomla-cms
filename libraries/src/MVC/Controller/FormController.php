@@ -10,7 +10,6 @@ namespace Joomla\CMS\MVC\Controller;
 
 defined('JPATH_PLATFORM') or die;
 
-use FormFactoryAwareTrait;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
@@ -32,7 +31,7 @@ use Joomla\CMS\Uri\Uri;
  */
 class FormController extends BaseController implements FormFactoryAwareInterface
 {
-	
+	use FormFactoryAwareTrait;
 
 	/**
 	 * The context for storing internal data, e.g. record.

@@ -4,12 +4,13 @@ const RootPath = require('./utils/rootpath.es6.js')._();
 
 
 const jregex = /defined\('(JPATH_BASE|_JEXEC|JPATH_PLATFORM)'\) or die;/gm;
-const oldClassName = 'JText';
-const newClassName = 'Text';
-const classUse  = 'use Joomla\\CMS\\Language\\Text;';
+const oldClassName = 'JRegistry';
+const newClassName = 'Registry';
+const classUse  = 'use Joomla\\Registry\\Registry;';
 const root = `${RootPath}/`;
 const filesToIgnore = [
 	'classmap.php',
+	'com_finder',
 ]
 
 module.exports.run = () => {
@@ -56,7 +57,7 @@ const readFile = (path) => {
 
 const getInstances = (content, path) => {
 	//const regex = /[^\s*](?=\S)(?!\/\*\*)(?!\/\/)(?!\*)(\\?JText)/gm;
-	const regex = /(?=\S)(?!\/\*\*)(?!\/\/)(?!\*)(\\?JText)/gm;
+	const regex = /(?=\S)(?!\/\*\*)(?!\/\/)(?!\*)(\\?JRegistry)/gm;
 	const matches = content.match(regex);
 
 	if (matches !== null) {
