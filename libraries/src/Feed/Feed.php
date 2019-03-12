@@ -11,7 +11,10 @@ namespace Joomla\CMS\Feed;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Date\Date;
+use Joomla\CMS\Feed\FeedEntry;
 use Joomla\CMS\Feed\FeedPerson;
+
+
 
 /**
  * Class to encapsulate a feed for the Joomla Platform.
@@ -232,7 +235,7 @@ class Feed implements \ArrayAccess, \Countable
 	 * Assigns a value to the specified offset.
 	 *
 	 * @param   mixed      $offset  The offset to assign the value to.
-	 * @param   FeedEntry  $value   The JFeedEntry to set.
+	 * @param   FeedEntry  $value   The FeedEntry to set.
 	 *
 	 * @return  boolean
 	 *
