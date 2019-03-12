@@ -10,6 +10,7 @@ namespace Joomla\CMS\Feed;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Feed\FeedParser;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\Registry\Registry;
 
@@ -130,7 +131,7 @@ class FeedFactory
 	}
 
 	/**
-	 * Method to return a new JFeedParser object based on the registered parsers and a given type.
+	 * Method to return a new FeedParser object based on the registered parsers and a given type.
 	 *
 	 * @param   string      $type    The name of parser to return.
 	 * @param   \XMLReader  $reader  The XMLReader instance for the feed.
