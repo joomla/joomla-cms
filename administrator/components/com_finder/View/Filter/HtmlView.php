@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Administrator\View\Filter;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -114,7 +113,7 @@ class HtmlView extends BaseHtmlView
 
 		// Configure the toolbar.
 		ToolbarHelper::title(
-			$isNew ? Text::_('COM_FINDER_FILTER_NEW_TOOLBAR_TITLE') : Text::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'),
+			$isNew ? \JText::_('COM_FINDER_FILTER_NEW_TOOLBAR_TITLE') : \JText::_('COM_FINDER_FILTER_EDIT_TOOLBAR_TITLE'),
 			'zoom-in finder'
 		);
 

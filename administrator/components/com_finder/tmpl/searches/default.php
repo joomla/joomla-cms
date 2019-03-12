@@ -45,7 +45,7 @@ $listDirn = $this->escape($this->state->get('list.direction'));
 								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_HITS', 'a.hits', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:1%" class="text-center">
-								<?php echo Text::_('COM_FINDER_HEADING_RESULTS'); ?>
+								<?php echo JText::_('COM_FINDER_HEADING_RESULTS'); ?>
 							</th>
 						</tr>
 					</thead>

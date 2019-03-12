@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\String\StringHelper;
 
 // Get the mime type class.
@@ -74,7 +73,7 @@ if ($show_description)
 <?php endif; ?>
 <?php if ($this->result->start_date && $this->params->get('show_date', 1)) : ?>
 	<dd class="result-date small">
-		<?php echo \JHtml::_('date', $this->result->start_date, Text::_('DATE_FORMAT_LC3')); ?>
+		<?php echo \JHtml::_('date', $this->result->start_date, \JText::_('DATE_FORMAT_LC3')); ?>
 	</dd>
 <?php endif; ?>
 <?php if ($this->params->get('show_url', 1)) : ?>

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
-
 /*
 * This segment of code sets up the autocompleter.
 */
@@ -32,7 +30,7 @@ if ($this->params->get('show_autosuggest', 1))
 	<fieldset class="com-finder__search word mb-3">
 		<div class="form-inline">
 			<label for="q" class="mr-2">
-				<?php echo Text::_('COM_FINDER_SEARCH_TERMS'); ?>
+				<?php echo JText::_('COM_FINDER_SEARCH_TERMS'); ?>
 			</label>
 			<div class="input-group">
 				<input type="text" name="q" class="js-finder-search-query form-control" value="<?php echo $this->escape($this->query->input); ?>">
@@ -40,18 +38,18 @@ if ($this->params->get('show_autosuggest', 1))
 				<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_query')) : ?>
 					<button name="Search" type="submit" class="btn btn-primary">
 						<span class="fa fa-search icon-white" aria-hidden="true"></span>
-						<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>
+						<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
 					</button>
 				<?php else : ?>
 					<button name="Search" type="submit" class="btn btn-primary disabled">
 						<span class="fa fa-search icon-white" aria-hidden="true"></span>
-						<?php echo Text::_('JSEARCH_FILTER_SUBMIT'); ?>
+						<?php echo JText::_('JSEARCH_FILTER_SUBMIT'); ?>
 					</button>
 				<?php endif; ?>
 				<?php if ($this->params->get('show_advanced', 1)) : ?>
 					<a href="#advancedSearch" data-toggle="collapse" class="btn btn-secondary" aria-hidden="true">
 						<span class="fa fa-search-plus" aria-hidden="true"></span>
-						<?php echo Text::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
+						<?php echo JText::_('COM_FINDER_ADVANCED_SEARCH_TOGGLE'); ?></a>
 				<?php endif; ?>
 				</span>
 			</div>
@@ -63,14 +61,14 @@ if ($this->params->get('show_autosuggest', 1))
 			<?php if ($this->params->get('show_advanced_tips', 1)) : ?>
 				<div class="com-finder__tips card card-outline-secondary mb-3">
 					<div class="card-body">
-						<?php echo Text::_('COM_FINDER_ADVANCED_TIPS_INTRO'); ?>
-						<?php echo Text::_('COM_FINDER_ADVANCED_TIPS_AND'); ?>
-						<?php echo Text::_('COM_FINDER_ADVANCED_TIPS_NOT'); ?>
-						<?php echo Text::_('COM_FINDER_ADVANCED_TIPS_OR'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_INTRO'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_AND'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_NOT'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_OR'); ?>
 						<?php if ($this->params->get('tuplecount', 1) > 1) : ?>
-						<?php echo Text::_('COM_FINDER_ADVANCED_TIPS_PHRASE'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_PHRASE'); ?>
 						<?php endif; ?>
-						<?php echo Text::_('COM_FINDER_ADVANCED_TIPS_OUTRO'); ?>
+						<?php echo JText::_('COM_FINDER_ADVANCED_TIPS_OUTRO'); ?>
 					</div>
 				</div>
 			<?php endif; ?>

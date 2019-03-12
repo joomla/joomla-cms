@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
@@ -696,7 +695,7 @@ class FinderIndexerQuery
 		$whens = array('before', 'after', 'exact');
 
 		// The value of 'today' is a special case that we need to handle.
-		if ($date1 === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY')))
+		if ($date1 === StringHelper::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
 		{
 			$date1 = JFactory::getDate('now', $offset)->format('%Y-%m-%d');
 		}
@@ -713,7 +712,7 @@ class FinderIndexerQuery
 		}
 
 		// The value of 'today' is a special case that we need to handle.
-		if ($date2 === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY')))
+		if ($date2 === StringHelper::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
 		{
 			$date2 = JFactory::getDate('now', $offset)->format('%Y-%m-%d');
 		}
@@ -761,15 +760,15 @@ class FinderIndexerQuery
 		 * "before:2009-10-21" or "type:article", etc.
 		 */
 		$patterns = array(
-			'before' => Text::_('COM_FINDER_FILTER_WHEN_BEFORE'),
-			'after'  => Text::_('COM_FINDER_FILTER_WHEN_AFTER'),
+			'before' => JText::_('COM_FINDER_FILTER_WHEN_BEFORE'),
+			'after'  => JText::_('COM_FINDER_FILTER_WHEN_AFTER'),
 		);
 
 		// Add the taxonomy branch titles to the possible patterns.
 		foreach (FinderIndexerTaxonomy::getBranchTitles() as $branch)
 		{
 			// Add the pattern.
-			$patterns[$branch] = StringHelper::strtolower(Text::_(FinderHelperLanguage::branchSingular($branch)));
+			$patterns[$branch] = StringHelper::strtolower(JText::_(FinderHelperLanguage::branchSingular($branch)));
 		}
 
 		// Container for search terms and phrases.
@@ -821,7 +820,7 @@ class FinderIndexerQuery
 						$whens = array('before', 'after', 'exact');
 
 						// The value of 'today' is a special case that we need to handle.
-						if ($value === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY')))
+						if ($value === StringHelper::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
 						{
 							$value = JFactory::getDate('now', $offset)->format('%Y-%m-%d');
 						}
@@ -965,9 +964,9 @@ class FinderIndexerQuery
 
 		// An array of our boolean operators. $operator => $translation
 		$operators = array(
-			'AND' => StringHelper::strtolower(Text::_('COM_FINDER_QUERY_OPERATOR_AND')),
-			'OR'  => StringHelper::strtolower(Text::_('COM_FINDER_QUERY_OPERATOR_OR')),
-			'NOT' => StringHelper::strtolower(Text::_('COM_FINDER_QUERY_OPERATOR_NOT')),
+			'AND' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_AND')),
+			'OR'  => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
+			'NOT' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT')),
 		);
 
 		// If language debugging is enabled you need to ignore the debug strings in matching.

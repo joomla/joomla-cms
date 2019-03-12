@@ -12,7 +12,6 @@ namespace Joomla\Component\Finder\Administrator\View\Searches;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
@@ -105,7 +104,7 @@ class HtmlView extends BaseHtmlView
 		// Check if plugin is enabled
 		if (!$this->enabled)
 		{
-			$app->enqueueMessage(Text::_('COM_FINDER_LOGGING_DISABLED'), 'warning');
+			$app->enqueueMessage(\JText::_('COM_FINDER_LOGGING_DISABLED'), 'warning');
 		}
 
 		// Prepare the view.
@@ -126,7 +125,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = $this->canDo;
 
-		ToolbarHelper::title(Text::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
+		ToolbarHelper::title(\JText::_('COM_FINDER_MANAGER_SEARCHES'), 'search');
 
 		if ($canDo->get('core.edit.state'))
 		{

@@ -10,14 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 
 $user      = JFactory::getUser();
 $userId    = $user->get('id');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-Text::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
+JText::script('COM_FINDER_INDEX_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filters'); ?>" method="post" name="adminForm" id="adminForm">
@@ -30,7 +29,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 				<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 				<?php if (empty($this->items)) : ?>
 					<div class="alert alert-warning">
-						<?php echo Text::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
+						<?php echo JText::_('COM_FINDER_NO_RESULTS_OR_FILTERS'); ?>
 					</div>
 				<?php else : ?>
 				<table class="table">
@@ -96,7 +95,7 @@ HTMLHelper::_('script', 'com_finder/filters.js', ['version' => 'auto', 'relative
 								<?php echo $item->created_by_alias ?: $item->user_name; ?>
 							</td>
 							<td class="d-none d-md-table-cell">
-								<?php echo JHtml::_('date', $item->created, Text::_('DATE_FORMAT_LC4')); ?>
+								<?php echo JHtml::_('date', $item->created, JText::_('DATE_FORMAT_LC4')); ?>
 							</td>
 							<td class="d-none d-md-table-cell">
 								<?php echo $item->map_count; ?>

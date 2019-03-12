@@ -13,7 +13,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
-use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 /**
@@ -103,7 +102,7 @@ class ContentmapField extends GroupedlistField
 					else
 					{
 						$key = FinderHelperLanguage::branchSingular($branch->text);
-						$text = $lang->hasKey($key) ? Text::_($key) : $branch->text;
+						$text = $lang->hasKey($key) ? \JText::_($key) : $branch->text;
 					}
 
 					// Initialize the group if necessary.

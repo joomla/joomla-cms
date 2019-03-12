@@ -11,7 +11,6 @@ namespace Joomla\Component\Finder\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
@@ -46,7 +45,7 @@ class IndexController extends AdminController
 	 */
 	public function purge()
 	{
-		\JSession::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
 
 		// Remove the script time limit.
 		@set_time_limit(0);
@@ -59,14 +58,14 @@ class IndexController extends AdminController
 
 		if (!$return)
 		{
-			$message = Text::_('COM_FINDER_INDEX_PURGE_FAILED', $model->getError());
+			$message = \JText::_('COM_FINDER_INDEX_PURGE_FAILED', $model->getError());
 			$this->setRedirect('index.php?option=com_finder&view=index', $message);
 
 			return false;
 		}
 		else
 		{
-			$message = Text::_('COM_FINDER_INDEX_PURGE_SUCCESS');
+			$message = \JText::_('COM_FINDER_INDEX_PURGE_SUCCESS');
 			$this->setRedirect('index.php?option=com_finder&view=index', $message);
 
 			return true;
