@@ -10,9 +10,15 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use DispatcherAwareTrait
+ EventAware
+ IdentityAware
+ ContainerAwareTrait
+ ExtensionManagerTrait;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Console\Application;
 use Joomla\DI\Container;
@@ -32,7 +38,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	
 
 	/**
 	 * The application message queue.
@@ -54,7 +60,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * Class constructor.
 	 *
 	 * @param   Cli                  $input       An optional argument to provide dependency injection for the application's
-	 *                                            input object.  If the argument is a JInputCli object that object will become
+	 *                                            input object.  If the argument is a Cli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
 	 *                                            config object.  If the argument is a Registry object that object will become

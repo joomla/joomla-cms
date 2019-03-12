@@ -4,8 +4,8 @@ const RootPath = require('./utils/rootpath.es6.js')._();
 
 
 const jregex = /defined\('(JPATH_BASE|_JEXEC|JPATH_PLATFORM)'\) or die;/gm;
-const oldClassName = 'JFeed';
-const classUse  = 'use Joomla\\CMS\\Feed\\Feed;';
+const oldClassName = 'JInputCli';
+const classUse  = 'use Joomla\\CMS\\Input\\Cli;';
 const newClassName = classUse.substr(classUse.lastIndexOf('\\') + 1).slice(0, -1);
 const root = `${RootPath}/`;
 const filesToIgnore = [
@@ -60,7 +60,7 @@ const readFile = (path) => {
 };
 
 const getInstances = (content, path) => {
-	const regex = /(?=\S)(?!\/\*\*)(?!\/\/)(?!\*)(\\?JFeed)/gm;
+	const regex = /(?=\S)(?!\/\*\*)(?!\/\/)(?!\*)(\\?JInputCli)/gm;
 	const matches = content.match(regex);
 
 	if (matches !== null) {

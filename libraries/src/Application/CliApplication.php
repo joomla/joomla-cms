@@ -10,6 +10,11 @@ namespace Joomla\CMS\Application;
 
 defined('JPATH_PLATFORM') or die;
 
+use DispatcherAwareTrait
+ EventAware
+ IdentityAware
+ ContainerAwareTrait
+ ExtensionManagerTrait;
 use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
@@ -17,6 +22,7 @@ use Joomla\CMS\Application\CLI\Output\Stdout;
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Input\Cli;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -35,7 +41,7 @@ use Joomla\Session\SessionInterface;
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	
 
 	/**
 	 * Output object
@@ -65,7 +71,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * Class constructor.
 	 *
 	 * @param   Input                $input       An optional argument to provide dependency injection for the application's
-	 *                                            input object.  If the argument is a JInputCli object that object will become
+	 *                                            input object.  If the argument is a Cli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
 	 *                                            config object.  If the argument is a Registry object that object will become

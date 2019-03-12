@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Event\BeforeExecuteEvent;
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Input\Cli;
 use Joomla\CMS\Log\Log;
 use Joomla\Event\DispatcherInterface;
 use Joomla\Registry\Registry;
@@ -96,8 +97,8 @@ abstract class DaemonApplication extends CliApplication
 	/**
 	 * Class constructor.
 	 *
-	 * @param   \JInputCli           $input       An optional argument to provide dependency injection for the application's
-	 *                                            input object.  If the argument is a JInputCli object that object will become
+	 * @param   Cli           $input       An optional argument to provide dependency injection for the application's
+	 *                                            input object.  If the argument is a Cli object that object will become
 	 *                                            the application's input object, otherwise a default input object is created.
 	 * @param   Registry             $config      An optional argument to provide dependency injection for the application's
 	 *                                            config object.  If the argument is a Registry object that object will become
@@ -110,7 +111,7 @@ abstract class DaemonApplication extends CliApplication
 	 * @see     JApplicationBase::loadDispatcher()
 	 * @since   1.7.0
 	 */
-	public function __construct(\JInputCli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
+	public function __construct(Cli $input = null, Registry $config = null, DispatcherInterface $dispatcher = null)
 	{
 		// Verify that the process control extension for PHP is available.
 		if (!defined('SIGHUP'))
