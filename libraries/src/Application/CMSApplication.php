@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,6 +115,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since  4.0.0
 	 */
 	protected $pathway = null;
+
+	/**
+	 * The authentication plugin type
+	 *
+	 * @type   string
+	 * @since  4.0.0
+	 */
+	protected $authenticationPluginType = 'authentication';
 
 	/**
 	 * Class constructor.
@@ -665,32 +673,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Is admin interface?
-	 *
-	 * @return  boolean  True if this application is administrator.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
-	 */
-	public function isAdmin()
-	{
-		return $this->isClient('administrator');
-	}
-
-	/**
-	 * Is site interface?
-	 *
-	 * @return  boolean  True if this application is site.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
-	 */
-	public function isSite()
-	{
-		return $this->isClient('site');
-	}
-
-	/**
 	 * Checks if HTTPS is forced in the client configuration.
 	 *
 	 * @param   integer  $clientId  An optional client id (defaults to current application client).
@@ -765,7 +747,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function login($credentials, $options = array())
 	{
 		// Get the global Authentication object.
-		$authenticate = Authentication::getInstance();
+		$authenticate = Authentication::getInstance($this->authenticationPluginType);
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.

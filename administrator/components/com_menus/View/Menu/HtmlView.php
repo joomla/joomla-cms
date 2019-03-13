@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -102,7 +102,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($this->canDo->get('core.edit'))
 			{
-				$toolbarButtons[] = ['apply', 'menu.apply'];
+				ToolbarHelper::apply('menu.apply');
 			}
 
 			$toolbarButtons[] = ['save', 'menu.save'];
@@ -111,7 +111,8 @@ class HtmlView extends BaseHtmlView
 		// If user can edit, can save the item.
 		if (!$isNew && $this->canDo->get('core.edit'))
 		{
-			$toolbarButtons[] = ['apply', 'menu.apply'];
+			ToolbarHelper::apply('menu.apply');
+
 			$toolbarButtons[] = ['save', 'menu.save'];
 		}
 
