@@ -798,7 +798,7 @@ abstract class Factory
 	 *
 	 * @return  \Stream
 	 *
-	 * @see     \Stream
+	 * @see     Stream
 	 * @since   1.7.0
 	 */
 	public static function getStream($use_prefix = true, $use_network = true, $ua = 'Joomla', $uamask = false)
