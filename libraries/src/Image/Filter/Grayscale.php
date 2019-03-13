@@ -13,11 +13,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
-use Joomla\Image\Filter\Grayscale instead.'
- Log::WARNING
- 'deprecated');
 
-Log::add('ImageFilterGrayscale is deprecated, 
+Log::add('JImageFilterGrayscale is deprecated, use Joomla\Image\Filter\Grayscale instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class to transform an image to grayscale.
