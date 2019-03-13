@@ -1007,7 +1007,7 @@ class Language
 			$class = @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ($class != '\\Joomla\\CMS\\Language\\Language' && $class != 'Text')
+			if ($class != '\\Joomla\\CMS\\Language\\Language' && $class != Text::class)
 			{
 				$info['function'] = @ $step['function'];
 				$info['class'] = $class;
