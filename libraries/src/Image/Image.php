@@ -16,8 +16,6 @@ use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
 use Joomla\Image\Image as FrameworkImage;
 
-
-
 /**
  * Class to manipulate an image.
  *

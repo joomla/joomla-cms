@@ -14,7 +14,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Image\ImageFilter;
 use Joomla\CMS\Log\Log;
 
-Log::add('JImageFilterContrast is deprecated, use Joomla\Image\Filter\Contrast instead.', Log::WARNING, 'deprecated'); 
+Log::add('JImageFilterContrast is deprecated, use Joomla\Image\Filter\Contrast instead.', Log::WARNING, 'deprecated');
 
 /**
  * Image Filter class adjust the contrast of an image.
