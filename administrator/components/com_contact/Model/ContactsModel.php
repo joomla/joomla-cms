@@ -256,7 +256,7 @@ class ContactsModel extends ListModel
 
 		if (in_array($featured, ['0','1']))
 		{
-			$query->where('a.featured =' . (int) $featured);
+			$query->where($db->quoteName('a.featured') . ' = ' . (int) $featured);
 		}
 
 		// Filter by access level.
