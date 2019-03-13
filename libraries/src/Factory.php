@@ -796,7 +796,7 @@ abstract class Factory
 	 * @param   string   $ua           UA User agent to use
 	 * @param   boolean  $uamask       User agent masking (prefix Mozilla)
 	 *
-	 * @return  \Stream
+	 * @return  Stream
 	 *
 	 * @see     Stream
 	 * @since   1.7.0
