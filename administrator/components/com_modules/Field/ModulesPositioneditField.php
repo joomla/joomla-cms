@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 /**
  * Edit Modules Position field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ModulesPositioneditField extends FormField
 {
@@ -26,7 +26,7 @@ class ModulesPositioneditField extends FormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $type = 'ModulesPositionedit';
 
@@ -34,7 +34,7 @@ class ModulesPositioneditField extends FormField
 	 * Name of the layout being used to render the field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $layout = 'joomla.form.field.modulespositionedit';
 
@@ -43,13 +43,13 @@ class ModulesPositioneditField extends FormField
 	 *
 	 * @return  string  The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getInput()
 	{
 		$data = $this->getLayoutData();
 
-		$clientId  = Factory::getApplication()->input->get('client_id', 0, 'int');
+		$clientId  = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
 		$positions = HTMLHelper::_('modules.positions', $clientId, 1, $this->value);
 
 		$data['client']    = $clientId;

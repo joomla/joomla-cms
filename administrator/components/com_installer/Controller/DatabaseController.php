@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,8 +36,8 @@ class DatabaseController extends BaseController
 	 */
 	public function fix()
 	{
-		// Check for request forgeries
-		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		// Check for request forgeries.
+		$this->checkToken();
 
 		// Get items to fix the database.
 		$cid = $this->input->get('cid', array(), 'array');

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,6 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\Component\Tags\Site\Helper\TagsHelperRoute;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -99,9 +100,14 @@ class TagModel extends ListModel
 		{
 			foreach ($items as $item)
 			{
-				$explodedTypeAlias = explode('.', $item->type_alias);
-				$item->link = 'index.php?option=' . $explodedTypeAlias[0] . '&view=' . $explodedTypeAlias[1] . '&id='
-					. $item->content_item_id . ':' . $item->core_alias;
+				$item->link = TagsHelperRoute::getItemRoute(
+					$item->content_item_id,
+					$item->core_alias,
+					$item->core_catid,
+					$item->core_language,
+					$item->type_alias,
+					$item->router
+				);
 
 				// Get display date
 				switch ($this->state->params->get('tag_list_show_date'))

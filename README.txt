@@ -13,7 +13,7 @@
 3- Is Joomla! for you?
 	* Joomla! is the right solution for most content web projects: https://docs.joomla.org/Special:MyLanguage/Portal:Learn_More
 	* See Joomla's core features - https://www.joomla.org/core-features.html
-	* Try out our online demo: https://demo.joomla.org
+	* Try out our free hosting service: https://launch.joomla.org
 
 4- How to find a Joomla! translation?
 	* Repository of accredited language packs: https://community.joomla.org/translations.html
@@ -67,7 +67,7 @@
 	* Documentation for Web designers: https://docs.joomla.org/Special:MyLanguage/Web_designers
 
 Copyright:
-	* Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.
+	* Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
 	* Special Thanks: https://docs.joomla.org/Special:MyLanguage/Joomla!_Credits_and_Thanks
 	* Distributed under the GNU General Public License version 2 or later
 	* See Licenses details at https://docs.joomla.org/Special:MyLanguage/Joomla_Licenses

@@ -16,7 +16,7 @@
  * 4. Check the archives in the tmp directory.
  *
  * @package    Joomla.Build
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -68,6 +68,7 @@ function clean_checkout(string $dir)
 	system('find . -name phpunit.*.xml | xargs rm -rf -');
 	system('find . -name phpunit.xml.dist | xargs rm -rf -');
 	system('find . -name README.md | xargs rm -rf -');
+	system('find . -name SECURITY.md | xargs rm -rf -');
 
 	echo "Cleaning vendors.\n";
 
@@ -284,6 +285,7 @@ $doNotPackage = array(
 	'.drone.yml',
 	'.eslintignore',
 	'.eslintrc',
+	'.editorconfig',
 	'.github',
 	'.gitignore',
 	'.hound.yml',
@@ -309,6 +311,9 @@ $doNotPackage = array(
 	'scss-lint.yml',
 	'tests',
 	'travisci-phpunit.xml',
+	'codeception.yml',
+	'RoboFile.php',
+	'CODE_OF_CONDUCT.md',
 	// Remove the testing sample data from all packages
 	'installation/sql/mysql/sample_testing.sql',
 	'installation/sql/postgresql/sample_testing.sql',
