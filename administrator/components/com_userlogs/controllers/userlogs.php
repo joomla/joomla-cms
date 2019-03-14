@@ -20,6 +20,20 @@ use Joomla\Utilities\ArrayHelper;
 class UserlogsControllerUserlogs extends JControllerAdmin
 {
 	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function __construct(array $config = array())
+	{
+		parent::__construct($config);
+
+		$this->registerTask('exportSelectedLogs', 'exportLogs');
+	}
+
+	/**
 	 * Method to get a model object, loading it if required.
 	 *
 	 * @param   string  $name    The model name. Optional.
@@ -50,11 +64,22 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 		// Check for request forgeries.
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
-		// Get the logs data
-		$data = $this->getModel('userlogs')->getLogsData();
+		// Get selected logs
+		$pks = ArrayHelper::toInteger($this->input->post->get('cid', array(), 'array'));
 
-		// Export data to CSV file
-		UserlogsHelper::dataToCsv($data);
+		// Get the logs data
+		$data = $this->getModel('userlogs')->getLogsData($pks);
+
+		if (count($data))
+		{
+			// Export data to CSV file
+			UserlogsHelper::dataToCsv($data);
+		}
+		else
+		{
+			$this->setMessage(JText::_('COM_USERLOGS_NO_LOGS_TO_EXPORT'));
+			$this->setRedirect(JRoute::_('index.php?option=com_userlogs&view=userlogs'));
+		}
 	}
 
 	/**
@@ -77,24 +102,25 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 	}
 
 	/**
-	 * Method to export selected logs
+	 * Clean out the logs
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function exportSelectedLogs()
+	public function purge()
 	{
-		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$model = $this->getModel();
 
-		// Get selected logs
-		$pks = ArrayHelper::toInteger($this->input->post->get('cid', array(), 'array'));
+		if ($model->purge())
+		{
+			$message = JText::_('COM_USERLOGS_PURGE_SUCCESS');
+		}
+		else
+		{
+			$message = JText::_('COM_REDIRECT_PURGE_FAIL');
+		}
 
-		// Get the logs data
-		$data = $this->getModel('userlogs')->getLogsData($pks);
-
-		// Export data to CSV file
-		UserlogsHelper::dataToCsv($data);
+		$this->setRedirect(JRoute::_('index.php?option=com_userlogs&view=userlogs'), $message);
 	}
 }
