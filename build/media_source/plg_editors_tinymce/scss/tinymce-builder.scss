@@ -5,16 +5,12 @@
 
 #joomla-tinymce-builder {
   margin-left: -220px;
-  .tox-mbtn {
-	.ui-state-highlight {
-      width: 40px;
-	  height: 22px;
-	  background-color: #409740;
-	  border: 1px solid #f0f0f0;
-	  display: inline-block;
-	}
-  }
   .drop-area-highlight {
     background-color: #d0d0d0;
+  }
+  .tox-editor-container {
+    > .target {
+      min-height: 2.5rem;
+	}
   }
 }
