@@ -9,6 +9,9 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Registry\Registry;
+use Joomla\CMS\Plugin\PluginHelper;
+
 /**
  * View class for a list of logs.
  *
@@ -63,9 +66,10 @@ class UserlogsViewUserlogs extends JViewLegacy
 	 */
 	public function display($tpl = null)
 	{
-		if (!JFactory::getUser()->authorise('core.viewlogs', 'com_userlogs'))
+		if (PluginHelper::isEnabled('system', 'userlogs'))
 		{
-			throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			$params   = new Registry(PluginHelper::getPlugin('system', 'userlogs')->params);
+			$this->ip = (bool) $params->get('ip_logging', 0);
 		}
 
 		$this->items         = $this->get('Items');
@@ -73,6 +77,16 @@ class UserlogsViewUserlogs extends JViewLegacy
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->pagination    = $this->get('Pagination');
+
+		if (!empty($this->items))
+		{
+			$app = JFactory::getApplication();
+
+			foreach ($this->items as $item)
+			{
+				$app->triggerEvent('onLogMessagePrepare', array (&$item->message, $item->extension));
+			}
+		}
 
 		if (count($errors = $this->get('Errors')))
 		{

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_userlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,7 +28,8 @@ class UserlogsModelUserlogs extends JModelList
 				'a.user_id', 'user',
 				'a.message', 'message',
 				'a.log_date', 'log_date',
-				'a.ip_address', 'ip_address'
+				'a.ip_address', 'ip_address',
+				'dateRange',
 			);
 		}
 
@@ -181,7 +182,7 @@ class UserlogsModelUserlogs extends JModelList
 	 *
 	 * @param   string  $range  The textual range to construct the filter for.
 	 *
-	 * @return  string  The date range to filter on.
+	 * @return  array  The date range to filter on.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -235,43 +236,25 @@ class UserlogsModelUserlogs extends JModelList
 	 * Get logs data into JTable object
 	 *
 	 *
-	 * @return  Array  All logs in the table
+	 * @return  array  All logs in the table
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getLogsData($pks = null)
 	{
-		if ($pks == null)
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+				->select('a.*')
+				->from($db->quoteName('#__user_logs', 'a'));
+
+		if (is_array($pks) && count($pks) > 0)
 		{
-			$db = $this->getDbo();
-			$query = $db->getQuery(true)
-					->select('a.*')
-					->from($db->quoteName('#__user_logs', 'a'));
-			$db->setQuery($query);
-
-			return $db->loadObjectList();
+			$query->where($db->qn('a.id') . ' IN (' . implode(',', $pks) . ')');
 		}
-		else
-		{
-			$items = array();
-			JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_userlogs/tables');
-			$table = $this->getTable('Userlogs', 'JTable');
 
-			foreach ($pks as $i => $pk)
-			{
-				$table->load($pk);
-				$items[] = (object) array(
-					'id'         => $table->id,
-					'message'    => $table->message,
-					'log_date'   => $table->log_date,
-					'extension'  => $table->extension,
-					'user_id'    => $table->user_id,
-					'ip_address' => $table->ip_address,
-				);
-			}
+		$db->setQuery($query);
 
-			return $items;
-		}
+		return $db->loadObjectList();
 	}
 
 	/**
@@ -285,41 +268,23 @@ class UserlogsModelUserlogs extends JModelList
 	 */
 	public function delete(&$pks)
 	{
-		// Check for request forgeries
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__user_logs'))
+			->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+		$db->setQuery($query);
 
-		// Get the table
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_userlogs/tables');
-		$table = $this->getTable('Userlogs', 'JTable');
-
-		if (!JFactory::getUser()->authorise('core.delete', $this->option))
+		try
 		{
-			$error = $this->getError();
+			$db->execute();
 
-			if ($error)
-			{
-				$this->setError($error);
-			}
-			else
-			{
-				$this->setError(JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
-			}
+			return true;
+		}
+		catch (RuntimeException $e)
+		{
+			$this->setError($e->getMessage());
 
 			return false;
 		}
-		else
-		{
-			foreach ($pks as $i => $pk)
-			{
-				if (!$table->delete($pk))
-				{
-					$this->setError($table->getError());
-
-					return false;
-				}
-			}
-		}
-
-		return true;
 	}
 }

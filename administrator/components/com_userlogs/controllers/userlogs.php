@@ -66,29 +66,14 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 	 */
 	public function delete()
 	{
-		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
-
-		// Get the input
-		$app = JFactory::getApplication();
-
-		// Sanitize the input
-		$pks = ArrayHelper::toInteger($app->input->post->get('cid', array(), 'array'));
-
-		// Get the logs data
-		$data = $this->getModel('userlogs')->delete($pks);
-
-		if ($data)
+		if (!JFactory::getUser()->authorise('core.delete', $this->option))
 		{
-			$app->enqueueMessage(JText::_('COM_USERLOGS_DELETE_SUCCESS'), 'message');
-		}
-		else
-		{
-			$app->enqueueMessage(JText::_('COM_USERLOGS_DELETE_FAIL'), 'error');
+			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
+
+			return;
 		}
 
-		// Redirect to the list screen.
-		$this->setRedirect(JRoute::_('index.php?option=com_userlogs&view=userlogs', false));
+		parent::delete();
 	}
 
 	/**
@@ -104,7 +89,7 @@ class UserlogsControllerUserlogs extends JControllerAdmin
 		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
 
 		// Get selected logs
-		$pks = ArrayHelper::toInteger(JFactory::getApplication()->input->post->get('cid', array(), 'array'));
+		$pks = ArrayHelper::toInteger($this->input->post->get('cid', array(), 'array'));
 
 		// Get the logs data
 		$data = $this->getModel('userlogs')->getLogsData($pks);
