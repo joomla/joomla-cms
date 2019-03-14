@@ -58,6 +58,7 @@ class ExtensionHelper
 		array('component', 'com_newsfeeds', '', 1),
 		array('component', 'com_plugins', '', 1),
 		array('component', 'com_postinstall', '', 1),
+		array('component', 'com_privacy', '', 1),
 		array('component', 'com_redirect', '', 1),
 		array('component', 'com_search', '', 1),
 		array('component', 'com_tags', '', 1),
@@ -241,6 +242,7 @@ class ExtensionHelper
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
+		array('plugin', 'userlogs', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
