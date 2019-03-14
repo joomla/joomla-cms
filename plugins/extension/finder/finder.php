@@ -72,13 +72,12 @@ class PlgExtensionFinder extends CMSPlugin
 	 *
 	 * @since   4.0.0
 	 */
-	public function onExtensionBeforeUninstall($installer, $eid, $removed)
+	public function onExtensionAfterUninstall($installer, $eid, $removed)
 	{
-		$extension = $this->getLanguage($eid);
-
-		if ($extension)
+		// Check that the language was successfully uninstalled.
+		if ($eid && $removed && $installer->extension->type === 'language')
 		{
-			$this->removeCommonWords($extension);
+			$this->removeCommonWords($installer->extension);
 		}
 	}
 
