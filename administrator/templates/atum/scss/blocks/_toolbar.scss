@@ -39,6 +39,15 @@
     }
   }
 
+  .btn-group {
+    .btn {
+      .fa:first-child, [class^=icon-]:first-child{
+        background-color: transparent;
+        margin-right: 0;
+      }
+    }
+  }
+
   .btn {
     padding: 0 22px;
     font-size: 1rem;
@@ -67,8 +76,9 @@
 
   .dropdown-item {
 
-    &:hover {
+    &:hover:not(.disabled) {
       color: #212529;
+      cursor: pointer;
     }
   }
 
@@ -84,6 +94,15 @@
 
     &.btn-success {
       background-color: darken(theme-color("success"), 8%);
+      padding: 0;
+
+      &::after {
+        border: none;
+        content: '\f078';
+        font-family: FontAwesome;
+        vertical-align: 0;
+        width: 38px;
+      }
     }
 
     &.btn-info {
@@ -92,6 +111,26 @@
 
     &.btn-danger {
       background-color: darken(theme-color("danger"), 8%);
+    }
+
+    &.btn-action {
+      background-color: (theme-color("action"));
+
+      &:hover:not([disabled]) {
+        background-color: darken(theme-color("action"), 8%);
+      }
+
+      &::after {
+        background-color: rgba(0, 0, 0, .2);
+        border: none;
+        content: '\f078';
+        font-family: FontAwesome;
+        height: auto;
+        margin: 0 -22px 0 16px;
+        vertical-align: 0;
+        width: 38px;
+        line-height: 2.35;
+      }
     }
   }
 }

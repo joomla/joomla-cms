@@ -73,6 +73,7 @@
     const loginForm = doc.getElementById('form-login');
     const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
     const sidebar = doc.querySelector('.sidebar-wrapper');
+    const mobile = window.matchMedia("(max-width: 992px)");
 
     // Fade out login form when login was successful
     if (loginForm) {
@@ -92,14 +93,26 @@
     }
 
     // Make logo big or small like the sidebar
-    if (!sidebar) {
+    if (!sidebar || mobile.matches) {
       changeLogo('closed');
     } else {
       changeLogo();
     }
 
     window.addEventListener('joomla:menu-toggle', (event) => {
-      changeLogo(event.detail);
+      if(!mobile.matches) {
+        changeLogo(event.detail);
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      if (mobile.matches) {
+        changeLogo('closed');
+      }
+      else{
+        changeLogo();
+      }
     });
   });
+
 })(window.Joomla, document);
