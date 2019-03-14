@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -252,7 +252,7 @@ abstract class Folder
 				{
 					$test = Path::clean($test);
 
-					if (strpos($path, $test) === 0)
+					if (strpos($path, $test) === 0 || strpos($path, realpath($test)) === 0)
 					{
 						$inBaseDir = true;
 						break;

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -36,20 +36,18 @@ class LoginModel extends BaseDatabaseModel
 	 */
 	protected function populateState()
 	{
-		$app = Factory::getApplication();
-
-		$input = $app->input;
-		$method = $input->getMethod();
+		$input = Factory::getApplication()->input->getInputForRequestMethod();
 
 		$credentials = array(
-			'username'  => $input->$method->get('username', '', 'USERNAME'),
-			'password'  => $input->$method->get('passwd', '', 'RAW'),
-			'secretkey' => $input->$method->get('secretkey', '', 'RAW'),
+			'username'  => $input->get('username', '', 'USERNAME'),
+			'password'  => $input->get('passwd', '', 'RAW'),
+			'secretkey' => $input->get('secretkey', '', 'RAW'),
 		);
+
 		$this->setState('credentials', $credentials);
 
 		// Check for return URL from the request first.
-		if ($return = $input->$method->get('return', '', 'BASE64'))
+		if ($return = $input->get('return', '', 'BASE64'))
 		{
 			$return = base64_decode($return);
 

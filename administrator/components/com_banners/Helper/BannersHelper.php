@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,7 +64,7 @@ class BannersHelper extends ContentHelper
 
 			if ($purchaseType < 0 && $row->cid)
 			{
-				/** @var \Joomla\Component\Banners\Administrator\Table\Client $client */
+				/** @var \Joomla\Component\Banners\Administrator\Table\ClientTable $client */
 				$client = Table::getInstance('Client', '\\Joomla\\Component\\Banners\\Administrator\\Table\\');
 				$client->load($row->cid);
 				$purchaseType = $client->purchase_type;

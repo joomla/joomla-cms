@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -128,6 +128,12 @@ class PluginsField extends ListField
 				->where('folder = ' . $db->quote($folder))
 				->where('enabled = 1')
 				->order('ordering, name');
+
+			if ((string) $this->element['useaccess'] === 'true')
+			{
+				$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+			}
 
 			$options   = $db->setQuery($query)->loadObjectList();
 			$lang      = Factory::getLanguage();

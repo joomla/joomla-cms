@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.tinymce
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -164,8 +164,8 @@ class JFormFieldTinymceBuilder extends FormField
 
 		// Check for TinyMCE language file
 		$language      = Factory::getLanguage();
-		$languageFile1 = 'media/editors/tinymce/langs/' . $language->getTag() . '.js';
-		$languageFile2 = 'media/editors/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js';
+		$languageFile1 = 'media/vendor/tinymce/langs/' . $language->getTag() . '.js';
+		$languageFile2 = 'media/vendor/tinymce/langs/' . substr($language->getTag(), 0, strpos($language->getTag(), '-')) . '.js';
 
 		$data['languageFile'] = '';
 

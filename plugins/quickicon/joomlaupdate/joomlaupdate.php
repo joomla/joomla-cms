@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -75,15 +75,15 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
-		Text::script('MESSAGE', true);
-		Text::script('ERROR', true);
-		Text::script('INFO', true);
-		Text::script('WARNING', true);
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
+		Text::script('MESSAGE');
+		Text::script('ERROR');
+		Text::script('INFO');
+		Text::script('WARNING');
 
 		$this->app->getDocument()->addScriptOptions(
 			'js-joomla-update',

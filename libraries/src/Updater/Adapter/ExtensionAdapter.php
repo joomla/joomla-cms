@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,7 +103,6 @@ class ExtensionAdapter extends UpdateAdapter
 	{
 		array_pop($this->stack);
 
-		// @todo remove code: echo 'Closing: '. $name .'<br>';
 		switch ($name)
 		{
 			case 'UPDATE':

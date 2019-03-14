@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,7 +97,7 @@ class IndexModel extends ListModel
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -353,7 +353,19 @@ class IndexModel extends ListModel
 
 		// Truncate the taxonomy table and insert the root node.
 		$db->truncateTable('#__finder_taxonomy');
-		$root = (object) array('id' => 1, 'parent_id' => 0, 'title' => 'ROOT', 'state' => 0, 'access' => 0, 'ordering' => 0);
+		$root = (object) array(
+			'id' => 1,
+			'parent_id' => 0,
+			'lft' => 0,
+			'rgt' => 1,
+			'level' => 0,
+			'path' => '',
+			'title' => 'ROOT',
+			'alias' => 'root',
+			'state' => 1,
+			'access' => 1,
+			'language' => '*'
+		);
 		$db->insertObject('#__finder_taxonomy', $root);
 
 		// Truncate the tokens tables.
@@ -394,7 +406,7 @@ class IndexModel extends ListModel
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state. [optional]
 	 *
 	 * @return  boolean  True on success.

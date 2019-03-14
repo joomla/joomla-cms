@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,7 +111,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 												<?php echo $extension->version_id; ?>
 											</td>
 											<td class="d-none d-md-table-cell">
-												<?php echo $extension->version; ?>
+												<?php echo '&#x200E;' . $extension->version; ?>
 											</td>
 											<td class="d-none d-md-table-cell">
 												<?php echo $extension->folder_translated; ?>

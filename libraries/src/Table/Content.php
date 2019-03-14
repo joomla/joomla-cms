@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -240,6 +240,9 @@ class Content extends Table
 			{
 				$this->metadata = '{}';
 			}
+
+			// Hits must be zero on a new item
+			$this->hits = 0;
 		}
 
 		// Set publish_up to null date if not set

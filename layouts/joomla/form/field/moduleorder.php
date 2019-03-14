@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,6 +76,6 @@ if ($onchange)
 	$attributes['onchange'] = 'onchange="' . $onchange . '"';
 }
 
-HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-module-order.min.js', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('webcomponent', 'system/fields/joomla-field-module-order.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <joomla-field-module-order <?php echo implode($attributes, ' '); ?>></joomla-field-module-order>

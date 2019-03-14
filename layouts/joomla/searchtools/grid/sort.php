@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,8 +33,8 @@ endif;
 	data-direction="<?php echo strtoupper($data->direction); ?>"
 	data-caption="<?php echo $caption; ?>"
 	<?php if (!empty($sort)) : ?>
-		data-sort="<?php echo $sort; ?>
-	<?php endif; ?>">
+		data-sort="<?php echo $sort; ?>"
+	<?php endif; ?>>
 	<?php if (!empty($data->title)) : ?>
 		<span>
 			<?php echo Text::_($data->title); ?>

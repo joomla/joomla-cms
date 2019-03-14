@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -117,6 +117,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected $pathway = null;
 
 	/**
+	 * The authentication plugin type
+	 *
+	 * @type   string
+	 * @since  4.0.0
+	 */
+	protected $authenticationPluginType = 'authentication';
+
+	/**
 	 * Class constructor.
 	 *
 	 * @param   Input      $input      An optional argument to provide dependency injection for the application's input
@@ -171,8 +179,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkSession()
 	{
-		$metadataManager = new MetadataManager($this, Factory::getDbo());
-		$metadataManager->createRecordIfNonExisting(Factory::getSession(), Factory::getUser());
+		$this->getContainer()->get(MetadataManager::class)->createOrUpdateRecord($this->getSession(), $this->getIdentity());
 	}
 
 	/**
@@ -666,32 +673,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Is admin interface?
-	 *
-	 * @return  boolean  True if this application is administrator.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
-	 */
-	public function isAdmin()
-	{
-		return $this->isClient('administrator');
-	}
-
-	/**
-	 * Is site interface?
-	 *
-	 * @return  boolean  True if this application is site.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
-	 */
-	public function isSite()
-	{
-		return $this->isClient('site');
-	}
-
-	/**
 	 * Checks if HTTPS is forced in the client configuration.
 	 *
 	 * @param   integer  $clientId  An optional client id (defaults to current application client).
@@ -766,7 +747,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function login($credentials, $options = array())
 	{
 		// Get the global Authentication object.
-		$authenticate = Authentication::getInstance();
+		$authenticate = Authentication::getInstance($this->authenticationPluginType);
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -13,6 +13,7 @@ namespace Joomla\Component\Workflow\Administrator\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Workflow\Workflow;
@@ -113,12 +114,12 @@ class WorkflowModel extends AdminModel
 				[
 					'title' => 'JUNPUBLISHED',
 					'condition' => Workflow::CONDITION_UNPUBLISHED,
+					'default' => 1,
 					'transition' => 'Unpublish'
 				],
 				[
 					'title' => 'JPUBLISHED',
 					'condition' => Workflow::CONDITION_PUBLISHED,
-					'default' => 1,
 					'transition' => 'Publish'
 				],
 				[
@@ -259,7 +260,7 @@ class WorkflowModel extends AdminModel
 	 *
 	 * @since  4.0.0
 	 */
-	protected function preprocessForm(\JForm $form, $data, $group = 'content')
+	protected function preprocessForm(Form $form, $data, $group = 'content')
 	{
 		$extension = Factory::getApplication()->input->get('extension');
 
@@ -347,7 +348,7 @@ class WorkflowModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		if (empty($record->id) || $record->published != -2)
+		if (empty($record->id) || $record->published != -2 || $record->core)
 		{
 			return false;
 		}
@@ -367,6 +368,11 @@ class WorkflowModel extends AdminModel
 	protected function canEditState($record)
 	{
 		$user = Factory::getUser();
+
+		if (!empty($record->core))
+		{
+			return false;
+		}
 
 		// Check for existing workflow.
 		if (!empty($record->id))

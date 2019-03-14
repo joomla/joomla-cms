@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -377,6 +377,7 @@ class FinderIndexerResponse
 			$this->batchSize = (int) $state->batchSize;
 			$this->batchOffset = (int) $state->batchOffset;
 			$this->totalItems = (int) $state->totalItems;
+			$this->pluginState = $state->pluginState;
 
 			$this->startTime = $state->startTime;
 			$this->endTime = Factory::getDate()->toSql();

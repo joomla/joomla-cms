@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -103,7 +103,8 @@ class WorkflowstageField extends GroupedlistField
 				->from($db->quoteName('#__workflows', 'w'))
 				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))
 				->where($db->quoteName('w.extension') . ' = ' . $db->quote($this->extension))
-				->order($db->quoteName('w.ordering'));
+				->order($db->quoteName('w.ordering'))
+				->order($db->quoteName('ws.ordering'));
 
 		if ($this->activeonly)
 		{

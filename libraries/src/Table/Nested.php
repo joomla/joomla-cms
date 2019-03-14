@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -1333,11 +1333,9 @@ class Nested extends Table
 				->where('parent_id = %d');
 
 			// If the table has an ordering field, use that for ordering.
-			$orderingField = $this->getColumnAlias('ordering');
-
-			if ($this->hasField($orderingField))
+			if ($this->hasField('ordering'))
 			{
-				$query->order('parent_id, ' . $this->_db->quoteName($orderingField) . ', lft');
+				$query->order('parent_id, ' . $this->_db->quoteName($this->getColumnAlias('ordering')) . ', lft');
 			}
 			else
 			{
