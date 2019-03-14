@@ -1555,6 +1555,26 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 (700, 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1),
 (700, 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_BODY', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_ACTION', 'plg_system_httpheaders', 1, 'action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_condition', '4.0.0', 1);
 --
+-- Table structure for table `#__privacy_requests`
+--
+
+CREATE TABLE "#__privacy_requests" (
+  "id" serial NOT NULL,
+  "email" varchar(100) DEFAULT '' NOT NULL,
+  "requested_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "status" smallint DEFAULT 0 NOT NULL,
+  "request_type" varchar(25) DEFAULT '' NOT NULL,
+  "confirm_token" varchar(100) DEFAULT '' NOT NULL,
+  "confirm_token_created_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "user_id" bigint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__fields_idx_checked_out" ON "#__privacy_requests" ("checked_out");
+CREATE INDEX "#__fields_idx_user_id" ON "#__privacy_requests" ("user_id");
+
+--
 -- Table structure for table `#__redirect_links`
 --
 
