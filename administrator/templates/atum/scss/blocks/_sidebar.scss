@@ -1,5 +1,6 @@
 // Mixins
 @import "../mixin";
+@import "../variables";
 
 // Sidebar
 
@@ -11,8 +12,9 @@
   }
 
   &.closed {
+
     .main-nav {
-      max-width:3rem;
+      max-width: 3rem;
     }
   }
 }
@@ -20,7 +22,7 @@
 .sidebar-wrapper {
   position: relative;
   top: 0;
-  z-index: 1041;
+  z-index: $zindex-sidebar;
   display: flex;
   flex-direction: column;
   flex: 1 0 $sidebar-width;
@@ -56,7 +58,6 @@
         @include fadeout-page;
       }
     }
-
   }
 
   &.transit-wider {
@@ -68,7 +69,6 @@
       @include fadein-page;
     }
   }
-
 }
 
 .menu-toggle-icon {
@@ -82,9 +82,9 @@
   opacity: 1;
 
   ul.collapse {
+
     li.dropdown-submenu {
       display: block;
-
     }
   }
 
@@ -97,6 +97,7 @@
     color: var(--atum-text-light);
     list-style-type: none;
     position: relative;
+
     > a.btn-dashboard {
       position: absolute;
       right: 40px;
@@ -104,8 +105,9 @@
       top: 0;
       display: none;
     }
+
     &:hover > a.btn-dashboard {
-      display:block;
+      display: block;
     }
   }
 
@@ -117,24 +119,19 @@
     line-height: 3.2rem;
 
     &:hover {
-
       color: var(--atum-text-light);
       text-decoration: none;
-
     }
-    &:focus {
-     /* -moz-box-shadow: inset 0 0 2px 2px var(--atum-contrast);
-      -webkit-box-shadow: inset 0 0 2px 2px var(--atum-contrast);
-      box-shadow: inset 0 0 2px 2px var(--atum-contrast);*/
-      outline-offset: -0.25rem;
-      outline-color: var(--atum-contrast);
-      outline-width: 0.25rem;
 
+    &:focus {
+      outline-offset: -0.25rem;
+      outline: var(--atum-contrast) 0.25rem;
     }
   }
 
   // 1st level items
   > li {
+
     > ul {
       background-color: var(--atum-bg-dark-70);
     }
@@ -148,27 +145,14 @@
       }
     }
 
-    &.active > a {
-      //background-color: rgba(0, 0, 0, .4);
+    &.active {
       box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
-      z-index: 10;
-
-      &::before {
-        /*    position: absolute;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            width: 0.25rem;
-            content: "";
-            background-color: var(--atum-contrast);*/
-      }
     }
   }
 
   // 2nd level items
   ul {
     padding: 0;
-    z-index: 20;
     background-color: var(--atum-bg-dark-70);
 
     li {
@@ -187,22 +171,21 @@
         background-color: rgba(0, 0, 0, .4);
       }
 
-      &.active > a {
+      &.active {
         color: $white;
         background-color: var(--atum-bg-dark-80);
-          box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
-          z-index: 20;
+        box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
 
-          &::before {
-            position: absolute;
-            top: 0.15rem;
-            bottom: 0.15rem;
-            left: 0;
-            width: 0.25rem;
-            content: "";
-            background-color: var(--atum-contrast);
-          }
+        &::before {
+          position: absolute;
+          top: 0.15rem;
+          bottom: 0.15rem;
+          left: 0;
+          width: 0.25rem;
+          content: "";
+          background-color: var(--atum-contrast);
         }
+      }
 
       &.menu-quicktask {
         flex-basis: 2.5rem;
@@ -218,7 +201,6 @@
           background: var(--atum-contrast);
           color: var(--atum-bg-dark-90);
         }
-
       }
     }
 
@@ -230,9 +212,7 @@
 
     // 3rd level items
     ul {
-
       background-color: var(--atum-bg-dark-80);
-      z-index: 30;
 
       a {
         padding-left: 1.25rem;
@@ -240,11 +220,7 @@
         &.active {
           color: $white;
           background-color: var(--atum-bg-dark-90);
-
-          &.active > a {
-            box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
-            z-index: 20;
-          }
+          box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
 
           &::before {
             position: absolute;
@@ -255,7 +231,6 @@
             content: "";
             background-color: var(--atum-contrast);
           }
-
         }
       }
 
@@ -295,10 +270,10 @@
 
   .collapse {
     display: none;
-  }
 
-  .collapse.in {
-    display: block;
+    &.in {
+      display: block;
+    }
   }
 
   .collapsing {
@@ -344,7 +319,6 @@
     text-align: center;
     vertical-align: middle;
   }
-
 }
 
 // Sidebar Closed
@@ -371,6 +345,7 @@
   }
 
   .main-nav {
+
     > li > ul {
       height: 0;
       padding: 0;

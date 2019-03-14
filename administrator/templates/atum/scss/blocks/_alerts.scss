@@ -1,79 +1,28 @@
 // Alerts
 
+@import "../variables";
+
 .j-main-container {
 
   .alert {
     margin: 1rem 0;
-    border:2px solid;
-    border-left:none;
-    border-right:none;
+    border: 2px solid;
+    border-left: none;
+    border-right: none;
     box-shadow: $atum-box-shadow;
-    background-color: rgba(255,255,255,0.8);
+    background-color: rgba(255, 255, 255, 0.8);
   }
 }
 
+// Contains joomla-alert webcomponent with its own css
 .notify-alerts {
   position: fixed;
   top: 15px;
   left: 50%;
-  z-index: 1080;
+  z-index: $zindex-alerts;
   margin-left: 125px;
   transition: all .5s ease;
   transform: translateX(-50%);
-
-  .alert {
-    width: 100%;
-    min-width: 280px;
-    max-width: 400px;
-    margin-bottom: .5rem;
-    opacity: 0;
-    animation: fadeIn ease-in 1;
-    animation-duration: .35s;
-    animation-delay: 0s;
-    animation-fill-mode: forwards;
-
-    &:first-of-type {
-      animation-delay: .3s;
-    }
-  }
-
-  &.fullWidth {
-    left: 265px;
-
-    .alert {
-      width: auto;
-      min-width: none;
-      max-width: none;
-      margin-left: 0;
-    }
-  }
-
-  .close {
-    position: relative;
-    right: -.5rem;
-    padding: .5rem;
-    line-height: 1rem;
-    color: $black;
-    opacity: 1;
-  }
-}
-
-.closed {
-
-  .notify-alerts {
-    margin-left: 0;
-  }
-
-  + .notify-alerts.fullWidth {
-    left: 70px;
-  }
-}
-
-.wrapper0 {
-
-  .notify-alerts {
-    margin-left: 0;
-  }
 }
 
 .alert-heading {
