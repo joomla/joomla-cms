@@ -11,7 +11,7 @@ namespace Joomla\CMS\MVC\View;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Feed\Feed;
+use Joomla\CMS\Document\Feed\FeedItem;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
