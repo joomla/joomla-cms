@@ -64,7 +64,9 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					</div>
 					<?php if (empty($messages)) : ?>
 						<div class="dropdown-item dropdown-message">
-							<p class="text-center"><?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?></p>
+							<a href="<?php echo Route::_('index.php?option=com_postinstall'); ?>" class="text-center">
+								<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?>
+							</a>
 						</div>
 					<?php endif; ?>
 					<?php foreach ($messages as $message) : ?>
@@ -101,6 +103,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					</a>
 				</div>
 				<div class="dropdown-item">
+					<?php // TODO: route to accessibility settings ?>
 					<a href="#">
 						<span class="fa fa-universal-access"></span>
 						<?php echo Text::_('MOD_STATUS_ACCESSIBILITY_SETTINGS'); ?>

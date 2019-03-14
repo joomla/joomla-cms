@@ -1,20 +1,26 @@
 // Table
 
+@import "../../variables";
+
 .table {
 
   thead {
+
     th {
       font-size: $label-font-size;
     }
+
     th,
     td {
       font-weight: $font-weight-normal;
       color: $gray-800;
       white-space: nowrap;
     }
+
     td {
       padding: 0;
     }
+
     a {
       font-weight: $font-weight-normal;
       color: $gray-800;
@@ -32,11 +38,9 @@
     label {
       margin-bottom: 0;
     }
-
   }
 
   td {
     padding: 18px 12px;
   }
-
 }

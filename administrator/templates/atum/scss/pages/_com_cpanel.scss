@@ -1,8 +1,12 @@
-cpanel-add-module-icon// com_cpanel
+// com_cpanel
 
+@import "../variables";
+
+.cpanel-add-module-icon,
 .com-cpanel {
 
   &-help, &-system {
+
     .list-group-item {
       padding: 0;
 
@@ -14,6 +18,7 @@ cpanel-add-module-icon// com_cpanel
   }
 
   &-help {
+
     &__header {
       color: var(--atum-special-color);
     }
@@ -87,7 +92,8 @@ cpanel-add-module-icon// com_cpanel
       margin-bottom: 0;
     }
 
-    .list-group, .table {
+    .list-group,
+    .table {
       background-color: $white;
       box-shadow: $atum-box-shadow;
 
@@ -108,14 +114,14 @@ cpanel-add-module-icon// com_cpanel
     padding-left: 0;
     font-size: $h5-font-size;
     color: var(--atum-special-color);
-	font-weight: $font-weight-normal;
+    font-weight: $font-weight-normal;
   }
 
   .module-actions {
     position: absolute;
     top: 0;
     right: 0;
-    z-index: 2;
+    z-index: $zindex-actions;
 
     > a {
       display: inline-block;
@@ -126,39 +132,43 @@ cpanel-add-module-icon// com_cpanel
       text-align: center;
     }
   }
+
   .cpanel-add-module {
     background-color: var(--atum-bg-light);
     color: var(--atum-text-dark);
     border: 0.125rem var(--white) dashed;
-
     position: relative;
-	transition: all .3s ease-in;
+    transition: all .3s ease-in;
 
-	@include hover-focus-active() {
+    @include hover-focus-active() {
       border-color: var(--atum-bg-dark);
       text-decoration: none;
       background-color: var(--white);
 
-		.cpanel-add-module-icon {
-			.fa {
-				opacity: 0.3;
-			}
-		}
-	}
-	span {
-		position: relative;
-	}
-	.cpanel-add-module-icon {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		.fa {
-			transition: all .3s ease-in;
-			font-size: 7rem;
-			transform: translateX(-100%);
-		}
-	}
+      .cpanel-add-module-icon {
+
+        .fa {
+          opacity: 0.3;
+        }
+      }
+    }
+
+    span {
+      position: relative;
+    }
+
+    .cpanel-add-module-icon {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+
+      .fa {
+        transition: all .3s ease-in;
+        font-size: 7rem;
+        transform: translateX(-100%);
+      }
+    }
   }
 }
