@@ -14,7 +14,7 @@ $gray-900:                         #212529;
 $black:                            #000;
 $light-blue:                       #E0E8EF;
 $dark-blue:                        #001B4C;
-$blue-a700:						   #4D78A3;
+$blue-a700:                        #4D78A3;
 
 // BS Colours
 $blue:                             hsl(210, 100%, 24.5%);
@@ -55,7 +55,7 @@ $theme-colors: map-merge((
   light:                           $gray-100,
   dark:                            $gray-900,
   atum-link-color:                 $color-60,
-        action: #0382C5
+  action:                          #0382C5
 ), $theme-colors);
 
 $colors: (
@@ -91,7 +91,6 @@ $colors: (
   atum-bg-dark-90:                 $color-90,
   atum-bg-dark-30:                 $color-30,
 );
-
 
 // Alerts
 $alert-border-level:               0;
@@ -130,8 +129,8 @@ $h6-font-size:                     .8571rem;
 $font-size-sm:                     .8rem;
 $display1-size:                    1rem;
 $display2-size:                    .875rem;
-$content-font-size:				   0.875rem;
-$label-font-size:				   0.75rem;
+$content-font-size:                0.875rem;
+$label-font-size:                  0.75rem;
 $fa-css-prefix:                    fa;
 $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
@@ -148,7 +147,7 @@ $table-cell-padding:               8px 12px;
 // Dropdowns
 $dropdown-padding-y:               0;
 $dropdown-border-width:            0;
-$dropdown-box-shadow: 0 1px 2px rgba($black, .30);
+$dropdown-box-shadow:              0 1px 2px rgba($black, .30);
 $dropdown-link-hover-color:        $white;
 $dropdown-item-padding-y:          .5rem;
 $dropdown-item-padding-x:          .75rem;
