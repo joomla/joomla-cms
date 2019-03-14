@@ -14,15 +14,11 @@ $form  = $displayData->getForm();
 $title = $form->getField('title') ? 'title' : ($form->getField('name') ? 'name' : '');
 
 ?>
-<section  id="title-alias" class="title-alias" aria-labelledby="title-alias">
-	<fieldset class="form-vertical form-no-margin">
-		<div class="row">
-			<div class="col-lg-7 edit-title">
-				<?php echo $title ? $form->renderField($title) : ''; ?>
-			</div>
-			<div class="col-lg-5 edit-alias">
-				<?php echo $form->renderField('alias'); ?>
-			</div>
-		</div>
-	</fieldset>
-</section>
+<div class="row title-alias form-vertical form-no-margin">
+	<div class="col-lg-6">
+		<?php echo $title ? $form->renderField($title) : ''; ?>
+	</div>
+	<div class="col-lg-6">
+		<?php echo $form->renderField('alias'); ?>
+	</div>
+</div>
