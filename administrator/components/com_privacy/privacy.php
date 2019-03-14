@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-if (!JFactory::getUser()->authorise('core.manage', 'com_privacy'))
+// Only super user can access here
+if (!JFactory::getUser()->authorise('core.admin'))
 {
 	throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
 }
