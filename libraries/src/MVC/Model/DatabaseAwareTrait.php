@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\Database\DatabaseInterface;
 /**
  * Database aware trait.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait DatabaseAwareTrait
 {
@@ -23,7 +23,7 @@ trait DatabaseAwareTrait
 	 * The database driver.
 	 *
 	 * @var    DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_db;
 
@@ -32,7 +32,7 @@ trait DatabaseAwareTrait
 	 *
 	 * @return  DatabaseInterface  The database driver.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException
 	 */
 	public function getDbo()
@@ -52,7 +52,7 @@ trait DatabaseAwareTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setDbo(DatabaseInterface $db = null)
 	{
