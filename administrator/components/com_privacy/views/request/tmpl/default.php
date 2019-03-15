@@ -1,0 +1,61 @@
+<?php
+/**
+ * @package     Joomla.Administrator
+ * @subpackage  com_privacy
+ *
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
+defined('_JEXEC') or die;
+
+/** @var PrivacyViewRequest $this */
+
+// Include the component HTML helpers.
+JHtml::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/html');
+
+JHtml::_('behavior.formvalidator');
+JHtml::_('behavior.keepalive');
+
+$js = <<< JS
+Joomla.submitbutton = function(task) {
+	if (task === 'request.cancel' || document.formvalidator.isValid(document.getElementById('item-form'))) {
+		Joomla.submitform(task, document.getElementById('item-form'));
+	}
+};
+JS;
+
+JFactory::getDocument()->addScriptDeclaration($js);
+?>
+
+<form action="<?php echo JRoute::_('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id); ?>" method="post" name="adminForm" id="item-form" class="form-validate">
+	<div class="row-fluid">
+		<div class="span9">
+			<dl class="dl-horizontal">
+				<dt><?php echo JText::_('JGLOBAL_EMAIL'); ?>:</dt>
+				<dd><?php echo $this->item->email; ?></dd>
+
+				<dt><?php echo JText::_('COM_PRIVACY_FIELD_USER_ID_LABEL'); ?>:</dt>
+				<dd>
+					<?php if ($this->item->user_id) : ?>
+						<?php echo JUser::getInstance($this->item->user_id)->name; ?>
+					<?php else : ?>
+						<?php echo JText::_('JGLOBAL_NONAPPLICABLE'); ?>
+					<?php endif; ?>
+				</dd>
+
+				<dt><?php echo JText::_('JSTATUS'); ?>:</dt>
+				<dd><?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $this->item->status); ?></dd>
+
+				<dt><?php echo JText::_('COM_PRIVACY_FIELD_REQUEST_TYPE_LABEL'); ?>:</dt>
+				<dd><?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $this->item->request_type); ?></dd>
+
+				<dt><?php echo JText::_('COM_PRIVACY_FIELD_REQUESTED_AT_LABEL'); ?>:</dt>
+				<dd><?php echo JHtml::_('date', $this->item->requested_at, JText::_('DATE_FORMAT_LC6')); ?></dd>
+			</dl>
+		</div>
+	</div>
+
+	<input type="hidden" name="task" value="" />
+	<?php echo JHtml::_('form.token'); ?>
+</form>

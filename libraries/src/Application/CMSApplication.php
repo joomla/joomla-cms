@@ -542,6 +542,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$name = $app->getName();
 		}
 
+		$options['mode'] = Factory::getConfig()->get('sef');
+
 		return Router::getInstance($name, $options);
 	}
 

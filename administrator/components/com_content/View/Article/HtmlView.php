@@ -195,7 +195,7 @@ class HtmlView extends BaseHtmlView
 			if (!$isNew)
 			{
 				$url = PreviewHelper::url($this->item);
-				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
+				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
 
