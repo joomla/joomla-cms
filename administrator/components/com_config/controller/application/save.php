@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -62,7 +62,17 @@ class ConfigControllerApplicationSave extends JControllerBase
 		// Handle service requests
 		if ($saveFormat == 'json')
 		{
-			return $model->save($data);
+			$form = $model->getForm();
+			$return = $model->validate($form, $data);
+
+			if ($return === false)
+			{
+				$this->app->setHeader('Status', 422, true);
+
+				return false;
+			}
+
+			return $model->save($return);
 		}
 
 		// Must load after serving service-requests
