@@ -130,6 +130,18 @@ class FeedFactory
 	}
 
 	/**
+	 * Method to get the registered Parsers
+	 *
+	 * @return array
+	 *
+	 * @since   4.0
+	 */
+	public function getParsers()
+	{
+		return $this->parsers;
+	}
+
+	/**
 	 * Method to return a new JFeedParser object based on the registered parsers and a given type.
 	 *
 	 * @param   string      $type    The name of parser to return.
