@@ -274,6 +274,9 @@ class PlgSampledataBlog extends CMSPlugin
 				$article['access'] = $access;
 			}
 
+			// Publish
+			$article['transition'] = 2;
+
 			if (!$articleModel->save($article))
 			{
 				Factory::getLanguage()->load('com_content');
