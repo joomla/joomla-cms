@@ -16,7 +16,8 @@ use Joomla\Input\Input;
 /**
  * Joomla Platform Base Controller Class
  *
- * @since  3.0.0
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 abstract class JControllerBase extends AbstractController implements JController
 {
