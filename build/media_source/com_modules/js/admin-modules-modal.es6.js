@@ -10,16 +10,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const modulesLinks = [].slice.call(document.querySelectorAll('.js-module-insert'));
   const positionsLinks = [].slice.call(document.querySelectorAll('.js-position-insert'));
 
-  /** Assign listener for click event (for single module insertion) * */
+  /** Assign listener for click event (for single module id insertion) * */
   modulesLinks.forEach((modulesLink) => {
     modulesLink.addEventListener('click', (event) => {
       event.preventDefault();
-      const type = event.target.getAttribute('data-module');
-      const name = event.target.getAttribute('data-title');
+      const modid = event.target.getAttribute('data-module');
       const editor = event.target.getAttribute('data-editor');
 
       // Insert the short tag in the editor
-      window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadmodule ${type},${name}}`);
+      window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadmoduleid ${modid}}`);
 
       // Close the modal
       if (window.parent.Joomla.Modal) {
