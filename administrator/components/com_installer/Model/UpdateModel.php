@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -369,7 +369,7 @@ class UpdateModel extends ListModel
 			$this->preparePreUpdate($update, $instance);
 
 			// Install sets state and enqueues messages
-			$res = $this->install($update);
+			$res = $this->install($update, $instance->detailsurl);
 
 			if ($res)
 			{
@@ -396,13 +396,14 @@ class UpdateModel extends ListModel
 	/**
 	 * Handles the actual update installation.
 	 *
-	 * @param   Update  $update  An update definition
+	 * @param   Update  $update     An update definition
+	 * @param   string  $updateUrl  Update Server manifest
 	 *
 	 * @return  boolean   Result of install
 	 *
 	 * @since   1.6
 	 */
-	private function install($update)
+	private function install($update, $updateUrl)
 	{
 		// Load overrides plugin.
 		PluginHelper::importPlugin('installer');
@@ -458,6 +459,22 @@ class UpdateModel extends ListModel
 		// Get an installer instance
 		$installer = Installer::getInstance();
 		$update->set('type', $package['type']);
+
+		// Check the package
+		$check = InstallerHelper::isChecksumValid($package['packagefile'], (string) $updateUrl);
+
+		switch ($check)
+		{
+			case 0:
+				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
+				break;
+			case 1:
+				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+				break;
+			case 2:
+				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
+				break;
+		}
 
 		// Install the package
 		if (!$installer->update($package['dir']))

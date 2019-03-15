@@ -1106,6 +1106,10 @@
 				title="JACTION_LOGIN_ADMIN"
 			/>
 			<action
+				name="core.login.api"
+				title="JACTION_LOGIN_API"
+			/>
+			<action
 				name="core.login.offline"
 				title="JACTION_LOGIN_OFFLINE"
 			/>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -124,27 +124,6 @@ class HtmlView extends CategoryView
 			$item->event->afterDisplayContent = trim(implode("\n", $results));
 		}
 
-		// Check for layout override only if this is not the active menu item
-		// If it is the active menu item, then the view and category id will match
-		$active  = $app->getMenu()->getActive();
-		$menus   = $app->getMenu();
-		$title   = null;
-
-		if ((!$active) || ((strpos($active->link, 'view=category') === false) || (strpos($active->link, '&id=' . (string) $this->category->id) === false)))
-		{
-			// Get the layout from the merged category params
-			if ($layout = $this->category->params->get('category_layout'))
-			{
-				$this->setLayout($layout);
-			}
-		}
-		// At this point, we are in a menu item, so we don't override the layout
-		elseif (isset($active->query['layout']))
-		{
-			// We need to set the layout from the query in case this is an alternative menu item (with an alternative layout)
-			$this->setLayout($active->query['layout']);
-		}
-
 		// For blog layouts, preprocess the breakdown of leading, intro and linked articles.
 		// This makes it much easier for the designer to just interrogate the arrays.
 		if ($params->get('layout_type') === 'blog' || $this->getLayout() === 'blog')
@@ -184,16 +163,17 @@ class HtmlView extends CategoryView
 
 		// Because the application sets a default page title,
 		// we need to get it from the menu item itself
-		$menu = $menus->getActive();
+		$app    = Factory::getApplication();
+		$active = $app->getMenu()->getActive();
 
-		if ($menu
-			&& $menu->component == 'com_content'
-			&& isset($menu->query['view'], $menu->query['id'])
-			&& $menu->query['view'] == 'category'
-			&& $menu->query['id'] == $this->category->id)
+		if ($active
+			&& $active->component == 'com_content'
+			&& isset($active->query['view'], $active->query['id'])
+			&& $active->query['view'] == 'category'
+			&& $active->query['id'] == $this->category->id)
 		{
-			$this->params->def('page_heading', $this->params->get('page_title', $menu->title));
-			$title = $this->params->get('page_title', $menu->title);
+			$this->params->def('page_heading', $this->params->get('page_title', $active->title));
+			$title = $this->params->get('page_title', $active->title);
 		}
 		else
 		{
