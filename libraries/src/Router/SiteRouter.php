@@ -588,8 +588,8 @@ class SiteRouter extends Router
 	 */
 	public function buildBase(&$router, &$uri)
 	{
-		// Add basepath to the uri
-		$uri->setPath(Uri::base(true) . '/' . $uri->getPath());
+		// Add frontend basepath to the uri
+		$uri->setPath(Uri::root(true) . '/' . $uri->getPath());
 	}
 
 	/**
