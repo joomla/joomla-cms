@@ -846,7 +846,25 @@ class DatabaseModel extends BaseInstallationModel
 	protected function updateUserIds($db)
 	{
 		// Create the ID for the root user.
-		$userId = self::getUserId();
+		$query = $db->getQuery(true);
+
+		// Fetch super user's id from the database
+		$query->select($db->quoteName('id'));
+		$query->from($db->quoteName('#__users'));
+		$query->where($db->quoteName('name') . ' = '. $db->quote('Super User'));
+
+		$db->setQuery($query);
+
+		try
+		{
+			$result = $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+		}
+
+		$userId = $result;
 
 		// Update all core tables created_by fields of the tables with the random user id.
 		$updatesArray = array(
