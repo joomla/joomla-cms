@@ -13,7 +13,7 @@ Joomla = window.Joomla || {};
    *
    * @since  3.7.0
    */
-  window.tinymce = {
+  const tinymce = {
     langCode: 'en',
     langStrings: {},
     icons: {
@@ -191,13 +191,15 @@ Joomla = window.Joomla || {};
       tinymce.langStrings = strings || {};
     },
     translate: (string) => {
-      return window.tinymce.langStrings[string] || string;
+      return tinymce.langStrings[string] || string;
     },
     showIcon: (name) => {
       const iconname = tinymce.iconsmap[name] || name;
       return tinymce.icons[iconname] || tinymce.icons[name] || name;
     },
   };
+
+  window.tinymce = tinymce;
 
   const TinyMCEBuilder = (container, options) => {
 
@@ -277,7 +279,10 @@ Joomla = window.Joomla || {};
         let text = tinymce.translate(info.text);
 
         bclass += ' tox-tbtn--bespoke';
-        content = info.text !== '|' ? `<span class="tox-tbtn__select-label">${text}</span>` : text;
+
+        const chevron = tinymce.showIcon('chevron-down');
+
+        content = info.text !== '|' ? `<span class="tox-tbtn__select-label">${text}</span><div class="tox-tbtn__select-chevron">${chevron}</div>` : text;
       } else {
         content = tinymce.showIcon(name);
       }
