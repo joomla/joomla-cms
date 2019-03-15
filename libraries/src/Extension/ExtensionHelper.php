@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,6 +19,13 @@ defined('JPATH_PLATFORM') or die;
  */
 class ExtensionHelper
 {
+	/**
+	 * The loaded extensions.
+	 *
+	 * @var array
+	 */
+	public static $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
+	
 	/**
 	 * Array of core extensions
 	 * Each element is an array with elements "type", "element", "folder" and
@@ -58,6 +65,7 @@ class ExtensionHelper
 		array('component', 'com_newsfeeds', '', 1),
 		array('component', 'com_plugins', '', 1),
 		array('component', 'com_postinstall', '', 1),
+		array('component', 'com_privacy', '', 1),
 		array('component', 'com_redirect', '', 1),
 		array('component', 'com_search', '', 1),
 		array('component', 'com_tags', '', 1),
@@ -241,6 +249,7 @@ class ExtensionHelper
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
+		array('plugin', 'userlogs', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
