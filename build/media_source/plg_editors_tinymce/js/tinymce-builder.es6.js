@@ -203,13 +203,11 @@ Joomla = window.Joomla || {};
 
   const TinyMCEBuilder = (container, options) => {
 
-    const $container = document.getElementById(container);
+    const $sourceMenu = container.querySelector('.timymce-builder-menu.source');
+    const $sourceToolbar = container.querySelector('.timymce-builder-toolbar.source');
 
-    const $sourceMenu = $container.querySelector('.timymce-builder-menu.source');
-    const $sourceToolbar = $container.querySelector('.timymce-builder-toolbar.source');
-
-    const $targetMenu = $container.querySelectorAll('.timymce-builder-menu.target');
-    const $targetToolbar = $container.querySelectorAll('.timymce-builder-toolbar.target');
+    const $targetMenu = container.querySelectorAll('.timymce-builder-menu.target');
+    const $targetToolbar = container.querySelectorAll('.timymce-builder-toolbar.target');
 
     /**
      * Render the toolbar/menubar
@@ -429,7 +427,7 @@ Joomla = window.Joomla || {};
     });
 
     // Bind actions buttons
-    const actionButtons = $container.querySelectorAll('.button-action');
+    const actionButtons = container.querySelectorAll('.button-action');
 
     actionButtons.forEach((elem) => {
       elem.addEventListener('click', (event) => {
@@ -471,7 +469,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {})
           : (Joomla.optionsStorage.plg_editors_tinymce_builder || {});
 
-  Joomla.TinyMCEBuilder('joomla-tinymce-builder', options);
+  var builder = document.getElementById('joomla-tinymce-builder');
+
+  Joomla.TinyMCEBuilder(builder, options);
 });
 
 ;
