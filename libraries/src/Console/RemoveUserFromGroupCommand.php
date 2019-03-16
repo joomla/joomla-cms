@@ -149,7 +149,6 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 			foreach ($currentGroups as $group)
 			{
-				print_r($group->title);
 				$currentTitle .= $prefix . "'" . $group->title . "'";
 				$prefix = ', ';
 			}
