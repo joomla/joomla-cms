@@ -475,8 +475,7 @@ class InstallerModelUpdate extends JModelList
 			// Package updated successfully
 			$app->enqueueMessage(
 				JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
-					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))),
-				'message'
+					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])))
 			);
 			$result = true;
 		}
