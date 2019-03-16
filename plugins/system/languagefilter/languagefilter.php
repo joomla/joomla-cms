@@ -3,13 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  System.languagefilter
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Association\AssociationServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\BeforeExecuteEvent;
@@ -104,14 +105,15 @@ class PlgSystemLanguageFilter extends CMSPlugin
 
 		$this->app = Factory::getApplication();
 
+		// Setup language data.
+		$this->mode_sef     = $this->app->get('sef', 0);
+		$this->sefs         = LanguageHelper::getLanguages('sef');
+		$this->lang_codes   = LanguageHelper::getLanguages('lang_code');
+		$this->default_lang = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+
+		// If language filter plugin is executed in a site page.
 		if ($this->app->isClient('site'))
 		{
-			// Setup language data.
-			$this->mode_sef     = $this->app->get('sef', 0);
-			$this->sefs         = LanguageHelper::getLanguages('sef');
-			$this->lang_codes   = LanguageHelper::getLanguages('lang_code');
-			$this->default_lang = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
-
 			$levels = Factory::getUser()->getAuthorisedViewLevels();
 
 			foreach ($this->sefs as $sef => $language)
@@ -122,6 +124,21 @@ class PlgSystemLanguageFilter extends CMSPlugin
 					|| (!array_key_exists($language->lang_code, LanguageHelper::getInstalledLanguages(0))))
 				{
 					unset($this->lang_codes[$language->lang_code], $this->sefs[$language->sef]);
+				}
+			}
+		}
+		// If language filter plugin is executed in a admin page (ex: JRoute site).
+		else
+		{
+			// Set current language to default site language, fallback to en-GB if there is no content language for the default site language.
+			$this->current_lang = isset($this->lang_codes[$this->default_lang]) ? $this->default_lang : 'en-GB';
+
+			foreach ($this->sefs as $sef => $language)
+			{
+				if (!array_key_exists($language->lang_code, JLanguageHelper::getInstalledLanguages(0)))
+				{
+					unset($this->lang_codes[$language->lang_code]);
+					unset($this->sefs[$language->sef]);
 				}
 			}
 		}
@@ -138,26 +155,24 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	{
 		$this->app->item_associations = $this->params->get('item_associations', 0);
 
-		if ($this->app->isClient('site'))
+		// We need to make sure we are always using the site router, even if the language plugin is executed in admin app.
+		$router = CMSApplication::getInstance('site')->getRouter('site');
+
+		// Attach build rules for language SEF.
+		$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
+		$router->attachBuildRule(array($this, 'buildRule'), Router::PROCESS_BEFORE);
+
+		if ($this->mode_sef)
 		{
-			$router = $this->app->getRouter();
-
-			// Attach build rules for language SEF.
-			$router->attachBuildRule(array($this, 'preprocessBuildRule'), Router::PROCESS_BEFORE);
-			$router->attachBuildRule(array($this, 'buildRule'), Router::PROCESS_BEFORE);
-
-			if ($this->mode_sef)
-			{
-				$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), Router::PROCESS_AFTER);
-			}
-			else
-			{
-				$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), Router::PROCESS_AFTER);
-			}
-
-			// Attach parse rules for language SEF.
-			$router->attachParseRule(array($this, 'parseRule'), Router::PROCESS_BEFORE);
+			$router->attachBuildRule(array($this, 'postprocessSEFBuildRule'), Router::PROCESS_AFTER);
 		}
+		else
+		{
+			$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), Router::PROCESS_AFTER);
+		}
+
+		// Attach parse rules for language SEF.
+		$router->attachParseRule(array($this, 'parseRule'), Router::PROCESS_DURING);
 	}
 
 	/**
@@ -170,7 +185,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	public function onAfterRoute()
 	{
 		// Add custom site name.
-		if (isset($this->lang_codes[$this->current_lang]) && $this->lang_codes[$this->current_lang]->sitename)
+		if ($this->app->isClient('site') && isset($this->lang_codes[$this->current_lang]) && $this->lang_codes[$this->current_lang]->sitename)
 		{
 			$this->app->set('sitename', $this->lang_codes[$this->current_lang]->sitename);
 		}
@@ -187,7 +202,7 @@ class PlgSystemLanguageFilter extends CMSPlugin
 	 */
 	public function onBeforeExecute(BeforeExecuteEvent $event)
 	{
-		/** @var JApplicationCms $app */
+		/** @var \Joomla\CMS\Application\SiteApplication $app */
 		$app = $event->getApplication();
 
 		if (!$app->isClient('site'))

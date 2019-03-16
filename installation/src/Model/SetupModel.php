@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -230,7 +230,9 @@ class SetupModel extends BaseInstallationModel
 		if ($return === false)
 		{
 			// Get the validation messages from the form.
-			foreach ($form->getErrors() as $message)
+			$messages = array_reverse($form->getErrors());
+
+			foreach ($messages as $message)
 			{
 				if ($message instanceof \Exception)
 				{
