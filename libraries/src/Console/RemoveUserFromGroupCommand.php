@@ -117,7 +117,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	/**
 	 * Method to get a value from option
 	 *
-	 * @param   object $user user object
+	 * @param   object  $user .user object
 	 *
 	 * @return  array
 	 *
