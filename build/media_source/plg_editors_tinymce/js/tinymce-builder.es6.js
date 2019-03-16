@@ -472,6 +472,20 @@ document.addEventListener('DOMContentLoaded', () => {
   var builder = document.getElementById('joomla-tinymce-builder');
 
   Joomla.TinyMCEBuilder(builder, options);
+
+  var selects = builder.querySelectorAll('.access-select');
+
+  //toggleAvailableOption();
+
+  // Allow to select the group only once per the set
+  selects.forEach((select) => {
+    select.addEventListener('change', (event) => {
+      alert('test');
+    });
+   // toggleAvailableOption();
+  });
+
+
 });
 
 ;
@@ -487,11 +501,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Allow to select the group only once per the set
-    var $accessSelects = $('#joomla-tinymce-builder').find('.access-select');
-    toggleAvailableOption();
-    $accessSelects.on('change', function () {
-      toggleAvailableOption();
-    });
 
     function toggleAvailableOption() {
       $accessSelects.find('option[disabled]').removeAttr('disabled');
