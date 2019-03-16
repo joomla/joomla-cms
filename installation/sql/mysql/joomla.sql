@@ -946,6 +946,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY (`term_id`),
   UNIQUE KEY `idx_term` (`term`,`language`),
+  KEY `idx_language` (`language`),
   KEY `idx_term_phrase` (`term`,`phrase`),
   KEY `idx_stem_phrase` (`stem`,`phrase`),
   KEY `idx_soundex_phrase` (`soundex`,`phrase`)
