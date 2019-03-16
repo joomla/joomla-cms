@@ -190,7 +190,11 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 				new Console\CheckUpdatesCommand,
 				new Console\RemoveOldFilesCommand,
 				new Console\AddUserCommand,
+				new Console\AddUserToGroupCommand,
+				new Console\RemoveUserFromGroupCommand,
+				new Console\DeleteUserCommand,
 				new Console\ChangeUserPasswordCommand,
+				new Console\ListUserCommand,
 			]
 		);
 	}

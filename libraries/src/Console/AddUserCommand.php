@@ -12,19 +12,43 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Console\AbstractCommand;
-use Symfony\Component\Console\Input\InputOption;
+use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Joomla\CMS\User\User;
 
 /**
- * Console command for adding an admin user
+ * Console command for adding an user
  *
  * @since  __DEPLOY_VERSION__
  */
 class AddUserCommand extends AbstractCommand
 {
+	/**
+	 * The default command name
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected static $defaultName = 'user:add';
+
+	/**
+	 * SymfonyStyle Object
+	 * @var   object
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $ioStyle;
+
+	/**
+	 * Stores the Input Object
+	 * @var   object
+	 * @since __DEPLOY_VERSION__
+	 */
+	private $cliInput;
+
 	/**
 	 * The username
 	 *
@@ -71,25 +95,28 @@ class AddUserCommand extends AbstractCommand
 	private $userGroups = array();
 
 	/**
-	 * Execute the command.
+	 * Internal function to execute the command.
 	 *
-	 * @return  integer  The exit code for the command.
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
+	 *
+	 * @return  integer  The command exit code
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function execute(): int
+	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
-		$symfonyStyle = new SymfonyStyle($this->getApplication()->getConsoleInput(), $this->getApplication()->getConsoleOutput());
+		$this->configureIO($input, $output);
 		$this->user = $this->getStringFromOption('username', 'Please enter a username');
 		$this->name = $this->getStringFromOption('name', 'Please enter a name (full name of user)');
 		$this->email = $this->getStringFromOption('email', 'Please enter a email address');
 		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		$this->userGroups = $this->getUserGroups();
-		$symfonyStyle->title('Add user');
+		$this->ioStyle->title('Add user');
 
 		if (in_array("error", $this->userGroups))
 		{
-			$symfonyStyle->error("'" . $this->userGroups[1] . "' user group doesn't exit!");
+			$this->ioStyle->error("'" . $this->userGroups[1] . "' user group doesn't exit!");
 
 			return 1;
 		}
@@ -104,13 +131,13 @@ class AddUserCommand extends AbstractCommand
 
 		if (!$userObj->save())
 		{
-			$symfonyStyle->error($userObj->getError());
+			$this->ioStyle->error($userObj->getError());
 
 			return 1;
 		}
 
-		$symfonyStyle->success("create user successfully!");
-		$symfonyStyle->table(['user', 'password'],  [array($this->user, $this->password)]);
+		$this->ioStyle->success("create user successfully!");
+		$this->ioStyle->table(['user', 'password'],  [array($this->user, $this->password)]);
 
 		return 0;
 	}
@@ -151,17 +178,17 @@ class AddUserCommand extends AbstractCommand
 	 */
 	public function getStringFromOption($option, $question): string
 	{
-		$value = (string) $this->getApplication()->getConsoleInput()->getOption($option);
+		$value = (string) $this->cliInput->getOption($option);
 
 		if (!$value)
 		{
 			if ($option === 'password')
 			{
-				$answer = (string) $this->createSymfonyStyle()->askHidden($question);
+				$answer = (string) $this->ioStyle->askHidden($question);
 			}
 			else
 			{
-				$answer = (string) $this->createSymfonyStyle()->ask($question);
+				$answer = (string) $this->ioStyle->ask($question);
 			}
 
 			return $answer;
@@ -204,7 +231,7 @@ class AddUserCommand extends AbstractCommand
 			);
 			$choice->setMultiselect(true);
 
-			$answer = (array) $this->createSymfonyStyle()->askQuestion($choice);
+			$answer = (array) $this->ioStyle->askQuestion($choice);
 
 			$groupList = array();
 
@@ -231,7 +258,7 @@ class AddUserCommand extends AbstractCommand
 						$group,
 					);
 
-					return $groupList;
+					return 	$groupList;
 				}
 
 				array_push($groupList, $this->getGroupId($group));
@@ -241,16 +268,32 @@ class AddUserCommand extends AbstractCommand
 		}
 	}
 
+
 	/**
-	 * Initialise the command.
+	 * Configure the IO.
+	 *
+	 * @param   InputInterface   $input   The input to inject into the command.
+	 * @param   OutputInterface  $output  The output to inject into the command.
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function initialise()
+	private function configureIO(InputInterface $input, OutputInterface $output)
 	{
-		$this->setName('user:add');
+		$this->cliInput = $input;
+		$this->ioStyle = new SymfonyStyle($input, $output);
+	}
+
+	/**
+	 * Configure the command.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function configure()
+	{
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('name', null, InputOption::VALUE_OPTIONAL, 'full name of user');
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');

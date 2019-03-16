@@ -12,19 +12,21 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Joomla\CMS\User\User;
+
 
 /**
- * Console command for change a users password
+ * Console command for deleting an user
  *
  * @since  __DEPLOY_VERSION__
  */
-class ChangeUserPasswordCommand extends AbstractCommand
+class DeleteUserCommand extends AbstractCommand
 {
 	/**
 	 * The default command name
@@ -32,7 +34,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected static $defaultName = 'user:reset-password';
+	protected static $defaultName = 'user:delete';
 
 	/**
 	 * SymfonyStyle Object
@@ -58,15 +60,6 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	private $username;
 
 	/**
-	 * The password
-	 *
-	 * @var    string
-	 *
-	 * @since  __DEPLOY_VERSION__
-	 */
-	private $password;
-
-	/**
 	 * Internal function to execute the command.
 	 *
 	 * @param   InputInterface   $input   The input to inject into the command.
@@ -80,54 +73,71 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	{
 		$this->configureIO($input, $output);
 		$this->username = $this->getStringFromOption('username', 'Please enter a username');
-		$this->password = $this->getStringFromOption('password', 'Please enter a password');
-		$this->ioStyle->title('Change password');
+		$this->ioStyle->title('Delete users');
 
-		$oldUserObj = $this->getUser($this->username);
-		$user['username'] = $this->username;
-		$user['password'] = $this->password;
-		$user['name'] = $oldUserObj->name;
-		$user['email'] = $oldUserObj->email;
-		$user['groups'] = $oldUserObj->groups;
-		$user['id'] = $oldUserObj->id;
-		$userObj = User::getInstance();
-		$userObj->bind($user);
+		$userId = UserHelper::getUserId($this->username);
 
-		if (!$userObj->save(true))
+		if (empty($userId))
 		{
-			$this->ioStyle->error($userObj->getError());
+			$this->ioStyle->error($this->username . ' does not exist!');
 
 			return 1;
 		}
 
-		$this->ioStyle->success("set password successfully!");
-		$this->ioStyle->table(['user', 'password'],  [array($oldUserObj->username, $this->password)]);
+		Factory::getApplication()->triggerEvent('onUserBeforeDelete', array(User::getInstance($userId)));
+		$groups = UserHelper::getUserGroups($userId);
+
+		foreach ($groups as $groupId)
+		{
+			$removed = UserHelper::removeUserFromGroup($userId, $groupId);
+
+			if ($removed == false)
+			{
+				$this->ioStyle->error("Can't remove " . $this->username . ' from group ' . $groupId);
+
+				return 1;
+			}
+		}
+
+		$db = Factory::getDbo();
+		$conditions = array(
+			$db->quoteName('id') . ' = ' . $userId,
+		);
+
+		$query = $db->getQuery(true)
+			->delete('#__users')
+			->where($conditions);
+		$db->setQuery($query);
+		$result = $db->execute();
+
+		if ($result == false)
+		{
+			$this->ioStyle->error("Can't remove " . $this->username . ' form usertable');
+
+			return 1;
+		}
+
+		$conditions = array(
+			$db->quoteName('user_id') . ' = ' . $userId,
+		);
+
+		$query = $db->getQuery(true)
+			->delete('#__user_usergroup_map')
+			->where($conditions);
+		$db->setQuery($query);
+		$result = $db->execute();
+
+		if ($result == false)
+		{
+			$this->ioStyle->error("Can't remove " . $this->username . ' form usergroup map');
+
+			return 1;
+		}
+
+		$this->ioStyle->success('Delete ' . $this->username . ' successfully!');
+		Factory::getApplication()->triggerEvent('onUserAfterDelete', array(User::getInstance($userId)));
 
 		return 0;
-	}
-
-	/**
-	 * Method to get a user object
-	 *
-	 * @param   string  $username  username
-	 *
-	 * @return  object
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getUser($username)
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . '=' . $db->quote($username));
-		$db->setQuery($query);
-
-		$userId = $db->loadResult();
-		$user = User::getInstance($userId);
-
-		return $user;
 	}
 
 	/**
@@ -143,18 +153,11 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 */
 	protected function getStringFromOption($option, $question): string
 	{
-		$value = (string) $this->cliInput->getOption($option);
+		$value = (string) $this->getApplication()->getConsoleInput()->getOption($option);
 
 		if (!$value)
 		{
-			if ($option === 'password')
-			{
-				$answer = (string) $this->ioStyle->askHidden($question);
-			}
-			else
-			{
-				$answer = (string) $this->ioStyle->ask($question);
-			}
+			$answer = (string) $this->ioStyle->ask($question);
 
 			return $answer;
 		}
@@ -187,12 +190,11 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
+		$this->setDescription('Delete an user');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
-		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
-		$this->setDescription('Changes a users password');
 		$this->setHelp(
 <<<EOF
-The <info>%command.name%</info> command changes the user password
+The <info>%command.name%</info> command delete an user
 
 <info>php %command.full_name%</info>
 EOF
