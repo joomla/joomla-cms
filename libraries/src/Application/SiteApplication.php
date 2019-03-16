@@ -91,7 +91,7 @@ final class SiteApplication extends CMSApplication
 
 				$url = \JRoute::_('index.php?option=com_users&view=login', false);
 
-				$this->enqueueMessage(\JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'));
+				$this->enqueueMessage(\JText::_('JGLOBAL_YOU_MUST_LOGIN_FIRST'), 'warning');
 				$this->redirect($url);
 			}
 			else
