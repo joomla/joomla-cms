@@ -465,8 +465,8 @@ class InstallerModelUpdate extends JModelList
 			// There was an error updating the package
 			$app->enqueueMessage(
 				JText::sprintf('COM_INSTALLER_MSG_UPDATE_ERROR',
-					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))),
-				'error'
+					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				), 'error'
 			);
 			$result = false;
 		}
@@ -475,7 +475,8 @@ class InstallerModelUpdate extends JModelList
 			// Package updated successfully
 			$app->enqueueMessage(
 				JText::sprintf('COM_INSTALLER_MSG_UPDATE_SUCCESS',
-					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type'])))
+					JText::_('COM_INSTALLER_TYPE_TYPE_' . strtoupper($package['type']))
+				)
 			);
 			$result = true;
 		}
