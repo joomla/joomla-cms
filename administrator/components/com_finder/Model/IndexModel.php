@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -353,7 +353,19 @@ class IndexModel extends ListModel
 
 		// Truncate the taxonomy table and insert the root node.
 		$db->truncateTable('#__finder_taxonomy');
-		$root = (object) array('id' => 1, 'parent_id' => 0, 'title' => 'ROOT', 'state' => 0, 'access' => 0, 'ordering' => 0);
+		$root = (object) array(
+			'id' => 1,
+			'parent_id' => 0,
+			'lft' => 0,
+			'rgt' => 1,
+			'level' => 0,
+			'path' => '',
+			'title' => 'ROOT',
+			'alias' => 'root',
+			'state' => 1,
+			'access' => 1,
+			'language' => '*'
+		);
 		$db->insertObject('#__finder_taxonomy', $root);
 
 		// Truncate the tokens tables.

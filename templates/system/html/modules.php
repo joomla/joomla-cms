@@ -3,11 +3,13 @@
  * @package     Joomla.Site
  * @subpackage  Template.system
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /*
  * none (output raw module content)
@@ -68,66 +70,6 @@ function modChrome_table($module, &$params, &$attribs)
 }
 
 /*
- * Module chrome that wraps the tabled module output in a <td> tag of another table
- */
-function modChrome_horz($module, &$params, &$attribs)
-{ ?>
-	<table cellspacing="1" cellpadding="0" width="100%">
-		<tr>
-			<td>
-				<?php modChrome_table($module, $params, $attribs); ?>
-			</td>
-		</tr>
-	</table>
-	<?php
-}
-
-/*
- * xhtml (divs and font header tags)
- * With the new advanced parameter it does the same as the html5 chrome
- */
-function modChrome_xhtml($module, &$params, &$attribs)
-{
-	$moduleTag      = htmlspecialchars($params->get('module_tag', 'div'), ENT_QUOTES, 'UTF-8');
-	$headerTag      = htmlspecialchars($params->get('header_tag', 'h3'), ENT_QUOTES, 'UTF-8');
-	$bootstrapSize  = (int) $params->get('bootstrap_size', 0);
-	$moduleClass    = $bootstrapSize !== 0 ? ' span' . $bootstrapSize : '';
-
-	// Temporarily store header class in variable
-	$headerClass    = $params->get('header_class');
-	$headerClass    = $headerClass ? ' class="' . htmlspecialchars($headerClass, ENT_COMPAT, 'UTF-8') . '"' : '';
-
-	if (!empty ($module->content)) : ?>
-		<<?php echo $moduleTag; ?> class="moduletable<?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8') . $moduleClass; ?>">
-			<?php if ((bool) $module->showtitle) : ?>
-				<<?php echo $headerTag . $headerClass . '>' . $module->title; ?></<?php echo $headerTag; ?>>
-			<?php endif; ?>
-			<?php echo $module->content; ?>
-		</<?php echo $moduleTag; ?>>
-	<?php endif;
-}
-
-/*
- * Module chrome that allows for rounded corners by wrapping in nested div tags
- */
-function modChrome_rounded($module, &$params, &$attribs)
-{ ?>
-		<div class="module <?php echo htmlspecialchars($params->get('moduleclass_sfx'), ENT_COMPAT, 'UTF-8'); ?>">
-			<div>
-				<div>
-					<div>
-						<?php if ((bool) $module->showtitle) : ?>
-							<h3><?php echo $module->title; ?></h3>
-						<?php endif; ?>
-					<?php echo $module->content; ?>
-					</div>
-				</div>
-			</div>
-		</div>
-	<?php
-}
-
-/*
  * Module chrome that add preview information to the module
  */
 function modChrome_outline($module, &$params, &$attribs)
@@ -137,7 +79,7 @@ function modChrome_outline($module, &$params, &$attribs)
 	if (!$css)
 	{
 		$css = true;
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 
 		$doc->addStyleDeclaration('.mod-preview-info { padding: 2px 4px 2px 4px; border: 1px solid black; position: absolute; background-color: white; color: red;}');
 		$doc->addStyleDeclaration('.mod-preview-wrapper { background-color:#eee; border: 1px dotted black; color:#700;}');

@@ -7,7 +7,7 @@
             </div>
         </div>
         <div slot="footer">
-            <button class="btn btn-danger" @click="deleteItem()">{{ translate('COM_MEDIA_CONFIRM_DELETE_MODEL') }}</button>
+            <button id="media-delete-item" class="btn btn-danger" @click="deleteItem()">{{ translate('COM_MEDIA_CONFIRM_DELETE_MODEL') }}</button>
             <button class="btn btn-success" @click="close()">{{ translate('JCANCEL') }}</button>
         </div>
     </media-modal>
@@ -27,7 +27,7 @@
         methods: {
             /* Delete Item */
             deleteItem() {
-                this.$store.dispatch('deleteItem', this.item);
+                this.$store.dispatch('deleteSelectedItems');
                 this.$store.commit(types.HIDE_CONFIRM_DELETE_MODAL);
             },
             /* Close the modal instance */

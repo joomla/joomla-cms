@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -349,11 +349,11 @@ class CategoryeditField extends ListField
 	{
 		$data = $this->getLayoutData();
 
-		$data['options']             = $this->getOptions();
-		$data['allowCustom']         = $this->allowAdd;
-		$data['customFields']        = (boolean) $this->element['custom-fields-enabled'];
-		$data['customFieldsCatId']   = (string) $this->element['custom-fields-cat-id'];
-		$data['customFieldsSection'] = (string) $this->element['custom-fields-section'];
+		$data['options']        = $this->getOptions();
+		$data['allowCustom']    = $this->allowAdd;
+		$data['refreshPage']    = (boolean) $this->element['refresh-enabled'];
+		$data['refreshCatId']   = (string) $this->element['refresh-cat-id'];
+		$data['refreshSection'] = (string) $this->element['refresh-section'];
 
 		$renderer = $this->getRenderer($this->layout);
 		$renderer->setComponent('com_categories');

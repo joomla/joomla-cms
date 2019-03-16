@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -625,7 +625,7 @@ abstract class HTMLHelper
 		}
 
 		// If only path is required
-		if ($returnPath)
+		if ($returnPath === 1)
 		{
 			return $file;
 		}
@@ -799,26 +799,19 @@ abstract class HTMLHelper
 			}
 		}
 
-		if (count($includes) === 1)
+		foreach ($includes as $include)
 		{
-			$potential = $includes[0] . ((strpos($includes[0], '?') === false) ? $version : '');
+			$potential = $include . ((strpos($include, '?') === false) ? $version : '');
+			$components = Factory::getDocument()->getScriptOptions('webcomponents');
 
-			if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
+			if (in_array($potential, $components))
 			{
-				Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
-				return;
+				continue;
 			}
 
-			return;
+			$components[] = $potential;
+			Factory::getDocument()->addScriptOptions('webcomponents', $components);
 		}
-
-		$potential = $includes . ((strpos($includes, '?') === false) ? $version : '');
-
-		if (!in_array($potential, Factory::getDocument()->getScriptOptions('webcomponents')))
-		{
-			Factory::getDocument()->addScriptOptions('webcomponents', [$potential]);
-		}
-
 	}
 
 	/**

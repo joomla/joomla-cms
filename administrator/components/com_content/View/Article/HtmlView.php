@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -195,7 +195,7 @@ class HtmlView extends BaseHtmlView
 			if (!$isNew)
 			{
 				$url = PreviewHelper::url($this->item);
-				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
+				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
 

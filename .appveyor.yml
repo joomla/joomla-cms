@@ -96,7 +96,6 @@ install:
     - appveyor-retry appveyor DownloadFile https://getcomposer.org/composer.phar
     - cd C:\projects\joomla-cms
     - appveyor-retry composer install --no-progress --profile
-    - appveyor-retry composer update joomla/test-unit --no-progress --profile
 before_test:
 #  Database setup for MySQL via PowerShell tools
   - >
@@ -113,4 +112,4 @@ before_test:
 
 test_script:
   - cd C:\projects\joomla-cms
-  - libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+  - libraries/vendor/bin/phpunit

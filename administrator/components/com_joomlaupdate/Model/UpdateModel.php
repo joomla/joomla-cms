@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,6 +21,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Http\HttpFactory;
 use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -180,7 +181,8 @@ class UpdateModel extends BaseDatabaseModel
 			'installed' => \JVERSION,
 			'latest'    => null,
 			'object'    => null,
-			'hasUpdate' => false
+			'hasUpdate' => false,
+			'url'       => null,
 		);
 
 		// Fetch the update information from the database.
@@ -272,7 +274,7 @@ class UpdateModel extends BaseDatabaseModel
 	/**
 	 * Downloads the update package to the site.
 	 *
-	 * @return  boolean|string  False on failure, basename of the file in any other case.
+	 * @return  array
 	 *
 	 * @since   2.5.4
 	 */
@@ -299,8 +301,9 @@ class UpdateModel extends BaseDatabaseModel
 		}
 
 		// Find the path to the temp directory and the local package.
-		$tempdir = Factory::getApplication()->get('tmp_path');
-		$target  = $tempdir . '/' . $basename;
+		$tempdir  = Factory::getApplication()->get('tmp_path');
+		$target   = $tempdir . '/' . $basename;
+		$response = [];
 
 		// Do we have a cached file?
 		$exists = File::exists($target);
@@ -317,7 +320,7 @@ class UpdateModel extends BaseDatabaseModel
 				$mirror++;
 			}
 
-			return $download;
+			$response['basename'] = $download;
 		}
 		else
 		{
@@ -335,12 +338,16 @@ class UpdateModel extends BaseDatabaseModel
 					$mirror++;
 				}
 
-				return $download;
+				$response['basename'] = $download;
 			}
 
 			// Yes, it's there, skip downloading.
-			return $basename;
+			$response['basename'] = $basename;
 		}
+
+		$response['check'] = InstallerHelper::isChecksumValid($target, $updateInfo['url']);
+
+		return $response;
 	}
 
 	/**

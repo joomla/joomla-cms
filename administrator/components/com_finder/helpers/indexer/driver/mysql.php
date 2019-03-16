@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,7 +57,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 
 		// Get the signatures of the item.
 		$curSig = static::getSignature($item);
-		$oldSig = isset($link->md5sum) ? $link->md5sum : null;
+		$oldSig = $link->md5sum ?? null;
 
 		// Get the other item information.
 		$linkId = empty($link->link_id) ? null : $link->link_id;
@@ -104,69 +104,35 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		 * already exists in the database, we need to use an UPDATE query.
 		 * Otherwise, we need to use an INSERT to get the link id back.
 		 */
+		$entry = new stdClass;
+		$entry->url = $item->url;
+		$entry->route = $item->route;
+		$entry->title = $item->title;
+		$entry->description = $item->description;
+		$entry->indexdate = JFactory::getDate()->toSql();
+		$entry->state = (int) $item->state;
+		$entry->access = (int) $item->access;
+		$entry->language = $item->language;
+		$entry->type_id = (int) $item->type_id;
+		$entry->object = '';
+		$entry->publish_start_date = $item->publish_start_date;
+		$entry->publish_end_date = $item->publish_end_date;
+		$entry->start_date = $item->start_date;
+		$entry->end_date = $item->end_date;
+		$entry->list_price = (double) ($item->list_price ?: 0);
+		$entry->sale_price = (double) ($item->sale_price ?: 0);
 
 		if ($isNew)
 		{
-			$columnsArray = array(
-				$db->quoteName('url'), $db->quoteName('route'), $db->quoteName('title'), $db->quoteName('description'),
-				$db->quoteName('indexdate'), $db->quoteName('published'), $db->quoteName('state'), $db->quoteName('access'),
-				$db->quoteName('language'), $db->quoteName('type_id'), $db->quoteName('object'), $db->quoteName('publish_start_date'),
-				$db->quoteName('publish_end_date'), $db->quoteName('start_date'), $db->quoteName('end_date'), $db->quoteName('list_price'),
-				$db->quoteName('sale_price')
-			);
-
-			// Insert the link.
-			$query->clear()
-				->insert($db->quoteName('#__finder_links'))
-				->columns($columnsArray)
-				->values(
-					$db->quote($item->url) . ', '
-					. $db->quote($item->route) . ', '
-					. $db->quote($item->title) . ', '
-					. $db->quote($item->description) . ', '
-					. $query->currentTimestamp() . ', '
-					. '1, '
-					. (int) $item->state . ', '
-					. (int) $item->access . ', '
-					. $db->quote($item->language) . ', '
-					. (int) $item->type_id . ', '
-					. $db->quote(serialize($item)) . ', '
-					. $db->quote($item->publish_start_date) . ', '
-					. $db->quote($item->publish_end_date) . ', '
-					. $db->quote($item->start_date) . ', '
-					. $db->quote($item->end_date) . ', '
-					. (double) ($item->list_price ?: 0) . ', '
-					. (double) ($item->sale_price ?: 0)
-				);
-			$db->setQuery($query);
-			$db->execute();
-
-			// Get the link id.
+			// Insert the link and get its id.
+			$db->insertObject('#__finder_links', $entry);
 			$linkId = (int) $db->insertid();
 		}
 		else
 		{
 			// Update the link.
-			$query->clear()
-				->update($db->quoteName('#__finder_links'))
-				->set($db->quoteName('route') . ' = ' . $db->quote($item->route))
-				->set($db->quoteName('title') . ' = ' . $db->quote($item->title))
-				->set($db->quoteName('description') . ' = ' . $db->quote($item->description))
-				->set($db->quoteName('indexdate') . ' = ' . $query->currentTimestamp())
-				->set($db->quoteName('state') . ' = ' . (int) $item->state)
-				->set($db->quoteName('access') . ' = ' . (int) $item->access)
-				->set($db->quoteName('language') . ' = ' . $db->quote($item->language))
-				->set($db->quoteName('type_id') . ' = ' . (int) $item->type_id)
-				->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)))
-				->set($db->quoteName('publish_start_date') . ' = ' . $db->quote($item->publish_start_date))
-				->set($db->quoteName('publish_end_date') . ' = ' . $db->quote($item->publish_end_date))
-				->set($db->quoteName('start_date') . ' = ' . $db->quote($item->start_date))
-				->set($db->quoteName('end_date') . ' = ' . $db->quote($item->end_date))
-				->set($db->quoteName('list_price') . ' = ' . (double) ($item->list_price ?: 0))
-				->set($db->quoteName('sale_price') . ' = ' . (double) ($item->sale_price ?: 0))
-				->where('link_id = ' . (int) $linkId);
-			$db->setQuery($query);
-			$db->execute();
+			$entry->link_id = $linkId;
+			$db->updateObject('#__finder_links', $entry, 'link_id');
 		}
 
 		// Set up the variables we will need during processing.
@@ -211,8 +177,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 						if ($group === static::PATH_CONTEXT)
 						{
 							$ip = JFile::stripExt($ip);
-							$ip = str_replace('/', ' ', $ip);
-							$ip = str_replace('-', ' ', $ip);
+							$ip = str_replace(array('/', '-'), ' ', $ip);
 						}
 
 						// Tokenize a string of content and add it to the database.
@@ -261,10 +226,18 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			foreach ($nodes as $node)
 			{
 				// Add the node to the tree.
-				$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access);
+				if ($node->nested)
+				{
+					$nodeId = FinderIndexerTaxonomy::addNestedNode($branch, $node->node, $node->state, $node->access, $node->language);
+				}
+				else
+				{
+					$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
+				}
 
 				// Add the link => node map.
 				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
+				$node->id = $nodeId;
 
 				// Tokenize the node title and add them to the database.
 				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
@@ -398,6 +371,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		$query->clear()
 			->update($db->quoteName('#__finder_links'))
 			->set($db->quoteName('md5sum') . ' = ' . $db->quote($curSig))
+			->set($db->quoteName('object') . ' = ' . $db->quote(serialize($item)))
 			->where($db->quoteName('link_id') . ' = ' . $db->quote($linkId));
 		$db->setQuery($query);
 		$db->execute();
@@ -508,15 +482,15 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			// Set the internal state.
 			$state = $memory;
 		}
-		// We must be setting the tables to the MyISAM engine.
+		// We must be setting the tables to the InnoDB engine.
 		elseif ($memory === false && $state !== false)
 		{
-			// Set the tokens table to MyISAM.
-			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MYISAM');
+			// Set the tokens table to InnoDB.
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = INNODB');
 			$db->execute();
 
-			// Set the tokens aggregate table to MyISAM.
-			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MYISAM');
+			// Set the tokens aggregate table to InnoDB.
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = INNODB');
 			$db->execute();
 
 			// Set the internal state.

@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -732,6 +732,10 @@ window.Joomla.Modal = window.Joomla.Modal || {
 
     // Create the loading layer (hidden by default).
     if (newTask === 'load') {
+      // Prevent loading twice
+      if (document.getElementById('loading-logo')) {
+        return false;
+      }
       // Gets the site base path
       const systemPaths = Joomla.getOptions('system.paths') || {};
       const basePath = systemPaths.root || '';

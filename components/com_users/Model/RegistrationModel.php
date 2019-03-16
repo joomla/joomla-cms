@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,19 +64,16 @@ class RegistrationModel extends FormModel
 	}
 
 	/**
-	 * Method to activate a user account.
+	 * Method to get the user ID from the given token
 	 *
 	 * @param   string  $token  The activation token.
 	 *
-	 * @return  mixed    False on failure, user object on success.
+	 * @return  mixed   False on failure, id of the user on success
 	 *
-	 * @since   1.6
-	 * @throws  \Exception
+	 * @since   4.0.0
 	 */
-	public function activate($token)
+	public function getUserIdFromToken($token)
 	{
-		$app = Factory::getApplication();
-		$userParams = ComponentHelper::getParams('com_users');
 		$db = $this->getDbo();
 
 		// Get the user id based on the token.
@@ -90,7 +87,7 @@ class RegistrationModel extends FormModel
 
 		try
 		{
-			$userId = (int) $db->loadResult();
+			return (int) $db->loadResult();
 		}
 		catch (\RuntimeException $e)
 		{
@@ -98,6 +95,22 @@ class RegistrationModel extends FormModel
 
 			return false;
 		}
+	}
+
+	/**
+	 * Method to activate a user account.
+	 *
+	 * @param   string  $token  The activation token.
+	 *
+	 * @return  mixed    False on failure, user object on success.
+	 *
+	 * @since   1.6
+	 */
+	public function activate($token)
+	{
+		$app        = Factory::getApplication();
+		$userParams = ComponentHelper::getParams('com_users');
+		$userId     = $this->getUserIdFromToken($token);
 
 		// Check for a valid user id.
 		if (!$userId)
@@ -127,7 +140,7 @@ class RegistrationModel extends FormModel
 			$data['activate'] = $base . Route::_('index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false);
 
 			// Remove administrator/ from activate URL in case this method is called from admin
-			if (Factory::getApplication()->isClient('administrator'))
+			if ($app->isClient('administrator'))
 			{
 				$adminPos         = strrpos($data['activate'], 'administrator/');
 				$data['activate'] = substr_replace($data['activate'], '', $adminPos, 14);
@@ -153,7 +166,8 @@ class RegistrationModel extends FormModel
 			);
 
 			// Get all admin users
-			$query->clear()
+			$db = $this->getDbo();
+			$query = $db->getQuery(true)
 				->select($db->quoteName(array('name', 'email', 'sendEmail', 'id')))
 				->from($db->quoteName('#__users'))
 				->where($db->quoteName('sendEmail') . ' = 1')

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Object\CMSObject;
 /**
  * Trait which supports state behavior
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait StateBehaviorTrait
 {
@@ -23,7 +23,7 @@ trait StateBehaviorTrait
 	 * Indicates if the internal state has been set
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $__state_set = null;
 
@@ -31,7 +31,7 @@ trait StateBehaviorTrait
 	 * A state object
 	 *
 	 * @var    CMSObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $state = null;
 
@@ -43,7 +43,7 @@ trait StateBehaviorTrait
 	 *
 	 * @return  mixed  The property where specified, the state object where omitted
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getState($property = null, $default = null)
 	{
@@ -72,7 +72,7 @@ trait StateBehaviorTrait
 	 *
 	 * @return  mixed  The previous value of the property or null if not set
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setState($property, $value = null)
 	{
@@ -94,7 +94,7 @@ trait StateBehaviorTrait
 	 * @return  void
 	 *
 	 * @note    Calling getState in this method will result in recursion.
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function populateState()
 	{

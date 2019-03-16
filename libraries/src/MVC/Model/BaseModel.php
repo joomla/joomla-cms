@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Object\CMSObject;
 /**
  * Base class for a Joomla Model
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class BaseModel extends CMSObject implements ModelInterface, StatefulModelInterface
 {
@@ -26,7 +26,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 * The model (base) name
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $name;
 
@@ -35,7 +35,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 *
 	 * @param   array  $config  An array of configuration options (name, state, ignore_request).
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function __construct($config = array())
@@ -74,7 +74,7 @@ abstract class BaseModel extends CMSObject implements ModelInterface, StatefulMo
 	 *
 	 * @return  string  The name of the model
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function getName()

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -170,7 +170,7 @@ class Users
 				1 => array(
 					'task'           => 'unblock',
 					'text'           => '',
-					'active_title'   => 'COM_USERS_USER_FIELD_BLOCK_DESC',
+					'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
 					'inactive_title' => '',
 					'tip'            => true,
 					'active_class'   => 'unpublish',
@@ -202,7 +202,7 @@ class Users
 				0 => array(
 					'task'           => 'block',
 					'text'           => '',
-					'active_title'   => 'COM_USERS_USER_FIELD_BLOCK_DESC',
+					'active_title'   => 'COM_USERS_TOOLBAR_BLOCK',
 					'inactive_title' => '',
 					'tip'            => true,
 					'active_class'   => 'publish',

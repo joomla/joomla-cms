@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -333,9 +333,9 @@ class FieldsHelper
 			/*
 			 * Setting some parameters for the category field
 			 */
-			$form->setFieldAttribute('catid', 'custom-fields-enabled', true);
-			$form->setFieldAttribute('catid', 'custom-fields-cat-id', $assignedCatids);
-			$form->setFieldAttribute('catid', 'custom-fields-section', $section);
+			$form->setFieldAttribute('catid', 'refresh-enabled', true);
+			$form->setFieldAttribute('catid', 'refresh-cat-id', $assignedCatids);
+			$form->setFieldAttribute('catid', 'refresh-section', $section);
 		}
 
 		// Getting the fields

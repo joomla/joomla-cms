@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -303,12 +303,15 @@ class ComponentHelper
 	public static function renderComponent($option, $params = array())
 	{
 		$app = Factory::getApplication();
-
-		// Load template language files.
-		$template = $app->getTemplate(true)->template;
 		$lang = Factory::getLanguage();
-		$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
+
+		if (!$app->isClient('api'))
+		{
+			// Load template language files.
+			$template = $app->getTemplate(true)->template;
+			$lang->load('tpl_' . $template, JPATH_BASE, null, false, true)
 			|| $lang->load('tpl_' . $template, JPATH_THEMES . "/$template", null, false, true);
+		}
 
 		if (empty($option))
 		{
@@ -405,7 +408,9 @@ class ComponentHelper
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('extension_id', 'element', 'params', 'enabled'), array('id', 'option', null, null)))
 				->from($db->quoteName('#__extensions'))
-				->where($db->quoteName('type') . ' = ' . $db->quote('component'));
+				->where($db->quoteName('type') . ' = ' . $db->quote('component'))
+				->where($db->quoteName('state') . ' = 0')
+				->where($db->quoteName('enabled') . ' = 1');
 			$db->setQuery($query);
 
 			return $db->loadObjectList('option', '\JComponentRecord');

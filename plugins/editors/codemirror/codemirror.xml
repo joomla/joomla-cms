@@ -184,6 +184,7 @@
 					name="fullScreenMod"
 					type="checkboxes"
 					label="PLG_CODEMIRROR_FIELD_FULLSCREEN_MOD_LABEL"
+					hiddenLabel="true"
 					filter="options"
 					>
 					<option value="Shift">PLG_CODEMIRROR_FIELD_VALUE_FULLSCREEN_MOD_SHIFT</option>

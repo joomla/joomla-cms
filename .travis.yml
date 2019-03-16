@@ -19,7 +19,7 @@ before_script:
   - composer install --ignore-platform-reqs
 
 script:
-  - libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+  - libraries/vendor/bin/phpunit
 
 branches:
   except:

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -115,6 +115,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since  4.0.0
 	 */
 	protected $pathway = null;
+
+	/**
+	 * The authentication plugin type
+	 *
+	 * @type   string
+	 * @since  4.0.0
+	 */
+	protected $authenticationPluginType = 'authentication';
 
 	/**
 	 * Class constructor.
@@ -534,6 +542,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			$name = $app->getName();
 		}
 
+		$options['mode'] = Factory::getConfig()->get('sef');
+
 		return Router::getInstance($name, $options);
 	}
 
@@ -739,7 +749,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function login($credentials, $options = array())
 	{
 		// Get the global Authentication object.
-		$authenticate = Authentication::getInstance();
+		$authenticate = Authentication::getInstance($this->authenticationPluginType);
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.

@@ -127,6 +127,35 @@ ul.media-tree {
   vertical-align: middle;
 }
 
+/* RTL override */
+
 .media-tree-item.active > a .item-name {
   font-weight: bold;
 }
+
+html[dir=rtl] .media-tree-item::after, .media-tree-item::before {
+  left: 0;
+  right: 15px;
+}
+
+html[dir=rtl] .media-tree-item::before {
+  margin: 0;
+}
+
+html[dir=rtl] .media-browser-table .dimension, .media-browser-table .size {
+  direction: ltr;
+}
+
+html[dir=rtl] .media-browser-table .created, .media-browser-table .modified {
+  direction: ltr;
+}
+
+html[dir=rtl] .media-tree-item .item-icon {
+  padding-left: 2px;
+  padding-right: 24px;
+}
+
+html[dir=rtl] ul.media-tree ul {
+  margin-right: 24px;
+}
+

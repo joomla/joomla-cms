@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\CMS\Service\Provider;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\AdministratorApplication;
+use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
 use Joomla\CMS\Console\SessionGcCommand;
@@ -123,6 +124,27 @@ class Application implements ServiceProviderInterface
 					];
 
 					return new ContainerLoader($container, $mapping);
+				},
+				true
+			);
+
+		$container->alias(ApiApplication::class, 'JApplicationApi')
+			->share(
+				'JApplicationApi',
+				function (Container $container) {
+					$app = new ApiApplication(null, null, null, $container);
+
+					// The session service provider needs JFactory::$application, set it if still null
+					if (Factory::$application === null)
+					{
+						Factory::$application = $app;
+					}
+
+					$app->setDispatcher($container->get('Joomla\Event\DispatcherInterface'));
+					$app->setLogger($container->get(LoggerInterface::class));
+					$app->setSession($container->get('Joomla\Session\SessionInterface'));
+
+					return $app;
 				},
 				true
 			);

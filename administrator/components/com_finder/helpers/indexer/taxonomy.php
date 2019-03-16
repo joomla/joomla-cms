@@ -3,11 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Tree\NodeInterface;
+use Joomla\Component\Finder\Administrator\Table\MapTable;
 
 /**
  * Taxonomy base class for the Finder indexer package.
@@ -17,15 +20,23 @@ defined('_JEXEC') or die;
 class FinderIndexerTaxonomy
 {
 	/**
-	 * An internal cache of taxonomy branch data.
+	 * An internal cache of taxonomy data.
 	 *
 	 * @var    array
-	 * @since  2.5
+	 * @since  4.0.0
+	 */
+	public static $taxonomies = array();
+
+	/**
+	 * An internal cache of branch data.
+	 *
+	 * @var    array
+	 * @since  4.0.0
 	 */
 	public static $branches = array();
 
 	/**
-	 * An internal cache of taxonomy node data.
+	 * An internal cache of taxonomy node data for inserting it.
 	 *
 	 * @var    array
 	 * @since  2.5
@@ -46,111 +57,127 @@ class FinderIndexerTaxonomy
 	 */
 	public static function addBranch($title, $state = 1, $access = 1)
 	{
-		// Check to see if the branch is in the cache.
-		if (isset(static::$branches[$title]))
-		{
-			return static::$branches[$title]->id;
-		}
+		$node = new stdClass;
+		$node->title = $title;
+		$node->state = $state;
+		$node->access = $access;
+		$node->parent_id = 1;
+		$node->language = '';
 
-		// Check to see if the branch is in the table.
-		$db = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select('*')
-			->from($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('parent_id') . ' = 1')
-			->where($db->quoteName('title') . ' = ' . $db->quote($title));
-		$db->setQuery($query);
-
-		// Get the result.
-		$result = $db->loadObject();
-
-		// Check if the database matches the input data.
-		if (!empty($result) && $result->state == $state && $result->access == $access)
-		{
-			// The data matches, add the item to the cache.
-			static::$branches[$title] = $result;
-
-			return static::$branches[$title]->id;
-		}
-
-		/*
-		 * The database did not match the input. This could be because the
-		 * state has changed or because the branch does not exist. Let's figure
-		 * out which case is true and deal with it.
-		 */
-		$branch = new JObject;
-
-		if (empty($result))
-		{
-			// Prepare the branch object.
-			$branch->parent_id = 1;
-			$branch->title = $title;
-			$branch->state = (int) $state;
-			$branch->access = (int) $access;
-		}
-		else
-		{
-			// Prepare the branch object.
-			$branch->id = (int) $result->id;
-			$branch->parent_id = (int) $result->parent_id;
-			$branch->title = $result->title;
-			$branch->state = (int) $result->title;
-			$branch->access = (int) $result->access;
-			$branch->ordering = (int) $result->ordering;
-		}
-
-		// Store the branch.
-		static::storeNode($branch);
-
-		// Add the branch to the cache.
-		static::$branches[$title] = $branch;
-
-		return static::$branches[$title]->id;
+		return self::storeNode($node, 1);
 	}
 
 	/**
 	 * Method to add a node to the taxonomy tree.
 	 *
-	 * @param   string   $branch  The title of the branch to store the node in.
-	 * @param   string   $title   The title of the node.
-	 * @param   integer  $state   The published state of the node. [optional]
-	 * @param   integer  $access  The access state of the node. [optional]
+	 * @param   string   $branch    The title of the branch to store the node in.
+	 * @param   string   $title     The title of the node.
+	 * @param   integer  $state     The published state of the node. [optional]
+	 * @param   integer  $access    The access state of the node. [optional]
+	 * @param   string   $language  The language of the node. [optional]
 	 *
 	 * @return  integer  The id of the node.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public static function addNode($branch, $title, $state = 1, $access = 1)
+	public static function addNode($branch, $title, $state = 1, $access = 1, $language = '')
 	{
-		// Check to see if the node is in the cache.
-		if (isset(static::$nodes[$branch][$title]))
-		{
-			return static::$nodes[$branch][$title]->id;
-		}
-
 		// Get the branch id, insert it if it does not exist.
 		$branchId = static::addBranch($branch);
+
+		$node = new stdClass;
+		$node->title = $title;
+		$node->state = $state;
+		$node->access = $access;
+		$node->parent_id = $branchId;
+		$node->language = $language;
+
+		return self::storeNode($node, $branchId);
+	}
+
+	/**
+	 * Method to add a nested node to the taxonomy tree.
+	 * 
+	 * @param   string         $branch    The title of the branch to store the node in.
+	 * @param   NodeInterface  $node      The source-node of the taxonomy node.
+	 * @param   integer        $state     The published state of the node. [optional]
+	 * @param   integer        $access    The access state of the node. [optional]
+	 * @param   string         $language  The language of the node. [optional]
+	 * @param   integer        $branchId  ID of a branch if known. [optional]
+	 * 
+	 * @return  integer  The id of the node.
+	 * 
+	 * @since   4.0.0
+	 */
+	public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $language = '', $branchId = null)
+	{
+		if (!$branchId)
+		{
+			// Get the branch id, insert it if it does not exist.
+			$branchId = static::addBranch($branch);
+		}
+
+		$parent = $node->getParent();
+
+		if ($parent && $parent->title !='ROOT')
+		{
+			$parentId = self::addNestedNode($branch, $parent, $state, $access, $language = '', $branchId);
+		}
+		else
+		{
+			$parentId = $branchId;
+		}
+
+		$temp = new stdClass;
+		$temp->title = $node->title;
+		$temp->state = $state;
+		$temp->access = $access;
+		$temp->parent_id = $parentId;
+		$temp->language = $language;
+
+		return self::storeNode($temp, $parentId);
+	}
+
+	/**
+	 * A helper method to store a node in the taxonomy
+	 * 
+	 * @param   object   $node       The node data to include
+	 * @param   integer  $parent_id  The parent id of the node to add.
+	 * 
+	 * @return  integer  The id of the inserted node.
+	 * 
+	 * @since   4.0.0
+	 */
+	protected static function storeNode($node, $parent_id)
+	{
+		// Check to see if the node is in the cache.
+		if (isset(static::$nodes[$parent_id . ':' . $node->title]))
+		{
+			return static::$nodes[$parent_id . ':' . $node->title]->id;
+		}
 
 		// Check to see if the node is in the table.
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('parent_id') . ' = ' . $db->quote($branchId))
-			->where($db->quoteName('title') . ' = ' . $db->quote($title));
+			->where($db->quoteName('parent_id') . ' = ' . $db->quote($parent_id))
+			->where($db->quoteName('title') . ' = ' . $db->quote($node->title))
+			->where($db->quoteName('language') . ' = ' . $db->quote($node->language));
+
 		$db->setQuery($query);
 
 		// Get the result.
 		$result = $db->loadObject();
 
 		// Check if the database matches the input data.
-		if (!empty($result) && $result->state == $state && $result->access == $access)
+		if ((bool) $result && $result->state == $node->state && $result->access == $node->access)
 		{
 			// The data matches, add the item to the cache.
-			static::$nodes[$branch][$title] = $result;
+			static::$nodes[$parent_id . ':' . $node->title] = $result;
 
-			return static::$nodes[$branch][$title]->id;
+			return static::$nodes[$parent_id . ':' . $node->title]->id;
 		}
 
 		/*
@@ -158,34 +185,38 @@ class FinderIndexerTaxonomy
 		 * state has changed or because the node does not exist. Let's figure
 		 * out which case is true and deal with it.
 		 */
-		$node = new JObject;
+		/** TODO: use factory? **/
+		$nodeTable = new MapTable($db);
 
 		if (empty($result))
 		{
 			// Prepare the node object.
-			$node->parent_id = (int) $branchId;
-			$node->title = $title;
-			$node->state = (int) $state;
-			$node->access = (int) $access;
+			$nodeTable->title = $node->title;
+			$nodeTable->state = (int) $node->state;
+			$nodeTable->access = (int) $node->access;
+			$nodeTable->language = $node->language;
+			$nodeTable->setLocation((int) $parent_id, 'last-child');
 		}
 		else
 		{
 			// Prepare the node object.
-			$node->id = (int) $result->id;
-			$node->parent_id = (int) $result->parent_id;
-			$node->title = $result->title;
-			$node->state = (int) $result->title;
-			$node->access = (int) $result->access;
-			$node->ordering = (int) $result->ordering;
+			$nodeTable->id = (int) $result->id;
+			$nodeTable->title = $result->title;
+			$nodeTable->state = (int) $result->title;
+			$nodeTable->access = (int) $result->access;
+			$nodeTable->language = $node->language;
+			$nodeTable->setLocation($result->parent_id, 'last-child');
 		}
 
-		// Store the node.
-		static::storeNode($node);
+		// Store the branch.
+		$nodeTable->check();
+		$nodeTable->store();
+		$nodeTable->rebuildPath($nodeTable->id);
 
 		// Add the node to the cache.
-		static::$nodes[$branch][$title] = $node;
+		static::$nodes[$parent_id . ':' . $nodeTable->title] = (object) $nodeTable->getProperties();
 
-		return static::$nodes[$branch][$title]->id;
+		return static::$nodes[$parent_id . ':' . $nodeTable->title]->id;
 	}
 
 	/**
@@ -213,16 +244,11 @@ class FinderIndexerTaxonomy
 		$db->execute();
 		$id = (int) $db->loadResult();
 
-		$map = new JObject;
-		$map->link_id = (int) $linkId;
-		$map->node_id = (int) $nodeId;
-
-		if ($id)
+		if (!$id)
 		{
-			$db->updateObject('#__finder_taxonomy_map', $map, array('link_id', 'node_id'));
-		}
-		else
-		{
+			$map = new stdClass;
+			$map->link_id = (int) $linkId;
+			$map->node_id = (int) $nodeId;
 			$db->insertObject('#__finder_taxonomy_map', $map);
 		}
 
@@ -352,31 +378,76 @@ class FinderIndexerTaxonomy
 	}
 
 	/**
-	 * Method to store a node to the database.  This method will accept either a branch or a node.
-	 *
-	 * @param   object  $item  The item to store.
-	 *
-	 * @return  boolean  True on success.
-	 *
-	 * @since   2.5
-	 * @throws  Exception on database error.
+	 * Get a taxonomy based on its id or all taxonomies
+	 * 
+	 * @param   integer  $id  Id of the taxonomy
+	 * 
+	 * @return  object|array  A taxonomy object or an array of all taxonomies
+	 * 
+	 * @since   4.0.0
 	 */
-	protected static function storeNode($item)
+	public static function getTaxonomy($id = 0)
 	{
-		$db = JFactory::getDbo();
-
-		// Check if we are updating or inserting the item.
-		if (empty($item->id))
+		if (!count(self::$taxonomies))
 		{
-			// Insert the item.
-			$db->insertObject('#__finder_taxonomy', $item, 'id');
-		}
-		else
-		{
-			// Update the item.
-			$db->updateObject('#__finder_taxonomy', $item, 'id');
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			$query->select(array('id','parent_id','lft','rgt','level','path','title','alias','state','access','language'))
+				->from($db->quoteName('#__finder_taxonomy'))
+				->order($db->quoteName('lft'));
+
+			$db->setQuery($query);
+			self::$taxonomies = $db->loadObjectList('id');
 		}
 
-		return true;
+		if ($id == 0)
+		{
+			return self::$taxonomies;
+		}
+
+		if (isset(self::$taxonomies[$id]))
+		{
+			return self::$taxonomies[$id];
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get a taxonomy branch object based on its title or all branches
+	 * 
+	 * @param   string  $title  Title of the branch
+	 * 
+	 * @return  object|array  The object with the branch data or an array of all branches
+	 * 
+	 * @since   4.0.0
+	 */
+	public static function getBranch($title = '')
+	{
+		if (!count(self::$branches))
+		{
+			$taxonomies = self::getTaxonomy();
+
+			foreach ($taxonomies as $t)
+			{
+				if ($t->level == 1)
+				{
+					self::$branches[$t->title] = $t;
+				}
+			}
+		}
+
+		if ($title == '')
+		{
+			return self::$branches;
+		}
+
+		if (isset(self::$branches[$title]))
+		{
+			return self::$branches[$title];
+		}
+
+		return false;
 	}
 }
