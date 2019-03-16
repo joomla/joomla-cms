@@ -105,7 +105,7 @@ class AddUserToGroupCommand extends AbstractCommand
 			}
 			else
 			{
-				$this->ioStyle->error("Can't add '" . $user->username . "' successfully to group '" . $result . "'!");
+				$this->ioStyle->error("Can't add '" . $user->username . "' to group '" . $result . "'!");
 
 				return 1;
 			}

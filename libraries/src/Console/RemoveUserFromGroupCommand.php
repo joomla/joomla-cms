@@ -105,7 +105,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 			}
 			else
 			{
-				$this->ioStyle->error("Can't remove '" . $user->username . "' successfully from group '" . $result . "'!");
+				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'!");
 
 				return 1;
 			}
