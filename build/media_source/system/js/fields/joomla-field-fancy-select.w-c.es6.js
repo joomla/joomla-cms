@@ -206,4 +206,38 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     });
   }
 
+  disableByValue($val) {
+    let choices = this.choicesInstance.store.getState().choices;
+    let values = this.choicesInstance.getValue(true);
+
+    choices.forEach((elem, index) => {
+      if (elem.value === $val) {
+        choices[index].disabled = true;
+      }
+    });
+
+    this.choicesInstance.clearStore();
+
+    this.choicesInstance.setChoices(choices, 'value', 'label', true);
+
+    this.value = values;
+  }
+
+  enableByValue($val) {
+    let choices = this.choicesInstance.store.getState().choices;
+
+
+    choices.forEach((elem, index) => {
+      if (elem.value === $val) {
+        choices[index].disabled = false;
+      }
+    });
+
+    this.choicesInstance.clearStore();
+
+    this.choicesInstance.setChoices(choices, 'value', 'label', true);
+
+    this.value = values;
+  }
+
 });
