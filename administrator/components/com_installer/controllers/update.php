@@ -81,8 +81,6 @@ class InstallerControllerUpdate extends JControllerLegacy
 		// Get the caching duration.
 		$component     = JComponentHelper::getComponent('com_installer');
 		$params        = $component->params;
-		$cache_timeout = (int) $params->get('cachetimeout', 6);
-		$cache_timeout = 3600 * $cache_timeout;
 
 		// Get the minimum stability.
 		$minimum_stability = (int) $params->get('minimum_stability', JUpdater::STABILITY_STABLE);
@@ -99,32 +97,11 @@ class InstallerControllerUpdate extends JControllerLegacy
 			$this->setMessage(JText::sprintf('COM_INSTALLER_MSG_UPDATE_SITES_COUNT_CHECK', $updateSitesUrl), 'warning');
 		}
 
-		$model->findUpdates(0, $cache_timeout, $minimum_stability);
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false));
-	}
-
-	/**
-	 * Purges updates.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public function purge()
-	{
-		// Check for request forgeries.
-		$this->checkToken();
-
-		$model = $this->getModel('update');
+		// Clear update cache before checking for updates
 		$model->purge();
+		$model->findUpdates(0, 0, $minimum_stability);
 
-		/**
-		 * We no longer need to enable update sites in Joomla! 3.4 as we now allow the users to manage update sites
-		 * themselves.
-		 * $model->enableSites();
-		 */
-
-		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false), $model->_message);
+		$this->setRedirect(JRoute::_('index.php?option=com_installer&view=update', false));
 	}
 
 	/**
