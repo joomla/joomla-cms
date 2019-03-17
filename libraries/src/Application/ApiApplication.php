@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.API
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -26,7 +26,7 @@ use Negotiation\Negotiator;
 /**
  * Joomla! API Application class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class ApiApplication extends CMSApplication
 {
@@ -34,7 +34,7 @@ final class ApiApplication extends CMSApplication
 	 * Maps extension types to their
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $formatMapper = array();
 
@@ -42,7 +42,7 @@ final class ApiApplication extends CMSApplication
 	 * The authentication plugin type
 	 *
 	 * @type   string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $authenticationPluginType = 'api-authentication';
 
@@ -60,7 +60,7 @@ final class ApiApplication extends CMSApplication
 	 *                                  application's client object, otherwise a default client object is created.
 	 * @param   Container   $container  Dependency injection container.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(JInputJson $input = null, Registry $config = null, WebClient $client = null, Container $container = null)
 	{
@@ -88,7 +88,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function doExecute()
 	{
@@ -119,7 +119,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addFormatMap($contentHeader, $format)
 	{
@@ -136,7 +136,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @note    Rendering should be overridden to get rid of the theme files.
 	 */
@@ -153,7 +153,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function respond($options = array())
 	{
@@ -179,7 +179,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getTemplate($params = false)
 	{
@@ -197,7 +197,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function route()
 	{
@@ -295,7 +295,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  ApiRouter
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getApiRouter()
 	{
@@ -309,7 +309,7 @@ final class ApiApplication extends CMSApplication
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch($component = null)
 	{

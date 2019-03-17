@@ -3,11 +3,13 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Adapter Instance Class
@@ -50,7 +52,7 @@ class JAdapterInstance extends JObject
 		$this->parent = $parent;
 
 		// Pull in the global dbo in case something happened to it.
-		$this->db = $db ?: JFactory::getDbo();
+		$this->db = $db ?: Factory::getDbo();
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ defined('JPATH_PLATFORM') or die;
  *
  * Class holding methods for displaying presentation data.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class JsonView extends AbstractView
 {
@@ -23,7 +23,7 @@ class JsonView extends AbstractView
 	 * The base path of the view
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_basePath = null;
 
@@ -31,7 +31,7 @@ class JsonView extends AbstractView
 	 * Charset to use in escaping mechanisms; defaults to urf8 (UTF-8)
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_charset = 'UTF-8';
 
@@ -39,7 +39,7 @@ class JsonView extends AbstractView
 	 * The output of the view.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_output = array();
 
@@ -55,7 +55,7 @@ class JsonView extends AbstractView
 	 *                          helper_path: the path (optional) of the helper files (defaults to base_path + /helpers/)
 	 *                          layout: the layout (optional) to use to display the view
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($config = array())
 	{
@@ -86,7 +86,7 @@ class JsonView extends AbstractView
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function display($tpl = null)
 	{

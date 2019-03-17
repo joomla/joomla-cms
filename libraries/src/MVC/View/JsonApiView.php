@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ use Tobscure\JsonApi\Resource;
  *
  * Class holding methods for displaying presentation data.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class JsonApiView extends JsonView
 {
@@ -54,7 +54,7 @@ abstract class JsonApiView extends JsonView
 	 * @param   array  $config  A named configuration array for object construction.
 	 *                          contentType: the name (optional) of the content type to use for the serialization
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct($config = array())
 	{
@@ -71,7 +71,7 @@ abstract class JsonApiView extends JsonView
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function displayList()
 	{
@@ -140,7 +140,7 @@ abstract class JsonApiView extends JsonView
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function displayItem()
 	{
