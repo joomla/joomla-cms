@@ -1,5 +1,14 @@
-((customElements) => {
+(() => {
   class JoomlaFieldUser extends HTMLElement {
+    constructor() {
+      super();
+
+      this.onUserSelect = '';
+      this.onchangeStr = '';
+      this.buttonClick = this.buttonClick.bind(this);
+      this.iframeLoad = this.iframeLoad.bind(this);
+    }
+
     static get observedAttributes() {
       return ['url', 'modal-class', 'modal-width', 'modal-height', 'input', 'input-name', 'button-select'];
     }
@@ -48,26 +57,44 @@
         this.modal.addEventListener('hide', this.removeIframe.bind(this));
 
         // Check for onchange callback,
-        const onchangeStr = this.input.getAttribute('data-onchange');
-        let onUserSelect;
-        if (onchangeStr) {
+        this.onchangeStr = this.input.getAttribute('data-onchange');
+        if (this.onchangeStr) {
           /* eslint-disable */
-          onUserSelect = new Function(onchangeStr);
-          this.input.addEventListener('change', onUserSelect.bind(this.input));
+          this.onUserSelect = new Function(this.onchangeStr);
+          this.input.addEventListener('change', this.onUserSelect);
           /* eslint-enable */
         }
       }
     }
 
     disconnectedCallback() {
-      this.buttonSelect.removeEventListener('click', this);
+      if (this.onchangeStr && this.input) {
+        this.input.removeEventListener('change', this.onUserSelect);
+      }
+
+      if (this.buttonSelect) {
+        this.buttonSelect.removeEventListener('click', this);
+      }
+
       this.modal.removeEventListener('hide', this);
+    }
+
+    buttonClick(event) {
+      this.setValue(event.target.getAttribute('data-user-value'), event.target.getAttribute('data-user-name'));
+      this.modalClose();
+    }
+
+    iframeLoad() {
+      const iframeDoc = this.iframeEl.contentWindow.document;
+      const buttons = [].slice.call(iframeDoc.querySelectorAll('.button-select'));
+
+      buttons.forEach((button) => {
+        button.addEventListener('click', this.buttonClick);
+      });
     }
 
     // Opens the modal
     modalOpen() {
-      const self = this;
-
       // Reconstruct the iframe
       this.removeIframe();
       const iframe = document.createElement('iframe');
@@ -80,20 +107,10 @@
 
       this.modal.open();
 
-      const iframeEl = this.modalBody.querySelector('iframe');
+      this.iframeEl = this.modalBody.querySelector('iframe');
 
       // handle the selection on the iframe
-      iframeEl.addEventListener('load', () => {
-        const iframeDoc = iframeEl.contentWindow.document;
-        const buttons = [].slice.call(iframeDoc.querySelectorAll('.button-select'));
-
-        buttons.forEach((button) => {
-          button.addEventListener('click', (event) => {
-            self.setValue(event.target.getAttribute('data-user-value'), event.target.getAttribute('data-user-name'));
-            self.modalClose();
-          });
-        });
-      });
+      this.iframeEl.addEventListener('load', this.iframeLoad);
     }
 
     // Closes the modal
@@ -115,4 +132,4 @@
   }
 
   customElements.define('joomla-field-user', JoomlaFieldUser);
-})(customElements);
+})();

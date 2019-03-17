@@ -23,10 +23,9 @@ pipeline:
     image: joomlaprojects/docker-tools:develop
     commands:
       - composer install --no-progress --no-suggest
-      # needed for unit testing
-      - composer update joomla/test-unit --no-progress --no-suggest
       # needed for system testing
       - composer update joomla/test-system --no-progress --no-suggest
+      - composer update joomla/test-api --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
       - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - npm install --unsafe-perm
@@ -44,19 +43,19 @@ pipeline:
     group: unit
     image: joomlaprojects/docker-php70:develop
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - ./libraries/vendor/bin/phpunit
 
   php71-unit:
     group: unit
     image: joomlaprojects/docker-php71:develop
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - ./libraries/vendor/bin/phpunit
 
   php72-unit:
     group: unit
     image: joomlaprojects/docker-php72:develop
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - ./libraries/vendor/bin/phpunit
 
   javascript-cs:
     image: joomlaprojects/docker-systemtests:develop
@@ -80,6 +79,11 @@ pipeline:
       image: joomlaprojects/docker-systemtests:develop
       commands:
         - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
+
+  api-tests:
+    image: joomlaprojects/docker-systemtests:latest
+    commands:
+      - bash libraries/vendor/joomla/test-api/drone-run.sh "$(pwd)"
 
   analysis3x:
       image: rips/rips-cli:1.2.1

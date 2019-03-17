@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -111,7 +111,15 @@ class LibraryAdapter extends InstallerAdapter
 		{
 			$manifest = array();
 			$manifest['src'] = $this->parent->getPath('manifest');
-			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . basename($this->parent->getPath('manifest'));
+			$manifest['dest'] = JPATH_MANIFESTS . '/libraries/' . $this->element . '.xml';
+
+			$destFolder = dirname($manifest['dest']);
+
+			if (!is_dir($destFolder) && !@mkdir($destFolder))
+			{
+				// Install failed, rollback changes
+				throw new \RuntimeException(Text::_('JLIB_INSTALLER_ABORT_LIB_INSTALL_COPY_SETUP'));
+			}
 
 			if (!$this->parent->copyFiles(array($manifest), true))
 			{
@@ -196,8 +204,7 @@ class LibraryAdapter extends InstallerAdapter
 	{
 		if (!$element)
 		{
-			$manifestPath = Path::clean($this->parent->getPath('manifest'));
-			$element = preg_replace('/\.xml/', '', basename($manifestPath));
+			$element  = (string) $this->getManifest()->libraryname;
 		}
 
 		return $element;
@@ -221,7 +228,7 @@ class LibraryAdapter extends InstallerAdapter
 			$this->parent->setPath('source', JPATH_PLATFORM . '/' . $this->getElement());
 		}
 
-		$extension = 'lib_' . $this->getElement();
+		$extension = 'lib_' . str_replace('/', '_', $this->getElement());
 		$librarypath = (string) $this->getManifest()->libraryname;
 		$source = $path ?: JPATH_PLATFORM . '/' . $librarypath;
 
@@ -286,6 +293,15 @@ class LibraryAdapter extends InstallerAdapter
 
 		$this->parent->removeFiles($this->getManifest()->media);
 		$this->parent->removeFiles($this->getManifest()->languages);
+
+		$elementParts = explode('/', $this->extension->element);
+
+		// Delete empty vendor folders
+		if (2 === count($elementParts))
+		{
+			Folder::delete(JPATH_MANIFESTS . '/libraries/' . $elementParts[0]);
+			Folder::delete(JPATH_PLATFORM . '/' . $elementParts[0]);
+		}
 	}
 
 	/**
@@ -488,20 +504,28 @@ class LibraryAdapter extends InstallerAdapter
 	public function discover()
 	{
 		$results = array();
-		$file_list = Folder::files(JPATH_MANIFESTS . '/libraries', '\.xml$');
 
-		foreach ($file_list as $file)
+		$mainFolder = JPATH_MANIFESTS . '/libraries';
+		$folder = new \RecursiveDirectoryIterator($mainFolder);
+		$iterator = new \RegexIterator(
+			new \RecursiveIteratorIterator($folder),
+			'/\.xml$/i',
+			\RecursiveRegexIterator::GET_MATCH
+		);
+
+		foreach ($iterator as $file => $pattern)
 		{
-			$manifest_details = Installer::parseXMLInstallFile(JPATH_MANIFESTS . '/libraries/' . $file);
-			$file = File::stripExt($file);
+			$element = str_replace(array($mainFolder . DIRECTORY_SEPARATOR, '.xml'), '', $file);
+			$manifestCache = Installer::parseXMLInstallFile($file);
+
 			$extension = Table::getInstance('extension');
 			$extension->set('type', 'library');
 			$extension->set('client_id', 0);
-			$extension->set('element', $file);
+			$extension->set('element', $element);
 			$extension->set('folder', '');
-			$extension->set('name', $file);
+			$extension->set('name', $element);
 			$extension->set('state', -1);
-			$extension->set('manifest_cache', json_encode($manifest_details));
+			$extension->set('manifest_cache', json_encode($manifestCache));
 			$extension->set('params', '{}');
 			$results[] = $extension;
 		}

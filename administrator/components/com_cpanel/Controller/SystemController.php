@@ -20,7 +20,7 @@ use Joomla\CMS\Updater\Updater;
 /**
  * Cpanel System Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class SystemController extends BaseController
 {
@@ -31,7 +31,7 @@ class SystemController extends BaseController
 	 *
 	 * @return void
 	 * 
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function loadSystemInfo()
 	{
@@ -85,7 +85,7 @@ class SystemController extends BaseController
 	 * @return integer  Number of database table errors
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function countDatabaseUpdates()
 	{
@@ -115,7 +115,7 @@ class SystemController extends BaseController
 	 * @return string  The version number or empty string
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function countSystemUpdates()
 	{
@@ -142,7 +142,7 @@ class SystemController extends BaseController
 	 * @return integer  Number of available updates
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function countExtensionUpdates()
 	{
@@ -194,7 +194,7 @@ class SystemController extends BaseController
 	 * @return integer The number of items
 	 *
 	 * @throws \Exception
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function countItems($extension, $modelname)
 	{
