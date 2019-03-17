@@ -113,6 +113,7 @@
   }
 
   .dropdown-menu {
+    z-index: $zindex-popover;
     min-width: 18rem;
     background-color: var(--atum-bg-dark-70);
 
