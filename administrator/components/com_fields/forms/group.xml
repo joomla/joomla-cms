@@ -73,12 +73,15 @@
 		/>
 
 		<field
-			name="modified"
-			type="text"
+			nname="modified"
+			type="calendar"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
+			translateformat="true"
+			showtime="true"
+			size="22"
 			class="readonly"
-			filter="unset"
 			readonly="true"
+			filter="user_utc"
 		/>
 
 		<field
