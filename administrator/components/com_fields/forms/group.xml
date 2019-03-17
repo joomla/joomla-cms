@@ -74,7 +74,7 @@
 
 		<field
 			name="modified"
-			type="text"
+			type="calender"
 			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			default="0000-00-00 00:00:00"
 			class="readonly"
