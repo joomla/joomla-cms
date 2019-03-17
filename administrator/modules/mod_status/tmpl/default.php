@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_status
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -97,7 +97,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						<span class="fa fa-user-o" aria-hidden="true"></span>
 						<?php echo $user->name; ?>
 					</div>
-					<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
+					<?php $route = 'index.php?option=com_users&amp;task=user.edit&amp;id=' . $user->id; ?>
 					<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
 					<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_login&task=logout&'
