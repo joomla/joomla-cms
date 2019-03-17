@@ -3,7 +3,7 @@
 @import "../../variables";
 
 .nav.nav-tabs {
-  flex-wrap: unset;
+
   align-items: stretch;
   justify-content: space-around;
   padding: 0;
@@ -11,14 +11,21 @@
   text-align: center;
   background-color: var(--primary);
 
+  @include media-breakpoint-only(xl) {
+    flex-wrap: unset;
+  }
+
   @include media-breakpoint-down(sm) {
     flex-direction: column;
   }
 
   .nav-item {
-    width: 100%;
+
     margin-bottom: 0;
     margin-left: 0;
+    @include media-breakpoint-only(xl){
+      width: 100%;
+    }
   }
 
   .nav-link {

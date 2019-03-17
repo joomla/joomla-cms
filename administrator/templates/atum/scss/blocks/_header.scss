@@ -6,6 +6,14 @@
   background: $white;
   box-shadow: $atum-box-shadow;
 
+  @include media-breakpoint-down(lg) {
+    .align-items-center{
+      align-items: flex-start;
+    }
+  }
+
+
+
   .logo {
     display: inline-block;
     line-height: $header-height;
@@ -104,12 +112,19 @@
     text-decoration: underline;
 
     @include media-breakpoint-down(lg) {
-      width: 60px;
+     /* width: 60px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      display: block;
+      display: block;*/
+      font-size:0;
+      text-decoration:none;
     }
+    &:before{
+      font-size: 1.2rem;
+      vertical-align: middle;
+    }
+
   }
 
   .dropdown-menu {
@@ -184,6 +199,21 @@
     margin-bottom: 0;
     font-size: $h5-font-size;
     color: var(--atum-special-color);
+
+
+  }
+
+  @include media-breakpoint-down(sm) {
+    .header-items{
+      background:var(--atum-bg-dark);
+      display:block;
+      position:fixed;
+      bottom:0;
+      width:100%;
+      z-index:9999;
+      padding-left:0.75rem;
+    }
+
   }
 }
 
@@ -195,18 +225,24 @@
     width: 100%;
     z-index: $zindex-header;
 
-    > div {
-      flex-direction: column;
-    }
+
   }
 }
-
 @include media-breakpoint-down(sm) {
-
   .header {
-
-    .header-items {
-      flex-direction: column;
+    position: static;
+    .joomla-version{
+      color:var(--atum-text-light);
+    }
+    .nav-link{
+      .fa{
+        color:var(--atum-text-light);
+      }
+      &:before{
+        color:var(--atum-text-light);
+      }
     }
   }
 }
+
+
