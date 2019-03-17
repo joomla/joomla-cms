@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 /** @var PrivacyViewRequests $this */
 
 // Include the component HTML helpers.
@@ -34,7 +36,7 @@ $now       = JFactory::getDate();
 	<?php else : ?>
 		<div id="j-main-container">
 	<?php endif; ?>
-		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
