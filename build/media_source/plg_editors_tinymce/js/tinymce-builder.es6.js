@@ -202,7 +202,6 @@ Joomla = window.Joomla || {};
   window.tinymce = tinymce;
 
   const TinyMCEBuilder = (container, options) => {
-
     const $sourceMenu = container.querySelector('.timymce-builder-menu.source');
     const $sourceToolbar = container.querySelector('.timymce-builder-toolbar.source');
 
@@ -218,57 +217,12 @@ Joomla = window.Joomla || {};
      * @since  3.7.0
      */
     const appendInput = (element, group, set) => {
-      const name = options.formControl + '[' + set + '][' + group + '][]';
+      const name = `${options.formControl}[${set}][${group}][]`;
       const value = element.getAttribute('data-name');
 
       const input = `<input type="hidden" name="${name}" value="${value}">`;
 
       element.innerHTML += input;
-    };
-
-    /**
-     * Render the toolbar/menubar
-     *
-     * @param {HTMLElement} box        The toolbar container
-     * @param {String}      type       The type toolbar or menu
-     * @param {Array|null}  value      The value
-     * @param {Boolean}     withInput  Whether append input
-     *
-     * @since  3.7.0
-     */
-    const renderBar = (box, type, val, withInput) => {
-
-      const group = box.getAttribute('data-group');
-      const set = box.getAttribute('data-set');
-      const items = type === 'menu' ? options.menus : options.buttons;
-      const value = val || JSON.parse(box.getAttribute('data-value')) || [];
-      let item;
-      let name;
-      let $btn;
-
-      for (let i = 0, l = value.length; i < l; ++i) {
-        name = value[i];
-        item = items[name];
-
-        if (!item) {
-          continue;
-        }
-
-        $btn = createButton(name, item, type);
-        box.innerHTML += $btn;
-
-        const newbutton = box.querySelector('.tox-mbtn:last-child');
-
-        // Enable tooltip
-        if (newbutton.tooltip) {
-          newbutton.tooltip({trigger: 'hover'});
-        }
-
-        // Add input
-        if (withInput) {
-          appendInput(newbutton, group, set);
-        }
-      }
     };
 
     /**
@@ -305,6 +259,50 @@ Joomla = window.Joomla || {};
       const $btn = `<button type="button" data-name="${name}" class="${bclass}" data-toggle="tooltip" title="${title}">${content}</button>`;
 
       return $btn;
+    };
+
+    /**
+     * Render the toolbar/menubar
+     *
+     * @param {HTMLElement} box        The toolbar container
+     * @param {String}      type       The type toolbar or menu
+     * @param {Array|null}  value      The value
+     * @param {Boolean}     withInput  Whether append input
+     *
+     * @since  3.7.0
+     */
+    const renderBar = (box, type, val, withInput) => {
+      const group = box.getAttribute('data-group');
+      const set = box.getAttribute('data-set');
+      const items = type === 'menu' ? options.menus : options.buttons;
+      const value = val || JSON.parse(box.getAttribute('data-value')) || [];
+      let item;
+      let name;
+      let $btn;
+
+      for (let i = 0, l = value.length; i < l; i = i + 1) {
+        name = value[i];
+        item = items[name];
+
+        if (!item) {
+          continue;
+        }
+
+        $btn = createButton(name, item, type);
+        box.innerHTML += $btn;
+
+        const newbutton = box.querySelector('.tox-mbtn:last-child');
+
+        // Enable tooltip
+        if (newbutton.tooltip) {
+          newbutton.tooltip({ trigger: 'hover' });
+        }
+
+        // Add input
+        if (withInput) {
+          appendInput(newbutton, group, set);
+        }
+      }
     };
 
     /**
@@ -374,23 +372,23 @@ Joomla = window.Joomla || {};
     // Initialize drag & drop
     const drakeMenu = dragula([$sourceMenu], {
       copy: (el, source) => {
-        return source === $sourceMenu;
+        return source === $sourceMenu
       },
-      accepts: (el, target, source, sibling) => {
-        return target !== $sourceMenu;
+      accepts: (el, target) => {
+        return target !== $sourceMenu
       },
       removeOnSpill: true
-    }).on('drag', (el, source) => {
+    }).on('drag', () => {
       $targetMenu.forEach((target) => {
         target.classList.add('drop-area-highlight');
       });
-    }).on('dragend', (el) => {
+    }).on('dragend', () => {
       $targetMenu.forEach((target) => {
         target.classList.remove('drop-area-highlight');
       });
-    }).on('drop', (el, target, source, sibling) => {
+    }).on('drop', (el, target) => {
       if (target !== $sourceMenu) {
-        appendInput(el, target.getAttribute('data-group'), target.getAttribute('data-set'))
+        appendInput(el, target.getAttribute('data-group'), target.getAttribute('data-set'));
       }
     });
 
@@ -401,29 +399,29 @@ Joomla = window.Joomla || {};
 
     const drakeToolbar = dragula([$sourceToolbar], {
       copy: (el, source) => {
-        return source === $sourceToolbar;
+        return source === $sourceToolbar
       },
-      accepts: (el, target, source, sibling) => {
-        return target !== $sourceToolbar;
+      accepts: (el, target) => {
+        return target !== $sourceToolbar
       },
-      removeOnSpill: true
-    }).on('drag', (el, source) => {
+      removeOnSpill: true,
+    }).on('drag', () => {
       $targetToolbar.forEach((target) => {
         target.classList.add('drop-area-highlight');
       });
-    }).on('dragend', (el) => {
+    }).on('dragend', () => {
       $targetToolbar.forEach((target) => {
         target.classList.remove('drop-area-highlight');
       });
-    }).on('drop', (el, target, source, sibling) => {
+    }).on('drop', (el, target) => {
       if (target !== $sourceToolbar) {
-        appendInput(el, target.getAttribute('data-group'), target.getAttribute('data-set'))
+        appendInput(el, target.getAttribute('data-group'), target.getAttribute('data-set'));
       }
     });
 
     $targetToolbar.forEach((target) => {
       renderBar(target, 'toolbar', null, true);
-      drakeToolbar.containers.push(target)
+      drakeToolbar.containers.push(target);
     });
 
     // Bind actions buttons
@@ -500,12 +498,12 @@ document.addEventListener('DOMContentLoaded', () => {
 //      $accessSelects.trigger('chosen:updated');
   };
 
-  //toggleAvailableOption();
+  toggleAvailableOption();
 
   // Allow to select the group only once per the set
   selects.forEach((select) => {
     select.addEventListener('change', (event) => {
-      // toggleAvailableOption();
+      toggleAvailableOption();
     });
   });
 
