@@ -51,7 +51,6 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<div class="row">
 			<div class="col-md-9">
 				<fieldset class="adminform">
-				    <?php echo $this->form->getLabel('articletext'); ?>
 					<?php echo $this->form->getInput('articletext'); ?>
 				</fieldset>
 			</div>
