@@ -13,11 +13,13 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Menu class
@@ -102,20 +104,20 @@ class SiteMenu extends AbstractMenu
 
 			$this->items = $cache->get($loader, array(), md5(get_class($this)), false);
 		}
-		catch (\JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			try
 			{
 				$this->items = $loader();
 			}
-			catch (\JDatabaseExceptionExecuting $databaseException)
+			catch (ExecutionFailureException $databaseException)
 			{
 				$this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()), 'warning');
 
 				return false;
 			}
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			$this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'warning');
 
