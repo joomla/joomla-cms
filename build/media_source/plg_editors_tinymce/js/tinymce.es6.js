@@ -67,6 +67,7 @@
         const tmp = {};
         tmp.text = xtdButton.name;
         tmp.icon = xtdButton.icon;
+        tmp.type = 'menuitem';
 
         if (xtdButton.href) {
           tmp.onAction = () => {
@@ -84,7 +85,7 @@
 
       if (buttonValues.length) {
         options.setup = (editor) => {
-          editor.ui.registry.addButton('jxtdbuttons', {
+          editor.ui.registry.addSplitButton('jxtdbuttons', {
             type: 'menubutton',
             text: Joomla.JText._('PLG_TINY_CORE_BUTTONS'),
             icon: 'none icon-joomla',

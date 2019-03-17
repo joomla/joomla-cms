@@ -709,11 +709,12 @@ class PlgEditorTinymce extends CMSPlugin
 
 					$coreButton = [];
 
-					$coreButton['name']  = $btnName;
-					$coreButton['href']  = $href;
-					$coreButton['id']    = $modalId;
-					$coreButton['icon']  = 'none icon-' . $icon;
-					$coreButton['click'] = $onclick;
+					$coreButton['name']    = $btnName;
+					$coreButton['href']    = $href;
+					$coreButton['id']      = $modalId;
+					$coreButton['icon']    = $icon;
+					$coreButton['click']   = $onclick;
+					$coreButton['iconSVG'] = $button->get('iconSVG');
 
 					// The array with the toolbar buttons
 					$btnsNames[] = $coreButton;
