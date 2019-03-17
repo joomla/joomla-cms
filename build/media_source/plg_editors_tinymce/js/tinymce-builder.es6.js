@@ -210,6 +210,23 @@ Joomla = window.Joomla || {};
     const $targetToolbar = container.querySelectorAll('.timymce-builder-toolbar.target');
 
     /**
+     * Append input to the button item
+     * @param {HTMLElement} element
+     * @param {String}      group
+     * @param {String}      set
+     *
+     * @since  3.7.0
+     */
+    const appendInput = (element, group, set) => {
+      const name = options.formControl + '[' + set + '][' + group + '][]';
+      const value = element.getAttribute('data-name');
+
+      const input = `<input type="hidden" name="${name}" value="${value}">`;
+
+      element.innerHTML += input;
+    };
+
+    /**
      * Render the toolbar/menubar
      *
      * @param {HTMLElement} box        The toolbar container
@@ -274,7 +291,7 @@ Joomla = window.Joomla || {};
       if (type === 'menu') {
         content = title;
       } else if (info.text) {
-        let text = tinymce.translate(info.text);
+        const text = tinymce.translate(info.text);
 
         bclass += ' tox-tbtn--bespoke';
 
@@ -291,23 +308,6 @@ Joomla = window.Joomla || {};
     };
 
     /**
-     * Append input to the button item
-     * @param {HTMLElement} element
-     * @param {String}      group
-     * @param {String}      set
-     *
-     * @since  3.7.0
-     */
-    const appendInput = (element, group, set) => {
-      const name = options.formControl + '[' + set + '][' + group + '][]';
-      const value = element.getAttribute('data-name');
-
-      const input = `<input type="hidden" name="${name}" value="${value}">`;
-
-      element.innerHTML += input;
-    };
-
-    /**
      * Clear the pane for specific set
      * @param {Object} options Options {set: 1}
      */
@@ -315,13 +315,13 @@ Joomla = window.Joomla || {};
       const set = options.set;
 
       $targetMenu.forEach((elem) => {
-        if (elem.getAttribute('data-set') == set) {
+        if (elem.getAttribute('data-set') === set) {
           elem.innerHTML = '';
         }
       });
 
       $targetToolbar.forEach((elem) => {
-        if (elem.getAttribute('data-set') == set) {
+        if (elem.getAttribute('data-set') === set) {
           elem.innerHTML = '';
         }
       });
@@ -341,7 +341,7 @@ Joomla = window.Joomla || {};
 
       clearPane(attrib);
 
-      for (var group in preset) {
+      for (let group in preset) {
         if (!preset.hasOwnProperty(group)) {
           continue;
         }
@@ -437,7 +437,7 @@ Joomla = window.Joomla || {};
 
         [].forEach.call(event.target.attributes, function (attrib) {
           if (/^data-/.test(attrib.name)) {
-            var key = attrib.name.substr(5);
+            let key = attrib.name.substr(5);
 
             options[key] = attrib.value;
           }
@@ -469,20 +469,44 @@ document.addEventListener('DOMContentLoaded', () => {
   const options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {})
           : (Joomla.optionsStorage.plg_editors_tinymce_builder || {});
 
-  var builder = document.getElementById('joomla-tinymce-builder');
+  const builder = document.getElementById('joomla-tinymce-builder');
 
   Joomla.TinyMCEBuilder(builder, options);
 
-  var selects = builder.querySelectorAll('.access-select');
+  const selects = builder.querySelectorAll('.access-select');
+
+  // Allow to select the group only once per the set
+  // @TODO: implement when https://github.com/joomla/joomla-cms/pull/24211 is merged
+  const toggleAvailableOption = () => {
+//      $accessSelects.find('option[disabled]').removeAttr('disabled');
+//
+//      // Disable already selected options
+//      $accessSelects.each(function () {
+//        var $select = $(this), val = $select.val() || [], query = [],
+//                $options = $accessSelects.not(this).find('option');
+//
+//        for (var i = 0, l = val.length; i < l; i++) {
+//          if (!val[i])
+//            continue;
+//          query.push('[value="' + val[i] + '"]');
+//        }
+//
+//        if (query.length) {
+//          $options.filter(query.join(',')).attr('disabled', 'disabled');
+//        }
+//      });
+//
+//      // Update Chosen
+//      $accessSelects.trigger('chosen:updated');
+  };
 
   //toggleAvailableOption();
 
   // Allow to select the group only once per the set
   selects.forEach((select) => {
     select.addEventListener('change', (event) => {
-      alert('test');
+      // toggleAvailableOption();
     });
-   // toggleAvailableOption();
   });
 
 
@@ -500,29 +524,5 @@ document.addEventListener('DOMContentLoaded', () => {
       $(this).tab("show");
     });
 
-    // Allow to select the group only once per the set
-
-    function toggleAvailableOption() {
-      $accessSelects.find('option[disabled]').removeAttr('disabled');
-
-      // Disable already selected options
-      $accessSelects.each(function () {
-        var $select = $(this), val = $select.val() || [], query = [],
-                $options = $accessSelects.not(this).find('option');
-
-        for (var i = 0, l = val.length; i < l; i++) {
-          if (!val[i])
-            continue;
-          query.push('[value="' + val[i] + '"]');
-        }
-
-        if (query.length) {
-          $options.filter(query.join(',')).attr('disabled', 'disabled');
-        }
-      });
-
-      // Update Chosen
-      $accessSelects.trigger('chosen:updated');
-    }
   });
 }(jQuery));
