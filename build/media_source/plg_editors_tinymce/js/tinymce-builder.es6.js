@@ -512,15 +512,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ;
 (function ($) {
-  "use strict";
+  'use strict';
 
   // Init the builder
   $(document).ready(function () {
-
-    $("#set-tabs a").on('click', function (event) {
+    $('#set-tabs a').on('click', (event) => {
       event.preventDefault();
-      $(this).tab("show");
+      $(this).tab('show');
     });
-
   });
-}(jQuery));
+}(window.jQuery));
