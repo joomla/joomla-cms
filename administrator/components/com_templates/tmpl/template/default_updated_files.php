@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ $input = Factory::getApplication()->input;
 								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_MODIFIED_DATE'); ?>
 							</th>
 							<th scope="col">
-								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_ACTION'); ?>
+								<?php echo Text::_('COM_TEMPLATES_OVERRIDE_SOURCE'); ?>
 							</th>
 						</tr>
 					</thead>
