@@ -55,7 +55,7 @@ $theme-colors: map-merge((
   light:                           $gray-100,
   dark:                            $gray-900,
   atum-link-color:                 $color-60,
-  action:                          #0382C5
+  action:                          $color-60
 ), $theme-colors);
 
 $colors: (
