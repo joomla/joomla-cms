@@ -1,8 +1,10 @@
 INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES (493, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
+TRUNCATE TABLE `#__finder_filters`;
 ALTER TABLE `#__finder_filters` MODIFY `created_by` int(10) unsigned NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_filters` MODIFY `created_by_alias` varchar(255) NOT NULL DEFAULT '';
 
+TRUNCATE TABLE `#__finder_links`;
 ALTER TABLE `#__finder_links` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `access`;
 ALTER TABLE `#__finder_links` MODIFY `state` int(5) NOT NULL DEFAULT 1;
 ALTER TABLE `#__finder_links` MODIFY `access` int(5) NOT NULL DEFAULT 0;
@@ -69,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
 INSERT INTO `#__finder_taxonomy` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `state`, `access`, `language`) VALUES
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 
+TRUNCATE TABLE `#__finder_terms`;
 ALTER TABLE `#__finder_terms` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `links`;
 ALTER TABLE `#__finder_terms` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_terms` MODIFY `soundex` varchar(75) NOT NULL DEFAULT '';

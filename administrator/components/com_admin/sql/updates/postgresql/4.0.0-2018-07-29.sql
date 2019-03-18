@@ -1,8 +1,10 @@
 INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES (493, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
+TRUNCATE TABLE "#__finder_filters";
 ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by" SET DEFAULT 0;
 ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by_alias" SET DEFAULT '';
 
+TRUNCATE TABLE "#__finder_links";
 ALTER TABLE "#__finder_links" ALTER COLUMN "state" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "access" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE CHAR(7);
@@ -72,6 +74,7 @@ INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "lft", "rgt", "level", "pat
 (1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 SELECT setval('#__finder_taxonomy_id_seq', 2, false);
 
+TRUNCATE TABLE "#__finder_terms";
 ALTER TABLE "#__finder_terms"	ALTER COLUMN "language" TYPE CHAR(7),	ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_terms" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_terms" ALTER COLUMN "soundex" SET DEFAULT '';
@@ -264,9 +267,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 	('than', 'en', 0),
 	('too', 'en', 0),
 	('very', 'en', 0);
-
-
-
 
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE CHAR(7), ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "term" SET DEFAULT '';
