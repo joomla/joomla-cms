@@ -15,11 +15,12 @@ use Joomla\CMS\Application\AdministratorApplication;
 use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Console\Loader\WritableContainerLoader;
+use Joomla\CMS\Console\Loader\WritableLoaderInterface;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Factory;
 use Joomla\Console\Application as BaseConsoleApplication;
-use Joomla\Console\Loader\ContainerLoader;
 use Joomla\Console\Loader\LoaderInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -113,7 +114,8 @@ class Application implements ServiceProviderInterface
 				true
 			);
 
-		$container->alias(ContainerLoader::class, LoaderInterface::class)
+		$container->alias(WritableContainerLoader::class, LoaderInterface::class)
+			->alias(WritableLoaderInterface::class, LoaderInterface::class)
 			->share(
 				LoaderInterface::class,
 				function (Container $container)
@@ -123,7 +125,7 @@ class Application implements ServiceProviderInterface
 						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
 					];
 
-					return new ContainerLoader($container, $mapping);
+					return new WritableContainerLoader($container, $mapping);
 				},
 				true
 			);
