@@ -25,7 +25,7 @@
   function setupNavigation(nav) {
     const settings = {
       menuHoverClass: 'show-menu',
-      dir: 'ltr'
+      dir: 'ltr',
     };
     const topLevelChilds = nav.querySelectorAll(':scope > li');
 
