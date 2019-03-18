@@ -20,9 +20,9 @@ $label = Text::_($field->label);
 $value = $field->value;
 $showLabel = $field->params->get('showlabel');
 $showPrefix = $field->params->get('showprefix');
-$prefix = JText::plural($field->params->get('prefix'), $value);
+$prefix = Text::plural($field->params->get('prefix'), $value);
 $showSuffix = $field->params->get('showsuffix');
-$suffix = JText::plural($field->params->get('suffix'), $value);
+$suffix = Text::plural($field->params->get('suffix'), $value);
 
 if ($value == '')
 {
