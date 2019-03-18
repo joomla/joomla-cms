@@ -5,6 +5,7 @@
   position: relative;
   background: $white;
   box-shadow: $atum-box-shadow;
+  z-index: $zindex-header;
 
   @include media-breakpoint-down(lg) {
     .align-items-center{
