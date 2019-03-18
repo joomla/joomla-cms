@@ -81,28 +81,29 @@ $link      = $current->get('link');
 // Get the menu icon
 $icon      = $this->getIconClass($current);
 $iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
+$ajax      = $current->ajaxbadge ? '<span class="fa fa-spin fa-spinner pull-right mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span>' : '';
 
 if ($link != '' && $current->target != '')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\" target=\"" . $current->target . "\">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->title) . "</span></a>";
+		. '<span class="sidebar-item-title">' . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 elseif ($link != '')
 {
 	echo "<a" . $linkClass . $dataToggle . " href=\"" . $link . "\">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
+		. '<span class="sidebar-item-title">' . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 elseif ($current->title != '' && $current->get('class') !== 'separator')
 {
 	echo "<a" . $linkClass . $dataToggle . ">"
 		. $iconClass
-		. '<span class="sidebar-item-title">' . Text::_($current->get('title')) . "</span></a>";
+		. '<span class="sidebar-item-title">' . Text::_($current->title) . '</span>' . $ajax . '</a>';
 }
 else
 {
-	echo '<span>' . Text::_($current->get('title')) . '</span>';
+	echo '<span>' . Text::_($current->title) . '</span>' . $ajax;
 }
 
 if ($current->dashboard)

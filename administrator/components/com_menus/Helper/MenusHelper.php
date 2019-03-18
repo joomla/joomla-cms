@@ -371,6 +371,9 @@ class MenusHelper extends ContentHelper
 					$menuitem->browserNav = $menuitem->browserNav ? '_blank' : '';
 				}
 
+				$menuitem->ajaxbadge  = $menuitem->getParams()->get('ajax-badge');
+				$menuitem->dashboard  = $menuitem->getParams()->get('dashboard');
+
 				if ($menuitem->parent_id > 1)
 				{
 					if (isset($menuItems[$menuitem->parent_id]))
@@ -612,7 +615,6 @@ class MenusHelper extends ContentHelper
 			static::addPreset('joomla', 'JLIB_MENUS_PRESET_JOOMLA', JPATH_ADMINISTRATOR . '/components/com_menus/presets/joomla.xml');
 			static::addPreset('modern', 'JLIB_MENUS_PRESET_MODERN', JPATH_ADMINISTRATOR . '/components/com_menus/presets/modern.xml');
 			static::addPreset('system', 'JLIB_MENUS_PRESET_SYSTEM', JPATH_ADMINISTRATOR . '/components/com_menus/presets/system.xml');
-			static::addPreset('user', 'JLIB_MENUS_PRESET_USER', JPATH_ADMINISTRATOR . '/components/com_menus/presets/user.xml');
 			static::addPreset('content', 'JLIB_MENUS_PRESET_CONTENT', JPATH_ADMINISTRATOR . '/components/com_menus/presets/content.xml');
 			static::addPreset('menus', 'JLIB_MENUS_PRESET_MENUS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/menus.xml');
 			static::addPreset('components', 'JLIB_MENUS_PRESET_COMPONENTS', JPATH_ADMINISTRATOR . '/components/com_menus/presets/components.xml');
