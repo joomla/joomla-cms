@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,8 @@ use Joomla\Module\Menu\Administrator\Menu\CssMenu;
 $enabled = !$app->input->getBool('hidemainmenu');
 
 $menu = new CssMenu($app);
-$menu->load($params, $enabled);
+$root = $menu->load($params, $enabled);
+$root->level = 0;
 
 // Render the module layout
 require ModuleHelper::getLayoutPath('mod_menu', $params->get('layout', 'default'));

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 $user = Factory::getUser();
 ?>
@@ -18,6 +19,7 @@ $user = Factory::getUser();
 <div class="row">
 	<?php $iconmodules = ModuleHelper::getModules('icon');
 	if ($iconmodules) : ?>
+        <?php HTMLHelper::_('bootstrap.framework'); ?>
 		<div class="col-md-12">
 			<?php
 			// Display the submenu position modules

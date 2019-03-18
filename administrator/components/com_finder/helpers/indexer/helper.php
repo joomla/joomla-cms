@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ class FinderIndexerHelper
 	 * @param   string   $lang    The language of the input.
 	 * @param   boolean  $phrase  Flag to indicate whether input could be a phrase. [optional]
 	 *
-	 * @return  array  An array of FinderIndexerToken objects.
+	 * @return  array|FinderIndexerToken  An array of FinderIndexerToken objects or a single FinderIndexerToken object.
 	 *
 	 * @since   2.5
 	 */
@@ -224,7 +224,7 @@ class FinderIndexerHelper
 	{
 		static $types;
 
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Check if the types are loaded.
@@ -393,7 +393,7 @@ class FinderIndexerHelper
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public static function getContentExtras(FinderIndexerResult &$item)
+	public static function getContentExtras(FinderIndexerResult $item)
 	{
 		// Load the finder plugin group.
 		JPluginHelper::importPlugin('finder');
@@ -433,7 +433,7 @@ class FinderIndexerHelper
 		}
 
 		// Create a mock content object.
-		$content = JTable::getInstance('Content');
+		$content       = JTable::getInstance('Content');
 		$content->text = $text;
 
 		if ($item)

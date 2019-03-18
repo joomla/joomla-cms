@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ final class MetadataManager
 	 * Internal variable indicating a session record exists.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
 	 */
 	private static $sessionRecordExists = 1;
@@ -39,7 +39,7 @@ final class MetadataManager
 	 * Internal variable indicating a session record does not exist.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
 	 */
 	private static $sessionRecordDoesNotExist = 0;
@@ -48,7 +48,7 @@ final class MetadataManager
 	 * Internal variable indicating an unknown session record statue.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * @note   Once PHP 7.1 is the minimum supported version this should become a private constant
 	 */
 	private static $sessionRecordUnknown = -1;
@@ -115,7 +115,7 @@ final class MetadataManager
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \RuntimeException
 	 */
 	public function createOrUpdateRecord(SessionInterface $session, User $user)
@@ -123,7 +123,7 @@ final class MetadataManager
 		$exists = $this->checkSessionRecordExists($session->getId());
 
 		// Do not try to touch the database if we can't determine the record state
-		if ($exists === self::$sessionRecordDoesNotExist)
+		if ($exists === self::$sessionRecordUnknown)
 		{
 			return;
 		}
@@ -173,7 +173,7 @@ final class MetadataManager
 	 *
 	 * @return  integer  Status value for record presence
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function checkSessionRecordExists(string $sessionId): int
 	{
@@ -211,7 +211,7 @@ final class MetadataManager
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function createSessionRecord(SessionInterface $session, User $user)
 	{
@@ -243,7 +243,7 @@ final class MetadataManager
 		$username    = $user->username === null ? '' : $user->username;
 
 		$query->bind(':session_id', $sessionId)
-			->bind(':guest', $userIsGuest, ParameterType::BOOLEAN)
+			->bind(':guest', $userIsGuest, ParameterType::INTEGER)
 			->bind(':time', $time)
 			->bind(':user_id', $userId, ParameterType::INTEGER)
 			->bind(':username', $username);
@@ -282,7 +282,7 @@ final class MetadataManager
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	private function updateSessionRecord(SessionInterface $session, User $user)
 	{
@@ -304,7 +304,7 @@ final class MetadataManager
 		$username    = $user->username === null ? '' : $user->username;
 
 		$query->bind(':session_id', $sessionId)
-			->bind(':guest', $userIsGuest, ParameterType::BOOLEAN)
+			->bind(':guest', $userIsGuest, ParameterType::INTEGER)
 			->bind(':time', $time)
 			->bind(':user_id', $userId, ParameterType::INTEGER)
 			->bind(':username', $username);
