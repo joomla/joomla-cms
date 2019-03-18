@@ -23,19 +23,6 @@ use Joomla\CMS\Language\Text;
 class InstallerHelper
 {
 	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	public static function addSubmenu($vName = 'install')
-	{
-	}
-
-	/**
 	 * Get a list of filter options for the extension types.
 	 *
 	 * @return  array  An array of \stdClass objects.
