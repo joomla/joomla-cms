@@ -160,7 +160,7 @@ class PasswordRule extends FormRule
 		// Minimum number of lower case ASCII characters required
 		if (!empty($minimumLowercase))
 		{
-			$nLowercase = preg_match_all('/[A-Z]/', $value, $umatch);
+			$nLowercase = preg_match_all('/[a-z]/', $value, $umatch);
 
 			if ($nLowercase < $minimumLowercase)
 			{
