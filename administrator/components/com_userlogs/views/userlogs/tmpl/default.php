@@ -8,9 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-
-use Joomla\CMS\Layout\LayoutHelper;
-
 JLoader::register('UserlogsHelper', JPATH_COMPONENT . '/helpers/userlogs.php');
 
 JHtml::_('behavior.tooltip');
@@ -40,7 +37,7 @@ JFactory::getDocument()->addScriptDeclaration('
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_userlogs&view=userlogs'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
-		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
+		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<?php if (empty($this->items)) : ?>
 			<div class="alert alert-no-items">
 				<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
