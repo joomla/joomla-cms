@@ -163,7 +163,7 @@ class HtmlView extends BaseHtmlView
 		{
 			$toolbar->standardButton('new', 'JTOOLBAR_NEW')
 				->onclick("location.href='index.php?option=com_modules&amp;view=select'");
-		}	
+		}
 
 		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
 		{
