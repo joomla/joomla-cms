@@ -19,7 +19,8 @@
     "test": "npx karma start tests/javascript/karma.conf.js --single-run",
     "install": "node build.js --copy-assets && node build.js --build-pages",
     "postinstall": "node build.js --compile-js && node build.js --compile-css && cd administrator/components/com_media && npm ci && npm run build",
-    "update": "node build.js --copy-assets && node build.js --build-pages && node build.js --compile-js && node build.js --compile-css"
+    "update": "node build.js --copy-assets && node build.js --build-pages && node build.js --compile-js && node build.js --compile-css",
+    "gzip": "node -e 'require(\"./build/build-modules-js/gzip-assets.es6.js\").gzipFiles()'"
   },
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
@@ -48,6 +49,7 @@
     "@babel/core": "^7.2.2",
     "@babel/plugin-transform-classes": "^7.2.2",
     "@babel/preset-env": "^7.3.1",
+    "@gfx/zopfli": "^1.0.11",
     "autoprefixer": "^9.4.7",
     "babel-plugin-add-header-comment": "^1.0.3",
     "babel-preset-minify": "^0.4.3",
