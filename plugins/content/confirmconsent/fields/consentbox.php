@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.confirmconsent
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -136,7 +136,7 @@ class JFormFieldConsentBox extends JFormFieldCheckboxes
 		// Forcing the Alias field to display the tip below
 		$position = $this->element['name'] == 'alias' ? ' data-placement="bottom" ' : '';
 
-		// When we have a article let's add the modal and make the title clickable
+		// When we have an article let's add the modal and make the title clickable
 		if ($data['articleid'])
 		{
 			$attribs['data-toggle'] = 'modal';
