@@ -230,15 +230,25 @@
   }
 }
 @include media-breakpoint-down(sm) {
+
   .header {
     position: static;
+
     .joomla-version{
       color:var(--atum-text-light);
     }
+
+    .nav-item:hover,
+    .nav-item.show {
+      background-color: var(--atum-bg-dark-70);
+    }
+
     .nav-link{
+
       .fa{
         color:var(--atum-text-light);
       }
+
       &:before{
         color:var(--atum-text-light);
       }

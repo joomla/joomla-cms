@@ -74,6 +74,7 @@
     const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
     const sidebar = doc.querySelector('.sidebar-wrapper');
     const mobile = window.matchMedia("(max-width: 992px)");
+    const mobileSmall = window.matchMedia("(max-width: 767.98px)");
 
     // Fade out login form when login was successful
     if (loginForm) {
@@ -105,14 +106,37 @@
       }
     });
 
+    if(mobileSmall.matches) {
+      toggleArrowIcon();
+    }
+
     window.addEventListener('resize', () => {
-      if (mobile.matches) {
-        changeLogo('closed');
-      }
-      else{
-        changeLogo();
-      }
+      (mobile.matches) ? changeLogo('closed') :  changeLogo();
+      (mobileSmall.matches) ? toggleArrowIcon() : toggleArrowIcon('top');
     });
+
+    /**
+     * toggle arrow icon between down and up depending on position of the nav header
+     *
+     * @param {string} [position] set if the nav header positioned to the 'top' otherwise positioned to the 'bottom'
+     *
+     * @since   4.0.0
+     */
+    function toggleArrowIcon(positionTop) {
+      const navDropDownIcon = doc.querySelectorAll('.nav-item.dropdown span[class*="fa-angle-"]');
+      let remIcon = (positionTop) ? 'fa-angle-up' : 'fa-angle-down',
+          addIcon = (positionTop) ? 'fa-angle-down' : 'fa-angle-up';
+
+      if(!navDropDownIcon){
+        return
+      }
+
+      navDropDownIcon.forEach(item => {
+        item.classList.remove(remIcon);
+        item.classList.add(addIcon);
+      });
+
+    }
   });
 
 })(window.Joomla, document);
