@@ -83,8 +83,10 @@ class PlgSystemSkipto extends CMSPlugin
 				[
 					'settings' => [
 						'skipTo' => [
+							'buttonDivRole'		=> 'navigation',
+							'buttonDivLabel'	=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
 							'buttonLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-							'buttonDivTitle' 	=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
+							'buttonDivTitle' 	=> '',
 							'menuLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
 							'landmarksLabel'	=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
 							'headingsLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
@@ -93,6 +95,7 @@ class PlgSystemSkipto extends CMSPlugin
 					]
 				]
 		);
+
 		HTMLHelper::_('script', 'vendor/skipto/dropMenu.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('script', 'vendor/skipto/skipTo.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 		HTMLHelper::_('stylesheet', 'vendor/skipto/SkipTo.css', ['version' => 'auto', 'relative' => true]);
