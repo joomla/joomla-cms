@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -980,7 +980,7 @@ class Language
 	}
 
 	/**
-	 * Determine who called Language or JText.
+	 * Determine who called Language or Text.
 	 *
 	 * @return  array  Caller information.
 	 *
@@ -1006,7 +1006,7 @@ class Language
 			$class = @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ($class != '\\Joomla\\CMS\\Language\\Language' && $class != 'JText')
+			if ($class != self::class && $class != Text::class)
 			{
 				$info['function'] = @ $step['function'];
 				$info['class'] = $class;
