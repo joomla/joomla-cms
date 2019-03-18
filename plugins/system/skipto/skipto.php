@@ -73,7 +73,7 @@ class PlgSystemSkipto extends CMSPlugin
 
 		// TODO remove this line when bug is fixed
 		$this->loadLanguage();
-		
+	
 		// Get the document object.
 		$document = $this->app->getDocument();
 
