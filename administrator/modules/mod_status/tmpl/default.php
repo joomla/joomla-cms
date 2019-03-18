@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_status
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,6 +44,17 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				target="_blank">
 				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
 				<?php echo $sitename ?>
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_('index.php?option=com_messages') . '"'); ?> title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
+				<span class="fa fa-envelope-o" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
+				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
+				<?php if ($countUnread > 0) : ?>
+					<span class="badge badge-pill badge-danger"><?php echo $countUnread; ?></span>
+				<?php endif; ?>
 			</a>
 		</li>
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -237,14 +237,20 @@ class HtmlView extends BaseHtmlView
 					->text('JUNFEATURE')
 					->task('articles.unfeatured')
 					->listCheck(true);
-
-				$childBar->checkin('articles.checkin')->listCheck(true);
 			}
 
 			if ($canDo->get('core.execute.transition'))
 			{
 				$childBar->archive('articles.archive')->listCheck(true);
+			}
 
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->checkin('articles.checkin')->listCheck(true);
+			}
+
+			if ($canDo->get('core.execute.transition'))
+			{
 				$childBar->trash('articles.trash')->listCheck(true);
 			}
 		}

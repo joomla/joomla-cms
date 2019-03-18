@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -165,24 +165,13 @@ class MapsModel extends ListModel
 
 		// Select all fields from the table.
 		$query = $db->getQuery(true)
-			->select('a.id, a.parent_id, a.title, a.state, a.access, a.ordering')
-			->select('CASE WHEN a.parent_id = 1 THEN 1 ELSE 2 END AS level')
-			->select('p.title AS parent_title')
+			->select('a.id, a.parent_id, a.lft, a.rgt, a.level, a.path, a.title, a.alias, a.state, a.access, a.language')
 			->from($db->quoteName('#__finder_taxonomy', 'a'))
-			->leftJoin($db->quoteName('#__finder_taxonomy', 'p') . ' ON p.id = a.parent_id')
 			->where('a.parent_id != 0');
 
-		$childQuery = $db->getQuery(true)
-			->select('parent_id')
-			->select('COUNT(*) AS num_children')
-			->from($db->quoteName('#__finder_taxonomy'))
-			->where('parent_id != 0')
-			->group('parent_id');
-
-		// Join to get children.
-		$query->select('b.num_children');
-		$query->select('CASE WHEN a.parent_id = 1 THEN a.title ELSE p.title END AS branch_title');
-		$query->leftJoin('(' . $childQuery . ') AS b ON b.parent_id = a.id');
+		// Join to get the branch title
+		$query->select([$query->qn('b.id', 'branch_id'), $query->qn('b.title', 'branch_title')])
+			->leftJoin($query->qn('#__finder_taxonomy', 'b') . ' ON b.level = 1 AND b.lft <= a.lft AND a.rgt <= b.rgt');
 
 		// Join to get the map links.
 		$stateQuery = $db->getQuery(true)
@@ -229,16 +218,16 @@ class MapsModel extends ListModel
 		}
 
 		// Handle the list ordering.
-		$listOrdering = $this->getState('list.ordering', 'd.branch_title');
+		$listOrdering = $this->getState('list.ordering', 'a.lft');
 		$listDirn     = $this->getState('list.direction', 'ASC');
 
-		if ($listOrdering === 'd.branch_title')
+		if ($listOrdering === 'a.state')
 		{
-			$query->order("branch_title $listDirn, level ASC, a.title $listDirn");
+			$query->order("a.state $listDirn, a.lft $listDirn, level ASC");
 		}
-		elseif ($listOrdering === 'a.state')
+		else
 		{
-			$query->order("a.state $listDirn, branch_title $listDirn, level ASC");
+			$query->order($listOrdering . ' ' . $listDirn);
 		}
 
 		return $query;
@@ -311,7 +300,7 @@ class MapsModel extends ListModel
 	 *
 	 * @since   2.5
 	 */
-	protected function populateState($ordering = 'd.branch_title', $direction = 'ASC')
+	protected function populateState($ordering = 'a.lft', $direction = 'ASC')
 	{
 		// Load the filter state.
 		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));

@@ -5,7 +5,7 @@
 	<creationDate>16/09/2016</creationDate>
 	<author>Christiane Maier-Stadtherr, Charlie Lodder, Ciaran Walsh, Dimitris Grammatikogiannis, Elisa Foltyn, Franciska Perisa, Hannes Papenberg, Lavinia Popa-Rössel, Lukas Jardin, Nadja Lamisch</author>
 	<authorEmail>admin@joomla.org</authorEmail>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.</copyright>
 	<description>TPL_ATUM_XML_DESCRIPTION</description>
 	<files>
 		<filename>component.php</filename>

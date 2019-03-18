@@ -20,10 +20,19 @@ use Joomla\CMS\Updater\Updater;
 /**
  * Cpanel Controller
  *
- * @since  1.5
+ * @since  4.0.0
  */
 class SystemController extends BaseController
 {
+	/**
+	 * Ajax target point for reading the specific information
+	 *
+	 * @throws \Exception
+	 *
+	 * @return void
+	 * 
+	 * @since  4.0.0
+	 */
 	public function loadSystemInfo()
 	{
 		$type = $this->input->get('type');
@@ -70,6 +79,14 @@ class SystemController extends BaseController
 		echo new JsonResponse($count);
 	}
 
+	/**
+	 * Returns the existing database errors of the table structur
+	 *
+	 * @return integer  Number of database table errors
+	 *
+	 * @throws \Exception
+	 * @since  4.0.0
+	 */
 	protected function countDatabaseUpdates()
 	{
 		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
@@ -92,6 +109,14 @@ class SystemController extends BaseController
 		return $changeSetCount;
 	}
 
+	/**
+	 * Returns the version number of the latest update or empty string if system is uptodate
+	 *
+	 * @return string  The version number or empty string
+	 *
+	 * @throws \Exception
+	 * @since  4.0.0
+	 */
 	protected function countSystemUpdates()
 	{
 		if (!Factory::getUser()->authorise('core.manage', 'com_joomlaupdate'))
@@ -111,6 +136,14 @@ class SystemController extends BaseController
 		return $hasUpdate;
 	}
 
+	/**
+	 * Returns the number of outdates extensions installed in the system
+	 *
+	 * @return integer  Number of available updates
+	 *
+	 * @throws \Exception
+	 * @since  4.0.0
+	 */
 	protected function countExtensionUpdates()
 	{
 		if (!Factory::getUser()->authorise('core.manage', 'com_installer'))
@@ -128,6 +161,17 @@ class SystemController extends BaseController
 		return $items;
 	}
 
+	/**
+	 * Generic getItems counter for different calls
+	 *
+	 * @param   type  $extension  The extension to check and authorise for
+	 * @param   type  $model      The Model to load
+	 *
+	 * @return integer The number of items
+	 *
+	 * @throws \Exception
+	 * @since  4.0.0
+	 */
 	protected function countItems($extension, $model)
 	{
 		if (!Factory::getUser()->authorise('core.manage', $extension))
