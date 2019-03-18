@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -49,18 +48,15 @@ class PlgSystemSkipto extends CMSPlugin
 		$section         = (int) $this->params->get('section_skipto', 2);
 		$current_section = 0;
 
-		// Get the document object.
-		$document = Factory::getDocument();
-
 		try
 		{
-			$app = Factory::getApplication();
+			$app = $this->app;
 
-			if ($app->isClient('administrator'))
+			if ($this->app->isClient('administrator'))
 			{
 				$current_section = 2;
 			}
-			elseif ($app->isClient('site'))
+			elseif ($this->app->isClient('site'))
 			{
 				$current_section = 1;
 			}
@@ -70,15 +66,19 @@ class PlgSystemSkipto extends CMSPlugin
 			$current_section = 0;
 		}
 
-		if (!($current_section & $section))
+		if (!($current_section && $section))
 		{
-			return false;
+			return;
 		}
 
-		{
-		// Add strings for translations in Javascript.
+		// TODO remove this line when bug is fixed
 		$this->loadLanguage();
-		Factory::getDocument()->addScriptOptions(
+		
+		// Get the document object.
+		$document = $this->app->getDocument();
+
+		// Add strings for translations in Javascript.
+		$document->addScriptOptions(
 			'skipto-settings',
 				[
 					'settings' => [
@@ -102,5 +102,4 @@ class PlgSystemSkipto extends CMSPlugin
 			window.skipToMenuInit();
 		});");
 		}
-	}
 }
