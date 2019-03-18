@@ -107,6 +107,11 @@ class GroupTable extends Table
 				$this->created = $date->toSql();
 			}
 
+			if (!(int) $this->modified)
+			{
+				$this->modified = $date->toSql();
+			}
+
 			if (empty($this->created_by))
 			{
 				$this->created_by = $user->get('id');
