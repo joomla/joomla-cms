@@ -19,6 +19,10 @@ $field = $displayData['field'];
 $label = Text::_($field->label);
 $value = $field->value;
 $showLabel = $field->params->get('showlabel');
+$showPrefix = $field->params->get('showprefix');
+$prefix = JText::plural($field->params->get('prefix'), $value);
+$showSuffix = $field->params->get('showsuffix');
+$suffix = JText::plural($field->params->get('suffix'), $value);
 
 if ($value == '')
 {
@@ -29,4 +33,10 @@ if ($value == '')
 <?php if ($showLabel == 1) : ?>
 	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
 <?php endif; ?>
+<?php if ($showPrefix == 1) : ?>
+	<span class="field-prefix"><?php echo htmlentities($prefix, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?></span>
+<?php endif; ?>
 <span class="field-value"><?php echo $value; ?></span>
+<?php if ($showSuffix == 1) : ?>
+	<span class="field-suffix"><?php echo htmlentities($suffix, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?></span>
+<?php endif; ?>
