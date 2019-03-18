@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagebreak
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ class PlgContentPagebreak extends CMSPlugin
 		$style = $this->params->get('style', 'pages');
 
 		// Expression to search for.
-		$regex = '#<hr(.*)class="system-pagebreak"(.*)\/>#iU';
+		$regex = '#<hr(.*)class="system-pagebreak"(.*)\/?>#iU';
 
 		$input = Factory::getApplication()->input;
 

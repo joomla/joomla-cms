@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -20,7 +20,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Trait which supports form behavior.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait FormBehaviorTrait
 {
@@ -28,7 +28,7 @@ trait FormBehaviorTrait
 	 * Array of form objects.
 	 *
 	 * @var    Form[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $_forms = array();
 
@@ -44,7 +44,7 @@ trait FormBehaviorTrait
 	 * @return  Form
 	 *
 	 * @see     Form
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	protected function loadForm($name, $source = null, $options = array(), $clear = false, $xpath = false)
@@ -130,7 +130,7 @@ trait FormBehaviorTrait
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadFormData()
 	{
@@ -146,7 +146,7 @@ trait FormBehaviorTrait
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function preprocessData($context, &$data, $group = 'content')
 	{
@@ -167,7 +167,7 @@ trait FormBehaviorTrait
 	 * @return  void
 	 *
 	 * @see     FormField
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception if there is an error in the form event.
 	 */
 	protected function preprocessForm(Form $form, $data, $group = 'content')
@@ -184,7 +184,7 @@ trait FormBehaviorTrait
 	 *
 	 * @return  FormFactoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \UnexpectedValueException May be thrown if the FormFactory has not been set.
 	 */
 	abstract public function getFormFactory(): FormFactoryInterface;
