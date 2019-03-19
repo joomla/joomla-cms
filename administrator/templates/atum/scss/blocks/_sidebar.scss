@@ -1,6 +1,5 @@
 // Mixins
 @import "../mixin";
-@import "../variables";
 
 // Sidebar
 
@@ -12,7 +11,9 @@
   }
 
   &.closed {
-
+     a.btn-dashboard {
+       display: none
+    }
     .main-nav {
       max-width: 3rem;
     }
@@ -89,9 +90,9 @@
   }
 
   .open > a {
-    box-shadow: 0 2px 4px -4px rgba(0, 0, 0, 0.5);
+    box-shadow: none;
   }
-
+ 
   // All list items
   li {
     color: var(--atum-text-light);
@@ -100,14 +101,13 @@
 
     > a.btn-dashboard {
       position: absolute;
-      right: 40px;
-      height: 44px;
-      top: 0;
-      display: none;
-    }
-
-    &:hover > a.btn-dashboard {
-      display: block;
+      right: 30px;
+      top: -1px;
+      &:hover {
+	  > .fa{
+			color:  var(--atum-contrast);
+		}
+	  }
     }
   }
 
@@ -115,18 +115,12 @@
   a {
     position: relative;
     color: var(--atum-text-light);
-    height: 3.2rem;
     line-height: 3.2rem;
 
     &:hover {
       color: var(--atum-text-light);
       text-decoration: none;
-    }
-
-    &:focus {
-      outline-offset: -0.25rem;
-      outline: var(--atum-contrast) 0.25rem;
-    }
+	}
   }
 
   // 1st level items
@@ -140,8 +134,9 @@
       display: block;
       padding: 0 0.35rem;
 
-      &:hover {
+      &:hover:not(.btn-dashboard) {
         background-color: var(--atum-bg-dark-80);
+	text-decoration: none;	
       }
     }
 
@@ -166,7 +161,7 @@
       color: var(--atum-text-light);
       flex-basis: 100%;
 
-      &[href]:hover {
+      &[href]:hover:not(.btn-dashboard):not(.menu-quicktask) {
         color: $white;
         background-color: rgba(0, 0, 0, .4);
       }
@@ -174,7 +169,6 @@
       &.active {
         color: $white;
         background-color: var(--atum-bg-dark-80);
-        box-shadow: 0 1px 4px -1px rgba(0, 0, 0, .5);
 
         &::before {
           position: absolute;
@@ -183,7 +177,6 @@
           left: 0;
           width: 0.25rem;
           content: "";
-          background-color: var(--atum-contrast);
         }
       }
 
@@ -196,18 +189,12 @@
           background-image: none;
           width: 0;
         }
-
-        &:hover {
-          background: var(--atum-contrast);
-          color: var(--atum-bg-dark-90);
-        }
+       &:hover {
+	  > .fa{
+			color:  var(--atum-contrast);
+		}
+	  }
       }
-    }
-
-    .has-arrow::after {
-      width: .4rem;
-      height: .4rem;
-      border-color: var(--atum-text-light);
     }
 
     // 3rd level items
