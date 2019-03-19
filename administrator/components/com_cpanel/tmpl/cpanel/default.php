@@ -11,12 +11,30 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 $user = Factory::getUser();
-?>
+HTMLHelper::_('script', 'com_cpanel/admin-add_module.js', ['version' => 'auto', 'relative' => true]);
 
+// Set up the bootstrap modal that will be used for all module editors
+echo HTMLHelper::_(
+	'bootstrap.renderModal',
+	'moduleDashboardAddModal',
+	array(
+		'title'       => Text::_('COM_CPANEL_ADD_MODULE_MODAL_TITLE'),
+		'backdrop'    => 'static',
+		'url'         => Route::_('index.php?option=com_cpanel&task=addModule&position=' . $this->escape($this->position)),
+		'bodyHeight'  => '70',
+		'modalWidth'  => '80',
+		'footer'      => '<a type="button" class="btn" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true">'
+			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+			. '<button type="button" class="btn btn-primary hidden" data-dismiss="modal" data-target="#saveBtn" aria-hidden="true">'
+			. Text::_('JSAVE') . '</button>',
+	)
+);
+?>
 <?php if ($this->quickicons) : ?>
 <div class="row">
 	<div class="col-md-12">
@@ -39,7 +57,7 @@ $user = Factory::getUser();
 	?>
 	<?php if ($user->authorise('core.create', 'com_modules')) : ?>
 	<div class="col-md-6">
-		<a href="<?php echo Route::_('index.php?option=com_cpanel&task=addModule&position=' . $this->escape($this->position)); ?>" class="cpanel-add-module text-center py-5 w-100 d-block">
+		<a href="#moduleEditModal" data-toggle="modal" data-target="#moduleDashboardAddModal" role="button" class="cpanel-add-module text-center py-5 w-100 d-block">
 			<div class="cpanel-add-module-icon text-center">
 				<span class="fa fa-plus-square-o text-light mt-2"></span>
 			</div>
