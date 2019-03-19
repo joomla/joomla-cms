@@ -1419,7 +1419,10 @@ INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `orderin
 (90, 0, 'Content Submenu', '', NULL, 1, 'cpanel-content', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"content","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*'),
 (91, 0, 'Menus Submenu', '', NULL, 1, 'cpanel-menus', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"menus","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*'),
 (92, 0, 'Components Submenu', '', NULL, 1, 'cpanel-components', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"components","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"12","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*'),
-(93, 0, 'Users Submenu', '', NULL, 1, 'cpanel-users', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"users","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*');
+(93, 0, 'Users Submenu', '', NULL, 1, 'cpanel-users', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_submenu', 1, 0, '{"menutype":"*","preset":"users","layout":"_:default","moduleclass_sfx":"","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"","style":"System-none"}', 1, '*'),
+(94, 0, 'Popular Articles', '', '', 3, 'cpanel-content', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
+(95, 0, 'Recently Added Articles', '', '', 4, 'cpanel-content', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
+(96, 0, 'Logged-in Users', '', '', 2, 'cpanel-users', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*');
 
 -- --------------------------------------------------------
 
@@ -1460,7 +1463,10 @@ INSERT INTO `#__modules_menu` (`moduleid`, `menuid`) VALUES
 (90, 0),
 (91, 0),
 (92, 0),
-(93, 0);
+(93, 0),
+(94, 0),
+(95, 0),
+(96, 0);
 
 -- --------------------------------------------------------
 
@@ -2034,7 +2040,7 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
 
 --
 -- Table structure for table `#__user_logs`
---      
+--
 
 CREATE TABLE IF NOT EXISTS `#__user_logs` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -2048,7 +2054,7 @@ CREATE TABLE IF NOT EXISTS `#__user_logs` (
 
 --
 -- Table structure for table `#__user_logs_extensions`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__user_logs_extensions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -2077,7 +2083,7 @@ INSERT INTO `#__user_logs_extensions` (`id`, `extension`) VALUES
 
 --
 -- Table structure for table `#__user_logs_tables_data`
--- 
+--
 
 CREATE TABLE IF NOT EXISTS `#__user_logs_tables_data` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -2107,7 +2113,7 @@ INSERT INTO `#__user_logs_tables_data` (`id`, `type_title`, `type_alias`, `title
 (16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}'),
 (17, 'access_level', 'com_users.level', 'title', '{"table_type":"Viewlevel","table_prefix":"JTable"}'),
 (18, 'banner_client', 'com_banners.client', 'name', '{"table_type":"Client","table_prefix":"BannersTable"}');
- 
+
 --
 -- Table structure for table `#__utf8_conversion`
 --

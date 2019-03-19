@@ -30,8 +30,8 @@ $columnSize = 12 / $columns;
 	<?php foreach ($root->getChildren() as $child) : ?>
 		<?php if ($child->hasChildren()) : ?>
 			<div class="card mb-3 col-md-<?php echo $columnSize; ?>">
-				<h2>
-					<span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span>
+				<h2 class="card-header">
+					<?php if ($child->icon) : ?><span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
 					<?php echo Text::_($child->title); ?>
 				</h2>
 				<ul class="list-group list-group-flush">

@@ -66,6 +66,6 @@ class DisplayController extends BaseController
 		Factory::getApplication()->setUserState('com_modules.modules.filter.position', $position);
 		Factory::getApplication()->setUserState('com_modules.modules.client_id', '1');
 
-		$this->setRedirect(Route::_('index.php?option=com_modules&view=select', false));
+		$this->setRedirect(Route::_('index.php?option=com_modules&view=select&tmpl=component&layout=modal', false));
 	}
 }
