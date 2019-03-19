@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -272,7 +273,7 @@ class LanguageHelper
 				{
 					try
 					{
-						$lang->manifest = \JInstaller::parseXMLInstallFile($metafile);
+						$lang->manifest = Installer::parseXMLInstallFile($metafile);
 					}
 
 					// Not able to process xml language file. Fail silently.
