@@ -61,9 +61,15 @@ body {
 }
 
 // Header
-.header .page-title [class^='icon-'] {
-  margin-right: 0;
-  margin-left: 15px;
+.header {
+  .page-title [class^='icon-'] {
+    margin-right: 0;
+    margin-left: 15px;
+  }
+  .logo img {
+    margin-right: .8rem;
+    margin-left: auto;
+  }
 }
 
 .menu-collapse {
@@ -110,6 +116,13 @@ body {
     }
   }
 
+  li {
+    > a.btn-dashboard {
+      left: 30px;
+      right: auto;
+    }
+  }
+ 
   .collapse-level-2 {
     right: 100%;
     left: auto;
