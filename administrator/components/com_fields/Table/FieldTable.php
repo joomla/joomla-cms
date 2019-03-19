@@ -150,7 +150,7 @@ class FieldTable extends Table
 
 			if (!(int) $this->modified_time)
 			{
-				$this->modified_time = $date->toSql();
+				$this->modified_time = $this->_db->getNullDate();
 			}
 
 			if (empty($this->created_user_id))

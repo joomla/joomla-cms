@@ -109,7 +109,7 @@ class GroupTable extends Table
 
 			if (!(int) $this->modified)
 			{
-				$this->modified = $date->toSql();
+				$this->modified = $this->_db->getNullDate();
 			}
 
 			if (empty($this->created_by))
