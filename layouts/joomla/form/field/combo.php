@@ -52,7 +52,7 @@ $attr .= !empty($size) ? ' size="' . $size . '"' : '';
 $attr .= !empty($readonly) ? ' readonly' : '';
 $attr .= !empty($disabled) ? ' disabled' : '';
 $attr .= !empty($required) ? ' required' : '';
-$attr .= !empty($description) ? ' aria-describedby="' . $name . '-desc"' : '';
+$attr .= !empty($description) ? 'aria-describedby="' . htmlspecialchars($description, ENT_COMPAT, 'UTF-8') . '"' : '';
 
 // Initialize JavaScript field attributes.
 $attr .= !empty($onchange) ? ' onchange="' . $onchange . '"' : '';
