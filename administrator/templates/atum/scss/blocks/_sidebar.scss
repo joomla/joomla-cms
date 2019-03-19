@@ -90,7 +90,7 @@
   }
 
   .open > a {
-    box-shadow: none;
+    box-shadow: 0 2px 4px -4px rgba(0, 0, 0, 0.5);
   }
  
   // All list items
@@ -103,11 +103,11 @@
       position: absolute;
       right: 30px;
       top: -1px;
-      &:hover {
-	  > .fa{
-			color:  var(--atum-contrast);
-		}
-	  }
+       &:hover {
+         > .fa {
+           color:  var(--atum-contrast);
+         }
+       }
     }
   }
 
@@ -169,7 +169,7 @@
       &.active {
         color: $white;
         background-color: var(--atum-bg-dark-80);
-
+   
         &::before {
           position: absolute;
           top: 0.15rem;
@@ -177,6 +177,7 @@
           left: 0;
           width: 0.25rem;
           content: "";
+          background-color: var(--atum-contrast);
         }
       }
 
@@ -188,14 +189,14 @@
         &::before {
           background-image: none;
           width: 0;
-        }
+         }
        &:hover {
-	  > .fa{
-			color:  var(--atum-contrast);
-		}
-	  }
-      }
-    }
+         > .fa {
+           color:  var(--atum-contrast);
+         }
+       }
+     }
+  }
 
     // 3rd level items
     ul {
