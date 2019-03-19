@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * PostgreSQL database driver
  *
- * @since  12.1
+ * @since       3.0.0
+ * @deprecated  4.0  Use PDO PostgreSQL instead
  */
 class JDatabaseDriverPostgresql extends JDatabaseDriver
 {
@@ -20,7 +21,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * The database driver name
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	public $name = 'postgresql';
 
@@ -36,7 +37,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * Quote for named objects
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $nameQuote = '"';
 
@@ -44,7 +45,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * The null/zero date string
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $nullDate = '1970-01-01 00:00:00';
 
@@ -52,7 +53,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * The minimum supported database version.
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected static $dbMinimum = '8.3.18';
 
@@ -60,7 +61,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * Operator used for concatenation
 	 *
 	 * @var    string
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $concat_operator = '||';
 
@@ -68,7 +69,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 * JDatabaseDriverPostgresqlQuery object returned by getQuery
 	 *
 	 * @var    JDatabaseQueryPostgresql
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $queryObject = null;
 
@@ -77,7 +78,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @param   array  $options  List of options used to configure the connection
 	 *
-	 * @since	12.1
+	 * @since	3.0.0
 	 */
 	public function __construct($options)
 	{
@@ -85,6 +86,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 		$options['user'] = (isset($options['user'])) ? $options['user'] : '';
 		$options['password'] = (isset($options['password'])) ? $options['password'] : '';
 		$options['database'] = (isset($options['database'])) ? $options['database'] : '';
+		$options['port'] = (isset($options['port'])) ? $options['port'] : null;
 
 		// Finalize initialization
 		parent::__construct($options);
@@ -95,7 +97,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void  Returns void if the database connected successfully.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function connect()
@@ -111,12 +113,47 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 			throw new JDatabaseExceptionUnsupported('The pgsql extension for PHP is not installed or enabled.');
 		}
 
+		/*
+		 * pg_connect() takes the port as separate argument. Therefore, we
+		 * have to extract it from the host string (if provided).
+		 */
+
+		// Check for empty port
+		if (!$this->options['port'])
+		{
+			// Port is empty or not set via options, check for port annotation (:) in the host string
+			$tmp = substr(strstr($this->options['host'], ':'), 1);
+
+			if (!empty($tmp))
+			{
+				// Get the port number
+				if (is_numeric($tmp))
+				{
+					$this->options['port'] = $tmp;
+				}
+
+				// Extract the host name
+				$this->options['host'] = substr($this->options['host'], 0, strlen($this->options['host']) - (strlen($tmp) + 1));
+
+				// This will take care of the following notation: ":5432"
+				if ($this->options['host'] === '')
+				{
+					$this->options['host'] = 'localhost';
+				}
+			}
+			// No port annotation (:) found, setting port to default PostgreSQL port 5432
+			else
+			{
+				$this->options['port'] = '5432';
+			}
+		}
+
 		// Build the DSN for the connection.
 		$dsn = '';
 
 		if (!empty($this->options['host']))
 		{
-			$dsn .= "host={$this->options['host']} ";
+			$dsn .= "host={$this->options['host']} port={$this->options['port']} ";
 		}
 
 		$dsn .= "dbname={$this->options['database']} user={$this->options['user']} password={$this->options['password']}";
@@ -137,7 +174,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function disconnect()
 	{
@@ -163,10 +200,21 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The escaped string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function escape($text, $extra = false)
 	{
+		if (is_int($text))
+		{
+			return $text;
+		}
+
+		if (is_float($text))
+		{
+			// Force the dot as a decimal point.
+			return str_replace(',', '.', $text);
+		}
+
 		$this->connect();
 
 		$result = pg_escape_string($this->connection, $text);
@@ -184,7 +232,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function test()
 	{
@@ -196,7 +244,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return	boolean
 	 *
-	 * @since	12.1
+	 * @since	3.0.0
 	 */
 	public function connected()
 	{
@@ -218,7 +266,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function dropTable($tableName, $ifExists = true)
@@ -236,7 +284,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  integer  The number of affected rows in the previous operation
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getAffectedRows()
 	{
@@ -250,7 +298,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed  The collation in use by the database or boolean false if not supported.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getCollation()
@@ -283,7 +331,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  integer   The number of returned rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getNumRows($cur = null)
 	{
@@ -300,19 +348,13 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseQuery  The current query object or a new object extending the JDatabaseQuery class.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getQuery($new = false, $asObj = false)
 	{
 		if ($new)
 		{
-			// Make sure we have a query class for this driver.
-			if (!class_exists('JDatabaseQueryPostgresql'))
-			{
-				throw new JDatabaseExceptionUnsupported('JDatabaseQueryPostgresql Class not found.');
-			}
-
 			$this->queryObject = new JDatabaseQueryPostgresql($this);
 
 			return $this->queryObject;
@@ -339,7 +381,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  An empty char because this function is not supported by PostgreSQL.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getTableCreate($tables)
 	{
@@ -354,7 +396,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of fields for the database table.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getTableColumns($table, $typeOnly = true)
@@ -449,7 +491,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of the column specification for the table.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getTableKeys($table)
@@ -488,7 +530,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of all the tables in the database.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getTableList()
@@ -515,7 +557,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  array  An array of sequences specification for the table.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function getTableSequences($table)
@@ -563,7 +605,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The database connector version.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getVersion()
 	{
@@ -601,7 +643,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  integer  The value of the auto-increment field from the last inserted row.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function insertid()
 	{
@@ -635,7 +677,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function lockTable($tableName)
@@ -651,7 +693,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed  A database cursor resource on success, boolean false on failure.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function execute()
@@ -779,7 +821,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function renameTable($oldTable, $newTable, $backup = null, $prefix = null)
@@ -855,7 +897,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  boolean  Always true
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function select($database)
 	{
@@ -867,7 +909,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  integer  Zero on success, -1 on failure
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setUtf()
 	{
@@ -890,7 +932,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The quoted string.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function sqlValue($columns, $field_name, $field_value)
 	{
@@ -947,7 +989,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function transactionCommit($toSavepoint = false)
@@ -974,7 +1016,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function transactionRollback($toSavepoint = false)
@@ -1008,7 +1050,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function transactionStart($asSavepoint = false)
@@ -1041,7 +1083,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchArray($cursor = null)
 	{
@@ -1055,7 +1097,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed  Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchAssoc($cursor = null)
 	{
@@ -1070,7 +1112,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  mixed   Either the next row from the result set or false if there are no more rows.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function fetchObject($cursor = null, $class = 'stdClass')
 	{
@@ -1084,7 +1126,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function freeResult($cursor = null)
 	{
@@ -1100,7 +1142,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  boolean    True on success.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function insertObject($table, &$object, $key = null)
@@ -1172,7 +1214,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -1184,7 +1226,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  array  The database's table list.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function showTables()
 	{
@@ -1210,7 +1252,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  integer  The position of $substring in $string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getStringPositionSql($substring, $string)
 	{
@@ -1228,7 +1270,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  float  The random generated number
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getRandom()
 	{
@@ -1247,7 +1289,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The query that alter the database query string
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getAlterDbCharacterSet($dbName)
 	{
@@ -1264,7 +1306,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string	The query that creates database, owned by $options['user']
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getCreateDbQuery($options, $utf)
 	{
@@ -1287,7 +1329,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The processed SQL statement.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function replacePrefix($query, $prefix = '#__')
 	{
@@ -1361,7 +1403,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function releaseTransactionSavepoint($savepointName)
 	{
@@ -1377,7 +1419,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function transactionSavepoint($savepointName)
 	{
@@ -1392,7 +1434,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  JDatabaseDriverPostgresql  Returns this object to support chaining.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function unlockTables()
@@ -1412,7 +1454,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 * @throws  RuntimeException
 	 */
 	public function updateObject($table, &$object, $key, $nulls = false)
@@ -1552,7 +1594,7 @@ class JDatabaseDriverPostgresql extends JDatabaseDriver
 	 *
 	 * @return  string  The query that creates database
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	protected function getCreateDatabaseQuery($options, $utf)
 	{

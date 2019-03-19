@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -247,7 +247,7 @@ class JFormFieldMenuitemByType extends JFormFieldGroupedList
 				// Build the options array.
 				foreach ($menu->links as $link)
 				{
-					$levelPrefix = str_repeat('- ', $link->level - 1);
+					$levelPrefix = str_repeat('- ', max(0, $link->level - 1));
 
 					// Displays language code if not set to All
 					if ($link->language !== '*')

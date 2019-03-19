@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -42,13 +42,12 @@ abstract class ModArticlesCategoryHelper
 		$appParams = $app->getParams();
 		$articles->setState('params', $appParams);
 
-		// Set the filters based on the module params
 		$articles->setState('list.start', 0);
-		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
 
-		// This module does not use tags data
-		$articles->setState('load_tags', $params->get('filter_tag', '') !== '' ? true : false);
+		// Set the filters based on the module params
+		$articles->setState('list.limit', (int) $params->get('count', 0));
+		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
 		// Access filter
 		$access     = !JComponentHelper::getParams('com_content')->get('show_noauth');
@@ -69,8 +68,6 @@ abstract class ModArticlesCategoryHelper
 					switch ($view)
 					{
 						case 'category' :
-							$catids = array($app->input->getInt('id'));
-							break;
 						case 'categories' :
 							$catids = array($app->input->getInt('id'));
 							break;
@@ -191,16 +188,13 @@ abstract class ModArticlesCategoryHelper
 				break;
 		}
 
-		// New Parameters
-		if ($params->get('filter_tag', ''))
-		{
-			$articles->setState('filter.tag', $params->get('filter_tag', ''));
-		}
+		// Filter by multiple tags
+		$articles->setState('filter.tag', $params->get('filter_tag', array()));
 
 		$articles->setState('filter.featured', $params->get('show_front', 'show'));
-		$articles->setState('filter.author_id', $params->get('created_by', ''));
+		$articles->setState('filter.author_id', $params->get('created_by', array()));
 		$articles->setState('filter.author_id.include', $params->get('author_filtering_type', 1));
-		$articles->setState('filter.author_alias', $params->get('created_by_alias', ''));
+		$articles->setState('filter.author_alias', $params->get('created_by_alias', array()));
 		$articles->setState('filter.author_alias.include', $params->get('author_alias_filtering_type', 1));
 		$excluded_articles = $params->get('excluded_articles', '');
 
@@ -257,7 +251,7 @@ abstract class ModArticlesCategoryHelper
 		{
 			$item->slug    = $item->id . ':' . $item->alias;
 
-			/** @deprecated Catslug is deprecated, use catid instead. 4.0 **/
+			/** @deprecated Catslug is deprecated, use catid instead. 4.0 */
 			$item->catslug = $item->catid . ':' . $item->category_alias;
 
 			if ($access || in_array($item->access, $authorised))
@@ -442,12 +436,13 @@ abstract class ModArticlesCategoryHelper
 	 * @param   string  $type                        type of grouping
 	 * @param   string  $article_grouping_direction  ordering direction
 	 * @param   string  $month_year_format           date format to use
+	 * @param   string  $field                       date field to group by
 	 *
 	 * @return  array
 	 *
 	 * @since   1.6
 	 */
-	public static function groupByDate($list, $type = 'year', $article_grouping_direction, $month_year_format = 'F Y')
+	public static function groupByDate($list, $type = 'year', $article_grouping_direction = 'ksort', $month_year_format = 'F Y', $field = 'created')
 	{
 		$grouped = array();
 
@@ -466,7 +461,7 @@ abstract class ModArticlesCategoryHelper
 			switch ($type)
 			{
 				case 'month_year' :
-					$month_year = StringHelper::substr($item->created, 0, 7);
+					$month_year = StringHelper::substr($item->$field, 0, 7);
 
 					if (!isset($grouped[$month_year]))
 					{
@@ -478,7 +473,7 @@ abstract class ModArticlesCategoryHelper
 
 				case 'year' :
 				default:
-					$year = StringHelper::substr($item->created, 0, 4);
+					$year = StringHelper::substr($item->$field, 0, 4);
 
 					if (!isset($grouped[$year]))
 					{
@@ -504,6 +499,51 @@ abstract class ModArticlesCategoryHelper
 
 				unset($grouped[$group]);
 			}
+		}
+
+		return $grouped;
+	}
+
+	/**
+	 * Groups items by tags
+	 *
+	 * @param   array   $list       list of items
+	 * @param   string  $direction  ordering direction
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public static function groupByTags($list, $direction = 'ksort')
+	{
+		$grouped  = array();
+		$untagged = array();
+
+		if (!$list)
+		{
+			return $grouped;
+		}
+
+		foreach ($list as $item)
+		{
+			if ($item->tags->itemTags)
+			{
+				foreach ($item->tags->itemTags as $tag)
+				{
+					$grouped[$tag->title][] = $item;
+				}
+			}
+			else
+			{
+				$untagged[] = $item;
+			}
+		}
+
+		$direction($grouped);
+
+		if ($untagged)
+		{
+			$grouped['MOD_ARTICLES_CATEGORY_UNTAGGED'] = $untagged;
 		}
 
 		return $grouped;

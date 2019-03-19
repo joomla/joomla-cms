@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 !(function(window, document){
@@ -285,7 +285,7 @@
 		/** Move the calendar to top position if it doesn't fit below. */
 		var containerTmp = this.element.querySelector('.js-calendar');
 
-		if ((window.innerHeight + window.scrollY) < containerTmp.getBoundingClientRect().bottom + 20) {
+		if (window.innerHeight < containerTmp.getBoundingClientRect().bottom + 20) {
 			containerTmp.style.marginTop = - (containerTmp.getBoundingClientRect().height + this.inputField.getBoundingClientRect().height) + "px";
 		}
 
@@ -783,11 +783,10 @@
 		row = createElement("div", this.wrapper);
 		row.className = "buttons-wrapper btn-group";
 
-		this._nav_save = hh(JoomlaCalLocale.save, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
+		this._nav_clear = hh(JoomlaCalLocale.clear, '', 100, 'button', '', 'js-btn btn btn-clear', {"type": "button", "data-action": "clear"});
 
-		if (!this.inputField.hasAttribute('required')) {
-			var savea = row.querySelector('[data-action="clear"]');
-			savea.addEventListener("click", function (e) {
+			var cleara = row.querySelector('[data-action="clear"]');
+			cleara.addEventListener("click", function (e) {
 				e.preventDefault();
 				var days = self.table.querySelectorAll('td');
 				for (var i = 0; i < days.length; i++) {
@@ -800,7 +799,6 @@
 				self.inputField.setAttribute('value', '');
 				self.inputField.value = '';
 			});
-		}
 
 		if (this.params.showsTodayBtn) {
 			this._nav_now = hh(JoomlaCalLocale.today, '', 0, 'button', '', 'js-btn btn btn-today', {"type": "button", "data-action": "today"});

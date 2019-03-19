@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ class UsersControllerMail extends JControllerLegacy
 		}
 
 		// Check for request forgeries.
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$model = $this->getModel('Mail');
 
@@ -59,7 +59,7 @@ class UsersControllerMail extends JControllerLegacy
 	public function cancel()
 	{
 		// Check for request forgeries.
-		JSession::checkToken('request') or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 		$this->setRedirect('index.php');
 	}
 }

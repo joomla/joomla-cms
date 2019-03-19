@@ -37,14 +37,14 @@
 								for (i = 0; i < response.data.length; ++i) {
 									$orders[i] = response.data[i].split(',');
 								}
+
+								// Remove previous <select>, it will be recreated by writeDynaList()
+								$("#" + $id).remove();
+
 								writeDynaList('name="' + $name + '" id="' + $id +'"' + $attr, $orders, $originalPos, $originalPos, $originalOrder, $element);
 
 								// Add chosen to the element
-								var $el = $("#" + $id);
-								if ($el.length && $el.data('chosen') && $.fn.chosen) {
-									$el.chosen('destroy');
-									$el.chosen();
-								}
+								$("#" + $id).chosen();
 							}
 						}
 
@@ -61,8 +61,8 @@
 		getNewOrder();
 
 		// Event listener for the linked field
-		$linkedFieldEl.change( function() {
-			$originalPos = $('#' + $linkedField).val();
+		$linkedFieldEl.on('change', function() {
+			$originalPos = $linkedFieldEl.val();
 			getNewOrder();
 		});
 	});
