@@ -25,6 +25,8 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       throw new Error('Joomla API is not properly initiated');
     }
 
+		
+    this.connectedCallback();
     this.disabled = false;
 
     // If list selection is required, set button to disabled by default
