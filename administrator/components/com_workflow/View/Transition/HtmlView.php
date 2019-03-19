@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Transition;
@@ -133,7 +133,8 @@ class HtmlView extends BaseHtmlView
 			// For new records, check the create permission.
 			if ($canDo->get('core.edit'))
 			{
-				$toolbarButtons = [['apply', 'transition.apply'], ['save', 'transition.save'], ['save2new', 'transition.save2new']];
+				ToolbarHelper::apply('transition.apply');
+				$toolbarButtons = [['save', 'transition.save'], ['save2new', 'transition.save2new']];
 			}
 
 			ToolbarHelper::saveGroup(
@@ -148,7 +149,8 @@ class HtmlView extends BaseHtmlView
 
 			if ($itemEditable)
 			{
-				$toolbarButtons = [['apply', 'transition.apply'], ['save', 'transition.save']];
+				ToolbarHelper::apply('transition.apply');
+				$toolbarButtons = [['save', 'transition.save']];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create'))

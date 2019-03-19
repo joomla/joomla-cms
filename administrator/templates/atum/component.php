@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 $lang = Factory::getLanguage();
 
 // Add JavaScript Frameworks
-HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 
 // Load template CSS file
