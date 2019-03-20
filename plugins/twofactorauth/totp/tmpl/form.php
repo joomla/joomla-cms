@@ -15,9 +15,9 @@ use Joomla\CMS\Factory;
 HTMLHelper::_('script', 'plg_twofactorauth_totp/qrcode.min.js', ['relative' => true, 'version' => 'auto']);
 
 $js = "
-(function($)
+(function(document)
 {
-	$(function()
+	document.addEventListener('DOMContentLoaded', function()
 	{
 		var qr = qrcode(0, 'H');
 		qr.addData('" . $url . "');
@@ -25,7 +25,7 @@ $js = "
 
 		document.getElementById('totp-qrcode').innerHTML = qr.createImgTag(4);
 	});
-})(jQuery);
+})(document);
 ";
 
 Factory::getDocument()->addScriptDeclaration($js);
