@@ -865,6 +865,10 @@ class Language
 
 			// Remove the "_QQ_" from the equation
 			$line = str_replace('"_QQ_"', '', $line);
+
+			// Remove any escaped double quotes \" from the equation
+			$line = str_replace('\"', '', $line);
+
 			$realNumber = $lineNumber + 1;
 
 			// Check for any incorrect uses of _QQ_.
