@@ -79,7 +79,7 @@ abstract class LanguagesHelper
 				if (!defined('JPATH_COMPONENT_SITE'))
 				{
 					define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $app->input->get('option'));
-				}	
+				}
 
 				$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
 				\JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
