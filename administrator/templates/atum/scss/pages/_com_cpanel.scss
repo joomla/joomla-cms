@@ -110,6 +110,13 @@
 
   }
 
+  .list-group-item {
+    img {
+      width: 100%;
+      height: auto;
+    }	  
+  }
+  
   .card-header {
     padding-left: 0;
     font-size: $h5-font-size;
