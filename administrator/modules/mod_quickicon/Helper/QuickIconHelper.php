@@ -280,7 +280,7 @@ abstract class QuickIconHelper
 			->createModel('Articles', 'Administrator', ['ignore_request' => true]);
 
 		// Count IDs
-		$model->setState('list.select', 'COUNT(a.id) as amount');
+		$model->setState('list.select', 'a.id');
 
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
@@ -288,8 +288,8 @@ abstract class QuickIconHelper
 		$model->setState('filter.published', 1);
 
 		$result = $model->getItems();
-		
-		return reset($result)->amount;
+
+		return count($result);
 	}
 	
 	/**
@@ -379,11 +379,12 @@ abstract class QuickIconHelper
 		
 		$model = $app->bootComponent('com_categories')->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
 
-		$model->setState('list.select', 'COUNT(a.id) as amount');
-		
+		$model->setState('list.select', 'a.id');
+
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
+		$model->setState('filter.extension', 'com_content');
 		
 		$result = $model->getItems();
 
