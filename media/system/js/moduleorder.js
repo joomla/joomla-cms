@@ -40,6 +40,8 @@
 
 								// Remove previous <select>, it will be recreated by writeDynaList()
 								$("#" + $id).remove();
+								$idc = $id.concat("_chzn");
+								$("#" + $idc).remove();
 
 								writeDynaList('name="' + $name + '" id="' + $id +'"' + $attr, $orders, $originalPos, $originalPos, $originalOrder, $element);
 
