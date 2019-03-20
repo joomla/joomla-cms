@@ -395,7 +395,7 @@ abstract class Factory
 
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('DatabaseDriver'))
+			if (self::getContainer()->has('DatabaseDriver'))
 			{
 				self::$database = self::getContainer()->get('DatabaseDriver');
 			}
