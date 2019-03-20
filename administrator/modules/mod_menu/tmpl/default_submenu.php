@@ -81,7 +81,7 @@ $link      = $current->get('link');
 // Get the menu icon
 $icon      = $this->getIconClass($current);
 $iconClass = ($icon != '' && $current->level == 1) ? '<span class="' . $icon . '" aria-hidden="true"></span>' : '';
-$ajax      = $current->ajaxbadge ? '<span class="fa fa-spin fa-spinner pull-right mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span>' : '';
+$ajax      = $current->ajaxbadge ? '<span class="menu-badge"><span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="' . $current->ajaxbadge . '"></span></span>' : '';
 
 if ($link != '' && $current->target != '')
 {
@@ -106,14 +106,6 @@ else
 	echo '<span>' . Text::_($current->title) . '</span>' . $ajax;
 }
 
-if ($current->dashboard)
-{
-	echo '<a class="btn-dashboard" href="'
-		. JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard)
-		. '"><span class="fa fa-th-large" title="'
-		. htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')) . '"></span></a>';
-}
-
 if ($current->getParams()->get('menu-quicktask', false))
 {
 	$params = $current->getParams();
@@ -126,11 +118,19 @@ if ($current->getParams()->get('menu-quicktask', false))
 
 	if (!$permission || $user->authorise($permission, $scope))
 	{
-		echo '<a href="' . $link . '" class="menu-quicktask">';
+		echo '<span class="menu-quicktask"><a href="' . $link . '">';
 		echo '<span class="fa fa-' . $icon . '" title="' . htmlentities(Text::_($title)) . '" aria-hidden="true"></span>';
 		echo '<span class="sr-only">' . Text::_($title) . '</span>';
-		echo '</a>';
+		echo '</a></span>';
 	}
+}
+
+if ($current->dashboard)
+{
+	echo '<span class="menu-dashboard"><a href="'
+		. JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard)
+		. '"><span class="fa fa-th-large" title="'
+		. htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')) . '"></span></a></span>';
 }
 
 // Recurse through children if they exist

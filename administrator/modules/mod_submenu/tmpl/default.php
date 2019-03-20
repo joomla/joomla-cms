@@ -17,6 +17,8 @@ HTMLHelper::_('script', 'com_cpanel/admin-system-loader.js', ['version' => 'auto
 $bootstrapSize  = (int) $params->get('bootstrap_size', 6);
 $columns = (int) ($bootstrapSize ? $bootstrapSize : 3) / 3;
 $columnSize = 12 / $columns;
+$app = JFactory::getApplication();
+$user = $app->getIdentity();
 
 /** @var  \Joomla\CMS\Menu\MenuItem  $root */
 ?>
@@ -39,9 +41,32 @@ $columnSize = 12 / $columns;
 						<li class="list-group-item">
 							<a href="<?php echo $item->link; ?>"><?php echo Text::_($item->title); ?>
 								<?php if ($item->ajaxbadge) : ?>
-									<span class="fa fa-spin fa-spinner pull-right mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+                                    <span class="menu-badge"><span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span></span>
 								<?php endif; ?>
 							</a>
+                            <?php if ($item->getParams()->get('menu-quicktask', false)) : ?>
+                                <?php
+                                $params = $item->getParams();
+                                $link = $params->get('menu-quicktask-link');
+                                $icon = $params->get('menu-quicktask-icon', 'plus');
+                                $title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
+                                $permission = $params->get('menu-quicktask-permission');
+                                $scope = $item->scope !== 'default' ? $item->scope : null;
+                                ?>
+                                <?php if (!$permission || $user->authorise($permission, $scope)) : ?>
+                                    <span class="menu-quicktask"><a href="<?php echo $link; ?>">
+		                                <span class="fa fa-<?php echo $icon; ?>" title="<?php echo htmlentities(Text::_($title)); ?>" aria-hidden="true"></span>
+		                                <span class="sr-only"><?php echo Text::_($title); ?></span>
+		                            </a></span>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                            <?php if ($current->dashboard) : ?>
+                                <span class="menu-dashboard">
+                                    <a href="<?php echo JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard); ?>">
+                                        <span class="fa fa-th-large" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
+                                    </a>
+                                </span>
+                            <?php endif; ?>
 						</li>
 					<?php endforeach; ?>
 				</ul>

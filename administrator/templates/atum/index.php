@@ -197,6 +197,12 @@ $this->addStyleDeclaration($css);
 	<?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
 		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
+            <div class="sidebar-toggle">
+                <a id="menu-collapse" href="#">
+                    <span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>
+                    <span class="sidebar-item-title"><?php echo Text::_('MOD_MENU_TOGGLE_MENU'); ?></span>
+                </a>
+            </div>
 			<jdoc:include type="modules" name="menu" style="none"/>
 			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
 				<img src="<?php echo $joomlaLogo; ?>" alt="">

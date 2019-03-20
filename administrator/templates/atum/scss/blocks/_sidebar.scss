@@ -70,6 +70,18 @@
       @include fadein-page;
     }
   }
+
+  .sidebar-toggle {
+    position: relative;
+    a {
+      display: block;
+      padding: 0 0.35rem;
+      position: relative;
+      color: var(--atum-text-light);
+      height: 3.2rem;
+      line-height: 3.2rem;
+    }
+  }
 }
 
 .menu-toggle-icon {
@@ -92,22 +104,47 @@
   .open > a {
     box-shadow: 0 2px 4px -4px rgba(0, 0, 0, 0.5);
   }
- 
+
   // All list items
   li {
     color: var(--atum-text-light);
     list-style-type: none;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    > a {
+      flex-grow: 2;
+    }
 
-    > a.btn-dashboard {
-      position: absolute;
-      right: 30px;
+    .menu-dashboard, .menu-quicktask {
+      display:inline-block;
       top: -1px;
-       &:hover {
-         > .fa {
-           color:  var(--atum-contrast);
-         }
-       }
+      a {
+        padding: 0;
+        display: inline;
+        .fa {
+          display: flex;
+          padding: 0 1rem;
+          height: 100%;
+          align-items: center;
+          margin: 0;
+        }
+
+        &:hover {
+          .fa {
+            color: var(--atum-contrast);
+          }
+        }
+      }
+      &::before {
+        background-image: none;
+        width: 0;
+      }
+      &:hover {
+        > .fa {
+          color:  var(--atum-contrast);
+        }
+      }
     }
   }
 
@@ -134,9 +171,9 @@
       display: block;
       padding: 0 0.35rem;
 
-      &:hover:not(.btn-dashboard) {
+      &:hover {
         background-color: var(--atum-bg-dark-80);
-	text-decoration: none;	
+	text-decoration: none;
       }
     }
 
@@ -149,6 +186,7 @@
   ul {
     padding: 0;
     background-color: var(--atum-bg-dark-70);
+    width: 100%;
 
     li {
       position: relative;
@@ -159,9 +197,8 @@
       display: block;
       padding: 0 1.25rem 0 1.25rem;
       color: var(--atum-text-light);
-      flex-basis: 100%;
 
-      &[href]:hover:not(.btn-dashboard):not(.menu-quicktask) {
+      &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
         background-color: rgba(0, 0, 0, .4);
       }
@@ -169,7 +206,7 @@
       &.active {
         color: $white;
         background-color: var(--atum-bg-dark-80);
-   
+
         &::before {
           position: absolute;
           top: 0.15rem;
@@ -180,22 +217,6 @@
           background-color: var(--atum-contrast);
         }
       }
-
-      &.menu-quicktask {
-        flex-basis: 2.5rem;
-        padding: 4px 5px;
-        text-align: center;
-
-        &::before {
-          background-image: none;
-          width: 0;
-         }
-       &:hover {
-         > .fa {
-           color:  var(--atum-contrast);
-         }
-       }
-     }
   }
 
     // 3rd level items
@@ -307,6 +328,16 @@
     text-align: center;
     vertical-align: middle;
   }
+}
+
+.sidebar-toggle .fa {
+  position: relative;
+  top: -1px;
+  display: inline-block;
+  margin: 0 5px;
+  font-size: 1.1rem;
+  text-align: center;
+  vertical-align: middle;
 }
 
 // Sidebar Closed
