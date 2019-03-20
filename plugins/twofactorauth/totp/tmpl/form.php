@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Factory;
 
-HTMLHelper::_('script', 'plg_twofactorauth_totp/qrcode.min.js', ['relative' => true, 'version' => 'auto']);
+HTMLHelper::_('script', 'plg_twofactorauth_totp/qrcode.min.js', array('version' => 'auto', 'relative' => true));
 
 $js = "
 (function(document)
