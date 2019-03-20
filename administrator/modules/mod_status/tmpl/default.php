@@ -65,7 +65,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				<?php endif; ?>
 			</a>
 			<?php if (!$hideLinks) : ?>
-				<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
+				<div class="dropdown-menu dropdown-menu-right dropdown-notifications border-0">
 					<div class="list-group">
 						<?php if (empty($messages)) : ?>
 						<p class="list-group-item text-center">
