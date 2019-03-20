@@ -60,9 +60,9 @@ $user = $app->getIdentity();
 		                            </a></span>
                                 <?php endif; ?>
                             <?php endif; ?>
-                            <?php if ($current->dashboard) : ?>
+                            <?php if ($item->dashboard) : ?>
                                 <span class="menu-dashboard">
-                                    <a href="<?php echo JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard); ?>">
+                                    <a href="<?php echo JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>">
                                         <span class="fa fa-th-large" title="<?php echo htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')); ?>"></span>
                                     </a>
                                 </span>
