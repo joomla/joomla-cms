@@ -253,9 +253,9 @@ class AbstractMenu
 	 */
 	public function getItems($attributes, $values, $firstonly = false)
 	{
-        $items      = array();
-        $attributes = (array) $attributes;
-        $values     = (array) $values;
+		$items      = array();
+		$attributes = (array) $attributes;
+		$values     = (array) $values;
 
 		foreach ($this->_items as $item)
 		{
@@ -264,31 +264,31 @@ class AbstractMenu
 				continue;
 			}
 
-            $isNeedAddItem = true;
+			$isNeedAddItem = true;
 
 			for ($i = 0; $i < count($attributes); $i++)
 			{
-			    // Check if parent item has access
-                if ($attributes[$i] == 'access') {
+				// Check if parent item has access
+				if ($attributes[$i] == 'access') {
 
-                    $parentItem = $this->getItem($item->parent_id);
+					$parentItem = $this->getItem($item->parent_id);
 
-                    while (!is_null($parentItem)) {
+					while (!is_null($parentItem)) {
 
-                        if (!in_array($parentItem->{$attributes[$i]}, $values[$i])) {
-                            $isNeedAddItem = false;
-                            break;
-                        } else {
-                            if ($parentItem->{$attributes[$i]} != $values[$i])
-                            {
-                                $isNeedAddItem = false;
-                                break;
-                            }
-                        }
+						if (!in_array($parentItem->{$attributes[$i]}, $values[$i])) {
+							$isNeedAddItem = false;
+							break;
+						} else {
+							if ($parentItem->{$attributes[$i]} != $values[$i])
+							{
+								$isNeedAddItem = false;
+								break;
+							}
+						}
 
-                        $parentItem = $this->getItem($parentItem->parent_id);
-                    }
-                }
+						$parentItem = $this->getItem($parentItem->parent_id);
+					}
+				}
 
 				if (is_array($values[$i]))
 				{
