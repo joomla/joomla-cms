@@ -24,7 +24,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     if (!Joomla) {
       throw new Error('Joomla API is not properly initiated');
     }
-    
+
     this.onChange = this.onChange.bind(this);
 
     this.addEventListener('click', event => this.executeTask(event));
@@ -38,22 +38,20 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     // because we cannot currently extend HTMLButtonElement
     this.buttonElement = this.querySelector('button, a');
 
-    // Check whether we have a form
     const formSelector = this.form || 'adminForm';
     this.formElement = document.getElementById(formSelector);
 
     this.disabled = false;
     // If list selection is required, set button to disabled by default
     if (this.listSelection) {
-      this.setDisabled(true);
-    }
-
-    if (this.listSelection) {
       if (!this.formElement) {
         throw new Error(`The form "${formSelector}" is required to perform the task, but the form was not found on the page.`);
-      }
+      } // Watch on list selection
 
-      // Watch on list selection
+      //If nothing is selected disable the list
+      if(this.formElement.boxchecked.value!=1){
+        this.setDisabled(true);
+      }
       this.formElement.boxchecked.addEventListener('change', this.onChange);
     }
   }
