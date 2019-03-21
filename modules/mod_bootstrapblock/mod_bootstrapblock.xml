@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5.0" client="site" method="upgrade">
+    <name>Bootstrap Block</name>
+    <author>Brad Traversy</author>
+    <creationDate>Dec 2013</creationDate>
+    <copyright>Copyright (C) 2013 JoomDigi</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <authorEmail>brad@joomdigi.com</authorEmail>
+    <authorUrl>www.joomdigi.com</authorUrl>
+    <version>1.2</version>
+    <description>Place a bootstrap block with custom content into any module position</description>
+    <files>
+        <filename module="mod_bootstrapblock">mod_bootstrapblock.php</filename>
+        <filename>index.html</filename>
+        <filename>mod_bootstrapblock.xml</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+    </files>
+    <config>
+        <fields name="params">   
+                <fieldset name="basic">
+                    <field 
+                        name="moduleclass_sfx" 
+                        type="text" 
+                        default="" 
+                        label="Module Class Suffix" 
+                        description="tag on a css class to the module wrap">
+                    </field>
+
+                     <field name="headingtext" type="text" default="Bootstrap Block" label="Heading Text" description="The text for the heading">
+                    </field>
+
+                    <field name="paragraphtext" type="text" default="This is the Bootstrap Block module for Joomla. To edit this text and more, visit the module in the module manager and change the parameters" label="Paragraph Text" description="The text for the paragraph">
+                    </field>
+
+                     <field name="headingtextcolor" type="color" default="#333"
+                        label="Heading Text Color"
+        description="The color of the heading" />
+
+        <field name="paragraphtextcolor" type="color" default="#333"
+                        label="Paragraph Text Color"
+        description="The color of the paragraph" />
+
+                     <field name="show_glyphicon" type="radio" default="0" label="Show Glyphicon" description="Choose to show a glyphicon">
+                        <option value="0">No</option>
+                         <option value="1">Yes</option>
+                    </field>
+
+                    <field name="glyphicon" type="text" default="glyphicon glyphicon-th" label="Glyphicon Class" description="Visit http://getbootstrap.com/components/#glyphicons to get icon classes">
+                    </field>
+
+                    <field name="show_read_more" type="radio" default="1" label="Show Readmore" description="Choose to show a read more button">
+                         <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </field>
+
+                    <field name="read_more_text" type="text" default="Read More" label="Read More Text" description="The text in the read more button">
+                    </field>
+
+                     <field name="read_more_link" type="url" default="#" label="Read More Link" description="The url to link to">
+                    </field>
+
+                    <field name="buttonstyle" type="text" default="btn btn-primary" label="Button Class" description="Add the Bootstrap class for your button - http://getbootstrap.com/css/#buttons">
+                    </field>
+                 
+                </fieldset>
+        </fields>
+    </config>
+</extension>

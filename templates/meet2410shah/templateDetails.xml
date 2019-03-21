@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE install PUBLIC "-//Joomla! 1.6//DTD template 1.0//EN" "http://www.joomla.org/xml/dtd/1.6/template-install.dtd">
+<extension version="1.6" type="template" client="site">
+    version = "2.5"
+    type = "template"
+    method = "upgrade"
+    client = "site"
+    <name>meet2410shah</name>
+    <version>1.0.0</version>
+    <creationDate>19/03/2019</creationDate>
+    <author>Meet Shah</author>
+    <authorEmail>meet2410shah@gmail.com</authorEmail>
+    <copyright>Copyright 2019, Bootstrap Joomla</copyright>
+    <license>GNU/GPL - http://www.gnu.org/license/gpl-2.0.html</license>
+    <description>Bootstrap template for Joomla 4.0</description>
+
+    <files>
+        <folder>css</folder>
+        <folder>fonts</folder>
+        <folder>html</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <filename>index.php</filename>
+        <filename>index.html</filename>
+        <filename>favicon.ico</filename>
+        <filename>templateDetails.xml</filename>
+        <filename>template_preview.png</filename>
+        <filename>template_thumbnail.png</filename>
+    </files>
+
+    <positions>
+        <position>menu</position>
+        <position>showcase</position>
+        <position>block1</position>
+        <position>block2</position>
+        <position>block3</position>
+        <position>myCaro</position>
+        <position>login</position>
+        <position>title</position>
+        <position>footer</position>
+    </positions>
+
+    <config>
+        <fields name="params">
+            <fieldset name="general" label="General">
+                <field name="logo_text" type="text" label="Logo Text" description="Enter your logo text"/>
+                <field name="copyright_text" type="text" label="Copyright Text" description="Enter your copyright text"/>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

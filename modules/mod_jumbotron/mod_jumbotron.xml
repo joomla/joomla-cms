@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5.0" client="site" method="upgrade">
+    <name>Jumbotron Module</name>
+    <author>Brad Traversy</author>
+    <creationDate>July 2013</creationDate>
+    <copyright>Copyright (C) 2013 JoomDigi</copyright>
+    <license>GNU General Public License version 2 or later</license>
+    <authorEmail>brad@joomdigi.com</authorEmail>
+    <authorUrl>www.joomdigi.com</authorUrl>
+    <version>1.4</version>
+    <description>Place a jumbotron in a module position</description>
+    <files>
+        <filename module="mod_jumbotron">mod_jumbotron.php</filename>
+        <filename>index.html</filename>
+        <filename>mod_jumbotron.xml</filename>
+        <filename>helper.php</filename>
+        <filename>tmpl/default.php</filename>
+        <filename>tmpl/index.html</filename>
+    </files>
+    <config>
+        <fields name="params">   
+                <fieldset name="basic">
+                    <field 
+                        name="moduleclass_sfx" 
+                        type="text" 
+                        default="" 
+                        label="Module Class Suffix" 
+                        description="tag on a css class to the module wrap">
+                    </field>
+
+
+                     <field name="header_text" type="text" default="Website Jumbotron" label="Header Text" description="The text for the header">
+                    </field>
+
+                    <field name="paragraph_text" type="text" default="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas fringilla sit amet enim ut hendrerit. Praesent rutrum dui a turpis porttitor mollis. In eu scelerisque ipsum" label="Paragraph Text" description="The text for the paragraph">
+                    </field>
+
+					  <field name="center_text" type="radio" default="0" label="Center Text" description="Choose to center everything">
+                         <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </field>
+                    
+        <field name="headingtextcolor" type="color" default="#333"
+                        label="Heading Text Color"
+        description="The color of the heading" />
+
+        <field name="paragraphtextcolor" type="color" default="#333"
+                        label="Paragraph Text Color"
+        description="The color of the paragraph" />
+        
+        
+
+        <field name="show_read_more" type="radio" default="1" label="Show Button" description="Choose to show a read more button">
+                         <option value="1">Yes</option>
+                        <option value="0">No</option>
+                    </field>
+
+                    <field name="read_more_text" type="text" default="Read More" label="Button Text" description="The text in the read more button">
+                    </field>
+
+                     <field name="read_more_link" type="url" default="#" label="Button Link" description="The url to link to">
+                    </field>
+
+       <field name="buttonstyle" type="text" default="btn btn-primary btn-lg btn-color" label="Button Class" description="Add the Bootstrap class for your button - http://getbootstrap.com/css/#buttons">
+                    </field>
+
+       	<field name="foreground_image" type="media" directory="stories" label="Foregraound Image" description="This is a foreground image. It can be any size" />	
+	 <field name="foreground_image_width" type="url" default="auto" label="Foreground Image width" description="The width in px of the foregraound image.">
+                    </field>
+                    <field name="background_image" type="media" directory="stories" label="Background Image" description="This image should be at least the width of the module" />
+                    <field name="x_pos" type="text" default="0" label="Background X Position" description="Amount in pixels from left" />
+					<field name="y_pos" type="text" default="0" label="Background Y Position" description="Amount in pixels from top" />
+				 <field name="background_color" type="color" default="#eee"
+                        label="Background Color"
+        description="The color of the background" />
+                </fieldset>
+        </fields>
+    </config>
+</extension>
