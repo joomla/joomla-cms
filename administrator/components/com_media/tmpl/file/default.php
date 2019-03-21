@@ -23,7 +23,15 @@ HTMLHelper::_('behavior.formvalidator');
 
 // Add stylesheets
 HTMLHelper::_('stylesheet', 'media/com_media/css/mediamanager.css');
-HTMLHelper::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
+//HTMLHelper::_('script', 'com_media/edit-images.js', array('version' => 'auto', 'relative' => true));
+
+Factory::getDocument()->addScriptDeclaration("
+document.addEventListener('WebComponentsReady', function() {
+var script = document.createElement('script');
+script.src = '" . HTMLHelper::_('script', 'com_media/edit-images.js', ['relative' => true, 'pathOnly', true]) . "';
+document.head.appendChild(script);
+});
+");
 
 $params = ComponentHelper::getParams('com_media');
 

@@ -319,17 +319,6 @@
         "name": "tinymce",
         "licenseFilename": "license.txt"
       },
-      "@webcomponents/webcomponentsjs": {
-        "name": "webcomponentsjs",
-        "js": {
-          "bundles/webcomponents-ce.js": "js/webcomponents-ce.js",
-          "bundles/webcomponents-sd.js": "js/webcomponents-sd.js",
-          "bundles/webcomponents-sd-ce.js": "js/webcomponents-sd-ce.js",
-          "bundles/webcomponents-sd-ce-pf.js": "js/webcomponents-sd-ce-pf.js"
-        },
-        "dependencies": [],
-        "licenseFilename": "LICENSE.md"
-      },
       "css-vars-ponyfill": {
         "name": "css-vars-ponyfill",
         "licenseFilename": "LICENSE",
@@ -365,14 +354,22 @@
         ]
       },
       "metismenujs": {
-        "name": "metismenujs",
-        "licenseFilename": "LICENSE",
-        "js": {
-          "dist/metismenujs.js": "js/metismenujs.js",
-          "dist/metismenujs.min.js": "js/metismenujs.min.js",
-          "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
-        }
-      }
+		"name": "metismenujs",
+		"licenseFilename": "LICENSE",
+		"js": {
+		  "dist/metismenujs.js": "js/metismenujs.js",
+		  "dist/metismenujs.min.js": "js/metismenujs.min.js",
+		  "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
+		}
+	  },
+	  "wc-polyfills": {
+		"name": "wc-polyfills",
+		"licenseFilename": "LICENSE",
+		"js": {
+		  "dist/nevergreen.js": "js/nevergreen.min.js",
+		  "dist/evergreen.js": "js/evergreen.min.js"
+		}
+	  }
     },
     "errorPages": {
       "incomplete": {

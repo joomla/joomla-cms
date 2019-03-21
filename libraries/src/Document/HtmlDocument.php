@@ -14,6 +14,7 @@ use Joomla\CMS\Cache\Cache;
 use Joomla\CMS\Factory as CmsFactory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Helper\ModuleHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Uri\Uri;
@@ -788,13 +789,27 @@ class HtmlDocument extends Document
 	 */
 	protected function _renderTemplate()
 	{
-		$replace = [];
-		$with = [];
+		$wcompLoader   = JPATH_ROOT . '/media/system/js/wcloader.min.js';
+		$replace       = [];
+		$with          = [];
 
 		foreach ($this->_template_tags as $jdoc => $args)
 		{
 			$replace[] = $jdoc;
 			$with[] = $this->getBuffer($args['type'], $args['name'], $args['attribs']);
+		}
+
+		if (!empty($this->scriptOptions['webcomponents']) && is_file($wcompLoader))
+		{
+			$wcompContent = file_get_contents($wcompLoader);
+
+			if (!empty($wcompContent))
+			{
+				$wcompContent = str_replace('{{nevergreen}}', HTMLHelper::_('script', 'vendor/wc-polyfills/nevergreen.min.js', ['relative' => true, 'pathOnly' => true]), $wcompContent);
+				$wcompContent = str_replace('{{evergreen}}', HTMLHelper::_('script', 'vendor/wc-polyfills/evergreen.min.js', ['relative' => true, 'pathOnly' => true]), $wcompContent);
+
+				$this->_template = str_replace('</body>', '<script>' . $wcompContent . '</script></body>', $this->_template);
+			}
 		}
 
 		return str_replace($replace, $with, $this->_template);

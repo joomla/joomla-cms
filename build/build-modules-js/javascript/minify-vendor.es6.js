@@ -13,7 +13,6 @@ module.exports.compile = () => {
       const folders = [
         Path.join(RootPath, 'media/vendor/codemirror'),
         Path.join(RootPath, 'media/vendor/punycode/js'),
-        Path.join(RootPath, 'media/vendor/webcomponentsjs'),
       ];
 
       // Loop to get some text for the packgage.json

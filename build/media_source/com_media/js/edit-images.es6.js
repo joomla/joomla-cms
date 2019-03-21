@@ -150,7 +150,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
     fileDirectory = fileDirectory.join('/');
 
     // If we are in root add a backslash
-    if (fileDirectory.endsWith(':')) {
+    if (fileDirectory.substring(fileDirectory.length - 1, fileDirectory.length) === ':') {
       fileDirectory = `${fileDirectory}/`;
     }
 
@@ -235,7 +235,7 @@ Joomla.MediaManager = Joomla.MediaManager || {};
   };
 
   // Once the DOM is ready, initialize everything
-  document.addEventListener('DOMContentLoaded', () => {
+  // document.addEventListener('DOMContentLoaded', () => {
     const func = () => {
       const tabsUlElement = document.getElementById('myTab').firstElementChild;
 
@@ -286,5 +286,5 @@ Joomla.MediaManager = Joomla.MediaManager || {};
 
     // @TODO use promises here
     setTimeout(func, 50);
-  });
+  // });
 })();
