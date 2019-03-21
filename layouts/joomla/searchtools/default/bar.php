@@ -49,7 +49,7 @@ $filters = $data['view']->filterForm->getGroup('filter');
 					</span>
 				</div>
 			</div>
-			<button type="button" class="btn btn-primary hasTooltip js-stools-btn-clear mr-2">
+			<button type="button" class="btn btn-primary js-stools-btn-clear mr-2">
 				<?php echo Text::_('JSEARCH_FILTER_CLEAR'); ?>
 			</button>
 			<div class="btn-group">
