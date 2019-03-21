@@ -29,11 +29,15 @@
       &:first-child {
         margin-left: 0;
       }
+      @include media-breakpoint-down(md) {
+        margin-left:0 !important;
+        margin-right:0.75rem;
+      }
 
       &.ml-auto {
         @include media-breakpoint-down(md) {
-          margin-right: auto !important;
-          margin-left: .75rem !important;
+         /* margin-right: auto !important;
+          margin-left: .75rem !important;*/
         }
       }
     }

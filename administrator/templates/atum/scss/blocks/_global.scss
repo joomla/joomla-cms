@@ -159,6 +159,14 @@ a[href*="//"]:before {
   content: "\f08e  ";
 }
 
+#wrapper{
+  &.d-flex{
+    @include media-breakpoint-down(sm){
+      display:block !important;
+    }
+  }
+}
+
 
 
 

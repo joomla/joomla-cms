@@ -73,6 +73,7 @@ $colors: (
   white-offset:                    #fefefe,
   focus:                           #39f,
   table-border:                    $gray-300,
+  toggle-color:                    $white,
   atum-bg-dark:                    $color-60,
   atum-bg-light:                   $color-5,
   atum-text-dark:                  $gray-600,
@@ -127,6 +128,7 @@ $h4-font-size:                     1rem;
 $h5-font-size:                     .9286rem;
 $h6-font-size:                     .8571rem;
 $font-size-sm:                     .8rem;
+$font-size-vsm:                     .5rem;
 $display1-size:                    1rem;
 $display2-size:                    .875rem;
 $content-font-size:                0.875rem;
@@ -234,4 +236,6 @@ $zindex-modal-backdrop:            1040;
 $zindex-modal:                     1050;
 $zindex-popover:                   1060;
 $zindex-tooltip:                   1070;
-
+$zindex-mobil-bottom:              8000;
+$zindex-mobil-toggle:              9999;
+$zindex-mobil-menu:                9000;

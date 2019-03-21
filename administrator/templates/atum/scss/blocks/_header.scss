@@ -211,14 +211,17 @@
       position:fixed;
       bottom:0;
       width:100%;
-      z-index:9999;
+      z-index:$zindex-mobil-bottom;
       padding-left:0.75rem;
+      .ml-auto{
+        margin-right:70px;
+      }
     }
 
   }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(sm) {
 
   .header {
     position: sticky;
@@ -236,6 +239,11 @@
 
     .joomla-version{
       color:var(--atum-text-light);
+      font-size:$font-size-vsm;
+      &:before{
+        font: normal normal normal 23px/1 FontAwesome;
+        content: "\f1aa  ";
+      }
     }
 
     .nav-item:hover,
