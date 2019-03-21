@@ -97,7 +97,8 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						<span class="fa fa-user-o" aria-hidden="true"></span>
 						<?php echo $user->name; ?>
 					</div>
-					<?php $route = 'index.php?option=com_users&amp;task=user.edit&amp;id=' . $user->id; ?>
+					<?php $uri   = Uri::getInstance(); ?>
+					<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
 					<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
 					<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_login&task=logout&'

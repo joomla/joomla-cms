@@ -11,7 +11,7 @@ use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 ?>
-<fieldset title="<?php echo Text::_('COM_CONFIG_FTP_DETAILS'); ?>">
+<fieldset>
 	<legend><?php echo Text::_('COM_CONFIG_FTP_DETAILS'); ?></legend>
 	<?php echo Text::_('COM_CONFIG_FTP_DETAILS_TIP'); ?>
 	<?php if ($this->ftp instanceof Exception) : ?>
