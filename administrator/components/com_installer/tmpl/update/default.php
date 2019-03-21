@@ -114,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 											'bootstrap.renderModal',
 											'changelogModal',
 											array(
-												'title' => $item->version . " - " . $item->name,
+												'title' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
 											),
 											''
 										);

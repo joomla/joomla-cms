@@ -445,11 +445,13 @@ class ManageModel extends InstallerModel
 			'note'     => array()
 		);
 
-		array_walk($entries, function (&$value, $name) use ($changelog) {
-			if ($field = $changelog->get($name))
+		array_walk(
+			$entries,
+			function (&$value, $name) use ($changelog) {
+				if ($field = $changelog->get($name))
 				{
-				$value = $changelog->get($name)->data;
-			}
+					$value = $changelog->get($name)->data;
+				}
 			}
 		);
 
