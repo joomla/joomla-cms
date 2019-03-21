@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,7 @@ use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;
 ?>
-<fieldset title="<?php echo Text::_('COM_CONFIG_FTP_DETAILS'); ?>">
+<fieldset>
 	<legend><?php echo Text::_('COM_CONFIG_FTP_DETAILS'); ?></legend>
 	<?php echo Text::_('COM_CONFIG_FTP_DETAILS_TIP'); ?>
 	<?php if ($this->ftp instanceof Exception) : ?>

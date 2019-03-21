@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Site\Controller;
@@ -248,6 +248,25 @@ class ProfileController extends BaseController
 
 		// Flush the data from the session.
 		$app->setUserState('com_users.edit.profile.data', null);
+	}
+
+	/**
+	 * Method to cancel an edit.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function cancel()
+	{
+		// Check for request forgeries.
+		$this->checkToken();
+
+		// Flush the data from the session.
+		$this->app->setUserState('com_users.edit.profile', null);
+
+		// Redirect to user profile.
+		$this->setRedirect(Route::_('index.php?option=com_users&view=profile', false));
 	}
 
 	/**

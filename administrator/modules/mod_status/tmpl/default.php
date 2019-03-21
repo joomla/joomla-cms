@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_status
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				<?php endif; ?>
 			</a>
 			<?php if (!$hideLinks) : ?>
-				<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
+				<div class="dropdown-menu dropdown-menu-right dropdown-notifications border-0">
 					<div class="list-group">
 						<?php if (empty($messages)) : ?>
 						<p class="list-group-item text-center">
@@ -97,7 +97,8 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						<span class="fa fa-user-o" aria-hidden="true"></span>
 						<?php echo $user->name; ?>
 					</div>
-					<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
+					<?php $uri   = Uri::getInstance(); ?>
+					<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
 					<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
 					<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_login&task=logout&'

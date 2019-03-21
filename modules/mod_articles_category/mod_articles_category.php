@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,6 @@ if (!empty($list))
 	$grouped                    = false;
 	$article_grouping           = $params->get('article_grouping', 'none');
 	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-	$item_heading               = $params->get('item_heading');
 
 	if ($article_grouping !== 'none')
 	{
