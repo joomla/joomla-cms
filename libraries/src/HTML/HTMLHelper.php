@@ -768,9 +768,6 @@ abstract class HTMLHelper
 		// Script core.js is responsible for the polyfills and the async loading of the web components
 		static::_('behavior.core');
 
-		$document = Factory::getApplication()->getDocument();
-		$version  = '';
-
 		// Add the css if exists
 		self::_('stylesheet', str_replace('.js', '.css', $file), $options);
 
@@ -786,6 +783,9 @@ abstract class HTMLHelper
 		{
 			return;
 		}
+
+		$document = Factory::getApplication()->getDocument();
+		$version  = '';
 
 		if (isset($options['version']))
 		{
