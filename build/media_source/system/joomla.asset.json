@@ -1,16 +1,17 @@
 {
+  "$schema": "https://raw.githubusercontent.com/joomla/schemas/8fe9a7029dc7dba185cb943fc944c9febdefb231/json-schema/web_assets.json",
   "name": "joomla",
   "version": "4.0.0",
   "description": "Joomla CMS",
   "license": "GPL-2.0+",
-  "assets": {
-    "core": {
+  "assets": [
+    {
       "name": "core",
       "js": [
         "media/system/js/core.min.js"
       ]
     },
-    "keepalive": {
+    {
       "name": "keepalive",
       "dependencies": [
         "core"
@@ -19,7 +20,7 @@
         "media/system/js/keepalive.min.js"
       ]
     },
-    "multiselect": {
+    {
       "name": "multiselect",
       "dependencies": [
         "core"
@@ -28,7 +29,7 @@
         "media/system/js/multiselect.min.js"
       ]
     },
-    "searchtools": {
+    {
       "name": "searchtools",
       "dependencies": [
         "core"
@@ -40,7 +41,7 @@
         "system/searchtools.css"
       ]
     },
-    "showon": {
+    {
       "name": "showon",
       "dependencies": [
         "core"
@@ -49,7 +50,7 @@
         "media/system/js/showon.min.js"
       ]
     },
-    "fields.validate": {
+    {
       "name": "fields.validate",
       "dependencies": [
         "core",
@@ -59,5 +60,5 @@
         "media/system/js/fields/validate.min.js"
       ]
     }
-  }
+  ]
 }
