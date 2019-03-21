@@ -63,8 +63,7 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 		<div class="control-group">
 			<div class="control-label">
-				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-					title="<?php echo '<strong>' . Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong>'; ?>">
+				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method">
 					<?php echo Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>
