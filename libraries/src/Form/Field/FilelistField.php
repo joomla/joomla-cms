@@ -10,21 +10,18 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Filesystem\File;
 use Joomla\Filesystem\Folder;
 use Joomla\Filesystem\Path;
 
-FormHelper::loadFieldClass('list');
-
 /**
  * Supports an HTML select list of files
  *
  * @since  1.7.0
  */
-class FilelistField extends \JFormFieldList
+class FilelistField extends ListField
 {
 	/**
 	 * The form field type.
