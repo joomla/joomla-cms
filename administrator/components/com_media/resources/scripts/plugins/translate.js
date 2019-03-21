@@ -16,7 +16,7 @@ Translate.sprintf = function (string, ...args) {
 	return string.replace(/%((%)|s|d)/g, function (m) {
 		var val = args[i];
 
-		if (m == '%d') {
+		if (m === '%d') {
 			val = parseFloat(val);
 			if (isNaN(val)) {
 				val = 0;

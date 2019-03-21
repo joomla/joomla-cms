@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -77,6 +77,14 @@ abstract class AdminModel extends FormModel
 	 * @since  1.6
 	 */
 	protected $event_before_save = null;
+
+	/**
+	 * The event to trigger before changing the published state of the data.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $event_before_change_state = null;
 
 	/**
 	 * The event to trigger after changing the published state of the data.
@@ -212,6 +220,15 @@ abstract class AdminModel extends FormModel
 		elseif (empty($this->event_before_save))
 		{
 			$this->event_before_save = 'onContentBeforeSave';
+		}
+
+		if (isset($config['event_before_change_state']))
+		{
+			$this->event_before_change_state = $config['event_before_change_state'];
+		}
+		elseif (empty($this->event_before_change_state))
+		{
+			$this->event_before_change_state = 'onContentBeforeChangeState';
 		}
 
 		if (isset($config['event_change_state']))
@@ -479,6 +496,8 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
+			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
+
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
 		}
@@ -487,6 +506,21 @@ abstract class AdminModel extends FormModel
 		$this->cleanCache();
 
 		return $newIds;
+	}
+
+	/**
+	 * Function that can be overriden to do any data cleanup after batch copying data
+	 *
+	 * @param   \JTableInterface  $table  The table object containing the newly created item
+	 * @param   integer           $newId  The id of the new item
+	 * @param   integer           $oldId  The original item id
+	 *
+	 * @return  void
+	 *
+	 * @since  3.8.12
+	 */
+	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
+	{
 	}
 
 	/**
@@ -1004,6 +1038,8 @@ abstract class AdminModel extends FormModel
 		$table = $this->getTable();
 		$pks = (array) $pks;
 
+		$context = $this->option . '.' . $this->name;
+
 		// Include the plugins for the change of state event.
 		\JPluginHelper::importPlugin($this->events_map['change_state']);
 
@@ -1037,6 +1073,16 @@ abstract class AdminModel extends FormModel
 			}
 		}
 
+		// Trigger the change state event.
+		$result = Factory::getApplication()->triggerEvent($this->event_before_change_state, array($context, $pks, $value));
+
+		if (in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
 		// Attempt to change the state of the records.
 		if (!$table->publish($pks, $value, $user->get('id')))
 		{
@@ -1044,8 +1090,6 @@ abstract class AdminModel extends FormModel
 
 			return false;
 		}
-
-		$context = $this->option . '.' . $this->name;
 
 		// Trigger the change state event.
 		$result = Factory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));

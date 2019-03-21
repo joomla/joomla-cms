@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_news
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 
 <?php echo $item->beforeDisplayContent; ?>
 
-<?php if ($params->get('show_introtext', '1')) : ?>
+<?php if ($params->get('show_introtext', 1)) : ?>
 	<?php echo $item->introtext; ?>
 <?php endif; ?>
 

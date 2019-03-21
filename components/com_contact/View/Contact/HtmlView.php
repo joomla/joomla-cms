@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,10 +121,13 @@ class HtmlView extends BaseHtmlView
 
 		$active = $app->getMenu()->getActive();
 
-		if (empty($item->catid))
-		{
-			$app->setUserState('com_contact.contact.data', array('catid' => $item->catid));
-		}
+		// Get submitted values
+		$data = $app->getUserState('com_contact.contact.data', array());
+
+		// Add catid for selecting custom fields
+		$data['catid'] = $item->catid;
+
+		$app->setUserState('com_contact.contact.data', $data);
 
 		if ($active)
 		{

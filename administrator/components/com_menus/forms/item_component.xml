@@ -78,14 +78,12 @@
 				name="page_heading"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
-				useglobal="true"
 			/>
 
 			<field
 				name="pageclass_sfx"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-				useglobal="true"
 			/>
 
 		</fieldset>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_stats_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,8 +40,8 @@ class StatsAdminHelper
 		$rows  = array();
 		$query = $db->getQuery(true);
 
-		$serverinfo = $params->get('serverinfo');
-		$siteinfo   = $params->get('siteinfo');
+		$serverinfo = $params->get('serverinfo', 0);
+		$siteinfo   = $params->get('siteinfo', 0);
 
 		$i = 0;
 
