@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,6 +107,9 @@ class ArticlesModel extends ListModel
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
+		$featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
+		$this->setState('filter.featured', $featured);
+
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
@@ -199,7 +202,7 @@ class ArticlesModel extends ListModel
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down'
+				', a.publish_up, a.publish_down, a.introtext'
 			)
 		);
 		$query->from('#__content AS a');
@@ -313,6 +316,14 @@ class ArticlesModel extends ListModel
 			$access = ArrayHelper::toInteger($access);
 			$access = implode(',', $access);
 			$query->where('a.access IN (' . $access . ')');
+		}
+
+		// Filter by featured.
+		$featured = (string) $this->getState('filter.featured');
+
+		if (in_array($featured, ['0','1']))
+		{
+			$query->where('a.featured =' . (int) $featured);
 		}
 
 		// Filter by access level on categories.
@@ -572,5 +583,32 @@ class ArticlesModel extends ListModel
 		}
 
 		return $this->cache[$store];
+	}
+
+	/**
+	 * Method to get a list of articles.
+	 * Overridden to add a check for access levels.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getItems()
+	{
+		$items = parent::getItems();
+
+		$asset = new \Joomla\CMS\Table\Asset($this->getDbo());
+
+		foreach (array_keys($items) as $x)
+		{
+			$items[$x]->typeAlias = 'com_content.article';
+
+			$asset->loadByName('com_content.article.' . $items[$x]->id);
+
+			// Re-inject the asset id.
+			$items[$x]->asset_id = $asset->id;
+		}
+
+		return $items;
 	}
 }
