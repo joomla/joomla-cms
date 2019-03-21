@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -104,6 +104,9 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center">
+									<?php echo JText::_('JFEATURED'); ?>
+								</th>
 								<th scope="col" style="width:1%; min-width:85px" class="text-center">
 									<?php echo JText::_('JSTATUS'); ?>
 								</th>
@@ -207,10 +210,12 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
+								<td class="text-center">
+									<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
+								</td>
 								<td class="article-status">
 									<div class="d-flex">
 										<div class="btn-group tbody-icon mr-1">
-										<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
 										<?php
 
 											$options = [

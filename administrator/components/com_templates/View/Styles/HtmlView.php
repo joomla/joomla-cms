@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -96,7 +96,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -147,7 +146,5 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
-
-		\JHtmlSidebar::setAction('index.php?option=com_templates&view=styles');
 	}
 }

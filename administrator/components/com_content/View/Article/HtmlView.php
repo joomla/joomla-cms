@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -138,15 +138,16 @@ class HtmlView extends BaseHtmlView
 			'pencil-2 article-add'
 		);
 
-		$saveGroup = $toolbar->dropdownButton('save-group');
-
 		// For new records, check the create permission.
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
+			$apply = $toolbar->apply('article.apply');
+			
+			$saveGroup = $toolbar->dropdownButton('save-group');
+
 			$saveGroup->configure(
 				function (Toolbar $childBar)
 				{
-					$childBar->apply('article.apply');
 					$childBar->save('article.save');
 					$childBar->save2new('article.save2new');
 				}
@@ -157,13 +158,18 @@ class HtmlView extends BaseHtmlView
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
+			if (!$checkedOut && $itemEditable)
+			{
+				$toolbar->apply('article.apply');
+			}
+			$saveGroup = $toolbar->dropdownButton('save-group');
+
 			$saveGroup->configure(
 				function (Toolbar $childBar) use ($checkedOut, $itemEditable, $canDo)
 				{
 					// Can't save the record if it's checked out and editable
 					if (!$checkedOut && $itemEditable)
 					{
-						$childBar->apply('article.apply');
 						$childBar->save('article.save');
 
 						// We can save this record, but check the create permission to see if we can return to make a new one.
@@ -189,7 +195,7 @@ class HtmlView extends BaseHtmlView
 			if (!$isNew)
 			{
 				$url = PreviewHelper::url($this->item);
-				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
+				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
 
@@ -245,7 +251,7 @@ class HtmlView extends BaseHtmlView
 				);
 
 
-				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" type="text" value="">';
+				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" value="">';
 				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
 		}

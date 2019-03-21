@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,18 +14,15 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('groupedlist');
 
 /**
  * Chrome Styles field.
  *
  * @since  3.0
  */
-class ChromestyleField extends \JFormFieldGroupedList
+class ChromestyleField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -237,10 +234,11 @@ class ChromestyleField extends \JFormFieldGroupedList
 		$query = $db->getQuery(true);
 
 		// Build the query.
-		$query->select('element, name, enabled')
+		$query->select('element, name')
 			->from('#__extensions')
 			->where('client_id = ' . $this->clientId)
-			->where('type = ' . $db->quote('template'));
+			->where('type = ' . $db->quote('template'))
+			->where('enabled = 1');
 
 		// Set the query and load the templates.
 		$db->setQuery($query);

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -163,11 +163,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$toolbar->standardButton('new', 'JTOOLBAR_NEW')
 				->onclick("location.href='index.php?option=com_modules&amp;view=select'");
-
-			$toolbar->standardButton('copy')
-				->text('JTOOLBAR_DUPLICATE')
-				->task('modules.duplicate')
-				->listCheck(true);
 		}
 
 		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
@@ -206,6 +201,14 @@ class HtmlView extends BaseHtmlView
 			$toolbar->popupButton('batch')
 				->text('JTOOLBAR_BATCH')
 				->selector('collapseModal')
+				->listCheck(true);
+		}
+
+		if ($canDo->get('core.create'))
+		{
+			$toolbar->standardButton('copy')
+				->text('JTOOLBAR_DUPLICATE')
+				->task('modules.duplicate')
 				->listCheck(true);
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -320,6 +320,7 @@ class SearchModel extends ListModel
 				else
 				{
 					$query->where('false');
+					break;
 				}
 			}
 		}
@@ -381,10 +382,11 @@ class SearchModel extends ListModel
 	protected function populateState($ordering = null, $direction = null)
 	{
 		// Get the configuration options.
-		$app    = \JFactory::getApplication();
-		$input  = $app->input;
-		$params = $app->getParams();
-		$user   = \JFactory::getUser();
+		$app      = \JFactory::getApplication();
+		$input    = $app->input;
+		$params   = $app->getParams();
+		$user     = \JFactory::getUser();
+		$language = \JFactory::getLanguage();
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
@@ -404,7 +406,7 @@ class SearchModel extends ListModel
 		$options['input'] = $request->getString('q', $params->get('q', ''));
 
 		// Get the query language.
-		$options['language'] = $request->getCmd('l', $params->get('l', ''));
+		$options['language'] = $request->getCmd('l', $params->get('l', $language->getTag()));
 
 		// Get the start date and start date modifier filters.
 		$options['date1'] = $request->getString('d1', $params->get('d1', ''));
