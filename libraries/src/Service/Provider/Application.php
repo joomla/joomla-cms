@@ -20,6 +20,7 @@ use Joomla\CMS\Console\Loader\WritableLoaderInterface;
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
 use Joomla\Console\Loader\LoaderInterface;
 use Joomla\DI\Container;
@@ -62,6 +63,7 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($container->get(DispatcherInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
@@ -84,6 +86,7 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($container->get(DispatcherInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
@@ -108,6 +111,7 @@ class Application implements ServiceProviderInterface
 					$app->setCommandLoader($container->get(LoaderInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},

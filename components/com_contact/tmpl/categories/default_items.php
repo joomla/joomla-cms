@@ -23,7 +23,7 @@ if ($this->maxLevelcat != 0 && count($this->items[$this->parent->id]) > 0) :
 					<a href="<?php echo Route::_(ContactHelperRoute::getCategoryRoute($item->id, $item->language)); ?>">
 					<?php echo $this->escape($item->title); ?></a>
 					<?php if ($this->params->get('show_cat_items_cat') == 1) :?>
-						<span class="badge badge-info tip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_CONTACT_NUM_ITEMS'); ?>">
+						<span class="badge badge-info">
 							<?php echo Text::_('COM_CONTACT_NUM_ITEMS'); ?>&nbsp;
 							<?php echo $item->numitems; ?>
 						</span>

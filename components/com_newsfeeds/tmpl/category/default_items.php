@@ -35,7 +35,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								</span>
 								<?php echo Text::_('COM_NEWSFEEDS_FILTER_LABEL') . '&#160;'; ?>
 							</label>
-							<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" title="<?php echo Text::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>" placeholder="<?php echo Text::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>">
+							<input type="text" name="filter-search" id="filter-search" value="<?php echo $this->escape($this->state->get('list.filter')); ?>" class="inputbox" onchange="document.adminForm.submit();" placeholder="<?php echo Text::_('COM_NEWSFEEDS_FILTER_SEARCH_DESC'); ?>">
 						</div>
 					<?php endif; ?>
 					<?php if ($this->params->get('show_pagination_limit')) : ?>
