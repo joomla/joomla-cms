@@ -35,7 +35,7 @@
     transition: all .3s ease;
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(xs) {
     &.sidebar-menu {
       /*height: 0;*/
       bottom: 0;
@@ -401,7 +401,7 @@
 
 
 /*mobil*/
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(xs) {
   #menu-collapse {
     display: none;
   }

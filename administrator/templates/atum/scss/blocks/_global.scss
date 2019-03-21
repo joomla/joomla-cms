@@ -161,7 +161,7 @@ a[href*="//"]:before {
 
 #wrapper{
   &.d-flex{
-    @include media-breakpoint-down(sm){
+    @include media-breakpoint-down(xs){
       display:block !important;
     }
   }

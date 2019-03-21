@@ -200,11 +200,15 @@
     margin-bottom: 0;
     font-size: $h5-font-size;
     color: var(--atum-special-color);
-
+    font-size:$font-size-vsm;
+    &:before{
+      font: normal normal normal 23px/1 FontAwesome;
+      content: "\f1aa  ";
+    }
 
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(xs) {
     .header-items{
       background:var(--atum-bg-dark);
       display:block;
@@ -221,7 +225,7 @@
   }
 }
 
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(xs) {
 
   .header {
     position: sticky;
@@ -232,18 +236,14 @@
 
   }
 }
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(xs) {
 
   .header {
     position: static;
 
     .joomla-version{
       color:var(--atum-text-light);
-      font-size:$font-size-vsm;
-      &:before{
-        font: normal normal normal 23px/1 FontAwesome;
-        content: "\f1aa  ";
-      }
+
     }
 
     .nav-item:hover,
