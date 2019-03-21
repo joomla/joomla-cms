@@ -82,8 +82,6 @@ class HtmlView extends InstallerViewDefault
 			ToolbarHelper::divider();
 		}
 
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
-
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');
 	}
