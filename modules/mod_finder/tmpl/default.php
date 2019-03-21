@@ -58,7 +58,7 @@ if ($params->get('show_autosuggest', 1))
 }
 ?>
 
-<form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get">
+<form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get" role="search">
 	<?php echo $output; ?>
 
 	<?php $show_advanced = $params->get('show_advanced', 0); ?>
