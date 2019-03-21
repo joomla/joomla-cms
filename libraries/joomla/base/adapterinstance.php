@@ -9,6 +9,8 @@
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+
 /**
  * Adapter Instance Class
  *
@@ -50,7 +52,7 @@ class JAdapterInstance extends JObject
 		$this->parent = $parent;
 
 		// Pull in the global dbo in case something happened to it.
-		$this->db = $db ?: JFactory::getDbo();
+		$this->db = $db ?: Factory::getDbo();
 	}
 
 	/**
