@@ -72,7 +72,7 @@ $user = $app->getIdentity();
 							if (!empty($params->menu_image)) :
 								$image = htmlspecialchars($params->menu_image, ENT_QUOTES, 'UTF-8');
 								$class = htmlspecialchars($params->menu_image_css, ENT_QUOTES, 'UTF-8');
-								echo  HTMLHelper::_('image', $image, '', 'class="' .  $class . '"'); 
+								echo  HTMLHelper::_('image', $image, '', 'class="' . $class . '"');
 							endif; ?>
 						</li>
 					<?php endforeach; ?>
