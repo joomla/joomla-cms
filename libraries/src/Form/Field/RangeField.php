@@ -10,10 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('number');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a horizontal scroll bar to specify a value in a range.
@@ -21,7 +17,7 @@ FormHelper::loadFieldClass('number');
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  3.2
  */
-class RangeField extends \JFormFieldNumber
+class RangeField extends NumberField
 {
 	/**
 	 * The form field type.
