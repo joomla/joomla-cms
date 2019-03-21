@@ -5,4 +5,16 @@
 			<![CDATA[COM_FIELDS_GROUPS_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
+	<fieldset name="request">
+		<fields name="request">
+			<field
+				name="extension"
+				type="componentsfields"
+				label="COM_FIELDS_CHOOSE_COMPONENT_LABEL"
+				required="true"
+			>
+				<option value="">COM_MENUS_OPTION_SELECT_COMPONENT</option>
+			</field>
+		</fields>
+	</fieldset>
 </metadata>
