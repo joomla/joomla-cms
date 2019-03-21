@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -395,7 +395,7 @@ abstract class Factory
 
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('DatabaseDriver'))
+			if (self::getContainer()->has('DatabaseDriver'))
 			{
 				self::$database = self::getContainer()->get('DatabaseDriver');
 			}
@@ -559,7 +559,8 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry);
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\ApiRouter);
 
 		return $container;
 	}

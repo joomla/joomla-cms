@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Tree\ImmutableNodeInterface;
 JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
 
 /**
@@ -21,7 +22,7 @@ JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
  *
  * @since  2.5
  */
-class FinderIndexerResult
+class FinderIndexerResult implements Serializable
 {
 	/**
 	 * An array of extra result properties.
@@ -324,14 +325,11 @@ class FinderIndexerResult
 	public function addInstruction($group, $property)
 	{
 		// Check if the group exists. We can't add instructions for unknown groups.
-		if (array_key_exists($group, $this->instructions))
+		// Check if the property exists in the group.
+		if (array_key_exists($group, $this->instructions) && !in_array($property, $this->instructions[$group], true))
 		{
-			// Check if the property exists in the group.
-			if (!in_array($property, $this->instructions[$group]))
-			{
-				// Add the property to the group.
-				$this->instructions[$group][] = $property;
-			}
+			// Add the property to the group.
+			$this->instructions[$group][] = $property;
 		}
 	}
 
@@ -375,9 +373,6 @@ class FinderIndexerResult
 		// Get the taxonomy branch if available.
 		if ($branch !== null && isset($this->taxonomy[$branch]))
 		{
-			// Filter the input.
-			$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
-
 			return $this->taxonomy[$branch];
 		}
 
@@ -387,28 +382,62 @@ class FinderIndexerResult
 	/**
 	 * Method to add a taxonomy map for an item.
 	 *
-	 * @param   string   $branch  The title of the taxonomy branch to add the node to.
-	 * @param   string   $title   The title of the taxonomy node.
-	 * @param   integer  $state   The published state of the taxonomy node. [optional]
-	 * @param   integer  $access  The access level of the taxonomy node. [optional]
+	 * @param   string   $branch    The title of the taxonomy branch to add the node to.
+	 * @param   string   $title     The title of the taxonomy node.
+	 * @param   integer  $state     The published state of the taxonomy node. [optional]
+	 * @param   integer  $access    The access level of the taxonomy node. [optional]
+	 * @param   string   $language  The language of the taxonomy. [optional]
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	public function addTaxonomy($branch, $title, $state = 1, $access = 1)
+	public function addTaxonomy($branch, $title, $state = 1, $access = 1, $language = '')
 	{
 		// Filter the input.
 		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
 		// Create the taxonomy node.
-		$node = new JObject;
+		$node = new stdClass;
 		$node->title = $title;
 		$node->state = (int) $state;
 		$node->access = (int) $access;
+		$node->language = $language;
+		$node->nested = false;
 
 		// Add the node to the taxonomy branch.
-		$this->taxonomy[$branch][$node->title] = $node;
+		$this->taxonomy[$branch][] = $node;
+	}
+
+	/**
+	 * Method to add a nested taxonomy map for an item.
+	 *
+	 * @param   string                  $branch       The title of the taxonomy branch to add the node to.
+	 * @param   ImmutableNodeInterface  $contentNode  The node object.
+	 * @param   integer                 $state        The published state of the taxonomy node. [optional]
+	 * @param   integer                 $access       The access level of the taxonomy node. [optional]
+	 * @param   string                  $language     The language of the taxonomy. [optional]
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '')
+	{
+		// Filter the input.
+		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
+
+		// Create the taxonomy node.
+		$node = new stdClass;
+		$node->title = $contentNode->title;
+		$node->state = (int) $state;
+		$node->access = (int) $access;
+		$node->language = $language;
+		$node->nested = true;
+		$node->node = $contentNode;
+
+		// Add the node to the taxonomy branch.
+		$this->taxonomy[$branch][] = $node;
 	}
 
 	/**
@@ -423,6 +452,105 @@ class FinderIndexerResult
 		if ($this->language == '')
 		{
 			$this->language = $this->defaultLanguage;
+		}
+	}
+
+	/**
+	 * Helper function to serialise the data of a FinderIndexerResult object
+	 * 
+	 * @return  string  The serialised data
+	 * 
+	 * @since   4.0.0
+	 */
+	public function serialize()
+	{
+		$taxonomy = array();
+
+		foreach ($this->taxonomy as $branch => $nodes)
+		{
+			$taxonomy[$branch] = array();
+
+			foreach ($nodes as $node)
+			{
+				if ($node->nested)
+				{
+					$n = clone $node;
+					unset($n->node);
+					$taxonomy[$branch][] = $n;
+				}
+				else
+				{
+					$taxonomy[$branch][] = $node;
+				}
+			}
+		}
+
+		return serialize(
+			[
+			$this->access,
+			$this->defaultLanguage,
+			$this->description,
+			$this->elements,
+			$this->end_date,
+			$this->instructions,
+			$this->language,
+			$this->list_price,
+			$this->publish_end_date,
+			$this->publish_start_date,
+			$this->published,
+			$this->route,
+			$this->sale_price,
+			$this->start_date,
+			$this->state,
+			$taxonomy,
+			$this->title,
+			$this->type_id,
+			$this->url
+			]
+		);
+	}
+
+	/**
+	 * Helper function to unserialise the data for this object
+	 * 
+	 * @param   string  $serialized  Serialised data to unserialise
+	 * 
+	 * @return  void
+	 * 
+	 * @since   4.0.0
+	 */
+	public function unserialize($serialized)
+	{
+		list(
+			$this->access,
+			$this->defaultLanguage,
+			$this->description,
+			$this->elements,
+			$this->end_date,
+			$this->instructions,
+			$this->language,
+			$this->list_price,
+			$this->publish_end_date,
+			$this->publish_start_date,
+			$this->published,
+			$this->route,
+			$this->sale_price,
+			$this->start_date,
+			$this->state,
+			$this->taxonomy,
+			$this->title,
+			$this->type_id,
+			$this->url
+		) = unserialize($serialized);
+
+		foreach ($this->taxonomy as $nodes)
+		{
+			foreach ($nodes as $node)
+			{
+				$curTaxonomy = FinderIndexerTaxonomy::getTaxonomy($node->id);
+				$node->state = $curTaxonomy->state;
+				$node->access = $curTaxonomy->access;
+			}
 		}
 	}
 }

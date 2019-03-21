@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for a stateful model.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface StatefulModelInterface
 {
@@ -25,7 +25,7 @@ interface StatefulModelInterface
 	 *
 	 * @return  mixed  The property where specified, the state object where omitted
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getState($property = null, $default = null);
 
@@ -37,7 +37,7 @@ interface StatefulModelInterface
 	 *
 	 * @return  mixed  The previous value of the property or null if not set.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setState($property, $value = null);
 }
