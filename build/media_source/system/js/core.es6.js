@@ -1110,14 +1110,14 @@ window.Joomla.Modal = window.Joomla.Modal || {
       // Load it from the right place.
       const replacement = `media/vendor/webcomponentsjs/js/webcomponents-${polyfills.join('-')}.min.js`;
 
-      const mediaVersion = script.src.match(/\?.*/)[0];
+      const mediaVersion = script.src.match(/\?.*/);
       const base = Joomla.getOptions('system.paths');
 
       if (!base) {
         throw new Error('core(.min).js is not registered correctly!');
       }
 
-      newScript.src = base.rootFull + replacement + (mediaVersion || '');
+      newScript.src = base.rootFull + replacement + (mediaVersion ? mediaVersion[0] : '');
 
       // if readyState is 'loading', this script is synchronous
       if (document.readyState === 'loading') {
