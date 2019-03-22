@@ -133,7 +133,7 @@ function modChrome_body($module, &$params, &$attribs)
 
 		if ($module->showtitle)
 		{
-			echo '<h2 class="card-header' . $headerClass . '">' . $module->title . '</h2>';
+			echo '<h2 style="display:flex; justify-content:center" class="card-header' . $headerClass . '">' . $module->title . '</h2>';
 		}
 
 		echo '<div class="module-body">';
