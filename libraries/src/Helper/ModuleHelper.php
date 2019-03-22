@@ -243,7 +243,10 @@ abstract class ModuleHelper
 
 		foreach (explode(' ', $attribs['style']) as $style)
 		{
-			$module->content = LayoutHelper::render('chromes.' . $style, $displayData, $basePath);
+			if ($moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath))
+			{
+				$module->content = $moduleContent;
+			}
 		}
 
 		// Revert the scope
