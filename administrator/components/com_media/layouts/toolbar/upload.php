@@ -14,5 +14,5 @@ use Joomla\CMS\Language\Text;
 $title = Text::_('JTOOLBAR_UPLOAD');
 ?>
 <button class="btn btn-sm btn-success" onclick="MediaManager.Event.fire('onClickUpload');">
-	<span class="icon-upload" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
+	<span class="icon-upload"></span> <?php echo $title; ?>
 </button>
