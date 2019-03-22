@@ -58,6 +58,27 @@ class UserController extends FormController
 	}
 
 	/**
+	 * Override parent cancel to redirect when using status edit account.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function cancel($key = null)
+	{
+		$result = parent::cancel();
+
+		if ($return = $this->input->get('return', '', 'BASE64'))
+		{
+			$this->app->redirect(base64_decode($return));
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Method to run batch operations.
 	 *
 	 * @param   object  $model  The model.

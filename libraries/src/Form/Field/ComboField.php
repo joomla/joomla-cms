@@ -10,17 +10,13 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Implements a combo box field.
  *
  * @since  1.7.0
  */
-class ComboField extends \JFormFieldList
+class ComboField extends ListField
 {
 	/**
 	 * The form field type.

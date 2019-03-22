@@ -14,5 +14,5 @@ CREATE TABLE "#__privacy_requests" (
   "user_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__fields_idx_checked_out" ON "#__privacy_requests" ("checked_out");
-CREATE INDEX "#__fields_idx_user_id" ON "#__privacy_requests" ("user_id");
+CREATE INDEX "#__privacy_requests_idx_checked_out" ON "#__privacy_requests" ("checked_out");
+CREATE INDEX "#__privacy_requests_idx_user_id" ON "#__privacy_requests" ("user_id");
