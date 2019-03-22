@@ -48,7 +48,7 @@ textarea {
 
   &:focus,
   &:-moz-focusring {
-    outline: auto 2px var(--focus);
+  outline: auto 2px var(--focus);
   }
 }
 
@@ -153,6 +153,13 @@ caption {
   opacity: 1;
 }
 
+// dashboard items
+.menu-quicktask,
+.menu-badge {
+  float: right;
+  min-width: 1rem;
+}
+
 // extern links with icons
 a[href*="//"]:before {
   font: normal normal normal 14px/1 FontAwesome;
@@ -166,7 +173,6 @@ a[href*="//"]:before {
     }
   }
 }
-
 
 
 
