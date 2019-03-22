@@ -147,9 +147,9 @@ class SiteMenu extends AbstractMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param   string  $attributes  The field name
-	 * @param   string  $values      The value of the field
-	 * @param   boolean $firstOnly   If true, only returns the first item found
+	 * @param   string   $attributes  The field name
+	 * @param   string   $values      The value of the field
+	 * @param   boolean  $firstOnly   If true, only returns the first item found
 	 *
 	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
