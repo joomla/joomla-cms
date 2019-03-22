@@ -144,3 +144,9 @@
     }
   }
 }
+
+.js-stools{
+  @include media-breakpoint-down(md) {
+    justify-content:flex-start;
+  }
+}

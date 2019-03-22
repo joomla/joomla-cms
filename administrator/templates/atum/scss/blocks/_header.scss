@@ -54,6 +54,13 @@
     [class^='icon-'] {
       margin-right: 10px;
     }
+    @include media-breakpoint-down(md){
+      width: 160px;
+       white-space: nowrap;
+       overflow: hidden;
+       text-overflow: ellipsis;
+    }
+
   }
 
   .nav-item:hover,
