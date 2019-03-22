@@ -390,7 +390,7 @@ class ManageModel extends InstallerModel
 	 * Load the changelog details for a given extension.
 	 *
 	 * @param   integer  $eid     The extension ID
-	 * @param   string   $source  The view the changelog is for
+	 * @param   string   $source  The view the changelog is for, this is used to determine which version number to show
 	 *
 	 * @return  string  The output to show in the modal.
 	 *
