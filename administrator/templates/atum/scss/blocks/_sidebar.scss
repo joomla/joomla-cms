@@ -17,6 +17,9 @@
     .main-nav {
       max-width: 3rem;
     }
+    .menu-dashboard {
+      display: none;
+    }
   }
 }
 
@@ -97,6 +100,9 @@
       color: var(--atum-text-light);
       height: 3.2rem;
       line-height: 3.2rem;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
 
@@ -148,7 +154,6 @@
           align-items: center;
           margin: 0;
         }
-
         &:hover {
           .fa {
             color: var(--atum-contrast);
@@ -158,11 +163,6 @@
       &::before {
         background-image: none;
         width: 0;
-      }
-      &:hover {
-        > .fa {
-          color:  var(--atum-contrast);
-        }
       }
     }
   }
