@@ -48,7 +48,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       } // Watch on list selection
 
       //If nothing is selected disable the list
-      if(this.formElement.boxchecked.value!=1){
+      if(this.formElement.boxchecked.value<1){
         this.setDisabled(true);
       }
       this.formElement.boxchecked.addEventListener('change', this.onChange);
