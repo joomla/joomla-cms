@@ -18,6 +18,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
 
 /**
@@ -168,7 +169,7 @@ abstract class ModuleHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
+			Profiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		// Record the scope.
@@ -266,7 +267,7 @@ abstract class ModuleHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
+			Profiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		return $module->content;
