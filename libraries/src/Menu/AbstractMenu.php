@@ -242,20 +242,19 @@ class AbstractMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param   mixed    $attributes  The field name(s).
-	 * @param   mixed    $values      The value(s) of the field. If an array, need to match field names
+	 * @param   mixed   $attributes   The field name(s).
+	 * @param   mixed   $values       The value(s) of the field. If an array, need to match field names
 	 *                                each attribute may have multiple values to lookup for.
-	 * @param   boolean  $firstonly   If true, only returns the first item found
+	 * @param   boolean $firstOnly    If true, only returns the first item found
 	 *
 	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
 	 * @since   1.5
 	 */
-	public function getItems($attributes, $values, $firstonly = false)
+	public function getItems($attributes, $values, $firstOnly = false)
 	{
 		$items      = array();
-		$attributes = (array) $attributes;
-		$values     = (array) $values;
+		$attributes = array_combine((array) $attributes, (array) $values);
 
 		foreach ($this->_items as $item)
 		{
@@ -264,62 +263,52 @@ class AbstractMenu
 				continue;
 			}
 
-			$isNeedAddItem = true;
+			$isSuitableItem = true;
 
-			for ($i = 0; $i < count($attributes); $i++)
+			foreach ($attributes as $attribute => $value)
 			{
 				// Check if parent item has access
-				if ($attributes[$i] == 'access')
+				if ($attribute == 'access')
 				{
 					$parentItem = $this->getItem($item->parent_id);
 
 					while (!is_null($parentItem))
 					{
-						if (!in_array($parentItem->{$attributes[$i]}, $values[$i]))
+						if (is_array($value) && !in_array($parentItem->{$attribute}, $value))
 						{
-							$isNeedAddItem = false;
-							break;
+							$isSuitableItem = false;
+							break 2;
 						}
-						else
+
+						if (!is_array($value) && $parentItem->{$attribute} != $value)
 						{
-							if ($parentItem->{$attributes[$i]} != $values[$i])
-							{
-								$isNeedAddItem = false;
-								break;
-							}
+							$isSuitableItem = false;
+							break 2;
 						}
 
 						$parentItem = $this->getItem($parentItem->parent_id);
 					}
 				}
 
-				if (is_array($values[$i]))
+				if (is_array($value) && !in_array($item->{$attribute}, $value))
 				{
-					if (!in_array($item->{$attributes[$i]}, $values[$i]))
-					{
-						$isNeedAddItem = false;
-						break;
-					}
+					$isSuitableItem = false;
+					break;
 				}
-				else
+
+				if (!is_array($value) && $item->{$attribute} != $value)
 				{
-					if ($item->{$attributes[$i]} != $values[$i])
-					{
-						$isNeedAddItem = false;
-						break;
-					}
+					$isSuitableItem = false;
+					break;
 				}
 			}
 
-			if ($isNeedAddItem)
+			if ($isSuitableItem && $firstOnly)
 			{
-				if ($firstonly)
-				{
-					return $item;
-				}
-
-				$items[] = $item;
+				return $item;
 			}
+
+			$isSuitableItem && $items[] = $item;
 		}
 
 		return $items;

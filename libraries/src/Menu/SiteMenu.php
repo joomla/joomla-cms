@@ -147,15 +147,15 @@ class SiteMenu extends AbstractMenu
 	/**
 	 * Gets menu items by attribute
 	 *
-	 * @param   string   $attributes  The field name
-	 * @param   string   $values      The value of the field
-	 * @param   boolean  $firstonly   If true, only returns the first item found
+	 * @param   string  $attributes The field name
+	 * @param   string  $values     The value of the field
+	 * @param   boolean $firstOnly  If true, only returns the first item found
 	 *
 	 * @return  MenuItem|MenuItem[]  An array of menu item objects or a single object if the $firstonly parameter is true
 	 *
 	 * @since   1.6
 	 */
-	public function getItems($attributes, $values, $firstonly = false)
+	public function getItems($attributes, $values, $firstOnly = false)
 	{
 		$attributes = (array) $attributes;
 		$values     = (array) $values;
@@ -192,7 +192,7 @@ class SiteMenu extends AbstractMenu
 		$attributes = array_values($attributes);
 		$values = array_values($values);
 
-		return parent::getItems($attributes, $values, $firstonly);
+		return parent::getItems($attributes, $values, $firstOnly);
 	}
 
 	/**
