@@ -101,12 +101,12 @@
       "choices.js": {
         "name": "choicesjs",
         "js": {
-          "assets/scripts/dist/choices.js": "js/choices.js",
-          "assets/scripts/dist/choices.min.js": "js/choices.min.js"
+          "public/assets/scripts/choices.js": "js/choices.js",
+          "public/assets/scripts/choices.min.js": "js/choices.min.js"
         },
         "css": {
-          "assets/styles/css/choices.css": "css/choices.css",
-          "assets/styles/css/choices.min.css": "css/choices.min.css"
+          "public/assets/styles/choices.css": "css/choices.css",
+          "public/assets/styles/choices.min.css": "css/choices.min.css"
         },
         "provideAssets": [
           {

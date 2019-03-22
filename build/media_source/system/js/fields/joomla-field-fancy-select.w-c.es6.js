@@ -44,7 +44,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   get value() {return this.choicesInstance.getValue(true); }
 
-  set value($val) { this.choicesInstance.setValueByChoice($val); }
+  set value($val) { this.choicesInstance.setChoiceByValue($val); }
 
   /**
    * Lifecycle
