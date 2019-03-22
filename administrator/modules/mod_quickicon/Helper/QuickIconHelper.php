@@ -280,16 +280,14 @@ abstract class QuickIconHelper
 			->createModel('Articles', 'Administrator', ['ignore_request' => true]);
 
 		// Count IDs
-		$model->setState('list.select', 'COUNT(a.id) as amount');
+		$model->setState('list.select', 'a.id');
 
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
 
-		$result = $model->getItems();
-		
-		return reset($result)->amount;
+		return count($model->getItems());
 	}
 	
 	/**
@@ -305,19 +303,17 @@ abstract class QuickIconHelper
 		
 		// Get an instance of the menuitems model (administrator)
 		$model = $app->bootComponent('com_menus')->getMVCFactory()->createModel('Items', 'Administrator', ['ignore_request' => true]);
-		
+
 		// Count IDs
-		$model->setState('list.select', 'COUNT(a.id) as amount');
-		
+		$model->setState('list.select', 'a.id');
+
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
 		$model->setState('filter.client_id', 0);
 
-		$result = $model->getItems();
-		
-		return reset($result)->amount;
+		return count($model->getItems());
 	}
 	
 	/**
@@ -330,11 +326,11 @@ abstract class QuickIconHelper
 	private static function countUsers()
 	{
 		$app = Factory::getApplication();
-		
+
 		$model = $app->bootComponent('com_users')->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
 
 		$model->setState('list.select', '*');
-		
+
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
@@ -353,11 +349,11 @@ abstract class QuickIconHelper
 	private static function countPlugins()
 	{
 		$app = Factory::getApplication();
-		
+
 		$model = $app->bootComponent('com_plugins')->getMVCFactory()->createModel('Plugins', 'Administrator', ['ignore_request' => true]);
 
 		$model->setState('list.select', '*');
-		
+
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
@@ -379,15 +375,14 @@ abstract class QuickIconHelper
 		
 		$model = $app->bootComponent('com_categories')->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
 
-		$model->setState('list.select', 'COUNT(a.id) as amount');
-		
+		$model->setState('list.select', 'a.id');
+
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
-		
-		$result = $model->getItems();
+		$model->setState('filter.extension', 'com_content');
 
-		return count($result);
+		return count($model->getItems());
 	}
 
 	/**
@@ -400,9 +395,9 @@ abstract class QuickIconHelper
 	private static function countCheckin()
 	{
 		$app = Factory::getApplication();
-		
+
 		$model = $app->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
-	
+
 		return $model->getTotal();
 	}
 }

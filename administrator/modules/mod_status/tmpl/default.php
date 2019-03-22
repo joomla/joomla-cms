@@ -23,6 +23,7 @@ HTMLHelper::_('bootstrap.framework');
 $hideLinks = $app->input->getBool('hidemainmenu');
 ?>
 <div class="ml-auto">
+
 	<ul class="nav text-center">
 		<?php // Check if the multilangstatus module is present and enabled in the site ?>
 		<?php if (class_exists(MultilangstatusAdminHelper::class)

@@ -198,19 +198,18 @@ $this->addStyleDeclaration($css);
 
     <?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
+
         <button class="navbar-toggler toggler-burger" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
                  <span class="navbar-toggler-icon">
                   </span>
         </button>
 
 		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-
-
             <div id="sidebarmenu">
                 <div class="sidebar-toggle">
                   <a id="menu-collapse" href="#">
                        <span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>
-                       <span class="sidebar-item-title"><?php echo Text::_('MOD_MENU_TOGGLE_MENU'); ?></span>
+                       <span class="sidebar-item-title"><?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?></span>
                   </a>
                 </div>
                 <jdoc:include type="modules" name="menu" style="none"/>
