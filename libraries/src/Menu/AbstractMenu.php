@@ -269,16 +269,19 @@ class AbstractMenu
 			for ($i = 0; $i < count($attributes); $i++)
 			{
 				// Check if parent item has access
-				if ($attributes[$i] == 'access') {
-
+				if ($attributes[$i] == 'access')
+				{
 					$parentItem = $this->getItem($item->parent_id);
 
-					while (!is_null($parentItem)) {
-
-						if (!in_array($parentItem->{$attributes[$i]}, $values[$i])) {
+					while (!is_null($parentItem))
+					{
+						if (!in_array($parentItem->{$attributes[$i]}, $values[$i]))
+						{
 							$isNeedAddItem = false;
 							break;
-						} else {
+						}
+						else
+						{
 							if ($parentItem->{$attributes[$i]} != $values[$i])
 							{
 								$isNeedAddItem = false;
