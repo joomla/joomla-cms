@@ -64,7 +64,7 @@ pipeline:
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
-      - cd /drone/src/github.com/joomla/joomla-cms && npm run lint:js
+      - npm run lint:js
 
   javascript-tests:
     image: joomlaprojects/docker-systemtests:develop
