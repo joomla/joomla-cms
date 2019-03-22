@@ -106,6 +106,36 @@ class PlgSystemStats extends CMSPlugin
 
 		// Load plugin language files only when needed (ex: they are not needed in site client).
 		$this->loadLanguage();
+	}
+
+	/**
+	 * Listener for the `onAfterDispatch` event
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onAfterDispatch()
+	{
+		if (!$this->app->isClient('administrator') || !$this->isAllowedUser())
+		{
+			return;
+		}
+
+		if (!$this->isDebugEnabled() && !$this->isUpdateRequired())
+		{
+			return;
+		}
+
+		if (Uri::getInstance()->getVar('tmpl') === 'component')
+		{
+			return;
+		}
+
+		if ($this->app->getDocument()->getType() !== 'html')
+		{
+			return;
+		}
 
 		HTMLHelper::_('script', 'plg_system_stats/stats-message.js', array('version' => 'auto', 'relative' => true));
 	}
