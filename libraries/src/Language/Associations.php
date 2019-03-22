@@ -11,6 +11,7 @@ namespace Joomla\CMS\Language;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -157,7 +158,7 @@ class Associations
 			// If already tested, don't test again.
 			if (!$tested)
 			{
-				$plugin = \JPluginHelper::getPlugin('system', 'languagefilter');
+				$plugin = PluginHelper::getPlugin('system', 'languagefilter');
 
 				if (!empty($plugin))
 				{

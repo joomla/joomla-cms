@@ -107,6 +107,9 @@ class ArticlesModel extends ListModel
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
+		$featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
+		$this->setState('filter.featured', $featured);
+
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
@@ -313,6 +316,14 @@ class ArticlesModel extends ListModel
 			$access = ArrayHelper::toInteger($access);
 			$access = implode(',', $access);
 			$query->where('a.access IN (' . $access . ')');
+		}
+
+		// Filter by featured.
+		$featured = (string) $this->getState('filter.featured');
+
+		if (in_array($featured, ['0','1']))
+		{
+			$query->where('a.featured =' . (int) $featured);
 		}
 
 		// Filter by access level on categories.

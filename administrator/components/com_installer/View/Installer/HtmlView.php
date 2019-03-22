@@ -111,8 +111,5 @@ class HtmlView extends BaseHtmlView
 			ToolbarHelper::preferences('com_installer');
 			ToolbarHelper::divider();
 		}
-
-		// Render side bar.
-		$this->sidebar = \JHtmlSidebar::render();
 	}
 }
