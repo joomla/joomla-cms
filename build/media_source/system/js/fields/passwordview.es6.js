@@ -41,7 +41,7 @@
           input.type = 'password';
 
           // Update sr.only
-          status.innerHTML = Joomla.JText._('JSHOW');
+          status.innerHTML = Joomla.JText._('JHIDE');
 
           // Update the text for screenreaders
           srText.innerText = Joomla.JText._('JHIDE');
