@@ -211,7 +211,7 @@ $quickicon-box-shadow-danger:      0 0 3px 0 var(--danger);
 $quickicon-box-shadow-warning:     0 0 3px 0 var(--warning);
 
 // Gutter
-$grid-gutter-width:                15px;
+$grid-gutter-width:                30px;
 
 // Breadcrumbs
 $breadcrumb-bg:                    var(--white);
@@ -234,4 +234,6 @@ $zindex-modal-backdrop:            1040;
 $zindex-modal:                     1050;
 $zindex-popover:                   1060;
 $zindex-tooltip:                   1070;
+
+// Spacing
 
