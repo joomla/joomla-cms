@@ -918,13 +918,14 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * Load the changelog data
    *
    * @param extensionId The extension ID to load the changelog for
-   * @param view The view the changelog is for, this is used to determine which version number to show
+   * @param view The view the changelog is for,
+   *             this is used to determine which version number to show
    *
    * @since   4.0.0
    */
   Joomla.loadChangelog = (extensionId, view) => {
     Joomla.request({
-      url: 'index.php?option=com_installer&task=manage.loadChangelog&eid=' + extensionId + '&source=' + view + '&format=json',
+      url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
       onSuccess: (response) => {
         const result = JSON.parse(response);
         document.querySelectorAll('#changelogModal .modal-body')[0].innerHTML = result.data;
