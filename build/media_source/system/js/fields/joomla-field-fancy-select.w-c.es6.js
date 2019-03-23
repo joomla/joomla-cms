@@ -207,7 +207,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   disableByValue($val) {
-    let choices = this.choicesInstance.store.getState().choices;
+    let choices = this.choicesInstance._store.choices;
     let values = this.choicesInstance.getValue(true);
 
     choices.forEach((elem, index) => {
@@ -224,7 +224,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   enableByValue($val) {
-    let choices = this.choicesInstance.store.getState().choices;
+    let choices = this.choicesInstance._store.choices;
 
 
     choices.forEach((elem, index) => {
@@ -239,5 +239,4 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     this.value = values;
   }
-
 });
