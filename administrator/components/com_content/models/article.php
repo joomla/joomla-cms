@@ -382,6 +382,13 @@ class ContentModelArticle extends JModelAdmin
 
 		$id   = $this->getState('article.id');
 		$user = JFactory::getUser();
+		
+		if ($id && $app->isClient('site'))
+		// Existing record. We can't edit the category in frontend.
+		{
+			$form->setFieldAttribute('catid', 'readonly', 'true');
+			$form->setFieldAttribute('catid', 'filter', 'unset');
+		}
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
