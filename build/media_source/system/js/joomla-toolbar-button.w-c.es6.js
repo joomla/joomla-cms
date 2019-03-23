@@ -45,12 +45,13 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     this.disabled = false;
     // If list selection is required, set button to disabled by default
     if (this.listSelection) {
-      this.setDisabled(true);
-    }
-
-    if (this.listSelection) {
       if (!this.formElement) {
         throw new Error(`The form "${formSelector}" is required to perform the task, but the form was not found on the page.`);
+      }
+
+      //If nothing is selected disable the list
+      if(this.formElement.boxchecked.value!=1){
+        this.setDisabled(true);
       }
 
       // Watch on list selection
