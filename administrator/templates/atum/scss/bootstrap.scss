@@ -36,3 +36,17 @@
 @import "../../../../media/vendor/bootstrap/scss/popover";
 @import "../../../../media/vendor/bootstrap/scss/carousel";
 @import "../../../../media/vendor/bootstrap/scss/utilities";
+
+// Chosen (TEMPORARY)
+.input-group-text input[type="radio"],
+.input-group-text input[type="checkbox"] {
+  color: var(--white);
+  -webkit-appearance: none;
+  margin: 0;}
+.input-group-text > input[type="checkbox" i]:focus{
+  outline: 0;
+}
+.input-group-text:focus-within{
+  border-color: #19b6ff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 104, 152, 0.25);
+}
