@@ -50,10 +50,10 @@ Text::script('JHIDE');
 			<?php if (!$params->get('usetext', 0)) : ?>
 				<div class="input-group">
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
-					<span class="input-group-append">
+                    <span class="input-group-append input-group-text">
 						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-						<span class="input-group-text icon-eye" aria-hidden="true"></span>
-					</span>
+                        <input type="checkbox" class="icon-eye" aria-hidden="true" value="hidden">
+                    </span>
 				</div>
 			<?php else : ?>
 				<label for="modlgn-passwd"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
