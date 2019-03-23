@@ -64,3 +64,19 @@
   width: 100% !important;
   max-width: 240px;
 }
+.input-group-prepend {
+  margin-right: 0px; }
+
+.input-group-append {
+  margin-left: 0px; }
+.input-group-text input[type="radio"],
+.input-group-text input[type="checkbox"] {
+  -webkit-appearance: none;
+  margin: 0;}
+.input-group-text > input[type="checkbox" i]:focus{
+  outline: 0;
+}
+.input-group-text:focus-within{
+  border-color: #19b6ff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 104, 152, 0.25);
+}
