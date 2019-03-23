@@ -51,9 +51,9 @@ Text::script('JHIDE');
 				<?php echo Text::_('JGLOBAL_PASSWORD'); ?>
 			</label>
 			<div class="input-group">
-				<span class="input-group-prepend">
+				<span class="input-group-prepend input-group-text">
 					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-					<span class="input-group-text icon-eye" aria-hidden="true"></span>
+                    <input type="checkbox" class="icon-eye" aria-hidden="true" value="hidden">
 				</span>
 				<input
 					name="passwd"
