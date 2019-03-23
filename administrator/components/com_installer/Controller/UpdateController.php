@@ -12,6 +12,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
@@ -153,6 +154,9 @@ class UpdateController extends BaseController
 			echo Text::_('JINVALID_TOKEN');
 			$app->close();
 		}
+
+		// Close the session before we make a long running request
+		Factory::getSession()->abort();
 
 		$eid               = $this->input->getInt('eid', 0);
 		$skip              = $this->input->get('skip', array(), 'array');
