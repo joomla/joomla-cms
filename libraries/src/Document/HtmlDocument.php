@@ -805,8 +805,16 @@ class HtmlDocument extends Document
 
 			if (!empty($wcompContent))
 			{
-				$wcompContent = str_replace('{{nevergreen}}', HTMLHelper::_('script', 'vendor/wc-polyfills/nevergreen.min.js', ['relative' => true, 'pathOnly' => true]), $wcompContent);
-				$wcompContent = str_replace('{{evergreen}}', HTMLHelper::_('script', 'vendor/wc-polyfills/evergreen.min.js', ['relative' => true, 'pathOnly' => true]), $wcompContent);
+				$wcompContent = str_replace(
+					'{{nevergreen}}',
+					HTMLHelper::_('script', 'vendor/wc-polyfills/nevergreen.min.js', ['relative' => true, 'pathOnly' => true]),
+					$wcompContent
+				);
+				$wcompContent = str_replace(
+					'{{evergreen}}',
+					HTMLHelper::_('script', 'vendor/wc-polyfills/evergreen.min.js', ['relative' => true, 'pathOnly' => true]),
+					$wcompContent
+				);
 
 				$this->_template = str_replace('</body>', '<script>' . $wcompContent . '</script></body>', $this->_template);
 			}
