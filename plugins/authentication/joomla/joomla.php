@@ -70,6 +70,17 @@ class PlgAuthenticationJoomla extends JPlugin
 					$response->language = $user->getParam('language');
 				}
 
+				// Check if user activation is true or not, if successfully logged in then make activation equals to ''
+				if($user->activation != '') {
+					$user->activation = '';
+					if ($user->resetCount > 0)
+						$user->resetCount = $user->resetCount-1;
+					if (!$user->save(true))
+					{
+						return new JException(JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
+					}
+				}
+
 				$response->status        = JAuthentication::STATUS_SUCCESS;
 				$response->error_message = '';
 			}
