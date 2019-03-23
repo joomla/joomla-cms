@@ -52,7 +52,7 @@ Text::script('JHIDE');
 					<input id="modlgn-passwd" type="password" name="password" class="form-control" placeholder="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
                     <span class="input-group-append input-group-text">
 						<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-                        <input type="checkbox" class="icon-eye" aria-hidden="true" value="hidden">
+                        <input type="checkbox" class="icon-eye" aria-hidden="true">
                     </span>
 				</div>
 			<?php else : ?>
