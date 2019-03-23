@@ -35,7 +35,7 @@ COMMENT ON COLUMN "#__assets"."rules" IS 'JSON encoded access control.';
 --
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 0, 121, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 121, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -60,6 +60,8 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (23, 1, 101, 102, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
 (24, 1, 103, 106, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
 (26, 1, 107, 108, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(65, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
+(66, 1, 107, 108, 1, 'com_userlogs', 'com_userlogs', '{"core.admin":{"7":1}}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
@@ -96,7 +98,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (62, 56, 31, 32, 3, 'com_content.transition.2', 'Unpublish', '{}'),
 (63, 56, 33, 34, 3, 'com_content.transition.3', 'Archive', '{}'),
 (64, 56, 35, 36, 3, 'com_content.transition.4', 'Trash', '{}');
-SELECT setval('#__assets_id_seq', 65, false);
+SELECT setval('#__assets_id_seq', 67, false);
 
 --
 -- Table structure for table `#__associations`
@@ -449,7 +451,7 @@ CREATE TABLE IF NOT EXISTS "#__contentitem_tag_map" (
   "tag_id" integer NOT NULL,
   "tag_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "type_id" integer NOT NULL,
- CONSTRAINT "#__uc_itemnametagid" UNIQUE ("type_id", "content_item_id", "tag_id")
+ PRIMARY KEY ("type_id", "content_item_id", "tag_id")
 );
 CREATE INDEX "#__contentitem_tag_map_idx_tag_type" ON "#__contentitem_tag_map" ("tag_id", "type_id");
 CREATE INDEX "#__contentitem_tag_map_idx_date_id" ON "#__contentitem_tag_map" ("tag_date", "tag_id");
@@ -541,7 +543,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (18, 0, 'com_plugins', 'component', 'com_plugins', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (19, 0, 'com_search', 'component', 'com_search', '', 1, 1, 1, 0, '', '{"enabled":"0","search_phrases":"1","search_areas":"1","show_date":"1","opensearch_name":"","opensearch_description":""}', 0, '1970-01-01 00:00:00', 0, 0),
 (20, 0, 'com_templates', 'component', 'com_templates', '', 1, 1, 1, 1, '', '{"template_positions_display":"0","upload_limit":"10","image_formats":"gif,bmp,jpg,jpeg,png","source_formats":"txt,less,ini,xml,js,php,css,scss,sass,json","font_formats":"woff,ttf,otf","compressed_formats":"zip"}', 0, '1970-01-01 00:00:00', 0, 0),
-(22, 0, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","show_icons":"1","show_print_icon":"1","show_email_icon":"0","show_hits":"1","show_noauth":"0","show_publishing_options":"1","show_article_options":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","multi_column_order":"0","show_subcategory_content":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0"}', 0, '1970-01-01 00:00:00', 0, 0),
+(22, 0, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","show_icons":"1","show_print_icon":"1","show_email_icon":"0","show_hits":"1","show_noauth":"0","show_publishing_options":"1","show_article_options":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_links":"4","show_subcategory_content":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0"}', 0, '1970-01-01 00:00:00', 0, 0),
 (23, 0, 'com_config', 'component', 'com_config', '', 1, 1, 0, 1, '', '{"filters":{"1":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"6":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"7":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"2":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"3":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"4":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"5":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"10":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"12":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"8":{"filter_type":"NONE","filter_tags":"","filter_attributes":""}}}', 0, '1970-01-01 00:00:00', 0, 0),
 (24, 0, 'com_redirect', 'component', 'com_redirect', '', 1, 1, 0, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (25, 0, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"9","sendpassword":"0","useractivation":"2","mail_to_admin":"1","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","minimum_length":"4","minimum_integers":"0","minimum_symbols":"0","minimum_uppercase":"0","save_history":"1","history_limit":5,"mailSubjectPrefix":"","mailBodySuffix":""}', 0, '1970-01-01 00:00:00', 0, 0),
@@ -553,8 +555,10 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (32, 0, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (33, 0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (34, 0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(36, 0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(35, 0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(36, 0, 'com_userlogs', 'component', 'com_userlogs', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(37, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(38, 0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (106, 0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (200, 0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -672,26 +676,28 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 (478, 0, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (479, 0, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (480, 0, 'plg_system_sessiongc', 'plugin', 'sessiongc', 'system', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(481, 0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(482, 0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(483, 0, 'plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(484, 0, 'plg_media-action_crop', 'plugin', 'crop', 'media-action', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(485, 0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(486, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(487, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '1970-01-01 00:00:00', 0, 0),
-(488, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(489, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(490, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
-(491, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 4, 0),
-(492, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(481, 0, 'plg_system_userlogs', 'plugin', 'userlogs', 'system', 0, 1, 1, 0, '', '{"logDeletePeriod":"0","ip_logging":"1","loggable_extensions":["com_banners","com_cache","com_categories","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', 0, '1970-01-01 00:00:00', 0, 0),
+(482, 0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(483, 0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(484, 0, 'plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(485, 0, 'plg_media-action_crop', 'plugin', 'crop', 'media-action', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(486, 0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(487, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(488, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '1970-01-01 00:00:00', 0, 0),
+(489, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(490, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(491, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(492, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 4, 0),
+(493, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(494, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(495, 0, 'plg_api-authentication_basic', 'plugin', 'basic', 'api-authentication', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(496, 0, 'plg_webservices_content', 'plugin', 'content', 'webservices', 0, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
+(509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(510, 0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '1970-01-01 00:00:00', 0, 0),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(802, 0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, '');
-
-INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(510, 0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '1970-01-01 00:00:00', 0, 0);
+(802, 0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 SELECT setval('#__extensions_extension_id_seq', 10000, false);
 
@@ -876,24 +882,31 @@ CREATE INDEX "#__finder_logging_idx_searchterm" on "#__finder_logging" ("searcht
 CREATE TABLE IF NOT EXISTS "#__finder_taxonomy" (
   "id" serial NOT NULL,
   "parent_id" integer DEFAULT 0 NOT NULL,
-  "title" varchar(255) NOT NULL,
+  "lft" integer DEFAULT 0 NOT NULL,
+  "rgt" integer DEFAULT 0 NOT NULL,
+  "level" integer DEFAULT 0 NOT NULL,
+  "path" VARCHAR(400) NOT NULL DEFAULT '',
+  "title" VARCHAR(255) NOT NULL DEFAULT '',
+  "alias" VARCHAR(400) NOT NULL DEFAULT '',
   "state" smallint DEFAULT 1 NOT NULL,
-  "access" smallint DEFAULT 0 NOT NULL,
-  "ordering" smallint DEFAULT 0 NOT NULL,
+  "access" smallint DEFAULT 1 NOT NULL,
+  "language" varchar(7) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__finder_taxonomy_parent_id" on "#__finder_taxonomy" ("parent_id");
 CREATE INDEX "#__finder_taxonomy_state" on "#__finder_taxonomy" ("state");
-CREATE INDEX "#__finder_taxonomy_ordering" on "#__finder_taxonomy" ("ordering");
 CREATE INDEX "#__finder_taxonomy_access" on "#__finder_taxonomy" ("access");
+CREATE INDEX "#__finder_taxonomy_path" on "#__finder_taxonomy" ("path");
+CREATE INDEX "#__finder_taxonomy_lft_rgt" on "#__finder_taxonomy" ("lft", "rgt");
+CREATE INDEX "#__finder_taxonomy_alias" on "#__finder_taxonomy" ("alias");
+CREATE INDEX "#__finder_taxonomy_language" on "#__finder_taxonomy" ("language");
 CREATE INDEX "#__finder_taxonomy_idx_parent_published" on "#__finder_taxonomy" ("parent_id", "state", "access");
 
 --
 -- Dumping data for table `#__finder_taxonomy`
 --
 
-INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "title", "state", "access", "ordering") VALUES
-(1, 0, 'ROOT', 0, 0, 0);
+INSERT INTO "#__finder_taxonomy" ("id", "parent_id", "lft", "rgt", "level", "path", "title", "alias", "state", "access", "language") VALUES
+(1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 
 SELECT setval('#__finder_taxonomy_id_seq', 2, false);
 
@@ -936,7 +949,9 @@ CREATE INDEX "#__finder_terms_idx_soundex_phrase" on "#__finder_terms" ("soundex
 
 CREATE TABLE IF NOT EXISTS "#__finder_terms_common" (
   "term" varchar(75) NOT NULL,
-  "language" varchar(7) DEFAULT '' NOT NULL
+  "language" varchar(7) DEFAULT '' NOT NULL,
+  "custom" integer DEFAULT 0 NOT NULL,
+  CONSTRAINT "#__finder_terms_idx_term" UNIQUE ("term", "language")
 );
 CREATE INDEX "#__finder_terms_common_idx_word_lang" on "#__finder_terms_common" ("term", "language");
 CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("language");
@@ -945,117 +960,181 @@ CREATE INDEX "#__finder_terms_common_idx_lang" on "#__finder_terms_common" ("lan
 -- Dumping data for table `#__finder_terms_common`
 --
 
-INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
-('a', 'en-GB'),
-('about', 'en-GB'),
-('after', 'en-GB'),
-('ago', 'en-GB'),
-('all', 'en-GB'),
-('am', 'en-GB'),
-('an', 'en-GB'),
-('and', 'en-GB'),
-('any', 'en-GB'),
-('are', 'en-GB'),
-('aren''t', 'en-GB'),
-('as', 'en-GB'),
-('at', 'en-GB'),
-('be', 'en-GB'),
-('but', 'en-GB'),
-('by', 'en-GB'),
-('for', 'en-GB'),
-('from', 'en-GB'),
-('get', 'en-GB'),
-('go', 'en-GB'),
-('how', 'en-GB'),
-('if', 'en-GB'),
-('in', 'en-GB'),
-('into', 'en-GB'),
-('is', 'en-GB'),
-('isn''t', 'en-GB'),
-('it', 'en-GB'),
-('its', 'en-GB'),
-('me', 'en-GB'),
-('more', 'en-GB'),
-('most', 'en-GB'),
-('must', 'en-GB'),
-('my', 'en-GB'),
-('new', 'en-GB'),
-('no', 'en-GB'),
-('none', 'en-GB'),
-('not', 'en-GB'),
-('nothing', 'en-GB'),
-('of', 'en-GB'),
-('off', 'en-GB'),
-('often', 'en-GB'),
-('old', 'en-GB'),
-('on', 'en-GB'),
-('onc', 'en-GB'),
-('once', 'en-GB'),
-('only', 'en-GB'),
-('or', 'en-GB'),
-('other', 'en-GB'),
-('our', 'en-GB'),
-('ours', 'en-GB'),
-('out', 'en-GB'),
-('over', 'en-GB'),
-('page', 'en-GB'),
-('she', 'en-GB'),
-('should', 'en-GB'),
-('small', 'en-GB'),
-('so', 'en-GB'),
-('some', 'en-GB'),
-('than', 'en-GB'),
-('thank', 'en-GB'),
-('that', 'en-GB'),
-('the', 'en-GB'),
-('their', 'en-GB'),
-('theirs', 'en-GB'),
-('them', 'en-GB'),
-('then', 'en-GB'),
-('there', 'en-GB'),
-('these', 'en-GB'),
-('they', 'en-GB'),
-('this', 'en-GB'),
-('those', 'en-GB'),
-('thus', 'en-GB'),
-('time', 'en-GB'),
-('times', 'en-GB'),
-('to', 'en-GB'),
-('too', 'en-GB'),
-('true', 'en-GB'),
-('under', 'en-GB'),
-('until', 'en-GB'),
-('up', 'en-GB'),
-('upon', 'en-GB'),
-('use', 'en-GB'),
-('user', 'en-GB'),
-('users', 'en-GB'),
-('version', 'en-GB'),
-('very', 'en-GB'),
-('via', 'en-GB'),
-('want', 'en-GB'),
-('was', 'en-GB'),
-('way', 'en-GB'),
-('were', 'en-GB'),
-('what', 'en-GB'),
-('when', 'en-GB'),
-('where', 'en-GB'),
-('which', 'en-GB'),
-('who', 'en-GB'),
-('whom', 'en-GB'),
-('whose', 'en-GB'),
-('why', 'en-GB'),
-('wide', 'en-GB'),
-('will', 'en-GB'),
-('with', 'en-GB'),
-('within', 'en-GB'),
-('without', 'en-GB'),
-('would', 'en-GB'),
-('yes', 'en-GB'),
-('yet', 'en-GB'),
-('you', 'en-GB'),
-('your', 'en-GB'),
-('yours', 'en-GB');
+INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
+('i', 'en', 0),
+('me', 'en', 0),
+('my', 'en', 0),
+('myself', 'en', 0),
+('we', 'en', 0),
+('our', 'en', 0),
+('ours', 'en', 0),
+('ourselves', 'en', 0),
+('you', 'en', 0),
+('your', 'en', 0),
+('yours', 'en', 0),
+('yourself', 'en', 0),
+('yourselves', 'en', 0),
+('he', 'en', 0),
+('him', 'en', 0),
+('his', 'en', 0),
+('himself', 'en', 0),
+('she', 'en', 0),
+('her', 'en', 0),
+('hers', 'en', 0),
+('herself', 'en', 0),
+('it', 'en', 0),
+('its', 'en', 0),
+('itself', 'en', 0),
+('they', 'en', 0),
+('them', 'en', 0),
+('their', 'en', 0),
+('theirs', 'en', 0),
+('themselves', 'en', 0),
+('what', 'en', 0),
+('which', 'en', 0),
+('who', 'en', 0),
+('whom', 'en', 0),
+('this', 'en', 0),
+('that', 'en', 0),
+('these', 'en', 0),
+('those', 'en', 0),
+('am', 'en', 0),
+('is', 'en', 0),
+('are', 'en', 0),
+('was', 'en', 0),
+('were', 'en', 0),
+('be', 'en', 0),
+('been', 'en', 0),
+('being', 'en', 0),
+('have', 'en', 0),
+('has', 'en', 0),
+('had', 'en', 0),
+('having', 'en', 0),
+('do', 'en', 0),
+('does', 'en', 0),
+('did', 'en', 0),
+('doing', 'en', 0),
+('would', 'en', 0),
+('should', 'en', 0),
+('could', 'en', 0),
+('ought', 'en', 0),
+('i\'m', 'en', 0),
+('you\'re', 'en', 0),
+('he\'s', 'en', 0),
+('she\'s', 'en', 0),
+('it\'s', 'en', 0),
+('we\'re', 'en', 0),
+('they\'re', 'en', 0),
+('i\'ve', 'en', 0),
+('you\'ve', 'en', 0),
+('we\'ve', 'en', 0),
+('they\'ve', 'en', 0),
+('i\'d', 'en', 0),
+('you\'d', 'en', 0),
+('he\'d', 'en', 0),
+('she\'d', 'en', 0),
+('we\'d', 'en', 0),
+('they\'d', 'en', 0),
+('i\'ll', 'en', 0),
+('you\'ll', 'en', 0),
+('he\'ll', 'en', 0),
+('she\'ll', 'en', 0),
+('we\'ll', 'en', 0),
+('they\'ll', 'en', 0),
+('isn\'t', 'en', 0),
+('aren\'t', 'en', 0),
+('wasn\'t', 'en', 0),
+('weren\'t', 'en', 0),
+('hasn\'t', 'en', 0),
+('haven\'t', 'en', 0),
+('hadn\'t', 'en', 0),
+('doesn\'t', 'en', 0),
+('don\'t', 'en', 0),
+('didn\'t', 'en', 0),
+('won\'t', 'en', 0),
+('wouldn\'t', 'en', 0),
+('shan\'t', 'en', 0),
+('shouldn\'t', 'en', 0),
+('can\'t', 'en', 0),
+('cannot', 'en', 0),
+('couldn\'t', 'en', 0),
+('mustn\'t', 'en', 0),
+('let\'s', 'en', 0),
+('that\'s', 'en', 0),
+('who\'s', 'en', 0),
+('what\'s', 'en', 0),
+('here\'s', 'en', 0),
+('there\'s', 'en', 0),
+('when\'s', 'en', 0),
+('where\'s', 'en', 0),
+('why\'s', 'en', 0),
+('how\'s', 'en', 0),
+('a', 'en', 0),
+('an', 'en', 0),
+('the', 'en', 0),
+('and', 'en', 0),
+('but', 'en', 0),
+('if', 'en', 0),
+('or', 'en', 0),
+('because', 'en', 0),
+('as', 'en', 0),
+('until', 'en', 0),
+('while', 'en', 0),
+('of', 'en', 0),
+('at', 'en', 0),
+('by', 'en', 0),
+('for', 'en', 0),
+('with', 'en', 0),
+('about', 'en', 0),
+('against', 'en', 0),
+('between', 'en', 0),
+('into', 'en', 0),
+('through', 'en', 0),
+('during', 'en', 0),
+('before', 'en', 0),
+('after', 'en', 0),
+('above', 'en', 0),
+('below', 'en', 0),
+('to', 'en', 0),
+('from', 'en', 0),
+('up', 'en', 0),
+('down', 'en', 0),
+('in', 'en', 0),
+('out', 'en', 0),
+('on', 'en', 0),
+('off', 'en', 0),
+('over', 'en', 0),
+('under', 'en', 0),
+('again', 'en', 0),
+('further', 'en', 0),
+('then', 'en', 0),
+('once', 'en', 0),
+('here', 'en', 0),
+('there', 'en', 0),
+('when', 'en', 0),
+('where', 'en', 0),
+('why', 'en', 0),
+('how', 'en', 0),
+('all', 'en', 0),
+('any', 'en', 0),
+('both', 'en', 0),
+('each', 'en', 0),
+('few', 'en', 0),
+('more', 'en', 0),
+('most', 'en', 0),
+('other', 'en', 0),
+('some', 'en', 0),
+('such', 'en', 0),
+('no', 'en', 0),
+('nor', 'en', 0),
+('not', 'en', 0),
+('only', 'en', 0),
+('own', 'en', 0),
+('same', 'en', 0),
+('so', 'en', 0),
+('than', 'en', 0),
+('too', 'en', 0),
+('very', 'en', 0);
 
 --
 -- Table structure for table `#__finder_tokens`
@@ -1203,7 +1282,7 @@ COMMENT ON COLUMN "#__menu"."home" IS 'Indicates if this menu item is the home o
 --
 
 INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link", "type", "published", "parent_id", "level", "component_id", "checked_out", "checked_out_time", "browserNav", "access", "img", "template_style_id", "params", "lft", "rgt", "home", "language", "client_id") VALUES
-(1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1970-01-01 00:00:00', 0, 0, '', 0, '', 0, 43, 0, '*', 0),
+(1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '1970-01-01 00:00:00', 0, 0, '', 0, '', 0, 47, 0, '*', 0),
 (2, 'main', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 1, 1, 1, 4, 0, '1970-01-01 00:00:00', 0, 0, 'class:banners', 0, '', 1, 10, 0, '*', 1),
 (3, 'main', 'com_banners', 'Banners', '', 'Banners/Banners', 'index.php?option=com_banners', 'component', 1, 2, 2, 4, 0, '1970-01-01 00:00:00', 0, 0, 'class:banners', 0, '', 2, 3, 0, '*', 1),
 (4, 'main', 'com_banners_categories', 'Categories', '', 'Banners/Categories', 'index.php?option=com_categories&extension=com_banners', 'component', 1, 2, 2, 6, 0, '1970-01-01 00:00:00', 0, 0, 'class:banners-cat', 0, '', 4, 5, 0, '*', 1),
@@ -1224,8 +1303,10 @@ INSERT INTO "#__menu" ("id", "menutype", "title", "alias", "note", "path", "link
 (20, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 1, 1, 1, 29, 0, '1970-01-01 00:00:00', 0, 1, 'class:tags', 0, '', 35, 36, 0, '', 1),
 (21, 'main', 'com_postinstall', 'Post-installation messages', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 1, 1, 1, 32, 0, '1970-01-01 00:00:00', 0, 1, 'class:postinstall', 0, '', 37, 38, 0, '*', 1),
 (22, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations', 'component', 1, 1, 1, 34, 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 39, 40, 0, '*', 1),
-(23, 'main', 'com_csp', 'Content-Security-Policy', '', 'Content-Security-Policy', 'index.php?option=com_csp', 'component', 1, 1, 1, 35, 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 41, 42, 0, '*', 1),
-(101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0);
+(23, 'main', 'com_privacy', 'Privacy', '', 'Privacy', 'index.php?option=com_privacy', 'component', 1, 1, 1, 35, 0, '1970-01-01 00:00:00', 0, 0, 'class:privacy', 0, '', 41, 42, 0, '*', 1),
+(24, 'main', 'com_csp', 'Content-Security-Policy', '', 'Content-Security-Policy', 'index.php?option=com_csp', 'component', 1, 1, 1, 35, 0, '1970-01-01 00:00:00', 0, 0, 'class:associations', 0, '', 41, 42, 0, '*', 1),
+(25, 'main', 'com_userlogs', 'User Logs', '', 'User Logs', 'index.php?option=com_userlogs', 'component', 1, 1, 1, 36, 0, '1970-01-01 00:00:00', 0, 0, 'class:privacy', 0, '', 43, 44, 0, '*', 1),
+(101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '1970-01-01 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0);
 
 SELECT setval('#__menu_id_seq', 102, false);
 
@@ -1295,9 +1376,9 @@ CREATE TABLE IF NOT EXISTS "#__modules" (
   "ordering" bigint DEFAULT 0 NOT NULL,
   "position" varchar(50) DEFAULT '' NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
-  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "publish_up" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "publish_down" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out_time" timestamp without time zone,
+  "publish_up" timestamp without time zone,
+  "publish_down" timestamp without time zone,
   "published" smallint DEFAULT 0 NOT NULL,
   "module" varchar(50) DEFAULT NULL,
   "access" bigint DEFAULT 0 NOT NULL,
@@ -1316,21 +1397,21 @@ CREATE INDEX "#__modules_idx_language" ON "#__modules" ("language");
 --
 
 INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "ordering", "position", "checked_out", "checked_out_time", "publish_up", "publish_down", "published", "module", "access", "showtitle", "params", "client_id", "language") VALUES
-(1, 39, 'Main Menu', '', '', 1, 'sidebar-right', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
-(2, 40, 'Login', '', '', 1, 'login', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
-(3, 41, 'Popular Articles', '', '', 3, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","bootstrap_size": "6"}', 1, '*'),
-(4, 42, 'Recently Added Articles', '', '', 4, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","bootstrap_size": "6"}', 1, '*'),
-(8, 43, 'Toolbar', '', '', 1, 'toolbar', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_toolbar', 3, 1, '', 1, '*'),
-(9, 44, 'Quick Icons', '', '', 1, 'icon', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_quickicon', 3, 1, '', 1, '*'),
-(10, 45, 'Logged-in Users', '', '', 2, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","bootstrap_size": "6"}', 1, '*'),
-(12, 46, 'Admin Menu', '', '', 1, 'menu', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
-(14, 48, 'User Status', '', '', 2, 'status', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_status', 3, 1, '', 1, '*'),
-(15, 49, 'Title', '', '', 1, 'title', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
-(16, 50, 'Login Form', '', '', 7, 'sidebar-right', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
-(17, 51, 'Breadcrumbs', '', '', 1, 'breadcrumbs', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
-(79, 52, 'Multilanguage status', '', '', 1, '', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(86, 53, 'Joomla Version', '', '', 1, 'status', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "6"}', 1, '*');
+(1, 39, 'Main Menu', '', '', 1, 'sidebar-right', 0, NULL, NULL, NULL, 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
+(2, 40, 'Login', '', '', 1, 'login', 0, NULL, NULL, NULL, 1, 'mod_login', 1, 1, '', 1, '*'),
+(3, 41, 'Popular Articles', '', '', 3, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","bootstrap_size": "6"}', 1, '*'),
+(4, 42, 'Recently Added Articles', '', '', 4, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","bootstrap_size": "6"}', 1, '*'),
+(8, 43, 'Toolbar', '', '', 1, 'toolbar', 0, NULL, NULL, NULL, 1, 'mod_toolbar', 3, 1, '', 1, '*'),
+(9, 44, 'Quick Icons', '', '', 1, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 3, 1, '', 1, '*'),
+(10, 45, 'Logged-in Users', '', '', 2, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","bootstrap_size": "6"}', 1, '*'),
+(12, 46, 'Admin Menu', '', '', 1, 'menu', 0, NULL, NULL, NULL, 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
+(14, 48, 'User Status', '', '', 2, 'status', 0, NULL, NULL, NULL, 1, 'mod_status', 3, 1, '', 1, '*'),
+(15, 49, 'Title', '', '', 1, 'title', 0, NULL, NULL, NULL, 1, 'mod_title', 3, 1, '', 1, '*'),
+(16, 50, 'Login Form', '', '', 7, 'sidebar-right', 0, NULL, NULL, NULL, 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
+(17, 51, 'Breadcrumbs', '', '', 1, 'breadcrumbs', 0, NULL, NULL, NULL, 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
+(79, 52, 'Multilanguage status', '', '', 1, '', 0, NULL, NULL, NULL, 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(86, 53, 'Joomla Version', '', '', 1, 'status', 0, NULL, NULL, NULL, 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "6"}', 1, '*');
 
 SELECT setval('#__modules_id_seq', 88, false);
 
@@ -1471,6 +1552,26 @@ INSERT INTO "#__postinstall_messages" ("extension_id", "title_key", "description
 (700, 'COM_CPANEL_MSG_STATS_COLLECTION_TITLE', 'COM_CPANEL_MSG_STATS_COLLECTION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/statscollection.php', 'admin_postinstall_statscollection_condition', '3.5.0', 1),
 (700, 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1),
 (700, 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_BODY', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_ACTION', 'plg_system_httpheaders', 1, 'action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_condition', '4.0.0', 1);
+--
+-- Table structure for table `#__privacy_requests`
+--
+
+CREATE TABLE "#__privacy_requests" (
+  "id" serial NOT NULL,
+  "email" varchar(100) DEFAULT '' NOT NULL,
+  "requested_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "status" smallint DEFAULT 0 NOT NULL,
+  "request_type" varchar(25) DEFAULT '' NOT NULL,
+  "confirm_token" varchar(100) DEFAULT '' NOT NULL,
+  "confirm_token_created_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "checked_out" integer DEFAULT 0 NOT NULL,
+  "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "user_id" bigint DEFAULT 0 NOT NULL,
+  PRIMARY KEY ("id")
+);
+CREATE INDEX "#__fields_idx_checked_out" ON "#__privacy_requests" ("checked_out");
+CREATE INDEX "#__fields_idx_user_id" ON "#__privacy_requests" ("user_id");
+
 --
 -- Table structure for table `#__redirect_links`
 --
@@ -1924,6 +2025,90 @@ COMMENT ON COLUMN "#__user_usergroup_map"."user_id" IS 'Foreign Key to #__users.
 COMMENT ON COLUMN "#__user_usergroup_map"."group_id" IS 'Foreign Key to #__usergroups.id';
 
 --
+-- Table: #__user_logs
+--
+CREATE TABLE "#__user_logs" (
+  "id" serial NOT NULL,
+  "message" text NOT NULL DEFAULT '',
+  "log_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
+  "extension" varchar(50) NOT NULL DEFAULT '',
+  "user_id" integer DEFAULT 0 NOT NULL,
+  "ip_address" varchar(30) NOT NULL DEFAULT '0.0.0.0',
+  PRIMARY KEY ("id")
+);
+
+-- Table: #__user_logs_extensions
+--
+CREATE TABLE "#__user_logs_extensions" (
+  "id" serial NOT NULL,
+  "extension" varchar(50) NOT NULL DEFAULT '',
+  PRIMARY KEY ("id")
+);
+
+--
+-- Dumping data for table '#__user_logs_extensions'
+--
+INSERT INTO "#__user_logs_extensions" ("id", "extension") VALUES
+(1, 'com_banners'),
+(2, 'com_cache'),
+(3, 'com_categories'),
+(4, 'com_config'),
+(5, 'com_contact'),
+(6, 'com_content'),
+(7, 'com_installer'),
+(8, 'com_media'),
+(9, 'com_menus'),
+(10, 'com_messages'),
+(11, 'com_modules'),
+(12, 'com_newsfeeds'),
+(13, 'com_plugins'),
+(14, 'com_redirect'),
+(15, 'com_tags'),
+(16, 'com_templates'),
+(17, 'com_users');
+
+SELECT setval('#__user_logs_extensions_id_seq', 19, false);
+-- --------------------------------------------------------
+
+--
+-- Table: #__user_logs_tables_data
+--
+CREATE TABLE "#__user_logs_tables_data" (
+  "id" serial NOT NULL,
+  "type_title" varchar(255) NOT NULL DEFAULT '',
+  "type_alias" varchar(255) NOT NULL DEFAULT '',
+  "title_holder" varchar(255) NULL,
+  "table_values" varchar(255) NULL,
+  PRIMARY KEY ("id")
+);
+
+--
+-- Dumping data for table #__user_logs_tables_data
+--
+INSERT INTO "#__user_logs_tables_data" ("id", "type_title", "type_alias", "title_holder", "table_values") VALUES
+(1, 'article', 'com_content.article', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'),
+(2, 'article', 'com_content.form', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'),
+(3, 'banner', 'com_banners.banner', 'name' ,'{"table_type":"Banner","table_prefix":"BannersTable"}'),
+(4, 'user_note', 'com_users.note', 'subject' ,'{"table_type":"Note","table_prefix":"UsersTable"}'),
+(5, 'media', 'com_media.file', 'name' ,'{"table_type":"","table_prefix":""}'),
+(6, 'category', 'com_categories.category', 'title' ,'{"table_type":"Category","table_prefix":"JTable"}'),
+(7, 'menu', 'com_menus.menu', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'),
+(8, 'menu_item', 'com_menus.item', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'),
+(9, 'newsfeed', 'com_newsfeeds.newsfeed', 'name' ,'{"table_type":"Newsfeed","table_prefix":"NewsfeedsTable"}'),
+(10, 'link', 'com_redirect.link', 'old_url' ,'{"table_type":"Link","table_prefix":"RedirectTable"}'),
+(11, 'tag', 'com_tags.tag', 'title' ,'{"table_type":"Tag","table_prefix":"TagsTable"}'),
+(12, 'style', 'com_templates.style', 'title' ,'{"table_type":"","table_prefix":""}'),
+(13, 'plugin', 'com_plugins.plugin', 'name' ,'{"table_type":"Extension","table_prefix":"JTable"}'),
+(14, 'component_config', 'com_config.component', 'name', '{"table_type":"","table_prefix":""}'),
+(15, 'contact', 'com_contact.contact', 'name', '{"table_type":"Contact","table_prefix":"ContactTable"}'),
+(16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}'),
+(17, 'access_level', 'com_users.level', 'title', '{"table_type":"Viewlevel","table_prefix":"JTable"}'),
+(18, 'banner_client', 'com_banners.client', 'name', '{"table_type":"Client","table_prefix":"BannersTable"}');
+
+
+SELECT setval('#__user_logs_tables_data_id_seq', 19, false);
+
+--
 -- Table structure for table `#__viewlevels`
 --
 
@@ -2031,8 +2216,8 @@ CREATE INDEX "#__workflow_stages_idx_default" ON "#__workflow_stages" ("default"
 --
 
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default") VALUES
-(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 0),
-(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 1),
+(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1),
+(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0),
 (3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0),
 (4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0);
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,10 +119,15 @@ else
 	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
 }
 
-if ($customFields === true)
+if ($refreshPage === true)
 {
-	$attr2 .= ' data-custom-fields-catid="' . $customFieldsCatId . '" data-custom-fields-section="' . $customFieldsSection . '"';
+	$attr2 .= ' data-refresh-catid="' . $refreshCatId . '" data-refresh-section="' . $refreshSection . '"';
 	$attr2 .= ' onchange="Joomla.categoryHasChanged(this)"';
+
+	HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
+
+	// Pass the element id to the javascript
+	Factory::getDocument()->addScriptOptions('category-change', $id);
 }
 else
 {
@@ -134,10 +139,6 @@ Text::script('JGLOBAL_SELECT_PRESS_TO_SELECT');
 
 Factory::getDocument()->getWebAssetManager()->enableAsset('choicesjs');
 
-// Pass the element id to the javascript
-\Joomla\CMS\Factory::getDocument()->addScriptOptions('category-change', $id);
-
-HTMLHelper::_('script', 'layouts/joomla/form/field/category-change.min.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
 HTMLHelper::_('webcomponent', 'system/fields/joomla-field-fancy-select.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 

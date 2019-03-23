@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -143,14 +143,12 @@ class FieldTable extends Table
 		}
 		else
 		{
+			$this->modified_time = $this->getDbo()->getNullDate();
+			$this->modified_by = 0;
+
 			if (!(int) $this->created_time)
 			{
 				$this->created_time = $date->toSql();
-			}
-
-			if (!(int) $this->modified_time)
-			{
-				$this->modified_time = $date->toSql();
 			}
 
 			if (empty($this->created_user_id))

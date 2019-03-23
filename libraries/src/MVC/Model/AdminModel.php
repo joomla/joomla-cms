@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -496,6 +496,8 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
+			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
+
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
 		}
@@ -504,6 +506,21 @@ abstract class AdminModel extends FormModel
 		$this->cleanCache();
 
 		return $newIds;
+	}
+
+	/**
+	 * Function that can be overriden to do any data cleanup after batch copying data
+	 *
+	 * @param   \JTableInterface  $table  The table object containing the newly created item
+	 * @param   integer           $newId  The id of the new item
+	 * @param   integer           $oldId  The original item id
+	 *
+	 * @return  void
+	 *
+	 * @since  3.8.12
+	 */
+	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
+	{
 	}
 
 	/**
