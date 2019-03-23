@@ -5,7 +5,7 @@
 		xsi:schemaLocation="urn:joomla.org menu.xsd">
 	<menuitem
 			type="component"
-			title="MOD_MENU_CONTROL_PANEL"
+			title="MOD_MENU_HOME"
 			link="index.php"
 			class="class:home"
 			element="com_cpanel"

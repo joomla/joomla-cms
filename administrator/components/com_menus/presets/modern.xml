@@ -10,7 +10,7 @@
 		>
 		<menuitem
 			type="component"
-			title="MOD_MENU_CONTROL_PANEL"
+			title="MOD_MENU_HOME"
 			link="index.php"
 			element="com_cpanel"
 		/>
