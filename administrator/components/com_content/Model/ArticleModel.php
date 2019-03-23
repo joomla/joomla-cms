@@ -544,12 +544,6 @@ class ArticleModel extends AdminModel
 		// Determine correct permissions to check.
 		if ($id = $this->getState('article.id', $id))
 		{
-			// Existing record. Can only edit in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit');
-
-			// Existing record. Can only edit own articles in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
-
 			$table = $this->getTable();
 
 			if ($table->load(array('id' => $id)))
@@ -601,9 +595,6 @@ class ArticleModel extends AdminModel
 
 				$form->setFieldAttribute('transition', 'workflow_stage', (int) $workflow->stage_id);
 			}
-
-			// New record. Can only create in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
 
 		$user = Factory::getUser();
