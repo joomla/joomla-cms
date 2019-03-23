@@ -107,3 +107,19 @@ legend {
 [aria-grabbed='true'] {
   box-shadow: 0 0 2px 1px theme-color("primary");
 }
+
+@include media-breakpoint-down(xs) {
+  .control-group {
+    .control-label{
+      float:none;
+      width:95%;
+    }
+    .controls{
+      margin-left:0;
+      .form-control,
+      .custom-select{
+        max-width:90%;
+      }
+    }
+  }
+}
