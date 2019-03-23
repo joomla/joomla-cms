@@ -370,6 +370,8 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app = JFactory::getApplication();
+
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -403,7 +405,6 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
-		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated
