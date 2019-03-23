@@ -71,7 +71,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				}
 
 				// Check if user activation is true or not, if successfully logged in then make activation equals to ''
-				if($user->activation != '')
+				if ($user->activation != '')
 				{
 					$user->activation = '';
 					if ($user->resetCount > 0)
