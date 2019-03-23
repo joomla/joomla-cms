@@ -66,7 +66,6 @@ if (!empty($list))
 	$grouped                    = false;
 	$article_grouping           = $params->get('article_grouping', 'none');
 	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-	$item_heading               = $params->get('item_heading');
 
 	if ($article_grouping !== 'none')
 	{

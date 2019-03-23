@@ -312,7 +312,7 @@ abstract class Table extends CMSObject implements \JTableInterface, DispatcherAw
 		$db = $config['dbo'] ?? Factory::getDbo();
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($tableClass))
+		if (Factory::getContainer()->has($tableClass))
 		{
 			return Factory::getContainer()->get($tableClass);
 		}
