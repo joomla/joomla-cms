@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Updater\UpdateAdapter;
@@ -22,7 +23,7 @@ use Joomla\CMS\Version;
 /**
  * Extension class for updater
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class ExtensionAdapter extends UpdateAdapter
 {
@@ -35,7 +36,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _startElement($parser, $name, $attrs = array())
 	{
@@ -96,13 +97,12 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _endElement($parser, $name)
 	{
 		array_pop($this->stack);
 
-		// @todo remove code: echo 'Closing: '. $name .'<br>';
 		switch ($name)
 		{
 			case 'UPDATE':
@@ -125,13 +125,15 @@ class ExtensionAdapter extends UpdateAdapter
 				 *
 				 * Check for optional min_dev_level and max_dev_level attributes to further specify targetplatform (e.g., 3.0.1)
 				 */
-				$patchMinimumSupported = Version::PATCH_VERSION >= $this->currentUpdate->targetplatform->min_dev_level;
-				$patchMaximumSupported = Version::PATCH_VERSION <= $this->currentUpdate->targetplatform->max_dev_level;
+				$patchMinimumSupported = !isset($this->currentUpdate->targetplatform->min_dev_level)
+					|| Version::PATCH_VERSION >= $this->currentUpdate->targetplatform->min_dev_level;
+				$patchMaximumSupported = !isset($this->currentUpdate->targetplatform->max_dev_level)
+					|| Version::PATCH_VERSION <= $this->currentUpdate->targetplatform->max_dev_level;
 
 				if ($product == $this->currentUpdate->targetplatform['NAME']
 					&& preg_match('/^' . $this->currentUpdate->targetplatform['VERSION'] . '/', JVERSION)
-					&& ((!isset($this->currentUpdate->targetplatform->min_dev_level)) || $patchMinimumSupported)
-					&& ((!isset($this->currentUpdate->targetplatform->max_dev_level)) || $patchMaximumSupported))
+					&& $patchMinimumSupported
+					&& $patchMaximumSupported)
 				{
 					// Check if PHP version supported via <php_minimum> tag, assume true if tag isn't present
 					if (!isset($this->currentUpdate->php_minimum) || version_compare(PHP_VERSION, $this->currentUpdate->php_minimum, '>='))
@@ -141,7 +143,7 @@ class ExtensionAdapter extends UpdateAdapter
 					else
 					{
 						// Notify the user of the potential update
-						$msg = \JText::sprintf(
+						$msg = Text::sprintf(
 							'JLIB_INSTALLER_AVAILABLE_UPDATE_PHP_VERSION',
 							$this->currentUpdate->name,
 							$this->currentUpdate->version,
@@ -173,11 +175,11 @@ class ExtensionAdapter extends UpdateAdapter
 							if (!$dbMatch)
 							{
 								// Notify the user of the potential update
-								$dbMsg = \JText::sprintf(
+								$dbMsg = Text::sprintf(
 									'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_MINIMUM',
 									$this->currentUpdate->name,
 									$this->currentUpdate->version,
-									\JText::_($db->name),
+									Text::_($db->name),
 									$dbVersion,
 									$minumumVersion
 								);
@@ -188,11 +190,11 @@ class ExtensionAdapter extends UpdateAdapter
 						else
 						{
 							// Notify the user of the potential update
-							$dbMsg = \JText::sprintf(
+							$dbMsg = Text::sprintf(
 								'JLIB_INSTALLER_AVAILABLE_UPDATE_DB_TYPE',
 								$this->currentUpdate->name,
 								$this->currentUpdate->version,
-								\JText::_($db->name)
+								Text::_($db->name)
 							);
 
 							Factory::getApplication()->enqueueMessage($dbMsg, 'warning');
@@ -265,7 +267,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 * @return  void
 	 *
 	 * @note    This is public because its called externally.
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _characterData($parser, $data)
 	{
@@ -295,7 +297,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 *
 	 * @return  array|boolean  Array containing the array of update sites and array of updates. False on failure
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function findUpdate($options)
 	{
@@ -328,7 +330,7 @@ class ExtensionAdapter extends UpdateAdapter
 
 			$app = Factory::getApplication();
 			$app->getLogger()->warning("Error parsing url: {$this->_url}", array('category' => 'updater'));
-			$app->enqueueMessage(\JText::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
+			$app->enqueueMessage(Text::sprintf('JLIB_UPDATER_ERROR_EXTENSION_PARSE_URL', $this->_url), 'warning');
 
 			return false;
 		}
@@ -380,7 +382,7 @@ class ExtensionAdapter extends UpdateAdapter
 	 */
 	protected function stabilityTagToInteger($tag)
 	{
-		$constant = '\\Joomla\\CMS\\Update\\Updater::STABILITY_' . strtoupper($tag);
+		$constant = '\\Joomla\\CMS\\Updater\\Updater::STABILITY_' . strtoupper($tag);
 
 		if (defined($constant))
 		{

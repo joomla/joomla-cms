@@ -2,13 +2,17 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\Error\Renderer;
 
+defined('JPATH_PLATFORM') or die;
+
 use Joomla\CMS\Error\AbstractRenderer;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * HTML error page renderer
@@ -29,15 +33,15 @@ class HtmlRenderer extends AbstractRenderer
 	/**
 	 * Render the error page for the given object
 	 *
-	 * @param   \Throwable|\Exception  $error  The error object to be rendered
+	 * @param   \Throwable  $error  The error object to be rendered
 	 *
 	 * @return  string
 	 *
 	 * @since   4.0
 	 */
-	protected function doRender($error)
+	public function render(\Throwable $error): string
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Get the current template from the application
 		$template = $app->getTemplate();
@@ -50,14 +54,15 @@ class HtmlRenderer extends AbstractRenderer
 			ob_end_clean();
 		}
 
-		$this->getDocument()->setTitle(\JText::_('Error') . ': ' . $error->getCode());
+		$this->getDocument()->setTitle(Text::_('Error') . ': ' . $error->getCode());
 
 		return $this->getDocument()->render(
 			false,
 			[
 				'template'  => $template,
 				'directory' => JPATH_THEMES,
-				'debug'     => JDEBUG
+				'debug'     => JDEBUG,
+				'csp_nonce' => $app->get('csp_nonce'),
 			]
 		);
 	}

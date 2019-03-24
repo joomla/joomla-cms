@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -19,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * or plain Formattedtext) and finally MySQL offers the most features (e.g. rapid searching)
  * but will incur a performance hit due to INSERT being issued.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class Log
 {
@@ -27,7 +27,7 @@ class Log
 	 * All log priorities.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const ALL = 30719;
 
@@ -35,7 +35,7 @@ class Log
 	 * The system is unusable.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const EMERGENCY = 1;
 
@@ -43,7 +43,7 @@ class Log
 	 * Action must be taken immediately.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const ALERT = 2;
 
@@ -51,7 +51,7 @@ class Log
 	 * Critical conditions.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const CRITICAL = 4;
 
@@ -59,7 +59,7 @@ class Log
 	 * Error conditions.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const ERROR = 8;
 
@@ -67,7 +67,7 @@ class Log
 	 * Warning conditions.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const WARNING = 16;
 
@@ -75,7 +75,7 @@ class Log
 	 * Normal, but significant condition.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const NOTICE = 32;
 
@@ -83,7 +83,7 @@ class Log
 	 * Informational message.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const INFO = 64;
 
@@ -91,7 +91,7 @@ class Log
 	 * Debugging message.
 	 *
 	 * @var    integer
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	const DEBUG = 128;
 
@@ -99,7 +99,7 @@ class Log
 	 * The global Log instance.
 	 *
 	 * @var    Log
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $instance;
 
@@ -107,7 +107,7 @@ class Log
 	 * Container for Logger configurations.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $configurations = array();
 
@@ -115,7 +115,7 @@ class Log
 	 * Container for Logger objects.
 	 *
 	 * @var    Logger[]
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $loggers = array();
 
@@ -123,17 +123,26 @@ class Log
 	 * Lookup array for loggers.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $lookup = array();
 
 	/**
+	 * The registry of available loggers
+	 *
+	 * @var    LoggerRegistry
+	 * @since  4.0.0
+	 */
+	protected $loggerRegistry;
+
+	/**
 	 * Constructor.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function __construct()
 	{
+		$this->loggerRegistry = new LoggerRegistry;
 	}
 
 	/**
@@ -147,7 +156,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function add($entry, $priority = self::INFO, $category = '', $date = null, array $context = array())
 	{
@@ -176,7 +185,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function addLogger(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
 	{
@@ -190,6 +199,28 @@ class Log
 	}
 
 	/**
+	 * Register a logger to the registry
+	 *
+	 * @param   string   $key      The service key to be registered
+	 * @param   string   $class    The class name of the logger
+	 * @param   boolean  $replace  Flag indicating the service key may replace an existing definition
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function registerLogger(string $key, string $class, bool $replace = false)
+	{
+		// Automatically instantiate the singleton object if not already done.
+		if (empty(static::$instance))
+		{
+			static::setInstance(new static);
+		}
+
+		static::$instance->loggerRegistry->register($key, $class, $replace);
+	}
+
+	/**
 	 * Add a logger to the Log instance.  Loggers route log entries to the correct files/systems to be logged.
 	 * This method allows you to extend Log completely.
 	 *
@@ -200,7 +231,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function addLoggerInternal(array $options, $priorities = self::ALL, $categories = array(), $exclude = false)
 	{
@@ -276,7 +307,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public static function setInstance($instance)
 	{
@@ -293,7 +324,7 @@ class Log
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 * @throws  \RuntimeException
 	 */
 	protected function addLogEntry(LogEntry $entry)
@@ -306,11 +337,27 @@ class Log
 			// Attempt to instantiate the logger object if it doesn't already exist.
 			if (empty($this->loggers[$signature]))
 			{
-				$class = __NAMESPACE__ . '\\Logger\\' . ucfirst($this->configurations[$signature]['logger']) . 'Logger';
-
-				if (!class_exists($class))
+				if ($this->loggerRegistry->hasLogger($this->configurations[$signature]['logger']))
 				{
-					throw new \RuntimeException('Unable to create a Logger instance: ' . $class);
+					$class = $this->loggerRegistry->getLoggerClass($this->configurations[$signature]['logger']);
+				}
+				else
+				{
+					@trigger_error(
+						sprintf(
+							'Attempting to automatically resolve loggers to the %s namespace is deprecated as of 4.0 and will be removed in 5.0.'
+							. ' Use the logger registry instead.',
+							__NAMESPACE__
+						),
+						E_USER_DEPRECATED
+					);
+
+					$class = __NAMESPACE__ . '\\Logger\\' . ucfirst($this->configurations[$signature]['logger']) . 'Logger';
+
+					if (!class_exists($class))
+					{
+						throw new \RuntimeException('Unable to create a Logger instance: ' . $class);
+					}
 				}
 
 				$this->loggers[$signature] = new $class($this->configurations[$signature]);
@@ -329,7 +376,7 @@ class Log
 	 *
 	 * @return  array  The array of loggers to use for the given priority and category values.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function findLoggers($priority, $category)
 	{

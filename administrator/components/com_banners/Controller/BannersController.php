@@ -3,16 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\CmsApplication;
-use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -20,7 +23,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  1.6
  */
-class BannersController extends Admin
+class BannersController extends AdminController
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -34,13 +37,13 @@ class BannersController extends Admin
 	 * Constructor.
 	 *
 	 * @param   array                $config   An optional associative array of configuration settings.
-	 * @param   MvcFactoryInterface  $factory  The factory.
+	 * @param   MVCFactoryInterface  $factory  The factory.
 	 * @param   CmsApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
 	 * @since   3.0
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 
@@ -54,7 +57,7 @@ class BannersController extends Admin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -73,7 +76,7 @@ class BannersController extends Admin
 	public function sticky_publish()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('sticky_publish' => 1, 'sticky_unpublish' => 0);
@@ -82,12 +85,12 @@ class BannersController extends Admin
 
 		if (empty($ids))
 		{
-			$this->app->enqueueMessage(\JText::_('COM_BANNERS_NO_BANNERS_SELECTED'), 'warning');
+			$this->app->enqueueMessage(Text::_('COM_BANNERS_NO_BANNERS_SELECTED'), 'warning');
 		}
 		else
 		{
 			// Get the model.
-			/** @var \Joomla\Component\Banners\Administrator\Model\Banner $model */
+			/** @var \Joomla\Component\Banners\Administrator\Model\BannerModel $model */
 			$model = $this->getModel();
 
 			// Change the state of the records.
@@ -106,7 +109,7 @@ class BannersController extends Admin
 					$ntext = 'COM_BANNERS_N_BANNERS_UNSTUCK';
 				}
 
-				$this->setMessage(\JText::plural($ntext, count($ids)));
+				$this->setMessage(Text::plural($ntext, count($ids)));
 			}
 		}
 

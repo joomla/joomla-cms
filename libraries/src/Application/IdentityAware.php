@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,11 +11,12 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\User\User;
+use Joomla\CMS\User\UserFactoryInterface;
 
 /**
  * Trait for application classes which are identity (user) aware
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 trait IdentityAware
 {
@@ -23,16 +24,24 @@ trait IdentityAware
 	 * The application identity object.
 	 *
 	 * @var    User
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $identity;
+
+	/**
+	 * UserFactoryInterface
+	 *
+	 * @var    UserFactoryInterface
+	 * @since  4.0.0
+	 */
+	private $userFactory;
 
 	/**
 	 * Get the application identity.
 	 *
 	 * @return  User
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getIdentity()
 	{
@@ -46,12 +55,26 @@ trait IdentityAware
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadIdentity(User $identity = null)
 	{
-		$this->identity = $identity ?: User::getInstance();
+		$this->identity = $identity ?: $this->userFactory->loadUserById(0);
 
 		return $this;
+	}
+
+	/**
+	 * Set the user factory to use.
+	 *
+	 * @param   UserFactoryInterface  $userFactory  The user factory to use
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function setUserFactory(UserFactoryInterface $userFactory)
+	{
+		$this->userFactory = $userFactory;
 	}
 }

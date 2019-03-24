@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,16 +10,14 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Module Tag field.
  *
  * @since  3.0
  */
-class ModuletagField extends \JFormFieldList
+class ModuletagField extends ListField
 {
 	/**
 	 * The form field type.
@@ -44,7 +42,7 @@ class ModuletagField extends \JFormFieldList
 		// Create one new option object for each tag
 		foreach ($tags as $tag)
 		{
-			$tmp = \JHtml::_('select.option', $tag, $tag);
+			$tmp = HTMLHelper::_('select.option', $tag, $tag);
 			$options[] = $tmp;
 		}
 

@@ -3,7 +3,7 @@
 
 	<field
 		name="id"
-		type="text"
+		type="number"
 		label="JGLOBAL_FIELD_ID_LABEL"
 		default="0"
 		class="readonly"
@@ -12,7 +12,7 @@
 
 	<field
 		name="hits"
-		type="text"
+		type="number"
 		label="JGLOBAL_HITS"
 		default="0"
 		class="readonly"
@@ -28,7 +28,6 @@
 
 	<field
 		name="parent_id"
-		class="advancedSelect"
 		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
 	/>
@@ -69,7 +68,6 @@
 		name="title"
 		type="text"
 		label="JGLOBAL_TITLE"
-		class="input-xxlarge"
 		size="40"
 		required="true"
 	/>
@@ -125,7 +123,6 @@
 		name="buttonspacer"
 		type="spacer"
 		label="JGLOBAL_ACTION_PERMISSIONS_LABEL"
-		description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
 	/>
 
 	<field
@@ -207,7 +204,6 @@
 		name="tags"
 		type="tag"
 		label="JTAG"
-		class="col-sm-12"
 		multiple="true"
 	/>
 
@@ -231,6 +227,7 @@
 				name="category_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				view="category"
 				useglobal="true"
 			/>

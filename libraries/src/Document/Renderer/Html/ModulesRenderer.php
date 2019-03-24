@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Document\Renderer\Html;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\DocumentRenderer;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Layout\LayoutHelper;
 
@@ -37,8 +38,8 @@ class ModulesRenderer extends DocumentRenderer
 		$renderer = $this->_doc->loadRenderer('module');
 		$buffer   = '';
 
-		$app          = \JFactory::getApplication();
-		$user         = \JFactory::getUser();
+		$app          = Factory::getApplication();
+		$user         = Factory::getUser();
 		$frontediting = ($app->isClient('site') && $app->get('frontediting', 1) && !$user->guest);
 		$menusEditing = ($app->get('frontediting', 1) == 2) && $user->authorise('core.edit', 'com_menus');
 

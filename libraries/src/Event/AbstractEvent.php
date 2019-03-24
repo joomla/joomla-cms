@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -10,9 +10,9 @@ namespace Joomla\CMS\Event;
 
 defined('JPATH_PLATFORM') or die;
 
+use BadMethodCallException;
 use Joomla\Event\Event as BaseEvent;
 use Joomla\String\Normalise;
-use BadMethodCallException;
 
 /**
  * This class implements the base Event object used system-wide to offer orthogonality. Core objects such as Models,
@@ -32,7 +32,7 @@ use BadMethodCallException;
  * generally unadvisable. It's best to use AbstractImmutableEvent instead and constrict all your interaction to the
  * subject class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class AbstractEvent extends BaseEvent
 {
@@ -47,10 +47,10 @@ abstract class AbstractEvent extends BaseEvent
 	 *
 	 * @return  static
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  BadMethodCallException  If you do not provide a subject argument
 	 */
-	public static function create($eventName, $arguments = [])
+	public static function create(string $eventName, array $arguments = [])
 	{
 		// Get the class name from the arguments, if specified
 		$eventClassName = '';
@@ -96,9 +96,9 @@ abstract class AbstractEvent extends BaseEvent
 	 * @param   string  $name       The event name.
 	 * @param   array   $arguments  The event arguments.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function __construct($name, array $arguments = array())
+	public function __construct(string $name, array $arguments = [])
 	{
 		parent::__construct($name, $arguments);
 
@@ -125,7 +125,7 @@ abstract class AbstractEvent extends BaseEvent
 	 *
 	 * @return  mixed  The argument value or the default value.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getArgument($name, $default = null)
 	{
@@ -156,7 +156,7 @@ abstract class AbstractEvent extends BaseEvent
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setArgument($name, $value)
 	{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,12 +11,11 @@ namespace Joomla\CMS\Event\Table;
 defined('JPATH_PLATFORM') or die;
 
 use BadMethodCallException;
-use stdClass;
 
 /**
  * Event class for JTable's onAfterReorder event
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class AfterReorderEvent extends AbstractEvent
 {
@@ -46,7 +45,7 @@ class AfterReorderEvent extends AbstractEvent
 	/**
 	 * Setter for the where argument
 	 *
-	 * @param   string|null  $value  The value to set
+	 * @param   array|string|null  $value  A string or array of where conditions.
 	 *
 	 * @return  mixed
 	 *
@@ -54,9 +53,9 @@ class AfterReorderEvent extends AbstractEvent
 	 */
 	protected function setWhere($value)
 	{
-		if (!empty($value) && !is_string($value))
+		if (!empty($value) && !is_string($value) && !is_array($value))
 		{
-			throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string");
+			throw new BadMethodCallException("Argument 'where' of event {$this->name} must be empty or string or array of strings");
 		}
 
 		return $value;

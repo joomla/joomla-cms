@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,13 +10,18 @@ namespace Joomla\CMS\Table;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Mail\MailHelper;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
 /**
  * Users table
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class User extends Table
 {
@@ -24,18 +29,18 @@ class User extends Table
 	 * Associative array of group ids => group ids for the user
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	public $groups;
 
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  Database driver object.
+	 * @param   DatabaseDriver  $db  Database driver object.
 	 *
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__users', 'id', $db);
 
@@ -54,7 +59,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function load($userId = null, $reset = true)
 	{
@@ -122,7 +127,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function bind($array, $ignore = '')
 	{
@@ -161,7 +166,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True if satisfactory
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function check()
 	{
@@ -182,19 +187,19 @@ class User extends Table
 			$this->id = null;
 		}
 
-		$filterInput = \JFilterInput::getInstance();
+		$filterInput = InputFilter::getInstance();
 
 		// Validate user information
 		if ($filterInput->clean($this->name, 'TRIM') == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_YOUR_NAME'));
 
 			return false;
 		}
 
 		if ($filterInput->clean($this->username, 'TRIM') == '')
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_PLEASE_ENTER_A_USER_NAME'));
 
 			return false;
 		}
@@ -202,14 +207,14 @@ class User extends Table
 		if (preg_match('#[<>"\'%;()&\\\\]|\\.\\./#', $this->username) || strlen(utf8_decode($this->username)) < 2
 			|| $filterInput->clean($this->username, 'TRIM') !== $this->username)
 		{
-			$this->setError(\JText::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
+			$this->setError(Text::sprintf('JLIB_DATABASE_ERROR_VALID_AZ09', 2));
 
 			return false;
 		}
 
-		if (($filterInput->clean($this->email, 'TRIM') == '') || !\JMailHelper::isEmailAddress($this->email))
+		if (($filterInput->clean($this->email, 'TRIM') == '') || !MailHelper::isEmailAddress($this->email))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_VALID_MAIL'));
 
 			return false;
 		}
@@ -220,7 +225,7 @@ class User extends Table
 		// Set the registration timestamp
 		if (empty($this->registerDate) || $this->registerDate == $this->_db->getNullDate())
 		{
-			$this->registerDate = \JFactory::getDate()->toSql();
+			$this->registerDate = Factory::getDate()->toSql();
 		}
 
 		// Set the lastvisitDate timestamp
@@ -247,7 +252,7 @@ class User extends Table
 
 		if ($xid && $xid != (int) $this->id)
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_USERNAME_INUSE'));
 
 			return false;
 		}
@@ -263,14 +268,13 @@ class User extends Table
 
 		if ($xid && $xid != (int) $this->id)
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_EMAIL_INUSE'));
 
 			return false;
 		}
 
 		// Check for root_user != username
-		$config = \JFactory::getConfig();
-		$rootUser = $config->get('root_user');
+		$rootUser = Factory::getApplication()->get('root_user');
 
 		if (!is_numeric($rootUser))
 		{
@@ -284,7 +288,7 @@ class User extends Table
 			if ($rootUser == $this->username && (!$xid || $xid && $xid != (int) $this->id)
 				|| $xid && $xid == (int) $this->id && $rootUser != $this->username)
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_USERNAME_CANNOT_CHANGE'));
 
 				return false;
 			}
@@ -303,7 +307,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($updateNulls = false)
 	{
@@ -410,7 +414,7 @@ class User extends Table
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function delete($userId = null)
 	{
@@ -469,7 +473,7 @@ class User extends Table
 	 *
 	 * @return  boolean  False if an error occurs
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function setLastVisit($timeStamp = null, $userId = null)
 	{
@@ -487,7 +491,7 @@ class User extends Table
 		}
 
 		// If no timestamp value is passed to function, than current time is used.
-		$date = \JFactory::getDate($timeStamp);
+		$date = Factory::getDate($timeStamp);
 
 		// Update the database row for the user.
 		$db = $this->_db;

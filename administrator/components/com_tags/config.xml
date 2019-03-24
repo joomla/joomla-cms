@@ -9,6 +9,7 @@
 			name="tag_layout"
 			type="componentlayout"
 			label="COM_TAGS_CONFIG_TAGGED_ITEMS_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_tags"
 			view="tag"
@@ -27,7 +28,7 @@
 
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			filter="integer"
 			default="5"
@@ -143,7 +144,7 @@
 		
 		<field
 			name="tag_list_item_maximum_characters"
-			type="text"
+			type="number"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 			filter="integer"
 			showon="tag_list_show_item_description:1"
@@ -190,7 +191,7 @@
 		
 		<field
 			name="maximum"
-			type="text"
+			type="number"
 			label="COM_TAGS_LIST_MAX_LABEL"
 			default="200"
 			filter="integer"
@@ -217,6 +218,7 @@
 			name="tags_layout" 
 			type="componentlayout"
 			label="COM_TAGS_CONFIG_ALL_TAGS_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_tags"
 			view="tags"
@@ -268,7 +270,7 @@
 		
 		<field
 			name="all_tags_tag_maximum_characters"
-			type="text"
+			type="number"
 			label="COM_TAGS_LIST_MAX_CHARACTERS_LABEL"
 			filter="integer"
 			showon="all_tags_show_tag_descripion:1"

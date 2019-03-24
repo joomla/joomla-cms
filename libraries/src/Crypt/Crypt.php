@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\Crypt\Crypt as JCrypt;
 /**
  * Crypt is a Joomla Platform class for handling basic encryption/decryption of data.
  *
- * @since  12.1
+ * @since  3.0.0
  */
 class Crypt extends JCrypt
 {
@@ -35,7 +35,6 @@ class Crypt extends JCrypt
 	 */
 	public static function timingSafeCompare($known, $unknown)
 	{
-		// This function is native in PHP as of 5.6 and backported via the symfony/polyfill-56 library
 		return hash_equals((string) $known, (string) $unknown);
 	}
 

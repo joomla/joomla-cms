@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,14 +10,16 @@ namespace Joomla\CMS\Form\Rule;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
+use Joomla\CMS\String\PunycodeHelper;
 use Joomla\Registry\Registry;
 
 /**
  * Form Rule class for the Joomla Platform.
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class EmailRule extends FormRule
 {
@@ -25,7 +27,7 @@ class EmailRule extends FormRule
 	 * The regular expression to use in testing a form field value.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 * @link   http://www.w3.org/TR/html-markup/input.email.html
 	 */
 	protected $regex = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
@@ -43,7 +45,7 @@ class EmailRule extends FormRule
 	 *
 	 * @return  boolean  True if the value is valid, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
@@ -70,7 +72,7 @@ class EmailRule extends FormRule
 		if (!$multiple)
 		{
 			// Handle idn email addresses by converting to punycode.
-			$value = \JStringPunycode::emailToPunycode($value);
+			$value = PunycodeHelper::emailToPunycode($value);
 
 			// Test the value against the regular expression.
 			if (!parent::test($element, $value, $group, $input, $form))
@@ -85,7 +87,7 @@ class EmailRule extends FormRule
 			foreach ($values as $value)
 			{
 				// Handle idn email addresses by converting to punycode.
-				$value = \JStringPunycode::emailToPunycode($value);
+				$value = PunycodeHelper::emailToPunycode($value);
 
 				// Test the value against the regular expression.
 				if (!parent::test($element, $value, $group, $input, $form))
@@ -101,7 +103,7 @@ class EmailRule extends FormRule
 		if ($unique && !$multiple)
 		{
 			// Get the database object and a new query object.
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			// Build the query.

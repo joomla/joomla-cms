@@ -31,6 +31,7 @@
 				type="list"
 				label="COM_SEARCH_FIELD_SEARCH_PHRASES_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -41,6 +42,7 @@
 				type="list"
 				label="COM_SEARCH_FIELD_SEARCH_AREAS_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JNO</option>
 				<option value="1">JYES</option>
@@ -51,6 +53,7 @@
 				type="list"
 				label="COM_SEARCH_CONFIG_FIELD_CREATED_DATE_LABEL"
 				useglobal="true"
+				class="chzn-color"
 				>
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>

@@ -11,6 +11,7 @@
 			name="newsfeed_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="newsfeed"
@@ -29,7 +30,7 @@
 		
 		<field
 			name="history_limit"
-			type="text"
+			type="number"
 			label="JGLOBAL_HISTORY_LIMIT_OPTIONS_LABEL"
 			default="5"
 			filter="integer"
@@ -74,12 +75,11 @@
 
 		<field
 			name="feed_character_count"
-			type="text"
+			type="number"
 			label="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_LABEL"
 			description="COM_NEWSFEEDS_FIELD_CHARACTER_COUNT_DESC"
 			id="feed_character_count"
 			default="0"
-			size="6"
 		/>
 
 		<field 
@@ -135,6 +135,7 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_newsfeeds"
 			view="category"

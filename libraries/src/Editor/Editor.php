@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,11 +10,14 @@ namespace Joomla\CMS\Editor;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
+use Joomla\Event\AbstractEvent;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
-use Joomla\Event\Event;
-use Joomla\Event\AbstractEvent;
 use Joomla\Registry\Registry;
 
 /**
@@ -79,7 +82,7 @@ class Editor implements DispatcherAwareInterface
 		// Set the dispatcher
 		if (!is_object($dispatcher))
 		{
-			$dispatcher = \JFactory::getContainer()->get('dispatcher');
+			$dispatcher = Factory::getContainer()->get('dispatcher');
 		}
 
 		$this->setDispatcher($dispatcher);
@@ -126,6 +129,8 @@ class Editor implements DispatcherAwareInterface
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 4.0 This function will not load any custom tag from 4.0 forward, use HTMLHelper::script
 	 */
 	public function initialise()
 	{
@@ -135,24 +140,9 @@ class Editor implements DispatcherAwareInterface
 			return;
 		}
 
-		$event = new Event('onInit');
-
-		$return    = '';
-		$results   = $this->getDispatcher()->dispatch('onInit', $event);
-
-		foreach ($results['result'] as $result)
+		if (method_exists($this->_editor, 'onInit'))
 		{
-			if (trim($result))
-			{
-				$return = $result;
-			}
-		}
-
-		$document = \JFactory::getDocument();
-
-		if (!empty($return) && method_exists($document, 'addCustomTag'))
-		{
-			$document->addCustomTag($return);
+			call_user_func(array($this->_editor, 'onInit'));
 		}
 	}
 
@@ -184,7 +174,7 @@ class Editor implements DispatcherAwareInterface
 		// Check whether editor is already loaded
 		if ($this->_editor === null)
 		{
-			\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
+			Factory::getApplication()->enqueueMessage(Text::_('JLIB_NO_EDITOR_PLUGIN_PUBLISHED'), 'danger');
 
 			return;
 		}
@@ -208,156 +198,7 @@ class Editor implements DispatcherAwareInterface
 		$args['author'] = $author;
 		$args['params'] = $params;
 
-		$editorId = (object) array('id' => $args['id']);
-
-		// Register the getContent event
-		$this->getDispatcher()->addListener(
-			'getContent',
-			function(AbstractEvent $event) use ($editorId) {
-				$editor = $editorId->id;
-				$result = $event->getArgument('result', []);
-				$result[] = $this->getContent($editor);
-				$event['result'] = $result;
-			}
-		);
-
-		// Register the setContent event
-		$this->getDispatcher()->addListener(
-			'setContent',
-			function(AbstractEvent $event) use ($editorId) {
-				$editor = $editorId->id;
-				$html = $event->getArgument('html', null);
-				$result = $event->getArgument('result', []);
-				$result[] = $this->setContent($editor, $html);
-				$event['result'] = $result;
-			}
-		);
-
-		// Register the save event
-		$this->getDispatcher()->addListener(
-			'save',
-			function(AbstractEvent $event) use ($editorId) {
-				$editor = $editorId->id;
-				$result = $event->getArgument('result', []);
-				$result[] = $this->save($editor);
-				$event['result'] = $result;
-			}
-		);
-
-		$event = new Event('onDisplay', $args);
-
-		$results = $this->getDispatcher()->dispatch('onDisplay', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Save the editor content
-	 *
-	 * @param   string  $editor  The name of the editor control
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 */
-	public function save($editor)
-	{
-		$this->_loadEditor();
-
-		// Check whether editor is already loaded
-		if ($this->_editor === null)
-		{
-			return '';
-		}
-
-		$args[] = $editor;
-
-		$event = new Event('onSave', $args);
-
-		$return = '';
-		$results = $this->getDispatcher()->dispatch('onSave', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Get the editor contents
-	 *
-	 * @param   string  $editor  The name of the editor control
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 */
-	public function getContent($editor)
-	{
-		$this->_loadEditor();
-
-		$args['name'] = $editor;
-
-		$event = new Event('onGetContent', $args);
-
-		$return = '';
-		$results = $this->getDispatcher()->dispatch('onGetContent', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
-	}
-
-	/**
-	 * Set the editor contents
-	 *
-	 * @param   string  $editor  The name of the editor control
-	 * @param   string  $html    The contents of the text area
-	 *
-	 * @return  string
-	 *
-	 * @since   1.5
-	 */
-	public function setContent($editor, $html)
-	{
-		$this->_loadEditor();
-
-		$args['name'] = $editor;
-		$args['html'] = $html;
-
-		$event = new Event('onSetContent', $args);
-
-		$return = '';
-		$results = $this->getDispatcher()->dispatch('onSetContent', $event);
-
-		foreach ($results['result'] as $result)
-		{
-			if (trim($result))
-			{
-				$return .= $result;
-			}
-		}
-
-		return $return;
+		return call_user_func_array(array($this->_editor, 'onDisplay'), $args);
 	}
 
 	/**
@@ -447,12 +288,12 @@ class Editor implements DispatcherAwareInterface
 		}
 
 		// Build the path to the needed editor plugin
-		$name = \JFilterInput::getInstance()->clean($this->_name, 'cmd');
+		$name = InputFilter::getInstance()->clean($this->_name, 'cmd');
 		$path = JPATH_PLUGINS . '/editors/' . $name . '/' . $name . '.php';
 
 		if (!is_file($path))
 		{
-			\JLog::add(\JText::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_HTML_EDITOR_CANNOT_LOAD'), Log::WARNING, 'jerror');
 
 			return false;
 		}

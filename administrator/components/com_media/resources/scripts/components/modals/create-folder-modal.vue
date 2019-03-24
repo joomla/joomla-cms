@@ -1,11 +1,11 @@
 <template>
-    <media-modal v-if="$store.state.showCreateFolderModal" :size="'sm'" @close="close()">
+    <media-modal v-if="$store.state.showCreateFolderModal" :size="'md'" @close="close()">
         <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_CREATE_NEW_FOLDER') }}</h3>
         <div slot="body">
             <form class="form" @submit.prevent="save" novalidate>
                 <div class="form-group">
-                    <label for="folder">{{ translate('COM_MEDIA_FOLDER') }}</label>
-                    <input type="text" id="folder" class="form-control" placeholder="Folder"
+                    <label for="folder">{{ translate('COM_MEDIA_FOLDER_NAME') }}</label>
+                    <input id="folder" class="form-control"
                            v-focus="true" v-model.trim="folder" @input="folder = $event.target.value"
                            required autocomplete="off">
                 </div>
@@ -13,7 +13,8 @@
         </div>
         <div slot="footer">
             <button class="btn btn-link" @click="close()">{{ translate('JCANCEL') }}</button>
-            <button class="btn btn-success" @click="save()" :disabled="!isValid()">{{ translate('JAPPLY') }}</button>
+            <button class="btn btn-success" @click="save()" :disabled="!isValid()">{{ translate('JACTION_CREATE') }}
+            </button>
         </div>
     </media-modal>
 </template>
@@ -23,7 +24,7 @@
     import {focus} from 'vue-focus';
 
     export default {
-        name: 'create-folder-modal',
+        name: 'media-create-folder-modal',
         directives: {focus: focus},
         data() {
             return {
@@ -46,7 +47,6 @@
                 if (!this.isValid()) {
                     // TODO show an error message to user for insert a folder name
                     // TODO mark the field as invalid
-                    Joomla.renderMessages({"error": [this.translate('JLIB_FORM_FIELD_REQUIRED_VALUE')]});
                     return;
                 }
 
@@ -55,8 +55,6 @@
                     name: this.folder,
                     parent: this.$store.state.selectedDirectory,
                 });
-
-                // Reset the form
                 this.reset();
             },
             /* Reset the form */

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * Abstract class for a renderer
  *
- * @since  11.1
+ * @since  1.7.0
  */
 abstract class DocumentRenderer implements RendererInterface
 {
@@ -23,7 +23,7 @@ abstract class DocumentRenderer implements RendererInterface
 	 * Reference to the Document object that instantiated the renderer
 	 *
 	 * @var    Document
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_doc = null;
 
@@ -31,7 +31,7 @@ abstract class DocumentRenderer implements RendererInterface
 	 * Renderer mime type
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_mime = 'text/html';
 
@@ -40,7 +40,7 @@ abstract class DocumentRenderer implements RendererInterface
 	 *
 	 * @param   Document  $doc  A reference to the Document object that instantiated the renderer
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(Document $doc)
 	{
@@ -52,7 +52,7 @@ abstract class DocumentRenderer implements RendererInterface
 	 *
 	 * @return  string  The contentType
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getContentType()
 	{
@@ -66,7 +66,7 @@ abstract class DocumentRenderer implements RendererInterface
 	 *
 	 * @return  string   Text with converted links
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _relToAbs($text)
 	{

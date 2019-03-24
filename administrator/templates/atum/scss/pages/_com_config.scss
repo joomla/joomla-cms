@@ -11,7 +11,11 @@
     > fieldset {
       margin-bottom: 2rem;
     }
-
   }
 
+  .rule-notes,
+  .filter-notes {
+    padding: 1em;
+    background-color: $white;
+  }
 }

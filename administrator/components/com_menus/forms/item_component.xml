@@ -70,22 +70,20 @@
 				default=""
 				useglobal="true"
 				>
-				<option value="1">JYES</option>
-				<option value="0">JNO</option>
+				<option value="1">JSHOW</option>
+				<option value="0">JHIDE</option>
 			</field>
 
 			<field
 				name="page_heading"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_HEADING_LABEL"
-				useglobal="true"
 			/>
 
 			<field
 				name="pageclass_sfx"
 				type="text"
 				label="COM_MENUS_ITEM_FIELD_PAGE_CLASS_LABEL"
-				useglobal="true"
 			/>
 
 		</fieldset>

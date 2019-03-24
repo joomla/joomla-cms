@@ -3,11 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * This is a file to add template specific chrome to module rendering.  To use it you would
@@ -35,21 +40,15 @@ function modChrome_title($module, &$params, &$attribs)
 	}
 }
 
-function modChrome_no($module, &$params, &$attribs)
-{
-	if ($module->content)
-	{
-		echo $module->content;
-	}
-}
-
 function modChrome_well($module, &$params, &$attribs)
 {
 	if ($module->content)
 	{
+		$id = $module->id;
+
 		// Permission checks
-		$user           = JFactory::getUser();
-		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $module->id);
+		$user           = Factory::getUser();
+		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $id) && $user->authorise('core.manage', 'com_modules');
 
 		$moduleTag      = $params->get('module_tag', 'div');
 		$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
@@ -61,26 +60,85 @@ function modChrome_well($module, &$params, &$attribs)
 		$headerClass    = $params->get('header_class');
 		$headerClass    = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
 
-		echo '<div class="' . $moduleClass . ' grid-item grid-sizer">';
+		echo '<div class="' . $moduleClass . ' module-wrapper">';
 		echo '<' . $moduleTag . ' class="card mb-3' . $moduleClassSfx . '">';
-		echo '<div class="card-body">';
 
-			if ($canEdit)
-			{
-				echo '<div class="module-actions">';
-				echo '<a href="' . JRoute::_('index.php?option=com_modules&task=module.edit&id=' . (int) $module->id) 
-					. '"><span class="fa fa-cog"><span class="sr-only">' . JText::_('JACTION_EDIT') . " " . $module->title . '</span></span></a>';
-				echo '</div>';
-			}
+		if ($canEdit)
+		{
+			$uri = Uri::getInstance();
+			$url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri));
 
-			if ($module->showtitle)
-			{
-				echo '<h2 class="card-title nav-header' . $headerClass . '">' . $module->title . '</h2>';
-			}
+			$dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right';
 
-			echo $module->content;
+			echo '<div class="module-actions dropdown">';
+			echo '<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton-' . $id . '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . ' ' . $module->title . '</span></span></a>';
+			echo '<div class="dropdown-menu dropdown-menu-' . $dropdownPosition . '" aria-labelledby="dropdownMenuButton-' . $id . '">';
+			echo '<a class="dropdown-item" href="' . $url . '">' . Text::_('JACTION_EDIT') . '</a>';
+			echo '<a class="dropdown-item unpublish-module" data-module-id="' . $id . '">' . Text::_('JACTION_UNPUBLISH') . '</a>';
+			echo '</div>';
+			echo '</div>';
+		}
 
+		if ($module->showtitle)
+		{
+			echo '<h2 class="card-header' . $headerClass . '">' . $module->title . '</h2>';
+		}
+
+		echo $module->content;
+
+		echo '</' . $moduleTag . '>';
 		echo '</div>';
+	}
+}
+
+function modChrome_body($module, &$params, &$attribs)
+{
+	if ($module->content)
+	{
+		$id = $module->id;
+
+		// Permission checks
+		$user           = Factory::getUser();
+		$canEdit	    = $user->authorise('core.edit', 'com_modules.module.' . $id);
+
+		$moduleTag      = $params->get('module_tag', 'div');
+		$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
+		$moduleClass    = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
+		$headerTag      = htmlspecialchars($params->get('header_tag', 'h2'));
+		$moduleClassSfx = $params->get('moduleclass_sfx', '');
+
+		// Temporarily store header class in variable
+		$headerClass    = $params->get('header_class');
+		$headerClass    = ($headerClass) ? ' ' . htmlspecialchars($headerClass) : '';
+
+		echo '<div class="' . $moduleClass . ' module-wrapper">';
+		echo '<' . $moduleTag . ' class="card mb-3' . $moduleClassSfx . '">';
+
+		if ($canEdit)
+		{
+			$uri = Uri::getInstance();
+			$url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri));
+
+			$dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right';
+
+			echo '<div class="module-actions dropdown">';
+			echo '<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton-' . $id . '"><span class="fa fa-cog"><span class="sr-only">' . Text::_('JACTION_EDIT') . ' ' . $module->title . '</span></span></a>';
+			echo '<div class="dropdown-menu dropdown-menu-' . $dropdownPosition . '" aria-labelledby="dropdownMenuButton-' . $id . '">';
+			echo '<a class="dropdown-item" href="' . $url . '">' . Text::_('JACTION_EDIT') . '</a>';
+			echo '<a class="dropdown-item unpublish-module" data-module-id="' . $id . '">' . Text::_('JACTION_UNPUBLISH') . '</a>';
+			echo '</div>';
+			echo '</div>';
+		}
+
+		if ($module->showtitle)
+		{
+			echo '<h2 class="card-header' . $headerClass . '">' . $module->title . '</h2>';
+		}
+
+		echo '<div class="module-body">';
+		echo $module->content;
+		echo '</div>';
+
 		echo '</' . $moduleTag . '>';
 		echo '</div>';
 	}

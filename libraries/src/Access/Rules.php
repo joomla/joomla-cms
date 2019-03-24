@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,10 +10,12 @@ namespace Joomla\CMS\Access;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Object\CMSObject;
+
 /**
  * Access rules class.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class Rules
 {
@@ -21,7 +23,7 @@ class Rules
 	 * A named array.
 	 *
 	 * @var    array
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $data = array();
 
@@ -33,7 +35,7 @@ class Rules
 	 *
 	 * @param   mixed  $input  A JSON format string (probably from the database) or a nested array.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($input = '')
 	{
@@ -62,7 +64,7 @@ class Rules
 	 *
 	 * @return  array  A named array of Rule objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getData()
 	{
@@ -76,7 +78,7 @@ class Rules
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeCollection($input)
 	{
@@ -97,7 +99,7 @@ class Rules
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function merge($actions)
 	{
@@ -132,7 +134,7 @@ class Rules
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function mergeAction($action, $identities)
 	{
@@ -159,7 +161,7 @@ class Rules
 	 *
 	 * @return  mixed   Object or null if there is no information about the action.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function allow($action, $identity)
 	{
@@ -177,14 +179,14 @@ class Rules
 	 *
 	 * @param   mixed  $identity  An integer representing the identity or an array of identities
 	 *
-	 * @return  \JObject  Allowed actions for the identity or identities
+	 * @return  CMSObject  Allowed actions for the identity or identities
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAllowed($identity)
 	{
 		// Sweep for the allowed actions.
-		$allowed = new \JObject;
+		$allowed = new CMSObject;
 
 		foreach ($this->data as $name => &$action)
 		{
@@ -202,7 +204,7 @@ class Rules
 	 *
 	 * @return  string  JSON representation of the actions array
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __toString()
 	{

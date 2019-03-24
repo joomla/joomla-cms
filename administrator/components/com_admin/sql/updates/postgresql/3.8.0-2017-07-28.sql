@@ -1,1 +1,1 @@
-ALTER TABLE "#__fields_groups" ADD "params" TEXT NOT NULL ;
+ALTER TABLE "#__fields_groups" ADD COLUMN "params" TEXT NOT NULL;

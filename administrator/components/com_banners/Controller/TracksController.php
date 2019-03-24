@@ -3,22 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
-use Joomla\CMS\Controller\Controller;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Session\Session;
 
 /**
  * Tracks list controller class.
  *
  * @since  1.6
  */
-class TracksController extends Controller
+class TracksController extends BaseController
 {
 	/**
 	 * The prefix to use with controller messages.
@@ -35,7 +39,7 @@ class TracksController extends Controller
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  \Joomla\CMS\Model\Model  The model.
+	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model.
 	 *
 	 * @since   1.6
 	 */
@@ -54,10 +58,10 @@ class TracksController extends Controller
 	public function delete()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Get the model.
-		/** @var \Joomla\Component\Banners\Administrator\Model\Tracks $model */
+		/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 		$model = $this->getModel();
 
 		// Load the filter state.
@@ -78,11 +82,11 @@ class TracksController extends Controller
 		}
 		elseif ($count > 0)
 		{
-			$this->setMessage(\JText::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
+			$this->setMessage(Text::plural('COM_BANNERS_TRACKS_N_ITEMS_DELETED', $count));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_BANNERS_TRACKS_NO_ITEMS_DELETED'));
+			$this->setMessage(Text::_('COM_BANNERS_TRACKS_NO_ITEMS_DELETED'));
 		}
 
 		$this->setRedirect('index.php?option=com_banners&view=tracks');
@@ -108,11 +112,11 @@ class TracksController extends Controller
 		if ($view = $this->getView($vName, 'raw'))
 		{
 			// Get the model for the view.
-			/** @var \Joomla\Component\Banners\Administrator\Model\Tracks $model */
+			/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */
 			$model = $this->getModel($vName);
 
 			// Load the filter state.
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			$model->setState('filter.type', $app->getUserState($this->context . '.filter.type'));
 			$model->setState('filter.begin', $app->getUserState($this->context . '.filter.begin'));
@@ -157,7 +161,7 @@ class TracksController extends Controller
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->document = \JFactory::getDocument();
+			$view->document = $this->app->getDocument();
 
 			$view->display();
 		}

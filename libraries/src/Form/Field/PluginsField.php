@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,13 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 /**
  * Form Field class for the Joomla Framework.
  *
- * @since  11.4
+ * @since  2.5.0
  */
 class PluginsField extends ListField
 {
@@ -24,7 +25,7 @@ class PluginsField extends ListField
 	 * The field type.
 	 *
 	 * @var    string
-	 * @since  11.4
+	 * @since  2.5.0
 	 */
 	protected $type = 'Plugins';
 
@@ -39,7 +40,7 @@ class PluginsField extends ListField
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -59,7 +60,7 @@ class PluginsField extends ListField
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -110,7 +111,7 @@ class PluginsField extends ListField
 	 *
 	 * @return	array  An array of JHtml options.
 	 *
-	 * @since   11.4
+	 * @since   2.5.0
 	 */
 	protected function getOptions()
 	{
@@ -128,13 +129,19 @@ class PluginsField extends ListField
 				->where('enabled = 1')
 				->order('ordering, name');
 
+			if ((string) $this->element['useaccess'] === 'true')
+			{
+				$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
+				$query->where($db->quoteName('access') . ' IN (' . $groups . ')');
+			}
+
 			$options   = $db->setQuery($query)->loadObjectList();
 			$lang      = Factory::getLanguage();
 			$useGlobal = $this->element['useglobal'];
 
 			if ($useGlobal)
 			{
-				$globalValue = Factory::getConfig()->get($this->fieldname);
+				$globalValue = Factory::getApplication()->get($this->fieldname);
 			}
 
 			foreach ($options as $i => $item)
@@ -142,21 +149,38 @@ class PluginsField extends ListField
 				$source    = JPATH_PLUGINS . '/' . $folder . '/' . $item->value;
 				$extension = 'plg_' . $folder . '_' . $item->value;
 				$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true) || $lang->load($extension . '.sys', $source, null, false, true);
-				$options[$i]->text = \JText::_($item->text);
+				$options[$i]->text = Text::_($item->text);
 
 				// If we are using useglobal update the use global value text with the plugin text.
 				if ($useGlobal && isset($parentOptions[0]) && $item->value === $globalValue)
 				{
-					$text                   = \JText::_($extension);
-					$parentOptions[0]->text = \JText::sprintf('JGLOBAL_USE_GLOBAL_VALUE', ($text === '' || $text === $extension ? $item->value : $text));
+					$text                   = Text::_($extension);
+					$parentOptions[0]->text = Text::sprintf('JGLOBAL_USE_GLOBAL_VALUE', ($text === '' || $text === $extension ? $item->value : $text));
 				}
 			}
 		}
 		else
 		{
-			Log::add(\JText::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), Log::WARNING, 'jerror');
+			Log::add(Text::_('JFRAMEWORK_FORM_FIELDS_PLUGINS_ERROR_FOLDER_EMPTY'), Log::WARNING, 'jerror');
 		}
 
 		return array_merge($parentOptions, $options);
+	}
+
+	/**
+	 * Method to get input and also set field readonly.
+	 *
+	 * @return  string  The field input markup.
+	 *
+	 * @since   3.8.7
+	 */
+	protected function getInput()
+	{
+		if (count($this->options) === 1 && $this->options[0]->text === Text::_('JOPTION_DO_NOT_USE'))
+		{
+			$this->readonly = true;
+		}
+
+		return parent::getInput();
 	}
 }
