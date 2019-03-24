@@ -29,12 +29,15 @@
           var i = 0;
           this.rows.forEach((row) => {
             var currentCheckBox = this.checkallToggle ? i + 1 : i;
-            var isChecked = this.boxes[currentCheckBox].checked;
-            //If something is checked on load, update the form
-            if (isChecked) {
-              Joomla.isChecked(true);
-              this.changeBg(row,true);
-            }
+						var checkbox = this.boxes[currentCheckBox];
+						if (checkbox) {
+            var isChecked = checkbox.checked;
+            // If something is checked on load, update the form
+            	if (isChecked) {
+              	Joomla.isChecked(true);
+              	this.changeBg(row,true);
+            	}
+						}
             row.addEventListener('click', this.onRowClick);
             i++;
           });
