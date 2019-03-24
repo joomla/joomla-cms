@@ -125,3 +125,10 @@
     display: none;
   }
 }
+
+// Allows date picker to be visible even when going out of the ul elements dimensions
+#item-form {
+  ul {
+    overflow: visible;
+  }
+}
