@@ -279,7 +279,7 @@ class UsersModelRegistration extends JModelForm
 			$this->data->groups = array();
 
 			// Get the default new user group, Registered if not specified.
-			$system = $params->get('new_usertype', 2);
+			$system = $params->get('new_usertype', $params->get('guest_usergroup', 1));
 
 			$this->data->groups[] = $system;
 
