@@ -60,7 +60,7 @@ class PlgAuthenticationJoomla extends JPlugin
 				$user               = JUser::getInstance($result->id);
 
 				// User has not requested for a password reset
-				if (!$user->block && !$user->activation)
+				if (!(!$user->block && $user->activation))
 				{
 					$response->email    = $user->email;
 					$response->fullname = $user->name;
