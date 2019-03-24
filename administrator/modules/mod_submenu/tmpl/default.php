@@ -47,7 +47,7 @@ $user = $app->getIdentity();
 								if ($params->get('menu_show', 1)) : ?>
 								<?php
 								if (!empty($params->get('menu_image'))) :
-									$image = htmlspecialchars( $params->get('menu_image'), ENT_QUOTES, 'UTF-8');
+									$image = htmlspecialchars($params->get('menu_image'), ENT_QUOTES, 'UTF-8');
 									$class = htmlspecialchars($params->get('menu_image_css'), ENT_QUOTES, 'UTF-8');
 									$alt = $params->get('menu_text') ? '' : htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
 								endif;
