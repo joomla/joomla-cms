@@ -169,6 +169,27 @@
         width: 0;
       }
     }
+    .menu-dashboard{
+      a{
+        .fa{
+          align-items: flex-start;
+          padding: 5px 1rem;
+        }
+      }
+    }
+
+
+    .sidebar-item-title{
+      word-break: break-word;
+      @include media-breakpoint-up(sm) {
+        max-width: 9rem !important;
+        display: inline-block;
+      }
+      @include media-breakpoint-down(xs) {
+        max-width: 60vw !important;
+        display: inline-block;
+      }
+    }
   }
 
   // All links
@@ -320,7 +341,7 @@
   // Dropdown indicator
   .has-arrow::after {
     position: absolute;
-    top: 50%;
+    top: 1.5rem;
     right: 0.9em;
     width: .5rem;
     height: .5rem;
@@ -344,12 +365,12 @@
   // Parent icons
   .fa {
     position: relative;
-    top: -1px;
+    top: 1rem;
     display: inline-block;
     margin: 0 5px;
     font-size: 1.1rem;
     text-align: center;
-    vertical-align: middle;
+    vertical-align: top;
   }
 }
 
