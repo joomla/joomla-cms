@@ -102,7 +102,6 @@
       // Overwrite default button styling
       background-color: transparent;
       border: $dropdown-border-width;
-      outline: 0;
 
       &::after {
         display: none;
