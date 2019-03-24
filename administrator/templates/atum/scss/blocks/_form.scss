@@ -1,6 +1,10 @@
 // Form
 @import "../variables";
 
+label {
+	margin-bottom: 0;
+}
+
 .form-control {
 	//  max-width: $input-max-width;
 	background-color: var(--white-offset);
