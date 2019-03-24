@@ -65,8 +65,6 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     if (this.formElement.boxchecked) {
       this.formElement.boxchecked.removeEventListener('change', this.onChange);
     }
-
-    this.removeEventListener('click');
   }
 
   onChange(event) {
