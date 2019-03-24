@@ -115,3 +115,13 @@
 .message-alert {
   text-align: right !important;
 }
+
+// Hide header and options on full screen
+.mce-fullscreen {
+  header {
+    display: none;
+  }
+  #subhead {
+    display: none;
+  }
+}
