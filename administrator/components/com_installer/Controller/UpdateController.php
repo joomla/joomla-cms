@@ -156,7 +156,7 @@ class UpdateController extends BaseController
 		}
 
 		// Close the session before we make a long running request
-		Factory::getSession()->abort();
+		$app->getSession()->abort();
 
 		$eid               = $this->input->getInt('eid', 0);
 		$skip              = $this->input->get('skip', array(), 'array');
