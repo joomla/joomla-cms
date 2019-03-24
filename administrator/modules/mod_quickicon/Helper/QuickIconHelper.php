@@ -159,15 +159,13 @@ abstract class QuickIconHelper
 				{
 					$amount = self::countModules();
 					
-					self::$buttons[$key][]  
-						= [
-							'amount' => $amount,
-							'link'   => Route::_('index.php?option=com_modules'),
-							'text'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
-							'access' => array('core.manage', 'com_modules'),
-							'group'  => 'MOD_QUICKICON_CONTENT'
-
-						];
+					self::$buttons[$key][] = [
+						'amount' => $amount,
+						'link'   => Route::_('index.php?option=com_modules'),
+						'text'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
+						'access' => array('core.manage', 'com_modules'),
+						'group'  => 'MOD_QUICKICON_CONTENT'
+					];
 				}
 
 				if ($params->get('show_plugins', '1'))
