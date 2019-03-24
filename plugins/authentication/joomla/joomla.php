@@ -58,34 +58,31 @@ class PlgAuthenticationJoomla extends JPlugin
 			{
 				// Bring this in line with the rest of the system
 				$user               = JUser::getInstance($result->id);
-				$response->email    = $user->email;
-				$response->fullname = $user->name;
 
-				if (JFactory::getApplication()->isClient('administrator'))
+				// User has not requested for a password reset
+				if (!$user->block && !$user->activation)
 				{
-					$response->language = $user->getParam('admin_language');
+					$response->email    = $user->email;
+					$response->fullname = $user->name;
+
+					if (JFactory::getApplication()->isClient('administrator'))
+					{
+						$response->language = $user->getParam('admin_language');
+					}
+					else
+					{
+						$response->language = $user->getParam('language');
+					}
+
+					$response->status        = JAuthentication::STATUS_SUCCESS;
+					$response->error_message = '';
 				}
 				else
 				{
-					$response->language = $user->getParam('language');
+					// Activation token exists i.e password reset requested, force user to complete reset request
+					$response->status        = JAuthentication::STATUS_FAILURE;
+					$response->error_message = JText::_('JGLOBAL_AUTH_INVALID_PASS');
 				}
-
-				// Check if user activation is true or not, if successfully logged in then make activation equals to ''
-				if ($user->activation != '')
-				{
-					$user->activation = '';
-					if ($user->resetCount > 0)
-					{
-						$user->resetCount = $user->resetCount-1;
-					}
-					if (!$user->save(true))
-					{
-						return new JException(JText::sprintf('COM_USERS_USER_SAVE_FAILED', $user->getError()), 500);
-					}
-				}
-
-				$response->status        = JAuthentication::STATUS_SUCCESS;
-				$response->error_message = '';
 			}
 			else
 			{
