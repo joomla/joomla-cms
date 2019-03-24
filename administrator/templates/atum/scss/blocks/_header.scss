@@ -257,6 +257,12 @@
     .nav-item.show {
       background-color: var(--atum-bg-dark-70);
     }
+    .nav-item{
+      display: none;
+      &.footer-mobil-icon{
+        display:block;
+      }
+    }
 
     .nav-link{
 

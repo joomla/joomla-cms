@@ -39,7 +39,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<?php endif; ?>
 		<?php endif; ?>
 
-		<li class="nav-item">
+		<li class="nav-item footer-mobil-icon">
 			<a class="nav-link link-title" href="<?php echo Uri::root(); ?>"
 				title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>"
 				target="_blank">
@@ -98,7 +98,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			</li>
 		<?php endif; ?>
 
-		<li class="nav-item dropdown header-profile">
+		<li class="nav-item dropdown header-profile footer-mobil-icon">
 			<button class="nav-link dropdown-toggle" data-toggle="dropdown" type="button"
 				title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
 				<span class="fa fa-user-circle" aria-hidden="true"></span>
