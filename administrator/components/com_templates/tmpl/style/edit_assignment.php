@@ -22,7 +22,7 @@ $user      = Factory::getUser();
 <div class="btn-toolbar">
 	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="
 		let value = document.querySelectorAll('.chk-menulink')[0].checked;
-		for(var count=0; count < document.querySelectorAll('.chk-menulink').length; count++){
+		for(let count=0; count < document.querySelectorAll('.chk-menulink').length; count++){
 			document.querySelectorAll('.chk-menulink')[count].checked = !value;
 		}
 	">
@@ -37,7 +37,7 @@ $user      = Factory::getUser();
 				<div class="menu-links-block">
 					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick="
 						let value = document.getElementsByClassName('<?php echo $type->menutype; ?>')[0].checked;
-						for(var count=0; count < document.getElementsByClassName('<?php echo $type->menutype; ?>').length; count++){
+						for(let count=0; count < document.getElementsByClassName('<?php echo $type->menutype; ?>').length; count++){
 							document.getElementsByClassName('<?php echo $type->menutype; ?>')[count].checked = !value;
 						}
 					">
