@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Content\Site\Helper\QueryHelper;
 
 /**
  * Frontpage View class
@@ -66,13 +65,6 @@ class HtmlView extends BaseHtmlView
 	 * @var  \stdClass[]
 	 */
 	protected $link_items = array();
-
-	/**
-	 * The number of columns to show introduction articles in.
-	 *
-	 * @var  integer
-	 */
-	protected $columns = 1;
 
 	/**
 	 * An instance of JDatabaseDriver.
@@ -190,15 +182,6 @@ class HtmlView extends BaseHtmlView
 		for ($i = $numLeading; $i < $limit && $i < $max; $i++)
 		{
 			$this->intro_items[$i] = &$items[$i];
-		}
-
-		$this->columns = max(1, $params->def('num_columns', 1));
-		$order = $params->def('multi_column_order', 1);
-
-		if ($order == 0 && $this->columns > 1)
-		{
-			// Call order down helper
-			$this->intro_items = QueryHelper::orderDownColumns($this->intro_items, $this->columns);
 		}
 
 		// The remainder are the links.

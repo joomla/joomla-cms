@@ -18,6 +18,7 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
 
 /**
@@ -168,7 +169,7 @@ abstract class ModuleHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
+			Profiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		// Record the scope.
@@ -266,7 +267,7 @@ abstract class ModuleHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
+			Profiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		return $module->content;
@@ -378,11 +379,10 @@ abstract class ModuleHelper
 			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
 			->where('e.enabled = 1');
 
-		$date = Factory::getDate();
-		$now = $date->toSql();
-		$nullDate = $db->getNullDate();
-		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
-			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
+		$nowDate = Factory::getDate()->toSql();
+
+		$query->where('(' . $query->isNullDatetime('m.publish_up') . ' OR m.publish_up <= ' . $db->quote($nowDate) . ')')
+			->where('(' . $query->isNullDatetime('m.publish_down') . ' OR m.publish_down >= ' . $db->quote($nowDate) . ')')
 			->where('m.access IN (' . $groups . ')')
 			->where('m.client_id = ' . $clientId)
 			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
@@ -628,5 +628,44 @@ abstract class ModuleHelper
 		}
 
 		return $enabled;
+	}
+
+	/**
+	 * Get module by id
+	 *
+	 * @param   string  $id  The id of the module
+	 *
+	 * @return  \stdClass  The Module object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function &getModuleById($id)
+	{
+		$modules =& static::load();
+
+		$total = count($modules);
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			// Match the id of the module
+			if ($modules[$i]->id === $id)
+			{
+				// Found it
+				return $modules[$i];
+			}
+		}
+
+		// If we didn't find it, create a dummy object
+		$result            = new \stdClass;
+		$result->id        = 0;
+		$result->title     = '';
+		$result->module    = '';
+		$result->position  = '';
+		$result->content   = '';
+		$result->showtitle = 0;
+		$result->control   = '';
+		$result->params    = '';
+
+		return $result;
 	}
 }

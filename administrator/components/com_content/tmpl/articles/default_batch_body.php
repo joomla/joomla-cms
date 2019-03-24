@@ -8,11 +8,12 @@
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $published = $this->state->get('filter.published');
 
-$user = \Joomla\CMS\Factory::getUser();
+$user = Factory::getUser();
 ?>
 
 <div class="container">
