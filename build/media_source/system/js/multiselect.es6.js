@@ -31,7 +31,7 @@
             var currentCheckBox = this.checkallToggle ? i + 1 : i;
             var isChecked = this.boxes[currentCheckBox].checked;
             //If something is checked on load, update the form
-            if(isChecked){
+            if (isChecked) {
               Joomla.isChecked(true);
               this.changeBg(row,true);
             }
