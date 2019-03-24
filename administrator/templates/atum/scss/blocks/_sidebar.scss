@@ -432,16 +432,23 @@
 
   .sidebar-menu{
     &.show{
-      overflow-y: hidden;
+     /* overflow-y: hidden;*/
       max-height: 100vh;
-
       transition-property: all;
       transition-duration: 1s;
       transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-
-      position:absolute;
+      bottom:55px;
+      position:fixed;
       width:100%;
       z-index:$zindex-mobil-menu;
+      display: flex;
+      flex-direction: column;
+
+      #sidebarmenu{
+        overflow-y:scroll;
+
+      }
+
     }
     &:not(.show){
       max-height:0;
