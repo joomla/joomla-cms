@@ -21,9 +21,10 @@ $user      = Factory::getUser();
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
 	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="
-		let value = document.querySelectorAll('.chk-menulink')[0].checked;
-		for(let count=0; count < document.querySelectorAll('.chk-menulink').length; count++){
-			document.querySelectorAll('.chk-menulink')[count].checked = !value;
+		let checkBoxes = document.querySelectorAll('.chk-menulink');
+		let value = checkBoxes[0].checked;
+		for(let count=0; count < checkBoxes.length; count++){
+			checkBoxes[count].checked = !value;
 		}
 	">
 		<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT_ALL'); ?>
@@ -36,9 +37,10 @@ $user      = Factory::getUser();
 			<li>
 				<div class="menu-links-block">
 					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick="
-						let value = document.getElementsByClassName('<?php echo $type->menutype; ?>')[0].checked;
-						for(let count=0; count < document.getElementsByClassName('<?php echo $type->menutype; ?>').length; count++){
-							document.getElementsByClassName('<?php echo $type->menutype; ?>')[count].checked = !value;
+						let checkBoxes = document.getElementsByClassName('<?php echo $type->menutype; ?>');
+						let value = checkBoxes[0].checked;
+						for(let count=0; count < checkBoxes.length; count++){
+							checkBoxes[count].checked = !value;
 						}
 					">
 						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?>
