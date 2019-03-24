@@ -210,6 +210,14 @@
       display:flex !important;
     }
   }
+
+  .header{
+    .logo{
+      &.small{
+        line-height: 2.5rem;
+      }
+    }
+  }
 }
 
 label {
