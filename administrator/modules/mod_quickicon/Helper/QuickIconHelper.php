@@ -79,8 +79,8 @@ abstract class QuickIconHelper
 				
 				if ($params->get('show_global', '1'))
 				{				
-					self::$buttons[$key][] = 
-						[
+					self::$buttons[$key][]
+						= [
 							'link'   => Route::_('index.php?option=com_config'),
 							'image'  => 'fa fa-cog',
 							'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
@@ -93,8 +93,8 @@ abstract class QuickIconHelper
 				{
 					$amount = self::countUsers();
 					
-					self::$buttons[$key][] =  
-						[
+					self::$buttons[$key][] 
+						 = [
 							'amount' => $amount,
 							'link'   => Route::_('index.php?option=com_users'),
 							'linkadd'   => Route::_('index.php?option=com_users&task=user.add'),
@@ -108,8 +108,8 @@ abstract class QuickIconHelper
 				{
 					$amount = self::countMenuItems();
 					
-					self::$buttons[$key][] =  
-						[
+					self::$buttons[$key][]  
+						= [
 							'amount' => $amount,
 							'link'   => Route::_('index.php?option=com_users'),
 							'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
@@ -123,8 +123,8 @@ abstract class QuickIconHelper
 				{
 					$amount = self::countArticles();
 					
-					self::$buttons[$key][] =  
-						[
+					self::$buttons[$key][]  
+						= [
 							'amount' => $amount,
 							'link'   => Route::_('index.php?option=com_content'),
 							'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
@@ -138,8 +138,8 @@ abstract class QuickIconHelper
 				{
 					$amount = self::countArticleCategories();
 					
-					self::$buttons[$key][] =  
-						[
+					self::$buttons[$key][]  
+						= [
 							'amount' => $amount,
 							'link'   => Route::_('index.php?option=com_categories'),
 							'linkadd'   => Route::_('index.php?option=com_categories&task=category.add'),
@@ -152,8 +152,8 @@ abstract class QuickIconHelper
 
 				if ($params->get('show_media', '1'))
 				{
-					self::$buttons[$key][] =  
-						[
+					self::$buttons[$key][]  
+						= [
 							'image'  => 'fa fa-image',
 							'link'   => Route::_('index.php?option=com_media'),
 							'text'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
@@ -166,8 +166,8 @@ abstract class QuickIconHelper
 				{
 					$amount = self::countModules();
 					
-					self::$buttons[$key][] =  
-						[
+					self::$buttons[$key][]  
+						= [
 							'amount' => $amount,
 							'link'   => Route::_('index.php?option=com_modules'),
 							'text'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
@@ -181,8 +181,8 @@ abstract class QuickIconHelper
 				{
 					$amount = self::countPlugins();
 					
-					self::$buttons[$key][] =  
-						[
+					self::$buttons[$key][]  
+						= [
 							'amount' => $amount,
 							'link'   => Route::_('index.php?option=com_plugins'),
 							'text'   => Text::plural('MOD_QUICKICON_PLUGIN_MANAGER', $amount),
@@ -194,8 +194,8 @@ abstract class QuickIconHelper
 
 				if ($params->get('show_checkin', '1'))
 				{
-					self::$buttons[$key][] = 
-						[
+					self::$buttons[$key][]
+						= [
 							'amount' => self::countCheckin(),
 							'link'   => Route::_('index.php?option=com_checkin'),
 							'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
