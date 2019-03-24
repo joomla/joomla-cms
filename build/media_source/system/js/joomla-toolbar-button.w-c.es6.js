@@ -49,7 +49,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
         throw new Error(`The form "${formSelector}" is required to perform the task, but the form was not found on the page.`);
       }
 
-      //If nothing is selected disable the list
+      // If nothing is selected disable the list
       if(this.formElement.boxchecked.value!=1){
         this.setDisabled(true);
       }
