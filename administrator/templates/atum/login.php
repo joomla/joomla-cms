@@ -51,8 +51,8 @@ $loginLogo = $this->params->get('loginLogo')
 	? JUri::root() . $this->params->get('loginLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 $smallLogo = $this->params->get('smallLogo')
-    ? JUri::root() . $this->params->get('smallLogo')
-    : $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
+	? JUri::root() . $this->params->get('smallLogo')
+	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
