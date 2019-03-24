@@ -10,6 +10,13 @@ namespace Joomla\Component\Installer\Administrator\View\Downloadkey;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\User;
+use Joomla\Component\Installer\Administrator\Model\DownloadkeyModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 /**
@@ -42,15 +49,17 @@ class HtmlView extends InstallerViewDefault
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables.
-		$this->form  = $this->get('Form');
-		$this->item  = $this->get('Item');
+		/** @var DownloadkeyModel $model */
+		$model = $this->getModel();
+		$this->form  = $model->getForm();
+		$this->item  = $model->getItem();
+		$this->state  = $model->getState();
 
 		$jinput = \JFactory::getApplication()->input;
 		$this->modal = $jinput->getString('tmpl', '');
@@ -63,7 +72,7 @@ class HtmlView extends InstallerViewDefault
 
 		$this->addToolbar();
 
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -75,15 +84,15 @@ class HtmlView extends InstallerViewDefault
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user       = \JFactory::getUser();
+		$user       = User::getInstance();
 		$userId     = $user->id;
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
 
-		$canDo = \JHelperContent::getActions('com_installer', 'downloadkey');
+		$canDo = ContentHelper::getActions('com_installer', 'downloadkey');
 
-		\JToolbarHelper::title(\JText::_('COM_INSTALLER_DOWNLOADKEY_EDIT_TITLE'), 'bookmark downloadkeys');
+		ToolbarHelper::title(Text::_('COM_INSTALLER_DOWNLOADKEY_EDIT_TITLE'), 'bookmark downloadkeys');
 
 		$toolbarButtons = [];
 
@@ -94,26 +103,29 @@ class HtmlView extends InstallerViewDefault
 			$toolbarButtons[] = ['save', 'downloadkey.save'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
-		if (empty($this->item->id))
+		if (empty($this->item->update_site_id))
 		{
-			\JToolbarHelper::cancel('downloadkey.cancel');
+			ToolbarHelper::cancel('downloadkey.cancel');
 		}
 		else
 		{
-			if (\JComponentHelper::isEnabled('com_contenthistory') && $this->state->params->get('save_history', 0) && $canDo->get('core.edit'))
+			if (ComponentHelper::isEnabled('com_contenthistory')
+				&& $this->state->params->get('save_history', 0)
+				&& $canDo->get('core.edit')
+			)
 			{
-				\JToolbarHelper::versions('com_installers.downloadkey', $this->item->id);
+				ToolbarHelper::versions('com_installers.downloadkey', $this->item->id);
 			}
 
-			\JToolbarHelper::cancel('banner.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('downloadkey.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
 	}
 }

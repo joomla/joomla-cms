@@ -137,7 +137,7 @@ class InstallerHelper
 				$path .= '/plugins/' . $folder . '/' . $element . '/' . $element . '.xml';
 				break;
 			case 'module':
-				$path .= '/modules/' . $element . '/' . $element->element . '.xml';
+				$path .= '/modules/' . $element . '/' . $element . '.xml';
 				break;
 			case 'template':
 				$path .= '/templates/' . $element . '/templateDetails.xml';
@@ -172,6 +172,10 @@ class InstallerHelper
 			$extension->client_id,
 			$extension->folder
 		);
+		if (!$installXmlFile)
+		{
+			return null;
+		}
 
 		if (!isset($installXmlFile->dlid))
 		{

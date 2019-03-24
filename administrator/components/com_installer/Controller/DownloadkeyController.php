@@ -11,13 +11,13 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Form;
+use Joomla\CMS\MVC\Controller\FormController;
 
 /**
  * Controller for a single contact
  *
  * @since  __DEPLOY_VERSION__
  */
-class DownloadkeyController extends Form
+class DownloadkeyController extends FormController
 {
 }

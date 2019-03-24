@@ -10,7 +10,8 @@ namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Model\Admin;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
 
 /**
@@ -18,7 +19,7 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class DownloadkeyModel extends Admin
+class DownloadkeyModel extends AdminModel
 {
 	/**
 	 * The type alias for this content type.
@@ -34,13 +35,14 @@ class DownloadkeyModel extends Admin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 * @return  Form|boolean  A \JForm object on success, false on failure
 	 *
+	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		\JForm::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields');
+		Form::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields');
 
 		// Get the form.
 		$form = $this->loadForm('com_installer.downloadkey', 'downloadkey', array('control' => 'jform', 'load_data' => $loadData));
@@ -80,9 +82,8 @@ class DownloadkeyModel extends Admin
 	 */
 	public function getItem($pk = null)
 	{
-		$item = parent::getItem($pk);
-
-		$db  = $this->getDbo();
+		$item  = parent::getItem($pk);
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				$db->quoteName(

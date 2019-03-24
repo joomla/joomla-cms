@@ -6,10 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Table;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 
 /**
@@ -17,7 +19,7 @@ use Joomla\CMS\Table\Table;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Downloadkey extends Table
+class DownloadkeyTable extends Table
 {
 	/**
 	 * Constructor
@@ -57,7 +59,7 @@ class Downloadkey extends Table
 		// Check for valid name
 		if (trim($this->location) == '')
 		{
-			$this->setError(\JText::_('COM_INSTALLER_UPDATESITE_EDIT_VALID_NAME'));
+			$this->setError(Text::_('COM_INSTALLER_UPDATESITE_EDIT_VALID_NAME'));
 
 			return false;
 		}

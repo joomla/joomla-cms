@@ -11,7 +11,7 @@ namespace Joomla\Component\Installer\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Controller\Admin;
+use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
 
 /**
@@ -21,7 +21,7 @@ use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
  * @subpackage  com_installer
  * @since       __DEPLOY_VERSION__
  */
-class DownloadkeysController extends Admin
+class DownloadkeysController extends AdminController
 {
 	/**
 	 * Constructor.
@@ -31,10 +31,11 @@ class DownloadkeysController extends Admin
 	 * @param   CMSApplication       $app      The JApplication for the dispatcher
 	 * @param   \JInput              $input    Input
 	 *
+	 * @throws \Exception
 	 * @since  __DEPLOY_VERSION__
 	 * @see    \JControllerLegacy
 	 */
-	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, $app = null, $input = null)
 	{
 		parent::__construct($config, $factory, $app, $input);
 	}

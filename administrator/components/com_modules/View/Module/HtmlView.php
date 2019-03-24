@@ -163,5 +163,10 @@ class HtmlView extends BaseHtmlView
 		}
 
 		ToolbarHelper::help($help->key, false, $url);
+
+		if (isset($this->item->xml->dlid))
+		{
+			ToolbarHelper::downloadkey('JGLOBAL_DOWNLOAD_KEY_MODAL_BUTTON', null, $this->item->module);
+		}
 	}
 }

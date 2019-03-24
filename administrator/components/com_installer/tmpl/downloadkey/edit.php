@@ -7,10 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-// No direct access
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.formvalidator');
+HTMLHelper::_('behavior.formvalidator');
 
 $tmp = null;
 
@@ -20,11 +23,11 @@ if ($this->modal != null)
 }
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_installer&view=downloadkey&layout=edit&update_site_id=' . (int) $this->item->update_site_id . $tmp); ?>"
+<form action="<?php echo Route::_('index.php?option=com_installer&view=downloadkey&layout=edit&update_site_id=' . (int) $this->item->update_site_id . $tmp); ?>"
 	  method="post" name="adminForm" id="adminForm">
 	<div class="form-horizontal">
 		<fieldset class="adminform">
-			<legend><?php echo JText::_('COM_INSTALLER_DOWNLOADKEY_EDIT_DETAILS'); ?></legend>
+			<legend><?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EDIT_DETAILS'); ?></legend>
 			<div class="row">
 				<div class="col">
 					<?php foreach ($this->form->getFieldset() as $field) : ?>
@@ -38,5 +41,5 @@ if ($this->modal != null)
 		</fieldset>
 	</div>
 	<input type="hidden" name="task" value="" />
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>
