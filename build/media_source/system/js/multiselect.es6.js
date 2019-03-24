@@ -26,7 +26,7 @@
         }
 
         if (this.rows.length) {
-          var i=0;
+          var i = 0;
           this.rows.forEach((row) => {
             var currentCheckBox = this.checkallToggle ? i + 1 : i;
             var isChecked = this.boxes[currentCheckBox].checked;
