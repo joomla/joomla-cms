@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -18,7 +19,7 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Downloadkeys extends Installer
+class DownloadkeysModel extends InstallerModel
 {
 	/**
 	 * Constructor.
@@ -37,40 +38,19 @@ class Downloadkeys extends Installer
 				'update_site_name',
 				'name',
 				'client_id',
-				'client', 'client_translated',
+				'client',
+				'client_translated',
 				'status',
-				'type', 'type_translated',
-				'folder', 'folder_translated',
+				'type',
+				'type_translated',
+				'folder',
+				'folder_translated',
 				'update_site_id',
 				'enabled',
 			);
 		}
 
 		parent::__construct($config, $factory);
-	}
-
-	/**
-	 * Method to auto-populate the model state.
-	 *
-	 * Note. Calling getState in this method will result in recursion.
-	 *
-	 * @param   string  $ordering   An optional ordering field.
-	 * @param   string  $direction  An optional direction (asc|desc).
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function populateState($ordering = 'name', $direction = 'asc')
-	{
-		// Load the filter state.
-		$this->setState('filter.search', $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
-		$this->setState('filter.client_id', $this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
-		$this->setState('filter.enabled', $this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string'));
-		$this->setState('filter.type', $this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
-		$this->setState('filter.folder', $this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
-
-		parent::populateState($ordering, $direction);
 	}
 
 	/**
@@ -93,6 +73,35 @@ class Downloadkeys extends Installer
 	}
 
 	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	protected function populateState($ordering = 'name', $direction = 'asc')
+	{
+		// Load the filter state.
+		$this->setState('filter.search',
+			$this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search', '', 'string'));
+		$this->setState('filter.client_id',
+			$this->getUserStateFromRequest($this->context . '.filter.client_id', 'filter_client_id', null, 'int'));
+		$this->setState('filter.enabled',
+			$this->getUserStateFromRequest($this->context . '.filter.enabled', 'filter_enabled', '', 'string'));
+		$this->setState('filter.type',
+			$this->getUserStateFromRequest($this->context . '.filter.type', 'filter_type', '', 'string'));
+		$this->setState('filter.folder',
+			$this->getUserStateFromRequest($this->context . '.filter.folder', 'filter_folder', '', 'string'));
+
+		parent::populateState($ordering, $direction);
+	}
+
+	/**
 	 * Method to get the database query
 	 *
 	 * @return  \JDatabaseQuery  The database query
@@ -101,7 +110,7 @@ class Downloadkeys extends Installer
 	 */
 	protected function getListQuery()
 	{
-		$db  = $this->getDbo();
+		$db = $this->getDbo();
 
 		$query = $db->getQuery(true)
 			->select(

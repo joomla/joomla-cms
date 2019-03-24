@@ -10,14 +10,14 @@ namespace Joomla\Component\Installer\Administrator\View\Downloadkey;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\View\HtmlView;
+use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 /**
  * View to edit a download key.
  *
  * @since  __DEPLOY_VERSION__
  */
-class Html extends HtmlView
+class HtmlView extends InstallerViewDefault
 {
 	/**
 	 * The \JForm object

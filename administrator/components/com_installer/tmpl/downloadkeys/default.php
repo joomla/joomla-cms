@@ -7,55 +7,55 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
 defined('_JEXEC') or die;
 
-JHtml::_('behavior.multiselect');
-
-JHtml::_('bootstrap.tooltip');
+HTMLHelper::_('behavior.multiselect');
+HTMLHelper::_('bootstrap.tooltip');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 ?>
 <div id="installer-manage" class="clearfix">
-	<form action="<?php echo JRoute::_('index.php?option=com_installer&view=downloadkeys'); ?>" method="post" name="adminForm" id="adminForm">
+	<form action="<?php echo Route::_('index.php?option=com_installer&view=downloadkeys'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
-			<div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-			</div>
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
 					<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 					<?php if (empty($this->items)) : ?>
 					<div class="alert alert-warning alert-no-items">
-						<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
+						<?php echo Text::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 					</div>
 					<?php else : ?>
 					<table class="table table-striped">
 						<thead>
 							<tr>
 								<th style="width:1%" class="text-center">
-									<?php echo JHtml::_('grid.checkall'); ?>
+									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</th>
-								<th class="nowrap">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
+								<th scope="col" class="nowrap">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_UPDATESITE_NAME', 'update_site_name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:20%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:20%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_NAME', 'name', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_LOCATION', 'client_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_TYPE', 'type_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:10%" class="hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:10%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'COM_INSTALLER_HEADING_FOLDER', 'folder_translated', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap hidden-sm-down text-center">
-									<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'update_site_id', $listDirn, $listOrder); ?>
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JGRID_HEADING_ID', 'update_site_id', $listDirn, $listOrder); ?>
 								</th>
-								<th style="width:5%" class="nowrap hidden-sm-down text-center">
-									<?php echo JText::_('COM_INSTALLER_HEADING_DOWNLOADKEY'); ?>
+								<th scope="col" style="width:5%" class="d-none d-md-table-cell">
+									<?php echo Text::_('COM_INSTALLER_HEADING_DOWNLOADKEY'); ?>
 								</th>
 							</tr>
 						</thead>
@@ -76,7 +76,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 
 							<tr class="row<?php echo ($i + $itemsSkipped) % 2; ?>">
 								<td class="text-center">
-									<?php echo \JHtml::_('grid.id', $i-$itemsSkipped, $item->update_site_id); ?>
+									<?php echo HTMLHelper::_('grid.id', $i-$itemsSkipped, $item->update_site_id); ?>
 								</td>
 								<td>
 									<label for="cb<?php echo $i-$itemsSkipped; ?>">
@@ -88,7 +88,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									</label>
 								</td>
 								<td class="hidden-sm-down text-center">
-									<span class="bold hasTooltip" title="<?php echo JHtml::_('tooltipText', $item->name, $item->description, 0); ?>">
+									<span class="bold hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', $item->name, $item->description, 0); ?>">
 										<?php echo $item->name; ?>
 									</span>
 								</td>
@@ -105,7 +105,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->update_site_id; ?>
 								</td>
 								<td>
-									<?php echo $item->extra_query['value'] ? $item->extra_query['value'] : \JText::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
+									<?php echo $item->extra_query['value'] ? $item->extra_query['value'] : Text::_('COM_INSTALLER_TYPE_NONAPPLICABLE'); ?>
 								</td>
 							</tr>
 						<?php endforeach; ?>
@@ -114,7 +114,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 					<?php endif; ?>
 					<input type="hidden" name="task" value="">
 					<input type="hidden" name="boxchecked" value="0">
-					<?php echo JHtml::_('form.token'); ?>
+					<?php echo HTMLHelper::_('form.token'); ?>
 				</div>
 			</div>
 		</div>

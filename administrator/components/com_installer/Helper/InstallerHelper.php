@@ -166,7 +166,12 @@ class InstallerHelper
 	 */
 	public static function getDownloadKey($extension)
 	{
-		$installXmlFile = self::getInstallationXML($extension);
+		$installXmlFile = self::getInstallationXML(
+			$extension->element,
+			$extension->type,
+			$extension->client_id,
+			$extension->folder
+		);
 
 		if (!isset($installXmlFile->dlid))
 		{

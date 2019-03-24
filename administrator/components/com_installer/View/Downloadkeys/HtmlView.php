@@ -11,9 +11,13 @@ namespace Joomla\Component\Installer\Administrator\View\Downloadkeys;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Installer\Administrator\View\Installer\Html as InstallerViewDefault;
+use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
+
 /**
  * Extension Manager Update Sites View
  *
@@ -21,19 +25,23 @@ use Joomla\Component\Installer\Administrator\View\Installer\Html as InstallerVie
  * @subpackage  com_installer
  * @since       __DEPLOY_VERSION__
  */
-class Html extends InstallerViewDefault
+class HtmlView extends InstallerViewDefault
 {
 	/**
 	 * An array of items
 	 *
 	 * @var  array
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $items;
 
 	/**
 	 * The pagination object
 	 *
-	 * @var  \JPagination
+	 * @var  Pagination
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $pagination;
 
@@ -44,9 +52,9 @@ class Html extends InstallerViewDefault
 	 *
 	 * @return  void
 	 *
+	 * @throws  Exception
 	 * @since   __DEPLOY_VERSION_
 	 *
-	 * @throws  \Exception on errors
 	 */
 	public function display($tpl = null)
 	{
@@ -63,11 +71,12 @@ class Html extends InstallerViewDefault
 		}
 
 		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Display the view
 		parent::display($tpl);
 	}
+
 	/**
 	 * Add the page title and toolbar.
 	 *

@@ -18,6 +18,6 @@ use Joomla\CMS\Controller\Form;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Downloadkey extends Form
+class DownloadkeyController extends Form
 {
 }

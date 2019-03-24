@@ -18,7 +18,7 @@ use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
  *
  * @since  __DEPLOY_VERSION__
  */
-class Downloadkey extends Admin
+class DownloadkeyModel extends Admin
 {
 	/**
 	 * The type alias for this content type.

@@ -21,7 +21,7 @@ use Joomla\CMS\Mvc\Factory\MvcFactoryInterface;
  * @subpackage  com_installer
  * @since       __DEPLOY_VERSION__
  */
-class Downloadkeys extends Admin
+class DownloadkeysController extends Admin
 {
 	/**
 	 * Constructor.
