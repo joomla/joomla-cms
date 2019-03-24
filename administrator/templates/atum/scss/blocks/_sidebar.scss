@@ -119,6 +119,10 @@
   width: $sidebar-width;
   opacity: 1;
 
+  @include media-breakpoint-down(xs) {
+	  width: 100%;
+  }
+
   ul.collapse {
 
     li.dropdown-submenu {
@@ -422,11 +426,16 @@
 
       &:before{
         font: normal normal normal 30px/1 FontAwesome;
-        content: "\f106";
+        content: "\f107";
         color:var(--toggle-color);
 
       }
     }
+	&.collapsed {
+		.navbar-toggler-icon:before {
+			content: "\f106";
+		}
+	}
 
   }
 
