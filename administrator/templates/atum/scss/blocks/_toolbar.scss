@@ -29,10 +29,11 @@
         margin-left: 0;
       }
 
+
       &.ml-auto {
         @include media-breakpoint-down(md) {
-          margin-right: auto !important;
-          margin-left: .75rem !important;
+         /* margin-right: auto !important;
+          margin-left: .75rem !important;*/
         }
       }
     }
@@ -131,5 +132,20 @@
         line-height: 2.35;
       }
     }
+  }
+}
+.btn-toolbar{
+  >*{
+    @include media-breakpoint-down(md) {
+      margin-left:0 !important;
+      margin-right:0.75rem;
+      margin-bottom:10px;
+    }
+  }
+}
+
+.js-stools{
+  @include media-breakpoint-down(md) {
+    justify-content:flex-start;
   }
 }

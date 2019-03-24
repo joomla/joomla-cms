@@ -54,6 +54,13 @@
     [class^='icon-'] {
       margin-right: 10px;
     }
+    @include media-breakpoint-down(md){
+      width: 160px;
+       white-space: nowrap;
+       overflow: hidden;
+       text-overflow: ellipsis;
+    }
+
   }
 
   .nav-item:hover,
@@ -110,7 +117,6 @@
   }
 
   .link-title {
-    text-decoration: underline;
 
     @include media-breakpoint-down(lg) {
      /* width: 60px;
@@ -200,25 +206,32 @@
     margin-bottom: 0;
     font-size: $h5-font-size;
     color: var(--atum-special-color);
-
+    font-size:$font-size-vsm;
+    &:before{
+      font: normal normal normal 23px/1 FontAwesome;
+      content: "\f1aa  ";
+    }
 
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(xs) {
     .header-items{
       background:var(--atum-bg-dark);
       display:block;
       position:fixed;
       bottom:0;
       width:100%;
-      z-index:9999;
+      z-index:$zindex-mobil-bottom;
       padding-left:0.75rem;
+      .ml-auto{
+        margin-right:70px;
+      }
     }
 
   }
 }
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(xs) {
 
   .header {
     position: sticky;
@@ -229,18 +242,25 @@
 
   }
 }
-@include media-breakpoint-down(sm) {
+@include media-breakpoint-down(xs) {
 
   .header {
     position: static;
 
     .joomla-version{
       color:var(--atum-text-light);
+
     }
 
     .nav-item:hover,
     .nav-item.show {
       background-color: var(--atum-bg-dark-70);
+    }
+    .nav-item{
+      display: none;
+      &.footer-mobil-icon{
+        display:block;
+      }
     }
 
     .nav-link{

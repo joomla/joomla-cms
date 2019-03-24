@@ -194,19 +194,29 @@ $this->addStyleDeclaration($css);
 <?php // Wrapper ?>
 <div id="wrapper" class="d-flex wrapper<?php echo $hiddenMenu ? '0' : ''; ?>">
 
-	<?php // Sidebar ?>
+
+
+    <?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
-		<div id="sidebar-wrapper" class="sidebar-wrapper" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
-            <div class="sidebar-toggle">
-                <a id="menu-collapse" href="#">
-                    <span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>
-                    <span class="sidebar-item-title"><?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?></span>
-                </a>
+
+        <button class="navbar-toggler toggler-burger" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+                 <span class="navbar-toggler-icon">
+                  </span>
+        </button>
+
+		<div id="sidebar-wrapper" class="sidebar-wrapper sidebar-menu" <?php echo $hiddenMenu ? 'data-hidden="' . $hiddenMenu . '"' : ''; ?>>
+            <div id="sidebarmenu">
+                <div class="sidebar-toggle">
+                  <a id="menu-collapse" href="#">
+                       <span id="menu-collapse-icon" class="fa-fw fa fa-toggle-off" aria-hidden="true"></span>
+                       <span class="sidebar-item-title"><?php echo Text::_('TPL_ATUM_TOGGLE_SIDEBAR'); ?></span>
+                  </a>
+                </div>
+                <jdoc:include type="modules" name="menu" style="none"/>
+			    <div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
+				    <img src="<?php echo $joomlaLogo; ?>" alt="">
+			    </div>
             </div>
-			<jdoc:include type="modules" name="menu" style="none"/>
-			<div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
-				<img src="<?php echo $joomlaLogo; ?>" alt="">
-			</div>
 		</div>
 	<?php endif; ?>
 
@@ -215,7 +225,7 @@ $this->addStyleDeclaration($css);
 		<?php if (!$cpanel) : ?>
 			<?php // Subheader ?>
 			<a class="btn btn-subhead d-md-none d-lg-none d-xl-none" data-toggle="collapse"
-				data-target=".subhead-collapse"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
+				data-target=".subhead"><?php echo Text::_('TPL_ATUM_TOOLBAR'); ?>
 				<span class="icon-wrench"></span></a>
 			<div id="subhead" class="subhead">
 				<div id="container-collapse" class="container-collapse"></div>

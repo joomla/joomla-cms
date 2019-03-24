@@ -1,4 +1,5 @@
 // Form
+
 @import "../variables";
 
 label {
@@ -6,109 +7,104 @@ label {
 }
 
 .form-control {
-	//  max-width: $input-max-width;
 	background-color: var(--white-offset);
 }
 
 .control-group {
-	margin-bottom: 18px;
+  margin-bottom: 18px;
 
-	> .form-check {
-		display: inline-block;
-	}
+  > .form-check {
+    display: inline-block;
+  }
 
-	&::after {
-		display: table;
-		clear: both;
-		content: "";
-	}
+  &::after {
+    display: table;
+    clear: both;
+    content: "";
+  }
 
-	.control-label {
-		float: left;
-		width: 220px;
-		padding-top: 5px;
-		padding-right: 5px;
-		text-align: left;
-	}
+  .control-label {
+    float: left;
+    width: 220px;
+    padding-top: 5px;
+    padding-right: 5px;
+    text-align: left;
+  }
 
-	.controls {
-		margin-left: 220px;
-	}
+  .controls {
+    margin-left: 220px;
+  }
 }
 
 .form-no-margin {
 
-	.control-group {
+  .control-group {
 
-		.controls {
-			margin-left: 0;
-		}
+    .controls {
+      margin-left: 0;
+    }
 
-		.control-label {
-			float: none;
-		}
-	}
-}
-
-.custom-select {
-	//  max-width: $input-max-width;
+    .control-label {
+      float: none;
+    }
+  }
 }
 
 .spacer {
-	hr {
-		width: 380px;
-	}
+  hr {
+    width: 380px;
+  }
 
-	label {
-		width: 440px;
-	}
+  label {
+    width: 440px;
+  }
 }
 
 td .form-control {
-	display: inline-block;
-	width: auto;
+  display: inline-block;
+  width: auto;
 }
 
 legend {
-	margin-bottom: 1.1rem;
-	font-size: 1rem;
-	font-weight: $font-weight-normal;
+  margin-bottom: 1.1rem;
+  font-size: 1rem;
+  font-weight: $font-weight-normal;
 }
 
 .checkboxes {
-	padding-top: 5px;
+  padding-top: 5px;
 
-	.checkbox input {
-		position: static;
-		margin-left: 0;
-	}
+  .checkbox input {
+    position: static;
+    margin-left: 0;
+  }
 }
 
 .form-check {
-	padding-top: 5px;
-	margin-bottom: 0;
+  padding-top: 5px;
+  margin-bottom: 0;
 }
 
 .modal label {
-	width: 100%;
+  width: 100%;
 }
 
 // Validation
 .invalid {
-	color: theme-color("danger");
-	border-color: theme-color("danger");
+  color: theme-color("danger");
+  border-color: theme-color("danger");
 }
 
 .valid {
-	border-color: theme-color("success");
+  border-color: theme-color("success");
 }
 
 .form-control-feedback {
-	display: block;
+  display: block;
 }
 
 [aria-grabbed='true'] {
-	box-shadow: 0 0 2px 1px theme-color("primary");
+  box-shadow: 0 0 2px 1px theme-color("primary");
 }
 
 joomla-field-switcher {
@@ -129,3 +125,19 @@ joomla-field-switcher {
 	}
 }
 
+
+@include media-breakpoint-down(xs) {
+  .control-group {
+    .control-label{
+      float:none;
+      width:95%;
+    }
+    .controls{
+      margin-left:0;
+      .form-control,
+      .custom-select{
+        max-width:90%;
+      }
+    }
+  }
+}

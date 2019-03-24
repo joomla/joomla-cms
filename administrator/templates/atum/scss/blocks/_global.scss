@@ -1,14 +1,15 @@
 // Global
+
 @import "../variables";
 
 html,
 body {
-	height: 100%;
+  height: 100%;
 }
 
 body {
-	padding: 0;
-	margin: 0;
+  padding: 0;
+  margin: 0;
 }
 
 h1,
@@ -17,26 +18,26 @@ h3,
 h4,
 h5,
 h6 {
-	font-weight: $font-weight-bold;
+  font-weight: $font-weight-bold;
 }
 
 h1 {
-	font-weight: $font-weight-normal;
+  font-weight: $font-weight-normal;
 }
 
 small,
 .small {
-	font-size: $font-size-sm;
+  font-size: $font-size-sm;
 }
 
 legend {
-	font-size: 1.2rem;
-	font-weight: $font-weight-bold;
+  font-size: 1.2rem;
+  font-weight: $font-weight-bold;
 }
 
 // focus-visible polyfill rule
 .js-focus-visible :focus:not(.focus-visible) {
-	outline: none;
+  outline: none;
 }
 
 // Default focus highlighting
@@ -45,37 +46,37 @@ button,
 input,
 textarea {
 
-	&:focus,
-	&:-moz-focusring {
-		outline: auto 2px var(--focus);
-	}
+  &:focus,
+  &:-moz-focusring {
+  outline: auto 2px var(--focus);
+  }
 }
 
 // Break up text in cells to prevent overflow
 .break-word {
-	word-break: break-all;
-	word-wrap: break-word;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 .content {
-	font-size: $content-font-size;
+  font-size: $content-font-size;
 }
 
 label,
 caption {
-	font-size: $label-font-size;
+  font-size: $label-font-size;
 }
 
 .btn-primary:hover {
-	background-color: var(--atum-bg-dark-70);
-	border-color: var(--atum-bg-dark-70);
+  background-color: var(--atum-bg-dark-70);
+  border-color: var(--atum-bg-dark-70);
 }
 
 .logo {
 
-	img path {
-		fill: var(--atum-text-dark);
-	}
+  img path {
+    fill: var(--atum-text-dark);
+  }
 }
 
 .container-main,
@@ -107,67 +108,81 @@ caption {
 }
 
 .content {
-	padding-top: 15px;
-	border-radius: $border-radius;
+  padding-top: 15px;
+  border-radius: $border-radius;
 
-	> .row {
-		margin-right: 0;
-		margin-left: 0;
-	}
+  > .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
 
-	.subhead + & {
-		padding-top: 0;
-	}
+  .subhead + & {
+    padding-top: 0;
+  }
 }
 
 .row-selected {
-	background-color: var(--row-selected);
+  background-color: var(--row-selected);
 }
 
 // Chosen (TEMPORARY)
 .chzn-container-single {
-	width: auto !important;
+  width: auto !important;
 }
 
 // Multilingual associations specific
 .item-associations {
-	padding: 0;
+  padding: 0;
 }
 
 .item-associations li {
-	display: inline-block;
-	list-style: none;
+  display: inline-block;
+  list-style: none;
 }
 
 // Quickicon specific
 .message-alert {
-	text-align: right !important;
+  text-align: right !important;
 }
 
 // Fadeeffect for login page
 .load-fadein {
-	@include fadein-page;
+  @include fadein-page;
 }
 
 .load-fadeout {
-	@include fadeout-page;
+  @include fadeout-page;
 }
 
 // Fix blinking of fade effect
 .container-main.fade-done > * {
-	opacity: 1;
+  opacity: 1;
 }
 
 .sidebar-wrapper.fade-done > * {
-	opacity: 1;
+  opacity: 1;
+}
+
+// dashboard items
+.menu-quicktask,
+.menu-badge {
+  float: right;
+  min-width: 1rem;
 }
 
 // extern links with icons
 a[href*="//"]:before {
-	font: normal normal normal 14px/1 FontAwesome;
-	content: "\f08e  ";
+  font: normal normal normal 14px/1 FontAwesome;
+  content: "\f08e  ";
 }
 
+#wrapper{
+  &.d-flex{
+    @include media-breakpoint-down(xs){
+      display:block !important;
+    }
+  }
+}
 
 
 

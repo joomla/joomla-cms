@@ -20,4 +20,11 @@
     padding: 1em;
     background-color: $white;
   }
+
+  .options-menu{
+    .burger-toggler-icon:before{
+      font: normal normal normal 16px/1 FontAwesome;
+      content: "\f039 ";
+    }
+  }
 }
