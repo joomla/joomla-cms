@@ -53,7 +53,7 @@ Text::script('JHIDE');
 			<div class="input-group">
 				<span class="input-group-prepend input-group-text">
 					<span class="sr-only"><?php echo Text::_('JSHOW'); ?></span>
-                    <input type="checkbox" class="icon-eye" aria-hidden="true">
+                    			<input type="checkbox" class="icon-eye" aria-hidden="true">
 				</span>
 				<input
 					name="passwd"
