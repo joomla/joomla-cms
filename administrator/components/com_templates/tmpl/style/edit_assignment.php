@@ -21,7 +21,7 @@ $user      = Factory::getUser();
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
 	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="
-		var value = document.querySelectorAll('.chk-menulink')[0].checked;
+		let value = document.querySelectorAll('.chk-menulink')[0].checked;
 		for(var count=0; count < document.querySelectorAll('.chk-menulink').length; count++){
 			document.querySelectorAll('.chk-menulink')[count].checked = !value;
 		}
@@ -36,7 +36,7 @@ $user      = Factory::getUser();
 			<li>
 				<div class="menu-links-block">
 					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick="
-						var value = document.getElementsByClassName('<?php echo $type->menutype; ?>')[0].checked;
+						let value = document.getElementsByClassName('<?php echo $type->menutype; ?>')[0].checked;
 						for(var count=0; count < document.getElementsByClassName('<?php echo $type->menutype; ?>').length; count++){
 							document.getElementsByClassName('<?php echo $type->menutype; ?>')[count].checked = !value;
 						}
