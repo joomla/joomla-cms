@@ -53,7 +53,14 @@ class DisplayController extends BaseController
 
 		return parent::display($cachable, $urlparams);
 	}
-
+	
+	/**
+	 * Method to add a module to a dashboard
+	 *
+	 * @since   4.0.0
+	 *
+	 * @return  void
+	 */
 	public function addModule()
 	{
 		$position = $this->input->get('position', 'cpanel');
