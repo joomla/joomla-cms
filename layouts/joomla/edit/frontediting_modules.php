@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ $moduleHtml = preg_replace(
 	. '"'
 	// And if menu editing is enabled and allowed and it's a menu module, add data attributes for menu editing:
 	.	($menusEditing && $mod->module === 'mod_menu' ?
-			'" data-jmenuedittip="' . JHtml::_('tooltipText', 'JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
+			' data-jmenuedittip="' . JHtml::_('tooltipText', 'JLIB_HTML_EDIT_MENU_ITEM', 'JLIB_HTML_EDIT_MENU_ITEM_ID') . '"'
 			:
 			''
 		),
