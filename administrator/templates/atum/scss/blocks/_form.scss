@@ -104,3 +104,10 @@ legend {
 [aria-grabbed='true'] {
   box-shadow: 0 0 2px 1px theme-color("primary");
 }
+
+// Allows date picker to be visible even when going out of the ul elements dimensions
+joomla-tab[view=accordion] {
+  ul {
+    overflow: visible;
+  }
+}
