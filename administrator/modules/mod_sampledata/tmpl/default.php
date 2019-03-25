@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Session\Session;
+
 JHtml::_('jquery.framework');
 JHtml::_('bootstrap.tooltip');
 JHtml::_('script', 'mod_sampledata/sampledata-process.js', false, true);
@@ -18,7 +20,7 @@ JText::script('MOD_SAMPLEDATA_ITEM_ALREADY_PROCESSED');
 JText::script('MOD_SAMPLEDATA_INVALID_RESPONSE');
 
 JFactory::getDocument()->addScriptDeclaration('
-	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata",
+	var modSampledataUrl = "index.php?option=com_ajax&format=json&group=sampledata&' . Session::getFormToken() . '=1",
 		modSampledataIconProgress = "' . JUri::root(true) . '/media/jui/images/ajax-loader.gif";
 ');
 ?>
