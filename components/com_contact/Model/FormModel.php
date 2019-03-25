@@ -12,6 +12,7 @@ namespace Joomla\Component\Contact\Site\Model;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
@@ -205,7 +206,7 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function preprocessForm($form, $data, $group = 'contact')
+	protected function preprocessForm(Form $form, $data, $group = 'contact')
 	{
 		if (!Multilanguage::isEnabled())
 		{
