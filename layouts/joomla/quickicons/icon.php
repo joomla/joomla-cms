@@ -32,7 +32,7 @@ if ($id !== '')
 }
 
 ?>
-<li class="col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>";>
+<li class="col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>">
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 
 		<?php if (isset($displayData['amount'])): ?>
@@ -48,7 +48,7 @@ if ($id !== '')
 			</div>
 		<?php elseif (isset($displayData['image'])): ?>
 			<div class="quickicon-icon d-flex align-items-end">
-				<span class="<?php echo $displayData['image']; ?>" aria-hidden="true"></span>
+				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 			</div>
 		<?php endif; ?>
 		<?php // Name indicates the component
@@ -63,8 +63,9 @@ if ($id !== '')
 	<?php // Add the link to the edit-form
 		if (!empty($displayData['linkadd'])): ?>
 			<a class="btn-block text-center quickicon-linkadd j-links-link py-1" href="<?php echo $displayData['linkadd']; ?>">
-				<span class="fa fa-plus mr-2" aria-hidden="true" title=""></span>
-				<?php echo $add; ?>
+				<span class="fa fa-plus mr-2" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
+				<span aria-hidden="true"><?php echo $add; ?></span>
 			</a>
 	<?php endif; ?>
 </li>
