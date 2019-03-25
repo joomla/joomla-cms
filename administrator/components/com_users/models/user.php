@@ -205,12 +205,12 @@ class UsersModelUser extends JModelAdmin
 		$user = JUser::getInstance($pk);
 
 		// Make sure the activation / reset token is invalidated when the account mail is changed and a token exists.
-		if ($user->email != $data['email'] && $userId != 0 && !empty($user->activation))
+		if ($user->email != $data['email'] && $pk != 0 && !empty($user->activation))
 		{
 			$app = JFactory::getApplication();
 			
 			// Compile the notification mail values.
-			$data = JFactory::getUser($userId)->getProperties();
+			$data = $user->getProperties();
 			$data['fromname']   = $app->get('fromname');
 			$data['mailfrom']   = $app->get('mailfrom');
 			$data['sitename']   = $app->get('sitename');
@@ -247,14 +247,14 @@ class UsersModelUser extends JModelAdmin
 
 			// Write the new token back to the database
 			$activation = (object) array(
-				'id'         => $userId,
+				'id'         => $user->id,
 				'activation' => $data['activation'],
 			);
 
 			$this->getDbo()->updateObject('#__users', $activation, 'id');
 
 			// Reload the user record
-			$user->load($userId);
+			$user->load($user->id);
 
 			// Send the mail to the user
 			JFactory::getMailer()->sendMail($data['mailfrom'], $data['fromname'], $data['email'], $emailSubject, $emailBody);
