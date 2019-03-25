@@ -3,16 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $published = $this->state->get('filter.published');
 
-$user = \Joomla\CMS\Factory::getUser();
+$user = Factory::getUser();
 ?>
 
 <div class="container">
@@ -32,7 +33,7 @@ $user = \Joomla\CMS\Factory::getUser();
 		<?php if ($published >= 0) : ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.', ['extension' => 'com_content']); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.item', ['extension' => 'com_content']); ?>
 			</div>
 		</div>
 		<?php endif; ?>

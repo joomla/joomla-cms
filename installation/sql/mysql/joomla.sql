@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `#__assets` (
 --
 
 INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `title`, `rules`) VALUES
-(1, 0, 0, 121, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 0, 121, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.login.api":{"6":1},"core.login.offline":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 1, 2, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 3, 6, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 7, 8, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -56,6 +56,8 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (23, 1, 101, 102, 1, 'com_templates', 'com_templates', '{"core.admin":{"7":1}}'),
 (24, 1, 103, 106, 1, 'com_users', 'com_users', '{"core.admin":{"7":1}}'),
 (26, 1, 107, 108, 1, 'com_wrapper', 'com_wrapper', '{}'),
+(65, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
+(66, 1, 107, 108, 1, 'com_userlogs', 'com_userlogs', '{"core.admin":{"7":1}}'),
 (27, 8, 18, 19, 2, 'com_content.category.2', 'Uncategorised', '{}'),
 (28, 3, 4, 5, 2, 'com_banners.category.3', 'Uncategorised', '{}'),
 (29, 7, 14, 15, 2, 'com_contact.category.4', 'Uncategorised', '{}'),
@@ -249,7 +251,7 @@ CREATE TABLE IF NOT EXISTS `#__categories` (
 
 INSERT INTO `#__categories` (`id`, `asset_id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `extension`, `title`, `alias`, `note`, `description`, `published`, `checked_out`, `checked_out_time`, `access`, `params`, `metadesc`, `metakey`, `metadata`, `created_user_id`, `created_time`, `modified_user_id`, `modified_time`, `hits`, `language`, `version`) VALUES
 (1, 0, 0, 0, 11, 0, '', 'system', 'ROOT', 'root', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{}', '', '', '{}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
-(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":"","workflow_id":"1"}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
+(2, 27, 1, 1, 2, 1, 'uncategorised', 'com_content', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":"","workflow_id":"use_default"}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
 (3, 28, 1, 3, 4, 1, 'uncategorised', 'com_banners', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
 (4, 29, 1, 5, 6, 1, 'uncategorised', 'com_contact', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
 (5, 30, 1, 7, 8, 1, 'uncategorised', 'com_newsfeeds', 'Uncategorised', 'uncategorised', '', '', 1, 0, '0000-00-00 00:00:00', 1, '{"category_layout":"","image":""}', '', '', '{"author":"","robots":""}', 42, '2011-01-01 00:00:01', 0, '0000-00-00 00:00:00', 0, '*', 1),
@@ -418,7 +420,7 @@ INSERT INTO `#__content_types` (`type_id`, `type_title`, `type_alias`, `table`, 
 (1, 'Article', 'com_content.article', '{"special":{"dbtable":"#__content","key":"id","type":"Content","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"state","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"introtext", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"attribs", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"urls", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"asset_id"}, "special":{"fulltext":"fulltext"}}', 'ContentHelperRoute::getArticleRoute', '{"formFile":"administrator\\/components\\/com_content\\/forms\\/article.xml", "hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
 (2, 'Contact', 'com_contact.contact', '{"special":{"dbtable":"#__contact_details","key":"id","type":"Contact","prefix":"ContactTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"address", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"image", "core_urls":"webpage", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"null"}, "special":{"con_position":"con_position","suburb":"suburb","state":"state","country":"country","postcode":"postcode","telephone":"telephone","fax":"fax","misc":"misc","email_to":"email_to","default_con":"default_con","user_id":"user_id","mobile":"mobile","sortname1":"sortname1","sortname2":"sortname2","sortname3":"sortname3"}}', 'ContactHelperRoute::getContactRoute', '{"formFile":"administrator\\/components\\/com_contact\\/forms\\/contact.xml","hideFields":["default_con","checked_out","checked_out_time","version","xreference"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"], "displayLookup":[ {"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ] }'),
 (3, 'Newsfeed', 'com_newsfeeds.newsfeed', '{"special":{"dbtable":"#__newsfeeds","key":"id","type":"Newsfeed","prefix":"NewsfeedsTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"published","core_alias":"alias","core_created_time":"created","core_modified_time":"modified","core_body":"description", "core_hits":"hits","core_publish_up":"publish_up","core_publish_down":"publish_down","core_access":"access", "core_params":"params", "core_featured":"featured", "core_metadata":"metadata", "core_language":"language", "core_images":"images", "core_urls":"link", "core_version":"version", "core_ordering":"ordering", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"catid", "core_xreference":"xreference", "asset_id":"null"}, "special":{"numarticles":"numarticles","cache_time":"cache_time","rtl":"rtl"}}', 'NewsfeedsHelperRoute::getNewsfeedRoute', '{"formFile":"administrator\\/components\\/com_newsfeeds\\/forms\\/newsfeed.xml","hideFields":["asset_id","checked_out","checked_out_time","version"],"ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time", "version", "hits"],"convertToInt":["publish_up", "publish_down", "featured", "ordering"],"displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"} ]}'),
-(4, 'User', 'com_users.user', '{"special":{"dbtable":"#__users","key":"id","type":"User","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"null","core_alias":"username","core_created_time":"registerdate","core_modified_time":"lastvisitDate","core_body":"null", "core_hits":"null","core_publish_up":"null","core_publish_down":"null","access":"null", "core_params":"params", "core_featured":"null", "core_metadata":"null", "core_language":"null", "core_images":"null", "core_urls":"null", "core_version":"null", "core_ordering":"null", "core_metakey":"null", "core_metadesc":"null", "core_catid":"null", "core_xreference":"null", "asset_id":"null"}, "special":{}}', 'UsersHelperRoute::getUserRoute', ''),
+(4, 'User', 'com_users.user', '{"special":{"dbtable":"#__users","key":"id","type":"User","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"name","core_state":"null","core_alias":"username","core_created_time":"registerdate","core_modified_time":"lastvisitDate","core_body":"null", "core_hits":"null","core_publish_up":"null","core_publish_down":"null","access":"null", "core_params":"params", "core_featured":"null", "core_metadata":"null", "core_language":"null", "core_images":"null", "core_urls":"null", "core_version":"null", "core_ordering":"null", "core_metakey":"null", "core_metadesc":"null", "core_catid":"null", "core_xreference":"null", "asset_id":"null"}, "special":{}}', '', ''),
 (5, 'Article Category', 'com_content.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'ContentHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
 (6, 'Contact Category', 'com_contact.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'ContactHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
 (7, 'Newsfeeds Category', 'com_newsfeeds.category', '{"special":{"dbtable":"#__categories","key":"id","type":"Category","prefix":"JTable","config":"array()"},"common":{"dbtable":"#__ucm_content","key":"ucm_id","type":"Corecontent","prefix":"JTable","config":"array()"}}', '', '{"common":{"core_content_item_id":"id","core_title":"title","core_state":"published","core_alias":"alias","core_created_time":"created_time","core_modified_time":"modified_time","core_body":"description", "core_hits":"hits","core_publish_up":"null","core_publish_down":"null","core_access":"access", "core_params":"params", "core_featured":"null", "core_metadata":"metadata", "core_language":"language", "core_images":"null", "core_urls":"null", "core_version":"version", "core_ordering":"null", "core_metakey":"metakey", "core_metadesc":"metadesc", "core_catid":"parent_id", "core_xreference":"null", "asset_id":"asset_id"}, "special":{"parent_id":"parent_id","lft":"lft","rgt":"rgt","level":"level","path":"path","extension":"extension","note":"note"}}', 'NewsfeedsHelperRoute::getCategoryRoute', '{"formFile":"administrator\\/components\\/com_categories\\/forms\\/category.xml", "hideFields":["asset_id","checked_out","checked_out_time","version","lft","rgt","level","path","extension"], "ignoreChanges":["modified_user_id", "modified_time", "checked_out", "checked_out_time", "version", "hits", "path"],"convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"created_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_user_id","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"parent_id","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"}]}'),
@@ -489,6 +491,7 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `name` varchar(100) NOT NULL,
   `type` varchar(20) NOT NULL,
   `element` varchar(100) NOT NULL,
+  `changelogurl` text,
   `folder` varchar(100) NOT NULL,
   `client_id` tinyint(3) NOT NULL,
   `enabled` tinyint(3) NOT NULL DEFAULT 0,
@@ -530,11 +533,11 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (17, 0, 'com_newsfeeds', 'component', 'com_newsfeeds', '', 1, 1, 1, 0, '', '{"newsfeed_layout":"_:default","save_history":"1","history_limit":5,"show_feed_image":"1","show_feed_description":"1","show_item_description":"1","feed_character_count":"0","feed_display_order":"des","float_first":"right","float_second":"right","show_tags":"1","category_layout":"_:default","show_category_title":"1","show_description":"1","show_description_image":"1","maxLevel":"-1","show_empty_categories":"0","show_subcat_desc":"1","show_cat_items":"1","show_cat_tags":"1","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_items_cat":"1","filter_field":"1","show_pagination_limit":"1","show_headings":"1","show_articles":"0","show_link":"1","show_pagination":"1","show_pagination_results":"1"}', 0, '0000-00-00 00:00:00', 0, 0),
 (18, 0, 'com_plugins', 'component', 'com_plugins', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (19, 0, 'com_search', 'component', 'com_search', '', 1, 1, 1, 0, '', '{"enabled":"0","search_phrases":"1","search_areas":"1","show_date":"1","opensearch_name":"","opensearch_description":""}', 0, '0000-00-00 00:00:00', 0, 0),
-(20, 0, 'com_templates', 'component', 'com_templates', '', 1, 1, 1, 1, '', '{"template_positions_display":"0","upload_limit":"10","image_formats":"gif,bmp,jpg,jpeg,png","source_formats":"txt,less,ini,xml,js,php,css,scss,sass","font_formats":"woff,ttf,otf","compressed_formats":"zip"}', 0, '0000-00-00 00:00:00', 0, 0),
-(22, 0, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","show_icons":"1","show_print_icon":"1","show_email_icon":"1","show_hits":"1","show_noauth":"0","show_publishing_options":"1","show_article_options":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_columns":"2","num_links":"4","multi_column_order":"0","show_subcategory_content":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0"}', 0, '0000-00-00 00:00:00', 0, 0),
-(23, 0, 'com_config', 'component', 'com_config', '', 1, 1, 0, 1, '', '{"filters":{"1":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"6":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"7":{"filter_type":"NONE","filter_tags":"","filter_attributes":""},"2":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"3":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"4":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"5":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"10":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"12":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"8":{"filter_type":"NONE","filter_tags":"","filter_attributes":""}}}', 0, '0000-00-00 00:00:00', 0, 0),
+(20, 0, 'com_templates', 'component', 'com_templates', '', 1, 1, 1, 1, '', '{"template_positions_display":"0","upload_limit":"10","image_formats":"gif,bmp,jpg,jpeg,png","source_formats":"txt,less,ini,xml,js,php,css,scss,sass,json","font_formats":"woff,ttf,otf","compressed_formats":"zip"}', 0, '0000-00-00 00:00:00', 0, 0),
+(22, 0, 'com_content', 'component', 'com_content', '', 1, 1, 0, 1, '', '{"article_layout":"_:default","show_title":"1","link_titles":"1","show_intro":"1","show_category":"1","link_category":"1","show_parent_category":"0","link_parent_category":"0","show_author":"1","link_author":"0","show_create_date":"0","show_modify_date":"0","show_publish_date":"1","show_item_navigation":"1","show_vote":"0","show_readmore":"1","show_readmore_title":"1","readmore_limit":"100","show_icons":"1","show_print_icon":"1","show_email_icon":"0","show_hits":"1","show_noauth":"0","show_publishing_options":"1","show_article_options":"1","save_history":"1","history_limit":10,"show_urls_images_frontend":"0","show_urls_images_backend":"1","targeta":0,"targetb":0,"targetc":0,"float_intro":"left","float_fulltext":"left","category_layout":"_:blog","show_category_title":"0","show_description":"0","show_description_image":"0","maxLevel":"1","show_empty_categories":"0","show_no_articles":"1","show_subcat_desc":"1","show_cat_num_articles":"0","show_base_description":"1","maxLevelcat":"-1","show_empty_categories_cat":"0","show_subcat_desc_cat":"1","show_cat_num_articles_cat":"1","num_leading_articles":"1","num_intro_articles":"4","num_links":"4","show_subcategory_content":"0","show_pagination_limit":"1","filter_field":"hide","show_headings":"1","list_show_date":"0","date_format":"","list_show_hits":"1","list_show_author":"1","orderby_pri":"order","orderby_sec":"rdate","order_date":"published","show_pagination":"2","show_pagination_results":"1","show_feed_link":"1","feed_summary":"0"}', 0, '0000-00-00 00:00:00', 0, 0),
+(23, 0, 'com_config', 'component', 'com_config', '', 1, 1, 0, 1, '', '{"filters":{"1":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"6":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"7":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"2":{"filter_type":"NH","filter_tags":"","filter_attributes":""},"3":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"4":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"5":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"10":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"12":{"filter_type":"BL","filter_tags":"","filter_attributes":""},"8":{"filter_type":"NONE","filter_tags":"","filter_attributes":""}}}', 0, '0000-00-00 00:00:00', 0, 0),
 (24, 0, 'com_redirect', 'component', 'com_redirect', '', 1, 1, 0, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(25, 0, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"9","sendpassword":"1","useractivation":"2","mail_to_admin":"1","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","minimum_length":"4","minimum_integers":"0","minimum_symbols":"0","minimum_uppercase":"0","save_history":"1","history_limit":5,"mailSubjectPrefix":"","mailBodySuffix":""}', 0, '0000-00-00 00:00:00', 0, 0),
+(25, 0, 'com_users', 'component', 'com_users', '', 1, 1, 0, 1, '', '{"allowUserRegistration":"0","new_usertype":"2","guest_usergroup":"9","sendpassword":"0","useractivation":"2","mail_to_admin":"1","captcha":"","frontend_userparams":"1","site_language":"0","change_login_name":"0","reset_count":"10","reset_time":"1","minimum_length":"4","minimum_integers":"0","minimum_symbols":"0","minimum_uppercase":"0","save_history":"1","history_limit":5,"mailSubjectPrefix":"","mailBodySuffix":""}', 0, '0000-00-00 00:00:00', 0, 0),
 (27, 0, 'com_finder', 'component', 'com_finder', '', 1, 1, 0, 0, '', '{"enabled":"0","show_description":"1","description_length":255,"allow_empty_query":"0","show_url":"1","show_autosuggest":"1","show_suggested_query":"1","show_explained_query":"1","show_advanced":"1","show_advanced_tips":"1","expand_advanced":"0","show_date_filters":"0","sort_order":"relevance","sort_direction":"desc","highlight_terms":"1","opensearch_name":"","opensearch_description":"","batch_size":"50","memory_table_limit":30000,"title_multiplier":"1.7","text_multiplier":"0.7","meta_multiplier":"1.2","path_multiplier":"2.0","misc_multiplier":"0.3","stem":"1","stemmer":"snowball","enable_logging":"0"}', 0, '0000-00-00 00:00:00', 0, 0),
 (28, 0, 'com_joomlaupdate', 'component', 'com_joomlaupdate', '', 1, 1, 0, 1, '', '{"updatesource":"default","customurl":""}', 0, '0000-00-00 00:00:00', 0, 0),
 (29, 0, 'com_tags', 'component', 'com_tags', '', 1, 1, 1, 1, '', '{"tag_layout":"_:default","save_history":"1","history_limit":5,"show_tag_title":"0","tag_list_show_tag_image":"0","tag_list_show_tag_description":"0","tag_list_image":"","tag_list_orderby":"title","tag_list_orderby_direction":"ASC","show_headings":"0","tag_list_show_date":"0","tag_list_show_item_image":"0","tag_list_show_item_description":"0","tag_list_item_maximum_characters":0,"return_any_or_all":"1","include_children":"0","maximum":200,"tag_list_language_filter":"all","tags_layout":"_:default","all_tags_orderby":"title","all_tags_orderby_direction":"ASC","all_tags_show_tag_image":"0","all_tags_show_tag_descripion":"0","all_tags_tag_maximum_characters":20,"all_tags_show_tag_hits":"0","filter_field":"1","show_pagination_limit":"1","show_pagination":"2","show_pagination_results":"1","tag_field_ajax_mode":"1","show_feed_link":"1"}', 0, '0000-00-00 00:00:00', 0, 0),
@@ -543,8 +546,10 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (32, 0, 'com_postinstall', 'component', 'com_postinstall', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (33, 0, 'com_fields', 'component', 'com_fields', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (34, 0, 'com_associations', 'component', 'com_associations', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
-(36, 0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(35, 0, 'com_privacy', 'component', 'com_privacy', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(36, 0, 'com_userlogs', 'component', 'com_userlogs', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(37, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(38, 0, 'com_csp', 'component', 'com_csp', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (103, 0, 'Joomla! Platform', 'library', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (106, 0, 'PHPass', 'library', 'phpass', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (200, 0, 'mod_articles_archive', 'module', 'mod_articles_archive', '', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
@@ -663,24 +668,29 @@ INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `elem
 (478, 0, 'plg_editors-xtd_fields', 'plugin', 'fields', 'editors-xtd', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (479, 0, 'plg_sampledata_blog', 'plugin', 'blog', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (480, 0, 'plg_system_sessiongc', 'plugin', 'sessiongc', 'system', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(481, 0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
-(482, 0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
-(483, 0, 'plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
-(484, 0, 'plg_media-action_crop', 'plugin', 'crop', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
-(485, 0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
-(486, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
-(487, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '0000-00-00 00:00:00', 0, 0),
-(488, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
-(489, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
-(490, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
-(491, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 4, 0),
-(492, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(481, 0, 'plg_system_userlogs', 'plugin', 'userlogs', 'system', 0, 1, 1, 0, '', '{"logDeletePeriod":"0","ip_logging":"1","loggable_extensions":["com_banners","com_cache","com_categories","com_config","com_contact","com_content","com_installer","com_media","com_menus","com_messages","com_modules","com_newsfeeds","com_plugins","com_redirect","com_tags","com_templates","com_users"]}', 0, '0000-00-00 00:00:00', 0, 0),
+(482, 0, 'plg_behaviour_taggable', 'plugin', 'taggable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(483, 0, 'plg_behaviour_versionable', 'plugin', 'versionable', 'behaviour', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(484, 0, 'plg_filesystem_local', 'plugin', 'local', 'filesystem', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(485, 0, 'plg_media-action_crop', 'plugin', 'crop', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(486, 0, 'plg_media-action_resize', 'plugin', 'resize', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(487, 0, 'plg_media-action_rotate', 'plugin', 'rotate', 'media-action', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(488, 0, 'plg_installer_webinstaller', 'plugin', 'webinstaller', 'installer', 0, 1, 1, 0, '', '{"tab_position":"1"}', 0, '0000-00-00 00:00:00', 0, 0),
+(489, 0, 'plg_system_httpheaders', 'plugin', 'httpheaders', 'system', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(490, 0, 'plg_sampledata_multilang', 'plugin', 'multilang', 'sampledata', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(491, 0, 'plg_extension_namespacemap', 'plugin', 'namespacemap', 'extension', 0, 1, 1, 1, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(492, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 4, 0),
+(493, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(494, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
+(495, 0, 'plg_api-authentication_basic', 'plugin', 'basic', 'api-authentication', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
+(496, 0, 'plg_webservices_content', 'plugin', 'content', 'webservices', 0, 1, 1, 0, '', '{}', 0, '0000-00-00 00:00:00', 0, 0),
 (509, 0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (510, 0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '0000-00-00 00:00:00', 0, 0),
 (600, 802, 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (601, 802, 'English (en-GB)', 'language', 'en-GB', '', 1, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (700, 0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0),
 (802, 0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -699,19 +709,19 @@ CREATE TABLE IF NOT EXISTS `#__fields` (
   `type` varchar(255) NOT NULL DEFAULT 'text',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
-  `state` tinyint(1) NOT NULL DEFAULT '0',
-  `required` tinyint(1) NOT NULL DEFAULT '0',
-  `checked_out` int(11) NOT NULL DEFAULT '0',
+  `state` tinyint(1) NOT NULL DEFAULT 0,
+  `required` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out` int(11) NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT 0,
   `params` text NOT NULL,
   `fieldparams` text NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
   `created_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_user_id` int(10) unsigned NOT NULL DEFAULT 0,
   `modified_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
-  `access` int(11) NOT NULL DEFAULT '1',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
@@ -746,17 +756,17 @@ CREATE TABLE IF NOT EXISTS `#__fields_groups` (
   `title` varchar(255) NOT NULL DEFAULT '',
   `note` varchar(255) NOT NULL DEFAULT '',
   `description` text NOT NULL,
-  `state` tinyint(1) NOT NULL DEFAULT '0',
-  `checked_out` int(11) NOT NULL DEFAULT '0',
+  `state` tinyint(1) NOT NULL DEFAULT 0,
+  `checked_out` int(11) NOT NULL DEFAULT 0,
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `ordering` int(11) NOT NULL DEFAULT '0',
+  `ordering` int(11) NOT NULL DEFAULT 0,
   `params` text NOT NULL,
   `language` char(7) NOT NULL DEFAULT '',
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `created_by` int(10) unsigned NOT NULL DEFAULT '0',
+  `created_by` int(10) unsigned NOT NULL DEFAULT 0,
   `modified` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `modified_by` int(10) unsigned NOT NULL DEFAULT '0',
-  `access` int(11) NOT NULL DEFAULT '1',
+  `modified_by` int(10) unsigned NOT NULL DEFAULT 0,
+  `access` int(11) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `idx_checkout` (`checked_out`),
   KEY `idx_state` (`state`),
@@ -864,8 +874,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_logging` (
   `searchterm` VARCHAR(255) NOT NULL DEFAULT '',
   `md5sum` VARCHAR(32) NOT NULL DEFAULT '',
   `query` BLOB NOT NULL,
-  `hits` INT(11) NOT NULL DEFAULT '1',
-  `results` INT(11) NOT NULL DEFAULT '0',
+  `hits` INT(11) NOT NULL DEFAULT 1,
+  `results` INT(11) NOT NULL DEFAULT 0,
   PRIMARY KEY `md5sum` (`md5sum`),
   INDEX `searchterm` (`searchterm`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
@@ -877,26 +887,33 @@ CREATE TABLE IF NOT EXISTS `#__finder_logging` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_taxonomy` (
-  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `parent_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `title` varchar(255) NOT NULL,
-  `state` tinyint(1) unsigned NOT NULL DEFAULT 1,
-  `access` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `ordering` tinyint(1) unsigned NOT NULL DEFAULT 0,
+  `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `parent_id` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `lft` INT(11) NOT NULL DEFAULT '0',
+  `rgt` INT(11) NOT NULL DEFAULT '0',
+  `level` INT(10) UNSIGNED NOT NULL DEFAULT '0',
+  `path` VARCHAR(400) NOT NULL DEFAULT '',
+  `title` VARCHAR(255) NOT NULL DEFAULT '',
+  `alias` VARCHAR(400) NOT NULL DEFAULT '',
+  `state` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+  `access` TINYINT(1) UNSIGNED NOT NULL DEFAULT '1',
+  `language` CHAR(7) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`),
-  KEY `state` (`state`),
-  KEY `ordering` (`ordering`),
-  KEY `access` (`access`),
-  KEY `idx_parent_published` (`parent_id`,`state`,`access`)
+  INDEX `idx_state` (`state`),
+  INDEX `idx_access` (`access`),
+  INDEX `idx_path` (`path`(100)),
+  INDEX `idx_left_right` (`lft`, `rgt`),
+  INDEX `idx_alias` (`alias`(100)),
+  INDEX `idx_language` (`language`),
+  INDEX `idx_parent_published` (`parent_id`, `state`, `access`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `#__finder_taxonomy`
 --
 
-INSERT INTO `#__finder_taxonomy` (`id`, `parent_id`, `title`, `state`, `access`, `ordering`) VALUES
-(1, 0, 'ROOT', 0, 0, 0);
+INSERT INTO `#__finder_taxonomy` (`id`, `parent_id`, `lft`, `rgt`, `level`, `path`, `title`, `alias`, `state`, `access`, `language`) VALUES
+(1, 0, 0, 1, 0, '', 'ROOT', 'root', 1, 1, '*');
 
 -- --------------------------------------------------------
 
@@ -929,7 +946,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
   `links` int(10) NOT NULL DEFAULT 0,
   `language` char(7) NOT NULL DEFAULT '',
   PRIMARY KEY (`term_id`),
-  UNIQUE KEY `idx_term` (`term`),
+  UNIQUE KEY `idx_term` (`term`,`language`),
   KEY `idx_term_phrase` (`term`,`phrase`),
   KEY `idx_stem_phrase` (`stem`,`phrase`),
   KEY `idx_soundex_phrase` (`soundex`,`phrase`)
@@ -942,127 +959,192 @@ CREATE TABLE IF NOT EXISTS `#__finder_terms` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_terms_common` (
-  `term` varchar(75) NOT NULL,
+  `term` varchar(75) NOT NULL DEFAULT '',
   `language` char(7) NOT NULL DEFAULT '',
-  KEY `idx_word_lang` (`term`,`language`),
+  `custom` int(11) NOT NULL DEFAULT '0',
+  UNIQUE KEY `idx_word_lang` (`term`,`language`),
   KEY `idx_lang` (`language`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_bin;
 
 --
 -- Dumping data for table `#__finder_terms_common`
 --
 
-INSERT INTO `#__finder_terms_common` (`term`, `language`) VALUES
-('a', 'en-GB'),
-('about', 'en-GB'),
-('after', 'en-GB'),
-('ago', 'en-GB'),
-('all', 'en-GB'),
-('am', 'en-GB'),
-('an', 'en-GB'),
-('and', 'en-GB'),
-('any', 'en-GB'),
-('are', 'en-GB'),
-('aren''t', 'en-GB'),
-('as', 'en-GB'),
-('at', 'en-GB'),
-('be', 'en-GB'),
-('but', 'en-GB'),
-('by', 'en-GB'),
-('for', 'en-GB'),
-('from', 'en-GB'),
-('get', 'en-GB'),
-('go', 'en-GB'),
-('how', 'en-GB'),
-('if', 'en-GB'),
-('in', 'en-GB'),
-('into', 'en-GB'),
-('is', 'en-GB'),
-('isn''t', 'en-GB'),
-('it', 'en-GB'),
-('its', 'en-GB'),
-('me', 'en-GB'),
-('more', 'en-GB'),
-('most', 'en-GB'),
-('must', 'en-GB'),
-('my', 'en-GB'),
-('new', 'en-GB'),
-('no', 'en-GB'),
-('none', 'en-GB'),
-('not', 'en-GB'),
-('nothing', 'en-GB'),
-('of', 'en-GB'),
-('off', 'en-GB'),
-('often', 'en-GB'),
-('old', 'en-GB'),
-('on', 'en-GB'),
-('onc', 'en-GB'),
-('once', 'en-GB'),
-('only', 'en-GB'),
-('or', 'en-GB'),
-('other', 'en-GB'),
-('our', 'en-GB'),
-('ours', 'en-GB'),
-('out', 'en-GB'),
-('over', 'en-GB'),
-('page', 'en-GB'),
-('she', 'en-GB'),
-('should', 'en-GB'),
-('small', 'en-GB'),
-('so', 'en-GB'),
-('some', 'en-GB'),
-('than', 'en-GB'),
-('thank', 'en-GB'),
-('that', 'en-GB'),
-('the', 'en-GB'),
-('their', 'en-GB'),
-('theirs', 'en-GB'),
-('them', 'en-GB'),
-('then', 'en-GB'),
-('there', 'en-GB'),
-('these', 'en-GB'),
-('they', 'en-GB'),
-('this', 'en-GB'),
-('those', 'en-GB'),
-('thus', 'en-GB'),
-('time', 'en-GB'),
-('times', 'en-GB'),
-('to', 'en-GB'),
-('too', 'en-GB'),
-('true', 'en-GB'),
-('under', 'en-GB'),
-('until', 'en-GB'),
-('up', 'en-GB'),
-('upon', 'en-GB'),
-('use', 'en-GB'),
-('user', 'en-GB'),
-('users', 'en-GB'),
-('version', 'en-GB'),
-('very', 'en-GB'),
-('via', 'en-GB'),
-('want', 'en-GB'),
-('was', 'en-GB'),
-('way', 'en-GB'),
-('were', 'en-GB'),
-('what', 'en-GB'),
-('when', 'en-GB'),
-('where', 'en-GB'),
-('which', 'en-GB'),
-('who', 'en-GB'),
-('whom', 'en-GB'),
-('whose', 'en-GB'),
-('why', 'en-GB'),
-('wide', 'en-GB'),
-('will', 'en-GB'),
-('with', 'en-GB'),
-('within', 'en-GB'),
-('without', 'en-GB'),
-('would', 'en-GB'),
-('yes', 'en-GB'),
-('yet', 'en-GB'),
-('you', 'en-GB'),
-('your', 'en-GB'),
-('yours', 'en-GB');
+INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES
+('i', 'en', 0),
+('me', 'en', 0),
+('my', 'en', 0),
+('myself', 'en', 0),
+('we', 'en', 0),
+('our', 'en', 0),
+('ours', 'en', 0),
+('ourselves', 'en', 0),
+('you', 'en', 0),
+('your', 'en', 0),
+('yours', 'en', 0),
+('yourself', 'en', 0),
+('yourselves', 'en', 0),
+('he', 'en', 0),
+('him', 'en', 0),
+('his', 'en', 0),
+('himself', 'en', 0),
+('she', 'en', 0),
+('her', 'en', 0),
+('hers', 'en', 0),
+('herself', 'en', 0),
+('it', 'en', 0),
+('its', 'en', 0),
+('itself', 'en', 0),
+('they', 'en', 0),
+('them', 'en', 0),
+('their', 'en', 0),
+('theirs', 'en', 0),
+('themselves', 'en', 0),
+('what', 'en', 0),
+('which', 'en', 0),
+('who', 'en', 0),
+('whom', 'en', 0),
+('this', 'en', 0),
+('that', 'en', 0),
+('these', 'en', 0),
+('those', 'en', 0),
+('am', 'en', 0),
+('is', 'en', 0),
+('are', 'en', 0),
+('was', 'en', 0),
+('were', 'en', 0),
+('be', 'en', 0),
+('been', 'en', 0),
+('being', 'en', 0),
+('have', 'en', 0),
+('has', 'en', 0),
+('had', 'en', 0),
+('having', 'en', 0),
+('do', 'en', 0),
+('does', 'en', 0),
+('did', 'en', 0),
+('doing', 'en', 0),
+('would', 'en', 0),
+('should', 'en', 0),
+('could', 'en', 0),
+('ought', 'en', 0),
+('i\'m', 'en', 0),
+('you\'re', 'en', 0),
+('he\'s', 'en', 0),
+('she\'s', 'en', 0),
+('it\'s', 'en', 0),
+('we\'re', 'en', 0),
+('they\'re', 'en', 0),
+('i\'ve', 'en', 0),
+('you\'ve', 'en', 0),
+('we\'ve', 'en', 0),
+('they\'ve', 'en', 0),
+('i\'d', 'en', 0),
+('you\'d', 'en', 0),
+('he\'d', 'en', 0),
+('she\'d', 'en', 0),
+('we\'d', 'en', 0),
+('they\'d', 'en', 0),
+('i\'ll', 'en', 0),
+('you\'ll', 'en', 0),
+('he\'ll', 'en', 0),
+('she\'ll', 'en', 0),
+('we\'ll', 'en', 0),
+('they\'ll', 'en', 0),
+('isn\'t', 'en', 0),
+('aren\'t', 'en', 0),
+('wasn\'t', 'en', 0),
+('weren\'t', 'en', 0),
+('hasn\'t', 'en', 0),
+('haven\'t', 'en', 0),
+('hadn\'t', 'en', 0),
+('doesn\'t', 'en', 0),
+('don\'t', 'en', 0),
+('didn\'t', 'en', 0),
+('won\'t', 'en', 0),
+('wouldn\'t', 'en', 0),
+('shan\'t', 'en', 0),
+('shouldn\'t', 'en', 0),
+('can\'t', 'en', 0),
+('cannot', 'en', 0),
+('couldn\'t', 'en', 0),
+('mustn\'t', 'en', 0),
+('let\'s', 'en', 0),
+('that\'s', 'en', 0),
+('who\'s', 'en', 0),
+('what\'s', 'en', 0),
+('here\'s', 'en', 0),
+('there\'s', 'en', 0),
+('when\'s', 'en', 0),
+('where\'s', 'en', 0),
+('why\'s', 'en', 0),
+('how\'s', 'en', 0),
+('a', 'en', 0),
+('an', 'en', 0),
+('the', 'en', 0),
+('and', 'en', 0),
+('but', 'en', 0),
+('if', 'en', 0),
+('or', 'en', 0),
+('because', 'en', 0),
+('as', 'en', 0),
+('until', 'en', 0),
+('while', 'en', 0),
+('of', 'en', 0),
+('at', 'en', 0),
+('by', 'en', 0),
+('for', 'en', 0),
+('with', 'en', 0),
+('about', 'en', 0),
+('against', 'en', 0),
+('between', 'en', 0),
+('into', 'en', 0),
+('through', 'en', 0),
+('during', 'en', 0),
+('before', 'en', 0),
+('after', 'en', 0),
+('above', 'en', 0),
+('below', 'en', 0),
+('to', 'en', 0),
+('from', 'en', 0),
+('up', 'en', 0),
+('down', 'en', 0),
+('in', 'en', 0),
+('out', 'en', 0),
+('on', 'en', 0),
+('off', 'en', 0),
+('over', 'en', 0),
+('under', 'en', 0),
+('again', 'en', 0),
+('further', 'en', 0),
+('then', 'en', 0),
+('once', 'en', 0),
+('here', 'en', 0),
+('there', 'en', 0),
+('when', 'en', 0),
+('where', 'en', 0),
+('why', 'en', 0),
+('how', 'en', 0),
+('all', 'en', 0),
+('any', 'en', 0),
+('both', 'en', 0),
+('each', 'en', 0),
+('few', 'en', 0),
+('more', 'en', 0),
+('most', 'en', 0),
+('other', 'en', 0),
+('some', 'en', 0),
+('such', 'en', 0),
+('no', 'en', 0),
+('nor', 'en', 0),
+('not', 'en', 0),
+('only', 'en', 0),
+('own', 'en', 0),
+('same', 'en', 0),
+('so', 'en', 0),
+('than', 'en', 0),
+('too', 'en', 0),
+('very', 'en', 0);
 
 -- --------------------------------------------------------
 
@@ -1198,7 +1280,7 @@ CREATE TABLE IF NOT EXISTS `#__menu` (
 --
 
 INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link`, `type`, `published`, `parent_id`, `level`, `component_id`, `checked_out`, `checked_out_time`, `browserNav`, `access`, `img`, `template_style_id`, `params`, `lft`, `rgt`, `home`, `language`, `client_id`) VALUES
-(1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 0, 43, 0, '*', 0),
+(1, '', 'Menu_Item_Root', 'root', '', '', '', '', 1, 0, 0, 0, 0, '0000-00-00 00:00:00', 0, 0, '', 0, '', 0, 47, 0, '*', 0),
 (2, 'main', 'com_banners', 'Banners', '', 'Banners', 'index.php?option=com_banners', 'component', 1, 1, 1, 4, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners', 0, '', 1, 10, 0, '*', 1),
 (3, 'main', 'com_banners', 'Banners', '', 'Banners/Banners', 'index.php?option=com_banners', 'component', 1, 2, 2, 4, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners', 0, '', 2, 3, 0, '*', 1),
 (4, 'main', 'com_banners_categories', 'Categories', '', 'Banners/Categories', 'index.php?option=com_categories&extension=com_banners', 'component', 1, 2, 2, 6, 0, '0000-00-00 00:00:00', 0, 0, 'class:banners-cat', 0, '', 4, 5, 0, '*', 1),
@@ -1219,8 +1301,10 @@ INSERT INTO `#__menu` (`id`, `menutype`, `title`, `alias`, `note`, `path`, `link
 (20, 'main', 'com_tags', 'Tags', '', 'Tags', 'index.php?option=com_tags', 'component', 1, 1, 1, 29, 0, '0000-00-00 00:00:00', 0, 1, 'class:tags', 0, '', 35, 36, 0, '', 1),
 (21, 'main', 'com_postinstall', 'Post-installation messages', '', 'Post-installation messages', 'index.php?option=com_postinstall', 'component', 1, 1, 1, 32, 0, '0000-00-00 00:00:00', 0, 1, 'class:postinstall', 0, '', 37, 38, 0, '*', 1),
 (22, 'main', 'com_associations', 'Multilingual Associations', '', 'Multilingual Associations', 'index.php?option=com_associations', 'component', 1, 1, 1, 34, 0, '0000-00-00 00:00:00', 0, 0, 'class:associations', 0, '', 39, 40, 0, '*', 1),
-(23, 'main', 'com_csp', 'Content-Security-Policy', '', 'Content-Security-Policy', 'index.php?option=com_csp', 'component', 1, 1, 1, 35, 0, '0000-00-00 00:00:00', 0, 0, 'class:associations', 0, '', 41, 42, 0, '*', 1),
-(101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_columns":"3","num_links":"0","multi_column_order":"1","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0);
+(23, 'main', 'com_privacy', 'Privacy', '', 'Privacy', 'index.php?option=com_privacy', 'component', 1, 1, 1, 35, 0, '0000-00-00 00:00:00', 0, 0, 'class:privacy', 0, '', 41, 42, 0, '*', 1),
+(24, 'main', 'com_csp', 'Content-Security-Policy', '', 'Content-Security-Policy', 'index.php?option=com_csp', 'component', 1, 1, 1, 35, 0, '0000-00-00 00:00:00', 0, 0, 'class:associations', 0, '', 41, 42, 0, '*', 1),
+(25, 'main', 'com_userlogs', 'User Logs', '', 'User logs', 'index.php?option=com_userlogs', 'component', 1, 1, 1, 36, 0, '0000-00-00 00:00:00', 0, 0, 'class:privacy', 0, '', 43, 44, 0, '*', 1),
+(101, 'mainmenu', 'Home', 'home', '', 'home', 'index.php?option=com_content&view=featured', 'component', 1, 1, 1, 22, 0, '0000-00-00 00:00:00', 0, 1, '', 0, '{"featured_categories":[""],"layout_type":"blog","num_leading_articles":"1","num_intro_articles":"3","num_links":"0","orderby_pri":"","orderby_sec":"front","order_date":"","show_pagination":"2","show_pagination_results":"1","show_title":"","link_titles":"","show_intro":"","info_block_position":"","show_category":"","link_category":"","show_parent_category":"","link_parent_category":"","show_author":"","link_author":"","show_create_date":"","show_modify_date":"","show_publish_date":"","show_item_navigation":"","show_vote":"","show_readmore":"","show_readmore_title":"","show_icons":"","show_print_icon":"","show_email_icon":"","show_hits":"","show_noauth":"","show_feed_link":"1","feed_summary":"","menu-anchor_title":"","menu-anchor_css":"","menu_image":"","menu_text":1,"page_title":"","show_page_heading":1,"page_heading":"","pageclass_sfx":"","menu-meta_description":"","menu-meta_keywords":"","robots":"","secure":0}', 41, 42, 1, '*', 0);
 
 -- --------------------------------------------------------
 
@@ -1234,7 +1318,7 @@ CREATE TABLE IF NOT EXISTS `#__menu_types` (
   `menutype` varchar(24) NOT NULL,
   `title` varchar(48) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '',
-  `client_id` int(11) NOT NULL DEFAULT '0',
+  `client_id` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_menutype` (`menutype`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
@@ -1294,9 +1378,9 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
   `ordering` int(11) NOT NULL DEFAULT 0,
   `position` varchar(50) NOT NULL DEFAULT '',
   `checked_out` int(10) unsigned NOT NULL DEFAULT 0,
-  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_up` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `publish_down` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out_time` datetime,
+  `publish_up` datetime,
+  `publish_down` datetime,
   `published` tinyint(1) NOT NULL DEFAULT 0,
   `module` varchar(50) DEFAULT NULL,
   `access` int(10) unsigned NOT NULL DEFAULT 0,
@@ -1315,21 +1399,21 @@ CREATE TABLE IF NOT EXISTS `#__modules` (
 --
 
 INSERT INTO `#__modules` (`id`, `asset_id`, `title`, `note`, `content`, `ordering`, `position`, `checked_out`, `checked_out_time`, `publish_up`, `publish_down`, `published`, `module`, `access`, `showtitle`, `params`, `client_id`, `language`) VALUES
-(1, 39, 'Main Menu', '', '', 1, 'sidebar-right', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"_menu","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
-(2, 40, 'Login', '', '', 1, 'login', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '', 1, '*'),
-(3, 41, 'Popular Articles', '', '', 3, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
-(4, 42, 'Recently Added Articles', '', '', 4, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
-(8, 43, 'Toolbar', '', '', 1, 'toolbar', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_toolbar', 3, 1, '', 1, '*'),
-(9, 44, 'Quick Icons', '', '', 1, 'icon', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_quickicon', 3, 1, '', 1, '*'),
-(10, 45, 'Logged-in Users', '', '', 2, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
-(12, 46, 'Admin Menu', '', '', 1, 'menu', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
-(14, 48, 'User Status', '', '', 2, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_status', 3, 1, '', 1, '*'),
-(15, 49, 'Title', '', '', 1, 'title', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_title', 3, 1, '', 1, '*'),
-(16, 50, 'Login Form', '', '', 7, 'sidebar-right', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
-(17, 51, 'Breadcrumbs', '', '', 1, 'breadcrumbs', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
-(79, 52, 'Multilanguage status', '', '', 1, '', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(86, 53, 'Joomla Version', '', '', 1, 'status', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
-(87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "6"}', 1, '*');
+(1, 39, 'Main Menu', '', '', 1, 'sidebar-right', 0, NULL, NULL, NULL, 1, 'mod_menu', 1, 1, '{"menutype":"mainmenu","startLevel":"0","endLevel":"0","showAllChildren":"1","tag_id":"","class_sfx":"","window_open":"","layout":"","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"itemid"}', 0, '*'),
+(2, 40, 'Login', '', '', 1, 'login', 0, NULL, NULL, NULL, 1, 'mod_login', 1, 1, '', 1, '*'),
+(3, 41, 'Popular Articles', '', '', 3, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
+(4, 42, 'Recently Added Articles', '', '', 4, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
+(8, 43, 'Toolbar', '', '', 1, 'toolbar', 0, NULL, NULL, NULL, 1, 'mod_toolbar', 3, 1, '', 1, '*'),
+(9, 44, 'Quick Icons', '', '', 1, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 3, 1, '', 1, '*'),
+(10, 45, 'Logged-in Users', '', '', 2, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0", "bootstrap_size": "6"}', 1, '*'),
+(12, 46, 'Admin Menu', '', '', 1, 'menu', 0, NULL, NULL, NULL, 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
+(14, 48, 'User Status', '', '', 2, 'status', 0, NULL, NULL, NULL, 1, 'mod_status', 3, 1, '', 1, '*'),
+(15, 49, 'Title', '', '', 1, 'title', 0, NULL, NULL, NULL, 1, 'mod_title', 3, 1, '', 1, '*'),
+(16, 50, 'Login Form', '', '', 7, 'sidebar-right', 0, NULL, NULL, NULL, 1, 'mod_login', 1, 1, '{"greeting":"1","name":"0"}', 0, '*'),
+(17, 51, 'Breadcrumbs', '', '', 1, 'breadcrumbs', 0, NULL, NULL, NULL, 1, 'mod_breadcrumbs', 1, 1, '{"moduleclass_sfx":"","showHome":"1","homeText":"","showComponent":"1","separator":"","cache":"0","cache_time":"0","cachemode":"itemid"}', 0, '*'),
+(79, 52, 'Multilanguage status', '', '', 1, '', 0, NULL, NULL, NULL, 0, 'mod_multilangstatus', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(86, 53, 'Joomla Version', '', '', 1, 'status', 0, NULL, NULL, NULL, 1, 'mod_version', 3, 1, '{"layout":"_:default","moduleclass_sfx":"","cache":"0"}', 1, '*'),
+(87, 55, 'Sample Data', '', '', 0, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_sampledata', 6, 1, '{"bootstrap_size": "6"}', 1, '*');
 
 -- --------------------------------------------------------
 
@@ -1440,7 +1524,7 @@ CREATE TABLE IF NOT EXISTS `#__postinstall_messages` (
   `description_key` varchar(255) NOT NULL DEFAULT '' COMMENT 'Lang key for description',
   `action_key` varchar(255) NOT NULL DEFAULT '',
   `language_extension` varchar(255) NOT NULL DEFAULT 'com_postinstall' COMMENT 'Extension holding lang keys',
-  `language_client_id` tinyint(3) NOT NULL DEFAULT '1',
+  `language_client_id` tinyint(3) NOT NULL DEFAULT 1,
   `type` varchar(10) NOT NULL DEFAULT 'link' COMMENT 'Message type - message, link, action',
   `action_file` varchar(255) DEFAULT '' COMMENT 'RAD URI to the PHP file containing action method',
   `action` varchar(255) DEFAULT '' COMMENT 'Action method name or URL',
@@ -1461,6 +1545,28 @@ INSERT INTO `#__postinstall_messages` (`extension_id`, `title_key`, `description
 (700, 'COM_CPANEL_MSG_STATS_COLLECTION_TITLE', 'COM_CPANEL_MSG_STATS_COLLECTION_BODY', '', 'com_cpanel', 1, 'message', '', '', 'admin://components/com_admin/postinstall/statscollection.php', 'admin_postinstall_statscollection_condition', '3.5.0', 1),
 (700, 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_BODY', 'PLG_SYSTEM_UPDATENOTIFICATION_POSTINSTALL_UPDATECACHETIME_ACTION', 'plg_system_updatenotification', 1, 'action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_action', 'site://plugins/system/updatenotification/postinstall/updatecachetime.php', 'updatecachetime_postinstall_condition', '3.6.3', 1),
 (700, 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_TITLE', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_BODY', 'PLG_SYSTEM_HTTPHEADERS_POSTINSTALL_INTRODUCTION_ACTION', 'plg_system_httpheaders', 1, 'action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_action', 'site://plugins/system/httpheaders/postinstall/introduction.php', 'httpheaders_postinstall_condition', '4.0.0', 1);
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `#__privacy_requests`
+--
+
+CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `email` varchar(100) NOT NULL DEFAULT '',
+  `requested_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `status` tinyint(4) NOT NULL DEFAULT '0',
+  `request_type` varchar(25) NOT NULL DEFAULT '',
+  `confirm_token` varchar(100) NOT NULL DEFAULT '',
+  `confirm_token_created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `checked_out` int(11) NOT NULL DEFAULT '0',
+  `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `idx_checkout` (`checked_out`),
+  KEY `idx_user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
 -- --------------------------------------------------------
 
 --
@@ -1728,6 +1834,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
+  `changelogurl` text,
   `extra_query` varchar(1000) DEFAULT '',
   PRIMARY KEY (`update_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Available Updates';
@@ -1915,6 +2022,82 @@ CREATE TABLE IF NOT EXISTS `#__user_usergroup_map` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 --
+-- Table structure for table `#__user_logs`
+--      
+
+CREATE TABLE IF NOT EXISTS `#__user_logs` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `message` text NOT NULL,
+  `log_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `extension` varchar(50) NOT NULL DEFAULT '',
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `ip_address` VARCHAR(30) NOT NULL DEFAULT '0.0.0.0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Table structure for table `#__user_logs_extensions`
+-- 
+
+CREATE TABLE IF NOT EXISTS `#__user_logs_extensions` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `extension` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `#__user_logs_extensions` (`id`, `extension`) VALUES
+(1, 'com_banners'),
+(2, 'com_cache'),
+(3, 'com_categories'),
+(4, 'com_config'),
+(5, 'com_contact'),
+(6, 'com_content'),
+(7, 'com_installer'),
+(8, 'com_media'),
+(9, 'com_menus'),
+(10, 'com_messages'),
+(11, 'com_modules'),
+(12, 'com_newsfeeds'),
+(13, 'com_plugins'),
+(14, 'com_redirect'),
+(15, 'com_tags'),
+(16, 'com_templates'),
+(17, 'com_users');
+
+--
+-- Table structure for table `#__user_logs_tables_data`
+-- 
+
+CREATE TABLE IF NOT EXISTS `#__user_logs_tables_data` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `type_title` varchar(255) NOT NULL DEFAULT '',
+  `type_alias` varchar(255) NOT NULL DEFAULT '',
+  `title_holder` varchar(255),
+  `table_values` varchar(255),
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `#__user_logs_tables_data` (`id`, `type_title`, `type_alias`, `title_holder`, `table_values`) VALUES
+(1, 'article', 'com_content.article', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'),
+(2, 'article', 'com_content.form', 'title' ,'{"table_type":"Content","table_prefix":"JTable"}'),
+(3, 'banner', 'com_banners.banner', 'name' ,'{"table_type":"Banner","table_prefix":"BannersTable"}'),
+(4, 'user_note', 'com_users.note', 'subject' ,'{"table_type":"Note","table_prefix":"UsersTable"}'),
+(5, 'media', 'com_media.file', 'name' ,'{"table_type":"","table_prefix":""}'),
+(6, 'category', 'com_categories.category', 'title' ,'{"table_type":"Category","table_prefix":"JTable"}'),
+(7, 'menu', 'com_menus.menu', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'),
+(8, 'menu_item', 'com_menus.item', 'title' ,'{"table_type":"Menu","table_prefix":"JTable"}'),
+(9, 'newsfeed', 'com_newsfeeds.newsfeed', 'name' ,'{"table_type":"Newsfeed","table_prefix":"NewsfeedsTable"}'),
+(10, 'link', 'com_redirect.link', 'old_url' ,'{"table_type":"Link","table_prefix":"RedirectTable"}'),
+(11, 'tag', 'com_tags.tag', 'title' ,'{"table_type":"Tag","table_prefix":"TagsTable"}'),
+(12, 'style', 'com_templates.style', 'title' ,'{"table_type":"","table_prefix":""}'),
+(13, 'plugin', 'com_plugins.plugin', 'name' ,'{"table_type":"Extension","table_prefix":"JTable"}'),
+(14, 'component_config', 'com_config.component', 'name', '{"table_type":"","table_prefix":""}'),
+(15, 'contact', 'com_contact.contact', 'name', '{"table_type":"Contact","table_prefix":"ContactTable"}'),
+(16, 'module', 'com_modules.module', 'title', '{"table_type":"Module","table_prefix":"JTable"}'),
+(17, 'access_level', 'com_users.level', 'title', '{"table_type":"Viewlevel","table_prefix":"JTable"}'),
+(18, 'banner_client', 'com_banners.client', 'name', '{"table_type":"Client","table_prefix":"BannersTable"}');
+ 
+--
 -- Table structure for table `#__utf8_conversion`
 --
 
@@ -1967,6 +2150,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
   `description` text NOT NULL,
   `extension` varchar(50) NOT NULL,
   `default` tinyint(1) NOT NULL  DEFAULT 0,
+  `core` tinyint(1) NOT NULL  DEFAULT 0,
   `ordering` int(11) NOT NULL DEFAULT 0,
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `created_by` int(10) NOT NULL DEFAULT 0,
@@ -1986,8 +2170,8 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 -- Dumping data for table `#__workflows`
 --
 
-INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
+(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`
@@ -2030,8 +2214,8 @@ CREATE TABLE IF NOT EXISTS `#__workflow_stages` (
 --
 
 INSERT INTO `#__workflow_stages` (`id`, `asset_id`, `ordering`, `workflow_id`, `published`, `title`, `description`, `condition`, `default`) VALUES
-(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', '0', 0),
-(2, 58, 2, 1, 1, 'JPUBLISHED', '', '1', 1),
+(1, 57, 1, 1, 1, 'JUNPUBLISHED', '', '0', 1),
+(2, 58, 2, 1, 1, 'JPUBLISHED', '', '1', 0),
 (3, 59, 3, 1, 1, 'JTRASHED', '', '-2', 0),
 (4, 60, 4, 1, 1, 'JARCHIVED', '', '2', 0);
 

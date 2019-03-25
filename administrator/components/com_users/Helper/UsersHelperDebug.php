@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -88,7 +88,14 @@ class UsersHelperDebug
 			{
 				foreach ($component_actions as &$action)
 				{
-					$actions[$action->title] = array($action->name, $action->description);
+					$descr = (string) $action['title'];
+
+					if (isset($action['description']) && !empty($action['description']))
+					{
+						$descr = (string) $action['description'];
+					}
+
+					$actions[$action->title] = array($action->name, $descr);
 				}
 			}
 		}
@@ -112,9 +119,16 @@ class UsersHelperDebug
 							{
 								foreach ($field->children() as $action)
 								{
+									$descr = (string) $action['title'];
+
+									if (isset($action['description']) && !empty($action['description']))
+									{
+										$descr = (string) $action['description'];
+									}
+
 									$actions[(string) $action['title']] = array(
 										(string) $action['name'],
-										(string) $action['description']
+										$descr
 									);
 								}
 

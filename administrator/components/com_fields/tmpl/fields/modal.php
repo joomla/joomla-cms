@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -21,7 +21,6 @@ if (Factory::getApplication()->isClient('site'))
 }
 
 HTMLHelper::_('behavior.core');
-HTMLHelper::_('formbehavior.chosen', '.advancedSelect');
 HTMLHelper::_('bootstrap.popover', '.hasPopover', array('placement' => 'bottom'));
 HTMLHelper::_('script', 'com_fields/admin-fields-modal.js', array('version' => 'auto', 'relative' => true));
 

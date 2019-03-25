@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,17 +50,6 @@ class DisplayController extends BaseController
 		// For JSON requests
 		if ($document->getType() == 'json')
 		{
-			/*$view = new \Joomla\Component\Templates\Administrator\View\Style\Json;
-
-			// Get/Create the model
-			$model = new Style;
-			$view->setModel($model, true);
-
-			$view->document = $document;
-
-			return $view->display();
-			*/
-
 			return parent::display();
 		}
 

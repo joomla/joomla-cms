@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ $iconStates = array(
 );
 
 Text::script('COM_ASSOCIATIONS_PURGE_CONFIRM_PROMPT', true);
-HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', false, true);
+HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['version' => 'auto', 'relative' => true]);
 ?>
 <form action="<?php echo Route::_('index.php?option=com_associations&view=associations'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">

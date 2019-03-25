@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -124,9 +124,9 @@ abstract class ToolbarButton
 
 		if (!empty($options['is_child']))
 		{
-			$options['tagName'] = 'a';
+			$options['tagName'] = 'button';
 			$options['btnClass'] = ($options['button_class'] ?? '') . ' dropdown-item';
-			$options['attributes']['href'] = '#';
+			$options['attributes']['type'] = 'button';
 		}
 		else
 		{
@@ -516,7 +516,7 @@ abstract class ToolbarButton
 			'listCheck',
 			'listCheckMessage',
 			'form',
-			'formValidation'
+			'formValidation',
 		];
 	}
 }

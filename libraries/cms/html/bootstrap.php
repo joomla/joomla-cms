@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -159,7 +159,7 @@ abstract class JHtmlBootstrap
 		$debug = (isset($debug) && $debug != JDEBUG) ? $debug : JDEBUG;
 
 		// Load the needed scripts
-		Factory::getContainer()->get('webasset')
+		Factory::getDocument()->getWebAssetManager()
 			->enableAsset('core')
 			->enableAsset('bootstrap.js.bundle');
 		HTMLHelper::_('script', 'legacy/bootstrap-init.min.js', array('version' => 'auto', 'relative' => true, 'detectDebug' => $debug));

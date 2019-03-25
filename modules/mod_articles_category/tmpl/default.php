@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -66,7 +66,7 @@ use Joomla\CMS\Language\Text;
 										<?php echo $readmore; ?>
 										<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 											<?php if ($params->get('show_readmore_title', 0) != 0) : ?>
-												<?php echo HTMLHelper::_('string.truncate', $this->item->title, $params->get('readmore_limit')); ?>
+												<?php echo HTMLHelper::_('string.truncate', $item->title, $params->get('readmore_limit')); ?>
 											<?php endif; ?>
 									<?php elseif ($params->get('show_readmore_title', 0) == 0) : ?>
 										<?php echo Text::sprintf('MOD_ARTICLES_CATEGORY_READ_MORE_TITLE'); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,6 @@ namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Client\ClientHelper;
-use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
 
 /**
@@ -35,7 +34,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'Joomlaupdate');

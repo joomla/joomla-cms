@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -443,10 +443,10 @@ class PluginAdapter extends InstallerAdapter
 			$manifest_details = Installer::parseXMLInstallFile($this->parent->getPath('manifest'));
 
 			$this->extension->manifest_cache = json_encode($manifest_details);
-			$this->extension->state = 0;
-			$this->extension->name = $manifest_details['name'];
-			$this->extension->enabled = 'editors' === $this->extension->folder ? 1 : 0;
-			$this->extension->params = $this->parent->getParams();
+			$this->extension->state          = 0;
+			$this->extension->name           = $manifest_details['name'];
+			$this->extension->enabled        = 'editors' === $this->extension->folder ? 1 : 0;
+			$this->extension->params         = $this->parent->getParams();
 
 			if (!$this->extension->store())
 			{
@@ -482,16 +482,17 @@ class PluginAdapter extends InstallerAdapter
 		else
 		{
 			// Store in the extensions table (1.6)
-			$this->extension->name      = $this->name;
-			$this->extension->type      = 'plugin';
-			$this->extension->ordering  = 0;
-			$this->extension->element   = $this->element;
-			$this->extension->folder    = $this->group;
-			$this->extension->enabled   = 0;
-			$this->extension->protected = 0;
-			$this->extension->access    = 1;
-			$this->extension->client_id = 0;
-			$this->extension->params    = $this->parent->getParams();
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'plugin';
+			$this->extension->ordering     = 0;
+			$this->extension->element      = $this->element;
+			$this->extension->folder       = $this->group;
+			$this->extension->enabled      = 0;
+			$this->extension->protected    = 0;
+			$this->extension->access       = 1;
+			$this->extension->client_id    = 0;
+			$this->extension->params       = $this->parent->getParams();
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// Update the manifest cache for the entry
 			$this->extension->manifest_cache = $this->parent->generateManifestCache();

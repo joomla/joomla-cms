@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_categories
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CategoriesComponent extends MVCComponent implements BootableExtensionInterface
 {
@@ -37,7 +37,7 @@ class CategoriesComponent extends MVCComponent implements BootableExtensionInter
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

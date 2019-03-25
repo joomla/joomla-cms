@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -57,9 +57,9 @@ abstract class Factory
 	/**
 	 * Global configuration object
 	 *
-	 * @var    \JConfig
-	 * @since  1.7.0
-	 * @deprecated  5.0  Use the configuration object within the application.
+	 * @var         \JConfig
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the configuration object within the application
 	 */
 	public static $config = null;
 
@@ -82,32 +82,35 @@ abstract class Factory
 	/**
 	 * Global session object
 	 *
-	 * @var    Session
-	 * @since  1.7.0
+	 * @var         Session
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the session service in the DI container
 	 */
 	public static $session = null;
 
 	/**
 	 * Global language object
 	 *
-	 * @var   Language
-	 * @since  1.7.0
+	 * @var         Language
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the language service in the DI container
 	 */
 	public static $language = null;
 
 	/**
 	 * Global document object
 	 *
-	 * @var    Document
-	 * @since  1.7.0
+	 * @var         Document
+	 * @since       1.7.0
+	 * @deprecated  5.0  Use the document service in the DI container
 	 */
 	public static $document = null;
 
 	/**
 	 * Global database object
 	 *
-	 * @var    DatabaseDriver
-	 * @since  1.7.0
+	 * @var         DatabaseDriver
+	 * @since       1.7.0
 	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	public static $database = null;
@@ -149,8 +152,8 @@ abstract class Factory
 	 *
 	 * @return  Registry
 	 *
-	 * @see     Registry
-	 * @since   1.7.0
+	 * @see         Registry
+	 * @since       1.7.0
 	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	public static function getConfig($file = null, $type = 'PHP', $namespace = '')
@@ -210,8 +213,8 @@ abstract class Factory
 	 *
 	 * @return  Session object
 	 *
-	 * @see     Session
-	 * @since   1.7.0
+	 * @see         Session
+	 * @since       1.7.0
 	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	public static function getSession(array $options = array())
@@ -235,11 +238,21 @@ abstract class Factory
 	 *
 	 * @return  Language object
 	 *
-	 * @see     Language
-	 * @since   1.7.0
+	 * @see         Language
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the language service from the dependency injection container or via $app->getLanguage()
 	 */
 	public static function getLanguage()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (!self::$language)
 		{
 			self::$language = self::createLanguage();
@@ -255,11 +268,21 @@ abstract class Factory
 	 *
 	 * @return  Document object
 	 *
-	 * @see     Document
-	 * @since   1.7.0
+	 * @see         Document
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the document service from the dependency injection container or via $app->getDocument()
 	 */
 	public static function getDocument()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (!self::$document)
 		{
 			self::$document = self::createDocument();
@@ -277,11 +300,21 @@ abstract class Factory
 	 *
 	 * @return  User object
 	 *
-	 * @see     User
-	 * @since   1.7.0
+	 * @see         User
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
 	 */
 	public static function getUser($id = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$instance = self::getApplication()->getSession()->get('user');
 
 		if (is_null($id))
@@ -355,14 +388,24 @@ abstract class Factory
 	 *
 	 * @return  DatabaseDriver
 	 *
-	 * @see     DatabaseDriver
-	 * @since   1.7.0
+	 * @see         DatabaseDriver
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the database service from the dependency injection container
 	 */
 	public static function getDbo()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the database from the dependency injection container.',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('DatabaseDriver'))
+			if (self::getContainer()->has('DatabaseDriver'))
 			{
 				self::$database = self::getContainer()->get('DatabaseDriver');
 			}
@@ -459,8 +502,8 @@ abstract class Factory
 	 *
 	 * @return  Registry
 	 *
-	 * @see     Registry
-	 * @since   1.7.0
+	 * @see         Registry
+	 * @since       1.7.0
 	 * @deprecated  5.0  Use the configuration object within the application.
 	 */
 	protected static function createConfig($file, $type = 'PHP', $namespace = '')
@@ -526,7 +569,9 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\HTMLRegistry)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAsset);
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\ApiRouter)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\User);
 
 		return $container;
 	}
@@ -538,7 +583,7 @@ abstract class Factory
 	 *
 	 * @return  Session object
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
 	 * @deprecated  5.0  Load the session service from the dependency injection container or via $app->getSession()
 	 */
 	protected static function createSession(array $options = array())
@@ -579,8 +624,8 @@ abstract class Factory
 	 *
 	 * @return  DatabaseDriver
 	 *
-	 * @see     DatabaseDriver
-	 * @since   1.7.0
+	 * @see         DatabaseDriver
+	 * @since       1.7.0
 	 * @deprecated  5.0  Use the database service in the DI container
 	 */
 	protected static function createDbo()
@@ -692,11 +737,21 @@ abstract class Factory
 	 *
 	 * @return  Language object
 	 *
-	 * @see     Language
-	 * @since   1.7.0
+	 * @see         Language
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the language service from the dependency injection container or via $app->getLanguage()
 	 */
 	protected static function createLanguage()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the language from the dependency injection container or via %2$s::getApplication()->getLanguage().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$conf = self::getConfig();
 		$locale = $conf->get('language');
 		$debug = $conf->get('debug_lang');
@@ -710,11 +765,21 @@ abstract class Factory
 	 *
 	 * @return  Document object
 	 *
-	 * @see     Document
-	 * @since   1.7.0
+	 * @see         Document
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the document service from the dependency injection container or via $app->getDocument()
 	 */
 	protected static function createDocument()
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the document from the dependency injection container or via %2$s::getApplication()->getDocument().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$lang = self::getLanguage();
 
 		$input = self::getApplication()->input;

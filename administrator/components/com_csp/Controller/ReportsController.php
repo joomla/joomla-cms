@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_csp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\MVC\Controller\AdminController;
 
 /**
- * Search master display controller.
+ * Reports list controller class.
  *
  * @since  4.0.0
  */

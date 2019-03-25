@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ class DisplayController extends BaseController
 		// Menus frontpage Editor Menu proxying:
 		if ($this->input->get('view') === 'items' && $this->input->get('layout') === 'modal')
 		{
-			HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
+			HTMLHelper::_('stylesheet', 'system/adminlist.css', ['version' => 'auto', 'relative' => true]);
 		}
 
 		parent::__construct($config, $factory, $app, $input);

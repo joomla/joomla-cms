@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_quickicon
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\Module\Quickicon\Administrator\Helper\QuickIconHelper;
 /**
  * Dispatcher class for mod_quickicon
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Dispatcher extends AbstractModuleDispatcher
 {
@@ -29,7 +29,7 @@ class Dispatcher extends AbstractModuleDispatcher
 	 *
 	 * @return  array|false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLayoutData()
 	{

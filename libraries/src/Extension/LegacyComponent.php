@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,6 @@ use Joomla\CMS\Fields\FieldsServiceInterface;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\MVC\Factory\LegacyFactory;
-use Joomla\CMS\MVC\Factory\MVCFactory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Factory\MVCFactoryServiceInterface;
 
@@ -215,7 +214,7 @@ class LegacyComponent
 	 *
 	 * @return  RouterInterface
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function createRouter(CMSApplicationInterface $application, AbstractMenu $menu): RouterInterface
 	{

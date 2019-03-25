@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -38,7 +38,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = Factory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->getCmd('view', 'login');

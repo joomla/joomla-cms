@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,12 +10,15 @@ namespace Joomla\CMS\Helper;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
 
 /**
@@ -166,7 +169,7 @@ abstract class ModuleHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
+			Profiler::getInstance('Application')->mark('beforeRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		// Record the scope.
@@ -264,7 +267,7 @@ abstract class ModuleHelper
 
 		if (JDEBUG)
 		{
-			\JProfiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
+			Profiler::getInstance('Application')->mark('afterRenderModule ' . $module->module . ' (' . $module->title . ')');
 		}
 
 		return $module->content;
@@ -364,7 +367,7 @@ abstract class ModuleHelper
 		$clientId = (int) $app->getClientId();
 
 		// Build a cache ID for the resulting data object
-		$cacheId = $groups . $clientId . $Itemid;
+		$cacheId = $groups . '.' . $clientId . '.' . $Itemid;
 
 		$db = Factory::getDbo();
 
@@ -376,11 +379,10 @@ abstract class ModuleHelper
 			->join('LEFT', '#__extensions AS e ON e.element = m.module AND e.client_id = m.client_id')
 			->where('e.enabled = 1');
 
-		$date = Factory::getDate();
-		$now = $date->toSql();
-		$nullDate = $db->getNullDate();
-		$query->where('(m.publish_up = ' . $db->quote($nullDate) . ' OR m.publish_up <= ' . $db->quote($now) . ')')
-			->where('(m.publish_down = ' . $db->quote($nullDate) . ' OR m.publish_down >= ' . $db->quote($now) . ')')
+		$nowDate = Factory::getDate()->toSql();
+
+		$query->where('(' . $query->isNullDatetime('m.publish_up') . ' OR m.publish_up <= ' . $db->quote($nowDate) . ')')
+			->where('(' . $query->isNullDatetime('m.publish_down') . ' OR m.publish_down >= ' . $db->quote($nowDate) . ')')
 			->where('m.access IN (' . $groups . ')')
 			->where('m.client_id = ' . $clientId)
 			->where('(mm.menuid = ' . $Itemid . ' OR mm.menuid <= 0)');
@@ -405,8 +407,9 @@ abstract class ModuleHelper
 
 		try
 		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = Factory::getCache('com_modules', 'callback');
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('callback', ['defaultgroup' => 'com_modules']);
 
 			$modules = $cache->get(array($db, 'loadObjectList'), array(), md5($cacheId), false);
 		}
@@ -512,11 +515,12 @@ abstract class ModuleHelper
 		$user = Factory::getUser();
 		$app  = Factory::getApplication();
 
-		/** @var \JCacheControllerCallback $cache */
-		$cache = Factory::getCache($cacheparams->cachegroup, 'callback');
+		/** @var CallbackController $cache */
+		$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+			->createCacheController('callback', ['defaultgroup' => $cacheparams->cachegroup]);
 
 		// Turn cache off for internal callers if parameters are set to off and for all logged in users
-		if ($moduleparams->get('owncache', null) === '0' || $app->get('caching') == 0 || $user->get('id'))
+		if ($moduleparams->get('owncache') === 0 || $moduleparams->get('owncache') === '0' || $app->get('caching') == 0 || $user->get('id'))
 		{
 			$cache->setCaching(false);
 		}
@@ -624,5 +628,44 @@ abstract class ModuleHelper
 		}
 
 		return $enabled;
+	}
+
+	/**
+	 * Get module by id
+	 *
+	 * @param   string  $id  The id of the module
+	 *
+	 * @return  \stdClass  The Module object
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function &getModuleById($id)
+	{
+		$modules =& static::load();
+
+		$total = count($modules);
+
+		for ($i = 0; $i < $total; $i++)
+		{
+			// Match the id of the module
+			if ($modules[$i]->id === $id)
+			{
+				// Found it
+				return $modules[$i];
+			}
+		}
+
+		// If we didn't find it, create a dummy object
+		$result            = new \stdClass;
+		$result->id        = 0;
+		$result->title     = '';
+		$result->module    = '';
+		$result->position  = '';
+		$result->content   = '';
+		$result->showtitle = 0;
+		$result->control   = '';
+		$result->params    = '';
+
+		return $result;
 	}
 }

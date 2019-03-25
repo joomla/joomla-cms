@@ -3,12 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Button\ActionButton;
+use Joomla\CMS\Button\PublishedButton;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
@@ -20,10 +22,6 @@ use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Administrator\Helper\ContentHelper;
 
 HTMLHelper::_('behavior.multiselect');
-HTMLHelper::_('formbehavior.chosen', '.multipleAccessLevels', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_ACCESS')));
-HTMLHelper::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_AUTHOR')));
-HTMLHelper::_('formbehavior.chosen', '.multipleCategories', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_CATEGORY')));
-HTMLHelper::_('formbehavior.chosen', '.multipleTags', null, array('placeholder_text_multiple' => Text::_('JOPTION_SELECT_TAG')));
 
 $user      = Factory::getUser();
 $userId    = $user->get('id');
@@ -68,6 +66,12 @@ JS;
 // @todo mode the script to a file
 Factory::getDocument()->addScriptDeclaration($js);
 
+$featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
+	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
+	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
+
+HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
+
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_content&view=featured'); ?>" method="post" name="adminForm" id="adminForm">
@@ -100,6 +104,9 @@ Factory::getDocument()->addScriptDeclaration($js);
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center">
+									<?php echo JText::_('JFEATURED'); ?>
+								</th>
 								<th scope="col" style="width:1%; min-width:85px" class="text-center">
 									<?php echo JText::_('JSTATUS'); ?>
 								</th>
@@ -149,17 +156,37 @@ Factory::getDocument()->addScriptDeclaration($js);
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
-							$hasTransitions = count($transitions) > 0;
+							$publish = 0;
+							$unpublish = 0;
+							$archive = 0;
+							$trash = 0;
 
-							$default = [
-								JHtml::_('select.option', '', $this->escape($item->stage_title)),
-								JHtml::_('select.option', '-1', '--------', ['disable' => true])
-							];
-
-							$transitions = array_merge($default, $transitions);
+							foreach ($transitions as $transition) :
+								switch ($transition['stage_condition']) :
+									case ContentComponent::CONDITION_PUBLISHED:
+										++$publish;
+										break;
+									case ContentComponent::CONDITION_UNPUBLISHED:
+										++$unpublish;
+										break;
+									case ContentComponent::CONDITION_ARCHIVED:
+										++$archive;
+										break;
+									case ContentComponent::CONDITION_TRASHED:
+										++$trash;
+										break;
+								endswitch;
+							endforeach;
 
 							?>
-							<tr class="row<?php echo $i % 2; ?>">
+							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->catid; ?>"
+								data-condition-publish="<?php echo (int) ($publish > 0); ?>"
+								data-condition-unpublish="<?php echo (int) ($unpublish > 0); ?>"
+								data-condition-archive="<?php echo (int) ($archive > 0); ?>"
+								data-condition-trash="<?php echo (int) ($trash > 0); ?>"
+								data-workflow_id="<?php echo (int) $item->workflow_id; ?>"
+								data-stage_id="<?php echo (int) $item->stage_id; ?>"
+							>
 								<td class="order text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
@@ -183,47 +210,33 @@ Factory::getDocument()->addScriptDeclaration($js);
 								<td class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
+								<td class="text-center">
+									<?php echo $featuredButton->render($item->featured, $i, ['disabled' => !$canChange]); ?>
+								</td>
 								<td class="article-status">
 									<div class="d-flex">
 										<div class="btn-group tbody-icon mr-1">
-											<?php echo HTMLHelper::_('contentadministrator.featured', $item->featured, $i, $canChange); ?>
-											<?php
-											switch ($item->stage_condition) :
-												case ContentComponent::CONDITION_TRASHED :
-													$icon = 'trash';
-													break;
-												case ContentComponent::CONDITION_UNPUBLISHED :
-													$icon = 'unpublish';
-													break;
-												case ContentComponent::CONDITION_ARCHIVED :
-													$icon = 'archive';
-													break;
-												default :
-													$icon = 'publish';
-											endswitch;
-											?>
-											<?php if ($hasTransitions) : ?>
-												<a href="#" onClick="jQuery(this).parent().nextAll().toggleClass('d-none');return false;">
-													<span class="icon-<?php echo $icon; ?>"></span>
-												</a>
-											<?php else : ?>
-												<span class="icon-<?php echo $icon; ?>"></span>
-											<?php endif; ?>
+										<?php
+
+											$options = [
+												'transitions' => $transitions,
+												'stage' => Text::_($item->stage_title),
+												'id' => (int) $item->id
+											];
+
+											echo (new PublishedButton)
+													->removeState(0)
+													->removeState(1)
+													->removeState(2)
+													->removeState(-2)
+													->addState(ContentComponent::CONDITION_PUBLISHED, '', 'publish', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JPUBLISHED'])
+													->addState(ContentComponent::CONDITION_UNPUBLISHED, '', 'unpublish', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JUNPUBLISHED'])
+													->addState(ContentComponent::CONDITION_ARCHIVED, '', 'archive', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JARCHIVED'])
+													->addState(ContentComponent::CONDITION_TRASHED, '', 'trash', 'COM_CONTENT_CHANGE_STAGE', ['tip_title' => 'JTRASHED'])
+													->setLayout('joomla.button.transition-button')
+													->render($item->stage_condition, $i, $options, $item->publish_up, $item->publish_down);
+										?>
 										</div>
-										<div class="mr-auto"><?php echo $this->escape($item->stage_title); ?></div>
-										<?php if ($hasTransitions) : ?>
-											<div class="d-none">
-												<?php
-												$attribs = [
-													'id'	=> 'transition-select_' . (int) $item->id,
-													'list.attr' => [
-														'class'		=> 'custom-select custom-select-sm  form-control form-control-sm',
-														'onchange'		=> "Joomla.listItemTask('cb" . (int) $i . "', 'articles.runTransition')"]
-												];
-												echo HTMLHelper::_('select.genericlist', $transitions, 'transition_' . (int) $item->id, $attribs);
-												?>
-											</div>
-										<?php endif; ?>
 									</div>
 								</td>
 								<th scope="row" class="has-context">
@@ -306,6 +319,16 @@ Factory::getDocument()->addScriptDeclaration($js);
 
 					<?php // load the pagination. ?>
 					<?php echo $this->pagination->getListFooter(); ?>
+
+					<?php echo HTMLHelper::_(
+						'bootstrap.renderModal',
+						'stageModal',
+						array(
+							'title'  => Text::_('JTOOLBAR_CHANGE_STATUS'),
+							'footer' => $this->loadTemplate('stage_footer'),
+						),
+						$this->loadTemplate('stage_body')
+					); ?>
 
 				<?php endif; ?>
 

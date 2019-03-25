@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.codemirror
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -32,7 +32,7 @@ $g                   = hexdec($color{3} . $color{4});
 $b                   = hexdec($color{5} . $color{6});
 $highlightMatchColor = 'rgba(' . $r . ', ' . $g . ', ' . $b . ', .5)';
 
-HTMLHelper::_('stylesheet', 'editors/codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('stylesheet', 'plg_editors_codemirror/codemirror.css', array('version' => 'auto', 'relative' => true));
 
 Factory::getDocument()->addStyleDeclaration(
 <<<CSS

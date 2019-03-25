@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ $app = Factory::getApplication();
 if ($app->isClient('site'))
 {
 	Session::checkToken('get') or die(Text::_('JINVALID_TOKEN'));
-	HTMLHelper::_('stylesheet', 'system/adminlist.css', array(), true);
+	HTMLHelper::_('stylesheet', 'system/adminlist.css', ['version' => 'auto', 'relative' => true]);
 }
 
 HTMLHelper::_('behavior.core');

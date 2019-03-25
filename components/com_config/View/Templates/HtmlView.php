@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ class HtmlView extends BaseHtmlView
 		$view = $factory->createView('Style', 'Administrator', 'Json');
 		$view->setModel($factory->createModel('Style', 'Administrator'), true);
 
-		$view->document = Factory::getDocument();
+		$view->document = $this->document;
 
 		$json = $view->display();
 

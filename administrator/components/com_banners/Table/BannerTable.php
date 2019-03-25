@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -200,8 +200,7 @@ class BannerTable extends Table
 
 			if ($purchaseType < 0 && $this->cid)
 			{
-				/** @var ClientTable $client */
-				$client = Table::getInstance('Client', __NAMESPACE__ . '\\', array('dbo' => $db));
+				$client = new ClientTable($db);
 				$client->load($this->cid);
 				$purchaseType = $client->purchase_type;
 			}

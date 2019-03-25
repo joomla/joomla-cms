@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -135,7 +135,7 @@ class NewsfeedTable extends Table
 	}
 
 	/**
-	 * Overriden \JTable::store to set modified data.
+	 * Overridden \JTable::store to set modified data.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *

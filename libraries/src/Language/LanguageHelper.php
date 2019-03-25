@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,8 +10,11 @@ namespace Joomla\CMS\Language;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\OutputController;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Log\Log;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -134,7 +137,9 @@ class LanguageHelper
 			}
 			else
 			{
-				$cache = Factory::getCache('com_languages', '');
+				/** @var OutputController $cache */
+				$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+					->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 				if ($cache->contains('languages'))
 				{
@@ -192,7 +197,9 @@ class LanguageHelper
 
 		if ($installedLanguages === null)
 		{
-			$cache = Factory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('installedlanguages'))
 			{
@@ -266,7 +273,7 @@ class LanguageHelper
 				{
 					try
 					{
-						$lang->manifest = \JInstaller::parseXMLInstallFile($metafile);
+						$lang->manifest = Installer::parseXMLInstallFile($metafile);
 					}
 
 					// Not able to process xml language file. Fail silently.
@@ -345,7 +352,9 @@ class LanguageHelper
 
 		if ($contentLanguages === null)
 		{
-			$cache = Factory::getCache('com_languages', '');
+			/** @var OutputController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)
+				->createCacheController('output', ['defaultgroup' => 'com_languages']);
 
 			if ($cache->contains('contentlanguages'))
 			{

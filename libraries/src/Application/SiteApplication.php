@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -184,7 +184,7 @@ final class SiteApplication extends CMSApplication
 				$this->set('themeParams', $template->params);
 
 				// Add Asset registry files
-				$document->getWebAssetManager()
+				$document->getWebAssetManager()->getRegistry()
 					->addRegistryFile('media/' . $component . '/joomla.asset.json')
 					->addRegistryFile('templates/' . $template->template . '/joomla.asset.json');
 
@@ -396,14 +396,12 @@ final class SiteApplication extends CMSApplication
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return	Router
+	 * @return	\Joomla\CMS\Router\Router
 	 *
 	 * @since	3.2
 	 */
 	public static function getRouter($name = 'site', array $options = array())
 	{
-		$options['mode'] = Factory::getApplication()->get('sef');
-
 		return parent::getRouter($name, $options);
 	}
 

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -775,13 +775,10 @@ class Language
 			$strings = $this->parse($filename);
 		}
 
-		if ($strings)
+		if (is_array($strings) && count($strings))
 		{
-			if (is_array($strings) && count($strings))
-			{
-				$this->strings = array_replace($this->strings, $strings, $this->override);
-				$result = true;
-			}
+			$this->strings = array_replace($this->strings, $strings, $this->override);
+			$result = true;
 		}
 
 		// Record the result of loading the extension's file.
@@ -975,7 +972,7 @@ class Language
 	 *
 	 * @return array
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	protected function getTrace()
 	{
@@ -983,7 +980,7 @@ class Language
 	}
 
 	/**
-	 * Determine who called Language or JText.
+	 * Determine who called Language or Text.
 	 *
 	 * @return  array  Caller information.
 	 *
@@ -1009,7 +1006,7 @@ class Language
 			$class = @ $step['class'];
 
 			// We're looking for something outside of language.php
-			if ($class != '\\Joomla\\CMS\\Language\\Language' && $class != 'JText')
+			if ($class != self::class && $class != Text::class)
 			{
 				$info['function'] = @ $step['function'];
 				$info['class'] = $class;

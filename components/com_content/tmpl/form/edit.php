@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,6 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('behavior.tabstate');
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
-HTMLHelper::_('formbehavior.chosen', '#jform_catid', null, array('disable_search_threshold' => 0));
 
 HTMLHelper::_('script', 'com_content/form-edit.js', ['version' => 'auto', 'relative' => true]);
 

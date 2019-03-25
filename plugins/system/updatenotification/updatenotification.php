@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,7 +41,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -49,7 +49,7 @@ class PlgSystemUpdatenotification extends CMSPlugin
 	 * Database driver
 	 *
 	 * @var    \Joomla\Database\DatabaseInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 

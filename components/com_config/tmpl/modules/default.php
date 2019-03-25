@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_config
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,7 +92,7 @@ if (Multilanguage::isEnabled())
 							<?php echo $this->form->getLabel('position'); ?>
 						</div>
 						<div class="controls">
-							<?php echo $this->loadTemplate('positions'); ?>
+							<?php echo $this->form->getInput('position'); ?>
 						</div>
 					</div>
 

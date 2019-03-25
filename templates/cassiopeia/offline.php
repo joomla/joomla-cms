@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,29 +31,6 @@ HTMLHelper::_('behavior.core');
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'offline.css', ['version' => 'auto', 'relative' => true]);
 
-// Template color
-if ($this->params->get('templateColor'))
-{
-	$this->addStyleDeclaration('
-	body.site {
-		border-top: 3px solid ' . $this->params->get('templateColor') . ';
-		background-color: ' . $this->params->get('templateBackgroundColor') . ';
-	}
-	a {
-		color: ' . $this->params->get('templateColor') . ';
-	}
-	.nav-list > .active > a,
-	.nav-list > .active > a:hover,
-	.dropdown-menu li > a:hover,
-	.dropdown-menu .active > a,
-	.dropdown-menu .active > a:hover,
-	.nav-pills > .active > a,
-	.nav-pills > .active > a:hover,
-	.btn-primary {
-		background: ' . $this->params->get('templateColor') . ';
-	}');
-}
-
 // Check for a custom CSS file
 HTMLHelper::_('stylesheet', 'user.css', ['version' => 'auto', 'relative' => true]);
 
@@ -64,7 +41,7 @@ HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('bootstrap.loadCss', false, $this->direction);
 
 // Logo file or site title param
-$sitename = $app->get('sitename');
+$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 
 if ($this->params->get('logoFile'))
 {
@@ -76,7 +53,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
+	$logo = '<span class="site-title">' . $sitename . '</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -92,10 +69,10 @@ else
 			<?php if (!empty($logo)) : ?>
 				<h1><?php echo $logo; ?></h1>
 			<?php else : ?>
-				<h1><?php echo htmlspecialchars($app->get('sitename')); ?></h1>
+				<h1><?php echo $sitename; ?></h1>
 			<?php endif; ?>
 			<?php if ($app->get('offline_image') && file_exists($app->get('offline_image'))) : ?>
-				<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo htmlspecialchars($app->get('sitename')); ?>">
+				<img src="<?php echo $app->get('offline_image'); ?>" alt="<?php echo $sitename; ?>">
 			<?php endif; ?>
 			<?php if ($app->get('display_offline_message', 1) == 1 && str_replace(' ', '', $app->get('offline_message')) != '') : ?>
 				<p><?php echo $app->get('offline_message'); ?></p>
@@ -119,14 +96,14 @@ else
 				<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 					<fieldset>
 						<label for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
-						<input name="username" class="form-control" id="username" type="text" title="<?php echo Text::_('JGLOBAL_USERNAME'); ?>">
+						<input name="username" class="form-control" id="username" type="text">
 
 						<label for="password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-						<input name="password" class="form-control" id="password" type="password" title="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+						<input name="password" class="form-control" id="password" type="password">
 
 						<?php if (count($twofactormethods) > 1) : ?>
 						<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input name="secretkey" class="form-control" id="secretkey" type="text" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
+						<input name="secretkey" class="form-control" id="secretkey" type="text">
 						<?php endif; ?>
 
 						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -50,7 +50,7 @@ extract($displayData);
 
 if (!$readonly)
 {
-	HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
+	HTMLHelper::_('webcomponent', 'system/fields/joomla-field-user.min.js', ['version' => 'auto', 'relative' => true]);
 }
 
 $uri = new Uri('index.php?option=com_users&view=users&layout=modal&tmpl=component&required=0');
@@ -123,7 +123,7 @@ if (!$readonly)
 						'width'       => '100%',
 						'modalWidth'  => 80,
 						'bodyHeight'  => 60,
-						'footer'      => '<a type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</a>'
+						'footer'      => '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>'
 					)
 				); ?>
 				</span>

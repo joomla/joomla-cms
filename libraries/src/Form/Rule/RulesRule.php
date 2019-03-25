@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -100,10 +100,13 @@ class RulesRule extends FormRule
 			"/access/section[@name='" . $section . "']/"
 		);
 
-		// Iterate over the asset actions and add to the actions.
-		foreach ($elActions as $item)
+		if ($elActions)
 		{
-			$actions[] = $item->name;
+			// Iterate over the asset actions and add to the actions.
+			foreach ($elActions as $item)
+			{
+				$actions[] = $item->name;
+			}
 		}
 
 		// Iterate over the children and add to the actions.

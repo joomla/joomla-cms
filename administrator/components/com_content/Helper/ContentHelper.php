@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,11 +33,11 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function canDeleteState($stateID)
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select('id')
@@ -58,7 +58,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function filterTransitions($transitions, $pk, $workflow_id = 0): array
 	{
@@ -81,7 +81,7 @@ class ContentHelper extends \Joomla\CMS\Helper\ContentHelper
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function updateContentState($pks, $condition): bool
 	{

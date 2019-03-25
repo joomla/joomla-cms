@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -161,7 +161,7 @@ class TracksController extends BaseController
 			$view->setModel($model, true);
 
 			// Push document object into the view.
-			$view->document = Factory::getDocument();
+			$view->document = $this->app->getDocument();
 
 			$view->display();
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.pagenavigation
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -189,7 +189,7 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			if (($location + 1) < count($rows))
 			{
-				// The next content item cannot be in an array position greater than the number of array postions.
+				// The next content item cannot be in an array position greater than the number of array positions.
 				$row->next = $rows[$location + 1];
 			}
 

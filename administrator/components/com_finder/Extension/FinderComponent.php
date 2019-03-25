@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,7 +24,7 @@ use Psr\Container\ContainerInterface;
 /**
  * Component class for com_finder
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class FinderComponent extends MVCComponent implements BootableExtensionInterface, RouterServiceInterface
 {
@@ -42,7 +42,7 @@ class FinderComponent extends MVCComponent implements BootableExtensionInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function boot(ContainerInterface $container)
 	{

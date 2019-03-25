@@ -4,59 +4,6 @@
       "last 1 version",
       "not ie < 11"
     ],
-    "elements": [
-      "field-media",
-      "field-user",
-      "field-switcher",
-      "field-send-test-mail",
-      "field-module-order",
-      "field-permissions",
-      "field-simple-color",
-      "field-send-test-mail",
-      "field-subform",
-      "editor-codemirror",
-      "hidden-mail",
-      "editor-none",
-      "toolbar-button"
-    ],
-    "webcomponents": {
-      "field-media": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-switcher": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-simple-color": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-send-test-mail": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "editor-codemirror": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "editor-none": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-module-order": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-hidden-mail": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      },
-      "field-subform": {
-        "css": "media/system/webcomponents/css",
-        "js": "media/system/webcomponents/js"
-      }
-    },
     "vendors": {
       "awesomplete": {
         "name": "awesomplete",
@@ -148,6 +95,26 @@
             "css": ["cropper.min.css"]
           }
         ],
+        "dependencies": [],
+        "licenseFilename": "LICENSE"
+      },
+      "choices.js": {
+        "name": "choicesjs",
+        "js": {
+          "assets/scripts/dist/choices.js": "js/choices.js",
+          "assets/scripts/dist/choices.min.js": "js/choices.min.js"
+        },
+        "css": {
+          "assets/styles/css/choices.css": "css/choices.css",
+          "assets/styles/css/choices.min.css": "css/choices.min.css"
+        },
+        "provideAssets": [
+          {
+            "name": null,
+            "js": ["choices.min.js"],
+            "css": ["choices.min.css"]
+          }
+         ],
         "dependencies": [],
         "licenseFilename": "LICENSE"
       },

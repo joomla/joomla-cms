@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,12 +39,12 @@ class FeatureModel extends ArticleModel
 	 *
 	 * @param   object  $table  A record object.
 	 *
-	 * @return  array  An array of conditions to add to add to ordering queries.
+	 * @return  array  An array of conditions to add to ordering queries.
 	 *
 	 * @since   1.6
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array();
+		return [];
 	}
 }

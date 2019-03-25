@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,7 +49,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 
 	<?php if (!$useDefList && $this->print) : ?>
 		<div id="pop-print" class="btn hidden-print">
-			<?php echo HTMLHelper::_('contenticon.print_screen', $this->item, $params); ?>
+			<?php echo HTMLHelper::_('contenticon.print_screen', $params); ?>
 		</div>
 		<div class="clearfix"> </div>
 	<?php endif; ?>
@@ -78,7 +78,7 @@ $assocParam = (Associations::isEnabled() && $params->get('show_associations'));
 	<?php else : ?>
 		<?php if ($useDefList) : ?>
 			<div id="pop-print" class="btn hidden-print">
-				<?php echo HTMLHelper::_('contenticon.print_screen', $this->item, $params); ?>
+				<?php echo HTMLHelper::_('contenticon.print_screen', $params); ?>
 			</div>
 		<?php endif; ?>
 	<?php endif; ?>

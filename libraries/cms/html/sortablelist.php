@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,8 +61,8 @@ abstract class JHtmlSortablelist
 		// Depends on jQuery UI
 		HTMLHelper::_('jquery.ui', array('core', 'sortable'));
 
-		HTMLHelper::_('script', 'legacy/sortablelist.min.js', false, true);
-		HTMLHelper::_('stylesheet', 'legacy/sortablelist.css', false, true, false);
+		HTMLHelper::_('script', 'legacy/sortablelist.min.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('stylesheet', 'legacy/sortablelist.css', ['version' => 'auto', 'relative' => true]);
 
 		// Attach sortable to document
 		Factory::getDocument()->addScriptOptions(

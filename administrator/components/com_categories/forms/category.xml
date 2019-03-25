@@ -28,7 +28,6 @@
 
 	<field
 		name="parent_id"
-		class="advancedSelect"
 		type="categoryedit"
 		label="COM_CATEGORIES_FIELD_PARENT_LABEL"
 	/>
@@ -205,7 +204,6 @@
 		name="tags"
 		type="tag"
 		label="JTAG"
-		class="col-sm-12"
 		multiple="true"
 	/>
 

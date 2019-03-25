@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -121,7 +121,7 @@ class UserModel extends AdminModel
 	/**
 	 * Method to get the record form.
 	 *
-	 * @param   array    $data      An optional array of data for the form to interogate.
+	 * @param   array    $data      An optional array of data for the form to interrogate.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
 	 * @return  mixed  A \JForm object on success, false on failure
@@ -146,9 +146,9 @@ class UserModel extends AdminModel
 			return false;
 		}
 
-		// Passwords fields are required when mail to user is set to No in joomla user plugin
 		$userId = $form->getValue('id');
 
+		// Passwords fields are required when mail to user is set to No in the joomla user plugin
 		if ($userId === 0 && $pluginParams->get('mail_to_user', '1') === '0')
 		{
 			$form->setFieldAttribute('password', 'required', 'true');

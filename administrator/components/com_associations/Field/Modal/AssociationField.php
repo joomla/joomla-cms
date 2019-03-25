@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -46,7 +46,7 @@ class AssociationField extends FormField
 		$value = (int) $this->value > 0 ? (int) $this->value : '';
 
 		Factory::getDocument()->addScriptOptions('modal-associations', ['itemId' => $value]);
-		HTMLHelper::_('script', 'com_associations/modal-associations.min.js', false, true);
+		HTMLHelper::_('script', 'com_associations/modal-associations.min.js', ['version' => 'auto', 'relative' => true]);
 
 		// Setup variables for display.
 		$html = array();

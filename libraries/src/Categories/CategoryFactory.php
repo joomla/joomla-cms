@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 /**
  * Option based categories factory.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class CategoryFactory implements CategoryFactoryInterface
 {
@@ -46,7 +46,7 @@ class CategoryFactory implements CategoryFactoryInterface
 	 *
 	 * @return  CategoryInterface
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @throws  SectionNotFoundException
 	 */

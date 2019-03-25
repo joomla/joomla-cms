@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -18,7 +18,7 @@ use Joomla\Registry\Registry;
 /**
  * Base class for a Joomla Module Dispatcher.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 abstract class AbstractModuleDispatcher extends Dispatcher
 {
@@ -26,7 +26,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	 * The module instance
 	 *
 	 * @var    \stdClass
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $module;
 
@@ -51,7 +51,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{
@@ -83,7 +83,7 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	 *
 	 * @return  array|false
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getLayoutData()
 	{
@@ -101,14 +101,14 @@ abstract class AbstractModuleDispatcher extends Dispatcher
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function loadLanguage()
 	{
 		$language = $this->app->getLanguage();
 
 		$coreLanguageDirectory      = JPATH_BASE;
-		$extensionLanguageDirectory = dirname(JPATH_BASE . '/modules/' . $this->module->module);
+		$extensionLanguageDirectory = JPATH_BASE . '/modules/' . $this->module->module;
 
 		$langPaths = $language->getPaths();
 

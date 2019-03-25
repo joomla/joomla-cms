@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -223,7 +223,7 @@ class TagTable extends Nested
 	}
 
 	/**
-	 * Overriden \JTable::store to set modified data and user id.
+	 * Overridden \JTable::store to set modified data and user id.
 	 *
 	 * @param   boolean  $updateNulls  True to update fields even if they are null.
 	 *

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors.none
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -59,7 +59,7 @@ class PlgEditorNone extends CMSPlugin
 
 		$readonly = !empty($params['readonly']) ? ' readonly disabled' : '';
 
-		HTMLHelper::_('webcomponent', 'system/webcomponents/joomla-editor-none.min.js', ['version' => 'auto', 'relative' => true]);
+		HTMLHelper::_('webcomponent', 'plg_editors_none/joomla-editor-none.min.js', ['version' => 'auto', 'relative' => true]);
 
 		return '<joomla-editor-none>'
 			. '<textarea name="' . $name . '" id="' . $id . '" cols="' . $col . '" rows="' . $row

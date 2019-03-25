@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -89,6 +89,11 @@ class Database implements ServiceProviderInterface
 					'database' => $conf->get('db'),
 					'prefix'   => $conf->get('dbprefix'),
 				];
+
+				if (JDEBUG)
+				{
+					$options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor;
+				}
 
 				try
 				{

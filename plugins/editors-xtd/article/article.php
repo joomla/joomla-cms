@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.article
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Session\Session;
 
 /**
- * Editor Article buton
+ * Editor Article button
  *
  * @since  1.5
  */

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\DI\ServiceProviderInterface;
 /**
  * Service provider for the service based modules.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class Module implements ServiceProviderInterface
 {
@@ -29,7 +29,7 @@ class Module implements ServiceProviderInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function register(Container $container)
 	{

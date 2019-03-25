@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Search.categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 
 JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -187,7 +188,7 @@ class PlgSearchCategories extends CMSPlugin
 		{
 			foreach ($rows as $i => $row)
 			{
-				if (searchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
+				if (SearchHelper::checkNoHtml($row, $searchText, array('name', 'title', 'text')))
 				{
 					$row->href = ContentHelperRoute::getCategoryRoute($row->slug, $row->category_language);
 					$row->section = Text::_('JCATEGORY');
