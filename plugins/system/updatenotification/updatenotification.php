@@ -420,8 +420,8 @@ class PlgSystemUpdatenotification extends JPlugin
 	private function implode_callback($array, $separator = '', $callback = false)
 	{
 		return implode(
-						$separator,
-						$callback === false ? $array : array_map($callback, $array)
+			$separator,
+			$callback === false ? $array : array_map($callback, $array)
 		);
 	}
 }
