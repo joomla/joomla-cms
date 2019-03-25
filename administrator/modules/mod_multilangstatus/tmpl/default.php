@@ -17,8 +17,8 @@ HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
-<li class="nav-item multilanguage">
-	<a class="nav-link" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
+<div class="multilanguage">
+	<a class="nav-link text-center" href="#multiLangModal" title="<?php echo Text::_('MOD_MULTILANGSTATUS'); ?>" data-toggle="modal" role="button">
 		<span class="fa fa-language" aria-hidden="true"></span>
 		<span class="sr-only"><?php echo Text::_('MOD_MULTILANGSTATUS'); ?></span>
 	</a>
@@ -36,4 +36,4 @@ HTMLHelper::_('script', 'mod_multilangstatus/admin-multilangstatus.min.js', arra
 			'footer'     => '<a class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">' . Text::_('JTOOLBAR_CLOSE') . '</a>',
 		)
 	); ?>
-</li>
+</div>
