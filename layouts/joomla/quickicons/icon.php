@@ -40,7 +40,7 @@ if ($id !== '')
 				<?php
 				$amount = (int) $displayData['amount'];
 				if ($amount <  100000):
-					echo $amount ;
+					echo $amount;
 				else:
 					echo floor($amount / 1000) . '<span class="thsd">' . $amount % 1000 . '</span>';
 				endif;
