@@ -34,8 +34,8 @@
                 var isChecked = checkbox.checked;
                 // If something is checked on load, update the form
             	if (isChecked) {
-              	Joomla.isChecked(true);
-              	this.changeBg(row,true);
+                    Joomla.isChecked(true);
+              	    this.changeBg(row,true);
             	}
 						}
             row.addEventListener('click', this.onRowClick);
