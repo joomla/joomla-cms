@@ -37,7 +37,6 @@
 					name="tag"
 					type="tag"
 					label="JTAG"
-					description="JTAG_DESC"
 					mode="nested"
 					multiple="true"
 					filter="int_array"
