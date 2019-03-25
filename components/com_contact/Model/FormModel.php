@@ -42,6 +42,36 @@ class FormModel extends \Joomla\Component\Contact\Administrator\Model\ContactMod
 	protected $formName = 'form';
 
 	/**
+	 * Method to get the row form.
+	 *
+	 * @param   array    $data      Data for the form.
+	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
+	 *
+	 * @return  \JForm|boolean  A \JForm object on success, false on failure
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getForm($data = array(), $loadData = true)
+	{
+		$form = parent::getForm($data, $loadData);
+
+		// Prevent messing with article language and category when editing existing contact with associations
+		if ($id = $this->getState('contact.id') && Associations::isEnabled())
+		{
+			$associations = Associations::getAssociations('com_contact', '#__contact_details', 'com_contact.item', $id);
+
+			// Make fields read only
+			if (!empty($associations))
+			{
+				$form->setFieldAttribute('language', 'readonly', 'true');
+				$form->setFieldAttribute('language', 'filter', 'unset');
+			}
+		}
+
+		return $form;
+	}
+
+	/**
 	 * Method to get contact data.
 	 *
 	 * @param   integer  $itemId  The id of the contact.
