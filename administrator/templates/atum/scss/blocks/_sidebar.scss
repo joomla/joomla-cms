@@ -119,6 +119,10 @@
   width: $sidebar-width;
   opacity: 1;
 
+  @include media-breakpoint-down(xs) {
+	  width: 100%;
+  }
+
   ul.collapse {
 
     li.dropdown-submenu {
@@ -163,6 +167,27 @@
       &::before {
         background-image: none;
         width: 0;
+      }
+    }
+    .menu-dashboard{
+      a{
+        .fa{
+          align-items: flex-start;
+          padding: 5px 1rem;
+        }
+      }
+    }
+
+
+    .sidebar-item-title{
+      word-break: break-word;
+      @include media-breakpoint-up(sm) {
+        max-width: 9rem !important;
+        display: inline-block;
+      }
+      @include media-breakpoint-down(xs) {
+        max-width: 60vw !important;
+        display: inline-block;
       }
     }
   }
@@ -316,7 +341,7 @@
   // Dropdown indicator
   .has-arrow::after {
     position: absolute;
-    top: 50%;
+    top: 1.5rem;
     right: 0.9em;
     width: .5rem;
     height: .5rem;
@@ -340,12 +365,12 @@
   // Parent icons
   .fa {
     position: relative;
-    top: -1px;
+    top: 1rem;
     display: inline-block;
     margin: 0 5px;
     font-size: 1.1rem;
     text-align: center;
-    vertical-align: middle;
+    vertical-align: top;
   }
 }
 
@@ -422,26 +447,38 @@
 
       &:before{
         font: normal normal normal 30px/1 FontAwesome;
-        content: "\f106";
+        content: "\f107";
         color:var(--toggle-color);
 
       }
     }
+	&.collapsed {
+		.navbar-toggler-icon:before {
+			content: "\f106";
+		}
+	}
 
   }
 
   .sidebar-menu{
     &.show{
-      overflow-y: hidden;
+     /* overflow-y: hidden;*/
       max-height: 100vh;
-
       transition-property: all;
       transition-duration: 1s;
       transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
-
-      position:absolute;
+      bottom:55px;
+      position:fixed;
       width:100%;
       z-index:$zindex-mobil-menu;
+      display: flex;
+      flex-direction: column;
+
+      #sidebarmenu{
+        overflow-y:scroll;
+
+      }
+
     }
     &:not(.show){
       max-height:0;

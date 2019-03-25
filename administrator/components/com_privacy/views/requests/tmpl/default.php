@@ -56,13 +56,13 @@ $now       = JFactory::getDate();
 						<th width="10%" class="nowrap">
 							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
 						</th>
-						<th width="10%" class="nowrap">
+						<th width="10%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_REQUEST_TYPE', 'a.request_type', $listDirn, $listOrder); ?>
 						</th>
-						<th width="15%" class="nowrap">
+						<th width="15%" class="nowrap d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_REQUESTED_AT', 'a.requested_at', $listDirn, $listOrder); ?>
 						</th>
-						<th width="1%" class="nowrap hidden-phone">
+						<th width="1%" class="nowrap  d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 						</th>
 					</tr>
@@ -98,15 +98,15 @@ $now       = JFactory::getDate();
 							<td class="break-word">
 								<?php echo $item->user_id ? $this->escape($item->username) : JText::_('JGLOBAL_NONAPPLICABLE'); ?>
 							</td>
-							<td class="break-word">
+							<td class="break-word d-none d-md-table-cell">
 								<?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $item->request_type); ?>
 							</td>
-							<td class="break-word">
+							<td class="break-word d-none d-md-table-cell">
 								<span class="hasTooltip" title="<?php echo JHtml::_('date', $item->requested_at, JText::_('DATE_FORMAT_LC6')); ?>">
 									<?php echo JHtml::_('date.relative', new JDate($item->requested_at), null, $now); ?>
 								</span>
 							</td>
-							<td class="hidden-phone">
+							<td class=" d-none d-md-table-cell">
 								<?php echo (int) $item->id; ?>
 							</td>
 						</tr>

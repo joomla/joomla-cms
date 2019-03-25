@@ -2,4 +2,7 @@
 
 .badge {
   border-radius: 1.2rem;
+  @include media-breakpoint-down(xs) {
+    white-space: normal;
+  }
 }

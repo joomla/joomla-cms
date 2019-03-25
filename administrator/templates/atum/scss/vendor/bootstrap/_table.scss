@@ -15,6 +15,9 @@
       font-weight: $font-weight-normal;
       color: $gray-800;
       white-space: nowrap;
+      @include media-breakpoint-down(xs) {
+        white-space: normal;
+      }
     }
 
     td {
@@ -24,6 +27,13 @@
     a {
       font-weight: $font-weight-normal;
       color: $gray-800;
+    }
+
+    .actions, .actions-th1{
+      @include media-breakpoint-down(xs) {
+        width:28%;
+      }
+
     }
   }
 

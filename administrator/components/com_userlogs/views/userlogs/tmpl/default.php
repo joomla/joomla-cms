@@ -56,21 +56,21 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th>
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_MESSAGE', 'a.message', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th class="d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_EXTENSION', 'a.extension', $listDirn, $listOrder); ?>
 					</th>
-					<th>
+					<th class="d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_DATE', 'a.log_date', $listDirn, $listOrder); ?>
 					</th>
 					<th>
 						<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
 					</th>
 					<?php if ($this->ip) : ?>
-						<th>
+						<th class="d-none d-md-table-cell">
 							<?php echo JHtml::_('searchtools.sort', 'COM_USERLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
 						</th>
 					<?php endif; ?>
-					<th>
+					<th class="d-none d-md-table-cell">
 						<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_ID', 'a.id', $listDirn, $listOrder); ?>
 					</th>
 				</thead>
@@ -92,24 +92,24 @@ JFactory::getDocument()->addScriptDeclaration('
 							<td class="center">
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
-							<td>								
+							<td>
 								<?php echo $this->escape($item->message); ?>
 							</td>
-							<td>
+							<td class="d-none d-md-table-cell">
 								<?php echo UserlogsHelper::translateExtensionName(strtoupper(strtok($this->escape($item->extension), '.'))); ?>
 							</td>
-							<td>
+							<td class="d-none d-md-table-cell">
 								<?php echo $this->escape($item->log_date); ?>
 							</td>
 							<td>
 								<?php echo JUser::getInstance($item->user_id)->name; ?>
 							</td>
 							<?php if ($this->ip) : ?>
-								<td>
+								<td class="d-none d-md-table-cell">
 									<?php echo JText::_($this->escape($item->ip_address)); ?>
 								</td>
 							<?php endif;?>
-							<td>
+							<td class="d-none d-md-table-cell">
 								<?php echo (int) $item->id; ?>
 							</td>
 						</tr>

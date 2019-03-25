@@ -148,4 +148,7 @@
   @include media-breakpoint-down(md) {
     justify-content:flex-start;
   }
+  @include media-breakpoint-down(xs) {
+    display:block;
+  }
 }

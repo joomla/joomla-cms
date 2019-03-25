@@ -199,7 +199,7 @@ $this->addStyleDeclaration($css);
     <?php // Sidebar ?>
 	<?php if (!$hiddenMenu) : ?>
 
-        <button class="navbar-toggler toggler-burger" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler toggler-burger collapsed" type="button" data-toggle="collapse" data-target="#sidebar-wrapper" aria-controls="sidebar-wrapper" aria-expanded="false" aria-label="Toggle navigation">
                  <span class="navbar-toggler-icon">
                   </span>
         </button>
