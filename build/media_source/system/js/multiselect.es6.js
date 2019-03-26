@@ -26,7 +26,7 @@
         }
 
         if (this.rows.length) {
-          const i = 0;
+          let i = 0;
           this.rows.forEach((row) => {
             const currentCheckBox = this.checkallToggle ? i + 1 : i;
             const checkbox = this.boxes[currentCheckBox];
@@ -35,10 +35,9 @@
               // If something is checked on load, update the form
               if (isChecked) {
                 Joomla.isChecked(true);
-                this.changeBg(row,true);
+                this.changeBg(row, true);
               }
             }
-            
             row.addEventListener('click', this.onRowClick);
             i++;
           });
