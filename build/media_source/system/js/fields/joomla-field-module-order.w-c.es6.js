@@ -94,7 +94,7 @@ customElements.define('joomla-field-module-order', class extends HTMLElement {
     const that = this;
 
     Joomla.request({
-      url: `${url}client_id=${clientId}&position=${originalPosition}`,
+      url: `${url}&client_id=${clientId}&position=${originalPosition}`,
       method: 'GET',
       perform: true,
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
