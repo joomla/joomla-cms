@@ -55,6 +55,13 @@ class PrivacyModelExport extends JModelLegacy
 			return false;
 		}
 
+		if ($table->status != 1)
+		{
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
+
+			return false;
+		}
+
 		// Log the export
 		$this->logExport($table);
 
@@ -117,6 +124,13 @@ class PrivacyModelExport extends JModelLegacy
 			return false;
 		}
 
+		if ($table->status != 1)
+		{
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_EXPORT_UNCONFIRMED_REQUEST'));
+
+			return false;
+		}
+
 		// Log the email
 		$this->logExportEmailed($table);
 
@@ -157,8 +171,6 @@ class PrivacyModelExport extends JModelLegacy
 		try
 		{
 			$app = JFactory::getApplication();
-
-			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
 			$substitutions = array(
 				'[SITENAME]' => $app->get('sitename'),

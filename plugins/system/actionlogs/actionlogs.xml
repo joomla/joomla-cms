@@ -24,10 +24,10 @@
 					default="0"
 				/>
 				<field
-						name="lastrun"
-						type="hidden"
-						default="0"
-						size="15"
+					name="lastrun"
+					type="hidden"
+					default="0"
+					size="15"
 				/>
 			</fieldset>
 		</fields>

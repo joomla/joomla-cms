@@ -59,6 +59,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 			$logMessage->extension            = $context;
 			$logMessage->user_id              = $user->id;
 			$logMessage->ip_address           = $ip;
+			$logMessage->item_id              = isset($message['id']) ? (int) $message['id'] : 0;
 
 			try
 			{
