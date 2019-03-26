@@ -372,6 +372,17 @@
           "dist/metismenujs.min.js": "js/metismenujs.min.js",
           "dist/metismenujs.min.js.map": "js/metismenujs.min.js.map"
         }
+      },
+      "skipto": {
+        "name": "skipto",
+        "licenseFilename": "LICENSE.md",
+        "js": {
+          "src/js/skipTo.js": "js/skipTo.js",
+          "src/js/dropMenu.js": "js/dropMenu.js"
+        },
+        "css": {
+          "src/css/SkipTo.css": "css/SkipTo.css"
+        }
       }
     },
     "errorPages": {
