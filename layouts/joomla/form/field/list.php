@@ -87,9 +87,17 @@ if ($readonly)
 	}
 }
 else
-// Create a regular list.
+// Create a regular list passing the arguments in an array.
 {
-	$html[] = HTMLHelper::_('select.genericlist', $options, $name, trim($attr), 'value', 'text', $value, $id);
+	$listoptions = array();
+	$listoptions['option.key'] = 'value';
+	$listoptions['option.text'] = 'text';
+	$listoptions['list.select'] = $value;
+	$listoptions['id'] = $id;
+	$listoptions['list.translate'] = false;
+	$listoptions['option.attr'] = 'optionattr';
+	$listoptions['list.attr'] = trim($attr);
+	$html[] = HTMLHelper::_('select.genericlist', $options, $name, $listoptions);
 }
 
 echo implode($html);
