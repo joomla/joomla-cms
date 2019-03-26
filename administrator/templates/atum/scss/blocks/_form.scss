@@ -107,6 +107,17 @@ legend {
   box-shadow: 0 0 2px 1px theme-color("primary");
 }
 
+.custom-select {
+  padding: $input-select-padding;
+  background-color: var(--atum-bg-dark);
+  background-image: url(../images/select-bg.svg);
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: 1854px;
+  min-width: 10rem;
+}
+
+
 joomla-field-switcher {
 	height: 38px;
 
@@ -123,6 +134,11 @@ joomla-field-switcher {
 	.switcher.active .switch {
 		left: 34px;
 	}
+
+  .switcher:focus .switch {
+    -webkit-animation: none;
+    animation: none;
+  }
 }
 
 

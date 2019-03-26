@@ -41,15 +41,11 @@ legend {
 }
 
 // Default focus highlighting
-a,
-button,
-input,
-textarea {
-
-  &:focus,
-  &:-moz-focusring {
-  outline: auto 2px var(--focus);
-  }
+:focus  {
+	outline: auto 2px var(--focus);
+}
+:-moz-focusring {
+	outline: auto 2px var(--focus);
 }
 
 // Break up text in cells to prevent overflow

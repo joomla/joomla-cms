@@ -128,7 +128,8 @@ joomla-tab[orientation=vertical] a[active]:after {
 joomla-tab[orientation=vertical] > section {
 	border: 0 none;
 	box-shadow: none;
-	padding: 15px;
+	padding: $grid-gutter-width-s 0 $grid-gutter-width-s $grid-gutter-width-s;
+	width: 100%;
 }
 
 joomla-tab[view=accordion] > ul {
