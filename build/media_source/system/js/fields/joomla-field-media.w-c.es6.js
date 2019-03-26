@@ -185,7 +185,7 @@
     }
 
     show() {
-      this.querySelector('[role="dialog"]').open();
+      $('#' + this.querySelector('[role="dialog"]').id).modal('show');
 
       this.querySelector(this.buttonSaveSelected).addEventListener('click', this.onSelected);
     }
@@ -194,7 +194,7 @@
       const input = this.querySelector(this.input);
       Joomla.getImage(Joomla.selectedFile, input, this);
 
-      Joomla.Modal.getCurrent().close();
+      $('#' + $('.modal.fade.in')[0].getAttribute('id')).modal('hide');
     }
 
     setValue(value) {
