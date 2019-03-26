@@ -203,12 +203,13 @@ class UserlogsModelUserlogs extends JModelList
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
-				->select('a.*')
-				->from($db->quoteName('#__user_logs', 'a'));
+			->select('a.*, u.name')
+			->from('#__user_logs AS a')
+			->innerJoin('#__users AS u ON a.user_id = u.id');
 
 		if (is_array($pks) && count($pks) > 0)
 		{
-			$query->where($db->qn('a.id') . ' IN (' . implode(',', $pks) . ')');
+			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', $pks) . ')');
 		}
 
 		$db->setQuery($query);

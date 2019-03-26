@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="params">
-		<fieldset name="settings" addfieldpath="/plugins/system/userlogs/field">
+		<fieldset name="settings" addfieldpath="/administrator/components/com_userlogs/models/fields">
 			<field
 				name="logs_notification_option"
 				type="radio"

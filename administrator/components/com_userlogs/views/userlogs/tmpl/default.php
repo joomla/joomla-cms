@@ -93,7 +93,7 @@ JFactory::getDocument()->addScriptDeclaration('
 								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td>								
-								<?php echo $this->escape($item->message); ?>
+								<?php echo UserlogsHelper::getHumanReadableLogMessage($item); ?>
 							</td>
 							<td>
 								<?php echo UserlogsHelper::translateExtensionName(strtoupper(strtok($this->escape($item->extension), '.'))); ?>
