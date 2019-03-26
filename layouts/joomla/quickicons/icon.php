@@ -18,7 +18,7 @@ $onclick = empty($displayData['onclick']) ? '' : (' onclick="' . $displayData['o
 
 // The title for the link (a11y)
 $title   = empty($displayData['title']) ? '' : (' title="' . $this->escape($displayData['title']) . '"');
-
+$add	  = empty($displayData['addwhat']) ? '' : $displayData['addwhat'];
 // The information
 $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
@@ -36,13 +36,13 @@ if ($id !== '')
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
 
 		<?php if (isset($displayData['amount'])): ?>
-			<div class="quickicon-icon d-flex align-self-end">
+			<div class="quickicon-amount">
 				<?php
 				$amount = (int) $displayData['amount'];
 				if ($amount <  100000):
-					echo '<span class="quickicon-amount">' . $amount . '</span>';
+					echo $amount;
 				else:
-					echo '<span class="quickicon-amount">' . floor($amount / 1000) . '<span class="thsd">' . $amount % 1000 . '</span></span>';
+					echo floor($amount / 1000) . '<span class="thsd">' . $amount % 1000 . '</span>';
 				endif;
 				?>
 			</div>
@@ -57,14 +57,15 @@ if ($id !== '')
 		<?php endif; ?>
 		<?php // Information or action
 			if (isset($displayData['text'])): ?>
-			<div class="quickicon-text d-flex align-items-end"><?php echo $text; ?></div>
+				<div class="quickicon-text d-flex align-items-center"><?php echo $text; ?></div>
 		<?php endif; ?>
 	</a>
 	<?php // Add the link to the edit-form
 		if (!empty($displayData['linkadd'])): ?>
 			<a class="btn-block text-center quickicon-linkadd j-links-link py-1" href="<?php echo $displayData['linkadd']; ?>">
-				<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>
-				<?php echo Text::_('MOD_QUICKICON_ADD_NEW'); ?>
+				<span class="fa fa-plus mr-2" aria-hidden="true"></span>
+				<span class="sr-only"><?php echo Text::sprintf('MOD_QUICKICON_ADD_NEW', $add); ?></span>
+				<span aria-hidden="true"><?php echo $add; ?></span>
 			</a>
 	<?php endif; ?>
 </li>
