@@ -491,6 +491,7 @@ CREATE TABLE IF NOT EXISTS `#__extensions` (
   `name` varchar(100) NOT NULL,
   `type` varchar(20) NOT NULL,
   `element` varchar(100) NOT NULL,
+  `changelogurl` text,
   `folder` varchar(100) NOT NULL,
   `client_id` tinyint(3) NOT NULL,
   `enabled` tinyint(3) NOT NULL DEFAULT 0,
@@ -1834,6 +1835,7 @@ CREATE TABLE IF NOT EXISTS `#__updates` (
   `data` text NOT NULL,
   `detailsurl` text NOT NULL,
   `infourl` text NOT NULL,
+  `changelogurl` text,
   `extra_query` varchar(1000) DEFAULT '',
   PRIMARY KEY (`update_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Available Updates';

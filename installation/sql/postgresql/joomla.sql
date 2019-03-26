@@ -503,6 +503,7 @@ CREATE TABLE IF NOT EXISTS "#__extensions" (
   "name" varchar(100) NOT NULL,
   "type" varchar(20) NOT NULL,
   "element" varchar(100) NOT NULL,
+  "changelogurl" text,
   "folder" varchar(100) NOT NULL,
   "client_id" smallint NOT NULL,
   "enabled" smallint DEFAULT 0 NOT NULL,
@@ -1831,6 +1832,7 @@ CREATE TABLE IF NOT EXISTS "#__updates" (
   "data" text NOT NULL,
   "detailsurl" text NOT NULL,
   "infourl" text NOT NULL,
+  "changelogurl" text,
   "extra_query" varchar(1000) DEFAULT '',
   PRIMARY KEY ("update_id")
 );
