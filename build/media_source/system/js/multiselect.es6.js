@@ -39,7 +39,7 @@
               }
             }
             row.addEventListener('click', this.onRowClick);
-            i = i + 1;
+            i += 1;
           });
         }
       }
