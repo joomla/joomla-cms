@@ -90,7 +90,7 @@
                 showActions: false,
             }
         },
-        props: ['item', 'focused'],
+        props: ['item'],
         computed: {
             /* Get the item url */
             thumbUrl() {

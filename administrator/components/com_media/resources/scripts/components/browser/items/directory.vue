@@ -59,7 +59,7 @@
                 showActions: false,
             }
         },
-        props: ['item', 'focused'],
+        props: ['item'],
         mixins: [navigable],
         methods: {
             /* Handle the on preview double click event */

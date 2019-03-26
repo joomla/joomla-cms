@@ -74,7 +74,7 @@
                 showActions: false,
             }
         },
-        props: ['item', 'focused'],
+        props: ['item'],
         methods: {
 	        /* Preview an item */
 	        download() {
