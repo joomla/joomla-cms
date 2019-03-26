@@ -95,6 +95,7 @@ class PluginsModel extends ListModel
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
+		$id .= ':' . $this->getState('filter.element');
 
 		return parent::getStoreId($id);
 	}
@@ -251,6 +252,12 @@ class PluginsModel extends ListModel
 		if ($folder = $this->getState('filter.folder'))
 		{
 			$query->where('a.folder = ' . $db->quote($folder));
+		}
+
+		// Filter by element.
+		if ($element = $this->getState('filter.element'))
+		{
+			$query->where('a.element = ' . $db->quote($element));
 		}
 
 		// Filter by search in name or id.

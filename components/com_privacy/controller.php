@@ -1,6 +1,6 @@
 <?php
 /**
- * @package     Joomla.Administrator
+ * @package     Joomla.Site
  * @subpackage  com_privacy
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
@@ -16,4 +16,28 @@ defined('_JEXEC') or die;
  */
 class PrivacyController extends JControllerLegacy
 {
+	/**
+	 * Method to display a view.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  $this
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function display($cachable = false, $urlparams = array())
+	{
+		$view = $this->input->get('view', $this->default_view);
+
+		// Submitting information requests through the frontend is restricted to authenticated users at this time
+		if ($view === 'request' && JFactory::getUser()->guest)
+		{
+			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+
+			return $this;
+		}
+
+		return parent::display($cachable, $urlparams);
+	}
 }
