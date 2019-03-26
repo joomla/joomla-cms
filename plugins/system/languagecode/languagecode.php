@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
@@ -23,6 +22,14 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgSystemLanguagecode extends CMSPlugin
 {
 	/**
+	 * Application object
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $app;	
+
+	/**
 	 * Plugin that changes the language code used in the <html /> tag.
 	 *
 	 * @return  void
@@ -31,16 +38,14 @@ class PlgSystemLanguagecode extends CMSPlugin
 	 */
 	public function onAfterRender()
 	{
-		$app = Factory::getApplication();
-
 		// Use this plugin only in site application.
-		if ($app->isClient('site'))
+		if ($this->app->isClient('site'))
 		{
 			// Get the response body.
-			$body = $app->getBody();
+			$body = $this->app->getBody();
 
 			// Get the current language code.
-			$code = Factory::getDocument()->getLanguage();
+			$code = $this->app->getDocument()->getLanguage();
 
 			// Get the new code.
 			$new_code  = $this->params->get($code);
@@ -105,7 +110,7 @@ class PlgSystemLanguagecode extends CMSPlugin
 				}
 			}
 
-			$app->setBody(preg_replace($patterns, $replace, $body));
+			$this->app->setBody(preg_replace($patterns, $replace, $body));
 		}
 	}
 
