@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Layout\LayoutHelper;
+
 extract($displayData);
 
 /**
@@ -42,5 +44,6 @@ if ($bodyHeight && $bodyHeight >= 20 && $bodyHeight < 90)
 }
 ?>
 <div class="<?php echo $bodyClass; ?>">
+	<?php echo LayoutHelper::render('joomla.modal.iframe', $displayData); ?>
 	<?php echo $body; ?>
 </div>
