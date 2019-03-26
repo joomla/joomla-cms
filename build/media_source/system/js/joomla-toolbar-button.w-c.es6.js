@@ -50,7 +50,7 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       }
 
       // If nothing is selected disable the list
-      if(this.formElement.boxchecked.value < 1){
+      if (this.formElement.boxchecked.value < 1) {
         this.setDisabled(true);
       }
 
