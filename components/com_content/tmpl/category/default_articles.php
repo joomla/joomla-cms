@@ -9,19 +9,42 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Component\Content\Site\Helper\AssociationHelper;
 
 // Create some shortcuts.
-$params    = &$this->item->params;
-$n         = count($this->items);
-$listOrder = $this->escape($this->state->get('list.ordering'));
-$listDirn  = $this->escape($this->state->get('list.direction'));
+$params     = &$this->item->params;
+$n          = count($this->items);
+$listOrder  = $this->escape($this->state->get('list.ordering'));
+$listDirn   = $this->escape($this->state->get('list.direction'));
+$langFilter = false;
+
+// Tags filtering based on language filter 
+if (($this->params->get('filter_field') === 'tag') && (Multilanguage::isEnabled()))
+{ 
+	$tagfilter = ComponentHelper::getParams('com_tags')->get('tag_list_language_filter');
+
+	switch ($tagfilter)
+	{
+		case 'current_language' :
+			$langFilter = JFactory::getApplication()->getLanguage()->getTag();
+			break;
+
+		case 'all' :
+			$langFilter = false;
+			break;
+
+		default :
+			$langFilter = $tagfilter;
+	}
+}
 
 // Check for at least one editable article
 $isEditable = false;
@@ -49,7 +72,7 @@ if (!empty($this->items))
 				<?php if ($this->params->get('filter_field') === 'tag') : ?>
 					<select name="filter_tag" id="filter_tag" onchange="document.adminForm.submit();" >
 						<option value=""><?php echo JText::_('JOPTION_SELECT_TAG'); ?></option>
-						<?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', true, true), 'value', 'text', $this->state->get('filter.tag')); ?>
+						<?php echo HTMLHelper::_('select.options', HTMLHelper::_('tag.options', array('filter.published' => array(1), 'filter.language' => $langFilter), true), 'value', 'text', $this->state->get('filter.tag')); ?>
 					</select>
 				<?php elseif ($this->params->get('filter_field') === 'month') : ?>
 					<select name="filter-search" id="filter-search" onchange="document.adminForm.submit();">
