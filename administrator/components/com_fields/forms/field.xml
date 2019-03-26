@@ -265,6 +265,13 @@
 			</field>
 
 			<field
+				name="layout"
+				type="fieldlayout"
+				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
+				description="COM_FIELDS_FIELD_LAYOUT_DESC"
+			/>
+
+			<field
 				name="display_readonly"
 				type="list"
 				label="JFIELD_DISPLAY_READONLY_LABEL"

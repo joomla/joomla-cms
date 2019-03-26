@@ -18,6 +18,31 @@
 	</languages>
 	<config>
 		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="url"
+					type="list"
+					label="PLG_CONTENT_CONTACT_PARAM_URL_LABEL"
+					description="PLG_CONTENT_CONTACT_PARAM_URL_DESCRIPTION"
+					default="0"
+					>
+					<option value="url">PLG_CONTENT_CONTACT_PARAM_URL_URL</option>
+					<option value="webpage">PLG_CONTENT_CONTACT_PARAM_URL_WEBPAGE</option>
+					<option value="email">PLG_CONTENT_CONTACT_PARAM_URL_EMAIL</option>
+				</field>
+
+				<field
+					name="link_to_alias"
+					type="radio"
+					label="PLG_CONTENT_CONTACT_PARAM_ALIAS_LABEL"
+					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
+					default="0"
+					class="btn-group btn-group-yesno"
+					>
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
 		</fields>
 	</config>
 </extension>
