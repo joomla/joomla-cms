@@ -385,6 +385,24 @@ class ContactController extends FormController
 	}
 
 	/**
+	 * Method to cancel an edit.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function cancel($key = null)
+	{
+		$result = parent::cancel($key);
+
+		$this->setRedirect(Route::_($this->getReturnPage(), false));
+
+		return $result;
+	}
+
+	/**
 	 * Gets the URL arguments to append to an item redirect.
 	 *
 	 * @param   integer  $recordId  The primary key id for the item.
