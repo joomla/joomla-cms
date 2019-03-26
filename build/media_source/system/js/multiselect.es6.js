@@ -26,18 +26,19 @@
         }
 
         if (this.rows.length) {
-          var i = 0;
+          const i = 0;
           this.rows.forEach((row) => {
-            var currentCheckBox = this.checkallToggle ? i + 1 : i;
-	    var checkbox = this.boxes[currentCheckBox];
-	    if (checkbox) {
-                var isChecked = checkbox.checked;
-                // If something is checked on load, update the form
-            	if (isChecked) {
-                    Joomla.isChecked(true);
-              	    this.changeBg(row,true);
-            	}
-						}
+            const currentCheckBox = this.checkallToggle ? i + 1 : i;
+            const checkbox = this.boxes[currentCheckBox];
+            if (checkbox) {
+              const isChecked = checkbox.checked;
+              // If something is checked on load, update the form
+              if (isChecked) {
+                Joomla.isChecked(true);
+                this.changeBg(row,true);
+              }
+            }
+            
             row.addEventListener('click', this.onRowClick);
             i++;
           });
