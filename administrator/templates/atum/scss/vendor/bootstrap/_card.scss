@@ -3,6 +3,6 @@
 @import "../../variables";
 
 .card-body {
-  background: transparent;
-  padding: 0;
+  background: $white;
+  box-shadow: $atum-box-shadow;
 }

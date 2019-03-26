@@ -1,9 +1,7 @@
 // Badge
 
 .badge {
-  padding: .6rem 1rem;
-  font-size: .85rem;
-  font-weight: $font-weight-normal;
+  border-radius: 1.2rem;
   @include media-breakpoint-down(xs) {
     white-space: normal;
   }

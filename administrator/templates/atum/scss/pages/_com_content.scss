@@ -1,0 +1,37 @@
+.com_content {
+	&.layout-edit {
+		.card-body {
+			background: transparent;
+			padding: 0;
+			box-shadow: none;
+		}
+		.table {
+			th,
+			td {
+				font-weight: normal;
+				background-color: $white;
+			}
+		}
+		.field-media-wrapper {
+			&, .field-media-preview {
+				width: 100%;
+				display: block;
+			}
+		}
+		.subhead {
+			background-color: transparent;
+		}
+		joomla-tab {
+			#attrib-basic[active],
+			#editor[active] {
+				display: grid;
+				grid-template-columns: 45% 45%;
+				grid-column-gap: 10%;
+				@include media-breakpoint-down(md) {
+					display: block;
+					grid-template-columns: 100%;
+				}
+			}
+		}
+	}
+}

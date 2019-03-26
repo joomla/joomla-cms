@@ -1,7 +1,5 @@
 // Form
 
-@import "../variables";
-
 label {
 	margin-bottom: 0;
 }
@@ -115,6 +113,9 @@ legend {
   background-position: center right;
   background-size: 1854px;
   min-width: 10rem;
+  optgroup, option {
+	  background-color: $white;
+  }
 }
 
 
