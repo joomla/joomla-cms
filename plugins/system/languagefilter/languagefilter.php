@@ -171,8 +171,8 @@ class PlgSystemLanguageFilter extends CMSPlugin
 			$router->attachBuildRule(array($this, 'postprocessNonSEFBuildRule'), Router::PROCESS_AFTER);
 		}
 
-		// Attach parse rules for language SEF.
-		$router->attachParseRule(array($this, 'parseRule'), Router::PROCESS_DURING);
+		// Attach parse rule.
+		$router->attachParseRule(array($this, 'parseRule'), Router::PROCESS_BEFORE);
 	}
 
 	/**
