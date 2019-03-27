@@ -262,14 +262,10 @@ class Browser
 			}
 			/*
 			 * We have to check for Edge as the first browser, because Edge has something like:
-			 * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
+			 * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3738.0 Safari/537.36 Edg/75.0.107.0
 			 */
 			elseif (preg_match('|Edg\/([0-9.]+)|', $this->agent, $version))
 			{
-				/*
-				 * We have to check for Edge as the first browser, because Edge has something like:
-				 * Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3738.0 Safari/537.36 Edg/75.0.107.0
-				 */
 				$this->setBrowser('edg');
 
 				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
