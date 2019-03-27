@@ -35,7 +35,7 @@ class PlgSystemSkipto extends CMSPlugin
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onBeforeCompileHead()
+	public function onAfterDispatch()
 	{
 		$section = $this->params->get('section_skipto', 2);
 
@@ -44,11 +44,16 @@ class PlgSystemSkipto extends CMSPlugin
 			return;
 		}
 
-		// Load language file.
-		$this->loadLanguage();
-
 		// Get the document object.
 		$document = $this->app->getDocument();
+
+		if ($document->getType() !== 'html')
+		{
+			return;
+		}
+
+		// Load language file.
+		$this->loadLanguage();
 
 		// Add strings for translations in JavaScript.
 		$document->addScriptOptions(
