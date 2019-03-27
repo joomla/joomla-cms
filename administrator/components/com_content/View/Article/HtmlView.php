@@ -18,10 +18,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Content\Administrator\Helper\PreviewHelper;
+
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * View to edit an article.
@@ -194,7 +196,12 @@ class HtmlView extends BaseHtmlView
 
 			if (!$isNew)
 			{
-				$url = PreviewHelper::url($this->item);
+				$url = Route::link(
+					'site',
+					\ContentHelperRoute::getArticleRoute($this->item->id, $this->item->catid, $this->item->language),
+					true
+				);
+
 				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
