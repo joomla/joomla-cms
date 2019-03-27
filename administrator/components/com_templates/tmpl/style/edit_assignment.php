@@ -14,19 +14,30 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
-// Initiasile related data.
+// Initialise related data.
 $menuTypes = MenusHelper::getMenuLinks();
 $user      = Factory::getUser();
+	Factory::getDocument()->addScriptDeclaration('
+		function toggle_all(){
+			let checkBoxes = [].slice.call(document.querySelectorAll(".chk-menulink"));
+			let value = checkBoxes[0].checked;
+			checkBoxes.forEach(function(element) {
+				element.checked = !value;
+			});
+		}
+		function toggle_menutype(a){
+			
+			let checkBox = [].slice.call(document.getElementsByClassName(a));
+			let value = checkBox[0].checked;
+			checkBox.forEach(function(element) {
+				element.checked = !value;
+			});
+		}'
+	)
 ?>
 <label id="jform_menuselect-lbl" for="jform_menuselect"><?php echo Text::_('JGLOBAL_MENU_SELECTION'); ?></label>
 <div class="btn-toolbar">
-	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="
-		let checkBoxes = document.querySelectorAll('.chk-menulink');
-		let value = checkBoxes[0].checked;
-		for(let count=0; count < checkBoxes.length; count++){
-			checkBoxes[count].checked = !value;
-		}
-	">
+	<button class="btn btn-sm btn-secondary jform-rightbtn" type="button" onclick="toggle_all()">
 		<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT_ALL'); ?>
 	</button>
 </div>
@@ -36,13 +47,7 @@ $user      = Factory::getUser();
 		<?php foreach ($menuTypes as &$type) : ?>
 			<li>
 				<div class="menu-links-block">
-					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick="
-						let checkBoxes = document.getElementsByClassName('<?php echo $type->menutype; ?>');
-						let value = checkBoxes[0].checked;
-						for(let count=0; count < checkBoxes.length; count++){
-							checkBoxes[count].checked = !value;
-						}
-					">
+					<button class="btn btn-sm btn-secondary jform-rightbtn mb-2" type="button" onclick='toggle_menutype("<?php echo $type->menutype; ?>")'>
 						<span class="icon-checkbox-partial" aria-hidden="true"></span> <?php echo Text::_('JGLOBAL_SELECTION_INVERT'); ?>
 					</button>
 					<h5><?php echo $type->title ?: $type->menutype; ?></h5>
