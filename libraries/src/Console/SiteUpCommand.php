@@ -11,6 +11,7 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -96,11 +97,9 @@ class SiteUpCommand extends AbstractCommand
 	{
 		$this->configureIO($input, $output);
 
-		$command = $this->getApplication()->getCommand('config:set');
-
-		$command->setOptions('offline=false');
-
-		$returnCode = $command->doExecute($input, $output);
+		$returnCode = $this->getApplication()->getCommand(SetConfigurationCommand::getDefaultName())->execute(
+			new ArrayInput(['options' => ['offline=false']]), $output
+		);
 
 		if ($returnCode === 0)
 		{
