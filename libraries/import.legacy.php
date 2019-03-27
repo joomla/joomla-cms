@@ -5,7 +5,7 @@
  *
  * @package    Joomla.Platform
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -29,7 +29,7 @@ if (!defined('IS_UNIX'))
 }
 
 /**
- * @deprecated 13.3	Use IS_UNIX instead
+ * @deprecated 4.0	Use IS_UNIX instead
  */
 if (!defined('IS_MAC'))
 {

@@ -101,7 +101,6 @@
   .input-prepend input[class*="span"],
   .input-append input[class*="span"] {
     display: inline-block; // redeclare so they don't wrap to new lines
-    width: auto;
   }
   .controls-row [class*="span"] + [class*="span"] {
     margin-left: 0;
@@ -159,6 +158,16 @@
       padding-left: 10px;
       padding-right: 10px;
     }
+  }
+
+  // Gracefully displays the filter-search fields and buttons
+  .tag-category input#filter-search,
+  .newsfeed-category input#filter-search {
+    width: auto;
+    margin-bottom: @baseLineHeight / 2;
+  }
+  .category-list input#filter-search {
+    width: auto;
   }
 
   // Medias

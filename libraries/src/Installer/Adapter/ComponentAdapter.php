@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -971,7 +971,6 @@ class ComponentAdapter extends InstallerAdapter
 			$data['client_id'] = 1;
 			$data['title'] = (string) trim($menuElement);
 			$data['alias'] = (string) $menuElement;
-			$data['link'] = 'index.php?option=' . $option;
 			$data['type'] = 'component';
 			$data['published'] = 1;
 			$data['parent_id'] = 1;
@@ -980,6 +979,22 @@ class ComponentAdapter extends InstallerAdapter
 			$data['home'] = 0;
 			$data['path'] = '';
 			$data['params'] = '';
+
+			// Set the menu link
+			$request = array();
+
+			if ((string) $menuElement->attributes()->task)
+			{
+				$request[] = 'task=' . $menuElement->attributes()->task;
+			}
+
+			if ((string) $menuElement->attributes()->view)
+			{
+				$request[] = 'view=' . $menuElement->attributes()->view;
+			}
+
+			$qstring = count($request) ? '&' . implode('&', $request) : '';
+			$data['link'] = 'index.php?option=' . $option . $qstring;
 		}
 		else
 		{
@@ -1312,7 +1327,7 @@ class ComponentAdapter extends InstallerAdapter
 	 * @param   array    &$data     The menu item data to create
 	 * @param   integer  $parentId  The parent menu item ID
 	 *
-	 * @return  bool|int  Menu item ID on success, false on failure
+	 * @return  boolean|integer  Menu item ID on success, false on failure
 	 */
 	protected function _createAdminMenuItem(array &$data, $parentId)
 	{

@@ -1,12 +1,10 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 // Only define the Joomla namespace if not defined.
-if (typeof(Joomla) === 'undefined') {
-	var Joomla = {};
-}
+Joomla = window.Joomla || {};
 
 !(function(document, Joomla) {
 	"use strict";
@@ -78,7 +76,7 @@ if (typeof(Joomla) === 'undefined') {
 						itemval = $field.val();
 					}
 					else {
-						// select lists, textarea etc. Note that multiple-select list returns an Array here 
+						// select lists, textarea etc. Note that multiple-select list returns an Array here
 						// se we can always tream 'itemval' as an array
 						itemval = $field.val();
 						// a multi-select <select> $field  will return null when no elements are selected so we need to define itemval accordingly
@@ -93,12 +91,12 @@ if (typeof(Joomla) === 'undefined') {
 						itemval = JSON.parse('["' + itemval + '"]');
 					}
 
-					// for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match 
+					// for (var i in itemval) loops over non-enumerable properties and prototypes which means that != will ALWAYS match
 					// see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...in
 					// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/getOwnPropertyNames
-					// use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach                                        
+					// use native javascript Array forEach - see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
 					// We can't use forEach because its not supported in MSIE 8 - once that is dropped this code could use forEach instead and not have to use propertyIsEnumerable
-					// 
+					//
 					// Test if any of the values of the field exists in showon conditions
 					for (var i in itemval) {
 						// See https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/propertyIsEnumerable
@@ -139,12 +137,31 @@ if (typeof(Joomla) === 'undefined') {
 				}
 			}
 
-			// If conditions are satisfied show the target field(s), else hide
+			// If conditions are satisfied show the target field(s), else hide.
+			// Note that animations don't work on list options other than in Chrome.
+			if (target.is('option')) {
+				target.toggle(showfield);
+				target.attr('disabled', showfield ? false : true);
+				// If chosen active for the target select list then update it
+				var parent = target.parent();
+				if ($('#' + parent.attr('id') + '_chzn').length) {
+					parent.trigger("liszt:updated");
+					parent.trigger("chosen:updated");
+				}
+			}
+
+			animate = animate
+				&& !target.hasClass('no-animation')
+				&& !target.hasClass('no-animate')
+				&& !target.find('.no-animation, .no-animate').length;
+
 			if (animate) {
 				(showfield) ? target.slideDown() : target.slideUp();
-			} else {
-				target.toggle(showfield);
+
+				return;
 			}
+
+			target.toggle(showfield);
 		}
 
 		/**
@@ -172,8 +189,8 @@ if (typeof(Joomla) === 'undefined') {
 					// Check current condition for element
 					linkedoptions($target);
 
-					// Attach events to referenced element, to check condition on change
-					$fields.on('change', function() {
+					// Attach events to referenced element, to check condition on change and keyup
+					$fields.on('change keyup', function() {
 						linkedoptions($target, true);
 					});
 				})();
