@@ -208,7 +208,7 @@ class UsersModelUser extends JModelAdmin
 		if ($user->email != $data['email'] && $pk != 0 && !empty($user->activation))
 		{
 			$app = JFactory::getApplication();
-			
+
 			// Compile the notification mail values.
 			$data = $user->getProperties();
 			$data['fromname']   = $app->get('fromname');
@@ -233,7 +233,7 @@ class UsersModelUser extends JModelAdmin
 			if (JComponentHelper::getParams('com_users')->get('useractivation') === 1)
 			{
 				// Wait we have useractivation use the correct string than
-				$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_CHANGED_MAIL_BODY';
+				$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_CHANGED_MAIL_BODY';
 			}
 
 			$emailBody = JText::sprintf(
