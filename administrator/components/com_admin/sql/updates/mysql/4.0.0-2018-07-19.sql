@@ -14,5 +14,5 @@ CREATE TABLE IF NOT EXISTS `#__template_overrides` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`, `namespace`) VALUES
-(491, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 4, 0, ''),
-(492, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, '');
+(492, 0, 'plg_installer_override', 'plugin', 'override', 'installer', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 4, 0, ''),
+(493, 0, 'plg_quickicon_overridecheck', 'plugin', 'overridecheck', 'quickicon', 0, 1, 1, 1, '', '', 0, '0000-00-00 00:00:00', 0, 0, '');

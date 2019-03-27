@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Users\Administrator\Controller;
@@ -55,6 +55,27 @@ class UserController extends FormController
 		}
 
 		return parent::allowEdit($data, $key);
+	}
+
+	/**
+	 * Override parent cancel to redirect when using status edit account.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since  __DEPLOY_VERSION__
+	 */
+	public function cancel($key = null)
+	{
+		$result = parent::cancel();
+
+		if ($return = $this->input->get('return', '', 'BASE64'))
+		{
+			$this->app->redirect(base64_decode($return));
+		}
+
+		return $result;
 	}
 
 	/**

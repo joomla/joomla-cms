@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -55,11 +55,28 @@ class UpdateController extends BaseController
 		$this->_applyCredentials();
 
 		/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
-		$model = $this->getModel('Update');
-		$file = $model->download();
+		$model  = $this->getModel('Update');
+		$result = $model->download();
+		$file   = $result['basename'];
 
 		$message = null;
 		$messageType = null;
+
+		switch ($result['check'])
+		{
+			case 0:
+				$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_WRONG');
+				$messageType = 'warning';
+				break;
+			case 1:
+				$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_CORRECT');
+				$messageType = 'message';
+				break;
+			case 2:
+				$message = Text::_('COM_JOOMLAUPDATE_VIEW_UPDATE_CHECKSUM_NOT_FOUND');
+				$messageType = 'notice';
+				break;
+		}
 
 		if ($file)
 		{

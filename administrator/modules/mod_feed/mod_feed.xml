@@ -3,7 +3,7 @@
 	<name>mod_feed</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2005</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -43,6 +43,17 @@
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
+				</field>
+
+				<field
+					name="rssdate"
+					type="radio"
+					label="MOD_FEED_FIELD_DATE_LABEL"
+					class="switcher"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 				<field
@@ -87,6 +98,17 @@
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
+				</field>
+				
+				<field
+					name="rssitemdate"
+					type="radio"
+					label="MOD_FEED_FIELD_ITEMDATE_LABEL"
+					class="switcher"
+					default="0"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
 				</field>
 
 			</fieldset>

@@ -1,5 +1,5 @@
 /**
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 // @TODO remove jQuery dependency
@@ -228,9 +228,10 @@ jQuery(document).ready(function($) {
 				}
 
 				// Update the reference item associations tab.
-				var reference     = document.getElementById('reference-association');
-				var languageCode  = targetLanguage.replace(/-/, '_');
-				var title         = $(this).contents().find('#jform_title').val();
+				var reference      = document.getElementById('reference-association');
+				var languageCode   = targetLanguage.replace(/-/, '_');
+				var referenceTitle = reference.getAttribute('data-title');
+				var title          = $(this).contents().find('#jform_' + referenceTitle).val();
 
 				// - For modal association selectors.
 				$(reference).contents().find('#jform_associations_' + languageCode + '_id').val(targetLoadedId);
@@ -245,7 +246,9 @@ jQuery(document).ready(function($) {
 			var reference    = document.getElementById('reference-association');
 			var referenceId  = reference.getAttribute('data-id');
 			var languageCode = reference.getAttribute('data-language').replace(/-/, '_');
-			var title        = $(reference).contents().find('#jform_title').val();
+			var target       = document.getElementById('target-association');
+			var targetTitle  = target.getAttribute('data-title');
+			var title        = $(this).contents().find('#jform_' + targetTitle).val();
 			var target       = $(this).contents();
 
 			// - For modal association selectors.

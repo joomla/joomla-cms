@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -325,14 +325,11 @@ class FinderIndexerResult implements Serializable
 	public function addInstruction($group, $property)
 	{
 		// Check if the group exists. We can't add instructions for unknown groups.
-		if (array_key_exists($group, $this->instructions))
+		// Check if the property exists in the group.
+		if (array_key_exists($group, $this->instructions) && !in_array($property, $this->instructions[$group], true))
 		{
-			// Check if the property exists in the group.
-			if (!in_array($property, $this->instructions[$group]))
-			{
-				// Add the property to the group.
-				$this->instructions[$group][] = $property;
-			}
+			// Add the property to the group.
+			$this->instructions[$group][] = $property;
 		}
 	}
 
@@ -423,7 +420,7 @@ class FinderIndexerResult implements Serializable
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '')
 	{
@@ -463,7 +460,7 @@ class FinderIndexerResult implements Serializable
 	 * 
 	 * @return  string  The serialised data
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function serialize()
 	{
@@ -520,7 +517,7 @@ class FinderIndexerResult implements Serializable
 	 * 
 	 * @return  void
 	 * 
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function unserialize($serialized)
 	{

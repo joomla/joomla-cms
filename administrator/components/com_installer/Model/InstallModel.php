@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -180,6 +180,29 @@ class InstallModel extends BaseDatabaseModel
 
 					return false;
 				}
+			}
+		}
+
+		// Check the package
+		$children = $installer->manifest->updateservers->children();
+
+		foreach ($children as $child)
+		{
+			$check = InstallerHelper::isChecksumValid($package['packagefile'], (string) $child);
+
+			switch ($check)
+			{
+				case 0:
+					$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
+					break;
+
+				case 1:
+					$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
+					break;
+
+				case 2:
+					$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
+					break;
 			}
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -107,6 +107,9 @@ class ArticlesModel extends ListModel
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
+		$featured = $this->getUserStateFromRequest($this->context . '.filter.featured', 'filter_featured', '');
+		$this->setState('filter.featured', $featured);
+
 		$published = $this->getUserStateFromRequest($this->context . '.filter.published', 'filter_published', '');
 		$this->setState('filter.published', $published);
 
@@ -182,7 +185,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  \Joomla\Database\DatabaseQuery
 	 *
 	 * @since   1.6
 	 */
@@ -199,7 +202,7 @@ class ArticlesModel extends ListModel
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down'
+				', a.publish_up, a.publish_down, a.introtext, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -315,6 +318,14 @@ class ArticlesModel extends ListModel
 			$query->where('a.access IN (' . $access . ')');
 		}
 
+		// Filter by featured.
+		$featured = (string) $this->getState('filter.featured');
+
+		if (in_array($featured, ['0','1']))
+		{
+			$query->where('a.featured =' . (int) $featured);
+		}
+
 		// Filter by access level on categories.
 		if (!$user->authorise('core.admin'))
 		{
@@ -416,10 +427,15 @@ class ArticlesModel extends ListModel
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
 				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
+			elseif (stripos($search, 'content:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
+				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -472,7 +488,7 @@ class ArticlesModel extends ListModel
 	/**
 	 * Method to get all transitions at once for all articles
 	 *
-	 * @return  array
+	 * @return  array|boolean
 	 *
 	 * @since   4.0.0
 	 */
@@ -580,24 +596,22 @@ class ArticlesModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   1.6.1
+	 * @since   4.0.0
 	 */
 	public function getItems()
 	{
 		$items = parent::getItems();
 
-		if (Factory::getApplication()->isClient('site'))
-		{
-			$groups = Factory::getUser()->getAuthorisedViewLevels();
+		$asset = new \Joomla\CMS\Table\Asset($this->getDbo());
 
-			foreach (array_keys($items) as $x)
-			{
-				// Check the access level. Remove articles the user shouldn't see
-				if (!in_array($items[$x]->access, $groups))
-				{
-					unset($items[$x]);
-				}
-			}
+		foreach (array_keys($items) as $x)
+		{
+			$items[$x]->typeAlias = 'com_content.article';
+
+			$asset->loadByName('com_content.article.' . $items[$x]->id);
+
+			// Re-inject the asset id.
+			$items[$x]->asset_id = $asset->id;
 		}
 
 		return $items;
