@@ -146,7 +146,7 @@ class Mail extends \PHPMailer
 			return $result;
 		}
 
-		Factory::getApplication()->enqueueMessage(\JText::_('JLIB_MAIL_FUNCTION_OFFLINE'));
+		Factory::getApplication()->enqueueMessage(\JText::_('JLIB_MAIL_FUNCTION_OFFLINE'), 'warning');
 
 		return false;
 	}
