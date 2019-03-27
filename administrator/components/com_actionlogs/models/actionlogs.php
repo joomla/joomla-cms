@@ -202,6 +202,40 @@ class ActionlogsModelActionlogs extends JModelList
 	}
 
 	/**
+	 * Get all log entries for an item
+	 *
+	 * @param   string   $extension  The extension the item belongs to
+	 * @param   integer  $itemId     The item ID
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getLogsForItem($extension, $itemId)
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('a.*, u.name')
+			->from('#__action_logs AS a')
+			->innerJoin('#__users AS u ON a.user_id = u.id')
+			->where($db->quoteName('a.extension') . ' = ' . $db->quote($extension))
+			->where($db->quoteName('a.item_id') . ' = ' . (int) $itemId);
+
+		// Get ordering
+		$fullorderCol = $this->getState('list.fullordering', 'a.id DESC');
+
+		// Apply ordering
+		if (!empty($fullorderCol))
+		{
+			$query->order($db->escape($fullorderCol));
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
 	 * Get logs data into JTable object
 	 *
 	 *
