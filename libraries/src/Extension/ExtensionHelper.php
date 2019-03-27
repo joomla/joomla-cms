@@ -228,6 +228,7 @@ class ExtensionHelper
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
 		array('plugin', 'overridecheck', 'quickicon', 0),
 		array('plugin', 'phpversioncheck', 'quickicon', 0),
+		array('plugin', 'privacycheck', 'quickicon', 0),
 
 		// Core plugin extensions - sample data
 		array('plugin', 'blog', 'sampledata', 0),

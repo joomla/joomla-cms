@@ -9,6 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Session\Session;
+
 /**
  * Privacy Controller
  *
@@ -80,4 +85,33 @@ class PrivacyController extends JControllerLegacy
 
 		return $this;
 	}
+
+	/**
+	 * Fetch and report number urgent privacy requests in JSON format, for AJAX requests
+	 *
+	 * @return void
+	 *
+	 * @since __DEPLOY_VERSION__
+	 */
+	public function getNumberUrgentRequests()
+	{
+		$app = Factory::getApplication();
+
+		// Check for a valid token. If invalid, send a 403 with the error message.
+		if (!Session::checkToken('get'))
+		{
+			$app->setHeader('status', 403, true);
+			$app->sendHeaders();
+			echo new JsonResponse(new \Exception(Text::_('JINVALID_TOKEN'), 403));
+			$app->close();
+		}
+
+		/** @var PrivacyModelRequests $model */
+		$model                = $this->getModel('requests');
+		$numberUrgentRequests = $model->getNumberUrgentRequests();
+
+		echo new JResponseJson(array('number_urgent_requests' => $numberUrgentRequests));
+
+		$app->close();
+	}	
 }
