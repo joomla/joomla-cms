@@ -140,4 +140,12 @@ $this->addScriptDeclaration('cssVars();');
 	<jdoc:include type="modules" name="debug" style="none" />
 
 </body>
+<script type="text/javascript">
+	$(document).ready(function() {
+		if ($('#versionsModal'))
+		{
+			$("#versionsModal").appendTo($(document.body));
+		}
+	});
+</script>
 </html>
