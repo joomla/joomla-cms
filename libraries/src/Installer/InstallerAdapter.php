@@ -29,6 +29,14 @@ use Joomla\Database\DatabaseDriver;
 abstract class InstallerAdapter
 {
 	/**
+	 * Changelog URL of extensions
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 * */
+	protected $changelogurl = null;
+
+	/**
 	 * ID for the currently installed extension if present
 	 *
 	 * @var    integer
@@ -666,20 +674,18 @@ abstract class InstallerAdapter
 	public function install()
 	{
 		// Get the extension's description
-		$description = (string) $this->getManifest()->description;
+		$description           = (string) $this->getManifest()->description;
+		$this->parent->message = '';
 
 		if ($description)
 		{
 			$this->parent->message = Text::_($description);
 		}
-		else
-		{
-			$this->parent->message = '';
-		}
 
 		// Set the extension's name and element
-		$this->name    = $this->getName();
-		$this->element = $this->getElement();
+		$this->name         = $this->getName();
+		$this->element      = $this->getElement();
+		$this->changelogurl = (string) $this->getManifest()->changelogurl;
 
 		/*
 		 * ---------------------------------------------------------------------------------------------
