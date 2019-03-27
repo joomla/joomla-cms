@@ -302,17 +302,14 @@ abstract class Factory
 	 *
 	 * @see     User
 	 * @since   1.7.0
+	 * @throws  \Throwable
 	 */
 	public static function getUser($id = null)
 	{
 		$instance = self::getApplication()->getSession()->get('user');
 
-		if (is_null($id))
-		{
-			$instance = User::getInstance();
-		}
 		// Check if we have a string as the id or if the numeric id is the current instance
-		elseif (!($instance instanceof User) || is_string($id) || $instance->id !== $id)
+		if (!($instance instanceof User) || is_string($id) || $instance->id !== $id)
 		{
 			$instance = User::getInstance($id);
 		}
