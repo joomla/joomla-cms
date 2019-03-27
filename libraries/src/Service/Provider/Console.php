@@ -82,7 +82,7 @@ class Console implements ServiceProviderInterface
 	 *
 	 * @return array
 	 *
-	 * @since version
+	 * @since 4.0
 	 */
 	protected function getAvailableCommandNames(): array
 	{
@@ -110,7 +110,7 @@ class Console implements ServiceProviderInterface
 	 *
 	 * @return void
 	 *
-	 * @since version
+	 * @since 4.0
 	 */
 	protected function registerAvailableCommands(Container $container)
 	{

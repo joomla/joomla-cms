@@ -91,9 +91,9 @@ class CheckJoomlaUpdatesCommand extends AbstractCommand
 	 *
 	 * @param   null  $info  stores update Information
 	 *
-	 * @since 4.0
-	 *
 	 * @return void
+	 *
+	 * @since 4.0
 	 */
 	public function setUpdateInfo($info = null)
 	{
