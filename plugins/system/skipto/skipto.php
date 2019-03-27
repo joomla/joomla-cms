@@ -23,13 +23,13 @@ class PlgSystemSkipto extends CMSPlugin
 	/**
 	 * Application object.
 	 *
-	 * @var    JApplicationCms
+	 * @var    \Joomla\CMS\Application\CMSApplication
 	 * @since  4.0.0
 	 */
 	protected $app;
 
 	/**
-	 * Add the css and javascript for the skipto navigation menu.
+	 * Add the CSS and JavaScript for the skipto navigation menu.
 	 *
 	 * @return  void
 	 *
@@ -50,23 +50,23 @@ class PlgSystemSkipto extends CMSPlugin
 		// Get the document object.
 		$document = $this->app->getDocument();
 
-		// Add strings for translations in Javascript.
+		// Add strings for translations in JavaScript.
 		$document->addScriptOptions(
 			'skipto-settings',
-				[
-					'settings' => [
-						'skipTo' => [
-							'buttonDivRole'		=> 'navigation',
-							'buttonDivLabel'	=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
-							'buttonLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-							'buttonDivTitle' 	=> '',
-							'menuLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
-							'landmarksLabel'	=> Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
-							'headingsLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
-							'contentLabel'		=> Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
-						]
+			[
+				'settings' => [
+					'skipTo' => [
+						'buttonDivRole'  => 'navigation',
+						'buttonDivLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_KEYBOARD'),
+						'buttonLabel'    => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+						'buttonDivTitle' => '',
+						'menuLabel'      => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO_AND_PAGE_OUTLINE'),
+						'landmarksLabel' => Text::_('PLG_SYSTEM_SKIPTO_SKIP_TO'),
+						'headingsLabel'	 => Text::_('PLG_SYSTEM_SKIPTO_PAGE_OUTLINE'),
+						'contentLabel'   => Text::_('PLG_SYSTEM_SKIPTO_CONTENT'),
 					]
 				]
+			]
 		);
 
 		HTMLHelper::_('script', 'vendor/skipto/dropMenu.js', ['version' => 'auto', 'relative' => true], ['defer' => true]);
@@ -76,6 +76,7 @@ class PlgSystemSkipto extends CMSPlugin
 		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
 			window.SkipToConfig = Joomla.getOptions('skipto-settings');
 			window.skipToMenuInit();
-		});");
+		});"
+		);
 	}
 }
