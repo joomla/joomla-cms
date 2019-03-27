@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -64,7 +64,6 @@ if ($displayData['active'])
 	}
 
 	$class = 'active';
-	$title = 'title="' . $item->text . '"';
 	$onClick = 'document.adminForm.' . $item->prefix . 'limitstart.value=' . ($item->base > 0 ? $item->base : '0') . '; Joomla.submitform();return false;';
 }
 else
@@ -74,7 +73,7 @@ else
 ?>
 <?php if ($displayData['active']) : ?>
 	<li class="<?php echo $class; ?> page-link">
-		<a <?php echo $title; ?> aria-label="<?php echo $aria; ?>" href="#" onclick="<?php echo $onClick; ?>">
+		<a aria-label="<?php echo $aria; ?>" href="#" onclick="<?php echo $onClick; ?>">
 			<?php echo $display; ?>
 		</a>
 	</li>

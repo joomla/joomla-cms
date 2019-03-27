@@ -2,13 +2,15 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Form\FormField;
 
 /**
  * Form Field class for the Joomla Platform.
@@ -17,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  3.2
  */
-class MeterField extends \JFormField
+class MeterField extends FormField
 {
 	/**
 	 * The form field type.

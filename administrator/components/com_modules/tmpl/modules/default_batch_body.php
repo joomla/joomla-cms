@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -41,24 +41,18 @@ HTMLHelper::_('webcomponent', 'system/fields/joomla-field-fancy-select.min.js', 
 <div class="container">
 	<div class="row">
 		<?php if ($clientId != 1) : ?>
-            <div class="form-group col-md-6">
-                <div class="controls">
+			<div class="form-group col-md-6">
+				<div class="controls">
 					<?php echo LayoutHelper::render('joomla.html.batch.language', array()); ?>
-                </div>
-            </div>
-		<?php elseif ($clientId == 1 && ModuleHelper::isAdminMultilang()) : ?>
-            <div class="form-group col-md-6">
-                <div class="controls">
-					<?php echo LayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
-                </div>
-            </div>
-		<?php endif; ?>
-
-        <div class="form-group col-md-6">
-			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+				</div>
 			</div>
-		</div>
+		<?php elseif ($clientId == 1 && ModuleHelper::isAdminMultilang()) : ?>
+			<div class="form-group col-md-6">
+				<div class="controls">
+					<?php echo LayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
+				</div>
+			</div>
+		<?php endif; ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>

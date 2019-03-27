@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,6 +16,8 @@ use Joomla\CMS\Application\ApiApplication;
 use Joomla\CMS\Application\ConsoleApplication;
 use Joomla\CMS\Application\ExtensionNamespaceMapper;
 use Joomla\CMS\Application\SiteApplication;
+use Joomla\CMS\Console\Loader\WritableContainerLoader;
+use Joomla\CMS\Console\Loader\WritableLoaderInterface;
 use Joomla\CMS\Console\CheckJoomlaUpdatesCommand;
 use Joomla\CMS\Console\CheckUpdatesCommand;
 use Joomla\CMS\Console\CleanCacheCommand;
@@ -32,8 +34,8 @@ use Joomla\CMS\Console\SiteDownCommand;
 use Joomla\CMS\Console\SiteUpCommand;
 use Joomla\CMS\Console\UpdateCoreCommand;
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\UserFactoryInterface;
 use Joomla\Console\Application as BaseConsoleApplication;
-use Joomla\Console\Loader\ContainerLoader;
 use Joomla\Console\Loader\LoaderInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
@@ -79,6 +81,7 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($container->get(DispatcherInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
@@ -101,6 +104,7 @@ class Application implements ServiceProviderInterface
 					$app->setDispatcher($container->get(DispatcherInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
@@ -125,18 +129,20 @@ class Application implements ServiceProviderInterface
 					$app->setCommandLoader($container->get(LoaderInterface::class));
 					$app->setLogger($container->get(LoggerInterface::class));
 					$app->setSession($container->get(SessionInterface::class));
+					$app->setUserFactory($container->get(UserFactoryInterface::class));
 
 					return $app;
 				},
 				true
 			);
 
-		$container->alias(ContainerLoader::class, LoaderInterface::class)
+		$container->alias(WritableContainerLoader::class, LoaderInterface::class)
+			->alias(WritableLoaderInterface::class, LoaderInterface::class)
 			->share(
 				LoaderInterface::class,
 				function (Container $container)
 				{
-					return new ContainerLoader($container, $this->getCommandMapping());
+					return new WritableContainerLoader($container, $this->getCommandMapping());
 				},
 				true
 			);

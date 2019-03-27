@@ -3,13 +3,15 @@
  * @package     Joomla.Plugin
  * @subpackage  Twofactorauth.totp
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  *
  * This file contains the functions used by the com_postinstall code to deliver
  * the necessary post-installation messages concerning the activation of the
  * two-factor authentication code.
  */
+
+use Joomla\CMS\Factory;
 
 /**
  * Checks if the plugin is enabled. If not it returns true, meaning that the
@@ -21,7 +23,7 @@
  */
 function twofactorauth_postinstall_condition()
 {
-	$db = JFactory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+	$db = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
 
 	$query = $db->getQuery(true)
 		->select('*')
@@ -47,7 +49,7 @@ function twofactorauth_postinstall_condition()
 function twofactorauth_postinstall_action()
 {
 	// Enable the plugin
-	$db = JFactory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
+	$db = Factory::getContainer()->get(\Joomla\Database\DatabaseInterface::class);
 
 	$query = $db->getQuery(true)
 		->update($db->quoteName('#__extensions'))
@@ -58,6 +60,6 @@ function twofactorauth_postinstall_action()
 	$db->execute();
 
 	// Redirect the user to their profile editor page
-	$url = 'index.php?option=com_users&task=user.edit&id=' . JFactory::getUser()->id;
-	JFactory::getApplication()->redirect($url);
+	$url = 'index.php?option=com_users&task=user.edit&id=' . Factory::getUser()->id;
+	Factory::getApplication()->redirect($url);
 }

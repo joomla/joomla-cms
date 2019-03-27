@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -146,9 +146,6 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new \Exception(Text::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
 		}
-
-		$this->data->tags = new TagsHelper;
-		$this->data->tags->getItemTags('com_users.user', $this->data->id);
 
 		PluginHelper::importPlugin('content');
 		$this->data->text = '';

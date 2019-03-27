@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -300,12 +300,21 @@ abstract class Factory
 	 *
 	 * @return  User object
 	 *
-	 * @see     User
-	 * @since   1.7.0
-	 * @throws  \Throwable
+	 * @see         User
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
 	 */
 	public static function getUser($id = null)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		$instance = self::getApplication()->getSession()->get('user');
 
 		// Check if we have a string as the id or if the numeric id is the current instance
@@ -389,7 +398,7 @@ abstract class Factory
 
 		if (!self::$database)
 		{
-			if (self::getContainer()->exists('DatabaseDriver'))
+			if (self::getContainer()->has('DatabaseDriver'))
 			{
 				self::$database = self::getContainer()->get('DatabaseDriver');
 			}
@@ -554,7 +563,8 @@ abstract class Factory
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Session)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\Toolbar)
 			->registerServiceProvider(new \Joomla\CMS\Service\Provider\WebAssetRegistry)
-			->registerServiceProvider(new \Joomla\CMS\Service\Provider\ApiRouter);
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\ApiRouter)
+			->registerServiceProvider(new \Joomla\CMS\Service\Provider\User);
 
 		return $container;
 	}

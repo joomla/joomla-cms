@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -27,7 +27,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 * The JsonApi Document object.
 	 *
 	 * @var    Document
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $document;
 
@@ -36,7 +36,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @param   array  $options  Associative array of options
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __construct($options = array())
 	{
@@ -63,7 +63,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @return  $this
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setData(ElementInterface $element)
 	{
@@ -79,7 +79,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @return   $this
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setErrors($errors)
 	{
@@ -95,7 +95,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @return   $this
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function setJsonapi($jsonapi)
 	{
@@ -109,7 +109,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function toArray()
 	{
@@ -121,7 +121,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @return string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function __toString()
 	{
@@ -136,7 +136,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @return  string  The rendered data.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function render($cache = false, $params = array())
 	{
@@ -158,7 +158,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @return array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function jsonSerialize()
 	{
@@ -173,7 +173,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @return  $this
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function addLink($key, $value)
 	{
@@ -190,7 +190,7 @@ class JsonapiDocument extends JsonDocument implements \JsonSerializable
 	 *
 	 * @return  $this
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function addMeta($key, $value)
 	{
