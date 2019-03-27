@@ -45,28 +45,9 @@ class PlgSystemSkipto extends CMSPlugin
 	 */
 	public function onBeforeCompileHead()
 	{
-		$section         = (int) $this->params->get('section_skipto', 2);
-		$current_section = 0;
+		$section = $this->params->get('section_skipto', 2);
 
-		try
-		{
-			$app = $this->app;
-
-			if ($this->app->isClient('administrator'))
-			{
-				$current_section = 2;
-			}
-			elseif ($this->app->isClient('site'))
-			{
-				$current_section = 1;
-			}
-		}
-		catch (Exception $exc)
-		{
-			$current_section = 0;
-		}
-
-		if (!($current_section && $section))
+		if ($section !== 3 && ($this->app->isClient('administrator') && $section !== 2 || $this->app->isClient('site') && $section !== 1))
 		{
 			return;
 		}
