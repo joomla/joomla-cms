@@ -104,3 +104,18 @@ legend {
 [aria-grabbed='true'] {
   box-shadow: 0 0 2px 1px theme-color("primary");
 }
+
+@media screen and (max-width: 450px) {
+  .control-group {
+    >.control-label {
+      width: 100%;
+      margin-left: unset;
+      margin-right: unset;
+    }
+    >.controls {
+      width: 100%;
+      margin-left: unset;
+      margin-right: unset;
+    }
+  }
+}
