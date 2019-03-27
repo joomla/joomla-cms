@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\Factory\ApiMVCFactory;
  * API Implementation for our dispatcher. It loads a component's administrator language files, and calls the API
  * Controller so that components that haven't implemented web services can add their own handling.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class ApiDispatcher implements DispatcherInterface
 {
@@ -36,7 +36,7 @@ final class ApiDispatcher implements DispatcherInterface
 	 *
 	 * @var    string
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $namespace;
 
@@ -45,7 +45,7 @@ final class ApiDispatcher implements DispatcherInterface
 	 *
 	 * @var    CMSApplication
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -54,7 +54,7 @@ final class ApiDispatcher implements DispatcherInterface
 	 *
 	 * @var    \JInput
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $input;
 
@@ -64,7 +64,7 @@ final class ApiDispatcher implements DispatcherInterface
 	 * @param   CMSApplication  $app    The JApplication for the dispatcher
 	 * @param   \JInput         $input  JInput
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(CMSApplication $app, \JInput $input = null)
 	{
@@ -96,7 +96,7 @@ final class ApiDispatcher implements DispatcherInterface
 	/**
 	 * Load the component's administrator language
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 *
 	 * @return  void
 	 */
@@ -112,7 +112,7 @@ final class ApiDispatcher implements DispatcherInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function dispatch()
 	{
