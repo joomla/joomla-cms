@@ -195,6 +195,17 @@ abstract class QuickIconHelper
 						'group'  => 'MOD_QUICKICON_CONTENT'
 					];
 				}
+
+				if ($params->get('show_templates', '1'))
+				{
+					self::$buttons[$key][] = [
+						'amount' => self::countTemplates(),
+						'link'   => Route::_('index.php?option=com_templates&client_id=0'),
+						'text'   => Text::_('MOD_QUICKICON_TEMPLATES'),
+						'access' => array('core.admin', 'com_templates'),
+						'group'  => 'MOD_QUICKICON_TEMPLATES'
+					];
+				}
 			}
 
 			// Include buttons defined by published quickicon plugins
@@ -392,5 +403,21 @@ abstract class QuickIconHelper
 		$model = $app->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
 
 		return $model->getTotal();
+	}
+
+	/**
+	 * Method to get Templates
+	 * 
+	 * @return  integer  The amount of Templates
+	 *
+	 * @since   4.0
+	 */
+	private static function countTemplates()
+	{
+		$app = Factory::getApplication();
+
+		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel('Templates', 'Administrator', ['ignore_request' => true]);
+		
+		return count($model->getItems());
 	}
 }
