@@ -115,8 +115,6 @@ class PrivacyModelRequest extends JModelAdmin
 			return false;
 		}
 
-		$app = JFactory::getApplication();
-
 		/*
 		 * If there is an associated user account, we will attempt to send this email in the user's preferred language.
 		 * Because of this, it is expected that Language::_() is directly called and that the Text class is NOT used
@@ -171,12 +169,15 @@ class PrivacyModelRequest extends JModelAdmin
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try
 		{
-			// TODO - These URLs should be JRoute'd once the cross-app routing PR is available to this branch
+			$app = JFactory::getApplication();
+
+			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+
 			$substitutions = array(
 				'[SITENAME]' => $app->get('sitename'),
 				'[URL]'      => JUri::root(),
-				'[TOKENURL]' => 'TODO',
-				'[FORMURL]'  => 'TODO',
+				'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode),
+				'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode),
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
 			);

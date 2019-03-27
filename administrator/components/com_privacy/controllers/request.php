@@ -124,6 +124,47 @@ class PrivacyControllerRequest extends JControllerForm
 	}
 
 	/**
+	 * Method to email the data export for a request.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function emailexport()
+	{
+		/** @var PrivacyModelExport $model */
+		$model = $this->getModel('Export');
+
+		$recordId = $this->input->getUint('id');
+
+		if (!$model->emailDataExport($recordId))
+		{
+			// Redirect back to the edit screen.
+			$this->setError(\JText::sprintf('COM_PRIVACY_ERROR_EXPORT_EMAIL_FAILED', $model->getError()));
+			$this->setMessage($this->getError(), 'error');
+		}
+		else
+		{
+			$this->setMessage(\JText::_('COM_PRIVACY_EXPORT_EMAILED'));
+		}
+
+		$url = 'index.php?option=com_privacy&view=requests';
+
+		// Check if there is a return value
+		$return = $this->input->get('return', null, 'base64');
+
+		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		{
+			$url = base64_decode($return);
+		}
+
+		// Redirect to the list screen.
+		$this->setRedirect(\JRoute::_($url, false));
+
+		return true;
+	}
+
+	/**
 	 * Method to invalidate a request.
 	 *
 	 * @param   string  $key     The name of the primary key of the URL variable.
