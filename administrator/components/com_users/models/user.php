@@ -216,7 +216,7 @@ class UsersModelUser extends JModelAdmin
 			$data['sitename']   = $app->get('sitename');
 			$data['siteurl']    = JUri::root();
 			$data['activation'] = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
-			
+
 			// Set the link to activate the user account.
 			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
