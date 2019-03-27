@@ -308,7 +308,7 @@ class UsersModelProfile extends JModelForm
 		if ($user->email != $data['email'] && $userId != 0 && !empty($user->activation))
 		{
 			$app = JFactory::getApplication();
-			
+
 			// Compile the notification mail values.
 			$data = $user->getProperties();
 			$data['fromname']   = $app->get('fromname');
@@ -316,7 +316,7 @@ class UsersModelProfile extends JModelForm
 			$data['sitename']   = $app->get('sitename');
 			$data['siteurl']    = JUri::root();
 			$data['activation'] = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
-			
+
 			// Set the link to activate the user account.
 			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 			$data['activate'] = JRoute::link('site', 'index.php?option=com_users&task=registration.activate&token=' . $data['activation'], false, $linkMode);
@@ -333,7 +333,7 @@ class UsersModelProfile extends JModelForm
 			if (JComponentHelper::getParams('com_users')->get('useractivation') === 1)
 			{
 				// Wait we have useractivation use the correct string than
-				$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ADMIN_ACTIVATION_CHANGED_MAIL_BODY';
+				$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_CHANGED_MAIL_BODY';
 			}
 
 			$emailBody = JText::sprintf(
