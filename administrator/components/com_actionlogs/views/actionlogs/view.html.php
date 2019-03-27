@@ -85,6 +85,9 @@ class ActionlogsViewActionlogs extends JViewLegacy
 
 		$this->addToolBar();
 
+		// Load all actionlog plugins language files
+		ActionlogsHelper::loadActionLogPluginsLanguage();
+
 		parent::display($tpl);
 	}
 

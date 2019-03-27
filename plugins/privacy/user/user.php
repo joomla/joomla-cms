@@ -29,6 +29,14 @@ class PlgPrivacyUser extends PrivacyPlugin
 	protected $db;
 
 	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
 	 * Performs validation to determine if the data associated with a remove information request can be processed
 	 *
 	 * This event will not allow a super user account to be removed

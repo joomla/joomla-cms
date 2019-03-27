@@ -189,4 +189,74 @@ class ActionlogsHelper
 		// Return default link to avoid having to implement getContentTypeLink in most of our components
 		return 'index.php?option=' . $component . '&task=' . $contentType . '.edit&' . $urlVar . '=' . $id;
 	}
+
+	/**
+	 * Load both enabled and disabled actionlog plugins language file. It is used to make sure actions log is
+	 * displayed properly instead of only language items displayed when a plugin is disabled
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function loadActionLogPluginsLanguage()
+	{
+		$lang = JFactory::getLanguage();
+		$db   = JFactory::getDbo();
+
+		// Get all (both enabled and disabled) actionlog plugins
+		$query = $db->getQuery(true)
+			->select(
+				$db->quoteName(
+					array(
+						'folder',
+						'element',
+						'params',
+						'extension_id'
+					),
+					array(
+						'type',
+						'name',
+						'params',
+						'id'
+					)
+				)
+			)
+			->from('#__extensions')
+			->where('type = ' . $db->quote('plugin'))
+			->where('folder = ' . $db->quote('actionlog'))
+			->where('state IN (0,1)')
+			->order('ordering');
+		$db->setQuery($query);
+
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			$rows = array();
+		}
+
+		if (empty($rows))
+		{
+			return;
+		}
+
+		foreach ($rows as $row)
+		{
+			$name      = $row->name;
+			$type      = $row->type;
+			$extension = 'Plg_' . $type . '_' . $name;
+			$extension = strtolower($extension);
+
+			// If language already loaded, don't load it again.
+			if ($lang->getPaths($extension))
+			{
+				continue;
+			}
+
+			$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load($extension, JPATH_PLUGINS . '/' . $type . '/' . $name, null, false, true);
+		}
+	}
 }
