@@ -174,6 +174,44 @@ class PrivacyModelRequest extends JModelAdmin
 				return false;
 			}
 
+			/** @var PrivacyTableRequest $table */
+			$table = $this->getTable();
+
+			if (!$table->load($this->getState($this->getName() . '.id')))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Log the request's creation
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+			$message = array(
+				'action'       => 'request-created',
+				'requesttype'  => $table->request_type,
+				'subjectemail' => $table->email,
+				'id'           => $table->id,
+				'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
+			);
+
+			$messageKey = 'COM_PRIVACY_ACTION_LOG_ANONYMOUS_CREATED_REQUEST';
+			$userId     = null;
+
+			if (!$user->guest)
+			{
+				$messageKey = 'COM_PRIVACY_ACTION_LOG_USER_CREATED_REQUEST';
+				$userId     = $user->id;
+
+				$message['userid']      = $user->id;
+				$message['username']    = $user->username;
+				$message['accountlink'] = 'index.php?option=com_users&task=user.edit&id=' . $user->id;
+			}
+
+			/** @var ActionlogsModelActionlog $model */
+			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+			$model->addLogsToDb(array($message), $messageKey, 'com_privacy.request', $userId);
+
 			// The email sent and the record is saved, everything is good to go from here
 			return true;
 		}
