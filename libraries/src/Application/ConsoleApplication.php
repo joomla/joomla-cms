@@ -13,12 +13,9 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Console;
 use Joomla\CMS\Extension\ExtensionManagerTrait;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Filesystem\Folder;
-use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
 use Joomla\Console\Application;
-use Joomla\Database\DatabaseInterface;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
@@ -61,7 +58,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @var    integer
 	 * @since  4.0
 	 */
-	protected $clientId = null;
+	protected $clientId = 4;
 
 	/**
 	 * Class constructor.
