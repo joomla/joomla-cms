@@ -49,6 +49,18 @@ class ExtensionInstallCommand extends AbstractCommand
 	private $ioStyle;
 
 	/**
+	 * Exit Code For installation failure
+	 * @since
+	 */
+	const INSTALLATION_FAILED = 1;
+
+	/**
+	 * Exit Code For installation Success
+	 * @since
+	 */
+	const INSTALLATION_SUCCESSFUL = 0;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @param   InputInterface   $input   Console Input
@@ -84,11 +96,14 @@ class ExtensionInstallCommand extends AbstractCommand
 
 		$this->setDescription('Installs an extension from a URL or from a Path.');
 
-		$help = "The <info>%command.name%</info> is used for installing extensions \n 
-					--path=<path_to_extension> OR --url=<url_to_download_extension> \n 
-					<info>php %command.full_name%</info>";
-
-		$this->setHelp($help);
+		$this->setHelp(<<<EOF
+		The <info>%command.name%</info> is used for installing extensions
+		
+		--path=<path_to_extension> OR --url=<url_to_download_extension>
+		
+		<info>php %command.full_name%</info>
+EOF
+		);
 	}
 
 	/**
@@ -153,7 +168,7 @@ class ExtensionInstallCommand extends AbstractCommand
 			return false;
 		}
 
-		$jInstaller = Installer::getInstance();
+		$jInstaller = new Installer;
 		$result     = $jInstaller->install($package['extractdir']);
 		InstallerHelper::cleanupInstall($path, $package['extractdir']);
 
@@ -184,10 +199,14 @@ class ExtensionInstallCommand extends AbstractCommand
 			if (!$result)
 			{
 				$this->ioStyle->error('Unable to install extension');
+
+				return self::INSTALLATION_FAILED;
 			}
 			else
 			{
 				$this->ioStyle->success('Extension installed successfully.');
+
+				return self::INSTALLATION_SUCCESSFUL;
 			}
 		}
 		elseif ($from === 'url')
@@ -197,17 +216,21 @@ class ExtensionInstallCommand extends AbstractCommand
 			if (!$result)
 			{
 				$this->ioStyle->error('Unable to install extension');
+
+				return self::INSTALLATION_FAILED;
 			}
 			else
 			{
 				$this->ioStyle->success('Extension installed successfully.');
+
+				return self::INSTALLATION_SUCCESSFUL;
 			}
 		}
 		else
 		{
 			$this->ioStyle->error('Invalid argument supplied for command.');
-		}
 
-		return 0;
+			return self::INSTALLATION_FAILED;
+		}
 	}
 }
