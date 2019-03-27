@@ -289,15 +289,14 @@ class PlgContentPagebreak extends CMSPlugin
 	 */
 	protected function _createToc(&$row, &$matches, &$page)
 	{
-		$heading = $row->title ?? Text::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
-		$input = Factory::getApplication()->input;
-		$limitstart = $input->getUInt('limitstart', 0);
-		$showall = $input->getInt('showall', 0);
+		$heading     = $row->title ?? Text::_('PLG_CONTENT_PAGEBREAK_NO_TITLE');
+		$input       = Factory::getApplication()->input;
+		$limitstart  = $input->getUInt('limitstart', 0);
+		$showall     = $input->getInt('showall', 0);
+		$headingtext = '';
+		$list        = array();
 
-		// TOC header.
-		$row->toc = '<div class="card float-right article-index"><div class="card-body">';
-
-		if ($this->params->get('article_index') == 1)
+		if ($this->params->get('article_index', 1) == 1)
 		{
 			$headingtext = Text::_('PLG_CONTENT_PAGEBREAK_ARTICLE_INDEX');
 
@@ -305,27 +304,19 @@ class PlgContentPagebreak extends CMSPlugin
 			{
 				$headingtext = htmlspecialchars($this->params->get('article_index_text'), ENT_QUOTES, 'UTF-8');
 			}
-
-			$row->toc .= '<h3>' . $headingtext . '</h3>';
 		}
 
 		// TOC first Page link.
-		$liClass = ($limitstart === 0 && $showall === 0) ? 'nav-item toclink active' : 'toclink';
-		$class = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
-		$row->toc .= '<ul class="nav flex-column">
-		<li class="' . $liClass . '">
-			<a href="'
-			. Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=')
-			. '" class="' . $class . '">' . $heading . '</a>
-		</li>
-		';
+		$list[1]          = new stdClass;
+		$list[1]->liClass = ($limitstart === 0 && $showall === 0) ? 'nav-item toclink active' : 'toclink';
+		$list[1]->class   = ($limitstart === 0 && $showall === 0) ? 'toclink active' : 'toclink';
+		$list[1]->link    = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=');
+		$list[1]->title   = $heading;
 
 		$i = 2;
 
 		foreach ($matches as $bot)
 		{
-			$link = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($i - 1));
-
 			if (@$bot[0])
 			{
 				$attrs2 = Utility::parseAttributes($bot[0]);
@@ -348,22 +339,28 @@ class PlgContentPagebreak extends CMSPlugin
 				$title = Text::sprintf('PLG_CONTENT_PAGEBREAK_PAGE_NUM', $i);
 			}
 
-			$liClass   = ($limitstart === $i - 1) ? ' class="nav-item active"' : '';
-			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
-			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">' . $title . '</a></li>';
+			$list[$i]          = new stdClass;
+			$list[$i]->link    = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=&limitstart=' . ($i - 1));
+			$list[$i]->title   = $title;
+			$list[$i]->liClass = ($limitstart === $i - 1) ? 'nav-item active' : '';
+			$list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
+
 			$i++;
 		}
 
 		if ($this->params->get('showall'))
 		{
-			$link      = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
-			$liClass   = ($limitstart === $i - 1) ? ' class="nav-item active"' : '';
-			$class     = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
-			$row->toc .= '<li' . $liClass . '><a href="' . $link . '" class="' . $class . '">'
-				. Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES') . '</a></li>';
+			$list[$i]          = new stdClass;
+			$list[$i]->link    = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&showall=1&limitstart=');
+			$list[$i]->liClass = ($limitstart === $i - 1) ? ' class="nav-item active"' : '';
+			$list[$i]->class   = ($limitstart === $i - 1) ? 'toclink active' : 'toclink';
+			$list[$i]->title   = Text::_('PLG_CONTENT_PAGEBREAK_ALL_PAGES');
 		}
 
-		$row->toc .= '</ul></div></div>';
+		$path = JPluginHelper::getLayoutPath('content', 'pagebreak', 'toc');
+		ob_start();
+		include $path;
+		$row->toc = ob_get_clean();
 	}
 
 	/**

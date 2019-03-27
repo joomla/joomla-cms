@@ -331,12 +331,19 @@ class FormController extends BaseController implements FormFactoryAwareInterface
 		$this->releaseEditId($context, $recordId);
 		Factory::getApplication()->setUserState($context . '.data', null);
 
-		$this->setRedirect(
-			Route::_(
-				'index.php?option=' . $this->option . '&view=' . $this->view_list
-				. $this->getRedirectToListAppend(), false
-			)
-		);
+		$url = 'index.php?option=' . $this->option . '&view=' . $this->view_list
+			. $this->getRedirectToListAppend();
+
+		// Check if there is a return value
+		$return = $this->input->get('return', null, 'base64');
+
+		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		{
+			$url = base64_decode($return);
+		}
+
+		// Redirect to the list screen.
+		$this->setRedirect(Route::_($url, false));
 
 		return true;
 	}
