@@ -131,6 +131,12 @@ class CoreInstallCommand extends AbstractCommand
 	const INSTALLATION_DIRECTORY_NOT_FOUND = 5;
 
 	/**
+	 * Return code when required options are missing
+	 * @since 4.0
+	 */
+	const INSTALLATION_REQUIRED_OPTION_MISSING = 6;
+
+	/**
 	 * Configures the IO
 	 *
 	 * @param   InputInterface   $input   Console Input
@@ -320,7 +326,8 @@ class CoreInstallCommand extends AbstractCommand
 			$diff = array_diff($requiredKeys, $providedKeys);
 			$remainingKeys = implode(', ', $diff);
 			$this->ioStyle->error("These options are required in your file: [$remainingKeys]");
-			exit;
+
+			return;
 		}
 
 		array_walk(
