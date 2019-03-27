@@ -21,14 +21,6 @@ use Joomla\CMS\Plugin\CMSPlugin;
 class PlgSystemSkipto extends CMSPlugin
 {
 	/**
-	 * If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  4.0.0
-	 */
-	protected $autoloadLanguage = true;
-
-	/**
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
@@ -52,7 +44,7 @@ class PlgSystemSkipto extends CMSPlugin
 			return;
 		}
 
-		// TODO remove this line when bug is fixed
+		// Load language file.
 		$this->loadLanguage();
 
 		// Get the document object.
