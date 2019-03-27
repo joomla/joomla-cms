@@ -749,9 +749,9 @@ class CoreInstallCommand extends AbstractCommand
 			$model = new ConfigurationModel;
 
 			$this->progressBar->setMessage("Writing configuration ...");
-			Factory::getSession()->set('setup.options', $options);
+			$this->getApplication()->getSession()->set('setup.options', $options);
 
-			Factory::getSession()->set('setup.options', $options);
+			$this->getApplication()->getSession()->set('setup.options', $options);
 			$completed = $model->setup($options);
 			$this->progressBar->advance();
 
