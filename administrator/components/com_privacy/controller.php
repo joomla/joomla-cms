@@ -27,7 +27,7 @@ class PrivacyController extends JControllerLegacy
 	 * @var    string
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $default_view = 'requests';
+	protected $default_view = 'dashboard';
 
 	/**
 	 * Method to display a view.
@@ -56,6 +56,14 @@ class PrivacyController extends JControllerLegacy
 		{
 			$model = $this->getModel($vName);
 			$view->setModel($model, true);
+
+			// For the dashboard view, we need to also push the requests model into the view
+			if ($vName === 'dashboard')
+			{
+				$requestsModel = $this->getModel('Requests');
+
+				$view->setModel($requestsModel, false);
+			}
 
 			// For the request view, we need to also push the action logs model into the view
 			if ($vName === 'request')
@@ -113,5 +121,5 @@ class PrivacyController extends JControllerLegacy
 		echo new JResponseJson(array('number_urgent_requests' => $numberUrgentRequests));
 
 		$app->close();
-	}	
+	}
 }

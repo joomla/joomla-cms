@@ -10,45 +10,43 @@
 defined('_JEXEC') or die;
 
 /**
- * Consents view class
+ * Dashboard view class
  *
  * @since  __DEPLOY_VERSION__
  */
-class PrivacyViewConsents extends JViewLegacy
+class PrivacyViewDashboard extends JViewLegacy
 {
 	/**
-	 * The active search tools filters
+	 * Number of urgent requests based on the component configuration
 	 *
-	 * @var    array
+	 * @var    integer
 	 * @since  __DEPLOY_VERSION__
-	 * @note   Must be public to be accessed from the search tools layout
 	 */
-	public $activeFilters;
+	protected $numberOfUrgentRequests;
 
 	/**
-	 * Form instance containing the search tools filter form
-	 *
-	 * @var    JForm
-	 * @since  __DEPLOY_VERSION__
-	 * @note   Must be public to be accessed from the search tools layout
-	 */
-	public $filterForm;
-
-	/**
-	 * The items to display
+	 * Information about whether a privacy policy is published
 	 *
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $items;
+	protected $privacyPolicyInfo;
 
 	/**
-	 * The pagination object
+	 * The request counts
 	 *
-	 * @var    JPagination
+	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $pagination;
+	protected $requestCounts;
+
+	/**
+	 * Information about whether a menu item for the request form is published
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $requestFormPublished;
 
 	/**
 	 * The HTML markup for the sidebar
@@ -57,14 +55,6 @@ class PrivacyViewConsents extends JViewLegacy
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $sidebar;
-
-	/**
-	 * The state information
-	 *
-	 * @var    JObject
-	 * @since  __DEPLOY_VERSION__
-	 */
-	protected $state;
 
 	/**
 	 * Execute and display a template script.
@@ -80,17 +70,22 @@ class PrivacyViewConsents extends JViewLegacy
 	public function display($tpl = null)
 	{
 		// Initialise variables
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		$this->privacyPolicyInfo    = $this->get('PrivacyPolicyInfo');
+		$this->requestCounts        = $this->get('RequestCounts');
+		$this->requestFormPublished = $this->get('RequestFormPublished');
+
+		/** @var PrivacyModelRequests $requestsModel */
+		$requestsModel = $this->getModel('requests');
+
+		$this->numberOfUrgentRequests = $requestsModel->getNumberUrgentRequests();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new Exception(implode("\n", $errors), 500);
 		}
+
+		$this->urgentRequestDays = (int) JComponentHelper::getParams('com_privacy')->get('notify', 14);
 
 		$this->addToolbar();
 
@@ -108,10 +103,10 @@ class PrivacyViewConsents extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CONSENTS'), 'dashboard');
+		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_DASHBOARD'), 'dashboard');
 
 		JToolbarHelper::preferences('com_privacy');
 
-		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CONSENTS');
+		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_DASHBOARD');
 	}
 }
