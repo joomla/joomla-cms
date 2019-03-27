@@ -316,7 +316,7 @@ class CoreInstallCommand extends AbstractCommand
 
 		$options = $this->registry->loadFile($file, $ext)->toArray();
 		$optionalKeys = ['language', 'helpurl', 'db_old', 'db_prefix'];
-		$requiredKeys = array_diff(array_keys($this->getDummyOptions()), $optionalKeys);
+		$requiredKeys = array_diff(array_keys($this->getDefaultOptions()), $optionalKeys);
 		$providedKeys = array_diff(array_keys($options), $optionalKeys);
 		sort($requiredKeys);
 		sort($providedKeys);
@@ -540,13 +540,13 @@ class CoreInstallCommand extends AbstractCommand
 	}
 
 	/**
-	 * Defines dummy options
+	 * Defines default options
 	 *
 	 * @return array
 	 *
 	 * @since 4.0
 	 */
-	public function getDummyOptions()
+	public function getDefaultOptions()
 	{
 		return [
 			'language' => 'en-GB',
@@ -576,7 +576,7 @@ class CoreInstallCommand extends AbstractCommand
 	{
 		$data = $this->getOptionsTemplate();
 
-		$options = $this->getDummyOptions();
+		$options = $this->getDefaultOptions();
 
 		foreach ($data as $key => $value)
 		{
