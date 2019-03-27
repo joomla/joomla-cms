@@ -73,6 +73,15 @@ class Console implements ServiceProviderInterface
 			true
 		);
 
+		$container->share(
+			UpdateCoreCommand::class,
+			function (Container $container)
+			{
+				return new UpdateCoreCommand($container->get('db'));
+			},
+			true
+		);
+
 		$this->registerAvailableCommands($container);
 	}
 
@@ -90,7 +99,6 @@ class Console implements ServiceProviderInterface
 			CleanCacheCommand::class,
 			CheckUpdatesCommand::class,
 			RemoveOldFilesCommand::class,
-			UpdateCoreCommand::class,
 			ExtensionsListCommand::class,
 			ExtensionInstallCommand::class,
 			ExtensionRemoveCommand::class,

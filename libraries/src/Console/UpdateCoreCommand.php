@@ -16,6 +16,7 @@ use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installer\InstallerHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\DatabaseInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -91,6 +92,25 @@ class UpdateCoreCommand extends AbstractCommand
 	const ERR_CHECKS_FAILED = 1;
 
 	/**
+	 * @var DatabaseInterface
+	 * @since 4.0
+	 */
+	private $db;
+
+	/**
+	 * UpdateCoreCommand constructor.
+	 *
+	 * @param   DatabaseInterface $db  Database Instance
+	 *
+	 * @since 4.0
+	 */
+	public function __construct(DatabaseInterface $db)
+	{
+		$this->db = $db;
+		parent::__construct();
+	}
+
+	/**
 	 * Configures the IO
 	 *
 	 * @param   InputInterface   $input   Console Input
@@ -131,13 +151,12 @@ class UpdateCoreCommand extends AbstractCommand
 			$model->purge();
 		}
 
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true);
+		$query = $this->db->getQuery(true);
 		$query->select('version');
 		$query->from('#__updates');
 		$query->where(['element = "joomla"']);
-		$db->setQuery((string) $query);
-		$update = $db->loadObjectList();
+		$this->db->setQuery((string) $query);
+		$update = $this->db->loadObjectList();
 		$update = count($update) > 0 ? $update : null;
 
 		if ($update)
