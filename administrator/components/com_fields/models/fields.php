@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
@@ -187,7 +187,13 @@ class FieldsModelFields extends JModelList
 			if ($parts)
 			{
 				// Get the category
-				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]) . '.' . $parts[1]);
+
+				// If there is no category for the component and section, so check the component only
+				if (!$cat)
+				{
+					$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				}
 
 				if ($cat)
 				{

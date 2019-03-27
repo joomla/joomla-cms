@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('list');
 /**
  * Supports an HTML select list of folder
  *
- * @since  11.1
+ * @since  1.7.0
  */
 class JFormFieldFolderList extends JFormFieldList
 {
@@ -25,7 +25,7 @@ class JFormFieldFolderList extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'FolderList';
 
@@ -178,7 +178,7 @@ class JFormFieldFolderList extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function getOptions()
 	{
