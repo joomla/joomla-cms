@@ -95,7 +95,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (65, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
 (66, 1, 107, 108, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}'),
 (67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
-(59, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}');
+(68, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}');
 
 -- --------------------------------------------------------
 
