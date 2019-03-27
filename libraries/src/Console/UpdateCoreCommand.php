@@ -124,7 +124,6 @@ class UpdateCoreCommand extends AbstractCommand
 	 */
 	public function runChecks($purge = false)
 	{
-		unset($this->updateModel);
 		$model = $this->getUpdateModel();
 
 		if ($purge)
