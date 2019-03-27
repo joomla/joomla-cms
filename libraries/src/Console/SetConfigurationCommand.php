@@ -11,6 +11,7 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Console\Command\AbstractCommand;
@@ -323,17 +324,7 @@ class SetConfigurationCommand extends AbstractCommand
 			$useFTP = false;
 		}
 
-		if ($canWrite)
-		{
-			file_put_contents($path, $buffer);
-		}
-		else
-		{
-			// If we cannot write the configuration.php, setup fails!
-			return false;
-		}
-
-		return true;
+		return $canWrite ? File::write($path, $buffer) : false;
 	}
 
 
