@@ -1215,7 +1215,7 @@ class Form
 
 			if ($fieldObj)
 			{
-				$valid = $fieldObj->validate($input->get($key), $group, $input);
+				$valid = $fieldObj->validate($input->get($key), $attrGroup, $input);
 
 				// Check for an error.
 				if ($valid instanceof \Exception)
