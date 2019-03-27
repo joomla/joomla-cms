@@ -197,24 +197,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 */
 	protected function getDefaultCommands(): array
 	{
-		return array_merge(
-			parent::getDefaultCommands(),
-			[
-				new Console\CleanCacheCommand,
-				new Console\CheckUpdatesCommand,
-				new Console\RemoveOldFilesCommand,
-				new Console\UpdateCoreCommand,
-				new Console\ExtensionsListCommand,
-				new Console\ExtensionInstallCommand,
-				new Console\ExtensionRemoveCommand,
-				new Console\CheckJoomlaUpdatesCommand,
-				new Console\GetConfigurationCommand,
-				new Console\SetConfigurationCommand,
-				new Console\SiteDownCommand,
-				new Console\SiteUpCommand,
-				new Console\CoreInstallCommand,
-			]
-		);
+		return parent::getDefaultCommands();
 	}
 
 	/**
