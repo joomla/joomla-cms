@@ -96,8 +96,8 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (62, 56, 31, 32, 3, 'com_content.transition.2', 'Unpublish', '{}'),
 (63, 56, 33, 34, 3, 'com_content.transition.3', 'Archive', '{}'),
 (64, 56, 35, 36, 3, 'com_content.transition.4', 'Trash', '{}'),
-(65, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
-(66, 1, 107, 108, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}'),
+(65, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{}'),
+(66, 1, 107, 108, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
 (67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
 (68, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}');
 
@@ -1604,6 +1604,8 @@ CREATE TABLE "#__privacy_consents" (
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "subjext" varchar(255) DEFAULT '' NOT NULL,
   "body" text NOT NULL,
+  "remind" smallint DEFAULT 0 NOT NULL,
+  "token" varchar(100) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id")
 );
 CREATE INDEX "#__privacy_consents_idx_user_id" ON "#__privacy_consents" ("user_id");

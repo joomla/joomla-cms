@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
@@ -161,6 +163,12 @@ class PlgPrivacyUser extends PrivacyPlugin
 			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id));
 
 		$items = $this->db->setQuery($query)->loadAssocList();
+
+		// Remove user ID columns
+		foreach (array('user_id', 'created_user_id', 'modified_user_id') as $column)
+		{
+			$items = ArrayHelper::dropColumn($items, $column);
+		}
 
 		foreach ($items as $item)
 		{

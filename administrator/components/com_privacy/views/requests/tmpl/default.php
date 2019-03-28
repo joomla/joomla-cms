@@ -79,7 +79,6 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<?php
-						$canView         = $user->authorise('core.manage', 'com_privacy');
 						$itemRequestedAt = new JDate($item->requested_at);
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
@@ -98,13 +97,9 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 								<?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $item->status); ?>
 							</td>
 							<td>
-								<?php if ($canView) : ?>
-									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_VIEW'); ?>">
-										<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
-									</a>
-								<?php else : ?>
+								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_VIEW'); ?>">
 									<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
-								<?php endif; ?>
+								</a>
 								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
 									<span class="label"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
 								<?php endif; ?>

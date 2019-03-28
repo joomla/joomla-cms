@@ -92,8 +92,8 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (62, 56, 31, 32, 3, 'com_content.transition.2', 'Unpublish', '{}'),
 (63, 56, 33, 34, 3, 'com_content.transition.3', 'Archive', '{}'),
 (64, 56, 35, 36, 3, 'com_content.transition.4', 'Trash', '{}'),
-(65, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
-(66, 1, 107, 108, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}'),
+(65, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{}'),
+(66, 1, 107, 108, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
 (67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
 (68, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}');
 
@@ -1591,6 +1591,8 @@ CREATE TABLE IF NOT EXISTS `#__privacy_consents` (
   `created` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `subject` varchar(255) NOT NULL DEFAULT '',
   `body` text NOT NULL,
+  `remind` tinyint(4) NOT NULL DEFAULT '0',
+  `token` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `idx_user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;

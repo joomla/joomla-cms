@@ -102,19 +102,11 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	{
 		JToolbarHelper::title(JText::_('COM_ACTIONLOGS_MANAGER_USERLOGS'));
 
-		if (JFactory::getUser()->authorise('core.delete', 'com_actionlogs'))
-		{
-			JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'actionlogs.delete');
-			$bar = JToolbar::getInstance('toolbar');
-			$bar->appendButton('Confirm', 'COM_ACTIONLOGS_PURGE_CONFIRM', 'delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge', false);
-		}
-
-		if (JFactory::getUser()->authorise('core.admin', 'com_actionlogs') || JFactory::getUser()->authorise('core.options', 'com_actionlogs'))
-		{
-			JToolbarHelper::preferences('com_actionlogs');
-		}
+		JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'actionlogs.delete');
+		$bar = JToolbar::getInstance('toolbar');
+		$bar->appendButton('Confirm', 'COM_ACTIONLOGS_PURGE_CONFIRM', 'delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge', false);
+		JToolbarHelper::preferences('com_actionlogs');
 		JToolbarHelper::help('JHELP_COMPONENTS_ACTIONLOGS');
-
 		JToolBarHelper::custom('actionlogs.exportSelectedLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_CSV', true);
 		JToolBarHelper::custom('actionlogs.exportLogs', 'download', '', 'COM_ACTIONLOGS_EXPORT_ALL_CSV', false);
 	}
