@@ -116,7 +116,7 @@ abstract class FieldsPlugin extends JPlugin
 		{
 			return;
 		}
-	
+
 		// Check if the field should be displayed on the form
 		if (!FieldsHelper::displayFieldOnForm($field))
 		{
