@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Model\BaseModel;
+
 /**
  * Helper class for admin privacy dashboard module
  *
@@ -25,10 +27,10 @@ class ModPrivacyDashboardHelper
 	 */
 	public static function getData()
 	{
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/models', 'PrivacyModel');
+		BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/models', 'PrivacyModel');
 
 		/** @var PrivacyModelDashboard $model */
-		$model = JModelLegacy::getInstance('Dashboard', 'PrivacyModel');
+		$model = BaseModel::getInstance('Dashboard', 'PrivacyModel');
 
 		try
 		{
