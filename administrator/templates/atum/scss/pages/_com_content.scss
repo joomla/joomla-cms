@@ -15,7 +15,7 @@
 		.field-media-wrapper {
 			&, .field-media-preview {
 				width: 100%;
-				display: block;
+				max-width: none;
 			}
 		}
 		.subhead {
