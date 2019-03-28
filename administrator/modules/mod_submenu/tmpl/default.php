@@ -24,7 +24,7 @@ $user = $app->getIdentity();
 
 /** @var  \Joomla\CMS\Menu\MenuItem  $root */
 ?>
-<div class="col-md-<?php echo $bootstrapSize; ?> row">
+<div class="col-md-<?php echo $bootstrapSize; ?>">
 	<?php if (Factory::getUser()->authorise('core.edit', 'com_modules')) : ?>
 	<div class="module-actions">
 		<a href="<?php echo 'index.php?option=com_modules&task=module.edit&id=' . (int) $module->id; ?>">
@@ -32,6 +32,7 @@ $user = $app->getIdentity();
 		</a>
 	</div>
 	<?php endif; ?>
+	<div class="row">
 	<?php foreach ($root->getChildren() as $child) : ?>
 		<?php if ($child->hasChildren()) : ?>
 			<div class="card mb-3 col-lg-<?php echo $columnSize; ?> col-md-<?php echo $columnSizeSmall; ?>">
@@ -94,4 +95,5 @@ $user = $app->getIdentity();
 			</div>
 		<?php endif; ?>
 	<?php endforeach; ?>
+	</div>
 </div>
