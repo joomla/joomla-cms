@@ -102,7 +102,6 @@ class PlgSystemSkipto extends CMSPlugin
 
 		$document->addScriptDeclaration("document.addEventListener('DOMContentLoaded', function() {
 			window.SkipToConfig = Joomla.getOptions('skipto-settings');
-			window.skipToMenuInit();
 		});");
 	}
 }
