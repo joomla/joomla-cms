@@ -12,15 +12,6 @@
 		/>
 
 		<field
-			name="published"
-			type="status"
-			label="JOPTION_SELECT_PUBLISHED"
-			onchange="this.form.submit();"
-			>
-			<option value="">JOPTION_SELECT_PUBLISHED</option>
-		</field>
-
-		<field
 			name="featured"
 			type="list"
 			onchange="this.form.submit();"
@@ -29,6 +20,15 @@
 			<option value="">JOPTION_SELECT_FEATURED</option>
 			<option value="0">JUNFEATURED</option>
 			<option value="1">JFEATURED</option>
+		</field>
+
+		<field
+			name="published"
+			type="status"
+			label="JOPTION_SELECT_PUBLISHED"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
 		</field>
 
 		<field
