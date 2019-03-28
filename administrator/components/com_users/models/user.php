@@ -232,7 +232,7 @@ class UsersModelUser extends JModelAdmin
 
 			if (JComponentHelper::getParams('com_users')->get('useractivation') === 1)
 			{
-				// Wait we have useractivation use the correct string than
+				// Wait we have useractivation use the correct string then
 				$emailBodyLanguageString = 'COM_USERS_EMAIL_REGISTERED_WITH_ACTIVATION_CHANGED_MAIL_BODY';
 			}
 
