@@ -90,8 +90,10 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 */
 	protected function sendNotificationEmails($messages, $username, $context)
 	{
-		$db = $this->getDbo();
-		$query = $db->getQuery(true);
+		$db           = $this->getDbo();
+		$query        = $db->getQuery(true);
+		$params       = ComponentHelper::getParams('com_actionlogs');
+		$showIpColumn = (bool) $params->get('ip_logging', 0);
 
 		$query->select($db->quoteName(array('email', 'params')))
 			->from($db->quoteName('#__users'))
@@ -138,8 +140,9 @@ class ActionlogsModelActionlog extends JModelLegacy
 		}
 
 		$displayData = array(
-			'messages' => $messages,
-			'username' => $username,
+			'messages'     => $messages,
+			'username'     => $username,
+			'showIpColumn' => $showIpColumn,
 		);
 
 		$body   = $layout->render($displayData);

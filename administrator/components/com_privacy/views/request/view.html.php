@@ -114,6 +114,7 @@ class PrivacyViewRequest extends JViewLegacy
 
 			JToolbarHelper::apply('request.save');
 			JToolbarHelper::cancel('request.cancel');
+			JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST_EDIT');
 		}
 		else
 		{
@@ -163,6 +164,7 @@ class PrivacyViewRequest extends JViewLegacy
 			}
 
 			JToolbarHelper::cancel('request.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST');
 		}
 	}
 }

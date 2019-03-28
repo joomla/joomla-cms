@@ -228,6 +228,7 @@ class ExtensionHelper
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
 		array('plugin', 'overridecheck', 'quickicon', 0),
 		array('plugin', 'phpversioncheck', 'quickicon', 0),
+		array('plugin', 'privacycheck', 'quickicon', 0),
 
 		// Core plugin extensions - sample data
 		array('plugin', 'blog', 'sampledata', 0),
@@ -269,6 +270,7 @@ class ExtensionHelper
 		array('plugin', 'contactcreator', 'user', 0),
 		array('plugin', 'joomla', 'user', 0),
 		array('plugin', 'profile', 'user', 0),
+		array('plugin', 'terms', 'user', 0),
 
 		// Core template extensions - administrator
 		array('template', 'atum', '', 1),
