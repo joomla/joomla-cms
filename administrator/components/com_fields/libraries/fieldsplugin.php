@@ -116,6 +116,12 @@ abstract class FieldsPlugin extends JPlugin
 		{
 			return;
 		}
+	
+		// Check if the field should be displayed on the form
+		if (!FieldsHelper::displayFieldOnForm($field))
+		{
+			return;
+		}
 
 		// Merge the params from the plugin and field which has precedence
 		$fieldParams = clone $this->params;
