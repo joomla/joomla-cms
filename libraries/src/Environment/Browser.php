@@ -585,6 +585,7 @@ class Browser
 			elseif (preg_match('|Edg\/([0-9.]+)|', $this->agent, $version))
 			{
 				$this->setBrowser('edg');
+
 				list($this->majorVersion, $this->minorVersion) = explode('.', $version[1]);
 			}
 			elseif (preg_match('|Opera[\/ ]([0-9.]+)|', $this->agent, $version))
