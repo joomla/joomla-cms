@@ -14,7 +14,8 @@ use Joomla\CMS\Factory;
 /**
  * Adapter Instance Class
  *
- * @since  1.7.0
+ * @since       1.7.0
+ * @deprecated  5.0 Will be removed without replacement
  */
 class JAdapterInstance extends JObject
 {

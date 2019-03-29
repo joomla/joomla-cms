@@ -62,7 +62,7 @@ JFactory::getDocument()->addScriptDeclaration('
 					<th>
 						<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_NAME', 'a.user_id', $listDirn, $listOrder); ?>
 					</th>
-					<?php if ($this->ip) : ?>
+					<?php if ($this->showIpColumn) : ?>
 						<th>
 							<?php echo JHtml::_('searchtools.sort', 'COM_ACTIONLOGS_IP_ADDRESS', 'a.ip_address', $listDirn, $listOrder); ?>
 						</th>
@@ -96,7 +96,7 @@ JFactory::getDocument()->addScriptDeclaration('
 							<td>
 								<?php echo $item->name; ?>
 							</td>
-							<?php if ($this->ip) : ?>
+							<?php if ($this->showIpColumn) : ?>
 								<td>
 									<?php echo JText::_($this->escape($item->ip_address)); ?>
 								</td>

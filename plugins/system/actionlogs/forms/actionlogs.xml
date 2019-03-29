@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form>
 	<fields name="params">
-		<fieldset name="settings" addfieldpath="/administrator/components/com_actionlogs/models/fields">
+		<fieldset name="actionlogs" label="PLG_SYSTEM_ACTIONLOGS_OPTIONS" addfieldpath="/administrator/components/com_actionlogs/models/fields">
 			<field
 				name="logs_notification_option"
 				type="radio"

@@ -28,18 +28,6 @@ class ActionlogsController extends JControllerLegacy
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		$view = $this->input->get('view', 'actionlogs');
-
-		switch ($view)
-		{
-			case 'actionlogs':
-				if (!JFactory::getUser()->authorise('core.viewlogs', 'com_actionlogs'))
-				{
-					throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
-				}
-				break;
-		}
-
 		return parent::display();
 	}
 }
