@@ -21,17 +21,17 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
-				<field 
-					name="privacy_note" 
-					type="textarea" 
+				<field
+					name="privacy_note"
+					type="textarea"
 					label="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DESC"
 					hint="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT"
 					class="span12"
-					rows="7" 
-					cols="20" 
+					rows="7"
+					cols="20"
 					filter="html"
-				/>	
+				/>
 				<field
 					name="privacy_article"
 					type="modal_article"
@@ -41,17 +41,77 @@
 					new="true"
 					edit="true"
 					clear="true"
+					filter="integer"
 				/>
-				<field 
-					name="messageOnRedirect" 
-					type="textarea" 
+				<field
+					name="messageOnRedirect"
+					type="textarea"
 					label="PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DESC"
 					hint="PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT"
 					class="span12"
-					rows="7" 
-					cols="20" 
+					rows="7"
+					cols="20"
 					filter="html"
+				/>
+			</fieldset>
+			<fieldset
+				name="expiration"
+				label="PLG_SYSTEM_PRIVACYCONSENT_EXPIRATION_FIELDSET_LABEL"
+			>
+				<field
+					name="enabled"
+					type="radio"
+					label="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_LABEL"
+					description="PLG_SYSTEM_PRIVACYCONSENT_FIELD_ENABLED_DESC"
+					class="btn-group btn-group-yesno"
+					default="0"
+					filter="integer"
+					>
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+				<field
+					name="cachetimeout"
+					type="integer"
+					label="PLG_SYSTEM_PRIVACYCONSENT_CACHETIMEOUT_LABEL"
+					description="PLG_SYSTEM_PRIVACYCONSENT_CACHETIMEOUT_DESC"
+					first="0"
+					last="120"
+					step="1"
+					default="30"
+					filter="int"
+					validate="number"
+				/>
+				<field
+					name="consentexpiration"
+					type="integer"
+					label="PLG_SYSTEM_PRIVACYCONSENT_CONSENTEXPIRATION_LABEL"
+					description="PLG_SYSTEM_PRIVACYCONSENT_CONSENTEXPIRATION_DESC"
+					first="180"
+					last="720"
+					step="30"
+					default="360"
+					filter="int"
+					validate="number"
+				/>
+				<field
+					name="remind"
+					type="integer"
+					label="PLG_SYSTEM_PRIVACYCONSENT_REMINDBEFORE_LABEL"
+					description="PLG_SYSTEM_PRIVACYCONSENT_REMINDBEFORE_DESC"
+					first="0"
+					last="120"
+					step="1"
+					default="30"
+					filter="int"
+					validate="number"
+				/>
+				<field
+					name="lastrun"
+					type="hidden"
+					default="0"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

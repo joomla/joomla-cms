@@ -78,15 +78,16 @@ class PlgContentConfirmConsent extends CMSPlugin
 		}
 
 		// Get the consent box Text & the selected privacyarticle
-		$consentboxText = (string) $this->params->get('consentbox_text', Text::_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT'));
-		$privacyarticle	= $this->params->get('privacy_article', false);
+		$consentboxLabel = JText::_('PLG_CONTENT_CONFIRMCONSENT_CONSENTBOX_LABEL');
+		$consentboxText  = (string) $this->params->get('consentbox_text', Text::_('PLG_CONTENT_CONFIRMCONSENT_FIELD_NOTE_DEFAULT'));
+		$privacyArticle  = $this->params->get('privacy_article', false);
 
 		// When we have a article just add it arround to the text
-		if ($privacyarticle)
+		if ($privacyArticle)
 		{
 			HTMLHelper::_('behavior.modal');
 
-			$consentboxText = $this->getAssignedArticleUrl($privacyarticle, $consentboxText);
+			$consentboxLabel = $this->getAssignedArticleUrl($privacyArticle, $consentboxLabel);
 		}
 
 		$form->load('
@@ -95,15 +96,14 @@ class PlgContentConfirmConsent extends CMSPlugin
 					<field
 						name="consentbox"
 						type="checkboxes"
-						label="PLG_CONTENT_CONFIRMCONSENT_CONSENTBOX_LABEL"
-						
+						label="' . htmlspecialchars($consentboxLabel, ENT_COMPAT, 'UTF-8') . '"
 						required="true"
-					>
+						>
 						<option value="0">' . htmlspecialchars($consentboxText, ENT_COMPAT, 'UTF-8') . '</option>
 					</field>
 				</fieldset>
-			</form>
-		');
+			</form>'
+		);
 
 		return true;
 	}
@@ -111,14 +111,14 @@ class PlgContentConfirmConsent extends CMSPlugin
 	/**
 	 * Return the url of the assigned article based on the current user language
 	 *
-	 * @param   integer  $articleId       The form to be altered.
-	 * @param   string   $consentboxText  The consent box text
+	 * @param   integer  $articleId        The form to be altered.
+	 * @param   string   $consentboxLabel  The consent box label
 	 *
 	 * @return  string  Returns the a tag containing everything for the modal
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getAssignedArticleUrl($articleId, $consentboxText)
+	private function getAssignedArticleUrl($articleId, $consentboxLabel)
 	{
 		// Get the info from the article
 		$query = $this->db->getQuery(true)
@@ -144,7 +144,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 					'index.php?option=com_content&view=article&id='
 					. $articleId . '&tmpl=component'
 				),
-				$consentboxText,
+				$consentboxLabel,
 				$attribs
 			);
 		}
@@ -162,7 +162,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 						$article->language
 					) . '&tmpl=component'
 				),
-				$consentboxText,
+				$consentboxLabel,
 				$attribs
 			);
 		}
@@ -180,12 +180,12 @@ class PlgContentConfirmConsent extends CMSPlugin
 						$associatedArticles[$currentLang]->language
 					) . '&tmpl=component'
 				),
-				$consentboxText,
+				$consentboxLabel,
 				$attribs
 			);
 		}
 
-		// Association is enabled but this article is not associated	
+		// Association is enabled but this article is not associated
 		return HTMLHelper::_(
 			'link',
 			Route::_(
@@ -193,10 +193,8 @@ class PlgContentConfirmConsent extends CMSPlugin
 					. $article->id . '&catid=' . $article->catid
 					. '&tmpl=component&lang=' . $article->language
 			),
-			$consentboxText,
+			$consentboxLabel,
 			$attribs
 		);
-
-		
 	}
 }

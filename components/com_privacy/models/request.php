@@ -113,6 +113,18 @@ class PrivacyModelRequest extends JModelAdmin
 			return false;
 		}
 
+		// Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
+
+		/** @var MessagesModelMessage $messageModel */
+		$messageModel = JModelLegacy::getInstance('Message', 'MessagesModel');
+
+		$messageModel->notifySuperUsers(
+			JText::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_SUBJECT'),
+			JText::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_MESSAGE', $data['email'])
+		);
+
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try
 		{
@@ -129,17 +141,17 @@ class PrivacyModelRequest extends JModelAdmin
 				'\\n'        => "\n",
 			);
 
-			$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT');
-
 			switch ($data['request_type'])
 			{
 				case 'export':
-					$emailBody = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
+					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_EXPORT_REQUEST');
+					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
 
 					break;
 
 				case 'remove':
-					$emailBody = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
+					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_REMOVE_REQUEST');
+					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
 
 					break;
 
@@ -173,6 +185,44 @@ class PrivacyModelRequest extends JModelAdmin
 
 				return false;
 			}
+
+			/** @var PrivacyTableRequest $table */
+			$table = $this->getTable();
+
+			if (!$table->load($this->getState($this->getName() . '.id')))
+			{
+				$this->setError($table->getError());
+
+				return false;
+			}
+
+			// Log the request's creation
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+			$message = array(
+				'action'       => 'request-created',
+				'requesttype'  => $table->request_type,
+				'subjectemail' => $table->email,
+				'id'           => $table->id,
+				'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
+			);
+
+			$messageKey = 'COM_PRIVACY_ACTION_LOG_ANONYMOUS_CREATED_REQUEST';
+			$userId     = null;
+
+			if (!$user->guest)
+			{
+				$messageKey = 'COM_PRIVACY_ACTION_LOG_USER_CREATED_REQUEST';
+				$userId     = $user->id;
+
+				$message['userid']      = $user->id;
+				$message['username']    = $user->username;
+				$message['accountlink'] = 'index.php?option=com_users&task=user.edit&id=' . $user->id;
+			}
+
+			/** @var ActionlogsModelActionlog $model */
+			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+			$model->addLog(array($message), $messageKey, 'com_privacy.request', $userId);
 
 			// The email sent and the record is saved, everything is good to go from here
 			return true;

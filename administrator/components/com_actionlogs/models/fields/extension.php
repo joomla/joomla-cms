@@ -38,8 +38,8 @@ class JFormFieldExtension extends JFormFieldList
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('DISTINCT b.extension')
-				->from($db->quoteName('#__action_logs', 'b'));
+			->select('DISTINCT b.extension')
+			->from($db->quoteName('#__action_logs', 'b'));
 
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
@@ -48,8 +48,9 @@ class JFormFieldExtension extends JFormFieldList
 
 		foreach ($extensions as $extension)
 		{
-			$text = ActionlogsHelper::translateExtensionName(strtoupper(strtok($extension->extension, '.')));
-			$options[] = JHtml::_('select.option', $extension->extension, $text);
+			$extension = strtok($context, '.');
+			ActionlogsHelper::loadTranslationFiles($extension);
+			$options[] = JHtml::_('select.option', $extension->extension, JText::_($extension));
 		}
 
 		return array_merge(parent::getOptions(), $options);

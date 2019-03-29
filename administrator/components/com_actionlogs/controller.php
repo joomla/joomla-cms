@@ -16,30 +16,4 @@ defined('_JEXEC') or die;
  */
 class ActionlogsController extends JControllerLegacy
 {
-	/**
-	 * Method to display a view.
-	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 *
-	 * @return  ActionlogsController  This object to support chaining.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function display($cachable = false, $urlparams = array())
-	{
-		$view = $this->input->get('view', 'actionlogs');
-
-		switch ($view)
-		{
-			case 'actionlogs':
-				if (!JFactory::getUser()->authorise('core.viewlogs', 'com_actionlogs'))
-				{
-					throw new JAccessExceptionNotallowed(JText::_('JERROR_ALERTNOAUTHOR'), 403);
-				}
-				break;
-		}
-
-		return parent::display();
-	}
 }

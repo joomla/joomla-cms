@@ -38,8 +38,8 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('a.extension')
-				->from($db->quoteName('#__action_logs_extensions', 'a'));
+			->select('a.extension')
+			->from($db->quoteName('#__action_logs_extensions', 'a'));
 
 		$db->setQuery($query);
 
@@ -56,7 +56,8 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 
 			$defaults[] = $extension;
 
-			$option = JHtml::_('select.option', $extension->extension, ActionlogsHelper::translateExtensionName($extension->extension));
+			ActionlogsHelper::loadTranslationFiles($extension->extension);
+			$option = JHtml::_('select.option', $extension->extension, JText::_($extension->extension));
 			$options[] = (object) array_merge($tmp, (array) $option);
 		}
 

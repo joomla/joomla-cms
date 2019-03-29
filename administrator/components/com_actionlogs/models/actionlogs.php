@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 /**
  * Methods supporting a list of article records.
  *
@@ -16,6 +18,13 @@ defined('_JEXEC') or die;
  */
 class ActionlogsModelActionlogs extends JModelList
 {
+	/**
+	 * Constructor.
+	 *
+	 * @param   array  $config  An optional associative array of configuration settings.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
 	public function __construct($config = array())
 	{
 		if (empty($config['filter_fields']))
@@ -195,15 +204,47 @@ class ActionlogsModelActionlogs extends JModelList
 				$tz = new DateTimeZone('GMT');
 				$dStart->setTimezone($tz);
 				break;
-
 		}
 
 		return array('dNow' => $dNow, 'dStart' => $dStart);
 	}
 
 	/**
-	 * Get logs data into JTable object
+	 * Get all log entries for an item
 	 *
+	 * @param   string   $extension  The extension the item belongs to
+	 * @param   integer  $itemId     The item ID
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function getLogsForItem($extension, $itemId)
+	{
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('a.*, u.name')
+			->from('#__action_logs AS a')
+			->innerJoin('#__users AS u ON a.user_id = u.id')
+			->where($db->quoteName('a.extension') . ' = ' . $db->quote($extension))
+			->where($db->quoteName('a.item_id') . ' = ' . (int) $itemId);
+
+		// Get ordering
+		$fullorderCol = $this->getState('list.fullordering', 'a.id DESC');
+
+		// Apply ordering
+		if (!empty($fullorderCol))
+		{
+			$query->order($db->escape($fullorderCol));
+		}
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Get logs data into JTable object
 	 *
 	 * @return  array  All logs in the table
 	 *
@@ -219,7 +260,7 @@ class ActionlogsModelActionlogs extends JModelList
 
 		if (is_array($pks) && count($pks) > 0)
 		{
-			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', $pks) . ')');
+			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		}
 
 		$db->setQuery($query);
@@ -241,7 +282,7 @@ class ActionlogsModelActionlogs extends JModelList
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__action_logs'))
-			->where($db->quoteName('id') . ' IN (' . implode(',', $pks) . ')');
+			->where($db->quoteName('id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		$db->setQuery($query);
 
 		try

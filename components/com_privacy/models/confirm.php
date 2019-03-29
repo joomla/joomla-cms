@@ -112,12 +112,59 @@ class PrivacyModelConfirm extends JModelAdmin
 		}
 
 		// Everything is good to go, transition the request to confirmed
-		return $this->save(
+		$saved = $this->save(
 			array(
 				'id'     => $table->id,
 				'status' => 1,
 			)
 		);
+
+		if (!$saved)
+		{
+			// Error was set by the save method
+			return false;
+		}
+
+		// Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
+
+		/** @var MessagesModelMessage $messageModel */
+		$messageModel = JModelLegacy::getInstance('Message', 'MessagesModel');
+
+		$messageModel->notifySuperUsers(
+			JText::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_SUBJECT'),
+			JText::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_MESSAGE', $table->email)
+		);
+
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+		$message = array(
+			'action'       => 'request-confirmed',
+			'subjectemail' => $table->email,
+			'id'           => $table->id,
+			'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
+		);
+
+		$messageKey = 'COM_PRIVACY_ACTION_LOG_ANONYMOUS_CONFIRMED_REQUEST';
+		$userId     = null;
+
+		if ($table->user_id)
+		{
+			$messageKey = 'COM_PRIVACY_ACTION_LOG_USER_CONFIRMED_REQUEST';
+			$user       = JUser::getInstance($table->user_id);
+			$userId     = $user->id;
+
+			$message['userid']      = $user->id;
+			$message['username']    = $user->username;
+			$message['accountlink'] = 'index.php?option=com_users&task=user.edit&id=' . $user->id;
+		}
+
+		/** @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLog(array($message), $messageKey, 'com_privacy.request', $userId);
+
+		return true;
 	}
 
 	/**
