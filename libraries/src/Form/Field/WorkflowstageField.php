@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,12 @@ class WorkflowstageField extends GroupedlistField
 		// Select distinct stages for existing articles
 		$query
 				->select('DISTINCT ' . $db->quoteName('ws.id', 'workflow_stage_id'))
-				->select($db->quoteName(['ws.title', 'w.title', 'w.id', 'w.ordering'], ['workflow_stage_title', 'workflow_title', 'workflow_id', 'ordering']))
+				->select(
+					$db->quoteName(
+						['ws.title', 'w.title', 'w.id', 'w.ordering', 'ws.ordering'],
+						['workflow_stage_title', 'workflow_title', 'workflow_id', 'ordering', 'workflow_stage_ordering']
+					)
+				)
 				->from($db->quoteName('#__workflow_stages', 'ws'))
 				->from($db->quoteName('#__workflows', 'w'))
 				->where($db->quoteName('ws.workflow_id') . ' = ' . $db->quoteName('w.id'))

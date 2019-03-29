@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -575,7 +575,7 @@ class Document
 
 		if ($merge && is_array($options))
 		{
-			$this->scriptOptions[$key] = array_merge($this->scriptOptions[$key], $options);
+			$this->scriptOptions[$key] = array_replace_recursive($this->scriptOptions[$key], $options);
 		}
 		else
 		{

@@ -20,5 +20,6 @@ There are other branches available which serve specific purposes.
 | Branch | Purpose |
 | ------ | ------- |
 | staging | Current codebase. Branch for the next minor Joomla version. New backward compatible features go into this branch. |
-| 3.9-dev | Branch for the next minor Joomla version. The 3.9.0 release will only include compatibility features for 4.0. Commits to staging will be applied to this branch as well. |
+| 3.9-dev | Branch for the next minor Joomla version. The 3.9.0 release will include the Privacy Tools Suite features. Commits to staging will be applied to this branch as well. |
+| 3.10-dev | Branch for the next minor Joomla version. The 3.10.0 release will only include compatibility features for 4.0. Commits to staging will be applied to this branch as well. |
 | 4.0-dev | Branch for the next major Joomla version. New features go into this branch. Commits to staging will be applied to this branch as well. |
