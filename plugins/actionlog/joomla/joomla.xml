@@ -10,7 +10,7 @@
 	<version>__DEPLOY_VERSION__</version>
 	<description>PLG_ACTIONLOG_JOOMLA_XML_DESCRIPTION</description>
 	<files>
-		<filename plugin="joomla">joomla.php</filename>		
+		<filename plugin="joomla">joomla.php</filename>
 	</files>
 	<config />
 </extension>

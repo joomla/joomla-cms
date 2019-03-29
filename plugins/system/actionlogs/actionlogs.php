@@ -88,14 +88,32 @@ class PlgSystemActionLogs extends JPlugin
 			return true;
 		}
 
-		$canView = false;
+		/**
+		 * We only allow users who has Super User permission change this setting for himself or for other users
+		 * who has same Super User permission
+		 */
 
-		if (isset($data->id))
+		$user = JFactory::getUser();
+
+		if (!$user->authorise('core.admin'))
 		{
-			$canView = JUser::getInstance($data->id)->authorise('core.admin');
+			return true;
 		}
 
-		if (!$canView)
+		// If we are on the save command, no data is passed to $data variable, we need to get it directly from request
+		$jformData = $this->app->input->get('jform', array(), 'array');
+
+		if ($jformData && !$data)
+		{
+			$data = $jformData;
+		}
+
+		if (is_array($data))
+		{
+			$data = (object) $data;
+		}
+
+		if (!empty($data->id) && !JUser::getInstance($data->id)->authorise('core.admin'))
 		{
 			return true;
 		}
@@ -120,7 +138,8 @@ class PlgSystemActionLogs extends JPlugin
 			return;
 		}
 
-		$deleteFrequency = 3600 * 24; // The delete frequency will be once per day
+		// The delete frequency will be once per day
+		$deleteFrequency = 3600 * 24;
 
 		// Do we need to run? Compare the last run timestamp stored in the plugin's options with the current
 		// timestamp. If the difference is greater than the cache timeout we shall not execute again.
