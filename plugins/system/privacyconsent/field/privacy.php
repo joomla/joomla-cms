@@ -69,7 +69,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 		JHtml::_('behavior.modal');
 
 		// Build the class for the label.
-		$class = !empty($this->description) ? 'hasTooltip' : '';
+		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
 		$class = !empty($this->labelClass) ? $class . ' ' . $this->labelClass : $class;
 
@@ -79,16 +79,22 @@ class JFormFieldprivacy extends JFormFieldRadio
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="'
-				. htmlspecialchars(
-					trim($text, ':') . '<br />' . ($this->translateDescription ? Text::_($this->description) : $this->description),
-					ENT_COMPAT, 'UTF-8'
-				) . '"';
+			$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
+			$label .= ' data-content="' . htmlspecialchars(
+				$this->translateDescription ? Text::_($this->description) : $this->description,
+				ENT_COMPAT,
+				'UTF-8'
+			) . '"';
 		}
 
-		$privacyarticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+		if (Factory::getLanguage()->isRtl())
+		{
+			$label .= ' data-placement="left"';
+		}
 
-		if ($privacyarticle && Factory::getApplication()->isClient('site'))
+		$privacyArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
+
+		if ($privacyArticle && Factory::getApplication()->isClient('site'))
 		{
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
@@ -100,13 +106,13 @@ class JFormFieldprivacy extends JFormFieldRadio
 			$query = $db->getQuery(true)
 				->select($db->quoteName(array('id', 'alias', 'catid', 'language')))
 				->from($db->quoteName('#__content'))
-				->where($db->quoteName('id') . ' = ' . (int) $privacyarticle);
+				->where($db->quoteName('id') . ' = ' . (int) $privacyArticle);
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
 			$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
-			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid);
-			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component&lang=' . $article->language), $text, $attribs);
+			$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
+			$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
 		}
 		else
 		{

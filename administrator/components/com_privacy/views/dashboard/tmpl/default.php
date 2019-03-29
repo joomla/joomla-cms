@@ -79,15 +79,15 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->privacyPolicyInfo['published']) : ?>
-							<label class="label label-success">
+							<span class="label label-success">
 								<span class="icon-checkbox" aria-hidden="true"></span>
 								<?php echo JText::_('JPUBLISHED'); ?>
-							</label>
+							</span>
 							<?php else : ?>
-							<label class="label label-warning">
+							<span class="label label-warning">
 								<span class="icon-warning" aria-hidden="true"></span>
 								<?php echo JText::_('JUNPUBLISHED'); ?>
-							</label>
+							</span>
 							<?php endif; ?>
 						</div>
 						<div class="span9">
@@ -100,15 +100,15 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->requestFormPublished['published']) : ?>
-							<label class="label label-success">
+							<span class="label label-success">
 								<span class="icon-checkbox" aria-hidden="true"></span>
 								<?php echo JText::_('JPUBLISHED'); ?>
-							</label>
+							</span>
 							<?php else : ?>
-							<label class="label label-warning">
+							<span class="label label-warning">
 								<span class="icon-warning" aria-hidden="true"></span>
 								<?php echo JText::_('JUNPUBLISHED'); ?>
-							</label>
+							</span>
 							<?php endif; ?>
 						</div>
 						<div class="span9">
@@ -121,15 +121,15 @@ $activeRequests = 0;
 					<div class="row-fluid">
 						<div class="span3">
 							<?php if ($this->numberOfUrgentRequests === 0) : ?>
-							<label class="label label-success">
+							<span class="label label-success">
 								<span class="icon-checkbox" aria-hidden="true"></span>
 								<?php echo JText::_('JNONE'); ?>
-							</label>
+							</span>
 							<?php else : ?>
-							<label class="label label-important">
+							<span class="label label-important">
 								<span class="icon-warning" aria-hidden="true"></span>
 								<?php echo JText::_('WARNING'); ?>
-							</label>
+							</span>
 							<?php endif; ?>
 						</div>
 						<div class="span9">

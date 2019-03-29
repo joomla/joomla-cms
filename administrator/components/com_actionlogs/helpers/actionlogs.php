@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
+use Joomla\String\StringHelper;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Actionlogs component helper.
@@ -36,11 +38,12 @@ class ActionlogsHelper
 
 		foreach ($data as $log)
 		{
+			$extension = static::translateExtensionName(strtoupper(strtok($log->extension, '.')));
 			$row               = array();
 			$row['id']         = $log->id;
-			$row['message']    = strip_tags(self::getHumanReadableLogMessage($log));
-			$row['date']       = $log->log_date;
-			$row['extension']  = self::translateExtensionName(strtoupper(strtok($log->extension, '.')));
+			$row['message']    = strip_tags(static::getHumanReadableLogMessage($log));
+			$row['date']       = JHtml::_('date', $log->log_date, JText::_('DATE_FORMAT_LC6'));
+			$row['extension']  = $extension;
 			$row['name']       = $log->name;
 			$row['ip_address'] = JText::_($log->ip_address);
 
@@ -83,9 +86,9 @@ class ActionlogsHelper
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('a.*')
-				->from($db->quoteName('#__action_logs_tables_data', 'a'))
-				->where($db->quoteName('a.type_alias') . ' = ' .$db->quote($context));
+			->select('a.*')
+			->from($db->quoteName('#__action_log_config', 'a'))
+			->where($db->quoteName('a.type_alias') . ' = ' . $db->quote($context));
 
 		$db->setQuery($query);
 
@@ -110,7 +113,7 @@ class ActionlogsHelper
 		$query = $db->getQuery(true)
 			->select($db->quoteName(array($idField, $field)))
 			->from($db->quoteName($table))
-			->where($db->quoteName($idField) . ' IN (' . implode(',', $pks) . ')');
+			->where($db->quoteName($idField) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		$db->setQuery($query);
 
 		try
@@ -140,11 +143,19 @@ class ActionlogsHelper
 		// Special handling for translation extension name
 		if (isset($messageData['extension_name']))
 		{
-			$messageData['extension_name'] = self::translateExtensionName($messageData['extension_name']);
+			$messageData['extension_name'] = static::translateExtensionName($messageData['extension_name']);
 		}
+
+		$linkMode = JFactory::getApplication()->get('force_ssl', 0) >= 1 ? 1 : -1;
 
 		foreach ($messageData as $key => $value)
 		{
+			// Convert relative url to absolute url so that it is clickable in action logs notification email
+			if (StringHelper::strpos($value, 'index.php?') === 0)
+			{
+				$value = JRoute::link('administrator', $value, false, $linkMode);
+			}
+
 			$message = str_replace('{' . $key . '}', JText::_($value), $message);
 		}
 
@@ -154,12 +165,13 @@ class ActionlogsHelper
 	/**
 	 * Get link to an item of given content type
 	 *
-	 * @param   string  $component
-	 * @param   string  $contentType
-	 * @param   int     $id
-	 * @param   string  $urlVar
+	 * @param   string   $component
+	 * @param   string   $contentType
+	 * @param   integer  $id
+	 * @param   string   $urlVar
 	 *
 	 * @return  string  Link to the content item
+	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
@@ -191,8 +203,9 @@ class ActionlogsHelper
 	}
 
 	/**
-	 * Load both enabled and disabled actionlog plugins language file. It is used to make sure actions log is
-	 * displayed properly instead of only language items displayed when a plugin is disabled
+	 * Load both enabled and disabled actionlog plugins language file.
+	 *
+	 * It is used to make sure actions log is displayed properly instead of only language items displayed when a plugin is disabled.
 	 *
 	 * @return  void
 	 *

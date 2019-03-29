@@ -38,8 +38,8 @@ class JFormFieldExtension extends JFormFieldList
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-				->select('DISTINCT b.extension')
-				->from($db->quoteName('#__action_logs', 'b'));
+			->select('DISTINCT b.extension')
+			->from($db->quoteName('#__action_logs', 'b'));
 
 		$db->setQuery($query);
 		$extensions = $db->loadObjectList();
