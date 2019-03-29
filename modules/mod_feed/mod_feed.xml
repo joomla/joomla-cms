@@ -78,7 +78,7 @@
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
-				</field>				
+				</field>
 
 				<field
 					name="rssimage"
@@ -118,6 +118,7 @@
 					label="MOD_FEED_FIELD_ITEMDATE_LABEL"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>

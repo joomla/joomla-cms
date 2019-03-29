@@ -28,7 +28,7 @@ class PrivacyModelConsents extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'a.id',
+				'id', 'a.id', 'a.user_id',
 				'created', 'a.created',
 				'username', 'u.username',
 			);
@@ -66,6 +66,10 @@ class PrivacyModelConsents extends JModelList
 			if (stripos($search, 'id:') === 0)
 			{
 				$query->where($db->quoteName('a.id') . ' = ' . (int) substr($search, 3));
+			}
+			elseif (stripos($search, 'uid:') === 0)
+			{
+				$query->where($db->quoteName('a.user_id') . ' = ' . (int) substr($search, 4));
 			}
 			else
 			{
