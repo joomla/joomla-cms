@@ -92,6 +92,135 @@ class PrivacyModelRequest extends JModelAdmin
 	}
 
 	/**
+	 * Log the completion of a request to the action log system.
+	 *
+	 * @param   integer  $id  The ID of the request to process.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function logRequestCompleted($id)
+	{
+		/** @var PrivacyTableRequest $table */
+		$table = $this->getTable();
+
+		if (!$table->load($id))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+		$user = JFactory::getUser();
+
+		$message = array(
+			'action'       => 'request-completed',
+			'requesttype'  => $table->request_type,
+			'subjectemail' => $table->email,
+			'id'           => $table->id,
+			'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
+			'userid'       => $user->id,
+			'username'     => $user->username,
+			'accountlink'  => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+
+		/** @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_COMPLETED_REQUEST', 'com_privacy.request', $user->id);
+
+		return true;
+	}
+
+	/**
+	 * Log the creation of a request to the action log system.
+	 *
+	 * @param   integer  $id  The ID of the request to process.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function logRequestCreated($id)
+	{
+		/** @var PrivacyTableRequest $table */
+		$table = $this->getTable();
+
+		if (!$table->load($id))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+		$user = JFactory::getUser();
+
+		$message = array(
+			'action'       => 'request-created',
+			'requesttype'  => $table->request_type,
+			'subjectemail' => $table->email,
+			'id'           => $table->id,
+			'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
+			'userid'       => $user->id,
+			'username'     => $user->username,
+			'accountlink'  => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+
+		/** @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_CREATED_REQUEST', 'com_privacy.request', $user->id);
+
+		return true;
+	}
+
+	/**
+	 * Log the invalidation of a request to the action log system.
+	 *
+	 * @param   integer  $id  The ID of the request to process.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function logRequestInvalidated($id)
+	{
+		/** @var PrivacyTableRequest $table */
+		$table = $this->getTable();
+
+		if (!$table->load($id))
+		{
+			$this->setError($table->getError());
+
+			return false;
+		}
+
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+		$user = JFactory::getUser();
+
+		$message = array(
+			'action'       => 'request-invalidated',
+			'requesttype'  => $table->request_type,
+			'subjectemail' => $table->email,
+			'id'           => $table->id,
+			'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
+			'userid'       => $user->id,
+			'username'     => $user->username,
+			'accountlink'  => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
+		);
+
+		/** @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_INVALIDATED_REQUEST', 'com_privacy.request', $user->id);
+
+		return true;
+	}
+
+	/**
 	 * Notifies the user that an information request has been created by a site administrator.
 	 *
 	 * Because confirmation tokens are stored in the database as a hashed value, this method will generate a new confirmation token
@@ -114,8 +243,6 @@ class PrivacyModelRequest extends JModelAdmin
 
 			return false;
 		}
-
-		$app = JFactory::getApplication();
 
 		/*
 		 * If there is an associated user account, we will attempt to send this email in the user's preferred language.
@@ -171,12 +298,15 @@ class PrivacyModelRequest extends JModelAdmin
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try
 		{
-			// TODO - These URLs should be JRoute'd once the cross-app routing PR is available to this branch
+			$app = JFactory::getApplication();
+
+			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
+
 			$substitutions = array(
 				'[SITENAME]' => $app->get('sitename'),
 				'[URL]'      => JUri::root(),
-				'[TOKENURL]' => 'TODO',
-				'[FORMURL]'  => 'TODO',
+				'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode),
+				'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode),
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
 			);

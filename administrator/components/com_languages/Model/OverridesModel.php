@@ -18,7 +18,6 @@ use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 /**
  * Languages Overrides Model
@@ -66,13 +65,13 @@ class OverridesModel extends ListModel
 		$client = in_array($this->state->get('filter.client'), array(0, 'site')) ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in order to get the keys and strings.
-		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$strings  = LanguageHelper::parseIniFile($fileName);
 
 		// Delete the override.ini file if empty.
-		if (file_exists($filename) && empty($strings))
+		if (file_exists($fileName) && $strings === array())
 		{
-			File::delete($filename);
+			File::delete($fileName);
 		}
 
 		// Filter the loaded strings according to the search box.
@@ -261,8 +260,8 @@ class OverridesModel extends ListModel
 		$client = $filterclient == 0 ? 'SITE' : 'ADMINISTRATOR';
 
 		// Parse the override.ini file in oder to get the keys and strings.
-		$filename = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
-		$strings = LanguagesHelper::parseFile($filename);
+		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
+		$strings  = LanguageHelper::parseIniFile($fileName);
 
 		// Unset strings that shall be deleted
 		foreach ($cids as $key)
@@ -274,7 +273,7 @@ class OverridesModel extends ListModel
 		}
 
 		// Write override.ini file with the strings.
-		if (LanguageHelper::saveToIniFile($filename, $strings) === false)
+		if (LanguageHelper::saveToIniFile($fileName, $strings) === false)
 		{
 			return false;
 		}

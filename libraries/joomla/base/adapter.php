@@ -16,7 +16,8 @@ use Joomla\CMS\Factory;
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
- * @since  1.7.0
+ * @since       1.7.0
+ * @deprecated  5.0 Will be removed without replacement
  */
 class JAdapter extends JObject
 {

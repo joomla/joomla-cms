@@ -43,3 +43,59 @@
 .contentpane {
   padding: 15px;
 }
+
+// Changelog
+.changelog {
+  text-align: left !important;
+
+  &__item {
+    display: flex;
+    border-bottom: 1px solid $table-border-color;
+
+    @include media-breakpoint-down(sm) {
+      flex-direction: column;
+    }
+  }
+
+  &__tag {
+    flex: 1 0 180px;
+    max-width: 180px;
+    padding: 10px 15px;
+    background: darken($gray-100, 2.5%);
+    border-right: 1px solid $table-border-color;
+    text-align: right;
+
+    .badge {
+      border-radius: .2rem;
+
+      &.badge-jlanguage {
+        background-color: $white;
+      }
+    }
+
+    @include media-breakpoint-down(sm) {
+      flex: 1 0 auto;
+      max-width: 100%;
+      text-align: left;
+      border-right: 0;
+      border-bottom: 1px solid $table-border-color;
+    }
+  }
+
+  &__list {
+    padding: 10px 15px;
+
+    ul {
+      padding-left: 15px;
+      margin-bottom: 0;
+    }
+
+    li {
+      margin-bottom: .15rem;
+
+      &:last-of-type{
+        margin-bottom: 0;
+      }
+    }
+  }
+}
