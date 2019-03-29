@@ -29,11 +29,16 @@ foreach ($value as $path)
 	{
 		continue;
 	}
-
+	if(substr($path, -4) == '.pdf')
+	{
+		$file = explode('/', $path);
+		$buffer = '<a href="'. $path .'" target="_blank" rel="noopener">'. end($file) .'</a>';
+	} else {
 	$buffer .= sprintf('<img src="%s"%s>',
 		htmlentities($path, ENT_COMPAT, 'UTF-8', true),
 		$class
-	);
+		);
+	}
 }
 
 echo $buffer;
