@@ -161,17 +161,29 @@ class JNamespacePsr4Map
 			// Compile the extension path
 			$extensionPath = JPATH_ROOT . '/' . $dir . '/' . $extension . '/';
 
-			// The extension name
-			$name = str_replace('com_', '', $extension);
+			// Strip the com_ from the extension name for components
+			$name = str_replace('com_', '', $extension, $count);
+			$file = $extensionPath . $name . '.xml';
 
-			// If there is no manifest file, ignore
-			if (!file_exists($extensionPath . $name . '.xml'))
+			// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_
+			// prefix.
+			if (!file_exists($file))
 			{
-				continue;
+				if (!$count)
+				{
+					continue;
+				}
+
+				$file = $extensionPath . $extension . '.xml';
+
+				if (!file_exists($file))
+				{
+					continue;
+				}
 			}
 
 			// Load the manifest file
-			$xml = simplexml_load_file($extensionPath . $name . '.xml');
+			$xml = simplexml_load_file($file);
 
 			// When invalid, ignore
 			if (!$xml)
