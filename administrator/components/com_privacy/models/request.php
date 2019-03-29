@@ -129,7 +129,7 @@ class PrivacyModelRequest extends JModelAdmin
 
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_COMPLETED_REQUEST', 'com_privacy.request', $user->id);
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_COMPLETED_REQUEST', 'com_privacy.request', $user->id);
 
 		return true;
 	}
@@ -172,7 +172,7 @@ class PrivacyModelRequest extends JModelAdmin
 
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_CREATED_REQUEST', 'com_privacy.request', $user->id);
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_CREATED_REQUEST', 'com_privacy.request', $user->id);
 
 		return true;
 	}
@@ -215,7 +215,7 @@ class PrivacyModelRequest extends JModelAdmin
 
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_INVALIDATED_REQUEST', 'com_privacy.request', $user->id);
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_ADMIN_INVALIDATED_REQUEST', 'com_privacy.request', $user->id);
 
 		return true;
 	}
@@ -310,18 +310,18 @@ class PrivacyModelRequest extends JModelAdmin
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
 			);
-
-			$emailSubject = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_SUBJECT');
-
+			
 			switch ($table->request_type)
 			{
 				case 'export':
-					$emailBody = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_BODY_EXPORT_REQUEST');
+					$emailSubject = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_SUBJECT_EXPORT_REQUEST');
+					$emailBody    = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_BODY_EXPORT_REQUEST');
 
 					break;
 
 				case 'remove':
-					$emailBody = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_BODY_REMOVE_REQUEST');
+					$emailSubject = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_SUBJECT_REMOVE_REQUEST');
+					$emailBody    = $lang->_('COM_PRIVACY_EMAIL_ADMIN_REQUEST_BODY_REMOVE_REQUEST');
 
 					break;
 

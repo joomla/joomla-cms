@@ -138,7 +138,7 @@ class PrivacyModelRemove extends JModelLegacy
 
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_REMOVE', 'com_privacy.request', $user->id);
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_REMOVE', 'com_privacy.request', $user->id);
 	}
 
 	/**
@@ -169,7 +169,7 @@ class PrivacyModelRemove extends JModelLegacy
 
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLogsToDb(array($message), 'COM_PRIVACY_ACTION_LOG_REMOVE_BLOCKED', 'com_privacy.request', $user->id);
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_REMOVE_BLOCKED', 'com_privacy.request', $user->id);
 	}
 
 	/**
