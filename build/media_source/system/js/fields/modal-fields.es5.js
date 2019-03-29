@@ -115,7 +115,7 @@
 		// Set frame id.
 		iframe.id = 'Frame_' + modalId;
 
-		var iframeDocument = iframe.contentWindow.document || iframe.contentDocument;
+		var iframeDocument = iframe.contentDocument;
 
 		// If Close (cancel task), close the modal.
 		if (task === 'cancel')
@@ -132,7 +132,7 @@
 			iframe.addEventListener('load', function()
 			{
 				// Reload iframe document var value.
-				iframeDocument = this.contentWindow.document || this.contentDocument;
+				iframeDocument = this.contentDocument;
 
 				// Validate the child form and update parent form.
 				if (iframeDocument.getElementById(idFieldId) && iframeDocument.getElementById(idFieldId).value != '0')
