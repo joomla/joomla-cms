@@ -73,7 +73,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 		if (count($data))
 		{
 			$rows = ActionlogsHelper::getCsvData($data);
-			$filename     = "logs_" . JFactory::getDate();
+			$filename     = 'logs_' . JFactory::getDate()->format('Y-m-d_His_T');
 			$csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
 
 			$app = JFactory::getApplication();

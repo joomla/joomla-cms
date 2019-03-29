@@ -56,7 +56,8 @@ class JFormFieldLogType extends JFormFieldCheckboxes
 
 			$defaults[] = $extension;
 
-			$option = JHtml::_('select.option', $extension->extension, ActionlogsHelper::translateExtensionName($extension->extension));
+			ActionlogsHelper::loadTranslationFiles($extension->extension);
+			$option = JHtml::_('select.option', $extension->extension, JText::_($extension->extension));
 			$options[] = (object) array_merge($tmp, (array) $option);
 		}
 
