@@ -141,17 +141,17 @@ class PrivacyModelRequest extends JModelAdmin
 				'\\n'        => "\n",
 			);
 
-			$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT');
-
 			switch ($data['request_type'])
 			{
 				case 'export':
-					$emailBody = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
+					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_EXPORT_REQUEST');
+					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
 
 					break;
 
 				case 'remove':
-					$emailBody = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
+					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_REMOVE_REQUEST');
+					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
 
 					break;
 
@@ -222,7 +222,7 @@ class PrivacyModelRequest extends JModelAdmin
 
 			/** @var ActionlogsModelActionlog $model */
 			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-			$model->addLogsToDb(array($message), $messageKey, 'com_privacy.request', $userId);
+			$model->addLog(array($message), $messageKey, 'com_privacy.request', $userId);
 
 			// The email sent and the record is saved, everything is good to go from here
 			return true;
