@@ -213,7 +213,13 @@ class JNamespacePsr4Map
 			if (strpos($extension, 'com_') === 0)
 			{
 				$extensions[$namespace . 'Site\\\\'] = str_replace('administrator/', '', $namespacePath) . $namespaceNode->attributes()->path;
-				$extensions[$namespace . 'Api\\\\'] = str_replace('administrator/', 'api/', $namespacePath) . $namespaceNode->attributes()->path;
+
+				$apiPath = str_replace('administrator/', 'api/', $namespacePath);
+
+				if (is_dir(JPATH_ROOT . $apiPath))
+				{
+					$extensions[$namespace . 'Api\\\\'] = str_replace('administrator/', 'api/', $namespacePath) . $namespaceNode->attributes()->path;
+				}
 			}
 
 			// Add the application specific segment when not a plugin
