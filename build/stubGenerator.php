@@ -11,6 +11,7 @@ const _JEXEC = 1;
 
 // Import namespaced classes
 use Joomla\CMS\Application\CliApplication;
+use Joomla\CMS\Factory;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -98,7 +99,7 @@ PHP;
 	}
 }
 
-JFactory::getContainer()->share(
+Factory::getContainer()->share(
 	'StubGenerator',
 	function (\Joomla\DI\Container $container)
 	{
@@ -114,6 +115,6 @@ JFactory::getContainer()->share(
 	true
 );
 
-$app = JFactory::getContainer()->get('StubGenerator');
-JFactory::$application = $app;
+$app = Factory::getContainer()->get('StubGenerator');
+Factory::$application = $app;
 $app->execute();

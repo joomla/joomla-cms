@@ -406,7 +406,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				$container = Factory::getContainer();
 			}
 
-			if ($container->exists($classname))
+			if ($container->has($classname))
 			{
 				static::$instances[$name] = $container->get($classname);
 			}

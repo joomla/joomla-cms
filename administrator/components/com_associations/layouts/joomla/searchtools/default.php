@@ -9,6 +9,8 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
+
 /** @var  array  $displayData */
 $data = $displayData;
 
@@ -28,7 +30,7 @@ if ($data['view'] instanceof \Joomla\Component\Associations\Administrator\View\A
 // Set some basic options
 $customOptions = array(
 	'filtersHidden'       => $data['options']['filtersHidden'] ?? empty($data['view']->activeFilters),
-	'defaultLimit'        => $data['options']['defaultLimit'] ?? JFactory::getApplication()->get('list_limit', 20),
+	'defaultLimit'        => $data['options']['defaultLimit'] ?? Factory::getApplication()->get('list_limit', 20),
 	'searchFieldSelector' => '#filter_search',
 	'orderFieldSelector'  => '#list_fullordering',
 	'formSelector'        => !empty($data['options']['formSelector']) ? $data['options']['formSelector'] : '#adminForm',

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
@@ -17,6 +18,8 @@ use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('script', 'com_users/admin-users-user.min.js', array('version' => 'auto', 'relative' => true));
+
+$input = Factory::getApplication()->input;
 
 // Get the form fieldsets.
 $fieldsets = $this->form->getFieldsets();
@@ -60,8 +63,7 @@ $this->useCoreUI = true;
 		<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'twofactorauth', Text::_('COM_USERS_USER_TWO_FACTOR_AUTH')); ?>
 		<div class="control-group">
 			<div class="control-label">
-				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method" class="hasTooltip"
-					title="<?php echo '<strong>' . Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL') . '</strong>'; ?>">
+				<label id="jform_twofactor_method-lbl" for="jform_twofactor_method">
 					<?php echo Text::_('COM_USERS_USER_FIELD_TWOFACTOR_LABEL'); ?>
 				</label>
 			</div>
@@ -105,5 +107,6 @@ $this->useCoreUI = true;
 	</fieldset>
 
 	<input type="hidden" name="task" value="">
+	<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

@@ -26,6 +26,10 @@ class PrivacyRouter extends JComponentRouterView
 	 */
 	public function __construct($app = null, $menu = null)
 	{
+		$this->registerView(new JComponentRouterViewconfiguration('confirm'));
+		$this->registerView(new JComponentRouterViewconfiguration('request'));
+		$this->registerView(new JComponentRouterViewconfiguration('remind'));
+
 		parent::__construct($app, $menu);
 
 		$this->attachRule(new JComponentRouterRulesMenu($this));

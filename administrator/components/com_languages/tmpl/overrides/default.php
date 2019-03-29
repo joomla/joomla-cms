@@ -11,19 +11,19 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Languages\Administrator\Helper\LanguagesHelper;
 
 $client    = $this->state->get('filter.client') == '0' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
 $language  = $this->state->get('filter.language');
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 
-$opposite_client   = $this->state->get('filter.client') == '1' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
-$opposite_filename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site'))
+$oppositeClient   = $this->state->get('filter.client') == '1' ? Text::_('JSITE') : Text::_('JADMINISTRATOR');
+$oppositeFilename = constant('JPATH_' . strtoupper(1 - $this->state->get('filter.client')? 'administrator' : 'site'))
 	. '/language/overrides/' . $this->state->get('filter.language', 'en-GB') . '.override.ini';
-$opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
+$oppositeStrings  = LanguageHelper::parseIniFile($oppositeFilename);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_languages&view=overrides'); ?>" method="post" name="adminForm" id="adminForm">
@@ -101,9 +101,9 @@ $opposite_strings  = LanguagesHelper::parseFile($opposite_filename);
 								<td class="d-none d-md-table-cell">
 									<?php echo $client; ?>
 									<?php
-									if (isset($opposite_strings[$key]) && ($opposite_strings[$key] == $text))
+									if (isset($oppositeStrings[$key]) && ($oppositeStrings[$key] == $text))
 									{
-										echo '/' . $opposite_client;
+										echo '/' . $oppositeClient;
 									}
 									?>
 								</td>

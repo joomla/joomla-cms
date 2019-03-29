@@ -2412,7 +2412,7 @@ class Installer extends \JAdapter
 		$options['type'] = $adapter;
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (Factory::getContainer()->exists($class))
+		if (Factory::getContainer()->has($class))
 		{
 			return Factory::getContainer()->get($class);
 		}
