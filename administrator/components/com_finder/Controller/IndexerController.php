@@ -49,14 +49,7 @@ class IndexerController extends BaseController
 		}
 
 		// Log the start
-		try
-		{
-			Log::add('Starting the indexer', Log::INFO);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
+		Log::add('Starting the indexer', Log::INFO);
 
 		// We don't want this form to be cached.
 		$this->app->allowCache(false);
@@ -117,14 +110,7 @@ class IndexerController extends BaseController
 		}
 
 		// Log the start
-		try
-		{
-			Log::add('Starting the indexer batch process', Log::INFO);
-		}
-		catch (\RuntimeException $exception)
-		{
-			// Informational log only
-		}
+		Log::add('Starting the indexer batch process', Log::INFO);
 
 		// We don't want this form to be cached.
 		$this->app->allowCache(false);
@@ -209,14 +195,7 @@ class IndexerController extends BaseController
 			$app = $admin;
 
 			// Log batch completion and memory high-water mark.
-			try
-			{
-				Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational log only
-			}
+			Log::add('Batch completed, peak memory usage: ' . number_format(memory_get_peak_usage(true)) . ' bytes', Log::INFO);
 
 			// Send the response.
 			static::sendResponse($state);
@@ -302,14 +281,7 @@ class IndexerController extends BaseController
 		// Send the assigned error code if we are catching an exception.
 		if ($data instanceof \Exception)
 		{
-			try
-			{
-				Log::add($data->getMessage(), Log::ERROR);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational log only
-			}
+			Log::add($data->getMessage(), Log::ERROR);
 
 			$app->setHeader('status', $data->getCode());
 		}
@@ -357,14 +329,7 @@ class FinderIndexerResponse
 		if ($state instanceof \Exception)
 		{
 			// Log the error
-			try
-			{
-				Log::add($state->getMessage(), Log::ERROR);
-			}
-			catch (\RuntimeException $exception)
-			{
-				// Informational log only
-			}
+			Log::add($state->getMessage(), Log::ERROR);
 
 			// Prepare the error response.
 			$this->error = true;
