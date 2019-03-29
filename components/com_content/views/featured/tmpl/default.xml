@@ -122,7 +122,17 @@
 				<option value="rank" requires="vote">JGLOBAL_RATINGS_DESC</option>
 				<option value="rrank" requires="vote">JGLOBAL_RATINGS_ASC</option>
 			</field>
-
+                        <field 
+				name="show_only_featured" 
+				type="list"
+				label="COM_CONTENT_FEATURED_ARTICLES"
+				description="COM_CONTENT_FEATURED_CATEGORIES_DESC"
+				useglobal="true"
+				class="chzn-color"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 			<field 
 				name="order_date" 
 				type="list"
