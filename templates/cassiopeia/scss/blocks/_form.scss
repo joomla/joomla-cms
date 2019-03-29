@@ -104,3 +104,134 @@ td .form-control {
 .form-control-feedback {
   display: block;
 }
+
+// Password strength block
+
+#password-strength {
+  display: block;
+  position: relative;
+  font-size: 0px;
+  top: 5px;
+  max-width: 240px;
+}
+.box {
+  position: relative;
+  width: 25%;
+  height: 25px;
+  display: inline-block;
+  background-color: #e4e4e4;
+  text-align: center;
+  div.bar-text {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    text-align: center;
+    font-size: 13px;
+    z-index: 3;
+    line-height: 25px;
+    overflow: visible;
+  }
+  div.bar {
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    z-index: 2;
+    -moz-transition: 1s;
+    -o-transition: 1s;
+    -webkit-transition: 1s;
+    transition: 1s;
+  }
+}
+.invalid {
+  .box.box1 {
+    div.bar {
+      background: #FF0000;
+      width: 100%;
+    }
+    div.bar-text {
+      color: #fff;
+    }
+  }
+}
+.box.box1 {
+  border-radius: 5px 0px 0px 5px;
+  div.bar {
+    border-radius: 5px 0px 0px 5px;
+  }
+}
+.box.box4 {
+  border-radius: 0px 5px 5px 0px;
+  div.bar {
+    border-radius: 0px 5px 5px 0px;
+  }
+}
+.weak {
+  .box.box1 {
+    div.bar-text {
+      color: #fff;
+    }
+    div.bar {
+      background: #E66C2C;
+      width: 100%;
+    }
+  }
+  .box.box2 {
+    div.bar {
+      background: #E66C2C;
+      width: 100%;
+    }
+  }
+}
+.medium {
+  .box.box1 {
+    div.bar-text {
+      color: #fff;
+    }
+    div.bar {
+      background: #2D98F3;
+      width: 100%;
+    }
+  }
+  .box.box2 {
+    div.bar {
+      background: #2D98F3;
+      width: 100%;
+    }
+  }
+  .box.box3 {
+    div.bar {
+      background: #2D98F3;
+      width: 100%;
+    }
+  }
+}
+.strong {
+  .box.box1 {
+    div.bar-text {
+      color: #fff;
+    }
+    div.bar {
+      background: #006400;
+      width: 100%;
+    }
+  }
+  .box.box2 {
+    div.bar {
+      background: #006400;
+      width: 100%;
+    }
+  }
+  .box.box3 {
+    div.bar {
+      background: #006400;
+      width: 100%;
+    }
+  }
+  .box.box4 {
+    div.bar {
+      background: #006400;
+      width: 100%;
+    }
+  }
+}
