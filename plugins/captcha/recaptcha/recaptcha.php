@@ -72,17 +72,17 @@ class PlgCaptchaRecaptcha extends JPlugin
 			$theme  = $this->params->get('theme', 'clean');
 			$file   = 'https://www.google.com/recaptcha/api/js/recaptcha_ajax.js';
 
-			JHtml::_('script', $file);
+			JHtml::_('script', $file, array(), array('defer' => true, 'async' => true));
 			JFactory::getDocument()->addScriptDeclaration('jQuery( document ).ready(function()
 				{Recaptcha.create("' . $pubkey . '", "' . $id . '", {theme: "' . $theme . '",' . $this->_getLanguage() . 'tabindex: 0});});');
 		}
 		else
 		{
 			// Load callback first for browser compatibility
-			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
+			JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true), array('defer' => true, 'async' => true));
 
 			$file = 'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag();
-			JHtml::_('script', $file);
+			JHtml::_('script', $file, array(), array('defer' => true, 'async' => true));
 		}
 
 		return true;
@@ -122,6 +122,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 		}
 
 		$dom->appendChild($ele);
+
 		return $dom->saveHTML($ele);
 	}
 
