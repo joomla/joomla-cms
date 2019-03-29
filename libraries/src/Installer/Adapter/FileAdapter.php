@@ -410,9 +410,10 @@ class FileAdapter extends InstallerAdapter
 		else
 		{
 			// Add an entry to the extension table with a whole heap of defaults
-			$this->extension->name = $this->name;
-			$this->extension->type = 'file';
-			$this->extension->element = $this->element;
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'file';
+			$this->extension->element      = $this->element;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for files so leave it blank
 			$this->extension->folder    = '';

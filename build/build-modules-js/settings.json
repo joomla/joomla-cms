@@ -379,6 +379,15 @@
         "js": {
           "mousetrap.js": "js/mousetrap.js",
           "mousetrap.min.js": "js/mousetrap.min.js"
+      "skipto": {
+        "name": "skipto",
+        "licenseFilename": "LICENSE.md",
+        "js": {
+          "src/js/skipTo.js": "js/skipTo.js",
+          "src/js/dropMenu.js": "js/dropMenu.js"
+        },
+        "css": {
+          "src/css/SkipTo.css": "css/SkipTo.css"
         }
       }
     },
