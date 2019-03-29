@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_associations
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -119,6 +119,7 @@ class HtmlView extends BaseHtmlView
 		$reference     = ArrayHelper::fromObject(AssociationsHelper::getItem($extensionName, $typeName, $referenceId));
 
 		$this->referenceLanguage = $reference[$languageField];
+		$this->referenceTitle    = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
 
 		// Check for special case category
 		$typeNameExploded = explode('.', $typeName);
@@ -156,6 +157,7 @@ class HtmlView extends BaseHtmlView
 		$this->targetLanguage   = '';
 		$this->defaultTargetSrc = '';
 		$this->targetAction     = '';
+		$this->targetTitle      = '';
 
 		if ($target = $input->get('target', '', 'string'))
 		{
@@ -163,6 +165,7 @@ class HtmlView extends BaseHtmlView
 			$this->targetAction     = $matches[2];
 			$this->targetId         = $matches[1];
 			$this->targetLanguage   = $matches[0];
+			$this->targetTitle      = AssociationsHelper::getTypeFieldName($extensionName, $typeName, 'title');
 			$task                   = $this->typeName . '.' . $this->targetAction;
 			$this->defaultTargetSrc = Route::_($this->editUri . '&task=' . $task . '&id=' . (int) $this->targetId);
 			$this->form->setValue('itemlanguage', '', $this->targetLanguage . ':' . $this->targetId . ':' . $this->targetAction);

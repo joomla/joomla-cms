@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,29 +33,29 @@ class SystemItem
 	private $link;
 
 	/**
-	 * An optional badge of the item
+	 * An optional type for the ajax request
 	 *
 	 * @var string|null
 	 */
-	private $badge;
+	private $type;
 
 	/**
 	 * Class constructor.
 	 *
 	 * @param   string  $title  The title of the item
 	 * @param   string  $link   The link for the item
-	 * @param   string  $badge  The optional badge for the item
+	 * @param   string  $type   The type, requested by the ajax request
 	 *
 	 * @since  4.0.0
 	 */
-	public function __construct($title, $link, $badge = '')
+	public function __construct($title, $link, $type = '')
 	{
 		$this->title = $title;
 		$this->link  = $link;
 
-		if (!empty($badge))
+		if (!empty($type))
 		{
-			$this->badge = $badge;
+			$this->type = $type;
 		}
 	}
 
@@ -84,14 +84,14 @@ class SystemItem
 	}
 
 	/**
-	 * The string to display in the notification badge if there is one. Else null.
+	 * The type to load in the notification badge if there is one. Else null.
 	 *
 	 * @return string|null
 	 *
 	 * @since  4.0.0
 	 */
-	public function getBadge()
+	public function getType()
 	{
-		return $this->badge;
+		return $this->type;
 	}
 }

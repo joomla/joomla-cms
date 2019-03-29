@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,19 +40,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				document.getElementById(fieldPrefix + '_select').classList.add('sr-only');
+				document.getElementById(fieldPrefix + '_select').classList.add('hidden');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				document.getElementById(fieldPrefix + '_new').classList.add('sr-only');
+				document.getElementById(fieldPrefix + '_new').classList.add('hidden');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				document.getElementById(fieldPrefix + '_edit').classList.remove('sr-only');
+				document.getElementById(fieldPrefix + '_edit').classList.remove('hidden');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				document.getElementById(fieldPrefix + '_clear').classList.remove('sr-only');
+				document.getElementById(fieldPrefix + '_clear').classList.remove('hidden');
 			}
 		}
 		else
@@ -62,19 +62,19 @@
 
 			if (document.getElementById(fieldPrefix + '_select'))
 			{
-				document.getElementById(fieldPrefix + '_select').classList.remove('sr-only');
+				document.getElementById(fieldPrefix + '_select').classList.remove('hidden');
 			}
 			if (document.getElementById(fieldPrefix + '_new'))
 			{
-				document.getElementById(fieldPrefix + '_new').classList.remove('sr-only');
+				document.getElementById(fieldPrefix + '_new').classList.remove('hidden');
 			}
 			if (document.getElementById(fieldPrefix + '_edit'))
 			{
-				document.getElementById(fieldPrefix + '_edit').classList.add('sr-only');
+				document.getElementById(fieldPrefix + '_edit').classList.add('hidden');
 			}
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
-				document.getElementById(fieldPrefix + '_clear').classList.add('sr-only');
+				document.getElementById(fieldPrefix + '_clear').classList.add('hidden');
 			}
 		}
 

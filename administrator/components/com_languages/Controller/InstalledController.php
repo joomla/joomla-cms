@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\MultiLanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Session\Session;
@@ -50,8 +51,16 @@ class InstalledController extends BaseController
 				$newLang->load('com_languages', JPATH_ADMINISTRATOR);
 			}
 
-			$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
-			$type = 'message';
+			if (Multilanguage::isEnabled() && $model->getState('client_id') == 0)
+			{
+				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_MULTILANG_SAVED');
+				$type = 'message';
+			}
+			else
+			{
+				$msg = Text::_('COM_LANGUAGES_MSG_DEFAULT_LANGUAGE_SAVED');
+				$type = 'message';
+			}
 		}
 		else
 		{

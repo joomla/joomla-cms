@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,18 +12,15 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('groupedlist');
 
 /**
  * Supports a select grouped list of template styles
  *
  * @since  1.6
  */
-class TemplatestyleField extends \JFormFieldGroupedList
+class TemplatestyleField extends GroupedlistField
 {
 	/**
 	 * The form field type.

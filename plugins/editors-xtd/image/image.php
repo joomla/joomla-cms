@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Editors-xtd.image
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,7 +76,7 @@ class PlgButtonImage extends CMSPlugin
 				'modalWidth' => '80',
 				'tinyPath'   => $link,
 				'confirmCallback' => 'Joomla.getImage(Joomla.selectedFile, \'' . $name . '\')',
-				'confirmText' => 'insert image' // Needs to be translated
+				'confirmText' => Text::_('PLG_IMAGE_BUTTON_INSERT')
 			];
 
 			return $button;
