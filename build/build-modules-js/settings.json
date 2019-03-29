@@ -379,6 +379,8 @@
         "js": {
           "mousetrap.js": "js/mousetrap.js",
           "mousetrap.min.js": "js/mousetrap.min.js"
+        }
+      },
       "skipto": {
         "name": "skipto",
         "licenseFilename": "LICENSE.md",
