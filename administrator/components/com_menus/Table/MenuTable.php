@@ -12,6 +12,7 @@ namespace Joomla\Component\Menus\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Menu table
@@ -75,7 +76,7 @@ class MenuTable extends \JTableMenu
 			// Check the publish down date is not earlier than publish up.
 			if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 			{
-				$this->setError(JText::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
+				$this->setError(Text::_('JGLOBAL_START_PUBLISH_AFTER_FINISH'));
 				return false;
 			}
 			if ((int) $this->home)
