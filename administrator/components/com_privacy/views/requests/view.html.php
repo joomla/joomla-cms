@@ -117,7 +117,7 @@ class PrivacyViewRequests extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUESTS'), 'dashboard');
+		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
 
 		JToolbarHelper::addNew('request.add');
 

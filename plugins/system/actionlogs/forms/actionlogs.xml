@@ -9,6 +9,7 @@
 				description="PLG_SYSTEM_ACTIONLOGS_NOTIFICATIONS_DESC"
 				class="btn-group btn-group-yesno"
 				default="0"
+				filter="integer"
 				required="true"
 				>
 				<option value="1">JYES</option>

@@ -51,6 +51,12 @@ use Joomla\CMS\Language\Text;
 							<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
 						<?php endif; ?>
 
+						<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
+							<div class="mod-articles-category-tags">
+								<?php echo JLayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+							</div>
+						<?php endif; ?>
+
 						<?php if ($params->get('show_introtext')) : ?>
 							<p class="mod-articles-category-introtext">
 								<?php echo $item->displayIntrotext; ?>
@@ -113,6 +119,12 @@ use Joomla\CMS\Language\Text;
 					<span class="mod-articles-category-date">
 						<?php echo $item->displayDate; ?>
 					</span>
+				<?php endif; ?>
+
+				<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
+					<div class="mod-articles-category-tags">
+						<?php echo JLayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+					</div>
 				<?php endif; ?>
 
 				<?php if ($params->get('show_introtext')) : ?>

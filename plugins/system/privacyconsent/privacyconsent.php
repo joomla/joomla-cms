@@ -188,7 +188,6 @@ class PlgSystemPrivacyconsent extends JPlugin
 			&&in_array($task, array('registration.register', 'profile.save'))
 			&& !empty($form['privacyconsent']['privacy']))
 		{
-
 			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
 
 			// Get the user's IP address
@@ -367,7 +366,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @param   int  $userId  ID of uer to check
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -386,7 +385,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Get privacy article ID. If the site is a multilingual website and there is associated article for the
 	 * current language, ID of the associlated article will be returned
 	 *
-	 * @return  int
+	 * @return  integer
 	 */
 	private function getPrivacyArticleId()
 	{
@@ -419,7 +418,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		{
 			return;
 		}
-		
+
 		$cacheTimeout = (int) $this->params->get('cachetimeout', 30);
 		$cacheTimeout = 24 * 3600 * $cacheTimeout;
 
@@ -427,7 +426,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		// timestamp. If the difference is greater than the cache timeout we shall not execute again.
 		$now  = time();
 		$last = (int) $this->params->get('lastrun', 0);
-		
+
 		if ((abs($now - $last) < $cacheTimeout))
 		{
 			return;
@@ -442,6 +441,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote('system'))
 			->where($db->quoteName('element') . ' = ' . $db->quote('privacyconsent'));
+
 		try
 		{
 			// Lock the tables to prevent multiple plugin executions causing a race condition
@@ -494,7 +494,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Method to send the remind for privacy consents renew
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
@@ -597,7 +597,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Method to delete the expired privacy consents
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */

@@ -44,6 +44,9 @@ $now       = JFactory::getDate();
 						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_USERNAME', 'u.username', $listDirn, $listOrder); ?>
 						</th>
+						<th width="1%" class="nowrap">
+							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_USERID', 'a.user_id', $listDirn, $listOrder); ?>
+						</th>
 						<th width="10%" class="nowrap">
 							<?php echo JText::_('COM_PRIVACY_HEADING_CONSENTS_SUBJECT'); ?>
 						</th>
@@ -70,6 +73,9 @@ $now       = JFactory::getDate();
 						<tr class="row<?php echo $i % 2; ?>">
 							<td>
 								<?php echo $item->username; ?>
+							</td>
+							<td>
+								<?php echo $item->user_id; ?>
 							</td>
 							<td>
 								<?php echo $item->subject; ?>
