@@ -249,7 +249,7 @@ class JFormFieldCalendar extends JFormField
 		{
 			$tz = date_default_timezone_get();
 			date_default_timezone_set('UTC');
-			$this->value = strftime('%Y-%m-%d %H:%M:%S', strtotime($this->value));
+			$this->value = strftime(JText::_('DATE_FORMAT_CALENDAR_DATETIME'), strtotime($this->value));
 			date_default_timezone_set($tz);
 		}
 		else
