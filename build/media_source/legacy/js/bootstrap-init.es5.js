@@ -125,7 +125,7 @@ Joomla = window.Joomla || {};
 						if ($self.data('iframe').indexOf("document.getElementById") > 0){
 							var iframeTextArr = $self.data('iframe').split('+');
 							var idFieldArr = iframeTextArr[1].split('"');
-							
+
 							idFieldArr[0] = idFieldArr[0].replace(/&quot;/g,'"');
 
 							if (!document.getElementById(idFieldArr[1])) {
