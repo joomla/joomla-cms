@@ -202,7 +202,7 @@ class ArticlesModel extends ListModel
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down, a.introtext, a.note'
+				', a.publish_up, a.publish_down, a.introtext'
 			)
 		);
 		$query->from('#__content AS a');
