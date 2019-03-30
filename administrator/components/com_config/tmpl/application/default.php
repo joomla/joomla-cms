@@ -37,7 +37,7 @@ $style = '@media all and (-ms-high-contrast:none) and (min-width: 769px) {
 		display: table-cell;
 	}
 }';
-$document->addStyleDeclaration( $style );
+$document->addStyleDeclaration($style);
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_config'); ?>" id="application-form" method="post" name="adminForm" class="form-validate" data-cancel-task="config.cancel.component">
