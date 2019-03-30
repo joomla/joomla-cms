@@ -147,12 +147,16 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 						<?php $count = count($this->items); ?>
 						<?php foreach ($this->items as $i => $item) :
 							$item->max_ordering = 0;
-							$ordering   = ($listOrder == 'fp.ordering');
-							$assetId    = 'com_content.article.' . $item->id;
-							$canCreate  = $user->authorise('core.create', 'com_content.category.' . $item->catid);
-							$canEdit    = $user->authorise('core.edit', 'com_content.article.' . $item->id);
-							$canCheckin = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
-							$canChange  = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+							$ordering         = ($listOrder == 'fp.ordering');
+							$assetId          = 'com_content.article.' . $item->id;
+							$canCreate        = $user->authorise('core.create', 'com_content.category.' . $item->catid);
+							$canEdit          = $user->authorise('core.edit', 'com_content.article.' . $item->id);
+							$canCheckin       = $user->authorise('core.manage', 'com_checkin') || $item->checked_out == $userId || $item->checked_out == 0;
+							$canChange        = $user->authorise('core.edit.state', 'com_content.article.' . $item->id) && $canCheckin;
+							$canEditCat       = $user->authorise('core.edit',       'com_content.category.' . $item->catid);
+							$canEditOwnCat    = $user->authorise('core.edit.own',   'com_content.category.' . $item->catid) && $item->category_uid == $userId;
+							$canEditParCat    = $user->authorise('core.edit',       'com_content.category.' . $item->parent_category_id);
+							$canEditOwnParCat = $user->authorise('core.edit.own',   'com_content.category.' . $item->parent_category_id) && $item->parent_category_uid == $userId;
 
 							$transitions = ContentHelper::filterTransitions($this->transitions, $item->stage_id, $item->workflow_id);
 
@@ -259,7 +263,57 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											<?php endif; ?>
 										</span>
 										<div class="small">
-											<?php echo Text::_('JCATEGORY') . ': ' . $this->escape($item->category_title); ?>
+											<?php
+											$ParentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->parent_category_id . '&extension=com_content');
+											$CurrentCatUrl = Route::_('index.php?option=com_categories&task=category.edit&id=' . $item->catid . '&extension=com_content');
+											$EditCatTxt = Text::_('JACTION_EDIT') . ' ' . Text::_('JCATEGORY');
+											echo Text::_('JCATEGORY') . ': ';
+											if ($item->category_level != '1') :
+												if ($item->parent_category_level != '1') :
+													echo ' &#187; ';
+												endif;
+											endif;
+											if (Factory::getLanguage()->isRtl())
+											{
+												if ($canEditCat || $canEditOwnCat) :
+													echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+												endif;
+												echo $this->escape($item->category_title);
+												if ($canEditCat || $canEditOwnCat) :
+													echo '</a>';
+												endif;
+												if ($item->category_level != '1') :
+													echo ' &#171; ';
+													if ($canEditParCat || $canEditOwnParCat) :
+														echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+													endif;
+													echo $this->escape($item->parent_category_title);
+													if ($canEditParCat || $canEditOwnParCat) :
+														echo '</a>';
+													endif;
+												endif;
+											}
+											else
+											{
+												if ($item->category_level != '1') :
+													if ($canEditParCat || $canEditOwnParCat) :
+														echo '<a class="hasTooltip" href="' . $ParentCatUrl . '" title="' . $EditCatTxt . '">';
+													endif;
+													echo $this->escape($item->parent_category_title);
+													if ($canEditParCat || $canEditOwnParCat) :
+														echo '</a>';
+													endif;
+													echo ' &#187; ';
+												endif;
+												if ($canEditCat || $canEditOwnCat) :
+													echo '<a class="hasTooltip" href="' . $CurrentCatUrl . '" title="' . $EditCatTxt . '">';
+												endif;
+												echo $this->escape($item->category_title);
+												if ($canEditCat || $canEditOwnCat) :
+													echo '</a>';
+												endif;
+											}
+											?>
 										</div>
 									</div>
 								</th>

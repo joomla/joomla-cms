@@ -38,6 +38,7 @@ class ExtensionHelper
 		// Format: `type`, `element`, `folder`, `client_id`
 
 		// Core component extensions
+		array('component', 'com_actionlogs', '', 1),
 		array('component', 'com_admin', '', 1),
 		array('component', 'com_ajax', '', 1),
 		array('component', 'com_associations', '', 1),
@@ -71,7 +72,6 @@ class ExtensionHelper
 		array('component', 'com_tags', '', 1),
 		array('component', 'com_templates', '', 1),
 		array('component', 'com_users', '', 1),
-		array('component', 'com_userslogs', '', 1),
 		array('component', 'com_workflow', '', 1),
 		array('component', 'com_wrapper', '', 0),
 
@@ -98,6 +98,7 @@ class ExtensionHelper
 		array('module', 'mod_menu', '', 1),
 		array('module', 'mod_multilangstatus', '', 1),
 		array('module', 'mod_popular', '', 1),
+		array('module', 'mod_privacy_dashboard', '', 1),
 		array('module', 'mod_quickicon', '', 1),
 		array('module', 'mod_sampledata', '', 1),
 		array('module', 'mod_stats_admin', '', 1),
@@ -136,8 +137,8 @@ class ExtensionHelper
 		// Core package extensions
 		array('package', 'pkg_en-GB', '', 0),
 
-		// Core plugin extensions - actionlogs
-		array('plugin', 'joomla', 'actionlogs', 0),
+		// Core plugin extensions - actionlog
+		array('plugin', 'joomla', 'actionlog', 0),
 
 		// Core plugin extensions - authentication
 		array('plugin', 'cookie', 'authentication', 0),
@@ -222,11 +223,18 @@ class ExtensionHelper
 		array('plugin', 'resize', 'media-action', 0),
 		array('plugin', 'rotate', 'media-action', 0),
 
-		// Core plugin extensions - quickicon
+		// Core plugin extensions - privacy
+		array('plugin', 'contact', 'privacy', 0),
+		array('plugin', 'content', 'privacy', 0),
+		array('plugin', 'message', 'privacy', 0),
+		array('plugin', 'user', 'privacy', 0),
+
+		// Core plugin extensions - quick icon
 		array('plugin', 'extensionupdate', 'quickicon', 0),
 		array('plugin', 'joomlaupdate', 'quickicon', 0),
 		array('plugin', 'overridecheck', 'quickicon', 0),
 		array('plugin', 'phpversioncheck', 'quickicon', 0),
+		array('plugin', 'privacycheck', 'quickicon', 0),
 
 		// Core plugin extensions - sample data
 		array('plugin', 'blog', 'sampledata', 0),
@@ -240,6 +248,7 @@ class ExtensionHelper
 		array('plugin', 'tags', 'search', 0),
 
 		// Core plugin extensions - system
+		array('plugin', 'actionlogs', 'system', 0),
 		array('plugin', 'cache', 'system', 0),
 		array('plugin', 'debug', 'system', 0),
 		array('plugin', 'fields', 'system', 0),
@@ -249,7 +258,8 @@ class ExtensionHelper
 		array('plugin', 'languagefilter', 'system', 0),
 		array('plugin', 'log', 'system', 0),
 		array('plugin', 'logout', 'system', 0),
-		array('plugin', 'privacy', 'system', 0),
+		array('plugin', 'logrotation', 'system', 0),
+		array('plugin', 'privacyconsent', 'system', 0),
 		array('plugin', 'redirect', 'system', 0),
 		array('plugin', 'remember', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
@@ -257,7 +267,6 @@ class ExtensionHelper
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
-		array('plugin', 'userlogs', 'system', 0),
 
 		// Core plugin extensions - two factor authentication
 		array('plugin', 'totp', 'twofactorauth', 0),
@@ -267,6 +276,7 @@ class ExtensionHelper
 		array('plugin', 'contactcreator', 'user', 0),
 		array('plugin', 'joomla', 'user', 0),
 		array('plugin', 'profile', 'user', 0),
+		array('plugin', 'terms', 'user', 0),
 
 		// Core template extensions - administrator
 		array('template', 'atum', '', 1),

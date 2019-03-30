@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\Utilities\ArrayHelper;
+
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
+JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
 
 /**
  * Privacy plugin managing Joomla user data
@@ -26,6 +29,45 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $db;
+
+	/**
+	 * Affects constructor behavior. If true, language files will be loaded automatically.
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $autoloadLanguage = true;
+
+	/**
+	 * Performs validation to determine if the data associated with a remove information request can be processed
+	 *
+	 * This event will not allow a super user account to be removed
+	 *
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 *
+	 * @return  PrivacyRemovalStatus
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onPrivacyCanRemoveData(PrivacyTableRequest $request)
+	{
+		$status = new PrivacyRemovalStatus;
+
+		if (!$request->user_id)
+		{
+			return $status;
+		}
+
+		$user = JUser::getInstance($request->user_id);
+
+		if ($user->authorise('core.admin'))
+		{
+			$status->canRemove = false;
+			$status->reason    = JText::_('PLG_PRIVACY_USER_ERROR_CANNOT_REMOVE_SUPER_USER');
+		}
+
+		return $status;
+	}
 
 	/**
 	 * Processes an export request for Joomla core user data
@@ -64,6 +106,76 @@ class PlgPrivacyUser extends PrivacyPlugin
 	}
 
 	/**
+	 * Removes the data associated with a remove information request
+	 *
+	 * This event will pseudoanonymise the user account
+	 *
+	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onPrivacyRemoveData(PrivacyTableRequest $request)
+	{
+		// This plugin only processes data for registered user accounts
+		if (!$request->user_id)
+		{
+			return;
+		}
+
+		$user = JUser::getInstance($request->user_id);
+
+		// If there was an error loading the user do nothing here
+		if ($user->guest)
+		{
+			return;
+		}
+
+		$pseudoanonymisedData = array(
+			'name'      => 'User ID ' . $user->id,
+			'username'  => bin2hex(random_bytes(12)),
+			'email'     => 'UserID' . $user->id . 'removed@email.invalid',
+			'block'     => true,
+		);
+
+		$user->bind($pseudoanonymisedData);
+
+		$user->save();
+
+		// Destroy all sessions for the user account
+		$sessionIds = $this->db->setQuery(
+			$this->db->getQuery(true)
+				->select($this->db->quoteName('session_id'))
+				->from($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('userid') . ' = ' . (int) $user->id)
+		)->loadColumn();
+
+		// If there aren't any active sessions then there's nothing to do here
+		if (empty($sessionIds))
+		{
+			return;
+		}
+
+		$storeName = JFactory::getConfig()->get('session_handler', 'none');
+		$store     = JSessionStorage::getInstance($storeName);
+		$quotedIds = array();
+
+		// Destroy the sessions and quote the IDs to purge the session table
+		foreach ($sessionIds as $sessionId)
+		{
+			$store->destroy($sessionId);
+			$quotedIds[] = $this->db->quote($sessionId);
+		}
+
+		$this->db->setQuery(
+			$this->db->getQuery(true)
+				->delete($this->db->quoteName('#__session'))
+				->where($this->db->quoteName('session_id') . ' IN (' . implode(', ', $quotedIds) . ')')
+		)->execute();
+	}
+
+	/**
 	 * Create the domain for the user notes data
 	 *
 	 * @param   JTableUser  $user  The JTableUser object to process
@@ -82,6 +194,12 @@ class PlgPrivacyUser extends PrivacyPlugin
 			->where($this->db->quoteName('user_id') . ' = ' . $this->db->quote($user->id));
 
 		$items = $this->db->setQuery($query)->loadAssocList();
+
+		// Remove user ID columns
+		foreach (array('user_id', 'created_user_id', 'modified_user_id') as $column)
+		{
+			$items = ArrayHelper::dropColumn($items, $column);
+		}
 
 		foreach ($items as $item)
 		{
@@ -180,7 +298,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 
 		foreach ($fields as $field)
 		{
-			$fieldValue = is_array($field->value) ? implode(', ', $field->value): $field->value;
+			$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
 
 			$data = array(
 				'user_id'     => $user->id,
