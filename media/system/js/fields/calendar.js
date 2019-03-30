@@ -742,7 +742,7 @@
 
 				cell = createElement("td", row);
 				cell.className = "time ampm-select";
-				cell.colSpan = self.params.weekNumbers ? 2 : 2;
+				cell.colSpan = 2;
 
 				if (t12) {
 					var selAttr = true,
