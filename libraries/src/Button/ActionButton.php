@@ -95,7 +95,7 @@ class ActionButton
 	/**
 	 * Add a state profile.
 	 *
-	 * @param   string  $value    The value of this state.
+	 * @param   		$value    The value of this state.
 	 * @param   string  $task     The task you want to execute after click this button.
 	 * @param   string  $icon     The icon to display for user.
 	 * @param   string  $title    Title text will show if we enable tooltips.
@@ -105,7 +105,7 @@ class ActionButton
 	 *
 	 * @since   4.0.0
 	 */
-	public function addState(string $value, string $task, string $icon = 'ok', string $title = '', array $options = []): self
+	public function addState($value, string $task, string $icon = 'ok', string $title = '', array $options = []): self
 	{
 		// Force type to prevent null data
 		$this->states[$value] = [
@@ -128,7 +128,7 @@ class ActionButton
 	 *
 	 * @since   4.0.0
 	 */
-	public function getState(string $value): array
+	public function getState($value): array
 	{
 		// PHP 7.0 does not allow nullable return values so we return empty array if not exists.
 		return $this->states[$value] ?? [];

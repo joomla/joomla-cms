@@ -84,8 +84,8 @@ $assoc = Associations::isEnabled();
 
 // Configure featured button renderer.
 $featuredButton = (new ActionButton(['tip_title' => 'JGLOBAL_TOGGLE_FEATURED']))
-	->addState('0', 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
-	->addState('1', 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
+	->addState(0, 'articles.featured', 'unfeatured', 'COM_CONTENT_UNFEATURED')
+	->addState(1, 'articles.unfeatured', 'featured', 'COM_CONTENT_FEATURED');
 
 HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['relative' => true, 'version' => 'auto']);
 ?>
