@@ -52,6 +52,7 @@ Text::script('COM_MEDIA_SEARCH', true);
 Text::script('COM_MEDIA_SELECT_ALL', true);
 Text::script('COM_MEDIA_SERVER_ERROR', true);
 Text::script('COM_MEDIA_SHARE', true);
+Text::script('COM_MEDIA_SHARE_COPY', true);
 Text::script('COM_MEDIA_SHARE_COPY_FAILED_ERROR', true);
 Text::script('COM_MEDIA_SHARE_DESC', true);
 Text::script('COM_MEDIA_TOGGLE_INFO', true);

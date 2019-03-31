@@ -22,10 +22,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <div id="installer-languages" class="clearfix">
 	<form action="<?php echo Route::_('index.php?option=com_installer&view=languages'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
-			<div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-			</div>
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
 					<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this, 'options' => array('filterButton' => false))); ?>
 					<?php if (empty($this->items)) : ?>

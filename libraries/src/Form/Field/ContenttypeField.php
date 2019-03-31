@@ -11,17 +11,14 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Content Type field.
  *
  * @since  3.1
  */
-class ContenttypeField extends \JFormFieldList
+class ContenttypeField extends ListField
 {
 	/**
 	 * A flexible tag list that respects access controls
