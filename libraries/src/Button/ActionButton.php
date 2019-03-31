@@ -137,13 +137,13 @@ class ActionButton
 	/**
 	 * Remove a state by value name.
 	 *
-	 * @param   string  $value  Remove state by this value.
+	 * @param   	    $value  Remove state by this value.
 	 *
 	 * @return  static  Return to support chaining.
 	 *
 	 * @since   4.0.0
 	 */
-	public function removeState(string $value): self
+	public function removeState($value): self
 	{
 		if (isset($this->states[$value]))
 		{
