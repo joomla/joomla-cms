@@ -41,6 +41,8 @@
                                   @click.stop="download()"></span>
                         </button>
                     </li>
+                </ul>
+                <ul>
                     <li>
                         <button type="button" class="action-rename" ref="actionRename" @keyup.enter="openRenameModal()"
                             :aria-label="translate('COM_MEDIA_ACTION_RENAME')" @keyup.space="openRenameModal()"
@@ -58,6 +60,8 @@
                             <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
                         </button>
                     </li>
+                </ul>
+                <ul>
                     <li>
                         <button type="button" class="action-url" ref="actionShare" @keyup.enter="openShareUrlModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_SHARE')" @keyup.space="openShareUrlModal()"
@@ -156,3 +160,8 @@
         }
     }
 </script>
+<style scoped>
+    li {
+        float: left;
+    }
+</style>

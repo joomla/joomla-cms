@@ -42,6 +42,8 @@
                                   @click.stop="download()"></span>
                         </button>
                     </li>
+                </ul>
+                <ul>
                     <li>
                         <button type="button" class="action-rename" ref="actionRename" @keyup.enter="openRenameModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_RENAME')" @keyup.space="openRenameModal()"
@@ -59,6 +61,8 @@
                             <span class="image-browser-action fa fa-link" aria-hidden="true" @click.stop="openShareUrlModal()"></span>
                         </button>
                     </li>
+                </ul>
+                <ul>
                     <li>
                         <button type="button" class="action-delete" ref="actionDelete" @keyup.enter="openConfirmDeleteModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_DELETE')" @keyup.space="openConfirmDeleteModal()"
@@ -128,3 +132,9 @@
         }
     }
 </script>
+
+<style scoped>
+    li {
+        float: left;
+    }
+</style>

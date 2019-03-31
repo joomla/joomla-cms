@@ -99,3 +99,9 @@
         }
     }
 </script>
+
+<style scoped>
+    li {
+        float: left;
+    }
+</style>

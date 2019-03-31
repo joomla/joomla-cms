@@ -42,6 +42,8 @@
                                   @click.stop="openRenameModal()"></span>
                         </button>
                     </li>
+                </ul>
+                <ul>
                     <li>
                         <button type="button" class="action-url" ref="actionUrl" @keyup.space="openShareUrlModal()"
                           :aria-label="translate('COM_MEDIA_ACTION_SHARE')" @keyup.enter="openShareUrlModal()"
@@ -118,3 +120,9 @@
         }
     }
 </script>
+
+<style scoped>
+    li {
+        float: left;
+    }
+</style>
