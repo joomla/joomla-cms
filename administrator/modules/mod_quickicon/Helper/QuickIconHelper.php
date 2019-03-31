@@ -96,6 +96,7 @@ abstract class QuickIconHelper
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_users'),
 						'linkadd'   => Route::_('index.php?option=com_users&task=user.add'),
+						'addwhat' => Text::plural('MOD_QUICKICON_USER_MANAGER', 1),
 						'name'   => Text::plural('MOD_QUICKICON_USER_MANAGER', $amount),
 						'access' => array('core.manage', 'com_users', 'core.create', 'com_users'),
 						'group'  => 'MOD_QUICKICON_USERS',
@@ -110,6 +111,7 @@ abstract class QuickIconHelper
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_users'),
 						'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
+						'addwhat' => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', 1),
 						'name'   => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', $amount),
 						'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
 						'group'  => 'MOD_QUICKICON_STRUCTURE',
@@ -124,6 +126,7 @@ abstract class QuickIconHelper
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_content'),
 						'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
+						'addwhat' => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', 1),
 						'name'   => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', $amount),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
@@ -137,6 +140,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_categories'),
+						'addwhat' => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', 1),
 						'linkadd'   => Route::_('index.php?option=com_categories&task=category.add'),
 						'name'   => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', $amount),
 						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
@@ -191,6 +195,17 @@ abstract class QuickIconHelper
 						'group'  => 'MOD_QUICKICON_CONTENT'
 					];
 				}
+
+				if ($params->get('show_templates', '1'))
+				{
+					self::$buttons[$key][] = [
+						'amount' => self::countTemplates(),
+						'link'   => Route::_('index.php?option=com_templates&client_id=0'),
+						'text'   => Text::_('MOD_QUICKICON_TEMPLATES'),
+						'access' => array('core.admin', 'com_templates'),
+						'group'  => 'MOD_QUICKICON_TEMPLATES'
+					];
+				}
 			}
 
 			// Include buttons defined by published quickicon plugins
@@ -208,6 +223,7 @@ abstract class QuickIconHelper
 					$default = array(
 						'amount' => null,
 						'link'   => null,
+						'addwhat'   => null,
 						'linkadd'   => null,
 						'name' => null,
 						'image'  => null,
@@ -387,5 +403,21 @@ abstract class QuickIconHelper
 		$model = $app->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
 
 		return $model->getTotal();
+	}
+
+	/**
+	 * Method to get Templates
+	 * 
+	 * @return  integer  The amount of Templates
+	 *
+	 * @since   4.0
+	 */
+	private static function countTemplates()
+	{
+		$app = Factory::getApplication();
+
+		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel('Templates', 'Administrator', ['ignore_request' => true]);
+		
+		return count($model->getItems());
 	}
 }

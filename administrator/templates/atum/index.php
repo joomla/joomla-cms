@@ -141,6 +141,11 @@ if ($this->params->get('special-color'))
 	$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
 }
 
+if ($this->params->get('contrast-color'))
+{
+    $root[] = '--atum-contrast: ' . $this->params->get('contrast-color') . ';';
+}
+
 if (count($root))
 {
 	$css .= ':root {' . implode($root) . '}';

@@ -90,6 +90,13 @@
 					default="#001B4C"
 					filter="color"
 				/>
+				<field
+						name="contrast-color"
+						type="color"
+						label="TPL_ATUM_COLORS_SETTINGS_CONTRAST_COLOR_LABEL"
+						default="#00cfcf"
+						filter="color"
+				/>
 			</fieldset>
 			<fieldset name="images" label="TPL_ATUM_IMAGES_SETTINGS_LABEL">
 

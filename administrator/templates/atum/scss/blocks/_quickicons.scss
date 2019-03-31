@@ -26,6 +26,7 @@
 
   .quickicon-name {
     font-size: 1rem;
+    padding-bottom: .3rem;
   }
 
   .quickicon-amount {
@@ -46,9 +47,14 @@
 
   .quickicon-linkadd {
     font-size: .9rem;
+    line-height: 3.4rem;
     border-top: 1px solid $light_blue;
     text-decoration: none;
 
+    @include media-breakpoint-up(md) {
+      line-height: 2rem;
+    }
+	
     @include hover-focus-active {
       text-decoration: none;
       box-shadow: $quickicon-box-shadow-hover;
@@ -57,10 +63,9 @@
 
   a:not(.quickicon-linkadd) {
     display: inline-flex;
-    min-height: 6rem;
+    min-height: 5.4rem;
     flex-direction: column;
     width: 100%;
-    padding-bottom: 6px;
     transition: all .25s ease;
     text-align: center;
 

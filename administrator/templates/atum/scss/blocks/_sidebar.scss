@@ -150,11 +150,11 @@
       top: -1px;
       a {
         padding: 0;
-        display: inline;
+        display: inline-block;
+        height:100%;
         .fa {
           display: flex;
           padding: 0 1rem;
-          height: 100%;
           align-items: center;
           margin: 0;
         }
@@ -171,26 +171,26 @@
     }
     .menu-dashboard{
       a{
+
         .fa{
           align-items: flex-start;
-          padding: 5px 1rem;
+
         }
       }
     }
-
-
-    .sidebar-item-title{
-      word-break: break-word;
-      @include media-breakpoint-up(sm) {
-        max-width: 9rem !important;
-        display: inline-block;
-      }
-      @include media-breakpoint-down(xs) {
-        max-width: 60vw !important;
-        display: inline-block;
-      }
-    }
   }
+
+	.sidebar-item-title{
+	  word-break: break-word;
+	  @include media-breakpoint-up(sm) {
+		max-width: 9rem !important;
+		display: inline-block;
+	  }
+	  @include media-breakpoint-down(xs) {
+		max-width: 60vw !important;
+		display: inline-block;
+	  }
+	}
 
   // All links
   a {
