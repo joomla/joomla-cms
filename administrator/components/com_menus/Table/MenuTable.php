@@ -90,7 +90,7 @@ class MenuTable extends \JTableMenu
 				// Set the publish down/up always for home.
 				$this->publish_up   = $db->getNullDate();
 				$this->publish_down = $db->getNullDate();
-			}		
+			}
 		}
 
 		return $return;
