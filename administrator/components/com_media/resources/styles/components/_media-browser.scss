@@ -446,3 +446,21 @@
     }
   }
 }
+
+/* RTL override */
+
+html[dir=rtl] .media-browser-select {
+  right: 6px;
+  left: 0;
+}
+
+html[dir=rtl] .media-browser-select:after {
+  right: 0;
+  left: auto;
+}
+
+html[dir=rtl] .media-browser-actions {
+  right: auto;
+  left: 0;
+}
+
