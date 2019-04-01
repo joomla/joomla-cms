@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\User\User;
 use Joomla\Registry\Registry;
 
 /**
@@ -56,7 +57,7 @@ abstract class AbstractMenu
 	/**
 	 * User object to check access levels for
 	 *
-	 * @var    \JUser
+	 * @var    User
 	 * @since  3.5
 	 */
 	protected $user;
@@ -81,7 +82,7 @@ abstract class AbstractMenu
 			}
 		}
 
-		$this->user = isset($options['user']) && $options['user'] instanceof \JUser ? $options['user'] : Factory::getUser();
+		$this->user = isset($options['user']) && $options['user'] instanceof User ? $options['user'] : Factory::getUser();
 	}
 
 	/**

@@ -115,6 +115,12 @@
     }
   }
 
+  .dropdown-menu {
+    min-width: 280px;
+    padding: 0;
+    z-index: 1041;
+  }
+
   .link-title {
 
     @include media-breakpoint-down(lg) {

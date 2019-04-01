@@ -671,7 +671,7 @@ abstract class HTMLHelper
 		}
 
 		// If inclusion is required
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -730,7 +730,7 @@ abstract class HTMLHelper
 		}
 
 		// If inclusion is required
-		$document = Factory::getDocument();
+		$document = Factory::getApplication()->getDocument();
 
 		foreach ($includes as $include)
 		{
@@ -768,9 +768,6 @@ abstract class HTMLHelper
 		// Script core.js is responsible for the polyfills and the async loading of the web components
 		static::_('behavior.core');
 
-		$version      = '';
-		$mediaVersion = Factory::getDocument()->getMediaVersion();
-
 		// Add the css if exists
 		self::_('stylesheet', str_replace('.js', '.css', $file), $options);
 
@@ -787,11 +784,14 @@ abstract class HTMLHelper
 			return;
 		}
 
+		$document = Factory::getApplication()->getDocument();
+		$version  = '';
+
 		if (isset($options['version']))
 		{
 			if ($options['version'] === 'auto')
 			{
-				$version = '?' . $mediaVersion;
+				$version = '?' . $document->getMediaVersion();
 			}
 			else
 			{
@@ -799,10 +799,11 @@ abstract class HTMLHelper
 			}
 		}
 
+		$components = $document->getScriptOptions('webcomponents');
+
 		foreach ($includes as $include)
 		{
 			$potential = $include . ((strpos($include, '?') === false) ? $version : '');
-			$components = Factory::getDocument()->getScriptOptions('webcomponents');
 
 			if (in_array($potential, $components))
 			{
@@ -810,8 +811,9 @@ abstract class HTMLHelper
 			}
 
 			$components[] = $potential;
-			Factory::getDocument()->addScriptOptions('webcomponents', $components);
 		}
+
+		$document->addScriptOptions('webcomponents', $components);
 	}
 
 	/**
@@ -1067,7 +1069,7 @@ abstract class HTMLHelper
 	{
 		$tag       = Factory::getLanguage()->getTag();
 		$calendar  = Factory::getLanguage()->getCalendar();
-		$direction = strtolower(Factory::getDocument()->getDirection());
+		$direction = strtolower(Factory::getApplication()->getDocument()->getDirection());
 
 		// Get the appropriate file for the current language date helper
 		$helperPath = 'system/fields/calendar-locales/date/gregorian/date-helper.min.js';

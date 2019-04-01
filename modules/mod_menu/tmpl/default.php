@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+
+HTMLHelper::_('script', 'mod_menu/menu.min.js', array('version' => 'auto', 'relative' => true));
 
 $id = '';
 

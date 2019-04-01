@@ -24,6 +24,8 @@ $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
 $now       = JFactory::getDate();
 
+$urgentRequestDate= clone $now;
+$urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_privacy&view=requests'); ?>" method="post" name="adminForm" id="adminForm">
 	<?php if (!empty($this->sidebar)) : ?>
@@ -44,8 +46,8 @@ $now       = JFactory::getDate();
 			<table class="table table-striped" id="requestList">
 				<thead>
 					<tr>
-						<th width="1%" class="center">
-							<?php echo JHtml::_('grid.checkall'); ?>
+						<th width="5%" class="nowrap center">
+							<?php echo JText::_('COM_PRIVACY_HEADING_ACTIONS'); ?>
 						</th>
 						<th width="5%" class="nowrap center">
 							<?php echo JText::_('JSTATUS'); ?>
@@ -77,22 +79,29 @@ $now       = JFactory::getDate();
 				<tbody>
 					<?php foreach ($this->items as $i => $item) : ?>
 						<?php
-						$canView = $user->authorise('core.manage', 'com_privacy');
+						$itemRequestedAt = new JDate($item->requested_at);
 						?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="center">
-								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+								<div class="btn-group">
+									<?php if ($item->status == 1 && $item->request_type === 'export') : ?>
+										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="icon-download" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?></span></a>
+										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-mail" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
+									<?php endif; ?>
+									<?php if ($item->status == 1 && $item->request_type === 'remove') : ?>
+										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-delete" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
+									<?php endif; ?>
+								</div>
 							</td>
 							<td class="center">
 								<?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $item->status); ?>
 							</td>
 							<td>
-								<?php if ($canView) : ?>
-									<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_VIEW'); ?>">
-										<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
-									</a>
-								<?php else : ?>
+								<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=request&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_VIEW'); ?>">
 									<?php echo JStringPunycode::emailToUTF8($this->escape($item->email)); ?>
+								</a>
+								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
+									<span class="label"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
 								<?php endif; ?>
 							</td>
 							<td class="break-word">
@@ -103,7 +112,7 @@ $now       = JFactory::getDate();
 							</td>
 							<td class="break-word d-none d-md-table-cell">
 								<span class="hasTooltip" title="<?php echo JHtml::_('date', $item->requested_at, JText::_('DATE_FORMAT_LC6')); ?>">
-									<?php echo JHtml::_('date.relative', new JDate($item->requested_at), null, $now); ?>
+									<?php echo JHtml::_('date.relative', $itemRequestedAt, null, $now); ?>
 								</span>
 							</td>
 							<td class=" d-none d-md-table-cell">

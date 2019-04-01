@@ -194,6 +194,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 		<input type="hidden" name="task" value="">
+		<input type="hidden" name="return" value="<?php echo $input->getCmd('return'); ?>">
 		<?php echo HTMLHelper::_('form.token'); ?>
 		<?php echo $this->form->getInput('module'); ?>
 		<?php echo $this->form->getInput('client_id'); ?>

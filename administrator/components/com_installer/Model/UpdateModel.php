@@ -369,7 +369,7 @@ class UpdateModel extends ListModel
 			$this->preparePreUpdate($update, $instance);
 
 			// Install sets state and enqueues messages
-			$res = $this->install($update, $instance->detailsurl);
+			$res = $this->install($update);
 
 			if ($res)
 			{
@@ -396,14 +396,13 @@ class UpdateModel extends ListModel
 	/**
 	 * Handles the actual update installation.
 	 *
-	 * @param   Update  $update     An update definition
-	 * @param   string  $updateUrl  Update Server manifest
+	 * @param   Update  $update  An update definition
 	 *
 	 * @return  boolean   Result of install
 	 *
 	 * @since   1.6
 	 */
-	private function install($update, $updateUrl)
+	private function install($update)
 	{
 		// Load overrides plugin.
 		PluginHelper::importPlugin('installer');
@@ -461,19 +460,13 @@ class UpdateModel extends ListModel
 		$update->set('type', $package['type']);
 
 		// Check the package
-		$check = InstallerHelper::isChecksumValid($package['packagefile'], (string) $updateUrl);
+		$check = InstallerHelper::isChecksumValid($package['packagefile'], $update);
 
-		switch ($check)
+		// The validation was not successful. Just a warning for now.
+		// TODO: In Joomla 4 this will abort the installation
+		if ($check === InstallerHelper::HASH_NOT_VALIDATED)
 		{
-			case 0:
-				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'warning');
-				break;
-			case 1:
-				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_CORRECT'), 'message');
-				break;
-			case 2:
-				$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_NOT_FOUND'), 'notice');
-				break;
+			$app->enqueueMessage(Text::_('COM_INSTALLER_INSTALL_CHECKSUM_WRONG'), 'error');
 		}
 
 		// Install the package

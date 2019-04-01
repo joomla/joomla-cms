@@ -1,7 +1,5 @@
 // Dropdown
 
-@import "../../variables";
-
 .btn-group .dropdown-menu {
   background: $white;
   box-shadow: $dropdown-box-shadow;
@@ -13,7 +11,12 @@
   }
 }
 
+.dropdown-menu {
+  box-shadow: $atum-box-shadow;
+}
+
 .dropdown-item {
+  cursor: pointer;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
   &:hover,
