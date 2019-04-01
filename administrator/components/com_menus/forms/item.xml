@@ -94,7 +94,6 @@
 			name="publish_down"
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
-			description="JGLOBAL_FIELD_PUBLISH_DOWN_DESC"
 			id="publish_down"
 			class="inputbox"
 			translateformat="true"
