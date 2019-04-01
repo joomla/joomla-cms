@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function(){
 		});
 
 		var score = strength.getScore(element.value),
-			i = meter.getAttribute('aria-describedby').replace( /^\D+/g, ''),
+			i = meter.getAttribute('id').replace( /^\D+/g, ''),
 			label = element.parentNode.parentNode.querySelector('#password-' + i);
 
 		if (score > 79){
@@ -136,12 +136,13 @@ document.addEventListener('DOMContentLoaded', function(){
 		meter2.setAttribute('class', 'progress-bar progress-bar-striped progress-bar-animated' + startClass);
 		meter2.style.width = 0 + initialVal;
 		meter2.max = 100;
-		meter2.setAttribute('aria-describedby', 'password-' + i);
+		meter2.setAttribute('id', 'progress-' + i);
 		meter.appendChild(meter2);
 
 		var label = document.createElement('div');
 		label.setAttribute('class', 'text-xs-center');
 		label.setAttribute('id', 'password-' + i);
+		label.setAttribute('aria-live', 'polite');
 
 		fields[i].parentNode.insertAdjacentElement('afterEnd', label);
 		fields[i].parentNode.insertAdjacentElement('afterEnd', meter);
