@@ -15,7 +15,7 @@
                         <span class="input-group">
                             <input id="url" ref="urlText" readonly v-model="url" class="form-control input-xxlarge" placeholder="URL" autocomplete="off">
                             <span class="input-group-append">
-                                <a class="btn btn-secondary" role="button" @click="copyToClipboard" title="Copy to clipboard">
+                                <a class="btn btn-secondary" role="button" @click="copyToClipboard" title="{{ translate('COM_MEDIA_SHARE_COPY') }}>
                                     <span class="fa fa-clipboard" aria-hidden="true"></span>
                                 </a>
                             </span>

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,6 +49,12 @@ use Joomla\CMS\Language\Text;
 
 						<?php if ($item->displayDate) : ?>
 							<span class="mod-articles-category-date"><?php echo $item->displayDate; ?></span>
+						<?php endif; ?>
+
+						<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
+							<div class="mod-articles-category-tags">
+								<?php echo JLayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+							</div>
 						<?php endif; ?>
 
 						<?php if ($params->get('show_introtext')) : ?>
@@ -113,6 +119,12 @@ use Joomla\CMS\Language\Text;
 					<span class="mod-articles-category-date">
 						<?php echo $item->displayDate; ?>
 					</span>
+				<?php endif; ?>
+
+				<?php if ($params->get('show_tags', 0) && $item->tags->itemTags) : ?>
+					<div class="mod-articles-category-tags">
+						<?php echo JLayoutHelper::render('joomla.content.tags', $item->tags->itemTags); ?>
+					</div>
 				<?php endif; ?>
 
 				<?php if ($params->get('show_introtext')) : ?>

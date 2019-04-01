@@ -2,7 +2,7 @@
 /**
  * @package     Joomla.Administrator
  * @subpackage  Templates.Atum
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0
  */
@@ -32,7 +32,6 @@ $logo        = $this->baseurl . '/templates/' . $this->template . '/images/logo.
 $logoBlue    = $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
 // Add JavaScript
-HTMLHelper::_('bootstrap.framework');
 HTMLHelper::_('script', 'vendor/focus-visible/focus-visible.min.js', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['version' => 'auto', 'relative' => true]);
 
@@ -83,7 +82,7 @@ $this->addScriptDeclaration('cssVars();')
 				<jdoc:include type="modules" name="title" />
 			</div>
 			<div class="header-items d-flex ml-auto">
-				<jdoc:include type="modules" name="status" style="no" />
+				<jdoc:include type="modules" name="status" />
 			</div>
 		</div>
 	</header>
@@ -111,7 +110,7 @@ $this->addScriptDeclaration('cssVars();')
 						<div id="container-collapse" class="container-collapse"></div>
 						<div class="row">
 							<div class="col-md-12">
-								<jdoc:include type="modules" name="toolbar" style="no" />
+								<jdoc:include type="modules" name="toolbar" />
 							</div>
 					</div>
 				</div>

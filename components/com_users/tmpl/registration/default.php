@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -61,7 +61,7 @@ HTMLHelper::_('behavior.formvalidator');
 				<button type="submit" class="com-users-registration__register btn btn-primary validate">
 					<?php echo Text::_('JREGISTER'); ?>
 				</button>
-				<a class="com-users-registration__cancel btn btn-danger" href="<?php echo Route::_(''); ?>" title="<?php echo Text::_('JCANCEL'); ?>">
+				<a class="com-users-registration__cancel btn btn-danger" href="<?php echo Route::_(''); ?>">
 					<?php echo Text::_('JCANCEL'); ?>
 				</a>
 				<input type="hidden" name="option" value="com_users">

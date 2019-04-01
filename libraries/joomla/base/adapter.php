@@ -3,20 +3,21 @@
  * @package     Joomla.Platform
  * @subpackage  Base
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory as JFactory;
+use Joomla\CMS\Factory;
 
 /**
  * Adapter Class
  * Retains common adapter pattern functions
  * Class harvested from joomla.installer.installer
  *
- * @since  1.7.0
+ * @since       1.7.0
+ * @deprecated  5.0 Will be removed without replacement
  */
 class JAdapter extends JObject
 {
@@ -72,7 +73,7 @@ class JAdapter extends JObject
 		$this->_classprefix = $classprefix ? $classprefix : 'J';
 		$this->_adapterfolder = $adapterfolder ? $adapterfolder : 'adapters';
 
-		$this->_db = JFactory::getDbo();
+		$this->_db = Factory::getDbo();
 	}
 
 	/**
@@ -168,9 +169,9 @@ class JAdapter extends JObject
 		}
 
 		// Check for a possible service from the container otherwise manually instantiate the class
-		if (JFactory::getContainer()->exists($class))
+		if (Factory::getContainer()->has($class))
 		{
-			$this->_adapters[$name] = JFactory::getContainer()->get($class);
+			$this->_adapters[$name] = Factory::getContainer()->get($class);
 		}
 		else
 		{

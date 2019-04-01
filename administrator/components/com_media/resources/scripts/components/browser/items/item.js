@@ -6,114 +6,157 @@ import Row from "./row.vue";
 import * as types from "./../../../store/mutation-types";
 
 export default {
-    functional: true,
     props: ['item'],
-    render: function (createElement, context) {
-
-        const store = context.parent.$store;
-        const item = context.props.item;
-
+    data() {
+        return {
+            hoverActive: false,
+        }
+    },
+    methods: {
         /**
          * Return the correct item type component
          */
-        function itemType() {
-            if (store.state.listView == 'table') {
+        itemType() {
+            if (this.$store.state.listView === 'table') {
                 return Row;
             }
 
             let imageExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-	        let videoExtensions = ['mp4'];
+            let videoExtensions = ['mp4'];
 
             // Render directory items
-            if (item.type === 'dir') return Directory;
+            if (this.item.type === 'dir') return Directory;
 
             // Render image items
-            if (item.extension && imageExtensions.indexOf(item.extension.toLowerCase()) !== -1) {
+            if (this.item.extension && imageExtensions.indexOf(this.item.extension.toLowerCase()) !== -1) {
                 return Image;
             }
 
-	        // Render video items
-	        if (item.extension && videoExtensions.indexOf(item.extension.toLowerCase()) !== -1) {
-		        return Video;
-	        }
+            // Render video items
+            if (this.item.extension && videoExtensions.indexOf(this.item.extension.toLowerCase()) !== -1) {
+                return Video;
+            }
 
             // Default to file type
             return File;
-        }
+        },
 
         /**
          * Get the styles for the media browser item
          * @returns {{}}
          */
-        function styles() {
-		if (store.state.listView == 'table') {
-		        return {};
-	        }
+        styles() {
+            if (this.$store.state.listView === 'table') {
+                return {};
+            }
 
-	        return {
-			        'width': 'calc(' + store.state.gridSize + '% - 20px)',
-	        };
-        }
+            return {
+                'width': 'calc(' + this.$store.state.gridSize + '% - 20px)',
+            };
+        },
 
         /**
          * Whether or not the item is currently selected
          * @returns {boolean}
          */
-        function isSelected() {
-            return store.state.selectedItems.some(selected => selected.path === item.path);
-        }
+        isSelected() {
+            return this.$store.state.selectedItems.some(selected => selected.path === this.item.path);
+        },
+
+        /**
+         * Whether or not the item is currently active (on hover or via tab)
+         * @returns {boolean}
+         */
+        isHoverActive() {
+            return this.hoverActive;
+        },
+
+        /**
+         * Turns on the hover class
+         */
+        mouseover() {
+            this.hoverActive = true;
+        },
+
+        /**
+         * Turns off the hover class
+         */
+        mouseleave() {
+            this.hoverActive = false;
+        },
 
         /**
          * Handle the click event
          * @param event
          */
-        function handleClick(event) {
-	        let path = false;
-	        const data = {
-		        path: path,
-		        thumb: false,
-		        fileType: item.mime_type ? item.mime_type : false,
-		        extension: item.extension ? item.extension : false,
-	        };
+        handleClick(event) {
+            let path = false;
+            const data = {
+                path: path,
+                thumb: false,
+                fileType: this.item.mime_type ? this.item.mime_type : false,
+                extension: this.item.extension ? this.item.extension : false,
+            };
 
-	        if (item.type === 'file') {
-	            data.path = item.path;
-	            data.thumb = item.thumb ? item.thumb : false;
+            if (this.item.type === 'file') {
+                data.path = this.item.path;
+                data.thumb = this.item.thumb ? this.item.thumb : false;
 
-		        const ev = new CustomEvent('onMediaFileSelected', {"bubbles":true, "cancelable":false, "detail": data});
-		        window.parent.document.dispatchEvent(ev);
-	        }
+                const ev = new CustomEvent('onMediaFileSelected', {
+                    "bubbles": true,
+                    "cancelable": false,
+                    "detail": data
+                });
+                window.parent.document.dispatchEvent(ev);
+            }
 
             // Handle clicks when the item was not selected
-            if (!isSelected()) {
+            if (!this.isSelected()) {
                 // Unselect all other selected items, if the shift key was not pressed during the click event
                 if (!(event.shiftKey || event.keyCode === 13)) {
-                    store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+                    this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
                 }
-                store.commit(types.SELECT_BROWSER_ITEM, item);
+                this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
                 return;
             }
 
             // If more than one item was selected and the user clicks again on the selected item,
             // he most probably wants to unselect all other items.
-            if (store.state.selectedItems.length > 1) {
-                store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-                store.commit(types.SELECT_BROWSER_ITEM, item);
+            if (this.$store.state.selectedItems.length > 1) {
+                this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+                this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
             }
+        },
+
+        /**
+         * Handle the when an element is focused in the child to display the layover for a11y
+         * @param value
+         */
+        focused(value) {
+            value ? this.mouseover() : this.mouseleave();
         }
+    },
+    render: function (createElement) {
 
         return createElement('div', {
                 'class': {
                     'media-browser-item': true,
-                    selected: isSelected(),
+                    selected: this.isSelected(),
+                    active: this.isHoverActive(),
                 },
                 on: {
-                    click: handleClick,
-                }
+                    click: this.handleClick,
+                    mouseover: this.mouseover,
+                    mouseleave: this.mouseleave,
+                    focused: this.focused,
+                },
             },
             [
-                createElement(itemType(), {
-                    props: context.props,
+                createElement(this.itemType(), {
+                    props: {
+                        item: this.item,
+                        focused: this.focused,
+                    },
                 })
             ]
         );

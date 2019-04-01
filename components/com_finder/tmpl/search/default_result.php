@@ -3,13 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
+
+$user = JFactory::getUser();
 
 // Get the mime type class.
 $mime = !empty($this->result->mime) ? 'mime-' . $this->result->mime : null;
@@ -62,7 +64,21 @@ if ($show_description)
 <?php if (count($taxonomies) && $this->params->get('show_taxonomy', 1)) : ?>
 	<dd class="result-taxonomy">
 	<?php foreach ($taxonomies as $type => $taxonomy) : ?>
-		<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', array_column($taxonomy, 'title')); ?></span>
+		<?php $branch = FinderIndexerTaxonomy::getBranch($type); ?>
+		<?php if ($branch->state == 1 && in_array($branch->access, $user->getAuthorisedViewLevels())) : ?>
+			<?php
+			$taxonomy_text = array();
+
+			foreach ($taxonomy as $node) :
+				if ($node->state == 1 && in_array($node->access, $user->getAuthorisedViewLevels())) :
+					$taxonomy_text[] = $node->title;
+				endif;
+			endforeach;
+
+			if (count($taxonomy_text)) : ?>
+				<span class="badge badge-secondary"><?php echo $type . ': ' . implode(',', $taxonomy_text); ?></span>
+			<?php endif; ?>
+		<?php endif; ?>
 	<?php endforeach; ?>
 	</dd>
 <?php endif; ?>
