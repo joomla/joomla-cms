@@ -97,6 +97,12 @@ $addonAfterHtml  = '<span class="input-group-append"><span class="input-group-te
 		<?php echo $dirname; ?>
 		<?php echo implode(' ', $attributes); ?>>
 
+	<?php if (!empty($description)) : ?>
+		<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
+			<?php echo $description; ?>
+		</div>
+	<?php endif; ?>
+
 	<?php if (!empty($addonAfter)) : ?>
 		<?php echo $addonAfterHtml; ?>
 	<?php endif; ?>
