@@ -185,7 +185,7 @@ class UsersModelReset extends JModelForm
 		$user = JUser::getInstance($userId);
 
 		// Check for a user and that the tokens match.
-		if (empty($user) || $user->activation !== $token)
+		if (empty($user) || $user->resetToken !== $token)
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -210,7 +210,7 @@ class UsersModelReset extends JModelForm
 
 		// Update the user object.
 		$user->password = JUserHelper::hashPassword($data['password1']);
-		$user->activation = '';
+		$user->resetToken = '';
 		$user->password_clear = $data['password1'];
 
 		// Save the user to the database.
@@ -271,7 +271,7 @@ class UsersModelReset extends JModelForm
 		// Find the user id for the given token.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
-			->select('activation')
+			->select('resetToken')
 			->select('id')
 			->select('block')
 			->from($db->quoteName('#__users'))
@@ -297,7 +297,7 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
-		if (!$user->activation)
+		if ($user->activation)
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -305,7 +305,7 @@ class UsersModelReset extends JModelForm
 		}
 
 		// Verify the token
-		if (!JUserHelper::verifyPassword($data['token'], $user->activation))
+		if (!JUserHelper::verifyPassword($data['token'], $user->resetToken))
 		{
 			$this->setError(JText::_('COM_USERS_USER_NOT_FOUND'));
 
@@ -322,7 +322,7 @@ class UsersModelReset extends JModelForm
 
 		// Push the user data into the session.
 		$app = JFactory::getApplication();
-		$app->setUserState('com_users.reset.token', $user->activation);
+		$app->setUserState('com_users.reset.token', $user->resetToken);
 		$app->setUserState('com_users.reset.user', $user->id);
 
 		return true;
@@ -435,7 +435,7 @@ class UsersModelReset extends JModelForm
 		$token = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
 		$hashedToken = JUserHelper::hashPassword($token);
 
-		$user->activation = $hashedToken;
+		$user->resetToken = $hashedToken;
 
 		// Save the user to the database.
 		if (!$user->save(true))
