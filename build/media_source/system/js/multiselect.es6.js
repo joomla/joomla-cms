@@ -66,7 +66,7 @@
         return;
       }
 
-      const currentRowNum = this.rows.indexOf(event.target.closest('tr'));
+      const currentRowNum = this.rows.indexOf((navigator.userAgent.indexOf("MSIE ") > -1 || navigator.userAgent.indexOf("Trident/") > -1) ? getClosest(event.target, 'tr') : event.target.closest('tr'));
       const currentCheckBox = this.checkallToggle ? currentRowNum + 1 : currentRowNum;
       let isChecked = this.boxes[currentCheckBox].checked;
 
@@ -115,3 +115,17 @@
 
   document.addEventListener('DOMContentLoaded', onBoot);
 })(Joomla);
+
+function getClosest(el, tag) {
+  // this is necessary since nodeName is always in upper case
+  tag = tag.toUpperCase();
+  do {
+    if (el.nodeName === tag) {
+      // tag name is found! let's return it. :)
+      return el;
+    }
+  } while (el = el.parentNode);
+
+  // not found :(
+  return null;
+}
