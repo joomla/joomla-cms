@@ -114,6 +114,11 @@ HTMLHelper::_('stylesheet', 'system/fields/calendar' . $cssFileExt, ['version' =
 			<?php echo $attributes; ?>
 			<?php echo !empty($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : ''; ?>
 			data-alt-value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>" autocomplete="off">
+		<?php if (!empty($description)) : ?>
+			<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
+				<?php echo $description; ?>
+			</div>
+		<?php endif; ?>
 		<span class="input-group-append">
 			<button type="button" class="<?php echo ($readonly || $disabled) ? 'hidden ' : ''; ?>btn btn-secondary"
 				id="<?php echo $id; ?>_btn"

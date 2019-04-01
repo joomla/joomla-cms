@@ -39,9 +39,4 @@ $id    = $name . '-desc';
 	<div class="controls">
 		<?php echo $input; ?>
 	</div>
-	<?php if (!empty($description)) : ?>
-		<div id="<?php echo $id; ?>">
-			<small class="form-text text-muted"><?php echo $description; ?></small>
-		</div>
-	<?php endif; ?>
 </div>

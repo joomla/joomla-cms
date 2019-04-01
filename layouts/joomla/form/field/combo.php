@@ -69,5 +69,9 @@ foreach ($options as $option)
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo $attr; ?>
-	data-list="<?php echo implode(', ', $val); ?>"
-/>
+	data-list="<?php echo implode(', ', $val); ?>">
+<?php if (!empty($description)) : ?>
+	<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
+		<?php echo $description; ?>
+	</div>
+<?php endif; ?>

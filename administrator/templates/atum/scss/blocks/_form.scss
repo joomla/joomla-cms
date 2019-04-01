@@ -108,7 +108,8 @@ legend {
 
 // Tooltip
 /* make the containers relative */
-.input-group > div {
+.input-group > div,
+.control-group > div {
   position: relative; 
 }
 
@@ -123,8 +124,8 @@ legend {
   z-index: $zindex-tooltip;
 }
 
-/* reveal associated tooltip on focus of preceeding input */
-input:focus + [role="tooltip"] {
+/* reveal associated tooltip on focus */
+:focus + [role="tooltip"] {
   display: block;
   position: absolute;
   bottom: 100%;

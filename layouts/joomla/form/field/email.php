@@ -72,3 +72,8 @@ $attributes = array(
 	id="<?php echo $id; ?>"
 	value="<?php echo htmlspecialchars(PunycodeHelper::emailToUTF8($value), ENT_COMPAT, 'UTF-8'); ?>"
 	<?php echo implode(' ', $attributes); ?>>
+<?php if (!empty($description)) : ?>
+	<div role="tooltip" id="<?php echo $name . '-desc'; ?>">
+		<?php echo $description; ?>
+	</div>
+<?php endif; ?>
