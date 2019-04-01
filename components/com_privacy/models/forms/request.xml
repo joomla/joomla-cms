@@ -15,7 +15,6 @@
 			name="request_type"
 			type="list"
 			label="COM_PRIVACY_FIELD_REQUEST_TYPE_LABEL"
-			description="COM_PRIVACY_FIELD_REQUEST_TYPE_DESC"
 			filter="string"
 			default="export"
 			validate="options"

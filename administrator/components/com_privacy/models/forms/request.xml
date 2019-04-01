@@ -5,7 +5,6 @@
 			name="email"
 			type="email"
 			label="JGLOBAL_EMAIL"
-			description="COM_PRIVACY_USER_FIELD_EMAIL_DESC"
 			required="true"
 			size="30"
 			validate="email"
@@ -15,14 +14,12 @@
 			name="user_id"
 			type="user"
 			label="COM_PRIVACY_FIELD_USER_ID_LABEL"
-			description="COM_PRIVACY_FIELD_USER_ID_DESC"
 		/>
 
 		<field
 			name="status"
 			type="list"
 			label="JSTATUS"
-			description="COM_PRIVACY_FIELD_STATUS_DESC"
 			filter="int"
 			default="0"
 			validate="options"
@@ -38,7 +35,6 @@
 			name="request_type"
 			type="list"
 			label="COM_PRIVACY_FIELD_REQUEST_TYPE_LABEL"
-			description="COM_PRIVACY_FIELD_REQUEST_TYPE_DESC"
 			filter="string"
 			default="export"
 			validate="options"

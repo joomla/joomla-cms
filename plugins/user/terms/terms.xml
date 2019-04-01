@@ -36,7 +36,6 @@
 					name="terms_article"
 					type="modal_article"
 					label="PLG_USER_TERMS_FIELD_ARTICLE_LABEL"
-					description="PLG_USER_TERMS_FIELD_ARTICLE_DESC"
 					select="true"
 					new="true"
 					edit="true"

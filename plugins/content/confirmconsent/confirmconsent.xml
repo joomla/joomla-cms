@@ -31,7 +31,6 @@
 					name="privacy_article"
 					type="modal_article"
 					label="PLG_CONTENT_CONFIRMCONSENT_FIELD_ARTICLE_LABEL"
-					description="PLG_CONTENT_CONFIRMCONSENT_FIELD_ARTICLE_DESC"
 					select="true"
 					new="true"
 					edit="true"
