@@ -3,6 +3,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+// Helper function for IE11
+function getClosest(el, tag) {
+  // this is necessary since nodeName is always in upper case
+  tag = tag.toUpperCase();
+  do {
+    if (el.nodeName === tag) {
+      // tag name is found! let's return it. :)
+      return el;
+    }
+  } while (el = el.parentNode);
+
+  // not found :(
+  return null;
+}
+
 /**
  * JavaScript behavior to allow shift select in administrator grids
  */
@@ -115,17 +130,3 @@
 
   document.addEventListener('DOMContentLoaded', onBoot);
 })(Joomla);
-
-function getClosest(el, tag) {
-  // this is necessary since nodeName is always in upper case
-  tag = tag.toUpperCase();
-  do {
-    if (el.nodeName === tag) {
-      // tag name is found! let's return it. :)
-      return el;
-    }
-  } while (el = el.parentNode);
-
-  // not found :(
-  return null;
-}
