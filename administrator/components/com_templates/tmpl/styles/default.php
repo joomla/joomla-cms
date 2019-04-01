@@ -43,7 +43,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
 								</th>
 								<?php if ($clientId === 0) : ?>
-									<th  scope="col" style="width:5%" class="text-center">
+									<th scope="col" style="width:5%" class="text-center">
 										<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 									</th>
 								<?php endif; ?>
