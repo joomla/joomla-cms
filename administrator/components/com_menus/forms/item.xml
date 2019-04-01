@@ -81,7 +81,6 @@
 			name="publish_up"
 			type="calendar"
 			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
-			description="JGLOBAL_FIELD_PUBLISH_UP_DESC"
 			id="publish_up"
 			class="inputbox"
 			translateformat="true"
