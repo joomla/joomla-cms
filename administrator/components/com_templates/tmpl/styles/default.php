@@ -39,7 +39,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<th style="width:1%" class="text-center">
 									&#160;
 								</th>
-								<th style="width:1%" class="text-center">
+								<th  style="width:5%" class="text-center">
 									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 								</th>
 								<th scope="col">
@@ -71,7 +71,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
-								<td style="width:1%" class="text-center">
+								<td class="text-center">
 									<?php if ($this->preview && $item->client_id == '0') : ?>
 										<a target="_blank" href="<?php echo Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
 										<span class="icon-eye-open hasTooltip" aria-hidden="true" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'), $item->title, 0); ?>"></span>
