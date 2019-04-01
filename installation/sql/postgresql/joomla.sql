@@ -964,6 +964,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_terms" (
 CREATE INDEX "#__finder_terms_idx_term_phrase" on "#__finder_terms" ("term", "phrase");
 CREATE INDEX "#__finder_terms_idx_stem_phrase" on "#__finder_terms" ("stem", "phrase");
 CREATE INDEX "#__finder_terms_idx_soundex_phrase" on "#__finder_terms" ("soundex", "phrase");
+CREATE INDEX "#__finder_terms_idx_language" on "#__finder_terms" ("language");
 
 --
 -- Table structure for table `#__finder_terms_common`
