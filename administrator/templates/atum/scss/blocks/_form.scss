@@ -109,23 +109,23 @@ legend {
 // Tooltip
 /* make the containers relative */
 .input-group > div {
-	position: relative; 
+  position: relative; 
 }
 
 /* set up hidden tooltip */
 [role="tooltip"] {
-	display: none;
-	padding: 0.25em;
-	margin: 0.25em;
-	color: $white;
-	background: $black;
-	max-width: 100%;
-	z-index: $zindex-tooltip;
+  display: none;
+  padding: 0.25em;
+  margin: 0.25em;
+  color: $white;
+  background: $black;
+  max-width: 100%;
+  z-index: $zindex-tooltip;
 }
 
 /* reveal associated tooltip on focus of preceeding input */
 input:focus + [role="tooltip"] {
-	display: block;
-	position: absolute;
-	bottom: 100%;
+  display: block;
+  position: absolute;
+  bottom: 100%;
 }
