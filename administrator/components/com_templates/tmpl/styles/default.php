@@ -36,14 +36,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						</caption>
 						<thead>
 							<tr>
-								<th style="width:1%" class="text-center">
+								<td style="width:1%" class="text-center">
 									&#160;
-								</th>
-								<th  style="width:5%" class="text-center">
-									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
-								</th>
+								</td>
 								<th scope="col">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
+								</th>
+								<th  scope="col" style="width:5%" class="text-center">
+									<?php echo Text::_('COM_TEMPLATES_TEMPLATE_PREVIEW'); ?>
 								</th>
 								<th scope="col" style="width:12%" class="text-center">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_DEFAULT', 'a.home', $listDirn, $listOrder); ?>
@@ -71,6 +71,14 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 								</td>
+								<th scope="row">
+									<?php if ($canEdit) : ?>
+										<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
+									<?php else : ?>
+										<?php echo $this->escape($item->title); ?>
+									<?php endif; ?>
+								</th>
 								<td class="text-center">
 									<?php if ($this->preview && $item->client_id == '0') : ?>
 										<a target="_blank" href="<?php echo Uri::root() . 'index.php?tp=1&templateStyle=' . (int) $item->id ?>" class="jgrid">
@@ -84,14 +92,6 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 										<span class="sr-only"><?php echo Text::_('COM_TEMPLATES_TEMPLATE_NO_PREVIEW'); ?></span>
 									<?php endif; ?>
 								</td>
-								<th scope="row">
-									<?php if ($canEdit) : ?>
-										<a href="<?php echo JRoute::_('index.php?option=com_templates&task=style.edit&id=' . (int) $item->id); ?>" title="<?php echo JText::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->title); ?></a>
-									<?php else : ?>
-										<?php echo $this->escape($item->title); ?>
-									<?php endif; ?>
-								</th>
 								<td class="text-center">
 									<?php if ($item->home == '0' || $item->home == '1') : ?>
 										<?php echo HTMLHelper::_('jgrid.isdefault', $item->home != '0', $i, 'styles.', $canChange && $item->home != '1'); ?>
