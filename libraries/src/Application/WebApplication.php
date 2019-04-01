@@ -173,6 +173,7 @@ class WebApplication extends BaseApplication
 		'age',
 		'expires',
 		'clear-site-data',
+		'pragma',
 		'strict-transport-security',
 		'content-security-policy',
 		'content-security-policy-report-only',
