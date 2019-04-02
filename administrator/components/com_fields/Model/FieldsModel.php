@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -164,7 +164,7 @@ class FieldsModel extends ListModel
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the field groups.
-		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state');
+		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state, g.note as group_note');
 		$query->join('LEFT', '#__fields_groups AS g ON g.id = a.group_id');
 
 		// Filter by context

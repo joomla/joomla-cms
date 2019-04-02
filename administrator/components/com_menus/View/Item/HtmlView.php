@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,10 @@ namespace Joomla\Component\Menus\Administrator\View\Item;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -138,7 +140,7 @@ class HtmlView extends BaseHtmlView
 		{
 			if ($canDo->get('core.edit'))
 			{
-				$toolbarButtons[] = ['apply', 'item.apply'];
+				ToolbarHelper::apply('item.apply');
 			}
 
 			$toolbarButtons[] = ['save', 'item.save'];
@@ -147,7 +149,8 @@ class HtmlView extends BaseHtmlView
 		// If not checked out, can save the item.
 		if (!$isNew && !$checkedOut && $canDo->get('core.edit'))
 		{
-			$toolbarButtons[] = ['apply', 'item.apply'];
+			ToolbarHelper::apply('item.apply');
+
 			$toolbarButtons[] = ['save', 'item.save'];
 		}
 
@@ -167,6 +170,11 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons,
 			'btn-success'
 		);
+
+		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		{
+			ToolbarHelper::custom('item.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+		}
 
 		if ($isNew)
 		{
