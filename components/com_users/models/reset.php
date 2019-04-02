@@ -325,6 +325,7 @@ class UsersModelReset extends JModelForm
 		// Check if the token is expired or not
 		$currDate = strtotime(JFactory::getDate());
 		$lastResetDate = strtotime($user->lastResetTime);
+		
 		// Formulate the Difference between two dates 
 		$diff = abs($currDate - $lastResetDate);
 		$years = floor($diff / (365*60*60*24));  
