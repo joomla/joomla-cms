@@ -320,6 +320,20 @@ class UsersModelReset extends JModelForm
 			return false;
 		}
 
+		// Check if the token is expired or not
+		$currDate = strtotime(JFactory::getDate());
+		$lastResetDate = strtotime($user->lastResetTime);
+		// Formulate the Difference between two dates 
+		$diff = abs($currDate - $lastResetDate);
+		$days = floor($diff % (60*60*24));
+
+		if ($days > 3)
+		{
+			$this->setError(JText::_('COM_USERS_RESET_TOKEN_EXPIRED'));
+
+			return false;
+		}
+
 		// Push the user data into the session.
 		$app = JFactory::getApplication();
 		$app->setUserState('com_users.reset.token', $user->resetToken);
