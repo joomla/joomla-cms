@@ -179,7 +179,6 @@ Desktop.ini
 /libraries/vendor/symfony/polyfill-php71/README.md
 /libraries/vendor/symfony/polyfill-php73/composer.json
 /libraries/vendor/symfony/polyfill-php73/README.md
-/libraries/vendor/symfony/polyfill-php73/Resources/stubs/JsonException.php
 /libraries/vendor/symfony/polyfill-util/composer.json
 /libraries/vendor/symfony/polyfill-util/README.md
 /libraries/vendor/symfony/polyfill-util/LegacyTestListener.php
