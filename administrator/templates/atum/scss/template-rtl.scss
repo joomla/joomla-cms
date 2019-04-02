@@ -304,3 +304,8 @@ body {
 .text-right {
   text-align: left !important;
 }
+
+// System panel
+.menu-quicktask, .menu-badge {
+    float: left;
+}

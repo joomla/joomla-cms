@@ -61,6 +61,9 @@ if ($saveOrder && !empty($this->items))
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center">
+									<?php echo HTMLHelper::_('searchtools.sort', 'JFEATURED', 'a.featured', $listDirn, $listOrder); ?>
+								</th>
 								<th scope="col" style="width:1%; min-width:85px" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
@@ -126,10 +129,15 @@ if ($saveOrder && !empty($this->items))
 								</td>
 								<td class="text-center">
 									<div class="btn-group">
+									        <?php echo HTMLHelper::_('contactadministrator.featured', $item->featured, $i, $canChange); ?>
+								   	</div>
+								</td>	
+								<td class="text-center">
+									<div class="btn-group">
 										<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'contacts.', $canChange, 'cb', $item->publish_up, $item->publish_down); ?>
-										<?php echo HTMLHelper::_('contactadministrator.featured', $item->featured, $i, $canChange); ?>
-									</div>
+									</div>	
 								</td>
+								
 								<th scope="row" class="has-context">
 									<div>
 										<?php if ($item->checked_out) : ?>

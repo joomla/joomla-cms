@@ -10,16 +10,12 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('filelist');
-
 /**
  * Supports an HTML select list of image
  *
  * @since  1.7.0
  */
-class ImagelistField extends \JFormFieldFileList
+class ImagelistField extends FilelistField
 {
 	/**
 	 * The form field type.

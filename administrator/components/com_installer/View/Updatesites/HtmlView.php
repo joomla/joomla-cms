@@ -88,8 +88,6 @@ class HtmlView extends InstallerViewDefault
 			ToolbarHelper::custom('updatesites.rebuild', 'refresh.png', 'refresh_f2.png', 'JTOOLBAR_REBUILD', false);
 		}
 
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=updatesites');
-
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATESITES');
 	}

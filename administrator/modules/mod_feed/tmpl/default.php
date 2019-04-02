@@ -114,7 +114,7 @@ else
 						<h5 class="feed-link"><?php echo trim($feed[$i]->title); ?></h5>
 					<?php endif; ?>
 
-					<?php if ($params->get('rssitemdate')) : ?>
+					<?php if ($params->get('rssitemdate', 0)) : ?>
 						<div class="feed-item-date">
 							<?php echo HTMLHelper::_('date', $feed[$i]->publishedDate, Text::_('DATE_FORMAT_LC3')); ?>
 						</div>

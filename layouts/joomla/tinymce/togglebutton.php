@@ -18,7 +18,6 @@ $name = $displayData;
 	<div class="btn-group">
 		<button type="button" class="btn btn-secondary" href="#"
 			onclick="tinyMCE.execCommand('mceToggleEditor', false, '<?php echo $name; ?>');return false;"
-			title="<?php echo Text::_('PLG_TINY_BUTTON_TOGGLE_EDITOR'); ?>"
 		>
 			<span class="icon-eye" aria-hidden="true"></span>
 			<?php echo Text::_('PLG_TINY_BUTTON_TOGGLE_EDITOR'); ?>

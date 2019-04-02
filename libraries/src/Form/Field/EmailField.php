@@ -10,10 +10,6 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('text');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides and input field for email addresses
@@ -22,7 +18,7 @@ FormHelper::loadFieldClass('text');
  * @see    JFormRuleEmail
  * @since  1.7.0
  */
-class EmailField extends \JFormFieldText
+class EmailField extends TextField
 {
 	/**
 	 * The form field type.
