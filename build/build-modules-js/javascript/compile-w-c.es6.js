@@ -1,11 +1,13 @@
 const Autoprefixer = require('autoprefixer');
 const CssNano = require('cssnano');
 const Fs = require('fs');
+const Path = require('path');
 const Postcss = require('postcss');
 const Sass = require('node-sass');
 const Babel = require('./babel-transform.es6.js');
+const RootPath = require('../utils/rootpath.es6.js')._();
 
-const createJsFiles = (inputFile, es6FileContents) => {
+const createJsFiles = (inputFile, es6FileContents, embededScript) => {
   // Define some settings
   const settings = [
     {
@@ -15,6 +17,9 @@ const createJsFiles = (inputFile, es6FileContents) => {
             browsers: ['last 1 Chrome version'],
           },
         }],
+      ],
+      plugins: [
+        // ['iife-wrap'],
       ],
       comments: true,
     },
@@ -27,6 +32,9 @@ const createJsFiles = (inputFile, es6FileContents) => {
         }],
         ['minify'],
       ],
+      plugins: [
+        // ['iife-wrap'],
+      ],
       comments: false,
     },
     {
@@ -38,7 +46,8 @@ const createJsFiles = (inputFile, es6FileContents) => {
         }],
       ],
       plugins: [
-        '@babel/plugin-transform-classes',
+        ['@babel/plugin-transform-classes'],
+        // ['iife-wrap'],
       ],
       comments: true,
 
@@ -55,21 +64,23 @@ const createJsFiles = (inputFile, es6FileContents) => {
       ],
       plugins: [
         ['@babel/plugin-transform-classes'],
+        // ['iife-wrap'],
       ],
       comments: false,
 
     },
   ];
 
+  const path = inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\');
   const outputFiles = [
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.js'),
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '.min.js'),
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '-es5.js'),
-    inputFile.replace('/build/media_source/', '/media/').replace('\\build\\media_source\\', '\\media\\').replace('.w-c.es6.js', '-es5.min.js'),
+    path.replace('.w-c.es6.js', '.js'),
+    path.replace('.w-c.es6.js', '.min.js'),
+    path.replace('.w-c.es6.js', '-es5.js'),
+    path.replace('.w-c.es6.js', '-es5.min.js'),
   ];
 
   settings.forEach((setting, index) => {
-    Babel.run(es6FileContents, setting, outputFiles[index]);
+    Babel.run(es6FileContents, setting, outputFiles[index], embededScript);
   });
 };
 
@@ -82,8 +93,22 @@ const createJsFiles = (inputFile, es6FileContents) => {
 module.exports.compile = (inputFile, options) => {
   Promise.resolve()
     .then(() => {
+      let embededScript = '';
       // Get the contents of the ES-XXXX file
       let es6File = Fs.readFileSync(inputFile, 'utf8');
+
+      // Embed another script if needed
+      const reg = /^\/\*\*{{embed='?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)'}}\*\*\//;
+      const parts = es6File.match(reg);
+      if (parts && parts.length) {
+        if (Fs.existsSync(Path.resolve(RootPath, parts[1]))) {
+          const replacement = Fs.readFileSync(Path.resolve(RootPath, parts[1]), 'utf8');
+          if (replacement) {
+            embededScript = replacement;
+          }
+        }
+      }
+
       // Check if there is a css file
       if (Fs.existsSync(inputFile.replace('/js/', '/scss/').replace('\\js\\', '\\scss\\').replace('.w-c.es6.js', '.scss'))) {
         Sass.render({
@@ -117,7 +142,7 @@ module.exports.compile = (inputFile, options) => {
                         es6File = es6File.replace('{{CSS_CONTENTS_PLACEHOLDER}}', cssMin.css.toString());
                         // eslint-disable-next-line no-console
                         console.error(`Transpiling Web Component file: ${inputFile}`);
-                        createJsFiles(inputFile, es6File);
+                        createJsFiles(inputFile, es6File, embededScript);
                       });
                     }
                   } else {
@@ -142,7 +167,7 @@ module.exports.compile = (inputFile, options) => {
                     // eslint-disable-next-line no-console
                     console.error(`Transpiling Web Component file: ${inputFile}`);
 
-                    createJsFiles(inputFile, es6File);
+                    createJsFiles(inputFile, es6File, embededScript);
                   }
                 })
 
@@ -159,7 +184,7 @@ module.exports.compile = (inputFile, options) => {
         // eslint-disable-next-line no-console
         console.error(`Transpiling Web Component file: ${inputFile}`);
 
-        createJsFiles(inputFile, es6File);
+        createJsFiles(inputFile, es6File, embededScript);
       }
     })
 

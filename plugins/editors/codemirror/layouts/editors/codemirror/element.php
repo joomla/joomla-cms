@@ -31,15 +31,13 @@ $fskeys[]        = $params->get('fullScreen', 'F10');
 $fullScreenCombo = implode('-', $fskeys);
 $fsCombo         = 'fs-combo=' . json_encode($fullScreenCombo);
 $option          = 'options=' . json_encode($options);
-$editor          = 'editor="' . ltrim(HTMLHelper::_('script',  $basePath . 'lib/codemirror' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '"';
-$addons          = 'addons="' . ltrim(HTMLHelper::_('script', $basePath . 'lib/addons' . $extJS, ['version' => 'auto', 'pathOnly' => true]), '/') . '"';
 
 HTMLHelper::_('stylesheet', $basePath . 'lib/codemirror' . $extCSS, array('version' => 'auto'));
 HTMLHelper::_('stylesheet', $basePath . 'lib/addons' . $extCSS, array('version' => 'auto'));
 HTMLHelper::_('webcomponent', 'plg_editors_codemirror/joomla-editor-codemirror.min.js', array('version' => 'auto', 'relative' => true));
 
 ?>
-<joomla-editor-codemirror <?php echo $editor, $addons, $modPath, $fsCombo, $option; ?>>
+<joomla-editor-codemirror <?php echo $modPath, $fsCombo, $option; ?>>
 <?php echo '<textarea name="', $name, '" id="', $id, '" cols="', $cols, '" rows="', $rows, '">', $content, '</textarea>'; ?>
 </joomla-editor-codemirror>
 <?php echo $displayData->buttons; ?>
