@@ -513,6 +513,11 @@ class ArticlesModel extends ListModel
 
 		$items = $this->getItems();
 
+		if (!$items)
+		{
+			return false;
+		}
+
 		$ids = ArrayHelper::getColumn($items, 'stage_id');
 		$ids = ArrayHelper::toInteger($ids);
 		$ids = array_unique(array_filter($ids));
