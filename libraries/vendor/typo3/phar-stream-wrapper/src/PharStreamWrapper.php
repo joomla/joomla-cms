@@ -11,6 +11,8 @@ namespace TYPO3\PharStreamWrapper;
  * The TYPO3 project - inspiring people to share!
  */
 
+use TYPO3\PharStreamWrapper\Resolver\PharInvocation;
+
 class PharStreamWrapper
 {
     /**
@@ -28,6 +30,11 @@ class PharStreamWrapper
      * @var resource
      */
     protected $internalResource;
+
+    /**
+     * @var PharInvocation
+     */
+    protected $invocation;
 
     /**
      * @return bool
@@ -409,7 +416,8 @@ class PharStreamWrapper
      */
     protected function assert($path, $command)
     {
-        if ($this->resolveAssertable()->assert($path, $command) === true) {
+        if (Manager::instance()->assert($path, $command) === true) {
+            $this->collectInvocation($path);
             return;
         }
 
@@ -424,7 +432,22 @@ class PharStreamWrapper
     }
 
     /**
-     * @return Assertable
+     * @param string $path
+     */
+    protected function collectInvocation($path)
+    {
+        if (isset($this->invocation)) {
+            return;
+        }
+
+        $manager = Manager::instance();
+        $this->invocation = $manager->resolve($path);
+        $manager->getCollection()->collect($this->invocation);
+    }
+
+    /**
+     * @return Manager|Assertable
+     * @deprecated Use Manager::instance() directly
      */
     protected function resolveAssertable()
     {
