@@ -13,6 +13,8 @@ use Joomla\String\StringHelper;
 
 jimport('joomla.utilities.utility');
 
+JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
+
 /**
  * Page break plugin
  *
