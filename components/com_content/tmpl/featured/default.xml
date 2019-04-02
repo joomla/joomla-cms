@@ -126,7 +126,16 @@
 				<option value="modified">JGLOBAL_MODIFIED</option>
 				<option value="published">JPUBLISHED</option>
 			</field>
-
+		 	<field 
+				name="show_only_featured" 
+				type="list"
+				label="COM_CONTENT_FEATURED_ARTICLES"
+				description="COM_CONTENT_FEATURED_CATEGORIES_DESC"
+				class="chzn-color"
+				>
+				<option value="0">JNO</option>
+				<option value="1">JYES</option>
+			</field>
 			<field 
 				name="show_pagination" 
 				type="list"
