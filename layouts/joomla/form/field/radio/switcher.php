@@ -9,9 +9,9 @@
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
 
-extract($displayData);
+extract($displayData, null);
 
 /**
  * Layout variables
@@ -55,31 +55,51 @@ if (empty($options))
  *     %3 - value
  *     %4 = any other attributes
  */
-$format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
-$alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
+$input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
+$alt      = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
+
+// HTMLHelper::_('stylesheet', 'system/fields/joomla-field-switcher.css', ['version' => 'auto', 'relative' => true]);
+
+
+
+// Set the type of switcher
+$type = '';
+
+if ($pos = strpos($class, 'switcher-'))
+{
+	$type = 'type="' . strtok(substr($class, $pos + 9), ' ') . '"';
+}
+
+// Add the attributes of the fieldset in an array
+$attribs = [
+	'id="' . $id . '"',
+	$type,
+	'off-text="' . $options[0]->text . '"',
+	'on-text="' . $options[1]->text . '"',
+];
+
+if (!empty($disabled))
+{
+	$attribs[] = 'disabled';
+}
+
+if (!empty($onclick))
+{
+	$attribs[] = 'onclick="' . $onclick . '()"';
+}
+
+if (!empty($onchange))
+{
+	$attribs[] = 'onchange="' . $onchange . '()"';
+}
 
 ?>
 <style>
 
-fieldset {
-	border:none;
-}
-legend {
-		float: left;
-    width: 220px;
-}
-
-/* imported */
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}
-
 .switcher {
-  margin: 4rem auto;
-  width: 24rem;
   position: relative;
+  width: 18rem;
+  height: 3rem;
 }
 .switcher input {
   position: absolute;
@@ -87,101 +107,80 @@ legend {
   z-index: 2;
   opacity: 0;
   cursor: pointer;
+  height: 3rem;
+  width: 6rem;
+  margin: 0;
 }
 .switcher input:checked {
   z-index: 1;
 }
-
+.switcher input:checked + label {
+  opacity: 1;
+}
 .switcher input:not(:checked) + label {
-  visibility:hidden;
+  opacity: 0;
+}
+.switcher label {
+  line-height: 3rem;
+  display: inline-block;
+  width: 6rem;
+  height: 100%;
+  margin-left: 6.5em;
+  text-align: left;
+  position: absolute;
+  transition: opacity 0.25s ease;
 }
 .switcher .toggle-outside {
   height: 100%;
   padding: 0.25rem;
   overflow: hidden;
   transition: 0.25s ease all;
+  background: green;
+  position: absolute;
+  width: 6rem;
+  box-sizing: border-box;
+
 }
 .switcher .toggle-inside {
-  background: #4a4a4a;
+  height: 2.5rem;
+  width: 2.5rem;  
+  background: white;
   position: absolute;
   transition: 0.25s ease all;
 }
-.switcher--horizontal {
-  width: 18rem;
-  height: 3rem;
-  margin: 0 auto;
-  font-size: 0;
-  margin-bottom: 1rem;
-
-}
-.switcher--horizontal input {
-  height: 3rem;
-  width: 6rem;
-  left: 6rem;
-  margin: 0;
-}
-.switcher--horizontal label {
-  font-size: 1.5rem;
-  line-height: 3rem;
-  height: 100%;
-  text-align: left;
-	float:right;
-}
-
-.switcher--horizontal .toggle-outside {
-  background: #fff;
-  position: absolute;
-  width: 6rem;
-  left: 6rem;
-	border:solid 1px;
-}
-.switcher--horizontal .toggle-inside {
-  height: 2.5rem;
-  width: 2.5rem;
-	background: #000;
-}
-.switcher--horizontal input:checked ~ .toggle-outside .toggle-inside {
+.switcher input:checked ~ .toggle-outside .toggle-inside {
   left: 0.25rem;
 }
-.switcher--horizontal input ~ input:checked ~ .toggle-outside .toggle-inside {
+.switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
   left: 3.25rem;
+}
+.switcher__legend {
+ margin-bottom: 1rem;
+ font-size: 1rem;
+ font-weight: 400;
 }
 
 </style>
-<fieldset id="<?php echo $id; ?>" class="<?php echo trim($class . ' radio'); ?>"
-	<?php echo $disabled ? 'disabled' : ''; ?>
-	<?php echo $required ? 'required' : ''; ?>
-	<?php echo $autofocus ? 'autofocus' : ''; ?>>
-<legend><?php echo htmlspecialchars($label, ENT_COMPAT, 'UTF-8'); ?></legend>
-<div class="switcher switcher--horizontal">
-	<?php if (!empty($options)) : ?>
-		<?php foreach ($options as $i => $option) : ?>
-			<?php
-				// Initialize some option attributes.
-				$checked     = ((string) $option->value === $value) ? 'checked="checked"' : '';
-				$optionClass = !empty($option->class) ? 'class="' . $option->class . '"' : '';
-				$disabled    = !empty($option->disable) || ($disabled && !$checked) ? 'disabled' : '';
+<fieldset>
+  <legend class="switcher__legend">
+    <?php echo htmlspecialchars($label, ENT_COMPAT, 'UTF-8'); ?>
+  </legend>
+  <div class="switcher" role="switch">
+  <?php foreach ($options as $i => $option) : ?>
+    <?php
+    // Initialize some option attributes.
+    $checked = ((string) $option->value == $value) ? 'checked="checked"' : '';
+    $active  = ((string) $option->value == $value) ? 'class="active"' : '';
 
-				// Initialize some JavaScript option attributes.
-				$onclick    = !empty($option->onclick) ? 'onclick="' . $option->onclick . '"' : '';
-				$onchange   = !empty($option->onchange) ? 'onchange="' . $option->onchange . '"' : '';
-				$oid        = $id . $i;
-				$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-				$attributes = array_filter(array($checked, $optionClass, $disabled, $onchange, $onclick));
-			?>
-			<?php if ($required) : ?>
-				<?php $attributes[] = 'required'; ?>
-			<?php endif; ?>
-			<div class="radio m-b-0">
-				<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
-				<label for="<?php echo $oid; ?>" <?php echo $optionClass; ?>>
-					<?php echo Text::alt($option->text, $alt); ?>
-				</label>
-			</div>
-		<?php endforeach; ?>
-	<?php endif; ?>
-	<span class="toggle-outside">
-		<span class="toggle-inside"></span>
-	</span>
-</div>	
+    // Initialize some option attributes.
+    $oid        = $id . $i;
+    $ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+    $attributes = array_filter(array($checked, $active, null));
+    $text       = $options[$i]->text;
+    ?>
+    <?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+    <?php echo '<label for="' . $oid . '">' . $text . '</label>'; ?>
+	<?php endforeach; ?>
+  <span class="toggle-outside"><span class="toggle-inside"></span></span>
+  </div>
 </fieldset>

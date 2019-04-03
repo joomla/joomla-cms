@@ -224,6 +224,7 @@
 			type="radio"
 			label="JFEATURED"
 			class="switcher"
+			required="true"
 			default="0"
 			>
 			<option value="0">JNO</option>
