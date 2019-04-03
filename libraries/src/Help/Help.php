@@ -187,7 +187,7 @@ class Help
 			$option['text']  = 'English (GB) help.joomla.org';
 			$option['value'] = 'http://help.joomla.org';
 
-			$list[] = $option;
+			$list[] = (object) $option;
 		}
 		else
 		{
@@ -198,7 +198,7 @@ class Help
 				$option['text']  = (string) $site;
 				$option['value'] = (string) $site->attributes()->url;
 
-				$list[] = $option;
+				$list[] = (object) $option;
 			}
 		}
 

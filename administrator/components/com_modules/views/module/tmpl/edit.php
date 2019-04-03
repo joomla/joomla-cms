@@ -21,7 +21,7 @@ JHtml::_('formbehavior.chosen', '.multipleAuthors', null, array('placeholder_tex
 JHtml::_('formbehavior.chosen', '.multipleAuthorAliases', null, array('placeholder_text_multiple' => JText::_('JOPTION_SELECT_AUTHOR_ALIAS')));
 JHtml::_('formbehavior.chosen', 'select');
 
-$hasContent = empty($this->item->module) ||  isset($this->item->xml->customContent);
+$hasContent = isset($this->item->xml->customContent);
 $hasContentFieldName = 'content';
 
 // For a later improvement

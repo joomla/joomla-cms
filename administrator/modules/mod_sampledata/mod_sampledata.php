@@ -13,4 +13,8 @@ defined('_JEXEC') or die;
 JLoader::register('ModSampledataHelper', __DIR__ . '/helper.php');
 
 $items = ModSampledataHelper::getList();
+
+// Filter out empty entries
+$items = array_filter($items);
+
 require JModuleHelper::getLayoutPath('mod_sampledata', $params->get('layout', 'default'));

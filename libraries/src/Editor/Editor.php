@@ -178,7 +178,7 @@ class Editor extends \JObject
 
 			$this->_observers[] = $observer;
 
-			// @todo We require a Editor object above but get the methods from \JPlugin - something isn't right here!
+			// @todo We require an Editor object above but get the methods from \JPlugin - something isn't right here!
 			$methods = array_diff(get_class_methods($observer), get_class_methods('\JPlugin'));
 		}
 
