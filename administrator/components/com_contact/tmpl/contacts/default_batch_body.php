@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $published = $this->state->get('filter.published');
+$noUser    = true;
 ?>
 
 <div class="container">
@@ -41,7 +42,7 @@ $published = $this->state->get('filter.published');
 		</div>
 		<div class="form-group col-md-6">
 			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.user', []); ?>
+				<?php echo LayoutHelper::render('joomla.html.batch.user', ['noUser' => $noUser]); ?>
 			</div>
 		</div>
 	</div>

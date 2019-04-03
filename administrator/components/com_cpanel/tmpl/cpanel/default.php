@@ -15,6 +15,12 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
+HTMLHelper::_('behavior.core');
+Text::script('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS');
+Text::script('COM_CPANEL_UNPUBLISH_MODULE_ERROR');
+
+HTMLHelper::_('script', 'com_cpanel/admin-cpanel-default.min.js', array('version' => 'auto', 'relative' => true));
+
 $user = Factory::getUser();
 HTMLHelper::_('script', 'com_cpanel/admin-add_module.js', ['version' => 'auto', 'relative' => true]);
 
@@ -48,7 +54,7 @@ echo HTMLHelper::_(
 	</div>
 </div>
 <?php endif; ?>
-<div class="row">
+<div id="cpanel-modules" class="row">
 	<?php
 	foreach ($this->modules as $module)
 	{

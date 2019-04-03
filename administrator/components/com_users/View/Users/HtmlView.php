@@ -166,14 +166,6 @@ class HtmlView extends BaseHtmlView
 					->listCheck(true);
 		}
 
-		if ($canDo->get('core.delete'))
-		{
-			$toolbar->delete('users.delete')
-				->text('JTOOLBAR_DELETE')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
-		}
-
 		// Add a batch button
 		if ($user->authorise('core.create', 'com_users')
 			&& $user->authorise('core.edit', 'com_users')
@@ -182,6 +174,14 @@ class HtmlView extends BaseHtmlView
 			$toolbar->popupButton('batch')
 				->text('JTOOLBAR_BATCH')
 				->selector('collapseModal')
+				->listCheck(true);
+		}
+
+		if ($canDo->get('core.delete'))
+		{
+			$toolbar->delete('users.delete')
+				->text('JTOOLBAR_DELETE')
+				->message('JGLOBAL_CONFIRM_DELETE')
 				->listCheck(true);
 		}
 

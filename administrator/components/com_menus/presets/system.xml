@@ -45,7 +45,7 @@
             element="com_checkin"
             link="index.php?option=com_checkin"
             permission="core.manage;com_checkin"
-            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=checkins"
+            ajax-badge="index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json"
             />
     </menuitem>
 
@@ -60,7 +60,7 @@
             element="com_installer"
             link="index.php?option=com_installer&amp;view=warnings"
             permission="core.manage;com_installer"
-            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=installationwarnings"
+            ajax-badge="index.php?option=com_installer&amp;task=getMenuBadgeData&amp;format=json"
             />
 
         <menuitem
@@ -69,7 +69,7 @@
             element="com_postinstall"
             link="index.php?option=com_postinstall"
             permission="core.manage;com_postinstall"
-            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=postinstall"
+            ajax-badge="index.php?option=com_postinstall&amp;task=getMenuBadgeData&amp;format=json"
             />
 
         <menuitem
@@ -86,7 +86,7 @@
             element="com_installer"
             link="index.php?option=com_installer&amp;view=database"
             permission="core.manage;com_installer"
-            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=databaseupdate"
+            ajax-badge="index.php?option=com_installer&amp;task=database.getMenuBadgeData&amp;format=json"
             />
     </menuitem>
 
@@ -108,7 +108,7 @@
             type="component"
             element="com_installer"
             link="index.php?option=com_installer&amp;view=discover"
-            ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=extensiondiscover"
+            ajax-badge="index.php?option=com_installer&amp;task=discover.getMenuBadgeData&amp;format=json"
             />
 
         <menuitem
@@ -208,7 +208,7 @@
                 element="com_joomlaupdate"
                 link="index.php?option=com_joomlaupdate"
                 permission="core.manage;com_joomlaupdate"
-                ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=systemupdate"
+                ajax-badge="index.php?option=com_joomlaupdate&amp;task=getMenuBadgeData&amp;format=json"
         />
 
         <menuitem
@@ -217,7 +217,7 @@
                 element="com_installer"
                 link="index.php?option=com_installer&amp;view=update"
                 permission="core.manage;com_installer"
-                ajax-badge="index.php?option=com_cpanel&amp;task=system.loadSystemInfo&amp;format=json&amp;type=extensionupdate"
+                ajax-badge="index.php?option=com_installer&amp;task=update.getMenuBadgeData&amp;format=json"
         />
 
         <menuitem

@@ -35,7 +35,8 @@ $this->useCoreUI = true;
 		<div class="row">
 			<div class="col-md-9">
 				<div class="form-vertical">
-					<?php echo $this->form->renderField('description'); ?>
+					<?php echo $this->form->getLabel('description'); ?>
+					<?php echo $this->form->getInput('description'); ?>
 				</div>
 			</div>
 			<div class="col-md-3">

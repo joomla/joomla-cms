@@ -70,8 +70,6 @@ class HtmlView extends InstallerViewDefault
 		ToolbarHelper::custom('discover.refresh', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_DISCOVER', false);
 		ToolbarHelper::divider();
 
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=discover');
-
 		parent::addToolbar();
 
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_DISCOVER');

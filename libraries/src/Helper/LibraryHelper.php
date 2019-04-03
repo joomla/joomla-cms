@@ -12,6 +12,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheControllerFactoryInterface;
 use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
@@ -164,7 +165,7 @@ class LibraryHelper
 		{
 			static::$libraries[$element] = $cache->get($loader, array($element), __METHOD__ . $element);
 		}
-		catch (\JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			static::$libraries[$element] = $loader($element);
 		}
