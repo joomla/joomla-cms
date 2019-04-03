@@ -58,9 +58,7 @@ if (empty($options))
 $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt      = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
-// HTMLHelper::_('stylesheet', 'system/fields/joomla-field-switcher.css', ['version' => 'auto', 'relative' => true]);
-
-
+HTMLHelper::_('stylesheet', 'system/fields/switcher.css', ['version' => 'auto', 'relative' => true]);
 
 // Set the type of switcher
 $type = '';
@@ -94,76 +92,9 @@ if (!empty($onchange))
 }
 
 ?>
-<style>
-
-.switcher {
-  position: relative;
-  width: 18rem;
-  height: 3rem;
-}
-.switcher input {
-  position: absolute;
-  top: 0;
-  z-index: 2;
-  opacity: 0;
-  cursor: pointer;
-  height: 3rem;
-  width: 6rem;
-  margin: 0;
-}
-.switcher input:checked {
-  z-index: 1;
-}
-.switcher input:checked + label {
-  opacity: 1;
-}
-.switcher input:not(:checked) + label {
-  opacity: 0;
-}
-.switcher label {
-  line-height: 3rem;
-  display: inline-block;
-  width: 6rem;
-  height: 100%;
-  margin-left: 6.5em;
-  text-align: left;
-  position: absolute;
-  transition: opacity 0.25s ease;
-}
-.switcher .toggle-outside {
-  height: 100%;
-  padding: 0.25rem;
-  overflow: hidden;
-  transition: 0.25s ease all;
-  background: green;
-  position: absolute;
-  width: 6rem;
-  box-sizing: border-box;
-
-}
-.switcher .toggle-inside {
-  height: 2.5rem;
-  width: 2.5rem;  
-  background: white;
-  position: absolute;
-  transition: 0.25s ease all;
-}
-.switcher input:checked ~ .toggle-outside .toggle-inside {
-  left: 0.25rem;
-}
-.switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
-  left: 3.25rem;
-}
-.switcher__legend {
- margin-bottom: 1rem;
- font-size: 1rem;
- font-weight: 400;
-}
-
-</style>
 <fieldset>
   <legend class="switcher__legend">
-    <?php echo htmlspecialchars($label, ENT_COMPAT, 'UTF-8'); ?>
+    <?php echo $label; ?>
   </legend>
   <div class="switcher" role="switch">
   <?php foreach ($options as $i => $option) : ?>
