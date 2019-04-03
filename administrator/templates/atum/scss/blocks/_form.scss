@@ -111,3 +111,9 @@ joomla-tab[view=accordion] {
     overflow: visible;
   }
 }
+
+@media screen and (max-width: 484px) {
+  .js-calendar {
+    right: 0;
+  }
+}
