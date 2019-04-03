@@ -19,7 +19,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	/**
 	 * Method to index a content item.
 	 *
-	 * @param   FinderIndexerResult  $item    The content item to index.
+	 * @param   FinderIndexerResult  $item  The content item to index.
 	 *
 	 * @return  integer  The ID of the record in the links table.
 	 *
