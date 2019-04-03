@@ -58,39 +58,10 @@ if (empty($options))
 $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 $alt      = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
-HTMLHelper::_('stylesheet', 'system/fields/switcher.css', ['version' => 'auto', 'relative' => true]);
-
-// Set the type of switcher
-$type = '';
-
-if ($pos = strpos($class, 'switcher-'))
-{
-	$type = 'type="' . strtok(substr($class, $pos + 9), ' ') . '"';
-}
-
-// Add the attributes of the fieldset in an array
-$attribs = [
-	'id="' . $id . '"',
-	$type,
-	'off-text="' . $options[0]->text . '"',
-	'on-text="' . $options[1]->text . '"',
-];
-
-if (!empty($disabled))
-{
-	$attribs[] = 'disabled';
-}
-
-if (!empty($onclick))
-{
-	$attribs[] = 'onclick="' . $onclick . '()"';
-}
-
-if (!empty($onchange))
-{
-	$attribs[] = 'onchange="' . $onchange . '()"';
-}
-
+//brian temp file location to make it easier to test and review with patchtester
+use Joomla\CMS\Factory;
+$doc = Factory::getDocument();
+$doc->addStyleSheet('../layouts/joomla/form/field/radio/switcher.css');
 ?>
 <fieldset>
   <legend class="switcher__legend">
@@ -102,8 +73,6 @@ if (!empty($onchange))
     // Initialize some option attributes.
     $checked = ((string) $option->value == $value) ? 'checked="checked"' : '';
     $active  = ((string) $option->value == $value) ? 'class="active"' : '';
-
-    // Initialize some option attributes.
     $oid        = $id . $i;
     $ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
     $attributes = array_filter(array($checked, $active, null));
