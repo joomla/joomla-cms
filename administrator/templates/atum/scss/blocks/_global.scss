@@ -177,4 +177,9 @@ a[href*="//"]:not([href*="javascript://"]):before {
   color: var(--font-color-dark);
 }
 
-
+// dashboard items
+.menu-quicktask,
+.menu-badge {
+  float: right;
+  min-width: 1rem;
+}
