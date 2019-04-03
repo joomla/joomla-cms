@@ -17,50 +17,50 @@
         const badgeurl = element.getAttribute('data-url');
 
         if (badgeurl && Joomla && Joomla.request && typeof Joomla.request === 'function') {
-            Joomla.request({
-              url: badgeurl,
-              method: 'POST',
-              onSuccess: (resp) => {
-                let response;
-                try {
-                  response = JSON.parse(resp);
-                } catch (error) {
-                  throw new Error('Failed to parse JSON');
-                }
+          Joomla.request({
+            url: badgeurl,
+            method: 'POST',
+            onSuccess: (resp) => {
+              let response;
+              try {
+                response = JSON.parse(resp);
+              } catch (error) {
+                throw new Error('Failed to parse JSON');
+              }
 
-                if (response.error || !response.success) {
-                  element.classList.remove('fa-spin');
-                  element.classList.remove('fa-spinner');
-                  element.classList.add('text-danger');
-                  element.classList.add('fa-remove');
-                } else if (response.data) {
-                  const elem = document.createElement('span');
-
-                  elem.classList.add('pull-right');
-                  elem.classList.add('badge');
-                  elem.classList.add('badge-pill');
-                  elem.classList.add('badge-warning');
-                  elem.innerHTML = response.data;
-
-                  element.parentNode.replaceChild(elem, element);
-                } else {
-                  element.classList.remove('fa-spin');
-                  element.classList.remove('fa-spinner');
-                  element.classList.add('fa-check');
-                  element.classList.add('text-success');
-                }
-              },
-              onError: () => {
+              if (response.error || !response.success) {
                 element.classList.remove('fa-spin');
                 element.classList.remove('fa-spinner');
                 element.classList.add('text-danger');
                 element.classList.add('fa-remove');
-              },
-            });
-          }
-        });
-      }
-    };
+              } else if (response.data) {
+                const elem = document.createElement('span');
 
-    document.addEventListener('DOMContentLoaded', init);
-  })(document, Joomla);
+                elem.classList.add('pull-right');
+                elem.classList.add('badge');
+                elem.classList.add('badge-pill');
+                elem.classList.add('badge-warning');
+                elem.innerHTML = response.data;
+
+                element.parentNode.replaceChild(elem, element);
+              } else {
+                element.classList.remove('fa-spin');
+                element.classList.remove('fa-spinner');
+                element.classList.add('fa-check');
+                element.classList.add('text-success');
+              }
+            },
+            onError: () => {
+              element.classList.remove('fa-spin');
+              element.classList.remove('fa-spinner');
+              element.classList.add('text-danger');
+              element.classList.add('fa-remove');
+            },
+          });
+        }
+      });
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', init);
+})(document, Joomla);
