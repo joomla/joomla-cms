@@ -20,14 +20,13 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	 * Method to index a content item.
 	 *
 	 * @param   FinderIndexerResult  $item    The content item to index.
-	 * @param   string               $format  The format of the content. [optional]
 	 *
 	 * @return  integer  The ID of the record in the links table.
 	 *
 	 * @since   3.0
 	 * @throws  Exception on database error.
 	 */
-	public function index($item, $format = 'html')
+	public function index($item)
 	{
 		// Mark beforeIndexing in the profiler.
 		static::$profiler ? static::$profiler->mark('beforeIndexing') : null;
@@ -150,39 +149,21 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			foreach ($properties as $property)
 			{
 				// Check if the property exists in the item.
-				if (empty($item->$property))
+				if (empty($item->{$property['property']}))
 				{
 					continue;
 				}
 
 				// Tokenize the property.
-				if (is_array($item->$property))
+				$ips = $item->{$property['property']};
+
+				if (!is_array($ips))
 				{
-					// Tokenize an array of content and add it to the database.
-					foreach ($item->$property as $ip)
-					{
-						/*
-						 * If the group is path, we need to a few extra processing
-						 * steps to strip the extension and convert slashes and dashes
-						 * to spaces.
-						 */
-						if ($group === static::PATH_CONTEXT)
-						{
-							$ip = JFile::stripExt($ip);
-							$ip = str_replace(array('/', '-'), ' ', $ip);
-						}
-
-						// Tokenize a string of content and add it to the database.
-						$count += $this->tokenizeToDb($ip, $group, $item->language, $format);
-
-						// Check if we're approaching the memory limit of the token table.
-						if ($count > static::$state->options->get('memory_table_limit', 30000))
-						{
-							$this->toggleTables(false);
-						}
-					}
+					$ips = [$ips];
 				}
-				else
+
+				// Tokenize an array of content and add it to the database.
+				foreach ($ips as $ip)
 				{
 					/*
 					 * If the group is path, we need to a few extra processing
@@ -191,13 +172,12 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 					 */
 					if ($group === static::PATH_CONTEXT)
 					{
-						$item->$property = JFile::stripExt($item->$property);
-						$item->$property = str_replace('/', ' ', $item->$property);
-						$item->$property = str_replace('-', ' ', $item->$property);
+						$ip = JFile::stripExt($ip);
+						$ip = str_replace(array('/', '-'), ' ', $ip);
 					}
 
 					// Tokenize a string of content and add it to the database.
-					$count += $this->tokenizeToDb($item->$property, $group, $item->language, $format);
+					$count += $this->tokenizeToDb($ip, $group, $item->language, $property['format']);
 
 					// Check if we're approaching the memory limit of the token table.
 					if ($count > static::$state->options->get('memory_table_limit', 30000))
@@ -232,7 +212,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				$node->id = $nodeId;
 
 				// Tokenize the node title and add them to the database.
-				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, $format);
+				$count += $this->tokenizeToDb($node->title, static::META_CONTEXT, $item->language, 'txt');
 			}
 		}
 

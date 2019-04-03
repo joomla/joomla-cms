@@ -264,14 +264,13 @@ abstract class FinderIndexer
 	 * Method to index a content item.
 	 *
 	 * @param   FinderIndexerResult  $item    The content item to index.
-	 * @param   string               $format  The format of the content. [optional]
 	 *
 	 * @return  integer  The ID of the record in the links table.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract public function index($item, $format = 'html');
+	abstract public function index($item);
 
 	/**
 	 * Method to remove a link from the index.

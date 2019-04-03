@@ -40,11 +40,21 @@ class FinderIndexerResult implements Serializable
 	 * @since  2.5
 	 */
 	protected $instructions = array(
-		FinderIndexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
-		FinderIndexer::TEXT_CONTEXT  => array('summary', 'body'),
-		FinderIndexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
-		FinderIndexer::PATH_CONTEXT  => array('path', 'alias'),
-		FinderIndexer::MISC_CONTEXT  => array('comments'),
+		FinderIndexer::TITLE_CONTEXT => [
+			['property' => 'title', 'format' => 'txt'],
+			['property' => 'subtitle', 'format' => 'txt'],
+			['property' => 'id', 'format' => 'txt']],
+		FinderIndexer::TEXT_CONTEXT  => [
+			['property' => 'summary', 'format' => 'html'],
+			['property' => 'body', 'format' => 'html']],
+		FinderIndexer::META_CONTEXT  => [
+			['property' => 'meta', 'format' => 'txt'],
+			['property' => 'list_price', 'format' => 'txt'],
+			['property' => 'sale_price', 'format' => 'txt']],
+		FinderIndexer::PATH_CONTEXT  => [
+			['property' => 'path', 'format' => 'txt'],
+			['property' => 'alias', 'format' => 'txt']],
+		FinderIndexer::MISC_CONTEXT  => [['property' => 'comments', 'format' => 'txt']]
 	);
 
 	/**
@@ -317,19 +327,20 @@ class FinderIndexerResult implements Serializable
 	 *
 	 * @param   string  $group     The group to associate the property with.
 	 * @param   string  $property  The property to process.
+	 * @param   string  $format    The format of the property.
 	 *
 	 * @return  void
 	 *
 	 * @since   2.5
 	 */
-	public function addInstruction($group, $property)
+	public function addInstruction($group, $property, $format = 'txt')
 	{
 		// Check if the group exists. We can't add instructions for unknown groups.
 		// Check if the property exists in the group.
-		if (array_key_exists($group, $this->instructions) && !in_array($property, $this->instructions[$group], true))
+		if (array_key_exists($group, $this->instructions) && !isset($this->instructions[$group][$property]))
 		{
 			// Add the property to the group.
-			$this->instructions[$group][] = $property;
+			$this->instructions[$group][$property] = ['property' => $property, 'format' => $format];
 		}
 	}
 
@@ -348,14 +359,7 @@ class FinderIndexerResult implements Serializable
 		// Check if the group exists. We can't remove instructions for unknown groups.
 		if (array_key_exists($group, $this->instructions))
 		{
-			// Search for the property in the group.
-			$key = array_search($property, $this->instructions[$group]);
-
-			// If the property was found, remove it.
-			if ($key !== false)
-			{
-				unset($this->instructions[$group][$key]);
-			}
+			unset($this->instructions[$group][$property]);
 		}
 	}
 
@@ -457,9 +461,9 @@ class FinderIndexerResult implements Serializable
 
 	/**
 	 * Helper function to serialise the data of a FinderIndexerResult object
-	 * 
+	 *
 	 * @return  string  The serialised data
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function serialize()
@@ -512,11 +516,11 @@ class FinderIndexerResult implements Serializable
 
 	/**
 	 * Helper function to unserialise the data for this object
-	 * 
+	 *
 	 * @param   string  $serialized  Serialised data to unserialise
-	 * 
+	 *
 	 * @return  void
-	 * 
+	 *
 	 * @since   4.0.0
 	 */
 	public function unserialize($serialized)
