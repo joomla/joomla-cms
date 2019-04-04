@@ -252,13 +252,13 @@ class CategoryModel extends ListModel
 
 		$numberOfContactsToDisplay = $mergedParams->get('contacts_display_num');
 
-		if (isset($numberOfContactsToDisplay))
-		{
-			$limit = $numberOfContactsToDisplay;
-		}
-		elseif ($format === 'feed')
+		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
+		}
+		elseif (isset($numberOfContactsToDisplay))
+		{
+			$limit = $numberOfContactsToDisplay;
 		}
 		else
 		{
