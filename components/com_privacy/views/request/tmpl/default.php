@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 JHtml::_('behavior.keepalive');
 JHtml::_('behavior.formvalidator');
+JHtml::_('formbehavior.chosen', 'select');
 
 ?>
 <div class="request-form<?php echo $this->pageclass_sfx; ?>">
@@ -26,10 +27,10 @@ JHtml::_('behavior.formvalidator');
 	<form action="<?php echo JRoute::_('index.php?option=com_privacy&task=request.submit'); ?>" method="post" class="form-validate form-horizontal well">
 		<?php foreach ($this->form->getFieldsets() as $fieldset) : ?>
 			<fieldset>
-				<p><?php echo JText::_($fieldset->label); ?></p>
-				<?php foreach ($this->form->getFieldset($fieldset->name) as $name => $field) : ?>
-					<?php echo $field->renderField(); ?>
-				<?php endforeach; ?>
+				<?php if (!empty($fieldset->label)) : ?>
+					<legend><?php echo JText::_($fieldset->label); ?></legend>
+				<?php endif; ?>
+				<?php echo $this->form->renderFieldset($fieldset->name); ?>
 			</fieldset>
 		<?php endforeach; ?>
 		<div class="control-group">

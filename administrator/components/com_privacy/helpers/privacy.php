@@ -28,8 +28,14 @@ class PrivacyHelper extends JHelperContent
 	public static function addSubmenu($vName)
 	{
 		JHtmlSidebar::addEntry(
+			JText::_('COM_PRIVACY_SUBMENU_DASHBOARD'),
+			'index.php?option=com_privacy&view=dashboard',
+			$vName === 'dashboard'
+		);
+
+		JHtmlSidebar::addEntry(
 			JText::_('COM_PRIVACY_SUBMENU_REQUESTS'),
-			'index.php?option=com_privacy',
+			'index.php?option=com_privacy&view=requests',
 			$vName === 'requests'
 		);
 

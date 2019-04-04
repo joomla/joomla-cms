@@ -110,14 +110,15 @@ class PrivacyViewRequest extends JViewLegacy
 		// Set the title and toolbar based on the layout
 		if ($this->getLayout() === 'edit')
 		{
-			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'dashboard');
+			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'lock');
 
 			JToolbarHelper::apply('request.save');
 			JToolbarHelper::cancel('request.cancel');
+			JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST_EDIT');
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_SHOW_REQUEST'), 'dashboard');
+			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_SHOW_REQUEST'), 'lock');
 
 			$bar = JToolbar::getInstance('toolbar');
 
@@ -163,6 +164,7 @@ class PrivacyViewRequest extends JViewLegacy
 			}
 
 			JToolbarHelper::cancel('request.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST');
 		}
 	}
 }

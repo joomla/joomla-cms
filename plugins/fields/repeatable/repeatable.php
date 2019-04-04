@@ -8,6 +8,7 @@
  */
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 defined('_JEXEC') or die;
 

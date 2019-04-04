@@ -22,12 +22,17 @@
 					label="PLG_SYSTEM_ACTIONLOGS_LOG_DELETE_PERIOD"
 					description="PLG_SYSTEM_ACTIONLOGS_LOG_DELETE_PERIOD_DESC"
 					default="0"
+					min="0"
+					max="30"
+					step="5"
+					filter="int"
+					validate="number"
 				/>
 				<field
 					name="lastrun"
 					type="hidden"
 					default="0"
-					size="15"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

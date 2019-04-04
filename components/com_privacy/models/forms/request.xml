@@ -6,9 +6,9 @@
 			type="email"
 			label="JGLOBAL_EMAIL"
 			description="COM_PRIVACY_FIELD_CONFIRM_EMAIL_DESC"
+			validate="email"
 			required="true"
 			size="30"
-			validate="email"
 		/>
 
 		<field

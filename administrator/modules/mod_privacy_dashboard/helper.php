@@ -9,43 +9,36 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\MVC\Model\BaseModel;
+
 /**
  * Helper class for admin privacy dashboard module
  *
- * @since  3.9
+ * @since  __DEPLOY_VERSION__
  */
 class ModPrivacyDashboardHelper
 {
 	/**
 	 * Method to retrieve information about the site privacy requests
 	 *
-	 * @param   JObject  &$params  Params object
-	 *
 	 * @return  array  Array containing site privacy requests
 	 *
-	 * @since   3.9
+	 * @since   __DEPLOY_VERSION__
 	 */
-	public static function getData(&$params)
+	public static function getData()
 	{
-		$db    = JFactory::getDbo();
-		$rows  = array();
-		$query = $db->getQuery(true);
+		BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_privacy/models', 'PrivacyModel');
 
-		$query->select('COUNT(*) AS count, ' . $db->quoteName('status') . ', ' . $db->quoteName('request_type'))
-				->from($db->quoteName('#__privacy_requests'))
-				->group($db->quoteName('status') . ', ' . $db->quoteName('request_type'));
-		$db->setQuery($query);
+		/** @var PrivacyModelDashboard $model */
+		$model = BaseModel::getInstance('Dashboard', 'PrivacyModel');
 
 		try
 		{
-			$rows = $db->loadObjectList();
+			return $model->getRequestCounts();
 		}
-		catch (RuntimeException $e)
+		catch (JDatabaseException $e)
 		{
-			$rows = false;
+			return array();
 		}
-
-		return $rows;
-
 	}
 }

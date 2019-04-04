@@ -113,6 +113,18 @@ class PrivacyModelRequest extends JModelAdmin
 			return false;
 		}
 
+		// Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
+		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
+
+		/** @var MessagesModelMessage $messageModel */
+		$messageModel = JModelLegacy::getInstance('Message', 'MessagesModel');
+
+		$messageModel->notifySuperUsers(
+			JText::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_SUBJECT'),
+			JText::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_MESSAGE', $data['email'])
+		);
+
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try
 		{
@@ -129,17 +141,17 @@ class PrivacyModelRequest extends JModelAdmin
 				'\\n'        => "\n",
 			);
 
-			$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT');
-
 			switch ($data['request_type'])
 			{
 				case 'export':
-					$emailBody = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
+					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_EXPORT_REQUEST');
+					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
 
 					break;
 
 				case 'remove':
-					$emailBody = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
+					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_REMOVE_REQUEST');
+					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
 
 					break;
 
@@ -210,7 +222,7 @@ class PrivacyModelRequest extends JModelAdmin
 
 			/** @var ActionlogsModelActionlog $model */
 			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-			$model->addLogsToDb(array($message), $messageKey, 'com_privacy.request', $userId);
+			$model->addLog(array($message), $messageKey, 'com_privacy.request', $userId);
 
 			// The email sent and the record is saved, everything is good to go from here
 			return true;
