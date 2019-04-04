@@ -6,15 +6,17 @@
 // Helper function for IE11
 function getClosest(el, tag) {
   // this is necessary since nodeName is always in upper case
-  tag = tag.toUpperCase();
+  var element_tag = tag.toUpperCase();
+  var element = el;
   do {
-    if (el.nodeName === tag) {
-      // tag name is found! let's return it. :)
-      return el;
+    if (element.nodeName === element_tag) {
+      // tag name is found! return
+      return element;
     }
-  } while (el = el.parentNode);
+    element = element.parentNode
+  } while (element);
 
-  // not found :(
+  // not found
   return null;
 }
 
