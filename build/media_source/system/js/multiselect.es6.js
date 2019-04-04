@@ -6,7 +6,7 @@
 // Helper function for IE11
 function getClosest(el, tag) {
   // this is necessary since nodeName is always in upper case
-  let elementTag = tag.toUpperCase();
+  const elementTag = tag.toUpperCase();
   let element = el;
   do {
     if (element.nodeName === elementTag) {
@@ -14,7 +14,7 @@ function getClosest(el, tag) {
       return element;
     }
     element = element.parentNode;
-  } while (element);
+  } while (element != null);
 
   // Not found
   return null;
