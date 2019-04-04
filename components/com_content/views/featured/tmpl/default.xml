@@ -127,6 +127,7 @@
 				type="list"
 				label="COM_CONTENT_FEATURED_ARTICLES"
 				description="COM_CONTENT_FEATURED_CATEGORIES_DESC"
+			        default="1"
 				class="chzn-color"
 				>
 				<option value="0">JNO</option>
