@@ -112,7 +112,7 @@ joomla-tab[view=accordion] {
   }
 }
 
-@media screen and (max-width: 484px) {
+@media screen and (max-width: $break-sm) {
   .js-calendar {
     right: 0;
   }
