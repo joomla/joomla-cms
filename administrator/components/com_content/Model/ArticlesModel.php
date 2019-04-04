@@ -513,7 +513,7 @@ class ArticlesModel extends ListModel
 
 		$items = $this->getItems();
 
-		if (!$items)
+		if ($items === false)
 		{
 			return false;
 		}
