@@ -3,7 +3,7 @@
 	<fieldset 
 		name="redirect"
 		label="COM_REDIRECT_ADVANCED_OPTIONS"
-	>
+		>
 		<field
 			name="mode"
 			type="radio"
@@ -22,13 +22,24 @@
 			description="COM_REDIRECT_BULK_SEPARATOR_DESC"
 			default="|"
 		/>
+		<field
+			name="defaultImportState"
+			type="radio"
+			label="COM_REDIRECT_DEFAULT_IMPORT_STATE_LABEL"
+			description="COM_REDIRECT_DEFAULT_IMPORT_STATE_DESC"
+			class="btn-group btn-group-yesno"
+			default="0"
+			>
+			<option value="1">JENABLED</option>
+			<option value="0">JDISABLED</option>
+		</field>
 	</fieldset>
 
 	<fieldset
 		name="permissions"
 		label="JCONFIG_PERMISSIONS_LABEL"
 		description="JCONFIG_PERMISSIONS_DESC"
-	>
+		>
 		<field
 			name="rules"
 			type="rules"

@@ -192,7 +192,6 @@ pingExtract = function()
 
 startExtract = function()
 {
-	console.log("started");
 	// Reset variables
 	this.stat_files = 0;
 	this.stat_inbytes = 0;
@@ -263,7 +262,7 @@ stepExtract = function(data)
 			jQuery('#progress-bar').removeClass('bar-success');
 		}
 
-		jQuery('#extpercent').text(stat_percent.toFixed(1));
+		jQuery('#extpercent').text(stat_percent.toFixed(1) + '%');
 		jQuery('#extbytesin').text(stat_inbytes);
 		jQuery('#extbytesout').text(stat_outbytes);
 		jQuery('#extfiles').text(data.files);

@@ -23,13 +23,13 @@ final class Php56
 
     public static function hash_equals($knownString, $userInput)
     {
-        if (!is_string($knownString)) {
+        if (!\is_string($knownString)) {
             trigger_error('Expected known_string to be a string, '.gettype($knownString).' given', E_USER_WARNING);
 
             return false;
         }
 
-        if (!is_string($userInput)) {
+        if (!\is_string($userInput)) {
             trigger_error('Expected user_input to be a string, '.gettype($userInput).' given', E_USER_WARNING);
 
             return false;
@@ -45,7 +45,7 @@ final class Php56
         $result = 0;
 
         for ($i = 0; $i < $knownLen; ++$i) {
-            $result |= ord($knownString[$i]) ^ ord($userInput[$i]);
+            $result |= \ord($knownString[$i]) ^ \ord($userInput[$i]);
         }
 
         return 0 === $result;
@@ -80,16 +80,16 @@ final class Php56
             $charMaps[0] = array();
 
             for ($i = 0; $i < 256; ++$i) {
-                $charMaps[0][chr($i)] = sprintf('\\%02x', $i);
+                $charMaps[0][\chr($i)] = sprintf('\\%02x', $i);
             }
 
-            for ($i = 0, $l = count($charMaps[self::LDAP_ESCAPE_FILTER]); $i < $l; ++$i) {
+            for ($i = 0, $l = \count($charMaps[self::LDAP_ESCAPE_FILTER]); $i < $l; ++$i) {
                 $chr = $charMaps[self::LDAP_ESCAPE_FILTER][$i];
                 unset($charMaps[self::LDAP_ESCAPE_FILTER][$i]);
                 $charMaps[self::LDAP_ESCAPE_FILTER][$chr] = $charMaps[0][$chr];
             }
 
-            for ($i = 0, $l = count($charMaps[self::LDAP_ESCAPE_DN]); $i < $l; ++$i) {
+            for ($i = 0, $l = \count($charMaps[self::LDAP_ESCAPE_DN]); $i < $l; ++$i) {
                 $chr = $charMaps[self::LDAP_ESCAPE_DN][$i];
                 unset($charMaps[self::LDAP_ESCAPE_DN][$i]);
                 $charMaps[self::LDAP_ESCAPE_DN][$chr] = $charMaps[0][$chr];
@@ -115,7 +115,7 @@ final class Php56
         // Remove any chars to ignore from the list
         $ignore = (string) $ignore;
 
-        for ($i = 0, $l = strlen($ignore); $i < $l; ++$i) {
+        for ($i = 0, $l = \strlen($ignore); $i < $l; ++$i) {
             unset($charMap[$ignore[$i]]);
         }
 
@@ -128,7 +128,7 @@ final class Php56
                 $result = '\\20'.substr($result, 1);
             }
 
-            if ($result[strlen($result) - 1] === ' ') {
+            if ($result[\strlen($result) - 1] === ' ') {
                 $result = substr($result, 0, -1).'\\20';
             }
         }
