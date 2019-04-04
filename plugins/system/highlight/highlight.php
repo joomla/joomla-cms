@@ -3,19 +3,32 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Highlight
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Plugin\CMSPlugin;
 
 /**
  * System plugin to highlight terms.
  *
  * @since  2.5
  */
-class PlgSystemHighlight extends JPlugin
+class PlgSystemHighlight extends CMSPlugin
 {
+	/**
+	 * Application object.
+	 *
+	 * @var    \Joomla\CMS\Application\CMSApplication
+	 * @since  3.7.0
+	 */
+	protected $app;
+
 	/**
 	 * Method to catch the onAfterDispatch event.
 	 *
@@ -30,23 +43,23 @@ class PlgSystemHighlight extends JPlugin
 	public function onAfterDispatch()
 	{
 		// Check that we are in the site application.
-		if (JFactory::getApplication()->isClient('administrator'))
+		if ($this->app->isClient('administrator'))
 		{
 			return true;
 		}
 
 		// Set the variables.
-		$input = JFactory::getApplication()->input;
+		$input     = $this->app->input;
 		$extension = $input->get('option', '', 'cmd');
 
 		// Check if the highlighter is enabled.
-		if (!JComponentHelper::getParams($extension)->get('highlight_terms', 1))
+		if (!ComponentHelper::getParams($extension)->get('highlight_terms', 1))
 		{
 			return true;
 		}
 
 		// Check if the highlighter should be activated in this environment.
-		if ($input->get('tmpl', '', 'cmd') === 'component' || JFactory::getDocument()->getType() !== 'html')
+		if ($input->get('tmpl', '', 'cmd') === 'component' || $this->app->getDocument()->getType() !== 'html')
 		{
 			return true;
 		}
@@ -62,7 +75,7 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Clean the terms array.
-		$filter     = JFilterInput::getInstance();
+		$filter     = InputFilter::getInstance();
 
 		$cleanTerms = array();
 
@@ -72,14 +85,42 @@ class PlgSystemHighlight extends JPlugin
 		}
 
 		// Activate the highlighter.
-		JHtml::_('behavior.highlighter', $cleanTerms);
+		HTMLHelper::_('behavior.highlighter', $cleanTerms);
 
 		// Adjust the component buffer.
-		$doc = JFactory::getDocument();
+		$doc = $this->app->getDocument();
 		$buf = $doc->getBuffer('component');
 		$buf = '<br id="highlighter-start" />' . $buf . '<br id="highlighter-end" />';
 		$doc->setBuffer($buf, 'component');
 
 		return true;
+	}
+
+	/**
+	 * Method to catch the onFinderResult event.
+	 *
+	 * @param   FinderIndexerResult  $item   The search result
+	 * @param   array                $query  The search query of this result
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function onFinderResult($item, $query)
+	{
+		static $params;
+
+		if (is_null($params))
+		{
+			$params = ComponentHelper::getParams('com_finder');
+		}
+
+		// Get the route with highlighting information.
+		if (!empty($query->highlight)
+			&& empty($item->mime)
+			&& $params->get('highlight_terms', 1))
+		{
+			$item->route .= '&highlight=' . base64_encode(json_encode($query->highlight));
+		}
 	}
 }

@@ -3,13 +3,17 @@
  * @package     Joomla.Plugin
  * @subpackage  Captcha
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Captcha\Google\HttpBridgePostRequestMethod;
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Plugin\CMSPlugin;
 use ReCaptcha\ReCaptcha;
 
 /**
@@ -18,7 +22,7 @@ use ReCaptcha\ReCaptcha;
  *
  * @since  2.5
  */
-class PlgCaptchaRecaptcha extends JPlugin
+class PlgCaptchaRecaptcha extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -27,6 +31,24 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 * @since  3.1
 	 */
 	protected $autoloadLanguage = true;
+
+	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			JText::_('PLG_CAPTCHA_RECAPTCHA') => array(
+				JText::_('PLG_RECAPTCHA_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			)
+		);
+	}
 
 	/**
 	 * Initialise the captcha
@@ -45,15 +67,15 @@ class PlgCaptchaRecaptcha extends JPlugin
 
 		if ($pubkey === '')
 		{
-			throw new Exception(JText::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
+			throw new Exception(Text::_('PLG_RECAPTCHA_ERROR_NO_PUBLIC_KEY'));
 		}
 
 		// Load callback first for browser compatibility
-		JHtml::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_captcha_recaptcha/recaptcha.min.js', array('version' => 'auto', 'relative' => true));
 
-		JHtml::_(
+		HTMLHelper::_(
 			'script',
-			'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . JFactory::getLanguage()->getTag()
+			'https://www.google.com/recaptcha/api.js?onload=JoomlaInitReCaptcha2&render=explicit&hl=' . Factory::getLanguage()->getTag()
 		);
 
 		return true;
@@ -91,7 +113,7 @@ class PlgCaptchaRecaptcha extends JPlugin
 	 */
 	public function onCheckAnswer($code = null)
 	{
-		$input      = JFactory::getApplication()->input;
+		$input      = Factory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '2.0');
 		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
@@ -112,19 +134,19 @@ class PlgCaptchaRecaptcha extends JPlugin
 		// Check for Private Key
 		if (empty($privatekey))
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
+			throw new RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_PRIVATE_KEY'), 500);
 		}
 
 		// Check for IP
 		if (empty($remoteip))
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
+			throw new RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_NO_IP'), 500);
 		}
 
 		// Discard spam submissions
 		if ($spam)
 		{
-			throw new RuntimeException(JText::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
+			throw new RuntimeException(Text::_('PLG_RECAPTCHA_ERROR_EMPTY_SOLUTION'), 500);
 		}
 
 		return $this->getResponse($privatekey, $remoteip, $response, $challenge);

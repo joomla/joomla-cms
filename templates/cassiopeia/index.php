@@ -3,24 +3,22 @@
  * @package     Joomla.Site
  * @subpackage  Templates.cassiopeia
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 
 /** @var JDocumentHtml $this */
 
 $app  = Factory::getApplication();
-$lang = Factory::getLanguage();
-
-// Getting params from template
-$params = $app->getTemplate(true)->params;
+$lang = $app->getLanguage();
+$wa   = $this->getWebAssetManager();
 
 // Detecting Active Variables
 $option   = $app->input->getCmd('option', '');
@@ -28,27 +26,12 @@ $view     = $app->input->getCmd('view', '');
 $layout   = $app->input->getCmd('layout', '');
 $task     = $app->input->getCmd('task', '');
 $itemid   = $app->input->getCmd('Itemid', '');
-$sitename = $app->get('sitename');
+$sitename = htmlspecialchars($app->get('sitename'), ENT_QUOTES, 'UTF-8');
 $menu     = $app->getMenu()->getActive();
 $pageclass = $menu->params->get('pageclass_sfx');
 
-// Add JavaScript Frameworks
-HTMLHelper::_('bootstrap.framework');
-
-// Add template js
-HTMLHelper::_('script', 'template.js', ['version' => 'auto', 'relative' => true]);
-
-// Load custom Javascript file
-HTMLHelper::_('script', 'user.js', ['version' => 'auto', 'relative' => true]);
-
-// Load template CSS file
-HTMLHelper::_('stylesheet', 'template.css', ['version' => 'auto', 'relative' => true]);
-
-// Load custom CSS file
-HTMLHelper::_('stylesheet', 'user.css', array('version' => 'auto', 'relative' => true));
-
-// Alerts progressive enhancement
-HTMLHelper::_('webcomponent', ['joomla-alert' => 'vendor/joomla-custom-elements/joomla-alert.min.js'], ['relative' => true, 'version' => 'auto', 'detectBrowser' => false, 'detectDebug' => false]);
+// Enable assets
+$wa->enableAsset('template.cassiopeia.' . ($this->direction === 'rtl' ? 'rtl' : 'ltr'));
 
 // Load specific language related CSS
 HTMLHelper::_('stylesheet', 'language/' . $lang->getTag() . '/' . $lang->getTag() . '.css', array('version' => 'auto'));
@@ -71,7 +54,7 @@ else
 $headerMargin = !$this->countModules('banner') ? ' mb-4' : '';
 
 // Container
-$container = $params->get('fluidContainer') ? 'container-fluid' : 'container';
+$wrapper = $this->params->get('fluidContainer') ? 'wrapper-fluid' : 'wrapper-static';
 
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 ?>
@@ -84,6 +67,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 </head>
 
 <body class="site-grid site <?php echo $option
+	. ' ' . $wrapper
 	. ' view-' . $view
 	. ($layout ? ' layout-' . $layout : ' no-layout')
 	. ($task ? ' task-' . $task : ' no-task')
@@ -91,7 +75,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 	. ' ' . $pageclass;
 	echo ($this->direction == 'rtl' ? ' rtl' : '');
 ?>">
- 	<div class="grid-child container-header full-width">
+	<div class="grid-child container-header full-width">
 		<header class="header">
 			<nav class="grid-child navbar navbar-expand-lg">
 				<div class="navbar-brand">
@@ -116,7 +100,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 						<?php endif; ?>
 					</div>
 				<?php endif; ?>
-				
+
 			</nav>
 			<?php if ($this->countModules('banner')) : ?>
 			<div class="grid-child container-banner">
@@ -132,7 +116,7 @@ $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 			</div>
 		</header>
 	</div>
-	
+
 	<?php if ($this->countModules('top-a')) : ?>
 	<div class="grid-child container-top-a">
 		<jdoc:include type="modules" name="top-a" style="cardGrey" />

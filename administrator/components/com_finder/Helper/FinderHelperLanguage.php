@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 namespace Joomla\Component\Finder\Administrator\Helper;
 
 use Joomla\CMS\Language\LanguageHelper;
@@ -120,7 +121,7 @@ class FinderHelperLanguage
 		// Get array of all the enabled Smart Search plugin names.
 		$db = \JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select(array($db->qn('name'), $db->qn('element')))
+			->select(array($db->quoteName('name'), $db->quoteName('element')))
 			->from($db->quoteName('#__extensions'))
 			->where($db->quoteName('type') . ' = ' . $db->quote('plugin'))
 			->where($db->quoteName('folder') . ' = ' . $db->quote('finder'))

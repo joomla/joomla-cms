@@ -7,9 +7,9 @@
   }
 
   li {
-    padding-bottom: 3px;
+    margin-bottom: .5rem;
     font-size: .9rem;
-    font-weight: bold;
+    font-weight: $bold-weight;
 
     &.nav-header {
       padding: .5rem 0 .2rem;
@@ -26,7 +26,5 @@
     a {
       color: darken(theme-color("primary"), 12%);
     }
-
   }
-
 }

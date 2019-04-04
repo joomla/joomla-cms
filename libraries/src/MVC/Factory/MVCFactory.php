@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,14 +12,20 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplicationInterface;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryAwareInterface;
+use Joomla\CMS\Form\FormFactoryAwareTrait;
+use Joomla\CMS\MVC\Model\ModelInterface;
+use Joomla\Input\Input;
 
 /**
  * Factory to create MVC objects based on a namespace.
  *
  * @since  4.0.0
  */
-class MVCFactory implements MVCFactoryInterface
+class MVCFactory implements MVCFactoryInterface, FormFactoryAwareInterface
 {
+	use FormFactoryAwareTrait;
+
 	/**
 	 * The namespace to create the objects from.
 	 *
@@ -29,26 +35,49 @@ class MVCFactory implements MVCFactoryInterface
 	private $namespace;
 
 	/**
-	 * The application.
-	 *
-	 * @var    CMSApplicationInterface
-	 * @since  4.0.0
-	 */
-	private $application;
-
-	/**
 	 * The namespace must be like:
 	 * Joomla\Component\Content
 	 *
-	 * @param   string                   $namespace    The namespace.
-	 * @param   CMSApplicationInterface  $application  The application
+	 * @param   string  $namespace  The namespace
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct($namespace, CMSApplicationInterface $application)
+	public function __construct($namespace)
 	{
-		$this->namespace   = $namespace;
-		$this->application = $application;
+		$this->namespace = $namespace;
+	}
+
+	/**
+	 * Method to load and return a controller object.
+	 *
+	 * @param   string                   $name    The name of the controller
+	 * @param   string                   $prefix  The controller prefix
+	 * @param   array                    $config  The configuration array for the controller
+	 * @param   CMSApplicationInterface  $app     The app
+	 * @param   Input                    $input   The input
+	 *
+	 * @return  \Joomla\CMS\MVC\Controller\ControllerInterface
+	 *
+	 * @since   4.0.0
+	 * @throws  \Exception
+	 */
+	public function createController($name, $prefix, array $config, CMSApplicationInterface $app, Input $input)
+	{
+		// Clean the parameters
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		$className = $this->getClassName('Controller\\' . ucfirst($name) . 'Controller', $prefix);
+
+		if (!$className)
+		{
+			return null;
+		}
+
+		$controller = new $className($config, $this, $app, $input);
+		$this->setFormFactoryOnObject($controller);
+
+		return $controller;
 	}
 
 	/**
@@ -58,7 +87,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * @param   string  $prefix  Optional model prefix.
 	 * @param   array   $config  Optional configuration array for the model.
 	 *
-	 * @return  \Joomla\CMS\MVC\Model\BaseDatabaseModel  The model object
+	 * @return  ModelInterface  The model object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -69,6 +98,25 @@ class MVCFactory implements MVCFactoryInterface
 		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 
+		// When the front uses a back end model
+		if (!$prefix && !empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
+		{
+			$prefix = 'Administrator';
+		}
+
+		if (!$prefix)
+		{
+			@trigger_error(
+				sprintf(
+					'Calling %s() without a prefix is deprecated.',
+					__METHOD__
+				),
+				E_USER_DEPRECATED
+			);
+
+			$prefix = Factory::getApplication()->getName();
+		}
+
 		$className = $this->getClassName('Model\\' . ucfirst($name) . 'Model', $prefix);
 
 		if (!$className)
@@ -76,7 +124,10 @@ class MVCFactory implements MVCFactoryInterface
 			return null;
 		}
 
-		return new $className($config, $this);
+		$model = new $className($config, $this);
+		$this->setFormFactoryOnObject($model);
+
+		return $model;
 	}
 
 	/**
@@ -87,7 +138,7 @@ class MVCFactory implements MVCFactoryInterface
 	 * @param   string  $type    Optional type of view.
 	 * @param   array   $config  Optional configuration array for the view.
 	 *
-	 * @return  \Joomla\CMS\MVC\View\AbstractView  The view object
+	 * @return  \Joomla\CMS\MVC\View\ViewInterface  The view object
 	 *
 	 * @since   4.0.0
 	 * @throws  \Exception
@@ -99,6 +150,25 @@ class MVCFactory implements MVCFactoryInterface
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
 		$type   = preg_replace('/[^A-Z0-9_]/i', '', $type);
 
+		// When the front uses a back end view
+		if (!$prefix && !empty($config['base_path']) && strpos($config['base_path'], '/administrator/') !== false)
+		{
+			$prefix = 'Administrator';
+		}
+
+		if (!$prefix)
+		{
+			@trigger_error(
+				sprintf(
+					'Calling %s() without a prefix is deprecated.',
+					__METHOD__
+				),
+				E_USER_DEPRECATED
+			);
+
+			$prefix = Factory::getApplication()->getName();
+		}
+
 		$className = $this->getClassName('View\\' . ucfirst($name) . '\\' . ucfirst($type) . 'View', $prefix);
 
 		if (!$className)
@@ -106,7 +176,10 @@ class MVCFactory implements MVCFactoryInterface
 			return null;
 		}
 
-		return new $className($config);
+		$view = new $className($config);
+		$this->setFormFactoryOnObject($view);
+
+		return $view;
 	}
 
 	/**
@@ -124,8 +197,21 @@ class MVCFactory implements MVCFactoryInterface
 	public function createTable($name, $prefix = '', array $config = [])
 	{
 		// Clean the parameters
-		$name = preg_replace('/[^A-Z0-9_]/i', '', $name);
+		$name   = preg_replace('/[^A-Z0-9_]/i', '', $name);
 		$prefix = preg_replace('/[^A-Z0-9_]/i', '', $prefix);
+
+		if (!$prefix)
+		{
+			@trigger_error(
+				sprintf(
+					'Calling %s() without a prefix is deprecated.',
+					__METHOD__
+				),
+				E_USER_DEPRECATED
+			);
+
+			$prefix = Factory::getApplication()->getName();
+		}
 
 		$className = $this->getClassName('Table\\' . ucfirst($name) . 'Table', $prefix)
 			?: $this->getClassName('Table\\' . ucfirst($name) . 'Table', 'Administrator');
@@ -157,11 +243,11 @@ class MVCFactory implements MVCFactoryInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function getClassName(string $suffix, string $prefix)
+	protected function getClassName(string $suffix, string $prefix)
 	{
 		if (!$prefix)
 		{
-			$prefix = $this->application->getName();
+			$prefix = Factory::getApplication();
 		}
 
 		$className = trim($this->namespace, '\\') . '\\' . ucfirst($prefix) . '\\' . $suffix;
@@ -172,5 +258,30 @@ class MVCFactory implements MVCFactoryInterface
 		}
 
 		return $className;
+	}
+
+	/**
+	 * Sets the internal form factory on the given object.
+	 *
+	 * @param   object  $object  The object
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	private function setFormFactoryOnObject($object)
+	{
+		if (!$object instanceof FormFactoryAwareInterface)
+		{
+			return;
+		}
+
+		try
+		{
+			$object->setFormFactory($this->getFormFactory());
+		}
+		catch (\UnexpectedValueException $e)
+		{
+		}
 	}
 }

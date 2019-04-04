@@ -3,16 +3,20 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Content\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Registry\Registry;
 
 /**
@@ -40,7 +44,7 @@ class ArticleModel extends ItemModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('site');
+		$app = Factory::getApplication();
 
 		// Load state from the request.
 		$pk = $app->input->getInt('id');
@@ -54,12 +58,12 @@ class ArticleModel extends ItemModel
 		$this->setState('params', $params);
 
 		// TODO: Tune these values based on other permissions.
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_content')) && (!$user->authorise('core.edit', 'com_content')))
 		{
-			$this->setState('filter.published', 1);
-			$this->setState('filter.archived', 2);
+			$this->setState('filter.published', ContentComponent::CONDITION_PUBLISHED);
+			$this->setState('filter.archived', ContentComponent::CONDITION_ARCHIVED);
 		}
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
@@ -70,11 +74,11 @@ class ArticleModel extends ItemModel
 	 *
 	 * @param   integer  $pk  The id of the article.
 	 *
-	 * @return  object|boolean|\JException  Menu item data object on success, boolean false or JException instance on error
+	 * @return  object|boolean  Menu item data object on success, boolean false
 	 */
 	public function getItem($pk = null)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('article.id');
 
@@ -103,8 +107,16 @@ class ArticleModel extends ItemModel
 				$query->from('#__content AS a')
 					->where('a.id = ' . (int) $pk);
 
+				$query->select($db->quoteName('ws.condition'))
+					->innerJoin($db->quoteName('#__workflow_stages', 'ws'))
+					->innerJoin($db->quoteName('#__workflow_associations', 'wa'))
+					->where($db->quoteName('a.id') . ' = ' . $db->quoteName('wa.item_id'))
+					->where($db->quoteName('wa.extension') . ' = ' . $db->quote('com_content'))
+					->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws.id'));
+
 				// Join on category table.
-				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access')
+				$query->select('c.title AS category_title, c.alias AS category_alias, c.access AS category_access,' .
+						'c.language AS category_language')
 					->innerJoin('#__categories AS c on c.id = a.catid')
 					->where('c.published > 0');
 
@@ -115,11 +127,12 @@ class ArticleModel extends ItemModel
 				// Filter by language
 				if ($this->getState('filter.language'))
 				{
-					$query->where('a.language in (' . $db->quote(\JFactory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
 				}
 
 				// Join over the categories to get parent category titles
-				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route, parent.alias as parent_alias')
+				$query->select('parent.title as parent_title, parent.id as parent_id, parent.path as parent_route,' .
+						'parent.alias as parent_alias, parent.language as parent_language')
 					->join('LEFT', '#__categories as parent ON parent.id = c.parent_id');
 
 				// Join on voting table
@@ -130,7 +143,7 @@ class ArticleModel extends ItemModel
 				{
 					// Filter by start and end dates.
 					$nullDate = $db->quote($db->getNullDate());
-					$date = \JFactory::getDate();
+					$date = Factory::getDate();
 
 					$nowDate = $db->quote($date->toSql());
 
@@ -144,7 +157,7 @@ class ArticleModel extends ItemModel
 
 				if (is_numeric($published))
 				{
-					$query->where('(a.state = ' . (int) $published . ' OR a.state =' . (int) $archived . ')');
+					$query->whereIn($db->quoteName('ws.condition'), [(int) $published, (int) $archived]);
 				}
 
 				$db->setQuery($query);
@@ -153,13 +166,13 @@ class ArticleModel extends ItemModel
 
 				if (empty($data))
 				{
-					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Check for published state if filter set.
-				if ((is_numeric($published) || is_numeric($archived)) && (($data->state != $published) && ($data->state != $archived)))
+				if ((is_numeric($published) || is_numeric($archived)) && ($data->condition != $published && $data->condition != $archived))
 				{
-					throw new \Exception(\JText::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
+					throw new \Exception(Text::_('COM_CONTENT_ERROR_ARTICLE_NOT_FOUND'), 404);
 				}
 
 				// Convert parameter fields to objects.
@@ -202,7 +215,7 @@ class ArticleModel extends ItemModel
 				else
 				{
 					// If no access filter is set, the layout takes some responsibility for display of limited information.
-					$user = \JFactory::getUser();
+					$user = Factory::getUser();
 					$groups = $user->getAuthorisedViewLevels();
 
 					if ($data->catid == 0 || $data->category_access === null)
@@ -244,7 +257,7 @@ class ArticleModel extends ItemModel
 	 */
 	public function hit($pk = 0)
 	{
-		$input = \JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 		$hitcount = $input->getInt('hitcount', 1);
 
 		if ($hitcount)
@@ -292,7 +305,7 @@ class ArticleModel extends ItemModel
 			}
 			catch (\RuntimeException $e)
 			{
-				\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 				return false;
 			}
@@ -316,7 +329,7 @@ class ArticleModel extends ItemModel
 				}
 				catch (\RuntimeException $e)
 				{
-					\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+					Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 					return false;
 				}
@@ -343,7 +356,7 @@ class ArticleModel extends ItemModel
 					}
 					catch (\RuntimeException $e)
 					{
-						\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 						return false;
 					}
@@ -357,7 +370,7 @@ class ArticleModel extends ItemModel
 			return true;
 		}
 
-		\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
+		Factory::getApplication()->enqueueMessage(Text::sprintf('COM_CONTENT_INVALID_RATING', $rate), 'error');
 
 		return false;
 	}

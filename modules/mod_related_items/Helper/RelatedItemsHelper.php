@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,10 @@ namespace Joomla\Module\RelatedItems\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -45,7 +47,7 @@ abstract class RelatedItemsHelper
 
 		if ($articles === false)
 		{
-			$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 			return array();
 		}
@@ -62,7 +64,7 @@ abstract class RelatedItemsHelper
 		$id   = $temp[0];
 
 		$nullDate = $db->getNullDate();
-		$now      = \JFactory::getDate()->toSql();
+		$now      = Factory::getDate()->toSql();
 		$related  = [];
 		$query    = $db->getQuery(true);
 
@@ -80,7 +82,7 @@ abstract class RelatedItemsHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 				return array();
 			}
@@ -124,8 +126,9 @@ abstract class RelatedItemsHelper
 					->from('#__content AS a')
 					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
 					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+					->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state')
 					->where('a.id != ' . (int) $id)
-					->where('a.state = 1')
+					->where('ws.condition = 1')
 					->where('a.access IN (' . $groups . ')');
 
 				$wheres = array();
@@ -153,7 +156,7 @@ abstract class RelatedItemsHelper
 				}
 				catch (\RuntimeException $e)
 				{
-					$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+					$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 					return array();
 				}
@@ -172,7 +175,7 @@ abstract class RelatedItemsHelper
 					$related = $articles->getItems();
 				}
 
-				unset ($temp);
+				unset($temp);
 			}
 		}
 
@@ -182,7 +185,7 @@ abstract class RelatedItemsHelper
 			foreach ($related as &$item)
 			{
 				$item->slug  = $item->id . ':' . $item->alias;
-				$item->route = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->route = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 

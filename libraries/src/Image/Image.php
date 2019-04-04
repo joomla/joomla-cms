@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Image
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,12 +11,13 @@ namespace Joomla\CMS\Image;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Log\Log;
 use Joomla\Image\Image as FrameworkImage;
 
 /**
  * Class to manipulate an image.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class Image extends FrameworkImage
 {
@@ -33,13 +34,13 @@ class Image extends FrameworkImage
 	 *
 	 * @param   mixed  $source  Either a file path for a source image or a GD resource handler for an image.
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function __construct($source = null)
 	{
 		// Inject the PSR-3 compatible logger in for forward compatibility
-		$this->setLogger(\JLog::createDelegatedLogger());
+		$this->setLogger(Log::createDelegatedLogger());
 
 		parent::__construct($source);
 	}
@@ -56,7 +57,7 @@ class Image extends FrameworkImage
 	 *
 	 * @return  Image
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \LogicException
 	 */
 	public function crop($width, $height, $left = null, $top = null, $createNew = true)
@@ -150,7 +151,7 @@ class Image extends FrameworkImage
 	 *
 	 * @return  Image
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \LogicException
 	 */
 	public function resize($width, $height, $createNew = true, $scaleMethod = self::SCALE_INSIDE)
@@ -270,7 +271,7 @@ class Image extends FrameworkImage
 	 *
 	 * @return  ImageFilter
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	protected function getFilterInstance($type)
@@ -287,7 +288,7 @@ class Image extends FrameworkImage
 
 			if (!class_exists($className))
 			{
-				\JLog::add('The ' . ucfirst($type) . ' image filter is not available.', \JLog::ERROR);
+				Log::add('The ' . ucfirst($type) . ' image filter is not available.', Log::ERROR);
 				throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not available.');
 			}
 		}
@@ -299,7 +300,7 @@ class Image extends FrameworkImage
 		if (!($instance instanceof ImageFilter))
 		{
 			// @codeCoverageIgnoreStart
-			\JLog::add('The ' . ucfirst($type) . ' image filter is not valid.', \JLog::ERROR);
+			Log::add('The ' . ucfirst($type) . ' image filter is not valid.', Log::ERROR);
 			throw new \RuntimeException('The ' . ucfirst($type) . ' image filter is not valid.');
 
 			// @codeCoverageIgnoreEnd

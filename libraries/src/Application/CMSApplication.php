@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,19 +14,26 @@ use Joomla\Application\Web\WebClient;
 use Joomla\CMS\Authentication\Authentication;
 use Joomla\CMS\Event\AbstractEvent;
 use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Exception\ExceptionHandler;
+use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Input\Input;
 use Joomla\CMS\Language\Language;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\Pathway\Pathway;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Profiler\Profiler;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Router\Router;
+use Joomla\CMS\Session\MetadataManager;
 use Joomla\CMS\Session\Session;
-use Joomla\CMS\User\User;
+use Joomla\CMS\Uri\Uri;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
-use Joomla\Session\SessionEvent;
 
 /**
  * Joomla! CMS Application class
@@ -35,7 +42,7 @@ use Joomla\Session\SessionEvent;
  */
 abstract class CMSApplication extends WebApplication implements ContainerAwareInterface, CMSApplicationInterface
 {
-	use ContainerAwareTrait, ExtensionNamespaceMapper;
+	use ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * Array of options for the \JDocument object
@@ -80,7 +87,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	/**
 	 * The name of the application.
 	 *
-	 * @var    array
+	 * @var    string
 	 * @since  4.0
 	 */
 	protected $name = null;
@@ -100,6 +107,22 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @since  3.2
 	 */
 	protected $template = null;
+
+	/**
+	 * The pathway object
+	 *
+	 * @var    Pathway
+	 * @since  4.0.0
+	 */
+	protected $pathway = null;
+
+	/**
+	 * The authentication plugin type
+	 *
+	 * @type   string
+	 * @since  4.0.0
+	 */
+	protected $authenticationPluginType = 'authentication';
 
 	/**
 	 * Class constructor.
@@ -144,65 +167,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
-	 *
-	 * @param   SessionEvent  $event  Session event being triggered
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function afterSessionStart(SessionEvent $event)
-	{
-		$session = $event->getSession();
-
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry);
-			$session->set('user', new User);
-		}
-
-		// TODO: At some point we need to get away from having session data always in the db.
-		$db   = \JFactory::getDbo();
-		$time = time();
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		// Purge expired session data if not using the database handler; the handler will run garbage collection as a native part of PHP's API
-		if ($handler != 'database' && $time % 2)
-		{
-			// The modulus introduces a little entropy, making the flushing less accurate but fires the query less than half the time.
-			try
-			{
-				$db->setQuery(
-					$db->getQuery(true)
-						->delete($db->quoteName('#__session'))
-						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())))
-				)->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				/*
-				 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-				 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-				 */
-			}
-		}
-
-		/*
-		 * Check for extra session metadata when:
-		 *
-		 * 1) The database handler is in use and the session is new
-		 * 2) The database handler is not in use and the time is an even numbered second or the session is new
-		 */
-		if (($handler != 'database' && ($time % 2 || $session->isNew())) || ($handler == 'database' && $session->isNew()))
-		{
-			$this->checkSession();
-		}
-	}
-
-	/**
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.
@@ -215,67 +179,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function checkSession()
 	{
-		$db = \JFactory::getDbo();
-		$session = \JFactory::getSession();
-		$user = \JFactory::getUser();
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('session_id'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
-
-		$db->setQuery($query, 0, 1);
-		$exists = $db->loadResult();
-
-		// If the session record doesn't exist initialise it.
-		if (!$exists)
-		{
-			$handler = $this->get('session_handler', 'none');
-
-			// Default column/value set
-			$columns = array(
-				$db->quoteName('session_id'),
-				$db->quoteName('guest'),
-				$db->quoteName('userid'),
-				$db->quoteName('username')
-			);
-
-			$values = array(
-				$db->quote($session->getId()),
-				(int) $user->guest,
-				(int) $user->id,
-				$db->quote($user->username)
-			);
-
-			// If the database session handler is not in use, append the time to the row
-			if ($handler != 'database')
-			{
-				$columns[] = $db->quoteName('time');
-				$time = $session->isNew() ? time() : $session->get('session.timer.start');
-				$values[]  = (int) $time;
-			}
-
-			if (!$this->get('shared_session', '0'))
-			{
-				$columns[] = $db->quoteName('client_id');
-				$values[] = (int) $this->getClientId();
-			}
-
-			// If the insert failed, exit the application.
-			try
-			{
-				$db->setQuery(
-					$db->getQuery(true)
-						->insert($db->quoteName('#__session'))
-						->columns($columns)
-						->values(implode(', ', $values))
-				)->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				throw new \RuntimeException(\JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
-			}
-		}
+		$this->getContainer()->get(MetadataManager::class)->createOrUpdateRecord($this->getSession(), $this->getIdentity());
 	}
 
 	/**
@@ -317,42 +221,56 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function execute()
 	{
-		$this->createExtensionNamespaceMap();
+		try
+		{
+			$this->createExtensionNamespaceMap();
 
-		PluginHelper::importPlugin('system');
+			PluginHelper::importPlugin('system');
 
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent(
-			'onBeforeExecute',
-			AbstractEvent::create(
+			// Trigger the onBeforeExecute event
+			$this->getDispatcher()->dispatch(
 				'onBeforeExecute',
-				[
-					'subject'    => $this,
-					'eventClass' => BeforeExecuteEvent::class,
-				]
-			)
-		);
+				new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+			);
 
-		// Mark beforeExecute in the profiler.
-		JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
+			// Mark beforeExecute in the profiler.
+			JDEBUG ? $this->profiler->mark('beforeExecute event dispatched') : null;
 
-		// Perform application routines.
-		$this->doExecute();
+			// Perform application routines.
+			$this->doExecute();
 
-		// If we have an application document object, render it.
-		if ($this->document instanceof \JDocument)
-		{
-			// Render the application output.
-			$this->render();
+			// If we have an application document object, render it.
+			if ($this->document instanceof \JDocument)
+			{
+				// Render the application output.
+				$this->render();
+			}
+
+			// If gzip compression is enabled in configuration and the server is compliant, compress the output.
+			if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
+			{
+				$this->compress();
+
+				// Trigger the onAfterCompress event.
+				$this->triggerEvent('onAfterCompress');
+			}
 		}
-
-		// If gzip compression is enabled in configuration and the server is compliant, compress the output.
-		if ($this->get('gzip') && !ini_get('zlib.output_compression') && ini_get('output_handler') !== 'ob_gzhandler')
+		catch (\Throwable $throwable)
 		{
-			$this->compress();
+			/** @var ErrorEvent $event */
+			$event = AbstractEvent::create(
+				'onError',
+				[
+					'subject'     => $throwable,
+					'eventClass'  => ErrorEvent::class,
+					'application' => $this,
+				]
+			);
 
-			// Trigger the onAfterCompress event.
-			$this->triggerEvent('onAfterCompress');
+			// Trigger the onError event.
+			$this->triggerEvent('onError', $event);
+
+			ExceptionHandler::render($event->getError());
 		}
 
 		// Send the application response.
@@ -376,7 +294,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function checkUserRequireReset($option, $view, $layout, $tasks)
 	{
-		if (\JFactory::getUser()->get('requireReset', 0))
+		if (Factory::getUser()->get('requireReset', 0))
 		{
 			$redirect = false;
 
@@ -427,8 +345,8 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			if ($redirect)
 			{
 				// Redirect to the profile edit page
-				$this->enqueueMessage(\JText::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
-				$this->redirect(\JRoute::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
+				$this->enqueueMessage(Text::_('JGLOBAL_PASSWORD_RESET_REQUIRED'), 'notice');
+				$this->redirect(Route::_('index.php?option=' . $option . '&view=' . $view . '&layout=' . $layout, false));
 			}
 		}
 	}
@@ -485,10 +403,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 			if (!$container)
 			{
-				$container = \JFactory::getContainer();
+				$container = Factory::getContainer();
 			}
 
-			if ($container->exists($classname))
+			if ($container->has($classname))
 			{
 				static::$instances[$name] = $container->get($classname);
 			}
@@ -499,10 +417,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			}
 			else
 			{
-				throw new \RuntimeException(\JText::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
+				throw new \RuntimeException(Text::sprintf('JLIB_APPLICATION_ERROR_APPLICATION_LOAD', $name), 500);
 			}
 
-			static::$instances[$name]->loadIdentity(\JFactory::getUser());
+			static::$instances[$name]->loadIdentity(Factory::getUser());
 		}
 
 		return static::$instances[$name];
@@ -580,32 +498,39 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	}
 
 	/**
-	 * Returns the application \JPathway object.
-	 *
-	 * @param   string  $name     The name of the application.
-	 * @param   array   $options  An optional associative array of configuration settings.
+	 * Returns the application Pathway object.
 	 *
 	 * @return  Pathway
 	 *
 	 * @since   3.2
 	 */
-	public function getPathway($name = null, $options = array())
+	public function getPathway()
 	{
-		if (!isset($name))
+		if (!$this->pathway)
 		{
-			$name = $this->getName();
+			$resourceName = ucfirst($this->getName()) . 'Pathway';
+
+			if (!$this->getContainer()->has($resourceName))
+			{
+				throw new \RuntimeException(
+					Text::sprintf('JLIB_APPLICATION_ERROR_PATHWAY_LOAD', $this->getName()),
+					500
+				);
+			}
+
+			$this->pathway = $this->getContainer()->get($resourceName);
 		}
 
-		return Pathway::getInstance($name, $options);
+		return $this->pathway;
 	}
 
 	/**
-	 * Returns the application \JRouter object.
+	 * Returns the application Router object.
 	 *
 	 * @param   string  $name     The name of the application.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  \JRouter
+	 * @return  Router
 	 *
 	 * @since   3.2
 	 */
@@ -613,11 +538,13 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	{
 		if (!isset($name))
 		{
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$name = $app->getName();
 		}
 
-		return \JRouter::getInstance($name, $options);
+		$options['mode'] = Factory::getConfig()->get('sef');
+
+		return Router::getInstance($name, $options);
 	}
 
 	/**
@@ -656,8 +583,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function getUserState($key, $default = null)
 	{
-		$session = \JFactory::getSession();
-		$registry = $session->get('registry');
+		$registry = $this->getSession()->get('registry');
 
 		if ($registry !== null)
 		{
@@ -673,7 +599,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   string  $key      The key of the user state variable.
 	 * @param   string  $request  The name of the variable passed in a request.
 	 * @param   string  $default  The default value for the variable if not found. Optional.
-	 * @param   string  $type     Filter for the variable, for valid values see {@link \JFilterInput::clean()}. Optional.
+	 * @param   string  $type     Filter for the variable, for valid values see {@link InputFilter::clean()}. Optional.
 	 *
 	 * @return  mixed  The request user state.
 	 *
@@ -706,9 +632,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	protected function initialiseApp($options = array())
 	{
-		// Set the configuration in the API.
-		$this->config = \JFactory::getConfig();
-
 		// Check that we were given a language in the array (since by default may be blank).
 		if (isset($options['language']))
 		{
@@ -721,14 +644,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Load the language to the API
 		$this->loadLanguage($lang);
 
-		// Register the language object with \JFactory
-		\JFactory::$language = $this->getLanguage();
+		// Register the language object with Factory
+		Factory::$language = $this->getLanguage();
 
 		// Load the library language files
 		$this->loadLibraryLanguage();
 
 		// Set user specific editor.
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$editor = $user->getParam('editor', $this->get('editor'));
 
 		if (!PluginHelper::isEnabled('editors', $editor))
@@ -749,32 +672,6 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 		// Trigger the onAfterInitialise event.
 		PluginHelper::importPlugin('system');
 		$this->triggerEvent('onAfterInitialise');
-	}
-
-	/**
-	 * Is admin interface?
-	 *
-	 * @return  boolean  True if this application is administrator.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
-	 */
-	public function isAdmin()
-	{
-		return $this->isClient('administrator');
-	}
-
-	/**
-	 * Is site interface?
-	 *
-	 * @return  boolean  True if this application is site.
-	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
-	 */
-	public function isSite()
-	{
-		return $this->isClient('site');
 	}
 
 	/**
@@ -845,14 +742,14 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 * @param   array  $credentials  Array('username' => string, 'password' => string)
 	 * @param   array  $options      Array('remember' => boolean)
 	 *
-	 * @return  boolean|\JException  True on success, false if failed or silent handling is configured, or a \JException object on authentication error.
+	 * @return  boolean|\Exception  True on success, false if failed or silent handling is configured, or a \Exception object on authentication error.
 	 *
 	 * @since   3.2
 	 */
 	public function login($credentials, $options = array())
 	{
 		// Get the global Authentication object.
-		$authenticate = Authentication::getInstance();
+		$authenticate = Authentication::getInstance($this->authenticationPluginType);
 		$response = $authenticate->authenticate($credentials, $options);
 
 		// Import the user plugin group.
@@ -884,13 +781,19 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 					switch ($authorisation->status)
 					{
 						case Authentication::STATUS_EXPIRED:
-							return \JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_EXPIRED'), 'error');
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_EXPIRED'), 'error');
+
+							return false;
 
 						case Authentication::STATUS_DENIED:
-							return \JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_DENIED'), 'error');
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_DENIED'), 'error');
+
+							return false;
 
 						default:
-							return \JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_LOGIN_AUTHORISATION'), 'error');
+
+							return false;
 					}
 				}
 			}
@@ -905,7 +808,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 			 * Any errors raised should be done in the plugin as this provides the ability
 			 * to provide much more information about why the routine may have failed.
 			 */
-			$user = \JFactory::getUser();
+			$user = Factory::getUser();
 
 			if ($response->type === 'Cookie')
 			{
@@ -962,7 +865,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	public function logout($userid = null, $options = array())
 	{
 		// Get a user object from the \JApplication.
-		$user = \JFactory::getUser($userid);
+		$user = Factory::getUser($userid);
 
 		// Build the credentials array.
 		$parameters['username'] = $user->get('username');
@@ -1033,9 +936,10 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function render()
 	{
 		// Setup the document options.
-		$this->docOptions['template'] = $this->get('theme');
-		$this->docOptions['file']     = $this->get('themeFile', 'index.php');
-		$this->docOptions['params']   = $this->get('themeParams');
+		$this->docOptions['template']  = $this->get('theme');
+		$this->docOptions['file']      = $this->get('themeFile', 'index.php');
+		$this->docOptions['params']    = $this->get('themeParams');
+		$this->docOptions['csp_nonce'] = $this->get('csp_nonce');
 
 		if ($this->get('themes.base'))
 		{
@@ -1056,7 +960,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$caching = false;
 
-		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !\JFactory::getUser()->get('id'))
+		if ($this->isClient('site') && $this->get('caching') && $this->get('caching', 2) == 2 && !Factory::getUser()->get('id'))
 		{
 			$caching = true;
 		}
@@ -1089,7 +993,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	protected function route()
 	{
 		// Get the full request URI.
-		$uri = clone \JUri::getInstance();
+		$uri = clone Uri::getInstance();
 
 		$router = static::getRouter();
 		$result = $router->parse($uri, true);
@@ -1116,7 +1020,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 	 */
 	public function setUserState($key, $value)
 	{
-		$session = \JFactory::getSession();
+		$session = Factory::getSession();
 		$registry = $session->get('registry');
 
 		if ($registry !== null)

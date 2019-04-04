@@ -3,12 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Table;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
 
 /**
  * Menu table
@@ -34,7 +37,7 @@ class MenuTable extends \JTableMenu
 		if ($return)
 		{
 			// Delete key from the #__modules_menu table
-			$db = \JFactory::getDbo();
+			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->delete($db->quoteName('#__modules_menu'))
 				->where($db->quoteName('menuid') . ' = ' . $pk);

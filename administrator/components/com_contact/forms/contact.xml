@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 
-	<fieldset addfieldprefix="Joomla\Component\Categories\Administrator\Field">
+	<fieldset addfieldprefix="Joomla\Component\Contact\Administrator\Field">
 
 		<field
 			name="id"
@@ -9,7 +9,6 @@
 			label="JGLOBAL_FIELD_ID_LABEL"
 			default="0"
 			class="readonly"
-			size="10"
 			readonly="true"
 		/>
 
@@ -17,7 +16,6 @@
 			name="name"
 			type="text"
 			label="COM_CONTACT_FIELD_NAME_LABEL"
-			class="input-xxlarge input-large-text"
 			size="40"
 			required="true"
 		 />
@@ -64,9 +62,9 @@
 		<field
 			name="catid"
 			type="categoryedit"
-			class="advancedSelect"
 			label="JCATEGORY"
 			extension="com_contact"
+			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			required="true"
 			default=""
 		/>
@@ -386,8 +384,7 @@
 
 	<fields name="params" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 
-		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS"
-			 addfieldpath="/administrator/components/com_fields/models/fields">
+		<fieldset name="display" label="JGLOBAL_FIELDSET_DISPLAY_OPTIONS">
 
 			<field
 				name="show_contact_category"
@@ -661,13 +658,14 @@
 				<option value="0">JHIDE</option>
 				<option value="1">JSHOW</option>
 			</field>
-			
+
 			<field
 				name="show_user_custom_fields"
 				type="fieldgroups"
 				label="COM_CONTACT_FIELD_USER_CUSTOM_FIELDS_SHOW_LABEL"
 				multiple="true"
 				context="com_users.user"
+				addfieldprefix="Joomla\Component\Fields\Administrator\Field"
 				>
 				<option value="-1">JALL</option>
 			</field>
@@ -761,6 +759,7 @@
 				name="contact_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				extension="com_contact"
 				view="contact"
 				useglobal="true"
@@ -875,7 +874,6 @@
 		type="number"
 		label="JGLOBAL_HITS"
 		class="readonly"
-		size="6"
 		readonly="true"
 		filter="unset"
 	/>

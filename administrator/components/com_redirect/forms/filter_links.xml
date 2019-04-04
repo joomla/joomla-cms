@@ -11,6 +11,7 @@
 		<field
 			name="state"
 			type="redirect_status"
+			label="JOPTION_SELECT_PUBLISHED"
 			onchange="this.form.submit();"
 			>
 			<option value="">JOPTION_SELECT_PUBLISHED</option>
@@ -18,6 +19,7 @@
 		<field
 			name="http_status"
 			type="Redirect"
+			label="COM_REDIRECT_FILTER_SELECT_OPTION_HTTP_HEADER"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_REDIRECT_FILTER_SELECT_OPTION_HTTP_HEADER</option>
@@ -27,6 +29,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="a.old_url ASC"
 			>
@@ -51,6 +54,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="5"
 			onchange="this.form.submit();"
 		/>

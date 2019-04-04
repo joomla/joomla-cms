@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\CMS\Helper\ModuleHelper;
  * in your layout override.
  */
 $loginmodule = \Joomla\Component\Login\Administrator\Model\LoginModel::getLoginModule('mod_login');
-echo ModuleHelper::renderModule($loginmodule, array('style' => 'rounded', 'id' => 'section-box'));
+echo ModuleHelper::renderModule($loginmodule, array('id' => 'section-box'));
 
 
 /**
@@ -30,5 +30,5 @@ foreach ($modules as $module)
 // Render the login modules
 
 if ($module->module != 'mod_login'){
-	echo ModuleHelper::renderModule($module, array('style' => 'rounded', 'id' => 'section-box'));
+	echo ModuleHelper::renderModule($module, array('id' => 'section-box'));
 }

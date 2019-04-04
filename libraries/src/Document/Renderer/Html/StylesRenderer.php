@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Document
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -116,6 +116,11 @@ class StylesRenderer extends DocumentRenderer
 				$buffer .= ' type="' . $type . '"';
 			}
 
+			if ($this->_doc->cspNonce)
+			{
+				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
+			}
+
 			$buffer .= '>' . $lnEnd;
 
 			// This is for full XHTML support.
@@ -140,7 +145,14 @@ class StylesRenderer extends DocumentRenderer
 
 		if (!empty($scriptOptions))
 		{
-			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new">';
+			$nonce = '';
+
+			if ($this->_doc->cspNonce)
+			{
+				$nonce = ' nonce="' . $this->_doc->cspNonce . '"';
+			}
+
+			$buffer .= $tab . '<script type="application/json" class="joomla-script-options new"' . $nonce . '>';
 
 			$prettyPrint = (JDEBUG && defined('JSON_PRETTY_PRINT') ? JSON_PRETTY_PRINT : false);
 			$jsonOptions = json_encode($scriptOptions, $prettyPrint);

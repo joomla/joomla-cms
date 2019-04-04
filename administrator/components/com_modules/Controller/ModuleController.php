@@ -3,16 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Modules\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
 
 /**
  * Module controller class.
@@ -24,7 +29,7 @@ class ModuleController extends FormController
 	/**
 	 * Override parent add method.
 	 *
-	 * @return  mixed  True if the record can be added, a \JError object if not.
+	 * @return  mixed  True if the record can be added, a \Exception object if not.
 	 *
 	 * @since   1.6
 	 */
@@ -47,9 +52,9 @@ class ModuleController extends FormController
 		{
 			$redirectUrl = 'index.php?option=' . $this->option . '&view=' . $this->view_item . '&layout=edit';
 
-			$this->setRedirect(\JRoute::_($redirectUrl, false));
+			$this->setRedirect(Route::_($redirectUrl, false));
 
-			$app->enqueueMessage(\JText::_('COM_MODULES_ERROR_INVALID_EXTENSION'), 'warning');
+			$app->enqueueMessage(Text::_('COM_MODULES_ERROR_INVALID_EXTENSION'), 'warning');
 		}
 
 		$app->setUserState('com_modules.add.module.extension_id', $extensionId);
@@ -75,6 +80,11 @@ class ModuleController extends FormController
 
 		$this->app->setUserState('com_modules.add.module.extension_id', null);
 		$this->app->setUserState('com_modules.add.module.params', null);
+
+		if ($return = $this->input->get('return', '', 'BASE64'))
+		{
+			$this->app->redirect(base64_decode($return));
+		}
 
 		return $result;
 	}
@@ -127,7 +137,7 @@ class ModuleController extends FormController
 		}
 
 		// Check edit on the record asset (explicit or inherited)
-		if (\JFactory::getUser()->authorise('core.edit', 'com_modules.module.' . $recordId))
+		if (Factory::getUser()->authorise('core.edit', 'com_modules.module.' . $recordId))
 		{
 			return true;
 		}
@@ -146,7 +156,7 @@ class ModuleController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		// Set the model
 		$model = $this->getModel('Module', 'Administrator', array());
@@ -154,7 +164,7 @@ class ModuleController extends FormController
 		// Preset the redirect
 		$redirectUrl = 'index.php?option=com_modules&view=modules' . $this->getRedirectToListAppend();
 
-		$this->setRedirect(\JRoute::_($redirectUrl, false));
+		$this->setRedirect(Route::_($redirectUrl, false));
 
 		return parent::batch($model);
 	}
@@ -171,7 +181,7 @@ class ModuleController extends FormController
 	 */
 	protected function postSaveHook(BaseDatabaseModel $model, $validData = array())
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 		$task = $this->getTask();
 
 		switch ($task)
@@ -198,12 +208,12 @@ class ModuleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!\JSession::checkToken())
+		if (!Session::checkToken())
 		{
-			\JFactory::getApplication()->redirect('index.php', \JText::_('JINVALID_TOKEN'));
+			Factory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
 		}
 
-		if (\JFactory::getDocument()->getType() == 'json')
+		if (Factory::getDocument()->getType() == 'json')
 		{
 			$model = $this->getModel();
 			$data  = $this->input->post->get('jform', array(), 'array');
@@ -228,10 +238,9 @@ class ModuleController extends FormController
 
 			// Add path of forms directory
 			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_modules/models/forms');
-
 		}
 
-		parent::save($key, $urlVar);
+		return parent::save($key, $urlVar);
 
 	}
 
@@ -244,7 +253,7 @@ class ModuleController extends FormController
 	 */
 	public function orderPosition()
 	{
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		// Send json mime type.
 		$app->mimeType = 'application/json';
@@ -252,9 +261,9 @@ class ModuleController extends FormController
 		$app->sendHeaders();
 
 		// Check if user token is valid.
-		if (!\JSession::checkToken('get'))
+		if (!Session::checkToken('get'))
 		{
-			$app->enqueueMessage(\JText::_('JINVALID_TOKEN'), 'error');
+			$app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
 			echo new  JsonResponse;
 			$app->close();
 		}
@@ -263,11 +272,11 @@ class ModuleController extends FormController
 		$clientId = $jinput->getValue('client_id');
 		$position = $jinput->getValue('position');
 
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('position, ordering, title')
 			->from('#__modules')
-			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->q($position))
+			->where('client_id = ' . (int) $clientId . ' AND position = ' . $db->quote($position))
 			->order('ordering');
 
 		$db->setQuery($query);
@@ -278,7 +287,7 @@ class ModuleController extends FormController
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			return '';
 		}
@@ -297,14 +306,14 @@ class ModuleController extends FormController
 
 				$orders2[$orders[$i]->position]++;
 				$ord = $orders2[$orders[$i]->position];
-				$title = \JText::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
+				$title = Text::sprintf('COM_MODULES_OPTION_ORDER_POSITION', $ord, htmlspecialchars($orders[$i]->title, ENT_QUOTES, 'UTF-8'));
 
 				$html[] = $orders[$i]->position . ',' . $ord . ',' . $title;
 			}
 		}
 		else
 		{
-			$html[] = $position . ',' . 1 . ',' . \JText::_('JNONE');
+			$html[] = $position . ',' . 1 . ',' . Text::_('JNONE');
 		}
 
 		echo new JsonResponse($html);

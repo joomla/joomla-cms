@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,19 +12,16 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\Utilities\ArrayHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * List of Tags field.
  *
  * @since  3.1
  */
-class TagField extends \JFormFieldList
+class TagField extends ListField
 {
 	/**
 	 * A flexible tag list that respects access controls
@@ -51,6 +48,14 @@ class TagField extends \JFormFieldList
 	protected $comParams = null;
 
 	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $layout = 'joomla.form.field.tag';
+
+	/**
 	 * Constructor
 	 *
 	 * @since  3.1
@@ -72,16 +77,7 @@ class TagField extends \JFormFieldList
 	 */
 	protected function getInput()
 	{
-		// AJAX mode requires ajax-chosen
-		if (!$this->isNested())
-		{
-			// Get the field id
-			$id    = $this->element['id'] ?? null;
-			$cssId = '#' . $this->getId($id, $this->element['name']);
-
-			// Load the ajax-chosen customised field
-			\JHtml::_('tag.ajaxfield', $cssId, $this->allowCustom());
-		}
+		$data = $this->getLayoutData();
 
 		if (!is_array($this->value) && !empty($this->value))
 		{
@@ -102,9 +98,23 @@ class TagField extends \JFormFieldList
 			{
 				$this->value = explode(',', $this->value);
 			}
+
+			// Integer is given
+			if (is_int($this->value))
+			{
+				$this->value = array($this->value);
+			}
+
+			$data['value'] = $this->value;
 		}
 
-		return parent::getInput();
+		$data['remoteSearch']  = $this->isRemoteSearch();
+		$data['options']       = $this->getOptions();
+		$data['isNested']      = $this->isNested();
+		$data['allowCustom']   = $this->allowCustom();
+		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 3);
+
+		return $this->getRenderer($this->layout)->render($data);
 	}
 
 	/**
@@ -116,15 +126,21 @@ class TagField extends \JFormFieldList
 	 */
 	protected function getOptions()
 	{
-		$published = $this->element['published']?: array(0, 1);
+		$published = $this->element['published'] ?: array(0, 1);
 		$app       = Factory::getApplication();
 		$tag       = $app->getLanguage()->getTag();
+
+		// Return only basic options, everything else will be searched via AJAX
+		if ($this->isRemoteSearch() && !$this->value)
+		{
+			return parent::getOptions();
+		}
 
 		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('DISTINCT a.id AS value, a.path, a.title AS text, a.level, a.published, a.lft')
 			->from('#__tags AS a')
-			->join('LEFT', $db->qn('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
+			->join('LEFT', $db->quoteName('#__tags') . ' AS b ON a.lft > b.lft AND a.rgt < b.rgt');
 
 		// Limit Options in multilanguage
 		if ($app->isClient('site') && Multilanguage::isEnabled())
@@ -151,7 +167,13 @@ class TagField extends \JFormFieldList
 			$query->where($db->quoteName('a.language') . ' IN (' . $language . ')');
 		}
 
-		$query->where($db->qn('a.lft') . ' > 0');
+		$query->where($db->quoteName('a.lft') . ' > 0');
+
+		// Preload only active values, everything else will be searched via AJAX
+		if ($this->isRemoteSearch() && $this->value)
+		{
+			$query->where('a.id IN (' . implode(',', $this->value) . ')');
+		}
 
 		// Filter on the published state
 		if (is_numeric($published))
@@ -260,11 +282,28 @@ class TagField extends \JFormFieldList
 	 */
 	public function allowCustom()
 	{
-		if (isset($this->element['custom']) && (string) $this->element['custom'] === 'deny')
+		if ($this->element['custom'] && in_array((string) $this->element['custom'], array('0', 'false', 'deny')))
 		{
 			return false;
 		}
 
-		return true;
+		return Factory::getUser()->authorise('core.create', 'com_tags');
+	}
+
+	/**
+	 * Check whether need to enable AJAX search
+	 *
+	 * @return  boolean
+	 *
+	 * @since   4.0.0
+	 */
+	public function isRemoteSearch()
+	{
+		if ($this->element['remote-search'])
+		{
+			return !in_array((string) $this->element['remote-search'], array('0', 'false', ''));
+		}
+
+		return $this->comParams->get('tag_field_ajax_mode', 1) == 1;
 	}
 }

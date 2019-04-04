@@ -3,16 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -96,7 +97,7 @@ class IndexModel extends ListModel
 	/**
 	 * Method to delete one or more records.
 	 *
-	 * @param   array  &$pks  An array of record primary keys.
+	 * @param   array  $pks  An array of record primary keys.
 	 *
 	 * @return  boolean  True if successful, false if an error occurs.
 	 *
@@ -293,7 +294,7 @@ class IndexModel extends ListModel
 	/**
 	 * Gets the total of indexed items.
 	 *
-	 * @return  int  The total of indexed items.
+	 * @return  integer  The total of indexed items.
 	 *
 	 * @since   3.6.0
 	 */
@@ -342,13 +343,7 @@ class IndexModel extends ListModel
 		$db->truncateTable('#__finder_links');
 
 		// Truncate the links terms tables.
-		for ($i = 0; $i <= 15; $i++)
-		{
-			// Get the mapping table suffix.
-			$suffix = dechex($i);
-
-			$db->truncateTable('#__finder_links_terms' . $suffix);
-		}
+		$db->truncateTable('#__finder_links_terms');
 
 		// Truncate the terms table.
 		$db->truncateTable('#__finder_terms');
@@ -356,12 +351,22 @@ class IndexModel extends ListModel
 		// Truncate the taxonomy map table.
 		$db->truncateTable('#__finder_taxonomy_map');
 
-		// Delete all the taxonomy nodes except the root.
-		$query = $db->getQuery(true)
-			->delete($db->quoteName('#__finder_taxonomy'))
-			->where($db->quoteName('id') . ' > 1');
-		$db->setQuery($query);
-		$db->execute();
+		// Truncate the taxonomy table and insert the root node.
+		$db->truncateTable('#__finder_taxonomy');
+		$root = (object) array(
+			'id' => 1,
+			'parent_id' => 0,
+			'lft' => 0,
+			'rgt' => 1,
+			'level' => 0,
+			'path' => '',
+			'title' => 'ROOT',
+			'alias' => 'root',
+			'state' => 1,
+			'access' => 1,
+			'language' => '*'
+		);
+		$db->insertObject('#__finder_taxonomy', $root);
 
 		// Truncate the tokens tables.
 		$db->truncateTable('#__finder_tokens');
@@ -401,7 +406,7 @@ class IndexModel extends ListModel
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state. [optional]
 	 *
 	 * @return  boolean  True on success.

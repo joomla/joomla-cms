@@ -3,11 +3,15 @@
  * @package     Joomla.Libraries
  * @subpackage  HTML
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Session\Session;
 
 /**
  * HTML utility class for creating a sortable table list
@@ -49,7 +53,7 @@ abstract class JHtmlDraggablelist
 			return;
 		}
 
-		$doc = JFactory::getDocument();
+		$doc = Factory::getDocument();
 
 		// Please consider using data attributes instead of passing arguments here!
 		if (!empty($tableId) && !empty($saveOrderingUrl) && !empty($formId) && !empty($sortDir))
@@ -60,19 +64,19 @@ abstract class JHtmlDraggablelist
 					'id'        => '#' . $tableId . ' tbody',
 					'formId'    => $formId,
 					'direction' => $sortDir,
-					'url'       => $saveOrderingUrl . '&' . JSession::getFormToken() . '=1',
+					'url'       => $saveOrderingUrl . '&' . Session::getFormToken() . '=1',
 					'nested'    => $nestedList,
 				]
 			);
 		}
 
 		// Depends on Joomla.getOptions()
-		JHtml::_('behavior.core');
+		HTMLHelper::_('behavior.core');
 
 		// Attach draggable to document
-		JHtml::_('script', 'vendor/dragula/dragula.min.js', false, true);
-		JHtml::_('script', 'system/draggable.min.js', false, true);
-		JHtml::_('stylesheet', 'vendor/dragula/dragula.min.css', false, true, false);
+		HTMLHelper::_('script', 'vendor/dragula/dragula.min.js', ['framework'=>false, 'relative'=>true]);
+		HTMLHelper::_('script', 'system/draggable.min.js', ['framework'=>false, 'relative'=>true]);
+		HTMLHelper::_('stylesheet', 'vendor/dragula/dragula.min.css', ['framework'=>false, 'relative'=>true, 'pathOnly'=>false]);
 
 		// Set static array
 		static::$loaded[__METHOD__] = true;

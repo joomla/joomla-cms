@@ -3,12 +3,13 @@
 	<name>mod_popular</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
 	<description>MOD_POPULAR_XML_DESCRIPTION</description>
+	<namespace>Joomla\Module\Popular</namespace>
 	<files>
 		<filename module="mod_popular">mod_popular.php</filename>
 		<folder>tmpl</folder>
@@ -27,6 +28,7 @@
 					type="number"
 					label="MOD_POPULAR_FIELD_COUNT_LABEL"
 					default="5"
+					filter="integer"
 				/>
 
 				<field
@@ -36,6 +38,7 @@
 					id="catid"
 					extension="com_content"
 					default=""
+					filter="integer"
 					>
 					<option value="">JOPTION_ANY_CATEGORY</option>
 				</field>
@@ -57,6 +60,7 @@
 					name="layout"
 					type="modulelayout"
 					label="JFIELD_ALT_LAYOUT_LABEL"
+					class="custom-select"
  				/>
 
 				<field
@@ -72,6 +76,7 @@
 					label="COM_MODULES_FIELD_AUTOMATIC_TITLE_LABEL"
 					class="switcher"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>

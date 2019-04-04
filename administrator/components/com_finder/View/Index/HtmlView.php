@@ -3,19 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\View\Index;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 /**
  * Index view class for Finder.
@@ -99,7 +100,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  A template file to load. [optional]
 	 *
-	 * @return  mixed  A string if successful, otherwise a \JError object.
+	 * @return  mixed  A string if successful, otherwise an \Exception object.
 	 *
 	 * @since   2.5
 	 */
@@ -126,8 +127,15 @@ class HtmlView extends BaseHtmlView
 
 		if (!$this->pluginState['plg_content_finder']->enabled)
 		{
-			$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
-			\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED', $link), 'warning');
+			if (\JFactory::getUser()->authorise('core.manage', 'com_plugin'))
+			{
+				$link = \JRoute::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
+				\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
+			}
+			else
+			{
+				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+			}
 		}
 		elseif ($this->get('TotalIndexed') === 0)
 		{

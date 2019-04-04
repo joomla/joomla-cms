@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,12 +11,14 @@ namespace Joomla\CMS\Cache\Storage;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Cache\CacheStorage;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 
 /**
  * File cache storage handler
  *
- * @since  11.1
+ * @since  1.7.0
  * @note   For performance reasons this class does not use the Filesystem package's API
  */
 class FileStorage extends CacheStorage
@@ -25,7 +27,7 @@ class FileStorage extends CacheStorage
 	 * Root path
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $_root;
 
@@ -43,7 +45,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @param   array  $options  Optional parameters
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct($options = array())
 	{
@@ -101,7 +103,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function get($id, $group, $checkTime = true)
 	{
@@ -151,7 +153,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false on failure or a cached data object
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function getAll()
 	{
@@ -184,7 +186,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function store($id, $group, $data)
 	{
@@ -233,7 +235,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function remove($id, $group)
 	{
@@ -258,7 +260,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function clean($group, $mode = null)
 	{
@@ -303,7 +305,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc()
 	{
@@ -330,11 +332,11 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
-		return is_writable(\JFactory::getConfig()->get('cache_path', JPATH_CACHE));
+		return is_writable(Factory::getApplication()->get('cache_path', JPATH_CACHE));
 	}
 
 	/**
@@ -346,7 +348,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  mixed  Boolean false if locking failed or an object containing properties lock and locklooped
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function lock($id, $group, $locktime)
 	{
@@ -406,7 +408,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function unlock($id, $group = null)
 	{
@@ -435,7 +437,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean  True if the cache ID is valid
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _checkExpire($id, $group)
 	{
@@ -473,7 +475,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean|string  The path to the data object or boolean false if the cache directory does not exist
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _getFilePath($id, $group)
 	{
@@ -504,7 +506,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  boolean
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _deleteFolder($path)
 	{
@@ -512,7 +514,7 @@ class FileStorage extends CacheStorage
 		if (!$path || !is_dir($path) || empty($this->_root))
 		{
 			// Bad programmer! Bad, bad programmer!
-			Log::add(__METHOD__ . ' ' . \JText::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::_('JLIB_FILESYSTEM_ERROR_DELETE_BASE_DIRECTORY'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -524,7 +526,7 @@ class FileStorage extends CacheStorage
 
 		if ($pos === false || $pos > 0)
 		{
-			Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -548,7 +550,7 @@ class FileStorage extends CacheStorage
 				// In case of restricted permissions we zap it one way or the other as long as the owner is either the webserver or the ftp
 				if (@unlink($file) !== true)
 				{
-					Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
+					Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_DELETE_FAILED', basename($file)), Log::WARNING, 'jerror');
 
 					return false;
 				}
@@ -580,7 +582,7 @@ class FileStorage extends CacheStorage
 			return true;
 		}
 
-		Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
+		Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_FOLDER_DELETE', $path), Log::WARNING, 'jerror');
 
 		return false;
 	}
@@ -593,7 +595,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  string  The cleaned path
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _cleanPath($path, $ds = DIRECTORY_SEPARATOR)
 	{
@@ -622,7 +624,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  array  Files in the given folder.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _filesInFolder($path, $filter = '.', $recurse = false, $fullpath = false,
 		$exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'), $excludefilter = array('^\..*', '.*~'))
@@ -635,7 +637,7 @@ class FileStorage extends CacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -712,7 +714,7 @@ class FileStorage extends CacheStorage
 	 *
 	 * @return  array  Folders in the given folder.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	protected function _folders($path, $filter = '.', $recurse = false, $fullpath = false, $exclude = array('.svn', 'CVS', '.DS_Store', '__MACOSX'),
 		$excludefilter = array('^\..*'))
@@ -725,7 +727,7 @@ class FileStorage extends CacheStorage
 		// Is the path a folder?
 		if (!is_dir($path))
 		{
-			Log::add(__METHOD__ . ' ' . \JText::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
+			Log::add(__METHOD__ . ' ' . Text::sprintf('JLIB_FILESYSTEM_ERROR_PATH_IS_NOT_A_FOLDER', $path), Log::WARNING, 'jerror');
 
 			return false;
 		}

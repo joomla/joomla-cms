@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installation\Helper\DatabaseHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -59,7 +60,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$options->db_created = 1;
 
 		// Handle old db if exists
-		if (!$databaseModel->handleOldDatabase($options))
+		if (!$databaseModel->handleOldDatabase())
 		{
 			$this->deleteConfiguration();
 
@@ -83,7 +84,7 @@ class ConfigurationModel extends BaseInstallationModel
 		}
 
 		// Install CMS data
-		if (!$databaseModel->installCmsData($options))
+		if (!$databaseModel->installCmsData())
 		{
 			$this->deleteConfiguration();
 
@@ -96,7 +97,7 @@ class ConfigurationModel extends BaseInstallationModel
 	/**
 	 * Method to create the configuration file
 	 *
-	 * @param   array  $options  The session options
+	 * @param   \stdClass  $options  The session options
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -104,12 +105,14 @@ class ConfigurationModel extends BaseInstallationModel
 	 */
 	public function createConfiguration($options)
 	{
+		$saveFtp = isset($options->ftp_save) && $options->ftp_save;
+
 		// Create a new registry to build the configuration options.
 		$registry = new Registry;
 
 		// Site settings.
 		$registry->set('offline', false);
-		$registry->set('offline_message', \JText::_('INSTL_STD_OFFLINE_MSG'));
+		$registry->set('offline_message', Text::_('INSTL_STD_OFFLINE_MSG'));
 		$registry->set('display_offline_message', 1);
 		$registry->set('offline_image', '');
 		$registry->set('sitename', $options->site_name);
@@ -126,7 +129,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('dbtype', $options->db_type);
 		$registry->set('host', $options->db_host);
 		$registry->set('user', $options->db_user);
-		$registry->set('password', $options->db_pass);
+		$registry->set('password', $options->db_pass_plain);
 		$registry->set('db', $options->db_name);
 		$registry->set('dbprefix', $options->db_prefix);
 
@@ -138,9 +141,9 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('helpurl', $options->helpurl);
 		$registry->set('ftp_host', $options->ftp_host ?? '');
 		$registry->set('ftp_port', isset($options->ftp_host) ? $options->ftp_port : '');
-		$registry->set('ftp_user', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_user)) ? $options->ftp_user : '');
-		$registry->set('ftp_pass', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_pass)) ? $options->ftp_pass : '');
-		$registry->set('ftp_root', (isset($options->ftp_save) && $options->ftp_save && isset($options->ftp_root)) ? $options->ftp_root : '');
+		$registry->set('ftp_user', ($saveFtp && isset($options->ftp_user)) ? $options->ftp_user : '');
+		$registry->set('ftp_pass', ($saveFtp && isset($options->ftp_pass)) ? $options->ftp_pass : '');
+		$registry->set('ftp_root', ($saveFtp && isset($options->ftp_root)) ? $options->ftp_root : '');
 		$registry->set('ftp_enable', (isset($options->ftp_host) && null === $options->ftp_host) ? $options->ftp_enable : 0);
 
 		// Locale settings.
@@ -190,6 +193,7 @@ class ConfigurationModel extends BaseInstallationModel
 		$registry->set('lifetime', 15);
 		$registry->set('session_handler', 'database');
 		$registry->set('shared_session', false);
+		$registry->set('session_metadata', true);
 
 		// Generate the configuration class string buffer.
 		$buffer = $registry->toString('PHP', array('class' => 'JConfig', 'closingtag' => false));
@@ -218,12 +222,6 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 
 			// $useFTP = true;
-		}
-
-		// Check for safe mode.
-		if (ini_get('safe_mode'))
-		{
-			$useFTP = true;
 		}
 
 		// Enable/Disable override.
@@ -267,19 +265,19 @@ class ConfigurationModel extends BaseInstallationModel
 				$options->db_type,
 				$options->db_host,
 				$options->db_user,
-				$options->db_pass,
+				$options->db_pass_plain,
 				$options->db_name,
 				$options->db_prefix
 			);
 		}
 		catch (\RuntimeException $e)
 		{
-			Factory::getApplication()->enqueueMessage(\JText::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
+			Factory::getApplication()->enqueueMessage(Text::sprintf('INSTL_ERROR_CONNECT_DB', $e->getMessage()), 'error');
 
 			return false;
 		}
 
-		$cryptpass = UserHelper::hashPassword($options->admin_password);
+		$cryptpass = UserHelper::hashPassword($options->admin_password_plain);
 
 		// Take the admin user id - we'll need to leave this in the session for sample data install later on.
 		$userId = DatabaseModel::getUserId();
@@ -296,7 +294,18 @@ class ConfigurationModel extends BaseInstallationModel
 
 		$db->setQuery($query);
 
-		if ($db->loadResult())
+		try
+		{
+			$result = $db->loadResult();
+		}
+		catch (\RuntimeException $e)
+		{
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
+		}
+
+		if ($result)
 		{
 			$query->clear()
 				->update($db->quoteName('#__users'))
@@ -350,7 +359,7 @@ class ConfigurationModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Map the super admin to the Super Admin Group
+		// Map the super user to the Super Users group
 		$query->clear()
 			->select($db->quoteName('user_id'))
 			->from($db->quoteName('#__user_usergroup_map'))

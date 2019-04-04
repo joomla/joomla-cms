@@ -3,16 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
 JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
@@ -107,6 +108,14 @@ class FinderIndexerQuery
 	public $terms;
 
 	/**
+	 * Allow empty searches
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	public $empty;
+
+	/**
 	 * The static filter id.
 	 *
 	 * @var    string
@@ -180,7 +189,6 @@ class FinderIndexerQuery
 
 		// Get the input language.
 		$this->language = !empty($options['language']) ? $options['language'] : FinderIndexerHelper::getDefaultLanguage();
-		$this->language = FinderIndexerHelper::getPrimaryLanguage($this->language);
 
 		// Get the matching mode.
 		$this->mode = 'AND';
@@ -189,34 +197,34 @@ class FinderIndexerQuery
 		$this->dates = new Registry;
 
 		// Populate the temporary date storage.
-		if (isset($options['date1']) && !empty($options['date1']))
+		if (!empty($options['date1']))
 		{
 			$this->dates->set('date1', $options['date1']);
 		}
 
-		if (isset($options['date2']) && !empty($options['date1']))
+		if (!empty($options['date2']))
 		{
 			$this->dates->set('date2', $options['date2']);
 		}
 
-		if (isset($options['when1']) && !empty($options['date1']))
+		if (!empty($options['when1']))
 		{
 			$this->dates->set('when1', $options['when1']);
 		}
 
-		if (isset($options['when2']) && !empty($options['date1']))
+		if (!empty($options['when2']))
 		{
 			$this->dates->set('when2', $options['when2']);
 		}
 
 		// Process the static taxonomy filters.
-		if (isset($options['filter']) && !empty($options['filter']))
+		if (!empty($options['filter']))
 		{
 			$this->processStaticTaxonomy($options['filter']);
 		}
 
 		// Process the dynamic taxonomy filters.
-		if (isset($options['filters']) && !empty($options['filters']))
+		if (!empty($options['filters']))
 		{
 			$this->processDynamicTaxonomy($options['filters']);
 		}
@@ -245,9 +253,8 @@ class FinderIndexerQuery
 		// Remove the temporary date storage.
 		unset($this->dates);
 
-		/*
-		 * Lastly, determine whether this query can return a result set.
-		 */
+		// Lastly, determine whether this query can return a result set.
+
 		// Check if we have a query string.
 		if (!empty($this->input))
 		{
@@ -274,10 +281,10 @@ class FinderIndexerQuery
 	 *
 	 * @since   2.5
 	 */
-	public function toUri($base = null)
+	public function toUri($base = '')
 	{
 		// Set the base if not specified.
-		if (empty($base))
+		if ($base === '')
 		{
 			$base = 'index.php?option=com_finder&view=search';
 		}
@@ -286,7 +293,7 @@ class FinderIndexerQuery
 		$uri = JUri::getInstance($base);
 
 		// Add the static taxonomy filter if present.
-		if (!empty($this->filter))
+		if ((bool) $this->filter)
 		{
 			$uri->setVar('f', $this->filter);
 		}
@@ -295,7 +302,7 @@ class FinderIndexerQuery
 		$t = JFactory::getApplication()->input->request->get('t', array(), 'array');
 
 		// Add the dynamic taxonomy filters if present.
-		if (!empty($this->filters))
+		if ((bool) $this->filters)
 		{
 			foreach ($this->filters as $nodes)
 			{
@@ -377,7 +384,10 @@ class FinderIndexerQuery
 		// Iterate through the excluded tokens and compile the matching terms.
 		for ($i = 0, $c = count($this->excluded); $i < $c; $i++)
 		{
-			$results = array_merge($results, $this->excluded[$i]->matches);
+			foreach ($this->excluded[$i]->matches as $match)
+			{
+				$results = array_merge($results, $match);
+			}
 		}
 
 		// Sanitize the terms.
@@ -416,7 +426,10 @@ class FinderIndexerQuery
 			}
 
 			// Add the matches to the stack.
-			$results[$term] = array_merge($results[$term], $this->included[$i]->matches);
+			foreach ($this->included[$i]->matches as $match)
+			{
+				$results[$term] = array_merge($results[$term], $match);
+			}
 		}
 
 		// Sanitize the terms.
@@ -456,7 +469,10 @@ class FinderIndexerQuery
 				}
 
 				// Add the matches to the stack.
-				$results[$term] = array_merge($results[$term], $this->included[$i]->matches);
+				foreach ($this->included[$i]->matches as $match)
+				{
+					$results[$term] = array_merge($results[$term], $match);
+				}
 			}
 		}
 
@@ -524,7 +540,7 @@ class FinderIndexerQuery
 		$filters = ArrayHelper::toInteger($filters);
 
 		// Remove any values of zero.
-		if (array_search(0, $filters, true) !== false)
+		if (in_array(0, $filters, true) !== false)
 		{
 			unset($filters[array_search(0, $filters, true)]);
 		}
@@ -587,7 +603,7 @@ class FinderIndexerQuery
 		$filters = ArrayHelper::toInteger($filters);
 
 		// Remove any values of zero.
-		if (array_search(0, $filters, true) !== false)
+		if (in_array(0, $filters, true) !== false)
 		{
 			unset($filters[array_search(0, $filters, true)]);
 		}
@@ -600,6 +616,7 @@ class FinderIndexerQuery
 
 		// Get the database object.
 		$db = JFactory::getDbo();
+
 		$query = $db->getQuery(true);
 
 		/*
@@ -635,7 +652,7 @@ class FinderIndexerQuery
 		foreach ($results as $result)
 		{
 			// Check if the branch has been cleared.
-			if (!in_array($result->branch, $cleared))
+			if (!in_array($result->branch, $cleared, true))
 			{
 				// Clear the branch.
 				$this->filters[$result->branch] = array();
@@ -692,7 +709,7 @@ class FinderIndexerQuery
 		{
 			// Set the date filter.
 			$this->date1 = $date->toSql();
-			$this->when1 = in_array($when1, $whens) ? $when1 : 'before';
+			$this->when1 = in_array($when1, $whens, true) ? $when1 : 'before';
 		}
 
 		// The value of 'today' is a special case that we need to handle.
@@ -709,7 +726,7 @@ class FinderIndexerQuery
 		{
 			// Set the date filter.
 			$this->date2 = $date->toSql();
-			$this->when2 = in_array($when2, $whens) ? $when2 : 'before';
+			$this->when2 = in_array($when2, $whens, true) ? $when2 : 'before';
 		}
 
 		return true;
@@ -731,11 +748,12 @@ class FinderIndexerQuery
 	protected function processString($input, $lang, $mode)
 	{
 		// Clean up the input string.
-		$input = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
-		$input = StringHelper::strtolower($input);
-		$input = preg_replace('#\s+#mi', ' ', $input);
-		$input = trim($input);
-		$debug = JFactory::getConfig()->get('debug_lang');
+		$input  = html_entity_decode($input, ENT_QUOTES, 'UTF-8');
+		$input  = StringHelper::strtolower($input);
+		$input  = preg_replace('#\s+#mi', ' ', $input);
+		$input  = trim($input);
+		$debug  = JFactory::getApplication()->get('debug_lang');
+		$params = ComponentHelper::getParams('com_finder');
 
 		/*
 		 * First, we need to handle string based modifiers. String based
@@ -816,7 +834,7 @@ class FinderIndexerQuery
 						{
 							// Set the date filter.
 							$this->date1 = $date->toSql();
-							$this->when1 = in_array($modifier, $whens) ? $modifier : 'before';
+							$this->when1 = in_array($modifier, $whens, true) ? $modifier : 'before';
 						}
 
 						break;
@@ -824,7 +842,7 @@ class FinderIndexerQuery
 
 					// Handle a taxonomy branch filter.
 					default:
-						{
+					{
 						// Try to find the node id.
 						$return = FinderIndexerTaxonomy::getNodeByTitle($modifier, $value);
 
@@ -832,7 +850,7 @@ class FinderIndexerQuery
 						if ($return)
 						{
 							// Check if the branch has been cleared.
-							if (!in_array($modifier, $cleared))
+							if (!in_array($modifier, $cleared, true))
 							{
 								// Clear the branch.
 								$this->filters[$modifier] = array();
@@ -865,7 +883,7 @@ class FinderIndexerQuery
 			$matches = array();
 
 			// Extract the tokens enclosed in double quotes.
-			if (preg_match_all('#\"([^"]+)\"#mi', $input, $matches))
+			if (preg_match_all('#\"([^"]+)\"#m', $input, $matches))
 			{
 				/*
 				 * One or more phrases were found so we need to iterate through
@@ -893,72 +911,54 @@ class FinderIndexerQuery
 
 					// Get the number of words in the phrase.
 					$parts = explode(' ', $match);
+					$tuplecount = $params->get('tuplecount', 1);
 
-					// Check if the phrase is longer than three words.
-					if (count($parts) > 3)
+					// Check if the phrase is longer than our $tuplecount.
+					if (count($parts) > $tuplecount && $tuplecount > 1)
 					{
+						$chunk = array_slice($parts, 0, $tuplecount);
+						$parts = array_slice($parts, $tuplecount);
+
+						// If the chunk is not empty, add it as a phrase.
+						if (count($chunk))
+						{
+							$phrases[] = implode(' ', $chunk);
+							$terms[] = implode(' ', $chunk);
+						}
+
 						/*
-						 * If the phrase is longer than three words, we need to
+						 * If the phrase is longer than $tuplecount words, we need to
 						 * break it down into smaller chunks of phrases that
-						 * are less than or equal to three words. We overlap
+						 * are less than or equal to $tuplecount words. We overlap
 						 * the chunks so that we can ensure that a match is
 						 * found for the complete phrase and not just portions
 						 * of it.
 						 */
-						for ($i = 0, $c = count($parts); $i < $c; $i += 2)
+						for ($i = 0, $c = count($parts); $i < $c; $i++)
 						{
-							// Set up the chunk.
-							$chunk = array();
-
-							// The chunk has to be assembled based on how many
-							// pieces are available to use.
-							switch ($c - $i)
-							{
-								/*
-								 * If only one word is left, we can break from
-								 * the switch and loop because the last word
-								 * was already used at the end of the last
-								 * chunk.
-								 */
-								case 1:
-									break 2;
-
-								// If there words are left, we use them both as
-								// the last chunk of the phrase and we're done.
-								case 2:
-									$chunk[] = $parts[$i];
-									$chunk[] = $parts[$i + 1];
-									break;
-
-								// If there are three or more words left, we
-								// build a three word chunk and continue on.
-								default:
-									$chunk[] = $parts[$i];
-									$chunk[] = $parts[$i + 1];
-									$chunk[] = $parts[$i + 2];
-									break;
-							}
+							array_shift($chunk);
+							$chunk[] = array_shift($parts);
 
 							// If the chunk is not empty, add it as a phrase.
 							if (count($chunk))
 							{
 								$phrases[] = implode(' ', $chunk);
-								$terms[] = implode(' ', $chunk);
+								$terms[]   = implode(' ', $chunk);
 							}
 						}
 					}
 					else
 					{
-						// The phrase is <= 3 words so we can use it as is.
+						// The phrase is <= $tuplecount words so we can use it as is.
 						$phrases[] = $match;
-						$terms[] = $match;
+						$terms[]   = $match;
 					}
 				}
 			}
 		}
 
 		// Add the remaining terms if present.
-		if (!empty($input))
+		if ((bool) $input)
 		{
 			$terms = array_merge($terms, explode(' ', $input));
 		}
@@ -974,7 +974,7 @@ class FinderIndexerQuery
 		if (JDEBUG)
 		{
 			$debugStrings = array('**', '??');
-			$operators = str_replace($debugStrings, '', $operators);
+			$operators    = str_replace($debugStrings, '', $operators);
 		}
 
 		/*
@@ -985,54 +985,64 @@ class FinderIndexerQuery
 		for ($i = 0, $c = count($terms); $i < $c; $i++)
 		{
 			// Check if the term is followed by an operator that we understand.
-			if (isset($terms[$i + 1]) && in_array($terms[$i + 1], $operators))
+			if (isset($terms[$i + 1]) && in_array($terms[$i + 1], $operators, true))
 			{
 				// Get the operator mode.
-				$op = array_search($terms[$i + 1], $operators);
+				$op = array_search($terms[$i + 1], $operators, true);
 
 				// Handle the AND operator.
 				if ($op === 'AND' && isset($terms[$i + 2]))
 				{
 					// Tokenize the current term.
 					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
-					$token = $this->getTokenData($token);
+
+					// Todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
+					$token = $this->getTokenData(array_shift($token));
+
+					if ($params->get('filter_commonwords', 0) && $token->common)
+					{
+						continue;
+					}
+
+					if ($params->get('filter_numeric', 0) && $token->numeric)
+					{
+						continue;
+					}
 
 					// Set the required flag.
 					$token->required = true;
 
 					// Add the current token to the stack.
 					$this->included[] = $token;
-					$this->highlight = array_merge($this->highlight, array_keys($token->matches));
+					$this->highlight  = array_merge($this->highlight, array_keys($token->matches));
 
 					// Skip the next token (the mode operator).
 					$this->operators[] = $terms[$i + 1];
 
 					// Tokenize the term after the next term (current plus two).
 					$other = FinderIndexerHelper::tokenize($terms[$i + 2], $lang, true);
-					$other = $this->getTokenData($other);
+					$other = $this->getTokenData(array_shift($other));
 
 					// Set the required flag.
 					$other->required = true;
 
 					// Add the token after the next token to the stack.
 					$this->included[] = $other;
-					$this->highlight = array_merge($this->highlight, array_keys($other->matches));
+					$this->highlight  = array_merge($this->highlight, array_keys($other->matches));
 
 					// Remove the processed phrases if possible.
-					if (($pk = array_search($terms[$i], $phrases)) !== false)
+					if (($pk = array_search($terms[$i], $phrases, true)) !== false)
 					{
 						unset($phrases[$pk]);
 					}
 
-					if (($pk = array_search($terms[$i + 2], $phrases)) !== false)
+					if (($pk = array_search($terms[$i + 2], $phrases, true)) !== false)
 					{
 						unset($phrases[$pk]);
 					}
 
 					// Remove the processed terms.
-					unset($terms[$i]);
-					unset($terms[$i + 1]);
-					unset($terms[$i + 2]);
+					unset($terms[$i], $terms[$i + 1], $terms[$i + 2]);
 
 					// Adjust the loop.
 					$i += 2;
@@ -1043,16 +1053,26 @@ class FinderIndexerQuery
 				{
 					// Tokenize the current term.
 					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
-					$token = $this->getTokenData($token);
+					$token = $this->getTokenData(array_shift($token));
+
+					if ($params->get('filter_commonwords', 0) && $token->common)
+					{
+						continue;
+					}
+
+					if ($params->get('filter_numeric', 0) && $token->numeric)
+					{
+						continue;
+					}
 
 					// Set the required flag.
 					$token->required = false;
 
 					// Add the current token to the stack.
-					if (count($token->matches))
+					if ((bool) $token->matches)
 					{
 						$this->included[] = $token;
-						$this->highlight = array_merge($this->highlight, array_keys($token->matches));
+						$this->highlight  = array_merge($this->highlight, array_keys($token->matches));
 					}
 					else
 					{
@@ -1064,16 +1084,16 @@ class FinderIndexerQuery
 
 					// Tokenize the term after the next term (current plus two).
 					$other = FinderIndexerHelper::tokenize($terms[$i + 2], $lang, true);
-					$other = $this->getTokenData($other);
+					$other = $this->getTokenData(array_shift($other));
 
 					// Set the required flag.
 					$other->required = false;
 
 					// Add the token after the next token to the stack.
-					if (count($other->matches))
+					if ((bool) $other->matches)
 					{
 						$this->included[] = $other;
-						$this->highlight = array_merge($this->highlight, array_keys($other->matches));
+						$this->highlight  = array_merge($this->highlight, array_keys($other->matches));
 					}
 					else
 					{
@@ -1081,20 +1101,18 @@ class FinderIndexerQuery
 					}
 
 					// Remove the processed phrases if possible.
-					if (($pk = array_search($terms[$i], $phrases)) !== false)
+					if (($pk = array_search($terms[$i], $phrases, true)) !== false)
 					{
 						unset($phrases[$pk]);
 					}
 
-					if (($pk = array_search($terms[$i + 2], $phrases)) !== false)
+					if (($pk = array_search($terms[$i + 2], $phrases, true)) !== false)
 					{
 						unset($phrases[$pk]);
 					}
 
 					// Remove the processed terms.
-					unset($terms[$i]);
-					unset($terms[$i + 1]);
-					unset($terms[$i + 2]);
+					unset($terms[$i], $terms[$i + 1], $terms[$i + 2]);
 
 					// Adjust the loop.
 					$i += 2;
@@ -1102,23 +1120,33 @@ class FinderIndexerQuery
 				}
 			}
 			// Handle an orphaned OR operator.
-			elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators) === 'OR')
+			elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators, true) === 'OR')
 			{
 				// Skip the next token (the mode operator).
 				$this->operators[] = $terms[$i];
 
 				// Tokenize the next term (current plus one).
 				$other = FinderIndexerHelper::tokenize($terms[$i + 1], $lang, true);
-				$other = $this->getTokenData($other);
+				$other = $this->getTokenData(array_shift($other));
+
+				if ($params->get('filter_commonwords', 0) && $other->common)
+				{
+					continue;
+				}
+
+				if ($params->get('filter_numeric', 0) && $other->numeric)
+				{
+					continue;
+				}
 
 				// Set the required flag.
 				$other->required = false;
 
 				// Add the token after the next token to the stack.
-				if (count($other->matches))
+				if ((bool) $other->matches)
 				{
 					$this->included[] = $other;
-					$this->highlight = array_merge($this->highlight, array_keys($other->matches));
+					$this->highlight  = array_merge($this->highlight, array_keys($other->matches));
 				}
 				else
 				{
@@ -1126,34 +1154,43 @@ class FinderIndexerQuery
 				}
 
 				// Remove the processed phrase if possible.
-				if (($pk = array_search($terms[$i + 1], $phrases)) !== false)
+				if (($pk = array_search($terms[$i + 1], $phrases, true)) !== false)
 				{
 					unset($phrases[$pk]);
 				}
 
 				// Remove the processed terms.
-				unset($terms[$i]);
-				unset($terms[$i + 1]);
+				unset($terms[$i], $terms[$i + 1]);
 
 				// Adjust the loop.
 				$i++;
 				continue;
 			}
 			// Handle the NOT operator.
-			elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators) === 'NOT')
+			elseif (isset($terms[$i + 1]) && array_search($terms[$i], $operators, true) === 'NOT')
 			{
 				// Skip the next token (the mode operator).
 				$this->operators[] = $terms[$i];
 
 				// Tokenize the next term (current plus one).
 				$other = FinderIndexerHelper::tokenize($terms[$i + 1], $lang, true);
-				$other = $this->getTokenData($other);
+				$other = $this->getTokenData(array_shift($other));
+
+				if ($params->get('filter_commonwords', 0) && $other->common)
+				{
+					continue;
+				}
+
+				if ($params->get('filter_numeric', 0) && $other->numeric)
+				{
+					continue;
+				}
 
 				// Set the required flag.
 				$other->required = false;
 
 				// Add the next token to the stack.
-				if (count($other->matches))
+				if ((bool) $other->matches)
 				{
 					$this->excluded[] = $other;
 				}
@@ -1163,14 +1200,13 @@ class FinderIndexerQuery
 				}
 
 				// Remove the processed phrase if possible.
-				if (($pk = array_search($terms[$i + 1], $phrases)) !== false)
+				if (($pk = array_search($terms[$i + 1], $phrases, true)) !== false)
 				{
 					unset($phrases[$pk]);
 				}
 
 				// Remove the processed terms.
-				unset($terms[$i]);
-				unset($terms[$i + 1]);
+				unset($terms[$i], $terms[$i + 1]);
 
 				// Adjust the loop.
 				$i++;
@@ -1187,17 +1223,27 @@ class FinderIndexerQuery
 		{
 			// Tokenize the phrase.
 			$token = FinderIndexerHelper::tokenize($phrases[$i], $lang, true);
-			$token = $this->getTokenData($token);
+			$token = $this->getTokenData(array_shift($token));
+
+			if ($params->get('filter_commonwords', 0) && $token->common)
+			{
+				continue;
+			}
+
+			if ($params->get('filter_numeric', 0) && $token->numeric)
+			{
+				continue;
+			}
 
 			// Set the required flag.
 			$token->required = true;
 
 			// Add the current token to the stack.
 			$this->included[] = $token;
-			$this->highlight = array_merge($this->highlight, array_keys($token->matches));
+			$this->highlight  = array_merge($this->highlight, array_keys($token->matches));
 
 			// Remove the processed term if possible.
-			if (($pk = array_search($phrases[$i], $terms)) !== false)
+			if (($pk = array_search($phrases[$i], $terms, true)) !== false)
 			{
 				unset($terms[$pk]);
 			}
@@ -1209,10 +1255,10 @@ class FinderIndexerQuery
 		/*
 		 * Handle any remaining tokens using the standard processing mechanism.
 		 */
-		if (!empty($terms))
+		if ((bool) $terms)
 		{
 			// Tokenize the terms.
-			$terms = implode(' ', $terms);
+			$terms  = implode(' ', $terms);
 			$tokens = FinderIndexerHelper::tokenize($terms, $lang, false);
 
 			// Make sure we are working with an array.
@@ -1224,14 +1270,24 @@ class FinderIndexerQuery
 				// Get the token data.
 				$token = $this->getTokenData($token);
 
+				if ($params->get('filter_commonwords', 0) && $token->common)
+				{
+					continue;
+				}
+
+				if ($params->get('filter_numerics', 0) && $token->numeric)
+				{
+					continue;
+				}
+
 				// Set the required flag for the token.
-				$token->required = $mode === 'AND' ? ($token->phrase ? false : true) : false;
+				$token->required = $mode === 'AND' ? (!$token->phrase) : false;
 
 				// Add the token to the appropriate stack.
-				if (count($token->matches) || $token->required)
+				if ($token->required || (bool) $token->matches)
 				{
 					$this->included[] = $token;
-					$this->highlight = array_merge($this->highlight, array_keys($token->matches));
+					$this->highlight  = array_merge($this->highlight, array_keys($token->matches));
 				}
 				else
 				{
@@ -1268,13 +1324,6 @@ class FinderIndexerQuery
 			->select('t.term, t.term_id')
 			->from('#__finder_terms AS t');
 
-		/*
-		 * If the token is a phrase, the lookup process is fairly simple. If
-		 * the token is a word, it is a little more complicated. We have to
-		 * create two queries to lookup the term and the stem respectively,
-		 * then union the result sets together. This is MUCH faster than using
-		 * an or condition in the database query.
-		 */
 		if ($token->phrase)
 		{
 			// Add the phrase to the query.
@@ -1284,33 +1333,27 @@ class FinderIndexerQuery
 		else
 		{
 			// Add the term to the query.
-			$query->where('t.term = ' . $db->quote($token->term))
-				->where('t.phrase = 0');
-
-			// Clone the query, replace the WHERE clause.
-			$sub = clone $query;
-			$sub->clear('where');
-			$sub->where('t.stem = ' . $db->quote($token->stem));
-			$sub->where('t.phrase = 0');
-
-			// Union the two queries.
-			$query->union($sub);
+			$query->where('(t.term = ' . $db->quote($token->term) . ' OR t.stem = ' . $db->quote($token->stem) . ')')
+				->where('t.phrase = 0')
+				->where('t.language IN (\'*\',' . $query->q($token->language) . ')');
 		}
 
 		// Get the terms.
 		$db->setQuery($query);
 		$matches = $db->loadObjectList();
 
-		// Setup the container.
-		$token->matches = array();
-
 		// Check the matching terms.
-		if (!empty($matches))
+		if ((bool) $matches)
 		{
 			// Add the matches to the token.
 			for ($i = 0, $c = count($matches); $i < $c; $i++)
 			{
-				$token->matches[$matches[$i]->term] = (int) $matches[$i]->term_id;
+				if (!isset($token->matches[$matches[$i]->term]))
+				{
+					$token->matches[$matches[$i]->term] = array();
+				}
+
+				$token->matches[$matches[$i]->term][] = (int) $matches[$i]->term_id;
 			}
 		}
 
@@ -1357,7 +1400,7 @@ class FinderIndexerQuery
 
 			// Get the closest match.
 			$keys = array_keys($suggestions);
-			$key = $keys[0];
+			$key  = $keys[0];
 
 			// Add the suggested term.
 			$token->suggestion = $results[$key]->term;

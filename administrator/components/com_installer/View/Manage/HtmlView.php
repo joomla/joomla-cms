@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\View\Manage;
 
 defined('_JEXEC') or die;
@@ -50,9 +51,6 @@ class HtmlView extends InstallerViewDefault
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		// Include the component HTML helpers.
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-
 		// Display the view.
 		parent::display($tpl);
 	}
@@ -83,8 +81,6 @@ class HtmlView extends InstallerViewDefault
 			ToolbarHelper::deleteList('COM_INSTALLER_CONFIRM_UNINSTALL', 'manage.remove', 'JTOOLBAR_UNINSTALL');
 			ToolbarHelper::divider();
 		}
-
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
 
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_MANAGE');

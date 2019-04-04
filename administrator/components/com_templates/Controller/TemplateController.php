@@ -3,17 +3,24 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-\JLoader::register('InstallerModelInstall', JPATH_ADMINISTRATOR . '/components/com_installer/models/install.php');
-
+use Joomla\CMS\Client\ClientHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Session\Session;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Template style controller class.
@@ -39,6 +46,9 @@ class TemplateController extends BaseController
 
 		// Apply, Save & New, and Save As copy should be standard on forms.
 		$this->registerTask('apply', 'save');
+		$this->registerTask('unpublish', 'publish');
+		$this->registerTask('publish',   'publish');
+		$this->registerTask('deleteOverrideHistory', 'publish');
 	}
 
 	/**
@@ -50,7 +60,7 @@ class TemplateController extends BaseController
 	 */
 	public function cancel()
 	{
-		$this->setRedirect(\JRoute::_('index.php?option=com_templates&view=templates', false));
+		$this->setRedirect(Route::_('index.php?option=com_templates&view=templates', false));
 	}
 
 	/**
@@ -62,11 +72,69 @@ class TemplateController extends BaseController
 	 */
 	public function close()
 	{
-		$app  = \JFactory::getApplication();
+		$app  = Factory::getApplication();
 		$file = base64_encode('home');
 		$id   = $this->input->get('id');
 		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-		$this->setRedirect(\JRoute::_($url, false));
+		$this->setRedirect(Route::_($url, false));
+	}
+
+	/**
+	 * Marked as Checked/Unchecked of override history.
+	 *
+	 * @return  void
+	 *
+	 * @since   4.0.0
+	 */
+	public function publish()
+	{
+		// Check for request forgeries.
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+
+		$app  = Factory::getApplication();
+		$file = $this->input->get('file');
+		$id   = $this->input->get('id');
+
+		$ids    = $this->input->get('cid', array(), 'array');
+		$values = array('publish' => 1, 'unpublish' => 0, 'deleteOverrideHistory' => -3);
+		$task   = $this->getTask();
+		$value  = ArrayHelper::getValue($values, $task, 0, 'int');
+
+		if (empty($ids))
+		{
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_NO_FILE_SELECTED'), 'warning');
+		}
+		else
+		{
+			/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+			$model = $this->getModel();
+
+			// Change the state of the records.
+			if (!$model->publish($ids, $value, $id))
+			{
+				$this->setMessage(implode('<br>', $model->getErrors()), 'warning');
+			}
+			else
+			{
+				if ($value === 1)
+				{
+					$ntext = 'COM_TEMPLATES_N_OVERRIDE_CHECKED';
+				}
+				elseif ($value === 0)
+				{
+					$ntext = 'COM_TEMPLATES_N_OVERRIDE_UNCHECKED';
+				}
+				elseif ($value === -3)
+				{
+					$ntext = 'COM_TEMPLATES_N_OVERRIDE_DELETED';
+				}
+
+				$this->setMessage(Text::plural($ntext, count($ids)));
+			}
+		}
+
+		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+		$this->setRedirect(Route::_($url, false));
 	}
 
 	/**
@@ -79,7 +147,7 @@ class TemplateController extends BaseController
 	public function copy()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$app = $this->app;
 		$this->input->set('installtype', 'folder');
@@ -94,7 +162,7 @@ class TemplateController extends BaseController
 		$model = $this->getModel('Template', 'Administrator');
 		$model->setState('new_name', $newName);
 		$model->setState('tmp_prefix', uniqid('template_copy_'));
-		$model->setState('to_path', \JFactory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+		$model->setState('to_path', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
 
 		// Process only if we have a new name entered
 		if (strlen($newName) > 0)
@@ -102,18 +170,18 @@ class TemplateController extends BaseController
 			if (!$this->app->getIdentity()->authorise('core.create', 'com_templates'))
 			{
 				// User is not authorised to delete
-				$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'), 'error');
+				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_CREATE_NOT_PERMITTED'), 'error');
 
 				return false;
 			}
 
 			// Set FTP credentials, if given
-			\JClientHelper::setCredentialsFromRequest('ftp');
+			ClientHelper::setCredentialsFromRequest('ftp');
 
 			// Check that new name is valid
 			if (($newNameRaw !== null) && ($newName !== $newNameRaw))
 			{
-				$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
+				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_TEMPLATE_NAME'), 'error');
 
 				return false;
 			}
@@ -121,7 +189,7 @@ class TemplateController extends BaseController
 			// Check that new name doesn't already exist
 			if (!$model->checkNewName())
 			{
-				$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_DUPLICATE_TEMPLATE_NAME'), 'error');
+				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_DUPLICATE_TEMPLATE_NAME'), 'error');
 
 				return false;
 			}
@@ -131,7 +199,7 @@ class TemplateController extends BaseController
 
 			if (!$fromName)
 			{
-				$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
+				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INVALID_FROM_NAME'), 'error');
 
 				return false;
 			}
@@ -139,24 +207,25 @@ class TemplateController extends BaseController
 			// Call model's copy method
 			if (!$model->copy())
 			{
-				$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_COULD_NOT_COPY'), 'error');
+				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_COPY'), 'error');
 
 				return false;
 			}
 
 			// Call installation model
-			$this->input->set('install_directory', \JFactory::getConfig()->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
-			$installModel = new \InstallerModelInstall;
-			\JFactory::getLanguage()->load('com_installer');
+			$this->input->set('install_directory', $app->get('tmp_path') . '/' . $model->getState('tmp_prefix'));
+			$installModel = $this->app->bootComponent('com_installer')
+				->getMVCFactory()->createModel('Install', 'Administrator');
+			Factory::getLanguage()->load('com_installer');
 
 			if (!$installModel->install())
 			{
-				$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_COULD_NOT_INSTALL'), 'error');
+				$this->setMessage(Text::_('COM_TEMPLATES_ERROR_COULD_NOT_INSTALL'), 'error');
 
 				return false;
 			}
 
-			$this->setMessage(\JText::sprintf('COM_TEMPLATES_COPY_SUCCESS', $newName));
+			$this->setMessage(Text::sprintf('COM_TEMPLATES_COPY_SUCCESS', $newName));
 			$model->cleanup();
 
 			return true;
@@ -188,7 +257,7 @@ class TemplateController extends BaseController
 	 */
 	protected function allowEdit()
 	{
-		return \JFactory::getUser()->authorise('core.edit', 'com_templates');
+		return Factory::getUser()->authorise('core.edit', 'com_templates');
 	}
 
 	/**
@@ -213,7 +282,7 @@ class TemplateController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$data         = $this->input->post->get('jform', array(), 'array');
 		$task         = $this->getTask();
@@ -226,7 +295,7 @@ class TemplateController extends BaseController
 		// Access check.
 		if (!$this->allowSave())
 		{
-			$this->setMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+			$this->setMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 			return false;
 		}
@@ -234,19 +303,19 @@ class TemplateController extends BaseController
 		// Match the stored id's with the submitted.
 		if (empty($data['extension_id']) || empty($data['filename']))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
 			return false;
 		}
 		elseif ($data['extension_id'] != $model->getState('extension.id'))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
 			return false;
 		}
-		elseif ($data['filename'] != end($explodeArray))
+		elseif (Path::clean($data['filename'], '/') != end($explodeArray))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_SOURCE_ID_FILENAME_MISMATCH'), 'error');
 
 			return false;
 		}
@@ -284,7 +353,7 @@ class TemplateController extends BaseController
 
 			// Redirect back to the edit screen.
 			$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 
 			return false;
 		}
@@ -293,33 +362,31 @@ class TemplateController extends BaseController
 		if (!$model->save($data))
 		{
 			// Redirect back to the edit screen.
-			$this->setMessage(\JText::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
+			$this->setMessage(Text::sprintf('JERROR_SAVE_FAILED', $model->getError()), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 
 			return false;
 		}
 
-		$this->setMessage(\JText::_('COM_TEMPLATES_FILE_SAVE_SUCCESS'));
+		$this->setMessage(Text::_('COM_TEMPLATES_FILE_SAVE_SUCCESS'));
 
 		// Redirect the user based on the chosen task.
 		switch ($task)
 		{
-		case 'apply':
+			case 'apply':
+				// Redirect back to the edit screen.
+				$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
+				$this->setRedirect(Route::_($url, false));
+				break;
 
-			// Redirect back to the edit screen.
-			$url = 'index.php?option=com_templates&view=template&id=' . $model->getState('extension.id') . '&file=' . $fileName;
-			$this->setRedirect(\JRoute::_($url, false));
-			break;
-
-		default:
-
-			// Redirect to the list screen.
-			$file = base64_encode('home');
-			$id   = $this->input->get('id');
-			$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
-			break;
+			default:
+				// Redirect to the list screen.
+				$file = base64_encode('home');
+				$id   = $this->input->get('id');
+				$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
+				$this->setRedirect(Route::_($url, false));
+				break;
 		}
 	}
 
@@ -340,12 +407,12 @@ class TemplateController extends BaseController
 
 		if ($model->createOverride($override))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_OVERRIDE_SUCCESS'));
+			$this->setMessage(Text::_('COM_TEMPLATES_OVERRIDE_SUCCESS'));
 		}
 
 		// Redirect back to the edit screen.
 		$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-		$this->setRedirect(\JRoute::_($url, false));
+		$this->setRedirect(Route::_($url, false));
 	}
 
 	/**
@@ -358,7 +425,7 @@ class TemplateController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
@@ -367,23 +434,23 @@ class TemplateController extends BaseController
 
 		if (base64_decode(urldecode($file)) == 'index.php')
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 
 		elseif ($model->deleteFile($file))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_DELETE_SUCCESS'));
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_DELETE_SUCCESS'));
 			$file = base64_encode('home');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_FILE_DELETE'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_DELETE'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 	}
 
@@ -397,7 +464,7 @@ class TemplateController extends BaseController
 	public function createFile()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -409,28 +476,28 @@ class TemplateController extends BaseController
 
 		if ($type == 'null')
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_TYPE'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $name))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		elseif ($model->createFile($name, $type, $location))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_CREATE_SUCCESS'));
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_CREATE_SUCCESS'));
 			$file = urlencode(base64_encode($location . '/' . $name . '.' . $type));
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_FILE_CREATE'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_CREATE'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 	}
 
@@ -444,7 +511,7 @@ class TemplateController extends BaseController
 	public function uploadFile()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -455,16 +522,16 @@ class TemplateController extends BaseController
 
 		if ($return = $model->uploadFile($upload, $location))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_UPLOAD_SUCCESS') . $upload['name']);
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_UPLOAD_SUCCESS') . $upload['name']);
 			$redirect = base64_encode($return);
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $redirect;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_FILE_UPLOAD'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_UPLOAD'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 	}
 
@@ -478,7 +545,7 @@ class TemplateController extends BaseController
 	public function createFolder()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -489,21 +556,21 @@ class TemplateController extends BaseController
 
 		if (!preg_match('/^[a-zA-Z0-9-_.]+$/', $name))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_INVALID_FOLDER_NAME'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_INVALID_FOLDER_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		elseif ($model->createFolder($name, $location))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FOLDER_CREATE_SUCCESS'));
+			$this->setMessage(Text::_('COM_TEMPLATES_FOLDER_CREATE_SUCCESS'));
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_FOLDER_CREATE'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_FOLDER_CREATE'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 	}
 
@@ -517,7 +584,7 @@ class TemplateController extends BaseController
 	public function deleteFolder()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -527,13 +594,13 @@ class TemplateController extends BaseController
 
 		if (empty($location))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_ROOT_DELETE'), 'warning');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_ROOT_DELETE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		elseif ($model->deleteFolder($location))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FOLDER_DELETE_SUCCESS'));
+			$this->setMessage(Text::_('COM_TEMPLATES_FOLDER_DELETE_SUCCESS'));
 
 			if (stristr(base64_decode($file), $location) != false)
 			{
@@ -541,13 +608,13 @@ class TemplateController extends BaseController
 			}
 
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FOLDER_DELETE_ERROR'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_FOLDER_DELETE_ERROR'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 	}
 
@@ -561,7 +628,7 @@ class TemplateController extends BaseController
 	public function renameFile()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model   = $this->getModel();
@@ -571,27 +638,27 @@ class TemplateController extends BaseController
 
 		if (base64_decode(urldecode($file)) == 'index.php')
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		elseif (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		elseif ($rename = $model->renameFile($file, $newName))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_RENAME_SUCCESS'));
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_RENAME_SUCCESS'));
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $rename;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_ERROR_FILE_RENAME'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_ERROR_FILE_RENAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 	}
 
@@ -616,21 +683,21 @@ class TemplateController extends BaseController
 
 		if (empty($w) && empty($h) && empty($x) && empty($y))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_CROP_AREA_ERROR'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_CROP_AREA_ERROR'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		elseif ($model->cropImage($file, $w, $h, $x, $y))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_CROP_SUCCESS'));
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_CROP_SUCCESS'));
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_CROP_ERROR'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_CROP_ERROR'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 	}
 
@@ -653,15 +720,15 @@ class TemplateController extends BaseController
 
 		if ($model->resizeImage($file, $width, $height))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_RESIZE_SUCCESS'));
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_RESIZE_SUCCESS'));
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_RESIZE_ERROR'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_RESIZE_ERROR'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 	}
 
@@ -675,7 +742,7 @@ class TemplateController extends BaseController
 	public function copyFile()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$id       = $this->input->get('id');
 		$file     = $this->input->get('file');
@@ -687,20 +754,20 @@ class TemplateController extends BaseController
 
 		if (!preg_match('/^[a-zA-Z0-9-_]+$/', $newName))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_INVALID_FILE_NAME'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		elseif ($model->copyFile($newName, $location, $file))
 		{
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_COPY_FAIL'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_COPY_FAIL'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 	}
 
@@ -714,7 +781,7 @@ class TemplateController extends BaseController
 	public function extractArchive()
 	{
 		// Check for request forgeries
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
 
 		$id    = $this->input->get('id');
 		$file  = $this->input->get('file');
@@ -724,15 +791,54 @@ class TemplateController extends BaseController
 
 		if ($model->extractArchive($file))
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXTRACT_SUCCESS'));
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_EXTRACT_SUCCESS'));
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_TEMPLATES_FILE_ARCHIVE_EXTRACT_FAIL'), 'error');
+			$this->setMessage(Text::_('COM_TEMPLATES_FILE_ARCHIVE_EXTRACT_FAIL'), 'error');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
-			$this->setRedirect(\JRoute::_($url, false));
+			$this->setRedirect(Route::_($url, false));
 		}
+	}
+
+	/**
+	 * Fetch and report updates in \JSON format, for AJAX requests
+	 *
+	 * @return void
+	 *
+	 * @since 4.0.0
+	 */
+	public function ajax()
+	{
+		$app = $this->app;
+
+		if (!Session::checkToken('get'))
+		{
+			$app->setHeader('status', 403, true);
+			$app->sendHeaders();
+			echo Text::_('JINVALID_TOKEN');
+			$app->close();
+		}
+
+		// Checks status of installer override plugin.
+		if (!PluginHelper::isEnabled('installer', 'override'))
+		{
+			$error = array('installerOverride' => 'disabled');
+
+			echo json_encode($error);
+
+			$app->close();
+		}
+
+		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
+		$model = $this->getModel();
+
+		$result = $model->getUpdatedList(true, true);
+
+		echo json_encode($result);
+
+		$app->close();
 	}
 }

@@ -12,6 +12,7 @@
 		<field
 			name="client_id"
 			type="location"
+			label="COM_INSTALLER_VALUE_CLIENT_SELECT"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_CLIENT_SELECT</option>
@@ -20,6 +21,7 @@
 		<field
 			name="type"
 			type="type"
+			label="COM_INSTALLER_VALUE_TYPE_SELECT"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_TYPE_SELECT</option>
@@ -28,6 +30,7 @@
 		<field
 			name="folder"
 			type="folder"
+			label="COM_INSTALLER_VALUE_FOLDER_SELECT"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_INSTALLER_VALUE_FOLDER_SELECT</option>
@@ -38,6 +41,7 @@
 		<field
 			name="fullordering"
 			type="list"
+			label="JGLOBAL_SORT_BY"
 			onchange="this.form.submit();"
 			default="name ASC"
 			>
@@ -57,6 +61,7 @@
 		<field
 			name="limit"
 			type="limitbox"
+			label="JGLOBAL_LIST_LIMIT"
 			default="25"
 			onchange="this.form.submit();"
 		/>

@@ -11,6 +11,7 @@
 			name="contact_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_contact"
 			view="contact"
@@ -487,6 +488,7 @@
 			name="category_layout"
 			type="componentlayout"
 			label="JGLOBAL_FIELD_LAYOUT_LABEL"
+			class="custom-select"
 			menuitems="true"
 			extension="com_contact"
 			view="category"
@@ -975,39 +977,14 @@
 		</field>
 
 		<field
-			name="sef_advanced"
-			type="radio"
-			class="switcher switcher-primary"
-			default="0"
-			label="JGLOBAL_SEF_ADVANCED_LABEL"
-			filter="integer"
-		>
-			<option value="0">JGLOBAL_SEF_ADVANCED_LEGACY</option>
-			<option value="1">JGLOBAL_SEF_ADVANCED_MODERN</option>
-		</field>
-
-		<field
-			name="sef_ids"
-			type="radio"
-			label="JGLOBAL_SEF_NOIDS_LABEL"
-			class="switcher"
-			default="0"
-			showon="sef_advanced:1"
-			filter="integer"
-			>
-			<option value="0">JNO</option>
-			<option value="1">JYES</option>
-		</field>
-
-		<field
 			name="custom_fields_enable"
 			type="radio"
 			class="switcher"
 			label="JGLOBAL_CUSTOM_FIELDS_ENABLE_LABEL"
 			default="1"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 	</fieldset>

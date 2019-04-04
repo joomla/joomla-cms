@@ -3,14 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Site\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Registry\Registry;
@@ -44,7 +46,7 @@ class TagsModel extends ListModel
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		$app = \JFactory::getApplication('site');
+		$app = Factory::getApplication();
 
 		// Load state from the request.
 		$pid = $app->input->getInt('parent_id');
@@ -55,7 +57,7 @@ class TagsModel extends ListModel
 
 		$offset = $app->input->get('limitstart', 0, 'uint');
 		$this->setState('list.offset', $offset);
-		$app = \JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$params = $app->getParams();
 		$this->setState('params', $params);
@@ -65,7 +67,7 @@ class TagsModel extends ListModel
 		$this->setState('filter.published', 1);
 		$this->setState('filter.access', true);
 
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((!$user->authorise('core.edit.state', 'com_tags')) &&  (!$user->authorise('core.edit', 'com_tags')))
 		{
@@ -92,7 +94,7 @@ class TagsModel extends ListModel
 
 		if (!count($items))
 		{
-			$app = \JFactory::getApplication();
+			$app = Factory::getApplication();
 			$menu = $app->getMenu();
 			$active = $menu->getActive();
 			$params = new Registry;
@@ -115,8 +117,8 @@ class TagsModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$app            = \JFactory::getApplication('site');
-		$user           = \JFactory::getUser();
+		$app            = Factory::getApplication();
+		$user           = Factory::getUser();
 		$groups         = implode(',', $user->getAuthorisedViewLevels());
 		$pid            = $this->getState('tag.parent_id');
 		$orderby        = $this->state->params->get('all_tags_orderby', 'title');

@@ -3,13 +3,18 @@
  * @package     Joomla.Cms
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 namespace Joomla\CMS\MVC\View;
 
 defined('JPATH_PLATFORM') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Object\CMSObject;
 
 /**
  * Base class for a Joomla List View
@@ -37,14 +42,14 @@ class ListView extends HtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 
 	/**
 	 * The actions the user is authorised to perform
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $canDo;
 
@@ -136,7 +141,7 @@ class ListView extends HtmlView
 		}
 
 		// Set default value for $canDo to avoid fatal error if child class doesn't set value for this property
-		$this->canDo = new \JObject;
+		$this->canDo = new CMSObject;
 	}
 
 	/**
@@ -144,7 +149,9 @@ class ListView extends HtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
+     *
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
@@ -160,8 +167,7 @@ class ListView extends HtmlView
 		// Build toolbar
 		$this->addToolbar();
 
-		// Render the view
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
@@ -176,7 +182,6 @@ class ListView extends HtmlView
 
 		// Include the component helpers.
 		\JLoader::register($helperClass, JPATH_COMPONENT . '/helpers/' . $componentName . '.php');
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		if ($this->getLayout() !== 'modal')
 		{
@@ -205,7 +210,7 @@ class ListView extends HtmlView
 	protected function addToolbar()
 	{
 		$canDo = $this->canDo;
-		$user  = \JFactory::getUser();
+		$user  = Factory::getUser();
 
 		// Get the toolbar object instance
 		$bar = \JToolbar::getInstance('toolbar');
@@ -213,7 +218,7 @@ class ListView extends HtmlView
 		$viewName = $this->getName();
 		$singularViewName = \Joomla\String\Inflector::getInstance()->toSingular($viewName);
 
-		\JToolbarHelper::title(\JText::_($this->toolbarTitle), $this->toolbarIcon);
+		\JToolbarHelper::title(Text::_($this->toolbarTitle), $this->toolbarIcon);
 
 		if ($canDo->get('core.create'))
 		{
@@ -245,10 +250,10 @@ class ListView extends HtmlView
 			&& $user->authorise('core.edit', $this->option)
 			&& $user->authorise('core.edit.state', $this->option))
 		{
-			$title = \JText::_('JTOOLBAR_BATCH');
+			$title = Text::_('JTOOLBAR_BATCH');
 
-			// Instantiate a new \JLayoutFile instance and render the batch button
-			$layout = new \JLayoutFile('joomla.toolbar.batch');
+			// Instantiate a new LayoutFile instance and render the batch button
+			$layout = new FileLayout('joomla.toolbar.batch');
 
 			$dhtml = $layout->render(array('title' => $title));
 			$bar->appendButton('Custom', $dhtml, 'batch');

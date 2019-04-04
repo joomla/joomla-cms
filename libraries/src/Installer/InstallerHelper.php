@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,14 +10,16 @@ namespace Joomla\CMS\Installer;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\Archive\Archive;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Filesystem\Path;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Version;
-
-\JLoader::import('joomla.filesystem.file');
-\JLoader::import('joomla.filesystem.folder');
-\JLoader::import('joomla.filesystem.path');
+use Joomla\CMS\Updater\Update;
 
 /**
  * Installer helper class
@@ -26,6 +28,30 @@ use Joomla\CMS\Version;
  */
 abstract class InstallerHelper
 {
+	/**
+	 * Hash not validated identifier.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */	
+	const HASH_NOT_VALIDATED = 0;
+
+	/**
+	 * Hash validated identifier.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const HASH_VALIDATED = 1;
+
+	/**
+	 * Hash not provided identifier.
+	 *
+	 * @var    integer
+	 * @since  __DEPLOY_VERSION__
+	 */
+	const HASH_NOT_PROVIDED = 2;
+
 	/**
 	 * Downloads a package
 	 *
@@ -57,7 +83,7 @@ abstract class InstallerHelper
 		}
 		catch (\RuntimeException $exception)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $exception->getMessage()), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -68,7 +94,7 @@ abstract class InstallerHelper
 		}
 		elseif (200 != $response->code)
 		{
-			\JLog::add(\JText::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), \JLog::WARNING, 'jerror');
+			Log::add(Text::sprintf('JLIB_INSTALLER_ERROR_DOWNLOAD_SERVER_CONNECT', $response->code), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -81,7 +107,7 @@ abstract class InstallerHelper
 			$target = trim($flds[0], '"');
 		}
 
-		$tmpPath = Factory::getApplication()->getCfg('tmp_path');
+		$tmpPath = Factory::getApplication()->get('tmp_path');
 
 		// Set the target path if not given
 		if (!$target)
@@ -94,7 +120,7 @@ abstract class InstallerHelper
 		}
 
 		// Write buffer to file
-		\JFile::write($target, $response->body);
+		File::write($target, $response->body);
 
 		// Restore error tracking to what it was before
 		ini_set('track_errors', $track_errors);
@@ -126,13 +152,13 @@ abstract class InstallerHelper
 		$tmpdir = uniqid('install_');
 
 		// Clean the paths to use for archive extraction
-		$extractdir = \JPath::clean(dirname($p_filename) . '/' . $tmpdir);
-		$archivename = \JPath::clean($archivename);
+		$extractdir = Path::clean(dirname($p_filename) . '/' . $tmpdir);
+		$archivename = Path::clean($archivename);
 
 		// Do the unpacking of the archive
 		try
 		{
-			$archive = new Archive;
+			$archive = new Archive(array('tmp_path' => Factory::getApplication()->get('tmp_path')));
 			$extract = $archive->extract($archivename, $extractdir);
 		}
 		catch (\Exception $e)
@@ -177,13 +203,13 @@ abstract class InstallerHelper
 		 * List all the items in the installation directory.  If there is only one, and
 		 * it is a folder, then we will set that folder to be the installation folder.
 		 */
-		$dirList = array_merge((array) \JFolder::files($extractdir, ''), (array) \JFolder::folders($extractdir, ''));
+		$dirList = array_merge((array) Folder::files($extractdir, ''), (array) Folder::folders($extractdir, ''));
 
 		if (count($dirList) === 1)
 		{
-			if (\JFolder::exists($extractdir . '/' . $dirList[0]))
+			if (Folder::exists($extractdir . '/' . $dirList[0]))
 			{
-				$extractdir = \JPath::clean($extractdir . '/' . $dirList[0]);
+				$extractdir = Path::clean($extractdir . '/' . $dirList[0]);
 			}
 		}
 
@@ -221,11 +247,11 @@ abstract class InstallerHelper
 	public static function detectType($p_dir)
 	{
 		// Search the install dir for an XML file
-		$files = \JFolder::files($p_dir, '\.xml$', 1, true);
+		$files = Folder::files($p_dir, '\.xml$', 1, true);
 
 		if (!$files || !count($files))
 		{
-			\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDXMLSETUPFILE'), Log::WARNING, 'jerror');
 
 			return false;
 		}
@@ -253,7 +279,7 @@ abstract class InstallerHelper
 			return $type;
 		}
 
-		\JLog::add(\JText::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), \JLog::WARNING, 'jerror');
+		Log::add(Text::_('JLIB_INSTALLER_ERROR_NOTFINDJOOMLAXMLSETUPFILE'), Log::WARNING, 'jerror');
 
 		// Free up memory.
 		unset($xml);
@@ -294,23 +320,59 @@ abstract class InstallerHelper
 	 */
 	public static function cleanupInstall($package, $resultdir)
 	{
-		$config = \JFactory::getConfig();
-
 		// Does the unpacked extension directory exist?
 		if ($resultdir && is_dir($resultdir))
 		{
-			\JFolder::delete($resultdir);
+			Folder::delete($resultdir);
 		}
 
 		// Is the package file a valid file?
 		if (is_file($package))
 		{
-			\JFile::delete($package);
+			File::delete($package);
 		}
-		elseif (is_file(\JPath::clean($config->get('tmp_path') . '/' . $package)))
+		elseif (is_file(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package)))
 		{
 			// It might also be just a base filename
-			\JFile::delete(\JPath::clean($config->get('tmp_path') . '/' . $package));
+			File::delete(Path::clean(Factory::getApplication()->get('tmp_path') . '/' . $package));
 		}
+	}
+
+	/**
+	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
+	 *
+	 * @param   string  $packagefile   Location of the package to be installed
+	 * @param   Update  $updateObject  The Update Object
+	 *
+	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public static function isChecksumValid($packagefile, $updateObject)
+	{
+		$hashes     = array('sha256', 'sha384', 'sha512');
+		$hashOnFile = false;
+
+		foreach ($hashes as $hash)
+		{
+			if ($updateObject->get($hash, false))
+			{
+				$hashPackage = hash_file($hash, $packagefile);
+				$hashRemote  = $updateObject->$hash->_data;
+				$hashOnFile  = true;
+
+				if ($hashPackage !== $hashRemote)
+				{
+					return self::HASH_NOT_VALIDATED;
+				}
+			}
+		}
+
+		if ($hashOnFile)
+		{
+			return self::HASH_VALIDATED;
+		}
+
+		return self::HASH_NOT_PROVIDED;
 	}
 }

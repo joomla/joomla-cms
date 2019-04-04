@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\CMS\Form\Rule;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Captcha\Captcha;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormRule;
 use Joomla\Registry\Registry;
@@ -39,7 +40,7 @@ class CaptchaRule extends FormRule
 	 */
 	public function test(\SimpleXMLElement $element, $value, $group = null, Registry $input = null, Form $form = null)
 	{
-		$app    = \JFactory::getApplication();
+		$app    = Factory::getApplication();
 		$plugin = $app->get('captcha');
 
 		if ($app->isClient('site'))
@@ -70,7 +71,7 @@ class CaptchaRule extends FormRule
 			}
 			else
 			{
-				return new \JException($error);
+				return new \Exception($error);
 			}
 		}
 

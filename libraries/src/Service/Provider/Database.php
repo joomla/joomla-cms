@@ -3,7 +3,7 @@
  * @package     Joomla.Libraries
  * @subpackage  Service
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,13 +37,13 @@ class Database implements ServiceProviderInterface
 	public function register(Container $container)
 	{
 		$container->alias('db', DatabaseInterface::class)
-			->alias('JDatabaseDriver', DatabaseInterface::class)
+			->alias('DatabaseDriver', DatabaseInterface::class)
 			->alias(DatabaseDriver::class, DatabaseInterface::class)
 			->share(
 				DatabaseInterface::class,
 			function (Container $container)
 			{
-				$conf = \JFactory::getConfig();
+				$conf = $container->get('config');
 
 				$dbtype = $conf->get('dbtype');
 
@@ -71,6 +71,16 @@ class Database implements ServiceProviderInterface
 					}
 				}
 
+				/*
+				 * Joomla! 4.0 removes support for the `ext/pgsql` PHP extension.  To help with the migration, we will migrate the configuration
+				 * to the PDO PostgreSQL driver regardless of if the environment supports it.  Instead of getting a "driver not found" type of
+				 * error, this will instead force the API to report that the driver is not supported.
+				 */
+				if (strtolower($dbtype) === 'postgresql')
+				{
+					$dbtype = 'pgsql';
+				}
+
 				$options = [
 					'driver'   => $dbtype,
 					'host'     => $conf->get('host'),
@@ -79,6 +89,11 @@ class Database implements ServiceProviderInterface
 					'database' => $conf->get('db'),
 					'prefix'   => $conf->get('dbprefix'),
 				];
+
+				if (JDEBUG)
+				{
+					$options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor;
+				}
 
 				try
 				{

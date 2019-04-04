@@ -3,16 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Templates\Administrator\View\Templates;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
 /**
@@ -77,6 +81,15 @@ class HtmlView extends BaseHtmlView
 	public $preview;
 
 	/**
+	 * The state of installer override plugin.
+	 *
+	 * @var  array
+	 *
+	 * @since  4.0.0
+	 */
+	protected $pluginState;
+
+	/**
 	 * Execute and display a template script.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -95,6 +108,7 @@ class HtmlView extends BaseHtmlView
 		$this->activeFilters = $this->get('ActiveFilters');
 		$this->preview       = ComponentHelper::getParams('com_templates')->get('template_positions_display');
 		$this->file          = base64_encode('home');
+		$this->pluginState   = PluginHelper::isEnabled('installer', 'override');
 
 		TemplatesHelper::addSubmenu('templates');
 
@@ -123,23 +137,19 @@ class HtmlView extends BaseHtmlView
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
 		{
-			\JToolbarHelper::title(\JText::_('COM_TEMPLATES_MANAGER_TEMPLATES_ADMIN'), 'eye thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_ADMIN'), 'eye thememanager');
 		}
 		else
 		{
-			\JToolbarHelper::title(\JText::_('COM_TEMPLATES_MANAGER_TEMPLATES_SITE'), 'eye thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_SITE'), 'eye thememanager');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_templates');
-			\JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_templates');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
-
-		\JHtmlSidebar::setAction('index.php?option=com_templates&view=templates');
-
-		$this->sidebar = \JHtmlSidebar::render();
+		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_TEMPLATES');
 	}
 }
