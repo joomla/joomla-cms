@@ -33,7 +33,7 @@ if ($this->params->get('show_autosuggest', 1))
 				<?php echo JText::_('COM_FINDER_SEARCH_TERMS'); ?>
 			</label>
 			<div class="input-group">
-				<input type="text" name="q" class="js-finder-search-query form-control" value="<?php echo $this->escape($this->query->input); ?>">
+				<input type="text" name="q" id="q" class="js-finder-search-query form-control" value="<?php echo $this->escape($this->query->input); ?>">
 				<span class="input-group-append">
 				<?php if ($this->escape($this->query->input) != '' || $this->params->get('allow_empty_query')) : ?>
 					<button name="Search" type="submit" class="btn btn-primary">
