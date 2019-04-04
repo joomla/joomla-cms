@@ -68,7 +68,7 @@ class ContentModelFeatured extends ContentModelArticles
 		$this->setState('list.limit', $limit);
 		$this->setState('list.links', $params->get('num_links'));
 		
-                if($featuredCategories = $params->get('show_only_featured',1))
+                if ($featuredCategories = $params->get('show_only_featured',1))
 		{	
 			$this->setState('filter.frontpage', true);
 		}	
