@@ -13,6 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
 $published = $this->state->get('filter.published');
+$noUser    = true;
 ?>
 <div class="modal hide fade" id="collapseModal">
 	<div class="modal-header">
@@ -49,7 +50,7 @@ $published = $this->state->get('filter.published');
 		<div class="row">
 			<div class="control-group">
 				<div class="controls">
-					<?php echo LayoutHelper::render('joomla.html.batch.user', []); ?>
+					<?php echo LayoutHelper::render('joomla.html.batch.user', ['noUser' => $noUser]); ?>
 				</div>
 			</div>
 		</div>

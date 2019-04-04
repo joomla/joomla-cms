@@ -25,13 +25,6 @@ use Joomla\Event\DispatcherInterface;
 trait ExtensionManagerTrait
 {
 	/**
-	 * The loaded extensions.
-	 *
-	 * @var array
-	 */
-	private $extensions = [ModuleInterface::class => [], ComponentInterface::class => []];
-
-	/**
 	 * Boots the component with the given name.
 	 *
 	 * @param   string  $component  The component to boot.
@@ -91,9 +84,9 @@ trait ExtensionManagerTrait
 	private function loadExtension($type, $extensionName, $extensionPath)
 	{
 		// Check if the extension is already loaded
-		if (!empty($this->extensions[$type][$extensionName]))
+		if (!empty(ExtensionHelper::$extensions[$type][$extensionName]))
 		{
-			return $this->extensions[$type][$extensionName];
+			return ExtensionHelper::$extensions[$type][$extensionName];
 		}
 
 		// The container to get the services from
@@ -162,7 +155,7 @@ trait ExtensionManagerTrait
 		}
 
 		// Cache the extension
-		$this->extensions[$type][$extensionName] = $extension;
+		ExtensionHelper::$extensions[$type][$extensionName] = $extension;
 
 		return $extension;
 	}

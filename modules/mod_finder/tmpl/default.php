@@ -34,7 +34,7 @@ if ($params->get('show_button', 0))
 	$output .= '<div class="mod-finder__search input-group">';
 	$output .= $input;
 	$output .= '<span class="input-group-append">';
-	$output .= '<button class="btn btn-primary hasTooltip" type="submit" title="' . Text::_('MOD_FINDER_SEARCH_BUTTON') . '"><span class="fa fa-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
+	$output .= '<button class="btn btn-primary hasTooltip" type="submit"><span class="fa fa-search icon-white" aria-hidden="true"></span> ' . Text::_('JSEARCH_FILTER_SUBMIT') . '</button>';
 	$output .= '</span>';
 	$output .= '</div>';
 }
@@ -58,7 +58,7 @@ if ($params->get('show_autosuggest', 1))
 }
 ?>
 
-<form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get">
+<form class="mod-finder js-finder-searchform form-search" action="<?php echo Route::_($route); ?>" method="get" role="search">
 	<?php echo $output; ?>
 
 	<?php $show_advanced = $params->get('show_advanced', 0); ?>
