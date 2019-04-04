@@ -10,6 +10,8 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Form\FormField;
+
 /**
  * Form Field class for the Joomla Platform.
  * Provides a meter to show value in a range.
@@ -17,7 +19,7 @@ defined('JPATH_PLATFORM') or die;
  * @link   http://www.w3.org/TR/html-markup/input.text.html#input.text
  * @since  3.2
  */
-class MeterField extends \JFormField
+class MeterField extends FormField
 {
 	/**
 	 * The form field type.

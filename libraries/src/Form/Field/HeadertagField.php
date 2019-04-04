@@ -10,17 +10,14 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Form Field class for the Joomla! CMS.
  *
  * @since  3.0
  */
-class HeadertagField extends \JFormFieldList
+class HeadertagField extends ListField
 {
 	/**
 	 * The form field type.

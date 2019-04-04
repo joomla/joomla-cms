@@ -11,20 +11,17 @@ namespace Joomla\CMS\Form\Field;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 
 // Import the com_menus helper.
 require_once realpath(JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
-
-FormHelper::loadFieldClass('GroupedList');
 
 /**
  * Supports an HTML select list of menus
  *
  * @since  1.6
  */
-class MenuField extends \JFormFieldGroupedList
+class MenuField extends GroupedlistField
 {
 	/**
 	 * The form field type.

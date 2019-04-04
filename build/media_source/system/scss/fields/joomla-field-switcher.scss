@@ -130,7 +130,7 @@ joomla-field-switcher {
     span {
       position: absolute;
       top: 0;
-      color: $gray-600;
+      color: var(--dark);
       visibility: hidden;
       opacity: 0;
       transition: all .2s ease-in-out;
