@@ -76,7 +76,9 @@ install:
             #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/pdo_sqlsrv/$($env:DLLVersion)/php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
             7z x -y php_pdo_sqlsrv-$($env:DLLVersion)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
             Remove-Item c:\tools\php\ext* -include .zip
-            cd c:\tools\php}}
+            cd c:\tools\php
+          }
+        }
     - IF %PHP%==1 copy php.ini-production php.ini /Y
     - IF %PHP%==1 echo date.timezone="UTC" >> php.ini
     - IF %PHP%==1 echo extension_dir=ext >> php.ini
@@ -112,9 +114,11 @@ install:
           #appveyor-retry appveyor DownloadFile https://windows.php.net/downloads/pecl/releases/wincache/$($env:WINCACHE)/php_wincache-$($env:WINCACHE)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip
           7z x -y php_wincache-$($env:WINCACHE)-$($env:php_ver_target)-nts-$($env:VC)-$($env:PHPBuild).zip > $null
           Remove-Item C:\tools\php\ext* -include .zip
-          cd c:\tools\php}
-    - IF %PHP%==1 echo extension=php_wincache.dll >> php.ini
-    - IF %PHP%==1 echo wincache.enablecli = 1 >> php.ini
+          cd c:\tools\php
+          Add-Content php.ini "`nextension=php_wincache.dll"
+          Add-Content php.ini "`wincache.enablecli = 1"
+          Add-Content php.ini "`n"
+        }
     - IF %PHP%==1 echo zend_extension=php_opcache.dll >> php.ini
     - IF %PHP%==1 echo opcache.enable_cli=1 >> php.ini
     - IF %PHP%==1 echo extension=php_ldap.dll >> php.ini
