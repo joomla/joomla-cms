@@ -290,8 +290,9 @@ class PlgSearchContent extends CMSPlugin
 				->from($db->quoteName('#__content', 'a'))
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 				->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id')
+				->join('INNER', '#__workflow_stages AS ws ON ws.id = wa.stage_id')
 				->where(
-					'(' . $where . ') AND wa.stage_id=2 AND c.published = 1 AND a.access IN (' . $groups . ') '
+					'(' . $where . ') AND ws.condition=1 AND c.published = 1 AND a.access IN (' . $groups . ') '
 						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
