@@ -109,7 +109,7 @@ abstract class QuickIconHelper
 					
 					self::$buttons[$key][] = [
 						'amount' => $amount,
-						'link'   => Route::_('index.php?option=com_users'),
+						'link'   => Route::_('index.php?option=com_menus'),
 						'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
 						'addwhat' => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', 1),
 						'name'   => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', $amount),
