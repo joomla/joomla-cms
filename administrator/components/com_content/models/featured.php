@@ -162,10 +162,10 @@ class ContentModelFeatured extends ContentModelArticles
 		$baselevel = 1;
 		$categoryId = $this->getState('filter.category_id');
 
-		if (is_numeric($categoryId))
+		if (is_array($categoryId) && count($categoryId) === 1)
 		{
 			$cat_tbl = JTable::getInstance('Category', 'JTable');
-			$cat_tbl->load($categoryId);
+			$cat_tbl->load($categoryId[0]);
 			$rgt = $cat_tbl->rgt;
 			$lft = $cat_tbl->lft;
 			$baselevel = (int) $cat_tbl->level;
