@@ -55,7 +55,7 @@ install:
             copy SQLSRV\php_pdo_sqlsrv_56_nts.dll ext\php_pdo_sqlsrv_nts.dll
             Remove-Item C:\tools\php\* -include .zip
           } Else {
-            $DLLVersion = "4.3.0"
+            If ($env:php_ver_target -eq "7.3") {$DLLVersion = "5.6.1"} Else {$DLLVersion = "5.3.0"}
             cd c:\tools\php\ext
             $source = "https://windows.php.net/downloads/pecl/releases/sqlsrv/$($DLLVersion)/php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip"
             $destination = "c:\tools\php\ext\php_sqlsrv-$($DLLVersion)-$($env:php_ver_target)-nts-vc14-x64.zip"
