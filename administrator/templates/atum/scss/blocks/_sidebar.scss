@@ -178,20 +178,19 @@
         }
       }
     }
-
-
-    .sidebar-item-title{
-      word-break: break-word;
-      @include media-breakpoint-up(sm) {
-        max-width: 9rem !important;
-        display: inline-block;
-      }
-      @include media-breakpoint-down(xs) {
-        max-width: 60vw !important;
-        display: inline-block;
-      }
-    }
   }
+
+	.sidebar-item-title{
+	  word-break: break-word;
+	  @include media-breakpoint-up(sm) {
+		max-width: 9rem !important;
+		display: inline-block;
+	  }
+	  @include media-breakpoint-down(xs) {
+		max-width: 60vw !important;
+		display: inline-block;
+	  }
+	}
 
   // All links
   a {

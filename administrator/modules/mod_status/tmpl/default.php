@@ -61,7 +61,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<?php if ($user->authorise('core.manage', 'com_postinstall')) : ?>
 			<li class="nav-item dropdown">
-				<button class="nav-link dropdown-toggle" data-toggle="dropdown" type="button"
+				<button class="nav-link dropdown-toggle <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button"
 					title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
 					<span class="fa fa-bell-o" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
@@ -99,7 +99,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 		<?php endif; ?>
 
 		<li class="nav-item dropdown header-profile footer-mobil-icon">
-			<button class="nav-link dropdown-toggle" data-toggle="dropdown" type="button"
+			<button class="nav-link dropdown-toggle <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button"
 				title="<?php echo Text::_('MOD_STATUS_USER_MENU'); ?>">
 				<span class="fa fa-user-circle" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_USER_MENU'); ?></span>
@@ -107,7 +107,8 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			</button>
 			<div class="dropdown-menu dropdown-menu-right icons-left">
 				<div class="dropdown-header"><?php echo $user->name; ?></div>
-				<?php $route = 'index.php?option=com_admin&amp;task=profile.edit&amp;id=' . $user->id; ?>
+				<?php $uri   = Uri::getInstance(); ?>
+				<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
 				<div class="dropdown-item">
 					<a href="<?php echo Route::_($route); ?>">
 						<span class="fa fa-user-o"></span>

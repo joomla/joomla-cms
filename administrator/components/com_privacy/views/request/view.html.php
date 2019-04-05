@@ -17,6 +17,14 @@ defined('_JEXEC') or die;
 class PrivacyViewRequest extends JViewLegacy
 {
 	/**
+	 * The action logs for the item
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $actionlogs;
+
+	/**
 	 * The form object
 	 *
 	 * @var    JForm
@@ -57,6 +65,20 @@ class PrivacyViewRequest extends JViewLegacy
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
+		// Variables only required for the default layout
+		if ($this->getLayout() === 'default')
+		{
+			/** @var ActionlogsModelActionlogs $logsModel */
+			$logsModel = $this->getModel('actionlogs');
+
+			$this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
+
+			// Load the com_actionlogs language strings for use in the layout
+			$lang = JFactory::getLanguage();
+			$lang->load('com_actionlogs', JPATH_ADMINISTRATOR, null, false, true)
+				|| $lang->load('com_actionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs', null, false, true);
+		}
+
 		// Variables only required for the edit layout
 		if ($this->getLayout() === 'edit')
 		{
@@ -88,18 +110,19 @@ class PrivacyViewRequest extends JViewLegacy
 		// Set the title and toolbar based on the layout
 		if ($this->getLayout() === 'edit')
 		{
-			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'dashboard');
+			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'lock');
 
 			JToolbarHelper::apply('request.save');
 			JToolbarHelper::cancel('request.cancel');
+			JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST_EDIT');
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_SHOW_REQUEST'), 'dashboard');
+			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_SHOW_REQUEST'), 'lock');
 
 			$bar = JToolbar::getInstance('toolbar');
 
-			// Add transition buttons based on item status
+			// Add transition and action buttons based on item status
 			switch ($this->item->status)
 			{
 				case '0':
@@ -108,8 +131,30 @@ class PrivacyViewRequest extends JViewLegacy
 					break;
 
 				case '1':
+					$return = '&return=' . base64_encode('index.php?option=com_privacy&view=request&id=' . (int) $this->item->id);
+
 					$bar->appendButton('Standard', 'apply', 'COM_PRIVACY_TOOLBAR_COMPLETE', 'request.complete', false);
 					$bar->appendButton('Standard', 'cancel-circle', 'COM_PRIVACY_TOOLBAR_INVALIDATE', 'request.invalidate', false);
+
+					if ($this->item->request_type === 'export')
+					{
+						JToolbarHelper::link(
+							JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return),
+							'COM_PRIVACY_ACTION_EXPORT_DATA',
+							'download'
+						);
+
+						JToolbarHelper::link(
+							JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
+							'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
+							'mail'
+						);
+					}
+
+					if ($this->item->request_type === 'remove')
+					{
+						$bar->appendButton('Standard', 'delete', 'COM_PRIVACY_ACTION_DELETE_DATA', 'request.remove', false);
+					}
 
 					break;
 
@@ -119,6 +164,7 @@ class PrivacyViewRequest extends JViewLegacy
 			}
 
 			JToolbarHelper::cancel('request.cancel', 'JTOOLBAR_CLOSE');
+			JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST');
 		}
 	}
 }

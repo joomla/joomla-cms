@@ -10,6 +10,7 @@
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Layout\LayoutHelper;
 
 // @TODO Remove when webcomponents get merged into the core
 
@@ -56,7 +57,7 @@ class JDocumentRendererHtmlMessage extends JDocumentRenderer
 			return renderMessage($msgList);
 		}
 
-		return JLayoutHelper::render('installation.template.html.system.message', $displayData);
+		return LayoutHelper::render('installation.template.html.system.message', $displayData);
 	}
 
 	/**
