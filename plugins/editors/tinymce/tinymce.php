@@ -463,7 +463,9 @@ class PlgEditorTinymce extends CMSPlugin
 			}
 		}
 
-		// Drag and drop Images
+		// RFC a11y
+		$externalPlugins['a11y_checker'] = Uri::root() . 'media/plg_editors_tinymce/js/plugins/a11y_checker/plugin.min.js';
+		
 		$allowImgPaste = false;
 		$dragdrop      = $levelParams->get('drag_drop', 1);
 
@@ -537,7 +539,7 @@ class PlgEditorTinymce extends CMSPlugin
 
 				// Toolbars
 				'menubar'  => empty($menubar)  ? false : implode(' ', array_unique($menubar)),
-				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' jxtdbuttons',
+				'toolbar1' => empty($toolbar1) ? null  : implode(' ', $toolbar1) . ' jxtdbuttons check_a11y',
 				'toolbar2' => empty($toolbar2) ? null  : implode(' ', $toolbar2),
 
 				'plugins'  => implode(',', array_unique($plugins)),
