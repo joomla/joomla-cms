@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -300,65 +300,6 @@ class LibraryAdapter extends InstallerAdapter
 		// Since we have created a library item, we add it to the installation step stack
 		// so that if we have to rollback the changes we can undo it.
 		$this->parent->pushStep(array('type' => 'extension', 'id' => $this->extension->extension_id));
-	}
-
-	/**
-	 * Custom update method
-	 *
-	 * @return  boolean|integer  The extension ID on success, boolean false on failure
-	 *
-	 * @since   3.1
-	 */
-	public function update()
-	{
-		// Since this is just files, an update removes old files
-		// Get the extension manifest object
-		$this->setManifest($this->parent->getManifest());
-
-		// Set the overwrite setting
-		$this->parent->setOverwrite(true);
-		$this->parent->setUpgrade(true);
-
-		// And make sure the route is set correctly
-		$this->setRoute('update');
-
-		/*
-		 * ---------------------------------------------------------------------------------------------
-		 * Manifest Document Setup Section
-		 * ---------------------------------------------------------------------------------------------
-		 */
-
-		// Set the extensions name
-		$name = (string) $this->getManifest()->name;
-		$name = \JFilterInput::getInstance()->clean($name, 'string');
-		$element = str_replace('.xml', '', basename($this->parent->getPath('manifest')));
-		$this->set('name', $name);
-		$this->set('element', $element);
-
-		// We don't want to compromise this instance!
-		$installer = new Installer;
-		$db = $this->parent->getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('extension_id'))
-			->from($db->quoteName('#__extensions'))
-			->where($db->quoteName('type') . ' = ' . $db->quote('library'))
-			->where($db->quoteName('element') . ' = ' . $db->quote($element));
-		$db->setQuery($query);
-		$result = $db->loadResult();
-
-		if ($result)
-		{
-			// Already installed, which would make sense
-			$installer->setPackageUninstall(true);
-			$installer->uninstall('library', $result);
-
-			// Clear the cached data
-			$this->currentExtensionId = null;
-			$this->extension = Table::getInstance('Extension', 'JTable', array('dbo' => $this->db));
-		}
-
-		// Now create the new files
-		return $this->install();
 	}
 
 	/**

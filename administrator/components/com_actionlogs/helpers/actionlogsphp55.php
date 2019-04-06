@@ -3,11 +3,14 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Language\Text;
 
 /**
  * Actionlogs component helper for newer PHP versions.
@@ -55,10 +58,10 @@ class ActionlogsHelperPhp55
 			yield array(
 				'id'         => $log->id,
 				'message'    => strip_tags(ActionlogsHelper::getHumanReadableLogMessage($log, false)),
-				'date'       => (new JDate($log->log_date, new DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
-				'extension'  => JText::_($extension),
+				'date'       => (new Date($log->log_date, new DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
+				'extension'  => Text::_($extension),
 				'name'       => $log->name,
-				'ip_address' => JText::_($log->ip_address),
+				'ip_address' => Text::_($log->ip_address),
 			);
 		}
 	}

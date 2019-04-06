@@ -83,6 +83,7 @@
 				id="website"
 				filter="url"
 				size="30"
+				validate="url"
 			/>
 
 			<field
