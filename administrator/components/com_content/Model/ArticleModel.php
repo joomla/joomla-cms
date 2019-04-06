@@ -424,8 +424,6 @@ class ArticleModel extends AdminModel
 					// Prune items that you can't change.
 					unset($pks[$i]);
 
-					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-
 					continue;
 				}
 
