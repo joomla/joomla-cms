@@ -402,10 +402,10 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Batch copy items to a new category or current.
 	 *
-	 * @param   integer  $value            The new category.
-	 * @param   array    $workflowid       Workflow ID of the command.
-	 * @param   array    $pks              An array of row IDs.
-	 * @param   array    $contexts         An array of item contexts.
+	 * @param   integer  $value       The new category.
+	 * @param   array    $pks         An array of row IDs.
+	 * @param   array    $workflowid  Workflow ID of the command.
+	 * @param   array    $contexts    An array of item contexts.
 	 *
 	 * @return  array|boolean  An array of new IDs on success, boolean false on failure.
 	 *
