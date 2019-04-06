@@ -181,42 +181,7 @@ class FieldsModelFields extends JModelList
 		if (($categories = $this->getState('filter.assigned_cat_ids')) && $context)
 		{
 			$categories = (array) $categories;
-			$categories = ArrayHelper::toInteger($categories);
-			$parts = FieldsHelper::extract($context);
-
-			if ($parts)
-			{
-				// Get the category
-				$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]) . '.' . $parts[1]);
-
-				// If there is no category for the component and section, so check the component only
-				if (!$cat)
-				{
-					$cat = JCategories::getInstance(str_replace('com_', '', $parts[0]));
-				}
-
-				if ($cat)
-				{
-					foreach ($categories as $assignedCatIds)
-					{
-						// Check if we have the actual category
-						$parent = $cat->get($assignedCatIds);
-
-						if ($parent)
-						{
-							$categories[] = (int) $parent->id;
-
-							// Traverse the tree up to get all the fields which are attached to a parent
-							while ($parent->getParent() && $parent->getParent()->id != 'root')
-							{
-								$parent = $parent->getParent();
-								$categories[] = (int) $parent->id;
-							}
-						}
-					}
-				}
-			}
-
+			$categories = ArrayHelper::toInteger($categories);			
 			$categories = array_unique($categories);
 
 			// Join over the assigned categories
