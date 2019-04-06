@@ -304,7 +304,7 @@ abstract class AdminModel extends FormModel
 
 			if ($cmd === 'c')
 			{
-				$result = $this->batchCopy($commands[$this->batch_copymove], $pks, $contexts);
+				$result = $this->batchCopy($commands[$this->batch_copymove], $commands['workflowstage_id'], $pks, $contexts);
 
 				if (is_array($result))
 				{
@@ -410,12 +410,14 @@ abstract class AdminModel extends FormModel
 	 *
 	 * @since	1.7
 	 */
-	protected function batchCopy($value, $pks, $contexts)
+	protected function batchCopy($value, $workflowid, $pks, $contexts)
 	{
 		// Initialize re-usable member properties, and re-usable local variables
 		$this->initBatch();
 
 		$categoryId = $value;
+
+		$newWorkflowId = $workflowid;
 
 		if (!$this->checkCategoryId($categoryId))
 		{
@@ -501,6 +503,29 @@ abstract class AdminModel extends FormModel
 
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
+
+			// Add workflow_assosciations entry
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true)
+				->select($db->quoteName(array('stage_id','extension')))
+				->from($db->quoteName('#__workflow_associations'))
+				->where($db->quoteName('item_id') . ' = ' . $pk);
+			$db->setQuery($query);
+
+			$results = $db->loadObjectList();
+
+			$old_stage_id = $results[0]->stage_id;
+
+			$newStageId = $newWorkflowId ? $newWorkflowId : $old_stage_id;
+
+			$oldExtension = $results[0]->extension;
+
+			$query->clear()
+				->insert($db->quoteName('#__workflow_associations'))
+				->columns(array($db->quoteName('item_id'), $db->quoteName('stage_id'), $db->quoteName('extension')))
+				->values($newId . ', ' . $newStageId . ', \'' . $oldExtension . '\'');
+			$db->setQuery($query);
+			$db->execute();
 		}
 
 		// Clean the cache
