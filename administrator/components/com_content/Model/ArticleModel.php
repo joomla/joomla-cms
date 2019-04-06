@@ -426,7 +426,7 @@ class ArticleModel extends AdminModel
 
 					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
-					return false;
+					continue;
 				}
 
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
