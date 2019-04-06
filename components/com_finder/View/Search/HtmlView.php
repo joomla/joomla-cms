@@ -134,6 +134,9 @@ class HtmlView extends BaseHtmlView
 		$this->pagination = $this->get('Pagination');
 		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
 
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
