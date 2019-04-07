@@ -234,16 +234,13 @@ Joomla.toggleAllNextElements = (element, className) => {
         stateBefore.forEach((el, index) => {
           if (!el) {
             stateBefore.forEach((el, indexBefore) => {
-              if (indexBefore!==index) {
+              if (indexBefore !== index) {
                 stateAfter[indexBefore] = true;
               }
             });
           }
         });
-        publishBool = stateAfter[0];
-        unpublishBool = stateAfter[1];
-        archiveBool = stateAfter[2];
-        trashBool = stateAfter[3];
+        [publishBool, unpublishBool, archiveBool, trashBool] = stateAfter;
         disableButtons();
         countChecked = 0;
       });
