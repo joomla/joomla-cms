@@ -295,7 +295,7 @@ class PlgSearchContent extends CMSPlugin
 				->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'))
 				->where(
 					'(' . $where . ') AND c.published = 1 AND a.access IN (' . $groups . ') '
-						. 'AND (ws.condition = ' . ContentComponent::CONDITION_PUBLISHED .')'
+						. 'AND (ws.condition = ' . ContentComponent::CONDITION_PUBLISHED . ') '
 						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
