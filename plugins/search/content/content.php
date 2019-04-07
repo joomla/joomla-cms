@@ -14,8 +14,8 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Component\Search\Administrator\Helper\SearchHelper;
 
 /**
  * Content search plugin.
