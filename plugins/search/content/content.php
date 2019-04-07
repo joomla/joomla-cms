@@ -292,13 +292,13 @@ class PlgSearchContent extends CMSPlugin
 				->innerJoin($db->quoteName('#__categories', 'c') . ' ON c.id = a.catid')
 				->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id')
 				->join('INNER', '#__workflow_stages AS ws ON ws.id = wa.stage_id')
+				->where($db->quoteName('wa.extension') . '=' . $db->quote('com_content'))
 				->where(
 					'(' . $where . ') AND c.published = 1 AND a.access IN (' . $groups . ') '
 						. 'AND (ws.condition = ' . ContentComponent::CONDITION_PUBLISHED .')'
 						. 'AND c.access IN (' . $groups . ')'
 						. 'AND (a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ') '
 						. 'AND (a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')'
-						. 'AND (' . $db->quoteName("wa.extension") . '=' . $db->quote("com_content") . ')'	
 				)
 				->group('a.id, a.title, a.metadesc, a.metakey, a.created, a.language, a.catid, a.introtext, a.fulltext, c.title, a.alias, c.alias, c.id')
 				->order($order);
