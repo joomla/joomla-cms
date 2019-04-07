@@ -231,19 +231,19 @@ Joomla.toggleAllNextElements = (element, className) => {
         });
         const stateAfter = [publishBool, unpublishBool, archiveBool, trashBool];
         const stateBefore = stateAfter.slice(0);
-        stateBefore.forEach(function(element,index){
-          if (!element){
-            stateBefore.forEach(function(element1,indexBefore){
-              if (indexBefore!=index){
+        stateBefore.forEach((el, index) => {
+          if (!el) {
+            stateBefore.forEach((el, indexBefore) => {
+              if (indexBefore!==index) {
                 stateAfter[indexBefore] = true;
               }
-            })
+            });
           }
-        })
+        });
         publishBool = stateAfter[0];
         unpublishBool = stateAfter[1];
         archiveBool = stateAfter[2];
-        trashBool = stateAfter[3];        
+        trashBool = stateAfter[3];
         disableButtons();
         countChecked = 0;
       });
