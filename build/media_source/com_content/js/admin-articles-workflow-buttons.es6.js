@@ -233,7 +233,7 @@ Joomla.toggleAllNextElements = (element, className) => {
         const stateBefore = stateAfter.slice(0);
         stateBefore.forEach((el, index) => {
           if (!el) {
-            stateBefore.forEach((el, indexBefore) => {
+            stateBefore.forEach((elBefore, indexBefore) => {
               if (indexBefore !== index) {
                 stateAfter[indexBefore] = true;
               }
