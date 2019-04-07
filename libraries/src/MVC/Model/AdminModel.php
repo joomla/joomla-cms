@@ -510,11 +510,11 @@ abstract class AdminModel extends FormModel
 				->where($db->quoteName('item_id') . ' = ' . $pk);
 			$db->setQuery($query);
 
-			$results = $db->loadObjectList();
+			$results = $db->loadObject();
 
-			$old_stage_id = $results[0]->stage_id;
+			$old_stage_id = $results->stage_id;
 
-			$oldExtension = $results[0]->extension;
+			$oldExtension = $results->extension;
 
 			$query->clear()
 				->insert($db->quoteName('#__workflow_associations'))
