@@ -22,6 +22,7 @@ use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Prototype admin model.
@@ -1536,8 +1537,6 @@ abstract class AdminModel extends FormModel
 				?: $this->contentType->getTypeByAlias($this->typeAlias);
 		}
 	}
-<<<<<<< HEAD
-=======
 
 	/**
 	 * Method to load an item in com_associations.
@@ -1633,5 +1632,4 @@ abstract class AdminModel extends FormModel
 
 		return true;
 	}
->>>>>>> f7307806c7b3d4331b308119bff6c4b25411f295
 }
