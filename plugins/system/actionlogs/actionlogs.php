@@ -205,10 +205,11 @@ class PlgSystemActionLogs extends JPlugin
 		}
 
 		$daysToDeleteAfter = (int) $this->params->get('logDeletePeriod', 0);
+		$now = $db->quote(JFactory::getDate()->toSql());
 
 		if ($daysToDeleteAfter > 0)
 		{
-			$conditions = array($db->quoteName('log_date') . ' < DATE_SUB(NOW(), INTERVAL ' . $daysToDeleteAfter . ' DAY)');
+			$conditions = array($db->quoteName('log_date') . ' < ' . $query->dateAdd($now, -1 * $daysToDeleteAfter , ' DAY'));
 
 			$query->clear()
 				->delete($db->quoteName('#__action_logs'))->where($conditions);

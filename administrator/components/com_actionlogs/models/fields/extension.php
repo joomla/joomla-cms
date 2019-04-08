@@ -47,17 +47,20 @@ class JFormFieldExtension extends JFormFieldList
 
 		$options = array();
 
-		foreach ($context as $item)
+		if (count($context) > 0)
 		{
-			$extensions[] = strtok($item, '.');
-		}
+			foreach ($context as $item)
+			{
+				$extensions[] = strtok($item, '.');
+			}
 
-		$extensions = array_unique($extensions);
+			$extensions = array_unique($extensions);
 
-		foreach ($extensions as $extension)
-		{
-			ActionlogsHelper::loadTranslationFiles($extension);
-			$options[] = JHtml::_('select.option', $extension, JText::_($extension));
+			foreach ($extensions as $extension)
+			{
+				ActionlogsHelper::loadTranslationFiles($extension);
+				$options[] = JHtml::_('select.option', $extension, JText::_($extension));
+			}
 		}
 
 		return array_merge(parent::getOptions(), $options);

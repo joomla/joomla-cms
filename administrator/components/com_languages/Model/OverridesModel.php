@@ -195,49 +195,6 @@ class OverridesModel extends ListModel
 	}
 
 	/**
-	 * Method to get all found languages of frontend and backend.
-	 *
-	 * The resulting array has entries of the following style:
-	 * <Language Tag>0|1 => <Language Name> - <Client Name>
-	 *
-	 * @return  array  Sorted associative array of languages.
-	 *
-	 * @since   2.5
-	 */
-	public function getLanguages()
-	{
-		// Try to load the data from internal storage.
-		if (!empty($this->cache['languages']))
-		{
-			return $this->cache['languages'];
-		}
-
-		// Get all languages of frontend and backend.
-		$languages       = array();
-		$site_languages  = LanguageHelper::getKnownLanguages(JPATH_SITE);
-		$admin_languages = LanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
-
-		// Create a single array of them.
-		foreach ($site_languages as $tag => $language)
-		{
-			$languages[$tag . '0'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], Text::_('JSITE'));
-		}
-
-		foreach ($admin_languages as $tag => $language)
-		{
-			$languages[$tag . '1'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], Text::_('JADMINISTRATOR'));
-		}
-
-		// Sort it by language tag and by client after that.
-		ksort($languages);
-
-		// Add the languages to the internal cache.
-		$this->cache['languages'] = $languages;
-
-		return $this->cache['languages'];
-	}
-
-	/**
 	 * Method to delete one or more overrides.
 	 *
 	 * @param   array  $cids  Array of keys to delete.
