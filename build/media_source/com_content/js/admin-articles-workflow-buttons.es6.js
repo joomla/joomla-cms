@@ -234,18 +234,6 @@ Joomla.toggleAllNextElements = (element, className) => {
             countChecked += 1;
           }
         });
-        const stateAfter = [publishBool, unpublishBool, archiveBool, trashBool];
-        const stateBefore = stateAfter.slice(0);
-        stateBefore.forEach((el, index) => {
-          if (!el) {
-            stateBefore.forEach((elBefore, indexBefore) => {
-              if (indexBefore !== index) {
-                stateAfter[indexBefore] = true;
-              }
-            });
-          }
-        });
-        [publishBool, unpublishBool, archiveBool, trashBool] = stateAfter;
         disableButtons();
         countChecked = 0;
       });
