@@ -1,22 +1,26 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  com_newsfeeds
+ * @subpackage  com_languages
  *
  * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Languages\Administrator\Model;
+
 defined('JPATH_BASE') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Client Language List field.
  *
  * @since  3.9.0
  */
-class JFormFieldLanguageclient extends JFormFieldList
+class Languageclient extends ListField
 {
 	/**
 	 * The form field type.
@@ -51,18 +55,18 @@ class JFormFieldLanguageclient extends JFormFieldList
 
 		// Get all languages of frontend and backend.
 		$languages       = array();
-		$site_languages  = JLanguageHelper::getKnownLanguages(JPATH_SITE);
-		$admin_languages = JLanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
+		$site_languages  = LanguageHelper::getKnownLanguages(JPATH_SITE);
+		$admin_languages = LanguageHelper::getKnownLanguages(JPATH_ADMINISTRATOR);
 
 		// Create a single array of them.
 		foreach ($site_languages as $tag => $language)
 		{
-			$languages[$tag . '0'] = JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JSITE'));
+			$languages[$tag . '0'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JSITE'));
 		}
 
 		foreach ($admin_languages as $tag => $language)
 		{
-			$languages[$tag . '1'] = JText::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JADMINISTRATOR'));
+			$languages[$tag . '1'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JADMINISTRATOR'));
 		}
 
 		// Sort it by language tag and by client after that.

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
+<form addfieldprefix="Joomla\Component\Language\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"
@@ -12,15 +12,13 @@
 			name="language_client"
 			type="languageclient"
 			onchange="this.form.submit();"
-			>
-		</field>
+		/>
 	</fields>
 	<fields name="list">
 		<field
 			name="limit"
 			type="limitbox"
 			label="JGLOBAL_LIMIT"
-			description="JGLOBAL_LIMIT"
 			class="input-mini"
 			default="25"
 			onchange="this.form.submit();"
