@@ -65,6 +65,137 @@ class ArticleModel extends AdminModel
 	protected $associationsContext = 'com_content.item';
 
 	/**
+	 * Batch copy items to a new category or current.
+	 *
+	 * @param   integer  $value     The new category.
+	 * @param   array    $pks       An array of row IDs.
+	 * @param   array    $contexts  An array of item contexts.
+	 *
+	 * @return  array|boolean  An array of new IDs on success, boolean false on failure.
+	 *
+	 * @since	1.7
+	 */
+	protected function batchCopy($value, $pks, $contexts)
+	{
+		// Initialize re-usable member properties, and re-usable local variables
+		$this->initBatch();
+
+		$categoryId = $value;
+
+		if (!$this->checkCategoryId($categoryId))
+		{
+			return false;
+		}
+
+		$newIds = array();
+
+		// Parent exists so let's proceed
+		while (!empty($pks))
+		{
+			// Pop the first ID off the stack
+			$pk = array_shift($pks);
+
+			$this->table->reset();
+
+			// Check that the row actually exists
+			if (!$this->table->load($pk))
+			{
+				if ($error = $this->table->getError())
+				{
+					// Fatal error
+					$this->setError($error);
+
+					return false;
+				}
+				else
+				{
+					// Not fatal error
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					continue;
+				}
+			}
+
+			$this->generateTitle($categoryId, $this->table);
+
+			// Reset the ID because we are making a copy
+			$this->table->id = 0;
+
+			// Unpublish because we are making a copy
+			if (isset($this->table->published))
+			{
+				$this->table->published = 0;
+			}
+			elseif (isset($this->table->state))
+			{
+				$this->table->state = 0;
+			}
+
+			$hitsAlias = $this->table->getColumnAlias('hits');
+
+			if (isset($this->table->$hitsAlias))
+			{
+				$this->table->$hitsAlias = 0;
+			}
+
+			// New category ID
+			$this->table->catid = $categoryId;
+
+			// TODO: Deal with ordering?
+			// $this->table->ordering = 1;
+
+			// Check the row.
+			if (!$this->table->check())
+			{
+				$this->setError($this->table->getError());
+
+				return false;
+			}
+
+			// Store the row.
+			if (!$this->table->store())
+			{
+				$this->setError($this->table->getError());
+
+				return false;
+			}
+
+			// Get the new item ID
+			$newId = $this->table->get('id');
+
+			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
+
+			// Add the new ID to the array
+			$newIds[$pk] = $newId;
+
+			// Add workflow_assosciations entry
+			$db    = $this->getDbo();
+			$query = $db->getQuery(true)
+			->select($db->quoteName(array('stage_id','extension')))
+			->from($db->quoteName('#__workflow_associations'))
+			->where($db->quoteName('item_id') . ' = ' . $pk);
+			$db->setQuery($query);
+
+			$results = $db->loadObject();
+
+			$old_stage_id = $results->stage_id;
+
+			$oldExtension = $results->extension;
+
+			$query->clear()
+			->insert($db->quoteName('#__workflow_associations'))
+			->columns(array($db->quoteName('item_id'), $db->quoteName('stage_id'), $db->quoteName('extension')))
+			->values($db->quote($newId) . ',' . $db->quote($old_stage_id) . ',' . $db->quote($oldExtension));
+			$db->setQuery($query);
+			$db->execute();
+		}
+
+		// Clean the cache
+		$this->cleanCache();
+
+		return $newIds;
+	}
+
+	/**
 	 * Function that can be overriden to do any data cleanup after batch copying data
 	 *
 	 * @param   TableInterface  $table  The table object containing the newly created item
@@ -1126,7 +1257,6 @@ class ArticleModel extends AdminModel
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
-					$field->addAttribute('propagate', 'true');
 				}
 
 				$form->load($addform, false);
