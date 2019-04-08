@@ -28,7 +28,7 @@ $app->getDocument()->addScriptOptions(
 );
 ?>
 <?php if ($items) : ?>
-	<ul id="sample-data-wrapper" class="list-group list-group-flush">
+	<ul id="sample-data-wrapper" class="list-group">
 		<?php foreach($items as $i => $item) : ?>
 			<li class="list-group-item sampledata-<?php echo $item->name; ?>">
 				<div class="d-flex justify-content-between align-items-center">

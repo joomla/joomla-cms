@@ -18,7 +18,7 @@ use Joomla\CMS\Language\Text;
 		<span class="fa fa-info-circle" aria-hidden="true"></span>
 		<?php echo Text::_('MOD_MENU_HELP'); ?>
 	</h2>
-	<ul class="list-group list-group-flush">
+	<ul class="list-group">
 		<?php foreach ($this->links as $link) : ?>
 			<?php if ($link['link']) : ?>
 				<li class="list-group-item">

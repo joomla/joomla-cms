@@ -24,7 +24,7 @@ HTMLHelper::_('script', 'com_cpanel/admin-system-loader.js', ['version' => 'auto
 			<span class="fa fa-<?php echo $section->getIcon(); ?>" aria-hidden="true"></span>
 			<?php echo Text::_($section->getTitle()); ?>
 		</h2>
-		<ul class="list-group list-group-flush">
+		<ul class="list-group">
 			<?php foreach ($section->getItems() as $item) : ?>
 				<li class="list-group-item">
 					<a href="<?php echo $item->getLink(); ?>"><?php echo Text::_($item->getTitle()); ?>
