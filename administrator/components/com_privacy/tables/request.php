@@ -22,7 +22,7 @@ defined('_JEXEC') or die;
  * @property   integer  $checked_out               User ID who has checked out the item for editing
  * @property   string   $checked_out_time          The time the item was checked out for editing
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyTableRequest extends JTable
 {
@@ -31,7 +31,7 @@ class PrivacyTableRequest extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  JDatabaseDriver connector object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{

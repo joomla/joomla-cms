@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * An example custom terms and conditions plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgUserTerms extends JPlugin
 {
@@ -24,7 +24,7 @@ class PlgUserTerms extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -32,7 +32,7 @@ class PlgUserTerms extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -40,7 +40,7 @@ class PlgUserTerms extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -50,7 +50,7 @@ class PlgUserTerms extends JPlugin
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An array that holds the plugin configuration
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -67,7 +67,7 @@ class PlgUserTerms extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
@@ -107,7 +107,7 @@ class PlgUserTerms extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  InvalidArgumentException on missing required data.
 	 */
 	public function onUserBeforeSave($user, $isNew, $data)
@@ -149,7 +149,7 @@ class PlgUserTerms extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{

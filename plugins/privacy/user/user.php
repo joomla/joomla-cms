@@ -18,7 +18,7 @@ JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Privacy plugin managing Joomla user data
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgPrivacyUser extends PrivacyPlugin
 {
@@ -26,7 +26,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -34,7 +34,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -48,7 +48,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyRemovalStatus
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyCanRemoveData(PrivacyTableRequest $request, JUser $user = null)
 	{
@@ -83,7 +83,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
@@ -115,7 +115,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyRemoveData(PrivacyTableRequest $request, JUser $user = null)
 	{
@@ -175,7 +175,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createNotesDomain(JTableUser $user)
 	{
@@ -209,7 +209,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createProfileDomain(JTableUser $user)
 	{
@@ -238,7 +238,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createUserDomain(JTableUser $user)
 	{
@@ -255,7 +255,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportItem
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createItemForUserTable(JTableUser $user)
 	{
@@ -280,7 +280,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createUserCustomFieldsDomain(JTableUser $user)
 	{

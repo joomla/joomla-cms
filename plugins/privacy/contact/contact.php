@@ -17,7 +17,7 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
 /**
  * Privacy plugin managing Joomla user contact data
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgPrivacyContact extends PrivacyPlugin
 {
@@ -25,7 +25,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -33,7 +33,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 * Affects constructor behaviour. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -41,7 +41,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 * Contacts array
 	 *
 	 * @var    Array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $contacts = array();
 
@@ -57,7 +57,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
@@ -86,7 +86,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createContactDomain(PrivacyTableRequest $request, JUser $user = null)
 	{
@@ -127,7 +127,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createContactCustomFieldsDomain($contact)
 	{

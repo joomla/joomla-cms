@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Request item model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelRequest extends JModelAdmin
 {
@@ -24,7 +24,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function cleanCache($group = 'com_privacy', $client_id = 1)
 	{
@@ -39,7 +39,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -63,7 +63,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
@@ -76,7 +76,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  array  The default data is an empty array.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function loadFormData()
 	{
@@ -98,7 +98,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function logRequestCompleted($id)
 	{
@@ -141,7 +141,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function logRequestCreated($id)
 	{
@@ -184,7 +184,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function logRequestInvalidated($id)
 	{
@@ -230,7 +230,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function notifyUserAdminCreatedRequest($id)
 	{
@@ -384,7 +384,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @return  boolean  True on success, False on error.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function save($data)
 	{
@@ -413,7 +413,7 @@ class PrivacyModelRequest extends JModelAdmin
 	 *
 	 * @see     JFormRule
 	 * @see     JFilterInput
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function validate($form, $data, $group = null)
 	{

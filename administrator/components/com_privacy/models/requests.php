@@ -14,7 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 /**
  * Requests management model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelRequests extends JModelList
 {
@@ -23,7 +23,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct($config = array())
 	{
@@ -48,7 +48,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getListQuery()
 	{
@@ -119,7 +119,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -141,7 +141,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
@@ -173,7 +173,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getNumberUrgentRequests()
 	{
