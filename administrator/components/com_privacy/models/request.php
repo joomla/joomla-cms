@@ -254,9 +254,20 @@ class PrivacyModelRequest extends JModelAdmin
 
 		$lang = JFactory::getLanguage();
 
-		if ($table->user_id)
+		$db = $this->getDbo();
+
+		$userId = (int) $db->setQuery(
+			$db->getQuery(true)
+				->select('id')
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+			0,
+			1
+		)->loadResult();
+
+		if ($userId)
 		{
-			$receiver = JUser::getInstance($table->user_id);
+			$receiver = JUser::getInstance($userId);
 
 			/*
 			 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
@@ -310,7 +321,7 @@ class PrivacyModelRequest extends JModelAdmin
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
 			);
-			
+
 			switch ($table->request_type)
 			{
 				case 'export':
@@ -364,6 +375,31 @@ class PrivacyModelRequest extends JModelAdmin
 
 			return false;
 		}
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save($data)
+	{
+		$table = $this->getTable();
+		$key   = $table->getKeyName();
+		$pk    = !empty($data[$key]) ? $data[$key] : (int) $this->getState($this->getName() . '.id');
+
+		if (!$pk && !JFactory::getConfig()->get('mailonline', 1))
+		{
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
+
+			return false;
+		}
+
+		return parent::save($data);
 	}
 
 	/**

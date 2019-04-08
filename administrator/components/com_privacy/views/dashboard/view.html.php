@@ -49,6 +49,14 @@ class PrivacyViewDashboard extends JViewLegacy
 	protected $requestFormPublished;
 
 	/**
+	 * Flag indicating the site supports sending email
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $sendMailEnabled;
+
+	/**
 	 * The HTML markup for the sidebar
 	 *
 	 * @var    string
@@ -73,6 +81,7 @@ class PrivacyViewDashboard extends JViewLegacy
 		$this->privacyPolicyInfo    = $this->get('PrivacyPolicyInfo');
 		$this->requestCounts        = $this->get('RequestCounts');
 		$this->requestFormPublished = $this->get('RequestFormPublished');
+		$this->sendMailEnabled      = (bool) JFactory::getConfig()->get('mailonline', 1);
 
 		/** @var PrivacyModelRequests $requestsModel */
 		$requestsModel = $this->getModel('requests');

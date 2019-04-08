@@ -144,11 +144,14 @@ class PrivacyViewRequest extends JViewLegacy
 							'download'
 						);
 
-						JToolbarHelper::link(
-							JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
-							'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
-							'mail'
-						);
+						if (JFactory::getConfig()->get('mailonline', 1))
+						{
+							JToolbarHelper::link(
+								JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
+								'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
+								'mail'
+							);
+						}
 					}
 
 					if ($this->item->request_type === 'remove')

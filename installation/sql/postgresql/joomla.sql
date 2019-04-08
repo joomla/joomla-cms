@@ -1594,11 +1594,9 @@ CREATE TABLE "#__privacy_requests" (
   "confirm_token_created_at" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "user_id" bigint DEFAULT 0 NOT NULL,
   PRIMARY KEY ("id")
 );
-CREATE INDEX "#__fields_idx_checked_out" ON "#__privacy_requests" ("checked_out");
-CREATE INDEX "#__fields_idx_user_id" ON "#__privacy_requests" ("user_id");
+CREATE INDEX "#__privacy_requests_idx_checked_out" ON "#__privacy_requests" ("checked_out");
 
 --
 -- Table structure for table `#__privacy_consents`
@@ -1651,10 +1649,10 @@ CREATE TABLE IF NOT EXISTS "#__schemas" (
 --
 
 CREATE TABLE IF NOT EXISTS "#__session" (
-  "session_id" varchar(200) DEFAULT '' NOT NULL,
+  "session_id" bytea NOT NULL,
   "client_id" smallint DEFAULT NULL,
   "guest" smallint DEFAULT 1,
-  "time" varchar(14) DEFAULT '',
+  "time" integer DEFAULT 0 NOT NULL,
   "data" text,
   "userid" bigint DEFAULT 0,
   "username" varchar(150) DEFAULT '',
@@ -2074,7 +2072,7 @@ COMMENT ON COLUMN "#__user_usergroup_map"."group_id" IS 'Foreign Key to #__userg
 --
 CREATE TABLE "#__action_logs" (
   "id" serial NOT NULL,
-  `message_language_key` varchar(255) NOT NULL DEFAULT '',
+  "message_language_key" varchar(255) NOT NULL DEFAULT '',
   "message" text NOT NULL DEFAULT '',
   "log_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',

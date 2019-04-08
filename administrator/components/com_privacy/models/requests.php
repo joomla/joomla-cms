@@ -60,10 +60,6 @@ class PrivacyModelRequests extends JModelList
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__privacy_requests', 'a'));
 
-		// Join over the users for the username.
-		$query->select($db->quoteName('ua.username', 'username'));
-		$query->join('LEFT', $db->quoteName('#__users', 'ua') . ' ON ua.id = a.user_id');
-
 		// Join over the users for the checked out user.
 		$query->select($db->quoteName('uc.name', 'editor'));
 		$query->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON uc.id = a.checked_out');

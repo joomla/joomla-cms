@@ -148,6 +148,8 @@ class PlgUserTerms extends JPlugin
 	 * @param   string   $error   error message
 	 *
 	 * @return  boolean
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{

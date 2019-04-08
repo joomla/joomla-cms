@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
@@ -267,7 +268,21 @@ class PlgActionlogJoomla extends JPlugin
 			$messageLanguageKey = $defaultLanguageKey;
 		}
 
-		$items = ActionlogsHelper::getDataByPks($pks, $params->title_holder, $params->id_holder, $params->table_name);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array($params->title_holder, $params->id_holder)))
+			->from($db->quoteName($params->table_name))
+			->where($db->quoteName($params->id_holder) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
+		$db->setQuery($query);
+
+		try
+		{
+			$items = $db->loadObjectList($params->id_holder);
+		}
+		catch (RuntimeException $e)
+		{
+			$items = array();
+		}
 
 		$messages = array();
 

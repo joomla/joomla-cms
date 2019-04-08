@@ -129,37 +129,6 @@ class ActionlogsHelper
 	}
 
 	/**
-	 * Method to retrieve data by primary keys from a table
-	 *
-	 * @param   array   $pks      An array of primary key ids of the content that has changed state.
-	 * @param   string  $field    The field to get from the table
-	 * @param   string  $idField  The primary key of the table
-	 * @param   string  $table    The database table to get data from
-	 *
-	 * @return  array
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getDataByPks($pks, $field, $idField, $table)
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array($idField, $field)))
-			->from($db->quoteName($table))
-			->where($db->quoteName($idField) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
-		$db->setQuery($query);
-
-		try
-		{
-			return $db->loadObjectList($idField);
-		}
-		catch (RuntimeException $e)
-		{
-			return array();
-		}
-	}
-
-	/**
 	 * Get human readable log message for a User Action Log
 	 *
 	 * @param   stdClass  $log  A User Action log message record
