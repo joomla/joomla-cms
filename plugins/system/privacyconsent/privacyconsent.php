@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * An example custom privacyconsent plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgSystemPrivacyconsent extends JPlugin
 {
@@ -24,7 +24,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -32,7 +32,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -40,7 +40,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -50,7 +50,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An array that holds the plugin configuration
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -67,7 +67,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
@@ -118,7 +118,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  InvalidArgumentException on missing required data.
 	 */
 	public function onUserBeforeSave($user, $isNew, $data)
@@ -161,7 +161,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
@@ -228,7 +228,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{
@@ -267,7 +267,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onAfterRoute()
 	{
@@ -321,7 +321,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyCheckPrivacyPolicyPublished(&$policy)
 	{
@@ -347,7 +347,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  string  redirect message
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function getRedirectMessage()
 	{
@@ -368,7 +368,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function isUserConsented($userId)
 	{
@@ -388,7 +388,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function getPrivacyArticleId()
 	{
@@ -413,7 +413,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onAfterRender()
 	{
@@ -499,7 +499,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function remindExpiringConsents()
 	{
@@ -602,7 +602,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function invalidateExpiredConsents()
 	{
@@ -674,7 +674,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.9.0
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{

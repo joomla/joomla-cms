@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ use Joomla\CMS\Table\Table;
 /**
  * The article controller for ajax requests
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class AjaxController extends BaseController
 {
@@ -36,7 +36,7 @@ class AjaxController extends BaseController
 	 *
 	 * @return  null
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public function fetchAssociations()
 	{

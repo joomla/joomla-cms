@@ -17,7 +17,7 @@ use Joomla\CMS\Session\Session;
 /**
  * Privacy Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyController extends JControllerLegacy
 {
@@ -25,7 +25,7 @@ class PrivacyController extends JControllerLegacy
 	 * The default view.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $default_view = 'dashboard';
 
@@ -37,7 +37,7 @@ class PrivacyController extends JControllerLegacy
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -114,7 +114,7 @@ class PrivacyController extends JControllerLegacy
 	 *
 	 * @return void
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 3.9.0
 	 */
 	public function getNumberUrgentRequests()
 	{

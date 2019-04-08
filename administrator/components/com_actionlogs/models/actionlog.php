@@ -16,7 +16,7 @@ JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_act
 /**
  * Methods supporting a list of article records.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsModelActionlog extends JModelLegacy
 {
@@ -31,7 +31,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
@@ -91,7 +91,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function sendNotificationEmails($messages, $username, $context)
 	{
