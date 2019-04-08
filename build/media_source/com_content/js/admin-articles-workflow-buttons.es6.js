@@ -193,14 +193,14 @@ Joomla.toggleAllNextElements = (element, className) => {
     });
 
     function setOrRemDisabled(btn, set) {
+      var buttonText;
       if (set) {
         btn.classList.remove('disabled');
-        var buttonText=btn.parentElement.id.replace(/status-group-children-/g,'');
-        console.log(buttonText);
-        btn.parentElement.setAttribute("task", "articles."+buttonText);
+        buttonText=btn.parentElement.id.replace(/status-group-children-/g, '');
+        btn.parentElement.setAttribute('task', 'articles.' + buttonText);
       } else {
         btn.classList.add('disabled');
-        btn.parentElement.removeAttribute("task"); 
+        btn.parentElement.removeAttribute('task');
 
       }
     }
@@ -234,6 +234,18 @@ Joomla.toggleAllNextElements = (element, className) => {
             countChecked += 1;
           }
         });
+        const stateAfter = [publishBool, unpublishBool, archiveBool, trashBool];
+        const stateBefore = stateAfter.slice(0);
+        stateBefore.forEach((el, index) => {
+          if (!el) {
+            stateBefore.forEach((elBefore, indexBefore) => {
+              if (indexBefore !== index) {
+                stateAfter[indexBefore] = true;
+              }
+            });
+          }
+        });
+        [publishBool, unpublishBool, archiveBool, trashBool] = stateAfter;
         disableButtons();
         countChecked = 0;
       });
