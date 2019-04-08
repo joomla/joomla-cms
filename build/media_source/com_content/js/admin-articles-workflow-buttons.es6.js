@@ -195,8 +195,13 @@ Joomla.toggleAllNextElements = (element, className) => {
     function setOrRemDisabled(btn, set) {
       if (set) {
         btn.classList.remove('disabled');
+        var buttonText=btn.parentElement.id.replace(/status-group-children-/g,'');
+        console.log(buttonText);
+        btn.parentElement.setAttribute("task", "articles."+buttonText);
       } else {
         btn.classList.add('disabled');
+        btn.parentElement.removeAttribute("task"); 
+
       }
     }
 
