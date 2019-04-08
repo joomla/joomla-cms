@@ -1608,7 +1608,7 @@ CREATE TABLE "#__privacy_consents" (
   "user_id" bigint DEFAULT 0 NOT NULL,
   "state" smallint DEFAULT 1 NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "subjext" varchar(255) DEFAULT '' NOT NULL,
+  "subject" varchar(255) DEFAULT '' NOT NULL,
   "body" text NOT NULL,
   "remind" smallint DEFAULT 0 NOT NULL,
   "token" varchar(100) DEFAULT '' NOT NULL,
@@ -2156,7 +2156,7 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__action_log_config_id_seq', 18, false);
+SELECT setval('#__action_log_config_id_seq', 20, false);
 
 --
 -- Table structure for table `#__viewlevels`

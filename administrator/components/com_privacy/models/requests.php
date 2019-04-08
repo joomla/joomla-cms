@@ -188,7 +188,7 @@ class PrivacyModelRequests extends JModelList
 			->select('COUNT(*)');
 		$query->from($db->quoteName('#__privacy_requests'));
 		$query->where($db->quoteName('status') . ' = 1 ');
-		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
+		$query->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
 		$db->setQuery($query);
 
 		return (int) $db->loadResult();

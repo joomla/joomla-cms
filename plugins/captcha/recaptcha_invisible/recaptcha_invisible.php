@@ -27,6 +27,24 @@ class PlgCaptchaRecaptcha_Invisible extends \JPlugin
 	protected $autoloadLanguage = true;
 
 	/**
+	 * Reports the privacy related capabilities for this plugin to site administrators.
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public function onPrivacyCollectAdminCapabilities()
+	{
+		$this->loadLanguage();
+
+		return array(
+			JText::_('PLG_CAPTCHA_RECAPTCHA_INVISIBLE') => array(
+				JText::_('PLG_RECAPTCHA_INVISIBLE_PRIVACY_CAPABILITY_IP_ADDRESS'),
+			)
+		);
+	}
+
+	/**
 	 * Initialise the captcha
 	 *
 	 * @param   string  $id  The id of the field.

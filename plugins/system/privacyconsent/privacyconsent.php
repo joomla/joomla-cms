@@ -212,6 +212,24 @@ class PlgSystemPrivacyconsent extends JPlugin
 			{
 				// Do nothing if the save fails
 			}
+
+			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+			$message = array(
+				'action'      => 'consent',
+				'id'          => $userId,
+				'title'       => $data['name'],
+				'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+				'userid'      => $userId,
+				'username'    => $data['username'],
+				'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			);
+
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+			/* @var ActionlogsModelActionlog $model */
+			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+			$model->addLog(array($message), 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
 
 		return true;
@@ -376,6 +394,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$query->select('COUNT(*)')
 			->from('#__privacy_consents')
 			->where('user_id = ' . (int) $userId)
+			->where('subject = ' . $this->db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where('state = 1');
 		$this->db->setQuery($query);
 
@@ -514,8 +533,9 @@ class PlgSystemPrivacyconsent extends JPlugin
 			->select($db->quoteName(array('r.id', 'r.user_id', 'u.email')))
 			->from($db->quoteName('#__privacy_consents', 'r'))
 			->leftJoin($db->quoteName('#__users', 'u') . ' ON u.id = r.user_id')
+			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('remind') . ' = 0');
-		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'));
+		$query->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'));
 
 		try
 		{
@@ -576,7 +596,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 					->update($db->quoteName('#__privacy_consents'))
 					->set($db->quoteName('remind') . ' = 1 ')
 					->set($db->quoteName('token') . ' = ' . $db->quote($hashedToken))
-					->where($db->quoteName('id') . ' = ' . $db->quote($user->id));
+					->where($db->quoteName('id') . ' = ' . (int) $user->id);
 				$db->setQuery($query);
 
 				try
@@ -587,8 +607,6 @@ class PlgSystemPrivacyconsent extends JPlugin
 				{
 					return false;
 				}
-
-				return true;
 			}
 			catch (phpmailerException $exception)
 			{
@@ -615,8 +633,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$query = $db->getQuery(true);
 		$query->select($db->quoteName(array('id', 'user_id')))
 			->from($db->quoteName('#__privacy_consents'))
-			->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'))
-			->where($db->quoteName('subject') . ' = ' . $query->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
+			->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($db->quoteName('subject') . ' = ' . $db->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
 			->where($db->quoteName('state') . ' = 1');
 		$db->setQuery($query);
 
@@ -646,7 +664,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			$query = $db->getQuery(true)
 				->update($db->quoteName('#__privacy_consents'))
 				->set('state = 0')
-				->where($db->quoteName('id') . ' = ' . $user->id);
+				->where($db->quoteName('id') . ' = ' . (int) $user->id);
 			$db->setQuery($query);
 
 			try
