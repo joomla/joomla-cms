@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Routing class from com_privacy
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyRouter extends JComponentRouterView
 {
@@ -22,7 +22,7 @@ class PrivacyRouter extends JComponentRouterView
 	 * @param   JApplicationCms  $app   The application object
 	 * @param   JMenu            $menu  The menu object to work with
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct($app = null, $menu = null)
 	{
@@ -48,7 +48,7 @@ class PrivacyRouter extends JComponentRouterView
  *
  * @return  array  Segments of the SEF url
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.9.0
  * @deprecated  4.0  Use Class based routers instead
  */
 function privacyBuildRoute(&$query)
@@ -66,7 +66,7 @@ function privacyBuildRoute(&$query)
  *
  * @return  array  Query variables
  *
- * @since   __DEPLOY_VERSION__
+ * @since   3.9.0
  * @deprecated  4.0  Use Class based routers instead
  */
 function privacyParseRoute($segments)

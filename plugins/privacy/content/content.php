@@ -17,7 +17,7 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
 /**
  * Privacy plugin managing Joomla user content data
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgPrivacyContent extends PrivacyPlugin
 {
@@ -25,7 +25,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -33,7 +33,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 * Affects constructor behaviour. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -41,7 +41,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 * Contents array
 	 *
 	 * @var    Array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $contents = array();
 
@@ -53,21 +53,18 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 * - Content custom fields
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request)
+	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
-		if (!$request->user_id)
+		if (!$user)
 		{
 			return array();
 		}
-
-		/** @var JTableUser $user */
-		$user = JUser::getTable();
-		$user->load($request->user_id);
 
 		$domains   = array();
 		$domains[] = $this->createContentDomain($user);
@@ -76,27 +73,27 @@ class PlgPrivacyContent extends PrivacyPlugin
 		{
 			$domains[] = $this->createContentCustomFieldsDomain($content);
 		}
-	
+
 		return $domains;
 	}
 
 	/**
 	 * Create the domain for the user content data
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   JUser  $user  The user account associated with this request
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	private function createContentDomain(JTableUser $user)
+	private function createContentDomain(JUser $user)
 	{
 		$domain = $this->createDomain('user content', 'Joomla! user content data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')
 			->from($this->db->quoteName('#__content'))
-			->where($this->db->quoteName('created_by') . ' = ' . $this->db->quote($user->id))
+			->where($this->db->quoteName('created_by') . ' = ' . (int) $user->id)
 			->order($this->db->quoteName('ordering') . ' ASC');
 
 		$items = $this->db->setQuery($query)->loadAssocList();
@@ -117,7 +114,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createContentCustomFieldsDomain($content)
 	{

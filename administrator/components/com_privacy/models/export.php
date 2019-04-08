@@ -14,7 +14,7 @@ JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privac
 /**
  * Export model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelExport extends JModelLegacy
 {
@@ -25,7 +25,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  PrivacyExportDomain[]|boolean  A SimpleXMLElement object for a successful export or boolean false on an error
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function collectDataForExportRequest($id = null)
 	{
@@ -62,12 +62,26 @@ class PrivacyModelExport extends JModelLegacy
 			return false;
 		}
 
+		// If there is a user account associated with the email address, load it here for use in the plugins
+		$db = $this->getDbo();
+
+		$userId = (int) $db->setQuery(
+			$db->getQuery(true)
+				->select('id')
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+			0,
+			1
+		)->loadResult();
+
+		$user = $userId ? JUser::getInstance($userId) : null;
+
 		// Log the export
 		$this->logExport($table);
 
 		JPluginHelper::importPlugin('privacy');
 
-		$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyExportRequest', array($table));
+		$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyExportRequest', array($table, $user));
 
 		$domains = array();
 
@@ -86,7 +100,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function emailDataExport($id = null)
 	{
@@ -144,9 +158,20 @@ class PrivacyModelExport extends JModelLegacy
 
 		$lang = JFactory::getLanguage();
 
-		if ($table->user_id)
+		$db = $this->getDbo();
+
+		$userId = (int) $db->setQuery(
+			$db->getQuery(true)
+				->select('id')
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+			0,
+			1
+		)->loadResult();
+
+		if ($userId)
 		{
-			$receiver = JUser::getInstance($table->user_id);
+			$receiver = JUser::getInstance($userId);
 
 			/*
 			 * We don't know if the user has admin access, so we will check if they have an admin language in their parameters,
@@ -231,7 +256,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
@@ -246,7 +271,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function logExport(PrivacyTableRequest $request)
 	{
@@ -275,7 +300,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function logExportEmailed(PrivacyTableRequest $request)
 	{
@@ -302,7 +327,7 @@ class PrivacyModelExport extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState()
 	{

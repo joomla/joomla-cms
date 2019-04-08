@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php
 /**
  * Actionlogs list controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsControllerActionlogs extends JControllerAdmin
 {
@@ -26,7 +26,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(array $config = array())
 	{
@@ -44,7 +44,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getModel($name = 'Actionlogs', $prefix = 'ActionlogsModel', $config = array('ignore_request' => true))
 	{
@@ -57,7 +57,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function exportLogs()
 	{
@@ -105,7 +105,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function purge()
 	{

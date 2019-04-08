@@ -360,7 +360,7 @@ class UpdateModel extends BaseDatabaseModel
 	 * @note    This method has been forked from (JInstallerHelper::isChecksumValid) so it
 	 *          does not depend on an up-to-date InstallerHelper at the update time
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function isChecksumValid($packagefile, $updateObject)
 	{

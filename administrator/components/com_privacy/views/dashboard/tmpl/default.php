@@ -140,6 +140,29 @@ $activeRequests = 0;
 							<?php endif; ?>
 						</div>
 					</div>
+					<div class="row-fluid">
+						<div class="span3">
+							<?php if ($this->sendMailEnabled) : ?>
+							<span class="label label-success">
+								<span class="icon-checkbox" aria-hidden="true"></span>
+								<?php echo JText::_('JENABLED'); ?>
+							</span>
+							<?php else : ?>
+							<span class="label label-important">
+								<span class="icon-warning" aria-hidden="true"></span>
+								<?php echo JText::_('JDISABLED'); ?>
+							</span>
+							<?php endif; ?>
+						</div>
+						<div class="span9">
+							<?php if (!$this->sendMailEnabled) : ?>
+								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_SENDMAIL_DISABLED'); ?></div>
+								<small><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_SENDMAIL_DISABLED_DESCRIPTION'); ?></small>
+							<?php else : ?>
+								<div><?php echo JText::_('COM_PRIVACY_STATUS_CHECK_SENDMAIL_ENABLED'); ?></div>
+							<?php endif; ?>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

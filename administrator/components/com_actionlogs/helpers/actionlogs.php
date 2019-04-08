@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Actionlogs component helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsHelper
 {
@@ -27,7 +27,7 @@ class ActionlogsHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getCsvData($data)
 	{
@@ -61,7 +61,7 @@ class ActionlogsHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function loadTranslationFiles($extension)
 	{
@@ -113,7 +113,7 @@ class ActionlogsHelper
 	 *
 	 * @return  mixed  An object contains content type parameters, or null if not found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getLogContentTypeParams($context)
 	{
@@ -129,44 +129,13 @@ class ActionlogsHelper
 	}
 
 	/**
-	 * Method to retrieve data by primary keys from a table
-	 *
-	 * @param   array   $pks      An array of primary key ids of the content that has changed state.
-	 * @param   string  $field    The field to get from the table
-	 * @param   string  $idField  The primary key of the table
-	 * @param   string  $table    The database table to get data from
-	 *
-	 * @return  array
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getDataByPks($pks, $field, $idField, $table)
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array($idField, $field)))
-			->from($db->quoteName($table))
-			->where($db->quoteName($idField) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
-		$db->setQuery($query);
-
-		try
-		{
-			return $db->loadObjectList($idField);
-		}
-		catch (RuntimeException $e)
-		{
-			return array();
-		}
-	}
-
-	/**
 	 * Get human readable log message for a User Action Log
 	 *
 	 * @param   stdClass  $log  A User Action log message record
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getHumanReadableLogMessage($log)
 	{
@@ -206,7 +175,7 @@ class ActionlogsHelper
 	 *
 	 * @return  string  Link to the content item
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
 	{
@@ -243,7 +212,7 @@ class ActionlogsHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function loadActionLogPluginsLanguage()
 	{
