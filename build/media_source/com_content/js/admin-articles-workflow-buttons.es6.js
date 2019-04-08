@@ -193,11 +193,11 @@ Joomla.toggleAllNextElements = (element, className) => {
     });
 
     function setOrRemDisabled(btn, set) {
-      var buttonText;
+      let buttonText;
       if (set) {
         btn.classList.remove('disabled');
-        buttonText=btn.parentElement.id.replace(/status-group-children-/g, '');
-        btn.parentElement.setAttribute('task', 'articles.' + buttonText);
+        buttonText=btn.parentElement.id.replace( /status-group-children-/g , '');
+        btn.parentElement.setAttribute('task', `articles.${buttonText}`);
       } else {
         btn.classList.add('disabled');
         btn.parentElement.removeAttribute('task');
