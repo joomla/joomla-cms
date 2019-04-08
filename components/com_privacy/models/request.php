@@ -27,6 +27,14 @@ class PrivacyModelRequest extends JModelAdmin
 	 */
 	public function createRequest($data)
 	{
+		// Creating requests requires the site's email sending be enabled
+		if (!JFactory::getConfig()->get('mailonline', 1))
+		{
+			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
+
+			return false;
+		}
+
 		// Get the form.
 		$form = $this->getForm();
 		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
@@ -59,14 +67,6 @@ class PrivacyModelRequest extends JModelAdmin
 			return false;
 		}
 
-		// Is the user authenticated? Add the user ID to the data
-		$user = JFactory::getUser();
-
-		if (!$user->guest)
-		{
-			$data['user_id'] = $user->id;
-		}
-
 		// Search for an open information request matching the email and type
 		$db = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -75,11 +75,6 @@ class PrivacyModelRequest extends JModelAdmin
 			->where('email = ' . $db->quote($data['email']))
 			->where('request_type = ' . $db->quote($data['request_type']))
 			->where('status IN (0, 1)');
-
-		if (!$user->guest)
-		{
-			$query->where('user_id = ' . (int) $user->id);
-		}
 
 		try
 		{
@@ -207,22 +202,9 @@ class PrivacyModelRequest extends JModelAdmin
 				'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
 			);
 
-			$messageKey = 'COM_PRIVACY_ACTION_LOG_ANONYMOUS_CREATED_REQUEST';
-			$userId     = null;
-
-			if (!$user->guest)
-			{
-				$messageKey = 'COM_PRIVACY_ACTION_LOG_USER_CREATED_REQUEST';
-				$userId     = $user->id;
-
-				$message['userid']      = $user->id;
-				$message['username']    = $user->username;
-				$message['accountlink'] = 'index.php?option=com_users&task=user.edit&id=' . $user->id;
-			}
-
 			/** @var ActionlogsModelActionlog $model */
 			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-			$model->addLog(array($message), $messageKey, 'com_privacy.request', $userId);
+			$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_CREATED_REQUEST', 'com_privacy.request');
 
 			// The email sent and the record is saved, everything is good to go from here
 			return true;

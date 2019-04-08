@@ -364,7 +364,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Method to check if the given user has consented yet
 	 *
-	 * @param   int  $userId  ID of uer to check
+	 * @param   integer  $userId  ID of uer to check
 	 *
 	 * @return  boolean
 	 *
@@ -386,6 +386,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * current language, ID of the associlated article will be returned
 	 *
 	 * @return  integer
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getPrivacyArticleId()
 	{

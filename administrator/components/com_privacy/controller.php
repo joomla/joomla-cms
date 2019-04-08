@@ -65,19 +65,34 @@ class PrivacyController extends JControllerLegacy
 				$view->setModel($requestsModel, false);
 			}
 
-			// For the request view, we need to also push the action logs model into the view
 			if ($vName === 'request')
 			{
-				JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
-				JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+				// For the default layout, we need to also push the action logs model into the view
+				if ($lName === 'default')
+				{
+					JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+					JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
-				$logsModel = $this->getModel('Actionlogs', 'ActionlogsModel');
+					$logsModel = $this->getModel('Actionlogs', 'ActionlogsModel');
 
-				// Set default ordering for the context
-				$logsModel->setState('list.fullordering', 'a.log_date DESC');
+					// Set default ordering for the context
+					$logsModel->setState('list.fullordering', 'a.log_date DESC');
 
-				// And push the model into the view
-				$view->setModel($logsModel, false);
+					// And push the model into the view
+					$view->setModel($logsModel, false);
+				}
+
+				// For the edit layout, if mail sending is disabled then redirect back to the list view as the form is unusable in this state
+				if ($lName === 'edit' && !JFactory::getConfig()->get('mailonline', 1))
+				{
+					$this->setRedirect(
+						JRoute::_('index.php?option=com_privacy&view=requests', false),
+						JText::_('COM_PRIVACY_WARNING_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'),
+						'warning'
+					);
+
+					return $this;
+				}
 			}
 
 			$view->setLayout($lName);

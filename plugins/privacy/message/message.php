@@ -43,46 +43,43 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 * This event will collect data for the message table
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request)
+	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
-		if (!$request->user_id)
+		if (!$user)
 		{
 			return array();
 		}
 
-		/** @var JTableUser $user */
-		$user = JUser::getTable();
-		$user->load($request->user_id);
-
 		$domains   = array();
 		$domains[] = $this->createMessageDomain($user);
-	
+
 		return $domains;
 	}
 
 	/**
 	 * Create the domain for the user message data
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   JUser  $user  The user account associated with this request
 	 *
 	 * @return  PrivacyExportDomain
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function createMessageDomain(JTableUser $user)
+	private function createMessageDomain(JUser $user)
 	{
 		$domain = $this->createDomain('user message', 'Joomla! user message data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')
 			->from($this->db->quoteName('#__messages'))
-			->where($this->db->quoteName('user_id_from') . ' = ' . $this->db->quote($user->id))
-			->orWhere($this->db->quoteName('user_id_to') . ' = ' . $this->db->quote($user->id))
+			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user->id)
+			->orWhere($this->db->quoteName('user_id_to') . ' = ' . (int) $user->id)
 			->order($this->db->quoteName('date_time') . ' ASC');
 
 		$items = $this->db->setQuery($query)->loadAssocList();

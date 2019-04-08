@@ -42,14 +42,15 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 	 * Processes an export request for Joomla core actionlog data
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request)
+	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
-		if (!$request->user_id)
+		if (!$user)
 		{
 			return array();
 		}
@@ -60,7 +61,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			->select('a.*, u.name')
 			->from('#__action_logs AS a')
 			->innerJoin('#__users AS u ON a.user_id = u.id')
-			->where($this->db->quoteName('a.user_id') . ' = ' . $request->user_id);
+			->where($this->db->quoteName('a.user_id') . ' = ' . $user->id);
 
 		$this->db->setQuery($query);
 

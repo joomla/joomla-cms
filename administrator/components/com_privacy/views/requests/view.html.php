@@ -51,6 +51,14 @@ class PrivacyViewRequests extends JViewLegacy
 	protected $pagination;
 
 	/**
+	 * Flag indicating the site supports sending email
+	 *
+	 * @var    boolean
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $sendMailEnabled;
+
+	/**
 	 * The HTML markup for the sidebar
 	 *
 	 * @var    string
@@ -94,6 +102,7 @@ class PrivacyViewRequests extends JViewLegacy
 		$this->filterForm       = $this->get('FilterForm');
 		$this->activeFilters    = $this->get('ActiveFilters');
 		$this->urgentRequestAge = (int) JComponentHelper::getParams('com_privacy')->get('notify', 14);
+		$this->sendMailEnabled  = (bool) JFactory::getConfig()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -119,7 +128,11 @@ class PrivacyViewRequests extends JViewLegacy
 	{
 		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
 
-		JToolbarHelper::addNew('request.add');
+		// Requests can only be created if mail sending is enabled
+		if (JFactory::getConfig()->get('mailonline', 1))
+		{
+			JToolbarHelper::addNew('request.add');
+		}
 
 		JToolbarHelper::preferences('com_privacy');
 		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUESTS');

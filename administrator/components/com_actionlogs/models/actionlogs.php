@@ -111,7 +111,7 @@ class ActionlogsModelActionlogs extends JModelList
 		// Apply filter by extension
 		if (!empty($extension))
 		{
-			$query->where($db->quoteName('a.extension') . ' = ' . $db->quote($extension));
+			$query->where($db->quoteName('a.extension') . ' LIKE ' . $db->quote($extension . '%'));
 		}
 
 		// Get filter by date range
