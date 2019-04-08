@@ -14,7 +14,7 @@ use Joomla\CMS\Component\ComponentHelper;
 /**
  * Requests management model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelRequests extends JModelList
 {
@@ -23,7 +23,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct($config = array())
 	{
@@ -48,7 +48,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getListQuery()
 	{
@@ -59,10 +59,6 @@ class PrivacyModelRequests extends JModelList
 		// Select the required fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__privacy_requests', 'a'));
-
-		// Join over the users for the username.
-		$query->select($db->quoteName('ua.username', 'username'));
-		$query->join('LEFT', $db->quoteName('#__users', 'ua') . ' ON ua.id = a.user_id');
 
 		// Join over the users for the checked out user.
 		$query->select($db->quoteName('uc.name', 'editor'));
@@ -123,7 +119,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -145,7 +141,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
@@ -177,7 +173,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getNumberUrgentRequests()
 	{

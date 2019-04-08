@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ jimport('joomla.filesystem.folder');
  * Form Field to display a list of the layouts for a field from
  * the extension or template overrides.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JFormFieldFieldlayout extends JFormField
 {
@@ -23,7 +23,7 @@ class JFormFieldFieldlayout extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $type = 'FieldLayout';
 
@@ -32,7 +32,7 @@ class JFormFieldFieldlayout extends JFormField
 	 *
 	 * @return  string   The field input.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getInput()
 	{
