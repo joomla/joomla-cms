@@ -199,7 +199,7 @@ $this->addStyleDeclaration($css);
 					<div class="main-brand d-flex align-items-center justify-content-center">
 						<img src="<?php echo $loginLogo; ?>" alt="">
 					</div>
-					<h1><?php echo Text::_('TPL_ATUM_LOGIN_HEADING'); ?></h1>
+					<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
 					<jdoc:include type="message"/>
 					<jdoc:include type="component"/>
 				</div>
