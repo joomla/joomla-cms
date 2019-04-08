@@ -2156,7 +2156,7 @@ INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder
 (19, 'application_config', 'com_config.application', '', 'name', '', 'PLG_ACTIONLOG_JOOMLA');
 
 
-SELECT setval('#__action_log_config_id_seq', 18, false);
+SELECT setval('#__action_log_config_id_seq', 20, false);
 
 --
 -- Table structure for table `#__viewlevels`

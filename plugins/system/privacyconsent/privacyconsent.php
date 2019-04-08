@@ -212,6 +212,24 @@ class PlgSystemPrivacyconsent extends JPlugin
 			{
 				// Do nothing if the save fails
 			}
+
+			$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+			$message = array(
+				'action'      => 'consent',
+				'id'          => $userId,
+				'title'       => $data['name'],
+				'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+				'userid'      => $userId,
+				'username'    => $data['username'],
+				'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			);
+
+			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+			/* @var ActionlogsModelActionlog $model */
+			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+			$model->addLog(array($message), 'PLG_SYSTEM_PRIVACYCONSENT_CONSENT', 'plg_system_privacyconsent', $userId);
 		}
 
 		return true;

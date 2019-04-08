@@ -62,7 +62,7 @@ class OverridesModel extends ListModel
 			return $this->cache[$store];
 		}
 
-		$client = in_array($this->state->get('filter.client'), array(0, 'site')) ? 'SITE' : 'ADMINISTRATOR';
+		$client = strtoupper($this->getState('filter.client'));
 
 		// Parse the override.ini file in order to get the keys and strings.
 		$fileName = constant('JPATH_' . $client) . '/language/overrides/' . $this->getState('filter.language') . '.override.ini';
@@ -159,39 +159,29 @@ class OverridesModel extends ListModel
 	 */
 	protected function populateState($ordering = 'key', $direction = 'asc')
 	{
+		// We call populate state first so that we can then set the filter.client and filter.language properties in afterwards
+		parent::populateState($ordering, $direction);
+
 		$app = Factory::getApplication();
 
-		// Use default language of frontend for default filter.
-		$default = ComponentHelper::getParams('com_languages')->get('site') . '0';
-
-		$old_language_client = $app->getUserState('com_languages.overrides.filter.language_client', '');
-		$language_client     = $this->getUserStateFromRequest('com_languages.overrides.filter.language_client', 'filter_language_client', $default, 'cmd');
-
-		if ($old_language_client != $language_client)
-		{
-			$client   = substr($language_client, -1);
-			$language = substr($language_client, 0, -1);
-		}
-		else
-		{
-			$client   = $app->getUserState('com_languages.overrides.filter.client', 0);
-			$language = $app->getUserState('com_languages.overrides.filter.language', 'en-GB');
-		}
+		$language_client = $this->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client', '', 'cmd');
+		$client          = substr($language_client, -1);
+		$language        = substr($language_client, 0, -1);
 
 		// Sets the search filter.
 		$search = $this->getUserStateFromRequest($this->context . '.filter.search', 'filter_search');
 		$this->setState('filter.search', $search);
 
-		$this->setState('filter.language_client', $language . $client);
+		$this->setState('language_client', $language . $client);
 		$this->setState('filter.client', $client ? 'administrator' : 'site');
 		$this->setState('filter.language', $language);
+
+		// Add the 'language_client' value to the session to display a message if none selected
+		$app->setUserState('com_languages.overrides.language_client', $language . $client);
 
 		// Add filters to the session because they won't be stored there by 'getUserStateFromRequest' if they aren't in the current request.
 		$app->setUserState('com_languages.overrides.filter.client', $client);
 		$app->setUserState('com_languages.overrides.filter.language', $language);
-
-		// List state information
-		parent::populateState($ordering, $direction);
 	}
 
 	/**
