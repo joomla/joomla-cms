@@ -626,7 +626,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  \stdClass  The Module object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function &getModuleById($id)
 	{

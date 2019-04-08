@@ -437,7 +437,7 @@ class LanguageHelper
 			return array();
 		}
 
-		// @deprecated __DEPLOY_VERSION__ Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
+		// @deprecated 3.9.0 Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
 		if (!defined('_QQ_'))
 		{
 			define('_QQ_', '"');

@@ -60,7 +60,7 @@ Joomla = window.Joomla || {};
    *
    * @return  boolean
    *
-   * @since   __DEPLOY_VERSION__
+   * @since   3.9.0
    */
   Joomla.injectAssociations = (result, callbackFunctionPrefix) => {
     let functionName;
@@ -104,7 +104,7 @@ Joomla = window.Joomla || {};
    *
    * @return  boolean
    *
-   * @since   __DEPLOY_VERSION__
+   * @since   3.9.0
    */
   Joomla.propagateAssociation = (fieldPrefix, callbackFunctionPrefix) => {
     // Find the id of the record which has been set as an association

@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * An example custom privacyconsent plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgSystemPrivacyconsent extends JPlugin
 {
@@ -24,7 +24,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -32,7 +32,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -40,7 +40,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -50,7 +50,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An array that holds the plugin configuration
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -67,7 +67,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
@@ -118,7 +118,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  InvalidArgumentException on missing required data.
 	 */
 	public function onUserBeforeSave($user, $isNew, $data)
@@ -161,7 +161,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterSave($data, $isNew, $result, $error)
 	{
@@ -199,7 +199,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			// Create the user note
 			$userNote = (object) array(
 				'user_id' => $userId,
-				'subject' => Text::_('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'),
+				'subject' => 'PLG_SYSTEM_PRIVACYCONSENT_SUBJECT',
 				'body'    => Text::sprintf('PLG_SYSTEM_PRIVACYCONSENT_BODY', $ip, $userAgent),
 				'created' => Factory::getDate()->toSql(),
 			);
@@ -228,7 +228,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{
@@ -267,7 +267,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onAfterRoute()
 	{
@@ -321,7 +321,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onPrivacyCheckPrivacyPolicyPublished(&$policy)
 	{
@@ -347,7 +347,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  string  redirect message
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function getRedirectMessage()
 	{
@@ -364,18 +364,19 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Method to check if the given user has consented yet
 	 *
-	 * @param   int  $userId  ID of uer to check
+	 * @param   integer  $userId  ID of uer to check
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function isUserConsented($userId)
 	{
 		$query = $this->db->getQuery(true);
 		$query->select('COUNT(*)')
 			->from('#__privacy_consents')
-			->where('user_id = ' . (int) $userId);
+			->where('user_id = ' . (int) $userId)
+			->where('state = 1');
 		$this->db->setQuery($query);
 
 		return (int) $this->db->loadResult() > 0;
@@ -386,6 +387,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 * current language, ID of the associlated article will be returned
 	 *
 	 * @return  integer
+	 *
+	 * @since   3.9.0
 	 */
 	private function getPrivacyArticleId()
 	{
@@ -410,7 +413,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onAfterRender()
 	{
@@ -484,7 +487,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 		}
 
 		// Delete the expired privacy consents
-		$this->deleteExpiredConsents();
+		$this->invalidateExpiredConsents();
 
 		// Remind for privacy consents near to expire
 		$this->remindExpiringConsents();
@@ -496,7 +499,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function remindExpiringConsents()
 	{
@@ -599,9 +602,9 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	private function deleteExpiredConsents()
+	private function invalidateExpiredConsents()
 	{
 		// Load the parameters.
 		$expire = (int) $this->params->get('consentexpiration', 365);
@@ -609,10 +612,12 @@ class PlgSystemPrivacyconsent extends JPlugin
 		$period = '-' . $expire;
 
 		$db    = $this->db;
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'user_id')))
-			->from($db->quoteName('#__privacy_consents'));
-		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'));
+		$query = $db->getQuery(true);
+		$query->select($db->quoteName(array('id', 'user_id')))
+			->from($db->quoteName('#__privacy_consents'))
+			->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('created'))
+			->where($db->quoteName('subject') . ' = ' . $query->quote('PLG_SYSTEM_PRIVACYCONSENT_SUBJECT'))
+			->where($db->quoteName('state') . ' = 1');
 		$db->setQuery($query);
 
 		try
@@ -639,8 +644,9 @@ class PlgSystemPrivacyconsent extends JPlugin
 		foreach ($users as $user)
 		{
 			$query = $db->getQuery(true)
-				->delete($db->quoteName('#__privacy_consents'));
-			$query->where($db->quoteName('id') . ' = ' . $user->id);
+				->update($db->quoteName('#__privacy_consents'))
+				->set('state = 0')
+				->where($db->quoteName('id') . ' = ' . $user->id);
 			$db->setQuery($query);
 
 			try
@@ -668,7 +674,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since    __DEPLOY_VERSION__
+	 * @since    3.9.0
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{
