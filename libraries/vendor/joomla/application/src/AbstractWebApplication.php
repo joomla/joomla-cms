@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Application Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -37,6 +37,14 @@ abstract class AbstractWebApplication extends AbstractApplication
 	public $mimeType = 'text/html';
 
 	/**
+	 * HTTP protocol version.
+	 *
+	 * @var    string
+	 * @since  1.9.0
+	 */
+	public $httpVersion = '1.1';
+
+	/**
 	 * The body modified date for response headers.
 	 *
 	 * @var    \DateTime
@@ -69,74 +77,74 @@ abstract class AbstractWebApplication extends AbstractApplication
 	private $session;
 
 	/**
-	 * A map of integer HTTP 1.1 response codes to the full HTTP Status for the headers.
+	 * A map of integer HTTP response codes to the full HTTP Status for the headers.
 	 *
 	 * @var    array
 	 * @since  1.6.0
 	 * @link   https://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
 	 */
 	private $responseMap = array(
-		100 => 'HTTP/1.1 100 Continue',
-		101 => 'HTTP/1.1 101 Switching Protocols',
-		102 => 'HTTP/1.1 102 Processing',
-		200 => 'HTTP/1.1 200 OK',
-		201 => 'HTTP/1.1 201 Created',
-		202 => 'HTTP/1.1 202 Accepted',
-		203 => 'HTTP/1.1 203 Non-Authoritative Information',
-		204 => 'HTTP/1.1 204 No Content',
-		205 => 'HTTP/1.1 205 Reset Content',
-		206 => 'HTTP/1.1 206 Partial Content',
-		207 => 'HTTP/1.1 207 Multi-Status',
-		208 => 'HTTP/1.1 208 Already Reported',
-		226 => 'HTTP/1.1 226 IM Used',
-		300 => 'HTTP/1.1 300 Multiple Choices',
-		301 => 'HTTP/1.1 301 Moved Permanently',
-		302 => 'HTTP/1.1 302 Found',
-		303 => 'HTTP/1.1 303 See other',
-		304 => 'HTTP/1.1 304 Not Modified',
-		305 => 'HTTP/1.1 305 Use Proxy',
-		306 => 'HTTP/1.1 306 (Unused)',
-		307 => 'HTTP/1.1 307 Temporary Redirect',
-		308 => 'HTTP/1.1 308 Permanent Redirect',
-		400 => 'HTTP/1.1 400 Bad Request',
-		401 => 'HTTP/1.1 401 Unauthorized',
-		402 => 'HTTP/1.1 402 Payment Required',
-		403 => 'HTTP/1.1 403 Forbidden',
-		404 => 'HTTP/1.1 404 Not Found',
-		405 => 'HTTP/1.1 405 Method Not Allowed',
-		406 => 'HTTP/1.1 406 Not Acceptable',
-		407 => 'HTTP/1.1 407 Proxy Authentication Required',
-		408 => 'HTTP/1.1 408 Request Timeout',
-		409 => 'HTTP/1.1 409 Conflict',
-		410 => 'HTTP/1.1 410 Gone',
-		411 => 'HTTP/1.1 411 Length Required',
-		412 => 'HTTP/1.1 412 Precondition Failed',
-		413 => 'HTTP/1.1 413 Payload Too Large',
-		414 => 'HTTP/1.1 414 URI Too Long',
-		415 => 'HTTP/1.1 415 Unsupported Media Type',
-		416 => 'HTTP/1.1 416 Range Not Satisfiable',
-		417 => 'HTTP/1.1 417 Expectation Failed',
-		418 => 'HTTP/1.1 418 I\'m a teapot',
-		421 => 'HTTP/1.1 421 Misdirected Request',
-		422 => 'HTTP/1.1 422 Unprocessable Entity',
-		423 => 'HTTP/1.1 423 Locked',
-		424 => 'HTTP/1.1 424 Failed Dependency',
-		426 => 'HTTP/1.1 426 Upgrade Required',
-		428 => 'HTTP/1.1 428 Precondition Required',
-		429 => 'HTTP/1.1 429 Too Many Requests',
-		431 => 'HTTP/1.1 431 Request Header Fields Too Large',
-		451 => 'HTTP/1.1 451 Unavailable For Legal Reasons',
-		500 => 'HTTP/1.1 500 Internal Server Error',
-		501 => 'HTTP/1.1 501 Not Implemented',
-		502 => 'HTTP/1.1 502 Bad Gateway',
-		503 => 'HTTP/1.1 503 Service Unavailable',
-		504 => 'HTTP/1.1 504 Gateway Timeout',
-		505 => 'HTTP/1.1 505 HTTP Version Not Supported',
-		506 => 'HTTP/1.1 506 Variant Also Negotiates',
-		507 => 'HTTP/1.1 507 Insufficient Storage',
-		508 => 'HTTP/1.1 508 Loop Detected',
-		510 => 'HTTP/1.1 510 Not Extended',
-		511 => 'HTTP/1.1 511 Network Authentication Required',
+		100 => 'HTTP/{version} 100 Continue',
+		101 => 'HTTP/{version} 101 Switching Protocols',
+		102 => 'HTTP/{version} 102 Processing',
+		200 => 'HTTP/{version} 200 OK',
+		201 => 'HTTP/{version} 201 Created',
+		202 => 'HTTP/{version} 202 Accepted',
+		203 => 'HTTP/{version} 203 Non-Authoritative Information',
+		204 => 'HTTP/{version} 204 No Content',
+		205 => 'HTTP/{version} 205 Reset Content',
+		206 => 'HTTP/{version} 206 Partial Content',
+		207 => 'HTTP/{version} 207 Multi-Status',
+		208 => 'HTTP/{version} 208 Already Reported',
+		226 => 'HTTP/{version} 226 IM Used',
+		300 => 'HTTP/{version} 300 Multiple Choices',
+		301 => 'HTTP/{version} 301 Moved Permanently',
+		302 => 'HTTP/{version} 302 Found',
+		303 => 'HTTP/{version} 303 See other',
+		304 => 'HTTP/{version} 304 Not Modified',
+		305 => 'HTTP/{version} 305 Use Proxy',
+		306 => 'HTTP/{version} 306 (Unused)',
+		307 => 'HTTP/{version} 307 Temporary Redirect',
+		308 => 'HTTP/{version} 308 Permanent Redirect',
+		400 => 'HTTP/{version} 400 Bad Request',
+		401 => 'HTTP/{version} 401 Unauthorized',
+		402 => 'HTTP/{version} 402 Payment Required',
+		403 => 'HTTP/{version} 403 Forbidden',
+		404 => 'HTTP/{version} 404 Not Found',
+		405 => 'HTTP/{version} 405 Method Not Allowed',
+		406 => 'HTTP/{version} 406 Not Acceptable',
+		407 => 'HTTP/{version} 407 Proxy Authentication Required',
+		408 => 'HTTP/{version} 408 Request Timeout',
+		409 => 'HTTP/{version} 409 Conflict',
+		410 => 'HTTP/{version} 410 Gone',
+		411 => 'HTTP/{version} 411 Length Required',
+		412 => 'HTTP/{version} 412 Precondition Failed',
+		413 => 'HTTP/{version} 413 Payload Too Large',
+		414 => 'HTTP/{version} 414 URI Too Long',
+		415 => 'HTTP/{version} 415 Unsupported Media Type',
+		416 => 'HTTP/{version} 416 Range Not Satisfiable',
+		417 => 'HTTP/{version} 417 Expectation Failed',
+		418 => 'HTTP/{version} 418 I\'m a teapot',
+		421 => 'HTTP/{version} 421 Misdirected Request',
+		422 => 'HTTP/{version} 422 Unprocessable Entity',
+		423 => 'HTTP/{version} 423 Locked',
+		424 => 'HTTP/{version} 424 Failed Dependency',
+		426 => 'HTTP/{version} 426 Upgrade Required',
+		428 => 'HTTP/{version} 428 Precondition Required',
+		429 => 'HTTP/{version} 429 Too Many Requests',
+		431 => 'HTTP/{version} 431 Request Header Fields Too Large',
+		451 => 'HTTP/{version} 451 Unavailable For Legal Reasons',
+		500 => 'HTTP/{version} 500 Internal Server Error',
+		501 => 'HTTP/{version} 501 Not Implemented',
+		502 => 'HTTP/{version} 502 Bad Gateway',
+		503 => 'HTTP/{version} 503 Service Unavailable',
+		504 => 'HTTP/{version} 504 Gateway Timeout',
+		505 => 'HTTP/{version} 505 HTTP Version Not Supported',
+		506 => 'HTTP/{version} 506 Variant Also Negotiates',
+		507 => 'HTTP/{version} 507 Insufficient Storage',
+		508 => 'HTTP/{version} 508 Loop Detected',
+		510 => 'HTTP/{version} 510 Not Extended',
+		511 => 'HTTP/{version} 511 Network Authentication Required',
 	);
 
 	/**
@@ -262,6 +270,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 				// Set the encoding headers.
 				$this->setHeader('Content-Encoding', $encoding);
+				$this->setHeader('Vary', 'Accept-Encoding');
 				$this->setHeader('X-Content-Encoded-By', 'Joomla');
 
 				// Replace the output with the encoded data.
@@ -325,7 +334,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 * sent this will be accomplished using a JavaScript statement.
 	 *
 	 * @param   string   $url     The URL to redirect to. Can only be http/https URL
-	 * @param   integer  $status  The HTTP 1.1 status code to be provided. 303 is assumed by default.
+	 * @param   integer  $status  The HTTP status code to be provided. 303 is assumed by default.
 	 *
 	 * @return  void
 	 *
@@ -375,16 +384,16 @@ abstract class AbstractWebApplication extends AbstractApplication
 		// If the headers have already been sent we need to send the redirect statement via JavaScript.
 		if ($this->checkHeadersSent())
 		{
-			echo "<script>document.location.href='$url';</script>\n";
+			echo "<script>document.location.href=" . json_encode($url) . ";</script>\n";
 		}
 		else
 		{
 			// We have to use a JavaScript redirect here because MSIE doesn't play nice with utf-8 URLs.
-			if (($this->client->engine == Web\WebClient::TRIDENT) && !$this::isAscii($url))
+			if (($this->client->engine == Web\WebClient::TRIDENT) && !static::isAscii($url))
 			{
 				$html = '<html><head>';
 				$html .= '<meta http-equiv="content-type" content="text/html; charset=' . $this->charSet . '" />';
-				$html .= '<script>document.location.href=\'' . $url . '\';</script>';
+				$html .= '<script>document.location.href=' . json_encode($url) . ';</script>';
 				$html .= '</head><body></body></html>';
 
 				echo $html;
@@ -400,7 +409,7 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 				if (!is_int($status) && !$this->isRedirectState($status))
 				{
-					throw new \InvalidArgumentException('You have not supplied a valid HTTP 1.1 status code');
+					throw new \InvalidArgumentException('You have not supplied a valid HTTP status code');
 				}
 
 				// All other cases use the more efficient HTTP header for redirection.
@@ -617,9 +626,9 @@ abstract class AbstractWebApplication extends AbstractApplication
 	 *
 	 * @param   string|int  $value  The given status as int or string
 	 *
-	 * @return string
+	 * @return  string
 	 *
-	 * @since  1.8.0
+	 * @since   1.8.0
 	 */
 	protected function getHttpStatusValue($value)
 	{
@@ -627,20 +636,24 @@ abstract class AbstractWebApplication extends AbstractApplication
 
 		if (array_key_exists($code, $this->responseMap))
 		{
-			return $this->responseMap[$code];
+			$value = $this->responseMap[$code];
+		}
+		else
+		{
+			$value = 'HTTP/{version} ' . $code;
 		}
 
-		return 'HTTP/1.1 ' . $code;
+		return str_replace('{version}', $this->httpVersion, $value);
 	}
 
 	/**
-	 * Check if the value is a valid HTTP 1.1 status code
+	 * Check if the value is a valid HTTP status code
 	 *
-	 * @param   int  $code  The potential status code
+	 * @param   integer  $code  The potential status code
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
-	 * @since  1.8.1
+	 * @since   1.8.1
 	 */
 	public function isValidHttpStatus($code)
 	{
@@ -752,11 +765,11 @@ abstract class AbstractWebApplication extends AbstractApplication
 	/**
 	 * Checks if a state is a redirect state
 	 *
-	 * @param   integer  $state  The HTTP 1.1 status code.
+	 * @param   integer  $state  The HTTP status code.
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 *
-	 * @since  1.8.0
+	 * @since   1.8.0
 	 */
 	protected function isRedirectState($state)
 	{
@@ -776,7 +789,14 @@ abstract class AbstractWebApplication extends AbstractApplication
 	{
 		$serverSSLVar = $this->input->server->getString('HTTPS', '');
 
-		return (!empty($serverSSLVar) && strtolower($serverSSLVar) != 'off');
+		if (!empty($serverSSLVar) && strtolower($serverSSLVar) !== 'off')
+		{
+			return true;
+		}
+
+		$serverForwarderProtoVar = $this->input->server->getString('HTTP_X_FORWARDED_PROTO', '');
+
+		return !empty($serverForwarderProtoVar) && strtolower($serverForwarderProtoVar) === 'https';
 	}
 
 	/**

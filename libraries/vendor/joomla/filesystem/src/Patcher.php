@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -143,12 +143,12 @@ class Patcher
 				}
 
 				// Loop for each hunk of differences
-				while (self::findHunk($lines, $src_line, $src_size, $dst_line, $dst_size))
+				while (self::findHunk($lines, $srcLine, $srcSize, $dstLine, $dstSize))
 				{
 					$done = true;
 
 					// Apply the hunk of differences
-					$this->applyHunk($lines, $src, $dst, $src_line, $src_size, $dst_line, $dst_size);
+					$this->applyHunk($lines, $src, $dst, $srcLine, $srcSize, $dstLine, $dstSize);
 				}
 
 				// If no modifications were found, throw an exception
@@ -261,9 +261,9 @@ class Patcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines  The udiff array of lines
-	 * @param   string  &$src    The source file
-	 * @param   string  &$dst    The destination file
+	 * @param   array   $lines  The udiff array of lines
+	 * @param   string  $src    The source file
+	 * @param   string  $dst    The destination file
 	 *
 	 * @return  boolean  TRUE in case of success, FALSE in case of failure
 	 *
@@ -323,43 +323,43 @@ class Patcher
 	 *
 	 * The internal array pointer of $lines is on the next line after the finding
 	 *
-	 * @param   array   &$lines     The udiff array of lines
-	 * @param   string  &$src_line  The beginning of the patch for the source file
-	 * @param   string  &$src_size  The size of the patch for the source file
-	 * @param   string  &$dst_line  The beginning of the patch for the destination file
-	 * @param   string  &$dst_size  The size of the patch for the destination file
+	 * @param   array   $lines    The udiff array of lines
+	 * @param   string  $srcLine  The beginning of the patch for the source file
+	 * @param   string  $srcSize  The size of the patch for the source file
+	 * @param   string  $dstLine  The beginning of the patch for the destination file
+	 * @param   string  $dstSize  The size of the patch for the destination file
 	 *
 	 * @return  boolean  TRUE in case of success, false in case of failure
 	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
-	protected static function findHunk(&$lines, &$src_line, &$src_size, &$dst_line, &$dst_size)
+	protected static function findHunk(&$lines, &$srcLine, &$srcSize, &$dstLine, &$dstSize)
 	{
 		$line = current($lines);
 
 		if (preg_match(self::HUNK, $line, $m))
 		{
-			$src_line = (int) $m[1];
+			$srcLine = (int) $m[1];
 
 			if ($m[3] === '')
 			{
-				$src_size = 1;
+				$srcSize = 1;
 			}
 			else
 			{
-				$src_size = (int) $m[3];
+				$srcSize = (int) $m[3];
 			}
 
-			$dst_line = (int) $m[4];
+			$dstLine = (int) $m[4];
 
 			if ($m[6] === '')
 			{
-				$dst_size = 1;
+				$dstSize = 1;
 			}
 			else
 			{
-				$dst_size = (int) $m[6];
+				$dstSize = (int) $m[6];
 			}
 
 			if (next($lines) === false)
@@ -378,23 +378,23 @@ class Patcher
 	/**
 	 * Apply the patch
 	 *
-	 * @param   array   &$lines    The udiff array of lines
-	 * @param   string  $src       The source file
-	 * @param   string  $dst       The destination file
-	 * @param   string  $src_line  The beginning of the patch for the source file
-	 * @param   string  $src_size  The size of the patch for the source file
-	 * @param   string  $dst_line  The beginning of the patch for the destination file
-	 * @param   string  $dst_size  The size of the patch for the destination file
+	 * @param   array   $lines    The udiff array of lines
+	 * @param   string  $src      The source file
+	 * @param   string  $dst      The destination file
+	 * @param   string  $srcLine  The beginning of the patch for the source file
+	 * @param   string  $srcSize  The size of the patch for the source file
+	 * @param   string  $dstLine  The beginning of the patch for the destination file
+	 * @param   string  $dstSize  The size of the patch for the destination file
 	 *
 	 * @return  void
 	 *
 	 * @since   1.0
 	 * @throws  \RuntimeException
 	 */
-	protected function applyHunk(&$lines, $src, $dst, $src_line, $src_size, $dst_line, $dst_size)
+	protected function applyHunk(&$lines, $src, $dst, $srcLine, $srcSize, $dstLine, $dstSize)
 	{
-		$src_line--;
-		$dst_line--;
+		$srcLine--;
+		$dstLine--;
 		$line = current($lines);
 
 		// Source lines (old file)
@@ -402,8 +402,8 @@ class Patcher
 
 		// New lines (new file)
 		$destin = array();
-		$src_left = $src_size;
-		$dst_left = $dst_size;
+		$srcLeft = $srcSize;
+		$dstLeft = $dstSize;
 
 		do
 		{
@@ -411,67 +411,67 @@ class Patcher
 			{
 				$source[] = '';
 				$destin[] = '';
-				$src_left--;
-				$dst_left--;
+				$srcLeft--;
+				$dstLeft--;
 			}
 			elseif ($line[0] == '-')
 			{
-				if ($src_left == 0)
+				if ($srcLeft == 0)
 				{
 					throw new \RuntimeException('Unexpected remove line at line ' . key($lines));
 				}
 
 				$source[] = substr($line, 1);
-				$src_left--;
+				$srcLeft--;
 			}
 			elseif ($line[0] == '+')
 			{
-				if ($dst_left == 0)
+				if ($dstLeft == 0)
 				{
 					throw new \RuntimeException('Unexpected add line at line ' . key($lines));
 				}
 
 				$destin[] = substr($line, 1);
-				$dst_left--;
+				$dstLeft--;
 			}
 			elseif ($line != '\\ No newline at end of file')
 			{
 				$line = substr($line, 1);
 				$source[] = $line;
 				$destin[] = $line;
-				$src_left--;
-				$dst_left--;
+				$srcLeft--;
+				$dstLeft--;
 			}
 
-			if ($src_left == 0 && $dst_left == 0)
+			if ($srcLeft == 0 && $dstLeft == 0)
 			{
 				// Now apply the patch, finally!
-				if ($src_size > 0)
+				if ($srcSize > 0)
 				{
-					$src_lines = & $this->getSource($src);
+					$srcLines = & $this->getSource($src);
 
-					if (!isset($src_lines))
+					if (!isset($srcLines))
 					{
 						throw new \RuntimeException('Unexisting source file: ' . $src);
 					}
 				}
 
-				if ($dst_size > 0)
+				if ($dstSize > 0)
 				{
-					if ($src_size > 0)
+					if ($srcSize > 0)
 					{
-						$dst_lines = & $this->getDestination($dst, $src);
-						$src_bottom = $src_line + count($source);
+						$dstLines = & $this->getDestination($dst, $src);
+						$srcBottom = $srcLine + \count($source);
 
-						for ($l = $src_line;$l < $src_bottom;$l++)
+						for ($l = $srcLine; $l < $srcBottom; $l++)
 						{
-							if ($src_lines[$l] != $source[$l - $src_line])
+							if ($srcLines[$l] != $source[$l - $srcLine])
 							{
 								throw new \RuntimeException(sprintf('Failed source verification of file %1$s at line %2$s', $src, $l));
 							}
 						}
 
-						array_splice($dst_lines, $dst_line, count($source), $destin);
+						array_splice($dstLines, $dstLine, \count($source), $destin);
 					}
 					else
 					{

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Joomla.UnitTest
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.
  * @license    GNU General Public License
  */
 
@@ -9,7 +9,7 @@
  * Mock class for JModel.
  *
  * @package  Joomla.UnitTest
- * @since    12.1
+ * @since    3.0.0
  */
 class JModelMock
 {
@@ -20,7 +20,7 @@ class JModelMock
 	 *
 	 * @return  object
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function create($test)
 	{

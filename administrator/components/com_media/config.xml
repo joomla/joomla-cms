@@ -67,6 +67,7 @@
 			description="COM_MEDIA_FIELD_CHECK_MIME_DESC"
 			class="btn-group btn-group-yesno"
 			default="1"
+			showon="restrict_uploads:1"
 			>
 			<option value="1">JYES</option>
 			<option value="0">JNO</option>
@@ -79,6 +80,7 @@
 			description="COM_MEDIA_FIELD_LEGAL_IMAGE_EXTENSIONS_DESC"
 			size="50"
 			default="bmp,gif,jpg,png"
+			showon="restrict_uploads:1"
 		/>
 
 		<field
@@ -96,6 +98,7 @@
 			description="COM_MEDIA_FIELD_LEGAL_MIME_TYPES_DESC"
 			size="50"
 			default="image/jpeg,image/gif,image/png,image/bmp,application/msword,application/excel,application/pdf,application/powerpoint,text/plain,application/x-zip"
+			showon="restrict_uploads:1"
 		/>
 
 		<field
@@ -105,7 +108,8 @@
 			description="COM_MEDIA_FIELD_ILLEGAL_MIME_TYPES_DESC"
 			size="50"
 			default="text/html"
-		 />
+			showon="restrict_uploads:1"
+		/>
 	</fieldset>
 
 	<fieldset
