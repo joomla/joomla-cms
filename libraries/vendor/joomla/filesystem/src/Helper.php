@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Filesystem Package
  *
- * @copyright  Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -24,23 +24,23 @@ class Helper
 	 *
 	 * @return  mixed
 	 *
-	 * @see     http://www.php.net/manual/en/function.filesize.php#71098
+	 * @link    https://secure.php.net/manual/en/function.filesize.php#71098
 	 * @since   1.0
 	 */
 	public static function remotefsize($url)
 	{
 		$sch = parse_url($url, PHP_URL_SCHEME);
 
-		if (($sch != 'http') && ($sch != 'https') && ($sch != 'ftp') && ($sch != 'ftps'))
+		if (!\in_array($sch, array('http', 'https', 'ftp', 'ftps'), true))
 		{
 			return false;
 		}
 
-		if (($sch == 'http') || ($sch == 'https'))
+		if (\in_array($sch, array('http', 'https'), true))
 		{
-			$headers = get_headers($url, 1);
+			$headers = @ get_headers($url, 1);
 
-			if ((!array_key_exists('Content-Length', $headers)))
+			if (!$headers || (!array_key_exists('Content-Length', $headers)))
 			{
 				return false;
 			}
@@ -48,7 +48,7 @@ class Helper
 			return $headers['Content-Length'];
 		}
 
-		if (($sch == 'ftp') || ($sch == 'ftps'))
+		if (\in_array($sch, array('ftp', 'ftps'), true))
 		{
 			$server = parse_url($url, PHP_URL_HOST);
 			$port = parse_url($url, PHP_URL_PORT);
@@ -81,11 +81,11 @@ class Helper
 			switch ($sch)
 			{
 				case 'ftp':
-					$ftpid = ftp_connect($server, $port);
+					$ftpid = @ftp_connect($server, $port);
 					break;
 
 				case 'ftps':
-					$ftpid = ftp_ssl_connect($server, $port);
+					$ftpid = @ftp_ssl_connect($server, $port);
 					break;
 			}
 
@@ -94,7 +94,7 @@ class Helper
 				return false;
 			}
 
-			$login = ftp_login($ftpid, $user, $pass);
+			$login = @ftp_login($ftpid, $user, $pass);
 
 			if (!$login)
 			{
@@ -121,7 +121,7 @@ class Helper
 	 *
 	 * @return  mixed
 	 *
-	 * @see     http://www.php.net/manual/en/function.ftp-chmod.php
+	 * @link    https://secure.php.net/manual/en/function.ftp-chmod.php
 	 * @since   1.0
 	 */
 	public static function ftpChmod($url, $mode)
@@ -164,11 +164,11 @@ class Helper
 		switch ($sch)
 		{
 			case 'ftp':
-				$ftpid = ftp_connect($server, $port);
+				$ftpid = @ftp_connect($server, $port);
 				break;
 
 			case 'ftps':
-				$ftpid = ftp_ssl_connect($server, $port);
+				$ftpid = @ftp_ssl_connect($server, $port);
 				break;
 		}
 
@@ -177,14 +177,14 @@ class Helper
 			return false;
 		}
 
-		$login = ftp_login($ftpid, $user, $pass);
+		$login = @ftp_login($ftpid, $user, $pass);
 
 		if (!$login)
 		{
 			return false;
 		}
 
-		$res = ftp_chmod($ftpid, $mode, $path);
+		$res = @ftp_chmod($ftpid, $mode, $path);
 		ftp_close($ftpid);
 
 		return $res;
@@ -267,7 +267,7 @@ class Helper
 		{
 			$files = new \DirectoryIterator(__DIR__ . '/Stream');
 
-			/* @var  $file  \DirectoryIterator */
+			/** @var $file \DirectoryIterator */
 			foreach ($files as $file)
 			{
 				// Only load for php files.
@@ -294,6 +294,6 @@ class Helper
 	 */
 	public static function isJoomlaStream($streamname)
 	{
-		return in_array($streamname, self::getJStreams());
+		return \in_array($streamname, self::getJStreams());
 	}
 }

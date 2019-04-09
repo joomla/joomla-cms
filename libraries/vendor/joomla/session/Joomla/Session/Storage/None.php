@@ -2,7 +2,7 @@
 /**
  * Part of the Joomla Framework Session Package
  *
- * @copyright  Copyright (C) 2005 - 2015 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -13,7 +13,7 @@ use Joomla\Session\Storage;
 /**
  * Default PHP configured session handler for Joomla!
  *
- * @see         http://www.php.net/manual/en/function.session-set-save-handler.php
+ * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
  * @since       1.0
  * @deprecated  2.0  The Storage class chain will be removed
  */
