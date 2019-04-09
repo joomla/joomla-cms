@@ -19,6 +19,9 @@ $this->setHtml5(true);
 // Add JavaScript Frameworks
 JHtml::_('bootstrap.framework');
 
+// Add template js
+JHtml::_('script', 'template.js', array('version' => 'auto', 'relative' => true));
+
 // Add html5 shiv
 JHtml::_('script', 'jui/html5.js', array('version' => 'auto', 'relative' => true, 'conditional' => 'lt IE 9'));
 
