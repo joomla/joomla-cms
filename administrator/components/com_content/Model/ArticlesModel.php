@@ -284,11 +284,14 @@ class ArticlesModel extends ListModel
 			'uc.name',
 			'ag.title',
 			'c.title',
+			'c.created_user_id',
+			'c.level',
 			'ua.name',
 			'ws.title',
 			'ws.workflow_id',
 			'ws.condition',
-			'wa.stage_id'
+			'wa.stage_id',
+			'parent.id',
 		);
 
 		if (PluginHelper::isEnabled('content', 'vote'))

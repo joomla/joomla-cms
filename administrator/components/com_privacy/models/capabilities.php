@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Capabilities model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelCapabilities extends JModelLegacy
 {
@@ -21,7 +21,7 @@ class PrivacyModelCapabilities extends JModelLegacy
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getCapabilities()
 	{
@@ -91,7 +91,7 @@ class PrivacyModelCapabilities extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState()
 	{

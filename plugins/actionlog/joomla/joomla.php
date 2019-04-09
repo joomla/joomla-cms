@@ -10,13 +10,14 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Joomla! Users Actions Logging Plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgActionlogJoomla extends JPlugin
 {
@@ -24,7 +25,7 @@ class PlgActionlogJoomla extends JPlugin
 	 * Array of loggable extensions.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $loggableExtensions = array();
 
@@ -32,7 +33,7 @@ class PlgActionlogJoomla extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -40,7 +41,7 @@ class PlgActionlogJoomla extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -48,7 +49,7 @@ class PlgActionlogJoomla extends JPlugin
 	 * Load plugin language file automatically so that it can be used inside component
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -58,7 +59,7 @@ class PlgActionlogJoomla extends JPlugin
 	 * @param   object  &$subject  The object to observe.
 	 * @param   array   $config    An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -80,7 +81,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentAfterSave($context, $article, $isNew)
 	{
@@ -150,7 +151,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentAfterDelete($context, $article)
 	{
@@ -209,7 +210,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentChangeState($context, $pks, $value)
 	{
@@ -267,7 +268,21 @@ class PlgActionlogJoomla extends JPlugin
 			$messageLanguageKey = $defaultLanguageKey;
 		}
 
-		$items = ActionlogsHelper::getDataByPks($pks, $params->title_holder, $params->id_holder, $params->table_name);
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array($params->title_holder, $params->id_holder)))
+			->from($db->quoteName($params->table_name))
+			->where($db->quoteName($params->id_holder) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
+		$db->setQuery($query);
+
+		try
+		{
+			$items = $db->loadObjectList($params->id_holder);
+		}
+		catch (RuntimeException $e)
+		{
+			$items = array();
+		}
 
 		$messages = array();
 
@@ -298,7 +313,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onApplicationAfterSave($config)
 	{
@@ -337,7 +352,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onExtensionAfterInstall($installer, $eid)
 	{
@@ -388,7 +403,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onExtensionAfterUninstall($installer, $eid, $result)
 	{
@@ -444,7 +459,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onExtensionAfterUpdate($installer, $eid)
 	{
@@ -494,7 +509,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onExtensionAfterSave($context, $table, $isNew)
 	{
@@ -561,7 +576,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onExtensionAfterDelete($context, $table)
 	{
@@ -606,7 +621,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterSave($user, $isnew, $success, $msg)
 	{
@@ -663,7 +678,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterDelete($user, $success, $msg)
 	{
@@ -701,7 +716,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterSaveGroup($context, $table, $isNew)
 	{
@@ -750,7 +765,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterDeleteGroup($group, $success, $msg)
 	{
@@ -785,7 +800,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserAfterLogin($options)
 	{
@@ -816,7 +831,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserLoginFailure($response)
 	{
@@ -856,7 +871,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onUserLogout($user, $options = array())
 	{
@@ -893,7 +908,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function addLog($messages, $messageLanguageKey, $context, $userId = null)
 	{
@@ -911,7 +926,7 @@ class PlgActionlogJoomla extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function checkLoggable($extension)
 	{

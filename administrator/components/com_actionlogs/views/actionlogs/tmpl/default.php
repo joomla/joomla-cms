@@ -19,6 +19,35 @@ JHtml::_('formbehavior.chosen', 'select');
 
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
+
+JFactory::getDocument()->addScriptDeclaration('
+	Joomla.submitbutton = function(task)
+	{
+		if (task == "actionlogs.exportLogs")
+		{
+			Joomla.submitform(task, document.getElementById("exportForm"));
+			
+			return;
+		}
+
+		if (task == "actionlogs.exportSelectedLogs")
+		{
+			// Get id of selected action logs item and pass it to export form hidden input
+			var cids = [];
+
+			jQuery("input[name=\'cid[]\']:checked").each(function() {
+					cids.push(jQuery(this).val());
+			});
+
+			document.exportForm.cids.value = cids.join(",");
+			Joomla.submitform(task, document.getElementById("exportForm"));
+
+			return;
+		}
+
+		Joomla.submitform(task);
+	};
+');
 ?>
 <form action="<?php echo JRoute::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="j-main-container">
@@ -100,4 +129,9 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 		<input type="hidden" name="boxchecked" value="0" />
 		<?php echo JHtml::_('form.token'); ?>
 	</div>
+</form>
+<form action="<?php echo JRoute::_('index.php?option=com_actionlogs&view=actionlogs'); ?>" method="post" name="exportForm" id="exportForm">
+	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="cids" value="" />
+	<?php echo JHtml::_('form.token'); ?>
 </form>

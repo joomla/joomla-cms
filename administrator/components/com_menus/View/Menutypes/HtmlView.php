@@ -69,11 +69,11 @@ class HtmlView extends BaseHtmlView
 				$tmp[Text::_($item->title)] = $item;
 			}
 
-			ksort($tmp);
+			uksort($tmp, 'strcasecmp');
 			$sortedTypes[Text::_($name)] = $tmp;
 		}
 
-		ksort($sortedTypes);
+		uksort($sortedTypes, 'strcasecmp');
 
 		$this->types = $sortedTypes;
 
