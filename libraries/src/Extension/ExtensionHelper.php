@@ -154,6 +154,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - captcha
 		array('plugin', 'recaptcha', 'captcha', 0),
+		array('plugin', 'recaptcha_invisible', 'captcha', 0),
 
 		// Core plugin extensions - content
 		array('plugin', 'confirmconsent', 'content', 0),

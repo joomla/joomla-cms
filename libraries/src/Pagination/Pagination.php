@@ -75,7 +75,7 @@ class Pagination
 
 	/**
 	 * @var    boolean  The flag indicates whether to add limitstart=0 to URL
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $hideEmptyLimitstart = false;
 

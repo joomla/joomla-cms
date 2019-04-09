@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Privacy Controller
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyController extends JControllerLegacy
 {
@@ -24,7 +24,7 @@ class PrivacyController extends JControllerLegacy
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
@@ -36,6 +36,12 @@ class PrivacyController extends JControllerLegacy
 			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
 
 			return $this;
+		}
+
+		// Make sure we don't send a referer
+		if (in_array($view, array('confirm', 'remind')))
+		{
+			JFactory::getApplication()->setHeader('Referrer-Policy', 'no-referrer', true);
 		}
 
 		return parent::display($cachable, $urlparams);

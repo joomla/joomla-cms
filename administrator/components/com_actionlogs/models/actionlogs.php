@@ -14,7 +14,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Methods supporting a list of article records.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsModelActionlogs extends JModelList
 {
@@ -23,7 +23,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct($config = array())
 	{
@@ -48,7 +48,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
@@ -77,7 +77,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getListQuery()
 	{
@@ -111,7 +111,7 @@ class ActionlogsModelActionlogs extends JModelList
 		// Apply filter by extension
 		if (!empty($extension))
 		{
-			$query->where($db->quoteName('a.extension') . ' = ' . $db->quote($extension));
+			$query->where($db->quoteName('a.extension') . ' LIKE ' . $db->quote($extension . '%'));
 		}
 
 		// Get filter by date range
@@ -162,7 +162,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  array  The date range to filter on.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function buildDateRange($range)
 	{
@@ -217,7 +217,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getLogsForItem($extension, $itemId)
 	{
@@ -248,7 +248,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  array  All logs in the table
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getLogsData($pks = null)
 	{
@@ -275,7 +275,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function delete(&$pks)
 	{
@@ -304,7 +304,7 @@ class ActionlogsModelActionlogs extends JModelList
 	 *
 	 * @return  boolean result of operation
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function purge()
 	{
