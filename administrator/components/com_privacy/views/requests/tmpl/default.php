@@ -56,9 +56,6 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 							<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_EMAIL', 'a.email', $listDirn, $listOrder); ?>
 						</th>
 						<th width="10%" class="nowrap">
-							<?php echo JText::_('JGLOBAL_USERNAME'); ?>
-						</th>
-						<th width="10%" class="nowrap">
 							<?php echo JHtml::_('searchtools.sort', 'COM_PRIVACY_HEADING_REQUEST_TYPE', 'a.request_type', $listDirn, $listOrder); ?>
 						</th>
 						<th width="15%" class="nowrap">
@@ -86,7 +83,9 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 								<div class="btn-group">
 									<?php if ($item->status == 1 && $item->request_type === 'export') : ?>
 										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?>"><span class="icon-download" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_EXPORT_DATA'); ?></span></a>
-										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-mail" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
+										<?php if ($this->sendMailEnabled) : ?>
+											<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?>"><span class="icon-mail" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA'); ?></span></a>
+										<?php endif; ?>
 									<?php endif; ?>
 									<?php if ($item->status == 1 && $item->request_type === 'remove') : ?>
 										<a class="btn btn-micro hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&task=request.remove&id=' . (int) $item->id); ?>" title="<?php echo JText::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?>"><span class="icon-delete" aria-hidden="true"></span><span class="element-invisible"><?php echo JText::_('COM_PRIVACY_ACTION_DELETE_DATA'); ?></span></a>
@@ -103,9 +102,6 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
 									<span class="label"><?php echo JText::_('COM_PRIVACY_BADGE_URGENT_REQUEST'); ?></span>
 								<?php endif; ?>
-							</td>
-							<td class="break-word">
-								<?php echo $item->user_id ? $this->escape($item->username) : JText::_('JGLOBAL_NONAPPLICABLE'); ?>
 							</td>
 							<td class="break-word">
 								<?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $item->request_type); ?>

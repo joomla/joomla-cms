@@ -17,7 +17,7 @@ JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privac
 /**
  * Privacy plugin managing Joomla user messages
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgPrivacyMessage extends PrivacyPlugin
 {
@@ -25,7 +25,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -33,7 +33,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 * Affects constructor behaviour. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -43,46 +43,43 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 * This event will collect data for the message table
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request)
+	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
-		if (!$request->user_id)
+		if (!$user)
 		{
 			return array();
 		}
 
-		/** @var JTableUser $user */
-		$user = JUser::getTable();
-		$user->load($request->user_id);
-
 		$domains   = array();
 		$domains[] = $this->createMessageDomain($user);
-	
+
 		return $domains;
 	}
 
 	/**
 	 * Create the domain for the user message data
 	 *
-	 * @param   JTableUser  $user  The JTableUser object to process
+	 * @param   JUser  $user  The user account associated with this request
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	private function createMessageDomain(JTableUser $user)
+	private function createMessageDomain(JUser $user)
 	{
 		$domain = $this->createDomain('user message', 'Joomla! user message data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')
 			->from($this->db->quoteName('#__messages'))
-			->where($this->db->quoteName('user_id_from') . ' = ' . $this->db->quote($user->id))
-			->orWhere($this->db->quoteName('user_id_to') . ' = ' . $this->db->quote($user->id))
+			->where($this->db->quoteName('user_id_from') . ' = ' . (int) $user->id)
+			->orWhere($this->db->quoteName('user_id_to') . ' = ' . (int) $user->id)
 			->order($this->db->quoteName('date_time') . ' ASC');
 
 		$items = $this->db->setQuery($query)->loadAssocList();

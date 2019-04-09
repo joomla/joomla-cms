@@ -62,7 +62,7 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -130,7 +130,7 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -246,7 +246,7 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
