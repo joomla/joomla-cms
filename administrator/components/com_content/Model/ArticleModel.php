@@ -419,7 +419,7 @@ class ArticleModel extends AdminModel
 
 			if ($table->load($pk))
 			{
-				if($table->state == 1){
+				if($table->state == ContentComponent::CONDITION_PUBLISHED){
 					unset($pks[$i]);
 
 					continue;
