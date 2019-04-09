@@ -37,8 +37,8 @@
 					label="MOD_QUICKICON_SHOW_GLOBAL_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_users"
@@ -47,8 +47,8 @@
 					label="MOD_QUICKICON_SHOW_USERS_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_articles"
@@ -57,8 +57,8 @@
 					label="MOD_QUICKICON_SHOW_ARTICLES_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_categories"
@@ -67,8 +67,8 @@
 					label="MOD_QUICKICON_SHOW_CATEGORIES_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_media"
@@ -77,8 +77,8 @@
 					label="MOD_QUICKICON_SHOW_MEDIA_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_checkin"
@@ -87,8 +87,8 @@
 					label="MOD_QUICKICON_SHOW_CHECKINS_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_menuItems"
@@ -97,8 +97,8 @@
 					label="MOD_QUICKICON_SHOW_MENUITEMS_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_modules"
@@ -107,8 +107,8 @@
 					label="MOD_QUICKICON_SHOW_MODULES_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_plugins"
@@ -117,8 +117,8 @@
 					label="MOD_QUICKICON_SHOW_PLUGINS_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 				<field
 					name="show_templates"
@@ -127,8 +127,8 @@
 					label="MOD_QUICKICON_SHOW_TEMPLATES_LABEL"
 					default="1"
 					>
-					<option value="0">JNO</option>
-					<option value="1">JYES</option>
+					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 			</fieldset>
 			<fieldset name="advanced">
