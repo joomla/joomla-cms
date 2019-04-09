@@ -419,12 +419,19 @@ class ArticleModel extends AdminModel
 
 			if ($table->load($pk))
 			{
+				if($table->state == 1){
+					unset($pks[$i]);
+
+					continue;
+				}
 				if (!isset($items[$pk]))
 				{
 					// Prune items that you can't change.
 					unset($pks[$i]);
 
-					continue;
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
+					
+					return false;
 				}
 
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
