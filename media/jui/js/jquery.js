@@ -210,7 +210,8 @@ jQuery.extend = jQuery.fn.extend = function() {
 				copy = options[ name ];
 
 				// Prevent never-ending loop
-				if ( target === copy ) {
+				// ADDED by Joomla: Prevent Object Prototype Polution, see https://github.com/jquery/jquery/pull/4333
+                if ( name === "__proto__" || target === copy ) {
 					continue;
 				}
 
