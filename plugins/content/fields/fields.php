@@ -42,31 +42,27 @@ class PlgContentFields extends JPlugin
 			return;
 		}
 
-		// Don't run if there is no text property (in case of bad calls) or it is empty
-		if (empty($item->text))
-		{
-			return;
-		}
-
-		// Simple performance check to determine whether bot should process further
-		if (strpos($item->text, 'field') === false)
-		{
-			return;
-		}
-
 		// Register FieldsHelper
 		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
-		// Prepare the text
-		if (isset($item->text))
+		$keys = array(
+			'fulltext',
+			'introtext',
+			'text'
+		);
+		
+		// Loop over the item keys to prepare.
+		foreach ($keys as $key)
 		{
-			$item->text = $this->prepare($item->text, $context, $item);
-		}
-
-		// Prepare the intro text
-		if (isset($item->introtext))
-		{
-			$item->introtext = $this->prepare($item->introtext, $context, $item);
+			// The key doesn't exist or does not contain the keyword "field".
+			if (!isset($item->$key)
+				|| strpos($item->$key, 'field') === false)
+			{
+				continue;
+			}
+			
+			// Prepare the text.
+			$item->$key = $this->prepare($item->$key, $context, $item);
 		}
 	}
 
