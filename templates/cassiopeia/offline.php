@@ -53,7 +53,7 @@ elseif ($this->params->get('siteTitle'))
 }
 else
 {
-	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
+	$logo = '<span class="site-title">' . $sitename . '</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -96,14 +96,14 @@ else
 				<form action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
 					<fieldset>
 						<label for="username"><?php echo Text::_('JGLOBAL_USERNAME'); ?></label>
-						<input name="username" class="form-control" id="username" type="text" title="<?php echo Text::_('JGLOBAL_USERNAME'); ?>">
+						<input name="username" class="form-control" id="username" type="text">
 
 						<label for="password"><?php echo Text::_('JGLOBAL_PASSWORD'); ?></label>
-						<input name="password" class="form-control" id="password" type="password" title="<?php echo Text::_('JGLOBAL_PASSWORD'); ?>">
+						<input name="password" class="form-control" id="password" type="password">
 
 						<?php if (count($twofactormethods) > 1) : ?>
 						<label for="secretkey"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></label>
-						<input name="secretkey" class="form-control" id="secretkey" type="text" title="<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>">
+						<input name="secretkey" class="form-control" id="secretkey" type="text">
 						<?php endif; ?>
 
 						<input type="submit" name="Submit" class="btn btn-primary" value="<?php echo Text::_('JLOGIN'); ?>">
