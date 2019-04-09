@@ -213,7 +213,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 				// Prevent never-ending loop
 				// ADDED by Joomla: Prevent Object Prototype Polution, see https://github.com/jquery/jquery/pull/4333
-                if ( name === "__proto__" || target === copy ) {
+				if ( name === "__proto__" || target === copy ) {
 					continue;
 				}
 
