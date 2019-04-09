@@ -430,7 +430,6 @@ class ArticleModel extends AdminModel
 					unset($pks[$i]);
 
 					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
-					
 					return false;
 				}
 
