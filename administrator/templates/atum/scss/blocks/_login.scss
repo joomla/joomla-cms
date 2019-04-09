@@ -260,4 +260,8 @@ label {
       display:block;
     }
   }
+  
+ .invalid .form-control-feedback {
+    color: theme-color("danger");
+  }
 }
