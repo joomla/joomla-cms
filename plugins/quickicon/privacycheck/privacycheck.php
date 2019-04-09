@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
@@ -35,7 +34,7 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 	 * Application object.
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  3.7.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	protected $app;
 
