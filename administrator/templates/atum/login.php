@@ -184,7 +184,7 @@ $this->addStyleDeclaration($css);
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper">
 		<div id="main-brand" class="main-brand">
-			<h2><?php echo $sitename; ?></h2>
+			<div class="h2"><?php echo $sitename; ?></div>
 			<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
 		</div>
 		<div id="sidebar">
