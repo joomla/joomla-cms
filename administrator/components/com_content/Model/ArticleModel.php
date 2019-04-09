@@ -424,6 +424,7 @@ class ArticleModel extends AdminModel
 
 					continue;
 				}
+				
 				if (!isset($items[$pk]))
 				{
 					// Prune items that you can't change.
