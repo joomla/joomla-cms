@@ -180,7 +180,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Validate database name.
-		if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
+		if (in_array($options->db_type, ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'warning');
 
@@ -931,6 +931,7 @@ class DatabaseModel extends BaseInstallationModel
 				$query = $db->getQuery(true)
 					->update($db->quoteName($table))
 					->set($db->quoteName($field) . ' = ' . $db->quote($currentDate))
+					->where($db->quoteName($field) . ' IS NOT NULL')
 					->where($db->quoteName($field) . ' != ' . $db->quote($nullDate));
 
 				$db->setQuery($query);

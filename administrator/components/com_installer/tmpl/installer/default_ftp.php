@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 
 ?>
-<fieldset title="<?php echo Text::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?>">
+<fieldset>
 	<legend><?php echo Text::_('COM_INSTALLER_MSG_DESCFTPTITLE'); ?></legend>
 
 	<?php echo Text::_('COM_INSTALLER_MSG_DESCFTP'); ?>
