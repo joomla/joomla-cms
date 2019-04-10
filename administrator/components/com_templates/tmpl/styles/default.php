@@ -37,7 +37,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<thead>
 							<tr>
 								<td style="width:1%" class="text-center">
-									&#160;
+									<input type="checkbox" name="checkall-toggle" value="" title="<?php echo Text::_('JGLOBAL_CHECK_ALL'); ?>" onclick="Joomla.checkAll(this)">
 								</td>
 								<th scope="col">
 									<?php echo JHtml::_('searchtools.sort', 'COM_TEMPLATES_HEADING_STYLE', 'a.title', $listDirn, $listOrder); ?>
