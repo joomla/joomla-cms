@@ -171,7 +171,7 @@
         this.button.removeEventListener('click', this.show);
       }
       if (this.buttonClear) {
-        this.buttonClear.removeEventListener('click', this.clearValue);
+        this.buttonClearEl.removeEventListener('click', this.clearValue);
       }
     }
 
