@@ -35,7 +35,7 @@ class Tag extends CMSObject implements NodeInterface
 	public $title;
 	public $alias;
 	public $note;
-	public $description;
+	public $description = '';
 	public $published;
 	public $checked_out;
 	public $checked_out_time;
@@ -51,8 +51,8 @@ class Tag extends CMSObject implements NodeInterface
 	public $modified_time;
 	public $images;
 	public $urls;
-	public $hits;
-	public $language;
+	public $hits = 0;
+	public $language = '*';
 	public $version;
 	public $publish_up;
 	public $publish_down;
@@ -61,7 +61,8 @@ class Tag extends CMSObject implements NodeInterface
 	{
 		if ($tagId)
 		{
-			$table = new TagTable;
+			$db = Factory::getDbo();
+			$table = new TagTable($db);
 
 			if ($table->load($tagId))
 			{
@@ -79,9 +80,28 @@ class Tag extends CMSObject implements NodeInterface
 
 	public function save()
 	{
-		$table = new TagTable;
+		$db = Factory::getDbo();
+		$table = new TagTable($db);
+
+		if ($this->id)
+		{
+			$table->load($this->id);
+		}
+		else
+		{
+			$table->setLocation($this->parent_id, 'last-child');
+		}
+
 		$table->bind($this->getProperties());
-		$table->aave();
+		$table->check();
+		$result = $table->store();
+
+		if (!$this->id)
+		{
+			$this->id = $table->id;
+		}
+
+		return $result;
 	}
 
 	public function delete()
@@ -89,22 +109,66 @@ class Tag extends CMSObject implements NodeInterface
 		$db = Factory::getDbo();
 
 		// Delete mappings to tag
-		$db->setQuery('DELETE FROM #__contentitem_tag_map WHERE tag_id = ' . (int) $this->id);
+		$query = $db->getQuery(true);
+		$query->delete($query->qn('#__tag_content_map'))
+			->where($query->qn('tag_id') . ' = ' . (int) $this->id);
+		$db->setQuery($query);
 		$db->execute();
 
 		// Delete tag
-		$table = new TagTable;
+		$db = Factory::getDbo();
+		$table = new TagTable($db);
 		$table->delete($this->id);
 	}
 
 	public function addContentItem(ContentItem $item)
 	{
+		// If the tag or the content item is not in the database, we have to fail
+		if (!$item->content_id || !$item->type_alias || !$this->id)
+		{
+			return false;
+		}
 
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Check if the mapping already exists
+		$query->select($query->qn(['a.tag_id', 'a.type_alias', 'a.content_id']))
+			->from($query->qn('#__tag_content_map', 'a'))
+			->where($query->qn('a.tag_id') . ' = ' . $query->q($this->id))
+			->where($query->qn('a.type_alias') . ' = ' . $query->q($item->type_alias))
+			->where($query->qn('a.content_id') . ' = ' . $query->q($item->content_id));
+		$db->setQuery($query);
+		$result = $db->loadObject();
+
+		if ($result)
+		{
+			return true;
+		}
+
+		$query->clear()
+			->insert($query->qn('#__tag_content_map'))
+			->columns($query->qn(['tag_id', 'type_alias', 'content_id']))
+			->values($query->q($this->id) . ',' . $query->q($item->type_alias) . ',' . $query->q($item->content_id));
+		$db->setQuery($query);
+		$db->execute();
+
+		return true;
 	}
 
 	public function removeContentItem(ContentItem $item)
 	{
+		$db = Factory::getDbo();
+		$query = $db->getQuery(true);
+		$query->delete($query->qn('#__tag_content_map'))
+			->where($query->qn('tag_id') . ' = ' . $query->q($this->id))
+			->where($query->qn('type_alias') . ' = ' . $query->q($item->type_alias))
+			->where($query->qn('content_id') . ' = ' . $query->q($item->content_id));
 
+		$db->setQuery($query);
+		$db->execute();
+
+		return true;
 	}
 
 	public function getContentItems()

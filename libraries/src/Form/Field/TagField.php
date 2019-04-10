@@ -154,7 +154,7 @@ class TagField extends ListField
 		// Preload only active values, everything else will be searched via AJAX
 		if ($this->isRemoteSearch() && $this->value)
 		{
-			$query->where('a.id IN (' . implode(',', (array) $this->value) . ')');
+			$query->where('a.id IN (' . implode(',', array_filter((array) $this->value)) . ')');
 		}
 
 		// Filter on the published state
@@ -322,15 +322,50 @@ class TagField extends ListField
 				{
 					$tag = new Tag();
 					$tag->title = substr($v, 5);
-					
+					$tag->parent_id = 1;
+					$tag->published = 1;
+
+					try
+					{
+						$tag->save();
+						$v = $tag->id;
+					}
+					catch (Exception $e)
+					{
+						throw $e;
+					}
 				}
 			}
 		}
 		else
 		{
+			if (is_numeric($value))
+			{
+				return $value;
+			}
 
+			if (!$this->allowCustom())
+			{
+				return null;
+			}
+
+			if (strpos($value, '#new#') === 0)
+			{
+				$tag = new Tag();
+				$tag->title = substr($value, 5);
+				$tag->parent_id = 1;
+
+				try
+				{
+					$tag->save();
+					return $tag->id;
+				}
+				catch (Exception $e)
+				{
+					throw $e;
+				}
+			}
 		}
-		var_dump(is_numeric($value), $value);die;
 
 		return $value;
 	}

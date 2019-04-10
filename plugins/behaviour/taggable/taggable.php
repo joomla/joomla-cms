@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Event as CmsEvent;
-use Joomla\CMS\Helper\TagsHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Table\ContentType;
 use Joomla\CMS\Table\TableInterface;
@@ -102,7 +102,8 @@ class PlgBehaviourTaggable extends CMSPlugin
 		// The content item doesn't exist yet. Creating...
 		if ($contentItem->content_id != $id)
 		{
-			$contentType = new ContentType();
+			$db = Factory::getDbo();
+			$contentType = new ContentType($db);
 			if (!$contentType->load(['type_title' => $typeAlias]))
 			{
 				return;
