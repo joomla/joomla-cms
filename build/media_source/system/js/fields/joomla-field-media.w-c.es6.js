@@ -170,7 +170,7 @@
       if (this.button) {
         this.button.removeEventListener('click', this.show);
       }
-      if (this.buttonClear) {
+      if (this.buttonClearEl) {
         this.buttonClearEl.removeEventListener('click', this.clearValue);
       }
     }
