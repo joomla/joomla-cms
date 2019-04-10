@@ -40,7 +40,7 @@ class PlgQuickiconPrivacyCheck extends JPlugin
 	 */
 	public function onGetIcons($context)
 	{
-		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.admin', 'com_privacy'))
+		if ($context !== $this->params->get('context', 'mod_quickicon') || !Factory::getUser()->authorise('core.admin'))
 		{
 			return;
 		}

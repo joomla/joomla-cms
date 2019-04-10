@@ -152,6 +152,10 @@ class ManageModel extends InstallerModel
 			{
 				$table->enabled = $value;
 			}
+		
+			$context = $this->option . '.' . $this->name;
+			JPluginHelper::importPlugin('extension');
+			JEventDispatcher::getInstance()->trigger('onExtensionChangeState', array($context, $eid, $value));
 
 			if (!$table->store())
 			{

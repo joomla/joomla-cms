@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('predefinedlist');
 /**
  * Field to show a list of range dates to sort with
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JFormFieldLogsDateRange extends JFormFieldPredefinedList
 {
@@ -22,7 +22,7 @@ class JFormFieldLogsDateRange extends JFormFieldPredefinedList
 	 * The form field type.
 	 *
 	 * @var     string
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected $type = 'logsdaterange';
 
@@ -30,7 +30,7 @@ class JFormFieldLogsDateRange extends JFormFieldPredefinedList
 	 * Available options
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $predefinedOptions = array(
 		'today'       => 'COM_ACTIONLOGS_OPTION_RANGE_TODAY',
@@ -46,7 +46,7 @@ class JFormFieldLogsDateRange extends JFormFieldPredefinedList
 	 *
 	 * @param   JForm  $form  The form to attach to the form field object.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public function __construct($form = null)
 	{

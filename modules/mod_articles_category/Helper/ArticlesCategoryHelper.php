@@ -517,12 +517,12 @@ abstract class ArticlesCategoryHelper
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function groupByTags($list, $direction = 'ksort')
 	{
 		$grouped  = array();
-		$untagged = JText::_('MOD_ARTICLES_CATEGORY_UNTAGGED');
+		$untagged = array();
 
 		if (!$list)
 		{
@@ -540,11 +540,16 @@ abstract class ArticlesCategoryHelper
 			}
 			else
 			{
-				$grouped[$untagged][] = $item;
+				$untagged[] = $item;
 			}
 		}
 
 		$direction($grouped);
+
+		if ($untagged)
+		{
+			$grouped['MOD_ARTICLES_CATEGORY_UNTAGGED'] = $untagged;
+		}
 
 		return $grouped;
 	}
