@@ -9,11 +9,11 @@
 		<fields name="request">
 			<field
 				name="extension"
-				type="componentsfields"
-				label="COM_FIELDS_CHOOSE_COMPONENT_LABEL"
+				type="componentsfieldgroup"
+				label="COM_FIELDS_CHOOSE_CONTEXT_LABEL"
 				required="true"
 			>
-				<option value="">COM_MENUS_OPTION_SELECT_COMPONENT</option>
+				<option value="">COM_MENUS_OPTION_SELECT_CONTEXT</option>
 			</field>
 		</fields>
 	</fieldset>

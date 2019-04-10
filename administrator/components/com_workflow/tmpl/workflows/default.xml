@@ -5,4 +5,16 @@
 			<![CDATA[COM_WORKFLOW_WORKFLOWS_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
+	<fieldset name="request">
+		<fields name="request">
+			<field
+				name="extension"
+				type="componentsworkflow"
+				label="COM_WORKFLOW_CHOOSE_CONTEXT_LABEL"
+				required="true"
+			>
+				<option value="">COM_MENUS_OPTION_SELECT_CONTEXT</option>
+			</field>
+		</fields>
+	</fieldset>
 </metadata>

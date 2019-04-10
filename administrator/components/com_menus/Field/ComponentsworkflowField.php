@@ -13,7 +13,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Fields\FieldsServiceInterface;
+use Joomla\CMS\Workflow\WorkflowServiceInterface;
 use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Utilities\ArrayHelper;
@@ -21,11 +21,11 @@ use Joomla\Utilities\ArrayHelper;
 FormHelper::loadFieldClass('list');
 
 /**
- * Components Fields field.
+ * Components Workflow field.
  *
  * @since  1.6
  */
-class ComponentsFieldsField extends \JFormFieldList
+class ComponentsWorkflowField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -33,7 +33,7 @@ class ComponentsFieldsField extends \JFormFieldList
 	 * @var     string
 	 * @since   3.7.0
 	 */
-	protected $type = 'ComponentsFields';
+	protected $type = 'ComponentsWorkflow';
 
 	/**
 	 * Method to get a list of options for a list input.
@@ -68,7 +68,7 @@ class ComponentsFieldsField extends \JFormFieldList
 			{
 				if (!empty(Access::getActionsFromFile(
 					JPATH_ADMINISTRATOR . '/components/' . $item->value . '/access.xml',
-					"/access/section[@name='fieldgroup']/")))
+					"/access/section[@name='workflow']/")))
 				{
 					// Load language
 					$source = JPATH_ADMINISTRATOR . '/components/' . $item->value;
@@ -92,7 +92,7 @@ class ComponentsFieldsField extends \JFormFieldList
 				// Search for different contexts
 				$c = Factory::getApplication()->bootComponent($component->value);
 				
-				if ($c instanceof FieldsServiceInterface)
+				if ($c instanceof WorkflowServiceInterface)
 				{
 					$contexts = $c->getContexts();
 					

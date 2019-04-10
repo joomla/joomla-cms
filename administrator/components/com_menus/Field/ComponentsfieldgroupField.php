@@ -21,11 +21,11 @@ use Joomla\Utilities\ArrayHelper;
 FormHelper::loadFieldClass('list');
 
 /**
- * Components Fields field.
+ * Components Fieldgroup field.
  *
  * @since  1.6
  */
-class ComponentsFieldsField extends \JFormFieldList
+class ComponentsFieldgroupField extends \JFormFieldList
 {
 	/**
 	 * The form field type.
@@ -33,7 +33,7 @@ class ComponentsFieldsField extends \JFormFieldList
 	 * @var     string
 	 * @since   3.7.0
 	 */
-	protected $type = 'ComponentsFields';
+	protected $type = 'ComponentsFieldgroup';
 
 	/**
 	 * Method to get a list of options for a list input.
