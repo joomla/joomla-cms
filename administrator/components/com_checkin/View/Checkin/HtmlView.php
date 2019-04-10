@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_checkin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -45,13 +45,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var  string
-	 */
-	protected $sidebar;
-
-	/**
 	 * Form object for search filters
 	 *
 	 * @var    \JForm
@@ -90,7 +83,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}

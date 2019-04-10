@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,13 +15,16 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Content\Administrator\Helper\PreviewHelper;
+
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * View to edit an article.
@@ -194,8 +197,13 @@ class HtmlView extends BaseHtmlView
 
 			if (!$isNew)
 			{
-				$url = PreviewHelper::url($this->item);
-				$toolbar->preview($url, Text::_('JGLOBAL_PREVIEW'))
+				$url = Route::link(
+					'site',
+					\ContentHelperRoute::getArticleRoute($this->item->id, $this->item->catid, $this->item->language),
+					true
+				);
+
+				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
 
@@ -254,6 +262,11 @@ class HtmlView extends BaseHtmlView
 				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" value="">';
 				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
+		}
+
+		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		{
+			$toolbar->customButton('contract', 'JTOOLBAR_ASSOCIATIONS', 'article.editAssociations');
 		}
 
 		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');

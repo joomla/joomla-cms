@@ -3,15 +3,22 @@
  * @package     Joomla.Administrator
  * @subpackage  com_cpanel
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+
+HTMLHelper::_('behavior.core');
+Text::script('COM_CPANEL_UNPUBLISH_MODULE_SUCCESS');
+Text::script('COM_CPANEL_UNPUBLISH_MODULE_ERROR');
+
+HTMLHelper::_('script', 'com_cpanel/admin-cpanel-default.min.js', array('version' => 'auto', 'relative' => true));
 
 $user = Factory::getUser();
 ?>
@@ -31,7 +38,7 @@ $user = Factory::getUser();
 		</div>
 	<?php endif; ?>
 </div>
-<div class="row">
+<div id="cpanel-modules" class="row">
 	<?php
 	$cols = 0;
 	foreach ($this->modules as $module)

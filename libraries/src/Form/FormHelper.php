@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ class FormHelper
 	 *
 	 * @return  FormFilter|boolean  FormRule object on success, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function loadFilterType($type, $new = true)
 	{
@@ -182,7 +182,7 @@ class FormHelper
 	 *
 	 * @return  string|boolean  Class name on success or false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function loadFilterClass($type)
 	{
@@ -338,7 +338,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of paths that have been added.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function addFilterPath($new = null)
 	{
@@ -435,7 +435,7 @@ class FormHelper
 	 *
 	 * @return  array  The list of namespaces that have been added.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function addFilterPrefix($new = null)
 	{
@@ -537,8 +537,25 @@ class FormHelper
 			$compareEqual     = strpos($showOnPart, '!:') === false;
 			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
+			if (strpos($showOnPartBlocks[0], '.') !== false)
+			{
+				if ($formControl)
+				{
+					$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
+				}
+				else
+				{
+					$groupParts = explode('.', $showOnPartBlocks[0]);
+					$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+				}
+			}
+			else
+			{
+				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+			}
+
 			$showOnData[] = array(
-				'field'  => $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
+				'field'  => $field,
 				'values' => explode(',', $showOnPartBlocks[1]),
 				'sign'   => $compareEqual === true ? '=' : '!=',
 				'op'     => $op,

@@ -60,7 +60,7 @@
 		<field
 			name="transition"
 			type="transition"
-			component="com_content"
+			extension="com_content"
 			addfieldprefix="Joomla\Component\Workflow\Administrator\Field"
 			label="COM_CONTENT_STATE"
 		>
@@ -110,6 +110,16 @@
 			id="created_by_alias"
 			class="inputbox"
 			size="20" 
+		/>
+
+		<field
+			name="note"
+			type="text"
+			label="COM_CONTENT_FIELD_NOTE_LABEL"
+			description="COM_CONTENT_FIELD_NOTE_DESC"
+			class="inputbox"
+			size="40"
+			maxlength="255"
 		/>
 
 		<field

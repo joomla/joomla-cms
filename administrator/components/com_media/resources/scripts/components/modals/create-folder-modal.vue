@@ -1,11 +1,11 @@
 <template>
-    <media-modal v-if="$store.state.showCreateFolderModal" :size="'sm'" @close="close()">
+    <media-modal v-if="$store.state.showCreateFolderModal" :size="'md'" @close="close()">
         <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_CREATE_NEW_FOLDER') }}</h3>
         <div slot="body">
             <form class="form" @submit.prevent="save" novalidate>
                 <div class="form-group">
-                    <label for="folder">{{ translate('COM_MEDIA_FOLDER') }}</label>
-                    <input id="folder" class="form-control" placeholder="Folder"
+                    <label for="folder">{{ translate('COM_MEDIA_FOLDER_NAME') }}</label>
+                    <input id="folder" class="form-control"
                            v-focus="true" v-model.trim="folder" @input="folder = $event.target.value"
                            required autocomplete="off">
                 </div>
@@ -13,7 +13,7 @@
         </div>
         <div slot="footer">
             <button class="btn btn-link" @click="close()">{{ translate('JCANCEL') }}</button>
-            <button class="btn btn-success" @click="save()" :disabled="!isValid()">{{ translate('JAPPLY') }}
+            <button class="btn btn-success" @click="save()" :disabled="!isValid()">{{ translate('JACTION_CREATE') }}
             </button>
         </div>
     </media-modal>
