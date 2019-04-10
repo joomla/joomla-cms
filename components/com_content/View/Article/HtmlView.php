@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Categories\Categories;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
@@ -227,9 +226,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$item->text = $item->introtext;
 		}
-
-		$item->tags = new TagsHelper;
-		$item->tags->getItemTags('com_content.article', $this->item->id);
 
 		if (Associations::isEnabled() && $item->params->get('show_associations'))
 		{

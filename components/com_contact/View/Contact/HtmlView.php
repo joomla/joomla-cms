@@ -387,9 +387,6 @@ class HtmlView extends BaseHtmlView
 		$this->contacts    = &$contacts;
 		$this->contactUser = $contactUser;
 
-		$item->tags = new TagsHelper;
-		$item->tags->getItemTags('com_contact.contact', $this->item->id);
-
 		// Override the layout only if this is not the active menu item
 		// If it is the active menu item, then the view and item id will match
 		if ((!$active) || ((strpos($active->link, 'view=contact') === false) || (strpos($active->link, '&id=' . (string) $this->item->id) === false)))

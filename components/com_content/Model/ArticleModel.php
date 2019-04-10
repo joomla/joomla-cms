@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\ItemModel;
 use Joomla\CMS\Table\Table;
+use Joomla\CMS\Tagging\ContentItem;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 use Joomla\Registry\Registry;
 
@@ -227,6 +228,9 @@ class ArticleModel extends ItemModel
 						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 					}
 				}
+
+				$tagContent = new ContentItem('com_content.article', $pk);
+				$data->tags = $tagContent->getTags();
 
 				$this->_item[$pk] = $data;
 			}

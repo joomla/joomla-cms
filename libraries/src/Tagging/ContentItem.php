@@ -107,7 +107,7 @@ class ContentItem
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true);
 		$query->select('t.*')
-			->from('#__tags', 't')
+			->from($query->qn('#__tags', 't'))
 			->leftJoin('#__tag_content_map m ON t.id = m.tag_id')
 			->where('m.type_alias = ' . $query->q($this->type_alias))
 			->where('m.content_id = ' . $query->q($this->content_id));

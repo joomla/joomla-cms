@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Contact\Site\Helper\Route as ContactHelperRoute;
@@ -64,8 +64,7 @@ $tparams = $this->item->params;
 
 	<?php if ($tparams->get('show_tags', 1) && !empty($this->item->tags->itemTags)) : ?>
 		<div class="com-contact__tags">
-			<?php $this->item->tagLayout = new FileLayout('joomla.content.tags'); ?>
-			<?php echo $this->item->tagLayout->render($this->item->tags->itemTags); ?>
+			<?php echo LayoutHelper::render('joomla.content.tags', $this->item->tags); ?>
 		</div>
 	<?php endif; ?>
 

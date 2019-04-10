@@ -437,25 +437,6 @@ INSERT INTO `#__content_types` (`type_id`, `type_title`, `type_alias`, `table`, 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `#__contentitem_tag_map`
---
-
-CREATE TABLE IF NOT EXISTS `#__contentitem_tag_map` (
-  `type_alias` varchar(255) NOT NULL DEFAULT '',
-  `core_content_id` int(10) unsigned NOT NULL COMMENT 'PK from the core content table',
-  `content_item_id` int(11) NOT NULL COMMENT 'PK from the content type table',
-  `tag_id` int(10) unsigned NOT NULL COMMENT 'PK from the tag table',
-  `tag_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date of most recent save for this tag-item',
-  `type_id` mediumint(8) NOT NULL COMMENT 'PK from the content_type table',
-  UNIQUE KEY `uc_ItemnameTagid` (`type_id`,`content_item_id`,`tag_id`),
-  KEY `idx_tag_type` (`tag_id`,`type_id`),
-  KEY `idx_date_id` (`tag_date`,`tag_id`),
-  KEY `idx_core_content_id` (`core_content_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci COMMENT='Maps items from content tables to tags';
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `#__core_log_searches`
 --
 
@@ -1701,7 +1682,7 @@ CREATE TABLE IF NOT EXISTS `#__tags` (
   KEY `idx_left_right` (`lft`,`rgt`),
   KEY `idx_alias` (`alias`(100)),
   KEY `idx_language` (`language`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `#__tags`

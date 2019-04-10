@@ -104,10 +104,12 @@ class PlgBehaviourTaggable extends CMSPlugin
 		{
 			$db = Factory::getDbo();
 			$contentType = new ContentType($db);
+
 			if (!$contentType->load(['type_title' => $typeAlias]))
 			{
 				return;
 			}
+
 
 			var_dump($contentType);
 		}
@@ -154,10 +156,9 @@ class PlgBehaviourTaggable extends CMSPlugin
 		$table			= $event['subject'];
 		$pk				= $event['pk'];
 
-		$id = $event['pk'][$table->getKeyName()];
-		$contentItem = new ContentItem($table->getTypeAlias(), $id);
+		$contentItem = new ContentItem($table->getTypeAlias(), $pk);
 
-		if ($contentItem->content_id == $id)
+		if ($contentItem->content_id == $pk)
 		{
 			$contentItem->delete();
 		}

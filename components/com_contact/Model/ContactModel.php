@@ -20,6 +20,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Tagging\ContentItem;
 use Joomla\Registry\Registry;
 
 /**
@@ -274,6 +275,9 @@ class ContactModel extends FormModel
 						$data->params->set('access-view', in_array($data->access, $groups) && in_array($data->category_access, $groups));
 					}
 				}
+
+				$tagContent = new ContentItem('com_contact.contact', $pk);
+				$data->tags = $tagContent->getTags();
 
 				$this->_item[$pk] = $data;
 			}

@@ -43,10 +43,8 @@ class TagsHelper
 
 	}
 
-	public static function getContentItem($typeAlias, $contentId)
+	public static function getContentItemTags($typeAlias, $contentId)
 	{
 
 	}
-
-
 }
