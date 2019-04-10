@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 
 /**
@@ -73,7 +70,7 @@ class PlgPrivacyMessage extends PrivacyPlugin
 	 */
 	private function createMessageDomain(JUser $user)
 	{
-		$domain = $this->createDomain('user message', 'Joomla! user message data');
+		$domain = $this->createDomain('user_messages', 'joomla_user_messages_data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')

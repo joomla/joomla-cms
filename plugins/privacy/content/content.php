@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 
@@ -40,7 +38,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	/**
 	 * Contents array
 	 *
-	 * @var    Array
+	 * @var    array
 	 * @since  3.9.0
 	 */
 	protected $contents = array();
@@ -88,7 +86,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 */
 	private function createContentDomain(JUser $user)
 	{
-		$domain = $this->createDomain('user content', 'Joomla! user content data');
+		$domain = $this->createDomain('user_content', 'joomla_user_content_data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')
@@ -118,7 +116,7 @@ class PlgPrivacyContent extends PrivacyPlugin
 	 */
 	private function createContentCustomFieldsDomain($content)
 	{
-		$domain = $this->createDomain('content custom fields', 'Joomla! content custom fields data');
+		$domain = $this->createDomain('content_custom_fields', 'joomla_content_custom_fields_data');
 
 		// Get item's fields, also preparing their value property for manual display
 		$fields = FieldsHelper::getFields('com_content.article', $content);
