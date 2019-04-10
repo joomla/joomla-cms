@@ -16,7 +16,7 @@ JLoader::register('PrivacyExportField', __DIR__ . '/field.php');
  *
  * An item is typically a single row from a database table.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyExportItem
 {
@@ -24,7 +24,7 @@ class PrivacyExportItem
 	 * The primary identifier of this item, typically the primary key for a database row.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $id;
 
@@ -32,7 +32,7 @@ class PrivacyExportItem
 	 * The fields belonging to this item
 	 *
 	 * @var    PrivacyExportField[]
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $fields = array();
 
@@ -43,7 +43,7 @@ class PrivacyExportItem
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public function addField(PrivacyExportField $field)
 	{
@@ -55,7 +55,7 @@ class PrivacyExportItem
 	 *
 	 * @return  PrivacyExportField[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public function getFields()
 	{

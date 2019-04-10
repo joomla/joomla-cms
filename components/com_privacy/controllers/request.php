@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Request action controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyControllerRequest extends JControllerLegacy
 {
@@ -21,7 +21,7 @@ class PrivacyControllerRequest extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function confirm()
 	{
@@ -75,7 +75,7 @@ class PrivacyControllerRequest extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function submit()
 	{
@@ -129,7 +129,7 @@ class PrivacyControllerRequest extends JControllerLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function remind()
 	{

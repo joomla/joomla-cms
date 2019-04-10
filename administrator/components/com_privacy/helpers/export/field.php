@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Data object representing a field within an item.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyExportField
 {
@@ -20,7 +20,7 @@ class PrivacyExportField
 	 * The name of this field
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $name;
 
@@ -28,7 +28,7 @@ class PrivacyExportField
 	 * The field's value
 	 *
 	 * @var    mixed
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $value;
 }

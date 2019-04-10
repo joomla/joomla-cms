@@ -140,6 +140,9 @@ class ExtensionHelper
 		// Core plugin extensions - actionlog
 		array('plugin', 'joomla', 'actionlog', 0),
 
+		// Core plugin extensions - API Authentication
+		array('plugin', 'basic', 'api-authentication', 0),
+
 		// Core plugin extensions - authentication
 		array('plugin', 'cookie', 'authentication', 0),
 		array('plugin', 'joomla', 'authentication', 0),
@@ -151,6 +154,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - captcha
 		array('plugin', 'recaptcha', 'captcha', 0),
+		array('plugin', 'recaptcha_invisible', 'captcha', 0),
 
 		// Core plugin extensions - content
 		array('plugin', 'confirmconsent', 'content', 0),
@@ -182,6 +186,7 @@ class ExtensionHelper
 		// Core plugin extensions - extension
 		array('plugin', 'joomla', 'extension', 0),
 		array('plugin', 'namespacemap', 'extension', 0),
+		array('plugin', 'finder', 'extension', 0),
 
 		// Core plugin extensions - fields
 		array('plugin', 'calendar', 'fields', 0),
@@ -224,6 +229,7 @@ class ExtensionHelper
 		array('plugin', 'rotate', 'media-action', 0),
 
 		// Core plugin extensions - privacy
+		array('plugin', 'actionlogs', 'privacy', 0),
 		array('plugin', 'contact', 'privacy', 0),
 		array('plugin', 'content', 'privacy', 0),
 		array('plugin', 'message', 'privacy', 0),
@@ -264,6 +270,7 @@ class ExtensionHelper
 		array('plugin', 'remember', 'system', 0),
 		array('plugin', 'sef', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
+		array('plugin', 'skipto', 'system', 0),
 		array('plugin', 'stats', 'system', 0),
 		array('plugin', 'sessiongc', 'system', 0),
 		array('plugin', 'updatenotification', 'system', 0),
@@ -277,6 +284,9 @@ class ExtensionHelper
 		array('plugin', 'joomla', 'user', 0),
 		array('plugin', 'profile', 'user', 0),
 		array('plugin', 'terms', 'user', 0),
+
+		// Core plugin extensions - webservices
+		array('plugin', 'content', 'webservices', 0),
 
 		// Core template extensions - administrator
 		array('template', 'atum', '', 1),

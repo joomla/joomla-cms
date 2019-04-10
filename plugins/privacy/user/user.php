@@ -14,11 +14,12 @@ use Joomla\Utilities\ArrayHelper;
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
+JLoader::register('PrivacyTableRequest', JPATH_ADMINISTRATOR . '/components/com_privacy/tables/request.php');
 
 /**
  * Privacy plugin managing Joomla user data
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgPrivacyUser extends PrivacyPlugin
 {
@@ -26,7 +27,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * Database object
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -34,7 +35,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * Affects constructor behavior. If true, language files will be loaded automatically.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -44,21 +45,20 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * This event will not allow a super user account to be removed
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
 	 *
 	 * @return  PrivacyRemovalStatus
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public function onPrivacyCanRemoveData(PrivacyTableRequest $request)
+	public function onPrivacyCanRemoveData(PrivacyTableRequest $request, JUser $user = null)
 	{
 		$status = new PrivacyRemovalStatus;
 
-		if (!$request->user_id)
+		if (!$user)
 		{
 			return $status;
 		}
-
-		$user = JUser::getInstance($request->user_id);
 
 		if ($user->authorise('core.admin'))
 		{
@@ -80,27 +80,28 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * - User custom fields
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
 	 *
 	 * @return  PrivacyExportDomain[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public function onPrivacyExportRequest(PrivacyTableRequest $request)
+	public function onPrivacyExportRequest(PrivacyTableRequest $request, JUser $user = null)
 	{
-		if (!$request->user_id)
+		if (!$user)
 		{
 			return array();
 		}
 
-		/** @var JTableUser $user */
-		$user = JUser::getTable();
-		$user->load($request->user_id);
+		/** @var JTableUser $userTable */
+		$userTable = JUser::getTable();
+		$userTable->load($user->id);
 
 		$domains = array();
-		$domains[] = $this->createUserDomain($user);
-		$domains[] = $this->createNotesDomain($user);
-		$domains[] = $this->createProfileDomain($user);
-		$domains[] = $this->createUserCustomFieldsDomain($user);
+		$domains[] = $this->createUserDomain($userTable);
+		$domains[] = $this->createNotesDomain($userTable);
+		$domains[] = $this->createProfileDomain($userTable);
+		$domains[] = $this->createUserCustomFieldsDomain($userTable);
 
 		return $domains;
 	}
@@ -111,23 +112,16 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 * This event will pseudoanonymise the user account
 	 *
 	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   JUser                $user     The user account associated with this request if available
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public function onPrivacyRemoveData(PrivacyTableRequest $request)
+	public function onPrivacyRemoveData(PrivacyTableRequest $request, JUser $user = null)
 	{
 		// This plugin only processes data for registered user accounts
-		if (!$request->user_id)
-		{
-			return;
-		}
-
-		$user = JUser::getInstance($request->user_id);
-
-		// If there was an error loading the user do nothing here
-		if ($user->guest)
+		if (!$user)
 		{
 			return;
 		}
@@ -182,11 +176,11 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createNotesDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('user notes', 'Joomla! user notes data');
+		$domain = $this->createDomain('user_notes', 'joomla_user_notes_data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')
@@ -216,11 +210,11 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createProfileDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('user profile', 'Joomla! user profile data');
+		$domain = $this->createDomain('user_profile', 'joomla_user_profile_data');
 
 		$query = $this->db->getQuery(true)
 			->select('*')
@@ -245,11 +239,11 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createUserDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('users', 'Joomla! users table data');
+		$domain = $this->createDomain('users', 'joomla_users_data');
 		$domain->addItem($this->createItemForUserTable($user));
 
 		return $domain;
@@ -262,7 +256,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportItem
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createItemForUserTable(JTableUser $user)
 	{
@@ -287,11 +281,11 @@ class PlgPrivacyUser extends PrivacyPlugin
 	 *
 	 * @return  PrivacyExportDomain
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function createUserCustomFieldsDomain(JTableUser $user)
 	{
-		$domain = $this->createDomain('user custom fields', 'Joomla! user custom fields data');
+		$domain = $this->createDomain('user_custom_fields', 'joomla_user_custom_fields_data');
 
 		// Get item's fields, also preparing their value property for manual display
 		$fields = FieldsHelper::getFields('com_users.user', $user);
