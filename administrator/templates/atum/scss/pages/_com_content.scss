@@ -24,12 +24,15 @@
 		.subhead {
 			background-color: transparent;
 		}
+		joomla-field-media .field-media-preview {
+			height: 164px;
+		}
 		joomla-tab {
 			#attrib-basic[active],
 			#editor[active] {
 				display: grid;
-				grid-template-columns: 45% 45%;
-				grid-column-gap: 10%;
+				grid-template-columns: calc(50% - 15px) calc(50% - 15px);
+				grid-column-gap: 30px;
 				@include media-breakpoint-down(md) {
 					display: block;
 					grid-template-columns: 100%;

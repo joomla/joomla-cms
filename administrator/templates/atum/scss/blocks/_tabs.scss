@@ -10,7 +10,7 @@ joomla-tab {
 	flex-direction: column;
 	margin-bottom: 5rem;
 	&[orientation=horizontal]:not([view=accordion]) > ul {
-		width: calc(100% - #{$grid-gutter-width} - 50px * 2);
+		width: calc(100% - #{$grid-gutter-width} - #{$grid-gutter-width-s} * 2);
 		position: fixed;
 		bottom: 0;
 		z-index: 3;
