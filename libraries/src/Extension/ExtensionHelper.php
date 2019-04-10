@@ -154,6 +154,7 @@ class ExtensionHelper
 
 		// Core plugin extensions - captcha
 		array('plugin', 'recaptcha', 'captcha', 0),
+		array('plugin', 'recaptcha_invisible', 'captcha', 0),
 
 		// Core plugin extensions - content
 		array('plugin', 'confirmconsent', 'content', 0),
@@ -228,6 +229,7 @@ class ExtensionHelper
 		array('plugin', 'rotate', 'media-action', 0),
 
 		// Core plugin extensions - privacy
+		array('plugin', 'actionlogs', 'privacy', 0),
 		array('plugin', 'contact', 'privacy', 0),
 		array('plugin', 'content', 'privacy', 0),
 		array('plugin', 'message', 'privacy', 0),

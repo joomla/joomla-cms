@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
-use Joomla\CMS\Session\Session;
 
 /**
  * Template style controller class.
@@ -42,10 +41,7 @@ class StyleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!Session::checkToken())
-		{
-			Factory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
-		}
+		$this->checkToken();
 
 		$document = Factory::getDocument();
 
