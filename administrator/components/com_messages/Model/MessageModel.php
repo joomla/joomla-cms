@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 
@@ -354,9 +355,11 @@ class MessageModel extends AdminModel
 			$lang->load('com_messages', JPATH_ADMINISTRATOR);
 
 			// Build the email subject and message
-			$sitename = Factory::getApplication()->get('sitename');
+			$app      = Factory::getApplication();
+			$linkMode = $app->get('force_ssl', 0) >= 1 ? 1 : -1;
+			$sitename = $app->get('sitename');
 			$fromName = $fromUser->get('name');
-			$siteURL  = Uri::root() . 'administrator/index.php?option=com_messages&view=message&message_id=' . $table->message_id;
+			$siteURL  = Route::link('administrator', 'index.php?option=com_messages&view=message&message_id=' . $table->message_id, true, $linkMode);
 			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
 			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 
@@ -435,7 +438,7 @@ class MessageModel extends AdminModel
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function notifySuperUsers($subject, $message, $fromUser = null)
 	{

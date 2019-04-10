@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Request management controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyControllerRequest extends JControllerLegacy
 {
@@ -21,7 +21,7 @@ class PrivacyControllerRequest extends JControllerLegacy
 	 *
 	 * @return  $this
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function export()
 	{

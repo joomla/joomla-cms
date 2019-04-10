@@ -12,12 +12,12 @@ defined('_JEXEC') or die;
 /**
  * Table interface class for the #__privacy_consents table
  *
- * @property   integer  $id                        Item ID (primary key)
- * @property   integer  $remind                    The status of the reminder request
- * @property   string   $token                     Hashed token for the reminder request
- * @property   integer  $user_id                   User ID (pseudo foreign key to the #__users table) if the request is associated to a user account
+ * @property   integer  $id       Item ID (primary key)
+ * @property   integer  $remind   The status of the reminder request
+ * @property   string   $token    Hashed token for the reminder request
+ * @property   integer  $user_id  User ID (pseudo foreign key to the #__users table) if the request is associated to a user account
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyTableConsent extends JTable
 {
@@ -26,7 +26,7 @@ class PrivacyTableConsent extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  JDatabaseDriver connector object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
