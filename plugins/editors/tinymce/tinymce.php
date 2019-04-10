@@ -64,6 +64,7 @@ class PlgEditorTinymce extends CMSPlugin
 		HTMLHelper::_('behavior.core');
 		HTMLHelper::_('script', $this->_basePath . '/tinymce.min.js', array('version' => 'auto'));
 		HTMLHelper::_('script', 'plg_editors_tinymce/tinymce.min.js', array('version' => 'auto', 'relative' => true));
+		HTMLHelper::_('script', 'plg_editors_tinymce/a11ytheme.js', array('version' => 'auto', 'relative' => true));
 	}
 
 	/**
