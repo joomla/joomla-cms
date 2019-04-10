@@ -26,8 +26,9 @@ class PrivacyModelDashboard extends JModelLegacy
 	public function getPrivacyPolicyInfo()
 	{
 		$policy = array(
-			'published' => false,
-			'editLink'  => '',
+			'published'         => false,
+			'articlePublished'  => false,
+			'editLink'          => '',
 		);
 
 		/*
@@ -84,9 +85,24 @@ class PrivacyModelDashboard extends JModelLegacy
 		$item = $menu->getItems('link', 'index.php?option=com_privacy&view=request', true);
 
 		$status = array(
+			'exists'    => false,
 			'published' => false,
 			'link'      => '',
 		);
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('client_id') . ' = 0')
+			->where($db->quoteName('link') . ' = ' . $db->quote('index.php?option=com_privacy&view=request'));
+		$db->setQuery($query);
+
+		// Check if the menu item exists in database
+		if ($db->loadResult())
+		{
+			$status['exists'] = true;
+		}
 
 		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 

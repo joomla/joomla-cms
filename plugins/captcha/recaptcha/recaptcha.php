@@ -107,7 +107,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$ele->setAttribute('data-error-callback', $this->params->get('error_callback', ''));
 
 		$dom->appendChild($ele);
-		return $dom->saveXML($ele);
+		return $dom->saveHTML($ele);
 	}
 
 	/**
