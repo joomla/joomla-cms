@@ -9,10 +9,12 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+
 /**
  * Requests management model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelRequests extends JModelList
 {
@@ -21,7 +23,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct($config = array())
 	{
@@ -34,6 +36,7 @@ class PrivacyModelRequests extends JModelList
 				'request_type', 'a.request_type',
 				'checked_out', 'a.checked_out',
 				'checked_out_time', 'a.checked_out_time',
+				'status', 'a.status',
 			);
 		}
 
@@ -45,7 +48,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  JDatabaseQuery
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getListQuery()
 	{
@@ -56,10 +59,6 @@ class PrivacyModelRequests extends JModelList
 		// Select the required fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__privacy_requests', 'a'));
-
-		// Join over the users for the username.
-		$query->select($db->quoteName('ua.username', 'username'));
-		$query->join('LEFT', $db->quoteName('#__users', 'ua') . ' ON ua.id = a.user_id');
 
 		// Join over the users for the checked out user.
 		$query->select($db->quoteName('uc.name', 'editor'));
@@ -120,7 +119,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getStoreId($id = '')
 	{
@@ -142,7 +141,7 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState($ordering = 'a.id', $direction = 'desc')
 	{
@@ -167,5 +166,31 @@ class PrivacyModelRequests extends JModelList
 
 		// List state information.
 		parent::populateState($ordering, $direction);
+	}
+
+	/**
+	 * Method to return number privacy requests older than X days.
+	 *
+	 * @return  integer
+	 *
+	 * @since   3.9.0
+	 */
+	public function getNumberUrgentRequests()
+	{
+		// Load the parameters.
+		$params = ComponentHelper::getComponent('com_privacy')->getParams();
+		$notify = (int) $params->get('notify', 14);
+		$now    = JFactory::getDate()->toSql();
+		$period = '-' . $notify;
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(*)');
+		$query->from($db->quoteName('#__privacy_requests'));
+		$query->where($db->quoteName('status') . ' = 1 ');
+		$query->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
+		$db->setQuery($query);
+
+		return (int) $db->loadResult();
 	}
 }
