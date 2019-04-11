@@ -12,11 +12,8 @@ namespace Joomla\Component\Languages\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Client Language List field.
