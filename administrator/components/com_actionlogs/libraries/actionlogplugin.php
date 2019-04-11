@@ -8,7 +8,9 @@
  */
 defined('_JEXEC') or die;
 
-JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+use \Joomla\CMS\MVC\Model\BaseModel;
+
+BaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
 /**
  * Abstract Action Log Plugin
@@ -90,7 +92,7 @@ abstract class ActionLogPlugin extends JPlugin
 		}
 
 		/** @var ActionlogsModelActionlog $model **/
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model = BaseModel::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLog($messages, strtoupper($messageLanguageKey), $context, $userId);
 	}
 }
