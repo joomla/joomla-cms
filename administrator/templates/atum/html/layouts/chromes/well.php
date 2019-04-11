@@ -45,7 +45,7 @@ if ($module->content) :
 
 				<div class="module-actions dropdown">
 					<a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton-<?php echo $id; ?>">
-						<span class="fa fa-cog"><span class="sr-only">
+						<span class="fa fa-edit"><span class="sr-only">
 							<?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?>
 						</span></span>
 					</a>
