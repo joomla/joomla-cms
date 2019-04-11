@@ -24,6 +24,8 @@ use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
 
+JLoader::register('ContentHelperAssociation', JPATH_SITE . '/components/com_content/helpers/association.php');
+
 /**
  * This models supports retrieving lists of articles.
  *
