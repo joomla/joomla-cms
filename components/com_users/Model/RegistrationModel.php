@@ -70,7 +70,7 @@ class RegistrationModel extends FormModel
 	 *
 	 * @return  mixed   False on failure, id of the user on success
 	 *
-	 * @since   4.0.0
+	 * @since   3.8.13
 	 */
 	public function getUserIdFromToken($token)
 	{
