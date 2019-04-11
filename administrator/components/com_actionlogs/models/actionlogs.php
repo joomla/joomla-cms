@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -318,5 +319,33 @@ class ActionlogsModelActionlogs extends JModelList
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  \JForm|boolean  The \JForm object or false on error
+	 *
+	 * @since  3.9.0
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form      = parent::getFilterForm($data, $loadData);
+		$params    = ComponentHelper::getParams('com_actionlogs');
+		$ipLogging = (bool) $params->get('ip_logging', 0);
+
+		// Add ip sort options to sort dropdown
+		if ($form && $ipLogging)
+		{
+			/* @var JFormFieldList $field */
+			$field = $form->getField('fullordering', 'list');
+			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
+			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));
+		}
+
+		return $form;
 	}
 }

@@ -9,6 +9,12 @@
 
 defined('_JEXEC') or die;
 
+// Only super user can view this data
+if (!JFactory::getUser()->authorise('core.admin'))
+{
+	return;
+}
+
 // Include dependencies.
 JLoader::register('ModLatestActionsHelper', __DIR__ . '/helper.php');
 
