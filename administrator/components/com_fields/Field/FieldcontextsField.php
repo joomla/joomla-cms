@@ -13,16 +13,13 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Fields\FieldsServiceInterface;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Fields Contexts
  *
  * @since  3.7.0
  */
-class FieldcontextsField extends \JFormFieldList
+class FieldcontextsField extends ListField
 {
 	public $type = 'Fieldcontexts';
 
