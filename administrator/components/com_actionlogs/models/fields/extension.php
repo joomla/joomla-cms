@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Field to load a list of all users that have logged actions
