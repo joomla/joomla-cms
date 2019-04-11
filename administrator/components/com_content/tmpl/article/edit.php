@@ -66,7 +66,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 		<?php if ($params->get('show_urls_images_backend') == 1) : ?>
 			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'images', Text::_('COM_CONTENT_FIELDSET_URLS_AND_IMAGES')); ?>
 			<div class="row">
-				<div class="col-md-6">
+				<div class="col-md-6 pr-4">
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
 						<?php if ($field->type == 'Media') : ?>
 							<div class="row">
@@ -86,7 +86,7 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 						</div>
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 pl-4">
 					<?php foreach ($this->form->getGroup('urls') as $field) : ?>
 						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
