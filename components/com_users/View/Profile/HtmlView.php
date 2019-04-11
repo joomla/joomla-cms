@@ -147,9 +147,6 @@ class HtmlView extends BaseHtmlView
 			throw new \Exception(Text::_('JERROR_USERS_PROFILE_NOT_FOUND'), 404);
 		}
 
-		$this->data->tags = new TagsHelper;
-		$this->data->tags->getItemTags('com_users.user', $this->data->id);
-
 		PluginHelper::importPlugin('content');
 		$this->data->text = '';
 		Factory::getApplication()->triggerEvent('onContentPrepare', array ('com_users.user', &$this->data, &$this->data->params, 0));

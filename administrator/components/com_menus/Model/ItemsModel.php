@@ -404,7 +404,28 @@ class ItemsModel extends ListModel
 
 		if (!empty($parentId))
 		{
-			$query->where('a.parent_id = ' . (int) $parentId);
+			$level = $this->getState('filter.level');
+
+			// Create a subquery for the sub-items list
+			$subQuery = $db->getQuery(true)
+				->select('sub.id')
+				->from('#__menu as sub')
+				->join('INNER', '#__menu as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
+				->where('this.id = ' . (int) $parentId);
+
+			if ($level)
+			{
+				$subQuery->where('sub.level <= this.level + ' . (int) ($level - 1));
+			}
+
+			// Add the subquery to the main query
+			$query->where('(a.parent_id = ' . (int) $parentId . ' OR a.parent_id IN (' . (string) $subQuery . '))');
+		}
+
+		// Filter on the level.
+		elseif ($level = $this->getState('filter.level'))
+		{
+			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter the items over the menu id if set.
@@ -466,12 +487,6 @@ class ItemsModel extends ListModel
 			{
 				$query->where('a.access IN (' . implode(',', $groups) . ')');
 			}
-		}
-
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
-		{
-			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter on the language.

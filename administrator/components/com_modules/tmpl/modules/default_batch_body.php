@@ -41,24 +41,18 @@ HTMLHelper::_('webcomponent', 'system/fields/joomla-field-fancy-select.min.js', 
 <div class="container">
 	<div class="row">
 		<?php if ($clientId != 1) : ?>
-            <div class="form-group col-md-6">
-                <div class="controls">
+			<div class="form-group col-md-6">
+				<div class="controls">
 					<?php echo LayoutHelper::render('joomla.html.batch.language', array()); ?>
-                </div>
-            </div>
-		<?php elseif ($clientId == 1 && ModuleHelper::isAdminMultilang()) : ?>
-            <div class="form-group col-md-6">
-                <div class="controls">
-					<?php echo LayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
-                </div>
-            </div>
-		<?php endif; ?>
-
-        <div class="form-group col-md-6">
-			<div class="controls">
-				<?php echo LayoutHelper::render('joomla.html.batch.language', []); ?>
+				</div>
 			</div>
-		</div>
+		<?php elseif ($clientId == 1 && ModuleHelper::isAdminMultilang()) : ?>
+			<div class="form-group col-md-6">
+				<div class="controls">
+					<?php echo LayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>
+				</div>
+			</div>
+		<?php endif; ?>
 		<div class="form-group col-md-6">
 			<div class="controls">
 				<?php echo LayoutHelper::render('joomla.html.batch.access', []); ?>
