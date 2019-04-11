@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Actionlogs list controller class.
@@ -70,7 +70,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 
 		if ($task == 'exportSelectedLogs')
 		{
-			// Get selected logs			
+			// Get selected logs
 			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
 		}
 

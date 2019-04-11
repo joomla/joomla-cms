@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 JLoader::register('PrivacyTableRequest', JPATH_ADMINISTRATOR . '/components/com_privacy/tables/request.php');
@@ -41,7 +39,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 	/**
 	 * Contacts array
 	 *
-	 * @var    Array
+	 * @var    array
 	 * @since  3.9.0
 	 */
 	protected $contacts = array();
@@ -91,7 +89,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 */
 	private function createContactDomain(PrivacyTableRequest $request, JUser $user = null)
 	{
-		$domain = $this->createDomain('user contact', 'Joomla! user contact data');
+		$domain = $this->createDomain('user_contact', 'joomla_user_contact_data');
 
 		if ($user)
 		{
@@ -132,7 +130,7 @@ class PlgPrivacyContact extends PrivacyPlugin
 	 */
 	private function createContactCustomFieldsDomain($contact)
 	{
-		$domain = $this->createDomain('contact custom fields', 'Joomla! contact custom fields data');
+		$domain = $this->createDomain('contact_custom_fields', 'joomla_contact_custom_fields_data');
 
 		// Get item's fields, also preparing their value property for manual display
 		$fields = FieldsHelper::getFields('com_contact.contact', $contact);
