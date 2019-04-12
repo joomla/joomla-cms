@@ -125,9 +125,9 @@ class MenuHelper
 							$item->flink = 'index.php?Itemid=' . $item->params->get('aliasoptions');
 
 							// Get the language of the target menu item when site is multilingual
-							if (JLanguageMultilang::isEnabled())
+							if (Multilanguage::isEnabled())
 							{
-								$newItem = JFactory::getApplication()->getMenu()->getItem((int) $item->params->get('aliasoptions'));
+								$newItem = Factory::getApplication()->getMenu()->getItem((int) $item->params->get('aliasoptions'));
 
 								// Use language code if not set to ALL
 								if ($newItem != null && $newItem->language && $newItem->language !== '*')
