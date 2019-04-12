@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Dashboard model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelDashboard extends JModelLegacy
 {
@@ -21,17 +21,18 @@ class PrivacyModelDashboard extends JModelLegacy
 	 *
 	 * @return  array  Array containing a status of whether a privacy policy is set and a link to the policy document for editing
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getPrivacyPolicyInfo()
 	{
 		$policy = array(
-			'published' => false,
-			'editLink'  => '',
+			'published'         => false,
+			'articlePublished'  => false,
+			'editLink'          => '',
 		);
 
 		/*
-		 * Prior to __DEPLOY_VERSION__ it was common for a plugin such as the User - Profile plugin to define a privacy policy or
+		 * Prior to 3.9.0 it was common for a plugin such as the User - Profile plugin to define a privacy policy or
 		 * terms of service article, therefore we will also import the user plugin group to process this event.
 		 */
 		JPluginHelper::importPlugin('privacy');
@@ -47,7 +48,7 @@ class PrivacyModelDashboard extends JModelLegacy
 	 *
 	 * @return  array  Array containing site privacy requests
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getRequestCounts()
 	{
@@ -74,7 +75,7 @@ class PrivacyModelDashboard extends JModelLegacy
 	 *
 	 * @return  array  Array containing a status of whether a menu is published for the request form and its current link
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getRequestFormPublished()
 	{
@@ -84,9 +85,24 @@ class PrivacyModelDashboard extends JModelLegacy
 		$item = $menu->getItems('link', 'index.php?option=com_privacy&view=request', true);
 
 		$status = array(
+			'exists'    => false,
 			'published' => false,
 			'link'      => '',
 		);
+
+		$db    = $this->getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('id'))
+			->from($db->quoteName('#__menu'))
+			->where($db->quoteName('client_id') . ' = 0')
+			->where($db->quoteName('link') . ' = ' . $db->quote('index.php?option=com_privacy&view=request'));
+		$db->setQuery($query);
+
+		// Check if the menu item exists in database
+		if ($db->loadResult())
+		{
+			$status['exists'] = true;
+		}
 
 		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 

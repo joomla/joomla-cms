@@ -147,14 +147,6 @@ class DatabaseModel extends BaseInstallationModel
 			return false;
 		}
 
-		// Ensure that a database name was input.
-		if (empty($options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
-
-			return false;
-		}
-
 		// Validate database table prefix.
 		if (isset($options->db_prefix) && !preg_match('#^[a-zA-Z]+[a-zA-Z0-9_]*$#', $options->db_prefix))
 		{
@@ -180,7 +172,7 @@ class DatabaseModel extends BaseInstallationModel
 		}
 
 		// Validate database name.
-		if (in_array($options->db_type, ['pgsql', 'postgresql']) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
+		if (in_array($options->db_type, ['pgsql', 'postgresql'], true) && !preg_match('#^[a-zA-Z_][0-9a-zA-Z_$]*$#', $options->db_name))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG_POSTGRESQL'), 'warning');
 

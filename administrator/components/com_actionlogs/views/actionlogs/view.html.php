@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\Registry\Registry;
-use Joomla\CMS\Plugin\PluginHelper;
+
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * View class for a list of logs.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsViewActionlogs extends JViewLegacy
 {
@@ -24,7 +24,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	 * An array of items.
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $items;
 
@@ -32,7 +32,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	 * The model state
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $state;
 
@@ -40,7 +40,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	 * The pagination object
 	 *
 	 * @var    JPagination
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $pagination;
 
@@ -48,7 +48,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	 * The active search filters
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $activeFilters;
 
@@ -59,7 +59,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function display($tpl = null)
 	{
@@ -92,7 +92,7 @@ class ActionlogsViewActionlogs extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function addToolbar()
 	{

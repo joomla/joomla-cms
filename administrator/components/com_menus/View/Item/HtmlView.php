@@ -130,6 +130,7 @@ class HtmlView extends BaseHtmlView
 		$isNew      = ($this->item->id == 0);
 		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $user->get('id'));
 		$canDo      = $this->canDo;
+		$clientId   = $this->state->get('item.client_id', 0);
 
 		ToolbarHelper::title(Text::_($isNew ? 'COM_MENUS_VIEW_NEW_ITEM_TITLE' : 'COM_MENUS_VIEW_EDIT_ITEM_TITLE'), 'list menu-add');
 
@@ -171,7 +172,7 @@ class HtmlView extends BaseHtmlView
 			'btn-success'
 		);
 
-		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations') && $clientId != 1)
 		{
 			ToolbarHelper::custom('item.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
 		}

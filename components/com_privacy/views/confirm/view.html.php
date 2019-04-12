@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Request confirmation view class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyViewConfirm extends JViewLegacy
 {
@@ -22,7 +22,7 @@ class PrivacyViewConfirm extends JViewLegacy
 	 * The form object
 	 *
 	 * @var    JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $form;
 
@@ -30,7 +30,7 @@ class PrivacyViewConfirm extends JViewLegacy
 	 * The CSS class suffix to append to the view container
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $pageclass_sfx;
 
@@ -38,7 +38,7 @@ class PrivacyViewConfirm extends JViewLegacy
 	 * The view parameters
 	 *
 	 * @var    Registry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $params;
 
@@ -46,7 +46,7 @@ class PrivacyViewConfirm extends JViewLegacy
 	 * The state information
 	 *
 	 * @var    JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $state;
 
@@ -58,7 +58,7 @@ class PrivacyViewConfirm extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  Exception
 	 */
 	public function display($tpl = null)
@@ -87,7 +87,7 @@ class PrivacyViewConfirm extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function prepareDocument()
 	{

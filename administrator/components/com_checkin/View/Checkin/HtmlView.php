@@ -45,13 +45,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var  string
-	 */
-	protected $sidebar;
-
-	/**
 	 * Form object for search filters
 	 *
 	 * @var    \JForm
@@ -90,7 +83,6 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
