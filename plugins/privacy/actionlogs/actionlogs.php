@@ -54,11 +54,18 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$data = ActionlogsHelper::getCsvData($data);
-		array_shift($data);
+		$data    = ActionlogsHelper::getCsvData($data);
+		$isFirst = true;
 
 		foreach ($data as $item)
 		{
+			if ($isFirst)
+			{
+				$isFirst = false;
+
+				continue;
+			}
+
 			$domain->addItem($this->createItemFromArray($item));
 		}
 
