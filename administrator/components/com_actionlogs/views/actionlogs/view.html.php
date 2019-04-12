@@ -104,6 +104,5 @@ class ActionlogsViewActionlogs extends JViewLegacy
 		$bar->appendButton('Confirm', 'COM_ACTIONLOGS_PURGE_CONFIRM', 'delete', 'COM_ACTIONLOGS_TOOLBAR_PURGE', 'actionlogs.purge', false);
 		JToolbarHelper::preferences('com_actionlogs');
 		JToolbarHelper::help('JHELP_COMPONENTS_ACTIONLOGS');
-
 	}
 }
