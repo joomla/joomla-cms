@@ -41,18 +41,6 @@
 		</field>
 
 		<field
-			name="checked_out"
-			type="hidden"
-			filter="unset"
-		/>
-
-		<field
-			name="checked_out_time"
-			type="hidden"
-			filter="unset"
-		/>
-
-		<field
 			name="id"
 			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"

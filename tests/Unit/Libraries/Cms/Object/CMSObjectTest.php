@@ -19,7 +19,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Object
- * @since       11.1
+ * @since       1.7.0
  */
 class CMSObjectTest extends UnitTestCase
 {
