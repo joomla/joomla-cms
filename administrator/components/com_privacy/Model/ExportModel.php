@@ -307,7 +307,7 @@ class ExportModel extends BaseDatabaseModel
 	 */
 	public function logExportEmailed(RequestTable $request)
 	{
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 
 		$message = [
 			'action'      => 'export_emailed',
