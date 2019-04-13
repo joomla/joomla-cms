@@ -11,11 +11,13 @@ namespace Joomla\Component\Privacy\Site\Router;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\Router\RouterView;
 use Joomla\CMS\Component\Router\RouterViewConfiguration;
 use Joomla\CMS\Component\Router\Rules\MenuRules;
 use Joomla\CMS\Component\Router\Rules\NomenuRules;
 use Joomla\CMS\Component\Router\Rules\StandardRules;
+use Joomla\CMS\Menu\AbstractMenu;
 
 /**
  * Routing class from com_privacy
@@ -27,8 +29,8 @@ class Router extends RouterView
 	/**
 	 * Privacy Component router constructor
 	 *
-	 * @param   JApplicationCms  $app   The application object
-	 * @param   JMenu            $menu  The menu object to work with
+	 * @param   CMSApplication  $app   The application object
+	 * @param   AbstractMenu    $menu  The menu object to work with
 	 *
 	 * @since   3.9.0
 	 */
