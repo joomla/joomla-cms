@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Privacy\Administrator\Export;
 
-JLoader::register('PrivacyExportItem', __DIR__ . '/item.php');
+defined('_JEXEC') or die;
 
 /**
  * Data object representing all data contained in a domain.
@@ -18,7 +18,7 @@ JLoader::register('PrivacyExportItem', __DIR__ . '/item.php');
  *
  * @since  3.9.0
  */
-class PrivacyExportDomain
+class Domain
 {
 	/**
 	 * The name of this domain
@@ -39,21 +39,21 @@ class PrivacyExportDomain
 	/**
 	 * The items belonging to this domain
 	 *
-	 * @var    PrivacyExportItem[]
+	 * @var    Item[]
 	 * @since  3.9.0
 	 */
-	protected $items = array();
+	protected $items = [];
 
 	/**
 	 * Add an item to the domain
 	 *
-	 * @param   PrivacyExportItem  $item  The item to add
+	 * @param   Item  $item  The item to add
 	 *
 	 * @return  void
 	 *
-	 * @since  3.9.0
+	 * @since   3.9.0
 	 */
-	public function addItem(PrivacyExportItem $item)
+	public function addItem(Item $item)
 	{
 		$this->items[] = $item;
 	}
@@ -61,9 +61,9 @@ class PrivacyExportDomain
 	/**
 	 * Get the domain's items
 	 *
-	 * @return  PrivacyExportItem[]
+	 * @return  Item[]
 	 *
-	 * @since  3.9.0
+	 * @since   3.9.0
 	 */
 	public function getItems()
 	{

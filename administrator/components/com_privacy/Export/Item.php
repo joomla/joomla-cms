@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Privacy\Administrator\Export;
 
-JLoader::register('PrivacyExportField', __DIR__ . '/field.php');
+defined('_JEXEC') or die;
 
 /**
  * Data object representing a single item within a domain.
@@ -18,7 +18,7 @@ JLoader::register('PrivacyExportField', __DIR__ . '/field.php');
  *
  * @since  3.9.0
  */
-class PrivacyExportItem
+class Item
 {
 	/**
 	 * The primary identifier of this item, typically the primary key for a database row.
@@ -31,21 +31,21 @@ class PrivacyExportItem
 	/**
 	 * The fields belonging to this item
 	 *
-	 * @var    PrivacyExportField[]
+	 * @var    Field[]
 	 * @since  3.9.0
 	 */
-	protected $fields = array();
+	protected $fields = [];
 
 	/**
 	 * Add a field to the item
 	 *
-	 * @param   PrivacyExportField  $field  The field to add
+	 * @param   Field  $field  The field to add
 	 *
 	 * @return  void
 	 *
-	 * @since  3.9.0
+	 * @since   3.9.0
 	 */
-	public function addField(PrivacyExportField $field)
+	public function addField(Field $field)
 	{
 		$this->fields[] = $field;
 	}
@@ -53,9 +53,9 @@ class PrivacyExportItem
 	/**
 	 * Get the item's fields
 	 *
-	 * @return  PrivacyExportField[]
+	 * @return  Field[]
 	 *
-	 * @since  3.9.0
+	 * @since   3.9.0
 	 */
 	public function getFields()
 	{
