@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
-JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 
 /**
  * Privacy plugin managing Joomla actionlogs data

@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
-
 /**
  * Privacy plugin managing Joomla user content data
  *
