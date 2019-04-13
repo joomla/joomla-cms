@@ -7,14 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Model;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Menu\MenuItem;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Router\Route;
 
 /**
  * Dashboard model class.
  *
  * @since  3.9.0
  */
-class PrivacyModelDashboard extends JModelLegacy
+class DashboardModel extends BaseDatabaseModel
 {
 	/**
 	 * Get the information about the published privacy policy
@@ -25,20 +33,20 @@ class PrivacyModelDashboard extends JModelLegacy
 	 */
 	public function getPrivacyPolicyInfo()
 	{
-		$policy = array(
-			'published'         => false,
-			'articlePublished'  => false,
-			'editLink'          => '',
-		);
+		$policy = [
+			'published'        => false,
+			'articlePublished' => false,
+			'editLink'         => '',
+		];
 
 		/*
 		 * Prior to 3.9.0 it was common for a plugin such as the User - Profile plugin to define a privacy policy or
 		 * terms of service article, therefore we will also import the user plugin group to process this event.
 		 */
-		JPluginHelper::importPlugin('privacy');
-		JPluginHelper::importPlugin('user');
+		PluginHelper::importPlugin('privacy');
+		PluginHelper::importPlugin('user');
 
-		JFactory::getApplication()->triggerEvent('onPrivacyCheckPrivacyPolicyPublished', array(&$policy));
+		Factory::getApplication()->triggerEvent('onPrivacyCheckPrivacyPolicyPublished', [&$policy]);
 
 		return $policy;
 	}
@@ -55,11 +63,11 @@ class PrivacyModelDashboard extends JModelLegacy
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
-				array(
+				[
 					'COUNT(*) AS count',
 					$db->quoteName('status'),
 					$db->quoteName('request_type'),
-				)
+				]
 			)
 			->from($db->quoteName('#__privacy_requests'))
 			->group($db->quoteName('status'))
@@ -79,16 +87,16 @@ class PrivacyModelDashboard extends JModelLegacy
 	 */
 	public function getRequestFormPublished()
 	{
-		$app  = JFactory::getApplication();
+		$app  = Factory::getApplication();
 		$menu = $app->getMenu('site');
 
 		$item = $menu->getItems('link', 'index.php?option=com_privacy&view=request', true);
 
-		$status = array(
+		$status = [
 			'exists'    => false,
 			'published' => false,
 			'link'      => '',
-		);
+		];
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -106,14 +114,14 @@ class PrivacyModelDashboard extends JModelLegacy
 
 		$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
-		if (!($item instanceof JMenuItem))
+		if (!($item instanceof MenuItem))
 		{
-			$status['link'] = JRoute::link('site', 'index.php?option=com_privacy&view=request', true, $linkMode);
+			$status['link'] = Route::link('site', 'index.php?option=com_privacy&view=request', true, $linkMode);
 		}
 		else
 		{
 			$status['published'] = true;
-			$status['link']      = JRoute::link('site', 'index.php?Itemid=' . $item->id, true, $linkMode);
+			$status['link']      = Route::link('site', 'index.php?Itemid=' . $item->id, true, $linkMode);
 		}
 
 		return $status;

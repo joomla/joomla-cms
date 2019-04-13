@@ -7,16 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Model;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Requests management model class.
  *
  * @since  3.9.0
  */
-class PrivacyModelRequests extends JModelList
+class RequestsModel extends ListModel
 {
 	/**
 	 * Constructor.
@@ -25,26 +30,26 @@ class PrivacyModelRequests extends JModelList
 	 *
 	 * @since   3.9.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 				'id', 'a.id',
 				'email', 'a.email',
 				'requested_at', 'a.requested_at',
 				'request_type', 'a.request_type',
 				'status', 'a.status',
-			);
+			];
 		}
 
 		parent::__construct($config);
 	}
 
 	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  DatabaseQuery
 	 *
 	 * @since   3.9.0
 	 */
@@ -156,7 +161,7 @@ class PrivacyModelRequests extends JModelList
 		);
 
 		// Load the parameters.
-		$this->setState('params', JComponentHelper::getParams('com_privacy'));
+		$this->setState('params', ComponentHelper::getParams('com_privacy'));
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -174,7 +179,7 @@ class PrivacyModelRequests extends JModelList
 		// Load the parameters.
 		$params = ComponentHelper::getComponent('com_privacy')->getParams();
 		$notify = (int) $params->get('notify', 14);
-		$now    = JFactory::getDate()->toSql();
+		$now    = Factory::getDate()->toSql();
 		$period = '-' . $notify;
 
 		$db    = $this->getDbo();

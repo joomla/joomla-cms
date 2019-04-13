@@ -7,14 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Model;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
 
 /**
  * Capabilities model class.
  *
  * @since  3.9.0
  */
-class PrivacyModelCapabilities extends JModelLegacy
+class CapabilitiesModel extends BaseModel
 {
 	/**
 	 * Retrieve the extension capabilities.
@@ -25,7 +33,7 @@ class PrivacyModelCapabilities extends JModelLegacy
 	 */
 	public function getCapabilities()
 	{
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		/*
 		 * Capabilities will be collected in two parts:
@@ -39,13 +47,13 @@ class PrivacyModelCapabilities extends JModelLegacy
 		 * $coreCapabilities array below.
 		 */
 
-		$coreCapabilities = array(
-			JText::_('COM_PRIVACY_HEADING_CORE_CAPABILITIES') => array(
-				JText::_('COM_PRIVACY_CORE_CAPABILITY_SESSION_IP_ADDRESS_AND_COOKIE'),
-				JText::sprintf('COM_PRIVACY_CORE_CAPABILITY_LOGGING_IP_ADDRESS', $app->get('log_path', JPATH_ADMINISTRATOR . '/logs')),
-				JText::_('COM_PRIVACY_CORE_CAPABILITY_COMMUNICATION_WITH_JOOMLA_ORG'),
-			)
-		);
+		$coreCapabilities = [
+			Text::_('COM_PRIVACY_HEADING_CORE_CAPABILITIES') => [
+				Text::_('COM_PRIVACY_CORE_CAPABILITY_SESSION_IP_ADDRESS_AND_COOKIE'),
+				Text::sprintf('COM_PRIVACY_CORE_CAPABILITY_LOGGING_IP_ADDRESS', $app->get('log_path', JPATH_ADMINISTRATOR . '/logs')),
+				Text::_('COM_PRIVACY_CORE_CAPABILITY_COMMUNICATION_WITH_JOOMLA_ORG'),
+			],
+		];
 
 		/*
 		 * We will search for capabilities from the following plugin groups:
@@ -59,20 +67,20 @@ class PrivacyModelCapabilities extends JModelLegacy
 		 * This is in addition to plugin groups which are imported before this method is triggered, generally this is the system group.
 		 */
 
-		JPluginHelper::importPlugin('authentication');
-		JPluginHelper::importPlugin('captcha');
-		JPluginHelper::importPlugin('installer');
-		JPluginHelper::importPlugin('privacy');
-		JPluginHelper::importPlugin('user');
+		PluginHelper::importPlugin('authentication');
+		PluginHelper::importPlugin('captcha');
+		PluginHelper::importPlugin('installer');
+		PluginHelper::importPlugin('privacy');
+		PluginHelper::importPlugin('user');
 
 		$pluginResults = $app->triggerEvent('onPrivacyCollectAdminCapabilities');
 
 		// We are going to "cheat" here and include this component's capabilities without using a plugin
-		$extensionCapabilities = array(
-			JText::_('COM_PRIVACY') => array(
+		$extensionCapabilities = [
+			JText::_('COM_PRIVACY') => [
 				JText::_('COM_PRIVACY_EXTENSION_CAPABILITY_PERSONAL_INFO'),
-			)
-		);
+			],
+		];
 
 		foreach ($pluginResults as $pluginResult)
 		{
@@ -96,6 +104,6 @@ class PrivacyModelCapabilities extends JModelLegacy
 	protected function populateState()
 	{
 		// Load the parameters.
-		$this->setState('params', JComponentHelper::getParams('com_privacy'));
+		$this->setState('params', ComponentHelper::getParams('com_privacy'));
 	}
 }
