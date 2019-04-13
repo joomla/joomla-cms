@@ -25,7 +25,7 @@ if ($module->content) :
 	$user    = Factory::getUser();
 	$canEdit = $user->authorise('core.edit', 'com_modules.module.' . $id) && $user->authorise('core.manage', 'com_modules');
 	$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $id) && $user->authorise('core.manage', 'com_modules');
-	
+
 	$moduleTag      = $params->get('module_tag', 'div');
 	$bootstrapSize  = (int) $params->get('bootstrap_size', 6);
 	$moduleClass    = ($bootstrapSize) ? 'col-md-' . $bootstrapSize : 'col-md-12';
