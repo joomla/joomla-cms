@@ -206,6 +206,34 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     });
   }
 
+  disableAllOptions() {
+    let choices = this.choicesInstance._store.choices;
+
+    choices.forEach((elem, index) => {
+        choices[index].disabled = true;
+        choices[index].selected = false;
+    });
+
+    this.choicesInstance.clearStore();
+
+    this.choicesInstance.setChoices(choices, 'value', 'label', true);
+  }
+
+  enableAllOptions() {
+    let choices = this.choicesInstance._store.choices;
+    let values = this.choicesInstance.getValue(true);
+
+    choices.forEach((elem, index) => {
+        choices[index].disabled = false;
+    });
+
+    this.choicesInstance.clearStore();
+
+    this.choicesInstance.setChoices(choices, 'value', 'label', true);
+
+    this.value = values;
+  }
+
   disableByValue($val) {
     let choices = this.choicesInstance._store.choices;
     let values = this.choicesInstance.getValue(true);
@@ -213,8 +241,16 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     choices.forEach((elem, index) => {
       if (elem.value === $val) {
         choices[index].disabled = true;
+        choices[index].selected = false;
       }
     });
+
+    const index = values.indexOf($val);
+
+    if (index > -1)
+    {
+      values.slice(index, 1);
+    }
 
     this.choicesInstance.clearStore();
 
@@ -225,7 +261,6 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   enableByValue($val) {
     let choices = this.choicesInstance._store.choices;
-
 
     choices.forEach((elem, index) => {
       if (elem.value === $val) {
