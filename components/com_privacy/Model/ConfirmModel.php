@@ -95,7 +95,7 @@ class ConfirmModel extends AdminModel
 
 		// A request can only be confirmed if the token is less than 24 hours old
 		$confirmTokenCreatedAt = new Date($table->confirm_token_created_at);
-		$confirmTokenCreatedAt->add(new DateInterval('P1D'));
+		$confirmTokenCreatedAt->add(new \DateInterval('P1D'));
 
 		$now = new Date('now');
 
