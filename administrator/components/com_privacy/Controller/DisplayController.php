@@ -7,19 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Controller;
+
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Response\JsonResponse;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
+use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
+use Joomla\Component\Privacy\Administrator\Model\RequestsModel;
 
 /**
  * Privacy Controller
  *
  * @since  3.9.0
  */
-class PrivacyController extends JControllerLegacy
+class DisplayController extends BaseController
 {
 	/**
 	 * The default view.
@@ -39,12 +46,10 @@ class PrivacyController extends JControllerLegacy
 	 *
 	 * @since   3.9.0
 	 */
-	public function display($cachable = false, $urlparams = array())
+	public function display($cachable = false, $urlparams = [])
 	{
-		JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
-
 		// Get the document object.
-		$document = JFactory::getDocument();
+		$document = Factory::getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', $this->default_view);
@@ -70,8 +75,8 @@ class PrivacyController extends JControllerLegacy
 				// For the default layout, we need to also push the action logs model into the view
 				if ($lName === 'default')
 				{
-					JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
-					JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+					\JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+					BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
 					$logsModel = $this->getModel('Actionlogs', 'ActionlogsModel');
 
@@ -83,11 +88,11 @@ class PrivacyController extends JControllerLegacy
 				}
 
 				// For the edit layout, if mail sending is disabled then redirect back to the list view as the form is unusable in this state
-				if ($lName === 'edit' && !JFactory::getConfig()->get('mailonline', 1))
+				if ($lName === 'edit' && !Factory::getConfig()->get('mailonline', 1))
 				{
 					$this->setRedirect(
-						JRoute::_('index.php?option=com_privacy&view=requests', false),
-						JText::_('COM_PRIVACY_WARNING_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'),
+						Route::_('index.php?option=com_privacy&view=requests', false),
+						Text::_('COM_PRIVACY_WARNING_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'),
 						'warning'
 					);
 
@@ -112,9 +117,9 @@ class PrivacyController extends JControllerLegacy
 	/**
 	 * Fetch and report number urgent privacy requests in JSON format, for AJAX requests
 	 *
-	 * @return void
+	 * @return  void
 	 *
-	 * @since 3.9.0
+	 * @since   3.9.0
 	 */
 	public function getNumberUrgentRequests()
 	{
@@ -129,12 +134,10 @@ class PrivacyController extends JControllerLegacy
 			$app->close();
 		}
 
-		/** @var PrivacyModelRequests $model */
+		/** @var RequestsModel $model */
 		$model                = $this->getModel('requests');
 		$numberUrgentRequests = $model->getNumberUrgentRequests();
 
-		echo new JResponseJson(array('number_urgent_requests' => $numberUrgentRequests));
-
-		$app->close();
+		echo new JsonResponse(['number_urgent_requests' => $numberUrgentRequests]);
 	}
 }
