@@ -56,7 +56,7 @@ class JFormFieldCategoryEdit extends JFormFieldList
 
 		if ($return)
 		{
-			$this->allowAdd = isset($this->element['allowAdd']) ? $this->element['allowAdd'] : '';
+			$this->allowAdd = isset($this->element['allowAdd']) ? (bool)filter_var((((array)$this->element->attributes())['@attributes']['allowAdd']), FILTER_VALIDATE_BOOLEAN) : '';
 		}
 
 		return $return;
