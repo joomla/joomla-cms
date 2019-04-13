@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,7 +30,7 @@ HTMLHelper::_('script', 'com_menus/admin-item-modal.js', ['version' => 'auto', '
 				<?php foreach ($list as $title => $item) : ?>
 					<?php $menutype = array('id' => $this->recordId, 'title' => $item->type ?? $item->title, 'request' => $item->request); ?>
 					<?php $menutype = base64_encode(json_encode($menutype)); ?>
-					<a class="choose_type list-group-item list-group-item-action" href="#" title="<?php echo Text::_($item->description); ?>"
+					<a class="choose_type list-group-item list-group-item-action" href="#" 
 						onclick="Joomla.setMenuType('<?php echo $menutype; ?>', '<?php echo $tmpl; ?>')">
 						<div class="pr-2">
 							<?php echo $title; ?>

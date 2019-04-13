@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Installation
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,6 +48,10 @@ class SampleField extends RadioField
 		if ($type === 'mysqli')
 		{
 			$type = 'mysql';
+		}
+		elseif ($type === 'pgsql')
+		{
+			$type = 'postgresql';
 		}
 		elseif ($type === 'pgsql')
 		{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -142,7 +142,7 @@ class User extends CMSObject
 	/**
 	 * Guest status
 	 *
-	 * @var    boolean
+	 * @var    integer
 	 * @since  1.7.0
 	 */
 	public $guest = null;
@@ -251,18 +251,24 @@ class User extends CMSObject
 	 *
 	 * @return  User  The User object.
 	 *
-	 * @since   1.7.0
+	 * @since       1.7.0
+	 * @deprecated  5.0  Load the user service from the dependency injection container or via $app->getIdentity()
 	 */
 	public static function getInstance($identifier = 0)
 	{
+		@trigger_error(
+			sprintf(
+				'%1$s() is deprecated. Load the user from the dependency injection container or via %2$s::getApplication()->getIdentity().',
+				__METHOD__,
+				__CLASS__
+			),
+			E_USER_DEPRECATED
+		);
+
 		// Find the user id
 		if (!is_numeric($identifier))
 		{
-			if (!$id = UserHelper::getUserId($identifier))
-			{
-				// If the $identifier doesn't match with any id, just return an empty User.
-				return new static;
-			}
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserByUsername($identifier);
 		}
 		else
 		{
@@ -273,13 +279,13 @@ class User extends CMSObject
 		// Note: don't cache this user because it'll have a new ID on save!
 		if ($id === 0)
 		{
-			return new static;
+			return Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		// Check if the user ID is already cached.
 		if (empty(self::$instances[$id]))
 		{
-			self::$instances[$id] = new static($id);
+			self::$instances[$id] = Factory::getContainer()->get(UserFactoryInterface::class)->loadUserById($id);
 		}
 
 		return self::$instances[$id];
