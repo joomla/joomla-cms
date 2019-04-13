@@ -9,43 +9,53 @@
 
 defined('_JEXEC') or die;
 
-JHtml::_('bootstrap.tooltip');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
+
+HTMLHelper::_('bootstrap.framework');
 
 $totalRequests  = 0;
 $activeRequests = 0;
 
 ?>
-<div class="row-striped">
-	<?php if (count($list)) : ?>
-		<div class="row-fluid">
-			<div class="span5"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></strong></div>
-			<div class="span5"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></strong></div>
-			<div class="span2"><strong><?php echo JText::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_COUNT'); ?></strong></div>
-		</div>
+<table class="table" id="<?php echo str_replace(' ', '', $module->title) . $module->id; ?>">
+	<caption class="sr-only"><?php echo $module->title; ?></caption>
+	<thead>
+		<tr>
+			<th scope="col" style="width:40%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_TYPE'); ?></th>
+			<th scope="col" style="width:30%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_STATUS'); ?></th>
+			<th scope="col" style="width:30%"><?php echo Text::_('COM_PRIVACY_DASHBOARD_HEADING_REQUEST_COUNT'); ?></th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if (count($list)) : ?>
 		<?php foreach ($list as $row) : ?>
-			<div class="row-fluid">
-				<div class="span5">
-					<a class="hasTooltip" href="<?php echo JRoute::_('index.php?option=com_privacy&view=requests&filter[request_type]=' . $row->request_type . '&filter[status]=' . $row->status); ?>" data-original-title="<?php echo JText::_('COM_PRIVACY_DASHBOARD_VIEW_REQUESTS'); ?>">
-						<strong><?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $row->request_type); ?></strong>
-					</a>
-				</div>
-				<div class="span5"><?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $row->status); ?></div>
-				<div class="span2"><span class="badge badge-info"><?php echo $row->count; ?></span></div>
-			</div>
+		<tr>
+			<td>
+				<a href="<?php echo Route::_('index.php?option=com_privacy&view=requests&filter[request_type]=' . $row->request_type . '&filter[status]=' . $row->status); ?>" data-original-title="<?php echo Text::_('COM_PRIVACY_DASHBOARD_VIEW_REQUESTS'); ?>">
+					<strong><?php echo Text::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $row->request_type); ?></strong>
+				</a>
+			</td>
+			<td><?php echo HTMLHelper::_('PrivacyHtml.helper.statusLabel', $row->status); ?></td>
+			<td><span class="badge badge-info"><?php echo $row->count; ?></span></td>
 			<?php if (in_array($row->status, array(0, 1))) : ?>
 				<?php $activeRequests += $row->count; ?>
 			<?php endif; ?>
 			<?php $totalRequests += $row->count; ?>
+		</tr>
 		<?php endforeach; ?>
-		<div class="row-fluid">
-			<div class="span5"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></div>
-			<div class="span7"><?php echo JText::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></div>
-		</div>
-	<?php else : ?>
-		<div class="row-fluid">
-			<div class="span12">
-				<div class="alert"><?php echo JText::_('COM_PRIVACY_DASHBOARD_NO_REQUESTS'); ?></div>
-			</div>
-		</div>
-	<?php endif; ?>
-</div>
+		<tr>
+			<td><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_TOTAL_REQUESTS', $totalRequests); ?></td>
+			<td><?php echo Text::plural('COM_PRIVACY_DASHBOARD_BADGE_ACTIVE_REQUESTS', $activeRequests); ?></td>
+			<td></td>
+		</tr>
+		<?php else : ?>
+		<tr>
+			<td colspan="3">
+				<?php echo Text::_('COM_PRIVACY_DASHBOARD_NO_REQUESTS'); ?>
+			</td>
+		</tr>
+		<?php endif; ?>
+	</tbody>
+</table>

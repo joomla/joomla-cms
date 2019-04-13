@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 class PrivacyHtmlHelper
 {
 	/**
-	 * Render a status label
+	 * Render a status badge
 	 *
 	 * @param   integer  $status  The item status
 	 *
@@ -30,17 +30,17 @@ class PrivacyHtmlHelper
 		switch ($status)
 		{
 			case 2:
-				return '<span class="label label-success">' . JText::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>';
+				return '<span class="badge badge-success">' . JText::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>';
 
 			case 1:
-				return '<span class="label label-info">' . JText::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
+				return '<span class="badge badge-info">' . JText::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
 
 			case -1:
-				return '<span class="label label-important">' . JText::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
+				return '<span class="badge badge-danger">' . JText::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
 
 			default:
 			case 0:
-				return '<span class="label label-warning">' . JText::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
+				return '<span class="badge badge-warning">' . JText::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
 		}
 	}
 }
