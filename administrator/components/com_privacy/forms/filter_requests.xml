@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<form>
-	<fieldset addfieldpath="/administrator/components/com_privacy/models/fields" />
-
+<form addfieldprefix="Joomla\Component\Privacy\Administrator\Field">
 	<fields name="filter">
 		<field
 			name="search"
@@ -13,7 +11,7 @@
 
 		<field
 			name="status"
-			type="privacy.requeststatus"
+			type="requeststatus"
 			label="COM_PRIVACY_FILTER_STATUS"
 			description="COM_PRIVACY_FILTER_STATUS_DESC"
 			onchange="this.form.submit();"
@@ -23,7 +21,7 @@
 
 		<field
 			name="request_type"
-			type="privacy.requesttype"
+			type="requesttype"
 			label="COM_PRIVACY_FILTER_REQUEST_TYPE"
 			description="COM_PRIVACY_FILTER_REQUEST_TYPE_DESC"
 			onchange="this.form.submit();"

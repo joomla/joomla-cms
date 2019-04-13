@@ -7,16 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Field;
+
 defined('_JEXEC') or die;
 
-JFormHelper::loadFieldClass('predefinedlist');
+use Joomla\CMS\Form\Field\PredefinedlistField;
 
 /**
  * Form Field to load a list of request statuses
  *
  * @since  3.9.0
  */
-class PrivacyFormFieldRequeststatus extends JFormFieldPredefinedList
+class RequeststatusField extends PredefinedlistField
 {
 	/**
 	 * The form field type.
@@ -32,10 +34,10 @@ class PrivacyFormFieldRequeststatus extends JFormFieldPredefinedList
 	 * @var    array
 	 * @since  3.9.0
 	 */
-	protected $predefinedOptions = array(
+	protected $predefinedOptions = [
 		'-1' => 'COM_PRIVACY_STATUS_INVALID',
 		'0'  => 'COM_PRIVACY_STATUS_PENDING',
 		'1'  => 'COM_PRIVACY_STATUS_CONFIRMED',
 		'2'  => 'COM_PRIVACY_STATUS_COMPLETED',
-	);
+	];
 }

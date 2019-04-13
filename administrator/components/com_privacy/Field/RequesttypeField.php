@@ -7,16 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-defined('_JEXEC') or die;
+namespace Joomla\Component\Privacy\Administrator\Field;
 
-JFormHelper::loadFieldClass('predefinedlist');
+use Joomla\CMS\Form\Field\PredefinedlistField;
+
+defined('_JEXEC') or die;
 
 /**
  * Form Field to load a list of request types
  *
  * @since  3.9.0
  */
-class PrivacyFormFieldRequesttype extends JFormFieldPredefinedList
+class RequesttypeField extends PredefinedlistField
 {
 	/**
 	 * The form field type.
@@ -32,8 +34,8 @@ class PrivacyFormFieldRequesttype extends JFormFieldPredefinedList
 	 * @var    array
 	 * @since  3.9.0
 	 */
-	protected $predefinedOptions = array(
+	protected $predefinedOptions = [
 		'export' => 'COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_EXPORT',
 		'remove' => 'COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_REMOVE',
-	);
+	];
 }
