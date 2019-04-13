@@ -21,10 +21,9 @@ use Joomla\CMS\Table\Table;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\User\User;
 use Joomla\Component\Privacy\Administrator\Export\Domain;
+use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 use PHPMailer\PHPMailer\Exception as phpmailerException;
-
-JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
 
 /**
  * Export model class.
