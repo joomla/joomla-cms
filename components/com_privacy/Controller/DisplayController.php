@@ -7,14 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Site\Controller;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Privacy Controller
  *
  * @since  3.9.0
  */
-class PrivacyController extends JControllerLegacy
+class DisplayController extends BaseController
 {
 	/**
 	 * Method to display a view.
@@ -26,22 +32,22 @@ class PrivacyController extends JControllerLegacy
 	 *
 	 * @since   3.9.0
 	 */
-	public function display($cachable = false, $urlparams = array())
+	public function display($cachable = false, $urlparams = [])
 	{
 		$view = $this->input->get('view', $this->default_view);
 
 		// Submitting information requests through the frontend is restricted to authenticated users at this time
-		if ($view === 'request' && JFactory::getUser()->guest)
+		if ($view === 'request' && Factory::getUser()->guest)
 		{
-			$this->setRedirect(JRoute::_('index.php?option=com_users&view=login', false));
+			$this->setRedirect(Route::_('index.php?option=com_users&view=login', false));
 
 			return $this;
 		}
 
 		// Set a Referrer-Policy header for views which require it
-		if (in_array($view, array('confirm', 'remind')))
+		if (in_array($view, ['confirm', 'remind']))
 		{
-			JFactory::getApplication()->setHeader('Referrer-Policy', 'no-referrer', true);
+			Factory::getApplication()->setHeader('Referrer-Policy', 'no-referrer', true);
 		}
 
 		return parent::display($cachable, $urlparams);
