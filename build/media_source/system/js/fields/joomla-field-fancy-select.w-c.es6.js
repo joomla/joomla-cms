@@ -208,7 +208,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   disableAllOptions() {
     // eslint-disable-next-line no-underscore-dangle
-    const {choices} = this.choicesInstance._store;
+    const { choices } = this.choicesInstance._store;
 
     choices.forEach((elem, index) => {
       choices[index].disabled = true;
@@ -222,7 +222,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   enableAllOptions() {
     // eslint-disable-next-line no-underscore-dangle
-    const {choices} = this.choicesInstance._store;
+    const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
 
     choices.forEach((elem, index) => {
@@ -238,7 +238,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   disableByValue($val) {
     // eslint-disable-next-line no-underscore-dangle
-    const {choices} = this.choicesInstance._store;
+    const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
 
     choices.forEach((elem, index) => {
@@ -263,7 +263,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
   enableByValue($val) {
     // eslint-disable-next-line no-underscore-dangle
-    const {choices} = this.choicesInstance._store;
+    const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
 
     choices.forEach((elem, index) => {
