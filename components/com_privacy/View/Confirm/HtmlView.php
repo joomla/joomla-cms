@@ -7,21 +7,28 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Site\View\Confirm;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\Registry\Registry;
 
 /**
- * Remind confirmation view class
+ * Request confirmation view class
  *
  * @since  3.9.0
  */
-class PrivacyViewRemind extends JViewLegacy
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * The form object
 	 *
-	 * @var    JForm
+	 * @var    Form
 	 * @since  3.9.0
 	 */
 	protected $form;
@@ -45,7 +52,7 @@ class PrivacyViewRemind extends JViewLegacy
 	/**
 	 * The state information
 	 *
-	 * @var    JObject
+	 * @var    CMSObject
 	 * @since  3.9.0
 	 */
 	protected $state;
@@ -57,7 +64,7 @@ class PrivacyViewRemind extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
 	 * @throws  Exception
 	 */
@@ -71,7 +78,7 @@ class PrivacyViewRemind extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		// Escape strings for HTML output
@@ -91,7 +98,7 @@ class PrivacyViewRemind extends JViewLegacy
 	 */
 	protected function prepareDocument()
 	{
-		$app   = JFactory::getApplication();
+		$app   = Factory::getApplication();
 		$menus = $app->getMenu();
 		$title = null;
 
@@ -105,7 +112,7 @@ class PrivacyViewRemind extends JViewLegacy
 		}
 		else
 		{
-			$this->params->def('page_heading', JText::_('COM_PRIVACY_VIEW_REMIND_PAGE_TITLE'));
+			$this->params->def('page_heading', JText::_('COM_PRIVACY_VIEW_CONFIRM_PAGE_TITLE'));
 		}
 
 		$title = $this->params->get('page_title', '');
@@ -116,11 +123,11 @@ class PrivacyViewRemind extends JViewLegacy
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 1)
 		{
-			$title = JText::sprintf('JPAGETITLE', $app->get('sitename'), $title);
+			$title = Text::sprintf('JPAGETITLE', $app->get('sitename'), $title);
 		}
 		elseif ($app->get('sitename_pagetitles', 0) == 2)
 		{
-			$title = JText::sprintf('JPAGETITLE', $title, $app->get('sitename'));
+			$title = Text::sprintf('JPAGETITLE', $title, $app->get('sitename'));
 		}
 
 		$this->document->setTitle($title);
