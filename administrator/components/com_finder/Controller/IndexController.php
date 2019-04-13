@@ -45,7 +45,7 @@ class IndexController extends AdminController
 	 */
 	public function purge()
 	{
-		\JSession::checkToken() or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Remove the script time limit.
 		@set_time_limit(0);

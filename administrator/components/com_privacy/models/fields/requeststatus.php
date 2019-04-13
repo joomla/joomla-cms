@@ -14,7 +14,7 @@ JFormHelper::loadFieldClass('predefinedlist');
 /**
  * Form Field to load a list of request statuses
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyFormFieldRequeststatus extends JFormFieldPredefinedList
 {
@@ -22,7 +22,7 @@ class PrivacyFormFieldRequeststatus extends JFormFieldPredefinedList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	public $type = 'RequestStatus';
 
@@ -30,7 +30,7 @@ class PrivacyFormFieldRequeststatus extends JFormFieldPredefinedList
 	 * Available statuses
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $predefinedOptions = array(
 		'-1' => 'COM_PRIVACY_STATUS_INVALID',

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Requests management controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyControllerRequests extends JControllerAdmin
 {
@@ -25,7 +25,7 @@ class PrivacyControllerRequests extends JControllerAdmin
 	 *
 	 * @return  JModelLegacy|boolean  Model object on success; otherwise false on failure.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getModel($name = 'Request', $prefix = 'PrivacyModel', $config = array('ignore_request' => true))
 	{
