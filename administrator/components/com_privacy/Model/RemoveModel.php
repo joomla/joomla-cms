@@ -21,8 +21,6 @@ use Joomla\CMS\User\User;
 use Joomla\Component\Privacy\Administrator\Removal\Status;
 use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
-JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
-
 /**
  * Remove model class.
  *
