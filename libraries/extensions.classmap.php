@@ -18,5 +18,6 @@ JLoader::registerAlias('PrivacyExportField', '\\Joomla\\Component\\Privacy\\Admi
 JLoader::registerAlias('PrivacyExportItem', '\\Joomla\\Component\\Privacy\\Administrator\\Export\\Item', '5.0');
 JLoader::registerAlias('PrivacyPlugin', '\\Joomla\\Component\\Privacy\\Administrator\\Plugin\\PrivacyPlugin', '5.0');
 JLoader::registerAlias('PrivacyRemovalStatus', '\\Joomla\\Component\\Privacy\\Administrator\\Removal\\Status', '5.0');
+JLoader::registerAlias('PrivacyTableRequest', '\\Joomla\\Component\\Privacy\\Administrator\\Table\\RequestTable', '5.0');
 
 JLoader::registerAlias('TagsTableTag',     '\\Joomla\\Component\\Tags\\Administrator\\Table\\TagTable', '4.0');
