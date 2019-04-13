@@ -7,14 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Helper;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\Component\Privacy\Administrator\Export\Domain;
 
 /**
  * Privacy component helper.
  *
  * @since  3.9.0
  */
-class PrivacyHelper extends JHelperContent
+class PrivacyHelper extends ContentHelper
 {
 	/**
 	 * Configure the Linkbar.
@@ -27,26 +33,26 @@ class PrivacyHelper extends JHelperContent
 	 */
 	public static function addSubmenu($vName)
 	{
-		JHtmlSidebar::addEntry(
-			JText::_('COM_PRIVACY_SUBMENU_DASHBOARD'),
+		\JHtmlSidebar::addEntry(
+			Text::_('COM_PRIVACY_SUBMENU_DASHBOARD'),
 			'index.php?option=com_privacy&view=dashboard',
 			$vName === 'dashboard'
 		);
 
-		JHtmlSidebar::addEntry(
-			JText::_('COM_PRIVACY_SUBMENU_REQUESTS'),
+		\JHtmlSidebar::addEntry(
+			Text::_('COM_PRIVACY_SUBMENU_REQUESTS'),
 			'index.php?option=com_privacy&view=requests',
 			$vName === 'requests'
 		);
 
-		JHtmlSidebar::addEntry(
-			JText::_('COM_PRIVACY_SUBMENU_CAPABILITIES'),
+		\JHtmlSidebar::addEntry(
+			Text::_('COM_PRIVACY_SUBMENU_CAPABILITIES'),
 			'index.php?option=com_privacy&view=capabilities',
 			$vName === 'capabilities'
 		);
 
-		JHtmlSidebar::addEntry(
-			JText::_('COM_PRIVACY_SUBMENU_CONSENTS'),
+		\JHtmlSidebar::addEntry(
+			Text::_('COM_PRIVACY_SUBMENU_CONSENTS'),
 			'index.php?option=com_privacy&view=consents',
 			$vName === 'consents'
 		);
@@ -55,7 +61,7 @@ class PrivacyHelper extends JHelperContent
 	/**
 	 * Render the data request as a XML document.
 	 *
-	 * @param   PrivacyExportDomain[]  $exportData  The data to be exported.
+	 * @param   Domain[]  $exportData  The data to be exported.
 	 *
 	 * @return  string
 	 *
@@ -63,7 +69,7 @@ class PrivacyHelper extends JHelperContent
 	 */
 	public static function renderDataAsXml(array $exportData)
 	{
-		$export = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><data-export />');
+		$export = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><data-export />');
 
 		foreach ($exportData as $domain)
 		{
@@ -87,7 +93,7 @@ class PrivacyHelper extends JHelperContent
 			}
 		}
 
-		$dom = new DOMDocument;
+		$dom = new \DOMDocument;
 		$dom->loadXML($export->asXML());
 		$dom->formatOutput = true;
 
