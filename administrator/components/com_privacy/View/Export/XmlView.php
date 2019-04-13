@@ -7,9 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\View\Export;
+
 defined('_JEXEC') or die;
 
-JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
+use Joomla\CMS\MVC\View\AbstractView;
+use Joomla\Component\Privacy\Administrator\Helper\PrivacyHelper;
+use Joomla\Component\Privacy\Administrator\Model\ExportModel;
 
 /**
  * Export view class
@@ -18,7 +22,7 @@ JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privac
  *
  * @property-read   \Joomla\CMS\Document\XmlDocument  $document
  */
-class PrivacyViewExport extends JViewLegacy
+class XmlView extends AbstractView
 {
 	/**
 	 * Execute and display a template script.
@@ -27,13 +31,12 @@ class PrivacyViewExport extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::loadTemplate()
 	 * @since   3.9.0
 	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
-		/** @var PrivacyModelExport $model */
+		/** @var ExportModel $model */
 		$model = $this->getModel();
 
 		$exportData = $model->collectDataForExportRequest();
@@ -41,7 +44,7 @@ class PrivacyViewExport extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$requestId = $model->getState($model->getName() . '.request_id');

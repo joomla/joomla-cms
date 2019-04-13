@@ -7,14 +7,24 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\View\Consents;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Consents view class
  *
  * @since  3.9.0
  */
-class PrivacyViewConsents extends JViewLegacy
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * The active search tools filters
@@ -28,7 +38,7 @@ class PrivacyViewConsents extends JViewLegacy
 	/**
 	 * Form instance containing the search tools filter form
 	 *
-	 * @var    JForm
+	 * @var    Form
 	 * @since  3.9.0
 	 * @note   Must be public to be accessed from the search tools layout
 	 */
@@ -45,7 +55,7 @@ class PrivacyViewConsents extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    Pagination
 	 * @since  3.9.0
 	 */
 	protected $pagination;
@@ -61,7 +71,7 @@ class PrivacyViewConsents extends JViewLegacy
 	/**
 	 * The state information
 	 *
-	 * @var    JObject
+	 * @var    CMSObject
 	 * @since  3.9.0
 	 */
 	protected $state;
@@ -73,7 +83,7 @@ class PrivacyViewConsents extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
 	 * @throws  Exception
 	 */
@@ -89,12 +99,12 @@ class PrivacyViewConsents extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
 
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -108,9 +118,9 @@ class PrivacyViewConsents extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CONSENTS'), 'lock');
+		ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_CONSENTS'), 'lock');
 
-		$bar = JToolbar::getInstance('toolbar');
+		$bar = Toolbar::getInstance('toolbar');
 
 		// Add a button to invalidate a consent
 		$bar->appendButton(
@@ -135,8 +145,8 @@ class PrivacyViewConsents extends JViewLegacy
 			);
 		}
 
-		JToolbarHelper::preferences('com_privacy');
+		ToolbarHelper::preferences('com_privacy');
 
-		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CONSENTS');
+		ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CONSENTS');
 	}
 }
