@@ -32,7 +32,7 @@ class RequestsController extends AdminController
 	 *
 	 * @since   3.9.0
 	 */
-	public function getModel($name = 'Request', $prefix = 'PrivacyModel', $config = ['ignore_request' => true])
+	public function getModel($name = 'Request', $prefix = 'Administrator', $config = ['ignore_request' => true])
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

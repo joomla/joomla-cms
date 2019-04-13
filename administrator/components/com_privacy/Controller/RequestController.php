@@ -17,6 +17,10 @@ use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Privacy\Administrator\Model\ExportModel;
+use Joomla\Component\Privacy\Administrator\Model\RemoveModel;
+use Joomla\Component\Privacy\Administrator\Model\RequestModel;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
 /**
  * Request management controller class.
@@ -40,10 +44,10 @@ class RequestController extends FormController
 		// Check for request forgeries.
 		$this->checkToken();
 
-		/** @var PrivacyModelRequest $model */
+		/** @var RequestModel $model */
 		$model = $this->getModel();
 
-		/** @var PrivacyTableRequest $table */
+		/** @var RequestTable $table */
 		$table = $model->getTable();
 
 		// Determine the name of the primary key for the data.
@@ -144,7 +148,7 @@ class RequestController extends FormController
 	 */
 	public function emailexport()
 	{
-		/** @var PrivacyModelExport $model */
+		/** @var ExportModel $model */
 		$model = $this->getModel('Export');
 
 		$recordId = $this->input->getUint('id');
@@ -309,7 +313,7 @@ class RequestController extends FormController
 	 */
 	public function remove()
 	{
-		/** @var PrivacyModelRemove $model */
+		/** @var RemoveModel $model */
 		$model = $this->getModel('Remove');
 
 		$recordId = $this->input->getUint('id');
