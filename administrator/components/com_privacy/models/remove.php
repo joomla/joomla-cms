@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
-JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
 
 /**
  * Remove model class.

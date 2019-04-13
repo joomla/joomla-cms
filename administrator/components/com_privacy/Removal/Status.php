@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Removal;
+
 defined('_JEXEC') or die;
 
 /**
@@ -16,7 +18,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.9.0
  */
-class PrivacyRemovalStatus
+class Status
 {
 	/**
 	 * Flag indicating the status reported by the plugin on whether the information can be removed
