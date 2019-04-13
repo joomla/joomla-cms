@@ -207,11 +207,11 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   disableAllOptions() {
-    let choices = this.choicesInstance._store.choices;
+    const choices = this.choicesInstance._store.choices;
 
     choices.forEach((elem, index) => {
-        choices[index].disabled = true;
-        choices[index].selected = false;
+      choices[index].disabled = true;
+      choices[index].selected = false;
     });
 
     this.choicesInstance.clearStore();
@@ -220,11 +220,11 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   enableAllOptions() {
-    let choices = this.choicesInstance._store.choices;
-    let values = this.choicesInstance.getValue(true);
+    const choices = this.choicesInstance._store.choices;
+    const values = this.choicesInstance.getValue(true);
 
     choices.forEach((elem, index) => {
-        choices[index].disabled = false;
+      choices[index].disabled = false;
     });
 
     this.choicesInstance.clearStore();
@@ -235,8 +235,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   disableByValue($val) {
-    let choices = this.choicesInstance._store.choices;
-    let values = this.choicesInstance.getValue(true);
+    const choices = this.choicesInstance._store.choices;
+    const values = this.choicesInstance.getValue(true);
 
     choices.forEach((elem, index) => {
       if (elem.value === $val) {
@@ -247,8 +247,7 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
 
     const index = values.indexOf($val);
 
-    if (index > -1)
-    {
+    if (index > -1) {
       values.slice(index, 1);
     }
 
@@ -260,7 +259,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   enableByValue($val) {
-    let choices = this.choicesInstance._store.choices;
+    const choices = this.choicesInstance._store.choices;
+    const values = this.choicesInstance.getValue(true);
 
     choices.forEach((elem, index) => {
       if (elem.value === $val) {
