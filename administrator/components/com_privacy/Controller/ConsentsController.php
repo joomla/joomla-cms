@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Privacy\Administrator\Model\ConsentsModel;
 
 /**
  * Consents management controller class.
@@ -43,7 +44,7 @@ class ConsentsController extends FormController
 		else
 		{
 			// Get the model.
-			/** @var PrivacyModelConsents $model */
+			/** @var ConsentsModel $model */
 			$model = $this->getModel();
 
 			// Publish the items.
@@ -82,7 +83,7 @@ class ConsentsController extends FormController
 		}
 
 		// Get the model.
-		/** @var PrivacyModelConsents $model */
+		/** @var ConsentsModel $model */
 		$model = $this->getModel();
 
 		// Publish the items.
