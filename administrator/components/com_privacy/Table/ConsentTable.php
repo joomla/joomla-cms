@@ -7,7 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Table;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 
 /**
  * Table interface class for the #__privacy_consents table
@@ -19,16 +25,16 @@ defined('_JEXEC') or die;
  *
  * @since  3.9.0
  */
-class PrivacyTableConsent extends JTable
+class ConsentTable extends Table
 {
 	/**
 	 * The class constructor.
 	 *
-	 * @param   JDatabaseDriver  $db  JDatabaseDriver connector object.
+	 * @param   DatabaseDriver  $db  DatabaseInterface connector object.
 	 *
 	 * @since   3.9.0
 	 */
-	public function __construct(JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__privacy_consents', 'id', $db);
 	}
@@ -44,7 +50,7 @@ class PrivacyTableConsent extends JTable
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = JFactory::getDate();
+		$date = Factory::getDate();
 
 		// Set default values for new records
 		if (!$this->id)
