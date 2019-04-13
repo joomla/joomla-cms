@@ -326,7 +326,9 @@ class EditorField extends TextareaField
 	 *
 	 * @return  string  The JEditor object output.
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  4.0  Will be removed without replacement
+	 * @see         Editor::save()
 	 */
 	public function save()
 	{

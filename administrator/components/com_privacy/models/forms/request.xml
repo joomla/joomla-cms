@@ -12,13 +12,6 @@
 		/>
 
 		<field
-			name="user_id"
-			type="user"
-			label="COM_PRIVACY_FIELD_USER_ID_LABEL"
-			description="COM_PRIVACY_FIELD_USER_ID_DESC"
-		/>
-
-		<field
 			name="status"
 			type="list"
 			label="JSTATUS"
@@ -46,18 +39,6 @@
 			<option value="export">COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_EXPORT</option>
 			<option value="remove">COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_REMOVE</option>
 		</field>
-
-		<field
-			name="checked_out"
-			type="hidden"
-			filter="unset"
-		/>
-
-		<field
-			name="checked_out_time"
-			type="hidden"
-			filter="unset"
-		/>
 
 		<field
 			name="id"
