@@ -7,7 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Model;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\User;
+use Joomla\Component\Privacy\Administrator\Removal\Status;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
 
 JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/privacy.php');
 
@@ -16,7 +28,7 @@ JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privac
  *
  * @since  3.9.0
  */
-class PrivacyModelRemove extends JModelLegacy
+class RemoveModel extends BaseDatabaseModel
 {
 	/**
 	 * Remove the user data.
@@ -33,12 +45,12 @@ class PrivacyModelRemove extends JModelLegacy
 
 		if (!$id)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_REMOVE'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_ID_REQUIRED_FOR_REMOVE'));
 
 			return false;
 		}
 
-		/** @var PrivacyTableRequest $table */
+		/** @var RequestTable $table */
 		$table = $this->getTable();
 
 		if (!$table->load($id))
@@ -50,14 +62,14 @@ class PrivacyModelRemove extends JModelLegacy
 
 		if ($table->request_type !== 'remove')
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_REMOVE'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_REQUEST_TYPE_NOT_REMOVE'));
 
 			return false;
 		}
 
 		if ($table->status != 1)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_UNCONFIRMED_REQUEST'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_UNCONFIRMED_REQUEST'));
 
 			return false;
 		}
@@ -74,20 +86,20 @@ class PrivacyModelRemove extends JModelLegacy
 			1
 		)->loadResult();
 
-		$user = $userId ? JUser::getInstance($userId) : null;
+		$user = $userId ? User::getInstance($userId) : null;
 
 		$canRemove = true;
 
-		JPluginHelper::importPlugin('privacy');
+		PluginHelper::importPlugin('privacy');
 
-		/** @var PrivacyRemovalStatus[] $pluginResults */
-		$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyCanRemoveData', array($table, $user));
+		/** @var Status[] $pluginResults */
+		$pluginResults = Factory::getApplication()->triggerEvent('onPrivacyCanRemoveData', [$table, $user]);
 
 		foreach ($pluginResults as $status)
 		{
 			if (!$status->canRemove)
 			{
-				$this->setError($status->reason ?: JText::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_DATA'));
+				$this->setError($status->reason ?: Text::_('COM_PRIVACY_ERROR_CANNOT_REMOVE_DATA'));
 
 				$canRemove = false;
 			}
@@ -103,7 +115,7 @@ class PrivacyModelRemove extends JModelLegacy
 		// Log the removal
 		$this->logRemove($table);
 
-		JFactory::getApplication()->triggerEvent('onPrivacyRemoveData', array($table, $user));
+		Factory::getApplication()->triggerEvent('onPrivacyRemoveData', [$table, $user]);
 
 		return true;
 	}
@@ -115,12 +127,12 @@ class PrivacyModelRemove extends JModelLegacy
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
+	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{
 		return parent::getTable($name, $prefix, $options);
 	}
@@ -128,49 +140,43 @@ class PrivacyModelRemove extends JModelLegacy
 	/**
 	 * Log the data removal to the action log system.
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
+	 * @param   RequestTable  $request  The request record being processed
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function logRemove(PrivacyTableRequest $request)
+	public function logRemove(RequestTable $request)
 	{
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+		$user = Factory::getUser();
 
-		$user = JFactory::getUser();
-
-		$message = array(
+		$message = [
 			'action'      => 'remove',
 			'id'          => $request->id,
 			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
 			'userid'      => $user->id,
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
-		);
+		];
 
-		/** @var ActionlogsModelActionlog $model */
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_REMOVE', 'com_privacy.request', $user->id);
+		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_REMOVE', 'com_privacy.request', $user->id);
 	}
 
 	/**
 	 * Log the data removal being blocked to the action log system.
 	 *
-	 * @param   PrivacyTableRequest  $request  The request record being processed
-	 * @param   string[]             $reasons  The reasons given why the record could not be removed.
+	 * @param   RequestTable  $request  The request record being processed
+	 * @param   string[]      $reasons  The reasons given why the record could not be removed.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	public function logRemoveBlocked(PrivacyTableRequest $request, array $reasons)
+	public function logRemoveBlocked(RequestTable $request, array $reasons)
 	{
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+		$user = Factory::getUser();
 
-		$user = JFactory::getUser();
-
-		$message = array(
+		$message = [
 			'action'      => 'remove-blocked',
 			'id'          => $request->id,
 			'itemlink'    => 'index.php?option=com_privacy&view=request&id=' . $request->id,
@@ -178,11 +184,9 @@ class PrivacyModelRemove extends JModelLegacy
 			'username'    => $user->username,
 			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $user->id,
 			'reasons'     => implode('; ', $reasons),
-		);
+		];
 
-		/** @var ActionlogsModelActionlog $model */
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_REMOVE_BLOCKED', 'com_privacy.request', $user->id);
+		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_REMOVE_BLOCKED', 'com_privacy.request', $user->id);
 	}
 
 	/**
@@ -195,9 +199,23 @@ class PrivacyModelRemove extends JModelLegacy
 	protected function populateState()
 	{
 		// Get the pk of the record from the request.
-		$this->setState($this->getName() . '.request_id', JFactory::getApplication()->input->getUint('id'));
+		$this->setState($this->getName() . '.request_id', Factory::getApplication()->input->getUint('id'));
 
 		// Load the parameters.
-		$this->setState('params', JComponentHelper::getParams('com_privacy'));
+		$this->setState('params', ComponentHelper::getParams('com_privacy'));
+	}
+
+	/**
+	 * Method to fetch an instance of the action log model.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getActionlogModel(): \ActionlogsModelActionlog
+	{
+		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+		return BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 	}
 }

@@ -7,8 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Model;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\DatabaseQuery;
+use Joomla\Database\Exception\ExecutionFailureException;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -16,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-class PrivacyModelConsents extends JModelList
+class ConsentsModel extends ListModel
 {
 	/**
 	 * Constructor.
@@ -25,25 +31,25 @@ class PrivacyModelConsents extends JModelList
 	 *
 	 * @since   3.9.0
 	 */
-	public function __construct($config = array())
+	public function __construct($config = [])
 	{
 		if (empty($config['filter_fields']))
 		{
-			$config['filter_fields'] = array(
+			$config['filter_fields'] = [
 				'id', 'a.id', 'a.user_id',
 				'created', 'a.created',
 				'username', 'u.username',
-				'state', 'a.state'
-			);
+				'state', 'a.state',
+			];
 		}
 
 		parent::__construct($config);
 	}
 
 	/**
-	 * Method to get a JDatabaseQuery object for retrieving the data set from a database.
+	 * Method to get a DatabaseQuery object for retrieving the data set from a database.
 	 *
-	 * @return  JDatabaseQuery
+	 * @return  DatabaseQuery
 	 *
 	 * @since   3.9.0
 	 */
@@ -152,7 +158,7 @@ class PrivacyModelConsents extends JModelList
 		);
 
 		// Load the parameters.
-		$this->setState('params', JComponentHelper::getParams('com_privacy'));
+		$this->setState('params', ComponentHelper::getParams('com_privacy'));
 
 		// List state information.
 		parent::populateState($ordering, $direction);
@@ -182,7 +188,7 @@ class PrivacyModelConsents extends JModelList
 			$db->setQuery($query);
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			$this->setError($e->getMessage());
 
@@ -212,7 +218,7 @@ class PrivacyModelConsents extends JModelList
 			$db->setQuery($query);
 			$db->execute();
 		}
-		catch (JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
 			$this->setError($e->getMessage());
 
