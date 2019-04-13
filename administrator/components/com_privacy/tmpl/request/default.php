@@ -37,7 +37,7 @@ JFactory::getDocument()->addScriptDeclaration($js);
 				<dd><?php echo $this->item->email; ?></dd>
 
 				<dt><?php echo JText::_('JSTATUS'); ?>:</dt>
-				<dd><?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $this->item->status); ?></dd>
+				<dd><?php echo JHtml::_('privacy.statusLabel', $this->item->status); ?></dd>
 
 				<dt><?php echo JText::_('COM_PRIVACY_FIELD_REQUEST_TYPE_LABEL'); ?>:</dt>
 				<dd><?php echo JText::_('COM_PRIVACY_HEADING_REQUEST_TYPE_TYPE_' . $this->item->request_type); ?></dd>

@@ -93,7 +93,7 @@ $urgentRequestDate->sub(new DateInterval('P' . $this->urgentRequestAge . 'D'));
 								</div>
 							</td>
 							<td class="center">
-								<?php echo JHtml::_('PrivacyHtml.helper.statusLabel', $item->status); ?>
+								<?php echo JHtml::_('privacy.statusLabel', $item->status); ?>
 							</td>
 							<td>
 								<?php if ($item->status == 1 && $urgentRequestDate >= $itemRequestedAt) : ?>
