@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
-
 /**
  * Privacy plugin managing Joomla user data
  *
