@@ -78,7 +78,7 @@ class DisplayController extends BaseController
 					\JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 					BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
 
-					$logsModel = $this->getModel('Actionlogs', 'ActionlogsModel');
+					$logsModel = BaseDatabaseModel::getInstance('Actionlogs', 'ActionlogsModel');
 
 					// Set default ordering for the context
 					$logsModel->setState('list.fullordering', 'a.log_date DESC');
