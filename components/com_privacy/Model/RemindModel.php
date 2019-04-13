@@ -7,14 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Site\Model;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Privacy\Administrator\Table\ConsentTable;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Remind confirmation model class.
  *
  * @since  3.9.0
  */
-class PrivacyModelRemind extends JModelAdmin
+class RemindModel extends AdminModel
 {
 	/**
 	 * Confirms the remind request.
@@ -29,10 +41,10 @@ class PrivacyModelRemind extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->getForm();
-		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
-		if ($form instanceof Exception)
+		if ($form instanceof \Exception)
 		{
 			return $form;
 		}
@@ -42,7 +54,7 @@ class PrivacyModelRemind extends JModelAdmin
 		$return = $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception)
+		if ($return instanceof \Exception)
 		{
 			return $return;
 		}
@@ -59,7 +71,7 @@ class PrivacyModelRemind extends JModelAdmin
 			return false;
 		}
 
-		/** @var PrivacyTableConsent $table */
+		/** @var ConsentTable $table */
 		$table = $this->getTable();
 
 		$db = $this->getDbo();
@@ -75,36 +87,36 @@ class PrivacyModelRemind extends JModelAdmin
 		{
 			$remind = $db->loadObject();
 		}
-		catch (RuntimeException $e)
+		catch (ExecutionFailureException $e)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
 
 			return false;
 		}
 
 		if (!$remind)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REMIND'));
 
 			return false;
 		}
 
 		// Verify the token
-		if (!JUserHelper::verifyPassword($data['remind_token'], $remind->token))
+		if (!UserHelper::verifyPassword($data['remind_token'], $remind->token))
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_NO_REMIND_REQUESTS'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_REMIND_REQUESTS'));
 
 			return false;
 		}
 
 		// Everything is good to go, transition the request to extended
 		$saved = $this->save(
-			array(
+			[
 				'id'      => $remind->id,
 				'remind'  => 0,
 				'token'   => '',
-				'created' => JFactory::getDate()->toSql(),
-			)
+				'created' => Factory::getDate()->toSql(),
+			]
 		);
 
 		if (!$saved)
@@ -122,21 +134,21 @@ class PrivacyModelRemind extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   3.9.0
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_privacy.remind', 'remind', array('control' => 'jform'));
+		$form = $this->loadForm('com_privacy.remind', 'remind', ['control' => 'jform']);
 
 		if (empty($form))
 		{
 			return false;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		if ($input->getMethod() === 'GET')
 		{
@@ -153,12 +165,12 @@ class PrivacyModelRemind extends JModelAdmin
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  Table  A JTable object
 	 *
 	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = 'Consent', $prefix = 'PrivacyTable', $options = array())
+	public function getTable($name = 'Consent', $prefix = 'Administrator', $options = [])
 	{
 		return parent::getTable($name, $prefix, $options);
 	}
@@ -175,7 +187,7 @@ class PrivacyModelRemind extends JModelAdmin
 	protected function populateState()
 	{
 		// Get the application object.
-		$params = JFactory::getApplication()->getParams('com_privacy');
+		$params = Factory::getApplication()->getParams('com_privacy');
 
 		// Load the parameters.
 		$this->setState('params', $params);
