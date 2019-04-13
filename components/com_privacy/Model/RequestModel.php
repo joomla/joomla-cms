@@ -7,50 +7,68 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Site\Model;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Messages\Administrator\Model\MessageModel;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use Joomla\Database\Exception\ExecutionFailureException;
+use PHPMailer\PHPMailer\Exception as phpmailerException;
 
 /**
  * Request model class.
  *
  * @since  3.9.0
  */
-class PrivacyModelRequest extends JModelAdmin
+class RequestModel extends AdminModel
 {
 	/**
 	 * Creates an information request.
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  Exception | JException | boolean
+	 * @return  mixed  Exception | boolean
 	 *
 	 * @since   3.9.0
 	 */
 	public function createRequest($data)
 	{
 		// Creating requests requires the site's email sending be enabled
-		if (!JFactory::getConfig()->get('mailonline', 1))
+		if (!Factory::getConfig()->get('mailonline', 1))
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_CANNOT_CREATE_REQUEST_WHEN_SENDMAIL_DISABLED'));
 
 			return false;
 		}
 
 		// Get the form.
-		$form = $this->getForm();
-		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
+		$form          = $this->getForm();
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
-		if ($form instanceof Exception)
+		if ($form instanceof \Exception)
 		{
 			return $form;
 		}
 
 		// Filter and validate the form data.
-		$data = $form->filter($data);
+		$data   = $form->filter($data);
 		$return = $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception)
+		if ($return instanceof \Exception)
 		{
 			return $return;
 		}
@@ -68,7 +86,7 @@ class PrivacyModelRequest extends JModelAdmin
 		}
 
 		// Search for an open information request matching the email and type
-		$db = $this->getDbo();
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(id)')
 			->from('#__privacy_requests')
@@ -80,27 +98,27 @@ class PrivacyModelRequest extends JModelAdmin
 		{
 			$result = (int) $db->setQuery($query)->loadResult();
 		}
-		catch (JDatabaseException $exception)
+		catch (ExecutionFailureException $exception)
 		{
 			// Can't check for existing requests, so don't create a new one
-			$this->setError(JText::_('COM_PRIVACY_ERROR_CHECKING_FOR_EXISTING_REQUESTS'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_CHECKING_FOR_EXISTING_REQUESTS'));
 
 			return false;
 		}
 
 		if ($result > 0)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_PENDING_REQUEST_OPEN'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_PENDING_REQUEST_OPEN'));
 
 			return false;
 		}
 
 		// Everything is good to go, create the request
-		$token       = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
-		$hashedToken = JUserHelper::hashPassword($token);
+		$token       = ApplicationHelper::getHash(UserHelper::genRandomPassword());
+		$hashedToken = UserHelper::hashPassword($token);
 
 		$data['confirm_token']            = $hashedToken;
-		$data['confirm_token_created_at'] = JFactory::getDate()->toSql();
+		$data['confirm_token_created_at'] = Factory::getDate()->toSql();
 
 		if (!$this->save($data))
 		{
@@ -109,49 +127,46 @@ class PrivacyModelRequest extends JModelAdmin
 		}
 
 		// Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
-
-		/** @var MessagesModelMessage $messageModel */
-		$messageModel = JModelLegacy::getInstance('Message', 'MessagesModel');
+		/** @var MessageModel $messageModel */
+		$messageModel = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
 
 		$messageModel->notifySuperUsers(
-			JText::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_SUBJECT'),
-			JText::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_MESSAGE', $data['email'])
+			Text::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_SUBJECT'),
+			Text::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CREATED_REQUEST_MESSAGE', $data['email'])
 		);
 
 		// The mailer can be set to either throw Exceptions or return boolean false, account for both
 		try
 		{
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 
 			$linkMode = $app->get('force_ssl', 0) == 2 ? 1 : -1;
 
-			$substitutions = array(
+			$substitutions = [
 				'[SITENAME]' => $app->get('sitename'),
-				'[URL]'      => JUri::root(),
-				'[TOKENURL]' => JRoute::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode),
-				'[FORMURL]'  => JRoute::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode),
+				'[URL]'      => Uri::root(),
+				'[TOKENURL]' => Route::link('site', 'index.php?option=com_privacy&view=confirm&confirm_token=' . $token, false, $linkMode),
+				'[FORMURL]'  => Route::link('site', 'index.php?option=com_privacy&view=confirm', false, $linkMode),
 				'[TOKEN]'    => $token,
 				'\\n'        => "\n",
-			);
+			];
 
 			switch ($data['request_type'])
 			{
 				case 'export':
-					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_EXPORT_REQUEST');
-					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
+					$emailSubject = Text::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_EXPORT_REQUEST');
+					$emailBody    = Text::_('COM_PRIVACY_EMAIL_REQUEST_BODY_EXPORT_REQUEST');
 
 					break;
 
 				case 'remove':
-					$emailSubject = JText::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_REMOVE_REQUEST');
-					$emailBody    = JText::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
+					$emailSubject = Text::_('COM_PRIVACY_EMAIL_REQUEST_SUBJECT_REMOVE_REQUEST');
+					$emailBody    = Text::_('COM_PRIVACY_EMAIL_REQUEST_BODY_REMOVE_REQUEST');
 
 					break;
 
 				default:
-					$this->setError(JText::_('COM_PRIVACY_ERROR_UNKNOWN_REQUEST_TYPE'));
+					$this->setError(Text::_('COM_PRIVACY_ERROR_UNKNOWN_REQUEST_TYPE'));
 
 					return false;
 			}
@@ -162,26 +177,21 @@ class PrivacyModelRequest extends JModelAdmin
 				$emailBody    = str_replace($k, $v, $emailBody);
 			}
 
-			$mailer = JFactory::getMailer();
+			$mailer = Factory::getMailer();
 			$mailer->setSubject($emailSubject);
 			$mailer->setBody($emailBody);
 			$mailer->addRecipient($data['email']);
 
 			$mailResult = $mailer->Send();
 
-			if ($mailResult instanceof JException)
-			{
-				// JError was already called so we just need to return now
-				return false;
-			}
-			elseif ($mailResult === false)
+			if ($mailer->Send() === false)
 			{
 				$this->setError($mailer->ErrorInfo);
 
 				return false;
 			}
 
-			/** @var PrivacyTableRequest $table */
+			/** @var RequestTable $table */
 			$table = $this->getTable();
 
 			if (!$table->load($this->getState($this->getName() . '.id')))
@@ -192,19 +202,15 @@ class PrivacyModelRequest extends JModelAdmin
 			}
 
 			// Log the request's creation
-			JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
-
-			$message = array(
+			$message = [
 				'action'       => 'request-created',
 				'requesttype'  => $table->request_type,
 				'subjectemail' => $table->email,
 				'id'           => $table->id,
 				'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
-			);
+			];
 
-			/** @var ActionlogsModelActionlog $model */
-			$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-			$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_CREATED_REQUEST', 'com_privacy.request');
+			$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_CREATED_REQUEST', 'com_privacy.request');
 
 			// The email sent and the record is saved, everything is good to go from here
 			return true;
@@ -223,13 +229,13 @@ class PrivacyModelRequest extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   3.9.0
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
-		return $this->loadForm('com_privacy.request', 'request', array('control' => 'jform'));
+		return $this->loadForm('com_privacy.request', 'request', ['control' => 'jform']);
 	}
 
 	/**
@@ -239,12 +245,12 @@ class PrivacyModelRequest extends JModelAdmin
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  Table  A JTable object
 	 *
 	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
+	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{
 		return parent::getTable($name, $prefix, $options);
 	}
@@ -261,9 +267,23 @@ class PrivacyModelRequest extends JModelAdmin
 	protected function populateState()
 	{
 		// Get the application object.
-		$params = JFactory::getApplication()->getParams('com_privacy');
+		$params = Factory::getApplication()->getParams('com_privacy');
 
 		// Load the parameters.
 		$this->setState('params', $params);
+	}
+
+	/**
+	 * Method to fetch an instance of the action log model.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getActionlogModel(): \ActionlogsModelActionlog
+	{
+		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+		return BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 	}
 }

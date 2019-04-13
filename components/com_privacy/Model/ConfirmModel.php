@@ -7,21 +7,36 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Site\Model;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\String\PunycodeHelper;
+use Joomla\CMS\Table\Table;
+use Joomla\CMS\User\UserHelper;
+use Joomla\Component\Messages\Administrator\Model\MessageModel;
+use Joomla\Component\Privacy\Administrator\Table\RequestTable;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Request confirmation model class.
  *
  * @since  3.9.0
  */
-class PrivacyModelConfirm extends JModelAdmin
+class ConfirmModel extends AdminModel
 {
 	/**
 	 * Confirms the information request.
 	 *
 	 * @param   array  $data  The data expected for the form.
 	 *
-	 * @return  mixed  Exception | JException | boolean
+	 * @return  mixed  Exception | boolean
 	 *
 	 * @since   3.9.0
 	 */
@@ -29,10 +44,10 @@ class PrivacyModelConfirm extends JModelAdmin
 	{
 		// Get the form.
 		$form = $this->getForm();
-		$data['email'] = JStringPunycode::emailToPunycode($data['email']);
+		$data['email'] = PunycodeHelper::emailToPunycode($data['email']);
 
 		// Check for an error.
-		if ($form instanceof Exception)
+		if ($form instanceof \Exception)
 		{
 			return $form;
 		}
@@ -42,7 +57,7 @@ class PrivacyModelConfirm extends JModelAdmin
 		$return = $form->validate($data);
 
 		// Check for an error.
-		if ($return instanceof Exception)
+		if ($return instanceof \Exception)
 		{
 			return $return;
 		}
@@ -60,12 +75,12 @@ class PrivacyModelConfirm extends JModelAdmin
 		}
 
 		// Search for the information request
-		/** @var PrivacyTableRequest $table */
+		/** @var RequestTable $table */
 		$table = $this->getTable();
 
-		if (!$table->load(array('email' => $data['email'], 'status' => 0)))
+		if (!$table->load(['email' => $data['email'], 'status' => 0]))
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
 			return false;
 		}
@@ -73,16 +88,16 @@ class PrivacyModelConfirm extends JModelAdmin
 		// A request can only be confirmed if it is in a pending status and has a confirmation token
 		if ($table->status != '0' || !$table->confirm_token)
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
 			return false;
 		}
 
 		// A request can only be confirmed if the token is less than 24 hours old
-		$confirmTokenCreatedAt = new JDate($table->confirm_token_created_at);
+		$confirmTokenCreatedAt = new Date($table->confirm_token_created_at);
 		$confirmTokenCreatedAt->add(new DateInterval('P1D'));
 
-		$now = new JDate('now');
+		$now = new Date('now');
 
 		if ($now > $confirmTokenCreatedAt)
 		{
@@ -94,31 +109,31 @@ class PrivacyModelConfirm extends JModelAdmin
 			{
 				$table->store();
 			}
-			catch (JDatabaseException $exception)
+			catch (ExecutionFailureException $exception)
 			{
 				// The error will be logged in the database API, we just need to catch it here to not let things fatal out
 			}
 
-			$this->setError(JText::_('COM_PRIVACY_ERROR_CONFIRM_TOKEN_EXPIRED'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_CONFIRM_TOKEN_EXPIRED'));
 
 			return false;
 		}
 
 		// Verify the token
-		if (!JUserHelper::verifyPassword($data['confirm_token'], $table->confirm_token))
+		if (!UserHelper::verifyPassword($data['confirm_token'], $table->confirm_token))
 		{
-			$this->setError(JText::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_NO_PENDING_REQUESTS'));
 
 			return false;
 		}
 
 		// Everything is good to go, transition the request to confirmed
 		$saved = $this->save(
-			array(
-				'id'     => $table->id,
-				'status' => 1,
+			[
+				'id'            => $table->id,
+				'status'        => 1,
 				'confirm_token' => '',
-			)
+			]
 		);
 
 		if (!$saved)
@@ -128,29 +143,22 @@ class PrivacyModelConfirm extends JModelAdmin
 		}
 
 		// Push a notification to the site's super users, deliberately ignoring if this process fails so the below message goes out
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/models', 'MessagesModel');
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_messages/tables');
-
-		/** @var MessagesModelMessage $messageModel */
-		$messageModel = JModelLegacy::getInstance('Message', 'MessagesModel');
+		/** @var MessageModel $messageModel */
+		$messageModel = Factory::getApplication()->bootComponent('com_messages')->getMVCFactory()->createModel('Message', 'Administrator');
 
 		$messageModel->notifySuperUsers(
-			JText::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_SUBJECT'),
-			JText::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_MESSAGE', $table->email)
+			Text::_('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_SUBJECT'),
+			Text::sprintf('COM_PRIVACY_ADMIN_NOTIFICATION_USER_CONFIRMED_REQUEST_MESSAGE', $table->email)
 		);
 
-		JModelLegacy::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
-
-		$message = array(
+		$message = [
 			'action'       => 'request-confirmed',
 			'subjectemail' => $table->email,
 			'id'           => $table->id,
 			'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
-		);
+		];
 
-		/** @var ActionlogsModelActionlog $model */
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_CONFIRMED_REQUEST', 'com_privacy.request');
+		$this->getActionlogModel()->addLog([$message], 'COM_PRIVACY_ACTION_LOG_CONFIRMED_REQUEST', 'com_privacy.request');
 
 		return true;
 	}
@@ -161,21 +169,21 @@ class PrivacyModelConfirm extends JModelAdmin
 	 * @param   array    $data      Data for the form.
 	 * @param   boolean  $loadData  True if the form is to load its own data (default case), false if not.
 	 *
-	 * @return  JForm|boolean  A JForm object on success, false on failure
+	 * @return  Form|boolean  A Form object on success, false on failure
 	 *
 	 * @since   3.9.0
 	 */
-	public function getForm($data = array(), $loadData = true)
+	public function getForm($data = [], $loadData = true)
 	{
 		// Get the form.
-		$form = $this->loadForm('com_privacy.confirm', 'confirm', array('control' => 'jform'));
+		$form = $this->loadForm('com_privacy.confirm', 'confirm', ['control' => 'jform']);
 
 		if (empty($form))
 		{
 			return false;
 		}
 
-		$input = JFactory::getApplication()->input;
+		$input = Factory::getApplication()->input;
 
 		if ($input->getMethod() === 'GET')
 		{
@@ -192,12 +200,12 @@ class PrivacyModelConfirm extends JModelAdmin
 	 * @param   string  $prefix   The class prefix. Optional.
 	 * @param   array   $options  Configuration array for model. Optional.
 	 *
-	 * @return  JTable  A JTable object
+	 * @return  Table  A Table object
 	 *
 	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
-	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
+	public function getTable($name = 'Request', $prefix = 'Administrator', $options = [])
 	{
 		return parent::getTable($name, $prefix, $options);
 	}
@@ -214,9 +222,23 @@ class PrivacyModelConfirm extends JModelAdmin
 	protected function populateState()
 	{
 		// Get the application object.
-		$params = JFactory::getApplication()->getParams('com_privacy');
+		$params = Factory::getApplication()->getParams('com_privacy');
 
 		// Load the parameters.
 		$this->setState('params', $params);
+	}
+
+	/**
+	 * Method to fetch an instance of the action log model.
+	 *
+	 * @return  void
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	private function getActionlogModel(): \ActionlogsModelActionlog
+	{
+		BaseDatabaseModel::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_actionlogs/models', 'ActionlogsModel');
+
+		return BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 	}
 }
