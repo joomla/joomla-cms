@@ -14,7 +14,7 @@ JLoader::register('PrivacyHelper', JPATH_ADMINISTRATOR . '/components/com_privac
 /**
  * Export view class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  *
  * @property-read   \Joomla\CMS\Document\XmlDocument  $document
  */
@@ -28,7 +28,7 @@ class PrivacyViewExport extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  Exception
 	 */
 	public function display($tpl = null)

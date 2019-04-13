@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Request confirmation model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelConfirm extends JModelAdmin
 {
@@ -23,7 +23,7 @@ class PrivacyModelConfirm extends JModelAdmin
 	 *
 	 * @return  mixed  Exception | JException | boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function confirmRequest($data)
 	{
@@ -88,6 +88,7 @@ class PrivacyModelConfirm extends JModelAdmin
 		{
 			// Invalidate the request
 			$table->status = -1;
+			$table->confirm_token = '';
 
 			try
 			{
@@ -116,6 +117,7 @@ class PrivacyModelConfirm extends JModelAdmin
 			array(
 				'id'     => $table->id,
 				'status' => 1,
+				'confirm_token' => '',
 			)
 		);
 
@@ -146,23 +148,9 @@ class PrivacyModelConfirm extends JModelAdmin
 			'itemlink'     => 'index.php?option=com_privacy&view=request&id=' . $table->id,
 		);
 
-		$messageKey = 'COM_PRIVACY_ACTION_LOG_ANONYMOUS_CONFIRMED_REQUEST';
-		$userId     = null;
-
-		if ($table->user_id)
-		{
-			$messageKey = 'COM_PRIVACY_ACTION_LOG_USER_CONFIRMED_REQUEST';
-			$user       = JUser::getInstance($table->user_id);
-			$userId     = $user->id;
-
-			$message['userid']      = $user->id;
-			$message['username']    = $user->username;
-			$message['accountlink'] = 'index.php?option=com_users&task=user.edit&id=' . $user->id;
-		}
-
 		/** @var ActionlogsModelActionlog $model */
 		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
-		$model->addLog(array($message), $messageKey, 'com_privacy.request', $userId);
+		$model->addLog(array($message), 'COM_PRIVACY_ACTION_LOG_CONFIRMED_REQUEST', 'com_privacy.request');
 
 		return true;
 	}
@@ -175,7 +163,7 @@ class PrivacyModelConfirm extends JModelAdmin
 	 *
 	 * @return  JForm|boolean  A JForm object on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -206,7 +194,7 @@ class PrivacyModelConfirm extends JModelAdmin
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
@@ -221,7 +209,7 @@ class PrivacyModelConfirm extends JModelAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState()
 	{

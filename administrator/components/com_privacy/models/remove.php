@@ -15,7 +15,7 @@ JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com
 /**
  * Remove model class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyModelRemove extends JModelLegacy
 {
@@ -26,7 +26,7 @@ class PrivacyModelRemove extends JModelLegacy
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function removeDataForRequest($id = null)
 	{
@@ -63,12 +63,26 @@ class PrivacyModelRemove extends JModelLegacy
 			return false;
 		}
 
+		// If there is a user account associated with the email address, load it here for use in the plugins
+		$db = $this->getDbo();
+
+		$userId = (int) $db->setQuery(
+			$db->getQuery(true)
+				->select('id')
+				->from($db->quoteName('#__users'))
+				->where($db->quoteName('email') . ' = ' . $db->quote($table->email)),
+			0,
+			1
+		)->loadResult();
+
+		$user = $userId ? JUser::getInstance($userId) : null;
+
 		$canRemove = true;
 
 		JPluginHelper::importPlugin('privacy');
 
 		/** @var PrivacyRemovalStatus[] $pluginResults */
-		$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyCanRemoveData', array($table));
+		$pluginResults = JFactory::getApplication()->triggerEvent('onPrivacyCanRemoveData', array($table, $user));
 
 		foreach ($pluginResults as $status)
 		{
@@ -90,7 +104,7 @@ class PrivacyModelRemove extends JModelLegacy
 		// Log the removal
 		$this->logRemove($table);
 
-		JFactory::getApplication()->triggerEvent('onPrivacyRemoveData', array($table));
+		JFactory::getApplication()->triggerEvent('onPrivacyRemoveData', array($table, $user));
 
 		return true;
 	}
@@ -104,7 +118,7 @@ class PrivacyModelRemove extends JModelLegacy
 	 *
 	 * @return  JTable  A JTable object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  \Exception
 	 */
 	public function getTable($name = 'Request', $prefix = 'PrivacyTable', $options = array())
@@ -119,7 +133,7 @@ class PrivacyModelRemove extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function logRemove(PrivacyTableRequest $request)
 	{
@@ -149,7 +163,7 @@ class PrivacyModelRemove extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function logRemoveBlocked(PrivacyTableRequest $request, array $reasons)
 	{
@@ -177,7 +191,7 @@ class PrivacyModelRemove extends JModelLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function populateState()
 	{

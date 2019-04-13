@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Request view class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyViewRequest extends JViewLegacy
 {
@@ -22,7 +22,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 * The form object
 	 *
 	 * @var    JForm
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $form;
 
@@ -30,7 +30,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 * The CSS class suffix to append to the view container
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $pageclass_sfx;
 
@@ -38,15 +38,23 @@ class PrivacyViewRequest extends JViewLegacy
 	 * The view parameters
 	 *
 	 * @var    Registry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $params;
+
+	/**
+	 * Flag indicating the site supports sending email
+	 *
+	 * @var    boolean
+	 * @since  3.9.0
+	 */
+	protected $sendMailEnabled;
 
 	/**
 	 * The state information
 	 *
 	 * @var    JObject
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $state;
 
@@ -58,15 +66,16 @@ class PrivacyViewRequest extends JViewLegacy
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
 	 * @see     JViewLegacy::loadTemplate()
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
 		// Initialise variables.
-		$this->form   = $this->get('Form');
-		$this->state  = $this->get('State');
-		$this->params = $this->state->params;
+		$this->form            = $this->get('Form');
+		$this->state           = $this->get('State');
+		$this->params          = $this->state->params;
+		$this->sendMailEnabled = (bool) JFactory::getConfig()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -87,7 +96,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function prepareDocument()
 	{

@@ -10,6 +10,33 @@
 			description="COM_PRIVACY_SEARCH_IN_USERNAME"
 			hint="JSEARCH_FILTER"
 		/>
+
+		<field
+			name="state"
+			type="list"
+			label="COM_PRIVACY_CONSENTS_FILTER_STATE"
+			onchange="this.form.submit();"
+			>
+			<option value="">JOPTION_SELECT_PUBLISHED</option>
+			<option value="1">COM_PRIVACY_CONSENTS_STATE_VALID</option>
+			<option value="0">COM_PRIVACY_CONSENTS_STATE_OBSOLETE</option>
+			<option value="-1">COM_PRIVACY_CONSENTS_STATE_INVALIDATED</option>
+		</field>
+
+		<field
+			name="subject"
+			type="sql"
+			label="COM_PRIVACY_CONSENTS_FILTER_SUBJECT"
+			sql_select="subject"
+			sql_from="#__privacy_consents"
+			sql_group="subject"
+			sql_order="subject ASC"
+			key_field="subject"
+			translate="true"
+			onchange="this.form.submit();"
+			>
+			<option value="">COM_PRIVACY_CONSENTS_SUBJECT_DEFAULT</option>
+		</field>
 	</fields>
 
 	<fields name="list">
@@ -23,6 +50,8 @@
 			>
 			<option value="u.username ASC">COM_PRIVACY_HEADING_USERNAME_ASC</option>
 			<option value="u.username DESC">COM_PRIVACY_HEADING_USERNAME_DESC</option>
+			<option value="a.state ASC">COM_PRIVACY_HEADING_STATUS_ASC</option>
+			<option value="a.state DESC">COM_PRIVACY_HEADING_STATUS_DESC</option>
 			<option value="u.user_id ASC">COM_PRIVACY_HEADING_USERID_ASC</option>
 			<option value="u.user_id DESC">COM_PRIVACY_HEADING_USERID_DESC</option>
 			<option value="a.created ASC">COM_PRIVACY_HEADING_CREATED_ASC</option>
