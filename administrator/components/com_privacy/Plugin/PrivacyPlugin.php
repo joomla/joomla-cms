@@ -7,16 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Plugin;
+
 defined('_JEXEC') or die;
 
-JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Table\Table;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\Component\Privacy\Administrator\Export\Domain;
+use Joomla\Component\Privacy\Administrator\Export\Field;
+use Joomla\Component\Privacy\Administrator\Export\Item;
 
 /**
  * Base class for privacy plugins
  *
  * @since  3.9.0
  */
-abstract class PrivacyPlugin extends JPlugin
+abstract class PrivacyPlugin extends CMSPlugin
 {
 	/**
 	 * Database object
@@ -40,13 +47,13 @@ abstract class PrivacyPlugin extends JPlugin
 	 * @param   string  $name         The domain's name
 	 * @param   string  $description  The domain's description
 	 *
-	 * @return  PrivacyExportDomain
+	 * @return  Domain
 	 *
 	 * @since   3.9.0
 	 */
 	protected function createDomain($name, $description = '')
 	{
-		$domain              = new PrivacyExportDomain;
+		$domain              = new Domain;
 		$domain->name        = $name;
 		$domain->description = $description;
 
@@ -59,13 +66,13 @@ abstract class PrivacyPlugin extends JPlugin
 	 * @param   array         $data    The array data to convert
 	 * @param   integer|null  $itemId  The ID of this item
 	 *
-	 * @return  PrivacyExportItem
+	 * @return  Item
 	 *
 	 * @since   3.9.0
 	 */
 	protected function createItemFromArray(array $data, $itemId = null)
 	{
-		$item = new PrivacyExportItem;
+		$item = new Item;
 		$item->id = $itemId;
 
 		foreach ($data as $key => $value)
@@ -80,7 +87,7 @@ abstract class PrivacyPlugin extends JPlugin
 				$value = print_r($value, true);
 			}
 
-			$field        = new PrivacyExportField;
+			$field        = new Field;
 			$field->name  = $key;
 			$field->value = $value;
 
@@ -91,17 +98,17 @@ abstract class PrivacyPlugin extends JPlugin
 	}
 
 	/**
-	 * Create an item object for a JTable object
+	 * Create an item object for a Table object
 	 *
-	 * @param   JTable  $table  The JTable object to convert
+	 * @param   Table  $table  The Table object to convert
 	 *
-	 * @return  PrivacyExportItem
+	 * @return  Item
 	 *
 	 * @since   3.9.0
 	 */
 	protected function createItemForTable($table)
 	{
-		$data = array();
+		$data = [];
 
 		foreach (array_keys($table->getFields()) as $fieldName)
 		{
@@ -117,7 +124,7 @@ abstract class PrivacyPlugin extends JPlugin
 	 * @param   string  $context  The context
 	 * @param   array   $items    The items
 	 *
-	 * @return  PrivacyExportDomain
+	 * @return  Domain
 	 *
 	 * @since   3.9.0
 	 */
@@ -125,14 +132,14 @@ abstract class PrivacyPlugin extends JPlugin
 	{
 		if (!is_array($items))
 		{
-			$items = array($items);
+			$items = [$items];
 		}
 
 		$parts = FieldsHelper::extract($context);
 
 		if (!$parts)
 		{
-			return array();
+			return [];
 		}
 
 		$type = str_replace('com_', '', $parts[0]);
@@ -148,12 +155,12 @@ abstract class PrivacyPlugin extends JPlugin
 			{
 				$fieldValue = is_array($field->value) ? implode(', ', $field->value) : $field->value;
 
-				$data = array(
+				$data = [
 					$type . '_id' => $item->id,
 					'field_name'  => $field->name,
 					'field_title' => $field->title,
 					'field_value' => $fieldValue,
-				);
+				];
 
 				$domain->addItem($this->createItemFromArray($data));
 			}
