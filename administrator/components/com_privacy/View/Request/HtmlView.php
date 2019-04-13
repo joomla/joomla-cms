@@ -16,6 +16,7 @@ use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -149,7 +150,7 @@ class HtmlView extends BaseHtmlView
 					if ($this->item->request_type === 'export')
 					{
 						ToolbarHelper::link(
-							JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return),
+							Route::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return),
 							'COM_PRIVACY_ACTION_EXPORT_DATA',
 							'download'
 						);
@@ -157,7 +158,7 @@ class HtmlView extends BaseHtmlView
 						if (Factory::getConfig()->get('mailonline', 1))
 						{
 							ToolbarHelper::link(
-								JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
+								Route::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
 								'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
 								'mail'
 							);
