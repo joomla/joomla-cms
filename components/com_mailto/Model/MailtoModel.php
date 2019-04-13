@@ -100,10 +100,11 @@ class MailtoModel extends FormModel
 	{
 		$input = Factory::getApplication()->input;
 
-		$data['emailto']   = $input->get('emailto', '', 'string');
-		$data['sender']    = $input->get('sender', '', 'string');
-		$data['emailfrom'] = $input->get('emailfrom', '', 'string');
-		$data['subject']   = $input->get('subject', '', 'string');
+		$data['emailto']    = $input->get('emailto', '', 'string');
+		$data['sender']     = $input->get('sender', '', 'string');
+		$data['emailfrom']  = $input->get('emailfrom', '', 'string');
+		$data['subject']    = $input->get('subject', '', 'string');
+		$data['consentbox'] = $input->get('consentbox', '', 'string');
 
 		return $data;
 	}

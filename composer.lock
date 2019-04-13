@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e713252fea08fb708af2631e08a26ed",
+    "content-hash": "f6f495c9fa4c37f3316e308d2dd0e9aa",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -348,12 +348,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/application.git",
-                "reference": "de7b200ce83f90a71d30d72fede60f2e05312877"
+                "reference": "921b4805b3cdf29d1b82eec37ccd42b25f5732a8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/application/zipball/de7b200ce83f90a71d30d72fede60f2e05312877",
-                "reference": "de7b200ce83f90a71d30d72fede60f2e05312877",
+                "url": "https://api.github.com/repos/joomla-framework/application/zipball/921b4805b3cdf29d1b82eec37ccd42b25f5732a8",
+                "reference": "921b4805b3cdf29d1b82eec37ccd42b25f5732a8",
                 "shasum": ""
             },
             "require": {
@@ -404,7 +404,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2018-12-30T19:03:49+00:00"
+            "time": "2019-04-10T08:57:09+00:00"
         },
         {
             "name": "joomla/archive",
@@ -721,12 +721,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "f2bed188f1737aa4130872dd3bca4fcde13410d0"
+                "reference": "ad00fde6f124da4c60cea866c4a03bcec40f8fa0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/f2bed188f1737aa4130872dd3bca4fcde13410d0",
-                "reference": "f2bed188f1737aa4130872dd3bca4fcde13410d0",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/ad00fde6f124da4c60cea866c4a03bcec40f8fa0",
+                "reference": "ad00fde6f124da4c60cea866c4a03bcec40f8fa0",
                 "shasum": ""
             },
             "require": {
@@ -772,7 +772,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-03-17T05:36:27+00:00"
+            "time": "2019-04-10T09:14:37+00:00"
         },
         {
             "name": "joomla/di",
@@ -2494,6 +2494,61 @@
                 }
             ],
             "description": "Symfony polyfill backporting some PHP 5.6+ features to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "time": "2019-02-06T07:57:58+00:00"
+        },
+        {
+            "name": "symfony/polyfill-php71",
+            "version": "v1.11.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-php71.git",
+                "reference": "8fc094a6b4f646b3ecd2400069420ef82f23a93e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-php71/zipball/8fc094a6b4f646b3ecd2400069420ef82f23a93e",
+                "reference": "8fc094a6b4f646b3ecd2400069420ef82f23a93e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.11-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Php71\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting some PHP 7.1+ features to lower PHP versions",
             "homepage": "https://symfony.com",
             "keywords": [
                 "compatibility",
