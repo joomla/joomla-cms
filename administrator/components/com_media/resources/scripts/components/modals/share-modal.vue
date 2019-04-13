@@ -25,7 +25,7 @@
             </div>
         </div>
         <div slot="footer">
-            <button class="btn btn-link" @click="close()">{{ translate('JCANCEL') }}</button>
+            <button class="btn btn-secondary" @click="close()">{{ translate('JCANCEL') }}</button>
         </div>
     </media-modal>
 </template>

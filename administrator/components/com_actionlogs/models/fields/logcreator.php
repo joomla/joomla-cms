@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JFormHelper::loadFieldClass('list');
 
 /**
- * Form Field to load a list of content authors
+ * Field to load a list of all users that have logged actions
  *
  * @since  3.9.0
  */
