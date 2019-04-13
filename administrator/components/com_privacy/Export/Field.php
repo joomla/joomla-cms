@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Export;
+
 defined('_JEXEC') or die;
 
 /**
@@ -14,7 +16,7 @@ defined('_JEXEC') or die;
  *
  * @since  3.9.0
  */
-class PrivacyExportField
+class Field
 {
 	/**
 	 * The name of this field

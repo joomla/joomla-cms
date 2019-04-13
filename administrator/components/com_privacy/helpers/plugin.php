@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('PrivacyExportDomain', __DIR__ . '/export/domain.php');
-JLoader::register('PrivacyExportField', __DIR__ . '/export/field.php');
-JLoader::register('PrivacyExportItem', __DIR__ . '/export/item.php');
 JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 /**
