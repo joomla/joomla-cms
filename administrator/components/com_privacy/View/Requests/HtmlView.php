@@ -7,14 +7,25 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\View\Requests;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Pagination\Pagination;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Requests view class
  *
  * @since  3.9.0
  */
-class PrivacyViewRequests extends JViewLegacy
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * The active search tools filters
@@ -28,7 +39,7 @@ class PrivacyViewRequests extends JViewLegacy
 	/**
 	 * Form instance containing the search tools filter form
 	 *
-	 * @var    JForm
+	 * @var    Form
 	 * @since  3.9.0
 	 * @note   Must be public to be accessed from the search tools layout
 	 */
@@ -45,7 +56,7 @@ class PrivacyViewRequests extends JViewLegacy
 	/**
 	 * The pagination object
 	 *
-	 * @var    JPagination
+	 * @var    Pagination
 	 * @since  3.9.0
 	 */
 	protected $pagination;
@@ -69,7 +80,7 @@ class PrivacyViewRequests extends JViewLegacy
 	/**
 	 * The state information
 	 *
-	 * @var    JObject
+	 * @var    CMSObject
 	 * @since  3.9.0
 	 */
 	protected $state;
@@ -89,7 +100,7 @@ class PrivacyViewRequests extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
 	 * @throws  Exception
 	 */
@@ -101,18 +112,18 @@ class PrivacyViewRequests extends JViewLegacy
 		$this->state            = $this->get('State');
 		$this->filterForm       = $this->get('FilterForm');
 		$this->activeFilters    = $this->get('ActiveFilters');
-		$this->urgentRequestAge = (int) JComponentHelper::getParams('com_privacy')->get('notify', 14);
-		$this->sendMailEnabled  = (bool) JFactory::getConfig()->get('mailonline', 1);
+		$this->urgentRequestAge = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
+		$this->sendMailEnabled  = (bool) Factory::getConfig()->get('mailonline', 1);
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
 
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -126,16 +137,15 @@ class PrivacyViewRequests extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
+		ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUESTS'), 'lock');
 
 		// Requests can only be created if mail sending is enabled
-		if (JFactory::getConfig()->get('mailonline', 1))
+		if (Factory::getConfig()->get('mailonline', 1))
 		{
-			JToolbarHelper::addNew('request.add');
+			ToolbarHelper::addNew('request.add');
 		}
 
-		JToolbarHelper::preferences('com_privacy');
-		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUESTS');
-
+		ToolbarHelper::preferences('com_privacy');
+		ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUESTS');
 	}
 }

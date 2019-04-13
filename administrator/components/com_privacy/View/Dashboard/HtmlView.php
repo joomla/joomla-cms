@@ -7,14 +7,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\View\Dashboard;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Dashboard view class
  *
  * @since  3.9.0
  */
-class PrivacyViewDashboard extends JViewLegacy
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * Number of urgent requests based on the component configuration
@@ -71,7 +79,7 @@ class PrivacyViewDashboard extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
 	 * @throws  Exception
 	 */
@@ -81,7 +89,7 @@ class PrivacyViewDashboard extends JViewLegacy
 		$this->privacyPolicyInfo    = $this->get('PrivacyPolicyInfo');
 		$this->requestCounts        = $this->get('RequestCounts');
 		$this->requestFormPublished = $this->get('RequestFormPublished');
-		$this->sendMailEnabled      = (bool) JFactory::getConfig()->get('mailonline', 1);
+		$this->sendMailEnabled      = (bool) Factory::getConfig()->get('mailonline', 1);
 
 		/** @var PrivacyModelRequests $requestsModel */
 		$requestsModel = $this->getModel('requests');
@@ -91,14 +99,14 @@ class PrivacyViewDashboard extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		$this->urgentRequestDays = (int) JComponentHelper::getParams('com_privacy')->get('notify', 14);
+		$this->urgentRequestDays = (int) ComponentHelper::getParams('com_privacy')->get('notify', 14);
 
 		$this->addToolbar();
 
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -112,10 +120,10 @@ class PrivacyViewDashboard extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_DASHBOARD'), 'lock');
+		ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_DASHBOARD'), 'lock');
 
-		JToolbarHelper::preferences('com_privacy');
+		ToolbarHelper::preferences('com_privacy');
 
-		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_DASHBOARD');
+		ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_DASHBOARD');
 	}
 }

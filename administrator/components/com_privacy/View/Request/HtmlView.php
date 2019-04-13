@@ -7,14 +7,24 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\View\Request;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Request view class
  *
  * @since  3.9.0
  */
-class PrivacyViewRequest extends JViewLegacy
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * The action logs for the item
@@ -27,7 +37,7 @@ class PrivacyViewRequest extends JViewLegacy
 	/**
 	 * The form object
 	 *
-	 * @var    JForm
+	 * @var    Form
 	 * @since  3.9.0
 	 */
 	protected $form;
@@ -35,7 +45,7 @@ class PrivacyViewRequest extends JViewLegacy
 	/**
 	 * The item record
 	 *
-	 * @var    JObject
+	 * @var    CMSObject
 	 * @since  3.9.0
 	 */
 	protected $item;
@@ -43,7 +53,7 @@ class PrivacyViewRequest extends JViewLegacy
 	/**
 	 * The state information
 	 *
-	 * @var    JObject
+	 * @var    CMSObject
 	 * @since  3.9.0
 	 */
 	protected $state;
@@ -55,7 +65,7 @@ class PrivacyViewRequest extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
 	 * @throws  Exception
 	 */
@@ -68,13 +78,13 @@ class PrivacyViewRequest extends JViewLegacy
 		// Variables only required for the default layout
 		if ($this->getLayout() === 'default')
 		{
-			/** @var ActionlogsModelActionlogs $logsModel */
+			/** @var \ActionlogsModelActionlogs $logsModel */
 			$logsModel = $this->getModel('actionlogs');
 
 			$this->actionlogs = $logsModel->getLogsForItem('com_privacy.request', $this->item->id);
 
 			// Load the com_actionlogs language strings for use in the layout
-			$lang = JFactory::getLanguage();
+			$lang = Factory::getLanguage();
 			$lang->load('com_actionlogs', JPATH_ADMINISTRATOR, null, false, true)
 				|| $lang->load('com_actionlogs', JPATH_ADMINISTRATOR . '/components/com_actionlogs', null, false, true);
 		}
@@ -88,7 +98,7 @@ class PrivacyViewRequest extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -105,22 +115,22 @@ class PrivacyViewRequest extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JFactory::getApplication('administrator')->set('hidemainmenu', true);
+		Factory::getApplication('administrator')->set('hidemainmenu', true);
 
 		// Set the title and toolbar based on the layout
 		if ($this->getLayout() === 'edit')
 		{
-			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'lock');
+			ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_ADD_REQUEST'), 'lock');
 
-			JToolbarHelper::apply('request.save');
-			JToolbarHelper::cancel('request.cancel');
-			JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST_EDIT');
+			ToolbarHelper::apply('request.save');
+			ToolbarHelper::cancel('request.cancel');
+			ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST_EDIT');
 		}
 		else
 		{
-			JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_REQUEST_SHOW_REQUEST'), 'lock');
+			ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_REQUEST_SHOW_REQUEST'), 'lock');
 
-			$bar = JToolbar::getInstance('toolbar');
+			$bar = Toolbar::getInstance('toolbar');
 
 			// Add transition and action buttons based on item status
 			switch ($this->item->status)
@@ -138,15 +148,15 @@ class PrivacyViewRequest extends JViewLegacy
 
 					if ($this->item->request_type === 'export')
 					{
-						JToolbarHelper::link(
+						ToolbarHelper::link(
 							JRoute::_('index.php?option=com_privacy&task=request.export&format=xml&id=' . (int) $this->item->id . $return),
 							'COM_PRIVACY_ACTION_EXPORT_DATA',
 							'download'
 						);
 
-						if (JFactory::getConfig()->get('mailonline', 1))
+						if (Factory::getConfig()->get('mailonline', 1))
 						{
-							JToolbarHelper::link(
+							ToolbarHelper::link(
 								JRoute::_('index.php?option=com_privacy&task=request.emailexport&id=' . (int) $this->item->id . $return),
 								'COM_PRIVACY_ACTION_EMAIL_EXPORT_DATA',
 								'mail'
@@ -166,8 +176,8 @@ class PrivacyViewRequest extends JViewLegacy
 					break;
 			}
 
-			JToolbarHelper::cancel('request.cancel', 'JTOOLBAR_CLOSE');
-			JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST');
+			ToolbarHelper::cancel('request.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_REQUEST');
 		}
 	}
 }

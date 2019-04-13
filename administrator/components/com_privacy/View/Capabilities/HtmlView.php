@@ -7,14 +7,21 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\View\Capabilities;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * Capabilities view class
  *
  * @since  3.9.0
  */
-class PrivacyViewCapabilities extends JViewLegacy
+class HtmlView extends BaseHtmlView
 {
 	/**
 	 * The reported extension capabilities
@@ -35,7 +42,7 @@ class PrivacyViewCapabilities extends JViewLegacy
 	/**
 	 * The state information
 	 *
-	 * @var    JObject
+	 * @var    CMSObject
 	 * @since  3.9.0
 	 */
 	protected $state;
@@ -47,7 +54,7 @@ class PrivacyViewCapabilities extends JViewLegacy
 	 *
 	 * @return  mixed  A string if successful, otherwise an Error object.
 	 *
-	 * @see     JViewLegacy::loadTemplate()
+	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
 	 * @throws  Exception
 	 */
@@ -60,12 +67,12 @@ class PrivacyViewCapabilities extends JViewLegacy
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new Exception(implode("\n", $errors), 500);
+			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
 
-		$this->sidebar = JHtmlSidebar::render();
+		$this->sidebar = \JHtmlSidebar::render();
 
 		return parent::display($tpl);
 	}
@@ -79,10 +86,10 @@ class PrivacyViewCapabilities extends JViewLegacy
 	 */
 	protected function addToolbar()
 	{
-		JToolbarHelper::title(JText::_('COM_PRIVACY_VIEW_CAPABILITIES'), 'lock');
+		ToolbarHelper::title(Text::_('COM_PRIVACY_VIEW_CAPABILITIES'), 'lock');
 
-		JToolbarHelper::preferences('com_privacy');
+		ToolbarHelper::preferences('com_privacy');
 
-		JToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CAPABILITIES');
+		ToolbarHelper::help('JHELP_COMPONENTS_PRIVACY_CAPABILITIES');
 	}
 }
