@@ -7,14 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Controller;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\Router\Route;
 
 /**
  * Consents management controller class.
  *
  * @since  3.9.0
  */
-class PrivacyControllerConsents extends JControllerForm
+class ConsentsController extends FormController
 {
 	/**
 	 * Method to invalidate specific consents.
@@ -26,13 +32,13 @@ class PrivacyControllerConsents extends JControllerForm
 	public function invalidate($key = null, $urlVar = null)
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$ids    = $this->input->get('cid', array(), 'array');
+		$ids = $this->input->get('cid', [], 'array');
 
 		if (empty($ids))
 		{
-			$this->setError(JText::_('JERROR_NO_ITEMS_SELECTED'));
+			$this->setError(Text::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 		else
 		{
@@ -46,10 +52,10 @@ class PrivacyControllerConsents extends JControllerForm
 				$this->setError($model->getError());
 			}
 
-			$message = JText::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', count($ids));
+			$message = Text::plural('COM_PRIVACY_N_CONSENTS_INVALIDATED', count($ids));
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_privacy&view=consents', false), $message);
+		$this->setRedirect(Route::_('index.php?option=com_privacy&view=consents', false), $message);
 	}
 
 	/**
@@ -62,9 +68,9 @@ class PrivacyControllerConsents extends JControllerForm
 	public function invalidateAll()
 	{
 		// Check for request forgeries
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$filters = $this->input->get('filter', array(), 'array');
+		$filters = $this->input->get('filter', [], 'array');
 
 		if (isset($filters['subject']) && $filters['subject'] != '')
 		{
@@ -72,7 +78,7 @@ class PrivacyControllerConsents extends JControllerForm
 		}
 		else
 		{
-			$this->setError(JText::_('JERROR_NO_ITEMS_SELECTED'));
+			$this->setError(Text::_('JERROR_NO_ITEMS_SELECTED'));
 		}
 
 		// Get the model.
@@ -85,8 +91,8 @@ class PrivacyControllerConsents extends JControllerForm
 			$this->setError($model->getError());
 		}
 
-		$message = JText::_('COM_PRIVACY_CONSENTS_INVALIDATED_ALL');
+		$message = Text::_('COM_PRIVACY_CONSENTS_INVALIDATED_ALL');
 
-		$this->setRedirect(JRoute::_('index.php?option=com_privacy&view=consents', false), $message);
+		$this->setRedirect(Route::_('index.php?option=com_privacy&view=consents', false), $message);
 	}
 }

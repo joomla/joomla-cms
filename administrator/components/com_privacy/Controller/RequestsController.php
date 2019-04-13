@@ -7,14 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Controller;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 
 /**
  * Requests management controller class.
  *
  * @since  3.9.0
  */
-class PrivacyControllerRequests extends JControllerAdmin
+class RequestsController extends AdminController
 {
 	/**
 	 * Method to get a model object, loading it if required.
@@ -23,11 +28,11 @@ class PrivacyControllerRequests extends JControllerAdmin
 	 * @param   string  $prefix  The class prefix. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JModelLegacy|boolean  Model object on success; otherwise false on failure.
+	 * @return  BaseDatabaseModel|boolean  Model object on success; otherwise false on failure.
 	 *
 	 * @since   3.9.0
 	 */
-	public function getModel($name = 'Request', $prefix = 'PrivacyModel', $config = array('ignore_request' => true))
+	public function getModel($name = 'Request', $prefix = 'PrivacyModel', $config = ['ignore_request' => true])
 	{
 		return parent::getModel($name, $prefix, $config);
 	}

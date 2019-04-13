@@ -7,14 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Privacy\Administrator\Controller;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Controller\FormController;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Request management controller class.
  *
  * @since  3.9.0
  */
-class PrivacyControllerRequest extends JControllerForm
+class RequestController extends FormController
 {
 	/**
 	 * Method to complete a request.
@@ -29,7 +38,7 @@ class PrivacyControllerRequest extends JControllerForm
 	public function complete($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/** @var PrivacyModelRequest $model */
 		$model = $this->getModel();
@@ -56,11 +65,11 @@ class PrivacyControllerRequest extends JControllerForm
 		// Ensure this record can transition to the requested state
 		if (!$this->canTransition($item, '2'))
 		{
-			$this->setError(\JText::_('COM_PRIVACY_ERROR_COMPLETE_TRANSITION_NOT_PERMITTED'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_COMPLETE_TRANSITION_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=com_privacy&view=request&id=' . $recordId, false
 				)
 			);
@@ -69,19 +78,19 @@ class PrivacyControllerRequest extends JControllerForm
 		}
 
 		// Build the data array for the update
-		$data = array(
+		$data = [
 			$key     => $recordId,
 			'status' => '2',
-		);
+		];
 
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=com_privacy&view=request&id=' . $recordId, false
 				)
 			);
@@ -93,11 +102,11 @@ class PrivacyControllerRequest extends JControllerForm
 		if (!$model->save($data))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=com_privacy&view=request&id=' . $recordId, false
 				)
 			);
@@ -108,20 +117,20 @@ class PrivacyControllerRequest extends JControllerForm
 		// Log the request completed
 		$model->logRequestCompleted($recordId);
 
-		$this->setMessage(\JText::_('COM_PRIVACY_REQUEST_COMPLETED'));
+		$this->setMessage(Text::_('COM_PRIVACY_REQUEST_COMPLETED'));
 
 		$url = 'index.php?option=com_privacy&view=requests';
 
 		// Check if there is a return value
 		$return = $this->input->get('return', null, 'base64');
 
-		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		if (!is_null($return) && Uri::isInternal(base64_decode($return)))
 		{
 			$url = base64_decode($return);
 		}
 
 		// Redirect to the list screen.
-		$this->setRedirect(\JRoute::_($url, false));
+		$this->setRedirect(Route::_($url, false));
 
 		return true;
 	}
@@ -143,12 +152,12 @@ class PrivacyControllerRequest extends JControllerForm
 		if (!$model->emailDataExport($recordId))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(\JText::sprintf('COM_PRIVACY_ERROR_EXPORT_EMAIL_FAILED', $model->getError()));
+			$this->setError(Text::sprintf('COM_PRIVACY_ERROR_EXPORT_EMAIL_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 		}
 		else
 		{
-			$this->setMessage(\JText::_('COM_PRIVACY_EXPORT_EMAILED'));
+			$this->setMessage(Text::_('COM_PRIVACY_EXPORT_EMAILED'));
 		}
 
 		$url = 'index.php?option=com_privacy&view=requests';
@@ -156,15 +165,29 @@ class PrivacyControllerRequest extends JControllerForm
 		// Check if there is a return value
 		$return = $this->input->get('return', null, 'base64');
 
-		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		if (!is_null($return) && Uri::isInternal(base64_decode($return)))
 		{
 			$url = base64_decode($return);
 		}
 
 		// Redirect to the list screen.
-		$this->setRedirect(\JRoute::_($url, false));
+		$this->setRedirect(Route::_($url, false));
 
 		return true;
+	}
+
+	/**
+	 * Method to export the data for a request.
+	 *
+	 * @return  $this
+	 *
+	 * @since   3.9.0
+	 */
+	public function export()
+	{
+		$this->input->set('view', 'export');
+
+		return $this->display();
 	}
 
 	/**
@@ -180,7 +203,7 @@ class PrivacyControllerRequest extends JControllerForm
 	public function invalidate($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or jexit(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/** @var PrivacyModelRequest $model */
 		$model = $this->getModel();
@@ -207,11 +230,11 @@ class PrivacyControllerRequest extends JControllerForm
 		// Ensure this record can transition to the requested state
 		if (!$this->canTransition($item, '-1'))
 		{
-			$this->setError(\JText::_('COM_PRIVACY_ERROR_INVALID_TRANSITION_NOT_PERMITTED'));
+			$this->setError(Text::_('COM_PRIVACY_ERROR_INVALID_TRANSITION_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=com_privacy&view=request&id=' . $recordId, false
 				)
 			);
@@ -220,19 +243,19 @@ class PrivacyControllerRequest extends JControllerForm
 		}
 
 		// Build the data array for the update
-		$data = array(
+		$data = [
 			$key     => $recordId,
 			'status' => '-1',
-		);
+		];
 
 		// Access check.
 		if (!$this->allowSave($data, $key))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=com_privacy&view=request&id=' . $recordId, false
 				)
 			);
@@ -244,11 +267,11 @@ class PrivacyControllerRequest extends JControllerForm
 		if (!$model->save($data))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
+			$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=com_privacy&view=request&id=' . $recordId, false
 				)
 			);
@@ -259,20 +282,20 @@ class PrivacyControllerRequest extends JControllerForm
 		// Log the request invalidated
 		$model->logRequestInvalidated($recordId);
 
-		$this->setMessage(\JText::_('COM_PRIVACY_REQUEST_INVALIDATED'));
+		$this->setMessage(Text::_('COM_PRIVACY_REQUEST_INVALIDATED'));
 
 		$url = 'index.php?option=com_privacy&view=requests';
 
 		// Check if there is a return value
 		$return = $this->input->get('return', null, 'base64');
 
-		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		if (!is_null($return) && Uri::isInternal(base64_decode($return)))
 		{
 			$url = base64_decode($return);
 		}
 
 		// Redirect to the list screen.
-		$this->setRedirect(\JRoute::_($url, false));
+		$this->setRedirect(Route::_($url, false));
 
 		return true;
 	}
@@ -294,11 +317,11 @@ class PrivacyControllerRequest extends JControllerForm
 		if (!$model->removeDataForRequest($recordId))
 		{
 			// Redirect back to the edit screen.
-			$this->setError(\JText::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $model->getError()));
+			$this->setError(Text::sprintf('COM_PRIVACY_ERROR_REMOVE_DATA_FAILED', $model->getError()));
 			$this->setMessage($this->getError(), 'error');
 
 			$this->setRedirect(
-				\JRoute::_(
+				Route::_(
 					'index.php?option=com_privacy&view=request&id=' . $recordId, false
 				)
 			);
@@ -306,20 +329,20 @@ class PrivacyControllerRequest extends JControllerForm
 			return false;
 		}
 
-		$this->setMessage(\JText::_('COM_PRIVACY_DATA_REMOVED'));
+		$this->setMessage(Text::_('COM_PRIVACY_DATA_REMOVED'));
 
 		$url = 'index.php?option=com_privacy&view=requests';
 
 		// Check if there is a return value
 		$return = $this->input->get('return', null, 'base64');
 
-		if (!is_null($return) && \JUri::isInternal(base64_decode($return)))
+		if (!is_null($return) && Uri::isInternal(base64_decode($return)))
 		{
 			$url = base64_decode($return);
 		}
 
 		// Redirect to the list screen.
-		$this->setRedirect(\JRoute::_($url, false));
+		$this->setRedirect(Route::_($url, false));
 
 		return true;
 	}
@@ -327,14 +350,14 @@ class PrivacyControllerRequest extends JControllerForm
 	/**
 	 * Function that allows child controller access to model data after the data has been saved.
 	 *
-	 * @param   \JModelLegacy  $model      The data model object.
-	 * @param   array          $validData  The validated data.
+	 * @param   BaseDatabaseModel  $model      The data model object.
+	 * @param   array              $validData  The validated data.
 	 *
 	 * @return  void
 	 *
 	 * @since   3.9.0
 	 */
-	protected function postSaveHook(\JModelLegacy $model, $validData = array())
+	protected function postSaveHook(BaseDatabaseModel $model, $validData = [])
 	{
 		// This hook only processes new items
 		if (!$model->getState($model->getName() . '.new', false))
@@ -346,7 +369,7 @@ class PrivacyControllerRequest extends JControllerForm
 		{
 			if ($error = $model->getError())
 			{
-				JFactory::getApplication()->enqueueMessage($error, 'warning');
+				Factory::getApplication()->enqueueMessage($error, 'warning');
 			}
 		}
 
@@ -354,12 +377,12 @@ class PrivacyControllerRequest extends JControllerForm
 		{
 			if ($error = $model->getError())
 			{
-				JFactory::getApplication()->enqueueMessage($error, 'warning');
+				Factory::getApplication()->enqueueMessage($error, 'warning');
 			}
 		}
 		else
 		{
-			JFactory::getApplication()->enqueueMessage(JText::_('COM_PRIVACY_MSG_CONFIRM_EMAIL_SENT_TO_USER'));
+			Factory::getApplication()->enqueueMessage(Text::_('COM_PRIVACY_MSG_CONFIRM_EMAIL_SENT_TO_USER'));
 		}
 	}
 
@@ -383,7 +406,7 @@ class PrivacyControllerRequest extends JControllerForm
 
 			case '1':
 				// A confirmed item can be marked completed or invalid
-				return in_array($newStatus, array('-1', '2'), true);
+				return in_array($newStatus, ['-1', '2'], true);
 
 			// An item which is already in an invalid or complete state cannot transition, likewise if we don't know the state don't change anything
 			case '-1':
