@@ -77,8 +77,8 @@ class CapabilitiesModel extends BaseModel
 
 		// We are going to "cheat" here and include this component's capabilities without using a plugin
 		$extensionCapabilities = [
-			JText::_('COM_PRIVACY') => [
-				JText::_('COM_PRIVACY_EXTENSION_CAPABILITY_PERSONAL_INFO'),
+			Text::_('COM_PRIVACY') => [
+				Text::_('COM_PRIVACY_EXTENSION_CAPABILITY_PERSONAL_INFO'),
 			],
 		];
 
