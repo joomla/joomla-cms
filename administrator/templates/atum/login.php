@@ -54,6 +54,11 @@ $smallLogo = $this->params->get('smallLogo')
 	? JUri::root() . $this->params->get('smallLogo')
 	: $this->baseurl . '/templates/' . $this->template . '/images/logo-blue.svg';
 
+// Alt text for logos
+$altSiteLogo = $this->params->get('altSiteLogo', '');
+$altLoginLogo = $this->params->get('altLoginLogo', '');
+$altSmallLogo = $this->params->get('altSmallLogo', '');
+
 // Set some meta data
 $this->setMetaData('viewport', 'width=device-width, initial-scale=1');
 // @TODO sync with _variables.scss
@@ -172,8 +177,8 @@ $this->addStyleDeclaration($css);
 	<div class="d-flex align-items-center">
 		<div class="header-title mr-auto">
             <div class="logo">
-                <img src="<?php echo $siteLogo; ?>" alt="">
-                <img class="logo-small" src="<?php echo $smallLogo; ?>" alt="">
+                <img src="<?php echo $siteLogo; ?>" alt="<?php echo $altSmallLogo; ?>">
+                <img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $altSmallLogo; ?>">
             </div>
 		</div>
 	</div>
@@ -184,7 +189,7 @@ $this->addStyleDeclaration($css);
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper">
 		<div id="main-brand" class="main-brand">
-			<h2><?php echo $sitename; ?></h2>
+			<div class="h2"><?php echo $sitename; ?></div>
 			<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
 		</div>
 		<div id="sidebar">
@@ -197,9 +202,9 @@ $this->addStyleDeclaration($css);
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
 					<div class="main-brand d-flex align-items-center justify-content-center">
-						<img src="<?php echo $loginLogo; ?>" alt="">
+						<img src="<?php echo $loginLogo; ?>" alt="<?php echo $altLoginLogo; ?>">
 					</div>
-					<h1><?php echo Text::_('TPL_ATUM_LOGIN_HEADING'); ?></h1>
+					<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
 					<jdoc:include type="message"/>
 					<jdoc:include type="component"/>
 				</div>
