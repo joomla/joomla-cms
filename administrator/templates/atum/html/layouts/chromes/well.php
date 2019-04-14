@@ -38,6 +38,8 @@ if ($module->content) :
 	<div class="<?php echo $moduleClass; ?> module-wrapper">
 		<<?php echo $moduleTag; ?> class="card mb-3<?php echo $moduleClassSfx; ?>">
 			<?php if ($canEdit) : ?>
+				<?php // Make sure we get the admin template module positions ?>
+				<?php Factory::getApplication()->setUserState('com_modules.modules.client_id', 1, 'int'); ?>
 				<?php $uri = Uri::getInstance(); ?>
 				<?php $url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri)); ?>
 
