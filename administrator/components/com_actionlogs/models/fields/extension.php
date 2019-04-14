@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
- * Field to load a list of all users that have logged actions
+ * Field to load a list of all extensions that have logged actions
  *
  * @since  3.9.0
  */
@@ -47,17 +47,20 @@ class JFormFieldExtension extends JFormFieldList
 
 		$options = array();
 
-		foreach ($context as $item)
+		if (count($context) > 0)
 		{
-			$extensions[] = strtok($item, '.');
-		}
+			foreach ($context as $item)
+			{
+				$extensions[] = strtok($item, '.');
+			}
 
-		$extensions = array_unique($extensions);
+			$extensions = array_unique($extensions);
 
-		foreach ($extensions as $extension)
-		{
-			ActionlogsHelper::loadTranslationFiles($extension);
-			$options[] = JHtml::_('select.option', $extension, JText::_($extension));
+			foreach ($extensions as $extension)
+			{
+				ActionlogsHelper::loadTranslationFiles($extension);
+				$options[] = JHtml::_('select.option', $extension, JText::_($extension));
+			}
 		}
 
 		return array_merge(parent::getOptions(), $options);

@@ -34,8 +34,6 @@ class PrivacyModelRequests extends JModelList
 				'email', 'a.email',
 				'requested_at', 'a.requested_at',
 				'request_type', 'a.request_type',
-				'checked_out', 'a.checked_out',
-				'checked_out_time', 'a.checked_out_time',
 				'status', 'a.status',
 			);
 		}
@@ -59,10 +57,6 @@ class PrivacyModelRequests extends JModelList
 		// Select the required fields from the table.
 		$query->select($this->getState('list.select', 'a.*'));
 		$query->from($db->quoteName('#__privacy_requests', 'a'));
-
-		// Join over the users for the checked out user.
-		$query->select($db->quoteName('uc.name', 'editor'));
-		$query->join('LEFT', $db->quoteName('#__users', 'uc') . ' ON uc.id = a.checked_out');
 
 		// Filter by status
 		$status = $this->getState('filter.status');
@@ -188,7 +182,7 @@ class PrivacyModelRequests extends JModelList
 			->select('COUNT(*)');
 		$query->from($db->quoteName('#__privacy_requests'));
 		$query->where($db->quoteName('status') . ' = 1 ');
-		$query->where($query->dateAdd($now, $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
+		$query->where($query->dateAdd($db->quote($now), $period, 'DAY') . ' > ' . $db->quoteName('requested_at'));
 		$db->setQuery($query);
 
 		return (int) $db->loadResult();

@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Utilities\IpHelper;
 use ReCaptcha\ReCaptcha;
 
 /**
@@ -107,7 +108,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$ele->setAttribute('data-error-callback', $this->params->get('error_callback', ''));
 
 		$dom->appendChild($ele);
-		return $dom->saveXML($ele);
+		return $dom->saveHTML($ele);
 	}
 
 	/**
@@ -125,7 +126,7 @@ class PlgCaptchaRecaptcha extends CMSPlugin
 		$input      = Factory::getApplication()->input;
 		$privatekey = $this->params->get('private_key');
 		$version    = $this->params->get('version', '2.0');
-		$remoteip   = $input->server->get('REMOTE_ADDR', '', 'string');
+		$remoteip   = IpHelper::getIp();
 		$response   = null;
 		$spam       = false;
 

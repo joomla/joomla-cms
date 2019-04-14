@@ -38,6 +38,12 @@ class PrivacyController extends JControllerLegacy
 			return $this;
 		}
 
+		// Set a Referrer-Policy header for views which require it
+		if (in_array($view, array('confirm', 'remind')))
+		{
+			JFactory::getApplication()->setHeader('Referrer-Policy', 'no-referrer', true);
+		}
+
 		return parent::display($cachable, $urlparams);
 	}
 }

@@ -986,7 +986,7 @@ class FieldModel extends AdminModel
 				throw new SectionNotFoundException;
 			}
 
-			$cat = $componentObject->getCategory();
+			$cat = $componentObject->getCategory([], $section ?: '');
 
 			if ($cat->get('root')->hasChildren())
 			{
