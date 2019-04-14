@@ -41,6 +41,6 @@ class PrivacyComponent extends MVCComponent implements BootableExtensionInterfac
 	 */
 	public function boot(ContainerInterface $container)
 	{
-		$this->getRegistry()->register('privacy', new Privacy());
+		$this->getRegistry()->register('privacy', new Privacy);
 	}
 }
