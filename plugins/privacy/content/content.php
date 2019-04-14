@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
-JLoader::register('PrivacyTableRequest', JPATH_ADMINISTRATOR . '/components/com_privacy/tables/request.php');
-
 /**
  * Privacy plugin managing Joomla user content data
  *
@@ -55,8 +52,9 @@ class PlgPrivacyContent extends PrivacyPlugin
 		foreach ($items as $item)
 		{
 			$domain->addItem($this->createItemFromArray((array) $item));
-			$domains[] = $this->createCustomFieldsDomain('com_content.article', $item);
 		}
+
+		$domains[] = $this->createCustomFieldsDomain('com_content.article', $items);
 
 		return $domains;
 	}

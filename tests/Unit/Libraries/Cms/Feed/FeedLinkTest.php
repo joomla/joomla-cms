@@ -18,7 +18,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class FeedLinkTest extends UnitTestCase
 {
@@ -28,7 +28,7 @@ class FeedLinkTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @since              3.1.4
 	 */
 	public function testConstructWithInvalidLength()
 	{

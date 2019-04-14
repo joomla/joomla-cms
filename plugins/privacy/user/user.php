@@ -11,10 +11,6 @@ defined('_JEXEC') or die;
 
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
-JLoader::register('PrivacyRemovalStatus', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/removal/status.php');
-JLoader::register('PrivacyTableRequest', JPATH_ADMINISTRATOR . '/components/com_privacy/tables/request.php');
-
 /**
  * Privacy plugin managing Joomla user data
  *
@@ -84,7 +80,7 @@ class PlgPrivacyUser extends PrivacyPlugin
 		$domains[] = $this->createUserDomain($userTable);
 		$domains[] = $this->createNotesDomain($userTable);
 		$domains[] = $this->createProfileDomain($userTable);
-		$domains[] = $this->createCustomFieldsDomain('com_users.user', $userTable);
+		$domains[] = $this->createCustomFieldsDomain('com_users.user', array($userTable));
 
 		return $domains;
 	}

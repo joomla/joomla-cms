@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
-JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
-JLoader::register('PrivacyTableRequest', JPATH_ADMINISTRATOR . '/components/com_privacy/tables/request.php');
 
 /**
  * Privacy plugin managing Joomla actionlogs data
@@ -54,11 +52,18 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$data = ActionlogsHelper::getCsvData($data);
-		array_shift($data);
+		$data    = ActionlogsHelper::getCsvData($data);
+		$isFirst = true;
 
 		foreach ($data as $item)
 		{
+			if ($isFirst)
+			{
+				$isFirst = false;
+
+				continue;
+			}
+
 			$domain->addItem($this->createItemFromArray($item));
 		}
 

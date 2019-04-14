@@ -116,7 +116,10 @@ abstract class FinderIndexer
 
 		$db = $this->db;
 
-		// Set up query template for addTokensToDb
+		/**
+		 * Set up query template for addTokensToDb, we will be cloning this template when needed.
+		 * This is about twice as fast as calling the clear function or setting up a new object.
+		 */
 		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
 			->columns(
 				array(
@@ -505,40 +508,55 @@ abstract class FinderIndexer
 		// Get the database object.
 		$db = $this->db;
 
-		$query = clone $this->addTokensToDbQueryTemplate;
-
 		// Count the number of token values.
 		$values = 0;
 
-		// Iterate through the tokens to create SQL value sets.
-		if (!is_a($tokens, 'FinderIndexerToken'))
+		if (($tokens instanceof FinderIndexerToken) === false)
 		{
-			foreach ($tokens as $token)
+			// Break into chunks of no more than 1000 items
+			$chunks = count($tokens) > 1000
+				? array_chunk($tokens, 1000)
+				: array($tokens);
+
+			foreach ($chunks as $chunkTokens)
 			{
-				if ($filterCommon && $token->common)
+				$query = clone $this->addTokensToDbQueryTemplate;
+
+				// Iterate through the tokens to create SQL value sets.
+				foreach ($chunkTokens as $token)
 				{
-					continue;
+					if ($filterCommon && $token->common)
+					{
+						continue;
+					}
+
+					if ($filterNumeric && $token->numeric)
+					{
+						continue;
+					}
+
+					$query->values(
+						$db->quote($token->term) . ', '
+						. $db->quote($token->stem) . ', '
+						. (int) $token->common . ', '
+						. (int) $token->phrase . ', '
+						. $db->quote($token->weight) . ', '
+						. (int) $context . ', '
+						. $db->quote($token->language)
+					);
+					$values++;
 				}
 
-				if ($filterNumeric && $token->numeric)
+				if ($query->values)
 				{
-					continue;
+					$db->setQuery($query)->execute();
 				}
-
-				$query->values(
-					$db->quote($token->term) . ', '
-					. $db->quote($token->stem) . ', '
-					. (int) $token->common . ', '
-					. (int) $token->phrase . ', '
-					. $db->quote($token->weight) . ', '
-					. (int) $context . ', '
-					. $db->quote($token->language)
-				);
-				$values++;
 			}
 		}
 		else
 		{
+			$query = clone $this->addTokensToDbQueryTemplate;
+
 			$query->values(
 				$db->quote($tokens->term) . ', '
 				. $db->quote($tokens->stem) . ', '
@@ -549,11 +567,11 @@ abstract class FinderIndexer
 				. $db->quote($tokens->language)
 			);
 			$values++;
-		}
 
-		if ($query->values)
-		{
-			$db->setQuery($query)->execute();
+			if ($query->values)
+			{
+				$db->setQuery($query)->execute();
+			}
 		}
 
 		return $values;
