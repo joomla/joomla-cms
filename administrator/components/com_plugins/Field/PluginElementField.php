@@ -3,22 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Plugins\Administrator\Field;
+
 defined('_JEXEC') or die;
 
-JLoader::register('PluginsHelper', JPATH_ADMINISTRATOR . '/components/com_plugins/helpers/plugins.php');
-
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
 
 /**
  * Plugin Element field.
  *
  * @since  3.9.0
  */
-class JFormFieldPluginElement extends JFormFieldList
+class PluginElementField extends ListField
 {
 	/**
 	 * The form field type.
