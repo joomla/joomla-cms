@@ -16,6 +16,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Privacy\Site\Model\ConfirmModel;
+use Joomla\Component\Privacy\Site\Model\RequestModel;
 
 /**
  * Request action controller class.
@@ -36,7 +38,7 @@ class RequestController extends BaseController
 		// Check the request token.
 		$this->checkToken('post');
 
-		/** @var PrivacyModelConfirm $model */
+		/** @var ConfirmModel $model */
 		$model = $this->getModel('Confirm', 'Site');
 		$data  = $this->input->post->get('jform', [], 'array');
 
@@ -90,7 +92,7 @@ class RequestController extends BaseController
 		// Check the request token.
 		$this->checkToken('post');
 
-		/** @var PrivacyModelRequest $model */
+		/** @var RequestModel $model */
 		$model = $this->getModel('Request', 'Site');
 		$data  = $this->input->post->get('jform', [], 'array');
 
@@ -144,7 +146,7 @@ class RequestController extends BaseController
 		// Check the request token.
 		$this->checkToken('post');
 
-		/** @var PrivacyModelConfirm $model */
+		/** @var ConfirmModel $model */
 		$model = $this->getModel('Remind', 'Site');
 		$data  = $this->input->post->get('jform', [], 'array');
 
