@@ -19,7 +19,7 @@ $upper_limit = $lang->getUpperLimitSearchWord();
 	<div class="btn-toolbar">
 		<div class="btn-group pull-left">
 			<label for="search-searchword" class="element-invisible">
-			<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>
+				<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>
 			</label>
 			<input type="text" name="searchword" title="<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>" placeholder="<?php echo JText::_('COM_SEARCH_SEARCH_KEYWORD'); ?>" id="search-searchword" size="30" maxlength="<?php echo $upper_limit; ?>" value="<?php echo $this->escape($this->origkeyword); ?>" class="inputbox" />
 		</div>
