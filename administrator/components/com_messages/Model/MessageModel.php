@@ -11,6 +11,8 @@ namespace Joomla\Component\Messages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Access\Rule;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
@@ -18,7 +20,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
+use Joomla\CMS\Table\Asset;
+use Joomla\CMS\Table\Table;
 use Joomla\CMS\User\User;
 
 /**
@@ -446,17 +449,17 @@ class MessageModel extends AdminModel
 
 		try
 		{
-			/** @var JTableAsset $table */
-			$table  = $this->getTable('Asset', 'JTable');
+			/** @var Asset $table */
+			$table  = Table::getInstance('Asset');
 			$rootId = $table->getRootId();
 
-			/** @var JAccessRule[] $rules */
-			$rules     = JAccess::getAssetRules($rootId)->getData();
+			/** @var Rule[] $rules */
+			$rules     = Access::getAssetRules($rootId)->getData();
 			$rawGroups = $rules['core.admin']->getData();
 
 			if (empty($rawGroups))
 			{
-				$this->setError(JText::_('COM_MESSAGES_ERROR_MISSING_ROOT_ASSET_GROUPS'));
+				$this->setError(Text::_('COM_MESSAGES_ERROR_MISSING_ROOT_ASSET_GROUPS'));
 
 				return false;
 			}
@@ -473,7 +476,7 @@ class MessageModel extends AdminModel
 
 			if (empty($groups))
 			{
-				$this->setError(JText::_('COM_MESSAGES_ERROR_NO_GROUPS_SET_AS_SUPER_USER'));
+				$this->setError(Text::_('COM_MESSAGES_ERROR_NO_GROUPS_SET_AS_SUPER_USER'));
 
 				return false;
 			}
@@ -487,7 +490,7 @@ class MessageModel extends AdminModel
 
 			if (empty($userIDs))
 			{
-				$this->setError(JText::_('COM_MESSAGES_ERROR_NO_USERS_SET_AS_SUPER_USER'));
+				$this->setError(Text::_('COM_MESSAGES_ERROR_NO_USERS_SET_AS_SUPER_USER'));
 
 				return false;
 			}
@@ -498,12 +501,12 @@ class MessageModel extends AdminModel
 				 * All messages must have a valid from user, we have use cases where an unauthenticated user may trigger this
 				 * so we will set the from user as the to user
 				 */
-				$data = array(
+				$data = [
 					'user_id_from' => $id,
 					'user_id_to'   => $id,
 					'subject'      => $subject,
 					'message'      => $message,
-				);
+				];
 
 				if (!$this->save($data))
 				{
@@ -513,7 +516,7 @@ class MessageModel extends AdminModel
 
 			return true;
 		}
-		catch (Exception $exception)
+		catch (\Exception $exception)
 		{
 			$this->setError($exception->getMessage());
 
