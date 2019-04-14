@@ -51,7 +51,7 @@ if ($module->content) :
 					</button>
 					<div class="dropdown-menu dropdown-menu-' . $dropdownPosition . '" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
 						<a class="dropdown-item" href="<?php echo $url; ?>"><?php echo Text::_('JACTION_EDIT'); ?></a>
-						<a href="#" class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>"><?php echo Text::_('JACTION_UNPUBLISH'); ?></a>
+						<button class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>"><?php echo Text::_('JACTION_UNPUBLISH'); ?></button>
 					</div>
 				</div>
 			<?php endif; ?>
