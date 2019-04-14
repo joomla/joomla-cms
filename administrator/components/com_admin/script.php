@@ -931,6 +931,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_languages/helpers/languages.php',
 			'/administrator/components/com_languages/helpers/multilangstatus.php',
 			'/administrator/components/com_languages/languages.php',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_languages/models/forms/filter_installed.xml',
 			'/administrator/components/com_languages/models/forms/filter_languages.xml',
 			'/administrator/components/com_languages/models/forms/language.xml',

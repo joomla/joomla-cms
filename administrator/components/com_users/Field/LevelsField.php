@@ -12,10 +12,7 @@ namespace Joomla\Component\Users\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\Component\Users\Administrator\Helper\UsersHelperDebug;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Access Levels field.

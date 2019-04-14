@@ -11,7 +11,6 @@ namespace Joomla\Component\Languages\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Language\LanguageHelper;
@@ -37,9 +36,15 @@ class OverridesModel extends ListModel
 	 */
 	public function __construct($config = array(), MVCFactoryInterface $factory = null)
 	{
-		parent::__construct($config, $factory);
+		if (empty($config['filter_fields']))
+		{
+			$config['filter_fields'] = array(
+				'key',
+				'text',
+			);
+		}
 
-		$this->filter_fields = array('key', 'text');
+		parent::__construct($config, $factory);
 	}
 
 	/**

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-namespace Joomla\Component\Languages\Administrator\Model;
+namespace Joomla\Component\Languages\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
@@ -20,7 +20,7 @@ use Joomla\CMS\Language\Text;
  *
  * @since  3.9.0
  */
-class Languageclient extends ListField
+class LanguageclientField extends ListField
 {
 	/**
 	 * The form field type.
@@ -61,12 +61,12 @@ class Languageclient extends ListField
 		// Create a single array of them.
 		foreach ($site_languages as $tag => $language)
 		{
-			$languages[$tag . '0'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JSITE'));
+			$languages[$tag . '0'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], Text::_('JSITE'));
 		}
 
 		foreach ($admin_languages as $tag => $language)
 		{
-			$languages[$tag . '1'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], JText::_('JADMINISTRATOR'));
+			$languages[$tag . '1'] = Text::sprintf('COM_LANGUAGES_VIEW_OVERRIDES_LANGUAGES_BOX_ITEM', $language['name'], Text::_('JADMINISTRATOR'));
 		}
 
 		// Sort it by language tag and by client after that.

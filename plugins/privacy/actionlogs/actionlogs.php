@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 JLoader::register('PrivacyPlugin', JPATH_ADMINISTRATOR . '/components/com_privacy/helpers/plugin.php');
 JLoader::register('PrivacyTableRequest', JPATH_ADMINISTRATOR . '/components/com_privacy/tables/request.php');
 
@@ -22,22 +20,6 @@ JLoader::register('PrivacyTableRequest', JPATH_ADMINISTRATOR . '/components/com_
  */
 class PlgPrivacyActionlogs extends PrivacyPlugin
 {
-	/**
-	 * Database object
-	 *
-	 * @var    JDatabaseDriver
-	 * @since  3.9.0
-	 */
-	protected $db;
-
-	/**
-	 * Affects constructor behavior. If true, language files will be loaded automatically.
-	 *
-	 * @var    boolean
-	 * @since  3.9.0
-	 */
-	protected $autoloadLanguage = true;
-
 	/**
 	 * Processes an export request for Joomla core actionlog data
 	 *
@@ -55,7 +37,7 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$domain = $this->createDomain('actionlog', 'Logged actions of the user');
+		$domain = $this->createDomain('user_action_logs', 'joomla_user_action_logs_data');
 
 		$query = $this->db->getQuery(true)
 			->select('a.*, u.name')
@@ -72,11 +54,18 @@ class PlgPrivacyActionlogs extends PrivacyPlugin
 			return array();
 		}
 
-		$data = ActionlogsHelper::getCsvData($data);
-		array_shift($data);
+		$data    = ActionlogsHelper::getCsvData($data);
+		$isFirst = true;
 
 		foreach ($data as $item)
 		{
+			if ($isFirst)
+			{
+				$isFirst = false;
+
+				continue;
+			}
+
 			$domain->addItem($this->createItemFromArray($item));
 		}
 
