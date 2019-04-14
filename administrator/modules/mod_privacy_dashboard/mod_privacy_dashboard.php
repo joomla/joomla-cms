@@ -15,6 +15,9 @@ if (!JFactory::getUser()->authorise('core.admin'))
 	return;
 }
 
+// Boot component to ensure HTML helpers are loaded
+JFactory::getApplication()->bootComponent('com_privacy');
+
 // Load the privacy component language file.
 $lang = JFactory::getLanguage();
 $lang->load('com_privacy', JPATH_ADMINISTRATOR, null, false, true)
