@@ -202,7 +202,7 @@ class ArticlesModel extends ListModel
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down, a.introtext'
+				', a.publish_up, a.publish_down, a.introtext, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -220,8 +220,13 @@ class ArticlesModel extends ListModel
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title')
+		$query->select('c.title AS category_title, c.created_user_id AS category_uid, c.level AS category_level')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		// Join over the parent categories.
+		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id, 
+								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
+			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
@@ -279,11 +284,14 @@ class ArticlesModel extends ListModel
 			'uc.name',
 			'ag.title',
 			'c.title',
+			'c.created_user_id',
+			'c.level',
 			'ua.name',
 			'ws.title',
 			'ws.workflow_id',
 			'ws.condition',
-			'wa.stage_id'
+			'wa.stage_id',
+			'parent.id',
 		);
 
 		if (PluginHelper::isEnabled('content', 'vote'))
@@ -435,7 +443,7 @@ class ArticlesModel extends ListModel
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 

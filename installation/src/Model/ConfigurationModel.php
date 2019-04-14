@@ -124,6 +124,7 @@ class ConfigurationModel extends BaseInstallationModel
 		// Debug settings.
 		$registry->set('debug', false);
 		$registry->set('debug_lang', false);
+		$registry->set('debug_lang_const', true);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);

@@ -89,7 +89,7 @@ class UserController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('User', 'Administrator', array());

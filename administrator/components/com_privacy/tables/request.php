@@ -19,11 +19,8 @@ defined('_JEXEC') or die;
  * @property   string   $request_type              The type of information request
  * @property   string   $confirm_token             Hashed token for confirming the information request
  * @property   string   $confirm_token_created_at  The time the confirmation token was generated
- * @property   integer  $checked_out               User ID who has checked out the item for editing
- * @property   string   $checked_out_time          The time the item was checked out for editing
- * @property   integer  $user_id                   User ID (pseudo foreign key to the #__users table) if the request is associated to a user account
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PrivacyTableRequest extends JTable
 {
@@ -32,7 +29,7 @@ class PrivacyTableRequest extends JTable
 	 *
 	 * @param   JDatabaseDriver  $db  JDatabaseDriver connector object.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(JDatabaseDriver $db)
 	{
@@ -46,7 +43,7 @@ class PrivacyTableRequest extends JTable
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   11.1
+	 * @since   3.9.0
 	 */
 	public function store($updateNulls = false)
 	{

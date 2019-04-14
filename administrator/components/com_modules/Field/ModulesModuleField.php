@@ -12,17 +12,15 @@ namespace Joomla\Component\Modules\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Modules\Administrator\Helper\ModulesHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Modules Module field.
  *
  * @since  3.4.2
  */
-class ModulesModuleField extends \JFormFieldList
+class ModulesModuleField extends ListField
 {
 	/**
 	 * The form field type.
@@ -41,8 +39,7 @@ class ModulesModuleField extends \JFormFieldList
 	 */
 	public function getOptions()
 	{
-		$clientId = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
-		$options  = ModulesHelper::getModules($clientId);
+		$options  = ModulesHelper::getModules(Factory::getApplication()->getUserState('com_modules.modules.client_id', 0, 'int'));
 
 		return array_merge(parent::getOptions(), $options);
 	}
