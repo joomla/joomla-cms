@@ -10,11 +10,12 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\Utilities\IpHelper;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
- * Methods supporting a list of article records.
+ * Methods supporting a list of Actionlog records.
  *
  * @since  3.9.0
  */
@@ -42,7 +43,7 @@ class ActionlogsModelActionlog extends JModelLegacy
 
 		if ($params->get('ip_logging', 0))
 		{
-			$ip = JFactory::getApplication()->input->server->get('REMOTE_ADDR', null, 'raw');
+			$ip = IpHelper::getIp();
 
 			if (!filter_var($ip, FILTER_VALIDATE_IP))
 			{
@@ -100,9 +101,14 @@ class ActionlogsModelActionlog extends JModelLegacy
 		$params       = ComponentHelper::getParams('com_actionlogs');
 		$showIpColumn = (bool) $params->get('ip_logging', 0);
 
-		$query->select($db->quoteName(array('email', 'params')))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('params') . ' LIKE ' . $db->quote('%"logs_notification_option":1%'));
+		$query
+			->select($db->quoteName(array('u.email', 'l.extensions')))
+			->from($db->quoteName('#__users', 'u'))
+			->join(
+				'INNER',
+				$db->quoteName('#__action_logs_users', 'l') . ' ON ( ' . $db->quoteName('l.notify') . ' = 1 AND '
+				. $db->quoteName('l.user_id') . ' = ' . $db->quoteName('u.id') . ')'
+			);
 
 		$db->setQuery($query);
 
@@ -121,10 +127,9 @@ class ActionlogsModelActionlog extends JModelLegacy
 
 		foreach ($users as $user)
 		{
-			$userParams = json_decode($user->params, true);
-			$extensions = $userParams['logs_notification_extensions'];
+			$extensions = json_decode($user->extensions, true);
 
-			if (in_array(strtok($context, '.'), $extensions))
+			if ($extensions && in_array(strtok($context, '.'), $extensions))
 			{
 				$recipients[] = $user->email;
 			}

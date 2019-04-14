@@ -12,17 +12,15 @@ namespace Joomla\Component\Templates\Administrator\Field;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Template Name field.
  *
  * @since  3.5
  */
-class TemplatenameField extends \JFormFieldList
+class TemplatenameField extends ListField
 {
 	/**
 	 * The form field type.

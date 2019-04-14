@@ -15,7 +15,7 @@
             </form>
         </div>
         <div slot="footer">
-            <button type="button" class="btn btn-link" @click="close()" @keyup.enter="close()">{{ translate('JCANCEL') }}</button>
+            <button type="button" class="btn btn-secondary" @click="close()" @keyup.enter="close()">{{ translate('JCANCEL') }}</button>
             <button type="button" class="btn btn-success" @click="save()" @keyup.enter="save()" :disabled="!isValid()">{{ translate('JAPPLY') }}
             </button>
         </div>
