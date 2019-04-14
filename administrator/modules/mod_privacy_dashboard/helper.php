@@ -30,7 +30,10 @@ class ModPrivacyDashboardHelper
 	public static function getData()
 	{
 		/** @var DashboardModel $model */
-		$model = Factory::getApplication()->bootComponent('com_privacy')->getMVCFactory()->createModel('Dashboard', 'Administrator', ['ignore_request' => true]);
+		$model = Factory::getApplication()
+			->bootComponent('com_privacy')
+			->getMVCFactory()
+			->createModel('Dashboard', 'Administrator', ['ignore_request' => true]);
 
 		try
 		{
