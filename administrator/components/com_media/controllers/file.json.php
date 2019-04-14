@@ -93,7 +93,8 @@ class MediaControllerFile extends JControllerLegacy
 
 			$filepath = JPath::clean($files['final']);
 
-			if (!$mediaHelper->canUpload($file, 'com_media'))
+			if (!$mediaHelper->canUpload($file, 'com_media')
+				|| !strpos(realpath($filepath), JPath::clean(COM_MEDIA_BASE)) !== 0)
 			{
 				try
 				{
