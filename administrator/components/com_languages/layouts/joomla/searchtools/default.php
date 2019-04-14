@@ -21,8 +21,14 @@ $data['options'] = !empty($data['options']) ? $data['options'] : array();
 
 if ($data['view'] instanceof \Joomla\Component\Languages\Administrator\View\Overrides\HtmlView)
 {
-	// Client selector doesn't have to activate the filter bar.
+	// Language/Client selector doesn't have to activate the filter bar.
 	unset($data['view']->activeFilters['language_client']);
+}
+
+if ($data['view'] instanceof \Joomla\Component\Languages\Administrator\View\Installed\HtmlView)
+{
+	// Client selector doesn't have to activate the filter bar.
+	unset($data['view']->activeFilters['client_id']);
 }
 
 // Set some basic options
@@ -46,8 +52,16 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 	<?php if ($data['view'] instanceof \Joomla\Component\Languages\Administrator\View\Overrides\HtmlView) : ?>
 		<?php $langClient = $data['view']->filterForm->getField('language_client'); ?>
 		<div class="js-stools-container-selector">
-			<div class="js-stools-field-selector js-stools-langClient">
+			<div class="js-stools-field-selector js-stools-langclient">
 				<?php echo $langClient->input; ?>
+			</div>
+		</div>
+	<?php endif; ?>
+	<?php if ($data['view'] instanceof \Joomla\Component\Languages\Administrator\View\Installed\HtmlView) : ?>
+		<?php $client = $data['view']->filterForm->getField('client_id'); ?>
+		<div class="js-stools-container-selector">
+			<div class="js-stools-field-selector js-stools-client">
+				<?php echo $client->input; ?>
 			</div>
 		</div>
 	<?php endif; ?>
