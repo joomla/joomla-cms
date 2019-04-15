@@ -45,16 +45,6 @@
 		</field>
 
 		<field
-			name="author_id"
-			type="author"
-			label="COM_CONTENT_FILTER_AUTHOR"
-			description="COM_CONTENT_FILTER_AUTHOR_DESC"
-			multiple="true"
-			class="multipleAuthors"
-			onchange="this.form.submit();"
-		/>
-
-		<field
 			name="access"
 			type="accesslevel"
 			label="JOPTION_FILTER_ACCESS"
@@ -63,6 +53,18 @@
 			class="multipleAccessLevels"
 			onchange="this.form.submit();"
 		/>
+
+		<field
+			name="author_id"
+			type="author"
+			label="COM_CONTENT_FILTER_AUTHOR"
+			description="COM_CONTENT_FILTER_AUTHOR_DESC"
+			multiple="true"
+			class="multipleAuthors"
+			onchange="this.form.submit();"
+			>
+			<option value="0">JNONE</option>
+		</field>
 
 		<field
 			name="language"

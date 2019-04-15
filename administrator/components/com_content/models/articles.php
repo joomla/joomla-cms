@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -193,7 +193,7 @@ class ContentModelArticles extends JModelList
 				'list.select',
 				'DISTINCT a.id, a.title, a.alias, a.checked_out, a.checked_out_time, a.catid' .
 				', a.state, a.access, a.created, a.created_by, a.created_by_alias, a.modified, a.ordering, a.featured, a.language, a.hits' .
-				', a.publish_up, a.publish_down'
+				', a.publish_up, a.publish_down, a.note'
 			)
 		);
 		$query->from('#__content AS a');
@@ -211,20 +211,25 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__viewlevels AS ag ON ag.id = a.access');
 
 		// Join over the categories.
-		$query->select('c.title AS category_title')
+		$query->select('c.title AS category_title, c.created_user_id AS category_uid, c.level AS category_level')
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
+
+		// Join over the parent categories.
+		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id,
+								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
+			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
 		// Join over the users for the author.
 		$query->select('ua.name AS author_name')
 			->join('LEFT', '#__users AS ua ON ua.id = a.created_by');
 
 		// Join on voting table
-		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name';
+		$assogroup = 'a.id, l.title, l.image, uc.name, ag.title, c.title, ua.name, c.created_user_id, c.level, parent.id';
 
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
 			$assogroup .= ', v.rating_sum, v.rating_count';
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
@@ -232,14 +237,15 @@ class ContentModelArticles extends JModelList
 		// Join over the associations.
 		if (JLanguageAssociations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
+			$query->select('CASE WHEN COUNT(asso2.id)>1 THEN 1 ELSE 0 END as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->join('LEFT', '#__associations AS asso2 ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
 				->group($assogroup);
 		}
 
 		// Filter by access level.
 		$access = $this->getState('filter.access');
+
 		if (is_numeric($access))
 		{
 			$query->where('a.access = ' . (int) $access);
@@ -271,31 +277,38 @@ class ContentModelArticles extends JModelList
 			$query->where('(a.state = 0 OR a.state = 1)');
 		}
 
+		// Filter by categories and by level
+		$categoryId = $this->getState('filter.category_id', array());
+		$level = $this->getState('filter.level');
 
-		// Filter by a single or group of categories.
-		$baselevel  = 1;
-		$categoryId = $this->getState('filter.category_id');
-
-		if (is_numeric($categoryId))
+		if (!is_array($categoryId))
 		{
-			$categoryTable = JTable::getInstance('Category', 'JTable');
-			$categoryTable->load($categoryId);
-			$rgt       = $categoryTable->rgt;
-			$lft       = $categoryTable->lft;
-			$baselevel = (int) $categoryTable->level;
-			$query->where('c.lft >= ' . (int) $lft)
-				->where('c.rgt <= ' . (int) $rgt);
+			$categoryId = $categoryId ? array($categoryId) : array();
 		}
-		elseif (is_array($categoryId))
+
+		// Case: Using both categories filter and by level filter
+		if (count($categoryId))
 		{
 			$categoryId = ArrayHelper::toInteger($categoryId);
-			$query->where('a.catid IN (' . implode(',', ArrayHelper::toInteger($categoryId)) . ')');
+			$categoryTable = JTable::getInstance('Category', 'JTable');
+			$subCatItemsWhere = array();
+
+			foreach ($categoryId as $filter_catid)
+			{
+				$categoryTable->load($filter_catid);
+				$subCatItemsWhere[] = '(' .
+					($level ? 'c.level <= ' . ((int) $level + (int) $categoryTable->level - 1) . ' AND ' : '') .
+					'c.lft >= ' . (int) $categoryTable->lft . ' AND ' .
+					'c.rgt <= ' . (int) $categoryTable->rgt . ')';
+			}
+
+			$query->where('(' . implode(' OR ', $subCatItemsWhere) . ')');
 		}
 
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
+		// Case: Using only the by level filter
+		elseif ($level)
 		{
-			$query->where('c.level <= ' . ((int) $level + (int) $baselevel - 1));
+			$query->where('c.level <= ' . (int) $level);
 		}
 
 		// Filter by author
@@ -327,10 +340,15 @@ class ContentModelArticles extends JModelList
 				$search = $db->quote('%' . $db->escape(substr($search, 7), true) . '%');
 				$query->where('(ua.name LIKE ' . $search . ' OR ua.username LIKE ' . $search . ')');
 			}
+			elseif (stripos($search, 'content:') === 0)
+			{
+				$search = $db->quote('%' . $db->escape(substr($search, 8), true) . '%');
+				$query->where('(a.introtext LIKE ' . $search . ' OR a.fulltext LIKE ' . $search . ')');
+			}
 			else
 			{
 				$search = $db->quote('%' . str_replace(' ', '%', $db->escape(trim($search), true) . '%'));
-				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ')');
+				$query->where('(a.title LIKE ' . $search . ' OR a.alias LIKE ' . $search . ' OR a.note LIKE ' . $search . ')');
 			}
 		}
 
@@ -354,6 +372,7 @@ class ContentModelArticles extends JModelList
 		{
 			$tagId = ArrayHelper::toInteger($tagId);
 			$tagId = implode(',', $tagId);
+
 			if (!empty($tagId))
 			{
 				$hasTag = true;
@@ -394,6 +413,8 @@ class ContentModelArticles extends JModelList
 	 * @return  stdClass
 	 *
 	 * @since   1.6
+	 *
+	 * @deprecated  4.0  To be removed with Hathor
 	 */
 	public function getAuthors()
 	{
@@ -413,34 +434,5 @@ class ContentModelArticles extends JModelList
 
 		// Return the result
 		return $db->loadObjectList();
-	}
-
-	/**
-	 * Method to get a list of articles.
-	 * Overridden to add a check for access levels.
-	 *
-	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   1.6.1
-	 */
-	public function getItems()
-	{
-		$items = parent::getItems();
-
-		if (JFactory::getApplication()->isClient('site'))
-		{
-			$groups = JFactory::getUser()->getAuthorisedViewLevels();
-
-			foreach (array_keys($items) as $x)
-			{
-				// Check the access level. Remove articles the user shouldn't see
-				if (!in_array($items[$x]->access, $groups))
-				{
-					unset($items[$x]);
-				}
-			}
-		}
-
-		return $items;
 	}
 }
