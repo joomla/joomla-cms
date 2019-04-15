@@ -73,7 +73,7 @@ class ArticleModel extends AdminModel
 	 *
 	 * @return  array|boolean  An array of new IDs on success, boolean false on failure.
 	 *
-	 * @since	1.7
+	 * @since	4.0
 	 */
 	protected function batchCopy($value, $pks, $contexts)
 	{
