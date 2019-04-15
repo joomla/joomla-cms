@@ -344,14 +344,14 @@ Joomla = window.Joomla || {};
         // Find correct container for current set
         if (group === 'menu') {
           $targetMenu.forEach((target) => {
-            if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === set)
+            if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item)
             {
               renderBar(target, type, preset[group], true);
             }
           });
         } else {
           $targetToolbar.forEach((target) => {
-            if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === set)
+            if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item)
             {
               renderBar(target, type, preset[group], true);
             }
