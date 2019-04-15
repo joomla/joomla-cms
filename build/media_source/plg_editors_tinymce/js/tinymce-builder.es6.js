@@ -5,7 +5,7 @@
 
 Joomla = window.Joomla || {};
 
-((Joomla, window, document) => {
+((Joomla, window) => {
   'use strict';
 
   /**
@@ -190,9 +190,7 @@ Joomla = window.Joomla || {};
       tinymce.langCode = code;
       tinymce.langStrings = strings || {};
     },
-    translate: (string) => {
-      return tinymce.langStrings[string] || string;
-    },
+    translate: (string) => return tinymce.langStrings[string] || string,
     showIcon: (name) => {
       const iconname = tinymce.iconsmap[name] || name;
       return tinymce.icons[iconname] || tinymce.icons[name] || name;
@@ -236,7 +234,6 @@ Joomla = window.Joomla || {};
      * @since  3.7.0
      */
     const createButton = (name, info, type) => {
-
       const title = tinymce.translate(info.label);
 
       let content = '';
@@ -280,37 +277,35 @@ Joomla = window.Joomla || {};
       let name;
       let $btn;
 
-      for (let i = 0, l = value.length; i < l; i = i + 1) {
+      for (let i = 0, l = value.length; i < l; ++i) {
         name = value[i];
         item = items[name];
 
-        if (!item) {
-          continue;
-        }
+        if (item) {
+          $btn = createButton(name, item, type);
+          box.innerHTML += $btn;
 
-        $btn = createButton(name, item, type);
-        box.innerHTML += $btn;
+          const newbutton = box.querySelector('.tox-mbtn:last-child');
 
-        const newbutton = box.querySelector('.tox-mbtn:last-child');
+          // Enable tooltip
+          if (newbutton.tooltip) {
+            newbutton.tooltip({ trigger: 'hover' });
+          }
 
-        // Enable tooltip
-        if (newbutton.tooltip) {
-          newbutton.tooltip({ trigger: 'hover' });
-        }
-
-        // Add input
-        if (withInput) {
-          appendInput(newbutton, group, set);
+          // Add input
+          if (withInput) {
+            appendInput(newbutton, group, set);
+          }
         }
       }
     };
 
     /**
      * Clear the pane for specific set
-     * @param {Object} options Options {set: 1}
+     * @param {Object} sets Options {set: 1}
      */
-    const clearPane = (options) => {
-      const set = options.set;
+    const clearPane = (sets) => {
+      const { set: set } = sets;
 
       $targetMenu.forEach((elem) => {
         if (elem.getAttribute('data-set') === set) {
@@ -370,22 +365,15 @@ Joomla = window.Joomla || {};
     renderBar($sourceToolbar, 'toolbar');
 
     // Initialize drag & drop
+    /*global dragula */
     const drakeMenu = dragula([$sourceMenu], {
-      copy: (el, source) => {
-        return source === $sourceMenu
-      },
-      accepts: (el, target) => {
-        return target !== $sourceMenu
-      },
-      removeOnSpill: true
+      copy: (el, source) => { return source === $sourceMenu; },
+      accepts: (el, target) => { return target !== $sourceMenu; },
+      removeOnSpill: true,
     }).on('drag', () => {
-      $targetMenu.forEach((target) => {
-        target.classList.add('drop-area-highlight');
-      });
+      $targetMenu.forEach((target) => {  target.classList.add('drop-area-highlight'); });
     }).on('dragend', () => {
-      $targetMenu.forEach((target) => {
-        target.classList.remove('drop-area-highlight');
-      });
+      $targetMenu.forEach((target) => { target.classList.remove('drop-area-highlight'); });
     }).on('drop', (el, target) => {
       if (target !== $sourceMenu) {
         appendInput(el, target.getAttribute('data-group'), target.getAttribute('data-set'));
@@ -399,10 +387,10 @@ Joomla = window.Joomla || {};
 
     const drakeToolbar = dragula([$sourceToolbar], {
       copy: (el, source) => {
-        return source === $sourceToolbar
+        return source === $sourceToolbar;
       },
       accepts: (el, target) => {
-        return target !== $sourceToolbar
+        return target !== $sourceToolbar;
       },
       removeOnSpill: true,
     }).on('drag', () => {
@@ -461,7 +449,7 @@ Joomla = window.Joomla || {};
 
   Joomla.TinyMCEBuilder = TinyMCEBuilder;
 
-})(Joomla, window, document);
+})(Joomla, window);
 
 document.addEventListener('DOMContentLoaded', () => {
   const options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {})
@@ -483,16 +471,15 @@ document.addEventListener('DOMContentLoaded', () => {
     selects.forEach((select) => {
       const values = select.value;
 
-      selects.forEach(select1 => {
-        if (select === select1)
-        {
+      selects.forEach((select1) => {
+        if (select === select1) {
           return;
         }
 
         values.forEach((value) => {
           select1.disableByValue(value);
         });
-      })
+      });
     });
   };
 

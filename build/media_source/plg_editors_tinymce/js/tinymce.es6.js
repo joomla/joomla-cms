@@ -92,14 +92,10 @@
       });
 
       if (buttonValues.length) {
-        options.setup = (editor) => {
-          for (const icon in icons) {
-            if (!icons.hasOwnProperty(icon)) {
-              continue;
-            }
-
+        options.setup = (editor) => {console.log(icons);
+          Object.keys(icons).forEach((icon) => {
             editor.ui.registry.addIcon(icon, icons[icon]);
-          }
+          });
 
           editor.ui.registry.addSplitButton('jxtdbuttons', {
             type: 'menubutton',
