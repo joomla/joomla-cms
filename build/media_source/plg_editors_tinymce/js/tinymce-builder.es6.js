@@ -190,7 +190,7 @@ Joomla = window.Joomla || {};
       tinymce.langCode = code;
       tinymce.langStrings = strings || {};
     },
-    translate: (string) => tinymce.langStrings[string] || string,
+    translate: (string) => (tinymce.langStrings[string] || string),
     showIcon: (name) => {
       const iconname = tinymce.iconsmap[name] || name;
       return tinymce.icons[iconname] || tinymce.icons[name] || name;
@@ -277,7 +277,7 @@ Joomla = window.Joomla || {};
       let name;
       let $btn;
 
-      for (let i = 0, l = value.length; i < l; i = i + 1) {
+      for (let i = 0, l = value.length; i < l; i += 1) {
         name = value[i];
         item = items[name];
 
@@ -409,7 +409,7 @@ Joomla = window.Joomla || {};
       elem.addEventListener('click', (event) => {
         const action = event.target.getAttribute('data-action');
 
-        let actionoptions = {};
+        const actionoptions = {};
 
         [].forEach.call(event.target.attributes, (attrib) => {
           if (/^data-/.test(attrib.name)) {
