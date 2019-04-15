@@ -111,7 +111,7 @@ class SubfieldstypeField extends ListField
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function setup(SimpleXMLElement $element, $value, $group = null)
+	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
 		$return = parent::setup($element, $value, $group);
 

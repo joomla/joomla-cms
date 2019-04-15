@@ -644,7 +644,7 @@ class FieldsHelper
 			return array();
 		}
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		$query->select($db->quoteName('a.category_id'))

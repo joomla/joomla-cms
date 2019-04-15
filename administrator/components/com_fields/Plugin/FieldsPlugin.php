@@ -259,14 +259,14 @@ abstract class FieldsPlugin extends CMSPlugin
 	/**
 	 * Returns the path of the XML definition file for the field parameters
 	 *
-	 * @param   JForm     $form  The form
+	 * @param   Form     $form  The form
 	 * @param   stdClass  $data  The data
 	 *
 	 * @return  string
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getFormPath(JForm $form, $data)
+	protected function getFormPath(Form $form, $data)
 	{
 		// Check if the field form is calling us
 		if (strpos($form->getName(), 'com_fields.field') !== 0)
