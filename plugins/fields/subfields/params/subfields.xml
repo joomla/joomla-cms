@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+	<field
+		name="default_value"
+		type="hidden"
+		default=""
+	/>
+	<fields name="fieldparams">
+		<fieldset name="fieldparams">
+
+			<field
+				name="repeat"
+				type="radio"
+				label="PLG_FIELDS_SUBFIELDS_PARAMS_REPEAT_LABEL"
+				description="PLG_FIELDS_SUBFIELDS_PARAMS_REPEAT_DESC"
+				class="btn-group btn-group-yesno"
+				default="1"
+				>
+				<option value="1">JYES</option>
+				<option value="0">JNO</option>
+			</field>
+
+			<field
+				name="options"
+				type="subform"
+				label="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_LABEL"
+				description="PLG_FIELDS_SUBFIELDS_PARAMS_OPTIONS_DESC"
+				icon="list"
+				layout="joomla.form.field.subform.repeatable-table"
+				min="1"
+				multiple="true"
+				>
+				<form hidden="true" name="options_modal" repeat="true">
+
+					<field
+						context=""
+						name="customfield"
+						type="subfieldstype"
+						label="PLG_FIELDS_SUBFIELDS_PARAMS_CUSTOMFIELD_LABEL"
+						description="PLG_FIELDS_SUBFIELDS_PARAMS_CUSTOMFIELD_DESC"
+						default=""
+						required="true"
+					/>
+
+					<field
+						name="render_values"
+						type="radio"
+						label="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_LABEL"
+						description="PLG_FIELDS_SUBFIELDS_PARAMS_RENDER_VALUES_DESC"
+						class="btn-group btn-group-yesno"
+						default="1"
+						>
+						<option value="1">JYES</option>
+						<option value="0">JNO</option>
+					</field>
+				</form>
+			</field>
+		</fieldset>
+	</fields>
+</form>
