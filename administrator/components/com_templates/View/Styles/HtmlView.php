@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Templates\Administrator\Helper\TemplatesHelper;
 
@@ -111,6 +112,9 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_templates');
 
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
 		{
@@ -123,28 +127,35 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			ToolbarHelper::makeDefault('styles.setDefault', 'COM_TEMPLATES_TOOLBAR_SET_HOME');
-			ToolbarHelper::divider();
+			$toolbar->confirmButton('default')
+				->text('COM_TEMPLATES_TOOLBAR_SET_HOME')
+				->message('COM_TEMPLATES_TOOLBAR_CONFIRM_SET_DEFAULT')
+				->task('styles.setDefault')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.create'))
 		{
-			ToolbarHelper::custom('styles.duplicate', 'copy.png', 'copy_f2.png', 'JTOOLBAR_DUPLICATE', true);
-			ToolbarHelper::divider();
+			$toolbar->standardButton('copy')
+				->text('JTOOLBAR_DUPLICATE')
+				->task('styles.duplicate')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.delete'))
 		{
-			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'styles.delete', 'JTOOLBAR_DELETE');
-			ToolbarHelper::divider();
+			$toolbar->confirmButton('delete')
+				->text('JTOOLBAR_DELETE')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->task('styles.delete')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			ToolbarHelper::preferences('com_templates');
-			ToolbarHelper::divider();
+			$toolbar->preferences('com_templates');
 		}
 
-		ToolbarHelper::help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
+		$toolbar->help('JHELP_EXTENSIONS_TEMPLATE_MANAGER_STYLES');
 	}
 }
