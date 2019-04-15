@@ -190,7 +190,7 @@ Joomla = window.Joomla || {};
       tinymce.langCode = code;
       tinymce.langStrings = strings || {};
     },
-    translate: (string) => return tinymce.langStrings[string] || string,
+    translate: (string) => { return tinymce.langStrings[string] || string; },
     showIcon: (name) => {
       const iconname = tinymce.iconsmap[name] || name;
       return tinymce.icons[iconname] || tinymce.icons[name] || name;
