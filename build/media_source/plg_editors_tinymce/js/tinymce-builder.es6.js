@@ -329,35 +329,29 @@ Joomla = window.Joomla || {};
       const preset = options.toolbarPreset[attrib.preset] || null;
 
       if (!preset) {
-        throw new Error('Unknown Preset "' + attrib.preset + '"');
+        throw new Error(`Unknown Preset "${attrib.preset}"`);
       }
 
       clearPane(attrib);
 
-      for (let group in preset) {
-        if (!preset.hasOwnProperty(group)) {
-          continue;
-        }
-
+      Object.keys(preset).forEach((group) => {
         const type = group === 'menu' ? 'menu' : 'toolbar';
 
         // Find correct container for current set
         if (group === 'menu') {
           $targetMenu.forEach((target) => {
-            if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item)
-            {
+            if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) {
               renderBar(target, type, preset[group], true);
             }
           });
         } else {
           $targetToolbar.forEach((target) => {
-            if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item)
-            {
+            if (target.getAttribute('data-group') === group && target.getAttribute('data-set') === item) {
               renderBar(target, type, preset[group], true);
             }
           });
         }
-      }
+      });
     };
 
     // Build menu + toolbar
@@ -386,12 +380,8 @@ Joomla = window.Joomla || {};
     });
 
     const drakeToolbar = dragula([$sourceToolbar], {
-      copy: (el, source) => {
-        return source === $sourceToolbar;
-      },
-      accepts: (el, target) => {
-        return target !== $sourceToolbar;
-      },
+      copy: (el, source) => source === $sourceToolbar,
+      accepts: (el, target) => target !== $sourceToolbar,
       removeOnSpill: true,
     }).on('drag', () => {
       $targetToolbar.forEach((target) => {
@@ -419,29 +409,28 @@ Joomla = window.Joomla || {};
       elem.addEventListener('click', (event) => {
         const action = event.target.getAttribute('data-action');
 
-        let options = {};
+        let actionoptions = {};
 
-        [].forEach.call(event.target.attributes, function (attrib) {
+        [].forEach.call(event.target.attributes, (attrib) => {
           if (/^data-/.test(attrib.name)) {
-            let key = attrib.name.substr(5);
+            const key = attrib.name.substr(5);
 
-            options[key] = attrib.value;
+            actionoptions[key] = attrib.value;
           }
         });
 
         // Don't allow wild function calling
-        switch (action)
-        {
+        switch (action) {
           case 'clearPane':
-            clearPane(options);
+            clearPane(actionoptions);
             break;
 
           case 'setPreset':
-            setPreset(options);
+            setPreset(actionoptions);
             break;
 
           default:
-            throw new Error('Unsupported action ' + action);
+            throw new Error(`Unsupported action: ${action}`);
         }
       });
     });
@@ -452,7 +441,7 @@ Joomla = window.Joomla || {};
 
 document.addEventListener('DOMContentLoaded', () => {
   const options = Joomla.getOptions ? Joomla.getOptions('plg_editors_tinymce_builder', {})
-          : (Joomla.optionsStorage.plg_editors_tinymce_builder || {});
+    : (Joomla.optionsStorage.plg_editors_tinymce_builder || {});
 
   const builder = document.getElementById('joomla-tinymce-builder');
 
