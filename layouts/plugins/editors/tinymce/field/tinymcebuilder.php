@@ -104,7 +104,7 @@ Factory::getDocument()->addScriptOptions('plg_editors_tinymce_builder',
 			$isActive = $num === $setsAmount - 1;
 		?>
 		<li class="nav-item">
-			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $isActive ? 'active' : ''; ?>">
+			<a href="#set-<?php echo $num; ?>" class="nav-link <?php echo $isActive ? 'active' : ''; ?>" data-toggle="tab">
 				<?php echo $title; ?></a>
 		</li>
 		<?php endforeach; ?>

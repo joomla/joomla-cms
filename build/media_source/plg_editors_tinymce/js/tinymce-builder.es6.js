@@ -474,51 +474,34 @@ document.addEventListener('DOMContentLoaded', () => {
   const selects = builder.querySelectorAll('.access-select');
 
   // Allow to select the group only once per the set
-  // @TODO: implement when https://github.com/joomla/joomla-cms/pull/24211 is merged
   const toggleAvailableOption = () => {
-//      $accessSelects.find('option[disabled]').removeAttr('disabled');
-//
-//      // Disable already selected options
-//      $accessSelects.each(function () {
-//        var $select = $(this), val = $select.val() || [], query = [],
-//                $options = $accessSelects.not(this).find('option');
-//
-//        for (var i = 0, l = val.length; i < l; i++) {
-//          if (!val[i])
-//            continue;
-//          query.push('[value="' + val[i] + '"]');
-//        }
-//
-//        if (query.length) {
-//          $options.filter(query.join(',')).attr('disabled', 'disabled');
-//        }
-//      });
-//
-//      // Update Chosen
-//      $accessSelects.trigger('chosen:updated');
+    selects.forEach((select) => {
+      select.enableAllOptions();
+    });
+
+    // Disable already selected options in the other selects
+    selects.forEach((select) => {
+      const values = select.value;
+
+      selects.forEach(select1 => {
+        if (select === select1)
+        {
+          return;
+        }
+
+        values.forEach((value) => {
+          select1.disableByValue(value);
+        });
+      })
+    });
   };
 
-  toggleAvailableOption();
+  window.addEventListener('load', () => toggleAvailableOption());
 
   // Allow to select the group only once per the set
   selects.forEach((select) => {
-    select.addEventListener('change', (event) => {
+    select.addEventListener('change', () => {
       toggleAvailableOption();
     });
   });
-
-
 });
-
-;
-(function ($) {
-  'use strict';
-
-  // Init the builder
-  $(document).ready(function () {
-    $('#set-tabs a').on('click', (event) => {
-      event.preventDefault();
-      $(this).tab('show');
-    });
-  });
-}(window.jQuery));
