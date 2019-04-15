@@ -92,7 +92,7 @@
       });
 
       if (buttonValues.length) {
-        options.setup = (editor) => {console.log(icons);
+        options.setup = (editor) => {
           Object.keys(icons).forEach((icon) => {
             editor.ui.registry.addIcon(icon, icons[icon]);
           });

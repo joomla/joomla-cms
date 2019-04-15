@@ -190,7 +190,7 @@ Joomla = window.Joomla || {};
       tinymce.langCode = code;
       tinymce.langStrings = strings || {};
     },
-    translate: (string) => { return tinymce.langStrings[string] || string; },
+    translate: (string) => tinymce.langStrings[string] || string,
     showIcon: (name) => {
       const iconname = tinymce.iconsmap[name] || name;
       return tinymce.icons[iconname] || tinymce.icons[name] || name;
@@ -277,7 +277,7 @@ Joomla = window.Joomla || {};
       let name;
       let $btn;
 
-      for (let i = 0, l = value.length; i < l; ++i) {
+      for (let i = 0, l = value.length; i < l; i = i + 1) {
         name = value[i];
         item = items[name];
 
@@ -305,16 +305,16 @@ Joomla = window.Joomla || {};
      * @param {Object} sets Options {set: 1}
      */
     const clearPane = (sets) => {
-      const { set: set } = sets;
+      const { set: item } = sets;
 
       $targetMenu.forEach((elem) => {
-        if (elem.getAttribute('data-set') === set) {
+        if (elem.getAttribute('data-set') === item) {
           elem.innerHTML = '';
         }
       });
 
       $targetToolbar.forEach((elem) => {
-        if (elem.getAttribute('data-set') === set) {
+        if (elem.getAttribute('data-set') === item) {
           elem.innerHTML = '';
         }
       });
@@ -325,7 +325,7 @@ Joomla = window.Joomla || {};
      * @param {Object} attrib Options {set: 1, preset: 'presetName'}
      */
     const setPreset = (attrib) => {
-      const set = attrib.set;
+      const { set: item } = attrib;
       const preset = options.toolbarPreset[attrib.preset] || null;
 
       if (!preset) {
@@ -365,13 +365,13 @@ Joomla = window.Joomla || {};
     renderBar($sourceToolbar, 'toolbar');
 
     // Initialize drag & drop
-    /*global dragula */
+    /* global dragula */
     const drakeMenu = dragula([$sourceMenu], {
-      copy: (el, source) => { return source === $sourceMenu; },
-      accepts: (el, target) => { return target !== $sourceMenu; },
+      copy: (el, source) => source === $sourceMenu,
+      accepts: (el, target) => target !== $sourceMenu,
       removeOnSpill: true,
     }).on('drag', () => {
-      $targetMenu.forEach((target) => {  target.classList.add('drop-area-highlight'); });
+      $targetMenu.forEach((target) => { target.classList.add('drop-area-highlight'); });
     }).on('dragend', () => {
       $targetMenu.forEach((target) => { target.classList.remove('drop-area-highlight'); });
     }).on('drop', (el, target) => {
@@ -448,7 +448,6 @@ Joomla = window.Joomla || {};
   };
 
   Joomla.TinyMCEBuilder = TinyMCEBuilder;
-
 })(Joomla, window);
 
 document.addEventListener('DOMContentLoaded', () => {
