@@ -7,6 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+use Joomla\CMS\Factory;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 defined('_JEXEC') or die;
@@ -218,7 +219,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 					else
 					{
 						// Render this virtual subfield
-						$subfield->value = \JEventDispatcher::getInstance()->trigger(
+						$subfield->value = Factory::getApplication()->triggerEvent(
 							'onCustomFieldsPrepareField',
 							array($context, $item, $subfield)
 						);
@@ -318,7 +319,7 @@ class PlgFieldsSubfields extends FieldsPlugin
 		{
 			// Let the relevant plugins do their work and insert the correct
 			// DOMElement's into our $parent_fieldset.
-			\JEventDispatcher::getInstance()->trigger(
+			Factory::getApplication()->triggerEvent(
 				'onCustomFieldsPrepareDom',
 				array($subfield, $parent_fieldset, $form)
 			);

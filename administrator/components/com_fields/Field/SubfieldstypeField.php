@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
+use Joomla\CMS\HTML\HTMLHelper;
 
 /**
  * Fields Subfieldstype. Represents a list field with the options being all possible
@@ -79,7 +80,7 @@ class SubfieldstypeField extends ListField
 				continue;
 			}
 
-			$options[] = JHtml::_(
+			$options[] = HTMLHelper::_(
 				'select.option',
 				$customField->id,
 				($customField->title . ' (' . $customField->type . ')')
