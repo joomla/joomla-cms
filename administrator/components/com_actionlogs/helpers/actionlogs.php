@@ -24,12 +24,12 @@ class ActionlogsHelper
 	 *
 	 * @param   array|Traversable  $data  The logs data objects to be exported
 	 *
-	 * @return  array|Generator  For PHP 5.5 and newer, a Generator is returned; PHP 5.4 and earlier use an array
+	 * @return  Generator
 	 *
 	 * @since   3.9.0
 	 * @throws  InvalidArgumentException
 	 */
-	public static function getCsvData($data)
+	public static function getCsvData($data): Generator
 	{
 		if (!is_iterable($data))
 		{
@@ -42,37 +42,24 @@ class ActionlogsHelper
 			);
 		}
 
-		if (version_compare(PHP_VERSION, '5.5', '>='))
-		{
-			// Only include the PHP 5.5 helper in this conditional to prevent the potential of parse errors for PHP 5.4 or earlier
-			JLoader::register('ActionlogsHelperPhp55', __DIR__ . '/actionlogsphp55.php');
-
-			return ActionlogsHelperPhp55::getCsvAsGenerator($data);
-		}
-
-		$rows = array();
-
 		// Header row
-		$rows[] = array('Id', 'Message', 'Date', 'Extension', 'User', 'Ip');
+		yield ['Id', 'Message', 'Date', 'Extension', 'User', 'Ip'];
 
 		foreach ($data as $log)
 		{
-			$date      = new JDate($log->log_date, new DateTimeZone('UTC'));
 			$extension = strtok($log->extension, '.');
 
 			static::loadTranslationFiles($extension);
 
-			$rows[] = array(
+			yield [
 				'id'         => $log->id,
 				'message'    => strip_tags(static::getHumanReadableLogMessage($log, false)),
-				'date'       => $date->format('Y-m-d H:i:s T'),
+				'date'       => (new JDate($log->log_date, new DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
 				'extension'  => JText::_($extension),
 				'name'       => $log->name,
 				'ip_address' => JText::_($log->ip_address),
-			);
+			];
 		}
-
-		return $rows;
 	}
 
 	/**
