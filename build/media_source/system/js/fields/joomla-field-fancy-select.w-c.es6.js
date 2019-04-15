@@ -205,4 +205,5 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
       }
     });
   }
+
 });
