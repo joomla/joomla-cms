@@ -124,7 +124,7 @@ class Api {
                 data: JSON.stringify(data),
                 headers: {'Content-Type': 'application/json'},
                 onSuccess: (response) => {
-                    notifications.success('COM_MEDIA_UPDLOAD_SUCCESS');
+                    notifications.success('COM_MEDIA_UPLOAD_SUCCESS');
                     resolve(this._normalizeItem(JSON.parse(response).data))
                 },
                 onError: (xhr) => {
@@ -138,7 +138,7 @@ class Api {
     /**
      * Rename an item
      * @param path
-     * @param newName
+     * @param newPath
      * @return {Promise.<T>}
      */
     rename(path, newPath) {

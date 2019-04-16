@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -40,7 +40,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @var  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static $presets = null;
 
@@ -302,7 +302,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @return  MenuItem  A root node with the menu items as children
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getMenuItems($menutype, $enabledOnly = false, $exclude = array())
 	{
@@ -402,7 +402,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function installPreset($preset, $menutype)
 	{
@@ -426,7 +426,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @throws  \Exception
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function installPresetItems($node, $menutype)
 	{
@@ -569,7 +569,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function addPreset($name, $title, $path, $replace = true)
 	{
@@ -600,7 +600,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @return  \stdClass[]
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getPresets()
 	{
@@ -642,7 +642,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @return  MenuItem
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function loadPreset($name, $fallback = true, $parent = null)
 	{
@@ -675,7 +675,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function resolveAlias(&$item)
 	{
@@ -725,7 +725,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function preprocess($item)
 	{
@@ -753,7 +753,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @return  void
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected static function loadXml($elements, $parent, $replace = array())
 	{
@@ -849,7 +849,7 @@ class MenusHelper extends ContentHelper
 	 *
 	 * @return  \stdClass
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected static function parseXmlNode($node, $replace = array())
 	{
