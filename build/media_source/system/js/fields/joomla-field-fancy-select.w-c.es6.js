@@ -207,6 +207,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   disableAllOptions() {
+    // Choices.js does not offer a public API for accessing the choices
+    // So we have to access the private store => don't eslint
     // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
 
@@ -221,6 +223,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   enableAllOptions() {
+    // Choices.js does not offer a public API for accessing the choices
+    // So we have to access the private store => don't eslint
     // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
@@ -237,6 +241,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   disableByValue($val) {
+    // Choices.js does not offer a public API for accessing the choices
+    // So we have to access the private store => don't eslint
     // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
@@ -262,6 +268,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
   }
 
   enableByValue($val) {
+    // Choices.js does not offer a public API for accessing the choices
+    // So we have to access the private store => don't eslint
     // eslint-disable-next-line no-underscore-dangle
     const { choices } = this.choicesInstance._store;
     const values = this.choicesInstance.getValue(true);
