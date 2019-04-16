@@ -145,7 +145,7 @@ class HtmlView extends BaseHtmlView
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
 			$apply = $toolbar->apply('article.apply');
-			
+
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
@@ -266,7 +266,9 @@ class HtmlView extends BaseHtmlView
 
 		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
 		{
-			$toolbar->customButton('contract', 'JTOOLBAR_ASSOCIATIONS', 'article.editAssociations');
+			$toolbar->standardButton('contract')
+			->text('JTOOLBAR_ASSOCIATIONS')
+			->task('article.editAssociations');
 		}
 
 		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');
