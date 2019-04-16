@@ -44,7 +44,7 @@ class Privacy
 
 			default:
 			case 0:
-				return '<span class="badge badge-warning">' . JText::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
+				return '<span class="badge badge-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
 		}
 	}
 }
