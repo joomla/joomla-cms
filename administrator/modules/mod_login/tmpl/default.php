@@ -93,7 +93,8 @@ Text::script('JHIDE');
 			</div>
 		<?php endif; ?>
 		<div class="form-group">
-			<button class="btn btn-primary btn-block btn-lg mt-4" id="btn-login-submit"><?php echo Text::_('JLOGIN'); ?></button>
+
+			<button class="btn btn-primary btn-block btn-lg mt-4" id="btn-login-submit"><span class="icon-lock icon-white"></span><?php echo '&#160;'.Text::_('JLOGIN'); ?></button>
 		</div>
 		<div class="text-center">
 			<div>
