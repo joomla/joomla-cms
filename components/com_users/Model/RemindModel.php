@@ -220,9 +220,9 @@ class RemindModel extends FormModel
 
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+
+		Factory::getApplication()->triggerEvent('onUserAfterRemind', array($user));
+
+		return true;
 	}
 }

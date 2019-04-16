@@ -11,8 +11,6 @@ CREATE TABLE IF NOT EXISTS `#__privacy_requests` (
   `confirm_token_created_at` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `checked_out` int(11) NOT NULL DEFAULT '0',
   `checked_out_time` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
-  KEY `idx_checkout` (`checked_out`),
-  KEY `idx_user_id` (`user_id`)
+  KEY `idx_checkout` (`checked_out`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 DEFAULT COLLATE=utf8mb4_unicode_ci;
