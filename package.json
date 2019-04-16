@@ -27,7 +27,7 @@
     "@webcomponents/webcomponentsjs": "2.1.2",
     "awesomplete": "github:LeaVerou/awesomplete",
     "bootstrap": "~4.3",
-    "choices.js": "^3.0.4",
+    "choices.js": "^7.0.0",
     "chosen-js": "1.6.2",
     "codemirror": "5.40.0",
     "cropperjs": "1.2.2",
