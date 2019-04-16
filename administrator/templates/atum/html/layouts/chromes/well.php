@@ -53,7 +53,7 @@ if ($module->content) :
 							<a class="dropdown-item" href="<?php echo $url; ?>"><?php echo Text::_('JACTION_EDIT'); ?></a>
 						<?php endif; ?>
 						<?php if ($canChange) : ?>
-							<a class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>"><?php echo Text::_('JACTION_UNPUBLISH'); ?></a>
+							<button type="button" class="dropdown-item unpublish-module" data-module-id="<?php echo $id; ?>"><?php echo Text::_('JACTION_UNPUBLISH'); ?></button>
 						<?php endif; ?>
 					</div>
 				</div>
