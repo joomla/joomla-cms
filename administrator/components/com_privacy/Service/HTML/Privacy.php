@@ -34,13 +34,13 @@ class Privacy
 		switch ($status)
 		{
 			case 2:
-				return '<span class="badge badge-success">' . JText::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>';
+				return '<span class="badge badge-success">' . Text::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>';
 
 			case 1:
-				return '<span class="badge badge-info">' . JText::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
+				return '<span class="badge badge-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
 
 			case -1:
-				return '<span class="badge badge-important">' . JText::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
+				return '<span class="badge badge-important">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
 
 			default:
 			case 0:
