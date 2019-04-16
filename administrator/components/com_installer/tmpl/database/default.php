@@ -55,14 +55,10 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
 										<th scope="col" class="d-none d-md-table-cell text-right" style="width:10%">
-											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
-											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 											</span>
 										</th>
 										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
-											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
-											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 											</span>
 										</th>
