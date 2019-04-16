@@ -220,7 +220,7 @@ const copyFiles = (options) => {
 
       copyArrayFiles('', ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'], 'tinymce', '');
 
-      let tinyversion = options.dependencies.tinymce.replace(/[^0-9.]/, '');
+      const tinyversion = options.dependencies.tinymce.replace(/[^0-9.]/, '');
 
       // Update the XML file for tinyMCE
       let tinyXml = Fs.readFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
