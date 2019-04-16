@@ -153,12 +153,12 @@ class PlgSystemDebug extends CMSPlugin
 		$this->debugLang = $this->app->get('debug_lang');
 
 		// Skip the plugin if debug is off
-		if ($this->debugLang === '0' && $this->app->get('debug') === '0')
+		if (!$this->debugLang && !$this->app->get('debug'))
 		{
 			return;
 		}
 
-		$this->app->getConfig()->set('gzip', 0);
+		$this->app->getConfig()->set('gzip', false);
 		ob_start();
 		ob_implicit_flush(false);
 
