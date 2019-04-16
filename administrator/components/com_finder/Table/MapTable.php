@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,9 @@ namespace Joomla\Component\Finder\Administrator\Table;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Table\Table;
+use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Table\Nested;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Utilities\ArrayHelper;
 
@@ -20,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  2.5
  */
-class MapTable extends Table
+class MapTable extends Nested
 {
 	/**
 	 * Constructor
@@ -32,6 +34,46 @@ class MapTable extends Table
 	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__finder_taxonomy', 'id', $db);
+		$this->access = (int) Factory::getConfig()->get('access');
+	}
+
+	/**
+	 * Override check function
+	 *
+	 * @return  boolean
+	 *
+	 * @see     Table::check()
+	 * @since   4.0.0
+	 */
+	public function check()
+	{
+		try
+		{
+			parent::check();
+		}
+		catch (\Exception $e)
+		{
+			$this->setError($e->getMessage());
+
+			return false;
+		}
+
+		// Check for a title.
+		if (trim($this->title) == '')
+		{
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_MUSTCONTAIN_A_TITLE_CATEGORY'));
+
+			return false;
+		}
+
+		$this->alias = ApplicationHelper::stringURLSafe($this->title, $this->language);
+
+		if (trim($this->alias) == '')
+		{
+			$this->alias = md5(serialize($this->getProperties()));
+		}
+
+		return true;
 	}
 
 	/**

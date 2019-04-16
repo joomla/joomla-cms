@@ -11,7 +11,7 @@
   background-color: $info-bg;
   border-left: 1px solid $border-color;
   h2 {
-    padding: 10px ($gutter-width + 30px) 10px $gutter-width;
+    padding: 20px ($gutter-width + 15px) 10px ($gutter-width - 5px);
     margin: (-$gutter-width) (-$gutter-width) $gutter-width;
     font-weight: normal;
     line-height: $info-title-height;
@@ -33,14 +33,8 @@
     padding-left: ($col-gutter-width / 2);
   }
   dt {
-    flex: 0 0 $info-dt-width;
-    max-width: $info-dt-width;
     font-weight: normal;
     color: rgba(0, 0, 0, .54);
-  }
-  dd {
-    flex: 0 0 $info-dd-width;
-    max-width: $info-dd-width;
   }
 }
 
@@ -71,4 +65,25 @@
   color: #ccc;
   border: 2px solid #ccc;
   border-radius: 50%;
+}
+
+/* RTL override */
+
+html[dir=rtl] .media-infobar {
+    left: 0;
+    right: auto;
+}
+
+html[dir=rtl] .infobar-close {
+  left: 0;
+  right: auto;
+}
+
+html[dir=rtl] .media-infobar dd {
+  margin-right: 0;
+  margin-left: auto;
+  direction: ltr;
+}
+html[dir=rtl] .media-infobar h2 {
+  padding: 20px $gutter-width 10px 0;
 }
