@@ -71,7 +71,6 @@ class FieldsModelGroup extends JModelAdmin
 	 */
 	public function getTable($name = 'Group', $prefix = 'FieldsTable', $options = array())
 	{
-
 		$this->addTablePath(JPATH_ADMINISTRATOR . '/components/com_fields/tables');
 
 		return JTable::getInstance($name, $prefix, $options);
