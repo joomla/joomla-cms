@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -134,6 +135,11 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons,
 			'btn-success'
 		);
+
+		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		{
+			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+		}
 
 		if (empty($this->item->id))
 		{
