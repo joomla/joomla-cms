@@ -25,7 +25,7 @@ Text::script('JHIDE');
 
 ?>
 <form class="login-initial form-validate" action="<?php echo Route::_('index.php', true); ?>" method="post" id="form-login">
-	<fieldset label="<?php echo Text::_('MOD_LOGIN_LOGIN_TITLE'); ?>">
+	<fieldset label="<?php echo Text::_('MOD_LOGIN_LOGIN_TITLE'); ?>" class="sr-only">
 		<div class="form-group">
 			<label class="text-white" for="mod-login-username">
 				<?php echo Text::_('JGLOBAL_USERNAME'); ?>
