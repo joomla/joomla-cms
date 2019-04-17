@@ -172,8 +172,10 @@ $this->addStyleDeclaration($css);
 	<div class="d-flex align-items-center">
 		<div class="header-title mr-auto">
             <div class="logo">
-                <img src="<?php echo $siteLogo; ?>" alt="<?php echo $this->params->get('altSiteLogo', ''); ?>">
-                <img class="logo-small" src="<?php echo $smallLogo; ?>" alt="<?php echo $this->params->get('altSmallLogo', ''); ?>">
+                <img src="<?php echo $siteLogo; ?>" 
+			alt="<?php echo htmlspecialchars($this->params->get('altSiteLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
+                <img class="logo-small" src="<?php echo $smallLogo; ?>" 
+			alt="<?php echo htmlspecialchars($this->params->get('altSmallLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
             </div>
 		</div>
 	</div>
@@ -184,7 +186,7 @@ $this->addStyleDeclaration($css);
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper">
 		<div id="main-brand" class="main-brand">
-			<div class="h2"><?php echo $sitename; ?></div>
+			<div class="h2"><?php echo htmlspecialchars($sitename, ENT_COMPAT, 'UTF-8'); ?></div>
 			<a href="<?php echo Uri::root(); ?>"><?php echo Text::_('TPL_ATUM_LOGIN_SIDEBAR_VIEW_WEBSITE'); ?></a>
 		</div>
 		<div id="sidebar">
@@ -197,7 +199,8 @@ $this->addStyleDeclaration($css);
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
 					<div class="main-brand d-flex align-items-center justify-content-center">
-						<img src="<?php echo $loginLogo; ?>" alt="<?php echo $this->params->get('altLoginLogo', ''); ?>">
+						<img src="<?php echo $loginLogo; ?>" 
+							 alt="<?php echo htmlspecialchars($this->params->get('altLoginLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
 					</div>
 					<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
 					<jdoc:include type="message"/>
