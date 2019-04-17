@@ -4,7 +4,7 @@ const FsExtra = require('fs-extra');
 const Path = require('path');
 const RootPath = require('./utils/rootpath.es6.js')._();
 
-const xmlVersionStr = /(<version>)(.+)(<\/version>)/;
+const xmlVersionStr = /(<version>)(\d+.\d+.\d+)(<\/version>)/;
 
 /**
  * Method that will erase the media/vendor folder
@@ -220,11 +220,9 @@ const copyFiles = (options) => {
 
       copyArrayFiles('', ['tinymce.js', 'tinymce.min.js', 'changelog.txt', 'license.txt'], 'tinymce', '');
 
-      const tinyversion = options.dependencies.tinymce.replace(/[^0-9.]/, '');
-
       // Update the XML file for tinyMCE
       let tinyXml = Fs.readFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, { encoding: 'UTF-8' });
-      tinyXml = tinyXml.replace(xmlVersionStr, `$1${tinyversion}$3`);
+      tinyXml = tinyXml.replace(xmlVersionStr, `$1${options.dependencies.tinymce}$3`);
       Fs.writeFileSync(`${RootPath}/plugins/editors/tinymce/tinymce.xml`, tinyXml, { encoding: 'UTF-8' });
 
       // Remove that sourcemap...
