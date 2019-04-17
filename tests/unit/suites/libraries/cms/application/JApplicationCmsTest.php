@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Application
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -190,11 +190,11 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// Build the mock object.
 		$mockClient = $this->getMockBuilder('JApplicationWebClient')
-					->setMethods(array('test'))
-					->setConstructorArgs(array())
-					->setMockClassName('')
-					->disableOriginalConstructor()
-					->getMock();
+			->setMethods(array('test'))
+			->setConstructorArgs(array())
+			->setMockClassName('')
+			->disableOriginalConstructor()
+			->getMock();
 
 		$inspector = new JApplicationCmsInspector($mockInput, $config, $mockClient);
 
@@ -445,7 +445,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, false);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -515,7 +515,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		);
 
 		$this->assertEquals(
-			array('HTTP/1.1 303', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -581,7 +581,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		// The redirect gives a 303 error code
 		$this->assertEquals(
-			array('HTTP/1.1 303', true, null),
+			array('HTTP/1.1 303 See other', true, 303),
 			$this->class->headers[0]
 		);
 
@@ -638,7 +638,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$buffer = ob_get_contents();
 		ob_end_clean();
 
-		$this->assertEquals("<script>document.location.href='{$base}{$url}';</script>\n", $buffer);
+		$this->assertEquals("<script>document.location.href=" . json_encode($base . $url) . ";</script>\n", $buffer);
 	}
 
 	/**
@@ -670,7 +670,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 
 		$this->assertEquals(
 			'<html><head><meta http-equiv="content-type" content="text/html; charset=utf-8" />'
-			. "<script>document.location.href='{$url}';</script></head><body></body></html>",
+			. "<script>document.location.href=" . json_encode($url) . ";</script></head><body></body></html>",
 			trim($buffer)
 		);
 	}
@@ -699,7 +699,7 @@ class JApplicationCmsTest extends TestCaseDatabase
 		$this->class->redirect($url, true);
 
 		$this->assertEquals(
-			array('HTTP/1.1 301', true, null),
+			array('HTTP/1.1 301 Moved Permanently', true, 301),
 			$this->class->headers[0]
 		);
 

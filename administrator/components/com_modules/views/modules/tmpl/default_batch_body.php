@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -39,7 +39,7 @@ $attr = array(
 					<?php echo JLayoutHelper::render('joomla.html.batch.language', array()); ?>
 				</div>
 			</div>
-		<?php elseif ($clientId == 1 && JLanguageMultilang::isAdminEnabled()) : ?>
+		<?php elseif ($clientId == 1 && JModuleHelper::isAdminMultilang()) : ?>
 			<div class="control-group span6">
 				<div class="controls">
 					<?php echo JLayoutHelper::render('joomla.html.batch.adminlanguage', array()); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -73,6 +73,7 @@ class FinderHelperLanguage
 		else
 		{
 			$languages = JLanguageHelper::getLanguages('lang_code');
+
 			if (isset($languages[$branchName]))
 			{
 				$title = $languages[$branchName]->title;

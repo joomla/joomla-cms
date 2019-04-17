@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -69,7 +69,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'l.title', $listDirn, $listOrder); ?>
 						</th>
-						<?php elseif ($clientId === 1 && JLanguageMultilang::isAdminEnabled()) : ?>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
 						<th width="10%" class="nowrap hidden-phone">
 							<?php echo JHtml::_('searchtools.sort', 'JGRID_HEADING_LANGUAGE', 'a.language', $listDirn, $listOrder); ?>
 						</th>
@@ -191,7 +191,7 @@ $colSpan = $clientId === 1 ? 8 : 10;
 						<td class="small hidden-phone">
 							<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
 						</td>
-						<?php elseif ($clientId === 1 && JLanguageMultilang::isAdminEnabled()) : ?>
+						<?php elseif ($clientId === 1 && JModuleHelper::isAdminMultilang()) : ?>
 							<td class="small hidden-phone">
 								<?php if ($item->language == ''):?>
 									<?php echo JText::_('JUNDEFINED'); ?>

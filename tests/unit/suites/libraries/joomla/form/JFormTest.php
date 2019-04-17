@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Form
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ include_once 'JFormDataHelper.php';
  *
  * @package     Joomla.UnitTest
  * @subpackage  Form
- * @since       11.1
+ * @since       1.7.0
  */
 class JFormTest extends TestCaseDatabase
 {
@@ -575,7 +575,7 @@ class JFormTest extends TestCaseDatabase
 		$this->assertThat(
 			$form->findField('title', 'bogus'),
 			$this->isFalse(),
-			'Line:' . __LINE__ . ' An field in a group that does not exist should return false.'
+			'Line:' . __LINE__ . ' A field in a group that does not exist should return false.'
 		);
 
 		// Test various find combinations.
@@ -2320,7 +2320,7 @@ class JFormTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testValidateField()
 	{
@@ -2384,7 +2384,7 @@ class JFormTest extends TestCaseDatabase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 *
 	 * @expectedException  UnexpectedValueException
 	 */

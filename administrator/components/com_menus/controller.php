@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -31,14 +31,23 @@ class MenusController extends JControllerLegacy
 		JLoader::register('MenusHelper', JPATH_ADMINISTRATOR . '/components/com_menus/helpers/menus.php');
 
 		// Check custom administrator menu modules
-		if (JLanguageMultilang::isAdminEnabled())
+		if (JModuleHelper::isAdminMultilang())
 		{
 			$languages = JLanguageHelper::getInstalledLanguages(1, true);
 			$langCodes = array();
 
 			foreach ($languages as $language)
 			{
-				$langCodes[$language->metadata['tag']] = $language->metadata['nativeName'];
+				if (isset($language->metadata['nativeName']))
+				{
+					$languageName = $language->metadata['nativeName'];
+				}
+				else
+				{
+					$languageName = $language->metadata['name'];
+				}
+
+				$langCodes[$language->metadata['tag']] = $languageName;
 			}
 
 			$db    = JFactory::getDbo();

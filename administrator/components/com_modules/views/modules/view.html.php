@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_modules
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -48,7 +48,7 @@ class ModulesViewModules extends JViewLegacy
 		}
 
 		// We do not need the Language filter when modules are not filtered
-		if ($this->clientId == 1 && !JLanguageMultilang::isAdminEnabled())
+		if ($this->clientId == 1 && !JModuleHelper::isAdminMultilang())
 		{
 			unset($this->activeFilters['language']);
 			$this->filterForm->removeField('language', 'filter');

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ if (!class_exists('En_GBLocalise'))
  *
  * @package     Joomla.UnitTest
  * @subpackage  Language
- * @since       11.1
+ * @since       1.7.0
  */
 class JLanguageTest extends \PHPUnit\Framework\TestCase
 {
@@ -205,7 +205,7 @@ class JLanguageTest extends \PHPUnit\Framework\TestCase
 		$lang = new JLanguage('');
 
 		// The first time you run the method returns NULL
-		// Only if there is an setTransliterator, this test is wrong
+		// Only if there is a setTransliterator, this test is wrong
 		$this->assertNull(
 			$lang->getTransliterator()
 		);
