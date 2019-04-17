@@ -93,6 +93,9 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
+
 		// Check whether access level allows access.
 		// @todo: Should already be computed in $item->params->get('access-view')
 		$groups = $this->user->getAuthorisedViewLevels();

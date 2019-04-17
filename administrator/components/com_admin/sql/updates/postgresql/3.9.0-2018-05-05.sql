@@ -8,7 +8,7 @@ INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "elem
 --
 CREATE TABLE "#__action_logs" (
   "id" serial NOT NULL,
-  `message_language_key` varchar(255) NOT NULL DEFAULT '',
+  "message_language_key" varchar(255) NOT NULL DEFAULT '',
   "message" text NOT NULL DEFAULT '',
   "log_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "extension" varchar(50) NOT NULL DEFAULT '',
@@ -68,7 +68,7 @@ CREATE TABLE "#__action_log_config" (
 --
 -- Dumping data for table #__action_log_config
 --
-INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder", "table_name", "text_prefix") VALUES
+INSERT INTO "#__action_log_config" ("id", "type_title", "type_alias", "id_holder", "title_holder", "table_name", "text_prefix") VALUES
 (1, 'article', 'com_content.article', 'id' ,'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
 (2, 'article', 'com_content.form', 'id', 'title' , '#__content', 'PLG_ACTIONLOG_JOOMLA'),
 (3, 'banner', 'com_banners.banner', 'id' ,'name' , '#__banners', 'PLG_ACTIONLOG_JOOMLA'),

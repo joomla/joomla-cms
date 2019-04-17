@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('radio');
 /**
  * Provides input for privacy
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JFormFieldprivacy extends JFormFieldRadio
 {
@@ -25,7 +25,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $type = 'privacy';
 
@@ -34,7 +34,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 	 *
 	 * @return  string   The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getInput()
 	{
@@ -50,7 +50,7 @@ class JFormFieldprivacy extends JFormFieldRadio
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getLabel()
 	{
