@@ -249,7 +249,7 @@
 			title="MOD_MENU_SYSTEM"
 			type="component"
 			element="com_cpanel"
-			class="class:cog"
+			class="class:wrench"
 			link="index.php?option=com_cpanel&amp;view=cpanel&amp;dashboard=system"
 	/>
 	<menuitem

@@ -7,7 +7,7 @@
     <menuitem
         title="COM_CPANEL_SYSTEM_SETUP"
         type="heading"
-        icon="cog"
+        icon="wrench"
         permission="core.admin"
     >
         <menuitem

@@ -6,7 +6,7 @@
 	<menuitem
 		title="MOD_MENU_SYSTEM"
 		type="heading"
-		class="class:cog"
+		class="class:wrench"
 		>
 		<menuitem
 			type="component"
