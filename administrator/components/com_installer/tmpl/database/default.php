@@ -88,7 +88,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 													<?php echo $extension->name; ?>
 												</label>
 												<div class="small">
-													<?php echo Text::_($manifest->description) ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>
+													<?php echo Text::_($manifest->description); ?>
 												</div>
 											</th>
 											<td>
