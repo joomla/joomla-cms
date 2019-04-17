@@ -26,7 +26,7 @@ class FilesystemHelper
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://www.php.net/manual/en/function.filesize.php#71098
+	 * @link    https://www.php.net/manual/en/function.filesize.php
 	 * @since   1.7.0
 	 */
 	public static function remotefsize($url)
