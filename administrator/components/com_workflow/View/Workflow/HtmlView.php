@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Workflow;
@@ -117,7 +117,8 @@ class HtmlView extends BaseHtmlView
 			// For new records, check the create permission.
 			if ($canDo->get('core.edit'))
 			{
-				$toolbarButtons = [['apply', 'workflow.apply'], ['save', 'workflow.save'], ['save2new', 'workflow.save2new']];
+				ToolbarHelper::apply('workflow.apply');
+				$toolbarButtons = [['save', 'workflow.save'], ['save2new', 'workflow.save2new']];
 			}
 
 			ToolbarHelper::saveGroup(
@@ -130,9 +131,10 @@ class HtmlView extends BaseHtmlView
 			// Since it's an existing record, check the edit permission, or fall back to edit own if the owner.
 			$itemEditable = $canDo->get('core.edit') || ($canDo->get('core.edit.own') && $this->item->created_by == $userId);
 
-			if ($itemEditable)
+			if ($itemEditable && !$this->item->core)
 			{
-				$toolbarButtons = [['apply', 'workflow.apply'], ['save', 'workflow.save']];
+				ToolbarHelper::apply('workflow.apply');
+				$toolbarButtons = [['save', 'workflow.save']];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
 				if ($canDo->get('core.create'))

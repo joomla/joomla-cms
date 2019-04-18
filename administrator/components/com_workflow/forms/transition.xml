@@ -24,6 +24,7 @@
 			required="true"
 			sql_select="id as value, title as from_stage_id"
 			sql_from="#__workflow_stages"
+			sql_order="ordering"
 			translate="true"
 			>
 			<option value="-1">JALL</option>
@@ -35,6 +36,7 @@
 			required="true"
 			sql_select="id as value, title as to_stage_id"
 			sql_from="#__workflow_stages"
+			sql_order="ordering"
 			translate="true"
 		/>
 		<field

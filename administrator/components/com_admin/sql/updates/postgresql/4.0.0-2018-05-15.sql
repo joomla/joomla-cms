@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS "#__workflows" (
   "description" text NOT NULL,
   "extension" varchar(50) NOT NULL,
   "default" smallint NOT NULL  DEFAULT 0,
+  "core" smallint NOT NULL  DEFAULT 0,
   "ordering" bigint NOT NULL DEFAULT 0,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "created_by" bigint DEFAULT 0 NOT NULL,
@@ -27,8 +28,8 @@ CREATE INDEX "#__workflows_idx_created_by" ON "#__workflows" ("created_by");
 CREATE INDEX "#__workflows_idx_modified" ON "#__workflows" ("modified");
 CREATE INDEX "#__workflows_idx_modified_by" ON "#__workflows" ("modified_by");
 
-INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "ordering", "created", "created_by", "modified", "modified_by") VALUES
-(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
+INSERT INTO "#__workflows" ("id", "asset_id", "published", "title", "description", "extension", "default", "core", "ordering", "created", "created_by", "modified", "modified_by") VALUES
+(1, 0, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '1970-01-01 00:00:00', 0, '1970-01-01 00:00:00', 0);
 
 --
 -- Table structure for table "#__workflow_associations"
@@ -74,8 +75,8 @@ CREATE INDEX "#__workflow_stages_idx_default" ON "#__workflow_stages" ("default"
 --
 
 INSERT INTO "#__workflow_stages" ("id", "asset_id", "ordering", "workflow_id", "published", "title", "description", "condition", "default") VALUES
-(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 0),
-(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 1),
+(1, 0, 1, 1, 1, 'JUNPUBLISHED', '', 0, 1),
+(2, 0, 2, 1, 1, 'JPUBLISHED', '', 1, 0),
 (3, 0, 3, 1, 1, 'JTRASHED', '', -2, 0),
 (4, 0, 4, 1, 1, 'JARCHIVED', '', 2, 0);
 
@@ -111,8 +112,8 @@ INSERT INTO "#__workflow_transitions" ("id", "asset_id", "published", "ordering"
 -- Creating extension entry
 --
 
-INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
-(35, 0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0);
+INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES
+(0, 'com_workflow', 'component', 'com_workflow', '', 1, 1, 0, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0);
 
 --
 -- Creating Associations for existing content

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,53 +17,8 @@ use Joomla\CMS\HTML\HTMLHelper;
  *
  * @since  4.0.0
  */
-class WebAssetItem
+class WebAssetItem implements WebAssetItemInterface
 {
-	/**
-	 * Mark inactive asset
-	 *
-	 * @var    integer
-	 *
-	 * @since  4.0.0
-	 */
-	const ASSET_STATE_INACTIVE = 0;
-
-	/**
-	 * Mark active asset. Just enabled, but WITHOUT dependency resolved
-	 *
-	 * @var    integer
-	 *
-	 * @since  4.0.0
-	 */
-	const ASSET_STATE_ACTIVE = 1;
-
-	/**
-	 * Mark active asset that is enabled as dependency to another asset
-	 *
-	 * @var    integer
-	 *
-	 * @since  4.0.0
-	 */
-	const ASSET_STATE_DEPENDANCY = 2;
-
-	/**
-	 * Asset state
-	 *
-	 * @var    integer
-	 *
-	 * @since  4.0.0
-	 */
-	protected $state = self::ASSET_STATE_INACTIVE;
-
-	/**
-	 * Item weight
-	 *
-	 * @var    float
-	 *
-	 * @since  4.0.0
-	 */
-	protected $weight = 0;
-
 	/**
 	 * Asset name
 	 *
@@ -87,6 +42,15 @@ class WebAssetItem
 	 * @since  4.0.0
 	 */
 	protected $assetSource;
+
+	/**
+	 * Item weight
+	 *
+	 * @var    float
+	 *
+	 * @since  4.0.0
+	 */
+	protected $weight = 0;
 
 	/**
 	 * List of JavaScript files, and its attributes.
@@ -160,6 +124,11 @@ class WebAssetItem
 		{
 			$this->dependencies = (array) $data['dependencies'];
 		}
+
+		if (!empty($data['weight']))
+		{
+			$this->weight = (float) $data['weight'];
+		}
 	}
 
 	/**
@@ -187,7 +156,7 @@ class WebAssetItem
 	}
 
 	/**
-	 * Return dependency
+	 * Return dependencies list
 	 *
 	 * @return  array
 	 *
@@ -199,47 +168,8 @@ class WebAssetItem
 	}
 
 	/**
-	 * Set asset State
-	 *
-	 * @param   int  $state  The asset state
-	 *
-	 * @return  self
-	 *
-	 * @since   4.0.0
-	 */
-	public function setState(int $state): self
-	{
-		$this->state = $state;
-
-		return $this;
-	}
-
-	/**
-	 * Get asset State
-	 *
-	 * @return  integer
-	 *
-	 * @since   4.0.0
-	 */
-	public function getState(): int
-	{
-		return $this->state;
-	}
-
-	/**
-	 * Check asset state
-	 *
-	 * @return  boolean
-	 *
-	 * @since   4.0.0
-	 */
-	public function isActive(): bool
-	{
-		return $this->state !== self::ASSET_STATE_INACTIVE;
-	}
-
-	/**
-	 * Set the Asset weight. Final weight recalculated by AssetFactory.
+	 * Set the desired weight for the Asset in Graph.
+	 * Final weight will be calculated by AssetManager according to dependency Graph.
 	 *
 	 * @param   float  $weight  The asset weight
 	 *
@@ -247,7 +177,7 @@ class WebAssetItem
 	 *
 	 * @since   4.0.0
 	 */
-	public function setWeight(float $weight): self
+	public function setWeight(float $weight): WebAssetItemInterface
 	{
 		$this->weight = $weight;
 
@@ -255,7 +185,7 @@ class WebAssetItem
 	}
 
 	/**
-	 * Return current weight of the Asset. Final weight recalculated by AssetFactory.
+	 * Return the weight of the Asset.
 	 *
 	 * @return  float
 	 *
@@ -269,7 +199,7 @@ class WebAssetItem
 	/**
 	 * Get CSS files
 	 *
-	 * @param   boolean  $resolvePath  Whether need to search for real path
+	 * @param   boolean  $resolvePath  Whether need to search for a real paths
 	 *
 	 * @return array
 	 *
@@ -306,7 +236,7 @@ class WebAssetItem
 	/**
 	 * Get JS files
 	 *
-	 * @param   boolean  $resolvePath  Whether we need to search for real path
+	 * @param   boolean  $resolvePath  Whether we need to search for a real paths
 	 *
 	 * @return array
 	 *
@@ -338,21 +268,6 @@ class WebAssetItem
 		}
 
 		return $this->js;
-	}
-
-	/**
-	 * Return list of the asset files, and it's attributes
-	 *
-	 * @return  array
-	 *
-	 * @since   4.0.0
-	 */
-	public function getAssetFiles(): array
-	{
-		return [
-			'script'     => $this->getScriptFiles(true),
-			'stylesheet' => $this->getStylesheetFiles(true),
-		];
 	}
 
 	/**

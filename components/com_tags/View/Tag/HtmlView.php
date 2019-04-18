@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -128,6 +128,9 @@ class HtmlView extends BaseHtmlView
 		$parent     = $this->get('Parent');
 		$pagination = $this->get('Pagination');
 
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
+
 		if (count($errors = $this->get('Errors')))
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
@@ -182,16 +185,13 @@ class HtmlView extends BaseHtmlView
 				{
 					$itemElement->core_body = $itemElement->text;
 				}
-			}
-		}
 
-		// Categories store the images differently so lets re-map it so the display is correct
-		if ($items && $items[0]->type_alias === 'com_content.category')
-		{
-			foreach ($items as $row)
-			{
-				$core_params = json_decode($row->core_params);
-				$row->core_images = json_encode(array('image_intro' => $core_params->image, 'image_intro_alt' => $core_params->image_alt));
+				// Categories store the images differently so lets re-map it so the display is correct
+				if ($itemElement->type_alias === 'com_content.category')
+				{
+					$coreParams = json_decode($itemElement->core_params);
+					$itemElement->core_images = json_encode(array('image_intro' => $coreParams->image, 'image_intro_alt' => $coreParams->image_alt));
+				}
 			}
 		}
 

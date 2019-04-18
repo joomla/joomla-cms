@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.Joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ namespace Joomla\Plugin\Quickicon\Joomlaupdate\Extension;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Document\Document;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -105,21 +106,22 @@ class Joomlaupdate extends CMSPlugin implements SubscriberInterface
 			return;
 		}
 
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND', true);
-		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE', true);
-		Text::script('MESSAGE', true);
-		Text::script('ERROR', true);
-		Text::script('INFO', true);
-		Text::script('WARNING', true);
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_ERROR');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_BUTTON');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND_MESSAGE');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPDATEFOUND');
+		Text::script('PLG_QUICKICON_JOOMLAUPDATE_UPTODATE');
+		Text::script('MESSAGE');
+		Text::script('ERROR');
+		Text::script('INFO');
+		Text::script('WARNING');
 
 		$this->document->addScriptOptions(
 			'js-joomla-update',
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
-				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . Session::getFormToken() . '=1',
+				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&'
+					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
 				'version' => JVERSION,
 			]
 		);

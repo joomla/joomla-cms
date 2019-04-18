@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -22,7 +22,7 @@ class FilesystemHelper
 	/**
 	 * Remote file size function for streams that don't support it
 	 *
-	 * @param   string  $url  TODO Add text
+	 * @param   string  $url  Link identifier
 	 *
 	 * @return  mixed
 	 *

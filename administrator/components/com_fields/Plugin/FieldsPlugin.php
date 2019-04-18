@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,7 @@ namespace Joomla\Component\Fields\Administrator\Plugin;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
@@ -161,13 +162,13 @@ abstract class FieldsPlugin extends CMSPlugin
 	 *
 	 * @param   \stdClass    $field   The field.
 	 * @param   \DOMElement  $parent  The field node parent.
-	 * @param   \JForm       $form    The form.
+	 * @param   Form         $form    The form.
 	 *
 	 * @return  \DOMElement
 	 *
 	 * @since   3.7.0
 	 */
-	public function onCustomFieldsPrepareDom($field, \DOMElement $parent, \JForm $form)
+	public function onCustomFieldsPrepareDom($field, \DOMElement $parent, Form $form)
 	{
 		// Check if the field should be processed by us
 		if (!$this->isTypeSupported($field->type))
@@ -188,6 +189,7 @@ abstract class FieldsPlugin extends CMSPlugin
 		$node->setAttribute('name', $field->name);
 		$node->setAttribute('type', $field->type);
 		$node->setAttribute('label', $field->label);
+		$node->setAttribute('labelclass', $field->params->get('label_class'));
 		$node->setAttribute('description', $field->description);
 		$node->setAttribute('class', $field->params->get('class'));
 		$node->setAttribute('hint', $field->params->get('hint'));
@@ -234,14 +236,14 @@ abstract class FieldsPlugin extends CMSPlugin
 	 * The form event. Load additional parameters when available into the field form.
 	 * Only when the type of the form is of interest.
 	 *
-	 * @param   \JForm     $form  The form
+	 * @param   Form       $form  The form
 	 * @param   \stdClass  $data  The data
 	 *
 	 * @return  void
 	 *
 	 * @since   3.7.0
 	 */
-	public function onContentPrepareForm(\JForm $form, $data)
+	public function onContentPrepareForm(Form $form, $data)
 	{
 		// Check if the field form is calling us
 		if (strpos($form->getName(), 'com_fields.field') !== 0)

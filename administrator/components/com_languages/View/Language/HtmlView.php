@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,8 @@ class HtmlView extends BaseHtmlView
 
 		if (($isNew && $canDo->get('core.create')) || (!$isNew && $canDo->get('core.edit')))
 		{
-			$toolbarButtons[] = ['apply', 'language.apply'];
+			ToolbarHelper::apply('language.apply');
+				
 			$toolbarButtons[] = ['save', 'language.save'];
 		}
 
