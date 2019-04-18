@@ -73,7 +73,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						</p>
 						<?php endif; ?>
 						<?php foreach ($messages as $message) : ?>
-						<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
+						<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId); ?>" class="list-group-item list-group-item-action">
 							<h5 class="list-group-item-heading"><?php echo HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?></h5>
 							<p class="list-group-item-text small">
 								<?php echo HTMLHelper::_('string.truncate', Text::_($message->description_key), 120, false, false); ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -335,7 +335,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 	/**
 	 * Event to specify whether a privacy policy has been published.
 	 *
-	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published" and "editLink"
+	 * @param   array  &$policy  The privacy policy status data, passed by reference, with keys "published", "editLink" and "articlePublished".
 	 *
 	 * @return  void
 	 *
@@ -354,6 +354,27 @@ class PlgSystemPrivacyconsent extends JPlugin
 		if (!$articleId)
 		{
 			return;
+		}
+
+		// Check if the article exists in database and is published
+		$query = $this->db->getQuery(true)
+			->select($this->db->quoteName(array('id', 'state')))
+			->from($this->db->quoteName('#__content'))
+			->where($this->db->quoteName('id') . ' = ' . (int) $articleId);
+		$this->db->setQuery($query);
+
+		$article = $this->db->loadObject();
+
+		// Check if the article exists
+		if (!$article)
+		{
+			return;
+		}
+
+		// Check if the article is published
+		if ($article->state == 1)
+		{
+			$policy['articlePublished'] = true;
 		}
 
 		$policy['published'] = true;

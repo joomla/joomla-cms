@@ -71,22 +71,8 @@ $tparams = $this->item->params;
 
 	<?php echo $this->item->event->beforeDisplayContent; ?>
 
-	<?php $presentation_style = $tparams->get('presentation_style'); ?>
-	<?php $accordionStarted = false; ?>
-	<?php $tabSetStarted = false; ?>
-
 	<?php if ($this->params->get('show_info', 1)) : ?>
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php echo HTMLHelper::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'basic-details')); ?>
-			<?php $accordionStarted = true; ?>
-			<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_DETAILS'), 'basic-details'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'basic-details')); ?>
-			<?php $tabSetStarted = true; ?>
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'basic-details', JText::_('COM_CONTACT_DETAILS')); ?>
-		<?php elseif ($presentation_style === 'plain') : ?>
-			<?php echo '<h3>' . JText::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
-		<?php endif; ?>
+		<?php echo '<h3>' . JText::_('COM_CONTACT_DETAILS') . '</h3>'; ?>
 
 		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 			<div class="com-contact__thumbnail thumbnail float-right">
@@ -110,117 +96,28 @@ $tparams = $this->item->params;
 			<a href="<?php echo Route::_('index.php?option=com_contact&amp;view=contact&amp;id=' . $this->item->id . '&amp;format=vcf'); ?>">
 			<?php echo JText::_('COM_CONTACT_VCARD'); ?></a>
 		<?php endif; ?>
-
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_email_form') && ($this->item->email_to || $this->item->user_id)) : ?>
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php if (!$accordionStarted)
-			{
-				echo HTMLHelper::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-form'));
-				$accordionStarted = true;
-			}
-			?>
-			<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_EMAIL_FORM'), 'display-form'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php if (!$tabSetStarted)
-			{
-				echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-form'));
-				$tabSetStarted = true;
-			}
-			?>
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'display-form', JText::_('COM_CONTACT_EMAIL_FORM')); ?>
-		<?php elseif ($presentation_style === 'plain') : ?>
-			<?php echo '<h3>' . JText::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
-		<?php endif; ?>
+		<?php echo '<h3>' . JText::_('COM_CONTACT_EMAIL_FORM') . '</h3>'; ?>
 
 		<?php echo $this->loadTemplate('form'); ?>
-
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_links')) : ?>
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php if (!$accordionStarted) : ?>
-				<?php echo HTMLHelper::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-links')); ?>
-				<?php $accordionStarted = true; ?>
-			<?php endif; ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php if (!$tabSetStarted) : ?>
-				<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-links')); ?>
-				<?php $tabSetStarted = true; ?>
-			<?php endif; ?>
-		<?php endif; ?>
 		<?php echo $this->loadTemplate('links'); ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_articles') && $this->item->user_id && $this->item->articles) : ?>
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php if (!$accordionStarted)
-			{
-				echo HTMLHelper::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-articles'));
-				$accordionStarted = true;
-			}
-			?>
-			<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', JText::_('JGLOBAL_ARTICLES'), 'display-articles'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php if (!$tabSetStarted)
-			{
-				echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-articles'));
-				$tabSetStarted = true;
-			}
-			?>
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'display-articles', JText::_('JGLOBAL_ARTICLES')); ?>
-		<?php elseif ($presentation_style === 'plain') : ?>
-			<?php echo '<h3>' . JText::_('JGLOBAL_ARTICLES') . '</h3>'; ?>
-		<?php endif; ?>
+		<?php echo '<h3>' . JText::_('JGLOBAL_ARTICLES') . '</h3>'; ?>
 
 		<?php echo $this->loadTemplate('articles'); ?>
-
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_profile') && $this->item->user_id && PluginHelper::isEnabled('user', 'profile')) : ?>
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php if (!$accordionStarted)
-			{
-				echo HTMLHelper::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-profile'));
-				$accordionStarted = true;
-			}
-			?>
-			<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_PROFILE'), 'display-profile'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php if (!$tabSetStarted)
-			{
-				echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-profile'));
-				$tabSetStarted = true;
-			}
-			?>
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'display-profile', JText::_('COM_CONTACT_PROFILE')); ?>
-		<?php elseif ($presentation_style === 'plain') : ?>
-			<?php echo '<h3>' . JText::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
-		<?php endif; ?>
+		<?php echo '<h3>' . JText::_('COM_CONTACT_PROFILE') . '</h3>'; ?>
 
 		<?php echo $this->loadTemplate('profile'); ?>
-
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		<?php endif; ?>
 	<?php endif; ?>
 
 	<?php if ($tparams->get('show_user_custom_fields') && $this->contactUser) : ?>
@@ -228,25 +125,7 @@ $tparams = $this->item->params;
 	<?php endif; ?>
 
 	<?php if ($this->item->misc && $tparams->get('show_misc')) : ?>
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php if (!$accordionStarted)
-			{
-				echo HTMLHelper::_('bootstrap.startAccordion', 'slide-contact', array('active' => 'display-misc'));
-				$accordionStarted = true;
-			}
-			?>
-			<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', JText::_('COM_CONTACT_OTHER_INFORMATION'), 'display-misc'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php if (!$tabSetStarted)
-			{
-				echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'display-misc'));
-				$tabSetStarted = true;
-			}
-			?>
-			<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'display-misc', JText::_('COM_CONTACT_OTHER_INFORMATION')); ?>
-		<?php elseif ($presentation_style === 'plain') : ?>
-			<?php echo '<h3>' . JText::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
-		<?php endif; ?>
+		<?php echo '<h3>' . JText::_('COM_CONTACT_OTHER_INFORMATION') . '</h3>'; ?>
 
 		<div class="com-contact__miscinfo contact-miscinfo">
 			<dl class="dl-horizontal">
@@ -262,19 +141,6 @@ $tparams = $this->item->params;
 				</dd>
 			</dl>
 		</div>
-
-		<?php if ($presentation_style === 'sliders') : ?>
-			<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
-		<?php elseif ($presentation_style === 'tabs') : ?>
-			<?php echo HTMLHelper::_('uitab.endTab'); ?>
-		<?php endif; ?>
 	<?php endif; ?>
-
-	<?php if ($accordionStarted) : ?>
-		<?php echo HTMLHelper::_('bootstrap.endAccordion'); ?>
-	<?php elseif ($tabSetStarted) : ?>
-		<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
-	<?php endif; ?>
-
 	<?php echo $this->item->event->afterDisplayContent; ?>
 </div>

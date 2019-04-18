@@ -28,7 +28,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 	 * Application object
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -36,7 +36,7 @@ class PlgAuthenticationJoomla extends CMSPlugin
 	 * Database object
 	 *
 	 * @var    \Joomla\Database\DatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $db;
 

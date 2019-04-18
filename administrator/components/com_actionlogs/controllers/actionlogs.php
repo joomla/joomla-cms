@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Utilities\ArrayHelper;
 
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
  * Actionlogs list controller class.
@@ -62,7 +62,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	public function exportLogs()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$task = $this->getTask();
 
@@ -70,17 +70,37 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 
 		if ($task == 'exportSelectedLogs')
 		{
-			// Get selected logs			
+			// Get selected logs
 			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
 		}
 
+		/** @var ActionlogsModelActionlogs $model */
+		$model = $this->getModel();
+
 		// Get the logs data
-		$data = $this->getModel()->getLogsData($pks);
+		$data = $model->getLogDataAsIterator($pks);
 
 		if (count($data))
 		{
-			$rows = ActionlogsHelper::getCsvData($data);
-			$filename     = 'logs_' . JFactory::getDate()->format('Y-m-d_His_T');
+
+			try
+			{
+				$rows = ActionlogsHelper::getCsvData($data);
+			}
+			catch (InvalidArgumentException $exception)
+			{
+				$this->setMessage(JText::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
+				$this->setRedirect(JRoute::_('index.php?option=com_actionlogs&view=actionlogs', false));
+
+				return;
+			}
+
+			// Destroy the iterator now
+			unset($data);
+
+			$date     = new JDate('now', new DateTimeZone('UTC'));
+			$filename = 'logs_' . $date->format('Y-m-d_His_T');
+
 			$csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
 
 			$app = JFactory::getApplication();
@@ -116,6 +136,9 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$model = $this->getModel();
 
 		if ($model->purge())

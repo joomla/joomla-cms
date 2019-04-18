@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -85,7 +86,7 @@ class ActionlogsModelActionlogs extends JModelList
 		$query = $db->getQuery(true)
 			->select('a.*, u.name')
 			->from('#__action_logs AS a')
-			->innerJoin('#__users AS u ON a.user_id = u.id');
+			->leftJoin('#__users AS u ON a.user_id = u.id');
 
 		// Get ordering
 		$fullorderCol = $this->state->get('list.fullordering', 'a.id DESC');
@@ -246,11 +247,51 @@ class ActionlogsModelActionlogs extends JModelList
 	/**
 	 * Get logs data into JTable object
 	 *
+	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
+	 *
 	 * @return  array  All logs in the table
 	 *
 	 * @since   3.9.0
 	 */
 	public function getLogsData($pks = null)
+	{
+		$db    = $this->getDbo();
+		$query = $this->getLogDataQuery($pks);
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Get logs data as a database iterator
+	 *
+	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
+	 *
+	 * @return  JDatabaseIterator
+	 *
+	 * @since   3.9.0
+	 */
+	public function getLogDataAsIterator($pks = null)
+	{
+		$db    = $this->getDbo();
+		$query = $this->getLogDataQuery($pks);
+
+		$db->setQuery($query);
+
+		return $db->getIterator();
+	}
+
+	/**
+	 * Get the query for loading logs data
+	 *
+	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
+	 *
+	 * @return  JDatabaseQuery
+	 *
+	 * @since   3.9.0
+	 */
+	private function getLogDataQuery($pks = null)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -263,9 +304,7 @@ class ActionlogsModelActionlogs extends JModelList
 			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		}
 
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return $query;
 	}
 
 	/**
@@ -318,5 +357,33 @@ class ActionlogsModelActionlogs extends JModelList
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * Get the filter form
+	 *
+	 * @param   array    $data      data
+	 * @param   boolean  $loadData  load current data
+	 *
+	 * @return  \JForm|boolean  The \JForm object or false on error
+	 *
+	 * @since  3.9.0
+	 */
+	public function getFilterForm($data = array(), $loadData = true)
+	{
+		$form      = parent::getFilterForm($data, $loadData);
+		$params    = ComponentHelper::getParams('com_actionlogs');
+		$ipLogging = (bool) $params->get('ip_logging', 0);
+
+		// Add ip sort options to sort dropdown
+		if ($form && $ipLogging)
+		{
+			/* @var JFormFieldList $field */
+			$field = $form->getField('fullordering', 'list');
+			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_ASC'), array('value' => 'a.ip_address ASC'));
+			$field->addOption(JText::_('COM_ACTIONLOGS_IP_ADDRESS_DESC'), array('value' => 'a.ip_address DESC'));
+		}
+
+		return $form;
 	}
 }

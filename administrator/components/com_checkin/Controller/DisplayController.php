@@ -39,9 +39,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		// Load the submenu.
-		$this->addSubmenu($this->input->getWord('option', 'com_checkin'));
-
 		return parent::display();
 	}
 
@@ -72,34 +69,5 @@ class DisplayController extends BaseController
 		}
 
 		$this->setRedirect('index.php?option=com_checkin');
-	}
-
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_SUBMENU_CHECKIN'),
-			'index.php?option=com_checkin',
-			$vName == 'com_checkin'
-		);
-
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
-			'index.php?option=com_cache',
-			$vName == 'cache'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
-			'index.php?option=com_cache&view=purge',
-			$vName == 'purge'
-		);
 	}
 }
