@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -133,6 +133,9 @@ class HtmlView extends BaseHtmlView
 		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderTotal') : null;
 		$this->pagination = $this->get('Pagination');
 		\JDEBUG ? Profiler::getInstance('Application')->mark('afterFinderPagination') : null;
+
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

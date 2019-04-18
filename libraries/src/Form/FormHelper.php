@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -44,7 +44,7 @@ class FormHelper
 	 * @var   string
 	 * @since 3.8.0
 	 */
-	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array());
+	protected static $prefixes = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
 	/**
 	 * Static array of Form's entity objects for re-use.
@@ -58,7 +58,7 @@ class FormHelper
 	 * @var    array
 	 * @since  1.7.0
 	 */
-	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array());
+	protected static $entities = array('field' => array(), 'form' => array(), 'rule' => array(), 'filter' => array());
 
 	/**
 	 * Method to load a form field object given a type.
@@ -88,6 +88,21 @@ class FormHelper
 	public static function loadRuleType($type, $new = true)
 	{
 		return self::loadType('rule', $type, $new);
+	}
+
+	/**
+	 * Method to load a form filter object given a type.
+	 *
+	 * @param   string   $type  The rule type.
+	 * @param   boolean  $new   Flag to toggle whether we should get a new instance of the object.
+	 *
+	 * @return  FormFilter|boolean  FormRule object on success, false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function loadFilterType($type, $new = true)
+	{
+		return self::loadType('filter', $type, $new);
 	}
 
 	/**
@@ -157,6 +172,21 @@ class FormHelper
 	public static function loadRuleClass($type)
 	{
 		return self::loadClass('rule', $type);
+	}
+
+	/**
+	 * Attempt to import the FormFilter class file if it isn't already imported.
+	 * You can use this method outside of Form for loading a filter for inheritance or composition.
+	 *
+	 * @param   string  $type  Type of a filter whose class should be loaded.
+	 *
+	 * @return  string|boolean  Class name on success or false otherwise.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function loadFilterClass($type)
+	{
+		return self::loadClass('filter', $type);
 	}
 
 	/**
@@ -302,6 +332,20 @@ class FormHelper
 	}
 
 	/**
+	 * Method to add a path to the list of filter include paths.
+	 *
+	 * @param   mixed  $new  A path or array of paths to add.
+	 *
+	 * @return  array  The list of paths that have been added.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function addFilterPath($new = null)
+	{
+		return self::addPath('filter', $new);
+	}
+
+	/**
 	 * Method to add a path to the list of include paths for one of the form's entities.
 	 * Currently supported entities: field, rule and form. You are free to support your own in a subclass.
 	 *
@@ -382,6 +426,20 @@ class FormHelper
 	public static function addRulePrefix($new = null)
 	{
 		return self::addPrefix('rule', $new);
+	}
+
+	/**
+	 * Method to add a namespace to the list of filter lookups.
+	 *
+	 * @param   mixed  $new  A namespace or array of namespaces to add.
+	 *
+	 * @return  array  The list of namespaces that have been added.
+	 *
+	 * @since   4.0.0
+	 */
+	public static function addFilterPrefix($new = null)
+	{
+		return self::addPrefix('filter', $new);
 	}
 
 	/**
@@ -479,8 +537,25 @@ class FormHelper
 			$compareEqual     = strpos($showOnPart, '!:') === false;
 			$showOnPartBlocks = explode(($compareEqual ? ':' : '!:'), $showOnPart, 2);
 
+			if (strpos($showOnPartBlocks[0], '.') !== false)
+			{
+				if ($formControl)
+				{
+					$field = $formControl . ('[' . str_replace('.', '][', $showOnPartBlocks[0]) . ']');
+				}
+				else
+				{
+					$groupParts = explode('.', $showOnPartBlocks[0]);
+					$field      = array_shift($groupParts) . '[' . join('][', $groupParts) . ']';
+				}
+			}
+			else
+			{
+				$field = $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0];
+			}
+
 			$showOnData[] = array(
-				'field'  => $formPath ? $formPath . '[' . $showOnPartBlocks[0] . ']' : $showOnPartBlocks[0],
+				'field'  => $field,
 				'values' => explode(',', $showOnPartBlocks[1]),
 				'sign'   => $compareEqual === true ? '=' : '!=',
 				'op'     => $op,

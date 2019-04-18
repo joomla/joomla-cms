@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Web Asset Item interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface WebAssetItemInterface
 {
@@ -22,7 +22,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getName(): string;
 
@@ -31,7 +31,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getVersion();
 
@@ -40,7 +40,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getDependencies(): array;
 
@@ -52,7 +52,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function setWeight(float $weight): self;
 
@@ -61,7 +61,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return  float
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getWeight(): float;
 
@@ -72,7 +72,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getStylesheetFiles($resolvePath = true): array;
 
@@ -83,7 +83,7 @@ interface WebAssetItemInterface
 	 *
 	 * @return array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getScriptFiles($resolvePath = true): array;
 
