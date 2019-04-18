@@ -11,6 +11,7 @@ namespace Joomla\CMS\Installation\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
@@ -143,14 +144,6 @@ class DatabaseModel extends BaseInstallationModel
 		if (empty($options->db_host) || empty($options->db_user))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_INVALID_DB_DETAILS'), 'warning');
-
-			return false;
-		}
-
-		// Ensure that a database name was input.
-		if (empty($options->db_name))
-		{
-			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_EMPTY_NAME'), 'warning');
 
 			return false;
 		}
@@ -619,6 +612,13 @@ class DatabaseModel extends BaseInstallationModel
 			}
 		}
 
+		$query = $db->getQuery(true)
+			->select('extension_id')
+			->from($db->quoteName('#__extensions'))
+			->where($db->quoteName('name') . ' = ' . $db->quote('files_joomla'));
+		$db->setQuery($query);
+		$eid = $db->loadResult();
+
 		$query->clear()
 			->insert($db->quoteName('#__schemas'))
 			->columns(
@@ -627,7 +627,7 @@ class DatabaseModel extends BaseInstallationModel
 					$db->quoteName('version_id')
 				)
 			)
-			->values('700, ' . $db->quote($version));
+			->values($eid . ', ' . $db->quote($version));
 		$db->setQuery($query);
 
 		try
