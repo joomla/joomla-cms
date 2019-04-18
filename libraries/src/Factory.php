@@ -66,9 +66,8 @@ abstract class Factory
 	/**
 	 * Global container object
 	 *
-	 * @var         Container
-	 * @since       4.0
-	 * @deprecated  5.0  Don't use this property, it is needed for the transition period in the core
+	 * @var    Container
+	 * @since  4.0
 	 */
 	public static $container = null;
 
@@ -191,14 +190,25 @@ abstract class Factory
 	 *
 	 * Returns the global service container object, only creating it if it doesn't already exist.
 	 *
-	 * This method exists to bridge the CMS architecture to a service injection based structure.
-	 * Use of this method outside of service factory methods (i.e. a static getInstance() method
-	 * or a method which builds class services) is highly discouraged.
+	 * This method is only suggested for use in code whose responsibility is to create new services
+	 * and needs to be able to resolve the dependencies, and should therefore only be used when the
+	 * container is not accessible by other means.  Valid uses of this method include:
 	 *
-	 * @return      Container
+	 * - A static `getInstance()` method calling a factory service from the container,
+	 *   see `Joomla\CMS\Toolbar\Toolbar::getInstance()` as an example
+	 * - An application front controller loading and executing the Joomla application class,
+	 *   see the `cli/joomla.php` file as an example
+	 * - Retrieving optional constructor dependencies when not injected into a class during a transitional
+	 *   period to retain backward compatibility, in this case a deprecation notice should also be emitted to
+	 *   notify developers of changes needed in their code
 	 *
-	 * @since       4.0
-	 * @deprecated  5.0  For the current state it is not known when this function will be removed
+	 * This method is not suggested for use as a one-for-one replacement of static calls, such as
+	 * replacing calls to `Factory::getDbo()` with calls to `Factory::getContainer()->get('db')`, code
+	 * should be refactored to support dependency injection instead of making this change.
+	 *
+	 * @return  Container
+	 *
+	 * @since   4.0
 	 */
 	public static function getContainer(): Container
 	{
@@ -552,10 +562,9 @@ abstract class Factory
 	/**
 	 * Create a container object
 	 *
-	 * @return      Container
+	 * @return  Container
 	 *
-	 * @since       4.0
-	 * @deprecated  5.0  See Factory::getContainer()
+	 * @since   4.0
 	 */
 	protected static function createContainer(): Container
 	{
