@@ -28,6 +28,14 @@ class XmlDocument extends Document
 	protected $name = 'joomla';
 
 	/**
+	 * Flag indicating the document should be downloaded (Content-Disposition = attachment) versus displayed inline
+	 *
+	 * @var    boolean
+	 * @since  3.9.0
+	 */
+	protected $isDownload = false;
+
+	/**
 	 * Class constructor
 	 *
 	 * @param   array  $options  Associative array of options
@@ -59,7 +67,9 @@ class XmlDocument extends Document
 	{
 		parent::render();
 
-		CmsFactory::getApplication()->setHeader('Content-disposition', 'inline; filename="' . $this->getName() . '.xml"', true);
+		$disposition = $this->isDownload ? 'attachment' : 'inline';
+
+		CmsFactory::getApplication()->setHeader('Content-disposition', $disposition . '; filename="' . $this->getName() . '.xml"', true);
 
 		return $this->getBuffer();
 	}
@@ -88,6 +98,34 @@ class XmlDocument extends Document
 	public function setName($name = 'joomla')
 	{
 		$this->name = $name;
+
+		return $this;
+	}
+
+	/**
+	 * Check if this document is intended for download
+	 *
+	 * @return  string
+	 *
+	 * @since   3.9.0
+	 */
+	public function isDownload()
+	{
+		return $this->isDownload;
+	}
+
+	/**
+	 * Sets the document's download state
+	 *
+	 * @param   boolean  $download  If true, this document will be downloaded; if false, this document will be displayed inline
+	 *
+	 * @return  XmlDocument instance of $this to allow chaining
+	 *
+	 * @since   3.9.0
+	 */
+	public function setDownload($download = false)
+	{
+		$this->isDownload = $download;
 
 		return $this;
 	}
