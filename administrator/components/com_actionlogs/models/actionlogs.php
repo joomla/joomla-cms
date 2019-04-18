@@ -86,7 +86,7 @@ class ActionlogsModelActionlogs extends JModelList
 		$query = $db->getQuery(true)
 			->select('a.*, u.name')
 			->from('#__action_logs AS a')
-			->innerJoin('#__users AS u ON a.user_id = u.id');
+			->leftJoin('#__users AS u ON a.user_id = u.id');
 
 		// Get ordering
 		$fullorderCol = $this->state->get('list.fullordering', 'a.id DESC');
@@ -247,11 +247,51 @@ class ActionlogsModelActionlogs extends JModelList
 	/**
 	 * Get logs data into JTable object
 	 *
+	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
+	 *
 	 * @return  array  All logs in the table
 	 *
 	 * @since   3.9.0
 	 */
 	public function getLogsData($pks = null)
+	{
+		$db    = $this->getDbo();
+		$query = $this->getLogDataQuery($pks);
+
+		$db->setQuery($query);
+
+		return $db->loadObjectList();
+	}
+
+	/**
+	 * Get logs data as a database iterator
+	 *
+	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
+	 *
+	 * @return  JDatabaseIterator
+	 *
+	 * @since   3.9.0
+	 */
+	public function getLogDataAsIterator($pks = null)
+	{
+		$db    = $this->getDbo();
+		$query = $this->getLogDataQuery($pks);
+
+		$db->setQuery($query);
+
+		return $db->getIterator();
+	}
+
+	/**
+	 * Get the query for loading logs data
+	 *
+	 * @param   integer[]|null  $pks  An optional array of log record IDs to load
+	 *
+	 * @return  JDatabaseQuery
+	 *
+	 * @since   3.9.0
+	 */
+	private function getLogDataQuery($pks = null)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
@@ -264,9 +304,7 @@ class ActionlogsModelActionlogs extends JModelList
 			$query->where($db->quoteName('a.id') . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
 		}
 
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return $query;
 	}
 
 	/**

@@ -87,6 +87,7 @@
         "symfony/debug": "3.4.*",
         "symfony/ldap": "3.4.*",
         "symfony/options-resolver": "3.4.*",
+		"symfony/polyfill-php71": "~1.10",
         "symfony/polyfill-php73": "^1.10",
         "symfony/web-link": "3.4.*",
         "symfony/yaml": "3.4.*",

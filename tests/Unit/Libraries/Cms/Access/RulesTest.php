@@ -19,7 +19,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.Platform
  * @subpackage  Access
- * @since       11.1
+ * @since       1.7.0
  */
 class RulesTest extends UnitTestCase
 {
@@ -65,7 +65,7 @@ class RulesTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testIsConstructableWithObject()
 	{
@@ -90,7 +90,7 @@ class RulesTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeAction()
 	{
@@ -133,7 +133,7 @@ class RulesTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMerge()
 	{
@@ -188,7 +188,7 @@ class RulesTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeRulesNull()
 	{
@@ -219,7 +219,7 @@ class RulesTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testMergeRules()
 	{
@@ -274,7 +274,7 @@ class RulesTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testAllow()
 	{
@@ -305,7 +305,7 @@ class RulesTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function testGetAllowed()
 	{

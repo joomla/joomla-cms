@@ -11,17 +11,15 @@ namespace Joomla\Component\Plugins\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Plugins\Administrator\Helper\PluginsHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Plugin Type field.
  *
  * @since  3.5
  */
-class PluginTypeField extends \JFormFieldList
+class PluginTypeField extends ListField
 {
 	/**
 	 * The form field type.
