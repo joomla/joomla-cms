@@ -907,14 +907,6 @@ class ModulesModelModule extends JModelAdmin
 		$isNew      = true;
 		$context    = $this->option . '.' . $this->name;
 
-		// Prevent to save too large content > 65535 
-		if (strlen($data['content']) > 65535)
-		{
-			$this->setError(JTEXT::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
-
-			return false;
-		}
-
 		// Include the plugins for the save event.
 		JPluginHelper::importPlugin($this->events_map['save']);
 
