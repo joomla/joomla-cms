@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -67,7 +67,8 @@ abstract class LanguagesHelper
 				$associations = MenusHelper::getAssociations($active->id);
 			}
 
-			$component = $app->bootComponent($app->input->get('option'));
+			$option = $app->input->get('option');
+			$component = $app->bootComponent($option);
 
 			if ($component instanceof AssociationServiceInterface)
 			{
@@ -76,8 +77,8 @@ abstract class LanguagesHelper
 			else
 			{
 				// Load component associations
-				$class = str_replace('com_', '', $app->input->get('option')) . 'HelperAssociation';
-				\JLoader::register($class, JPATH_COMPONENT_SITE . '/helpers/association.php');
+				$class = str_replace('com_', '', $option) . 'HelperAssociation';
+				\JLoader::register($class, JPATH_SITE . '/components/' . $option . '/helpers/association.php');
 
 				if (class_exists($class) && is_callable(array($class, 'getAssociations')))
 				{

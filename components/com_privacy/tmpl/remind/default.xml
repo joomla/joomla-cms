@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="com_privacy_remind_view_default_title" option="com_privacy_remind_view_default_option">
+		<help
+			key="JHELP_MENUS_MENU_ITEM_PRIVACY_REMIND_REQUEST"
+		/>
+		<message>
+			<![CDATA[COM_PRIVACY_REMIND_VIEW_DEFAULT_DESC]]>
+		</message>
+	</layout>
+</metadata>
