@@ -79,7 +79,6 @@ class PlgSystemActionLogs extends JPlugin
 
 		$allowedFormNames = array(
 			'com_users.profile',
-			'com_admin.profile',
 			'com_users.user',
 		);
 
