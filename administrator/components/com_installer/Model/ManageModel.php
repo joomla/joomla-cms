@@ -398,7 +398,7 @@ class ManageModel extends InstallerModel
 	 *
 	 * @return  string  The output to show in the modal.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadChangelog($eid, $source)
 	{

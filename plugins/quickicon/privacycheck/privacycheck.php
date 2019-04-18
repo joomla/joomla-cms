@@ -34,7 +34,7 @@ class PlgQuickiconPrivacyCheck extends CMSPlugin
 	 * Application object.
 	 *
 	 * @var    \Joomla\CMS\Application\CMSApplication
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 

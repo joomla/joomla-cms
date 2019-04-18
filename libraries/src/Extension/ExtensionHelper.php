@@ -343,7 +343,7 @@ class ExtensionHelper
 	 *
 	 * @return  \stdClass  The object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public static function getExtensionRecord($name)
 	{
