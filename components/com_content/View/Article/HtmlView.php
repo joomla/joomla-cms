@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -198,7 +198,7 @@ class HtmlView extends BaseHtmlView
 			if ($this->user->get('guest'))
 			{
 				$return = base64_encode(Uri::getInstance());
-				$login_url_with_return = Route::_('index.php?option=com_users&return=' . $return);
+				$login_url_with_return = Route::_('index.php?option=com_users&view=login&return=' . $return);
 				$app->enqueueMessage(Text::_('JERROR_ALERTNOAUTHOR'), 'notice');
 				$app->redirect($login_url_with_return, 403);
 			}

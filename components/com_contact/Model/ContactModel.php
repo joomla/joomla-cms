@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -150,6 +150,12 @@ class ContactModel extends FormModel
 		if (empty($data['language']) && Multilanguage::isEnabled())
 		{
 			$data['language'] = Factory::getLanguage()->getTag();
+		}
+
+		// Add contact id to contact form data, so fields plugin can work properly
+		if (empty($data['catid']))
+		{
+			$data['catid'] = $this->getItem()->catid;
 		}
 
 		$this->preprocessData('com_contact.contact', $data);
@@ -417,6 +423,7 @@ class ContactModel extends FormModel
 	 * @return  mixed    The contact object on success, false on failure
 	 *
 	 * @throws  \Exception  On database failure
+	 * @deprecated  4.0    Use ContactModelContact::getItem() instead
 	 */
 	protected function getContactQuery($pk = null)
 	{

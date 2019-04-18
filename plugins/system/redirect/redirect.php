@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Event\ErrorEvent;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
@@ -249,7 +250,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 		// No redirect object was found so we create an entry in the redirect table
 		elseif ($redirect === null)
 		{
-			if ((bool) $this->params->get('collect_urls', true))
+			if ((bool) $this->params->get('collect_urls', 1))
 			{
 				if (!$this->params->get('includeUrl', 1))
 				{
@@ -262,7 +263,7 @@ class PlgSystemRedirect extends CMSPlugin implements SubscriberInterface
 					'referer' => $app->input->server->getString('HTTP_REFERER', ''),
 					'hits' => 1,
 					'published' => 0,
-					'created_date' => JFactory::getDate()->toSql()
+					'created_date' => Factory::getDate()->toSql()
 				);
 
 				try

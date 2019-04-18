@@ -3,18 +3,20 @@
  * @package     Joomla.Platform
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\Registry\Registry;
 
 /**
  * Joomla Platform Database Model Class
  *
- * @since  3.0.0
+ * @since       3.0.0
+ * @deprecated  5.0 Use the default MVC library
  */
 abstract class JModelDatabase extends JModelBase
 {
@@ -77,6 +79,6 @@ abstract class JModelDatabase extends JModelBase
 	 */
 	protected function loadDb()
 	{
-		return JFactory::getDbo();
+		return Factory::getDbo();
 	}
 }

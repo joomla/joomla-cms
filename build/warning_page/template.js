@@ -8,8 +8,8 @@ var errorLocale = window.errorLocale || null;
 
     // Create links for all the languages
     Object.keys(errorLocale).forEach(function(key) {
-      var sel = document.getElementById('translatedLanguagesSelect');
-      var opt = document.createElement('option');
+      var sel = document.getElementById('translatedLanguagesSelect'),
+          opt = document.createElement('option');
       opt.text = errorLocale[key].language;
       opt.value = key;
 
@@ -18,17 +18,18 @@ var errorLocale = window.errorLocale || null;
       }
 
       document.getElementById('translatedLanguagesSelect').addEventListener('change', function(e) {
-        var ref = e.target.value;
+        var ref = e.target.value, helpLink, meta;
+
         if (ref) {
           header.innerHTML = errorLocale[ref].header;
         }
 
-        var helpLink = document.getElementById('linkHelp');
+        helpLink = document.getElementById('linkHelp');
         if (helpLink) {
           helpLink.innerText = errorLocale[ref]['help-url-text'];
         }
 
-        var meta = document.querySelector('[http-equiv="Content-Language"]');
+        meta = document.querySelector('[http-equiv="Content-Language"]');
         if (meta) {
           meta.setAttribute('content', ref);
         }
@@ -47,12 +48,13 @@ var errorLocale = window.errorLocale || null;
         // Append the translated strings
         header.innerHTML = errorLocale[key].header;
 
-        var helpLink = document.getElementById('linkHelp');
+        var helpLink = document.getElementById('linkHelp'), meta;
+
         if (helpLink) {
           helpLink.innerText = errorLocale[key]['help-url-text'];
         }
 
-        var meta = document.querySelector('[http-equiv="Content-Language"]');
+        meta = document.querySelector('[http-equiv="Content-Language"]');
         if (meta) {
           meta.setAttribute('content', key);
         }

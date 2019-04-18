@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Workflow\Administrator\View\Stages;
@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\Workflow\Workflow;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
@@ -74,6 +75,14 @@ class HtmlView extends BaseHtmlView
 	public $activeFilters;
 
 	/**
+	 * The current workflow
+	 *
+	 * @var     object
+	 * @since  4.0.0
+	 */
+	protected $workflow;
+
+	/**
 	 * The ID of current workflow
 	 *
 	 * @var     integer
@@ -109,11 +118,12 @@ class HtmlView extends BaseHtmlView
 		$this->state         = $this->get('State');
 		$this->stages        = $this->get('Items');
 		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    	= $this->get('FilterForm');
-		$this->activeFilters 	= $this->get('ActiveFilters');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
-		$this->workflowID = $this->state->get('filter.workflow_id');
-		$this->extension = $this->state->get('filter.extension');
+		$this->workflow      = $this->get('Workflow');
+		$this->workflowID    = $this->workflow->id;
+		$this->extension     = $this->workflow->extension;
 
 		WorkflowHelper::addSubmenu('stages');
 
@@ -146,37 +156,63 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions($this->extension, 'workflow', $this->workflowID);
 
+		$toolbar = Toolbar::getInstance('toolbar');
+
 		$workflow = !empty($this->state->get('active_workflow', '')) ? Text::_($this->state->get('active_workflow', '')) . ': ' : '';
 
 		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_STAGES_LIST', $this->escape($workflow)), 'address contact');
 
-		if ($canDo->get('core.create'))
+		$isCore = $this->workflow->core;
+		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';
+
+		ToolbarHelper::link('index.php?option=com_workflow&view=workflows&extension=' . $this->escape($this->workflow->extension),
+			'JTOOLBAR_BACK', $arrow
+		);
+
+		if (!$isCore)
 		{
-			ToolbarHelper::addNew('stage.add');
+			if ($canDo->get('core.create'))
+			{
+				$toolbar->addNew('stage.add');
+			}
+
+			if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
+			{		
+				$dropdown = $toolbar->dropdownButton('status-group')
+					->text('JTOOLBAR_CHANGE_STATUS')
+					->toggleSplit(false)
+					->icon('fa fa-globe')
+					->buttonClass('btn btn-info')
+					->listCheck(true);
+
+				$childBar = $dropdown->getChildToolbar();
+
+				$childBar->publish('stages.publish')->listCheck(true);
+				$childBar->unpublish('stages.unpublish')->listCheck(true);
+				$childBar->makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
+
+				if ($canDo->get('core.admin'))
+				{
+					// @ToDo Imlement the checked_out for workflows
+					// $childBar->checkin('stages.checkin', 'JTOOLBAR_CHECKIN', true);
+				}
+
+				if ($this->state->get('filter.published') !== '-2')
+				{
+					$childBar->trash('stages.trash');
+				}
+			}
+
+			if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete') && !$isCore)
+			{
+				$toolbar->delete('stages.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
-		if ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::publishList('stages.publish');
-			ToolbarHelper::unpublishList('stages.unpublish');
-			ToolbarHelper::makeDefault('stages.setDefault', 'COM_WORKFLOW_TOOLBAR_DEFAULT');
-		}
-
-		if ($canDo->get('core.admin'))
-		{
-			ToolbarHelper::checkin('stages.checkin', 'JTOOLBAR_CHECKIN', true);
-		}
-
-		if ($this->state->get('filter.published') === '-2' && $canDo->get('core.delete'))
-		{
-			ToolbarHelper::deleteList(Text::_('COM_WORKFLOW_ARE_YOU_SURE'), 'stages.delete');
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			ToolbarHelper::trash('stages.trash');
-		}
-
-		ToolbarHelper::help('JHELP_WORKFLOW_STAGES_LIST');
+		$toolbar->help('JHELP_WORKFLOW_STAGES_LIST');
 	}
 
 	/**
