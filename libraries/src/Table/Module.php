@@ -126,7 +126,7 @@ class Module extends Table
 		// Prevent to save too large content > 65535 
 		if (strlen($this->content) > 65535)
 		{
-			$this->setError(\JTEXT::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
+			$this->setError(\JText::_('COM_MODULES_FIELD_CONTENT_TOO_LARGE'));
 		
 			return false;
 		}
