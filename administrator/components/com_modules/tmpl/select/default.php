@@ -14,7 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
-HTMLHelper::_('bootstrap.popover');
 $document = Factory::getDocument();
 ?>
 
@@ -25,17 +24,15 @@ $document = Factory::getDocument();
 	<?php $link       = 'index.php?option=com_modules&task=module.add&eid=' . $item->extension_id; ?>
 	<?php $name       = $this->escape($item->name); ?>
 	<?php $desc       = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 200); ?>
-	<?php $short_desc = HTMLHelper::_('string.truncate', $this->escape(strip_tags($item->desc)), 90); ?>
 
 	<?php if ($document->direction != 'rtl') : ?>
 	<li class="list-group-item">
-		<a href="<?php echo Route::_($link); ?>" class="mr-2">
-			<strong><?php echo $name; ?></strong></a>
-		<small class="hasPopover" data-placement="right" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
+		<a href="<?php echo Route::_($link); ?>" class="mr-2"><strong><?php echo $name; ?></strong></a>
+		<small><?php echo $desc; ?></small>
 	</li>
 	<?php else : ?>
 	<li class="list-group-item">
-		<small rel="popover" data-placement="left" title="<?php echo $name; ?>" data-content="<?php echo $desc; ?>"><?php echo $short_desc; ?></small>
+		<small><?php echo $desc; ?></small>
 		<a href="<?php echo Route::_($link); ?>" class="mr-2"><strong><?php echo $name; ?></strong></a>
 	</li>
 	<?php endif; ?>
