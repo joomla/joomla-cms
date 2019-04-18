@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -931,6 +931,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_languages/helpers/languages.php',
 			'/administrator/components/com_languages/helpers/multilangstatus.php',
 			'/administrator/components/com_languages/languages.php',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_languages/models/forms/filter_installed.xml',
 			'/administrator/components/com_languages/models/forms/filter_languages.xml',
 			'/administrator/components/com_languages/models/forms/language.xml',
@@ -1087,6 +1088,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/controllers/module.php',
 			'/administrator/components/com_modules/controllers/modules.php',
 			'/administrator/components/com_modules/helpers/xml.php',
+			'/administrator/components/com_modules/layouts/toolbar/newmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesposition.php',
 			'/administrator/components/com_modules/models/forms/advanced.xml',

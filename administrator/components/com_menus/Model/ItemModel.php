@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -636,6 +636,8 @@ class ItemModel extends AdminModel
 			$this->setState('item.menutypeid', $menuTypeId);
 		}
 
+		$data = (object) $data;
+
 		$this->preprocessData('com_menus.item', $data);
 
 		return $data;
@@ -1253,6 +1255,7 @@ class ItemModel extends AdminModel
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
 					$option->addAttribute('value', '');
 				}
@@ -1440,7 +1443,7 @@ class ItemModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		// Store the data.
 		if (in_array(false, $result, true)|| !$table->store())
@@ -1610,7 +1613,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
@@ -1697,7 +1700,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.

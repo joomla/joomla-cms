@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Build
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -65,7 +65,7 @@ class MediawikiCli extends CliApplication
 
 		// Get the version data for the script
 		$minorVersion = Version::MAJOR_VERSION . '.' . Version::MINOR_VERSION;
-		$namespace    = 'Help' . $minorVersion . ':';
+		$namespace    = 'Help' . str_replace('.', '', $minorVersion) . ':';
 
 		// Set up HTTP driver for MediaWiki
 		$http = new \Joomla\Mediawiki\Http([], JHttpFactory::getAvailableDriver());
@@ -216,7 +216,7 @@ class MediawikiCli extends CliApplication
 }
 
 // Set up the container
-JFactory::getContainer()->share(
+Factory::getContainer()->share(
 	'MediawikiCli',
 	function (\Joomla\DI\Container $container)
 	{
@@ -231,6 +231,6 @@ JFactory::getContainer()->share(
 	},
 	true
 );
-$app = JFactory::getContainer()->get('MediawikiCli');
-JFactory::$application = $app;
+$app = Factory::getContainer()->get('MediawikiCli');
+Factory::$application = $app;
 $app->execute();

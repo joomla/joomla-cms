@@ -3,7 +3,7 @@
 	<name>mod_menu</name>
 	<author>Joomla! Project</author>
 	<creationDate>July 2004</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -38,6 +38,7 @@
 					new="true"
 					edit="true"
 					clear="true"
+					filter="integer"
 					>
 					<option value="">JCURRENT</option>
 				</field>
@@ -47,6 +48,7 @@
 					type="list"
 					label="MOD_MENU_FIELD_STARTLEVEL_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">J1</option>
 					<option value="2">J2</option>
@@ -65,6 +67,7 @@
 					type="list"
 					label="MOD_MENU_FIELD_ENDLEVEL_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -85,6 +88,7 @@
 					class="switcher"
 					label="MOD_MENU_FIELD_ALLCHILDREN_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -130,6 +134,7 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -140,6 +145,7 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
+					filter="integer"
 				/>
 
 				<field

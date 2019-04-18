@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -195,6 +195,7 @@ class WorkflowsModel extends ListModel
 				'w.published',
 				'w.ordering',
 				'w.default',
+				'w.core',
 				'w.created_by',
 				'w.description',
 				'u.name'

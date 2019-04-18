@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_contact
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ use Joomla\CMS\Language\Text;
 <?php endif; ?>
 
 <div class="com-contact__links contact-links">
-	<ul class="nav nav-pills flex-column">
+	<ul class="nav flex-column">
 		<?php
 		// Letters 'a' to 'e'
 		foreach (range('a', 'e') as $char) :

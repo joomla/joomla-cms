@@ -3,7 +3,7 @@
 	<name>plg_user_profile</name>
 	<author>Joomla! Project</author>
 	<creationDate>January 2008</creationDate>
-	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -32,6 +32,8 @@
 					name="register-require_address1"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -42,6 +44,8 @@
 					name="register-require_address2"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -52,6 +56,8 @@
 					name="register-require_city"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -62,6 +68,8 @@
 					name="register-require_region"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -72,6 +80,8 @@
 					name="register-require_country"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -82,6 +92,8 @@
 					name="register-require_postal_code"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -92,6 +104,8 @@
 					name="register-require_phone"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -102,6 +116,8 @@
 					name="register-require_website"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -112,6 +128,8 @@
 					name="register-require_favoritebook"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -122,6 +140,8 @@
 					name="register-require_aboutme"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
@@ -133,6 +153,7 @@
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_TOS_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="0">JDISABLED</option>
@@ -146,12 +167,15 @@
 					new="true"
 					edit="true"
 					clear="true"
+					filter="integer"
 				/>
 
 				<field
 					name="register-require_dob"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
@@ -175,6 +199,8 @@
 					name="profile-require_address1"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS1_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -185,6 +211,8 @@
 					name="profile-require_address2"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_ADDRESS2_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -195,6 +223,8 @@
 					name="profile-require_city"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_CITY_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -205,6 +235,8 @@
 					name="profile-require_region"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_REGION_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -215,6 +247,8 @@
 					name="profile-require_country"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_COUNTRY_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -225,6 +259,8 @@
 					name="profile-require_postal_code"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_POSTAL_CODE_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -235,6 +271,8 @@
 					name="profile-require_phone"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_PHONE_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -245,6 +283,8 @@
 					name="profile-require_website"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_WEB_SITE_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -255,6 +295,8 @@
 					name="profile-require_favoritebook"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_FAVORITE_BOOK_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option value="2">JOPTION_REQUIRED</option>
 					<option value="1">JOPTION_OPTIONAL</option>
@@ -265,6 +307,8 @@
 					name="profile-require_aboutme"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_ABOUT_ME_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>
@@ -275,6 +319,8 @@
 					name="profile-require_dob"
 					type="list"
 					label="PLG_USER_PROFILE_FIELD_DOB_LABEL"
+					default="1"
+					filter="integer"
 					>
 					<option	value="2">JOPTION_REQUIRED</option>
 					<option	value="1">JOPTION_OPTIONAL</option>

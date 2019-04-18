@@ -5,4 +5,9 @@
 @import "../../../../media/vendor/font-awesome/scss/font-awesome";
 
 // B/C for Icomoon
-@import "../../../../build/media/system/scss/icomoon";
+@import "../../../../build/media_source/system/scss/icomoon";
+
+// RTL override
+html[dir=rtl] .pull-right {
+    float: left;
+}

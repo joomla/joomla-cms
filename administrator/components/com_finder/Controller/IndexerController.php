@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -62,7 +62,7 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -130,7 +130,7 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -246,7 +246,7 @@ class IndexerController extends BaseController
 		$this->app->allowCache(false);
 
 		// Check for a valid token. If invalid, send a 403 with the error message.
-		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN'), 403));
+		Session::checkToken('request') or static::sendResponse(new \Exception(\JText::_('JINVALID_TOKEN_NOTICE'), 403));
 
 		// Put in a buffer to silence noise.
 		ob_start();
@@ -377,6 +377,7 @@ class FinderIndexerResponse
 			$this->batchSize = (int) $state->batchSize;
 			$this->batchOffset = (int) $state->batchOffset;
 			$this->totalItems = (int) $state->totalItems;
+			$this->pluginState = $state->pluginState;
 
 			$this->startTime = $state->startTime;
 			$this->endTime = Factory::getDate()->toSql();

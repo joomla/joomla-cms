@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_categories
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -378,7 +378,7 @@ class CategoriesModel extends ListModel
 	/**
 	 * Method to load the countItems method from the extensions
 	 *
-	 * @param   \stdClass[]  &$items     The category items
+	 * @param   \stdClass[]  $items      The category items
 	 * @param   string       $extension  The category extension
 	 *
 	 * @return  void

@@ -3,7 +3,7 @@
 	<name>mod_articles_categories</name>
 	<author>Joomla! Project</author>
 	<creationDate>February 2010</creationDate>
-	<copyright>Copyright (C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -28,6 +28,7 @@
 					type="modal_category"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_PARENT_LABEL"
 					extension="com_content"
+					filter="integer"
 					published=""
 					required="true"
 					select="true"
@@ -42,6 +43,7 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_DESCRIPTION_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -53,6 +55,7 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_NUMITEMS_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -64,6 +67,7 @@
 					class="switcher"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_SHOW_CHILDREN_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JHIDE</option>
 					<option value="1">JSHOW</option>
@@ -75,6 +79,7 @@
 					label="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_LABEL"
 					description="MOD_ARTICLES_CATEGORIES_FIELD_COUNT_DESC"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -94,6 +99,7 @@
 					type="list"
 					label="MOD_ARTICLES_CATEGORIES_FIELD_MAXLEVEL_LABEL"
 					default="0"
+					filter="integer"
 					>
 					<option value="0">JALL</option>
 					<option value="1">J1</option>
@@ -122,6 +128,7 @@
 					type="list"
 					label="MOD_ARTICLES_CATEGORIES_TITLE_HEADING_LABEL"
 					default="4"
+					filter="integer"
 					>
 					<option value="1">JH1</option>
 					<option value="2">JH2</option>
@@ -142,6 +149,7 @@
 					type="list"
 					label="COM_MODULES_FIELD_CACHING_LABEL"
 					default="1"
+					filter="integer"
 					>
 					<option value="1">JGLOBAL_USE_GLOBAL</option>
 					<option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
@@ -152,6 +160,7 @@
 					type="number"
 					label="COM_MODULES_FIELD_CACHE_TIME_LABEL"
 					default="900"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>
