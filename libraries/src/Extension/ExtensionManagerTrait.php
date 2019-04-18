@@ -220,6 +220,17 @@ trait ExtensionManagerTrait
 		// Compile the classname
 		$className = 'Plg' . str_replace('-', '', $type) . $plugin;
 
+		if ($type == 'editors-xtd')
+		{
+			// This type doesn't follow the convention
+			$className = 'PlgEditorsXtd' . $plugin;
+
+			if (!class_exists($className))
+			{
+				$className = 'PlgButton' . $plugin;
+			}
+		}
+
 		// Return an empty class when the class doesn't exist
 		if (!class_exists($className))
 		{
