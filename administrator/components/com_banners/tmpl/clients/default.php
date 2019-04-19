@@ -55,6 +55,8 @@ $params     = $this->state->params ?? new JObject;
 						</caption>
 						<thead>
 							<tr>
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								<td style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
@@ -103,6 +105,25 @@ $params     = $this->state->params ?? new JObject;
 								$canChange  = $user->authorise('core.edit.state', 'com_banners') && $canCheckin;
 								?>
 								<tr class="row<?php echo $i % 2; ?>">
+                                    <td class="order text-center d-none d-md-table-cell">
+									<?php
+									$iconClass = '';
+									if (!$canChange)
+									{
+										$iconClass = ' inactive';
+									}
+									elseif (!$saveOrder)
+									{
+										$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
+									}
+									?>
+									<span class="sortable-handler<?php echo $iconClass ?>">
+										<span class="icon-menu" aria-hidden="true"></span>
+									</span>
+									<?php if ($canChange && $saveOrder) : ?>
+										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
+									<?php endif; ?>
+								</td>
 									<td class="text-center">
 										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 									</td>
@@ -154,6 +175,7 @@ $params     = $this->state->params ?? new JObject;
 									<td class="d-none d-md-table-cell">
 										<?php echo $item->id; ?>
 									</td>
+
 								</tr>
 							<?php endforeach; ?>
 						</tbody>
