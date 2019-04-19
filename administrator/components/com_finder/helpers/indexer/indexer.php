@@ -3,12 +3,13 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\String\StringHelper;
 
 JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
@@ -99,7 +100,7 @@ abstract class FinderIndexer
 	/**
 	 * Reusable Query Template. To be used with clone.
 	 *
-	 * @var    JDatabaseQuery
+	 * @var    Joomla\Database\QueryInterface
 	 * @since  3.8.0
 	 */
 	protected $addTokensToDbQueryTemplate;
@@ -115,7 +116,10 @@ abstract class FinderIndexer
 
 		$db = $this->db;
 
-		// Set up query template for addTokensToDb
+		/**
+		 * Set up query template for addTokensToDb, we will be cloning this template when needed.
+		 * This is about twice as fast as calling the clear function or setting up a new object.
+		 */
 		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
 			->columns(
 				array(
@@ -169,7 +173,7 @@ abstract class FinderIndexer
 	public static function getState()
 	{
 		// First, try to load from the internal state.
-		if (!empty(static::$state))
+		if ((bool) static::$state)
 		{
 			return static::$state;
 		}
@@ -423,8 +427,7 @@ abstract class FinderIndexer
 				// Parse, tokenise and add tokens to the database.
 				$count = $this->tokenizeToDbShort($string, $context, $lang, $format, $count);
 
-				unset($string);
-				unset($tokens);
+				unset($string, $tokens);
 			}
 
 			return $count;
@@ -483,8 +486,8 @@ abstract class FinderIndexer
 	/**
 	 * Method to add a set of tokens to the database.
 	 *
-	 * @param   mixed  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed  $context  The context of the tokens. See context constants. [optional]
+	 * @param   FinderIndexerToken[]|FinderIndexerToken  $tokens   An array or single FinderIndexerToken object.
+	 * @param   mixed                                    $context  The context of the tokens. See context constants. [optional]
 	 *
 	 * @return  integer  The number of tokens inserted into the database.
 	 *
@@ -493,40 +496,82 @@ abstract class FinderIndexer
 	 */
 	protected function addTokensToDb($tokens, $context = '')
 	{
+		static $filterCommon, $filterNumeric;
+
+		if (is_null($filterCommon))
+		{
+			$params = ComponentHelper::getParams('com_finder');
+			$filterCommon = $params->get('filter_commonwords', false);
+			$filterNumeric = $params->get('filter_numerics', false);
+		}
+
 		// Get the database object.
 		$db = $this->db;
-
-		$query = clone $this->addTokensToDbQueryTemplate;
-
-		// Check if a single FinderIndexerToken object was given and make it to be an array of FinderIndexerToken objects
-		$tokens = is_array($tokens) ? $tokens : array($tokens);
 
 		// Count the number of token values.
 		$values = 0;
 
-		// Break into chunks of no more than 1000 items
-		$chunks = array_chunk($tokens, 1000);
-
-		foreach ($chunks as $tokens)
+		if (($tokens instanceof FinderIndexerToken) === false)
 		{
-			$query->clear('values');
+			// Break into chunks of no more than 1000 items
+			$chunks = count($tokens) > 1000
+				? array_chunk($tokens, 1000)
+				: array($tokens);
 
-			// Iterate through the tokens to create SQL value sets.
-			foreach ($tokens as $token)
+			foreach ($chunks as $chunkTokens)
 			{
-				$query->values(
-					$db->quote($token->term) . ', '
-					. $db->quote($token->stem) . ', '
-					. (int) $token->common . ', '
-					. (int) $token->phrase . ', '
-					. $db->quote($token->weight) . ', '
-					. (int) $context . ', '
-					. $db->quote($token->language)
-				);
-				++$values;
-			}
+				$query = clone $this->addTokensToDbQueryTemplate;
 
-			$db->setQuery($query)->execute();
+				// Iterate through the tokens to create SQL value sets.
+				foreach ($chunkTokens as $token)
+				{
+					if ($filterCommon && $token->common)
+					{
+						continue;
+					}
+
+					if ($filterNumeric && $token->numeric)
+					{
+						continue;
+					}
+
+					$query->values(
+						$db->quote($token->term) . ', '
+						. $db->quote($token->stem) . ', '
+						. (int) $token->common . ', '
+						. (int) $token->phrase . ', '
+						. $db->quote($token->weight) . ', '
+						. (int) $context . ', '
+						. $db->quote($token->language)
+					);
+					$values++;
+				}
+
+				if ($query->values)
+				{
+					$db->setQuery($query)->execute();
+				}
+			}
+		}
+		else
+		{
+			$query = clone $this->addTokensToDbQueryTemplate;
+
+			$query->values(
+				$db->quote($tokens->term) . ', '
+				. $db->quote($tokens->stem) . ', '
+				. (int) $tokens->common . ', '
+				. (int) $tokens->phrase . ', '
+				. $db->escape((float) $tokens->weight) . ', '
+				. (int) $context . ', '
+				. $db->quote($tokens->language)
+			);
+			$values++;
+
+			if ($query->values)
+			{
+				$db->setQuery($query)->execute();
+			}
 		}
 
 		return $values;

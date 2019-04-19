@@ -19,6 +19,8 @@
   line-height: $toolbar-height;
   color: #464a4c;
   text-align: center;
+  background-color: transparent;
+  border: 0;
   border-left: 1px solid $border-color;
   box-shadow: 1px 0 #fefefe inset;
   &:hover {

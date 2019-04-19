@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -28,6 +28,14 @@ use Joomla\Database\DatabaseDriver;
  */
 abstract class InstallerAdapter
 {
+	/**
+	 * Changelog URL of extensions
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 * */
+	protected $changelogurl = null;
+
 	/**
 	 * ID for the currently installed extension if present
 	 *
@@ -666,20 +674,18 @@ abstract class InstallerAdapter
 	public function install()
 	{
 		// Get the extension's description
-		$description = (string) $this->getManifest()->description;
+		$description           = (string) $this->getManifest()->description;
+		$this->parent->message = '';
 
 		if ($description)
 		{
 			$this->parent->message = Text::_($description);
 		}
-		else
-		{
-			$this->parent->message = '';
-		}
 
 		// Set the extension's name and element
-		$this->name    = $this->getName();
-		$this->element = $this->getElement();
+		$this->name         = $this->getName();
+		$this->element      = $this->getElement();
+		$this->changelogurl = (string) $this->getManifest()->changelogurl;
 
 		/*
 		 * ---------------------------------------------------------------------------------------------

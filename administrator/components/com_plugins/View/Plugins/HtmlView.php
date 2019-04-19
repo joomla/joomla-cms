@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -114,8 +114,8 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state'))
 		{
-			$childBar->publish('plugins.publish')->listCheck(true);
-			$childBar->unpublish('plugins.unpublish')->listCheck(true);
+			$childBar->publish('plugins.publish', 'JTOOLBAR_ENABLE')->listCheck(true);
+			$childBar->unpublish('plugins.unpublish', 'JTOOLBAR_DISABLE')->listCheck(true);
 			$childBar->checkin('plugins.checkin');
 		}
 

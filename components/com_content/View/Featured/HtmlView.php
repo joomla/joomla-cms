@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Content\Site\Helper\QueryHelper;
 
 /**
  * Frontpage View class
@@ -68,13 +67,6 @@ class HtmlView extends BaseHtmlView
 	protected $link_items = array();
 
 	/**
-	 * The number of columns to show introduction articles in.
-	 *
-	 * @var  integer
-	 */
-	protected $columns = 1;
-
-	/**
 	 * An instance of JDatabaseDriver.
 	 *
 	 * @var    \JDatabaseDriver
@@ -119,6 +111,9 @@ class HtmlView extends BaseHtmlView
 		$state      = $this->get('State');
 		$items      = $this->get('Items');
 		$pagination = $this->get('Pagination');
+
+		// Flag indicates to not add limitstart=0 to URL
+		$pagination->hideEmptyLimitstart = true;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -190,15 +185,6 @@ class HtmlView extends BaseHtmlView
 		for ($i = $numLeading; $i < $limit && $i < $max; $i++)
 		{
 			$this->intro_items[$i] = &$items[$i];
-		}
-
-		$this->columns = max(1, $params->def('num_columns', 1));
-		$order = $params->def('multi_column_order', 1);
-
-		if ($order == 0 && $this->columns > 1)
-		{
-			// Call order down helper
-			$this->intro_items = QueryHelper::orderDownColumns($this->intro_items, $this->columns);
 		}
 
 		// The remainder are the links.

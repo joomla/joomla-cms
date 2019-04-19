@@ -204,7 +204,6 @@
 		name="tags"
 		type="tag"
 		label="JTAG"
-		class="col-sm-12"
 		multiple="true"
 	/>
 
