@@ -93,7 +93,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 							</td>
 							<?php if (Multilanguage::isEnabled()) : ?>
 								<td class="small d-none d-md-table-cell text-center">
-									<?php echo JLayoutHelper::render('joomla.content.language', $item); ?>
+									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>
 								</td>
 							<?php endif; ?>
 							<td class="text-center d-none d-md-table-cell text-center">
