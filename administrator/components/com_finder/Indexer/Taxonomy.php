@@ -3,12 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Tree\NodeInterface;
 use Joomla\Component\Finder\Administrator\Table\MapTable;
 
@@ -17,28 +20,28 @@ use Joomla\Component\Finder\Administrator\Table\MapTable;
  *
  * @since  2.5
  */
-class FinderIndexerTaxonomy
+class Taxonomy
 {
 	/**
 	 * An internal cache of taxonomy data.
 	 *
-	 * @var    array
-	 * @since  4.0.0
+	 * @var    object[]
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $taxonomies = array();
 
 	/**
 	 * An internal cache of branch data.
 	 *
-	 * @var    array
-	 * @since  4.0.0
+	 * @var    object[]
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public static $branches = array();
 
 	/**
 	 * An internal cache of taxonomy node data for inserting it.
 	 *
-	 * @var    array
+	 * @var    object[]
 	 * @since  2.5
 	 */
 	public static $nodes = array();
@@ -57,7 +60,7 @@ class FinderIndexerTaxonomy
 	 */
 	public static function addBranch($title, $state = 1, $access = 1)
 	{
-		$node = new stdClass;
+		$node = new \stdClass;
 		$node->title = $title;
 		$node->state = $state;
 		$node->access = $access;
@@ -86,7 +89,7 @@ class FinderIndexerTaxonomy
 		// Get the branch id, insert it if it does not exist.
 		$branchId = static::addBranch($branch);
 
-		$node = new stdClass;
+		$node = new \stdClass;
 		$node->title = $title;
 		$node->state = $state;
 		$node->access = $access;
@@ -98,17 +101,17 @@ class FinderIndexerTaxonomy
 
 	/**
 	 * Method to add a nested node to the taxonomy tree.
-	 * 
+	 *
 	 * @param   string         $branch    The title of the branch to store the node in.
 	 * @param   NodeInterface  $node      The source-node of the taxonomy node.
 	 * @param   integer        $state     The published state of the node. [optional]
 	 * @param   integer        $access    The access state of the node. [optional]
 	 * @param   string         $language  The language of the node. [optional]
 	 * @param   integer        $branchId  ID of a branch if known. [optional]
-	 * 
+	 *
 	 * @return  integer  The id of the node.
-	 * 
-	 * @since   4.0.0
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function addNestedNode($branch, NodeInterface $node, $state = 1, $access = 1, $language = '', $branchId = null)
 	{
@@ -129,7 +132,7 @@ class FinderIndexerTaxonomy
 			$parentId = $branchId;
 		}
 
-		$temp = new stdClass;
+		$temp = new \stdClass;
 		$temp->title = $node->title;
 		$temp->state = $state;
 		$temp->access = $access;
@@ -141,13 +144,13 @@ class FinderIndexerTaxonomy
 
 	/**
 	 * A helper method to store a node in the taxonomy
-	 * 
+	 *
 	 * @param   object   $node       The node data to include
 	 * @param   integer  $parent_id  The parent id of the node to add.
-	 * 
+	 *
 	 * @return  integer  The id of the inserted node.
-	 * 
-	 * @since   4.0.0
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	protected static function storeNode($node, $parent_id)
 	{
@@ -158,7 +161,7 @@ class FinderIndexerTaxonomy
 		}
 
 		// Check to see if the node is in the table.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__finder_taxonomy'))
@@ -233,7 +236,7 @@ class FinderIndexerTaxonomy
 	public static function addMap($linkId, $nodeId)
 	{
 		// Insert the map.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true)
 			->select($db->quoteName('link_id'))
@@ -246,7 +249,7 @@ class FinderIndexerTaxonomy
 
 		if (!$id)
 		{
-			$map = new stdClass;
+			$map = new \stdClass;
 			$map->link_id = (int) $linkId;
 			$map->node_id = (int) $nodeId;
 			$db->insertObject('#__finder_taxonomy_map', $map);
@@ -265,10 +268,10 @@ class FinderIndexerTaxonomy
 	 */
 	public static function getBranchTitles()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Set user variables
-		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
 		// Create a query to get the taxonomy branch titles.
 		$query = $db->getQuery(true)
@@ -297,10 +300,10 @@ class FinderIndexerTaxonomy
 	 */
 	public static function getNodeByTitle($branch, $title)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Set user variables
-		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
 		// Create a query to get the node.
 		$query = $db->getQuery(true)
@@ -333,7 +336,7 @@ class FinderIndexerTaxonomy
 	public static function removeMaps($linkId)
 	{
 		// Delete the maps.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__finder_taxonomy_map'))
 			->where($db->quoteName('link_id') . ' = ' . (int) $linkId);
@@ -354,7 +357,7 @@ class FinderIndexerTaxonomy
 	public static function removeOrphanNodes()
 	{
 		// Delete all orphaned nodes.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 		$query     = $db->getQuery(true);
 		$subquery  = $db->getQuery(true);
 		$subquery1 = $db->getQuery(true);
@@ -379,18 +382,18 @@ class FinderIndexerTaxonomy
 
 	/**
 	 * Get a taxonomy based on its id or all taxonomies
-	 * 
+	 *
 	 * @param   integer  $id  Id of the taxonomy
-	 * 
+	 *
 	 * @return  object|array  A taxonomy object or an array of all taxonomies
-	 * 
-	 * @since   4.0.0
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getTaxonomy($id = 0)
 	{
 		if (!count(self::$taxonomies))
 		{
-			$db    = JFactory::getDbo();
+			$db    = Factory::getDbo();
 			$query = $db->getQuery(true);
 
 			$query->select(array('id','parent_id','lft','rgt','level','path','title','alias','state','access','language'))
@@ -416,12 +419,12 @@ class FinderIndexerTaxonomy
 
 	/**
 	 * Get a taxonomy branch object based on its title or all branches
-	 * 
+	 *
 	 * @param   string  $title  Title of the branch
-	 * 
+	 *
 	 * @return  object|array  The object with the branch data or an array of all branches
-	 * 
-	 * @since   4.0.0
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public static function getBranch($title = '')
 	{

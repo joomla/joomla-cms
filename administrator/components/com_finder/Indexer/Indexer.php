@@ -3,20 +3,20 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Component\Finder\Administrator\Indexer;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Profiler\Profiler;
 use Joomla\String\StringHelper;
-
-JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
-JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
-JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
-JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
-JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 /**
  * Main indexer class for the Finder indexer package.
@@ -31,7 +31,7 @@ JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
  *
  * @since  2.5
  */
-abstract class FinderIndexer
+abstract class Indexer
 {
 	/**
 	 * The title context identifier.
@@ -76,7 +76,7 @@ abstract class FinderIndexer
 	/**
 	 * The indexer state object.
 	 *
-	 * @var    JObject
+	 * @var    CMSObject
 	 * @since  2.5
 	 */
 	public static $state;
@@ -84,7 +84,7 @@ abstract class FinderIndexer
 	/**
 	 * The indexer profiler object.
 	 *
-	 * @var    JProfiler
+	 * @var    Profiler
 	 * @since  2.5
 	 */
 	public static $profiler;
@@ -112,14 +112,11 @@ abstract class FinderIndexer
 	 */
 	public function __construct()
 	{
-		$this->db = JFactory::getDbo();
+		$this->db = Factory::getDbo();
 
 		$db = $this->db;
 
-		/**
-		 * Set up query template for addTokensToDb, we will be cloning this template when needed.
-		 * This is about twice as fast as calling the clear function or setting up a new object.
-		 */
+		// Set up query template for addTokensToDb
 		$this->addTokensToDbQueryTemplate = $db->getQuery(true)->insert($db->quoteName('#__finder_tokens'))
 			->columns(
 				array(
@@ -137,7 +134,7 @@ abstract class FinderIndexer
 	/**
 	 * Returns a reference to the FinderIndexer object.
 	 *
-	 * @return  FinderIndexer instance based on the database driver
+	 * @return  Indexer instance based on the database driver
 	 *
 	 * @since   3.0
 	 * @throws  RuntimeException if driver class for indexer not present.
@@ -145,22 +142,18 @@ abstract class FinderIndexer
 	public static function getInstance()
 	{
 		// Setup the adapter for the indexer.
-		$serverType = JFactory::getDbo()->getServerType();
+		$serverType = Factory::getDbo()->getServerType();
 
-		$path = __DIR__ . '/driver/' . $serverType . '.php';
-		$class = 'FinderIndexerDriver' . ucfirst($serverType);
+		$class = '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Driver\\' . ucfirst($serverType);
 
 		// Check if a parser exists for the format.
-		if (file_exists($path))
+		if (class_exists($class))
 		{
-			// Instantiate the parser.
-			JLoader::register($class, $path);
-
 			return new $class;
 		}
 
 		// Throw invalid format exception.
-		throw new RuntimeException(JText::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $serverType));
+		throw new \RuntimeException(Text::sprintf('COM_FINDER_INDEXER_INVALID_DRIVER', $serverType));
 	}
 
 	/**
@@ -179,16 +172,16 @@ abstract class FinderIndexer
 		}
 
 		// If we couldn't load from the internal state, try the session.
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 		$data = $session->get('_finder.state', null);
 
 		// If the state is empty, load the values for the first time.
 		if (empty($data))
 		{
-			$data = new JObject;
+			$data = new CMSObject;
 
 			// Load the default configuration options.
-			$data->options = JComponentHelper::getParams('com_finder');
+			$data->options = ComponentHelper::getParams('com_finder');
 
 			// Setup the weight lookup information.
 			$data->weights = array(
@@ -200,7 +193,7 @@ abstract class FinderIndexer
 			);
 
 			// Set the current time as the start time.
-			$data->startTime = JFactory::getDate()->toSql();
+			$data->startTime = Factory::getDate()->toSql();
 
 			// Set the remaining default values.
 			$data->batchSize   = (int) $data->options->get('batch_size', 50);
@@ -210,9 +203,9 @@ abstract class FinderIndexer
 		}
 
 		// Setup the profiler if debugging is enabled.
-		if (JFactory::getApplication()->get('debug'))
+		if (Factory::getApplication()->get('debug'))
 		{
-			static::$profiler = JProfiler::getInstance('FinderIndexer');
+			static::$profiler = Profiler::getInstance('FinderIndexer');
 		}
 
 		// Set the state.
@@ -224,7 +217,7 @@ abstract class FinderIndexer
 	/**
 	 * Method to set the indexer state.
 	 *
-	 * @param   object  $data  A new indexer state object.
+	 * @param   CMSObject  $data  A new indexer state object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
@@ -233,7 +226,7 @@ abstract class FinderIndexer
 	public static function setState($data)
 	{
 		// Check the state object.
-		if (empty($data) || !$data instanceof JObject)
+		if (empty($data) || !$data instanceof CMSObject)
 		{
 			return false;
 		}
@@ -242,7 +235,7 @@ abstract class FinderIndexer
 		static::$state = $data;
 
 		// Set the new session state.
-		JFactory::getSession()->set('_finder.state', $data);
+		Factory::getSession()->set('_finder.state', $data);
 
 		return true;
 	}
@@ -260,14 +253,14 @@ abstract class FinderIndexer
 		self::$state = null;
 
 		// Reset the session state to null.
-		JFactory::getSession()->set('_finder.state', null);
+		Factory::getSession()->set('_finder.state', null);
 	}
 
 	/**
 	 * Method to index a content item.
 	 *
-	 * @param   FinderIndexerResult  $item    The content item to index.
-	 * @param   string               $format  The format of the content. [optional]
+	 * @param   Result  $item    The content item to index.
+	 * @param   string  $format  The format of the content. [optional]
 	 *
 	 * @return  integer  The ID of the record in the links table.
 	 *
@@ -318,10 +311,10 @@ abstract class FinderIndexer
 		$db->setQuery($query)->execute();
 
 		// Remove the taxonomy maps.
-		FinderIndexerTaxonomy::removeMaps($linkId);
+		Taxonomy::removeMaps($linkId);
 
 		// Remove the orphaned taxonomy nodes.
-		FinderIndexerTaxonomy::removeOrphanNodes();
+		Taxonomy::removeOrphanNodes();
 
 		return true;
 	}
@@ -455,7 +448,7 @@ abstract class FinderIndexer
 	private function tokenizeToDbShort($input, $context, $lang, $format, $count)
 	{
 		// Parse the input.
-		$input = FinderIndexerHelper::parse($input, $format);
+		$input = Helper::parse($input, $format);
 
 		// Check the input.
 		if (empty($input))
@@ -464,7 +457,7 @@ abstract class FinderIndexer
 		}
 
 		// Tokenize the input.
-		$tokens = FinderIndexerHelper::tokenize($input, $lang);
+		$tokens = Helper::tokenize($input, $lang);
 
 		if (count($tokens) == 0)
 		{
@@ -486,8 +479,8 @@ abstract class FinderIndexer
 	/**
 	 * Method to add a set of tokens to the database.
 	 *
-	 * @param   FinderIndexerToken[]|FinderIndexerToken  $tokens   An array or single FinderIndexerToken object.
-	 * @param   mixed                                    $context  The context of the tokens. See context constants. [optional]
+	 * @param   Token[]|Token  $tokens   An array or single Token object.
+	 * @param   mixed          $context  The context of the tokens. See context constants. [optional]
 	 *
 	 * @return  integer  The number of tokens inserted into the database.
 	 *
@@ -508,55 +501,40 @@ abstract class FinderIndexer
 		// Get the database object.
 		$db = $this->db;
 
+		$query = clone $this->addTokensToDbQueryTemplate;
+
 		// Count the number of token values.
 		$values = 0;
 
-		if (($tokens instanceof FinderIndexerToken) === false)
+		// Iterate through the tokens to create SQL value sets.
+		if (!is_a($tokens, Token::class))
 		{
-			// Break into chunks of no more than 1000 items
-			$chunks = count($tokens) > 1000
-				? array_chunk($tokens, 1000)
-				: array($tokens);
-
-			foreach ($chunks as $chunkTokens)
+			foreach ($tokens as $token)
 			{
-				$query = clone $this->addTokensToDbQueryTemplate;
-
-				// Iterate through the tokens to create SQL value sets.
-				foreach ($chunkTokens as $token)
+				if ($filterCommon && $token->common)
 				{
-					if ($filterCommon && $token->common)
-					{
-						continue;
-					}
-
-					if ($filterNumeric && $token->numeric)
-					{
-						continue;
-					}
-
-					$query->values(
-						$db->quote($token->term) . ', '
-						. $db->quote($token->stem) . ', '
-						. (int) $token->common . ', '
-						. (int) $token->phrase . ', '
-						. $db->quote($token->weight) . ', '
-						. (int) $context . ', '
-						. $db->quote($token->language)
-					);
-					$values++;
+					continue;
 				}
 
-				if ($query->values)
+				if ($filterNumeric && $token->numeric)
 				{
-					$db->setQuery($query)->execute();
+					continue;
 				}
+
+				$query->values(
+					$db->quote($token->term) . ', '
+					. $db->quote($token->stem) . ', '
+					. (int) $token->common . ', '
+					. (int) $token->phrase . ', '
+					. $db->quote($token->weight) . ', '
+					. (int) $context . ', '
+					. $db->quote($token->language)
+				);
+				$values++;
 			}
 		}
 		else
 		{
-			$query = clone $this->addTokensToDbQueryTemplate;
-
 			$query->values(
 				$db->quote($tokens->term) . ', '
 				. $db->quote($tokens->stem) . ', '
@@ -567,11 +545,11 @@ abstract class FinderIndexer
 				. $db->quote($tokens->language)
 			);
 			$values++;
+		}
 
-			if ($query->values)
-			{
-				$db->setQuery($query)->execute();
-			}
+		if ($query->values)
+		{
+			$db->setQuery($query)->execute();
 		}
 
 		return $values;

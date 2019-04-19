@@ -3,9 +3,11 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Component\Finder\Administrator\Indexer;
 
 defined('_JEXEC') or die;
 
@@ -16,7 +18,7 @@ use Joomla\String\StringHelper;
  *
  * @since  2.5
  */
-class FinderIndexerToken
+class Token
 {
 	/**
 	 * This is the term that will be referenced in the terms table and the
@@ -155,9 +157,9 @@ class FinderIndexerToken
 		{
 			// Populate the token instance.
 			$this->term = $term;
-			$this->stem = FinderIndexerHelper::stem($this->term, $lang);
+			$this->stem = Helper::stem($this->term, $lang);
 			$this->numeric = (is_numeric($this->term) || (bool) preg_match('#^[0-9,.\-\+]+$#', $this->term));
-			$this->common = $this->numeric ? false : FinderIndexerHelper::isCommon($this->term, $lang);
+			$this->common = $this->numeric ? false : Helper::isCommon($this->term, $lang);
 			$this->phrase = false;
 			$this->length = StringHelper::strlen($this->term);
 

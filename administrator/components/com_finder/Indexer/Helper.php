@@ -3,27 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Component\Finder\Administrator\Indexer;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
-
-JLoader::register('FinderIndexerLanguage', __DIR__ . '/language.php');
-JLoader::register('FinderIndexerParser', __DIR__ . '/parser.php');
-JLoader::register('FinderIndexerToken', __DIR__ . '/token.php');
 
 /**
  * Helper class for the Finder indexer package.
  *
  * @since  2.5
  */
-class FinderIndexerHelper
+class Helper
 {
 	/**
 	 * Method to parse input into plain text.
@@ -39,7 +40,7 @@ class FinderIndexerHelper
 	public static function parse($input, $format = 'html')
 	{
 		// Get a parser for the specified format and parse the input.
-		return FinderIndexerParser::getInstance($format)->parse($input);
+		return Parser::getInstance($format)->parse($input);
 	}
 
 	/**
@@ -49,7 +50,7 @@ class FinderIndexerHelper
 	 * @param   string   $lang    The language of the input.
 	 * @param   boolean  $phrase  Flag to indicate whether input could be a phrase. [optional]
 	 *
-	 * @return  array|FinderIndexerToken  An array of FinderIndexerToken objects or a single FinderIndexerToken object.
+	 * @return  Token[]  An array of Token objects.
 	 *
 	 * @since   2.5
 	 */
@@ -96,7 +97,7 @@ class FinderIndexerHelper
 			 * In order to not overwrite the language code of the language
 			 * object that we are using, we are cloning it here.
 			 */
-			$obj = FinderIndexerLanguage::getInstance($defaultLang);
+			$obj = Language::getInstance($defaultLang);
 			$defaultLanguage = clone $obj;
 			$defaultLanguage->language = '*';
 		}
@@ -107,7 +108,7 @@ class FinderIndexerHelper
 		}
 		else
 		{
-			$language = FinderIndexerLanguage::getInstance($lang);
+			$language = Language::getInstance($lang);
 		}
 
 		$tokens = array();
@@ -122,14 +123,14 @@ class FinderIndexerHelper
 		if ($phrase === true && count($terms) > 1)
 		{
 			// Create tokens from the phrase.
-			$tokens[] = new FinderIndexerToken($terms, $language->language, $language->spacer);
+			$tokens[] = new Token($terms, $language->language, $language->spacer);
 		}
 		else
 		{
 			// Create tokens from the terms.
 			for ($i = 0, $n = count($terms); $i < $n; $i++)
 			{
-				$tokens[] = new FinderIndexerToken($terms[$i], $language->language);
+				$tokens[] = new Token($terms[$i], $language->language);
 			}
 
 			// Create multi-word phrase tokens from the individual words.
@@ -148,7 +149,7 @@ class FinderIndexerHelper
 						}
 
 						$temp[] = $tokens[$i + $j]->term;
-						$token = new FinderIndexerToken($temp, $language->language, $language->spacer);
+						$token = new Token($temp, $language->language, $language->spacer);
 						$token->derived = true;
 
 						// Add the token to the stack.
@@ -185,15 +186,15 @@ class FinderIndexerHelper
 
 			if ($config->get('language_default', '') == '')
 			{
-				$defaultStemmer = FinderIndexerLanguage::getInstance('*');
+				$defaultStemmer = Language::getInstance('*');
 			}
 			elseif ($config->get('language_default', '') == '-1')
 			{
-				$defaultStemmer = FinderIndexerLanguage::getInstance(self::getDefaultLanguage());
+				$defaultStemmer = Language::getInstance(self::getDefaultLanguage());
 			}
 			else
 			{
-				$defaultStemmer = FinderIndexerLanguage::getInstance($config->get('language_default'));
+				$defaultStemmer = Language::getInstance($config->get('language_default'));
 			}
 		}
 
@@ -203,7 +204,7 @@ class FinderIndexerHelper
 		}
 		else
 		{
-			$language = FinderIndexerLanguage::getInstance($lang);
+			$language = Language::getInstance($lang);
 		}
 
 		return $language->stem($token);
@@ -224,7 +225,7 @@ class FinderIndexerHelper
 	{
 		static $types;
 
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true);
 
 		// Check if the types are loaded.
@@ -317,7 +318,7 @@ class FinderIndexerHelper
 	 */
 	public static function getCommonWords($lang)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Create the query to load all the common terms for the language.
 		$query = $db->getQuery(true)
@@ -370,7 +371,7 @@ class FinderIndexerHelper
 			if (is_callable(array('Locale', 'getPrimaryLanguage')))
 			{
 				// Get the language key using the Locale package.
-				$data[$lang] = Locale::getPrimaryLanguage($lang);
+				$data[$lang] = \Locale::getPrimaryLanguage($lang);
 			}
 			else
 			{
@@ -386,19 +387,19 @@ class FinderIndexerHelper
 	 * Method to get extra data for a content before being indexed. This is how
 	 * we add Comments, Tags, Labels, etc. that should be available to Finder.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success, false on failure.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	public static function getContentExtras(FinderIndexerResult $item)
+	public static function getContentExtras(Result $item)
 	{
 		// Load the finder plugin group.
-		JPluginHelper::importPlugin('finder');
+		PluginHelper::importPlugin('finder');
 
-		JFactory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
+		Factory::getApplication()->triggerEvent('onPrepareFinderContent', array(&$item));
 
 		return true;
 	}
@@ -406,22 +407,22 @@ class FinderIndexerHelper
 	/**
 	 * Method to process content text using the onContentPrepare event trigger.
 	 *
-	 * @param   string               $text    The content to process.
-	 * @param   Registry             $params  The parameters object. [optional]
-	 * @param   FinderIndexerResult  $item    The item which get prepared. [optional]
+	 * @param   string    $text    The content to process.
+	 * @param   Registry  $params  The parameters object. [optional]
+	 * @param   Result    $item    The item which get prepared. [optional]
 	 *
 	 * @return  string  The processed content.
 	 *
 	 * @since   2.5
 	 */
-	public static function prepareContent($text, $params = null, FinderIndexerResult $item = null)
+	public static function prepareContent($text, $params = null, Result $item = null)
 	{
 		static $loaded;
 
 		// Load the content plugins if necessary.
 		if (empty($loaded))
 		{
-			JPluginHelper::importPlugin('content');
+			PluginHelper::importPlugin('content');
 			$loaded = true;
 		}
 
@@ -433,7 +434,7 @@ class FinderIndexerHelper
 		}
 
 		// Create a mock content object.
-		$content       = JTable::getInstance('Content');
+		$content       = Table::getInstance('Content');
 		$content->text = $text;
 
 		if ($item)
@@ -448,7 +449,7 @@ class FinderIndexerHelper
 		}
 
 		// Fire the onContentPrepare event.
-		JFactory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
+		Factory::getApplication()->triggerEvent('onContentPrepare', array('com_finder.indexer', &$content, &$params, 0));
 
 		return $content->text;
 	}
