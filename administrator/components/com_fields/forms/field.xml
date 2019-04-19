@@ -264,42 +264,18 @@
 				<option value="0">COM_FIELDS_FIELD_DISPLAY_NO_DISPLAY</option>
 			</field>
 
-			<field
-				name="showprefix"
-				type="radio"
-				label="COM_FIELDS_FIELD_SHOWPREFIX_LABEL"
-				class="switcher"
-				default="0"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
-
  			<field
 				name="prefix"
 				type="text"
 				label="COM_FIELDS_FIELD_PREFIX_LABEL"
 				size="40"
-				showon="showprefix:1"
 			/>
-
-			<field
-				name="showsuffix"
-				type="radio"
-				label="COM_FIELDS_FIELD_SHOWSUFFIX_LABEL"
-				class="switcher"
-				default="0"
-				>
-				<option value="0">JHIDE</option>
-				<option value="1">JSHOW</option>
-			</field>
 
  			<field
 				name="suffix"
 				type="text"
 				label="COM_FIELDS_FIELD_SUFFIX_LABEL"
 				size="40"
-				showon="showsuffix:1"
 			/>
 
 			<field
