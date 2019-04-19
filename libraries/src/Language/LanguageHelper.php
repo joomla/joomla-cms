@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -441,7 +441,7 @@ class LanguageHelper
 		// Capture hidden PHP errors from the parsing.
 		if ($debug === true)
 		{
-			// See https://secure.php.net/manual/en/reserved.variables.phperrormsg.php
+			// See https://www.php.net/manual/en/reserved.variables.phperrormsg.php
 			$php_errormsg = null;
 
 			$trackErrors = ini_get('track_errors');

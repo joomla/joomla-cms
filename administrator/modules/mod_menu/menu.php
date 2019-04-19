@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,7 +53,7 @@ class JAdminCssMenu
 	 * The current user
 	 *
 	 * @var    User
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.1
 	 */
 	protected $user;
 
@@ -62,7 +62,7 @@ class JAdminCssMenu
 	 *
 	 * @param   User|null  $user  The current user
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.1
 	 */
 	public function __construct(User $user = null)
 	{

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_tags_tags_view_default_title" option="com_tags_tag_view_default_option">
+	<layout title="COM_TAGS_TAGS_VIEW_DEFAULT_TITLE" option="COM_TAGS_TAG_VIEW_DEFAULT_OPTION">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_TAGS_ITEMS_LIST_ALL"
 		/>
 		<message>
-			<![CDATA[com_tags_tags_view_default_desc]]>
+			<![CDATA[COM_TAGS_TAGS_VIEW_DEFAULT_DESC]]>
 		</message>
 	</layout>
 	<!-- Add fields to the request variables for the layout. -->
