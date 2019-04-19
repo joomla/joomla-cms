@@ -65,7 +65,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				<?php endif; ?>
 			</a>
 			<?php if (!$hideLinks) : ?>
-				<div class="dropdown-menu dropdown-menu-right dropdown-notifications">
+				<div class="dropdown-menu dropdown-menu-right dropdown-notifications border-0">
 					<div class="list-group">
 						<?php if (empty($messages)) : ?>
 						<p class="list-group-item text-center">
@@ -73,7 +73,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						</p>
 						<?php endif; ?>
 						<?php foreach ($messages as $message) : ?>
-						<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=700'); ?>" class="list-group-item list-group-item-action">
+						<a href="<?php echo Route::_('index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId); ?>" class="list-group-item list-group-item-action">
 							<h5 class="list-group-item-heading"><?php echo HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?></h5>
 							<p class="list-group-item-text small">
 								<?php echo HTMLHelper::_('string.truncate', Text::_($message->description_key), 120, false, false); ?>
@@ -97,7 +97,8 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						<span class="fa fa-user-o" aria-hidden="true"></span>
 						<?php echo $user->name; ?>
 					</div>
-					<?php $route = 'index.php?option=com_users&amp;task=user.edit&amp;id=' . $user->id; ?>
+					<?php $uri   = Uri::getInstance(); ?>
+					<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
 					<a class="dropdown-item" href="<?php echo Route::_($route); ?>">
 						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?></a>
 					<a class="dropdown-item" href="<?php echo Route::_('index.php?option=com_login&task=logout&'

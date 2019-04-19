@@ -32,7 +32,7 @@ abstract class InstallerHelper
 	 * Hash not validated identifier.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */	
 	const HASH_NOT_VALIDATED = 0;
 
@@ -40,17 +40,17 @@ abstract class InstallerHelper
 	 * Hash validated identifier.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
-	const HASH_VALIDATED     = 1;
+	const HASH_VALIDATED = 1;
 
 	/**
 	 * Hash not provided identifier.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
-	const HASH_NOT_PROVIDED  = 2;
+	const HASH_NOT_PROVIDED = 2;
 
 	/**
 	 * Downloads a package
@@ -341,31 +341,27 @@ abstract class InstallerHelper
 	/**
 	 * Return the result of the checksum of a package with the SHA256/SHA384/SHA512 tags in the update server manifest
 	 *
-	 * @param   string  $packagefile           Location of the package to be installed
-	 * @param   string  $updateServerManifest  Update Server manifest
+	 * @param   string  $packagefile   Location of the package to be installed
+	 * @param   Update  $updateObject  The Update Object
 	 *
 	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public static function isChecksumValid($packagefile, $updateServerManifest)
+	public static function isChecksumValid($packagefile, $updateObject)
 	{
-		$hashes     = array("sha256", "sha384", "sha512");
+		$hashes     = array('sha256', 'sha384', 'sha512');
 		$hashOnFile = false;
-
-		$update = new Update;
-		$update->loadFromXml($updateServerManifest);
 
 		foreach ($hashes as $hash)
 		{
-			if ($update->get($hash, false))
+			if ($updateObject->get($hash, false))
 			{
-				$hash_package = hash_file($hash, $packagefile);
-				$hash_remote  = $update->$hash->_data;
+				$hashPackage = hash_file($hash, $packagefile);
+				$hashRemote  = $updateObject->$hash->_data;
+				$hashOnFile  = true;
 
-				$hashOnFile   = true;
-
-				if ($hash_package !== $hash_remote)
+				if ($hashPackage !== $hashRemote)
 				{
 					return self::HASH_NOT_VALIDATED;
 				}

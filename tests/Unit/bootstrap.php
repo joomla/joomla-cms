@@ -4,15 +4,12 @@
  *
  * @package    Joomla.UnitTest
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  * @link       http://www.phpunit.de/manual/current/en/installation.html
  */
 
 define('_JEXEC', 1);
-
-// Fix magic quotes.
-ini_set('magic_quotes_runtime', 0);
 
 // Maximise error reporting.
 ini_set('zend.ze1_compatibility_mode', '0');

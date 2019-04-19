@@ -24,6 +24,14 @@ use Joomla\Registry\Registry;
 class Module extends Table
 {
 	/**
+	 * Indicates that columns fully support the NULL value in the database
+	 *
+	 * @var    boolean
+	 * @since  4.0.0
+	 */
+	protected $_supportNullValue = true;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param   DatabaseDriver  $db  Database driver object.
@@ -137,6 +145,17 @@ class Module extends Table
 			return false;
 		}
 
+		// Set publish_up, publish_down to null if not set
+		if (!$this->publish_up)
+		{
+			$this->publish_up = null;
+		}
+
+		if (!$this->publish_down)
+		{
+			$this->publish_down = null;
+		}
+
 		// Check the publish down date is not earlier than publish up.
 		if ((int) $this->publish_down > 0 && $this->publish_down < $this->publish_up)
 		{
@@ -187,23 +206,11 @@ class Module extends Table
 	 *
 	 * @since   3.7.0
 	 */
-	public function store($updateNulls = false)
+	public function store($updateNulls = true)
 	{
-		// Set publish_up, publish_down and checked_out_time to null date if not set
-		if (!$this->publish_up)
-		{
-			$this->publish_up = $this->_db->getNullDate();
-		}
-
-		if (!$this->publish_down)
-		{
-			$this->publish_down = $this->_db->getNullDate();
-		}
-
 		if (!$this->ordering)
 		{
-			$query = $this->_db->getQuery(true);
-			$this->ordering = $this->getNextOrder($query->quoteName('position') . ' = ' . $query->quote($this->position));
+			$this->ordering = $this->getNextOrder($this->_db->quoteName('position') . ' = ' . $this->_db->quote($this->position));
 		}
 
 		return parent::store($updateNulls);

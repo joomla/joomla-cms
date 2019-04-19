@@ -21,6 +21,7 @@ $value = $field->value;
 $showLabel = $field->params->get('showlabel');
 $prefix = Text::plural($field->params->get('prefix'), $value);
 $suffix = Text::plural($field->params->get('suffix'), $value);
+$labelClass = $field->params->get('label_render_class');
 
 if ($value == '')
 {
@@ -29,7 +30,7 @@ if ($value == '')
 
 ?>
 <?php if ($showLabel == 1) : ?>
-	<span class="field-label"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
+	<span class="field-label <?php echo $labelClass; ?>"><?php echo htmlentities($label, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?>: </span>
 <?php endif; ?>
 <?php if ($prefix) : ?>
 	<span class="field-prefix"><?php echo htmlentities($prefix, ENT_QUOTES | ENT_IGNORE, 'UTF-8'); ?></span>
