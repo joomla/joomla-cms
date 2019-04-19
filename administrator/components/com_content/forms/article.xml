@@ -61,7 +61,7 @@
 			type="transition"
 			component="com_content"
 			label="COM_CONTENT_TRANSITION"
-            class="custom-select-color-state"
+			class="custom-select-color-state"
 		>
 		</field>
 
