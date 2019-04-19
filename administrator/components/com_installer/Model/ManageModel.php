@@ -152,6 +152,10 @@ class ManageModel extends InstallerModel
 			{
 				$table->enabled = $value;
 			}
+		
+			$context = $this->option . '.' . $this->name;
+			JPluginHelper::importPlugin('extension');
+			JEventDispatcher::getInstance()->trigger('onExtensionChangeState', array($context, $eid, $value));
 
 			if (!$table->store())
 			{
@@ -394,7 +398,7 @@ class ManageModel extends InstallerModel
 	 *
 	 * @return  string  The output to show in the modal.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function loadChangelog($eid, $source)
 	{

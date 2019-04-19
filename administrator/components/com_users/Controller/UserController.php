@@ -64,7 +64,7 @@ class UserController extends FormController
 	 *
 	 * @return  boolean  True if access level checks pass, false otherwise.
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function cancel($key = null)
 	{
@@ -89,7 +89,7 @@ class UserController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('User', 'Administrator', array());
