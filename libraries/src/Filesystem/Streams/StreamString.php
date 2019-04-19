@@ -123,7 +123,7 @@ class StreamString
 	 *
 	 * @return  array
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-stat.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-stat.php
 	 * @since   1.7.0
 	 */
 	public function stream_stat()
@@ -139,7 +139,7 @@ class StreamString
 	 *
 	 * @return  array
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.url-stat.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.url-stat.php
 	 * @since   1.7.0
 	 */
 	public function url_stat($path, $flags = 0)
@@ -176,7 +176,7 @@ class StreamString
 	 *
 	 * @since   1.7.0
 	 *
-	 * @link    https://secure.php.net/manual/en/streamwrapper.stream-read.php
+	 * @link    https://www.php.net/manual/en/streamwrapper.stream-read.php
 	 */
 	public function stream_read($count)
 	{
