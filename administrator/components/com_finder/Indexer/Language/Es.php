@@ -7,14 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer\Language;
+
 defined('_JEXEC') or die;
+
+use Joomla\Component\Finder\Administrator\Indexer\Language;
 
 /**
  * Spanish language support class for the Finder indexer package.
  *
  * @since  4.0.0
  */
-class FinderIndexerLanguagees extends FinderIndexerLanguage
+class Es extends Language
 {
 	/**
 	 * Language locale of the class

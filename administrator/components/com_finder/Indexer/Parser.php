@@ -3,62 +3,65 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Filter\InputFilter;
+use Joomla\CMS\Language\Text;
 
 /**
  * Parser base class for the Finder indexer package.
  *
  * @since  2.5
  */
-abstract class FinderIndexerParser
+abstract class Parser
 {
+	/**
+	 * Parser support instances container.
+	 *
+	 * @var    Parser[]
+	 * @since  4.0.0
+	 */
+	protected static $instances = array();
+
 	/**
 	 * Method to get a parser, creating it if necessary.
 	 *
 	 * @param   string  $format  The type of parser to load.
 	 *
-	 * @return  FinderIndexerParser  A FinderIndexerParser instance.
+	 * @return  Parser  A Parser instance.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on invalid parser.
 	 */
 	public static function getInstance($format)
 	{
-		static $instances;
+		$format = InputFilter::getInstance()->clean($format, 'cmd');
 
 		// Only create one parser for each format.
-		if (isset($instances[$format]))
+		if (isset(self::$instances[$format]))
 		{
-			return $instances[$format];
-		}
-
-		// Create an array of instances if necessary.
-		if (!is_array($instances))
-		{
-			$instances = array();
+			return self::$instances[$format];
 		}
 
 		// Setup the adapter for the parser.
-		$format = JFilterInput::getInstance()->clean($format, 'cmd');
-		$path = __DIR__ . '/parser/' . $format . '.php';
-		$class = 'FinderIndexerParser' . ucfirst($format);
+		$class = '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Parser\\' . ucfirst($format);
 
 		// Check if a parser exists for the format.
-		if (!file_exists($path))
+		if (class_exists($class))
 		{
-			// Throw invalid format exception.
-			throw new Exception(JText::sprintf('COM_FINDER_INDEXER_INVALID_PARSER', $format));
+			self::$instances[$format] = new $class;
+
+			return self::$instances[$format];
 		}
 
-		// Instantiate the parser.
-		JLoader::register($class, $path);
-		$instances[$format] = new $class;
-
-		return $instances[$format];
+		// Throw invalid format exception.
+		throw new Exception(Text::sprintf('COM_FINDER_INDEXER_INVALID_PARSER', $format));
 	}
 
 	/**

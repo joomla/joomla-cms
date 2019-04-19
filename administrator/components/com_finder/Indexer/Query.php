@@ -3,29 +3,29 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\Component\Finder\Administrator\Indexer;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Uri\Uri;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
-JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
-JLoader::register('FinderHelperRoute', JPATH_SITE . '/components/com_finder/helpers/route.php');
-
 
 /**
  * Query class for the Finder indexer package.
  *
  * @since  2.5
  */
-class FinderIndexerQuery
+class Query
 {
 	/**
 	 * Flag to show whether the query can return results.
@@ -62,7 +62,7 @@ class FinderIndexerQuery
 	/**
 	 * The included tokens.
 	 *
-	 * @var    array
+	 * @var    Token[]
 	 * @since  2.5
 	 */
 	public $included = array();
@@ -70,7 +70,7 @@ class FinderIndexerQuery
 	/**
 	 * The excluded tokens.
 	 *
-	 * @var    array
+	 * @var    Token[]
 	 * @since  2.5
 	 */
 	public $excluded = array();
@@ -78,7 +78,7 @@ class FinderIndexerQuery
 	/**
 	 * The tokens to ignore because no matches exist.
 	 *
-	 * @var    array
+	 * @var    Token[]
 	 * @since  2.5
 	 */
 	public $ignored = array();
@@ -111,7 +111,7 @@ class FinderIndexerQuery
 	 * Allow empty searches
 	 *
 	 * @var    boolean
-	 * @since  4.0.0
+	 * @since  __DEPLOY_VERSION__
 	 */
 	public $empty;
 
@@ -188,7 +188,7 @@ class FinderIndexerQuery
 		$this->empty = isset($options['empty']) ? (bool) $options['empty'] : false;
 
 		// Get the input language.
-		$this->language = !empty($options['language']) ? $options['language'] : FinderIndexerHelper::getDefaultLanguage();
+		$this->language = !empty($options['language']) ? $options['language'] : Helper::getDefaultLanguage();
 
 		// Get the matching mode.
 		$this->mode = 'AND';
@@ -290,7 +290,7 @@ class FinderIndexerQuery
 		}
 
 		// Get the base URI.
-		$uri = JUri::getInstance($base);
+		$uri = Uri::getInstance($base);
 
 		// Add the static taxonomy filter if present.
 		if ((bool) $this->filter)
@@ -299,7 +299,7 @@ class FinderIndexerQuery
 		}
 
 		// Get the filters in the request.
-		$t = JFactory::getApplication()->input->request->get('t', array(), 'array');
+		$t = Factory::getApplication()->input->request->get('t', array(), 'array');
 
 		// Add the dynamic taxonomy filters if present.
 		if ((bool) $this->filters)
@@ -501,10 +501,10 @@ class FinderIndexerQuery
 	protected function processStaticTaxonomy($filterId)
 	{
 		// Get the database object.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Initialize user variables
-		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
 		// Load the predefined filter.
 		$query = $db->getQuery(true)
@@ -596,7 +596,7 @@ class FinderIndexerQuery
 	protected function processDynamicTaxonomy($filters)
 	{
 		// Initialize user variables
-		$groups = implode(',', JFactory::getUser()->getAuthorisedViewLevels());
+		$groups = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 
 		// Remove duplicates and sanitize.
 		$filters = array_unique($filters);
@@ -615,7 +615,7 @@ class FinderIndexerQuery
 		}
 
 		// Get the database object.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$query = $db->getQuery(true);
 
@@ -690,19 +690,19 @@ class FinderIndexerQuery
 		$when2 = trim(StringHelper::strtolower($when2));
 
 		// Get the time offset.
-		$offset = JFactory::getApplication()->get('offset');
+		$offset = Factory::getApplication()->get('offset');
 
 		// Array of allowed when values.
 		$whens = array('before', 'after', 'exact');
 
 		// The value of 'today' is a special case that we need to handle.
-		if ($date1 === StringHelper::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
+		if ($date1 === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY')))
 		{
-			$date1 = JFactory::getDate('now', $offset)->format('%Y-%m-%d');
+			$date1 = Factory::getDate('now', $offset)->format('%Y-%m-%d');
 		}
 
 		// Try to parse the date string.
-		$date = JFactory::getDate($date1, $offset);
+		$date = Factory::getDate($date1, $offset);
 
 		// Check if the date was parsed successfully.
 		if ($date->toUnix() !== null)
@@ -713,13 +713,13 @@ class FinderIndexerQuery
 		}
 
 		// The value of 'today' is a special case that we need to handle.
-		if ($date2 === StringHelper::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
+		if ($date2 === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY')))
 		{
-			$date2 = JFactory::getDate('now', $offset)->format('%Y-%m-%d');
+			$date2 = Factory::getDate('now', $offset)->format('%Y-%m-%d');
 		}
 
 		// Try to parse the date string.
-		$date = JFactory::getDate($date2, $offset);
+		$date = Factory::getDate($date2, $offset);
 
 		// Check if the date was parsed successfully.
 		if ($date->toUnix() !== null)
@@ -752,7 +752,7 @@ class FinderIndexerQuery
 		$input  = StringHelper::strtolower($input);
 		$input  = preg_replace('#\s+#mi', ' ', $input);
 		$input  = trim($input);
-		$debug  = JFactory::getApplication()->get('debug_lang');
+		$debug  = Factory::getApplication()->get('debug_lang');
 		$params = ComponentHelper::getParams('com_finder');
 
 		/*
@@ -761,15 +761,15 @@ class FinderIndexerQuery
 		 * "before:2009-10-21" or "type:article", etc.
 		 */
 		$patterns = array(
-			'before' => JText::_('COM_FINDER_FILTER_WHEN_BEFORE'),
-			'after'  => JText::_('COM_FINDER_FILTER_WHEN_AFTER'),
+			'before' => Text::_('COM_FINDER_FILTER_WHEN_BEFORE'),
+			'after'  => Text::_('COM_FINDER_FILTER_WHEN_AFTER'),
 		);
 
 		// Add the taxonomy branch titles to the possible patterns.
-		foreach (FinderIndexerTaxonomy::getBranchTitles() as $branch)
+		foreach (Taxonomy::getBranchTitles() as $branch)
 		{
 			// Add the pattern.
-			$patterns[$branch] = StringHelper::strtolower(JText::_(FinderHelperLanguage::branchSingular($branch)));
+			$patterns[$branch] = StringHelper::strtolower(Text::_(Language::branchSingular($branch)));
 		}
 
 		// Container for search terms and phrases.
@@ -815,19 +815,19 @@ class FinderIndexerQuery
 					case 'after':
 					{
 						// Get the time offset.
-						$offset = JFactory::getApplication()->get('offset');
+						$offset = Factory::getApplication()->get('offset');
 
 						// Array of allowed when values.
 						$whens = array('before', 'after', 'exact');
 
 						// The value of 'today' is a special case that we need to handle.
-						if ($value === StringHelper::strtolower(JText::_('COM_FINDER_QUERY_FILTER_TODAY')))
+						if ($value === StringHelper::strtolower(Text::_('COM_FINDER_QUERY_FILTER_TODAY')))
 						{
-							$value = JFactory::getDate('now', $offset)->format('%Y-%m-%d');
+							$value = Factory::getDate('now', $offset)->format('%Y-%m-%d');
 						}
 
 						// Try to parse the date string.
-						$date = JFactory::getDate($value, $offset);
+						$date = Factory::getDate($value, $offset);
 
 						// Check if the date was parsed successfully.
 						if ($date->toUnix() !== null)
@@ -844,7 +844,7 @@ class FinderIndexerQuery
 					default:
 					{
 						// Try to find the node id.
-						$return = FinderIndexerTaxonomy::getNodeByTitle($modifier, $value);
+						$return = Taxonomy::getNodeByTitle($modifier, $value);
 
 						// Check if the node id was found.
 						if ($return)
@@ -965,9 +965,9 @@ class FinderIndexerQuery
 
 		// An array of our boolean operators. $operator => $translation
 		$operators = array(
-			'AND' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_AND')),
-			'OR'  => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_OR')),
-			'NOT' => StringHelper::strtolower(JText::_('COM_FINDER_QUERY_OPERATOR_NOT')),
+			'AND' => StringHelper::strtolower(Text::_('COM_FINDER_QUERY_OPERATOR_AND')),
+			'OR'  => StringHelper::strtolower(Text::_('COM_FINDER_QUERY_OPERATOR_OR')),
+			'NOT' => StringHelper::strtolower(Text::_('COM_FINDER_QUERY_OPERATOR_NOT')),
 		);
 
 		// If language debugging is enabled you need to ignore the debug strings in matching.
@@ -994,7 +994,7 @@ class FinderIndexerQuery
 				if ($op === 'AND' && isset($terms[$i + 2]))
 				{
 					// Tokenize the current term.
-					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
+					$token = Helper::tokenize($terms[$i], $lang, true);
 
 					// Todo: The previous function call may return an array, which seems not to be handled by the next one, which expects an object
 					$token = $this->getTokenData(array_shift($token));
@@ -1020,7 +1020,7 @@ class FinderIndexerQuery
 					$this->operators[] = $terms[$i + 1];
 
 					// Tokenize the term after the next term (current plus two).
-					$other = FinderIndexerHelper::tokenize($terms[$i + 2], $lang, true);
+					$other = Helper::tokenize($terms[$i + 2], $lang, true);
 					$other = $this->getTokenData(array_shift($other));
 
 					// Set the required flag.
@@ -1052,7 +1052,7 @@ class FinderIndexerQuery
 				elseif ($op === 'OR' && isset($terms[$i + 2]))
 				{
 					// Tokenize the current term.
-					$token = FinderIndexerHelper::tokenize($terms[$i], $lang, true);
+					$token = Helper::tokenize($terms[$i], $lang, true);
 					$token = $this->getTokenData(array_shift($token));
 
 					if ($params->get('filter_commonwords', 0) && $token->common)
@@ -1083,7 +1083,7 @@ class FinderIndexerQuery
 					$this->operators[] = $terms[$i + 1];
 
 					// Tokenize the term after the next term (current plus two).
-					$other = FinderIndexerHelper::tokenize($terms[$i + 2], $lang, true);
+					$other = Helper::tokenize($terms[$i + 2], $lang, true);
 					$other = $this->getTokenData(array_shift($other));
 
 					// Set the required flag.
@@ -1126,7 +1126,7 @@ class FinderIndexerQuery
 				$this->operators[] = $terms[$i];
 
 				// Tokenize the next term (current plus one).
-				$other = FinderIndexerHelper::tokenize($terms[$i + 1], $lang, true);
+				$other = Helper::tokenize($terms[$i + 1], $lang, true);
 				$other = $this->getTokenData(array_shift($other));
 
 				if ($params->get('filter_commonwords', 0) && $other->common)
@@ -1173,7 +1173,7 @@ class FinderIndexerQuery
 				$this->operators[] = $terms[$i];
 
 				// Tokenize the next term (current plus one).
-				$other = FinderIndexerHelper::tokenize($terms[$i + 1], $lang, true);
+				$other = Helper::tokenize($terms[$i + 1], $lang, true);
 				$other = $this->getTokenData(array_shift($other));
 
 				if ($params->get('filter_commonwords', 0) && $other->common)
@@ -1222,7 +1222,7 @@ class FinderIndexerQuery
 		for ($i = 0, $c = count($phrases); $i < $c; $i++)
 		{
 			// Tokenize the phrase.
-			$token = FinderIndexerHelper::tokenize($phrases[$i], $lang, true);
+			$token = Helper::tokenize($phrases[$i], $lang, true);
 			$token = $this->getTokenData(array_shift($token));
 
 			if ($params->get('filter_commonwords', 0) && $token->common)
@@ -1259,7 +1259,7 @@ class FinderIndexerQuery
 		{
 			// Tokenize the terms.
 			$terms  = implode(' ', $terms);
-			$tokens = FinderIndexerHelper::tokenize($terms, $lang, false);
+			$tokens = Helper::tokenize($terms, $lang, false);
 
 			// Make sure we are working with an array.
 			$tokens = is_array($tokens) ? $tokens : array($tokens);
@@ -1307,9 +1307,9 @@ class FinderIndexerQuery
 	 * that term and we should try to find a similar term to use that we can
 	 * match so that we can suggest the alternative search query to the user.
 	 *
-	 * @param   FinderIndexerToken  $token  A FinderIndexerToken object.
+	 * @param   Token  $token  A Token object.
 	 *
-	 * @return  FinderIndexerToken  A FinderIndexerToken object.
+	 * @return  Token  A Token object.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -1317,7 +1317,7 @@ class FinderIndexerQuery
 	protected function getTokenData($token)
 	{
 		// Get the database object.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Create a database query to build match the token.
 		$query = $db->getQuery(true)
@@ -1361,7 +1361,6 @@ class FinderIndexerQuery
 		if (empty($token->matches))
 		{
 			// Create a database query to get the similar terms.
-			// TODO: PostgreSQL doesn't support SOUNDEX out of the box
 			$query->clear()
 				->select('DISTINCT t.term_id AS id, t.term AS term')
 				->from('#__finder_terms AS t')

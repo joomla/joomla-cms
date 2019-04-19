@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer;
+
 defined('_JEXEC') or die;
 
 use Joomla\String\StringHelper;
@@ -16,15 +18,15 @@ use Joomla\String\StringHelper;
  *
  * @since  4.0.0
  */
-class FinderIndexerLanguage
+class Language
 {
 	/**
 	 * Language support instances container.
 	 *
-	 * @var    FinderIndexerLanguage[]
+	 * @var    Language[]
 	 * @since  4.0.0
 	 */
-	protected $instances = array();
+	protected static $instances = array();
 
 	/**
 	 * Language locale of the class
@@ -47,44 +49,38 @@ class FinderIndexerLanguage
 	 *
 	 * @param   string  $language  The language of the support object.
 	 *
-	 * @return  FinderIndexerLanguage  A FinderIndexerLanguage instance.
+	 * @return  Language  A Language instance.
 	 *
 	 * @since   4.0.0
 	 */
 	public static function getInstance($language)
 	{
-		if (isset($instances[$language]))
+		if (isset(self::$instances[$language]))
 		{
-			return $instances[$language];
+			return self::$instances[$language];
 		}
 
 		if ($language == '*')
 		{
-			$instances[$language] = new FinderIndexerLanguage;
+			self::$instances[$language] = new self;
 
-			return $instances[$language];
+			return self::$instances[$language];
 		}
 
-		$locale = FinderIndexerHelper::getPrimaryLanguage($language);
-		$class = 'FinderIndexerLanguage' . $locale;
-		$path = __DIR__ . '/language/' . $locale . '.php';
-
-		if (is_file($path))
-		{
-			JLoader::register($class, $path);
-		}
+		$locale = Helper::getPrimaryLanguage($language);
+		$class = '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Language\\' . ucfirst($locale);
 
 		if (class_exists($class))
 		{
-			$instances[$language] = new $class;
+			self::$instances[$language] = new $class;
 		}
 		else
 		{
-			$instances[$language] = new FinderIndexerLanguage;
-			$instances[$language]->language = $locale;
+			self::$instances[$language] = new self;
+			self::$instances[$language]->language = $locale;
 		}
 
-		return $instances[$language];
+		return self::$instances[$language];
 	}
 
 	/**

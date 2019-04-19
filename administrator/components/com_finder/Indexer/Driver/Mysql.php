@@ -7,7 +7,15 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer\Driver;
+
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
 
 /**
  * Indexer class supporting MySQL(i) for the Finder indexer package.
@@ -22,13 +30,13 @@ defined('_JEXEC') or die;
  *
  * @since  3.0
  */
-class FinderIndexerDriverMysql extends FinderIndexer
+class Mysql extends Indexer
 {
 	/**
 	 * Method to index a content item.
 	 *
-	 * @param   FinderIndexerResult  $item    The content item to index.
-	 * @param   string               $format  The format of the content. [optional]
+	 * @param   Result  $item    The content item to index.
+	 * @param   string  $format  The format of the content. [optional]
 	 *
 	 * @return  integer  The ID of the record in the links table.
 	 *
@@ -84,7 +92,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 			$db->execute();
 
 			// Remove the taxonomy maps.
-			FinderIndexerTaxonomy::removeMaps($linkId);
+			Taxonomy::removeMaps($linkId);
 		}
 
 		// Mark afterUnmapping in the profiler.
@@ -97,19 +105,19 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		$item->end_date = (int) $item->end_date != 0 ? $item->end_date : $nd;
 
 		// Prepare the item description.
-		$item->description = FinderIndexerHelper::parse($item->summary);
+		$item->description = Helper::parse($item->summary);
 
 		/*
 		 * Now, we need to enter the item into the links table. If the item
 		 * already exists in the database, we need to use an UPDATE query.
 		 * Otherwise, we need to use an INSERT to get the link id back.
 		 */
-		$entry = new stdClass;
+		$entry = new \stdClass;
 		$entry->url = $item->url;
 		$entry->route = $item->route;
 		$entry->title = $item->title;
 		$entry->description = $item->description;
-		$entry->indexdate = JFactory::getDate()->toSql();
+		$entry->indexdate = Factory::getDate()->toSql();
 		$entry->state = (int) $item->state;
 		$entry->access = (int) $item->access;
 		$entry->language = $item->language;
@@ -176,7 +184,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 						 */
 						if ($group === static::PATH_CONTEXT)
 						{
-							$ip = JFile::stripExt($ip);
+							$ip = File::stripExt($ip);
 							$ip = str_replace(array('/', '-'), ' ', $ip);
 						}
 
@@ -199,7 +207,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 					 */
 					if ($group === static::PATH_CONTEXT)
 					{
-						$item->$property = JFile::stripExt($item->$property);
+						$item->$property = File::stripExt($item->$property);
 						$item->$property = str_replace('/', ' ', $item->$property);
 						$item->$property = str_replace('-', ' ', $item->$property);
 					}
@@ -228,15 +236,15 @@ class FinderIndexerDriverMysql extends FinderIndexer
 				// Add the node to the tree.
 				if ($node->nested)
 				{
-					$nodeId = FinderIndexerTaxonomy::addNestedNode($branch, $node->node, $node->state, $node->access, $node->language);
+					$nodeId = Taxonomy::addNestedNode($branch, $node->node, $node->state, $node->access, $node->language);
 				}
 				else
 				{
-					$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
+					$nodeId = Taxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
 				}
 
 				// Add the link => node map.
-				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
+				Taxonomy::addMap($linkId, $nodeId);
 				$node->id = $nodeId;
 
 				// Tokenize the node title and add them to the database.
@@ -436,7 +444,7 @@ class FinderIndexerDriverMysql extends FinderIndexer
 		$db->execute();
 
 		// Remove the orphaned taxonomy nodes.
-		FinderIndexerTaxonomy::removeOrphanNodes();
+		Taxonomy::removeOrphanNodes();
 
 		// Optimize the taxonomy mapping table.
 		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));

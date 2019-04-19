@@ -3,25 +3,26 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Database\DatabaseInterface;
+use Joomla\Database\QueryInterface;
 use Joomla\Utilities\ArrayHelper;
-
-JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
-JLoader::register('FinderIndexerHelper', __DIR__ . '/helper.php');
-JLoader::register('FinderIndexerResult', __DIR__ . '/result.php');
-JLoader::register('FinderIndexerTaxonomy', __DIR__ . '/taxonomy.php');
 
 /**
  * Prototype adapter class for the Finder indexer package.
  *
  * @since  2.5
  */
-abstract class FinderIndexerAdapter extends JPlugin
+abstract class Adapter extends CMSPlugin
 {
 	/**
 	 * The context is somewhat arbitrary but it must be unique or there will be
@@ -93,7 +94,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * The database object.
 	 *
-	 * @var    object
+	 * @var    DatabaseInterface
 	 * @since  2.5
 	 */
 	protected $db;
@@ -109,7 +110,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * The indexer object.
 	 *
-	 * @var    FinderIndexer
+	 * @var    Indexer
 	 * @since  3.0
 	 */
 	protected $indexer;
@@ -133,7 +134,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	public function __construct(&$subject, $config)
 	{
 		// Get the database object.
-		$this->db = JFactory::getDbo();
+		$this->db = Factory::getDbo();
 
 		// Call the parent constructor.
 		parent::__construct($subject, $config);
@@ -144,7 +145,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Add the content type if it doesn't exist and is set.
 		if (empty($this->type_id) && !empty($this->type_title))
 		{
-			$this->type_id = FinderIndexerHelper::addContentType($this->type_title, $this->mime);
+			$this->type_id = Helper::addContentType($this->type_title, $this->mime);
 		}
 
 		// Check for a layout override.
@@ -154,7 +155,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		}
 
 		// Get the indexer object
-		$this->indexer = FinderIndexer::getInstance();
+		$this->indexer = Indexer::getInstance();
 	}
 
 	/**
@@ -168,7 +169,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	public function onStartIndex()
 	{
 		// Get the indexer state.
-		$iState = FinderIndexer::getState();
+		$iState = Indexer::getState();
 
 		// Get the number of content items.
 		$total = (int) $this->getContentCount();
@@ -181,7 +182,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$iState->pluginState[$this->context]['offset'] = 0;
 
 		// Set the indexer state.
-		FinderIndexer::setState($iState);
+		Indexer::setState($iState);
 	}
 
 	/**
@@ -196,7 +197,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	public function onBeforeIndex()
 	{
 		// Get the indexer and adapter state.
-		$iState = FinderIndexer::getState();
+		$iState = Indexer::getState();
 		$aState = $iState->pluginState[$this->context];
 
 		// Check the progress of the indexer and the adapter.
@@ -223,7 +224,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	public function onBuildIndex()
 	{
 		// Get the indexer and adapter state.
-		$iState = FinderIndexer::getState();
+		$iState = Indexer::getState();
 		$aState = $iState->pluginState[$this->context];
 
 		// Check the progress of the indexer and the adapter.
@@ -254,7 +255,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		// Update the indexer state.
 		$aState['offset'] = $offset;
 		$iState->pluginState[$this->context] = $aState;
-		FinderIndexer::setState($iState);
+		Indexer::setState($iState);
 
 		return true;
 	}
@@ -298,14 +299,14 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to index an item.
 	 *
-	 * @param   FinderIndexerResult  $item  The item to index as a FinderIndexerResult object.
+	 * @param   Result  $item  The item to index as a FinderIndexerResult object.
 	 *
 	 * @return  boolean  True on success.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
 	 */
-	abstract protected function index(FinderIndexerResult $item);
+	abstract protected function index(Result $item);
 
 	/**
 	 * Method to reindex an item.
@@ -517,7 +518,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		}
 
 		// Tweak the SQL query to make the total lookup faster.
-		if ($query instanceof JDatabaseQuery)
+		if ($query instanceof QueryInterface)
 		{
 			$query = clone $query;
 			$query->clear('select')
@@ -536,7 +537,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   integer  $id  The id of the content item.
 	 *
-	 * @return  FinderIndexerResult  A FinderIndexerResult object.
+	 * @return  Result  A FinderIndexerResult object.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -552,7 +553,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$row = $this->db->loadAssoc();
 
 		// Convert the item to a result object.
-		$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
+		$item = ArrayHelper::toObject((array) $row, Result::class);
 
 		// Set the item type.
 		$item->type_id = $this->type_id;
@@ -568,9 +569,9 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   integer         $offset  The list offset.
 	 * @param   integer         $limit   The list limit.
-	 * @param   JDatabaseQuery  $query   A JDatabaseQuery object. [optional]
+	 * @param   QueryInterface  $query   A QueryInterface object. [optional]
 	 *
-	 * @return  array  An array of FinderIndexerResult objects.
+	 * @return  Result[]  An array of Result objects.
 	 *
 	 * @since   2.5
 	 * @throws  Exception on database error.
@@ -587,7 +588,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		foreach ($rows as $row)
 		{
 			// Convert the item to a result object.
-			$item = ArrayHelper::toObject((array) $row, 'FinderIndexerResult');
+			$item = ArrayHelper::toObject((array) $row, Result::class);
 
 			// Set the item type.
 			$item->type_id = $this->type_id;
@@ -614,16 +615,16 @@ abstract class FinderIndexerAdapter extends JPlugin
 	/**
 	 * Method to get the SQL query used to retrieve the list of content items.
 	 *
-	 * @param   mixed  $query  A JDatabaseQuery object. [optional]
+	 * @param   mixed  $query  A QueryInterface object. [optional]
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  QueryInterface  A database object.
 	 *
 	 * @since   2.5
 	 */
 	protected function getListQuery($query = null)
 	{
 		// Check if we can use the supplied SQL query.
-		return $query instanceof JDatabaseQuery ? $query : $this->db->getQuery(true);
+		return $query instanceof QueryInterface ? $query : $this->db->getQuery(true);
 	}
 
 	/**
@@ -651,7 +652,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 * Method to get a SQL query to load the published and access states for
 	 * an article and category.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  QueryInterface  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -678,7 +679,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   string  $time  The modified timestamp.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  QueryInterface  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -696,7 +697,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 	 *
 	 * @param   array  $ids  The ids to load.
 	 *
-	 * @return  JDatabaseQuery  A database object.
+	 * @return  QueryInterface  A database object.
 	 *
 	 * @since   2.5
 	 */
@@ -762,7 +763,7 @@ abstract class FinderIndexerAdapter extends JPlugin
 		$return = null;
 
 		// Set variables
-		$user = JFactory::getUser();
+		$user = Factory::getUser();
 		$groups = implode(',', $user->getAuthorisedViewLevels());
 
 		// Build a query to get the menu params.

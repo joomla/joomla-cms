@@ -3,14 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Tree\ImmutableNodeInterface;
-JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
 
 /**
  * Result class for the Finder indexer package.
@@ -22,7 +24,7 @@ JLoader::register('FinderIndexer', __DIR__ . '/indexer.php');
  *
  * @since  2.5
  */
-class FinderIndexerResult implements Serializable
+class Result implements \Serializable
 {
 	/**
 	 * An array of extra result properties.
@@ -40,11 +42,11 @@ class FinderIndexerResult implements Serializable
 	 * @since  2.5
 	 */
 	protected $instructions = array(
-		FinderIndexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
-		FinderIndexer::TEXT_CONTEXT  => array('summary', 'body'),
-		FinderIndexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
-		FinderIndexer::PATH_CONTEXT  => array('path', 'alias'),
-		FinderIndexer::MISC_CONTEXT  => array('comments'),
+		Indexer::TITLE_CONTEXT => array('title', 'subtitle', 'id'),
+		Indexer::TEXT_CONTEXT  => array('summary', 'body'),
+		Indexer::META_CONTEXT  => array('meta', 'list_price', 'sale_price'),
+		Indexer::PATH_CONTEXT  => array('path', 'alias'),
+		Indexer::MISC_CONTEXT  => array('comments'),
 	);
 
 	/**
@@ -192,7 +194,7 @@ class FinderIndexerResult implements Serializable
 	 */
 	public function __construct()
 	{
-		$this->defaultLanguage = JComponentHelper::getParams('com_languages')->get('site', 'en-GB');
+		$this->defaultLanguage = ComponentHelper::getParams('com_languages')->get('site', 'en-GB');
 	}
 
 	/**
@@ -398,7 +400,7 @@ class FinderIndexerResult implements Serializable
 		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
 		// Create the taxonomy node.
-		$node = new stdClass;
+		$node = new \stdClass;
 		$node->title = $title;
 		$node->state = (int) $state;
 		$node->access = (int) $access;
@@ -420,7 +422,7 @@ class FinderIndexerResult implements Serializable
 	 *
 	 * @return  void
 	 *
-	 * @since   4.0.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function addNestedTaxonomy($branch, ImmutableNodeInterface $contentNode, $state = 1, $access = 1, $language = '')
 	{
@@ -428,7 +430,7 @@ class FinderIndexerResult implements Serializable
 		$branch = preg_replace('#[^\pL\pM\pN\p{Pi}\p{Pf}\'+-.,_]+#mui', ' ', $branch);
 
 		// Create the taxonomy node.
-		$node = new stdClass;
+		$node = new \stdClass;
 		$node->title = $contentNode->title;
 		$node->state = (int) $state;
 		$node->access = (int) $access;
@@ -457,10 +459,10 @@ class FinderIndexerResult implements Serializable
 
 	/**
 	 * Helper function to serialise the data of a FinderIndexerResult object
-	 * 
+	 *
 	 * @return  string  The serialised data
-	 * 
-	 * @since   4.0.0
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function serialize()
 	{
@@ -512,12 +514,12 @@ class FinderIndexerResult implements Serializable
 
 	/**
 	 * Helper function to unserialise the data for this object
-	 * 
+	 *
 	 * @param   string  $serialized  Serialised data to unserialise
-	 * 
+	 *
 	 * @return  void
-	 * 
-	 * @since   4.0.0
+	 *
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function unserialize($serialized)
 	{
@@ -547,7 +549,7 @@ class FinderIndexerResult implements Serializable
 		{
 			foreach ($nodes as $node)
 			{
-				$curTaxonomy = FinderIndexerTaxonomy::getTaxonomy($node->id);
+				$curTaxonomy = Taxonomy::getTaxonomy($node->id);
 				$node->state = $curTaxonomy->state;
 				$node->access = $curTaxonomy->access;
 			}

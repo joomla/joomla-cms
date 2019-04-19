@@ -7,8 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer\Language;
+
 defined('_JEXEC') or die;
 
+use Joomla\Component\Finder\Administrator\Indexer\Language;
 use Joomla\String\StringHelper;
 
 /**
@@ -16,7 +19,7 @@ use Joomla\String\StringHelper;
  *
  * @since  4.0.0
  */
-class FinderIndexerLanguagezh extends FinderIndexerLanguage
+class Zh extends Language
 {
 	/**
 	 * Language locale of the class
@@ -28,7 +31,7 @@ class FinderIndexerLanguagezh extends FinderIndexerLanguage
 
 	/**
 	 * Spacer between terms
-	 * 
+	 *
 	 * @var    string
 	 * @since  4.0.0
 	 */
