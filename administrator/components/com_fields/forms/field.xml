@@ -292,9 +292,10 @@
 
 			<field
 				name="layout"
-				type="fieldlayout"
+				type="fieldLayout"
 				label="COM_FIELDS_FIELD_LAYOUT_LABEL"
 				description="COM_FIELDS_FIELD_LAYOUT_DESC"
+				class="custom-select"
 			/>
 
 			<field

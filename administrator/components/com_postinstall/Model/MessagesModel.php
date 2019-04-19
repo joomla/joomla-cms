@@ -586,7 +586,7 @@ class MessagesModel extends BaseDatabaseModel
 	 *
 	 * @return  integer
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getJoomlaFilesExtensionId()
 	{
