@@ -151,7 +151,7 @@ if ($this->type == 'font')
 								<span class="fa-fw fa fa-folder" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 							<?php if (substr($file, -1) != DIRECTORY_SEPARATOR) : ?>
-								<span class="fa-fw fa fa-file-o" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
+								<span class="fa-fw fa fa-file" aria-hidden="true"></span>&nbsp;<?php echo $file; ?>
 							<?php endif; ?>
 						</li>
 					<?php endforeach; ?>
@@ -246,7 +246,7 @@ if ($this->type == 'font')
 							. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 					?>
 					<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-						<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
+						<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $module->name; ?>
 					</a>
 				</li>
 			<?php endforeach; ?>
@@ -269,7 +269,7 @@ if ($this->type == 'font')
 										. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a class="component-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-									<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
+									<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $view->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -295,7 +295,7 @@ if ($this->type == 'font')
 									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 								?>
 								<a class="plugin-file-url" href="<?php echo Route::_($overrideLinkUrl); ?>">
-									<span class="fa fa-files-o" aria-hidden="true"></span> <?php echo $plugin->name; ?>
+									<span class="fa fa-copy" aria-hidden="true"></span> <?php echo $plugin->name; ?>
 								</a>
 							</li>
 						<?php endforeach; ?>
@@ -321,7 +321,7 @@ if ($this->type == 'font')
 									. '&id=' . $input->getInt('id') . '&file=' . $this->file . '&' . $token;
 							?>
 							<a href="<?php echo Route::_($overrideLinkUrl); ?>">
-								<span class="fa fa-files-o" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
+								<span class="fa fa-copy" aria-hidden="true"></span>&nbsp;<?php echo $layout->name; ?>
 							</a>
 						</li>
 					<?php endforeach; ?>

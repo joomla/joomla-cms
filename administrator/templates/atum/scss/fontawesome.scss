@@ -1,9 +1,10 @@
 // Variables
 @import "variables";
 
-// FontAwesome
-@import "../../../../media/vendor/font-awesome/scss/font-awesome";
+// Font Awesome 5 Free
+@import "../../../../media/vendor/fontawesome-free/scss/fontawesome";
 
+@import "../../../../media/vendor/fontawesome-free/scss/solid";
 // B/C for Icomoon
 @import "../../../../build/media_source/system/scss/icomoon";
 
