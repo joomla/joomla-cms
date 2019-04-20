@@ -201,7 +201,7 @@ class PlgSystemDebug extends CMSPlugin
 			// Use our own jQuery and fontawesome instead of the debug bar shipped version
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
 			$assetManager->enableAsset('jquery-noconflict');
-			$assetManager->enableAsset('fontawesome');
+			$assetManager->enableAsset('fontawesome-free');
 
 			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
 			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
