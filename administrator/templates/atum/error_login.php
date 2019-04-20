@@ -25,7 +25,7 @@ HTMLHelper::_('script', 'vendor/css-vars-ponyfill/css-vars-ponyfill.min.js', ['v
 
 // Load template CSS file
 HTMLHelper::_('stylesheet', 'bootstrap.min.css', ['version' => 'auto', 'relative' => true]);
-HTMLHelper::_('stylesheet', 'font-awesome.min.css', ['version' => 'auto', 'relative' => true]);
+HTMLHelper::_('stylesheet', 'fontawesome.min.css', ['version' => 'auto', 'relative' => true]);
 HTMLHelper::_('stylesheet', 'template' . ($this->direction === 'rtl' ? '-rtl' : '') . '.min.css', ['version' => 'auto', 'relative' => true]);
 
 // Load custom CSS file
@@ -108,7 +108,7 @@ $this->addScriptDeclaration('cssVars();')
 	<div class="fixed-bottom px-3 mb-2 d-none d-md-block">
 		<div class="row nav align-items-center">
 			<div class="col">
-				<a href="<?php echo Uri::root(); ?>" target="_blank"><span class="fa fa-external-link mr-1" aria-hidden="true"></span><?php echo Text::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
+				<a href="<?php echo Uri::root(); ?>" target="_blank"><span class="fa fa-external-link-alt mr-1" aria-hidden="true"></span><?php echo Text::_('COM_LOGIN_RETURN_TO_SITE_HOME_PAGE'); ?></a>
 			</div>
 			<div class="col text-center">
 				<a href="https://www.joomla.org" target="_blank" title="<?php echo Text::_('TPL_ATUM_ISFREESOFTWARE'); ?>">

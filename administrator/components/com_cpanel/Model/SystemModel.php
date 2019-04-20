@@ -35,10 +35,10 @@ class SystemModel extends BaseDatabaseModel
 	{
 		$user            = Factory::getUser();
 		$systemSection   = new SystemHeader('COM_CPANEL_SYSTEM_SETUP', 'cog');
-		$maintainSection = new SystemHeader('MOD_MENU_MAINTAIN', 'refresh');
-		$infoSection     = new SystemHeader('MOD_MENU_INFORMATION', 'refresh');
+		$maintainSection = new SystemHeader('MOD_MENU_MAINTAIN', 'sync');
+		$infoSection     = new SystemHeader('MOD_MENU_INFORMATION', 'sync');
 		$installSection  = new SystemHeader('MOD_MENU_INSTALL', 'download');
-		$manageSection   = new SystemHeader('MOD_MENU_MANAGE', 'refresh');
+		$manageSection   = new SystemHeader('MOD_MENU_MANAGE', 'sync');
 		$updateSection   = new SystemHeader('MOD_MENU_UPDATE', 'upload');
 		$templateSection = new SystemHeader('MOD_MENU_TEMPLATES', 'image');
 		$accessSection   = new SystemHeader('MOD_MENU_ACCESS', 'lock');
