@@ -7,7 +7,7 @@
                 
                 <template v-if="!url">
                     <div class="control">
-                        <a class="btn btn-success btn-block" role="button" @click="generateUrl">{{ translate('COM_MEDIA_ACTION_SHARE') }}</a>
+                        <button class="btn btn-success btn-block" type="button" @click="generateUrl">{{ translate('COM_MEDIA_ACTION_SHARE') }}</button>
                     </div>
                 </template>
                 <template v-else>
@@ -15,9 +15,9 @@
                         <span class="input-group">
                             <input id="url" ref="urlText" readonly v-model="url" class="form-control input-xxlarge" placeholder="URL" autocomplete="off">
                             <span class="input-group-append">
-                                <a class="btn btn-secondary" role="button" @click="copyToClipboard" title="{{ translate('COM_MEDIA_SHARE_COPY') }}>
+                                <button class="btn btn-secondary" type="button" @click="copyToClipboard" :title="translate('COM_MEDIA_SHARE_COPY')">
                                     <span class="fa fa-clipboard" aria-hidden="true"></span>
-                                </a>
+                                </button>
                             </span>
                         </span>     
                     </div>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div slot="footer">
-            <button class="btn btn-link" @click="close()">{{ translate('JCANCEL') }}</button>
+            <button class="btn btn-secondary" @click="close()">{{ translate('JCANCEL') }}</button>
         </div>
     </media-modal>
 </template>

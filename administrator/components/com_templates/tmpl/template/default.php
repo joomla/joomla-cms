@@ -280,7 +280,7 @@ if ($this->type == 'font')
 	</div>
 	<div class="col-md-3">
 		<legend><?php echo Text::_('COM_TEMPLATES_OVERRIDES_PLUGINS'); ?></legend>
-		<ul class="nav nav-list">
+		<ul class="list-unstyled">
 			<?php $token = Session::getFormToken() . '=' . 1; ?>
 			<?php foreach ($this->overridesList['plugins'] as $key => $group) : ?>
 				<li class="plugin-folder">

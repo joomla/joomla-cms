@@ -11,17 +11,15 @@ namespace Joomla\Component\Installer\Administrator\Field;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Extension Status field.
  *
  * @since  3.5
  */
-class ExtensionstatusField extends \JFormFieldList
+class ExtensionstatusField extends ListField
 {
 	/**
 	 * The form field type.
