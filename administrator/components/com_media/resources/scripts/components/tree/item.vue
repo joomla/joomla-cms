@@ -34,7 +34,7 @@
                 return {
                     fa: true,
                     'fa-folder': !this.isOpen,
-                    'fa-folderpen-o': this.isOpen,
+                    'fa-folder-open': this.isOpen,
                 }
             }
         },
