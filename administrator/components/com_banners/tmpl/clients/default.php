@@ -111,7 +111,7 @@ $params     = $this->state->params ?? new JObject;
 
 										if (!$canChange)
 										{
-										$iconClass = ' inactive';
+											$iconClass = ' inactive';
 										}
 										elseif (!$saveOrder)
 										{
