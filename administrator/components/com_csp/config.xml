@@ -60,20 +60,20 @@
 					name="directive"
 					type="text"
 					label="COM_CSP_CONTENTSECURITYPOLICY_VALUES_DIRECTIVE"
-					class="span4"
+					class="col-md-4"
 				/>
 				<field
 					name="value"
 					type="text"
 					label="COM_CSP_CONTENTSECURITYPOLICY_VALUES_VALUE"
-					class="span10"
+					class="col-md-10"
 				/>
 				<field
 					name="client"
 					type="radio"
 					label="COM_CSP_HEADER_CLIENT"
 					default="site"
-					class="span12"
+					class="col-md-12"
 					>
 					<option value="site">JSITE</option>
 					<option value="administrator">JADMINISTRATOR</option>
