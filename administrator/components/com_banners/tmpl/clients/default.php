@@ -115,7 +115,7 @@ $params     = $this->state->params ?? new JObject;
 										}
 										elseif (!$saveOrder)
 										{
-										$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
+											$iconClass = ' inactive tip-top hasTooltip" title="' . HTMLHelper::_('tooltipText', 'JORDERINGDISABLED');
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass; ?>">
