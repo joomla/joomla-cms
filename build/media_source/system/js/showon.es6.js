@@ -187,7 +187,12 @@
         });
 
         // If conditions are satisfied show the target field(s), else hide
-        field.style.display = (showfield) ? 'block' : 'none';
+        if (field.tagName !== 'option') {
+          field.style.display = (showfield) ? 'block' : 'none';
+        } else {
+          // TODO: If chosen or choices.js is active we should update them
+          field.disabled = !showfield;
+        }
       });
     }
   }

@@ -17,6 +17,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Profiler\Profiler;
 use Joomla\Registry\Registry;
@@ -109,7 +110,6 @@ abstract class ModuleHelper
 			{
 				$result[0] = static::getModule('mod_' . $position);
 				$result[0]->title = $position;
-				$result[0]->content = $position;
 				$result[0]->position = $position;
 			}
 		}
@@ -148,8 +148,6 @@ abstract class ModuleHelper
 	 */
 	public static function renderModule($module, $attribs = array())
 	{
-		static $chrome;
-
 		$app = Factory::getApplication();
 
 		// Check that $module is a valid module object
@@ -197,31 +195,21 @@ abstract class ModuleHelper
 			$module->content = ob_get_clean();
 		}
 
-		// Load the module chrome functions
-		if (!$chrome)
-		{
-			$chrome = array();
-		}
-
-		include_once JPATH_THEMES . '/system/html/modules.php';
-		$chromePath = JPATH_THEMES . '/' . $template . '/html/modules.php';
-
-		if (!isset($chrome[$chromePath]))
-		{
-			if (file_exists($chromePath))
-			{
-				include_once $chromePath;
-			}
-
-			$chrome[$chromePath] = true;
-		}
-
 		// Check if the current module has a style param to override template module style
 		$paramsChromeStyle = $params->get('style');
+		$basePath          = '';
 
 		if ($paramsChromeStyle)
 		{
-			$attribs['style'] = preg_replace('/^(system|' . $template . ')\-/i', '', $paramsChromeStyle);
+			$paramsChromeStyle   = explode('-', $paramsChromeStyle, 2);
+			$ChromeStyleTemplate = strtolower($paramsChromeStyle[0]);
+			$attribs['style']    = $paramsChromeStyle[1];
+
+			// Only set $basePath if the specified template isn't the current or system one.
+			if ($ChromeStyleTemplate !== $template && $ChromeStyleTemplate !== 'system')
+			{
+				$basePath = JPATH_THEMES . '/' . $ChromeStyleTemplate . '/html/layouts';
+			}
 		}
 
 		// Make sure a style is set
@@ -236,6 +224,8 @@ abstract class ModuleHelper
 			$attribs['style'] .= ' outline';
 		}
 
+		$module->style = $attribs['style'];
+
 		// If the $module is nulled it will return an empty content, otherwise it will render the module normally.
 		$app->triggerEvent('onRenderModule', array(&$module, &$attribs));
 
@@ -244,19 +234,17 @@ abstract class ModuleHelper
 			return '';
 		}
 
+		$displayData = array(
+			'module'  => $module,
+			'params'  => $params,
+			'attribs' => $attribs,
+		);
+
 		foreach (explode(' ', $attribs['style']) as $style)
 		{
-			$chromeMethod = 'modChrome_' . $style;
-
-			// Apply chrome and render module
-			if (function_exists($chromeMethod))
+			if ($moduleContent = LayoutHelper::render('chromes.' . $style, $displayData, $basePath))
 			{
-				$module->style = $attribs['style'];
-
-				ob_start();
-				$chromeMethod($module, $params, $attribs);
-				$module->content = ob_get_contents();
-				ob_end_clean();
+				$module->content = $moduleContent;
 			}
 		}
 
@@ -637,7 +625,7 @@ abstract class ModuleHelper
 	 *
 	 * @return  \stdClass  The Module object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function &getModuleById($id)
 	{

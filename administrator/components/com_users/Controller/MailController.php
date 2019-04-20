@@ -11,10 +11,8 @@ namespace Joomla\Component\Users\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 
 /**
  * Users mail controller.
@@ -39,7 +37,7 @@ class MailController extends BaseController
 		}
 
 		// Check for request forgeries.
-		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$model = $this->getModel('Mail');
 
@@ -66,7 +64,7 @@ class MailController extends BaseController
 	public function cancel()
 	{
 		// Check for request forgeries.
-		Session::checkToken('request') or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 		$this->setRedirect('index.php');
 	}
 }

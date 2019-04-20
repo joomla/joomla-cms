@@ -7,6 +7,7 @@
         multiple="true"
         class="access-select"
         labelclass="badge badge-success"
+        layout="joomla.form.field.list-fancy-select"
     />
 
     <field

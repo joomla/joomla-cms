@@ -724,6 +724,11 @@ window.Joomla.Modal = window.Joomla.Modal || {
    * @return  {HTMLElement}  The HTML loading layer element.
    *
    * @since  3.6.0
+   *
+   * @deprecated  4.0 No direct replacement.
+   *              4.0 will introduce a web component for the loading spinner, therefore the spinner
+   *              will need to explicitly be loaded in all relevant pages.
+   *
    */
   Joomla.loadingLayer = (task, parentElement) => {
     // Set default values.
@@ -912,6 +917,25 @@ window.Joomla.Modal = window.Joomla.Modal || {
     }
 
     return xhr;
+  };
+
+  /**
+   * Load the changelog data
+   *
+   * @param extensionId The extension ID to load the changelog for
+   * @param view The view the changelog is for,
+   *             this is used to determine which version number to show
+   *
+   * @since   4.0.0
+   */
+  Joomla.loadChangelog = (extensionId, view) => {
+    Joomla.request({
+      url: `index.php?option=com_installer&task=manage.loadChangelog&eid=${extensionId}&source=${view}&format=json`,
+      onSuccess: (response) => {
+        const result = JSON.parse(response);
+        document.querySelectorAll('#changelogModal .modal-body')[0].innerHTML = result.data;
+      },
+    });
   };
 
   /**
