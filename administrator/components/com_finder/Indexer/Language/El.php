@@ -11,14 +11,18 @@
  * https://github.com/magaras/greek_stemmer/blob/master/mod_stemmer.php
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer\Language;
+
 defined('_JEXEC') or die;
+
+use Joomla\Component\Finder\Administrator\Indexer\Language;
 
 /**
  * Greek language support class for the Finder indexer package.
  *
  * @since  4.0.0
  */
-class FinderIndexerLanguageel extends FinderIndexerLanguage
+class El extends Language
 {
 	/**
 	 * Language locale of the class

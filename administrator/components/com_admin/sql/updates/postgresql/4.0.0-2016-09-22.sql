@@ -1,1 +1,1 @@
-DELETE FROM "#__extensions" WHERE "element" = 'phputf8';
+DELETE FROM "#__extensions" WHERE "type" = 'library' AND "element" = 'phputf8';

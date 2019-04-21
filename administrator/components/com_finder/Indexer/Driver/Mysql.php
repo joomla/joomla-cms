@@ -7,20 +7,36 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer\Driver;
+
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\Component\Finder\Administrator\Indexer\Helper;
+use Joomla\Component\Finder\Administrator\Indexer\Indexer;
+use Joomla\Component\Finder\Administrator\Indexer\Taxonomy;
+
 /**
- * Indexer class supporting PostgreSQL for the Finder indexer package.
+ * Indexer class supporting MySQL(i) for the Finder indexer package.
+ *
+ * The indexer class provides the core functionality of the Finder
+ * search engine. It is responsible for adding and updating the
+ * content links table; extracting and scoring tokens; and maintaining
+ * all referential information for the content.
+ *
+ * Note: All exceptions thrown from within this class should be caught
+ * by the controller.
  *
  * @since  3.0
  */
-class FinderIndexerDriverPostgresql extends FinderIndexer
+class Mysql extends Indexer
 {
 	/**
 	 * Method to index a content item.
 	 *
-	 * @param   FinderIndexerResult  $item    The content item to index.
-	 * @param   string               $format  The format of the content. [optional]
+	 * @param   Result  $item    The content item to index.
+	 * @param   string  $format  The format of the content. [optional]
 	 *
 	 * @return  integer  The ID of the record in the links table.
 	 *
@@ -56,7 +72,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$isNew = empty($link->link_id) ? true : false;
 
 		// Check the signatures. If they match, the item is up to date.
-		if (!$isNew && $curSig === $oldSig)
+		if (!$isNew && $curSig == $oldSig)
 		{
 			return $linkId;
 		}
@@ -76,7 +92,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			$db->execute();
 
 			// Remove the taxonomy maps.
-			FinderIndexerTaxonomy::removeMaps($linkId);
+			Taxonomy::removeMaps($linkId);
 		}
 
 		// Mark afterUnmapping in the profiler.
@@ -89,19 +105,19 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$item->end_date = (int) $item->end_date != 0 ? $item->end_date : $nd;
 
 		// Prepare the item description.
-		$item->description = FinderIndexerHelper::parse($item->summary);
+		$item->description = Helper::parse($item->summary);
 
 		/*
 		 * Now, we need to enter the item into the links table. If the item
 		 * already exists in the database, we need to use an UPDATE query.
 		 * Otherwise, we need to use an INSERT to get the link id back.
 		 */
-		$entry = new stdClass;
+		$entry = new \stdClass;
 		$entry->url = $item->url;
 		$entry->route = $item->route;
 		$entry->title = $item->title;
 		$entry->description = $item->description;
-		$entry->indexdate = JFactory::getDate()->toSql();
+		$entry->indexdate = Factory::getDate()->toSql();
 		$entry->state = (int) $item->state;
 		$entry->access = (int) $item->access;
 		$entry->language = $item->language;
@@ -168,7 +184,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 						 */
 						if ($group === static::PATH_CONTEXT)
 						{
-							$ip = JFile::stripExt($ip);
+							$ip = File::stripExt($ip);
 							$ip = str_replace(array('/', '-'), ' ', $ip);
 						}
 
@@ -191,7 +207,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 					 */
 					if ($group === static::PATH_CONTEXT)
 					{
-						$item->$property = JFile::stripExt($item->$property);
+						$item->$property = File::stripExt($item->$property);
 						$item->$property = str_replace('/', ' ', $item->$property);
 						$item->$property = str_replace('-', ' ', $item->$property);
 					}
@@ -220,15 +236,15 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 				// Add the node to the tree.
 				if ($node->nested)
 				{
-					$nodeId = FinderIndexerTaxonomy::addNestedNode($branch, $node->node, $node->state, $node->access, $node->language);
+					$nodeId = Taxonomy::addNestedNode($branch, $node->node, $node->state, $node->access, $node->language);
 				}
 				else
 				{
-					$nodeId = FinderIndexerTaxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
+					$nodeId = Taxonomy::addNode($branch, $node->title, $node->state, $node->access, $node->language);
 				}
 
 				// Add the link => node map.
-				FinderIndexerTaxonomy::addMap($linkId, $nodeId);
+				Taxonomy::addMap($linkId, $nodeId);
 				$node->id = $nodeId;
 
 				// Tokenize the node title and add them to the database.
@@ -255,18 +271,19 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 			', ' . $db->quoteName('term_weight') .
 			', ' . $db->quoteName('context') .
 			', ' . $db->quoteName('context_weight') .
-			', ' . $db->quoteName('language') . ')' .
+			', ' . $db->quoteName('total_weight') .
+				', ' . $db->quoteName('language') . ')' .
 			' SELECT' .
-			' t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
-			' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, t1.language' .
+			' COALESCE(t.term_id, 0), t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context,' .
+			' ROUND( t1.weight * COUNT( t2.term ) * %F, 8 ) AS context_weight, 0, t1.language' .
 			' FROM (' .
 			'   SELECT DISTINCT t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 			'   FROM ' . $db->quoteName('#__finder_tokens') . ' AS t1' .
 			'   WHERE t1.context = %d' .
 			' ) AS t1' .
-			' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term' .
-			' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term' .
-			' WHERE t2.context = %d AND t.term_id IS NOT NULL' .
+			' JOIN ' . $db->quoteName('#__finder_tokens') . ' AS t2 ON t2.term = t1.term AND t2.language = t1.language' .
+			' LEFT JOIN ' . $db->quoteName('#__finder_terms') . ' AS t ON t.term = t1.term AND t.language = t1.language' .
+			' WHERE t2.context = %d' .
 			' GROUP BY t1.term, t.term_id, t1.term, t1.stem, t1.common, t1.phrase, t1.weight, t1.context, t1.language' .
 			' ORDER BY t1.term DESC';
 
@@ -288,32 +305,21 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * table have a term of 0, then no term record exists for that
 		 * term so we need to add it to the terms table.
 		 */
-
-		// Emulation of IGNORE INTO behaviour
 		$db->setQuery(
-			' SELECT ta.term' .
+			'INSERT IGNORE INTO ' . $db->quoteName('#__finder_terms') .
+			' (' . $db->quoteName('term') .
+			', ' . $db->quoteName('stem') .
+			', ' . $db->quoteName('common') .
+			', ' . $db->quoteName('phrase') .
+			', ' . $db->quoteName('weight') .
+			', ' . $db->quoteName('soundex') .
+			', ' . $db->quoteName('language') . ')' .
+			' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
 			' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-			' WHERE ta.term_id = 0'
+			' WHERE ta.term_id = 0' .
+			' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
 		);
-
-		if ($db->loadRow() === null)
-		{
-			$db->setQuery(
-				'INSERT INTO ' . $db->quoteName('#__finder_terms') .
-				' (' . $db->quoteName('term') .
-				', ' . $db->quoteName('stem') .
-				', ' . $db->quoteName('common') .
-				', ' . $db->quoteName('phrase') .
-				', ' . $db->quoteName('weight') .
-				', ' . $db->quoteName('soundex') .
-				', ' . $db->quoteName('language') . ')' .
-				' SELECT ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language' .
-				' FROM ' . $db->quoteName('#__finder_tokens_aggregate') . ' AS ta' .
-				' WHERE ta.term_id = 0' .
-				' GROUP BY ta.term, ta.stem, ta.common, ta.phrase, ta.term_weight, SOUNDEX(ta.term), ta.language'
-			);
-			$db->execute();
-		}
+		$db->execute();
 
 		/*
 		 * Now, we just inserted a bunch of new records into the terms table
@@ -322,8 +328,8 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 */
 		$query = $db->getQuery(true)
 			->update($db->quoteName('#__finder_tokens_aggregate') . ' AS ta')
-			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term')
-			->set('term_id = t.term_id')
+			->join('INNER', $db->quoteName('#__finder_terms') . ' AS t ON t.term = ta.term AND t.language = ta.language')
+			->set('ta.term_id = t.term_id')
 			->where('ta.term_id = 0');
 		$db->setQuery($query);
 		$db->execute();
@@ -339,7 +345,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$query->clear()
 			->update($db->quoteName('#__finder_terms') . ' AS t')
 			->join('INNER', $db->quoteName('#__finder_tokens_aggregate') . ' AS ta ON ta.term_id = t.term_id')
-			->set($db->quoteName('links') . ' = t.links + 1');
+			->set('t.' . $db->quoteName('links') . ' = t.links + 1');
 		$db->setQuery($query);
 		$db->execute();
 
@@ -351,8 +357,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		 * term in each context. So, we're going to pull down all of that
 		 * data while grouping the records by term and add all of the
 		 * sub-totals together to arrive at the final total for each token for
-		 * this link. Then, we insert all of that data into the appropriate
-		 * mapping table.
+		 * this link. Then, we insert all of that data into the mapping table.
 		 */
 		$db->setQuery(
 			'INSERT INTO ' . $db->quoteName('#__finder_links_terms') .
@@ -403,7 +408,7 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 	 *
 	 * @return  boolean  True on success.
 	 *
-	 * @since   2.5
+	 * @since   3.0
 	 * @throws  Exception on database error.
 	 */
 	public function optimize()
@@ -419,39 +424,86 @@ class FinderIndexerDriverPostgresql extends FinderIndexer
 		$db->execute();
 
 		// Optimize the links table.
-		$db->setQuery('VACUUM ' . $db->quoteName('#__finder_links'));
-		$db->execute();
-		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links'));
 		$db->execute();
 
 		// Optimize the terms mapping table.
-		$db->setQuery('VACUUM ' . $db->quoteName('#__finder_links_terms'));
-		$db->execute();
-		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_links_terms'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_links_terms'));
 		$db->execute();
 
 		// Optimize the filters table.
-		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_filters'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_filters'));
 		$db->execute();
 
 		// Optimize the terms common table.
-		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_terms_common'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_terms_common'));
 		$db->execute();
 
 		// Optimize the types table.
-		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_types'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_types'));
 		$db->execute();
 
 		// Remove the orphaned taxonomy nodes.
-		FinderIndexerTaxonomy::removeOrphanNodes();
+		Taxonomy::removeOrphanNodes();
 
 		// Optimize the taxonomy mapping table.
-		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy_map'));
 		$db->execute();
 
 		// Optimize the taxonomy table.
-		$db->setQuery('REINDEX TABLE ' . $db->quoteName('#__finder_taxonomy'));
+		$db->setQuery('OPTIMIZE TABLE ' . $db->quoteName('#__finder_taxonomy'));
 		$db->execute();
+
+		return true;
+	}
+
+
+	/**
+	 * Method to switch the token tables from Memory tables to MyISAM tables
+	 * when they are close to running out of memory.
+	 *
+	 * @param   boolean  $memory  Flag to control how they should be toggled.
+	 *
+	 * @return  boolean  True on success.
+	 *
+	 * @since   3.0
+	 * @throws  Exception on database error.
+	 */
+	protected function toggleTables($memory)
+	{
+		static $state;
+
+		// Get the database adapter.
+		$db = $this->db;
+
+		// Check if we are setting the tables to the Memory engine.
+		if ($memory === true && $state !== true)
+		{
+			// Set the tokens table to Memory.
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = MEMORY');
+			$db->execute();
+
+			// Set the tokens aggregate table to Memory.
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = MEMORY');
+			$db->execute();
+
+			// Set the internal state.
+			$state = $memory;
+		}
+		// We must be setting the tables to the InnoDB engine.
+		elseif ($memory === false && $state !== false)
+		{
+			// Set the tokens table to InnoDB.
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens') . ' ENGINE = INNODB');
+			$db->execute();
+
+			// Set the tokens aggregate table to InnoDB.
+			$db->setQuery('ALTER TABLE ' . $db->quoteName('#__finder_tokens_aggregate') . ' ENGINE = INNODB');
+			$db->execute();
+
+			// Set the internal state.
+			$state = $memory;
+		}
 
 		return true;
 	}

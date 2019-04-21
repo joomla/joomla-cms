@@ -7,14 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer\Language;
+
 defined('_JEXEC') or die;
 
+use Joomla\Component\Finder\Administrator\Indexer\Language;
+
 /**
- * Portuguese language support class for the Finder indexer package.
+ * Spanish language support class for the Finder indexer package.
  *
  * @since  4.0.0
  */
-class FinderIndexerLanguagept extends FinderIndexerLanguage
+class Es extends Language
 {
 	/**
 	 * Language locale of the class
@@ -22,12 +26,12 @@ class FinderIndexerLanguagept extends FinderIndexerLanguage
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	public $language = 'pt';
+	public $language = 'es';
 
 	/**
-	 * The portuguese stemmer object.
+	 * The spanish stemmer object.
 	 *
-	 * @var    \Wamania\Snowball\Portuguese
+	 * @var    \Wamania\Snowball\Spanish
 	 * @since  4.0.0
 	 */
 	protected $stemmer = null;
@@ -39,7 +43,7 @@ class FinderIndexerLanguagept extends FinderIndexerLanguage
 	 */
 	public function __construct()
 	{
-		$this->stemmer = new \Wamania\Snowball\Portuguese;
+		$this->stemmer = new \Wamania\Snowball\Spanish;
 	}
 
 	/**
