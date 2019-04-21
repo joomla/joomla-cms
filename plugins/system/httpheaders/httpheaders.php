@@ -184,7 +184,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function writeStaticHttpHeaders($context, $table, $isNew)
 	{
@@ -419,7 +419,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  string  Constante pointing to the correct server config file or none
 	 *
-	 * @since   1.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getServerConfigFile(): string
 	{
@@ -445,7 +445,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  string  Expected path to the requested file; Or false on error
 	 *
-	 * @since   1.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getServerConfigFilePath($file): string
 	{
@@ -459,7 +459,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  string  Buffer style text of the Header Configuration based on the server config file
 	 *
-	 * @since   1.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getRulesForStaticHeaderConfiguration($serverConfigFile): string
 	{
@@ -481,7 +481,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  string  Buffer style text of the Header Configuration based on the server config file; empty string on error
 	 *
-	 * @since   1.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getHtaccessRulesForStaticHeaderConfiguration(): string
 	{
@@ -543,7 +543,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  string|boolean  Buffer style text of the Header Configuration based on the server config file or false on error.
 	 *
-	 * @since   1.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getWebConfigRulesForStaticHeaderConfiguration()
 	{
@@ -669,7 +669,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  boolean  True on success; false on any error
 	 *
-	 * @since   1.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function writeStaticHeaders()
 	{
@@ -712,7 +712,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  array  We return the array of static headers with its values.
 	 *
-	 * @since   1.0.6
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function getStaticHeaderConfiguration($pluginParams = false)
 	{
@@ -803,7 +803,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   1.0
+	 * @since   __DEPLOY_VERSION__
 	 */
 	private function setStaticHeaders()
 	{
