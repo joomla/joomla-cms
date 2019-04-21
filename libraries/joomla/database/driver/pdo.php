@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Joomla Platform PDO Database Driver Class
  *
- * @link   https://secure.php.net/pdo
+ * @link   https://www.php.net/pdo
  * @since  3.0.0
  */
 abstract class JDatabaseDriverPdo extends JDatabaseDriver
@@ -488,7 +488,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/pdo.getattribute.php
+	 * @link    https://www.php.net/manual/en/pdo.getattribute.php
 	 * @since   3.0.0
 	 */
 	public function getOption($key)
@@ -534,7 +534,7 @@ abstract class JDatabaseDriverPdo extends JDatabaseDriver
 	 *
 	 * @return  boolean
 	 *
-	 * @link   https://secure.php.net/manual/en/pdo.setattribute.php
+	 * @link   https://www.php.net/manual/en/pdo.setattribute.php
 	 * @since   3.0.0
 	 */
 	public function setOption($key, $value)
