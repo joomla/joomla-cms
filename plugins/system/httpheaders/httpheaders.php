@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Plugin
- * @subpackage  System.HttpHeader
+ * @subpackage  System.HttpHeaders
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -16,7 +16,7 @@ use Joomla\CMS\Uri\Uri;
 use Joomla\Event\SubscriberInterface;
 
 /**
- * Plugin class for HTTP Header
+ * Plugin class for HTTP Headers
  *
  * @since  4.0.0
  */
@@ -65,12 +65,12 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	];
 
 	/**
-	 * The list of special directives that need to be handled
+	 * The list of nonce directives that support nonce
 	 *
 	 * @var    array
 	 * @since  4.0.0
 	 */
-	private $specialDirectives = [
+	private $nonceDirectives = [
 		'script-src',
 		'style-src',
 	];
@@ -277,7 +277,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// We can only use this if this is a valid entry
 			if (isset($cspValue->directive) && isset($cspValue->value))
 			{
-				if (in_array($cspValue->directive, $this->specialDirectives) && $nonceEnabled)
+				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
 					$cspValue->value .= "'nonce-" . $cspNonce . "' " . $cspValue->value;
 				}
@@ -400,7 +400,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		foreach ($cspHeaderCollection as $cspHeaderkey => $cspHeaderValue)
 		{
 			// Append the random $nonce for the script and style tags if enabled
-			if (in_array($cspHeaderkey, $this->specialDirectives) && $nonceEnabled)
+			if (in_array($cspHeaderkey, $this->nonceDirectives) && $nonceEnabled)
 			{
 				$cspHeaderValue = "'nonce-" . $nonce . "'" . $cspHeaderValue;
 			}
