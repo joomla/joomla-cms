@@ -536,7 +536,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 		foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 		{
 			$headerAndClient = explode('#', $headerAndClient);
-			$newHtaccessBuffer .= '    Header set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
+
+			if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+			{
+				$newHtaccessBuffer .= '    Header set ' . $headerAndClient[0] . ' "' . $value . '"' . PHP_EOL;
+			}
 		}
 
 		$newHtaccessBuffer .= '</IfModule>' . PHP_EOL;
@@ -590,11 +594,15 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			foreach ($this->staticHeaderConfiguration as $headerAndClient => $value)
 			{
 				$headerAndClient = explode('#', $headerAndClient);
-				$newHeader       = $webConfigDomDoc->createElement('add');
 
-				$newHeader->setAttribute('name', $headerAndClient[0]);
-				$newHeader->setAttribute('value', $value);
-				$newCustomHeaders->appendChild($newHeader);
+				if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+				{
+					$newHeader       = $webConfigDomDoc->createElement('add');
+
+					$newHeader->setAttribute('name', $headerAndClient[0]);
+					$newHeader->setAttribute('value', $value);
+					$newCustomHeaders->appendChild($newHeader);
+				}
 			}
 
 			$newHttpProtocol->appendChild($newCustomHeaders);
@@ -650,13 +658,16 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				// The header wasn't found we need to create it
 				if (!$found)
 				{
-					// Generate the new header Element
-					$newHeader = $webConfigDomDoc->createElement('add');
-					$newHeader->setAttribute('name', $headerAndClient[0]);
-					$newHeader->setAttribute('value', $value);
+					if (!in_array(strtolower($headerAndClient[0]), ['content-security-policy', 'content-security-policy-report-only']))
+					{
+						// Generate the new header Element
+						$newHeader = $webConfigDomDoc->createElement('add');
+						$newHeader->setAttribute('name', $headerAndClient[0]);
+						$newHeader->setAttribute('value', $value);
 
-					// Append the new header
-					$customHeaders[0]->appendChild($newHeader);
+						// Append the new header
+						$customHeaders[0]->appendChild($newHeader);
+					}
 				}
 
 				$customHeadersValue = $oldCustomHeader->getAttribute('value');
