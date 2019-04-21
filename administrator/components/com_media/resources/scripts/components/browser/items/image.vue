@@ -55,7 +55,7 @@
                             :aria-label="translate('COM_MEDIA_ACTION_EDIT')" @keyup.enter="editItem()" @keyup.space="editItem()"
                             @focus="focused(true)" @blur="focused(false)" @keyup.esc="hideActions()"
                             @keyup.up="$refs.actionRename.focus()" @keyup.down="$refs.actionShare.focus()">
-                            <span class="image-browser-action fa fa-pencil" aria-hidden="true" @click.stop="editItem()"></span>
+                            <span class="image-browser-action fa fa-edit" aria-hidden="true" @click.stop="editItem()"></span>
                         </button>
                     </li>
                     <li>
