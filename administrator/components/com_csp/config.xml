@@ -54,7 +54,7 @@
 			multiple="true"
 			min="1"
 			showon="contentsecuritypolicy:1[AND]contentsecuritypolicy_mode:custom"
-		>
+			>
 			<form>
 				<field
 					name="directive"
