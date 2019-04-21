@@ -317,7 +317,7 @@ class SetupModel extends BaseInstallationModel
 		}
 
 		// Validate database name.
-		if (!preg_match('#^[a-zA-Z][0-9a-zA-Z_$]*$#', $options->db_name))
+		if (!preg_match('#^[a-zA-Z][0-9a-zA-Z_\-$]*$#', $options->db_name))
 		{
 			Factory::getApplication()->enqueueMessage(Text::_('INSTL_DATABASE_NAME_MSG'), 'warning');
 
