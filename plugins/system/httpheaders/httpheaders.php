@@ -789,7 +789,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Allow the custom csp headers to use the random $cspNonce in the rules
 			if (in_array(strtolower($additionalHttpHeader->key), ['content-security-policy', 'content-security-policy-report-only']))
 			{
-				$httpHeader->value = str_replace('{nonce}', $this->cspNonce, $additionalHttpHeader->value);
+				$additionalHttpHeader->value = str_replace('{nonce}', $this->cspNonce, $additionalHttpHeader->value);
 			}
 
 			$staticHeaderConfiguration[$additionalHttpHeader->key . '#' . $additionalHttpHeader->client] = $additionalHttpHeader->value;
