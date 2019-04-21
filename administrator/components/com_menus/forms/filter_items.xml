@@ -79,7 +79,6 @@
 			name="componentName"
 			type="componentscategory"
 			label="COM_MENUS_FILTER_COMPONENT_LABEL"
-			description="COM_MENUS_FILTER_COMPONENT_DESC"
 			onchange="this.form.submit();"
 			>
 			<option value="">COM_MENUS_OPTION_SELECT_COMPONENT</option>
