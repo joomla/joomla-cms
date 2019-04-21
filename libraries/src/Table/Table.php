@@ -1145,6 +1145,9 @@ abstract class Table extends \JObject implements \JObservableInterface, \JTableI
 		$this->$checkedOutField      = 0;
 		$this->$checkedOutTimeField = '';
 
+		$dispatcher = \JEventDispatcher::getInstance();
+		$dispatcher->trigger('onAfterCheckin', array($this->_tbl));
+
 		return true;
 	}
 
