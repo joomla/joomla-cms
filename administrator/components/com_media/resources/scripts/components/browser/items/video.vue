@@ -3,7 +3,7 @@
         <div class="media-browser-item-preview">
             <div class="file-background">
                 <div class="file-icon">
-                    <span class="fa fa-file-text-o"></span>
+                    <span class="fa fa-file-alt"></span>
                 </div>
             </div>
         </div>

@@ -85,11 +85,11 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											</td>
 											<th scope="row">
 												<label for="cb<?php echo $i; ?>">
-													<span class="hasPopover" data-original-title="<?php echo $extension->name; ?>"
-														data-content="<?php echo Text::_($manifest->description) ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
-														<?php echo $extension->name; ?>
-													</span>
+													<?php echo $extension->name; ?>
 												</label>
+												<div class="small">
+													<?php echo Text::_($manifest->description); ?>
+												</div>
 											</th>
 											<td>
 												<?php echo $extension->client_translated; ?>

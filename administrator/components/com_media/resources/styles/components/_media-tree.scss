@@ -33,7 +33,7 @@ ul.media-tree {
   padding: 4px 10px;
   &::before {
     margin-right: 6px;
-    font-family: FontAwesome;
+    font-family:"Font Awesome 5 Free";
     color: $sidebar-tree-icon-color;
     content: $sidebar-tree-folder-icon;
   }
