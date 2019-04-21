@@ -76,14 +76,14 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 					</div>
 					<?php if (empty($messages)) : ?>
 						<div class="dropdown-item dropdown-message">
-							<a href="<?php echo Route::_('index.php?option=com_postinstall'); ?>" class="text-center">
+							<a href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>" class="text-center">
 								<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?>
 							</a>
 						</div>
 					<?php endif; ?>
 					<?php foreach ($messages as $message) : ?>
 						<div class="dropdown-item message-wrapper">
-							<?php $route = 'index.php?option=com_postinstall&amp;eid=700'; ?>
+							<?php $route = 'index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId; ?>
 							<?php $title = HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?>
 							<a href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>"><?php echo $title; ?></a>
 							<?php $route = 'index.php?option=com_postinstall&amp;task=message.unpublish&amp;id=' . $message->postinstall_message_id; ?>

@@ -4,17 +4,10 @@
 // Atum Variables
 @import "variables";
 
-// Mixins
-@import "mixin";
-
 // Bootstrap other
 @import "../../../../media/vendor/bootstrap/scss/mixins";
 @import "../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../media/vendor/bootstrap/scss/root";
 @import "../../../../media/vendor/bootstrap/scss/custom-forms";
-
-// Fonts
-@import "../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
 
 // Alert
 @import "../../../../build/media_source/system/scss/jalert";
@@ -25,7 +18,6 @@
 // Blocks
 @import "blocks/global"; // Leave this first
 @import "blocks/alerts";
-@import "blocks/edit";
 @import "blocks/form";
 @import "blocks/header";
 @import "blocks/icons";
@@ -35,7 +27,6 @@
 @import "blocks/modals";
 @import "blocks/quickicons";
 @import "blocks/searchtools";
-@import "blocks/lists";
 @import "blocks/sidebar";
 @import "blocks/sidebar-nav";
 @import "blocks/toolbar";
@@ -61,10 +52,66 @@
 @import "vendor/minicolors";
 @import "vendor/tinymce";
 
-
 // Page specifics
 @import "pages/com_admin";
 @import "pages/com_config";
 @import "pages/com_cpanel";
 @import "pages/com_templates";
 @import "pages/com_users";
+
+.container-main,
+.system-debug {
+  padding-bottom: 50px;
+}
+
+.container-main {
+  position: relative;
+  min-height: calc(100vh - #{$header-height});
+  background-color: var(--main-bg);
+}
+
+.list-view-main {
+
+  .container-main {
+    background-color: var(--main-bg);
+  }
+
+}
+
+.content {
+  padding-top: 15px;
+  border-radius: $border-radius;
+
+  > .row {
+    margin-right: 0;
+    margin-left: 0;
+  }
+
+  .subhead + & {
+    padding-top: 0;
+  }
+}
+
+.row-selected {
+  background-color: var(--row-selected);
+}
+
+// Chosen (TEMPORARY)
+.chzn-container-single {
+  width: auto !important;
+}
+
+// Multilingual associations specific
+.item-associations {
+  padding: 0;
+}
+
+.item-associations li {
+  display: inline-block;
+  list-style: none;
+}
+
+// Quickicon specific
+.message-alert {
+  text-align: right !important;
+}

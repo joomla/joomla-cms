@@ -16,7 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 /**
  * Skipto plugin to add accessible keyboard navigation to the site and administrator templates.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgSystemSkipto extends CMSPlugin
 {
@@ -41,7 +41,7 @@ class PlgSystemSkipto extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onBeforeCompileHead()
 	{

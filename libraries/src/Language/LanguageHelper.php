@@ -22,7 +22,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * Language helper class
  *
- * @since  1.7.0
+ * @since  1.5
  */
 class LanguageHelper
 {
@@ -36,7 +36,7 @@ class LanguageHelper
 	 *
 	 * @return  array  List of system languages
 	 *
-	 * @since   1.7.0
+	 * @since   1.5
 	 */
 	public static function createLanguageList($actualLanguage, $basePath = JPATH_BASE, $caching = false, $installed = false)
 	{
@@ -63,7 +63,7 @@ class LanguageHelper
 	 *
 	 * @return  string  locale or null if not found
 	 *
-	 * @since   1.7.0
+	 * @since   1.5
 	 */
 	public static function detectLanguage()
 	{
@@ -113,7 +113,7 @@ class LanguageHelper
 	 *
 	 * @return  array  An array of published languages
 	 *
-	 * @since   1.7.0
+	 * @since   1.6
 	 */
 	public static function getLanguages($key = 'default')
 	{
@@ -437,9 +437,16 @@ class LanguageHelper
 			return array();
 		}
 
-		// @deprecated __DEPLOY_VERSION__ Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
+		// @deprecated 3.9.0 Usage of "_QQ_" is deprecated. Use escaped double quotes (\") instead.
 		if (!defined('_QQ_'))
 		{
+			/**
+			 * Defines a placeholder for a double quote character (") in a language file
+			 *
+			 * @var    string
+			 * @since  1.6
+			 * @deprecated  4.0 Use escaped double quotes (\") instead.
+			 */
 			define('_QQ_', '"');
 		}
 
