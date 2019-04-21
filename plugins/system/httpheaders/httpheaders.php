@@ -12,10 +12,13 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
+use Joomla\Event\Event;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Filesystem\File;
 use Joomla\Registry\Registry;
 
 /**
