@@ -161,7 +161,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	public function setHttpHeaders()
+	public function setHttpHeaders(): void
 	{
 		// Set the default header when they are enabled
 		$this->setStaticHeaders();
@@ -186,7 +186,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function writeStaticHttpHeaders($context, $table, $isNew)
+	public function writeStaticHttpHeaders($context, $table, $isNew): void
 	{
 		// When the updated extension is not PLG_SYSTEM_HTTPHEADERS we don't do anything
 		if ($table->element != $this->_name || $table->folder != $this->_type)
@@ -255,7 +255,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   4.0.0
 	 */
-	private function setCspHeader()
+	private function setCspHeader(): void
 	{
 		// Mode Selector
 		$cspMode = $this->comCspParams->get('contentsecuritypolicy_mode', 'custom');
@@ -671,7 +671,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function writeStaticHeaders()
+	private function writeStaticHeaders(): boolean
 	{
 		$pathToHtaccess  = $this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS);
 		$pathToWebConfig = $this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG);
@@ -714,7 +714,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getStaticHeaderConfiguration($pluginParams = false)
+	private function getStaticHeaderConfiguration($pluginParams = false): array
 	{
 		$staticHeaderConfiguration = [];
 
@@ -805,7 +805,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function setStaticHeaders()
+	private function setStaticHeaders(): void
 	{
 		$this->staticHeaderConfiguration = $this->getStaticHeaderConfiguration($this->params);
 
