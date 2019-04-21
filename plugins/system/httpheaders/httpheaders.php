@@ -260,7 +260,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	private function setCspHeader(): void
 	{
 		// Mode Selector
-		$cspMode = $this->comCspParams->get('contentsecuritypolicy_mode', 'custom');
+		$cspMode = $this->comCspParams->get('contentsecuritypolicy_mode', 'detect');
 
 		// In detecting mode we set this default rule so any report gets collected by com_csp
 		if ($cspMode === 'detect')

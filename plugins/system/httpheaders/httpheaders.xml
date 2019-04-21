@@ -87,6 +87,7 @@
 							type="list"
 							label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_KEY"
 							validate="options"
+							class="col-md-4"
 							>
 							<option value="strict-transport-security">Strict-Transport-Security</option>
 							<option value="content-security-policy">Content-Security-Policy</option>
@@ -102,12 +103,14 @@
 							name="value"
 							type="text"
 							label="PLG_SYSTEM_HTTPHEADERS_ADDITIONAL_HEADER_VALUE"
+							class="col-md-10"
 						/>
 						<field
 							name="client"
 							type="radio"
 							label="PLG_SYSTEM_HTTPHEADERS_HEADER_CLIENT"
 							default="site"
+							class="col-md-12"
 							>
 							<option value="site">JSITE</option>
 							<option value="administrator">JADMINISTRATOR</option>
