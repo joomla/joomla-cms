@@ -543,11 +543,11 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Return the static Header Configuration based in the web.config format
 	 *
-	 * @return  string|boolean  Buffer style text of the Header Configuration based on the server config file or false on error.
+	 * @return  string  Buffer style text of the Header Configuration based on the server config file or false on error.
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function getWebConfigRulesForStaticHeaderConfiguration()
+	private function getWebConfigRulesForStaticHeaderConfiguration(): string
 	{
 		$webConfigDomDoc = new DOMDocument('1.0', 'UTF-8');
 
@@ -566,8 +566,8 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 		if ($systemWebServer->length === 0 || $systemWebServer->length > 1)
 		{
-			// There is only one (or none)
-			return false;
+			// There is only one (or none) so we don't do anything here
+			return '';
 		}
 
 		// Check what configurations exists already
@@ -726,25 +726,25 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$pluginParams = $this->params;
 		}
 
-		// x-frame-options
+		// X-frame-options
 		if ($pluginParams->get('xframeoptions'))
 		{
 			$staticHeaderConfiguration['x-frame-options#both'] = 'SAMEORIGIN';
 		}
 
-		// x-xss-protection
+		// X-xss-protection
 		if ($pluginParams->get('xxssprotection'))
 		{
 			$staticHeaderConfiguration['x-xss-protection#both'] = '1; mode=block';
 		}
 
-		// x-content-type-options
+		// X-content-type-options
 		if ($pluginParams->get('xcontenttypeoptions'))
 		{
 			$staticHeaderConfiguration['x-content-type-options#both'] = 'nosniff';
 		}
 
-		// referrer-policy
+		// Referrer-policy
 		$referrerPolicy = (string) $pluginParams->get('referrerpolicy', 'no-referrer-when-downgrade');
 
 		if ($referrerPolicy !== 'disabled')
@@ -752,7 +752,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$staticHeaderConfiguration['referrer-policy#both'] = $referrerPolicy;
 		}
 
-		// strict-transport-security
+		// Generate the strict-transport-security header
 		$strictTransportSecurity = (int) $pluginParams->get('hsts', 0);
 
 		if ($strictTransportSecurity)
@@ -774,6 +774,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$staticHeaderConfiguration['strict-transport-security#both'] = implode('; ', $hstsOptions);
 		}
 
+		// Generate the additional headers
 		$additionalHttpHeaders = $pluginParams->get('additional_httpheader', []);
 
 		foreach ($additionalHttpHeaders as $additionalHttpHeader)
@@ -801,7 +802,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	}
 
 	/**
-	 * Set the default headers when enabled
+	 * Set the static headers when enabled
 	 *
 	 * @return  void
 	 *
