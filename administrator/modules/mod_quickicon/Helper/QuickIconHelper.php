@@ -68,7 +68,7 @@ abstract class QuickIconHelper
 				self::$buttons[$key] = array(
 					array(
 						'link'   => Route::_('index.php?option=com_content&task=article.add'),
-						'image'  => 'fa fa-pencil-square',
+						'image'  => 'fa fa-pen-square',
 						'text'   => Text::_('MOD_QUICKICON_ADD_NEW_ARTICLE'),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
 						'group'  => 'MOD_QUICKICON_CONTENT',
