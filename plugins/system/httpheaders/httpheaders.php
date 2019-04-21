@@ -180,16 +180,19 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * On saving this plugin we may want to generate the latest static headers
 	 *
-	 * @param   string   $context  The extension
-	 * @param   JTable   $table    Database Table object
-	 * @param   boolean  $isNew    If the extension is new or not
+	 * @param   Event   $event  The Event Object with the passed arguments
 	 *
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function writeStaticHttpHeaders($context, $table, $isNew): void
+	public function writeStaticHttpHeaders(Event $event): void
 	{
+		// Read the arguments from the event object
+		$context = $event->getArgument('0');
+		$table   = $event->getArgument('1');
+		$isNew   = $event->getArgument('2');
+
 		// When the updated extension is not PLG_SYSTEM_HTTPHEADERS we don't do anything
 		if ($table->element != $this->_name || $table->folder != $this->_type)
 		{
