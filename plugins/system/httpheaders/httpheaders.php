@@ -266,7 +266,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$frontendUrl = str_replace('/administrator', '', Uri::base());
 
 			$this->app->setHeader(
-				'Content-Security-Policy-Report-Only',
+				'content-security-policy-report-only',
 				"default-src 'self'; report-uri " . $frontendUrl . "index.php?option=com_csp&task=report.log&client=" . $this->app->getName()
 			);
 
@@ -724,33 +724,33 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			$pluginParams = $this->params;
 		}
 
-		// X-Frame-Options
+		// x-frame-options
 		if ($pluginParams->get('xframeoptions'))
 		{
-			$staticHeaderConfiguration['X-Frame-Options#both'] = 'SAMEORIGIN';
+			$staticHeaderConfiguration['x-frame-options#both'] = 'SAMEORIGIN';
 		}
 
-		// X-XSS-Protection
+		// x-xss-protection
 		if ($pluginParams->get('xxssprotection'))
 		{
-			$staticHeaderConfiguration['X-XSS-Protection#both'] = '1; mode=block';
+			$staticHeaderConfiguration['x-xss-protection#both'] = '1; mode=block';
 		}
 
-		// X-Content-Type-Options
+		// x-content-type-options
 		if ($pluginParams->get('xcontenttypeoptions'))
 		{
-			$staticHeaderConfiguration['X-Content-Type-Options#both'] = 'nosniff';
+			$staticHeaderConfiguration['x-content-type-options#both'] = 'nosniff';
 		}
 
-		// Referrer-Policy
+		// referrer-policy
 		$referrerPolicy = (string) $pluginParams->get('referrerpolicy', 'no-referrer-when-downgrade');
 
 		if ($referrerPolicy !== 'disabled')
 		{
-			$staticHeaderConfiguration['Referrer-Policy#both'] = $referrerPolicy;
+			$staticHeaderConfiguration['referrer-policy#both'] = $referrerPolicy;
 		}
 
-		// Strict-Transport-Security
+		// strict-transport-security
 		$strictTransportSecurity = (int) $pluginParams->get('hsts', 0);
 
 		if ($strictTransportSecurity)
@@ -769,7 +769,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 				$hstsOptions[] = 'preload';
 			}
 
-			$staticHeaderConfiguration['Strict-Transport-Security#both'] = implode('; ', $hstsOptions);
+			$staticHeaderConfiguration['strict-transport-security#both'] = implode('; ', $hstsOptions);
 		}
 
 		$additionalHttpHeaders = $pluginParams->get('additional_httpheader', []);
