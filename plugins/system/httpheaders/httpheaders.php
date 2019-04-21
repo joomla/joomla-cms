@@ -315,7 +315,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			{
 				if (in_array($cspValue->directive, $this->nonceDirectives) && $nonceEnabled)
 				{
-					$cspValue->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce, $cspValue->value);
+					$cspValue->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $cspValue->value);
 				}
 
 				$newCspValues[] = trim($cspValue->directive) . ' ' . trim($cspValue->value);
@@ -796,7 +796,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 			// Allow the custom csp headers to use the random $cspNonce in the rules
 			if (in_array(strtolower($additionalHttpHeader->key), ['content-security-policy', 'content-security-policy-report-only']))
 			{
-				$additionalHttpHeader->value = str_replace('{nonce}', $this->cspNonce, $additionalHttpHeader->value);
+				$additionalHttpHeader->value = str_replace('{nonce}', "'nonce-" . $this->cspNonce . "'", $additionalHttpHeader->value);
 			}
 
 			$staticHeaderConfiguration[$additionalHttpHeader->key . '#' . $additionalHttpHeader->client] = $additionalHttpHeader->value;
