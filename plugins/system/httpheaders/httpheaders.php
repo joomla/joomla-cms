@@ -16,6 +16,7 @@ use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Uri\Uri;
 use Joomla\Database\DatabaseDriver;
 use Joomla\Event\SubscriberInterface;
+use Joomla\Registry\Registry;
 
 /**
  * Plugin class for HTTP Headers
