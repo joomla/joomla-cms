@@ -65,7 +65,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	];
 
 	/**
-	 * The list of nonce directives that support nonce
+	 * The list of directives supporting nonce
 	 *
 	 * @var    array
 	 * @since  4.0.0
