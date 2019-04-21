@@ -112,7 +112,7 @@ $this->addScriptDeclaration('cssVars();')
 			</div>
 			<div class="col text-center">
 				<a href="https://www.joomla.org" target="_blank" title="<?php echo Text::_('TPL_ATUM_ISFREESOFTWARE'); ?>">
-					<span class="fa fa-2x fa-joomla" aria-hidden="true"></span>
+					<span class="fab fa-2x fa-joomla" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('TPL_ATUM_GOTO_JOOMLA_HOME_PAGE'); ?></span>
 				</a>
 			</div>
