@@ -671,7 +671,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	private function writeStaticHeaders(): boolean
+	private function writeStaticHeaders(): bool
 	{
 		$pathToHtaccess  = $this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_HTACCESS);
 		$pathToWebConfig = $this->getServerConfigFilePath(self::SERVER_CONFIG_FILE_WEBCONFIG);
