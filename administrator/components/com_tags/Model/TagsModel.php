@@ -52,6 +52,7 @@ class TagsModel extends ListModel
 				'rgt', 'a.rgt',
 				'level', 'a.level',
 				'path', 'a.path',
+				'countTaggedItems',
 			);
 		}
 
@@ -143,6 +144,14 @@ class TagsModel extends ListModel
 		);
 		$query->from('#__tags AS a')
 			->where('a.alias <> ' . $db->quote('root'));
+
+		// Count Items
+		$subQueryCountTaggedItems = $db->getQuery(true);
+		$subQueryCountTaggedItems
+			->select('COUNT(' . $db->quoteName('tag_map.content_item_id') . ')')
+			->from($db->quoteName('#__contentitem_tag_map', 'tag_map'))
+			->where($db->quoteName('tag_map.tag_id') . '= ' . $db->quoteName('a.id'));
+		$query->select('(' . $subQueryCountTaggedItems->__toString() . ') AS countTaggedItems');
 
 		// Join over the language
 		$query->select('l.title AS language_title, l.image AS language_image')
