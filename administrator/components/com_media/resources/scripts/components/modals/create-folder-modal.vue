@@ -6,7 +6,7 @@
                 <div class="form-group">
                     <label for="folder">{{ translate('COM_MEDIA_FOLDER_NAME') }}</label>
                     <input id="folder" class="form-control"
-                           v-focus="true" v-model.trim="folder" @input="folder = $event.target.value"
+                           v-model.trim="folder" @input="folder = $event.target.value"
                            required autocomplete="off">
                 </div>
             </form>
@@ -21,11 +21,9 @@
 
 <script>
     import * as types from "./../../store/mutation-types";
-    import {focus} from 'vue-focus';
 
     export default {
         name: 'media-create-folder-modal',
-        directives: {focus: focus},
         data() {
             return {
                 folder: '',
