@@ -56,7 +56,8 @@ class ItemsModel extends ListModel
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 				'parent_id', 'a.parent_id',
-				'a.ordering'
+				'a.ordering',
+				'e.name', 'componentName'
 			);
 
 			$assoc = Associations::isEnabled();
@@ -493,6 +494,12 @@ class ItemsModel extends ListModel
 		if ($language = $this->getState('filter.language'))
 		{
 			$query->where('a.language = ' . $db->quote($language));
+		}
+
+		// Filter on componentName
+		if ($componentName = $this->getState('filter.componentName'))
+		{
+			$query->where('e.name = ' . $db->quote($componentName));
 		}
 
 		// Add the list ordering clause.
