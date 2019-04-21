@@ -7,7 +7,7 @@
                     <label for="name">{{ translate('COM_MEDIA_NAME') }}</label>
                     <div :class="{'input-group': extension.length}">
                         <input id="name" class="form-control" placeholder="Name"
-                               v-focus="true" v-model.trim="name" @input="name = $event.target.value"
+                               v-model.trim="name" @input="name = $event.target.value"
                                required autocomplete="off">
                         <span class="input-group-addon" v-if="extension.length">{{extension }}</span>
                     </div>
@@ -24,11 +24,9 @@
 
 <script>
     import * as types from "./../../store/mutation-types";
-    import {focus} from 'vue-focus';
 
     export default {
         name: 'media-rename-modal',
-        directives: {focus: focus},
         data() {
             return {
                 originalName: '',
