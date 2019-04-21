@@ -184,7 +184,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * On saving this plugin we may want to generate the latest static headers
 	 *
-	 * @param   Event   $event  The Event Object with the passed arguments
+	 * @param   Event  $event  The Event Object with the passed arguments
 	 *
 	 * @return  void
 	 *
@@ -257,8 +257,6 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 
 	/**
 	 * Set the CSP header when enabled
-	 *
-	 * @param   string  $cspNonce  The one time string for the script and style tag
 	 *
 	 * @return  void
 	 *
@@ -450,7 +448,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Return the path to the server config file we check
 	 *
-	 * @param   string   $file  Constante pointing to the correct server config file or none
+	 * @param   string  $file  Constante pointing to the correct server config file or none
 	 *
 	 * @return  string  Expected path to the requested file; Or false on error
 	 *
@@ -728,7 +726,7 @@ class PlgSystemHttpHeaders extends CMSPlugin implements SubscriberInterface
 	/**
 	 * Get the configured static headers.
 	 *
-	 * @param   Registry  $pluginParams An Registry Object containing the plugin parameters
+	 * @param   Registry  $pluginParams  An Registry Object containing the plugin parameters
 	 *
 	 * @return  array  We return the array of static headers with its values.
 	 *
