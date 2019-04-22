@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Joomla\Session\SessionEvent;
 /**
  * Event listener for session events regarding the session metadata for users.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class MetadataManagerListener
 {
@@ -25,7 +25,7 @@ final class MetadataManagerListener
 	 * Session metadata manager.
 	 *
 	 * @var    MetadataManager
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $metadataManager;
 
@@ -33,7 +33,7 @@ final class MetadataManagerListener
 	 * Application configuration.
 	 *
 	 * @var    Registry
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	private $config;
 
@@ -43,7 +43,7 @@ final class MetadataManagerListener
 	 * @param   MetadataManager  $metadataManager  Session metadata manager.
 	 * @param   Registry         $config           Application configuration.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(MetadataManager $metadataManager, Registry $config)
 	{
@@ -58,7 +58,7 @@ final class MetadataManagerListener
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onAfterSessionStart(SessionEvent $event)
 	{

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\Router\Route;
 /**
  * Joomla! API Router class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ApiRouter extends Router
 {
@@ -26,7 +26,7 @@ class ApiRouter extends Router
 	 * The application object
 	 *
 	 * @type   CMSApplicationInterface
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $app;
 
@@ -55,7 +55,7 @@ class ApiRouter extends Router
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function createCRUDRoutes($baseName, $controller, $defaults = array(), $publicGets = false)
 	{
@@ -79,7 +79,7 @@ class ApiRouter extends Router
 	 *
 	 * @return  array   An array containing the controller and the matched variables.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \InvalidArgumentException
 	 */
 	public function parseApiRoute($method = 'GET')

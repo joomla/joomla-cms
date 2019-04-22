@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_latest
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -76,6 +76,10 @@ abstract class ArticlesLatestHelper
 			case 'not_me' :
 				$model->setState('filter.author_id', $userId);
 				$model->setState('filter.author_id.include', false);
+				break;
+
+			case 'created_by' :
+				$model->setState('filter.author_id', $params->get('author', array()));
 				break;
 
 			case '0' :

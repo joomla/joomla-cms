@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ use Tobscure\JsonApi\AbstractSerializer;
 /**
  * Temporary serializer
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class JoomlaSerializer extends AbstractSerializer
 {
@@ -26,7 +26,7 @@ class JoomlaSerializer extends AbstractSerializer
 	 *
 	 * @param   string  $type  The content type to be loaded
 	 *
-	 * @since __DEPLOY_VERSION__
+	 * @since 4.0.0
 	 */
 	public function __construct(string $type)
 	{
@@ -41,7 +41,7 @@ class JoomlaSerializer extends AbstractSerializer
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getAttributes($post, array $fields = null)
 	{

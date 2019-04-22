@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,13 +25,6 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
       throw new Error('Joomla API is not properly initiated');
     }
 
-    this.disabled = false;
-
-    // If list selection is required, set button to disabled by default
-    if (this.listSelection) {
-      this.setDisabled(true);
-    }
-
     this.onChange = this.onChange.bind(this);
 
     this.addEventListener('click', event => this.executeTask(event));
@@ -48,6 +41,12 @@ window.customElements.define('joomla-toolbar-button', class extends HTMLElement 
     // Check whether we have a form
     const formSelector = this.form || 'adminForm';
     this.formElement = document.getElementById(formSelector);
+
+    this.disabled = false;
+    // If list selection is required, set button to disabled by default
+    if (this.listSelection) {
+      this.setDisabled(true);
+    }
 
     if (this.listSelection) {
       if (!this.formElement) {

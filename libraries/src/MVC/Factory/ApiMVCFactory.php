@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,7 +16,7 @@ defined('JPATH_PLATFORM') or die;
  * Factory to create MVC objects based on a namespace. Note that in an API Application model and table objects will be
  * created from their administrator counterparts.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 final class ApiMVCFactory extends MVCFactory
 {
@@ -29,7 +29,7 @@ final class ApiMVCFactory extends MVCFactory
 	 *
 	 * @return  \Joomla\CMS\MVC\Model\ModelInterface  The model object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createModel($name, $prefix = '', array $config = array())
@@ -53,7 +53,7 @@ final class ApiMVCFactory extends MVCFactory
 	 *
 	 * @return  \Joomla\CMS\Table\Table  The table object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function createTable($name, $prefix = '', array $config = array())

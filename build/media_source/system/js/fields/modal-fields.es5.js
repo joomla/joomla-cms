@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -54,6 +54,10 @@
 			{
 				document.getElementById(fieldPrefix + '_clear').classList.remove('hidden');
 			}
+			if (document.getElementById(fieldPrefix + '_propagate'))
+			{
+				jQuery('#' + fieldPrefix + '_propagate').removeClass('hidden');
+			}
 		}
 		else
 		{
@@ -75,6 +79,10 @@
 			if (document.getElementById(fieldPrefix + '_clear'))
 			{
 				document.getElementById(fieldPrefix + '_clear').classList.add('hidden');
+			}
+			if (document.getElementById(fieldPrefix + '_propagate'))
+			{
+				jQuery('#' + fieldPrefix + '_propagate').addClass('hidden');
 			}
 		}
 

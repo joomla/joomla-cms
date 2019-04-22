@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -356,7 +356,7 @@ class ComponentHelper
 			 * @var    string
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
-			*/
+			 */
 			define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/' . $option);
 		}
 
@@ -368,7 +368,7 @@ class ComponentHelper
 			 * @var    string
 			 * @since  1.5
 			 * @deprecated 5.0 without replacement
-			*/
+			 */
 			define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_ADMINISTRATOR . '/components/' . $option);
 		}
 

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_menu
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -33,7 +33,7 @@ class CssMenu
 	 *
 	 * @var    MenuItem
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $root;
 
@@ -42,7 +42,7 @@ class CssMenu
 	 *
 	 * @var    MenuItem[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $nodes = [];
 
@@ -78,7 +78,7 @@ class CssMenu
 	 *
 	 * @var   int
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $counter = 0;
 
@@ -370,7 +370,8 @@ class CssMenu
 
 				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
-			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
+			// Special case for components which only allow super user access
+			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
 			{
 				$parent->removeChild($item);
 				continue;
@@ -532,7 +533,7 @@ class CssMenu
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function getCounter()
 	{

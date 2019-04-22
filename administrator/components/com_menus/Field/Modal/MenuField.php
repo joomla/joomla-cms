@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Session\Session;
 
@@ -65,6 +66,14 @@ class MenuField extends FormField
 	protected $allowEdit = false;
 
 	/**
+	 * Determinate, if the propagate button is shown
+	 *
+	 * @var     boolean
+	 * @since   3.9.0
+	 */
+	protected $allowPropagate = false;
+
+	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
 	 * @param   string  $name  The property name for which to get the value.
@@ -81,6 +90,7 @@ class MenuField extends FormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+			case 'allowPropagate':
 				return $this->$name;
 		}
 
@@ -105,6 +115,7 @@ class MenuField extends FormField
 			case 'allowClear':
 			case 'allowNew':
 			case 'allowEdit':
+			case 'allowPropagate':
 				$value = (string) $value;
 				$this->$name = !($value === 'false' || $value === 'off' || $value === '0');
 				break;
@@ -138,6 +149,7 @@ class MenuField extends FormField
 			$this->allowClear = ((string) $this->element['clear']) !== 'false';
 			$this->allowNew = ((string) $this->element['new']) === 'true';
 			$this->allowEdit = ((string) $this->element['edit']) === 'true';
+			$this->allowPropagate = ((string) $this->element['propagate']) === 'true';
 		}
 
 		return $return;
@@ -153,6 +165,7 @@ class MenuField extends FormField
 	protected function getInput()
 	{
 		$clientId    = (int) $this->element['clientid'];
+		$languages   = LanguageHelper::getContentLanguages(array(0, 1));
 
 		// Load language
 		Factory::getLanguage()->load('com_menus', JPATH_ADMINISTRATOR);
@@ -184,6 +197,8 @@ class MenuField extends FormField
 				}
 				"
 				);
+
+				Text::script('JGLOBAL_ASSOCIATIONS_PROPAGATE_FAILED');
 
 				$scriptSelect[$this->id] = true;
 			}
@@ -307,6 +322,23 @@ class MenuField extends FormField
 				. ' onclick="window.processModalParent(\'' . $this->id . '\'); return false;">'
 				. '<span class="icon-remove" aria-hidden="true"></span>' . Text::_('JCLEAR')
 				. '</button>';
+		}
+
+		// Propagate menu item button
+		if ($this->allowPropagate && count($languages) > 2)
+		{
+			// Strip off language tag at the end
+			$tagLength = (int) strlen($this->element['language']);
+			$callbackFunctionStem = substr("jSelectMenu_" . $this->id, 0, -$tagLength);
+
+			$html .= '<a'
+			. ' class="btn hasTooltip' . ($value ? '' : ' hidden') . '"'
+			. ' id="' . $this->id . '_propagate"'
+			. ' href="#"'
+			. ' title="' . HtmlHelper::tooltipText('JGLOBAL_ASSOCIATIONS_PROPAGATE_TIP') . '"'
+			. ' onclick="Joomla.propagateAssociation(\'' . $this->id . '\', \'' . $callbackFunctionStem . '\');">'
+			. '<span class="icon-refresh" aria-hidden="true"></span>' . Text::_('JGLOBAL_ASSOCIATIONS_PROPAGATE_BUTTON')
+			. '</a>';
 		}
 
 		if ($this->allowSelect || $this->allowNew || $this->allowEdit || $this->allowClear)

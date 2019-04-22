@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,7 +27,7 @@ use Joomla\String\Inflector;
  * Controller (controllers are where you put all the actual code) Provides basic
  * functionality, such as rendering views (aka displaying templates).
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class ApiController extends BaseController
 {
@@ -35,7 +35,7 @@ class ApiController extends BaseController
 	 * The content type of the item.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $contentType;
 
@@ -43,7 +43,7 @@ class ApiController extends BaseController
 	 * The URL option for the component.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $option;
 
@@ -51,7 +51,7 @@ class ApiController extends BaseController
 	 * The prefix to use with controller messages.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $text_prefix;
 
@@ -59,7 +59,7 @@ class ApiController extends BaseController
 	 * The context for storing internal data, e.g. record.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $context;
 
@@ -80,7 +80,7 @@ class ApiController extends BaseController
 	 * @param   CmsApplication       $app      The JApplication for the dispatcher
 	 * @param   Input                $input    Input
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  \Exception
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null, $app = null, $input = null)
@@ -120,7 +120,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function displayItem($id = null)
 	{
@@ -177,7 +177,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  static  A \JControllerLegacy object to support chaining.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function displayList()
 	{
@@ -248,7 +248,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function delete()
 	{
@@ -282,7 +282,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 * @throws  NotAllowed
 	 * @throws  \RuntimeException
 	 */
@@ -311,7 +311,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  boolean  True if save succeeded after access level check and checkout passes, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function edit()
 	{
@@ -370,7 +370,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  int|boolean  The record ID on success, false on failure
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function save($recordKey = null)
 	{
@@ -487,7 +487,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowEdit($data = array(), $key = 'id')
 	{
@@ -503,7 +503,7 @@ class ApiController extends BaseController
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function allowAdd($data = array())
 	{

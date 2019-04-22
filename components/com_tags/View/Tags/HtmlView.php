@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -92,6 +92,9 @@ class HtmlView extends BaseHtmlView
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
+
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
 
 		// Check whether access level allows access.
 		// @todo: Should already be computed in $item->params->get('access-view')

@@ -23,8 +23,6 @@ pipeline:
     image: joomlaprojects/docker-tools:develop
     commands:
       - composer install --no-progress --no-suggest
-      # needed for unit testing
-      - composer update joomla/test-unit --no-progress --no-suggest
       # needed for system testing
       - composer update joomla/test-system --no-progress --no-suggest
       - composer update joomla/test-api --no-progress --no-suggest
@@ -45,19 +43,19 @@ pipeline:
     group: unit
     image: joomlaprojects/docker-php70:develop
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - ./libraries/vendor/bin/phpunit
 
   php71-unit:
     group: unit
     image: joomlaprojects/docker-php71:develop
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - ./libraries/vendor/bin/phpunit
 
   php72-unit:
     group: unit
     image: joomlaprojects/docker-php72:develop
     commands:
-      - ./libraries/vendor/bin/phpunit --configuration ./libraries/vendor/joomla/test-unit/phpunit.xml.dist
+      - ./libraries/vendor/bin/phpunit
 
   javascript-cs:
     image: joomlaprojects/docker-systemtests:develop
@@ -66,7 +64,7 @@ pipeline:
       - Xvfb -screen 0 1024x768x24 -ac +extension GLX +render -noreset > /dev/null 2>&1 &
       - sleep 3
       - fluxbox  > /dev/null 2>&1 &
-      - cd /drone/src/github.com/joomla/joomla-cms && npm run lint:js
+      - npm run lint:js
 
   javascript-tests:
     image: joomlaprojects/docker-systemtests:develop

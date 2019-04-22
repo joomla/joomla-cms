@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Webservices.Content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Router\ApiRouter;
 /**
  * Web Services adapter for com_content.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class PlgWebservicesContent extends CMSPlugin
 {
@@ -23,7 +23,7 @@ class PlgWebservicesContent extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -34,7 +34,7 @@ class PlgWebservicesContent extends CMSPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function onBeforeApiRoute(&$router)
 	{
