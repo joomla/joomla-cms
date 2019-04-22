@@ -19,7 +19,7 @@ use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
 $listOrder     = $this->escape($this->state->get('list.ordering'));
 $listDirn      = $this->escape($this->state->get('list.direction'));
-$lang          = JFactory::getLanguage();
+$lang          = Factory::getLanguage();
 $branchFilter  = $this->escape($this->state->get('filter.branch'));
 Text::script('COM_FINDER_MAPS_CONFIRM_DELETE_PROMPT');
 HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' => true]);
@@ -77,10 +77,10 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 						<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
-								<?php echo JHtml::_('grid.id', $i, $item->id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							</td>
 							<td class="text-center">
-								<?php echo JHtml::_('jgrid.published', $item->state, $i, 'maps.', $canChange, 'cb'); ?>
+								<?php echo HTMLHelper::_('jgrid.published', $item->state, $i, 'maps.', $canChange, 'cb'); ?>
 							</td>
 							<th scope="row">
 								<?php
@@ -146,7 +146,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 
 			<input type="hidden" name="task" value="display">
 			<input type="hidden" name="boxchecked" value="0">
-			<?php echo JHtml::_('form.token'); ?>
+			<?php echo HTMLHelper::_('form.token'); ?>
 		</div>
 	</div>
 </form>
