@@ -80,6 +80,8 @@ class SiteMenu extends AbstractMenu
 	{
 		$loader = function ()
 		{
+			$nulldate    = $this->db->quote($this->db->getNullDate());
+			$currentDate = Factory::getDate()->toSql();
 			$query = $this->db->getQuery(true)
 				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
 				->select($this->db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
@@ -89,6 +91,8 @@ class SiteMenu extends AbstractMenu
 				->where('m.published = 1')
 				->where('m.parent_id > 0')
 				->where('m.client_id = 0')
+				->where('(m.publish_up = ' . $nulldate . ' OR m.publish_up <= ' . $this->db->quote($currentDate) . ')')
+				->where('(m.publish_down = ' . $nulldate . ' OR m.publish_down >= ' . $this->db->quote($currentDate) . ')')
 				->order('m.lft');
 
 			// Set the query
