@@ -27,7 +27,6 @@ use Joomla\String\StringHelper;
  */
 class ContactTable extends Table
 {
-
 	/**
 	 * Indicates that columns fully support the NULL value in the database
 	 *
