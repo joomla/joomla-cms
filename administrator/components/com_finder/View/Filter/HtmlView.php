@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\View\Filter;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -106,10 +107,10 @@ class HtmlView extends BaseHtmlView
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
 		$isNew = ($this->item->filter_id == 0);
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == \JFactory::getUser()->id);
+		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == Factory::getUser()->id);
 		$canDo = ContentHelper::getActions('com_finder');
 
 		// Configure the toolbar.

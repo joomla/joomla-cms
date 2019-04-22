@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Administrator\Table;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
 use Joomla\Database\DatabaseDriver;
@@ -93,7 +94,7 @@ class FilterTable extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) === '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		$params = new Registry($this->params);
@@ -225,8 +226,8 @@ class FilterTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate()->toSql();
-		$userId = \JFactory::getUser()->id;
+		$date = Factory::getDate()->toSql();
+		$userId = Factory::getUser()->id;
 
 		if ($this->filter_id)
 		{

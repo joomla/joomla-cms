@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\View\Index;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -129,19 +130,19 @@ class HtmlView extends BaseHtmlView
 
 		if (!$this->pluginState['plg_content_finder']->enabled)
 		{
-			if (\JFactory::getUser()->authorise('core.manage', 'com_plugin'))
+			if (Factory::getUser()->authorise('core.manage', 'com_plugin'))
 			{
 				$link = Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . FinderHelper::getFinderPluginId());
-				\JFactory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
+				Factory::getApplication()->enqueueMessage(Text::sprintf('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED_LINK', $link), 'warning');
 			}
 			else
 			{
-				\JFactory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
+				Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_PLUGIN_CONTENT_NOT_ENABLED'), 'warning');
 			}
 		}
 		elseif ($this->get('TotalIndexed') === 0)
 		{
-			\JFactory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_FINDER_INDEX_NO_DATA') . '  ' . Text::_('COM_FINDER_INDEX_TIP'), 'notice');
 		}
 
 		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
