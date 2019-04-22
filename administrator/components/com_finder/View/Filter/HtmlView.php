@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Administrator\View\Filter;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
@@ -89,8 +90,8 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
-		\JHtml::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_SITE . '/components/com_finder/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();

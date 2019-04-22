@@ -15,7 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
-JHtml::_('bootstrap.popover');
+HTMLHelper::_('bootstrap.popover');
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn  = $this->escape($this->state->get('list.direction'));
@@ -40,25 +40,25 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 					<thead>
 						<tr>
 							<td style="width:1%" class="text-center">
-								<?php echo JHtml::_('grid.checkall'); ?>
+								<?php echo HTMLHelper::_('grid.checkall'); ?>
 							</td>
 							<th scope="col" style="width:1%" class="text-center">
-								<?php echo JHtml::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'l.published', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col">
-								<?php echo JHtml::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'JGLOBAL_TITLE', 'l.title', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_TYPE', 't.title', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:10%" class="d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_INDEX_DATE', 'l.indexdate', $listDirn, $listOrder); ?>
 							</th>
 							<th scope="col" style="width:15%" class="text-center d-none d-md-table-cell text-center">
 								<?php echo Text::_('COM_FINDER_INDEX_HEADING_DETAILS'); ?>
 							</th>
 							<th scope="col" style="width:30%" class="d-none d-md-table-cell">
-								<?php echo JHtml::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
+								<?php echo HTMLHelper::_('searchtools.sort', 'COM_FINDER_INDEX_HEADING_LINK_URL', 'l.url', $listDirn, $listOrder); ?>
 							</th>
 						</tr>
 					</thead>
@@ -67,10 +67,10 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 						<?php foreach ($this->items as $i => $item) : ?>
 						<tr class="row<?php echo $i % 2; ?>">
 							<td class="text-center">
-								<?php echo JHtml::_('grid.id', $i, $item->link_id); ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->link_id); ?>
 							</td>
 							<td class="text-center">
-								<?php echo JHtml::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
+								<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'index.', $canChange, 'cb'); ?>
 							</td>
 							<th scope="row">
 								<label for="cb<?php echo $i; ?>">
@@ -84,7 +84,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 								?>
 							</td>
 							<td class="small d-none d-md-table-cell text-center">
-								<?php echo JHtml::_('date', $item->indexdate, Text::_('DATE_FORMAT_LC4')); ?>
+								<?php echo HTMLHelper::_('date', $item->indexdate, Text::_('DATE_FORMAT_LC4')); ?>
 							</td>
 							<td class="text-center d-none d-md-table-cell text-center">
 								<?php if ((int) $item->publish_start_date or (int) $item->publish_end_date or (int) $item->start_date or (int) $item->end_date) : ?>
@@ -105,7 +105,7 @@ HTMLHelper::_('script', 'com_finder/index.js', ['version' => 'auto', 'relative' 
 
 				<input type="hidden" name="task" value="display">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo JHtml::_('form.token'); ?>
+				<?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>

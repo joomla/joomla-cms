@@ -10,29 +10,30 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 
-JHtml::_('behavior.formvalidator');
-JHtml::_('behavior.keepalive');
-JHtml::_('behavior.core');
-JHtml::_('behavior.tabstate');
+HTMLHelper::_('behavior.formvalidator');
+HTMLHelper::_('behavior.keepalive');
+HTMLHelper::_('behavior.core');
+HTMLHelper::_('behavior.tabstate');
 
 Text::script('COM_FINDER_FILTER_SHOW_ALL', true);
 Text::script('COM_FINDER_FILTER_HIDE_ALL', true);
 
 $this->useCoreUI = true;
 
-JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', 'relative' => true));
+HTMLHelper::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', 'relative' => true));
 ?>
 
 <form action="<?php echo JRoute::_('index.php?option=com_finder&view=filter&layout=edit&filter_id=' . (int) $this->item->filter_id); ?>" method="post" name="adminForm" id="adminForm" class="form-validate">
 
 	<?php echo LayoutHelper::render('joomla.edit.title_alias', $this); ?>
 
-	<?php echo JHtml::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
+	<?php echo HTMLHelper::_('uitab.startTabSet', 'myTab', array('active' => 'details')); ?>
 
-	<?php echo JHtml::_('uitab.addTab', 'myTab', 'details', Text::_('COM_FINDER_EDIT_FILTER')); ?>
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'details', Text::_('COM_FINDER_EDIT_FILTER')); ?>
 	<div class="row">
 		<div class="col-md-9">
 			<?php if ($this->total > 0) : ?>
@@ -46,7 +47,7 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 				<hr>
 			<?php endif; ?>
 
-			<?php echo JHtml::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
+			<?php echo HTMLHelper::_('filter.slider', array('selected_nodes' => $this->filter->data)); ?>
 		</div>
 		<div class="col-md-3">
 			<div class="card card-light">
@@ -56,17 +57,17 @@ JHtml::_('script', 'com_finder/finder-edit.min.js', array('version' => 'auto', '
 			</div>
 		</div>
 	</div>
-	<?php echo JHtml::_('uitab.endTab'); ?>
+	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
-	<?php echo JHtml::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
+	<?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'publishing', Text::_('JGLOBAL_FIELDSET_PUBLISHING')); ?>
 	<?php echo LayoutHelper::render('joomla.edit.publishingdata', $this); ?>
-	<?php echo JHtml::_('uitab.endTab'); ?>
+	<?php echo HTMLHelper::_('uitab.endTab'); ?>
 
 	<?php echo LayoutHelper::render('joomla.edit.params', $this); ?>
 
-	<?php echo JHtml::_('uitab.endTabSet'); ?>
+	<?php echo HTMLHelper::_('uitab.endTabSet'); ?>
 
 	<input type="hidden" name="task" value="">
 	<input type="hidden" name="return" value="<?php echo Factory::getApplication()->input->get('return', '', 'cmd'); ?>">
-	<?php echo JHtml::_('form.token'); ?>
+	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

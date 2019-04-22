@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\GroupedlistField;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 
@@ -112,7 +113,7 @@ class ContentmapField extends GroupedlistField
 						$groups[$name] = array();
 					}
 
-					$groups[$name][] = \JHtml::_('select.option', $branch->value, $levelPrefix . $text);
+					$groups[$name][] = HTMLHelper::_('select.option', $branch->value, $levelPrefix . $text);
 				}
 			}
 		}
