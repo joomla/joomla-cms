@@ -13,6 +13,7 @@ defined('JPATH_BASE') or die();
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\Language\Text;
 
 /**
  * Search Filter field for the Finder package.
@@ -48,7 +49,7 @@ class SearchfilterField extends ListField
 		$db->setQuery($query);
 		$options = $db->loadObjectList();
 
-		array_unshift($options, \JHtml::_('select.option', '', \JText::_('COM_FINDER_SELECT_SEARCH_FILTER'), 'value', 'text'));
+		array_unshift($options, \JHtml::_('select.option', '', Text::_('COM_FINDER_SELECT_SEARCH_FILTER'), 'value', 'text'));
 
 		return $options;
 	}

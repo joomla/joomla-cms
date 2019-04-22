@@ -11,6 +11,8 @@ namespace Joomla\Component\Finder\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
+
 /**
  * Helper class for Finder.
  *
@@ -38,22 +40,22 @@ class FinderHelper
 	public static function addSubmenu($vName)
 	{
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_INDEX'),
+			Text::_('COM_FINDER_SUBMENU_INDEX'),
 			'index.php?option=com_finder&view=index',
 			$vName === 'index'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_MAPS'),
+			Text::_('COM_FINDER_SUBMENU_MAPS'),
 			'index.php?option=com_finder&view=maps',
 			$vName === 'maps'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_FILTERS'),
+			Text::_('COM_FINDER_SUBMENU_FILTERS'),
 			'index.php?option=com_finder&view=filters',
 			$vName === 'filters'
 		);
 		\JHtmlSidebar::addEntry(
-			\JText::_('COM_FINDER_SUBMENU_SEARCHES'),
+			Text::_('COM_FINDER_SUBMENU_SEARCHES'),
 			'index.php?option=com_finder&view=searches',
 			$vName === 'searches'
 		);
