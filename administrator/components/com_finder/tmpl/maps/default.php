@@ -122,7 +122,7 @@ HTMLHelper::_('script', 'com_finder/maps.js', ['version' => 'auto', 'relative' =
 							</td>
 							<td class="text-center btns">
 							<?php if ($item->level > 1) : ?>
-								<a class="badge <?php if ((int) $item->count_unpublished > 0) echo 'badge-danger'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
+								<a class="badge <?php echo ((int) $item->count_unpublished > 0) ? 'badge-danger' : 'badge-secondary'; ?>" title="<?php echo Text::_('COM_FINDER_MAPS_COUNT_UNPUBLISHED_ITEMS'); ?>" href="<?php echo Route::_('index.php?option=com_finder&view=index&filter[state]=0&filter[content_map]=' . $item->id); ?>">
 								<?php echo (int) $item->count_unpublished; ?></a>
 							<?php else : ?>
 								-
