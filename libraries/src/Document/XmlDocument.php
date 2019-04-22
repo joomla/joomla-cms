@@ -31,7 +31,7 @@ class XmlDocument extends Document
 	 * Flag indicating the document should be downloaded (Content-Disposition = attachment) versus displayed inline
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $isDownload = false;
 
@@ -107,7 +107,7 @@ class XmlDocument extends Document
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function isDownload()
 	{
@@ -121,7 +121,7 @@ class XmlDocument extends Document
 	 *
 	 * @return  XmlDocument instance of $this to allow chaining
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function setDownload($download = false)
 	{

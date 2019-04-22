@@ -14,10 +14,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Language;
-use Joomla\CMS\Language\MultiLanguage;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Session\Session;
 
 /**
  * Languages Controller.
@@ -34,7 +33,7 @@ class InstalledController extends BaseController
 	public function setDefault()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$cid = $this->input->get('cid', '');
 		$model = $this->getModel('installed');
@@ -80,7 +79,7 @@ class InstalledController extends BaseController
 	public function switchAdminLanguage()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$cid   = $this->input->get('cid', '');
 		$model = $this->getModel('installed');

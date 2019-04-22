@@ -3,7 +3,7 @@
 	<name>plg_system_privacyconsent</name>
 	<author>Joomla! Project</author>
 	<creationDate>April 2018</creationDate>
-	<copyright>(C) 2005 - 2018 Open Source Matters. All rights reserved.</copyright>
+	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
@@ -21,17 +21,17 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic" addfieldpath="/administrator/components/com_content/models/fields">
-				<field 
-					name="privacy_note" 
-					type="textarea" 
+				<field
+					name="privacy_note"
+					type="textarea"
 					label="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DESC"
 					hint="PLG_SYSTEM_PRIVACYCONSENT_NOTE_FIELD_DEFAULT"
 					class="span12"
-					rows="7" 
-					cols="20" 
+					rows="7"
+					cols="20"
 					filter="html"
-				/>	
+				/>
 				<field
 					name="privacy_article"
 					type="modal_article"
@@ -41,16 +41,17 @@
 					new="true"
 					edit="true"
 					clear="true"
+					filter="integer"
 				/>
-				<field 
-					name="messageOnRedirect" 
-					type="textarea" 
+				<field
+					name="messageOnRedirect"
+					type="textarea"
 					label="PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_LABEL"
 					description="PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DESC"
 					hint="PLG_SYSTEM_PRIVACYCONSENT_REDIRECT_MESSAGE_DEFAULT"
 					class="span12"
-					rows="7" 
-					cols="20" 
+					rows="7"
+					cols="20"
 					filter="html"
 				/>
 			</fieldset>
@@ -110,7 +111,7 @@
 					name="lastrun"
 					type="hidden"
 					default="0"
-					size="15"
+					filter="integer"
 				/>
 			</fieldset>
 		</fields>

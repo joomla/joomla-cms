@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.terms
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -16,7 +16,7 @@ use Joomla\Utilities\ArrayHelper;
 /**
  * An example custom terms and conditions plugin.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgUserTerms extends JPlugin
 {
@@ -24,7 +24,7 @@ class PlgUserTerms extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -32,7 +32,7 @@ class PlgUserTerms extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -40,7 +40,7 @@ class PlgUserTerms extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -50,7 +50,7 @@ class PlgUserTerms extends JPlugin
 	 * @param   object  &$subject  The object to observe
 	 * @param   array   $config    An array that holds the plugin configuration
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(&$subject, $config)
 	{
@@ -67,7 +67,7 @@ class PlgUserTerms extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentPrepareForm($form, $data)
 	{
@@ -107,7 +107,7 @@ class PlgUserTerms extends JPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 * @throws  InvalidArgumentException on missing required data.
 	 */
 	public function onUserBeforeSave($user, $isNew, $data)
@@ -137,6 +137,42 @@ class PlgUserTerms extends JPlugin
 		}
 
 		return true;
+	}
 
+	/**
+	 * Saves user profile data
+	 *
+	 * @param   array    $data    entered user data
+	 * @param   boolean  $isNew   true if this is a new user
+	 * @param   boolean  $result  true if saving the user worked
+	 * @param   string   $error   error message
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.9.0
+	 */
+	public function onUserAfterSave($data, $isNew, $result, $error)
+	{
+		if (!$isNew || !$result)
+		{
+			return true;
+		}
+
+		JLoader::register('ActionlogsModelActionlog', JPATH_ADMINISTRATOR . '/components/com_actionlogs/models/actionlog.php');
+		$userId = ArrayHelper::getValue($data, 'id', 0, 'int');
+
+		$message = array(
+			'action'      => 'consent',
+			'id'          => $userId,
+			'title'       => $data['name'],
+			'itemlink'    => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+			'userid'      => $userId,
+			'username'    => $data['username'],
+			'accountlink' => 'index.php?option=com_users&task=user.edit&id=' . $userId,
+		);
+
+		/* @var ActionlogsModelActionlog $model */
+		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model->addLog(array($message), 'PLG_USER_TERMS_LOGGING_CONSENT_TO_TERMS', 'plg_user_terms', $userId);
 	}
 }
