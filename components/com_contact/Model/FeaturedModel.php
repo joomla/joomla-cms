@@ -119,7 +119,7 @@ class FeaturedModel extends ListModel
 			$nowDate = $db->quote($date->toSql());
 
 			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
-				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate). ')');
+				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
 		}
 
 		// Filter by language
