@@ -5,7 +5,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_workflow
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  * @since       4.0.0
  */
@@ -126,7 +126,7 @@ if ($saveOrder)
 									</td>
 									<th scope="row">
 										<?php if ($canEdit && !$isCore) : ?>
-											<?php $editIcon = '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+											<?php $editIcon = '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
 												<?php echo $editIcon; ?><?php echo $this->escape(Text::_($item->title)); ?>
 											</a>

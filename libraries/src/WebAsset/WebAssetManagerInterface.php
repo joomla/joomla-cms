@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,7 +15,7 @@ use Joomla\CMS\Document\Document;
 /**
  * Web Asset Manager Interface
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface WebAssetManagerInterface
 {
@@ -26,7 +26,7 @@ interface WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function enableAsset(string $name): self;
 
@@ -37,7 +37,7 @@ interface WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function disableAsset(string $name): self;
 
@@ -48,7 +48,7 @@ interface WebAssetManagerInterface
 	 *
 	 * @return  bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function isAssetActive(string $name): bool;
 
@@ -59,7 +59,7 @@ interface WebAssetManagerInterface
 	 *
 	 * @return  WebAssetItemInterface[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAssets(bool $sort = false): array;
 
@@ -70,7 +70,7 @@ interface WebAssetManagerInterface
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function attachActiveAssetsToDocument(Document $doc): self;
 

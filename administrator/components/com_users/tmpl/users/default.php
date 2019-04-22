@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -113,7 +113,7 @@ $tfa        = PluginHelper::isEnabled('twofactorauth');
 									<div class="name break-word">
 									<?php if ($canEdit) : ?>
 										<a href="<?php echo Route::_('index.php?option=com_users&task=user.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo Text::sprintf('COM_USERS_EDIT_USER', $this->escape($item->name)); ?>">
-											<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->name); ?></a>
+											<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape($item->name); ?></a>
 									<?php else : ?>
 										<?php echo $this->escape($item->name); ?>
 									<?php endif; ?>

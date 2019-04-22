@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -63,6 +63,7 @@ class JNamespacePsr4Map
 	public function create()
 	{
 		$extensions = $this->getNamespaces('administrator/components');
+		$extensions = array_merge($extensions, $this->getNamespaces('api/components'));
 		$extensions = array_merge($extensions, $this->getNamespaces('modules'));
 		$extensions = array_merge($extensions, $this->getNamespaces('administrator/modules'));
 
@@ -160,17 +161,29 @@ class JNamespacePsr4Map
 			// Compile the extension path
 			$extensionPath = JPATH_ROOT . '/' . $dir . '/' . $extension . '/';
 
-			// The extension name
-			$name = str_replace('com_', '', $extension);
+			// Strip the com_ from the extension name for components
+			$name = str_replace('com_', '', $extension, $count);
+			$file = $extensionPath . $name . '.xml';
 
-			// If there is no manifest file, ignore
-			if (!file_exists($extensionPath . $name . '.xml'))
+			// If there is no manifest file, ignore. If it was a component check if the xml was named with the com_
+			// prefix.
+			if (!file_exists($file))
 			{
-				continue;
+				if (!$count)
+				{
+					continue;
+				}
+
+				$file = $extensionPath . $extension . '.xml';
+
+				if (!file_exists($file))
+				{
+					continue;
+				}
 			}
 
 			// Load the manifest file
-			$xml = simplexml_load_file($extensionPath . $name . '.xml');
+			$xml = simplexml_load_file($file);
 
 			// When invalid, ignore
 			if (!$xml)
@@ -200,6 +213,13 @@ class JNamespacePsr4Map
 			if (strpos($extension, 'com_') === 0)
 			{
 				$extensions[$namespace . 'Site\\\\'] = str_replace('administrator/', '', $namespacePath) . $namespaceNode->attributes()->path;
+
+				$apiPath = str_replace('administrator/', 'api/', $namespacePath);
+
+				if (is_dir(JPATH_ROOT . $apiPath))
+				{
+					$extensions[$namespace . 'Api\\\\'] = str_replace('administrator/', 'api/', $namespacePath) . $namespaceNode->attributes()->path;
+				}
 			}
 
 			// Add the application specific segment when not a plugin

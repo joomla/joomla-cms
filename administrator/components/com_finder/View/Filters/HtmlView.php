@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,6 +12,8 @@ namespace Joomla\Component\Finder\Administrator\View\Filters;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -112,7 +114,7 @@ class HtmlView extends BaseHtmlView
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
 
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Configure the toolbar.
 		$this->addToolbar();
@@ -132,7 +134,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_finder');
 
-		ToolbarHelper::title(\JText::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'zoom-in finder');
+		ToolbarHelper::title(Text::_('COM_FINDER_FILTERS_TOOLBAR_TITLE'), 'zoom-in finder');
 		$toolbar = Toolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.create'))

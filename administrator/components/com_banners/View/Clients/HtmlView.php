@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -98,7 +98,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{		
-			$dropdown = $toolbar->dropdownButton('status')
+			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
 				->icon('fa fa-globe')
