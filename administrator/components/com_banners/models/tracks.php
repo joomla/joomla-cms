@@ -228,7 +228,7 @@ class BannersModelTracks extends JModelList
 				$query->where('track_date <= ' . $db->quote($end));
 			}
 
-			$where = '1';
+			$where = '1 = 1';
 
 			// Filter by client
 			$clientId = $this->getState('filter.client_id');
