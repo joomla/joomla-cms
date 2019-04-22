@@ -179,7 +179,7 @@ class CategoryModel extends ListModel
 		$nowDate = $db->quote(Factory::getDate()->toSql());
 
 		if ($this->getState('filter.publish_date'))
-		{			
+		{
 			$query->where('(' . $query->isNullDatetime('a.publish_up') . ' OR a.publish_up <= ' . $db->quote($nowDate) . ')')
 				->where('(' . $query->isNullDatetime('a.publish_down') . ' OR a.publish_down >= ' . $db->quote($nowDate) . ')');
 		}
