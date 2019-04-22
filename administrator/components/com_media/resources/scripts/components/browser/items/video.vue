@@ -90,15 +90,15 @@
                 this.$store.commit(types.SHOW_PREVIEW_MODAL);
                 this.$store.dispatch('getFullContents', this.item);
             },
-	        /* Preview an item */
-	        download() {
-		        this.$store.dispatch('download', this.item);
-	        },
+            /* Preview an item */
+            download() {
+                this.$store.dispatch('download', this.item);
+            },
             /* Opening confirm delete modal */
             openConfirmDeleteModal(){
-                    this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
-	            this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
-	            this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
+                this.$store.commit(types.UNSELECT_ALL_BROWSER_ITEMS);
+                this.$store.commit(types.SELECT_BROWSER_ITEM, this.item);
+                this.$store.commit(types.SHOW_CONFIRM_DELETE_MODAL);
             },
             /* Rename an item */
             openRenameModal() {
