@@ -152,9 +152,9 @@ Joomla.toggleAllNextElements = (element, className) => {
       }
     }
 
-    publishBtn.addEventListener('click', (e) => {
-      if (e.target.classList.contains('disabled')) {
-        e.stopPropagation();
+    publishBtn.parentElement.addEventListener('click', (e) => {
+      if (publishBtn.classList.contains('disabled')) {
+        e.stopImmediatePropagation();
 
         Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_PUBlISH')] });
       } else {
@@ -162,9 +162,9 @@ Joomla.toggleAllNextElements = (element, className) => {
       }
     });
 
-    unpublishBtn.addEventListener('click', (e) => {
-      if (e.target.classList.contains('disabled')) {
-        e.stopPropagation();
+    unpublishBtn.parentElement.addEventListener('click', (e) => {
+      if (unpublishBtn.classList.contains('disabled')) {
+        e.stopImmediatePropagation();
 
         Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_UNPUBlISH')] });
       } else {
@@ -172,9 +172,9 @@ Joomla.toggleAllNextElements = (element, className) => {
       }
     });
 
-    archiveBtn.addEventListener('click', (e) => {
-      if (e.target.classList.contains('disabled')) {
-        e.stopPropagation();
+    archiveBtn.parentElement.addEventListener('click', (e) => {
+      if (archiveBtn.classList.contains('disabled')) {
+        e.stopImmediatePropagation();
 
         Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_ARCHIVE')] });
       } else {
@@ -182,9 +182,9 @@ Joomla.toggleAllNextElements = (element, className) => {
       }
     });
 
-    trashBtn.addEventListener('click', (e) => {
-      if (e.target.classList.contains('disabled')) {
-        e.stopPropagation();
+    trashBtn.parentElement.addEventListener('click', (e) => {
+      if (trashBtn.classList.contains('disabled')) {
+        e.stopImmediatePropagation();
 
         Joomla.renderMessages({ error: [Joomla.JText._('COM_CONTENT_ERROR_CANNOT_TRASH')] });
       } else {

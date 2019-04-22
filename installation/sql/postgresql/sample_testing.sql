@@ -17,7 +17,7 @@ TRUNCATE "#__viewlevels" RESTART IDENTITY;
 --
 
 INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "title", "rules") VALUES
-(1, 0, 1, 479, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
+(1, 0, 1, 483, 0, 'root.1', 'Root Asset', '{"core.login.site":{"6":1,"2":1},"core.login.admin":{"6":1},"core.admin":{"8":1},"core.manage":{"7":1},"core.create":{"6":1,"3":1},"core.delete":{"6":1},"core.edit":{"6":1,"4":1},"core.edit.state":{"6":1,"5":1},"core.edit.own":{"6":1,"3":1}}'),
 (2, 1, 2, 3, 1, 'com_admin', 'com_admin', '{}'),
 (3, 1, 4, 11, 1, 'com_banners', 'com_banners', '{"core.admin":{"7":1},"core.manage":{"6":1}}'),
 (4, 1, 12, 13, 1, 'com_cache', 'com_cache', '{"core.admin":{"7":1},"core.manage":{"7":1}}'),
@@ -201,7 +201,9 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (198, 18, 357, 358, 2, 'com_modules.module.118', 'Bottom-b', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
 (210, 18, 359, 360, 2, 'com_modules.module.64', 'Language Switcher', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
 (211, 18, 361, 362, 2, 'com_modules.module.84', 'Smart Search Module', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
-(212, 18, 363, 364, 2, 'com_modules.module.119', 'Banner', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}');
+(212, 18, 363, 364, 2, 'com_modules.module.119', 'Banner', '{"core.delete":[],"core.edit":[],"core.edit.state":[],"module.edit.frontend":[]}'),
+(213, 1, 365, 366, 1, 'com_privacy', 'com_privacy', '{"core.admin":{"7":1}}'),
+(214, 1, 367, 368, 1, 'com_actionlogs', 'com_actionlogs', '{"core.admin":{"7":1}}');
 
 SELECT setval('#__assets_id_seq', max(id)) FROM "#__assets";
 
@@ -660,7 +662,8 @@ INSERT INTO "#__modules" ("id", "title", "note", "content", "ordering", "positio
 (117, 'Bottom-b', '', '<div class="demo-module">\r\n<p><span class="fa fa-joomla">&nbsp;</span><span class="badge badge-success">New</span></p>\r\n<p class="demo-title">Bottom-b</p>\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n</div>', 1, 'bottom-b', 0, NULL, NULL, NULL, 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"Cassiopeia-default"}', 0, '*'),
 (118, 'Bottom-b', '', '<div class="demo-module">\r\n<p><span class="fa fa-joomla">&nbsp;</span><span class="badge badge-default">New</span></p>\r\n<p class="demo-title">Bottom-b</p>\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n</div>', 1, 'bottom-b', 0, NULL, NULL, NULL, 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":" bg-danger text-white","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"3","header_tag":"h3","header_class":"","style":"Cassiopeia-default"}', 0, '*'),
 (119, 'Banner', '', '<p><img src="images/banners/banner.jpg"></p>', 1, 'banner', 0, NULL, NULL, NULL, 1, 'mod_custom', 1, 0, '{"prepare_content":"0","backgroundimage":"","layout":"_:default","moduleclass_sfx":"","cache":"1","cache_time":"900","cachemode":"static","module_tag":"div","bootstrap_size":"0","header_tag":"h3","header_class":"","style":"0"}', 0, '*'),
-(120, 'Footer', '', '&copy; Joomla! CMS', 1, 'footer', 0, NULL, NULL, NULL, 1, 'mod_custom', 1, 1, '', 0, '*');
+(120, 'Footer', '', '&copy; Joomla! CMS', 1, 'footer', 0, NULL, NULL, NULL, 1, 'mod_custom', 1, 1, '', 0, '*'),
+(121, 'Latest Actions', '', '', 0, 'cpanel', 0, '1970-01-01 00:00:00', '1970-01-01 00:00:00', '1970-01-01 00:00:00', 1, 'mod_latestactions', 6, 1, '{}', 1, '*');
 
 
 
@@ -849,6 +852,7 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (118, 435),
 (119, 435),
 (120, 0);
+(121, 0);
 
 --
 -- Dumping data for table `#__newsfeeds`

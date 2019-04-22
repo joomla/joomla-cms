@@ -80,13 +80,14 @@
         "doctrine/inflector": "1.2.0",
         "fig/link-util": "~1.0",
         "google/recaptcha": "~1.1",
-        "paragonie/sodium_compat": "~1.4",
+        "paragonie/sodium_compat": "~1.6",
         "phpmailer/phpmailer": "~6.0",
         "psr/link": "~1.0",
         "symfony/console": "3.4.*",
         "symfony/debug": "3.4.*",
         "symfony/ldap": "3.4.*",
         "symfony/options-resolver": "3.4.*",
+        "symfony/polyfill-php71": "~1.10",
         "symfony/polyfill-php73": "^1.10",
         "symfony/web-link": "3.4.*",
         "symfony/yaml": "3.4.*",
@@ -94,7 +95,8 @@
         "maximebf/debugbar": "^1.15",
         "tobscure/json-api": "^0.4.1",
         "willdurand/negotiation": "^2.3",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-simplexml": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.0",

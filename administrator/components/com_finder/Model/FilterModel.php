@@ -11,6 +11,7 @@ namespace Joomla\Component\Finder\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\AdminModel;
 
 /**
@@ -122,7 +123,7 @@ class FilterModel extends AdminModel
 	protected function loadFormData()
 	{
 		// Check the session for previously entered form data.
-		$data = \JFactory::getApplication()->getUserState('com_finder.edit.filter.data', array());
+		$data = Factory::getApplication()->getUserState('com_finder.edit.filter.data', array());
 
 		if (empty($data))
 		{
@@ -143,7 +144,7 @@ class FilterModel extends AdminModel
 	 */
 	public function getTotal()
 	{
-		$db    = \JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('MAX(link_id)')
 			->from('#__finder_links');

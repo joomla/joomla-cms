@@ -27,7 +27,7 @@
       };
 
       Joomla.request({
-        url: `${options.ajaxUrl}&eid=0&skip=700`,
+        url: options.ajaxUrl,
         method: 'GET',
         data: '',
         perform: true,
