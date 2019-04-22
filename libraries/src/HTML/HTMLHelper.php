@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -217,7 +217,7 @@ abstract class HTMLHelper
 	 *
 	 * @return  mixed   Function result or false on error.
 	 *
-	 * @link    https://secure.php.net/manual/en/function.call-user-func-array.php
+	 * @link    https://www.php.net/manual/en/function.call-user-func-array.php
 	 * @since   1.6
 	 * @throws  \InvalidArgumentException
 	 */

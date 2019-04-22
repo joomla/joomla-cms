@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -74,7 +74,7 @@ class UsersControllerRegistration extends UsersController
 		// Admin activation is on and admin is activating the account
 		if (($uParams->get('useractivation') == 2) && $userToActivate->getParam('activate', 0))
 		{
-			// If a user admin is not logged in, redirect them to the login page with a error message
+			// If a user admin is not logged in, redirect them to the login page with an error message
 			if (!$user->authorise('core.create', 'com_users'))
 			{
 				$activationUrl = 'index.php?option=com_users&task=registration.activate&token=' . $token;

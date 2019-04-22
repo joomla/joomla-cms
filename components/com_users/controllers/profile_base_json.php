@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,6 +27,11 @@ class UsersControllerProfile_Base_Json extends JControllerLegacy
 	public function gethelpsites()
 	{
 		jimport('joomla.filesystem.file');
+
+		if (JFactory::getUser()->guest)
+		{
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+		}
 
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
