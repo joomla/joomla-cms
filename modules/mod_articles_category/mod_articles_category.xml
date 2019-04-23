@@ -452,14 +452,13 @@
 				<field
 					name="show_tags"
 					type="radio"
+					class="switcher"
 					label="JTAG"
-					description="MOD_ARTICLES_CATEGORY_FIELD_SHOWTAGS_DESC"
 					default="0"
 					filter="integer"
-					class="btn-group btn-group-yesno"
 					>
-					<option value="1">JSHOW</option>
 					<option value="0">JHIDE</option>
+					<option value="1">JSHOW</option>
 				</field>
 
 				<field
