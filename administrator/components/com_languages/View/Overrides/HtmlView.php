@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
-use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -77,10 +76,12 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$this->state      = $this->get('State');
-		$this->items      = $this->get('Overrides');
-		$this->languages  = $this->get('Languages');
-		$this->pagination = $this->get('Pagination');
+		$this->state         = $this->get('State');
+		$this->items         = $this->get('Overrides');
+		$this->languages     = $this->get('Languages');
+		$this->pagination    = $this->get('Pagination');
+		$this->filterForm    = $this->get('FilterForm');
+		$this->activeFilters = $this->get('ActiveFilters');
 
 		LanguagesHelper::addSubmenu('overrides');
 
@@ -132,13 +133,6 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
 
 		\JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
-
-		\JHtmlSidebar::addFilter(
-			'',
-			'filter_language_client',
-			HTMLHelper::_('select.options', $this->languages, null, 'text', $this->state->get('filter.language_client')),
-			true
-		);
 
 		$this->sidebar = \JHtmlSidebar::render();
 	}

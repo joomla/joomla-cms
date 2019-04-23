@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -23,7 +23,7 @@ use XMLReader;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class FeedParserTest extends UnitTestCase
 {
@@ -32,7 +32,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testParse()
 	{
@@ -54,7 +54,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testParseCustomElement()
 	{
@@ -79,7 +79,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testParseNamespaceElement()
 	{
@@ -110,7 +110,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testParseDetectsUnregisteredNamespace()
 	{
@@ -135,7 +135,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testParseElementWithEntry()
 	{
@@ -161,7 +161,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testParseElementWithNamespaceEntry()
 	{
@@ -189,7 +189,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRegisterNamespace()
 	{
@@ -209,7 +209,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToNextElement()
 	{
@@ -253,7 +253,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToNextElementByName()
 	{
@@ -285,7 +285,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToClosingElement()
 	{
@@ -312,7 +312,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToClosingElementWithInternalElements()
 	{
@@ -340,7 +340,7 @@ class FeedParserTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMoveToClosingElementWithSelfClosingTag()
 	{
