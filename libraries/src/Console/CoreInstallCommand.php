@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
 use Joomla\CMS\Filesystem\Folder;
 use Joomla\CMS\Installation\Form\Field\Installation\PrefixField;
+use Joomla\CMS\Installation\Helper\DatabaseHelper;
 use Joomla\CMS\Installation\Model\ChecksModel;
 use Joomla\CMS\Installation\Model\ConfigurationModel;
 use Joomla\CMS\Installation\Model\SetupModel;
@@ -475,7 +476,7 @@ EOF;
 	public function getOptionsTemplate()
 	{
 		$drivers = array_map('strtolower', DatabaseDriver::getConnectors());
-		$prefix = (new PrefixField)->getPrefix();
+		$prefix = DatabaseHelper::getPrefix();
 
 		return [
 			'language' => [
