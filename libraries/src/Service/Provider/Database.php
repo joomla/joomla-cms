@@ -93,12 +93,12 @@ class Database implements ServiceProviderInterface
 				// Enable utf8mb4 connections for mysql adapters
 				if (strtolower($dbtype) === 'mysqli')
 				{
-					$config['utf8mb4'] = true;
+					$options['utf8mb4'] = true;
 				}
 
 				if (strtolower($dbtype) === 'mysql')
 				{
-					$config['charset'] = 'utf8mb4';
+					$options['charset'] = 'utf8mb4';
 				}
 
 				if (JDEBUG)
