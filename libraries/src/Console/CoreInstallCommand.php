@@ -259,7 +259,7 @@ class CoreInstallCommand extends AbstractCommand
 			'driver'   => $options->db_type,
 			'host'     => $options->db_host,
 			'user'     => $options->db_user,
-			'password' => $options->db_pass,
+			'password' => $options->db_pass_plain,
 			'database' => $options->db_name,
 			'prefix'   => $options->db_prefix,
 			'select'   => isset($options->db_select) ? $options->db_select : false
@@ -476,7 +476,7 @@ EOF;
 	public function getOptionsTemplate()
 	{
 		$drivers = array_map('strtolower', DatabaseDriver::getConnectors());
-		$prefix = DatabaseHelper::getPrefix();
+		$prefix = DatabaseHelper::getPrefix(8);
 
 		return [
 			'language' => [
@@ -499,7 +499,7 @@ EOF;
 				'type'      => 'question',
 				'rules'     => 'isAlphanumeric',
 			],
-			'admin_password' => [
+			'admin_password_plain' => [
 				'question'  => "Enter admin password",
 				'type'      => 'question',
 			],
@@ -517,7 +517,7 @@ EOF;
 				'question'  => "Enter database user",
 				'type'      => 'question',
 			],
-			'db_pass' => [
+			'db_pass_plain' => [
 				'question'  => "Enter database password",
 				'type'      => 'question',
 				'default'   => null,
@@ -560,10 +560,11 @@ EOF;
 			'admin_email' => 'email@example.com',
 			'admin_user' => 'user',
 			'admin_password' => 'password',
+			'admin_password_plain' => 'password',
 			'db_type' => 'Mysql',
 			'db_host' => 'localhost',
 			'db_user' => 'root',
-			'db_pass' => '',
+			'db_pass_plain' => '',
 			'db_name' => 'test',
 			'db_prefix' => 'prefix_',
 			'db_old' => 'remove',
@@ -763,7 +764,7 @@ EOF;
 
 			if ($completed)
 			{
-				$this->progressBar->setMessage("Finishing installation ...");
+				$this->progressBar->setMessage("Finishing installation ..." . PHP_EOL);
 				$this->progressBar->finish();
 				$this->ioStyle->success("Joomla! installation completed successfully!");
 

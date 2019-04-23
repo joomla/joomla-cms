@@ -62,14 +62,13 @@ abstract class DatabaseHelper
 	/**
 	 * Generates random prefix string for DB table
 	 *
+	 * @param   int $size  SIze of the Prefix
 	 * @return string
 	 *
 	 * @since 4.0
 	 */
-	public static function getPrefix()
+	public static function getPrefix(int $size = 15)
 	{
-		$size = 15;
-
 		// Create the random prefix.
 		$prefix  = '';
 		$chars   = range('a', 'z');
@@ -83,7 +82,7 @@ abstract class DatabaseHelper
 		$symbols = array_merge($numbers, $chars);
 		shuffle($symbols);
 
-		for ($i = 0, $j = $size - 1; $i < $j; ++$i)
+		for ($i = 1, $j = $size - 1; $i < $j; ++$i)
 		{
 			$prefix .= $symbols[$i];
 		}
