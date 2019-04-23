@@ -197,8 +197,8 @@
         default="1"
         showon="resizing:1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -208,8 +208,8 @@
         class="switcher"
         default="0"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -219,8 +219,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -230,8 +230,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -241,8 +241,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
@@ -252,8 +252,8 @@
         class="switcher"
         default="1"
         >
-        <option value="1">JON</option>
         <option value="0">JOFF</option>
+        <option value="1">JON</option>
     </field>
 
     <field
