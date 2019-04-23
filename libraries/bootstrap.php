@@ -72,3 +72,9 @@ JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
 // @deprecated  4.0
 JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
 JLoader::registerAlias('JSite', 'JApplicationSite');
+
+// Registers the Installation namespace
+if (file_exists(JPATH_INSTALLATION . '/index.php'))
+{
+	JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
+}

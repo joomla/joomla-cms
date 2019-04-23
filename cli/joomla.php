@@ -49,12 +49,6 @@ if (!file_exists(JPATH_LIBRARIES . '/vendor/autoload.php') || !is_dir(JPATH_ROOT
 // Get the framework.
 require_once JPATH_BASE . '/includes/framework.php';
 
-// Registers the Installation namespace
-if (file_exists(JPATH_INSTALLATION . '/index.php'))
-{
-	JLoader::registerNamespace('Joomla\\CMS\\Installation', JPATH_INSTALLATION . '/src', false, false, 'psr4');
-}
-
 // Boot the DI container
 $container = \Joomla\CMS\Factory::getContainer();
 
