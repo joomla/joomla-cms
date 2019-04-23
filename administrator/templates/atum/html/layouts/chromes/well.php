@@ -41,12 +41,12 @@ if ($module->content) :
 			<?php if ($canEdit || $canChange) : ?>
 				<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
 				<div class="module-actions dropdown">
-					<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dropdownMenuButton-<?php echo $id; ?>">
+					<button type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="btn btn-link" id="dropdownMenuButton-<?php echo $id; ?>">
 						<span class="fa fa-cog"><span class="sr-only">
 							<?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?>
 						</span></span>
 					</button>
-					<div class="dropdown-menu dropdown-menu-' . $dropdownPosition . '" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
+					<div class="dropdown-menu dropdown-menu-<?php echo $dropdownPosition; ?>" aria-labelledby="dropdownMenuButton-<?php echo $id; ?>">
 						<?php if ($canEdit) : ?>
 							<?php $uri = Uri::getInstance(); ?>
 							<?php $url = Route::_('index.php?option=com_modules&task=module.edit&id=' . $id . '&return=' . base64_encode($uri)); ?>
