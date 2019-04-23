@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0093a386df9286fbeb9d09a25d12a632",
+    "content-hash": "e9a69a951df7df98bcd2f4707a0026b8",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -2436,7 +2436,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -4816,7 +4816,7 @@
                     "email": "puneet.kala@community.joomla.org"
                 },
                 {
-                    "name": "Javier Gómez",
+                    "name": "Javier Gomez",
                     "email": "javier.gomez@community.joomla.org"
                 }
             ],
@@ -4910,16 +4910,16 @@
         },
         {
             "name": "joomla/test-system",
-            "version": "dev-4.0-new-backend-template",
+            "version": "dev-4.0-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/test-system.git",
-                "reference": "64eb122aa29c3abb7d7c79932cd783fa6c354dd6"
+                "reference": "9285560c06a80e1f6f7fcbf6e1ed7953b59c4c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-system/zipball/64eb122aa29c3abb7d7c79932cd783fa6c354dd6",
-                "reference": "64eb122aa29c3abb7d7c79932cd783fa6c354dd6",
+                "url": "https://api.github.com/repos/joomla/test-system/zipball/9285560c06a80e1f6f7fcbf6e1ed7953b59c4c3f",
+                "reference": "9285560c06a80e1f6f7fcbf6e1ed7953b59c4c3f",
                 "shasum": ""
             },
             "require": {
@@ -4940,7 +4940,7 @@
                 "cms",
                 "joomla"
             ],
-            "time": "2019-02-27T10:38:03+00:00"
+            "time": "2019-04-23T13:40:12+00:00"
         },
         {
             "name": "league/container",
