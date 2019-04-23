@@ -16,7 +16,7 @@ if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
 	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new JVersion)->isInDevelopmentState())))
 {
-	 // Prevents the script from falling back to $_SERVER['REQUEST_URI'] as it will throw an error in CLI mode.
+	// Prevents the script from falling back to $_SERVER['REQUEST_URI'] as it will throw an error in CLI mode.
 	if (php_sapi_name() === 'cli')
 	{
 		// This is been defined because some core scripts needs it defined.

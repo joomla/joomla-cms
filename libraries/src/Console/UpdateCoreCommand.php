@@ -100,7 +100,7 @@ class UpdateCoreCommand extends AbstractCommand
 	/**
 	 * UpdateCoreCommand constructor.
 	 *
-	 * @param   DatabaseInterface $db  Database Instance
+	 * @param   DatabaseInterface  $db  Database Instance
 	 *
 	 * @since 4.0
 	 */
