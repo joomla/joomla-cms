@@ -1,71 +1,75 @@
-.control-group .controls {
-    margin-left: 0! important; //test code only
-}
 .switcher {
-  position: relative;
-  width: 18rem;
-  height: 3rem;
+position: relative;
+width: 18rem;
+height: 28px;
 }
 .switcher input {
-  position: absolute;
-  top: 0;
-  z-index: 2;
-  opacity: 0;
-  cursor: pointer;
-  height: 3rem;
-  width: 6rem;
-  margin: 0;
+position: absolute;
+top: 0;
+z-index: 2;
+opacity: 0;
+cursor: pointer;
+height: 28px;
+width: 62px;
+margin: 0;
 }
 .switcher input:checked {
-  z-index: 1;
+z-index: 1;
 }
 .switcher input:checked + label {
-  opacity: 1;
+opacity: 1;
 }
 .switcher input:not(:checked) + label {
-  opacity: 0;
+opacity: 0;
 }
 .switcher label {
-  line-height: 3rem;
-  display: inline-block;
-  width: 6rem;
-  height: 100%;
-  margin-left: 6.5em;
-  text-align: left;
-  position: absolute;
-  transition: opacity 0.25s ease;
+line-height: 28px;
+display: inline-block;
+width: 6rem;
+height: 100%;
+margin-left: 70px;
+text-align: left;
+position: absolute;
+transition: opacity 0.25s ease;
+margin-bottom: 0;
 }
 .switcher .toggle-outside {
-  height: 100%;
-  padding: 0.25rem;
-  overflow: hidden;
-  transition: 0.25s ease all;
-  background: green;
-  position: absolute;
-  width: 6rem;
-  box-sizing: border-box;
-
+height: 100%;
+padding: 0.25rem;
+overflow: hidden;
+transition: 0.25s ease all;
+background: green;
+position: absolute;
+width: 62px;
+box-sizing: border-box;
 }
 .switcher .toggle-inside {
-  height: 2.5rem;
-  width: 2.5rem;  
-  background: white;
-  position: absolute;
-  transition: 0.25s ease all;
+height: 20px;
+width: 20px;
+background: white;
+position: absolute;
+transition: 0.25s ease all;
 }
 .switcher input:checked ~ .toggle-outside .toggle-inside {
-  left: 0.25rem;
+left: 0.25rem;
 }
 .switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
-  left: 3.25rem;
+left: 38px;
 }
 .switcher__legend {
- margin-bottom: 1rem;
- font-size: 1rem;
- font-weight: 400;
- float: left;
- width: 220px;
- padding-top: 5px;
- padding-right: 5px;
- text-align: left;
+margin-bottom: 1rem;
+font-size: 1rem;
+font-weight: 400;
+float: left;
+width: 220px;
+padding-top: 5px;
+padding-right: 5px;
+text-align: left;
+}
+.col-md-3 .switcher__legend {
+  margin-left: 0;
+}
+
+.col-md-9 .switcher__legend {
+  margin-left: -220px;
 }
