@@ -21,11 +21,11 @@ use Joomla\CMS\Language\Text;
  * atomic manner.
  *
  * @note   This class adheres to the stream wrapper operations:
- * @link   https://secure.php.net/manual/en/function.stream-get-wrappers.php
- * @link   https://secure.php.net/manual/en/intro.stream.php PHP Stream Manual
- * @link   https://secure.php.net/manual/en/wrappers.php Stream Wrappers
- * @link   https://secure.php.net/manual/en/filters.php Stream Filters
- * @link   https://secure.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
+ * @link   https://www.php.net/manual/en/function.stream-get-wrappers.php
+ * @link   https://www.php.net/manual/en/intro.stream.php PHP Stream Manual
+ * @link   https://www.php.net/manual/en/wrappers.php Stream Wrappers
+ * @link   https://www.php.net/manual/en/filters.php Stream Filters
+ * @link   https://www.php.net/manual/en/transports.php Socket Transports (used by some options, particularly HTTP proxy)
  * @since  1.7.0
  */
 class Stream extends CMSObject
@@ -537,7 +537,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fread.php
+	 * @link    https://www.php.net/manual/en/function.fread.php
 	 * @since   1.7.0
 	 */
 	public function read($length = 0)
@@ -640,7 +640,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  boolean  True on success, false on failure
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fseek.php
+	 * @link    https://www.php.net/manual/en/function.fseek.php
 	 * @since   1.7.0
 	 */
 	public function seek($offset, $whence = SEEK_SET)
@@ -753,7 +753,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  boolean
 	 *
-	 * @link    https://secure.php.net/manual/en/function.fwrite.php
+	 * @link    https://www.php.net/manual/en/function.fwrite.php
 	 * @since   1.7.0
 	 */
 	public function write(&$string, $length = 0, $chunk = 0)
@@ -895,7 +895,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  array  header/metadata
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-get-meta-data.php
+	 * @link    https://www.php.net/manual/en/function.stream-get-meta-data.php
 	 * @since   1.7.0
 	 */
 	public function get_meta_data()
@@ -940,7 +940,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create
+	 * @link    https://www.php.net/stream_context_create
 	 * @since   1.7.0
 	 */
 	public function setContextOptions($context)
@@ -958,8 +958,8 @@ class Stream extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create Stream Context Creation
-	 * @link    https://secure.php.net/manual/en/context.php Context Options for various streams
+	 * @link    https://www.php.net/stream_context_create Stream Context Creation
+	 * @link    https://www.php.net/manual/en/context.php Context Options for various streams
 	 * @since   1.7.0
 	 */
 	public function addContextEntry($wrapper, $name, $value)
@@ -976,7 +976,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  void
 	 *
-	 * @link    https://secure.php.net/stream_context_create
+	 * @link    https://www.php.net/stream_context_create
 	 * @since   1.7.0
 	 */
 	public function deleteContextEntry($wrapper, $name)
@@ -1046,7 +1046,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-filter-append.php
+	 * @link    https://www.php.net/manual/en/function.stream-filter-append.php
 	 * @since   1.7.0
 	 */
 	public function appendFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())
@@ -1087,7 +1087,7 @@ class Stream extends CMSObject
 	 *
 	 * @return  mixed
 	 *
-	 * @link    https://secure.php.net/manual/en/function.stream-filter-prepend.php
+	 * @link    https://www.php.net/manual/en/function.stream-filter-prepend.php
 	 * @since   1.7.0
 	 */
 	public function prependFilter($filtername, $read_write = STREAM_FILTER_READ, $params = array())

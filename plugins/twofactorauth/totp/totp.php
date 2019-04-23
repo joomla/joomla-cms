@@ -107,7 +107,7 @@ class PlgTwofactorauthTotp extends JPlugin
 		$hostname = JUri::getInstance()->getHost();
 
 		// This is the URL to the QR code for Google Authenticator
-		$url = $totp->getUrl($username, $hostname, $secret);
+		$url = sprintf("otpauth://totp/%s@%s?secret=%s", $username, $hostname, $secret);
 
 		// Is this a new TOTP setup? If so, we'll have to show the code validation field.
 		$new_totp = $otpConfig->method !== 'totp';
