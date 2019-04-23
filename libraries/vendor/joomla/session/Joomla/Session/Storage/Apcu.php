@@ -11,53 +11,47 @@ namespace Joomla\Session\Storage;
 use Joomla\Session\Storage;
 
 /**
- * XCache session storage handler
+ * APCU session storage handler for PHP
  *
- * @since       1.0
- * @deprecated  2.0  The Storage class chain will be removed
+ * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
+ * @since       1.4.0
+ * @deprecated  2.0  The Storage class chain will be removed.
  */
-class Xcache extends Storage
+class Apcu extends Storage
 {
 	/**
 	 * Constructor
 	 *
-	 * @param   array  $options  Optional parameters.
+	 * @param   array  $options  Optional parameters
 	 *
-	 * @since   1.0
+	 * @since   1.4.0
 	 * @throws  \RuntimeException
-	 * @deprecated  2.0
 	 */
 	public function __construct($options = array())
 	{
 		if (!self::isSupported())
 		{
-			throw new \RuntimeException('XCache Extension is not available', 404);
+			throw new \RuntimeException('APCU Extension is not available', 404);
 		}
 
 		parent::__construct($options);
 	}
 
 	/**
-	 * Read the data for a particular session identifier from the SessionHandler backend.
+	 * Read the data for a particular session identifier from the
+	 * SessionHandler backend.
 	 *
 	 * @param   string  $id  The session identifier.
 	 *
 	 * @return  string  The session data.
 	 *
-	 * @since   1.0
-	 * @deprecated  2.0
+	 * @since   1.4.0
 	 */
 	public function read($id)
 	{
 		$sess_id = 'sess_' . $id;
 
-		// Check if id exists
-		if (!xcache_isset($sess_id))
-		{
-			return '';
-		}
-
-		return (string) xcache_get($sess_id);
+		return (string) apcu_fetch($sess_id);
 	}
 
 	/**
@@ -68,14 +62,13 @@ class Xcache extends Storage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   1.0
-	 * @deprecated  2.0
+	 * @since   1.4.0
 	 */
 	public function write($id, $session_data)
 	{
 		$sess_id = 'sess_' . $id;
 
-		return xcache_set($sess_id, $session_data, ini_get('session.gc_maxlifetime'));
+		return apcu_store($sess_id, $session_data, ini_get('session.gc_maxlifetime'));
 	}
 
 	/**
@@ -85,19 +78,13 @@ class Xcache extends Storage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   1.0
-	 * @deprecated  2.0
+	 * @since   1.4.0
 	 */
 	public function destroy($id)
 	{
 		$sess_id = 'sess_' . $id;
 
-		if (!xcache_isset($sess_id))
-		{
-			return true;
-		}
-
-		return xcache_unset($sess_id);
+		return apcu_delete($sess_id);
 	}
 
 	/**
@@ -105,11 +92,10 @@ class Xcache extends Storage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   1.0
-	 * @deprecated  2.0
+	 * @since   1.4.0
 	 */
 	public static function isSupported()
 	{
-		return \extension_loaded('xcache');
+		return \extension_loaded('apcu');
 	}
 }
