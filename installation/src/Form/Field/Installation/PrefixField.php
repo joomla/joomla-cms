@@ -12,6 +12,7 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Installation\Helper\DatabaseHelper;
 
 /**
  * Database Prefix field.
@@ -55,7 +56,7 @@ class PrefixField extends FormField
 
 		if (empty($session['db_prefix']))
 		{
-			$prefix = $this->getPrefix();
+			$prefix = DatabaseHelper::getPrefix();
 		}
 		else
 		{
@@ -68,40 +69,5 @@ class PrefixField extends FormField
 		return '<input type="text" name="' . $this->name . '" id="' . $this->id . '"' .
 				' value="' . htmlspecialchars($prefix, ENT_COMPAT, 'UTF-8') . '"' .
 				$class . $disabled . $readonly . $onchange . $maxLength . '>';
-	}
-
-	/**
-	 * Generates random prefix string
-	 *
-	 * @return string
-	 *
-	 * @since 4.0
-	 */
-	public function getPrefix()
-	{
-		$size = 15;
-
-		// Create the random prefix.
-		$prefix  = '';
-		$chars   = range('a', 'z');
-		$numbers = range(0, 9);
-
-		// We want the fist character to be a random letter.
-		shuffle($chars);
-		$prefix .= $chars[0];
-
-		// Next we combine the numbers and characters to get the other characters.
-		$symbols = array_merge($numbers, $chars);
-		shuffle($symbols);
-
-		for ($i = 0, $j = $size - 1; $i < $j; ++$i)
-		{
-			$prefix .= $symbols[$i];
-		}
-
-		// Add in the underscore.
-		$prefix .= '_';
-
-		return $prefix;
 	}
 }
