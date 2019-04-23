@@ -77,10 +77,12 @@ class SiteDownCommand extends AbstractCommand
 	{
 		$this->setDescription('Puts the site into offline mode');
 
-		$help = "The <info>%command.name%</info> Puts the site into offline mode
-				\nUsage: <info>php %command.full_name%</info>";
+		$this->setHelp(<<<'EOF'
+The <info>%command.name%</info> is used to place the site offline.
 
-		$this->setHelp($help);
+  <info>php %command.full_name%</info>
+EOF
+		);
 	}
 
 	/**

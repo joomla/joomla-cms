@@ -87,7 +87,9 @@ class Console implements ServiceProviderInterface
 
 
 	/**
-	 * Gets available command names
+	 * Gets an array of available command names.
+	 * This method makes it cleaner to add the commands inside the register
+	 * method instead of typing the whole command array there.
 	 *
 	 * @return array
 	 *

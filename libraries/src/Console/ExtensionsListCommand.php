@@ -83,8 +83,16 @@ class ExtensionsListCommand extends AbstractCommand
 
 		$this->addOption('type', null, InputOption::VALUE_REQUIRED, 'Type of the extension');
 
-		$help = "The <info>%command.name%</info> List all currently installed extensions
-				\nUsage: <info>php %command.full_name%</info> --type=<extensiontype>";
+		$this->setHelp(<<<'EOF'
+The <info>%command.name%</info> is used to list all extensions installed on your site.
+
+  <info>php %command.full_name% <extension_id></info>
+
+You may filter on the type of extension (component, module, plugin, etc.) using the <info>--type</info> option:
+
+  <info>php %command.full_name% --type=<type></info>
+EOF
+		);
 
 		$this->setHelp($help);
 	}
