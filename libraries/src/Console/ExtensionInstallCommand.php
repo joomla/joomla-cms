@@ -86,11 +86,6 @@ class ExtensionInstallCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->addArgument(
-			'from',
-			InputArgument::REQUIRED,
-			'Where do you want to install from?? (path OR url)'
-		);
 		$this->addOption('path', null, InputOption::VALUE_REQUIRED, 'The path to the extension');
 		$this->addOption('url', null, InputOption::VALUE_REQUIRED, 'The url to the extension');
 
@@ -196,11 +191,9 @@ EOF
 	{
 		$this->configureIO($input, $output);
 
-		$from = $this->cliInput->getArgument('from');
-
-		if ($from === 'path')
+		if ($path = $this->cliInput->getOption('path'))
 		{
-			$result = $this->processPathInstallation($this->cliInput->getOption('path'));
+			$result = $this->processPathInstallation($path);
 
 			if (!$result)
 			{
@@ -215,9 +208,9 @@ EOF
 				return self::INSTALLATION_SUCCESSFUL;
 			}
 		}
-		elseif ($from === 'url')
+		elseif ($url = $this->cliInput->getOption('url'))
 		{
-			$result = $this->processUrlInstallation($this->cliInput->getOption('url'));
+			$result = $this->processUrlInstallation($url);
 
 			if (!$result)
 			{
