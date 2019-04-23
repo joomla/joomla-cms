@@ -189,18 +189,6 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	}
 
 	/**
-	 * Get the commands which should be registered by default to the application.
-	 *
-	 * @return  \Joomla\Console\CommandInterface[]
-	 *
-	 * @since   4.0.0
-	 */
-	protected function getDefaultCommands(): array
-	{
-		return parent::getDefaultCommands();
-	}
-
-	/**
 	 * Retrieve the application configuration object.
 	 *
 	 * @return  Registry
