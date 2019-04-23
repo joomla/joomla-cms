@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f6f495c9fa4c37f3316e308d2dd0e9aa",
+    "content-hash": "c3c93211991df95760298aeb4f24d5fc",
     "packages": [
         {
             "name": "algo26-matthias/idna-convert",
@@ -4853,12 +4853,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla/test-system.git",
-                "reference": "64eb122aa29c3abb7d7c79932cd783fa6c354dd6"
+                "reference": "9285560c06a80e1f6f7fcbf6e1ed7953b59c4c3f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla/test-system/zipball/64eb122aa29c3abb7d7c79932cd783fa6c354dd6",
-                "reference": "64eb122aa29c3abb7d7c79932cd783fa6c354dd6",
+                "url": "https://api.github.com/repos/joomla/test-system/zipball/9285560c06a80e1f6f7fcbf6e1ed7953b59c4c3f",
+                "reference": "9285560c06a80e1f6f7fcbf6e1ed7953b59c4c3f",
                 "shasum": ""
             },
             "require": {
@@ -4879,7 +4879,7 @@
                 "cms",
                 "joomla"
             ],
-            "time": "2019-02-27T10:38:03+00:00"
+            "time": "2019-04-23T13:40:12+00:00"
         },
         {
             "name": "league/container",
@@ -7206,7 +7206,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.0",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-simplexml": "*"
     },
     "platform-dev": [],
     "platform-overrides": {
