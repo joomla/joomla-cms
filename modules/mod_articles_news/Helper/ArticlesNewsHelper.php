@@ -88,10 +88,10 @@ abstract class ArticlesNewsHelper
 		}
 
 		// Filter by tag
-		if ($app->input->get('option') === 'com_content' && $params->get('exclude_current', false))
+		if ($params->get('exclude_current', false) && $app->input->get('option') === 'com_content')
 		{
 			// Exclude the current article from displaying in this module
-			$model->setState('filter.article_id', $app->input->get('id'));
+			$model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
 			$model->setState('filter.article_id.include', false);
 		}
 
