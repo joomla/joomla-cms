@@ -290,6 +290,20 @@
 				<option value="0">COM_FIELDS_FIELD_DISPLAY_NO_DISPLAY</option>
 			</field>
 
+ 			<field
+				name="prefix"
+				type="text"
+				label="COM_FIELDS_FIELD_PREFIX_LABEL"
+				size="40"
+			/>
+
+ 			<field
+				name="suffix"
+				type="text"
+				label="COM_FIELDS_FIELD_SUFFIX_LABEL"
+				size="40"
+			/>
+
 			<field
 				name="layout"
 				type="fieldLayout"

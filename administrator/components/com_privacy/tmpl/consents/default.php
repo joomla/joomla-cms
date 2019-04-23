@@ -36,7 +36,7 @@ $stateMsgs  = array(-1 => JText::_('COM_PRIVACY_CONSENTS_STATE_INVALIDATED'), 0 
 		<?php echo JLayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>
-			<div class="alert alert-no-items">
+			<div class="alert alert-warning">
 				<?php echo JText::_('COM_PRIVACY_MSG_CONSENTS_NO_CONSENTS'); ?>
 			</div>
 		<?php else : ?>
