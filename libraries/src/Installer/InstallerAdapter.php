@@ -32,7 +32,7 @@ abstract class InstallerAdapter
 	 * Changelog URL of extensions
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 * */
 	protected $changelogurl = null;
 

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 
@@ -29,6 +30,8 @@ catch (RuntimeException $e)
 	// Still render the error message from the Exception object
 	$app->enqueueMessage($e->getMessage(), 'error');
 }
+
+$joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('files_joomla')->extension_id;
 
 // Load the com_postinstall language file
 Factory::getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);

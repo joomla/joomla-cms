@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -25,7 +25,7 @@ defined('_JEXEC') or die;
 		<?php echo JText::_('COM_PRIVACY_MSG_CAPABILITIES_INTRODUCTION'); ?>
 	</div>
 	<?php if (empty($this->capabilities)) : ?>
-		<div class="alert alert-no-items">
+		<div class="alert alert-warning">
 			<?php echo JText::_('COM_PRIVACY_MSG_CAPABILITIES_NO_CAPABILITIES'); ?>
 		</div>
 	<?php else : ?>
@@ -35,7 +35,7 @@ defined('_JEXEC') or die;
 		<?php foreach ($this->capabilities as $extension => $capabilities) : ?>
 			<?php echo JHtml::_('bootstrap.addSlide', 'slide-capabilities', $extension, 'slide-' . $i); ?>
 				<?php if (empty($capabilities)) : ?>
-					<div class="alert alert-no-items">
+					<div class="alert alert-warning">
 						<?php echo JText::_('COM_PRIVACY_MSG_EXTENSION_NO_CAPABILITIES'); ?>
 					</div>
 				<?php else : ?>

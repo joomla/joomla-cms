@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ use Joomla\CMS\Language\Text;
 class Privacy
 {
 	/**
-	 * Render a status label
+	 * Render a status badge
 	 *
 	 * @param   integer  $status  The item status
 	 *
@@ -34,17 +34,17 @@ class Privacy
 		switch ($status)
 		{
 			case 2:
-				return '<span class="label label-success">' . Text::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>';
+				return '<span class="badge badge-success">' . Text::_('COM_PRIVACY_STATUS_COMPLETED') . '</span>';
 
 			case 1:
-				return '<span class="label label-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
+				return '<span class="badge badge-info">' . Text::_('COM_PRIVACY_STATUS_CONFIRMED') . '</span>';
 
 			case -1:
-				return '<span class="label label-important">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
+				return '<span class="badge badge-important">' . Text::_('COM_PRIVACY_STATUS_INVALID') . '</span>';
 
 			default:
 			case 0:
-				return '<span class="label label-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
+				return '<span class="badge badge-warning">' . Text::_('COM_PRIVACY_STATUS_PENDING') . '</span>';
 		}
 	}
 }
