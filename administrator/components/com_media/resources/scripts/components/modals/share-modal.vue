@@ -1,6 +1,6 @@
 <template>
-    <media-modal v-if="$store.state.showShareModal" :size="'md'" @close="close()" :show-close="false">
-        <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_SHARE') }}</h3>
+    <media-modal v-if="$store.state.showShareModal" :size="'md'" @close="close()" :show-close="false" label-element="shareTitle">
+        <h3 slot="header" id="shareTitle" class="modal-title">{{ translate('COM_MEDIA_SHARE') }}</h3>
         <div slot="body">
             <div class="desc">
                 {{ translate('COM_MEDIA_SHARE_DESC') }}

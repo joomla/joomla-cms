@@ -1,6 +1,6 @@
 <template>
-    <media-modal v-if="$store.state.showPreviewModal && item" :size="'md'" @close="close()" class="media-preview-modal">
-        <h3 slot="header" class="modal-title">{{ item.name }}</h3>
+    <media-modal v-if="$store.state.showPreviewModal && item" :size="'md'" @close="close()" class="media-preview-modal" label-element="previewTitle">
+        <h3 slot="header" id="previewTitle" class="modal-title">{{ item.name }}</h3>
         <div slot="body">
             <img :src="item.url" v-if="isImage()" :type="item.mime_type"/>
             <video controls v-if="isVideo()">
