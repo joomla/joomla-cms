@@ -12,13 +12,17 @@ defined('_JEXEC') or die;
 require_once JPATH_LIBRARIES . '/bootstrap.php';
 
 // Installation check, and check on removal of the install directory.
-if (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
+if (php_sapi_name() !== 'cli' && (!file_exists(JPATH_CONFIGURATION . '/configuration.php')
 	|| (filesize(JPATH_CONFIGURATION . '/configuration.php') < 10)
-	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new JVersion)->isInDevelopmentState())))
+	|| (file_exists(JPATH_INSTALLATION . '/index.php') && (false === (new JVersion)->isInDevelopmentState()))))
 {
-	// Prevents the script from exiting in the CLI mode
+	 // Prevents the script from falling back to $_SERVER['REQUEST_URI'] as it will throw an error in CLI mode.
 	if (php_sapi_name() === 'cli')
 	{
+		// This is been defined because some core scripts needs it defined.
+		define('JDEBUG', true);
+
+		// We pass control back to the calling scrip - joomla.php to allow commands like core:install to run
 		return;
 	}
 	elseif (file_exists(JPATH_INSTALLATION . '/index.php'))
