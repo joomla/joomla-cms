@@ -93,8 +93,6 @@ You may filter on the type of extension (component, module, plugin, etc.) using 
   <info>php %command.full_name% --type=<type></info>
 EOF
 		);
-
-		$this->setHelp($help);
 	}
 
 	/**
