@@ -7,16 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer\Parser;
+
 defined('_JEXEC') or die;
 
-JLoader::register('FinderIndexerParser', dirname(__DIR__) . '/parser.php');
+use Joomla\Component\Finder\Administrator\Indexer\Parser;
 
 /**
  * HTML Parser class for the Finder indexer package.
  *
  * @since  2.5
  */
-class FinderIndexerParserHtml extends FinderIndexerParser
+class Html extends Parser
 {
 	/**
 	 * Method to parse input and extract the plain text. Because this method is
@@ -35,7 +37,7 @@ class FinderIndexerParserHtml extends FinderIndexerParser
 		// Strip invalid UTF-8 characters.
 		$oldSetting = ini_get('mbstring.substitute_character');
 		ini_set('mbstring.substitute_character', 'none');
-		$input = mb_convert_encoding($input, 'UTF-8', 'UTF-8'); 
+		$input = mb_convert_encoding($input, 'UTF-8', 'UTF-8');
 		ini_set('mbstring.substitute_character', $oldSetting);
 
 		// Remove anything between <head> and </head> tags.  Do this first

@@ -49,7 +49,7 @@ JFactory::getDocument()->addScriptDeclaration($js);
 		<div class="span6">
 			<h3><?php echo JText::_('COM_PRIVACY_HEADING_ACTION_LOG'); ?></h3>
 			<?php if (empty($this->actionlogs)) : ?>
-				<div class="alert alert-no-items">
+				<div class="alert alert-warning">
 					<?php echo JText::_('JGLOBAL_NO_MATCHING_RESULTS'); ?>
 				</div>
 			<?php else : ?>

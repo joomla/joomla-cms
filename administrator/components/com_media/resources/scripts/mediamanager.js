@@ -19,6 +19,7 @@ import Infobar from "./components/infobar/infobar.vue";
 import Upload from "./components/upload/upload.vue";
 import Translate from "./plugins/translate";
 import store from './store/store';
+import Lock from 'vue-focus-lock';
 
 // Add the plugins
 Vue.use(Translate);
@@ -40,6 +41,7 @@ Vue.component('media-share-modal', ShareModal);
 Vue.component('media-confirm-delete-modal', ConfirmDeleteModal);
 Vue.component('media-infobar', Infobar);
 Vue.component('media-upload', Upload);
+Vue.component('tab-lock', Lock);
 
 // Register MediaManager namespace
 window.MediaManager = window.MediaManager || {};

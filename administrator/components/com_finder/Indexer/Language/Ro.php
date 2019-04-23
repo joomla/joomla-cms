@@ -7,14 +7,18 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+namespace Joomla\Component\Finder\Administrator\Indexer\Language;
+
 defined('_JEXEC') or die;
 
+use Joomla\Component\Finder\Administrator\Indexer\Language;
+
 /**
- * Italian language support class for the Finder indexer package.
+ * Romanian language support class for the Finder indexer package.
  *
  * @since  4.0.0
  */
-class FinderIndexerLanguageit extends FinderIndexerLanguage
+class Ro extends Language
 {
 	/**
 	 * Language locale of the class
@@ -22,12 +26,12 @@ class FinderIndexerLanguageit extends FinderIndexerLanguage
 	 * @var    string
 	 * @since  4.0.0
 	 */
-	public $language = 'it';
+	public $language = 'ro';
 
 	/**
-	 * The italian stemmer object.
+	 * The romanian stemmer object.
 	 *
-	 * @var    \Wamania\Snowball\Italian
+	 * @var    \Wamania\Snowball\Romanian
 	 * @since  4.0.0
 	 */
 	protected $stemmer = null;
@@ -39,7 +43,7 @@ class FinderIndexerLanguageit extends FinderIndexerLanguage
 	 */
 	public function __construct()
 	{
-		$this->stemmer = new \Wamania\Snowball\Italian;
+		$this->stemmer = new \Wamania\Snowball\Romanian;
 	}
 
 	/**
