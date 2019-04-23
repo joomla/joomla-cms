@@ -2,45 +2,45 @@
  * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+Joomla = window.Joomla || {};
 
-document.addEventListener('DOMContentLoaded', () => {
+(function () {
   'use strict';
 
-  /** Get the elements * */
-  const modulesLinks = [].slice.call(document.querySelectorAll('.js-module-insert'));
-  const positionsLinks = [].slice.call(document.querySelectorAll('.js-position-insert'));
+  document.addEventListener('DOMContentLoaded', function () {
 
-  /** Assign listener for click event (for single module id insertion) * */
-  modulesLinks.forEach((modulesLink) => {
-    modulesLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      const modid = event.target.getAttribute('data-module');
-      const editor = event.target.getAttribute('data-editor');
+    window.jSelectModuleType = (elem) => {
+      const elements = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
 
-      // Insert the short tag in the editor
-      window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadmoduleid ${modid}}`);
-
-      // Close the modal
-      if (window.parent.Joomla.Modal) {
-        window.parent.Joomla.Modal.getCurrent().close();
+      if (elements.length) {
+        elements.forEach((button) => {
+          button.classList.remove('hidden');
+        });
       }
-    });
+    };
+
+    var buttons = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
+
+    if (buttons.length) {
+      buttons.forEach(function (button) {
+        button.addEventListener('click', function (event) {
+          let target = event.currentTarget;
+
+          // There is some bug with events in iframe where currentTarget is "null" => prevent this here by bubble up
+          if (!target)
+          {
+            target = event.target;
+          }
+
+          const clicktarget = target.getAttribute('data-target');
+
+          if (clicktarget) {
+            const iframe = document.querySelector('#moduleDashboardAddModal iframe');
+            const content = iframe.contentDocument || iframe.contentWindow.document;
+            content.querySelector(clicktarget).click();
+          }
+        });
+      });
+    }
   });
-
-  /** Assign listener for click event (for position insertion) * */
-  positionsLinks.forEach((positionsLink) => {
-    positionsLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      const position = event.target.getAttribute('data-position');
-      const editor = event.target.getAttribute('data-editor');
-
-      // Insert the short tag in the editor
-      window.parent.Joomla.editors.instances[editor].replaceSelection(`{loadposition ${position}}`);
-
-      // Close the modal
-      if (window.parent.Joomla.Modal) {
-        window.parent.Joomla.Modal.getCurrent().close();
-      }
-    });
-  });
-});
+})();
