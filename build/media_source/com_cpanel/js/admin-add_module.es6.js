@@ -8,9 +8,8 @@ Joomla = window.Joomla || {};
   'use strict';
 
   document.addEventListener('DOMContentLoaded', function () {
-
     window.jSelectModuleType = (elem) => {
-      const elements = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
+      const elements = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn.hidden'));
 
       if (elements.length) {
         elements.forEach((button) => {
@@ -19,10 +18,17 @@ Joomla = window.Joomla || {};
       }
     };
 
-    var buttons = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
+    const buttons = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
+    const hideButtons = [];
 
     if (buttons.length) {
       buttons.forEach(function (button) {
+
+        if (button.classList.contains('hidden'))
+        {
+          hideButtons.push(button);
+        }
+
         button.addEventListener('click', function (event) {
           let target = event.currentTarget;
 
@@ -43,5 +49,14 @@ Joomla = window.Joomla || {};
         });
       });
     }
+
+    // @TODO remove jQuery dependency, when the modal is not bootstrap anymore
+    /* global jQuery */
+    jQuery('#moduleDashboardAddModal').on('hide.bs.modal', function()
+    {
+      hideButtons.forEach(function(button) {
+        button.classList.add('hidden');
+      })
+    });
   });
 })();
