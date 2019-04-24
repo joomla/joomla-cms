@@ -4,11 +4,11 @@
  */
 Joomla = window.Joomla || {};
 
-(function () {
+((document) => {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', function () {
-    window.jSelectModuleType = (elem) => {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.jSelectModuleType = () => {
       const elements = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn.hidden'));
 
       if (elements.length) {
@@ -22,25 +22,23 @@ Joomla = window.Joomla || {};
     const hideButtons = [];
 
     if (buttons.length) {
-      buttons.forEach(function (button) {
-
-        if (button.classList.contains('hidden'))
-        {
+      buttons.forEach((button) => {
+        if (button.classList.contains('hidden')) {
           hideButtons.push(button);
         }
 
-        button.addEventListener('click', function (event) {
-          let target = event.currentTarget;
+        button.addEventListener('click', (event) => {
+          let elem = event.currentTarget;
 
-          // There is some bug with events in iframe where currentTarget is "null" => prevent this here by bubble up
-          if (!target)
-          {
-            target = event.target;
+          // There is some bug with events in iframe where currentTarget is "null"
+          // => prevent this here by bubble up
+          if (!elem) {
+            elem = event.target;
           }
 
-          const clickTarget = target.getAttribute('data-target');
+          if (elem) {
+            const clickTarget = elem.getAttribute('data-target');
 
-          if (target) {
             const iframe = document.querySelector('#moduleDashboardAddModal iframe');
             const content = iframe.contentDocument || iframe.contentWindow.document;
 
@@ -52,11 +50,10 @@ Joomla = window.Joomla || {};
 
     // @TODO remove jQuery dependency, when the modal is not bootstrap anymore
     /* global jQuery */
-    jQuery('#moduleDashboardAddModal').on('hide.bs.modal', function()
-    {
-      hideButtons.forEach(function(button) {
+    jQuery('#moduleDashboardAddModal').on('hide.bs.modal', () => {
+      hideButtons.forEach((button) => {
         button.classList.add('hidden');
-      })
+      });
     });
   });
-})();
+})(document);
