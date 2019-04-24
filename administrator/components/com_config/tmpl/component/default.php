@@ -80,13 +80,10 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 							<?php else : ?>
 								<div class="control-group<?php echo $groupClass; ?>"<?php echo $dataShowOn; ?>>
 									<?php if ($name != 'permissions') : ?>
-										<div class="control-label">
-											<?php echo $field->label; ?>
-										</div>
+										<?php echo $field->renderField(); ?>
+									<?php else : ?>
+										<?php echo $this->form->getInput('rules'); ?>
 									<?php endif; ?>
-									<div class="<?php if ($name != 'permissions') : ?>controls<?php endif; ?>">
-										<?php echo $field->input; ?>
-									</div>
 								</div>
 							<?php endif; ?>
 						<?php endforeach; ?>
