@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\AbstractView;
-use Joomla\CMS\MVC\View\GenericdataException;
+use Joomla\CMS\MVC\View\GenericDataException;
 
 /**
  * View to create a VCF for a contact item
@@ -44,7 +44,7 @@ class VcfView extends AbstractView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new GenericdataException(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		Factory::getDocument()->setMimeEncoding('text/directory', true);

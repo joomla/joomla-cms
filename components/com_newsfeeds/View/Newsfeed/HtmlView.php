@@ -16,7 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Feed\FeedFactory;
 use Joomla\CMS\Helper\TagsHelper;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\MVC\View\GenericdataException;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\Component\Newsfeeds\Site\Helper\Route as NewsfeedsHelperRoute;
 
@@ -113,7 +113,7 @@ class HtmlView extends BaseHtmlView
 		// @TODO: Maybe this could go into ComponentHelper::raiseErrors($this->get('Errors'))
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new GenericdataException(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Add router helpers.

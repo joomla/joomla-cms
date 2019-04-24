@@ -16,6 +16,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  4.0
  */
-class GenericdataException extends \RuntimeException
+class GenericDataException extends \RuntimeException
 {
 }

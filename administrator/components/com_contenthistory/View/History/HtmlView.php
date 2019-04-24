@@ -11,7 +11,7 @@ namespace Joomla\Component\Contenthistory\Administrator\View\History;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\View\GenericdataException;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
@@ -60,7 +60,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new GenericdataException(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		return parent::display($tpl);
