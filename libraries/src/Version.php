@@ -111,7 +111,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELDATE = '9-April-2019';
+	const RELDATE = '23-April-2019';
 
 	/**
 	 * Release time.
@@ -119,7 +119,7 @@ final class Version
 	 * @var    string
 	 * @since  3.5
 	 */
-	const RELTIME = '15:59';
+	const RELTIME = '21:47';
 
 	/**
 	 * Release timezone.
@@ -194,7 +194,7 @@ final class Version
 	 *
 	 * @return  boolean True if the version is compatible.
 	 *
-	 * @link    https://secure.php.net/version_compare
+	 * @link    https://www.php.net/version_compare
 	 * @since   1.0
 	 */
 	public function isCompatible($minimum)
