@@ -87,8 +87,8 @@ abstract class ArticlesNewsHelper
 			$model->setState('filter.featured', 'hide');
 		}
 
-		// Filter by tag
-		if ($params->get('exclude_current', false) && $app->input->get('option') === 'com_content')
+		// Filter by id in case it should be excluded
+		if ($params->get('exclude_current', true) && $app->input->get('option') === 'com_content')
 		{
 			// Exclude the current article from displaying in this module
 			$model->setState('filter.article_id', $app->input->get('id', 0, 'UINT'));
