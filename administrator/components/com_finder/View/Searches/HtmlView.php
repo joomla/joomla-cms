@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Administrator\View\Searches;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\MVC\View\GenericdataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelper;
@@ -96,7 +97,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericdataException(implode("\n", $errors), 500);
 		}
 
 		FinderHelper::addSubmenu('searches');

@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericdataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -66,7 +67,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors));
+			throw new GenericdataException(implode("\n", $errors));
 		}
 
 		// Check whether the cache has to be refreshed.
@@ -108,7 +109,7 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.edit'))
 		{
 			ToolbarHelper::apply('override.apply');
-				
+
 			$toolbarButtons[] = ['save', 'override.save'];
 		}
 

@@ -12,6 +12,7 @@ namespace Joomla\Component\Finder\Administrator\View\Filter;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\MVC\View\GenericdataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -84,7 +85,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericdataException(implode("\n", $errors), 500);
 		}
 
 		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
@@ -124,7 +125,7 @@ class HtmlView extends BaseHtmlView
 			if ($canDo->get('core.create'))
 			{
 				ToolbarHelper::apply('filter.apply');
-				
+
 				ToolbarHelper::saveGroup(
 					[
 						['save', 'filter.save'],
@@ -145,7 +146,7 @@ class HtmlView extends BaseHtmlView
 			if (!$checkedOut && $canDo->get('core.edit'))
 			{
 				ToolbarHelper::apply('filter.apply');
-				
+
 				$toolbarButtons[] = ['save', 'filter.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.

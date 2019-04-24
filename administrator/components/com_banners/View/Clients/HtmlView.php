@@ -64,7 +64,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericdataException(implode("\n", $errors), 500);
 		}
 
 		BannersHelper::addSubmenu('clients');
@@ -97,7 +97,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
-		{		
+		{
 			$dropdown = $toolbar->dropdownButton('status')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
