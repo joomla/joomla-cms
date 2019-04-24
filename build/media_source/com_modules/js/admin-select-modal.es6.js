@@ -3,7 +3,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-(() => {
+((document) => {
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -11,26 +11,24 @@
 
     elems.forEach((elem) => {
       elem.addEventListener('click', (event) => {
-        let target = event.currentTarget;
+        let targetElem = event.currentTarget;
 
-        // There is some bug with events in iframe where currentTarget is "null" => prevent this here by bubble up
-        if (!target)
-        {
-          target = event.target;
+        // There is some bug with events in iframe where currentTarget is "null"
+        // => prevent this here by bubble up
+        if (!targetElem) {
+          targetElem = event.target;
 
-          if (target && !target.classList.contains('select-link'))
-          {
-            target = target.parentNode;
+          if (targetElem && !targetElem.classList.contains('select-link')) {
+            targetElem = targetElem.parentNode;
           }
         }
 
-        const functionName = target.getAttribute('data-function');
+        const functionName = targetElem.getAttribute('data-function');
 
-        if (functionName && typeof window.parent[functionName] === 'function')
-        {
-          window.parent[functionName](target);
+        if (functionName && typeof window.parent[functionName] === 'function') {
+          window.parent[functionName](targetElem);
         }
       });
-    })
+    });
   });
-})();
+})(document);

@@ -4,12 +4,11 @@
  */
 Joomla = window.Joomla || {};
 
-(function () {
+((document) => {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', function () {
-
-    window.jSelectModuleType = (elem) => {
+  document.addEventListener('DOMContentLoaded', () => {
+    window.jSelectModuleType = () => {
       const elements = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
 
       if (elements.length) {
@@ -19,20 +18,20 @@ Joomla = window.Joomla || {};
       }
     };
 
-    var buttons = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
+    const buttons = [].slice.call(document.querySelectorAll('#moduleDashboardAddModal .modal-footer .btn'));
 
     if (buttons.length) {
-      buttons.forEach(function (button) {
-        button.addEventListener('click', function (event) {
-          let target = event.currentTarget;
+      buttons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+          let elem = event.currentTarget;
 
-          // There is some bug with events in iframe where currentTarget is "null" => prevent this here by bubble up
-          if (!target)
-          {
-            target = event.target;
+          // There is some bug with events in iframe where currentTarget is "null"
+          // => prevent this here by bubble up
+          if (!elem) {
+            elem = event.target;
           }
 
-          const clicktarget = target.getAttribute('data-target');
+          const clicktarget = elem.getAttribute('data-target');
 
           if (clicktarget) {
             const iframe = document.querySelector('#moduleDashboardAddModal iframe');
@@ -43,4 +42,4 @@ Joomla = window.Joomla || {};
       });
     }
   });
-})();
+})(document);
