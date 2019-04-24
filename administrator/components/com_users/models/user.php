@@ -938,9 +938,9 @@ class UsersModelUser extends JModelAdmin
 			}
 			else
 			{
-				$config = JComponentHelper::getParams('com_users');
+				$params = JComponentHelper::getParams('com_users');
 
-				if ($groupId = $config->get('new_usertype'))
+				if ($groupId = $params->get('new_usertype', $params->get('guest_usergroup', 1)))
 				{
 					$result[] = $groupId;
 				}
