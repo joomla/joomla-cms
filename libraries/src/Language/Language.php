@@ -317,11 +317,14 @@ class Language
 
 		if (isset($this->strings[$key]))
 		{
-			$string = $this->debug ? '**' . $this->strings[$key] . '**' : $this->strings[$key];
+			$string = $this->strings[$key];
 
 			// Store debug information
 			if ($this->debug)
 			{
+				$value = \JFactory::getApplication()->get('debug_lang_const') == 0 ? $key : $string;
+				$string = '**' . $value . '**';
+
 				$caller = $this->getCallerInfo();
 
 				if (!array_key_exists($key, $this->used))

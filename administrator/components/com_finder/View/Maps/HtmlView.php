@@ -12,6 +12,8 @@ namespace Joomla\Component\Finder\Administrator\View\Maps;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericdataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
@@ -117,7 +119,7 @@ class HtmlView extends BaseHtmlView
 			throw new GenericdataException(implode("\n", $errors), 500);
 		}
 
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
+		HTMLHelper::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Prepare the view.
 		$this->addToolbar();
@@ -137,7 +139,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_finder');
 
-		ToolbarHelper::title(\JText::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
+		ToolbarHelper::title(Text::_('COM_FINDER_MAPS_TOOLBAR_TITLE'), 'zoom-in finder');
 
 		if ($canDo->get('core.edit.state'))
 		{

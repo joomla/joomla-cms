@@ -100,7 +100,7 @@ class HtmlView extends BaseHtmlView
 		$dhtml  = $layout->render(
 			array(
 				'selector' => 'downloadModal',
-				'icon'     => 'download',
+				'icon'     => 'icon-download',
 				'text'     => Text::_('JTOOLBAR_EXPORT'),
 				'doTask'   => Route::_('index.php?option=com_banners&view=download&tmpl=component'),
 			)

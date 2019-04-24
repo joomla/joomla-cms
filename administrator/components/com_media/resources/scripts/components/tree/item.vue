@@ -33,8 +33,8 @@
             iconClass() {
                 return {
                     fa: true,
-                    'fa-folder-o': !this.isOpen,
-                    'fa-folder-open-o': this.isOpen,
+                    'fa-folder': !this.isOpen,
+                    'fa-folder-open': this.isOpen,
                 }
             }
         },

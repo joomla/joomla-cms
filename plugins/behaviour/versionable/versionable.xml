@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="4.0" type="plugin" group="behaviour" method="upgrade">
 	<name>plg_behaviour_versionable</name>
-	<version>4.0.0.</version>
+	<version>4.0.0</version>
 	<creationDate>August 2015</creationDate>
 	<author>Joomla! Project</author>
 	<authorEmail>admin@joomla.org</authorEmail>

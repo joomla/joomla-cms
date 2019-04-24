@@ -64,6 +64,17 @@ class HtmlView extends BaseHtmlView
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
+		$app = Factory::getApplication();
+
+		$languageClient = $app->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client');
+
+		if ($languageClient == null)
+		{
+			$app->enqueueMessage(Text::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
+
+			$app->redirect('index.php?option=com_languages&view=overrides');
+		}
+
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{

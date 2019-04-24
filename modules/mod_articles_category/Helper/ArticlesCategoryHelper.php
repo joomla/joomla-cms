@@ -55,7 +55,7 @@ abstract class ArticlesCategoryHelper
 		$articles->setState('list.start', 0);
 		$articles->setState('list.limit', (int) $params->get('count', 0));
 		$articles->setState('filter.published', 1);
-		$articles->setState('load_tags', $params->get('show_tags', 0));
+		$articles->setState('load_tags', $params->get('show_tags', 0) || $params->get('article_grouping', 'none') === 'tags');
 
 		// Access filter
 		$access     = !ComponentHelper::getParams('com_content')->get('show_noauth');
@@ -504,6 +504,51 @@ abstract class ArticlesCategoryHelper
 
 				unset($grouped[$group]);
 			}
+		}
+
+		return $grouped;
+	}
+
+	/**
+	 * Groups items by tags
+	 *
+	 * @param   array   $list       list of items
+	 * @param   string  $direction  ordering direction
+	 *
+	 * @return  array
+	 *
+	 * @since   3.9.0
+	 */
+	public static function groupByTags($list, $direction = 'ksort')
+	{
+		$grouped  = array();
+		$untagged = array();
+
+		if (!$list)
+		{
+			return $grouped;
+		}
+
+		foreach ($list as $item)
+		{
+			if ($item->tags->itemTags)
+			{
+				foreach ($item->tags->itemTags as $tag)
+				{
+					$grouped[$tag->title][] = $item;
+				}
+			}
+			else
+			{
+				$untagged[] = $item;
+			}
+		}
+
+		$direction($grouped);
+
+		if ($untagged)
+		{
+			$grouped['MOD_ARTICLES_CATEGORY_UNTAGGED'] = $untagged;
 		}
 
 		return $grouped;

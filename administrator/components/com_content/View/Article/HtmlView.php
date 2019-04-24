@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericdataException;
@@ -262,6 +263,13 @@ class HtmlView extends BaseHtmlView
 				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" value="">';
 				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
+		}
+
+		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		{
+			$toolbar->standardButton('contract')
+			->text('JTOOLBAR_ASSOCIATIONS')
+			->task('article.editAssociations');
 		}
 
 		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');

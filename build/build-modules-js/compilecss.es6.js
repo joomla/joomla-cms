@@ -44,7 +44,7 @@ module.exports.compile = (options, path) => {
           `${RootPath}/templates/cassiopeia/scss/template.scss`,
           `${RootPath}/templates/cassiopeia/scss/template-rtl.scss`,
           `${RootPath}/administrator/templates/atum/scss/bootstrap.scss`,
-          `${RootPath}/administrator/templates/atum/scss/font-awesome.scss`,
+          `${RootPath}/administrator/templates/atum/scss/fontawesome.scss`,
           `${RootPath}/administrator/templates/atum/scss/template.scss`,
           `${RootPath}/administrator/templates/atum/scss/template-rtl.scss`,
           `${RootPath}/installation/template/scss/template.scss`,
