@@ -380,7 +380,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$id    = $app->input->get('id');
 		$file  = $app->input->get('file');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_INDEX_DELETE'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -584,7 +584,7 @@ class TemplatesControllerTemplate extends JControllerLegacy
 		$file    = $app->input->get('file');
 		$newName = $app->input->get('new_name');
 
-		if (base64_decode(urldecode($file)) == 'index.php')
+		if (base64_decode(urldecode($file)) == '/index.php')
 		{
 			$app->enqueueMessage(JText::_('COM_TEMPLATES_ERROR_RENAME_INDEX'), 'warning');
 			$url = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
