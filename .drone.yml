@@ -27,7 +27,7 @@ pipeline:
       - echo $(date)
 
   analysis3x:
-    image: rips/rips-cli
+    image: rips/rips-cli:1.2.1
     secrets:  [rips_username, rips_password]
     when:
       branch: staging
@@ -36,10 +36,10 @@ pipeline:
       - export RIPS_USERNAME=$RIPS_USERNAME
       - export RIPS_PASSWORD=$RIPS_PASSWORD
       - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:scan:start -a 1 -t 1 -p $(pwd) -t 1 -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:scan:start -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
 
   analysis4x:
-    image: rips/rips-cli
+    image: rips/rips-cli:1.2.1
     secrets:  [rips_username, rips_password]
     when:
       branch: 4.0-dev
@@ -48,7 +48,7 @@ pipeline:
       - export RIPS_USERNAME=$RIPS_USERNAME
       - export RIPS_PASSWORD=$RIPS_PASSWORD
       - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:scan:start -a 3 -t 1 -p $(pwd) -t 1 -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
+      - rips-cli rips:scan:start -a 3 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
 
 branches:
   exclude: [ l10n_* ]
