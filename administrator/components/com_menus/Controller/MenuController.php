@@ -29,7 +29,7 @@ class MenuController extends FormController
 	 * @param   boolean  $cachable   If true, the view output will be cached.
 	 * @param   array    $urlparams  An array of safe URL parameters and their variable types, for valid values see {@link \JFilterInput::clean()}.
 	 *
-	 * @return  \JController		This object to support chaining.
+	 * @return  MenuController		This object to support chaining.
 	 *
 	 * @since   1.5
 	 */

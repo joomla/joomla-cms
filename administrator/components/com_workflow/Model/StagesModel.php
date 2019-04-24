@@ -26,7 +26,7 @@ class StagesModel extends ListModel
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @see     JController
+	 * @see     \JControllerLegacy
 	 * @since  4.0.0
 	 */
 	public function __construct($config = array())
