@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * MySQLi database driver
  *
- * @link   https://secure.php.net/manual/en/book.mysqli.php
+ * @link   https://www.php.net/manual/en/book.mysqli.php
  * @since  3.0.0
  */
 class JDatabaseDriverMysqli extends JDatabaseDriver
@@ -188,11 +188,15 @@ class JDatabaseDriverMysqli extends JDatabaseDriver
 		// Set the character set (needed for MySQL 4.1.2+).
 		$this->utf = $this->setUtf();
 
-		// Turn MySQL profiling ON in debug mode:
-		if ($this->debug && $this->hasProfiling())
+		// Disable query cache and turn profiling ON in debug mode.
+		if ($this->debug)
 		{
-			mysqli_query($this->connection, 'SET profiling_history_size = 100;');
-			mysqli_query($this->connection, 'SET profiling = 1;');
+			mysqli_query($this->connection, 'SET query_cache_type = 0;');
+
+			if ($this->hasProfiling())
+			{
+				mysqli_query($this->connection, 'SET profiling_history_size = 100, profiling = 1;');
+			}
 		}
 	}
 

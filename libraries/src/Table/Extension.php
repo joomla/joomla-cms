@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -30,6 +30,9 @@ class Extension extends Table
 	public function __construct($db)
 	{
 		parent::__construct('#__extensions', 'extension_id', $db);
+
+		// Set the alias since the column is called enabled
+		$this->setColumnAlias('published', 'enabled');
 	}
 
 	/**

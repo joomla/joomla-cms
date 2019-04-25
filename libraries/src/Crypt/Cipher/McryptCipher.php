@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -24,14 +24,14 @@ abstract class McryptCipher implements CipherInterface
 {
 	/**
 	 * @var    integer  The mcrypt cipher constant.
-	 * @link   https://secure.php.net/manual/en/mcrypt.ciphers.php
+	 * @link   https://www.php.net/manual/en/mcrypt.ciphers.php
 	 * @since  3.0.0
 	 */
 	protected $type;
 
 	/**
 	 * @var    integer  The mcrypt block cipher mode.
-	 * @link   https://secure.php.net/manual/en/mcrypt.constants.php
+	 * @link   https://www.php.net/manual/en/mcrypt.constants.php
 	 * @since  3.0.0
 	 */
 	protected $mode;

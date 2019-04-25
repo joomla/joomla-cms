@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Database
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -233,7 +233,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 *
 	 * Ensure that the value is properly quoted before passing to the method.
 	 *
-	 * @param   string  $value  The value to cast as a char.	 
+	 * @param   string  $value  The value to cast as a char.
 	 *
 	 * @param   string  $len    The lenght of the char.
 	 *
@@ -244,7 +244,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	public function castAsChar($value, $len = null)
 	{
 		if (!$len)
-		{			
+		{
 			return 'CAST(' . $value . ' as NVARCHAR(30))';
 		}
 		else
@@ -335,7 +335,7 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 	 */
 	public function dateAdd($date, $interval, $datePart)
 	{
-		return "DATEADD('" . $datePart . "', '" . $interval . "', '" . $date . "'" . ')';
+		return 'DATEADD(' . $datePart . ', ' . $interval . ', ' . $date . ')';
 	}
 
 	/**
@@ -810,6 +810,14 @@ class JDatabaseQuerySqlsrv extends JDatabaseQuery implements JDatabaseQueryLimit
 			if ($size === 0)
 			{
 				continue;
+			}
+
+			if ($i == 0 && stripos(' DISTINCT ALL ', " $column[0] ") !== false)
+			{
+				// These words are reserved, they are not column names
+				array_shift($selectColumns[0]);
+				array_shift($column);
+				$size--;
 			}
 
 			if ($size > 2 && $column[$size - 2] === 'AS')

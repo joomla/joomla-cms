@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @copyright  Copyright (C) 2005 Richard Heyes (http://www.phpguru.org/). All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -19,7 +19,8 @@ use Joomla\CMS\Language\LanguageStemmer;
  * This class was adapted from one written by Richard Heyes.
  * See copyright and link information above.
  *
- * @since  3.0.0
+ * @since       3.0.0
+ * @deprecated  4.0 Use wamania/php-stemmer
  */
 class Porteren extends LanguageStemmer
 {

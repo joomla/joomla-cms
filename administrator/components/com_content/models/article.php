@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -370,6 +370,9 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
+		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
+
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -395,15 +398,26 @@ class ContentModelArticle extends JModelAdmin
 			$form->setFieldAttribute('catid', 'action', 'core.edit');
 
 			// Existing record. Can only edit own articles in selected categories.
-			$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+			if ($app->isClient('administrator'))
+			{
+				$form->setFieldAttribute('catid', 'action', 'core.edit.own');
+			}
+			else
+			// Existing record. We can't edit the category in frontend if not edit.state.
+			{
+				if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+					|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
+				{
+					$form->setFieldAttribute('catid', 'readonly', 'true');
+					$form->setFieldAttribute('catid', 'filter', 'unset');
+				}
+			}
 		}
 		else
 		{
 			// New record. Can only create in selected categories.
 			$form->setFieldAttribute('catid', 'action', 'core.create');
 		}
-
-		$user = JFactory::getUser();
 
 		// Check for existing article.
 		// Modify the form based on Edit State access controls.
@@ -427,7 +441,6 @@ class ContentModelArticle extends JModelAdmin
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
-		$app = JFactory::getApplication();
 		$assoc = JLanguageAssociations::isEnabled();
 
 		// Check if article is associated

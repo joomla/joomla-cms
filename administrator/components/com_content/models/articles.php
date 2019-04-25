@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -210,7 +210,7 @@ class ContentModelArticles extends JModelList
 			->join('LEFT', '#__categories AS c ON c.id = a.catid');
 
 		// Join over the parent categories.
-		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id, 
+		$query->select('parent.title AS parent_category_title, parent.id AS parent_category_id,
 								parent.created_user_id AS parent_category_uid, parent.level AS parent_category_level')
 			->join('LEFT', '#__categories AS parent ON parent.id = c.parent_id');
 
@@ -224,7 +224,7 @@ class ContentModelArticles extends JModelList
 		if (JPluginHelper::isEnabled('content', 'vote'))
 		{
 			$assogroup .= ', v.rating_sum, v.rating_count';
-			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating, 
+			$query->select('COALESCE(NULLIF(ROUND(v.rating_sum  / v.rating_count, 0), 0), 0) AS rating,
 					COALESCE(NULLIF(v.rating_count, 0), 0) as rating_count')
 				->join('LEFT', '#__content_rating AS v ON a.id = v.content_id');
 		}
@@ -232,9 +232,9 @@ class ContentModelArticles extends JModelList
 		// Join over the associations.
 		if (JLanguageAssociations::isEnabled())
 		{
-			$query->select('COUNT(asso2.id)>1 as association')
+			$query->select('CASE WHEN COUNT(asso2.id)>1 THEN 1 ELSE 0 END as association')
 				->join('LEFT', '#__associations AS asso ON asso.id = a.id AND asso.context=' . $db->quote('com_content.item'))
-				->join('LEFT', '#__associations AS asso2 ON asso2.key = asso.key')
+				->join('LEFT', '#__associations AS asso2 ON ' . $db->quoteName('asso2.key') . ' = ' . $db->quoteName('asso.key'))
 				->group($assogroup);
 		}
 

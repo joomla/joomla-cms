@@ -1,5 +1,5 @@
 /**
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -27,9 +27,6 @@
 
 		// check rows container
 		this.$containerRows = this.options.rowsContainer ? this.$container.find(this.options.rowsContainer) : this.$container;
-
-		// last row number, help to avoid the name duplications
-		this.lastRowNum = this.$containerRows.find(this.options.repeatableElement).length;
 
 		// To avoid scope issues,
 		var self = this;
@@ -152,10 +149,8 @@
 		var group = (typeof _group === 'undefined' ? $row.attr('data-group') : _group),
 			basename = (typeof _basename === 'undefined' ? $row.attr('data-base-name') : _basename),
 			count    = (typeof _count === 'undefined' ? 0 : _count),
-			countnew = Math.max(this.lastRowNum, count),
-			groupnew = basename + countnew;
+			groupnew = basename + count;
 
-		this.lastRowNum = countnew + 1;
 		$row.attr('data-group', groupnew);
 
 		// Fix inputs that have a "name" attribute
