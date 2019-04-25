@@ -370,7 +370,9 @@ class ContentModelArticle extends JModelAdmin
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		$app = JFactory::getApplication();
+		$id   = $this->getState('article.id');
+		$app  = JFactory::getApplication();
+		$user = JFactory::getUser();
 
 		// Get the form.
 		$form = $this->loadForm('com_content.article', 'article', array('control' => 'jform', 'load_data' => $loadData));
@@ -380,19 +382,8 @@ class ContentModelArticle extends JModelAdmin
 			return false;
 		}
 
-		$id   = $this->getState('article.id');
-		$user = JFactory::getUser();
-		
-		if ($id && $app->isClient('site'))
-		// Existing record. We can't edit the category in frontend.
-		{
-			$form->setFieldAttribute('catid', 'readonly', 'true');
-			$form->setFieldAttribute('catid', 'filter', 'unset');
-		}
-
-		// Check for existing article.
-		// Modify the form based on Edit State access controls.
-		if ($id != 0 && (!$user->authorise('core.edit.state', 'com_content.article.' . (int) $id))
+		// Modify the form based on edit.state access controls.
+		if ($id != 0 && !$user->authorise('core.edit.state', 'com_content.article.' . (int) $id)
 			|| ($id == 0 && !$user->authorise('core.edit.state', 'com_content')))
 		{
 			// Disable fields for display.
@@ -409,6 +400,13 @@ class ContentModelArticle extends JModelAdmin
 			$form->setFieldAttribute('publish_up', 'filter', 'unset');
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
+
+			if ($app->isClient('site') && $id != 0)
+			{
+				// We can't edit the category of an existing record in frontend if not edit.state.
+				$form->setFieldAttribute('catid', 'readonly', 'true');
+				$form->setFieldAttribute('catid', 'filter', 'unset');
+			}
 		}
 
 		// Prevent messing with article language and category when editing existing article with associations
