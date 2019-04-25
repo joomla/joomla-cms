@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_newsfeeds
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -114,7 +115,8 @@ class HtmlView extends BaseHtmlView
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit') || count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0))
 		{
-			$toolbarButtons[] = ['apply', 'newsfeed.apply'];
+			ToolbarHelper::apply('newsfeed.apply');
+
 			$toolbarButtons[] = ['save', 'newsfeed.save'];
 		}
 
@@ -133,6 +135,11 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons,
 			'btn-success'
 		);
+
+		if (!$isNew && Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		{
+			ToolbarHelper::custom('newsfeed.editAssociations', 'contract', 'contract', 'JTOOLBAR_ASSOCIATIONS', false, false);
+		}
 
 		if (empty($this->item->id))
 		{

@@ -2,7 +2,7 @@
 /**
  * @package    Joomla.Libraries
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -499,3 +499,12 @@ JLoader::registerAlias('JPath',                             '\\Joomla\\CMS\\File
 JLoader::registerAlias('JStream',                           '\\Joomla\\CMS\\Filesystem\\Stream', '5.0');
 JLoader::registerAlias('JStreamString',                     '\\Joomla\\CMS\\Filesystem\\Streams\\StreamString', '5.0');
 JLoader::registerAlias('JStringController',                 '\\Joomla\\CMS\\Filesystem\\Support\\StringController', '5.0');
+
+JLoader::registerAlias('FinderIndexerAdapter',          '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Adapter', '5.0');
+JLoader::registerAlias('FinderIndexerHelper',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Helper', '5.0');
+JLoader::registerAlias('FinderIndexer',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Indexer', '5.0');
+JLoader::registerAlias('FinderIndexerParser',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Parser', '5.0');
+JLoader::registerAlias('FinderIndexerQuery',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Query', '5.0');
+JLoader::registerAlias('FinderIndexerResult',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Result', '5.0');
+JLoader::registerAlias('FinderIndexerTaxonomy',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Taxonomy', '5.0');
+JLoader::registerAlias('FinderIndexerToken',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Token', '5.0');

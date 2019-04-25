@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -395,13 +395,6 @@ class HtmlView extends BaseHtmlView
 			}
 		}
 
-		if (Factory::getUser()->authorise('core.admin'))
-		{
-			$toolbar->standardButton('refresh')
-				->text('JTOOLBAR_REBUILD')
-				->task('items.rebuild');
-		}
-
 		// Add a batch button
 		if (!$protected && $user->authorise('core.create', 'com_menus')
 			&& $user->authorise('core.edit', 'com_menus')
@@ -411,6 +404,13 @@ class HtmlView extends BaseHtmlView
 				->text('JTOOLBAR_BATCH')
 				->selector('collapseModal')
 				->listCheck(true);
+		}
+
+		if (Factory::getUser()->authorise('core.admin'))
+		{
+			$toolbar->standardButton('refresh')
+				->text('JTOOLBAR_REBUILD')
+				->task('items.rebuild');
 		}
 
 		if (!$protected && $this->state->get('filter.published') == -2 && $canDo->get('core.delete'))

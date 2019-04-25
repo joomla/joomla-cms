@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_installer
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -80,8 +80,6 @@ class HtmlView extends InstallerViewDefault
 		ToolbarHelper::custom('update.find', 'refresh', 'refresh', 'COM_INSTALLER_TOOLBAR_FIND_UPDATES', false);
 		ToolbarHelper::custom('update.purge', 'purge', 'purge', 'COM_INSTALLER_TOOLBAR_PURGE', false);
 		ToolbarHelper::divider();
-
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
 
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATE');
