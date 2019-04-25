@@ -38,11 +38,16 @@ height: 100%;
 padding: 0.25rem;
 overflow: hidden;
 transition: 0.25s ease all;
-background: green;
+background: grey;
 position: absolute;
 width: 62px;
 box-sizing: border-box;
 }
+
+.switcher input ~ input:checked ~ .toggle-outside{
+  background: green;
+}
+
 .switcher .toggle-inside {
 height: 20px;
 width: 20px;
