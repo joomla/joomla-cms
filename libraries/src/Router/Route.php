@@ -22,16 +22,22 @@ class Route
 {
 	/**
 	 * No change, use the protocol currently used.
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	const TLS_IGNORE = 0;
 
 	/**
 	 * Make URI secure using http over TLS (https).
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	const TLS_FORCE = 1;
 
 	/**
 	 * Make URI unsecure using plain http (http).
+	 *
+	 * @since  __DEPLOY_VERSION__
 	 */
 	const TLS_DISABLE = 2;
 
