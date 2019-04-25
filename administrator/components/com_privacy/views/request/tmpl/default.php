@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_privacy
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -72,7 +72,7 @@ JFactory::getDocument()->addScriptDeclaration($js);
 									<?php echo ActionlogsHelper::getHumanReadableLogMessage($item); ?>
 								</td>
 								<td>
-									<?php echo $this->escape($item->log_date); ?>
+									<?php echo JHtml::_('date', $item->log_date, JText::_('DATE_FORMAT_LC6')); ?>
 								</td>
 								<td>
 									<?php echo $item->name; ?>

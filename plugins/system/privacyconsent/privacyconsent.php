@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.privacyconsent
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -318,7 +318,7 @@ class PlgSystemPrivacyconsent extends JPlugin
 			 * If user is already on edit profile screen or view privacy article
 			 * or press update/apply button, or logout, do nothing to avoid infinite redirect
 			 */
-			if ($option == 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout'))
+			if ($option == 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout', 'user.menulogout'))
 				|| ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
 				|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
 			{

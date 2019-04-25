@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -362,7 +362,7 @@ class MessagesModelMessage extends JModelAdmin
 			$linkMode = $app->get('force_ssl', 0) >= 1 ? 1 : -1;
 			$sitename = $app->get('sitename');
 			$fromName = $fromUser->get('name');
-			$siteURL  = JRoute::link('administrator', 'index.php?option=com_messages&view=message&message_id=' . $table->message_id, true, $linkMode);
+			$siteURL  = JRoute::link('administrator', 'index.php?option=com_messages&view=message&message_id=' . $table->message_id, false, $linkMode);
 			$subject  = html_entity_decode($table->subject, ENT_COMPAT, 'UTF-8');
 			$message  = strip_tags(html_entity_decode($table->message, ENT_COMPAT, 'UTF-8'));
 

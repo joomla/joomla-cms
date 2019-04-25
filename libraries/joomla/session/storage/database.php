@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Session
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -12,8 +12,8 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Database session storage handler for PHP
  *
- * @link        https://secure.php.net/manual/en/function.session-set-save-handler.php
- * @since       11.1
+ * @link        https://www.php.net/manual/en/function.session-set-save-handler.php
+ * @since       1.7.0
  * @deprecated  4.0  The CMS' Session classes will be replaced with the `joomla/session` package
  */
 class JSessionStorageDatabase extends JSessionStorage
@@ -25,7 +25,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  string  The session data.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function read($id)
 	{
@@ -62,7 +62,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function write($id, $data)
 	{
@@ -103,7 +103,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function destroy($id)
 	{
@@ -134,7 +134,7 @@ class JSessionStorageDatabase extends JSessionStorage
 	 *
 	 * @return  boolean  True on success, false otherwise.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function gc($lifetime = 1440)
 	{

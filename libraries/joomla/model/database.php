@@ -3,7 +3,7 @@
  * @package     Joomla.Platform
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -14,7 +14,7 @@ use Joomla\Registry\Registry;
 /**
  * Joomla Platform Database Model Class
  *
- * @since       12.1
+ * @since       3.0.0
  * @deprecated  5.0 Use the default MVC library
  */
 abstract class JModelDatabase extends JModelBase
@@ -23,7 +23,7 @@ abstract class JModelDatabase extends JModelBase
 	 * The database driver.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  12.1
+	 * @since  3.0.0
 	 */
 	protected $db;
 
@@ -33,7 +33,7 @@ abstract class JModelDatabase extends JModelBase
 	 * @param   Registry         $state  The model state.
 	 * @param   JDatabaseDriver  $db     The database adpater.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function __construct(Registry $state = null, JDatabaseDriver $db = null)
 	{
@@ -48,7 +48,7 @@ abstract class JModelDatabase extends JModelBase
 	 *
 	 * @return  JDatabaseDriver  The database driver.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function getDb()
 	{
@@ -62,7 +62,7 @@ abstract class JModelDatabase extends JModelBase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public function setDb(JDatabaseDriver $db)
 	{
@@ -74,7 +74,7 @@ abstract class JModelDatabase extends JModelBase
 	 *
 	 * @return  JDatabaseDriver  The database driver.
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	protected function loadDb()
 	{
