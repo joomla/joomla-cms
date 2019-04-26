@@ -401,7 +401,7 @@ class ContentModelArticle extends JModelAdmin
 			$form->setFieldAttribute('publish_down', 'filter', 'unset');
 			$form->setFieldAttribute('state', 'filter', 'unset');
 
-			if ($app->isClient('site') && $id != 0)
+			if ($id != 0)
 			{
 				// We can't edit the category of an existing record in frontend if not edit.state.
 				$form->setFieldAttribute('catid', 'readonly', 'true');
