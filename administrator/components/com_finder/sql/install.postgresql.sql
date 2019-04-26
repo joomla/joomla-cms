@@ -280,7 +280,7 @@ INSERT INTO "#__finder_terms_common" ("term", "language") VALUES
 --
 
 CREATE TABLE IF NOT EXISTS "#__finder_tokens" (
-  "term" varchar(75) DEFAULT '' NOT NULL,
+  "term" varchar(75) NOT NULL,
   "stem" varchar(75) DEFAULT '' NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
@@ -298,8 +298,8 @@ CREATE INDEX "#__finder_tokens_idx_language" on "#__finder_tokens" ("language");
 --
 
 CREATE TABLE IF NOT EXISTS "#__finder_tokens_aggregate" (
-  "term_id" integer DEFAULT 0 NOT NULL,
-  "term" varchar(75) DEFAULT '' NOT NULL,
+  "term_id" integer NOT NULL,
+  "term" varchar(75) NOT NULL,
   "stem" varchar(75) DEFAULT '' NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
@@ -318,7 +318,7 @@ CREATE INDEX "_#__finder_tokens_aggregate_keyword_id" on "#__finder_tokens_aggre
 
 CREATE TABLE IF NOT EXISTS "#__finder_types" (
   "id" serial NOT NULL,
-  "title" varchar(100) DEFAULT '' NOT NULL,
+  "title" varchar(100) NOT NULL,
   "mime" varchar(100) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__finder_types_title" UNIQUE ("title")

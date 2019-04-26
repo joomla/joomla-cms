@@ -1,4 +1,4 @@
-INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES (493, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0);
+INSERT INTO "#__extensions" ("extension_id", "package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state") VALUES (506, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 TRUNCATE TABLE "#__finder_filters";
 ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by" SET DEFAULT 0;
@@ -269,7 +269,6 @@ INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 	('very', 'en', 0);
 
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE CHAR(7), ALTER COLUMN "language" SET DEFAULT '';
-ALTER TABLE "#__finder_tokens" ALTER COLUMN "term" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "weight" SET DEFAULT 0;
 CREATE INDEX "#__finder_tokens_idx_stem" on "#__finder_tokens" ("stem");
@@ -277,12 +276,9 @@ CREATE INDEX "#__finder_tokens_idx_language" on "#__finder_tokens" ("language");
 
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE CHAR(7), ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" DROP COLUMN "map_suffix";
-ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "term_id" SET DEFAULT 0;
-ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "term" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "term_weight" SET DEFAULT 0;
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "context_weight" SET DEFAULT 0;
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "total_weight" SET DEFAULT 0;
 
-ALTER TABLE "#__finder_types" ALTER COLUMN "title" SET DEFAULT '';
 ALTER TABLE "#__finder_types" ALTER COLUMN "mime" SET DEFAULT '';

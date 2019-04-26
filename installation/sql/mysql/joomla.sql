@@ -1178,7 +1178,7 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
-  `term` varchar(75) NOT NULL DEFAULT '',
+  `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL DEFAULT '',
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
@@ -1198,8 +1198,8 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
-  `term_id` int(10) unsigned NOT NULL DEFAULT 0,
-  `term` varchar(75) NOT NULL DEFAULT '',
+  `term_id` int(10) unsigned NOT NULL,
+  `term` varchar(75) NOT NULL,
   `stem` varchar(75) NOT NULL DEFAULT '',
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
@@ -1220,7 +1220,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens_aggregate` (
 
 CREATE TABLE IF NOT EXISTS `#__finder_types` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(100) NOT NULL DEFAULT '',
+  `title` varchar(100) NOT NULL,
   `mime` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `title` (`title`)

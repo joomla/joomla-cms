@@ -1,4 +1,4 @@
-INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES (493, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0);
+INSERT INTO `#__extensions` (`extension_id`, `package_id`, `name`, `type`, `element`, `folder`, `client_id`, `enabled`, `access`, `protected`, `manifest_cache`, `params`, `checked_out`, `checked_out_time`, `ordering`, `state`) VALUES (506, 0, 'plg_extension_finder', 'plugin', 'finder', 'extension', 0, 1, 1, 0, '', '', 0, '0000-00-00 00:00:00', 0, 0);
 
 TRUNCATE TABLE `#__finder_filters`;
 ALTER TABLE `#__finder_filters` MODIFY `created_by` int(10) unsigned NOT NULL DEFAULT 0;
@@ -262,7 +262,6 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES
 	('very', 'en', 0);
 
 ALTER TABLE `#__finder_tokens` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `context`;
-ALTER TABLE `#__finder_tokens` MODIFY `term` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens` MODIFY `weight` float unsigned NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_tokens` ADD INDEX `idx_stem` (`stem`);
@@ -270,12 +269,9 @@ ALTER TABLE `#__finder_tokens` ADD INDEX `idx_language` (`language`);
 
 ALTER TABLE `#__finder_tokens_aggregate` DROP COLUMN `map_suffix`;
 ALTER TABLE `#__finder_tokens_aggregate` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `total_weight`;
-ALTER TABLE `#__finder_tokens_aggregate` MODIFY `term_id` int(10) unsigned NOT NULL DEFAULT 0;
-ALTER TABLE `#__finder_tokens_aggregate` MODIFY `term` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `term_weight` float unsigned NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `context_weight` float unsigned NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_tokens_aggregate` MODIFY `total_weight` float unsigned NOT NULL DEFAULT 0;
 
-ALTER TABLE `#__finder_types` MODIFY `title` varchar(100) NOT NULL DEFAULT '';
 ALTER TABLE `#__finder_types` MODIFY `mime` varchar(100) NOT NULL DEFAULT '';
