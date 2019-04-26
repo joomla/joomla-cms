@@ -41,7 +41,7 @@ pipeline:
 
   php70-unit:
     group: unit
-    image: php:7.0-dev
+    image: joomlaprojects/docker-php70:develop
     commands:
       - ./libraries/vendor/bin/phpunit
 
