@@ -107,7 +107,7 @@ class DbImporterCli extends \Joomla\CMS\Application\CliApplication
 			{
 				$imp = Factory::getDbo()->getImporter()->from(file_get_contents($percorso))->withStructure()->asXml();
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				$this->out('Error on getImporter' . $table . ' ' . $e);
 
@@ -121,7 +121,7 @@ class DbImporterCli extends \Joomla\CMS\Application\CliApplication
 				$this->out('Drop ' . $table_name);
 				$db->dropTable($table_name, true);
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				$this->out(' Error in DROP TABLE ' . $table_name . ' ' . $e);
 
@@ -132,7 +132,7 @@ class DbImporterCli extends \Joomla\CMS\Application\CliApplication
 			{
 				$imp->mergeStructure();
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				$this->out('Error on mergeStructure' . $table . ' ' . $e);
 
@@ -145,7 +145,7 @@ class DbImporterCli extends \Joomla\CMS\Application\CliApplication
 			{
 				$imp->importData();
 			}
-			catch (Exception $e)
+			catch (\Exception $e)
 			{
 				$this->out('Error on importData' . $table . ' ' . $e);
 
@@ -164,7 +164,7 @@ Factory::getContainer()->share(
 	'DbImporterCli',
 	function (\Joomla\DI\Container $container)
 	{
-		return new FinderCli(
+		return new DbImporterCli(
 			null,
 			null,
 			null,

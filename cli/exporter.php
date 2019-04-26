@@ -11,6 +11,8 @@ const _JEXEC = 1;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Language\Text;
+use Joomla\Archive\Archive;
 
 // Load system defines
 if (file_exists(dirname(__DIR__) . '/defines.php'))
@@ -51,7 +53,7 @@ class DbExporterCli extends \Joomla\CMS\Application\CliApplication
 	 */
 	protected function doExecute()
 	{
-		$this->out(JText::_('DbExporterCli'));
+		$this->out(Text::_('DbExporterCli'));
 		$this->out('============================');
 		$total_time = microtime(true);
 
@@ -85,7 +87,7 @@ class DbExporterCli extends \Joomla\CMS\Application\CliApplication
 
 		if ($itable)
 		{
-			if (!in_array($itable, $tables))
+			if (!\in_array($itable, $tables))
 			{
 				$this->out('Not Found ' . $itable . '....');
 				$this->out();
@@ -96,7 +98,8 @@ class DbExporterCli extends \Joomla\CMS\Application\CliApplication
 			$tables = array($itable);
 		}
 
-		$zip = JArchive::getAdapter('zip');
+		$archive = new Archive;
+		$zip = $archive->getAdapter('zip');
 
 		foreach ($tables as $table)
 		{
@@ -135,7 +138,7 @@ Factory::getContainer()->share(
 	'DbExporterCli',
 	function (\Joomla\DI\Container $container)
 	{
-		return new FinderCli(
+		return new DbExporterCli(
 			null,
 			null,
 			null,
