@@ -41,7 +41,7 @@ pipeline:
 
   php70-unit:
     group: unit
-    image: phpdaily/php:7.0-dev
+    image: php:7.0-dev
     commands:
       - ./libraries/vendor/bin/phpunit
 
