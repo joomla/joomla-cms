@@ -57,6 +57,24 @@ pipeline:
     commands:
       - ./libraries/vendor/bin/phpunit
 
+  php73-unit:
+    group: unit
+    image: phpdaily/php:7.3-dev
+    commands:
+      - ./libraries/vendor/bin/phpunit
+
+  php74-unit:
+    group: unit
+    image: phpdaily/php:7.4-dev
+    commands:
+      - ./libraries/vendor/bin/phpunit
+
+  php80-unit:
+    group: unit
+    image: phpdaily/php:8.0-dev
+    commands:
+      - ./libraries/vendor/bin/phpunit
+
   javascript-cs:
     image: joomlaprojects/docker-systemtests:develop
     commands:
