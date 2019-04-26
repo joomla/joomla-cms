@@ -263,7 +263,6 @@ INSERT INTO `#__finder_terms_common` (`term`, `language`, `custom`) VALUES
 
 ALTER TABLE `#__finder_tokens` CHANGE `language` `language` CHAR(7) NOT NULL DEFAULT '' AFTER `context`;
 ALTER TABLE `#__finder_tokens` MODIFY `stem` varchar(75) NOT NULL DEFAULT '';
-ALTER TABLE `#__finder_tokens` MODIFY `weight` float unsigned NOT NULL DEFAULT 0;
 ALTER TABLE `#__finder_tokens` ADD INDEX `idx_stem` (`stem`);
 ALTER TABLE `#__finder_tokens` ADD INDEX `idx_language` (`language`);
 

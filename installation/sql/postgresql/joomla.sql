@@ -1171,7 +1171,7 @@ CREATE TABLE IF NOT EXISTS "#__finder_tokens" (
   "stem" varchar(75) DEFAULT '' NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
-  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
+  "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   "context" smallint DEFAULT 2 NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL
 );

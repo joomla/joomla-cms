@@ -285,7 +285,7 @@ CREATE TABLE IF NOT EXISTS `#__finder_tokens` (
   `stem` varchar(75) NOT NULL DEFAULT '',
   `common` tinyint(1) unsigned NOT NULL DEFAULT 0,
   `phrase` tinyint(1) unsigned NOT NULL DEFAULT 0,
-  `weight` float unsigned NOT NULL DEFAULT 0,
+  `weight` float unsigned NOT NULL DEFAULT 1,
   `context` tinyint(1) unsigned NOT NULL DEFAULT 2,
   `language` char(7) NOT NULL DEFAULT '',
   KEY `idx_word` (`term`),
