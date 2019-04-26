@@ -41,19 +41,19 @@ pipeline:
 
   php70-unit:
     group: unit
-    image: joomlaprojects/docker-php70:develop
+    image: phpdaily/php:7.0-dev
     commands:
       - ./libraries/vendor/bin/phpunit
 
   php71-unit:
     group: unit
-    image: joomlaprojects/docker-php71:develop
+    image: phpdaily/php:7.1-dev
     commands:
       - ./libraries/vendor/bin/phpunit
 
   php72-unit:
     group: unit
-    image: joomlaprojects/docker-php72:develop
+    image: phpdaily/php:7.2-dev
     commands:
       - ./libraries/vendor/bin/phpunit
 
