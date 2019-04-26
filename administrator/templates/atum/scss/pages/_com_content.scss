@@ -37,6 +37,26 @@
 					display: block;
 					grid-template-columns: 100%;
 				}
+				.field-spacer {
+					grid-column: 1 / span 2;
+				}
+			}
+			#images .col-md-6:first-child{
+				display: grid;
+				grid-template-columns: calc(40% - 15px) calc(60% - 15px);
+				grid-template-rows: min-content min-content min-content min-content min-content min-content;
+				grid-column-gap: 30px;
+
+				.form-group:first-child {
+					grid-row: 1 / span 3;
+				}
+				.form-group:nth-child(6) {
+					grid-row: 5 / span 3;
+				}
+				.field-spacer {
+					grid-column: 1 / span 2;
+					margin-top: -2rem;
+				}
 			}
 		}
 	}

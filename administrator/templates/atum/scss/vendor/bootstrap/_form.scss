@@ -51,6 +51,8 @@ label {
 .spacer {
   hr {
     width: 380px;
+    border: 0;
+    height: $grid-gutter-width;
   }
 
   label {

@@ -68,23 +68,8 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 			<div class="row">
 				<div class="col-md-6 pr-4">
 					<?php foreach ($this->form->getGroup('images') as $field) : ?>
-						<?php if ($field->type == 'Media') : ?>
-							<div class="row">
-								<div class="col-md-5">
-									<?php echo $field->renderField(); ?>
-								</div>
-								<div class="col-md-7">
-						<?php elseif ($field->type == 'Spacer') : ?>
-								</div>
-							</div>
-							<?php echo $field->renderField(); ?>
-						<?php else : ?>
-							<?php echo $field->renderField(); ?>
-						<?php endif; ?>
-
+						<?php echo $field->renderField(); ?>
 					<?php endforeach; ?>
-						</div>
-					</div>
 				</div>
 				<div class="col-md-6 pl-4">
 					<?php foreach ($this->form->getGroup('urls') as $field) : ?>
