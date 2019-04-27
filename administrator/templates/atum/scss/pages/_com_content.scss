@@ -11,7 +11,6 @@
 		.table {
 			th,
 			td {
-				font-weight: normal;
 				background-color: $white;
 			}
 		}
@@ -21,7 +20,7 @@
 				max-width: none;
 			}
 			.button-select {
-				background-color: (theme-color("success"), 8%)
+				background-color: darken(theme-color("success"), 8%);
 			}
 			.button-clear {
 				background-color: darken(theme-color("danger"), 8%);

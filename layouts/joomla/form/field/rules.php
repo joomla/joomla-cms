@@ -73,7 +73,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 ?>
 
 <?php // Description ?>
-<p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
+<p class="rule-desc mb-0"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
 <?php // Begin tabs ?>
 <joomla-field-permissions class="row mb-2 p-3" data-uri="<?php echo $ajaxUri; ?>">
 	<joomla-tab orientation="vertical" id="permissions-sliders">
@@ -225,7 +225,7 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 	</joomla-tab>
 </joomla-field-permissions>
 
-<div class="rule-notes">
+<div class="rule-notes bg-white p-3 shadow-sm">
 	<?php
 	if ($section === 'component' || !$section)
 	{

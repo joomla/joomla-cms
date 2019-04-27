@@ -5,7 +5,8 @@ label {
 }
 
 .form-control {
-	background-color: var(--white-offset);
+  background-color: var(--white-offset);
+  box-shadow: $atum-box-shadow;
 }
 
 .control-group {
@@ -115,6 +116,8 @@ legend {
   background-position: center right;
   background-size: 1854px;
   min-width: 10rem;
+  box-shadow: $atum-box-shadow;
+
   optgroup, option {
 	  background-color: $white;
   }

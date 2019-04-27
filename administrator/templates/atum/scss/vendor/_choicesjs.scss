@@ -1,6 +1,11 @@
 // choices.js
 @import "../variables";
 
+
+.choices {
+	box-shadow: $atum-box-shadow;
+}
+
 // Fix position
 .choices__list--dropdown {
 	z-index: $zindex-popover;
