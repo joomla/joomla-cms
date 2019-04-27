@@ -408,6 +408,7 @@ abstract class AdminModel extends FormModel
 		}
 
 		$newIds = array();
+		$db     = $this->getDbo();
 
 		// Parent exists so let's proceed
 		while (!empty($pks))
@@ -435,6 +436,7 @@ abstract class AdminModel extends FormModel
 				}
 			}
 
+			$oldAssetId = $this->table->asset_id;
 			$this->generateTitle($categoryId, $this->table);
 
 			// Reset the ID because we are making a copy
@@ -486,6 +488,18 @@ abstract class AdminModel extends FormModel
 
 			// Get the new item ID
 			$newId = $this->table->get('id');
+
+			// Copy rules
+			$query = $db->getQuery(true);
+			$query->clear()
+				->update($db->quoteName('#__assets', 't'))
+				->join('INNER', $db->quoteName('#__assets', 's') .
+					' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
+				)
+				->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
+				->where($db->quoteName('t.id') . ' = ' . $this->table->asset_id);
+	
+			$db->setQuery($query)->execute();
 
 			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
 
