@@ -1,5 +1,5 @@
 <template>
-    <media-modal v-if="$store.state.showPreviewModal && item" :size="'md'" @close="close()" class="media-preview-modal" label-element="previewTitle">
+    <media-modal v-if="$store.state.showPreviewModal && item" :size="'md'" @close="close()" class="media-preview-modal" label-element="previewTitle" :show-close="false">
         <h3 slot="header" id="previewTitle" class="modal-title">{{ item.name }}</h3>
         <div slot="body">
             <img :src="item.url" v-if="isImage()" :type="item.mime_type"/>
@@ -7,9 +7,9 @@
                 <source :src="item.url" :type="item.mime_type">
             </video>
         </div>
-        <a slot="backdrop-close" @click="close()" class="media-preview-close">
+        <button type="button" slot="backdrop-close" @click="close()" class="media-preview-close">
             <span class="fa fa-times"></span>
-        </a>
+        </button>
     </media-modal>
 </template>
 
