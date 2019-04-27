@@ -57,7 +57,10 @@ abstract class JHtmlCategory
 			$query->where('extension = ' . $db->quote($extension));
 
 			// Filter on user access level
-			$query->where('a.access IN (' . $groups . ')');
+			if (!$user->authorise('core.admin'))
+			{
+				$query->where('a.access IN (' . $groups . ')');
+			}
 
 			// Filter on the published state
 			if (isset($config['filter.published']))
