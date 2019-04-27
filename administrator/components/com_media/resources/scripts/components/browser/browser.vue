@@ -12,14 +12,15 @@
                 <p>{{ translate('COM_MEDIA_DROP_FILE') }}</p>
             </div>
             <table v-if="listView === 'table'" class="table media-browser-table">
+                <caption class="sr-only">{{ sprintf('COM_MEDIA_BROWSER_TABLE_CAPTION', currentDirectory) }}</caption>
                 <thead class="media-browser-table-head">
                     <tr>
-                        <th class="type"></th>
-                        <th class="name">{{ translate('COM_MEDIA_MEDIA_NAME') }}</th>
-                        <th class="size">{{ translate('COM_MEDIA_MEDIA_SIZE') }}</th>
-                        <th class="dimension">{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</th>
-                        <th class="created">{{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}</th>
-                        <th class="modified">{{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}</th>
+                        <th class="type" scope="col"></th>
+                        <th class="name" scope="col">{{ translate('COM_MEDIA_MEDIA_NAME') }}</th>
+                        <th class="size" scope="col">{{ translate('COM_MEDIA_MEDIA_SIZE') }}</th>
+                        <th class="dimension" scope="col">{{ translate('COM_MEDIA_MEDIA_DIMENSION') }}</th>
+                        <th class="created" scope="col">{{ translate('COM_MEDIA_MEDIA_DATE_CREATED') }}</th>
+                        <th class="modified" scope="col">{{ translate('COM_MEDIA_MEDIA_DATE_MODIFIED') }}</th>
                     </tr>
                 </thead>
                 <media-browser-item-row v-for="item in items" :key="item.path" :item="item"></media-browser-item-row>
@@ -74,7 +75,28 @@
             },
             isModal() {
                 return Joomla.getOptions('com_media', {}).isModal;
-            }
+            },
+            currentDirectory() {
+                const parts = this.$store.state.selectedDirectory.split('/').filter(crumb => crumb.length !== 0);
+
+                // The first part is the name of the drive, so if we have a folder name display it. Else
+				// find the filename
+				if (parts.length !== 1) {
+					return parts[parts.length - 1];
+				}
+
+				let diskName = '';
+
+				this.$store.state.disks.forEach(disk => {
+					disk.drives.forEach(drive => {
+						if (drive.root === parts[0] + '/') {
+							diskName = drive.displayName;
+						}
+					});
+				});
+
+				return diskName;
+			}
         },
         methods: {
             /* Unselect all browser items */

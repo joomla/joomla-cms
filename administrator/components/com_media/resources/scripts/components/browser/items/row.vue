@@ -2,9 +2,9 @@
     <tr @dblclick.stop.prevent="onDblClick()" @click="onClick" :class="{selected: this.isSelected()}">
         <td class="type" :data-type="item.extension">
         </td>
-        <td class="name">
+        <th scope="row" class="name">
             {{ item.name }}
-        </td>
+        </th>
         <td class="size">
             {{ item.size }}
         </td>
