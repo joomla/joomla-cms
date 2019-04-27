@@ -61,7 +61,7 @@ HTMLHelper::_('script', 'com_config/admin-application-default.min.js', ['version
 			<div class="tab-content" id="configContent">
 				<?php foreach ($this->fieldsets as $name => $fieldSet) : ?>
 					<div class="tab-pane" id="<?php echo $name; ?>">
-						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true] : []); ?>
+						<?php echo $this->form->renderFieldset($name, $name === 'permissions' ? ['hiddenLabel' => true, 'class' => 'revert-controls'] : []); ?>
 					</div>
 				<?php endforeach; ?>
 			</div>
