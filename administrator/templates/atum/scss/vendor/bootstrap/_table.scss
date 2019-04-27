@@ -12,7 +12,6 @@
 
     th,
     td {
-	  font-weight: $font-weight-normal;
       color: $gray-800;
       white-space: nowrap;
       @include media-breakpoint-down(xs) {

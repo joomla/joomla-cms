@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,47 +11,55 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Filesystem\Path;
 use Joomla\String\StringHelper;
-use Joomla\Utilities\ArrayHelper;
 
 /**
  * Actionlogs component helper.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsHelper
 {
 	/**
-	 * Method to convert logs objects array to associative array use for CSV export
+	 * Method to convert logs objects array to an iterable type for use with a CSV export
 	 *
-	 * @param   array  $data  The logs data objects to be exported
+	 * @param   array|Traversable  $data  The logs data objects to be exported
 	 *
-	 * @return  array
+	 * @return  Generator
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
+	 * @throws  InvalidArgumentException
 	 */
-	public static function getCsvData($data)
+	public static function getCsvData($data): Generator
 	{
-		$rows = array();
+		if (!is_iterable($data))
+		{
+			throw new InvalidArgumentException(
+				sprintf(
+					'%s() requires an array or object implementing the Traversable interface, a %s was given.',
+					__METHOD__,
+					gettype($data) === 'object' ? get_class($data) : gettype($data)
+				)
+			);
+		}
 
 		// Header row
-		$rows[] = array('Id', 'Message', 'Date', 'Extension', 'User', 'Ip');
+		yield ['Id', 'Message', 'Date', 'Extension', 'User', 'Ip'];
 
 		foreach ($data as $log)
 		{
 			$extension = strtok($log->extension, '.');
+
 			static::loadTranslationFiles($extension);
-			$row               = array();
-			$row['id']         = $log->id;
-			$row['message']    = strip_tags(static::getHumanReadableLogMessage($log));
-			$row['date']       = JHtml::_('date', $log->log_date, JText::_('DATE_FORMAT_LC6'));
-			$row['extension']  = JText::_($extension);
-			$row['name']       = $log->name;
-			$row['ip_address'] = JText::_($log->ip_address);
 
-			$rows[] = $row;
+			yield [
+				'id'         => $log->id,
+				'message'    => strip_tags(static::getHumanReadableLogMessage($log, false)),
+				'date'       => (new JDate($log->log_date, new DateTimeZone('UTC')))->format('Y-m-d H:i:s T'),
+				'extension'  => JText::_($extension),
+				'name'       => $log->name,
+				'ip_address' => JText::_($log->ip_address),
+			];
 		}
-
-		return $rows;
 	}
 
 	/**
@@ -61,11 +69,12 @@ class ActionlogsHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function loadTranslationFiles($extension)
 	{
 		static $cache = array();
+		$extension = strtolower($extension);
 
 		if (isset($cache[$extension]))
 		{
@@ -100,8 +109,14 @@ class ActionlogsHelper
 
 		}
 
-		$lang->load(strtolower($extension), JPATH_ADMINISTRATOR, null, false, true)
-			|| $lang->load(strtolower($extension), $source, null, false, true);
+		$lang->load($extension, JPATH_ADMINISTRATOR, null, false, true)
+			|| $lang->load($extension, $source, null, false, true);
+
+		if (!$lang->hasKey(strtoupper($extension)))
+		{
+			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
+				|| $lang->load($extension . '.sys', $source, null, false, true);
+		}
 
 		$cache[$extension] = true;
 	}
@@ -113,7 +128,7 @@ class ActionlogsHelper
 	 *
 	 * @return  mixed  An object contains content type parameters, or null if not found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getLogContentTypeParams($context)
 	{
@@ -129,47 +144,19 @@ class ActionlogsHelper
 	}
 
 	/**
-	 * Method to retrieve data by primary keys from a table
-	 *
-	 * @param   array   $pks      An array of primary key ids of the content that has changed state.
-	 * @param   string  $field    The field to get from the table
-	 * @param   string  $idField  The primary key of the table
-	 * @param   string  $table    The database table to get data from
-	 *
-	 * @return  array
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public static function getDataByPks($pks, $field, $idField, $table)
-	{
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName(array($idField, $field)))
-			->from($db->quoteName($table))
-			->where($db->quoteName($idField) . ' IN (' . implode(',', ArrayHelper::toInteger($pks)) . ')');
-		$db->setQuery($query);
-
-		try
-		{
-			return $db->loadObjectList($idField);
-		}
-		catch (RuntimeException $e)
-		{
-			return array();
-		}
-	}
-
-	/**
 	 * Get human readable log message for a User Action Log
 	 *
-	 * @param   stdClass  $log  A User Action log message record
+	 * @param   stdClass  $log            A User Action log message record
+	 * @param   boolean   $generateLinks  Flag to disable link generation when creating a message
 	 *
 	 * @return  string
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public static function getHumanReadableLogMessage($log)
+	public static function getHumanReadableLogMessage($log, $generateLinks = true)
 	{
+		static $links = array();
+
 		$message     = JText::_($log->message_language_key);
 		$messageData = json_decode($log->message, true);
 
@@ -185,9 +172,14 @@ class ActionlogsHelper
 		foreach ($messageData as $key => $value)
 		{
 			// Convert relative url to absolute url so that it is clickable in action logs notification email
-			if (StringHelper::strpos($value, 'index.php?') === 0)
+			if ($generateLinks && StringHelper::strpos($value, 'index.php?') === 0)
 			{
-				$value = JRoute::link('administrator', $value, false, $linkMode);
+				if (!isset($links[$value]))
+				{
+					$links[$value] = JRoute::link('administrator', $value, false, $linkMode);
+				}
+
+				$value = $links[$value];
 			}
 
 			$message = str_replace('{' . $key . '}', JText::_($value), $message);
@@ -206,7 +198,7 @@ class ActionlogsHelper
 	 *
 	 * @return  string  Link to the content item
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function getContentTypeLink($component, $contentType, $id, $urlVar = 'id')
 	{
@@ -243,7 +235,7 @@ class ActionlogsHelper
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function loadActionLogPluginsLanguage()
 	{

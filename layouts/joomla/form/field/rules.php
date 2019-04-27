@@ -75,12 +75,12 @@ $ajaxUri = Route::_('index.php?option=com_config&task=application.store&format=j
 <?php // Description ?>
 <p class="rule-desc"><?php echo Text::_('JLIB_RULES_SETTINGS_DESC'); ?></p>
 <?php // Begin tabs ?>
-<joomla-field-permissions class="row mb-2" data-uri="<?php echo $ajaxUri; ?>">
+<joomla-field-permissions class="row mb-2 p-3" data-uri="<?php echo $ajaxUri; ?>">
 	<joomla-tab orientation="vertical" id="permissions-sliders">
 	<?php // Initial Active Pane ?>
 		<?php foreach ($groups as $group) : ?>
 			<?php $active = (int) $group->value === 1 ? ' active' : ''; ?>
-			<section class="tab-pane<?php echo $active; ?>" name="<?php echo htmlentities(LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)), ENT_COMPAT, 'utf-8') . $group->text; ?>" id="permission-<?php echo $group->value; ?>">
+			<section class="tab-pane<?php echo $active; ?> col-md-9 pt-0" name="<?php echo htmlentities(LayoutHelper::render('joomla.html.treeprefix', array('level' => $group->level + 1)), ENT_COMPAT, 'utf-8') . $group->text; ?>" id="permission-<?php echo $group->value; ?>">
 				<table class="table">
 					<thead>
 						<tr>

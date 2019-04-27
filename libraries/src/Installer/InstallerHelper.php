@@ -32,7 +32,7 @@ abstract class InstallerHelper
 	 * Hash not validated identifier.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */	
 	const HASH_NOT_VALIDATED = 0;
 
@@ -40,7 +40,7 @@ abstract class InstallerHelper
 	 * Hash validated identifier.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	const HASH_VALIDATED = 1;
 
@@ -48,7 +48,7 @@ abstract class InstallerHelper
 	 * Hash not provided identifier.
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	const HASH_NOT_PROVIDED = 2;
 
@@ -346,7 +346,7 @@ abstract class InstallerHelper
 	 *
 	 * @return  integer  one if the hashes match, zero if hashes doesn't match, two if hashes not found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function isChecksumValid($packagefile, $updateObject)
 	{

@@ -76,14 +76,19 @@ joomla-tab {
 	&[orientation=vertical] {
 		flex-direction: row;
 		align-items: flex-start;
+		width: 100%;
 		> ul {
 			flex-direction: column;
-			min-width: 30%;
+			flex: 0 0 25%;
+			width: 100%;
+			max-width: 25%;
+			min-width: 25%;
 			height: auto;
 			border: 1px solid #ccc;
 			border-radius: .25rem;
 			box-shadow: none;
 			overflow: hidden;
+			padding: 0;
 		}
 		li:last-of-type a {
 			border-bottom: 0;
@@ -97,8 +102,6 @@ joomla-tab {
 			box-shadow: none;
 			text-decoration: none;
 			&[active] {
-				border-left: 0 none;
-				border-right: 0 none;
 				background-color: #fff;
 				background-image: none;
 				box-shadow: none;

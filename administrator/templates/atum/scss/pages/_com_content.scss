@@ -20,6 +20,12 @@
 				width: 100%;
 				max-width: none;
 			}
+			.button-select {
+				background-color: (theme-color("success"), 8%)
+			}
+			.button-clear {
+				background-color: darken(theme-color("danger"), 8%);
+			}
 		}
 		.subhead {
 			background-color: transparent;

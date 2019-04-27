@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.terms
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,7 +17,7 @@ JFormHelper::loadFieldClass('radio');
 /**
  * Provides input for privacyterms
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JFormFieldterms extends JFormFieldRadio
 {
@@ -25,7 +25,7 @@ class JFormFieldterms extends JFormFieldRadio
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $type = 'terms';
 
@@ -34,7 +34,7 @@ class JFormFieldterms extends JFormFieldRadio
 	 *
 	 * @return  string   The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getInput()
 	{
@@ -50,7 +50,7 @@ class JFormFieldterms extends JFormFieldRadio
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getLabel()
 	{

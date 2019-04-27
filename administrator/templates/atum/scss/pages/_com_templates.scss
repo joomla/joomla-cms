@@ -17,9 +17,9 @@
       vertical-align: top;
       list-style: none;
       backface-visibility: hidden;
-      -webkit-column-break-inside: avoid;
       page-break-inside: avoid;
       break-inside: avoid;
+      column-break-inside: avoid;
     }
   }
 
