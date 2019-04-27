@@ -572,8 +572,6 @@ class ModuleModel extends AdminModel
 			return false;
 		}
 
-		$form->setFieldAttribute('position', 'client', $this->getState('item.client_id') == 0 ? 'site' : 'administrator');
-
 		$user = Factory::getUser();
 
 		/**
