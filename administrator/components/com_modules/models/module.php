@@ -209,7 +209,7 @@ class ModulesModelModule extends JModelAdmin
 				$query->clear()
 					->update($db->quoteName('#__assets', 't'))
 					->join('INNER', $db->quoteName('#__assets', 's') .
-					 ' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId 
+						' ON ' . $db->quoteName('s.id') . ' = ' . $oldAssetId
 					)
 					->set($db->quoteName('t.rules') . ' = ' . $db->quoteName('s.rules'))
 					->where($db->quoteName('t.id') . ' = ' . $table->asset_id);
