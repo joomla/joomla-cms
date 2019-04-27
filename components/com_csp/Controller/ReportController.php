@@ -13,8 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Registry\Registry;
 
 /**
  * Csp Controller
@@ -32,16 +30,8 @@ class ReportController extends BaseController
 	 */
 	public function log()
 	{
-		$pluginParams = new Registry;
-
-		// Get the httpheaders plugin params
-		if (PluginHelper::isEnabled('system', 'httpheaders'))
-		{
-			$pluginParams->loadString(PluginHelper::getPlugin('system', 'httpheaders')->params);
-		}
-
 		// When we are not in detect mode do nothing here
-		if ($pluginParams->get('contentsecuritypolicy_mode', 'custom') != 'detect')
+		if (Factory::getApplication()->getParams()->get('contentsecuritypolicy_mode', 'custom') != 'detect')
 		{
 			$this->app->close();
 		}

@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.confirmconsent
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\CMS\Uri\Uri;
 /**
  * The Joomla Core confirm consent plugin
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgContentConfirmConsent extends CMSPlugin
 {
@@ -28,7 +28,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 * The Application object
 	 *
 	 * @var    JApplicationSite
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -36,7 +36,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 * The Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -44,7 +44,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -52,7 +52,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 * The supported form contexts
 	 *
 	 * @var    array
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $supportedContext = array(
 		'com_contact.contact',
@@ -68,7 +68,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 *
 	 * @return  boolean
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onContentPrepareForm(JForm $form, $data)
 	{
@@ -116,7 +116,7 @@ class PlgContentConfirmConsent extends CMSPlugin
 	 *
 	 * @return  string  Returns the a tag containing everything for the modal
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function getAssignedArticleUrl($articleId, $consentboxLabel)
 	{

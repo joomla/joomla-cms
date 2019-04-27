@@ -1,6 +1,3 @@
-// Mixins
-@import "../mixin";
-
 // Sidebar
 
 .wrapper {
@@ -146,6 +143,7 @@
     }
 
     .menu-dashboard, .menu-quicktask {
+      position: relative;
       display:inline-block;
       top: -1px;
       a {

@@ -215,7 +215,11 @@
     @extend .#{$fa-css-prefix}-search-minus:before;
 }
 
-.icon-apply:before, .icon-edit:before, .icon-pencil:before {
+.icon-apply:before, .icon-save:before {
+    @extend .#{$fa-css-prefix}-floppy-o:before;
+}
+
+.icon-edit:before, .icon-pencil:before {
     @extend .#{$fa-css-prefix}-pencil-square-o:before;
 }
 
@@ -239,7 +243,7 @@
     @extend .#{$fa-css-prefix}-times:before;
 }
 
-.icon-publish:before, .icon-save:before, .icon-ok:before, .icon-checkmark:before {
+.icon-publish:before, .icon-ok:before, .icon-checkmark:before {
     @extend .#{$fa-css-prefix}-check:before;
 }
 

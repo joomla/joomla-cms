@@ -64,6 +64,14 @@ class DisplayController extends BaseController
 	public function addModule()
 	{
 		$position = $this->input->get('position', 'cpanel');
+		$function = $this->input->get('function');
+
+		$appendLink = '';
+
+		if ($function)
+		{
+			$appendLink .= '&function=' . $function;
+		}
 
 		if (substr($position, 0, 6) != 'cpanel')
 		{
@@ -73,6 +81,6 @@ class DisplayController extends BaseController
 		Factory::getApplication()->setUserState('com_modules.modules.filter.position', $position);
 		Factory::getApplication()->setUserState('com_modules.modules.client_id', '1');
 
-		$this->setRedirect(Route::_('index.php?option=com_modules&view=select&tmpl=component&layout=modal', false));
+		$this->setRedirect(Route::_('index.php?option=com_modules&view=select&tmpl=component&layout=modal' . $appendLink, false));
 	}
 }

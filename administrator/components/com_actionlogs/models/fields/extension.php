@@ -3,19 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
 JFormHelper::loadFieldClass('list');
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
 
 /**
- * Field to load a list of all users that have logged actions
+ * Field to load a list of all extensions that have logged actions
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JFormFieldExtension extends JFormFieldList
 {
@@ -23,7 +23,7 @@ class JFormFieldExtension extends JFormFieldList
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $type = 'extension';
 
@@ -32,25 +32,35 @@ class JFormFieldExtension extends JFormFieldList
 	 *
 	 * @return  array  The field option objects.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function getOptions()
 	{
 		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
-			->select('DISTINCT b.extension')
-			->from($db->quoteName('#__action_logs', 'b'));
+			->select('DISTINCT ' . $db->quoteName('extension'))
+			->from($db->quoteName('#__action_logs'))
+			->order($db->quoteName('extension'));
 
 		$db->setQuery($query);
-		$extensions = $db->loadObjectList();
+		$context = $db->loadColumn();
 
 		$options = array();
 
-		foreach ($extensions as $extension)
+		if (count($context) > 0)
 		{
-			$extension = strtok($context, '.');
-			ActionlogsHelper::loadTranslationFiles($extension);
-			$options[] = JHtml::_('select.option', $extension->extension, JText::_($extension));
+			foreach ($context as $item)
+			{
+				$extensions[] = strtok($item, '.');
+			}
+
+			$extensions = array_unique($extensions);
+
+			foreach ($extensions as $extension)
+			{
+				ActionlogsHelper::loadTranslationFiles($extension);
+				$options[] = JHtml::_('select.option', $extension, JText::_($extension));
+			}
 		}
 
 		return array_merge(parent::getOptions(), $options);
