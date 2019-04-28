@@ -157,9 +157,10 @@
           margin: 0;
         }
         &:hover {
-          .fa {
-            color: var(--atum-contrast);
-          }
+            background-color: var(--atum-bg-dark-70);
+            .fa {
+             color: var(--atum-contrast);
+            }
         }
       }
       &::before {
@@ -215,7 +216,7 @@
 
       &:hover {
         background-color: var(--atum-bg-dark-80);
-	text-decoration: none;
+        text-decoration: none;
       }
     }
 
@@ -402,6 +403,7 @@
 
   .sidebar-item-title,
   .has-arrow::after {
+    display: none;
     display: none;
   }
 
