@@ -4,10 +4,14 @@
 
 .table {
 
+  background: $white;
+  box-shadow: $atum-box-shadow;
+
   thead {
 
     th {
       font-size: $label-font-size;
+      border-bottom: none;
     }
 
     th,
@@ -44,6 +48,7 @@
   th,
   td {
     vertical-align: middle;
+    border-top:1px solid var(--toolbar-bg);
 
     label {
       margin-bottom: 0;
@@ -51,6 +56,6 @@
   }
 
   td {
-    padding: 18px 12px;
+    padding: 1.625rem 0.75rem;
   }
 }
