@@ -1,6 +1,8 @@
 // Toolbar
 @import "../variables";
 
+
+
 .subhead {
   position: sticky;
   top: 0;
@@ -11,7 +13,7 @@
   min-height: 43px;
   padding: 13px 0;
   color: #0c192e;
-  background: var(--atum-bg-light);
+  background: var(--toolbar-bg);
 
   .row {
     margin-right: 0;
@@ -23,7 +25,6 @@
 
     > * {
       margin-left: .75rem;
-      box-shadow: $atum-box-shadow;
       margin-bottom: 10px;
 
       &:first-child {
@@ -43,13 +44,15 @@
   .btn-group {
     .btn {
       .fa:first-child, [class^=icon-]:first-child{
-        background-color: transparent;
         margin-right: 0;
       }
     }
   }
 
   .btn {
+    background: $white;
+    border-color: $gray-500;
+    color: $gray-800;
     padding: 0 22px;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
@@ -65,13 +68,176 @@
       margin: 0 16px 0 -22px;
       line-height: $atum-toolbar-line-height;
       color: var(--white);
-      background-color: rgba(0, 0, 0, .2);
+    }
+
+    &.btn-success {
+
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: darken(theme-color("success"), 5%);
+        color:rgba(255,255,255,0.90);
+      }
+
+      &:hover {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          background-color: darken(theme-color("success"), 10%);
+          color:rgba(255,255,255,0.90);
+        }
+
+        color:rgba(255,255,255,0.90);
+        background-color: theme-color("success");
+      }
+    }
+
+    &.btn-danger {
+
+    background-color: $white;
+
+    [class^='icon-'],
+    [class*=' icon-'],
+    [class^='#{$fa-css-prefix}-'],
+    [class*=' #{$fa-css-prefix}-'],
+    span {
+      background-color: darken(theme-color("danger"), 5%);
+      color:rgba(255,255,255,0.90);
+    }
+
+    &:hover {
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: darken(theme-color("danger"), 10%);
+        color:rgba(255,255,255,0.90);
+      }
+
+      color:rgba(255,255,255,0.90);
+      background-color: theme-color("danger");
+    }
+  }
+
+    &.btn-primary {
+
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: darken(theme-color("primary"), 5%);
+        color:rgba(255,255,255,0.90);
+      }
+
+      &:hover {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          background-color: darken(theme-color("primary"), 10%);
+          color:rgba(255,255,255,0.90);
+        }
+
+        color:rgba(255,255,255,0.90);
+        background-color: theme-color("primary");
+      }
+    }
+
+    &.btn-info {
+
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: darken(theme-color("primary"), 5%);
+        color:rgba(255,255,255,0.90);
+      }
+
+      &:hover {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          background-color: darken(theme-color("primary"), 10%);
+          color:rgba(255,255,255,0.90);
+        }
+
+        color:rgba(255,255,255,0.90);
+        background-color: theme-color("primary");
+      }
+    }
+
+    &.btn-action {
+
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        background-color: darken(theme-color("primary"), 5%);
+        color:rgba(255,255,255,0.90);
+      }
+
+      &:hover {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          background-color: darken(theme-color("primary"), 10%);
+          color:rgba(255,255,255,0.90);
+        }
+
+        color:rgba(255,255,255,0.90);
+        background-color: theme-color("primary");
+      }
     }
 
     &[disabled],
     &.dropdown-toggle[disabled] {
-      background-color: $gray-600;
-      border-color: $gray-600;
+      background-color: rgba($gray-300, 0.8);
+      border-color: rgba($gray-500, 0.8);
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'],
+      span {
+        color: $gray-700;
+        background-color: rgba($gray-500, 0.8);
+      }
+
+      &:hover {
+        [class^='icon-'],
+        [class*=' icon-'],
+        [class^='#{$fa-css-prefix}-'],
+        [class*=' #{$fa-css-prefix}-'],
+        span {
+          color: $gray-700;
+          background-color: rgba($gray-500, 0.8);
+        }
+        background-color: rgba($gray-300, 0.8);
+        cursor: not-allowed;
+        color: $gray-700;
+      }
+
     }
   }
 
@@ -86,16 +252,29 @@
   .dropdown-toggle {
 
     &.btn {
-      background-color: rgba(0, 0, 0, .2);
+      color: theme-color("atum-text-dark");
+
+      span {
+        background-color: theme-color("primary");
+        color:rgba(255,255,255,0.90);
+      }
     }
 
     &.btn-primary {
-      background-color: darken(theme-color("primary"), 8%);
+      span {
+        background-color: theme-color("primary");
+        color:rgba(255,255,255,0.90);
+      }
     }
 
     &.btn-success {
-      background-color: darken(theme-color("success"), 8%);
+      background-color: $white;
       padding: 0;
+
+      span {
+        background-color: theme-color("success");
+        color:rgba(255,255,255,0.90);
+      }
 
       &::after {
         border: none;
@@ -115,14 +294,21 @@
     }
 
     &.btn-action {
-      background-color: (theme-color("action"));
+      background-color: $white;
+
+      [class^='icon-'],
+      [class*=' icon-'],
+      [class^='#{$fa-css-prefix}-'],
+      [class*=' #{$fa-css-prefix}-'] {
+        background-color: theme-color("primary");
+        color:rgba(255,255,255,0.90);
+      }
 
       &:hover:not([disabled]) {
-        background-color: darken(theme-color("action"), 8%);
+        background-color: darken(theme-color("primary"), 8%);
       }
 
       &::after {
-        background-color: rgba(0, 0, 0, .2);
         border: none;
         content: '\f078';
         font-family: FontAwesome;
@@ -135,7 +321,15 @@
     }
   }
 }
+
 .btn-toolbar{
+
+  .input-group-append {
+    .btn-primary {
+      background-color: darken(theme-color("primary"), 5%);
+      color:rgba(255,255,255,0.90);
+    }
+  }
   >*{
     @include media-breakpoint-down(md) {
       margin-left:0 !important;
@@ -143,6 +337,7 @@
       margin-bottom:10px;
     }
   }
+
 }
 
 .js-stools{

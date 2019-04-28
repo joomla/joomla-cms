@@ -5,7 +5,7 @@ $white:                            #fff;
 $gray-100:                         #f8f9fa;
 $gray-200:                         #e9ecef;
 $gray-300:                         #dee2e6;
-$gray-400:                         #ced4da;
+$gray-400:                         #cdcdcd;
 $gray-500:                         #adb5bd;
 $gray-600:                         #6f7780;
 $gray-700:                         #495057;
@@ -17,7 +17,7 @@ $dark-blue:                        #001B4C;
 $blue-a700:                        #4D78A3;
 
 // BS Colours
-$blue:                             hsl(210, 100%, 24.5%);
+$blue:                             hsl(207.4, 60.9%, 26.1%);
 $indigo:                           #0377be;
 $purple:                           #6f42c1;
 $pink:                             #e83e8c;
@@ -30,13 +30,13 @@ $cyan:                             #108193;
 //color-60 is the base
 $color-60:                         $blue;
 
-$color-0:                          adjust-color($color-60, $hue: -5%, $saturation: -91%, $lightness: +71.4%);
-$color-5:                          adjust-color($color-60, $hue: -6%, $saturation: -86%, $lightness: +65.1%);
-$color-10:                         adjust-color($color-60, $hue: -6%, $saturation: -82%, $lightness: +59.4%);
-$color-20:                         adjust-color($color-60, $hue: -6%, $saturation: -76%, $lightness: +47.3%);
-$color-30:                         adjust-color($color-60, $hue: -5%, $saturation: -57%, $lightness: +34.3%);
-$color-40:                         adjust-color($color-60, $hue: -3%, $saturation: -39%, $lightness: +21.4%);
-$color-50:                         adjust-color($color-60, $hue: -1%, $saturation: -18%, $lightness: +10%);
+$color-0:                          adjust-color($color-60, $hue: -5%, $saturation: -100%, $lightness: +71.4%);
+$color-5:                          adjust-color($color-60, $hue: -6%, $saturation: -85%, $lightness: +65.1%);
+$color-10:                         adjust-color($color-60, $hue: -6%, $saturation: -80%, $lightness: +59.4%);
+$color-20:                         adjust-color($color-60, $hue: -6%, $saturation: -75%, $lightness: +47.3%);
+$color-30:                         adjust-color($color-60, $hue: -5%, $saturation: -55%, $lightness: +34.3%);
+$color-40:                         adjust-color($color-60, $hue: -3%, $saturation: -40%, $lightness: +21.4%);
+$color-50:                         adjust-color($color-60, $hue: -1%, $saturation: -15%, $lightness: +10%);
 
 $color-70:                         adjust-color($color-60, $hue: +4%, $lightness: -6%);
 $color-80:                         adjust-color($color-60, $hue: +7%, $lightness: -11.5%);
@@ -54,11 +54,13 @@ $theme-colors: map-merge((
   danger:                          $red,
   light:                           $gray-100,
   dark:                            $gray-900,
-  atum-link-color:                 $color-60,
+  atum-link-color:                 #2077dd,
   action:                          $color-60
 ), $theme-colors);
 
 $colors: (
+  dashboard-bg:                 #e8e8e8,
+  toolbar-bg:                   lighten(#e8e8e8, 5%),
   success-border:                  theme-color("success"),
   info-border:                     theme-color("info"),
   warning-border:                  theme-color("warning"),
@@ -80,7 +82,7 @@ $colors: (
   atum-text-dark:                  $gray-600,
   atum-text-light:                 $white,
   atum-special-color:              $dark-blue,
-  atum-link-color:                 $color-60,
+  atum-link-color:                 #2077dd,
   atum-link-hover-color:           darken($color-60, 15%),
   atum-contrast:                   $color-contrast,
   atum-bg-dark-5:                  $color-5,
@@ -99,7 +101,7 @@ $alert-border-level:               0;
 $alert-color-level:                0;
 
 // Global
-$atum-box-shadow:                  0 1px 2px rgba($black, .25);
+$atum-box-shadow:                  0 1px 1px rgba($black, .15);
 $enable-rounded:                   false;
 $border-radius:                    none;
 $input-btn-padding-y:              .6rem;
