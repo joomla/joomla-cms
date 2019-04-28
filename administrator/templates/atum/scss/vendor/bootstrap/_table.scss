@@ -7,10 +7,6 @@
   background: $white;
   box-shadow: $atum-box-shadow;
 
-  a {
-    text-decoration: underline;
-  }
-
   thead {
 
     th {
@@ -47,6 +43,15 @@
 
   tbody {
     background-color: var(--white);
+
+    a {
+      text-decoration: underline;
+    }
+
+    th {
+      font-weight: 500;
+    }
+
   }
 
   th,
