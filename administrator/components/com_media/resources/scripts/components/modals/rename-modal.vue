@@ -34,7 +34,6 @@
         },
         computed: {
             item() {
-                // TODO @DN this is not allowed in vuex strict mode!
                 return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
             },
             name: {
@@ -45,11 +44,10 @@
                     return this.item.name.replace('.' + this.item.extension, '');
                 },
                 set(value) {
-                    // TODO @DN this is not allowed in vuex strict mode!
                     if (this.extension.length) {
                         value += '.' + this.item.extension;
                     }
-                    this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1].name = value;
+                    this.$store.commit(types.CHANGE_NAME, value);
                 }
             },
             extension() {
@@ -64,8 +62,7 @@
             /* Close the modal instance */
             close() {
                 // Reset state
-                // TODO @DN this is not allowed in vuex strict mode!
-                this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1].name = this.originalName;
+                this.$store.commit(types.CHANGE_NAME, this.originalName);
                 this.originalName = '';
 
                 this.$store.commit(types.HIDE_RENAME_MODAL);

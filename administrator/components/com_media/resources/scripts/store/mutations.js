@@ -343,6 +343,14 @@ export default {
     },
 
     /**
+     * Show the rename modal
+     * @param state
+     */
+    [types.CHANGE_NAME]: (state, new_name) => {
+        state.selectedItems[state.selectedItems.length - 1].name = new_name;
+    },
+
+    /**
      * Hide the rename modal
      * @param state
      */
