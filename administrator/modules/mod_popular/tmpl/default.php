@@ -46,12 +46,7 @@ HTMLHelper::_('bootstrap.framework');
 					<?php endif; ?>
 				</th>
 				<td>
-					<span class="badge badge-secondary badge-pill">
-						<span class="small">
-							<span class="icon-calendar" aria-hidden="true"></span>
-							<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
-						</span>
-					</span>
+					<?php echo HTMLHelper::_('date', $item->publish_up, Text::_('DATE_FORMAT_LC4')); ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
