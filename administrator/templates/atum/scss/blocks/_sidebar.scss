@@ -432,7 +432,7 @@
     display:block;
     width:70px;
     height:70px;
-    background:var(--atum-bg-dark-40);
+    background:var(--atum-link-color);
     border-radius:40px;
     border:8px solid var(--atum-bg-light);
     position: fixed;
@@ -445,14 +445,14 @@
 
       &:before{
         font: normal normal normal 30px/1 FontAwesome;
-        content: "\f107";
+        content: "\f00d";
         color:var(--toggle-color);
 
       }
     }
 	&.collapsed {
 		.navbar-toggler-icon:before {
-			content: "\f106";
+			content: "\f0c9";
 		}
 	}
 
