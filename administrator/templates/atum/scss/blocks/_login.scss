@@ -81,10 +81,13 @@
           font-size: 0.75rem;
         }
       }
+
     }
 
     #btn-login-submit {
       text-transform: uppercase;
+      background: var(--atum-bg-dark);
+      color:rgba(255,255,255,0.8);
     }
   }
 
@@ -260,7 +263,7 @@ label {
       display:block;
     }
   }
-  
+
  .invalid .form-control-feedback {
     color: theme-color("danger");
   }
