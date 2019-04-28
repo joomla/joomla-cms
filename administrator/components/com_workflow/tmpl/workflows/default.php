@@ -139,7 +139,7 @@ $userId = $user->id;
 								<th scope="row">
 									<?php if (!$isCore && ($canEdit || $canEditOwn)) : ?>
 										<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT', true); ?> <?php echo Text::_($item->title, true); ?>">
-											<?php echo $editIcon; ?><?php echo $this->escape(Text::_($item->title)); ?>
+											<?php echo $this->escape(Text::_($item->title)); ?>
 										</a>
 										<div class="small"><?php echo $item->description; ?></div>
 									<?php else: ?>

@@ -123,7 +123,7 @@ if ($saveOrder)
 									<th scope="row">
 										<?php if ($canEdit) : ?>
 											<a href="<?php echo $edit; ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes(Text::_($item->title))); ?>">
-												<?php echo $editIcon; ?><?php echo $this->escape(Text::_($item->title)); ?>
+												<?php echo $this->escape(Text::_($item->title)); ?>
 											</a>
 											<div class="small"><?php echo $this->escape(Text::_($item->description)); ?></div>
 										<?php else: ?>

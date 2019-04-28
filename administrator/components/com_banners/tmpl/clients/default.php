@@ -118,7 +118,7 @@ $params     = $this->state->params ?? new JObject;
 											<?php endif; ?>
 											<?php if ($canEdit) : ?>
 													<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_banners&task=client.edit&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
-													<?php echo $editIcon; ?><?php echo $this->escape($item->name); ?></a>
+													<?php echo $this->escape($item->name); ?></a>
 											<?php else : ?>
 												<?php echo $this->escape($item->name); ?>
 											<?php endif; ?>
