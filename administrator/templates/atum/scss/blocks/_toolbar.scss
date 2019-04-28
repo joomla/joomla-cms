@@ -82,7 +82,7 @@
         color:rgba(255,255,255,0.90);
       }
 
-      &:hover {
+      &:hover, &:active, &:focus {
         [class^='icon-'],
         [class*=' icon-'],
         [class^='#{$fa-css-prefix}-'],
@@ -110,7 +110,7 @@
       color:rgba(255,255,255,0.90);
     }
 
-    &:hover {
+    &:hover, &:active, &:focu {
       [class^='icon-'],
       [class*=' icon-'],
       [class^='#{$fa-css-prefix}-'],
@@ -138,7 +138,7 @@
         color:rgba(255,255,255,0.90);
       }
 
-      &:hover {
+      &:hover, &:active, &:focus {
         [class^='icon-'],
         [class*=' icon-'],
         [class^='#{$fa-css-prefix}-'],
@@ -166,7 +166,7 @@
         color:rgba(255,255,255,0.90);
       }
 
-      &:hover {
+      &:hover, &:active, &:focus {
         [class^='icon-'],
         [class*=' icon-'],
         [class^='#{$fa-css-prefix}-'],
@@ -194,7 +194,7 @@
         color:rgba(255,255,255,0.90);
       }
 
-      &:hover {
+      &:hover,  &:active, &:focus {
         [class^='icon-'],
         [class*=' icon-'],
         [class^='#{$fa-css-prefix}-'],
@@ -223,7 +223,7 @@
         background-color: rgba($gray-500, 0.8);
       }
 
-      &:hover {
+      &:hover,  &:active, &:focus {
         [class^='icon-'],
         [class*=' icon-'],
         [class^='#{$fa-css-prefix}-'],
