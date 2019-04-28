@@ -7,6 +7,10 @@
   background: $white;
   box-shadow: $atum-box-shadow;
 
+  a {
+    text-decoration: underline;
+  }
+
   thead {
 
     th {
