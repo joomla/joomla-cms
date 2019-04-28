@@ -157,7 +157,7 @@ class HtmlView extends BaseHtmlView
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-exchange')
+				->icon('fa fa-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -188,7 +188,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		if ($canDo->get('core.delete'))
-		{ 
+		{
 			$toolbar->delete('links.delete')
 				->text('JTOOLBAR_EMPTY_TRASH')
 				->message('JGLOBAL_CONFIRM_DELETE')
