@@ -44,7 +44,7 @@
   tbody {
     background-color: var(--white);
 
-    a {
+    a:not(.badge) {
       text-decoration: underline;
     }
 
