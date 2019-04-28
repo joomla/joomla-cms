@@ -181,6 +181,8 @@
 
 	.sidebar-item-title{
 	  word-break: break-word;
+      padding:0.8rem 0;
+
 	  @include media-breakpoint-up(sm) {
 		max-width: 9rem !important;
 		display: inline-block;
@@ -195,7 +197,6 @@
   a {
     position: relative;
     color: var(--atum-text-light);
-    line-height: 3.2rem;
 
     &:hover {
       color: var(--atum-text-light);
