@@ -72,6 +72,7 @@
 
       .form-group {
         position: relative;
+        margin-bottom: 1.85rem;
 
         .form-control-feedback {
           text-align: right;
@@ -112,13 +113,8 @@
       align-items: flex-end;
       justify-content: space-between;
 
-      @include media-breakpoint-down(xs) {
-        display: block;
-      }
-
       span {
         font-size: .9rem;
-        color: theme-color("danger");
 
         @include media-breakpoint-down(xs) {
           width: 100%;
@@ -128,7 +124,6 @@
           color: var(--atum-special-color);
           font-size: .75rem;
         }
-        color: var(--form-link-feedback);
       }
     }
   }
