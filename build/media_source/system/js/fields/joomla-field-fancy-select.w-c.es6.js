@@ -105,7 +105,8 @@ window.customElements.define('joomla-field-fancy-select', class extends HTMLElem
     // Handle typing of custom term
     if (this.allowCustom) {
       this.addEventListener('keydown', (event) => {
-        if (event.keyCode !== this.keyCode.ENTER || event.target !== this.choicesInstance.input.element) {
+        if (event.keyCode !== this.keyCode.ENTER
+            || event.target !== this.choicesInstance.input.element) {
           return;
         }
         event.preventDefault();
