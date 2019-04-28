@@ -191,17 +191,7 @@ $this->addStyleDeclaration($css);
 
 <div id="wrapper" class="d-flex wrapper">
 
-	<?php // Sidebar ?>
-	<div id="sidebar-wrapper" class="sidebar-wrapper">
-		<div id="main-brand" class="main-brand">
-			<div class="h2"><?php echo htmlspecialchars($sitename, ENT_COMPAT, 'UTF-8'); ?></div>
-		</div>
-		<div id="sidebar">
-			<jdoc:include type="modules" name="sidebar" style="body"/>
-		</div>
-	</div>
-
-	<div class="container-fluid container-main">
+	<div class="container-fluid container-main order-1">
 		<section id="content" class="content h-100">
 			<main class="d-flex justify-content-center align-items-center h-100">
 				<div class="login">
@@ -215,6 +205,16 @@ $this->addStyleDeclaration($css);
 				</div>
 			</main>
 		</section>
+	</div>
+
+	<?php // Sidebar ?>
+	<div id="sidebar-wrapper" class="sidebar-wrapper order-0">
+		<div id="main-brand" class="main-brand">
+			<div class="h2"><?php echo htmlspecialchars($sitename, ENT_COMPAT, 'UTF-8'); ?></div>
+		</div>
+		<div id="sidebar">
+			<jdoc:include type="modules" name="sidebar" style="body"/>
+		</div>
 	</div>
 </div>
 <jdoc:include type="modules" name="debug" style="none"/>
