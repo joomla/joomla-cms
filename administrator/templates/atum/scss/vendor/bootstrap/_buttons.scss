@@ -3,8 +3,7 @@
 .btn-primary {
   background-color: $white;
   color: var(--atum-text-dark);
-
-
+  border-color: $gray-500;
 
   @include hover-focus-active {
     background-color: var(--atum-bg-dark-70);
