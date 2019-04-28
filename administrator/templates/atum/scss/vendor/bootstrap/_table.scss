@@ -52,6 +52,12 @@
       font-weight: 500;
     }
 
+    tr {
+      &:hover {
+        background-color: var(--toolbar-bg);
+      }
+    }
+
   }
 
   th,
@@ -62,6 +68,7 @@
     label {
       margin-bottom: 0;
     }
+
   }
 
   td {
