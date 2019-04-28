@@ -60,6 +60,7 @@ $theme-colors: map-merge((
 ), $theme-colors);
 
 $colors: (
+  card-bg:                         #fff,
   dashboard-bg:                    #e8e8e8,
   toolbar-bg:                      lighten(#e8e8e8, 5%),
   success-border:                  theme-color("success"),
