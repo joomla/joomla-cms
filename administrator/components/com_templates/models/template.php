@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -330,8 +330,8 @@ class TemplatesModelTemplate extends JModelForm
 
 		foreach ($files as $file)
 		{
-			$newFile = str_replace($oldName, $newName, $file);
-			$result = JFile::move($file, $newFile) && $result;
+			$newFile = '/' . str_replace($oldName, $newName, basename($file));
+			$result  = JFile::move($file, dirname($file) . $newFile) && $result;
 		}
 
 		// Edit XML file

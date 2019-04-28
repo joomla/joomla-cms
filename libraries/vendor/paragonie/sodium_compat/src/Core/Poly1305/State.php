@@ -184,43 +184,43 @@ class ParagonIE_Sodium_Core_Poly1305_State extends ParagonIE_Sodium_Core_Util
 
             /* h *= r */
             $d0 = (
-                self::mul($h0, $r0, 31) +
-                self::mul($h1, $s4, 31) +
-                self::mul($h2, $s3, 31) +
-                self::mul($h3, $s2, 31) +
-                self::mul($h4, $s1, 31)
+                self::mul($h0, $r0, 25) +
+                self::mul($s4, $h1, 26) +
+                self::mul($s3, $h2, 26) +
+                self::mul($s2, $h3, 26) +
+                self::mul($s1, $h4, 26)
             );
 
             $d1 = (
-                self::mul($h0, $r1, 31) +
-                self::mul($h1, $r0, 31) +
-                self::mul($h2, $s4, 31) +
-                self::mul($h3, $s3, 31) +
-                self::mul($h4, $s2, 31)
+                self::mul($h0, $r1, 25) +
+                self::mul($h1, $r0, 25) +
+                self::mul($s4, $h2, 26) +
+                self::mul($s3, $h3, 26) +
+                self::mul($s2, $h4, 26)
             );
 
             $d2 = (
-                self::mul($h0, $r2, 31) +
-                self::mul($h1, $r1, 31) +
-                self::mul($h2, $r0, 31) +
-                self::mul($h3, $s4, 31) +
-                self::mul($h4, $s3, 31)
+                self::mul($h0, $r2, 25) +
+                self::mul($h1, $r1, 25) +
+                self::mul($h2, $r0, 25) +
+                self::mul($s4, $h3, 26) +
+                self::mul($s3, $h4, 26)
             );
 
             $d3 = (
-                self::mul($h0, $r3, 31) +
-                self::mul($h1, $r2, 31) +
-                self::mul($h2, $r1, 31) +
-                self::mul($h3, $r0, 31) +
-                self::mul($h4, $s4, 31)
+                self::mul($h0, $r3, 25) +
+                self::mul($h1, $r2, 25) +
+                self::mul($h2, $r1, 25) +
+                self::mul($h3, $r0, 25) +
+                self::mul($s4, $h4, 26)
             );
 
             $d4 = (
-                self::mul($h0, $r4, 31) +
-                self::mul($h1, $r3, 31) +
-                self::mul($h2, $r2, 31) +
-                self::mul($h3, $r1, 31) +
-                self::mul($h4, $r0, 31)
+                self::mul($h0, $r4, 25) +
+                self::mul($h1, $r3, 25) +
+                self::mul($h2, $r2, 25) +
+                self::mul($h3, $r1, 25) +
+                self::mul($h4, $r0, 25)
             );
 
             /* (partial) h %= p */

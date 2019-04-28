@@ -10,6 +10,8 @@
  * http://jquery.org/license
  *
  * Date: 2016-05-20T17:17Z
+ *
+ * Modified by Joomla: Mitigate possible XSS vulnerability (gh-2432), CMS Issue 19464; Prevent Object Prototype Polution, https://github.com/jquery/jquery/pull/4333
  */
 
 (function( global, factory ) {
@@ -210,7 +212,8 @@ jQuery.extend = jQuery.fn.extend = function() {
 				copy = options[ name ];
 
 				// Prevent never-ending loop
-				if ( target === copy ) {
+				// ADDED by Joomla: Prevent Object Prototype Polution, see https://github.com/jquery/jquery/pull/4333
+				if ( name === "__proto__" || target === copy ) {
 					continue;
 				}
 
