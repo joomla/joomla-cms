@@ -1,8 +1,33 @@
 // Badge
 
 .badge {
-  border-radius: 1.2rem;
+  padding: .1rem .3rem;
+  border-radius:0.3rem;
   @include media-breakpoint-down(xs) {
     white-space: normal;
   }
+}
+
+.badge-warning {
+  color: #462a16;
+  background-color: #fcd9b6;
+  border:1px solid lighten(#462a16,30%);
+}
+
+.badge-success {
+  color: #0f2f21;
+  background-color: #a2f5bf;
+  border:1px solid lighten(#0f2f21,30%);
+}
+
+.badge-danger {
+  color: #3b0d0c;
+  background-color: #f9acaa;
+  border:1px solid lighten(#3b0d0c,30%);
+}
+
+.badge-secondary {
+  color: $gray-700;
+  background-color: $gray-300;
+  border:1px solid lighten($gray-700,30%);
 }
