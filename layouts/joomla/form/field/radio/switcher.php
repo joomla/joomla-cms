@@ -56,12 +56,7 @@ if (empty($options))
  *     %4 = any other attributes
  */
 $input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
-$alt      = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
 
-//brian temp file location to make it easier to test and review with patchtester
-use Joomla\CMS\Factory;
-$doc = Factory::getDocument();
-$doc->addStyleSheet('../layouts/joomla/form/field/radio/switcher.css');
 ?>
 <fieldset>
   <legend class="switcher__legend">
