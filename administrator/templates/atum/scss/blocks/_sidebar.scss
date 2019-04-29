@@ -346,24 +346,23 @@
   // Dropdown indicator
   .has-arrow::after {
     position: absolute;
-    top: 1.5rem;
+    top: 0.8rem;
     right: 0.9em;
     width: .5rem;
     height: .5rem;
     color: var(--atum-text-light);
-    content: "";
-    border-color: initial;
-    border-style: solid;
-    border-width: 3px 0 0 3px;
+    content: "\f054";
+    font-family: "FontAwesome";
     transition: all .3s ease-out;
-    transform: rotate(-135deg) translate(0, -50%);
-    transform-origin: top;
   }
 
   .active {
 
     > .has-arrow::after {
-      transform: rotate(45deg) translate(0, -50%);
+      -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+      -webkit-transform: rotate(90deg);
+      transform: rotate(90deg);
+      transform-origin: 0.4rem 0.7rem;
     }
   }
 
