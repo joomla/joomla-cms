@@ -605,7 +605,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'mod_stats_admin', 'module', 'mod_stats_admin', '', 1, 1, 1, 0, '', '{"serverinfo":"0","siteinfo":"0","counter":"0","increase":"0","cache":"1","cache_time":"900","cachemode":"static"}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_tags_popular', 'module', 'mod_tags_popular', '', 0, 1, 1, 0, '', '{"maximum":"5","timeframe":"alltime","owncache":"1"}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_tags_similar', 'module', 'mod_tags_similar', '', 0, 1, 1, 0, '', '{"maximum":"5","matchtype":"any","owncache":"1"}', 0, '1970-01-01 00:00:00', 0, 0),
-(0, 'mod_sampledata', 'module', 'mod_sampledata', '', 1, 1, 1, 0, '', '{}', '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'mod_sampledata', 'module', 'mod_sampledata', '', 1, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_latestactions', 'module', 'mod_latestactions', '', 1, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_privacy_dashboard', 'module', 'mod_privacy_dashboard', '', 1, 1, 1, 0, '', '{}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'plg_authentication_joomla', 'plugin', 'joomla', 'authentication', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
@@ -718,7 +718,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'atum', 'template', 'atum', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'cassiopeia', 'template', 'cassiopeia', '', 0, 1, 1, 0, '', '{"logoFile":"","fluidContainer":"0","sidebarLeftWidth":"3","sidebarRightWidth":"3"}', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'files_joomla', 'file', 'joomla', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
-(0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0, '');
+(0, 'English (en-GB) Language Pack', 'package', 'pkg_en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0);
 
 INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", "client_id", "enabled", "access", "protected", "manifest_cache", "params", "checked_out", "checked_out_time", "ordering", "state")
 SELECT "extension_id", 'English (en-GB)', 'language', 'en-GB', '', 0, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0 FROM "#__extensions" WHERE "name" = 'English (en-GB) Language Pack';
@@ -826,14 +826,14 @@ CREATE TABLE IF NOT EXISTS "#__finder_filters" (
   "alias" varchar(255) NOT NULL,
   "state" smallint DEFAULT 1 NOT NULL,
   "created" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
-  "created_by" integer NOT NULL,
-  "created_by_alias" varchar(255) NOT NULL,
+  "created_by" integer DEFAULT 0 NOT NULL,
+  "created_by_alias" varchar(255) DEFAULT '' NOT NULL,
   "modified" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "modified_by" integer DEFAULT 0 NOT NULL,
   "checked_out" integer DEFAULT 0 NOT NULL,
   "checked_out_time" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "map_count" integer DEFAULT 0 NOT NULL,
-  "data" text NOT NULL,
+  "data" text,
   "params" text,
   PRIMARY KEY ("filter_id")
 );
@@ -847,12 +847,12 @@ CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "url" varchar(255) NOT NULL,
   "route" varchar(255) NOT NULL,
   "title" varchar(400) DEFAULT NULL,
-  "description" text DEFAULT '' NOT NULL,
+  "description" text,
   "indexdate" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "md5sum" varchar(32) DEFAULT NULL,
   "published" smallint DEFAULT 1 NOT NULL,
-  "state" integer DEFAULT 1,
-  "access" integer DEFAULT 0,
+  "state" integer DEFAULT 1 NOT NULL,
+  "access" integer DEFAULT 0 NOT NULL,
   "language" varchar(7) DEFAULT '' NOT NULL,
   "publish_start_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
   "publish_end_date" timestamp without time zone DEFAULT '1970-01-01 00:00:00' NOT NULL,
@@ -861,12 +861,13 @@ CREATE TABLE IF NOT EXISTS "#__finder_links" (
   "list_price" numeric(8,2) DEFAULT 0 NOT NULL,
   "sale_price" numeric(8,2) DEFAULT 0 NOT NULL,
   "type_id" bigint NOT NULL,
-  "object" bytea NOT NULL,
+  "object" bytea,
   PRIMARY KEY ("link_id")
 );
 CREATE INDEX "#__finder_links_idx_type" on "#__finder_links" ("type_id");
 CREATE INDEX "#__finder_links_idx_title" on "#__finder_links" ("title");
 CREATE INDEX "#__finder_links_idx_md5" on "#__finder_links" ("md5sum");
+CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language");
 CREATE INDEX "#__finder_links_idx_url" on "#__finder_links" (substr(url,0,76));
 CREATE INDEX "#__finder_links_idx_published_list" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "list_price");
 CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("published", "state", "access", "publish_start_date", "publish_end_date", "sale_price");
@@ -878,7 +879,7 @@ CREATE INDEX "#__finder_links_idx_published_sale" on "#__finder_links" ("publish
 CREATE TABLE IF NOT EXISTS "#__finder_links_terms" (
   "link_id" integer NOT NULL,
   "term_id" integer NOT NULL,
-  "weight" numeric(8,2) NOT NULL,
+  "weight" numeric(8,2) DEFAULT 0 NOT NULL,
   PRIMARY KEY ("link_id", "term_id")
 );
 CREATE INDEX "#__finder_links_terms_idx_term_weight" on "#__finder_links_terms" ("term_id", "weight");
@@ -953,13 +954,13 @@ CREATE INDEX "#__finder_taxonomy_map_node_id" on "#__finder_taxonomy_map" ("node
 CREATE TABLE IF NOT EXISTS "#__finder_terms" (
   "term_id" serial NOT NULL,
   "term" varchar(75) NOT NULL,
-  "stem" varchar(75) NOT NULL,
+  "stem" varchar(75) DEFAULT '' NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
   "weight" numeric(8,2) DEFAULT 0 NOT NULL,
-  "soundex" varchar(75) NOT NULL,
+  "soundex" varchar(75) DEFAULT '' NOT NULL,
   "links" integer DEFAULT 0 NOT NULL,
-  "language" varchar(7) NOT NULL,
+  "language" varchar(7) DEFAULT '' NOT NULL,
   PRIMARY KEY ("term_id"),
   CONSTRAINT "#__finder_terms_idx_term_language" UNIQUE ("term", "language")
 );
@@ -1167,15 +1168,17 @@ INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 
 CREATE TABLE IF NOT EXISTS "#__finder_tokens" (
   "term" varchar(75) NOT NULL,
-  "stem" varchar(75) NOT NULL,
+  "stem" varchar(75) DEFAULT '' NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
   "weight" numeric(8,2) DEFAULT 1 NOT NULL,
   "context" smallint DEFAULT 2 NOT NULL,
-  "language" varchar(7) NOT NULL
+  "language" varchar(7) DEFAULT '' NOT NULL
 );
 CREATE INDEX "#__finder_tokens_idx_word" on "#__finder_tokens" ("term");
+CREATE INDEX "#__finder_tokens_idx_stem" on "#__finder_tokens" ("stem");
 CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
+CREATE INDEX "#__finder_tokens_idx_language" on "#__finder_tokens" ("language");
 
 --
 -- Table structure for table `#__finder_tokens_aggregate`
@@ -1184,14 +1187,14 @@ CREATE INDEX "#__finder_tokens_idx_context" on "#__finder_tokens" ("context");
 CREATE TABLE IF NOT EXISTS "#__finder_tokens_aggregate" (
   "term_id" integer NOT NULL,
   "term" varchar(75) NOT NULL,
-  "stem" varchar(75) NOT NULL,
+  "stem" varchar(75) DEFAULT '' NOT NULL,
   "common" smallint DEFAULT 0 NOT NULL,
   "phrase" smallint DEFAULT 0 NOT NULL,
-  "term_weight" numeric(8,2) NOT NULL,
+  "term_weight" numeric(8,2) NOT NULL DEFAULT 0,
   "context" smallint DEFAULT 2 NOT NULL,
-  "context_weight" numeric(8,2) NOT NULL,
-  "total_weight" numeric(8,2) NOT NULL,
-  "language" varchar(7) NOT NULL
+  "context_weight" numeric(8,2) NOT NULL DEFAULT 0,
+  "total_weight" numeric(8,2) NOT NULL DEFAULT 0,
+  "language" varchar(7) DEFAULT '' NOT NULL
 );
 CREATE INDEX "#__finder_tokens_aggregate_token" on "#__finder_tokens_aggregate" ("term");
 CREATE INDEX "_#__finder_tokens_aggregate_keyword_id" on "#__finder_tokens_aggregate" ("term_id");
@@ -1203,7 +1206,7 @@ CREATE INDEX "_#__finder_tokens_aggregate_keyword_id" on "#__finder_tokens_aggre
 CREATE TABLE IF NOT EXISTS "#__finder_types" (
   "id" serial NOT NULL,
   "title" varchar(100) NOT NULL,
-  "mime" varchar(100) NOT NULL,
+  "mime" varchar(100) DEFAULT '' NOT NULL,
   PRIMARY KEY ("id"),
   CONSTRAINT "#__finder_types_title" UNIQUE ("title")
 );
