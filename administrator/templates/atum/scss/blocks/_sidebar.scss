@@ -146,13 +146,13 @@
       position: relative;
       display:inline-block;
       top: -1px;
-      a {
+      > a {
         padding: 0;
         display: inline-block;
         height:100%;
-        .fa {
+        > .fa {
           display: flex;
-          padding: 0 1rem;
+          padding: 1rem;
           align-items: center;
           margin: 0;
         }
@@ -179,11 +179,16 @@
     }
   }
 
+    span.fa {
+      padding:1rem 0;
+    }
+
 	.sidebar-item-title{
 	  word-break: break-word;
       padding:0.8rem 0;
 
-	  @include media-breakpoint-up(sm) {
+
+      @include media-breakpoint-up(sm) {
 		max-width: 9rem !important;
 		display: inline-block;
 	  }
@@ -365,7 +370,6 @@
   // Parent icons
   .fa {
     position: relative;
-    top: 1rem;
     display: inline-block;
     margin: 0 5px;
     font-size: 1.1rem;
@@ -390,6 +394,7 @@
   .sidebar-wrapper {
     flex: 1 0 $sidebar-width-closed;
     max-width: $sidebar-width-closed;
+
 
     &.transit-wider-closed {
       flex: 1 0 33%;
