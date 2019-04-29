@@ -430,6 +430,12 @@
 	>
 
 		<field
+			name="integration_sef"
+			type="note"
+			label="JGLOBAL_SEF_TITLE"
+		/>
+
+		<field
 			name="sef_advanced"
 			type="radio"
 			class="btn-group btn-group-yesno btn-group-reversed"
