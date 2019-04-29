@@ -101,7 +101,7 @@ Text::script('JHIDE');
 </form>
 <div class="text-center">
     <div>
-        <a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank">
+        <a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow">
 			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
         </a>
     </div>
