@@ -9,7 +9,12 @@
 
 defined('JPATH_PLATFORM') or die;
 
-JFormHelper::loadFieldClass('list');
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\HTML\HTMLHelper;
+
+FormHelper::loadFieldClass('list');
 
 /**
  * Supports a custom SQL select list
@@ -125,6 +130,9 @@ class JFormFieldSQL extends JFormFieldList
 	{
 		$return = parent::setup($element, $value, $group);
 
+		// Set context for filters
+		$this->context = !empty($this->element['context']) ? (string) $this->element['context'] : '';
+
 		if ($return)
 		{
 			// Check if its using the old way
@@ -194,7 +202,7 @@ class JFormFieldSQL extends JFormFieldList
 	protected function processQuery($conditions, $filters, $defaults)
 	{
 		// Get the database object.
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		// Get the query object
 		$query = $db->getQuery(true);
@@ -226,15 +234,22 @@ class JFormFieldSQL extends JFormFieldList
 		// Process the filters
 		if (is_array($filters))
 		{
-			$html_filters = JFactory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+			$html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
 
 			foreach ($filters as $k => $value)
 			{
 				if (!empty($html_filters[$value]))
 				{
-					$escape = $db->quote($db->escape($html_filters[$value]), false);
-
-					$query->where("{$value} = {$escape}");
+					if (is_array($html_filters[$value]))
+					{
+						$in = implode(',', $html_filters[$value]);
+						$query->where($db->qn($value) . ' IN (' . $in . ')');
+					}
+					else
+					{
+						$escape = $db->quote($db->escape($html_filters[$value]), false);
+						$query->where("{$value} = {$escape}");
+					}
 				}
 				elseif (!empty($defaults[$value]))
 				{
@@ -274,7 +289,7 @@ class JFormFieldSQL extends JFormFieldList
 		if ($this->query)
 		{
 			// Get the database object.
-			$db = JFactory::getDbo();
+			$db = Factory::getDbo();
 
 			// Set the query and get the result list.
 			$db->setQuery($this->query);
@@ -285,15 +300,15 @@ class JFormFieldSQL extends JFormFieldList
 			}
 			catch (JDatabaseExceptionExecuting $e)
 			{
-				JFactory::getApplication()->enqueueMessage(JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 			}
 		}
 
 		// Add header.
 		if (!empty($header))
 		{
-			$header_title = JText::_($header);
-			$options[] = JHtml::_('select.option', '', $header_title);
+			$header_title = Text::_($header);
+			$options[] = HTMLHelper::_('select.option', '', $header_title);
 		}
 
 		// Build the field options.
@@ -303,11 +318,11 @@ class JFormFieldSQL extends JFormFieldList
 			{
 				if ($this->translate == true)
 				{
-					$options[] = JHtml::_('select.option', $item->$key, JText::_($item->$value));
+					$options[] = HTMLHelper::_('select.option', $item->$key, Text::_($item->$value));
 				}
 				else
 				{
-					$options[] = JHtml::_('select.option', $item->$key, $item->$value);
+					$options[] = HTMLHelper::_('select.option', $item->$key, $item->$value);
 				}
 			}
 		}
