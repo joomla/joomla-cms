@@ -199,7 +199,6 @@ $this->addStyleDeclaration($css);
 						<img src="<?php echo $loginLogo; ?>"
 							 alt="<?php echo htmlspecialchars($this->params->get('altLoginLogo', ''), ENT_COMPAT, 'UTF-8'); ?>">
 					</div>
-					<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
 					<jdoc:include type="message"/>
 					<jdoc:include type="component"/>
 				</div>
@@ -210,7 +209,7 @@ $this->addStyleDeclaration($css);
 	<?php // Sidebar ?>
 	<div id="sidebar-wrapper" class="sidebar-wrapper order-0">
 		<div id="main-brand" class="main-brand">
-			<div class="h2"><?php echo htmlspecialchars($sitename, ENT_COMPAT, 'UTF-8'); ?></div>
+			<h1><?php echo Text::_('TPL_ATUM_BACKEND_LOGIN'); ?></h1>
 		</div>
 		<div id="sidebar">
 			<jdoc:include type="modules" name="sidebar" style="body"/>
