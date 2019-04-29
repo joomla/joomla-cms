@@ -127,6 +127,12 @@ class DisplayController extends BaseController
 					$model = $this->getModel($vName);
 					break;
 
+				case 'users':
+					// If we just want to show the users
+
+					$model = $this->getModel($vName);
+					break;
+
 				default:
 					$model = $this->getModel('Login');
 					break;
