@@ -43,7 +43,6 @@ export const HIDE_PREVIEW_MODAL = 'HIDE_PREVIEW_MODAL';
 // Rename modal
 export const SHOW_RENAME_MODAL = 'SHOW_RENAME_MODAL';
 export const HIDE_RENAME_MODAL = 'HIDE_RENAME_MODAL';
-export const CHANGE_NAME = 'CHANGE_NAME';
 export const RENAME_SUCCESS = 'RENAME_SUCCESS';
 
 // Share model
