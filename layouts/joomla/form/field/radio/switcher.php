@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData, null);
@@ -47,6 +48,9 @@ if (empty($options))
 {
 	return '';
 }
+
+// Load the css files
+Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('switcher');
 
 /**
  * The format of the input tag to be filled in using sprintf.

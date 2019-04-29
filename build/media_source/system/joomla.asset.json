@@ -49,6 +49,15 @@
         "media/system/js/showon.min.js"
       ]
     },
+    "switcher": {
+      "name": "switcher",
+      "dependencies": [
+        "core"
+      ],
+      "css": [
+        "media/system/css/fields/switcher.min.css"
+      ]
+    },
     "fields.validate": {
       "name": "fields.validate",
       "dependencies": [
