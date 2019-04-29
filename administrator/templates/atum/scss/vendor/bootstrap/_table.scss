@@ -31,7 +31,10 @@
     a {
       font-weight: $font-weight-normal;
       color: $gray-600;
-    ;
+      &#sorted {
+        color: $gray-800;
+        font-weight: 500;
+      }
     }
 
     .actions, .actions-th1{
