@@ -242,20 +242,16 @@ class JFormFieldSQL extends JFormFieldList
 				{
 					if (is_array($html_filters[$value]))
 					{
-						$in = implode(',', $html_filters[$value]);
-						$query->where($db->qn($value) . ' IN (' . $in . ')');
+						$query->where($db->quoteName($value) . ' IN (' . implode(',', $db->quote($html_filters[$value])) . ')');
 					}
 					else
 					{
-						$escape = $db->quote($db->escape($html_filters[$value]), false);
-						$query->where("{$value} = {$escape}");
+						$query->where($db->quoteName($value) . " = " .$db->quote($html_filters[$value]));
 					}
 				}
 				elseif (!empty($defaults[$value]))
 				{
-					$escape = $db->quote($db->escape($defaults[$value]), false);
-
-					$query->where("{$value} = {$escape}");
+					$query->where($db->quoteName($value) . " = " .$db->quote($defaults[$value]));
 				}
 			}
 		}
