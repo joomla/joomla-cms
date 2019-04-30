@@ -61,6 +61,9 @@ module.exports = function (config) {
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false,
 
+		// Currently we have no tests as we've moved switcher away. Once we add tests change this back to true
+		failOnEmptyTestSuite: false,
+
     // list of plugins
     plugins: [
       'karma-fixture',
