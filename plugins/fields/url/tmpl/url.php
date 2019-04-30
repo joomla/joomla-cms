@@ -9,6 +9,10 @@
 defined('_JEXEC') or die;
 
 $value = $field->value;
+$desc = $field->description;
+
+$mailto = "mailto:";
+$value_substring = htmlspecialchars(str_replace("mailto:","",$value));
 
 if ($value == '')
 {
@@ -22,8 +26,17 @@ if (!JUri::isInternal($value))
 	$attributes = ' rel="nofollow noopener noreferrer" target="_blank"';
 }
 
+if ($desc =='')
+{ 
+	$linkdisplay = $value_substring;
+} 
+else
+{
+	$linkdisplay = $desc;
+}
+
 echo sprintf('<a href="%s"%s>%s</a>',
 	htmlspecialchars($value),
 	$attributes,
-	htmlspecialchars($value)
+	htmlspecialchars($linkdisplay)
 );
