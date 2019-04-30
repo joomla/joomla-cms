@@ -51,9 +51,6 @@
     },
     "switcher": {
       "name": "switcher",
-      "dependencies": [
-        "core"
-      ],
       "css": [
         "media/system/css/fields/switcher.min.css"
       ]
