@@ -11,7 +11,6 @@ namespace Joomla\CMS\Session\EventListener;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Session\MetadataManager;
-use Joomla\Registry\Registry;
 use Joomla\Session\SessionEvent;
 
 /**
@@ -30,25 +29,15 @@ final class MetadataManagerListener
 	private $metadataManager;
 
 	/**
-	 * Application configuration.
-	 *
-	 * @var    Registry
-	 * @since  4.0.0
-	 */
-	private $config;
-
-	/**
 	 * Constructor.
 	 *
 	 * @param   MetadataManager  $metadataManager  Session metadata manager.
-	 * @param   Registry         $config           Application configuration.
 	 *
 	 * @since   4.0.0
 	 */
-	public function __construct(MetadataManager $metadataManager, Registry $config)
+	public function __construct(MetadataManager $metadataManager)
 	{
 		$this->metadataManager = $metadataManager;
-		$this->config          = $config;
 	}
 
 	/**
@@ -62,7 +51,7 @@ final class MetadataManagerListener
 	 */
 	public function onAfterSessionStart(SessionEvent $event)
 	{
-		if ($this->config->get('session_metadata', true) && $event->getSession()->has('user'))
+		if ($event->getSession()->has('user'))
 		{
 			$this->metadataManager->createOrUpdateRecord($event->getSession(), $event->getSession()->get('user'));
 		}

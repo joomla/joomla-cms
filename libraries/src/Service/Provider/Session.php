@@ -229,7 +229,7 @@ class Session implements ServiceProviderInterface
 				'session.event_listener.metadata_manager',
 				function (Container $container)
 				{
-					return new MetadataManagerListener($container->get(MetadataManager::class), $container->get('config'));
+					return new MetadataManagerListener($container->get(MetadataManager::class));
 				},
 				true
 			);
