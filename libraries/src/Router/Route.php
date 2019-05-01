@@ -68,7 +68,7 @@ class Route
 	{
 		try
 		{
-			// @deprecated  4.0 Before __DEPLOY_VERSION__ this method accepted -1. This B/C will be removed in Joomla 4.0.
+			// @todo  Deprecate in 4.0 Before __DEPLOY_VERSION__ this method accepted -1.
 			if ($tls == -1)
 			{
 				$tls = self::TLS_DISABLE;
