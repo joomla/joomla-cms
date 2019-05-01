@@ -246,12 +246,12 @@ class JFormFieldSQL extends JFormFieldList
 					}
 					else
 					{
-						$query->where($db->quoteName($value) . ' = ' .$db->quote($html_filters[$value]));
+						$query->where($db->quoteName($value) . ' = ' . $db->quote($html_filters[$value]));
 					}
 				}
 				elseif (!empty($defaults[$value]))
 				{
-					$query->where($db->quoteName($value) . ' = ' .$db->quote($defaults[$value]));
+					$query->where($db->quoteName($value) . ' = ' . $db->quote($defaults[$value]));
 				}
 			}
 		}
@@ -278,8 +278,8 @@ class JFormFieldSQL extends JFormFieldList
 		$options = array();
 
 		// Initialize some field attributes.
-		$key   = $this->keyField;
-		$value = $this->valueField;
+		$key    = $this->keyField;
+		$value  = $this->valueField;
 		$header = $this->header;
 
 		if ($this->query)
@@ -304,7 +304,7 @@ class JFormFieldSQL extends JFormFieldList
 		if (!empty($header))
 		{
 			$header_title = Text::_($header);
-			$options[] = HTMLHelper::_('select.option', '', $header_title);
+			$options[]    = HTMLHelper::_('select.option', '', $header_title);
 		}
 
 		// Build the field options.
