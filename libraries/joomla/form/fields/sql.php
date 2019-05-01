@@ -11,8 +11,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 FormHelper::loadFieldClass('list');
 
@@ -234,7 +234,7 @@ class JFormFieldSQL extends JFormFieldList
 		// Process the filters
 		if (is_array($filters))
 		{
-			$html_filters = Factory::getApplication()->getUserStateFromRequest($this->context . '.filter', 'filter', array(), 'array');
+			$html_filters = Factory::getApplication()->getUserState($this->context . '.filter', 'filter');
 
 			foreach ($filters as $k => $value)
 			{
