@@ -7,7 +7,7 @@ ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by_alias" SET DEFAULT '';
 TRUNCATE TABLE "#__finder_links";
 ALTER TABLE "#__finder_links" ALTER COLUMN "state" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "access" SET NOT NULL;
-ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE CHAR(7);
+ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE VARCHAR(7);
 ALTER TABLE "#__finder_links" ALTER COLUMN "language" SET DEFAULT '';
 CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language");
 
@@ -17,8 +17,8 @@ CREATE TABLE "#__finder_links_terms" (
 	"weight" REAL NOT NULL DEFAULT 0,
 	PRIMARY KEY ("link_id", "term_id")
 );
-CREATE INDEX "idx_term_weight" ("term_id", "weight");
-CREATE INDEX "idx_link_term_weight" ("link_id", "term_id", "weight");
+CREATE INDEX "#__finder_links_terms_idx_term_weight" on "#__finder_links_terms" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms_idx_link_term_weight" on "#__finder_links_terms" ("link_id", "term_id", "weight");
 
 DROP TABLE "#__finder_links_terms0" CASCADE;
 DROP TABLE "#__finder_links_terms1" CASCADE;
