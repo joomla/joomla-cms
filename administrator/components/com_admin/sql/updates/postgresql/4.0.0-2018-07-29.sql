@@ -267,12 +267,12 @@ INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 	('too', 'en', 0),
 	('very', 'en', 0);
 
-ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE CHAR(7), ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE VARCHAR(7), ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "stem" SET DEFAULT '';
 CREATE INDEX "#__finder_tokens_idx_stem" on "#__finder_tokens" ("stem");
 CREATE INDEX "#__finder_tokens_idx_language" on "#__finder_tokens" ("language");
 
-ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE CHAR(7), ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE VARCHAR(7), ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" DROP COLUMN "map_suffix";
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "term_weight" SET DEFAULT 0;
