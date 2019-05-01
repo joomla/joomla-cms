@@ -1585,11 +1585,11 @@ class Nested extends Table
 
 		// Update and cascade the publishing state.
 		$query->clear()
-			->update("$table")
+			->update($table)
 			->innerJoin("($subquery) AS c2")
 			->set("$published = " . $this->_db->quoteName("c2.newpublished"))
 			->where("$key = c2.newId")
-			->where("$key IN (" . implode(',', $pks) . ")");
+			->whereIn($key, $pks);
 
 		$this->_runQuery($query, 'JLIB_DATABASE_ERROR_STORE_FAILED');
 
