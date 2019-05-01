@@ -1,16 +1,35 @@
 // Alerts
-
 @import "../variables";
 
-.j-main-container {
+.alert {
 
-  .alert {
-    margin: 1rem 0;
-    border: 2px solid;
-    border-left: none;
-    border-right: none;
-    box-shadow: $atum-box-shadow;
-    background-color: rgba(255, 255, 255, 0.8);
+  margin: 1rem 0;
+  border-radius: 0.3rem;
+  border-left: none;
+  border-right: none;
+
+  &.alert-info {
+    color: var(--atum-bg-dark);
+    background-color: var(--atum-bg-dark-10);
+    border: 1px solid var(--atum-bg-dark-20);
+  }
+
+  &.alert-warning {
+    color: #462a16;
+    background-color: #fcd9b6;
+    border: 1px solid lighten(#462a16, 30%);
+  }
+
+  &.alert-success {
+    color: #0f2f21;
+    background-color: #a2f5bf;
+    border: 1px solid lighten(#0f2f21, 30%);
+  }
+
+  &.alert-error {
+    color: #3b0d0c;
+    background-color: #f9acaa;
+    border: 1px solid lighten(#3b0d0c, 30%);
   }
 }
 

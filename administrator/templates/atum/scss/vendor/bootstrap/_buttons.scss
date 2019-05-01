@@ -1,15 +1,18 @@
 // Buttons
 
+.btn {
+  border-radius: 0.3rem;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
 .btn-primary {
-  background-color: var(--atum-bg-dark);
-  border-color: var(--atum-bg-dark-80);
-  color: var(--atum-text-light);
-  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);
+  background-color: $white;
+  color: var(--atum-text-dark);
+  border-color: $gray-500;
 
   @include hover-focus-active {
     background-color: var(--atum-bg-dark-70);
     border-color: var(--atum-bg-dark-90);
-
   }
 
   &:not(:disabled):not(.disabled):active,

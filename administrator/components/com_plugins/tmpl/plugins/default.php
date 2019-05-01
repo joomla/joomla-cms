@@ -108,9 +108,8 @@ if ($saveOrder)
 								<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'plugins.', $canCheckin); ?>
 							<?php endif; ?>
 							<?php if ($canEdit) : ?>
-								<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
 								<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_plugins&task=plugin.edit&extension_id=' . (int) $item->extension_id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->name)); ?>">
-									<?php echo $editIcon; ?><?php echo $item->name; ?></a>
+									<?php echo $item->name; ?></a>
 							<?php else : ?>
 									<?php echo $item->name; ?>
 							<?php endif; ?>

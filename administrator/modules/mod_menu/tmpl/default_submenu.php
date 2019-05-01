@@ -127,10 +127,12 @@ if ($current->getParams()->get('menu-quicktask', false))
 
 if ($current->dashboard)
 {
+	$titleDashboard = Text::_('MOD_MENU_DASHBOARD_LINK') . ': ' . Text::_($current->title);
 	echo '<span class="menu-dashboard"><a href="'
-		. JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard)
-		. '"><span class="fa fa-th-large" title="'
-		. htmlentities(Text::_('MOD_MENU_DASHBOARD_LINK')) . '"></span></a></span>';
+		. JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $current->dashboard) . '">'
+		. '<span class="fa fa-th-large" title="' . $titleDashboard . '" aria-hidden="true"></span>'
+		. '<span class="sr-only">' . $titleDashboard . '</span>'
+		. '</a></span>';
 }
 
 // Recurse through children if they exist

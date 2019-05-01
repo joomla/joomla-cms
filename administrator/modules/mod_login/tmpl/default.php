@@ -65,7 +65,7 @@ Text::script('JHIDE');
 		<?php if (count($twofactormethods) > 1): ?>
 			<div class="form-group">
 				<label for="mod-login-secretkey">
-					<?php echo Text::_('JGLOBAL_SECRETKEY'); ?>
+					<span class="label"><?php echo Text::_('JGLOBAL_SECRETKEY'); ?></span>
                     <span class="text-right">
                         <?php echo Text::_('COM_LOGIN_TWOFACTOR'); ?>
                     </span>
@@ -101,7 +101,7 @@ Text::script('JHIDE');
 </form>
 <div class="text-center">
     <div>
-        <a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank">
+        <a href="<?php echo Text::_('MOD_LOGIN_CREDENTIALS_LINK'); ?>" target="_blank" rel="nofollow">
 			<?php echo Text::_('MOD_LOGIN_CREDENTIALS'); ?>
         </a>
     </div>

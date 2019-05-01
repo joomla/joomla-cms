@@ -1,6 +1,3 @@
-// Mixins
-@import "../mixin";
-
 // Sidebar
 
 .wrapper {
@@ -146,22 +143,24 @@
     }
 
     .menu-dashboard, .menu-quicktask {
+      position: relative;
       display:inline-block;
       top: -1px;
-      a {
+      > a {
         padding: 0;
         display: inline-block;
         height:100%;
-        .fa {
+        > .fa {
           display: flex;
-          padding: 0 1rem;
+          padding: 1rem;
           align-items: center;
           margin: 0;
         }
         &:hover {
-          .fa {
-            color: var(--atum-contrast);
-          }
+            background-color: var(--atum-bg-dark-70);
+            .fa {
+             color: var(--atum-contrast);
+            }
         }
       }
       &::before {
@@ -180,9 +179,16 @@
     }
   }
 
+    span.fa {
+      padding:1rem 0;
+    }
+
 	.sidebar-item-title{
 	  word-break: break-word;
-	  @include media-breakpoint-up(sm) {
+      padding:0.8rem 0;
+
+
+      @include media-breakpoint-up(sm) {
 		max-width: 9rem !important;
 		display: inline-block;
 	  }
@@ -196,7 +202,6 @@
   a {
     position: relative;
     color: var(--atum-text-light);
-    line-height: 3.2rem;
 
     &:hover {
       color: var(--atum-text-light);
@@ -217,7 +222,7 @@
 
       &:hover {
         background-color: var(--atum-bg-dark-80);
-	text-decoration: none;
+        text-decoration: none;
       }
     }
 
@@ -341,31 +346,29 @@
   // Dropdown indicator
   .has-arrow::after {
     position: absolute;
-    top: 1.5rem;
+    top: 0.8rem;
     right: 0.9em;
     width: .5rem;
     height: .5rem;
     color: var(--atum-text-light);
-    content: "";
-    border-color: initial;
-    border-style: solid;
-    border-width: 3px 0 0 3px;
+    content: "\f054";
+    font-family: "FontAwesome";
     transition: all .3s ease-out;
-    transform: rotate(-135deg) translate(0, -50%);
-    transform-origin: top;
   }
 
   .active {
 
     > .has-arrow::after {
-      transform: rotate(45deg) translate(0, -50%);
+      -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+      -webkit-transform: rotate(90deg);
+      transform: rotate(90deg);
+      transform-origin: 0.4rem 0.7rem;
     }
   }
 
   // Parent icons
   .fa {
     position: relative;
-    top: 1rem;
     display: inline-block;
     margin: 0 5px;
     font-size: 1.1rem;
@@ -391,6 +394,7 @@
     flex: 1 0 $sidebar-width-closed;
     max-width: $sidebar-width-closed;
 
+
     &.transit-wider-closed {
       flex: 1 0 33%;
       max-width: $sidebar-width-login;
@@ -404,6 +408,7 @@
 
   .sidebar-item-title,
   .has-arrow::after {
+    display: none;
     display: none;
   }
 
@@ -434,7 +439,7 @@
     display:block;
     width:70px;
     height:70px;
-    background:var(--atum-bg-dark-40);
+    background:var(--atum-link-color);
     border-radius:40px;
     border:8px solid var(--atum-bg-light);
     position: fixed;
@@ -447,14 +452,14 @@
 
       &:before{
         font: normal normal normal 30px/1 FontAwesome;
-        content: "\f107";
+        content: "\f00d";
         color:var(--toggle-color);
 
       }
     }
 	&.collapsed {
 		.navbar-toggler-icon:before {
-			content: "\f106";
+			content: "\f0c9";
 		}
 	}
 

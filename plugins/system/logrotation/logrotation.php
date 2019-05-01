@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.logrotation
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -18,7 +18,7 @@ use Joomla\Filesystem\Path;
  *
  * Rotate the log files created by Joomla core
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class PlgSystemLogrotation extends JPlugin
 {
@@ -26,7 +26,7 @@ class PlgSystemLogrotation extends JPlugin
 	 * Load the language file on instantiation.
 	 *
 	 * @var    boolean
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $autoloadLanguage = true;
 
@@ -34,7 +34,7 @@ class PlgSystemLogrotation extends JPlugin
 	 * Application object.
 	 *
 	 * @var    JApplicationCms
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $app;
 
@@ -42,7 +42,7 @@ class PlgSystemLogrotation extends JPlugin
 	 * Database object.
 	 *
 	 * @var    JDatabaseDriver
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $db;
 
@@ -51,7 +51,7 @@ class PlgSystemLogrotation extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function onAfterRender()
 	{
@@ -167,7 +167,7 @@ class PlgSystemLogrotation extends JPlugin
 	 *
 	 * @return  array   The log files in the given path grouped by version number (not rotated files has number 0)
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function getLogFiles($path)
 	{
@@ -211,7 +211,7 @@ class PlgSystemLogrotation extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function rotate($path, $filename, $currentVersion)
 	{
@@ -243,7 +243,7 @@ class PlgSystemLogrotation extends JPlugin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	private function clearCacheGroups(array $clearGroups, array $cacheClients = array(0, 1))
 	{

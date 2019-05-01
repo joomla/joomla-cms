@@ -13,11 +13,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 ?>
-<ul class="mod-articlescategory category-module">
+<ul class="mod-articlescategory category-module mod-list">
 	<?php if ($grouped) : ?>
 		<?php foreach ($list as $group_name => $group) : ?>
 		<li>
-			<div class="mod-articles-category-group"><?php echo $group_name; ?></div>
+			<div class="mod-articles-category-group"><?php echo JText::_($group_name); ?></div>
 			<ul>
 				<?php foreach ($group as $item) : ?>
 					<li>

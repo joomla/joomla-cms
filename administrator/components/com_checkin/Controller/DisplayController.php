@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Response\JsonResponse;
-use Joomla\CMS\Session\Session;
 
 /**
  * Checkin Controller
@@ -42,9 +41,6 @@ class DisplayController extends BaseController
 	 */
 	public function display($cachable = false, $urlparams = array())
 	{
-		// Load the submenu.
-		$this->addSubmenu($this->input->getWord('option', 'com_checkin'));
-
 		return parent::display();
 	}
 
@@ -56,7 +52,7 @@ class DisplayController extends BaseController
 	public function checkin()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -94,34 +90,5 @@ class DisplayController extends BaseController
 		$model = $this->getModel('Checkin');
 
 		echo new JsonResponse(count($model->getItems()));
-	}
-
-	/**
-	 * Configure the Linkbar.
-	 *
-	 * @param   string  $vName  The name of the active view.
-	 *
-	 * @return  void
-	 *
-	 * @since   1.6
-	 */
-	protected function addSubmenu($vName)
-	{
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_SUBMENU_CHECKIN'),
-			'index.php?option=com_checkin',
-			$vName == 'com_checkin'
-		);
-
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_SUBMENU_CLEAR_CACHE'),
-			'index.php?option=com_cache',
-			$vName == 'cache'
-		);
-		\JHtmlSidebar::addEntry(
-			Text::_('JGLOBAL_SUBMENU_PURGE_EXPIRED_CACHE'),
-			'index.php?option=com_cache&view=purge',
-			$vName == 'purge'
-		);
 	}
 }

@@ -48,7 +48,7 @@ class TagsController extends AdminController
 	 */
 	public function rebuild()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$this->setRedirect(Route::_('index.php?option=com_tags&view=tags', false));
 

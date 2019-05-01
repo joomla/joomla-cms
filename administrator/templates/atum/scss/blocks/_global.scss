@@ -84,10 +84,12 @@ caption {
   padding-bottom: 50px;
 }
 
-.container-main {
+body .container-main {
   position: relative;
   min-height: calc(100vh - #{$header-height});
-  background-color: var(--atum-bg-light);
+  background-color: var(--dashboard-bg);
+  padding-left: 0;
+  padding-right: 0;
 }
 
 .list-view-main {
@@ -112,7 +114,7 @@ caption {
 }
 
 .row-selected {
-  background-color: var(--row-selected);
+  background-color: var(--toolbar-bg);
 }
 
 // Chosen (TEMPORARY)
@@ -177,4 +179,9 @@ a[href*="//"]:not([href*="javascript://"]):before {
   color: var(--font-color-dark);
 }
 
-
+// dashboard items
+.menu-quicktask,
+.menu-badge {
+  float: right;
+  min-width: 1rem;
+}
