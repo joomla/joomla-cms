@@ -251,7 +251,7 @@ class JFormFieldSQL extends JFormFieldList
 				}
 				elseif (!empty($defaults[$value]))
 				{
-					$query->where($db->quoteName($value) . " = " .$db->quote($defaults[$value]));
+					$query->where($db->quoteName($value) . ' = ' .$db->quote($defaults[$value]));
 				}
 			}
 		}
