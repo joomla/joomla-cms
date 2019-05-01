@@ -138,7 +138,7 @@ class FeaturedModel extends ArticlesModel
 					]
 					)
 				)
-				->join('INNER', '#__workflow_stages AS ws ON  '. $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
+				->join('INNER', '#__workflow_stages AS ws ON  ' . $query->quoteName('ws.id') . ' = ' . $query->quoteName('wa.stage_id'));
 
 		// Join on voting table
 		if (PluginHelper::isEnabled('content', 'vote'))
