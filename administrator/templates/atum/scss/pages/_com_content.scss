@@ -3,29 +3,6 @@
 		.container-main {
 			background-color: transparent;
 		}
-		.card-body {
-			background: transparent;
-			padding: 0;
-			box-shadow: none;
-		}
-		.table {
-			th,
-			td {
-				background-color: $white;
-			}
-		}
-		.field-media-wrapper {
-			&, .field-media-preview {
-				width: 100%;
-				max-width: none;
-			}
-			.button-select {
-				background-color: darken(theme-color("success"), 8%);
-			}
-			.button-clear {
-				background-color: darken(theme-color("danger"), 8%);
-			}
-		}
 		.subhead {
 			background-color: transparent;
 		}
@@ -35,32 +12,23 @@
 		joomla-tab {
 			#attrib-basic[active],
 			#editor[active] {
-				display: grid;
-				grid-template-columns: calc(50% - 15px) calc(50% - 15px);
-				grid-column-gap: 30px;
-				@include media-breakpoint-down(md) {
-					display: block;
-					grid-template-columns: 100%;
-				}
-				.field-spacer {
-					grid-column: 1 / span 2;
-				}
-			}
-			#images .col-md-6:first-child{
-				display: grid;
-				grid-template-columns: calc(40% - 15px) calc(60% - 15px);
-				grid-template-rows: min-content min-content min-content min-content min-content min-content;
-				grid-column-gap: 30px;
+				display: flex;
+				flex-wrap: wrap;
 
-				.form-group:first-child {
-					grid-row: 1 / span 3;
-				}
-				.form-group:nth-child(6) {
-					grid-row: 5 / span 3;
+				.form-group {
+					flex: 0 0 50%;
+					max-width: 50%;
+					box-shadow: none;
+
+					&:nth-child(1),
+					&:nth-child(19) {
+						flex: 0 0 100%;
+						max-width: 100%;
+					}
 				}
 				.field-spacer {
-					grid-column: 1 / span 2;
-					margin-top: -2rem;
+					flex: 0 0 100%;
+					max-width: 100%;
 				}
 			}
 		}

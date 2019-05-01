@@ -4,11 +4,6 @@ label {
 	margin-bottom: 0;
 }
 
-.form-control {
-  background-color: var(--white-offset);
-  box-shadow: $atum-box-shadow;
-}
-
 .control-group {
   margin-bottom: 18px;
 
@@ -53,7 +48,6 @@ label {
   hr {
     width: 380px;
     border: 0;
-    height: $grid-gutter-width;
   }
 
   label {
@@ -117,12 +111,26 @@ legend {
   background-size: 1854px;
   min-width: 10rem;
   box-shadow: $atum-box-shadow;
+  border: 0;
 
   optgroup, option {
-	  background-color: $white;
+    background-color: $white;
   }
 }
 
+.custom-select[multiple] {
+  padding: 0;
+  background-color: var(--white-offset);
+
+  option {
+    background-color: var(--white-offset);
+    padding: $input-select-multiple-padding;
+    &:checked {
+      color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark) !important;
+    }
+  }
+}
 
 joomla-field-switcher {
 	height: 38px;
@@ -163,4 +171,25 @@ joomla-field-switcher {
     }
   }
 
+}
+
+.field-media-wrapper {
+  max-width: calc(50vw - 5rem);
+  width: 100%;
+  display: block;
+
+  .field-media-preview {
+    width: 100%;
+    max-width: none;
+  }
+  .button-select {
+    background-color: darken(theme-color("success"), 8%);
+  }
+  .button-clear {
+    background-color: darken(theme-color("danger"), 8%);
+  }
+
+  @include media-breakpoint-down(md) {
+    min-width: 100%;
+  }
 }
