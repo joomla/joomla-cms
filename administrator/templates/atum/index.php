@@ -218,9 +218,6 @@ $this->addStyleDeclaration($css);
                   </a>
                 </div>
                 <jdoc:include type="modules" name="menu" style="none"/>
-			    <div id="main-brand" class="main-brand d-flex align-items-center justify-content-center">
-				    <img src="<?php echo $joomlaLogo; ?>" alt="">
-			    </div>
             </div>
 		</div>
 	<?php endif; ?>

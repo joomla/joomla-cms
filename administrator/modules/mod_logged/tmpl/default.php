@@ -35,7 +35,7 @@ HTMLHelper::_('bootstrap.framework');
 				<th scope="row">
 					<?php if (isset($user->editLink)) : ?>
 						<a href="<?php echo $user->editLink; ?>">
-							<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
+							<?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
 						</a>
 					<?php else : ?>
 						<?php echo htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8'); ?>
@@ -56,12 +56,7 @@ HTMLHelper::_('bootstrap.framework');
 					<?php endif; ?>
 				</td>
 				<td>
-					<span class="badge badge-secondary badge-pill">
-						<span class="small">
-							<span class="icon-calendar" aria-hidden="true"></span>
-							<?php echo HTMLHelper::_('date', $user->time, Text::_('DATE_FORMAT_LC5')); ?>
-						</span>
-					</span>
+					<?php echo HTMLHelper::_('date', $user->time, Text::_('DATE_FORMAT_LC5')); ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>

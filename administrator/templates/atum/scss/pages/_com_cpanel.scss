@@ -114,14 +114,14 @@
     img {
       width: 100%;
       height: auto;
-    }	  
+    }
   }
-  
+
   .card-header {
-    padding-left: 0;
-    font-size: $h5-font-size;
-    color: var(--atum-special-color);
-    font-weight: $font-weight-normal;
+    font-size: $h4-font-size;
+    color: var(--atum-bg-dark);
+    font-weight: $font-weight-bold;
+    background: var(--card-bg);
   }
 
   .module-actions {

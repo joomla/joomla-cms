@@ -11,6 +11,7 @@ namespace Joomla\Component\Cpanel\Administrator\View\Cpanel;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Text;
@@ -55,17 +56,53 @@ class HtmlView extends BaseHtmlView
 	public function display($tpl = null)
 	{
 		$app = Factory::getApplication();
+		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
+
+		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
+
+		$position = ApplicationHelper::stringURLSafe($extension);
+
+		// Generate a title for the view cPanel
+		if (!empty($extension))
+		{
+			$parts = explode('.', $extension);
+
+			$prefix = 'COM_CPANEL_DASHBOARD_';
+			$lang = Factory::getLanguage();
+
+			if (strpos($parts[0], 'com_') === false) 
+			{
+				$prefix .= strtoupper($parts[0]);
+			}
+			else 
+			{
+				$prefix = strtoupper($parts[0]) . '_DASHBOARD';
+
+				// Need to load the language file 
+				$lang->load($parts[0], JPATH_BASE, null, false, true)
+				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0], null, false, true);
+				$lang->load($parts[0]);
+			}
+
+			$sectionkey = !empty($parts[1]) ?   '_' . strtoupper($parts[1]) : '';
+			$key = $prefix . $sectionkey . '_TITLE';
+
+			// Search for a component title
+			if ($lang->hasKey($key))
+			{
+				$title = Text::_($key);
+			}
+		}
 
 		// Set toolbar items for the page
-		ToolbarHelper::title(Text::_('COM_CPANEL'), 'home-2 cpanel');
+		ToolbarHelper::title(Text::_($title, 'home-2 cpanel'));
 		ToolbarHelper::help('screen.cpanel');
 
 		// Display the cpanel modules
-		$dashboard = $app->input->getCmd('dashboard');
-		$this->position = $dashboard ? 'cpanel-' . $dashboard : 'cpanel';
+		$this->position = $position ? 'cpanel-' . $position : 'cpanel';
 		$this->modules = ModuleHelper::getModules($this->position);
 
-		$quickicons = $dashboard ? 'icon-' . $dashboard : 'icon';
+		$quickicons = $position ? 'icon-' . $position : 'icon';
 		$this->quickicons = ModuleHelper::getModules($quickicons);
 
 		parent::display($tpl);

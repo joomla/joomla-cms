@@ -41,11 +41,15 @@ legend {
 }
 
 // Default focus highlighting
-:focus  {
-	outline: auto 2px var(--focus);
-}
-:-moz-focusring {
-	outline: auto 2px var(--focus);
+a,
+button,
+input,
+textarea {
+
+  &:focus,
+  &:-moz-focusring {
+  outline: auto 2px var(--focus);
+  }
 }
 
 // Break up text in cells to prevent overflow
@@ -77,13 +81,15 @@ caption {
 
 .container-main,
 .system-debug {
-	padding-bottom: 50px;
+  padding-bottom: 50px;
 }
 
-.container-main {
-	position: relative;
-	min-height: calc(100vh - #{$header-height});
-	background-color: var(--atum-bg-light);
+body .container-main {
+  position: relative;
+  min-height: calc(100vh - #{$header-height});
+  background-color: var(--dashboard-bg);
+  padding-left: 0;
+  padding-right: 0;
 
 	&:before, &:after {
 		content: '';
@@ -119,7 +125,7 @@ caption {
 }
 
 .row-selected {
-  background-color: var(--row-selected);
+  background-color: var(--toolbar-bg);
 }
 
 // Chosen (TEMPORARY)

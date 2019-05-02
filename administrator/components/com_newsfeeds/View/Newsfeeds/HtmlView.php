@@ -139,11 +139,11 @@ class HtmlView extends BaseHtmlView
 		}
 
 		if ($canDo->get('core.edit.state') || $user->authorise('core.admin'))
-		{		
+		{
 			$dropdown = $toolbar->dropdownButton('status-group')
 				->text('JTOOLBAR_CHANGE_STATUS')
 				->toggleSplit(false)
-				->icon('fa fa-exchange')
+				->icon('fa fa-ellipsis-h')
 				->buttonClass('btn btn-action')
 				->listCheck(true);
 
@@ -168,7 +168,7 @@ class HtmlView extends BaseHtmlView
 		if ($user->authorise('core.create', 'com_newsfeeds')
 			&& $user->authorise('core.edit', 'com_newsfeeds')
 			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
-		{	
+		{
 			$toolbar->popupButton('batch')
 				->text('JTOOLBAR_BATCH')
 				->selector('collapseModal')
