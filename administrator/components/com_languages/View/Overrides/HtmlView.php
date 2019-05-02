@@ -50,14 +50,6 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * The sidebar markup
-	 *
-	 * @var    string
-	 * @since  4.0.0
-	 */
-	protected $sidebar;
-
-	/**
 	 * An array containing all frontend and backend languages
 	 *
 	 * @var    array
@@ -82,8 +74,6 @@ class HtmlView extends BaseHtmlView
 		$this->pagination    = $this->get('Pagination');
 		$this->filterForm    = $this->get('FilterForm');
 		$this->activeFilters = $this->get('ActiveFilters');
-
-		LanguagesHelper::addSubmenu('overrides');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -132,8 +122,5 @@ class HtmlView extends BaseHtmlView
 		ToolbarHelper::divider();
 		ToolbarHelper::help('JHELP_EXTENSIONS_LANGUAGE_MANAGER_OVERRIDES');
 
-		\JHtmlSidebar::setAction('index.php?option=com_languages&view=overrides');
-
-		$this->sidebar = \JHtmlSidebar::render();
 	}
 }
