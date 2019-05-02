@@ -206,13 +206,15 @@
 
   .joomla-version {
     margin-right: .9rem;
-    margin-bottom: 0;
+    margin-bottom: .5rem;
     font-size: $h5-font-size;
     color: var(--atum-special-color);
     font-size:$font-size-vsm;
     &:before{
       font: normal normal normal 23px/1 FontAwesome;
       content: "\f1aa  ";
+      transform: translateY(5px);
+      display: inline-block;
     }
 
   }

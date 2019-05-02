@@ -27,6 +27,19 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  header {
+    .logo {
+      width: auto;
+    }
+    .page-title {
+      visibility: hidden;
+      width: 1px;
+      height: 1px;
+    }
+  }
+  footer {
+    padding: 1rem;
+  }
 }
 
 
@@ -45,6 +58,8 @@ body {
   margin-bottom: 20px;
   background-color: #fff;
   box-shadow: 0 0 2px rgba(52, 58, 67, .1), 0 2px 5px rgba(52, 58, 67, .08), 0 5px 15px rgba(52, 58, 67, .08);
+  width: calc(100% - 2rem);
+  margin-left: 1rem;
   &.active {
     display: block;
   }

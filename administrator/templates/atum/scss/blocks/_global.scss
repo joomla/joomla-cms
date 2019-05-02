@@ -166,6 +166,8 @@ body .container-main {
 a[href*="//"]:not([href*="javascript://"]):before {
   font: normal normal normal 14px/1 FontAwesome;
   content: "\f08e  ";
+  transform: translateY(2px);
+  display: inline-block;
 }
 
 #wrapper{
