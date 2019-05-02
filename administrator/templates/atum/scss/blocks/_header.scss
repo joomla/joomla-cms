@@ -109,8 +109,6 @@
     }
 
     &:hover .fa {
-      font-size: 1.3rem;
-      transition: all .2s ease-in-out;
       color: var(--atum-text-light);
     }
   }
@@ -274,9 +272,6 @@
         color:var(--atum-text-light);
       }
 
-      &:before{
-        color:var(--atum-text-light);
-      }
     }
   }
 }

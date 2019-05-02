@@ -50,7 +50,7 @@
   }
 
   .login {
-    width: 23rem;
+    width: 25rem;
     background: var(--white);
     padding: 15px;
     color: var(--atum-text-dark);
@@ -72,6 +72,7 @@
 
       .form-group {
         position: relative;
+        margin-bottom: 1.85rem;
 
         .form-control-feedback {
           text-align: right;
@@ -81,10 +82,13 @@
           font-size: 0.75rem;
         }
       }
+
     }
 
     #btn-login-submit {
       text-transform: uppercase;
+      background: var(--atum-bg-dark);
+      color:rgba(255,255,255,0.8);
     }
   }
 
@@ -109,13 +113,8 @@
       align-items: flex-end;
       justify-content: space-between;
 
-      @include media-breakpoint-down(xs) {
-        display: block;
-      }
-
       span {
         font-size: .9rem;
-        color: theme-color("danger");
 
         @include media-breakpoint-down(xs) {
           width: 100%;
@@ -125,7 +124,6 @@
           color: var(--atum-special-color);
           font-size: .75rem;
         }
-        color: var(--form-link-feedback);
       }
     }
   }
@@ -260,7 +258,7 @@ label {
       display:block;
     }
   }
-  
+
  .invalid .form-control-feedback {
     color: theme-color("danger");
   }

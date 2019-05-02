@@ -4,16 +4,20 @@
 
 .table {
 
+  background: $white;
+  box-shadow: $atum-box-shadow;
+
   thead {
 
     th {
       font-size: $label-font-size;
+      border-bottom: none;
     }
 
     th,
     td {
       font-weight: $font-weight-normal;
-      color: $gray-800;
+      color: $gray-600;
       white-space: nowrap;
       @include media-breakpoint-down(xs) {
         white-space: normal;
@@ -26,7 +30,11 @@
 
     a {
       font-weight: $font-weight-normal;
-      color: $gray-800;
+      color: $gray-600;
+      &#sorted {
+        color: $gray-800;
+        font-weight: 500;
+      }
     }
 
     .actions, .actions-th1{
@@ -39,18 +47,35 @@
 
   tbody {
     background-color: var(--white);
+
+    a:not(.badge) {
+      text-decoration: underline;
+    }
+
+    th {
+      font-weight: 500;
+    }
+
+    tr {
+      &:hover {
+        background-color: var(--toolbar-bg);
+      }
+    }
+
   }
 
   th,
   td {
     vertical-align: middle;
+    border-top:1px solid var(--toolbar-bg);
 
     label {
       margin-bottom: 0;
     }
+
   }
 
   td {
-    padding: 18px 12px;
+    padding: 1.625rem 0.75rem;
   }
 }
