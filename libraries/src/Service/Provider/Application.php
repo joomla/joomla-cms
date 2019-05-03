@@ -127,6 +127,8 @@ class Application implements ServiceProviderInterface
 					$mapping = [
 						SessionGcCommand::getDefaultName()         => SessionGcCommand::class,
 						SessionMetadataGcCommand::getDefaultName() => SessionMetadataGcCommand::class,
+						ExportCommand::getDefaultName()            => ExportCommand::class,
+						ImportCommand::getDefaultName()            => ImportCommand::class,
 					];
 
 					return new WritableContainerLoader($container, $mapping);

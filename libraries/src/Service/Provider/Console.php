@@ -59,5 +59,23 @@ class Console implements ServiceProviderInterface
 			},
 			true
 		);
+
+		$container->share(
+			ExportCommand::class,
+			function (Container $container)
+			{
+				return new ExportCommand($container->get('db'));
+			},
+			true
+		);
+
+		$container->share(
+			ImportCommand::class,
+			function (Container $container)
+			{
+				return new ImportCommand($container->get('db'));
+			},
+			true
+		);
 	}
 }
