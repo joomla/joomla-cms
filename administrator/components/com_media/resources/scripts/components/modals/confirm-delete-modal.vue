@@ -20,7 +20,6 @@
         name: 'media-share-modal',
         computed: {
             item() {
-                // TODO @DN this is not allowed in vuex strict mode!
                 return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
             }
         },
