@@ -4870,7 +4870,6 @@ a.badge:focus {
 	.input-prepend input[class*="span"],
 	.input-append input[class*="span"] {
 		display: inline-block;
-		width: auto;
 	}
 	.controls-row [class*="span"] + [class*="span"] {
 		margin-left: 0;
@@ -4903,6 +4902,14 @@ a.badge:focus {
 	.form-horizontal .form-actions {
 		padding-left: 10px;
 		padding-right: 10px;
+	}
+	.tag-category input#filter-search,
+	.newsfeed-category input#filter-search {
+		width: auto;
+		margin-bottom: 9px;
+	}
+	.category-list input#filter-search {
+		width: auto;
 	}
 	.media .pull-left,
 	.media .pull-right {
@@ -6031,6 +6038,12 @@ hr.hr-condensed {
 }
 .radio.btn-group input[type=radio] {
 	display: none;
+}
+.radio.btn-group > label {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 .radio.btn-group > label:first-of-type {
 	margin-left: 0;
@@ -7722,6 +7735,9 @@ ul.manager .height-50 .icon-folder-2 {
 }
 .finder-selects {
 	margin: 0 15px 15px 0;
+}
+.header-search .mod-languages ul {
+	margin: 0 0 5px 0;
 }
 .rtl .navigation .nav-child {
 	left: auto;

@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,7 +11,9 @@ namespace Joomla\CMS\Application;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Input\Input;
+use Joomla\CMS\Session\MetadataManager;
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! CMS Application class
@@ -135,60 +137,6 @@ class CMSApplication extends WebApplication
 	}
 
 	/**
-	 * After the session has been started we need to populate it with some default values.
-	 *
-	 * @return  void
-	 *
-	 * @since   3.2
-	 */
-	public function afterSessionStart()
-	{
-		$session = \JFactory::getSession();
-
-		if ($session->isNew())
-		{
-			$session->set('registry', new Registry);
-			$session->set('user', new \JUser);
-		}
-
-		// Get the session handler from the configuration.
-		$handler = $this->get('session_handler', 'none');
-
-		$time = time();
-
-		// If the database session handler is not in use and the current time is a divisor of 5, purge session metadata after the response is sent
-		if ($handler !== 'database' && $time % 5 === 0)
-		{
-			$this->registerEvent(
-				'onAfterResponse',
-				function () use ($session, $time)
-				{
-					// TODO: At some point we need to get away from having session data always in the db.
-					$db = \JFactory::getDbo();
-
-					$query = $db->getQuery(true)
-						->delete($db->quoteName('#__session'))
-						->where($db->quoteName('time') . ' < ' . $db->quote((int) ($time - $session->getExpire())));
-
-					$db->setQuery($query);
-
-					try
-					{
-						$db->execute();
-					}
-					catch (\JDatabaseExceptionExecuting $exception)
-					{
-						/*
-						 * The database API logs errors on failures so we don't need to add any error handling mechanisms here.
-						 * Since garbage collection does not result in a fatal error when run in the session API, we don't allow it here either.
-						 */
-					}
-				}
-			);
-		}
-	}
-
-	/**
 	 * Checks the user session.
 	 *
 	 * If the session record doesn't exist, initialise it.
@@ -201,63 +149,8 @@ class CMSApplication extends WebApplication
 	 */
 	public function checkSession()
 	{
-		$db = \JFactory::getDbo();
-		$session = \JFactory::getSession();
-		$user = \JFactory::getUser();
-
-		$query = $db->getQuery(true)
-			->select($db->quoteName('session_id'))
-			->from($db->quoteName('#__session'))
-			->where($db->quoteName('session_id') . ' = ' . $db->quote($session->getId()));
-
-		$db->setQuery($query, 0, 1);
-		$exists = $db->loadResult();
-
-		// If the session record doesn't exist initialise it.
-		if (!$exists)
-		{
-			$query->clear();
-
-			$time = $session->isNew() ? time() : $session->get('session.timer.start');
-
-			$columns = array(
-				$db->quoteName('session_id'),
-				$db->quoteName('guest'),
-				$db->quoteName('time'),
-				$db->quoteName('userid'),
-				$db->quoteName('username'),
-			);
-
-			$values = array(
-				$db->quote($session->getId()),
-				(int) $user->guest,
-				$db->quote((int) $time),
-				(int) $user->id,
-				$db->quote($user->username),
-			);
-
-			if (!$this->get('shared_session', '0'))
-			{
-				$columns[] = $db->quoteName('client_id');
-				$values[] = (int) $this->getClientId();
-			}
-
-			$query->insert($db->quoteName('#__session'))
-				->columns($columns)
-				->values(implode(', ', $values));
-
-			$db->setQuery($query);
-
-			// If the insert failed, exit the application.
-			try
-			{
-				$db->execute();
-			}
-			catch (\RuntimeException $e)
-			{
-				throw new \RuntimeException(\JText::_('JERROR_SESSION_STARTUP'), $e->getCode(), $e);
-			}
-		}
+		$metadataManager = new MetadataManager($this, \JFactory::getDbo());
+		$metadataManager->createRecordIfNonExisting(\JFactory::getSession(), \JFactory::getUser());
 	}
 
 	/**
@@ -551,6 +444,15 @@ class CMSApplication extends WebApplication
 		{
 			$name = $this->getName();
 		}
+		else
+		{
+			// Name should not be used
+			$this->getLogger()->warning(
+				'Name attribute is deprecated, in the future fetch the pathway '
+				. 'through the respective application.',
+				array('category' => 'deprecated')
+			);
+		}
 
 		try
 		{
@@ -581,6 +483,8 @@ class CMSApplication extends WebApplication
 			$app = \JFactory::getApplication();
 			$name = $app->getName();
 		}
+
+		$options['mode'] = \JFactory::getConfig()->get('sef');
 
 		try
 		{
@@ -727,8 +631,8 @@ class CMSApplication extends WebApplication
 	 *
 	 * @return  boolean  True if this application is administrator.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('administrator') instead.
+	 * @since       3.2
+	 * @deprecated  4.0 Use isClient('administrator') instead.
 	 */
 	public function isAdmin()
 	{
@@ -740,8 +644,8 @@ class CMSApplication extends WebApplication
 	 *
 	 * @return  boolean  True if this application is site.
 	 *
-	 * @since   3.2
-	 * @deprecated  Use isClient('site') instead.
+	 * @since       3.2
+	 * @deprecated  4.0 Use isClient('site') instead.
 	 */
 	public function isSite()
 	{
@@ -1168,6 +1072,45 @@ class CMSApplication extends WebApplication
 
 		$router = static::getRouter();
 		$result = $router->parse($uri);
+
+		$active = $this->getMenu()->getActive();
+
+		if ($active !== null
+			&& $active->type === 'alias'
+			&& $active->params->get('alias_redirect')
+			&& in_array($this->input->getMethod(), array('GET', 'HEAD'), true))
+		{
+			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
+
+			if ($item !== null)
+			{
+				$oldUri = clone \JUri::getInstance();
+
+				if ($oldUri->getVar('Itemid') == $active->id)
+				{
+					$oldUri->setVar('Itemid', $item->id);
+				}
+
+				$base = \JUri::base(true);
+				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), strlen($base) + 1));
+				$activePathPrefix = StringHelper::strtolower($active->route);
+
+				$position = strpos($oldPath, $activePathPrefix);
+
+				if ($position !== false)
+				{
+					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, strlen($activePathPrefix)));
+
+					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+					$this->setHeader('Pragma', 'no-cache');
+					$this->sendHeaders();
+
+					$this->redirect((string) $oldUri, 301);
+				}
+			}
+		}
 
 		foreach ($result as $key => $value)
 		{

@@ -18,6 +18,7 @@ abstract class ParagonIE_Sodium_Core_X25519 extends ParagonIE_Sodium_Core_Curve2
      * @param ParagonIE_Sodium_Core_Curve25519_Fe $g
      * @param int $b
      * @return void
+     * @psalm-suppress MixedAssignment
      */
     public static function fe_cswap(
         ParagonIE_Sodium_Core_Curve25519_Fe $f,
@@ -86,46 +87,56 @@ abstract class ParagonIE_Sodium_Core_X25519 extends ParagonIE_Sodium_Core_Curve2
     public static function fe_mul121666(ParagonIE_Sodium_Core_Curve25519_Fe $f)
     {
         $h = array(
-            self::mul($f[0], 121666, 17),
-            self::mul($f[1], 121666, 17),
-            self::mul($f[2], 121666, 17),
-            self::mul($f[3], 121666, 17),
-            self::mul($f[4], 121666, 17),
-            self::mul($f[5], 121666, 17),
-            self::mul($f[6], 121666, 17),
-            self::mul($f[7], 121666, 17),
-            self::mul($f[8], 121666, 17),
-            self::mul($f[9], 121666, 17)
+            self::mul((int) $f[0], 121666, 17),
+            self::mul((int) $f[1], 121666, 17),
+            self::mul((int) $f[2], 121666, 17),
+            self::mul((int) $f[3], 121666, 17),
+            self::mul((int) $f[4], 121666, 17),
+            self::mul((int) $f[5], 121666, 17),
+            self::mul((int) $f[6], 121666, 17),
+            self::mul((int) $f[7], 121666, 17),
+            self::mul((int) $f[8], 121666, 17),
+            self::mul((int) $f[9], 121666, 17)
         );
 
+        /** @var int $carry9 */
         $carry9 = ($h[9] + (1 << 24)) >> 25;
         $h[0] += self::mul($carry9, 19, 5);
         $h[9] -= $carry9 << 25;
+        /** @var int $carry1 */
         $carry1 = ($h[1] + (1 << 24)) >> 25;
         $h[2] += $carry1;
         $h[1] -= $carry1 << 25;
+        /** @var int $carry3 */
         $carry3 = ($h[3] + (1 << 24)) >> 25;
         $h[4] += $carry3;
         $h[3] -= $carry3 << 25;
+        /** @var int $carry5 */
         $carry5 = ($h[5] + (1 << 24)) >> 25;
         $h[6] += $carry5;
         $h[5] -= $carry5 << 25;
+        /** @var int $carry7 */
         $carry7 = ($h[7] + (1 << 24)) >> 25;
         $h[8] += $carry7;
         $h[7] -= $carry7 << 25;
 
+        /** @var int $carry0 */
         $carry0 = ($h[0] + (1 << 25)) >> 26;
         $h[1] += $carry0;
         $h[0] -= $carry0 << 26;
+        /** @var int $carry2 */
         $carry2 = ($h[2] + (1 << 25)) >> 26;
         $h[3] += $carry2;
         $h[2] -= $carry2 << 26;
+        /** @var int $carry4 */
         $carry4 = ($h[4] + (1 << 25)) >> 26;
         $h[5] += $carry4;
         $h[4] -= $carry4 << 26;
+        /** @var int $carry6 */
         $carry6 = ($h[6] + (1 << 25)) >> 26;
         $h[7] += $carry6;
         $h[6] -= $carry6 << 26;
+        /** @var int $carry8 */
         $carry8 = ($h[8] + (1 << 25)) >> 26;
         $h[9] += $carry8;
         $h[8] -= $carry8 << 26;
@@ -144,6 +155,8 @@ abstract class ParagonIE_Sodium_Core_X25519 extends ParagonIE_Sodium_Core_Curve2
      * @param string $n
      * @param string $p
      * @return string
+     * @throws SodiumException
+     * @throws TypeError
      */
     public static function crypto_scalarmult_curve25519_ref10($n, $p)
     {
@@ -170,11 +183,13 @@ abstract class ParagonIE_Sodium_Core_X25519 extends ParagonIE_Sodium_Core_Curve2
         $z3 = self::fe_1();
 
         # swap = 0;
+        /** @var int $swap */
         $swap = 0;
 
         # for (pos = 254;pos >= 0;--pos) {
         for ($pos = 254; $pos >= 0; --$pos) {
             # b = e[pos / 8] >> (pos & 7);
+            /** @var int $b */
             $b = self::chrToInt(
                     $e[(int) floor($pos / 8)]
                 ) >> ($pos & 7);
@@ -279,6 +294,7 @@ abstract class ParagonIE_Sodium_Core_X25519 extends ParagonIE_Sodium_Core_Curve2
      *
      * @param string $n
      * @return string
+     * @throws SodiumException
      * @throws TypeError
      */
     public static function crypto_scalarmult_curve25519_ref10_base($n)
