@@ -93,6 +93,7 @@
 			addfieldprefix="Joomla\Component\Modules\Administrator\Field"
 			default=""
 			maxlength="50"
+			client="site"
 		/>
 
 		<field
