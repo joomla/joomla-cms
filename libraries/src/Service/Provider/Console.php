@@ -13,6 +13,8 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Console\SessionGcCommand;
 use Joomla\CMS\Console\SessionMetadataGcCommand;
+use Joomla\Database\Command\ExportCommand;
+use Joomla\Database\Command\ImportCommand;
 use Joomla\CMS\Session\MetadataManager;
 use Joomla\DI\Container;
 use Joomla\DI\ServiceProviderInterface;
