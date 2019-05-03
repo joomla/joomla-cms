@@ -42,7 +42,7 @@ $user = $app->getIdentity();
 				</h2>
 				<ul class="list-group list-group-flush">
 					<?php foreach ($child->getChildren() as $item) : ?>
-						<li class="list-group-item">
+						<li class="list-group-item d-flex">
 							<?php $params = $item->getParams(); ?>
 							<?php // Only if Menu-show = true
 								if ($params->get('menu_show', 1)) : ?>
@@ -53,14 +53,13 @@ $user = $app->getIdentity();
 									$alt = $params->get('menu_text') ? '' : htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
 								endif;
 								?>
-								<a class="d-block" href="<?php echo $item->link; ?>">
+								<a class="flex-grow-1" href="<?php echo $item->link; ?>">
 									<?php if (!empty($params->get('menu_image'))) : ?>
 										<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
 									<?php endif; ?>
 									<?php echo ($params->get('menu_text', 1)) ? Text::_($item->title) : ''; ?>
-								
-									<span class="menu-quicktask">
-										<?php if ($params->get('menu-quicktask', false)) : ?>
+									<?php if ($params->get('menu-quicktask', false)) : ?>
+										<span class="menu-quicktask">
 											<?php
 											$link = $params->get('menu-quicktask-link');
 											$icon = $params->get('menu-quicktask-icon', 'plus');
@@ -74,13 +73,13 @@ $user = $app->getIdentity();
 													<span class="sr-only"><?php echo Text::_($title); ?></span>
 												</a>
 											<?php endif; ?>
-										<?php endif; ?>
-									</span>
-									<span class="menu-badge">
-										<?php if ($item->ajaxbadge) : ?>
+										</span>
+									<?php endif; ?>
+									<?php if ($item->ajaxbadge) : ?>
+										<span class="menu-badge">
 											<span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
-										<?php endif; ?>
-									</span>
+										</span>
+									<?php endif; ?>
 								</a>
 								<?php if ($item->dashboard) : ?>
 									<span class="menu-dashboard">
