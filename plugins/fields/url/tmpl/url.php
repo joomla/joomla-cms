@@ -12,7 +12,7 @@ $value = $field->value;
 $desc = $field->description;
 
 $mailto = "mailto:";
-$value_substring = htmlspecialchars(str_replace("mailto:","",$value));
+$value_substring = htmlspecialchars(str_replace("mailto:", "", $value));
 
 if ($value == '')
 {
