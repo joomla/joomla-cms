@@ -194,7 +194,6 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 								<td class="order text-center d-none d-md-table-cell">
 									<?php
 									$iconClass = '';
-
 									if (!$canChange)
 									{
 										$iconClass = ' inactive';
@@ -205,8 +204,8 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 									}
 									?>
 									<span class="sortable-handler<?php echo $iconClass ?>">
-									<span class="icon-menu" aria-hidden="true"></span>
-								</span>
+										<span class="icon-menu" aria-hidden="true"></span>
+									</span>
 									<?php if ($canChange && $saveOrder) : ?>
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 									<?php endif; ?>
@@ -249,7 +248,7 @@ HTMLHelper::_('script', 'com_content/admin-articles-workflow-buttons.js', ['rela
 											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'articles.', $canCheckin); ?>
 										<?php endif; ?>
 										<?php if ($canEdit) : ?>
-											<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
+											<?php $editIcon = $item->checked_out ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
 											<a class="hasTooltip" href="<?php echo Route::_('index.php?option=com_content&task=article.edit&return=featured&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
 												<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
 										<?php else : ?>

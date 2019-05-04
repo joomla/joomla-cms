@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -63,13 +64,13 @@ class HtmlView extends BaseHtmlView
 		$this->item  = $this->get('Item');
 		$this->state = $this->get('State');
 
-		$app = JFactory::getApplication();
+		$app = Factory::getApplication();
 
 		$languageClient = $app->getUserStateFromRequest('com_languages.overrides.language_client', 'language_client');
 
 		if ($languageClient == null)
 		{
-			$app->enqueueMessage(JText::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
+			$app->enqueueMessage(Text::_('COM_LANGUAGES_OVERRIDE_FIRST_SELECT_MESSAGE'), 'warning');
 
 			$app->redirect('index.php?option=com_languages&view=overrides');
 		}
@@ -77,7 +78,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors));
+			throw new GenericDataException(implode("\n", $errors));
 		}
 
 		// Check whether the cache has to be refreshed.
@@ -119,7 +120,7 @@ class HtmlView extends BaseHtmlView
 		if ($canDo->get('core.edit'))
 		{
 			ToolbarHelper::apply('override.apply');
-				
+
 			$toolbarButtons[] = ['save', 'override.save'];
 		}
 

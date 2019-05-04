@@ -3,7 +3,7 @@
  * @package     Joomla.UnitTest
  * @subpackage  Feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -21,7 +21,7 @@ use Joomla\Tests\Unit\UnitTestCase;
  *
  * @package     Joomla.UnitTest
  * @subpackage  Feed
- * @since       12.3
+ * @since       3.1.4
  */
 class FeedEntryTest extends UnitTestCase
 {
@@ -36,7 +36,7 @@ class FeedEntryTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::setUp()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function setUp()
 	{
@@ -51,7 +51,7 @@ class FeedEntryTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @see     \PHPUnit\Framework\TestCase::tearDown()
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	protected function tearDown()
 	{
@@ -65,7 +65,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMagicGetterWithDefaultProperty()
 	{
@@ -77,7 +77,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMagicGetterWithUnknownProperty()
 	{
@@ -89,7 +89,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetUpdatedDateWithString()
 	{
@@ -103,7 +103,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMagicSetUpdatedDateWithDateObject()
 	{
@@ -120,7 +120,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetAuthorWithPerson()
 	{
@@ -142,7 +142,7 @@ class FeedEntryTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @since              3.1.4
 	 */
 	public function testSetAuthorWithInvalidAuthor()
 	{
@@ -155,7 +155,7 @@ class FeedEntryTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @since              3.1.4
 	 */
 	public function testSetSourceWithInvalidSource()
 	{
@@ -168,7 +168,7 @@ class FeedEntryTest extends UnitTestCase
 	 * @return  void
 	 *
 	 * @expectedException  InvalidArgumentException
-	 * @since              12.3
+	 * @since              3.1.4
 	 */
 	public function testSetCategoriesWithInvalidProperty()
 	{
@@ -180,7 +180,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testMagicSetter()
 	{
@@ -195,7 +195,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddSingleCategory()
 	{
@@ -214,7 +214,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddMultipleCategories()
 	{
@@ -243,7 +243,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddNewContributor()
 	{
@@ -263,7 +263,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddExistingContributor()
 	{
@@ -284,7 +284,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddMultipleContributors()
 	{
@@ -313,7 +313,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddNewLink()
 	{
@@ -332,7 +332,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testAddExistingLink()
 	{
@@ -352,7 +352,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRemoveCategory()
 	{
@@ -372,7 +372,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRemoveContributor()
 	{
@@ -392,7 +392,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testRemoveLink()
 	{
@@ -410,7 +410,7 @@ class FeedEntryTest extends UnitTestCase
 	 *
 	 * @return  void
 	 *
-	 * @since   12.3
+	 * @since   3.1.4
 	 */
 	public function testSetAuthor()
 	{
