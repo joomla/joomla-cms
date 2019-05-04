@@ -50,25 +50,4 @@ class ComboField extends ListField
 
 		return $this->getRenderer($this->layout)->render($this->getLayoutData());
 	}
-
-	/**
-	 * Method to get the data to be passed to the layout for rendering.
-	 *
-	 * @return  array
-	 *
-	 * @since   3.8.0
-	 */
-	protected function getLayoutData()
-	{
-		$data = parent::getLayoutData();
-
-		// Get the field options.
-		$options = $this->getOptions();
-
-		$extraData = array(
-			'options' => $options,
-		);
-
-		return array_merge($data, $extraData);
-	}
 }

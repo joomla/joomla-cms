@@ -32,6 +32,7 @@ $document = Factory::getDocument();
  * @var   string   $description     Description of the field.
  * @var   boolean  $disabled        Is this field disabled?
  * @var   string   $group           Group the field belongs to. <fields> section in form XML.
+ * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   boolean  $hidden          Is this field hidden in the form?
  * @var   string   $hint            Placeholder for the field.
  * @var   string   $id              DOM id of the field.

@@ -24,20 +24,28 @@ use Joomla\CMS\Form\FormField;
 class CheckboxField extends FormField
 {
 	/**
-	 * The form field type.
-	 *
-	 * @var    string
-	 * @since  1.7.0
-	 */
-	protected $type = 'Checkbox';
-
-	/**
 	 * The checked state of checkbox field.
 	 *
 	 * @var    boolean
 	 * @since  3.2
 	 */
 	protected $checked = false;
+
+	/**
+	 * Name of the layout being used to render the field
+	 *
+	 * @var    string
+	 * @since  3.7
+	 */
+	protected $layout = 'joomla.form.field.checkbox';
+
+	/**
+	 * The form field type.
+	 *
+	 * @var    string
+	 * @since  1.7.0
+	 */
+	protected $type = 'Checkbox';
 
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
@@ -132,24 +140,7 @@ class CheckboxField extends FormField
 	 */
 	protected function getInput()
 	{
-		// Initialize some field attributes.
-		$class     = !empty($this->class) ? ' class="form-check-input ' . $this->class . '"' : ' class="form-check-input"';
-		$disabled  = $this->disabled ? ' disabled' : '';
-		$value     = !empty($this->default) ? $this->default : '1';
-		$required  = $this->required ? ' required' : '';
-		$autofocus = $this->autofocus ? ' autofocus' : '';
-		$checked   = $this->checked || !empty($this->value) ? ' checked' : '';
-
-		// Initialize JavaScript field attributes.
-		$onclick  = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
-		$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
-
-		$html = '<div class="form-check form-check-inline">';
-		$html .= '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
-				. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
-				. $required . $autofocus . '>';
-		$html .= '</div>';
-
-		return $html;
+		// Trim the trailing line in the layout file
+		return rtrim($this->getRenderer($this->layout)->render($this->getLayoutData()), PHP_EOL);
 	}
 }

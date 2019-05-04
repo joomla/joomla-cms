@@ -22,6 +22,7 @@ extract($displayData);
  * @var   string   $description     Description of the field.
  * @var   boolean  $disabled        Is this field disabled?
  * @var   string   $group           Group the field belongs to. <fields> section in form XML.
+ * @var   boolean  $hasValue        Has this field a value assigned?
  * @var   boolean  $hidden          Is this field hidden in the form?
  * @var   string   $hint            Placeholder for the field.
  * @var   string   $id              DOM id of the field.
@@ -31,6 +32,7 @@ extract($displayData);
  * @var   string   $name            Name of the input field.
  * @var   string   $onchange        Onchange attribute for the field.
  * @var   string   $onclick         Onclick attribute for the field.
+ * @var   array    $options         Options available for this field.
  * @var   string   $pattern         Pattern (Reg Ex) of value of the form field.
  * @var   boolean  $readonly        Is this field read only?
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
@@ -39,7 +41,6 @@ extract($displayData);
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
- * @var   array    $options         Options available for this field.
  */
 
 /**

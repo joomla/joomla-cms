@@ -109,7 +109,6 @@ class TagField extends ListField
 		}
 
 		$data['remoteSearch']  = $this->isRemoteSearch();
-		$data['options']       = $this->getOptions();
 		$data['isNested']      = $this->isNested();
 		$data['allowCustom']   = $this->allowCustom();
 		$data['minTermLength'] = (int) $this->comParams->get('min_term_length', 3);

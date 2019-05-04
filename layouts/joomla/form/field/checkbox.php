@@ -18,7 +18,9 @@ extract($displayData);
  * @var   boolean  $autofocus       Is autofocus enabled?
  * @var   array    $checkedOptions  Options that will be set as checked.
  * @var   string   $class           Classes for the input.
+ * @var   string   $default         Default value of the field.
  * @var   string   $description     Description of the field.
+ * @var   string   $default         Default value of the field.
  * @var   boolean  $disabled        Is this field disabled?
  * @var   string   $group           Group the field belongs to. <fields> section in form XML.
  * @var   boolean  $hasValue        Has this field a value assigned?
@@ -36,42 +38,26 @@ extract($displayData);
  * @var   boolean  $readonly        Is this field read only?
  * @var   boolean  $repeat          Allows extensions to duplicate elements.
  * @var   boolean  $required        Is this field required?
+ * @var   integer  $size            Size attribute of the input.
  * @var   boolean  $spellcheck      Spellcheck state for the form field.
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  */
 
-$autocomplete = !$autocomplete ? ' autocomplete="off"' : ' autocomplete="' . $autocomplete . '"';
-$autocomplete = $autocomplete === ' autocomplete="on"' ? '' : $autocomplete;
+// Initialize some field attributes.
+$class     = !empty($this->class) ? ' class="form-check-input ' . $this->class . '"' : ' class="form-check-input"';
+$disabled  = $this->disabled ? ' disabled' : '';
+$value     = !empty($this->default) ? $this->default : '1';
+$required  = $this->required ? ' required' : '';
+$autofocus = $this->autofocus ? ' autofocus' : '';
+$checked   = $this->checked || !empty($this->value) ? ' checked' : '';
 
-$attributes = array(
-	!empty($class) ? 'class="form-control ' . $class . '"' : 'class="form-control"',
-	!empty($description) ? 'aria-describedby="' . $name . '-desc"' : '',
-	$disabled ? 'disabled' : '',
-	$readonly ? 'readonly' : '',
-	strlen($hint) ? 'placeholder="' . htmlspecialchars($hint, ENT_COMPAT, 'UTF-8') . '"' : '',
-	!empty($onchange) ? 'onchange="' . $onchange . '"' : '',
-	isset($max) ? 'max="' . $max . '"' : '',
-	!empty($step) ? 'step="' . $step . '"' : '',
-	isset($min) ? 'min="' . $min . '"' : '',
-	$required ? 'required' : '',
-	$autocomplete,
-	$autofocus ? 'autofocus' : ''
-);
+// Initialize JavaScript field attributes.
+$onclick  = !empty($this->onclick) ? ' onclick="' . $this->onclick . '"' : '';
+$onchange = !empty($this->onchange) ? ' onchange="' . $this->onchange . '"' : '';
 
-if (is_numeric($value))
-{
-	$value = (float) $value;
-}
-else
-{
-	$value = '';
-	$value = ($required && isset($min)) ? $min : $value;
-}
-?>
-<input
-	type="number"
-	name="<?php echo $name; ?>"
-	id="<?php echo $id; ?>"
-	value="<?php echo htmlspecialchars($value, ENT_COMPAT, 'UTF-8'); ?>"
-	<?php echo implode(' ', $attributes); ?>>
+$html = '<div class="form-check form-check-inline">';
+$html .= '<input type="checkbox" name="' . $this->name . '" id="' . $this->id . '" value="'
+	. htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '"' . $class . $checked . $disabled . $onclick . $onchange
+	. $required . $autofocus . '>';
+$html .= '</div>';
