@@ -370,7 +370,8 @@ class CssMenu
 
 				list($assetName) = isset($query['extension']) ? explode('.', $query['extension'], 2) : array('com_workflow');
 			}
-			elseif ($item->element === 'com_config' && !$user->authorise('core.admin'))
+			// Special case for components which only allow super user access
+			elseif (in_array($item->element, array('com_config', 'com_privacy', 'com_actionlogs'), true) && !$user->authorise('core.admin'))
 			{
 				$parent->removeChild($item);
 				continue;

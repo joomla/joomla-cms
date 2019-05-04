@@ -12,10 +12,8 @@ namespace Joomla\Component\Contact\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -103,7 +101,7 @@ class ContactController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		/** @var \Joomla\Component\Contact\Administrator\Model\ContactModel $model */
