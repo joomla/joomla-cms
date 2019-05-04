@@ -6,6 +6,7 @@
   background: $white;
   box-shadow: $atum-box-shadow;
   z-index: $zindex-header;
+  border-top: 3px solid var(--atum-bg-dark);
 
   @include media-breakpoint-down(lg) {
     .align-items-center{
@@ -53,6 +54,7 @@
 
     [class^='icon-'] {
       margin-right: 10px;
+      font-size: 1rem;
     }
     @include media-breakpoint-down(md){
       width: 160px;
