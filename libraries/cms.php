@@ -40,10 +40,14 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 
 // Create the Composer autoloader
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
+
+// We need to pull our decorated class loader into memory before unregistering Composer's loader
+class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
+
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register(array(new JClassLoader($loader), 'loadClass'), true, true);
+spl_autoload_register(array(new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'), true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
