@@ -15,6 +15,7 @@ use Exception;
 use JcmModelAuthor;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\Component\Users\Site\Model\UserModel;
 
 /**
  * View class for Single User
@@ -54,7 +55,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$authorId = Factory::getApplication()->input->getInt('id');
 
-		/** @var UsersModelUser $model */
+		/** @var UserModel $model */
 		$model          = $this->getModel();
 		$this->state    = $model->getState();
 		$this->item     = $model->getItem($authorId);

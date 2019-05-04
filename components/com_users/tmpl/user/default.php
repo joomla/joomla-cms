@@ -15,6 +15,7 @@ use Joomla\CMS\Router\Route;
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
 
+$params = $this->params;
 print"<pre>";
 print_r($this->item);
 print"</pre>";

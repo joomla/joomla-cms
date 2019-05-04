@@ -13,7 +13,7 @@ defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
-use Joomla\Component\Menus\Administrator\Model\ItemModel;
+use Joomla\CMS\MVC\Model\ItemModel;
 
 // Todo: UserModel to show user + list of articles
 
@@ -53,7 +53,7 @@ class UserModel extends ItemModel
 		$item = $db->loadObject();
 
 		// Get all Articles written by this Author
-		// Todo: $item->articles = $this->getarticles($id);
+		$item->articles = $this->getarticles($id);
 
 		return $item;
 	}
@@ -69,18 +69,22 @@ class UserModel extends ItemModel
 	{
 		/** @var ContentModelArticles $model */
 		$model = BaseDatabaseModel::getInstance(
-			'Articles', 'ContentModel', array('ignore_request' => true)
+			'ArticlesModel',
+			'Joomla\\Component\\Content\\Site\\Model\\',
+			array('ignore_request' => true)
 		);
+
 		$model->setState('params', $this->params);
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 50);
 		$model->setState('filter.published', 1);
+		$model->setState('filter.author_id', (int) $id);
 		$model->setState('filter.created_by', (int) $id);
 		$model->setState('list.ordering', 'a.ordering');
 		$model->setState('list.direction', 'ASC');
 		$items = $model->getItems();
 
+
 		return $items;
 	}
-
 }

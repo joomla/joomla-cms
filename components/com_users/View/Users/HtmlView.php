@@ -47,7 +47,15 @@ class HtmlView extends BaseHtmlView
 	protected $state;
 
 	/**
-	 * @param   null $tpl Params
+	 * The page parameters
+	 *
+	 * @var    \Joomla\Registry\Registry|null
+	 * @since  4.0.0
+	 */
+	protected $params = null;
+
+	/**
+	 * @param   null  $tpl  Params
 	 *
 	 * @return  void
 	 * @throws  Exception
@@ -58,6 +66,7 @@ class HtmlView extends BaseHtmlView
 		$this->state      = $this->get('State');
 		$this->items      = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
+		$this->params     = $this->state->get('params');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

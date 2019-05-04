@@ -69,8 +69,11 @@ class UsersModel extends ListModel
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'id', 'a.id',
-				'name', 'a.name',
+				'id', 'users.id',
+				'name', 'users.name',
+				'articlesByUser',
+				'users.lastvisitDate',
+				'session.time',
 			);
 		}
 
@@ -140,14 +143,14 @@ class UsersModel extends ListModel
 				$this->getState('list.direction', 'ASC')
 			);
 
-			// Count Articles
-			$subQueryCountArticles = $db->getQuery(true);
-			$subQueryCountArticles
-				->select('COUNT(' . $db->quoteName('articles.id') . ')')
-				->from($db->quoteName('#__content', 'articles'))
-				->where($db->quoteName('articles.created_by') . '= ' . $db->quoteName('users.id'))
-				->where($db->quoteName('articles.state') . '= 1');
-			$query->select('(' . (string) $subQueryCountArticles . ') AS articlesByUser');
+		// Count Articles
+		$subQueryCountArticles = $db->getQuery(true);
+		$subQueryCountArticles
+			->select('COUNT(' . $db->quoteName('articles.id') . ')')
+			->from($db->quoteName('#__content', 'articles'))
+			->where($db->quoteName('articles.created_by') . '= ' . $db->quoteName('users.id'))
+			->where($db->quoteName('articles.state') . '= 1');
+		$query->select('(' . (string) $subQueryCountArticles . ') AS articlesByUser');
 
 		if (is_numeric($groupIds))
 		{
@@ -167,64 +170,35 @@ class UsersModel extends ListModel
 	/**
 	 * Method to auto-populate the model state.
 	 *
+	 * This method should only be called once per instantiation and is designed
+	 * to be called on the first call to the getState() method unless the model
+	 * configuration flag to ignore the request is set.
+	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
 	 * @param   string  $ordering   An optional ordering field.
 	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
-	 * @throws \Exception
-	 * @since   1.6
+	 * @throws  \Exception
+	 * @since   3.0.1
 	 */
-	protected function populateState($ordering = null, $direction = null)
+	protected function apopulateState($ordering = 'ordering', $direction = 'ASC')
 	{
-		$app    = Factory::getApplication();
-		$params = ComponentHelper::getParams('com_contact');
-
-		// Get list ordering default from the parameters
-		$menuParams = new Registry;
-
-		if ($menu = $app->getMenu()->getActive())
-		{
-			$menuParams->loadString($menu->params);
-		}
-
-		$mergedParams = clone $params;
-		$mergedParams->merge($menuParams);
+		$app = Factory::getApplication();
 
 		// List state information
-		$format = $app->input->getWord('format');
+		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
+		$this->setState('list.limit', $value);
 
-		$numberOfContactsToDisplay = $mergedParams->get('contacts_display_num');
+		$value = $app->input->get('limitstart', 0, 'uint');
+		$this->setState('list.start', $value);
 
-		if ($format === 'feed')
-		{
-			$limit = $app->get('feed_limit');
-		}
-		elseif (isset($numberOfContactsToDisplay))
-		{
-			$limit = $numberOfContactsToDisplay;
-		}
-		else
-		{
-			$limit = $app->getUserStateFromRequest('global.list.limit', 'limit', $app->get('list_limit'), 'uint');
-		}
-
-		$this->setState('list.limit', $limit);
-
-		$limitstart = $app->input->get('limitstart', 0, 'uint');
-		$this->setState('list.start', $limitstart);
-
-		// Optional filter text
-		$itemid = $app->input->get('Itemid', 0, 'int');
-		$search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
-		$this->setState('list.filter', $search);
-
-		$orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'name'));
+		$orderCol = $app->input->get('filter_order', 'users.name');
 
 		if (!in_array($orderCol, $this->filter_fields))
 		{
-			$orderCol = 'name';
+			$orderCol = 'users.id';
 		}
 
 		$this->setState('list.ordering', $orderCol);
@@ -237,9 +211,62 @@ class UsersModel extends ListModel
 		}
 
 		$this->setState('list.direction', $listOrder);
+	}
 
-		$id = $app->input->get('id', 0, 'int');
-		$this->setState('category.id', $id);
+
+	/**
+	 * Method to auto-populate the model state.
+	 *
+	 * Note. Calling getState in this method will result in recursion.
+	 *
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
+	 *
+	 * @return  void
+	 * @throws \Exception
+	 * @since   1.6
+	 */
+	protected function populateState($ordering = null, $direction = null)
+	{
+		$app    = Factory::getApplication();
+		$params = ComponentHelper::getParams('com_users');
+/*
+
+		// Get list ordering default from the parameters
+		$menuParams = new Registry;
+
+		if ($menu = $app->getMenu()->getActive())
+		{
+			$menuParams->loadString($menu->params);
+		}
+
+		$mergedParams = clone $params;
+		$mergedParams->merge($menuParams);
+*/
+		// List state information
+		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
+		$this->setState('list.limit', $value);
+
+		$value = $app->input->get('limitstart', 0, 'uint');
+		$this->setState('list.start', $value);
+
+		$orderCol = $app->input->get('filter_order', 'users.name');
+
+		if (!in_array($orderCol, $this->filter_fields))
+		{
+			$orderCol = 'users.id';
+		}
+
+		$this->setState('list.ordering', $orderCol);
+
+		$listOrder = $app->input->get('filter_order_Dir', 'ASC');
+
+		if (!in_array(strtoupper($listOrder), array('ASC', 'DESC', '')))
+		{
+			$listOrder = 'ASC';
+		}
+
+		$this->setState('list.direction', $listOrder);
 
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
