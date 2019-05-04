@@ -133,8 +133,19 @@ $display2-size:                    .875rem;
 $content-font-size:                0.875rem;
 $label-font-size:                  0.85rem;
 $fa-css-prefix:                    fa;
-$fa-font-path:                     "../../../../media/vendor/font-awesome/fonts";
+$fa-font-path:                     "../../../../media/vendor/fontawesome-free/webfonts";
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
+
+// Font weights
+$thin-weight:                      100;
+$extralight-weight:                200;
+$light-weight:                     300;
+$normal-weight:                    400;
+$medium-weight:                    500;
+$semibold-weight:                  600;
+$bold-weight:                      700;
+$extrabold-weight:                 800;
+$black-weight:                     900;
 
 // Text
 $body-color:                       var(--atum-text-dark); //only used in bootstrap, please use --atum-color-dark

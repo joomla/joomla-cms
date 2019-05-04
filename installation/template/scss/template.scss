@@ -1,12 +1,14 @@
 // Variables
 @import "../../../administrator/templates/atum/scss/variables";
-$fa-font-path: "../../../media/vendor/font-awesome/fonts";
+$fa-font-path: "../../../media/vendor/fontawesome-free/webfonts";
 
 // Bootstrap
 @import "../../../media/vendor/bootstrap/scss/bootstrap";
 
-// FontAwesome
-@import "../../../media/vendor/font-awesome/scss/font-awesome";
+// "Font Awesome 5 Free"
+@import "../../../media/vendor/fontawesome-free/scss/fontawesome";
+@import "../../../media/vendor/fontawesome-free/scss/solid";
+@import "../../../media/vendor/fontawesome-free/scss/brands";
 
 // Backend Template stuff
 @import "../../../administrator/templates/atum/scss/mixin";
@@ -248,13 +250,13 @@ caption {
 }
 
 .fa-eye:before, .icon-eye-open:before, .icon-eye:before {
-  font-family: FontAwesome;
+  font-family:"Font Awesome 5 Free";
   cursor: pointer;
   content: "\f06e";
 }
 
 .fa-eye-slash:before, .icon-eye-close:before, .icon-eye-blocked:before, .icon-eye-2:before {
-  font-family: FontAwesome;
+  font-family:"Font Awesome 5 Free";
   cursor: pointer;
   content: "\f070";
 }

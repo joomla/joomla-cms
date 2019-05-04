@@ -44,9 +44,6 @@
   .modal-header {
     padding: 0;
     border: 0;
-    > .close {
-      display: none;
-    }
   }
   .modal-body {
     padding: 0;
@@ -68,6 +65,9 @@
   margin: 5px 20px;
   font-size: 3rem;
   opacity: .7;
+  background: none;
+  border: none;
+  color: inherit;
   &:hover {
     cursor: pointer;
     opacity: 1;

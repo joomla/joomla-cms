@@ -43,6 +43,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<a class="nav-link link-title" href="<?php echo Uri::root(); ?>"
 				title="<?php echo Text::sprintf('MOD_STATUS_PREVIEW', $sitename); ?>"
 				target="_blank">
+				<span class="fa fa-external-link-alt" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo HTMLHelper::_('string.truncate', $sitename, 28, false, false); ?></span>
 				<?php echo $sitename ?>
 			</a>
@@ -50,7 +51,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 
 		<li class="nav-item">
 			<a class="nav-link <?php echo ($hideLinks ? 'disabled' : 'dropdown-toggle'); ?>" <?php echo ($hideLinks ? '' : 'href="' . Route::_('index.php?option=com_messages') . '"'); ?> title="<?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?>">
-				<span class="fa fa-envelope-o" aria-hidden="true"></span>
+				<span class="fa fa-envelope" aria-hidden="true"></span>
 				<span class="sr-only"><?php echo Text::_('MOD_STATUS_PRIVATE_MESSAGES'); ?></span>
 				<?php $countUnread = $app->getSession()->get('messages.unread'); ?>
 				<?php if ($countUnread > 0) : ?>
@@ -70,7 +71,8 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						<span class="badge badge-pill badge-danger"><?php echo count($messages); ?></span>
 					<?php endif; ?>
 				</button>
-				<div class="dropdown-menu dropdown-menu-right">
+				<?php if (!$hideLinks) : ?>
+				<div class="dropdown-menu dropdown-menu-right dropdown-notifications border-0">
 					<div class="dropdown-header">
 						<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>
 					</div>
@@ -91,6 +93,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						</div>
 					<?php endforeach; ?>
 				</div>
+				<?php endif; ?>
 			</li>
 		<?php endif; ?>
 
