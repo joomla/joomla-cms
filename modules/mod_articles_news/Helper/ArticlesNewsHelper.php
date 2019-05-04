@@ -52,7 +52,7 @@ abstract class ArticlesNewsHelper
 		// Set the filters based on the module params
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', (int) $params->get('count', 5));
-		$model->setState('filter.published', 1);
+		$model->setState('filter.condition', 1);
 
 		// This module does not use tags data
 		$model->setState('load_tags', false);
