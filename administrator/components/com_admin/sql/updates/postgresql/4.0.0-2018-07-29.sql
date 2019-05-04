@@ -7,8 +7,7 @@ ALTER TABLE "#__finder_filters" ALTER COLUMN "created_by_alias" SET DEFAULT '';
 TRUNCATE TABLE "#__finder_links";
 ALTER TABLE "#__finder_links" ALTER COLUMN "state" SET NOT NULL;
 ALTER TABLE "#__finder_links" ALTER COLUMN "access" SET NOT NULL;
-ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE CHAR(7);
-ALTER TABLE "#__finder_links" ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_links" ALTER COLUMN "language" TYPE VARCHAR(7), ALTER COLUMN "language" SET DEFAULT '';
 CREATE INDEX "#__finder_links_idx_language" on "#__finder_links" ("language");
 
 CREATE TABLE "#__finder_links_terms" (
@@ -17,8 +16,8 @@ CREATE TABLE "#__finder_links_terms" (
 	"weight" REAL NOT NULL DEFAULT 0,
 	PRIMARY KEY ("link_id", "term_id")
 );
-CREATE INDEX "idx_term_weight" ("term_id", "weight");
-CREATE INDEX "idx_link_term_weight" ("link_id", "term_id", "weight");
+CREATE INDEX "#__finder_links_terms_idx_term_weight" on "#__finder_links_terms" ("term_id", "weight");
+CREATE INDEX "#__finder_links_terms_idx_link_term_weight" on "#__finder_links_terms" ("link_id", "term_id", "weight");
 
 DROP TABLE "#__finder_links_terms0" CASCADE;
 DROP TABLE "#__finder_links_terms1" CASCADE;
@@ -268,12 +267,12 @@ INSERT INTO "#__finder_terms_common" ("term", "language", "custom") VALUES
 	('too', 'en', 0),
 	('very', 'en', 0);
 
-ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE CHAR(7), ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_tokens" ALTER COLUMN "language" TYPE VARCHAR(7), ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens" ALTER COLUMN "stem" SET DEFAULT '';
 CREATE INDEX "#__finder_tokens_idx_stem" on "#__finder_tokens" ("stem");
 CREATE INDEX "#__finder_tokens_idx_language" on "#__finder_tokens" ("language");
 
-ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE CHAR(7), ALTER COLUMN "language" SET DEFAULT '';
+ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "language" TYPE VARCHAR(7), ALTER COLUMN "language" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" DROP COLUMN "map_suffix";
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "stem" SET DEFAULT '';
 ALTER TABLE "#__finder_tokens_aggregate" ALTER COLUMN "term_weight" SET DEFAULT 0;
