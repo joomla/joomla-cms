@@ -1,10 +1,7 @@
 // Form
 
-@import "../variables";
-
-.form-control {
-  max-width: $input-max-width;
-  background-color: var(--white-offset);
+label {
+	margin-bottom: 0;
 }
 
 .control-group {
@@ -47,13 +44,10 @@
   }
 }
 
-.custom-select {
-  max-width: $input-max-width;
-}
-
 .spacer {
   hr {
     width: 380px;
+    border: 0;
   }
 
   label {
@@ -108,6 +102,59 @@ legend {
   box-shadow: 0 0 2px 1px theme-color("primary");
 }
 
+.custom-select {
+  padding: $input-select-padding;
+  background-color: var(--atum-bg-dark);
+  background-image: url(../images/select-bg.svg);
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: 1854px;
+  min-width: 10rem;
+  box-shadow: $atum-box-shadow;
+
+  optgroup, option {
+    background-color: $white;
+  }
+}
+
+.custom-select[multiple] {
+  padding: 0;
+  background-color: var(--white-offset);
+
+  option {
+    background-color: var(--white-offset);
+    padding: $input-select-multiple-padding;
+    &:checked {
+      color: var(--atum-text-light);
+      background-color: var(--atum-bg-dark) !important;
+    }
+  }
+}
+
+joomla-field-switcher {
+	height: 38px;
+
+	.switcher, input {
+		width: 72px;
+		height: 38px;
+	}
+
+	.switch {
+		width: 36px;
+		height: 36px;
+	}
+
+	.switcher.active .switch {
+		left: 34px;
+	}
+
+  .switcher:focus .switch {
+    -webkit-animation: none;
+    animation: none;
+  }
+}
+
+
 @include media-breakpoint-down(xs) {
   .control-group {
     .control-label{
@@ -123,4 +170,25 @@ legend {
     }
   }
 
+}
+
+.field-media-wrapper {
+  max-width: calc(50vw - 5rem);
+  width: 100%;
+  display: block;
+
+  .field-media-preview {
+    width: 100%;
+    max-width: none;
+  }
+  .button-select {
+    background-color: darken(theme-color("success"), 8%);
+  }
+  .button-clear {
+    background-color: darken(theme-color("danger"), 8%);
+  }
+
+  @include media-breakpoint-down(md) {
+    min-width: 100%;
+  }
 }

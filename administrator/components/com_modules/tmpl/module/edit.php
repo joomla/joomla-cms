@@ -61,108 +61,104 @@ $tmpl    = $isModal || $input->get('tmpl', '', 'cmd') === 'component' ? '&tmpl=c
 
 		<div class="row">
 			<div class="col-md-9">
-				<?php if ($this->item->xml) : ?>
-					<?php if ($this->item->xml->description) : ?>
-						<h2>
-							<?php
-							if ($this->item->xml)
-							{
-								echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->module;
-							}
-							else
-							{
-								echo Text::_('COM_MODULES_ERR_XML');
-							}
-							?>
-						</h2>
-						<div class="info-labels">
-							<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
-								<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
-							</span>
-						</div>
-						<div>
-							<?php
-							$this->fieldset    = 'description';
-							$short_description = Text::_($this->item->xml->description);
-							$this->fieldset    = 'description';
-							$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
-
-							if (!$long_description)
-							{
-								$truncated = JHtmlString::truncate($short_description, 550, true, false);
-
-								if (strlen($truncated) > 500)
-								{
-									$long_description  = $short_description;
-									$short_description = JHtmlString::truncate($truncated, 250);
-
-									if ($short_description == $long_description)
-									{
-										$long_description = '';
-									}
-								}
-							}
-							?>
-							<p><?php echo $short_description; ?></p>
-							<?php if ($long_description) : ?>
-							<?php // @todo Remove jQuery ?>
-								<p class="readmore">
-									<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
-										<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
-									</a>
-								</p>
-							<?php endif; ?>
-						</div>
-					<?php endif; ?>
-				<?php else : ?>
-					<div class="alert alert-danger">
-						<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
-					</div>
-				<?php endif; ?>
-				<?php
-				if ($hasContent)
-				{
-					echo $this->form->getInput($hasContentFieldName);
-				}
-				$this->fieldset = 'basic';
-				$html = LayoutHelper::render('joomla.edit.fieldset', $this);
-				echo $html ? '<hr>' . $html : '';
-				?>
-			</div>
-			<div class="col-md-3">
 				<div class="card card-light">
 					<div class="card-body">
-						<fieldset class="form-vertical form-no-margin">
-							<?php echo $this->form->renderField('showtitle'); ?>
-							<div class="control-group">
-								<div class="control-label">
-									<?php echo $this->form->getLabel('position'); ?>
+						<?php if ($this->item->xml) : ?>
+							<?php if ($this->item->xml->description) : ?>
+								<h2>
+									<?php
+									if ($this->item->xml)
+									{
+										echo ($text = (string) $this->item->xml->name) ? Text::_($text) : $this->item->module;
+									}
+									else
+									{
+										echo Text::_('COM_MODULES_ERR_XML');
+									}
+									?>
+								</h2>
+								<div class="info-labels">
+									<span class="badge badge-secondary hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', 'COM_MODULES_FIELD_CLIENT_ID_LABEL'); ?>">
+										<?php echo $this->item->client_id == 0 ? Text::_('JSITE') : Text::_('JADMINISTRATOR'); ?>
+									</span>
 								</div>
-								<div class="controls">
-									<?php echo $this->form->getInput('position'); ?>
-								</div>
-							</div>
-						</fieldset>
-						<?php
-						// Set main fields.
-						$this->fields = array(
-							'published',
-							'publish_up',
-							'publish_down',
-							'access',
-							'ordering',
-							'language',
-							'note'
-						);
+								<div>
+									<?php
+									$this->fieldset    = 'description';
+									$short_description = Text::_($this->item->xml->description);
+									$this->fieldset    = 'description';
+									$long_description  = LayoutHelper::render('joomla.edit.fieldset', $this);
 
-						?>
-						<?php if ($this->item->client_id == 0) : ?>
-							<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+									if (!$long_description)
+									{
+										$truncated = JHtmlString::truncate($short_description, 550, true, false);
+
+										if (strlen($truncated) > 500)
+										{
+											$long_description  = $short_description;
+											$short_description = JHtmlString::truncate($truncated, 250);
+
+											if ($short_description == $long_description)
+											{
+												$long_description = '';
+											}
+										}
+									}
+									?>
+									<p><?php echo $short_description; ?></p>
+									<?php if ($long_description) : ?>
+									<?php // @todo Remove jQuery ?>
+										<p class="readmore">
+											<a href="#" onclick="jQuery('.nav-tabs a[href=\'#description\']').tab('show');">
+												<?php echo Text::_('JGLOBAL_SHOW_FULL_DESCRIPTION'); ?>
+											</a>
+										</p>
+									<?php endif; ?>
+								</div>
+							<?php endif; ?>
 						<?php else : ?>
-							<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
+							<div class="alert alert-danger">
+								<?php echo Text::_('COM_MODULES_ERR_XML'); ?>
+							</div>
 						<?php endif; ?>
- 					</div>
+						<?php
+						if ($hasContent)
+						{
+							echo $this->form->getInput($hasContentFieldName);
+						}
+						$this->fieldset = 'basic';
+						$html = LayoutHelper::render('joomla.edit.fieldset', $this);
+						echo $html ? '<hr>' . $html : '';
+						?>
+					</div>
 				</div>
+			</div>
+			<div class="col-md-3">
+				<fieldset class="form-vertical form-no-margin">
+					<?php echo $this->form->renderField('showtitle'); ?>
+					<div class="form-group">
+						<?php echo $this->form->getLabel('position'); ?>
+						<?php echo $this->form->getInput('position'); ?>
+					</div>
+				</fieldset>
+				<?php
+				// Set main fields.
+				$this->fields = array(
+					'published',
+					'publish_up',
+					'publish_down',
+					'access',
+					'ordering',
+					'language',
+					'note'
+				);
+
+				?>
+				<?php if ($this->item->client_id == 0) : ?>
+					<?php echo LayoutHelper::render('joomla.edit.global', $this); ?>
+				<?php else : ?>
+					<?php echo LayoutHelper::render('joomla.edit.admin_modules', $this); ?>
+				<?php endif; ?>
 			</div>
 		</div>
 		<?php echo HTMLHelper::_('uitab.endTab'); ?>
