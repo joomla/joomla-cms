@@ -12,7 +12,6 @@ namespace Joomla\Module\Whosonline\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\Database\ParameterType;
 
 /**
  * Helper for mod_whosonline
@@ -112,7 +111,7 @@ class WhosonlineHelper
 
 			$query->join('LEFT', '#__user_usergroup_map AS m ON m.user_id = a.userid')
 				->join('LEFT', '#__usergroups AS ug ON ug.id = m.group_id')
-				->whereIn($db->quoteName('ug.id'), $groups, ParameterType::INTEGER)
+				->whereIn($db->quoteName('ug.id'), $groups)
 				->where($db->quoteName('ug.id') . ' <> 1');
 		}
 
