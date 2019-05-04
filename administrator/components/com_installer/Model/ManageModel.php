@@ -412,6 +412,7 @@ class ManageModel extends InstallerModel
 					array(
 						'extensions.element',
 						'extensions.type',
+						'extensions.folder',
 						'extensions.changelogurl',
 						'extensions.manifest_cache',
 						'extensions.client_id'
