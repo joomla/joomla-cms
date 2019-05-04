@@ -61,14 +61,14 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 						</caption>
 						<thead>
 						<tr>
+							<td style="width:1%" class="text-center">
+								<?php echo HTMLHelper::_('grid.checkall'); ?>
+							</td>
 							<?php if ($menuType) : ?>
 								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.lft', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
 								</th>
 							<?php endif; ?>
-							<td style="width:1%" class="text-center">
-								<?php echo HTMLHelper::_('grid.checkall'); ?>
-							</td>
 							<th scope="col" style="width:1%" class="text-center">
 								<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 							</th>
@@ -143,6 +143,9 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 							<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->parent_id; ?>"
 								item-id="<?php echo $item->id; ?>" parents="<?php echo $parentsStr; ?>"
 								level="<?php echo $item->level; ?>">
+									<td class="text-center">
+										<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+									</td>
 								<?php if ($menuType) : ?>
 									<td class="order text-center d-none d-md-table-cell">
 										<?php
@@ -158,7 +161,7 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										}
 										?>
 										<span class="sortable-handler<?php echo $iconClass ?>">
-											<span class="icon-menu" aria-hidden="true"></span>
+											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<?php if ($canChange && $saveOrder) : ?>
 											<input type="text" style="display:none" name="order[]" size="5"
@@ -166,9 +169,6 @@ $assoc   = Associations::isEnabled() && $this->state->get('filter.client_id') ==
 										<?php endif; ?>
 									</td>
 								<?php endif; ?>
-								<td class="text-center">
-									<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
-								</td>
 								<td class="text-center">
 									<?php
 									// Show protected items as published always. We don't allow state change for them. Show/Hide is the module's job.
