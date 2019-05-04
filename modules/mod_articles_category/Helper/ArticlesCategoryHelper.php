@@ -258,7 +258,7 @@ abstract class ArticlesCategoryHelper
 		// Prepare data for display using display options
 		foreach ($items as &$item)
 		{
-			$item->slug    = $item->id . ':' . $item->alias;
+			$item->slug = $item->id . ':' . $item->alias;
 
 			if ($access || in_array($item->access, $authorised))
 			{
@@ -329,7 +329,7 @@ abstract class ArticlesCategoryHelper
 	 */
 	public static function _cleanIntrotext($introtext)
 	{
-		$introtext = str_replace(array('<p>','</p>'), ' ', $introtext);
+		$introtext = str_replace(array('<p>', '</p>'), ' ', $introtext);
 		$introtext = strip_tags($introtext, '<a><em><strong>');
 		$introtext = trim($introtext);
 
