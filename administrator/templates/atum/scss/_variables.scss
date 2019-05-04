@@ -62,7 +62,7 @@ $theme-colors: map-merge((
 $colors: (
   card-bg:                         #fff,
   dashboard-bg:                    #e8e8e8,
-  toolbar-bg:                      lighten(#e8e8e8, 5%),
+  toolbar-bg:                      lighten(#e8e8e8, 5%), // % VON DASHBOARD BG BZW ATUM lIGHT BG
   success-border:                  theme-color("success"),
   info-border:                     theme-color("info"),
   warning-border:                  theme-color("warning"),
@@ -79,7 +79,7 @@ $colors: (
   toggle-color:                    $white,
   form-link-feedback:              #cbd8e1,
   atum-bg-dark:                    $color-60,
-  atum-bg-light:                   $color-5,
+  atum-bg-light:                   $color-5, //bg dashboard varable entfernen und #e8e8e8 hier einsetzen
   atum-text-dark:                  $gray-600,
   atum-text-light:                 $white,
   atum-special-color:              $dark-blue,
@@ -206,6 +206,11 @@ $list-group-bg:                    var(--white-offset);
 // Custom form
 $custom-select-bg:                 var(--white-offset);
 
+//input
+$input-padding:						.6rem 1rem;
+$input-select-padding:				.6rem 3rem .6rem 1rem;
+$input-select-multiple-padding:		.3rem 1rem;
+
 // Modals
 $modal-header-height:              2.875rem;
 
@@ -218,7 +223,8 @@ $quickicon-box-shadow-danger:      0 0 3px 0 var(--danger);
 $quickicon-box-shadow-warning:     0 0 3px 0 var(--warning);
 
 // Gutter
-$grid-gutter-width:                15px;
+$grid-gutter-width:                2rem;
+$grid-gutter-width-s:              15px;
 
 // Breadcrumbs
 $breadcrumb-bg:                    var(--white);
