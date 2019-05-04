@@ -22,7 +22,7 @@
   &:hover,
   &:focus {
     .btn-primary + .dropdown-menu & {
-      background-color: theme-color("primary");
+      background-color: var(--atum-bg-dark);
     }
 
     .btn-secondary + .dropdown-menu & {

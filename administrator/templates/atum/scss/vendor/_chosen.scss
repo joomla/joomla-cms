@@ -77,8 +77,8 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
     li.search-choice {
       $chosen-multi-close-width: 20px;
       padding: 5px (13 + $chosen-multi-close-width) 5px 10px;
-      color: var(--white);
-      background: var(--primary);
+      color: var(--atum-text-light);
+      background: colors("atum-bg-dark");
       border: 0;
       box-shadow: $atum-box-shadow;
 
@@ -101,7 +101,7 @@ $chosen-select-padding-y: $custom-select-padding-y + .21;
           top: 6px;
           right: ($chosen-multi-close-width / 4);
           content: "\00d7";
-          color: var(--white);
+          color: colors("atum-text-light");
           font-size: $font-size-base;
         }
       }

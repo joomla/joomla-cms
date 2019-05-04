@@ -50,7 +50,7 @@
   .btn {
     background: $white;
     border-color: $gray-500;
-    color: $gray-800;
+    color: var(--atum-text-dark);
     padding: 0 22px;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
@@ -135,7 +135,7 @@
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        background-color: darken(theme-color("primary"), 5%);
+        background-color: darken(theme-color("atum-bg-dark"), 5%);
         color:rgba(255,255,255,0.90);
       }
 
@@ -145,12 +145,12 @@
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: darken(theme-color("primary"), 10%);
+          background-color: darken(theme-color("atum-bg-dark"), 10%);
           color:rgba(255,255,255,0.90);
         }
 
         color:rgba(255,255,255,0.90);
-        background-color: theme-color("primary");
+        background-color: var(--atum-bg-dark);
       }
     }
 
@@ -163,7 +163,7 @@
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        background-color: darken(theme-color("primary"), 5%);
+        background-color: darken(theme-color("atum-bg-dark"), 5%);
         color:rgba(255,255,255,0.90);
       }
 
@@ -173,12 +173,12 @@
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: darken(theme-color("primary"), 10%);
+          background-color: darken(theme-color("atum-bg-dark"), 10%);
           color:rgba(255,255,255,0.90);
         }
 
         color:rgba(255,255,255,0.90);
-        background-color: theme-color("primary");
+        background-color: var(--atum-bg-dark);
       }
     }
 
@@ -191,7 +191,7 @@
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        background-color: darken(theme-color("primary"), 5%);
+        background-color: darken(theme-color("atum-bg-dark"), 5%);
         color:rgba(255,255,255,0.90);
       }
 
@@ -201,12 +201,12 @@
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          background-color: darken(theme-color("primary"), 10%);
+          background-color: darken(theme-color("atum-bg-dark"), 10%);
           color:rgba(255,255,255,0.90);
         }
 
         color:rgba(255,255,255,0.90);
-        background-color: theme-color("primary");
+        background-color: var(--atum-bg-dark);
       }
     }
 
@@ -220,7 +220,7 @@
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'],
       span {
-        color: $gray-700;
+        color: var(--atum-text-dark);
         background-color: rgba($gray-500, 0.8);
       }
 
@@ -230,12 +230,12 @@
         [class^='#{$fa-css-prefix}-'],
         [class*=' #{$fa-css-prefix}-'],
         span {
-          color: $gray-700;
+          color: var(--atum-text-dark);
           background-color: rgba($gray-500, 0.8);
         }
         background-color: rgba($gray-300, 0.8);
         cursor: not-allowed;
-        color: $gray-700;
+        color: var(--atum-text-dark);
       }
 
     }
@@ -252,17 +252,17 @@
   .dropdown-toggle {
 
     &.btn {
-      color: theme-color("atum-text-dark");
+      color: var(--atum-text-dark);
 
       span {
-        background-color: theme-color("primary");
+        background-color: var(--atum-bg-dark);
         color:rgba(255,255,255,0.90);
       }
     }
 
     &.btn-primary {
       span {
-        background-color: theme-color("primary");
+        background-color: var(--atum-bg-dark);
         color:rgba(255,255,255,0.90);
       }
     }
@@ -300,12 +300,12 @@
       [class*=' icon-'],
       [class^='#{$fa-css-prefix}-'],
       [class*=' #{$fa-css-prefix}-'] {
-        background-color: theme-color("primary");
+        background-color: var(--atum-bg-dark);
         color:rgba(255,255,255,0.90);
       }
 
       &:hover:not([disabled]) {
-        background-color: darken(theme-color("primary"), 8%);
+        background-color: darken(theme-color("atum-bg-dark"), 8%);
       }
 
       &::after {
@@ -326,7 +326,7 @@
 
   .input-group-append {
     .btn-primary {
-      background-color: darken(theme-color("primary"), 5%);
+      background-color: darken(theme-color("atum-bg-dark"), 5%);
       color:rgba(255,255,255,0.90);
     }
   }

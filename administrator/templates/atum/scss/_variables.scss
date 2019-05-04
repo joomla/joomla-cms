@@ -2,30 +2,33 @@
 @import "../../../../media/vendor/bootstrap/scss/functions";
 
 $white:                            #fff;
+$whiteoffset:					   #fefefe;
 $gray-100:                         #f8f9fa;
-$gray-200:                         #e8e8e8;
-$gray-300:                         #dee2e6;
-$gray-400:                         #cdcdcd;
-$gray-500:                         #adb5bd;
-$gray-600:                         #6f7780;
-$gray-700:                         #495057;
-$gray-800:                         #343a40;
-$gray-900:                         #212529;
-$black:                            #000;
-$light-blue:                       #E0E8EF;
-$dark-blue:                        #001B4C;
-$blue-a700:                        #4D78A3;
+
+$gray-200:                         #e8e8e8; //used in bootstrap .badge-inverse
+$gray-300:                         #dee2e6; //used for toolbar and badges
+$gray-400:                         #cdcdcd; //used for border-bottom sidebar-nav and toolbar normal border
+$gray-500:                         #adb5bd; //used in toolbar and buttons for border
+//$gray-600:                         #6f7780; //used for atum-text-dark and $secondary
+$gray-700:                         #495057; //used for atum-text-dark, secondary
+$gray-800:                         #343a40; //used for badges-inverse
+$gray-900:                         #212529; //used for tree header, badge-inverse border
+$black:                            #000;	//used for shadows
+$focuscolor:						#39f;   //used for focus color
+
+$dark-blue:                        #001B4C; //is the atum-special-color
+
 
 // BS Colours
-$blue:                             hsl(207.4, 60.9%, 26.1%);
-$indigo:                           #0377be;
-$purple:                           #6f42c1;
-$pink:                             #e83e8c;
-$red:                              #c52827;
-$yellow:                           #d43900;
-$green:                            #2f7d32;
-$teal:                             #20c997;
-$cyan:                             #108193;
+$blue:                             hsl(207.4, 60.9%, 26.1%); //basecolor for calculation, Primary-color
+$indigo:                           #0377be; //used in bootstrap
+$purple:                           #6f42c1; //used in bootstrap
+$pink:                             #e83e8c; //used in bootstrap
+$red:                              #c52827; //used in bootstrap
+$yellow:                           #d43900; //used in bootstrap
+$green:                            #2f7d32; //used in bootstrap
+$teal:                             #20c997; //used in bootstrap
+$cyan:                             #108193; //used in bootstrap
 
 //color-60 is the base
 
@@ -47,40 +50,34 @@ $color-contrast:                   adjust-color($color-60, $hue: -30%, $lightnes
 
 $theme-colors: ();
 $theme-colors: map-merge((
-  primary:                         $blue,
-  secondary:                       $gray-600,
+  primary:                         $blue, //used only in bootstrap, please use $atum-bg-dark
+  secondary:                       $gray-700, //is it used?
   success:                         $green,
   info:                            $cyan,
   warning:                         $yellow,
   danger:                          $red,
-  light:                           $gray-100,
-  dark:                            $gray-900,
+  light:                           $gray-100, //used in bootstrap
+  dark:                            $gray-900,  //used in bootstrap and for table-border
   atum-link-color:                 #2077dd,
+  atum-text-dark:                  $gray-700,
+  atum-bg-dark:                    $color-60, //standard background color
   action:                          $color-60
 ), $theme-colors);
 
 $colors: (
-  card-bg:                         #fff,
-  dashboard-bg:                    $gray-200,
+
+  card-bg:                         $white,
   toolbar-bg:                      lighten($gray-200, 5%), // % VON DASHBOARD BG BZW ATUM lIGHT BG
   success-border:                  theme-color("success"),
   info-border:                     theme-color("info"),
   warning-border:                  theme-color("warning"),
   danger-border:                   theme-color("danger"),
-  sidebar-link-color:              #e3eaf1,
-  sidebar-link-color-hover:        var(--white),
-  sidebar-child-link-color:        #cbd6e2,
-  login-main-bg:                   darken(theme-color("primary"), 8%),
-  login-light-bg:                  #3b97f9,
+  login-main-bg:                   darken($color-60, 8%), //used on login
   border:                          $gray-400,
-  white-offset:                    #fefefe,
-  focus:                           #39f,
-  table-border:                    $gray-300,
-  toggle-color:                    $white,
-  form-link-feedback:              #cbd8e1,
-  atum-bg-dark:                    $color-60,
-  atum-bg-light:                   $color-5, //bg dashboard varable entfernen und #e8e8e8 hier einsetzen
-  atum-text-dark:                  $gray-600,
+  white-offset:                    $whiteoffset,
+  focus:                           $focuscolor,
+  toggle-color:                    $white, //used in sidebar
+  atum-bg-light:                   $gray-200, //light background color, f.e. dashboard background
   atum-text-light:                 $white,
   atum-special-color:              $dark-blue,
   atum-link-color:                 #2077dd,
@@ -116,8 +113,6 @@ $header-height:                    3.5rem;
 $atum-toolbar-line-height:         2.375rem;
 
 // Sidebar
-$atum-level-1-bg:                  rgba($black, .65);
-$atum-level-2-bg:                  rgba($black, .05);
 $sidebar-width:                    15.625rem;
 $sidebar-width-login:              28.75rem;
 $sidebar-width-closed:             3rem;
@@ -142,13 +137,13 @@ $fa-font-path:                     "../../../../media/vendor/font-awesome/fonts"
 $roboto-font-path:                 "../../../../media/vendor/roboto-fontface/fonts";
 
 // Text
-$body-color:                       var(--font-color-dark);
+$body-color:                       var(--atum-text-dark); //only used in bootstrap, please use --atum-color-dark
 
 
 // Tables
 $table-bg:                         transparent;
 $table-bg-accent:                  rgba(0, 0, 0, .03);
-$table-border-color:               var(--table-border);
+$table-border-color:               var(--dark);
 $table-cell-padding:               8px 12px;
 
 // Dropdowns
@@ -162,7 +157,7 @@ $dropdown-spacer:                  0;
 
 // Tabs
 $nav-tabs-border-width:            0;
-$nav-tabs-link-active-bg:          rgba($black, .2);
+$nav-tabs-link-active-bg:          rgba($black, .2); //is it used?
 
 // Tables
 $table-border-width:               1px;
@@ -193,8 +188,8 @@ $state-danger-border:              var(--danger-border);
 
 // Input Group
 $input-group-addon-color:          var(--white);
-$input-group-addon-bg:             var(--primary);
-$input-group-addon-border-color:   var(--primary);
+$input-group-addon-bg:             var(--atum-bg-dark);
+$input-group-addon-border-color:   var(--atum-bg-dark);
 
 // Treeselect
 $treeselect-line-height:           2.2rem;
@@ -232,7 +227,7 @@ $breadcrumb-bg:                    var(--white);
 $link-color:                       var(--atum-link-color);
 $link-hover-color:                 var(--atum-link-hover-color);
 
-// Time for fade effect login-light-bg
+// Time for fade effect
 $fadetime:                         1s;
 
 // Z-Index list
