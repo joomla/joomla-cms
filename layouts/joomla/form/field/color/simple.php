@@ -43,7 +43,6 @@ extract($displayData, null);
  * @var   string   $validate        Validation rules to apply.
  * @var   string   $value           Value attribute of the field.
  * @var   array    $checkedOptions  Options that will be set as checked.
- * @var   array    $options         Options available for this field.
  * @var   array    $checked         Is this field checked?
  * @var   array    $position        Is this field checked?
  * @var   array    $control         Is this field checked?
