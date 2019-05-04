@@ -70,15 +70,15 @@ class HtmlView extends BaseHtmlView
 			$prefix = 'COM_CPANEL_DASHBOARD_';
 			$lang = Factory::getLanguage();
 
-			if (strpos($parts[0], 'com_') === false) 
+			if (strpos($parts[0], 'com_') === false)
 			{
 				$prefix .= strtoupper($parts[0]);
 			}
-			else 
+			else
 			{
 				$prefix = strtoupper($parts[0]) . '_DASHBOARD';
 
-				// Need to load the language file 
+				// Need to load the language file
 				$lang->load($parts[0], JPATH_BASE, null, false, true)
 				|| $lang->load($parts[0], JPATH_ADMINISTRATOR . '/components/' . $parts[0], null, false, true);
 				$lang->load($parts[0]);
@@ -95,7 +95,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Set toolbar items for the page
-		ToolbarHelper::title(Text::_($title, 'home-2 cpanel'));
+		ToolbarHelper::title(Text::_($title, 'fa fa-home cpanel'));
 		ToolbarHelper::help('screen.cpanel');
 
 		// Display the cpanel modules
