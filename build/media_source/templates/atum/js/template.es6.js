@@ -94,9 +94,11 @@
   doc.addEventListener('DOMContentLoaded', () => {
     const loginForm = doc.getElementById('form-login');
     const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
+    const wrapper = doc.querySelector('.wrapper');
     const sidebar = doc.querySelector('.sidebar-wrapper');
     const mobile = window.matchMedia('(max-width: 992px)');
-    const mobileSmall = window.matchMedia('(max-width: 767.98px)');
+    const mobileTablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
+    const mobileSmall = window.matchMedia('(max-width: 575.98px)');
 
     // Fade out login form when login was successful
     if (loginForm) {
@@ -130,12 +132,24 @@
 
     if (mobileSmall.matches) {
       toggleArrowIcon();
+      wrapper.classList.remove('closed');
+    }
+    if (mobileTablet.matches){
+      wrapper.classList.add('closed');
     }
 
     window.addEventListener('resize', () => {
       /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
       (mobile.matches) ? changeLogo('closed') : changeLogo();
       (mobileSmall.matches) ? toggleArrowIcon() : toggleArrowIcon('top');
+
+      if(mobileSmall.matches){
+        wrapper.classList.remove('closed');
+      }
+      if (mobileTablet.matches){
+        wrapper.classList.add('closed');
+      }
+    //  console.log(mobileTablet.matches);
     });
   });
 })(window.Joomla, document);
