@@ -62,7 +62,7 @@ $theme-colors: map-merge((
 $colors: (
   card-bg:                         #fff,
   dashboard-bg:                    #e8e8e8,
-  toolbar-bg:                      lighten(#e8e8e8, 5%),
+  toolbar-bg:                      lighten(#e8e8e8, 5%), // % VON DASHBOARD BG BZW ATUM lIGHT BG
   success-border:                  theme-color("success"),
   info-border:                     theme-color("info"),
   warning-border:                  theme-color("warning"),
@@ -79,7 +79,7 @@ $colors: (
   toggle-color:                    $white,
   form-link-feedback:              #cbd8e1,
   atum-bg-dark:                    $color-60,
-  atum-bg-light:                   $color-5,
+  atum-bg-light:                   $color-5, //bg dashboard varable entfernen und #e8e8e8 hier einsetzen
   atum-text-dark:                  $gray-600,
   atum-text-light:                 $white,
   atum-special-color:              $dark-blue,
