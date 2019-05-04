@@ -42,7 +42,7 @@ $user = $app->getIdentity();
 				</h2>
 				<ul class="list-group list-group-flush">
 					<?php foreach ($child->getChildren() as $item) : ?>
-						<li class="list-group-item">
+						<li class="list-group-item d-flex">
 							<?php $params = $item->getParams(); ?>
 							<?php // Only if Menu-show = true
 								if ($params->get('menu_show', 1)) : ?>
@@ -53,34 +53,34 @@ $user = $app->getIdentity();
 									$alt = $params->get('menu_text') ? '' : htmlspecialchars($item->title, ENT_QUOTES, 'UTF-8');
 								endif;
 								?>
-								<a href="<?php echo $item->link; ?>">
+								<a class="flex-grow-1" href="<?php echo $item->link; ?>">
 									<?php if (!empty($params->get('menu_image'))) : ?>
 										<?php echo HTMLHelper::_('image', $image, $alt, 'class="' . $class . '"'); ?>
 									<?php endif; ?>
 									<?php echo ($params->get('menu_text', 1)) ? Text::_($item->title) : ''; ?>
-								</a>
-								<span class="menu-quicktask">
 									<?php if ($params->get('menu-quicktask', false)) : ?>
-										<?php
-										$link = $params->get('menu-quicktask-link');
-										$icon = $params->get('menu-quicktask-icon', 'plus');
-										$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
-										$permission = $params->get('menu-quicktask-permission');
-										$scope = $item->scope !== 'default' ? $item->scope : null;
-										?>
-										<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
-											<a href="<?php echo $link; ?>">
-												<span class="fa fa-<?php echo $icon; ?>" title="<?php echo htmlentities(Text::_($title)); ?>" aria-hidden="true"></span>
-												<span class="sr-only"><?php echo Text::_($title); ?></span>
-											</a>
-										<?php endif; ?>
+										<span class="menu-quicktask">
+											<?php
+											$link = $params->get('menu-quicktask-link');
+											$icon = $params->get('menu-quicktask-icon', 'plus');
+											$title = $params->get('menu-quicktask-title', 'MOD_MENU_QUICKTASK_NEW');
+											$permission = $params->get('menu-quicktask-permission');
+											$scope = $item->scope !== 'default' ? $item->scope : null;
+											?>
+											<?php if (!$permission || $user->authorise($permission, $scope)) : ?>
+												<a href="<?php echo $link; ?>">
+													<span class="fa fa-<?php echo $icon; ?>" title="<?php echo htmlentities(Text::_($title)); ?>" aria-hidden="true"></span>
+													<span class="sr-only"><?php echo Text::_($title); ?></span>
+												</a>
+											<?php endif; ?>
+										</span>
 									<?php endif; ?>
-								</span>
-								<span class="menu-badge">
 									<?php if ($item->ajaxbadge) : ?>
-										<span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+										<span class="menu-badge">
+											<span class="fa fa-spin fa-spinner mt-1 system-counter" data-url="<?php echo $item->ajaxbadge; ?>"></span>
+										</span>
 									<?php endif; ?>
-								</span>
+								</a>
 								<?php if ($item->dashboard) : ?>
 									<span class="menu-dashboard">
 										<a href="<?php echo JRoute::_('index.php?option=com_cpanel&view=cpanel&dashboard=' . $item->dashboard); ?>">
