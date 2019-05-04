@@ -232,6 +232,36 @@ $this->addStyleDeclaration($css);
 				<span class="icon-wrench"></span></a>
 			<div id="subhead" class="subhead">
 				<div id="container-collapse" class="container-collapse"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        // Load the mod_menu language file for the breadcrumbs
+                        $lang->load('mod_menu');
+
+                        // Get the breadcrumb items
+                        /** @var \Joomla\CMS\Pathway\AdministratorPathway $pathway */
+                        $items = $app->getPathway()->getPathWay();
+	                    ?>
+                        <nav role="navigation"">
+                            <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb">
+                                <li class="mod-breadcrumbs__divider float-left">
+                                    <span class="divider fa fa-location" aria-hidden="true"></span>
+                                </li>
+
+			                    <?php foreach ($items as $key => $item) : ?>
+                                    <?php if ($item->link === '') : ?>
+                                        <?php $breadcrumbItem = '<span itemprop="name">' . $item->name . '</span>'; ?>
+                                    <?php else : ?>
+                                        <?php $breadcrumbItem = HTMLHelper::_('link', $item->link, '<span itemprop="name">' . $item->name . '</span>', array('itemprop' => 'item', 'class' => 'pathway')); ?>
+                                    <?php endif; ?>
+                                    <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" class="mod-breadcrumbs__item breadcrumb-item"><?php echo $breadcrumbItem; ?>
+                                        <meta itemprop="position" content="<?php echo $key + 1; ?>">
+                                    </li>
+                                <?php endforeach; ?>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
 				<div class="row">
 					<div class="col-md-12">
 						<jdoc:include type="modules" name="toolbar" style="no"/>
