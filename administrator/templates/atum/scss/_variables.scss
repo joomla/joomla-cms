@@ -3,7 +3,7 @@
 
 $white:                            #fff;
 $gray-100:                         #f8f9fa;
-$gray-200:                         #e9ecef;
+$gray-200:                         #e8e8e8;
 $gray-300:                         #dee2e6;
 $gray-400:                         #cdcdcd;
 $gray-500:                         #adb5bd;
@@ -61,8 +61,8 @@ $theme-colors: map-merge((
 
 $colors: (
   card-bg:                         #fff,
-  dashboard-bg:                    #e8e8e8,
-  toolbar-bg:                      lighten(#e8e8e8, 5%), // % VON DASHBOARD BG BZW ATUM lIGHT BG
+  dashboard-bg:                    $gray-200,
+  toolbar-bg:                      lighten($gray-200, 5%), // % VON DASHBOARD BG BZW ATUM lIGHT BG
   success-border:                  theme-color("success"),
   info-border:                     theme-color("info"),
   warning-border:                  theme-color("warning"),
