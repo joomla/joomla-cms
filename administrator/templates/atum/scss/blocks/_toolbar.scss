@@ -61,8 +61,8 @@
     [class*=' #{$fa-css-prefix}-'] {
       z-index: $zindex-negative;
       display: inline-block;
-      width: 38px;
-      height: auto;
+      width: 2.375rem;
+      height: 2.375rem;
       margin: 0 16px 0 -22px;
       line-height: $atum-toolbar-line-height;
       color: var(--white);
@@ -279,7 +279,7 @@
         content: '\f078';
         font-family: FontAwesome;
         vertical-align: 0;
-        width: 38px;
+        width: 2.375rem;
       }
     }
 
@@ -310,11 +310,11 @@
         border: none;
         content: '\f078';
         font-family: FontAwesome;
-        height: auto;
+        height: 2.375rem;
         margin: 0 -22px 0 16px;
         vertical-align: 0;
-        width: 38px;
-        line-height: 2.35;
+        width: 2.375rem;
+        line-height: 2.375rem;
       }
     }
   }
