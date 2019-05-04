@@ -27,7 +27,6 @@ pipeline:
       - composer install --no-progress --no-suggest
       # needed for system testing
       - composer update joomla/test-system --no-progress --no-suggest
-      - composer update joomla/test-api --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
       - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - npm install --unsafe-perm
@@ -85,7 +84,7 @@ pipeline:
   api-tests:
     image: joomlaprojects/docker-systemtests:latest
     commands:
-      - bash libraries/vendor/joomla/test-api/drone-run.sh "$(pwd)"
+      - bash tests/Api/drone-run.sh "$(pwd)"
 
   analysis3x:
       image: rips/rips-cli:1.2.1
