@@ -148,11 +148,6 @@
       a {
         padding-left: 0;
       }
-
-      .fa {
-        float: left;
-        margin-right: 0.75rem;
-      }
     }
 
     .dropdown-header {
@@ -180,29 +175,11 @@
         text-decoration: none;
         background: var(--atum-bg-dark);
       }
-
-      .fa {
-        float: right;
-      }
     }
 
     .fa {
       padding: 1rem;
       width: 3rem;
-    }
-
-    .close-message {
-      float: right;
-      padding: 0;
-      width: 3rem;
-    }
-
-    &.message-wrapper > a:first-child {
-      width: calc(100% - 3.5rem);
-    }
-
-    &.dropdown-message > a {
-      padding-left: 0;
     }
   }
 
