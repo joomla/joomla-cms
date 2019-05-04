@@ -442,7 +442,18 @@ class PharStreamWrapper
 
         $manager = Manager::instance();
         $this->invocation = $manager->resolve($path);
-        $manager->getCollection()->collect($this->invocation);
+        if ($this->invocation === null) {
+            throw new Exception(
+                'Expected invocation could not be resolved',
+                1556389591
+            );
+        }
+        // confirm, previous interceptor(s) validated invocation
+        $this->invocation->confirm();
+        $collection = $manager->getCollection();
+        if (!$collection->has($this->invocation)) {
+            $collection->collect($this->invocation);
+        }
     }
 
     /**

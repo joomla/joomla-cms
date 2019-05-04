@@ -1,8 +1,9 @@
-pipeline:
-  clone:
+clone:
+  git:
     image: plugins/git
     depth: 1
 
+pipeline:
   phpcs:
     image: joomlaprojects/docker-phpcs
     commands:
