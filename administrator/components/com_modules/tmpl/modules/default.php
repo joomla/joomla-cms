@@ -42,12 +42,12 @@ if ($saveOrder && !empty($this->items))
 				</caption>
 				<thead>
 					<tr>
-						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-						</th>
 						<td style="width:1%" class="text-center">
 							<?php echo HTMLHelper::_('grid.checkall'); ?>
 						</td>
+						<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+							<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+						</th>
 						<th scope="col" style="width:1%; min-width:85px" class="text-center">
 							<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 						</th>
@@ -91,6 +91,11 @@ if ($saveOrder && !empty($this->items))
 					$canChange  = $user->authorise('core.edit.state', 'com_modules.module.' . $item->id) && $canCheckin;
 				?>
 					<tr class="row<?php echo $i % 2; ?>" data-dragable-group="<?php echo $item->position ?: 'none'; ?>">
+						<td class="text-center">
+							<?php if ($item->enabled > 0) : ?>
+								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
+							<?php endif; ?>
+						</td>
 						<td class="order text-center d-none d-md-table-cell">
 							<?php
 							$iconClass = '';
@@ -104,15 +109,10 @@ if ($saveOrder && !empty($this->items))
 							}
 							?>
 							<span class="sortable-handler<?php echo $iconClass; ?>">
-								<span class="icon-menu"></span>
+								<span class="fa fa-ellipsis-v"></span>
 							</span>
 							<?php if ($canChange && $saveOrder) : ?>
 								<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
-							<?php endif; ?>
-						</td>
-						<td class="text-center">
-							<?php if ($item->enabled > 0) : ?>
-								<?php echo HTMLHelper::_('grid.id', $i, $item->id); ?>
 							<?php endif; ?>
 						</td>
 						<td class="text-center">
