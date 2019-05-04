@@ -25,7 +25,7 @@
   "dependencies": {
     "@claviska/jquery-minicolors": "2.2.6",
     "@webcomponents/webcomponentsjs": "2.1.2",
-    "awesomplete": "github:LeaVerou/awesomplete",
+    "awesomplete": "1.1.4",
     "bootstrap": "~4.3",
     "choices.js": "^7.0.0",
     "chosen-js": "1.6.2",
