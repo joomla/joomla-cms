@@ -6,7 +6,7 @@
   background-color: $white;
   margin-bottom: 1rem;
   padding: 0.5rem 1.5rem;
-  box-shadow: $quickicon-box-shadow;
+  box-shadow: $atum-box-shadow;
 
   ul {
     list-style: none;
@@ -20,9 +20,13 @@
     margin: 0.5rem;
     padding: 0;
 
-    @include hover-focus-active {
-      text-decoration: none;
-      box-shadow: $quickicon-box-shadow-hover;
+    a {
+      @include hover-focus-active {
+        text-decoration: none;
+        box-shadow: $atum-box-shadow;
+        color:rgba(255,255,255,0.9);
+        background: var(--atum-link-color);
+      }
     }
   }
 
@@ -55,15 +59,17 @@
     margin-top: 0.4rem;
     border: 1px solid #ccc;
     text-decoration: none;
-    box-shadow: $quickicon-box-shadow;
+    box-shadow: $atum-box-shadow;
 
     @include media-breakpoint-up(md) {
       line-height: 2rem;
     }
-	
+
     @include hover-focus-active {
       text-decoration: none;
-      box-shadow: $quickicon-box-shadow-hover;
+      box-shadow: $atum-box-shadow;
+      color:rgba(255,255,255,0.9);
+      background: var(--atum-link-color);
     }
 
     .fa {
@@ -90,7 +96,7 @@
 
     @include hover-focus-active {
       text-decoration: none;
-      box-shadow: $quickicon-box-shadow-hover;
+      box-shadow: $atum-box-shadow;
     }
 
     > div {
@@ -113,16 +119,28 @@
     &.warning {
       color: var(--warning);
       box-shadow: $quickicon-box-shadow-warning;
+      &:hover {
+        color:rgba(255,255,255,0.9);
+        background: var(--warning);
+      }
     }
 
     &.danger {
       color: var(--danger);
       box-shadow: $quickicon-box-shadow-danger;
+      &:hover {
+        color:rgba(255,255,255,0.9);
+        background: var(--danger);
+      }
     }
 
     &.success {
       color: var(--success);
       box-shadow: $quickicon-box-shadow-success;
+      &:hover {
+        color:rgba(255,255,255,0.9);
+        background: var(--success);
+      }
     }
   }
 }
