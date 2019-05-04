@@ -4,6 +4,7 @@
 $white:                            #fff;
 $whiteoffset:					   #fefefe;
 $gray-100:                         #f8f9fa;
+
 $gray-200:                         #e8e8e8; //used in bootstrap .badge-inverse
 $gray-300:                         #dee2e6; //used for toolbar and badges
 $gray-400:                         #cdcdcd; //used for border-bottom sidebar-nav and toolbar normal border
@@ -57,25 +58,26 @@ $theme-colors: map-merge((
   danger:                          $red,
   light:                           $gray-100, //used in bootstrap
   dark:                            $gray-900,  //used in bootstrap and for table-border
-  atum-link-color:                 #2077dd,  
+  atum-link-color:                 #2077dd,
   atum-text-dark:                  $gray-700,
   atum-bg-dark:                    $color-60, //standard background color
   action:                          $color-60
 ), $theme-colors);
 
 $colors: (
+
   card-bg:                         $white,
   toolbar-bg:                      lighten($gray-200, 5%), // % VON DASHBOARD BG BZW ATUM lIGHT BG
   success-border:                  theme-color("success"),
   info-border:                     theme-color("info"),
   warning-border:                  theme-color("warning"),
-  danger-border:                   theme-color("danger"),  
+  danger-border:                   theme-color("danger"),
   login-main-bg:                   darken($color-60, 8%), //used on login
   border:                          $gray-400,
   white-offset:                    $whiteoffset,
   focus:                           $focuscolor,
   toggle-color:                    $white, //used in sidebar
-  atum-bg-light:                   $gray-200, //light background color, f.e. dashboard background  
+  atum-bg-light:                   $gray-200, //light background color, f.e. dashboard background
   atum-text-light:                 $white,
   atum-special-color:              $dark-blue,
   atum-link-color:                 #2077dd,
@@ -97,7 +99,7 @@ $alert-border-level:               0;
 $alert-color-level:                0;
 
 // Global
-$atum-box-shadow:                  0 1px 1px rgba($black, .15);
+$atum-box-shadow:                  1px 1px 1px 0px rgba($black,0.25);
 $enable-rounded:                   false;
 $border-radius:                    none;
 $input-btn-padding-y:              .6rem;
@@ -108,7 +110,7 @@ $input-max-width:                  15rem;
 $header-height:                    3.5rem;
 
 // Toolbar
-$atum-toolbar-line-height:         2.3rem;
+$atum-toolbar-line-height:         2.375rem;
 
 // Sidebar
 $sidebar-width:                    15.625rem;
@@ -226,7 +228,7 @@ $breadcrumb-bg:                    var(--white);
 $link-color:                       var(--atum-link-color);
 $link-hover-color:                 var(--atum-link-hover-color);
 
-// Time for fade effect 
+// Time for fade effect
 $fadetime:                         1s;
 
 // Z-Index list

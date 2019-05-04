@@ -26,13 +26,13 @@ $comUserParams = ComponentHelper::getParams('com_users');
 ?>
 
 <form action="<?php echo Route::_('index.php?option=com_users&view=mail'); ?>" name="adminForm" method="post" id="adminForm">
-	<div class="row">
+	<div class="row mt-2">
 		<div class="col-md-9">
-			<fieldset class="adminform">
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('subject'); ?></div>
-					<div class="controls">
-						<div class="input-group">
+			<div class="card card-light">
+				<div class="card-body">
+					<fieldset class="adminform">
+						<div class="form-group">
+							<?php echo $this->form->getLabel('subject'); ?>
 							<?php if (!empty($comUserParams->get('mailSubjectPrefix'))) : ?>
 								<span class="input-group-prepend">
 									<span class="input-group-text"><?php echo $comUserParams->get('mailSubjectPrefix'); ?></span>
@@ -40,45 +40,43 @@ $comUserParams = ComponentHelper::getParams('com_users');
 							<?php endif; ?>
 							<?php echo $this->form->getInput('subject'); ?>
 						</div>
-					</div>
-				</div>
-				<div class="control-group">
-					<div class="control-label"><?php echo $this->form->getLabel('message'); ?></div>
-					<div class="controls">
-						<?php echo $this->form->getInput('message'); ?>
-						<?php if (!empty($comUserParams->get('mailBodySuffix'))) : ?>
-							<div class="mt-1 card">
-								<div class="card-body">
-									<?php echo $comUserParams->get('mailBodySuffix'); ?>
+						<div class="form-group">
+							<?php echo $this->form->getLabel('message'); ?>
+							<?php echo $this->form->getInput('message'); ?>
+							<?php if (!empty($comUserParams->get('mailBodySuffix'))) : ?>
+								<div class="mt-1 card">
+									<div class="card-body">
+										<?php echo $comUserParams->get('mailBodySuffix'); ?>
+									</div>
 								</div>
-							</div>
-						<?php endif; ?>
-					</div>
+							<?php endif; ?>
+						</div>
+					</fieldset>
+					<input type="hidden" name="task" value="">
+					<?php echo HTMLHelper::_('form.token'); ?>
 				</div>
-			</fieldset>
-			<input type="hidden" name="task" value="">
-			<?php echo HTMLHelper::_('form.token'); ?>
+			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="card card-light">
 				<div class="card-body">
-					<div class="control-group">
+					<div class="form-group">
 						<?php echo $this->form->getInput('recurse'); ?>
 						<?php echo $this->form->getLabel('recurse'); ?>
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<?php echo $this->form->getInput('mode'); ?>
 						<?php echo $this->form->getLabel('mode'); ?>
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<?php echo $this->form->getInput('disabled'); ?>
 						<?php echo $this->form->getLabel('disabled'); ?>
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<?php echo $this->form->getInput('bcc'); ?>
 						<?php echo $this->form->getLabel('bcc'); ?>
 					</div>
-					<div class="control-group">
+					<div class="form-group">
 						<?php echo $this->form->getLabel('group'); ?>
 						<?php echo $this->form->getInput('group'); ?>
 					</div>

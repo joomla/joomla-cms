@@ -54,6 +54,8 @@
     padding: 0 22px;
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
+    box-shadow: $atum-box-shadow;
+
 
     [class^='icon-'],
     [class*=' icon-'],
@@ -61,8 +63,8 @@
     [class*=' #{$fa-css-prefix}-'] {
       z-index: $zindex-negative;
       display: inline-block;
-      width: 38px;
-      height: auto;
+      width: 2.375rem;
+      height: 100%;
       margin: 0 16px 0 -22px;
       line-height: $atum-toolbar-line-height;
       color: var(--white);
@@ -279,7 +281,7 @@
         content: '\f078';
         font-family: FontAwesome;
         vertical-align: 0;
-        width: 38px;
+        width: 2.375rem;
       }
     }
 
@@ -310,11 +312,11 @@
         border: none;
         content: '\f078';
         font-family: FontAwesome;
-        height: auto;
+        height: 100%;
         margin: 0 -22px 0 16px;
         vertical-align: 0;
-        width: 38px;
-        line-height: 2.35;
+        width: 2.375rem;
+        line-height: 2.375rem;
       }
     }
   }
@@ -332,7 +334,7 @@
     @include media-breakpoint-down(md) {
       margin-left:0 !important;
       margin-right:0.75rem;
-      margin-bottom:10px;
+      margin-bottom:0.75rem;
     }
   }
 
