@@ -122,7 +122,7 @@ abstract class RelatedItemsHelper
 					->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id')
 					->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id')
 					->where('a.id != ' . (int) $id)
-					->where('ws.condition > ' . (int) ContentComponent::CONDITION_UNPUBLISHED)
+					->where('ws.condition = ' . ContentComponent::CONDITION_PUBLISHED)
 					->where('a.access IN (' . $groups . ')');
 
 				$wheres = array();
