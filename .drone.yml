@@ -1,3 +1,4 @@
+---
 clone:
   git:
     image: plugins/git
@@ -53,3 +54,8 @@ pipeline:
 
 branches:
   exclude: [ l10n_* ]
+---
+kind: signature
+hmac: 0c87549364af0a32ff9e77d26cf00b2e714afc516ebc1dcb0aa5f298129840de
+
+...
