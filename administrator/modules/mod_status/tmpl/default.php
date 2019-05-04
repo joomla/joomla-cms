@@ -75,22 +75,18 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 						<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>
 					</div>
 					<?php if (empty($messages)) : ?>
-						<div class="dropdown-item dropdown-message">
-							<a href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>" class="text-center">
+						<div class="dropdown-item">
+							<a href="<?php echo Route::_('index.php?option=com_postinstall&eid=' . $joomlaFilesExtensionId); ?>">
 								<?php echo Text::_('COM_POSTINSTALL_LBL_NOMESSAGES_TITLE'); ?>
 							</a>
 						</div>
 					<?php endif; ?>
 					<?php foreach ($messages as $message) : ?>
-						<div class="dropdown-item message-wrapper">
+						<div class="dropdown-item">
 							<?php $route = 'index.php?option=com_postinstall&amp;eid=' . $joomlaFilesExtensionId; ?>
-							<?php $title = HTMLHelper::_('string.truncate', Text::_($message->title_key), 28, false, false); ?>
-							<a href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>"><?php echo $title; ?></a>
-							<?php $route = 'index.php?option=com_postinstall&amp;task=message.unpublish&amp;id=' . $message->postinstall_message_id; ?>
-							<a class="close-message" href="<?php echo Route::_($route); ?>"
-							   title="<?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?>">
-								<span class="fa fa-close" aria-hidden="true"></span>
-								<span class="sr-only"><?php echo Text::_('COM_POSTINSTALL_BTN_HIDE'); ?></span>
+							<?php $title = Text::_($message->title_key); ?>
+							<a href="<?php echo Route::_($route); ?>" title="<?php echo $title; ?>">
+								<?php echo $title; ?>
 							</a>
 						</div>
 					<?php endforeach; ?>
