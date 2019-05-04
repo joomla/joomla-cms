@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -13,7 +13,7 @@ defined('JPATH_PLATFORM') or die;
 /**
  * Interface for a node class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 interface NodeInterface extends ImmutableNodeInterface
 {
@@ -26,9 +26,9 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function setParent($parent);
+	public function setParent(NodeInterface $parent);
 
 	/**
 	 * Add child to this node
@@ -39,20 +39,20 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function addChild($child);
+	public function addChild(NodeInterface $child);
 
 	/**
 	 * Remove a specific child
 	 *
-	 * @param   integer  $id  ID of a node
+	 * @param   NodeInterface  $child  Child to remove
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function removeChild($id);
+	public function removeChild(NodeInterface $child);
 
 	/**
 	 * Function to set the left or right sibling of a node
@@ -62,7 +62,7 @@ interface NodeInterface extends ImmutableNodeInterface
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
-	public function setSibling($sibling, $right = true);
+	public function setSibling(NodeInterface $sibling, $right = true);
 }
