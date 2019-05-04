@@ -2,16 +2,61 @@
 
 .editor {
 
-  .toggle-editor {
-    margin-top: 1rem;
-  }
+	.toggle-editor {
+		margin-top: 1rem;
+	}
 
-  .mce-tinymce {
-    border: 1px solid var(--atum-bg-dark);
-  }
+	.mce-tinymce {
+		border: 1px solid var(--atum-bg-dark);
+	}
 
-  .mce-btn,
-  .mce-panel {
-    background: var(--white-offset);
-  }
+	.mce-btn,
+	.mce-panel {
+		background: var(--white-offset);
+	}
+}
+
+
+.container-main {
+	.mce-panel {
+		border: 0;
+		background: transparent;
+		box-shadow: none;
+	}
+
+	.mce-top-part {
+		margin-bottom: 1rem;
+
+		&:before {
+			-webkit-box-shadow: none;
+			-moz-box-shadow: none;
+			box-shadow: none;
+		}
+	}
+
+	.mce-menubar .mce-menubtn {
+		background-color: $white;
+	}
+
+	.mce-flow-layout-item {
+		margin: 2px 8px 2px 0px;
+	}
+
+	.mce-btn-group {
+
+		&:not(:first-child) {
+			margin-left: 0;
+			margin-right: 6px;
+		}
+
+		.mce-btn {
+			margin: 0 1px 0 0;
+		}
+
+	}
+
+	.mce-statusbar .mce-container-body {
+		background-color: #fff;
+		border-top: var(--atum-bg-light) 1px solid;
+	}
 }

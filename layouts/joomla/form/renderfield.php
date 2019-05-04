@@ -32,16 +32,12 @@ $rel   = empty($options['rel']) ? '' : ' ' . $options['rel'];
 $id    = $name . '-desc';
 
 ?>
-<div class="control-group<?php echo $class; ?>"<?php echo $rel; ?>>
+<div class="form-group<?php echo $class; ?>"<?php echo $rel; ?>>
 	<?php if (empty($options['hiddenLabel'])) : ?>
-		<div class="control-label"><?php echo $label; ?></div>
+		<?php echo $label; ?>
 	<?php endif; ?>
-	<div class="controls">
-		<?php echo $input; ?>
-	</div>
+	<?php echo $input; ?>
 	<?php if (!empty($description)) : ?>
-		<div id="<?php echo $id; ?>">
-			<small class="form-text text-muted"><?php echo $description; ?></small>
-		</div>
+		<small id="<?php echo $id; ?>" class="form-text text-muted"><?php echo $description; ?></small>
 	<?php endif; ?>
 </div>

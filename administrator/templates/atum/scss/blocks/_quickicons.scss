@@ -3,6 +3,10 @@
 @import "../variables";
 
 .quick-icons {
+  background-color: $white;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1.5rem;
+  box-shadow: $quickicon-box-shadow;
 
   ul {
     list-style: none;
@@ -13,9 +17,7 @@
     min-height: 7.5rem;
     position: relative;
     background: $quickicon-bg;
-    box-shadow: $quickicon-box-shadow;
-    margin-left: 15px;
-    margin-right: 15px;
+    margin: 0.5rem;
     padding: 0;
 
     @include hover-focus-active {
@@ -46,10 +48,14 @@
   }
 
   .quickicon-linkadd {
+    position: relative;
+    overflow: hidden;
     font-size: .9rem;
     line-height: 3.4rem;
-    border-top: 1px solid $light_blue;
+    margin-top: 0.4rem;
+    border: 1px solid #ccc;
     text-decoration: none;
+    box-shadow: $quickicon-box-shadow;
 
     @include media-breakpoint-up(md) {
       line-height: 2rem;
@@ -58,6 +64,17 @@
     @include hover-focus-active {
       text-decoration: none;
       box-shadow: $quickicon-box-shadow-hover;
+    }
+
+    .fa {
+      display: inline-block;
+      width: 35px;
+      height: auto;
+      line-height: 2rem;
+      color: var(--white);
+      position: absolute;
+      left: 0;
+      background-color: var(--atum-link-color);
     }
   }
 
@@ -68,6 +85,8 @@
     width: 100%;
     transition: all .25s ease;
     text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
 
     @include hover-focus-active {
       text-decoration: none;
