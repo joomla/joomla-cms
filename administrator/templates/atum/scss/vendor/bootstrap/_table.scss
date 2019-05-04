@@ -17,7 +17,7 @@
     th,
     td {
       font-weight: $font-weight-normal;
-      color: $gray-600;
+      color: var(--atum-text-dark);
       white-space: nowrap;
       @include media-breakpoint-down(xs) {
         white-space: normal;
@@ -30,7 +30,7 @@
 
     a {
       font-weight: $font-weight-normal;
-      color: $gray-600;
+      color: var(--atum-link-colors);
       &#sorted {
         color: $gray-800;
         font-weight: 500;
