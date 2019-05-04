@@ -170,7 +170,7 @@ class TagField extends ListField
 		$query->where($db->quoteName('a.lft') . ' > 0');
 
 		// Preload only active values, everything else will be searched via AJAX
-		if ($this->isRemoteSearch() && $this->value)
+		if ($this->isRemoteSearch() && (is_array($this->value) && !empty($this->value[0])))
 		{
 			$query->where('a.id IN (' . implode(',', $this->value) . ')');
 		}
@@ -203,7 +203,7 @@ class TagField extends ListField
 		// Block the possibility to set a tag as it own parent
 		if ($this->form->getName() === 'com_tags.tag')
 		{
-			$id   = (int) $this->form->getValue('id', 0);
+			$id = (int) $this->form->getValue('id', 0);
 
 			foreach ($options as $option)
 			{
@@ -245,7 +245,7 @@ class TagField extends ListField
 		{
 			foreach ($options as &$option)
 			{
-				$repeat = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
+				$repeat       = (isset($option->level) && $option->level - 1 >= 0) ? $option->level - 1 : 0;
 				$option->text = str_repeat('- ', $repeat) . $option->text;
 			}
 		}
