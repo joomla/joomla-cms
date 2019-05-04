@@ -16,7 +16,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use JPagination;
 
 /**
- * Users view class for Users.
+ * View class for Users
  *
  * @since  4.0
  */

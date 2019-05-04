@@ -11,10 +11,14 @@ namespace Joomla\Component\Users\Site\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Registry\Registry;
+use Joomla\Utilities\ArrayHelper;
 
 
-// Todo: menu param for selecting groups to display
 // Todo: param to show only users that have written published articles
 // Todo: UserModel to show user + list of articles
 
@@ -27,7 +31,7 @@ use Joomla\CMS\MVC\Model\ListModel;
 class UsersModel extends ListModel
 {
 	/**
-	 * Category items data
+	 * User items data
 	 *
 	 * @var array
 	 * @since   4.0
@@ -55,7 +59,7 @@ class UsersModel extends ListModel
 	/**
 	 * Constructor
 	 *
-	 * @param array $config An optional associative array of configuration settings.
+	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
 	 * @throws \Exception
 	 * @since   4.0
@@ -91,12 +95,17 @@ class UsersModel extends ListModel
 	 * Method to build an SQL query to load the list data.
 	 *
 	 * @return  string    An SQL query
-	 *
-	 * @since   1.6
+	 * @throws \Exception
+	 * @since   4.0
 	 */
 	protected function getListQuery()
 	{
-		$groupIds = array(1, 2, 3, 4, 5, 6, 7, 8);
+		$app        = Factory::getApplication();
+		$menu       = $app->getMenu();
+		$active     = $menu->getActive();
+		$itemId     = $active->id;
+		$menuParams = $menu->getParams($itemId);
+		$groupIds   = $menuParams->get('groups', 0, 'array');
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -109,6 +118,7 @@ class UsersModel extends ListModel
 					array(
 						'users.id',
 						'users.name',
+						'users.lastvisitDate'
 					)
 				)
 			)
@@ -118,7 +128,11 @@ class UsersModel extends ListModel
 				$db->quoteName('#__user_usergroup_map', 'usergroupmap')
 				. ' ON ' . $db->quoteName('usergroupmap.user_id') . ' = ' . $db->quoteName('users.id')
 			)
-			->where($db->quoteName('usergroupmap.group_id') . ' IN (' . implode(',', $groupIds) . ')')
+			->leftJoin(
+				$db->quoteName('#__session', 'session')
+				. ' ON ' . $db->quoteName('session.userid') . ' = ' . $db->quoteName('users.id')
+			)
+			->select($db->quoteName('session.time'))
 			->where($db->quoteName('users.block') . ' = 0')
 			->group($db->quoteName('users.id'))
 			->order(
@@ -126,7 +140,26 @@ class UsersModel extends ListModel
 				$this->getState('list.direction', 'ASC')
 			);
 
-		echo $query->dump();
+			// Count Articles
+			$subQueryCountArticles = $db->getQuery(true);
+			$subQueryCountArticles
+				->select('COUNT(' . $db->quoteName('articles.id') . ')')
+				->from($db->quoteName('#__content', 'articles'))
+				->where($db->quoteName('articles.created_by') . '= ' . $db->quoteName('users.id'))
+				->where($db->quoteName('articles.state') . '= 1');
+			$query->select('(' . (string) $subQueryCountArticles . ') AS articlesByUser');
+
+		if (is_numeric($groupIds))
+		{
+			$query->where($db->quoteName('usergroupmap.group_id') . ' = ' . (int) $groupIds);
+		}
+		elseif (is_array($groupIds) && (count($groupIds) > 0))
+		{
+			$groupIds = ArrayHelper::toInteger($groupIds);
+			$query->where(
+				$db->quoteName('usergroupmap.group_id') . ' IN (' . implode(',', $groupIds) . ')'
+			);
+		}
 
 		return $query;
 	}
@@ -136,14 +169,14 @@ class UsersModel extends ListModel
 	 *
 	 * Note. Calling getState in this method will result in recursion.
 	 *
-	 * @param string $ordering  An optional ordering field.
-	 * @param string $direction An optional direction (asc|desc).
+	 * @param   string  $ordering   An optional ordering field.
+	 * @param   string  $direction  An optional direction (asc|desc).
 	 *
 	 * @return  void
 	 * @throws \Exception
 	 * @since   1.6
 	 */
-	/*protected function populateState($ordering = null, $direction = null)
+	protected function populateState($ordering = null, $direction = null)
 	{
 		$app    = Factory::getApplication();
 		$params = ComponentHelper::getParams('com_contact');
@@ -208,20 +241,9 @@ class UsersModel extends ListModel
 		$id = $app->input->get('id', 0, 'int');
 		$this->setState('category.id', $id);
 
-		$user = Factory::getUser();
-
-		if ((!$user->authorise('core.edit.state', 'com_contact')) && (!$user->authorise('core.edit', 'com_contact')))
-		{
-			// Limit to published for people who can't edit or edit.state.
-			$this->setState('filter.published', 1);
-
-			// Filter by start and end dates.
-			$this->setState('filter.publish_date', true);
-		}
-
 		$this->setState('filter.language', Multilanguage::isEnabled());
 
 		// Load the parameters.
 		$this->setState('params', $params);
-	}*/
+	}
 }

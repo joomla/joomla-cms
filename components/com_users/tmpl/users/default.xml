@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_USER_USERS_VIEW_DEFAULT_TITLE" option="COM_USER_USERS_VIEW_DEFAULT_OPTION">
-		<help
-			key="JHELP_MENUS_MENU_ITEM_USER_USERS"
-		/>
-		<message>
-			<![CDATA[COM_USER_USERS_VIEW_DEFAULT_DESC]]>
-		</message>
-	</layout>
+    <layout title="COM_USER_USERS_VIEW_DEFAULT_TITLE" option="COM_USER_USERS_VIEW_DEFAULT_OPTION">
+        <help
+                key="JHELP_MENUS_MENU_ITEM_USER_USERS"
+        />
+        <message>
+            <![CDATA[COM_USER_USERS_VIEW_DEFAULT_DESC]]>
+        </message>
+    </layout>
+
+    <!-- Add fields to the parameters object for the layout. -->
+    <fields name="params">
+    <fieldset name="basic" label="COM_USERS_SELECT_GROUPS">
+    <field
+            name="layout_type"
+            type="hidden"
+            default="blog"
+    />
+            <field
+                    name="groups"
+                    addfieldprefix="Joomla\Component\Users\Administrator\Field"
+                    type="groupparent"
+                    label="COM_USERS_HEADING_GROUPS"
+                    extension="com_users"
+                    required="true"
+                    multiple="true"
+                    class="2do"
+            />
+        </fieldset>
+    </fields>
+
 </metadata>
