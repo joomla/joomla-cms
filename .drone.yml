@@ -5,12 +5,12 @@ clone:
     depth: 1
 
 pipeline:
-  phpcs:
-    image: joomlaprojects/docker-phpcs
-    commands:
-      - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
-      - echo $(date)
+#  phpcs:
+#    image: joomlaprojects/docker-phpcs
+#    commands:
+#      - echo $(date)
+#      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
+#      - echo $(date)
 
   restore-cache:
       image: drillster/drone-volume-cache
