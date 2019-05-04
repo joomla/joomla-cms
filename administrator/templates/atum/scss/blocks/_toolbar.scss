@@ -62,7 +62,7 @@
       z-index: $zindex-negative;
       display: inline-block;
       width: 2.375rem;
-      height: 2.375rem;
+      height: 100%;
       margin: 0 16px 0 -22px;
       line-height: $atum-toolbar-line-height;
       color: var(--white);
@@ -310,7 +310,7 @@
         border: none;
         content: '\f078';
         font-family: FontAwesome;
-        height: 2.375rem;
+        height: 100%;
         margin: 0 -22px 0 16px;
         vertical-align: 0;
         width: 2.375rem;

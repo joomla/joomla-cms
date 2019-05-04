@@ -102,7 +102,7 @@ $alert-border-level:               0;
 $alert-color-level:                0;
 
 // Global
-$atum-box-shadow:                  0 1px 1px rgba($black, .15);
+$atum-box-shadow:                  1px 1px 1px 0px rgba($black,0.25);
 $enable-rounded:                   false;
 $border-radius:                    none;
 $input-btn-padding-y:              .6rem;
@@ -113,7 +113,7 @@ $input-max-width:                  15rem;
 $header-height:                    3.5rem;
 
 // Toolbar
-$atum-toolbar-line-height:         2.3rem;
+$atum-toolbar-line-height:         2.375rem;
 
 // Sidebar
 $atum-level-1-bg:                  rgba($black, .65);
