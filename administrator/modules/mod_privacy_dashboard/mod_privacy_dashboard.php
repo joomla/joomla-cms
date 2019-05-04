@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  mod_privacy_dashboard
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,6 +14,9 @@ if (!JFactory::getUser()->authorise('core.admin'))
 {
 	return;
 }
+
+// Boot component to ensure HTML helpers are loaded
+JFactory::getApplication()->bootComponent('com_privacy');
 
 // Load the privacy component language file.
 $lang = JFactory::getLanguage();

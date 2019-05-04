@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -34,7 +34,7 @@ $showIpColumn = $displayData['showIpColumn'];
 		<?php foreach ($messages as $message) : ?>
 			<tr>
 				<td><?php echo $message->message; ?></td>
-				<td><?php echo $message->log_date; ?></td>
+				<td><?php echo JHtml::_('date', $message->log_date, 'Y-m-d H:i:s T', 'UTC'); ?></td>
 				<td><?php echo $message->extension; ?></td>
 				<td><?php echo $displayData['username']; ?></td>
 				<?php if ($showIpColumn) : ?>

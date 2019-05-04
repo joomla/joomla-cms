@@ -6,12 +6,12 @@
 			type="radio"
 			label="COM_ACTIONLOGS_IP_LOGGING_LABEL"
 			description="COM_ACTIONLOGS_IP_LOGGING_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="0"
 			filter="integer"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 		<field
 			name="csv_delimiter"

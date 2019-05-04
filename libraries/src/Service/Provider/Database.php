@@ -90,6 +90,17 @@ class Database implements ServiceProviderInterface
 					'prefix'   => $conf->get('dbprefix'),
 				];
 
+				// Enable utf8mb4 connections for mysql adapters
+				if (strtolower($dbtype) === 'mysqli')
+				{
+					$options['utf8mb4'] = true;
+				}
+
+				if (strtolower($dbtype) === 'mysql')
+				{
+					$options['charset'] = 'utf8mb4';
+				}
+
 				if (JDEBUG)
 				{
 					$options['monitor'] = new \Joomla\Database\Monitor\DebugMonitor;

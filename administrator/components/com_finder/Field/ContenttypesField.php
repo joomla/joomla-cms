@@ -13,6 +13,8 @@ defined('JPATH_BASE') or die();
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
 use Joomla\Utilities\ArrayHelper;
 
@@ -65,7 +67,7 @@ class ContenttypesField extends ListField
 		foreach ($contentTypes as $contentType)
 		{
 			$key = FinderHelperLanguage::branchSingular($contentType->text);
-			$contentType->translatedText = $lang->hasKey($key) ? \JText::_($key) : $contentType->text;
+			$contentType->translatedText = $lang->hasKey($key) ? Text::_($key) : $contentType->text;
 		}
 
 		// Order by title.
@@ -74,7 +76,7 @@ class ContenttypesField extends ListField
 		// Convert the values to options.
 		foreach ($contentTypes as $contentType)
 		{
-			$options[] = \JHtml::_('select.option', $contentType->value, $contentType->translatedText);
+			$options[] = HTMLHelper::_('select.option', $contentType->value, $contentType->translatedText);
 		}
 
 		// Merge any additional options in the XML definition.
