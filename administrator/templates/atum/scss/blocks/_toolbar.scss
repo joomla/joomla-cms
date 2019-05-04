@@ -1,5 +1,6 @@
-
-
+joomla-toolbar-button {
+  border: 1px solid var(--border);
+}
 
 .subhead {
   position: sticky;
@@ -55,7 +56,6 @@
     font-size: 1rem;
     line-height: $atum-toolbar-line-height;
     box-shadow: $atum-box-shadow;
-
 
     [class^='icon-'],
     [class*=' icon-'],
