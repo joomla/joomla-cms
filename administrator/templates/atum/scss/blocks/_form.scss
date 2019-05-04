@@ -37,6 +37,9 @@
 
     .controls {
       margin-left: 0;
+      .switcher__legend {
+        float:none;
+      }
     }
 
     .control-label {
