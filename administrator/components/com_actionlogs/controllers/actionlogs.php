@@ -3,20 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2016 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
-JLoader::register('ActionlogsHelper', JPATH_COMPONENT . '/helpers/actionlogs.php');
 
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\Utilities\ArrayHelper;
 
+JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
+
 /**
  * Actionlogs list controller class.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class ActionlogsControllerActionlogs extends JControllerAdmin
 {
@@ -25,7 +26,7 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 *
 	 * @param   array  $config  An optional associative array of configuration settings.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function __construct(array $config = array())
 	{
@@ -43,12 +44,10 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 *
 	 * @return  object  The model.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
-	public function getModel($name = 'Actionlogs', $prefix = 'ActionlogsModel',
-		$config = array('ignore_request' => true))
+	public function getModel($name = 'Actionlogs', $prefix = 'ActionlogsModel', $config = array('ignore_request' => true))
 	{
-
 		// Return the model
 		return parent::getModel($name, $prefix, $config);
 	}
@@ -58,23 +57,50 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function exportLogs()
 	{
 		// Check for request forgeries.
-		JSession::checkToken() or die(JText::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		// Get selected logs
-		$pks = ArrayHelper::toInteger($this->input->post->get('cid', array(), 'array'));
+		$task = $this->getTask();
+
+		$pks = array();
+
+		if ($task == 'exportSelectedLogs')
+		{
+			// Get selected logs
+			$pks = ArrayHelper::toInteger(explode(',', $this->input->post->getString('cids')));
+		}
+
+		/** @var ActionlogsModelActionlogs $model */
+		$model = $this->getModel();
 
 		// Get the logs data
-		$data = $this->getModel()->getLogsData($pks);
+		$data = $model->getLogDataAsIterator($pks);
 
 		if (count($data))
 		{
-			$rows = ActionlogsHelper::getCsvData($data);
-			$filename     = "logs_" . JFactory::getDate();
+
+			try
+			{
+				$rows = ActionlogsHelper::getCsvData($data);
+			}
+			catch (InvalidArgumentException $exception)
+			{
+				$this->setMessage(JText::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
+				$this->setRedirect(JRoute::_('index.php?option=com_actionlogs&view=actionlogs', false));
+
+				return;
+			}
+
+			// Destroy the iterator now
+			unset($data);
+
+			$date     = new JDate('now', new DateTimeZone('UTC'));
+			$filename = 'logs_' . $date->format('Y-m-d_His_T');
+
 			$csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
 
 			$app = JFactory::getApplication();
@@ -102,33 +128,17 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 	}
 
 	/**
-	 * Method to delete logs
-	 *
-	 * @return  void
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function delete()
-	{
-		if (!JFactory::getUser()->authorise('core.delete', $this->option))
-		{
-			JError::raiseWarning(403, JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'));
-
-			return;
-		}
-
-		parent::delete();
-	}
-
-	/**
 	 * Clean out the logs
 	 *
 	 * @return  void
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function purge()
 	{
+		// Check for request forgeries.
+		$this->checkToken();
+
 		$model = $this->getModel();
 
 		if ($model->purge())

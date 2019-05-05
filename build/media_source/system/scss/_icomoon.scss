@@ -10,7 +10,7 @@
 }
 [class^="icon-"]:before,
 [class*=" icon-"]:before {
-    font-family: 'FontAwesome';
+    font-family: "Font Awesome 5 Free";
     font-style: normal;
     speak: none;
 }
@@ -20,7 +20,7 @@
 }
 
 .icon-generic:before {
-    @extend .#{$fa-css-prefix}-dot-circle-o:before;
+    @extend .#{$fa-css-prefix}-dot-circle:before;
 }
 
 .icon-joomla:before {
@@ -52,19 +52,19 @@
 }
 
 .icon-arrow-up-2:before {
-    @extend .#{$fa-css-prefix}-arrow-circle-o-up:before;
+    @extend .#{$fa-css-prefix}-arrow-alt-circle-up:before;
 }
 
 .icon-arrow-right-2:before {
-    @extend .#{$fa-css-prefix}-arrow-circle-o-right:before;
+    @extend .#{$fa-css-prefix}-arrow-alt-circle-right:before;
 }
 
 .icon-arrow-down-2:before {
-    @extend .#{$fa-css-prefix}-arrow-circle-o-down:before;
+    @extend .#{$fa-css-prefix}-arrow-alt-circle-down:before;
 }
 
 .icon-arrow-left-2:before {
-    @extend .#{$fa-css-prefix}-arrow-circle-o-left:before;
+    @extend .#{$fa-css-prefix}-arrow-alt-circle-left:before;
 }
 
 .icon-arrow-up-3:before {
@@ -112,15 +112,15 @@
 }
 
 .icon-forward-2:before {
-    @extend .#{$fa-css-prefix}-arrow-circle-o-right:before;
+    @extend .#{$fa-css-prefix}-arrow-alt-circle-right:before;
 }
 
 .icon-backward-2:before, .icon-reply:before {
-    @extend .#{$fa-css-prefix}-arrow-circle-o-left:before;
+    @extend .#{$fa-css-prefix}-arrow-alt-circle-left:before;
 }
 
 .icon-unblock:before, .icon-refresh:before, .icon-redo-2:before {
-    @extend .#{$fa-css-prefix}-refresh:before;
+    @extend .#{$fa-css-prefix}-sync:before;
 }
 
 .icon-undo-2:before {
@@ -128,7 +128,7 @@
 }
 
 .icon-move:before {
-    @extend .#{$fa-css-prefix}-arrows:before;
+    @extend .#{$fa-css-prefix}-arrows-alt:before;
 }
 
 .icon-expand:before {
@@ -140,7 +140,7 @@
 }
 
 .icon-expand-2:before {
-    @extend .#{$fa-css-prefix}-arrows-alt:before;
+    @extend .#{$fa-css-prefix}-expand-arrows-alt:before;
 }
 
 .icon-contract-2:before {
@@ -148,7 +148,7 @@
 }
 
 .icon-play:before {
-    @extend .#{$fa-css-prefix}-arrows-alt:before;
+    @extend .#{$fa-css-prefix}-expand-arrows-alt:before;
 }
 
 .icon-pause:before {
@@ -176,15 +176,15 @@
 }
 
 .icon-play-circle:before {
-    @extend .#{$fa-css-prefix}-play-circle-o:before;
+    @extend .#{$fa-css-prefix}-play-circle:before;
 }
 
 .icon-pause-circle:before {
-    @extend .#{$fa-css-prefix}-pause-circle-o:before;
+    @extend .#{$fa-css-prefix}-pause-circle:before;
 }
 
 .icon-stop-circle:before {
-    @extend .#{$fa-css-prefix}-stop-circle-o:before;
+    @extend .#{$fa-css-prefix}-stop-circle:before;
 }
 
 .icon-backward-circle:before {
@@ -196,7 +196,7 @@
 }
 
 .icon-loop:before {
-    @extend .#{$fa-css-prefix}-refresh:before;
+    @extend .#{$fa-css-prefix}-sync:before;
 }
 
 .icon-shuffle:before {
@@ -216,11 +216,11 @@
 }
 
 .icon-apply:before, .icon-edit:before, .icon-pencil:before {
-    @extend .#{$fa-css-prefix}-pencil-square-o:before;
+    @extend .#{$fa-css-prefix}-edit:before;
 }
 
 .icon-pencil-2:before {
-    @extend .#{$fa-css-prefix}-pencil:before;
+    @extend .#{$fa-css-prefix}-pencil-alt:before;
 }
 
 .icon-brush:before {
@@ -268,11 +268,11 @@
 }
 
 .icon-checkmark-2:before {
-    @extend .#{$fa-css-prefix}-check-circle-o:before;
+    @extend .#{$fa-css-prefix}-check-circle:before;
 }
 
 .icon-checkmark-circle:before {
-    @extend .#{$fa-css-prefix}-check-circle-o:before;
+    @extend .#{$fa-css-prefix}-check-circle:before;
 }
 
 .icon-info:before {
@@ -304,15 +304,15 @@
 }
 
 .icon-warning-2:before, .icon-warning-circle:before {
-    @extend .#{$fa-css-prefix}-warning:before;
+    @extend .#{$fa-css-prefix}-exclamation-triangle:before;
 }
 
 .icon-checkbox-unchecked:before {
-    @extend .#{$fa-css-prefix}-square-o:before;
+    @extend .#{$fa-css-prefix}-square:before;
 }
 
 .icon-checkin:before, .icon-checkbox:before, .icon-checkbox-checked:before {
-    @extend .#{$fa-css-prefix}-check-square-o:before;
+    @extend .#{$fa-css-prefix}-check-square:before;
 }
 
 .icon-checkbox-partial:before {
@@ -320,15 +320,15 @@
 }
 
 .icon-square:before {
-    @extend .#{$fa-css-prefix}-square-o:before;
+    @extend .#{$fa-css-prefix}-square:before;
 }
 
 .icon-radio-unchecked:before {
-    @extend .#{$fa-css-prefix}-circle-o:before;
+    @extend .#{$fa-css-prefix}-circle:before;
 }
 
 .icon-radio-checked:before {
-    @extend .#{$fa-css-prefix}-check-circle-o:before;
+    @extend .#{$fa-css-prefix}-check-circle:before;
 }
 
 .icon-circle:before {
@@ -336,7 +336,7 @@
 }
 
 .icon-signup:before {
-    @extend .#{$fa-css-prefix}-sign-in:before;
+    @extend .#{$fa-css-prefix}-sign-in-alt:before;
 }
 
 .icon-grid:before, .icon-grid-view:before {
@@ -396,7 +396,7 @@
 }
 
 .icon-file-2:before {
-    @extend .#{$fa-css-prefix}-file-o:before;
+    @extend .#{$fa-css-prefix}-file:before;
 }
 
 .icon-file-add:before, .icon-file-plus:before {
@@ -416,15 +416,15 @@
 }
 
 .icon-save-copy:before, .icon-copy:before {
-    @extend .#{$fa-css-prefix}-files-o:before;
+    @extend .#{$fa-css-prefix}-copy:before;
 }
 
 .icon-stack:before {
-    @extend .#{$fa-css-prefix}-files-o:before;
+    @extend .#{$fa-css-prefix}-copy:before;
 }
 
 .icon-tree:before {
-    @extend .#{$fa-css-prefix}-code-fork:before;
+    @extend .#{$fa-css-prefix}-code-branch:before;
 }
 
 .icon-tree-2:before {
@@ -484,11 +484,11 @@
 }
 
 .icon-out-2:before, .icon-new-tab:before {
-    @extend .#{$fa-css-prefix}-external-link:before;
+    @extend .#{$fa-css-prefix}-external-link-alt:before;
 }
 
 .icon-out-3:before, .icon-new-tab-2:before {
-    @extend .#{$fa-css-prefix}-external-link-square:before;
+    @extend .#{$fa-css-prefix}-external-link-square-alt:before;
 }
 
 .icon-link:before {
@@ -496,11 +496,11 @@
 }
 
 .icon-picture:before, .icon-image:before {
-    @extend .#{$fa-css-prefix}-picture-o:before;
+    @extend .#{$fa-css-prefix}-image:before;
 }
 
 .icon-pictures:before, .icon-images:before {
-    @extend .#{$fa-css-prefix}-picture-o:before;
+    @extend .#{$fa-css-prefix}-image:before;
 }
 .icon-palette:before, .icon-color-palette:before {
     @extend .#{$fa-css-prefix}-paint-brush:before;
@@ -510,7 +510,7 @@
 }
 
 .icon-camera-2:before, .icon-video:before {
-    @extend .#{$fa-css-prefix}-video-camera:before;
+    @extend .#{$fa-css-prefix}-video:before;
 }
 
 .icon-play-2:before, .icon-video-2:before, .icon-youtube:before {
@@ -530,22 +530,22 @@
 }
 
 .icon-vcard:before {
-    @extend .#{$fa-css-prefix}-file-text-o:before;
+    @extend .#{$fa-css-prefix}-file-alt:before;
 }
 
 .icon-address:before {
-    @extend .#{$fa-css-prefix}-file-text:before;
+    @extend .#{$fa-css-prefix}-file-alt:before;
 }
 .icon-share-alt:before, .icon-out:before {
     @extend .#{$fa-css-prefix}-share:before;
 }
 
 .icon-enter:before {
-    @extend .#{$fa-css-prefix}-sign-in:before;
+    @extend .#{$fa-css-prefix}-sign-in-alt:before;
 }
 
 .icon-exit:before {
-    @extend .#{$fa-css-prefix}-sign-out:before;
+    @extend .#{$fa-css-prefix}-sign-out-alt:before;
 }
 
 .icon-comment:before, .icon-comments:before {
@@ -553,7 +553,7 @@
 }
 
 .icon-comments-2:before {
-    @extend .#{$fa-css-prefix}-comments-o:before;
+    @extend .#{$fa-css-prefix}-comments:before;
 }
 
 .icon-quote:before, .icon-quotes-left:before {
@@ -581,7 +581,7 @@
 }
 
 .icon-envelope-opened:before, .icon-mail-2:before {
-    @extend .#{$fa-css-prefix}-envelope-o:before;
+    @extend .#{$fa-css-prefix}-envelope:before;
 }
 
 .icon-unarchive:before, .icon-drawer:before {
@@ -629,11 +629,11 @@
 }
 
 .icon-equalizer:before {
-    @extend .#{$fa-css-prefix}-sliders:before;
+    @extend .#{$fa-css-prefix}-sliders-h:before;
 }
 
 .icon-dashboard:before {
-    @extend .#{$fa-css-prefix}-tachometer:before;
+    @extend .#{$fa-css-prefix}-tachometer-alt:before;
 }
 
 .icon-switch:before {
@@ -669,7 +669,7 @@
 }
 
 .icon-scissors:before {
-    @extend .#{$fa-css-prefix}-scissors:before;
+    @extend .#{$fa-css-prefix}-cut:before;
 }
 
 .icon-health:before {
@@ -689,7 +689,7 @@
 }
 
 .icon-clock:before {
-    @extend .#{$fa-css-prefix}-clock-o:before;
+    @extend .#{$fa-css-prefix}-clock:before;
 }
 
 .icon-compass:before {
@@ -721,23 +721,23 @@
 }
 
 .icon-calendar-2:before {
-    @extend .#{$fa-css-prefix}-calendar-check-o:before;
+    @extend .#{$fa-css-prefix}-calendar-check:before;
 }
 
 .icon-calendar-3:before {
-    @extend .#{$fa-css-prefix}-calendar-o:before;
+    @extend .#{$fa-css-prefix}-calendar:before;
 }
 
 .icon-pie:before {
-    @extend .#{$fa-css-prefix}-pie-chart:before;
+    @extend .#{$fa-css-prefix}-chart-pie:before;
 }
 
 .icon-bars:before {
-    @extend .#{$fa-css-prefix}-bar-chart:before;
+    @extend .#{$fa-css-prefix}-chart-bar:before;
 }
 
 .icon-chart:before {
-    @extend .#{$fa-css-prefix}-area-chart:before;
+    @extend .#{$fa-css-prefix}-chart-area:before;
 }
 
 .icon-power-cord:before {
@@ -757,19 +757,19 @@
 }
 
 .icon-lamp:before {
-    @extend .#{$fa-css-prefix}-lightbulb-o:before;
+    @extend .#{$fa-css-prefix}-lightbulb:before;
 }
 
 .icon-pin:before, .icon-pushpin:before {
-    @extend .#{$fa-css-prefix}-thumb-tack:before;
+    @extend .#{$fa-css-prefix}-thumbtack:before;
 }
 
 .icon-location:before {
-    @extend .#{$fa-css-prefix}-map-marker:before;
+    @extend .#{$fa-css-prefix}-map-marker-alt:before;
 }
 
 .icon-shield:before {
-    @extend .#{$fa-css-prefix}-shield:before;
+    @extend .#{$fa-css-prefix}-shield-alt:before;
 }
 
 .icon-flag:before {
@@ -777,7 +777,7 @@
 }
 
 .icon-flag-3:before {
-    @extend .#{$fa-css-prefix}-flag-o:before;
+    @extend .#{$fa-css-prefix}-flag:before;
 }
 
 .icon-bookmark:before {
@@ -785,7 +785,7 @@
 }
 
 .icon-bookmark-2:before {
-    @extend .#{$fa-css-prefix}-bookmark-o:before;
+    @extend .#{$fa-css-prefix}-bookmark:before;
 }
 
 .icon-heart:before {
@@ -793,7 +793,7 @@
 }
 
 .icon-heart-2:before {
-    @extend .#{$fa-css-prefix}-heart-o:before;
+    @extend .#{$fa-css-prefix}-heart:before;
 }
 
 .icon-thumbs-up:before {
@@ -805,11 +805,11 @@
 }
 
 .icon-unfeatured:before, .icon-asterisk:before, .icon-star-empty:before {
-    @extend .#{$fa-css-prefix}-star-o:before;
+    @extend .#{$fa-css-prefix}-star:before;
 }
 
 .icon-star-2:before {
-    @extend .#{$fa-css-prefix}-star-half-o:before;
+    @extend .#{$fa-css-prefix}-star-half:before;
 }
 
 .icon-featured:before, .icon-default:before, .icon-star:before {
@@ -817,27 +817,27 @@
 }
 
 .icon-smiley:before, .icon-smiley-happy:before {
-    @extend .#{$fa-css-prefix}-smile-o:before;
+    @extend .#{$fa-css-prefix}-smile:before;
 }
 
 .icon-smiley-2:before, .icon-smiley-happy-2:before {
-    @extend .#{$fa-css-prefix}-smile-o:before;
+    @extend .#{$fa-css-prefix}-smile:before;
 }
 
 .icon-smiley-sad:before {
-    @extend .#{$fa-css-prefix}-frown-o:before;
+    @extend .#{$fa-css-prefix}-frown:before;
 }
 
 .icon-smiley-sad-2:before {
-    @extend .#{$fa-css-prefix}-frown-o:before;
+    @extend .#{$fa-css-prefix}-frown:before;
 }
 
 .icon-smiley-neutral:before {
-    @extend .#{$fa-css-prefix}-smile-o:before;
+    @extend .#{$fa-css-prefix}-smile:before;
 }
 
 .icon-smiley-neutral-2:before {
-    @extend .#{$fa-css-prefix}-smile-o:before;
+    @extend .#{$fa-css-prefix}-smile:before;
 }
 
 .icon-cart:before {
@@ -853,7 +853,7 @@
 }
 
 .icon-credit-2:before {
-    @extend .#{$fa-css-prefix}-credit-card-alt:before;
+    @extend .#{$fa-css-prefix}-credit-card:before;
 }
 
 .icon-expired:before {
