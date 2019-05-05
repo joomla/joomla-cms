@@ -2,16 +2,6 @@
 <form>
 	<fieldset addfieldprefix="Joomla\Component\Modules\Administrator\Field" />
 
-	<field
-		name="client_id"
-		type="list"
-		label=""
-		filtermode="selector"
-		onchange="Joomla.resetFilters(this)"
-		>
-		<option value="0">JSITE</option>
-		<option value="1">JADMINISTRATOR</option>
-	</field>
 	<fields name="filter">
 		<field
 			name="search"
