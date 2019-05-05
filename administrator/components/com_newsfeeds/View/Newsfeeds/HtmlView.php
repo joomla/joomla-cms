@@ -163,25 +163,26 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('newsfeeds.trash')->listCheck(true);
 			}
-		}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_newsfeeds')
-			&& $user->authorise('core.edit', 'com_newsfeeds')
-			&& $user->authorise('core.edit.state', 'com_newsfeeds'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
-		}
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_newsfeeds')
+				&& $user->authorise('core.edit', 'com_newsfeeds')
+				&& $user->authorise('core.edit.state', 'com_newsfeeds'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 
-		if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			$toolbar->delete('newsfeeds.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			if ($state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$childBar->delete('newsfeeds.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
+
 		}
 
 		if ($user->authorise('core.admin', 'com_newsfeeds') || $user->authorise('core.options', 'com_newsfeeds'))

@@ -95,6 +95,7 @@
     const loginForm = doc.getElementById('form-login');
     const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
     const wrapper = doc.querySelector('.wrapper');
+    const menu = doc.querySelector('.sidebar-menu');
     const sidebar = doc.querySelector('.sidebar-wrapper');
     const mobile = window.matchMedia('(max-width: 992px)');
     const mobileTablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
@@ -132,10 +133,12 @@
 
     if (mobileSmall.matches) {
       toggleArrowIcon();
-      wrapper.classList.remove('closed');
+      if(menu) {
+        wrapper.classList.remove('closed');
+      }
     }
-    if (mobileTablet.matches){
-      wrapper.classList.add('closed');
+    if (mobileTablet.matches && menu){
+        wrapper.classList.add('closed');
     }
 
     window.addEventListener('resize', () => {
@@ -143,11 +146,13 @@
       (mobile.matches) ? changeLogo('closed') : changeLogo();
       (mobileSmall.matches) ? toggleArrowIcon() : toggleArrowIcon('top');
 
-      if(mobileSmall.matches){
-        wrapper.classList.remove('closed');
-      }
-      if (mobileTablet.matches){
-        wrapper.classList.add('closed');
+      if(menu) {
+        if (mobileSmall.matches) {
+          wrapper.classList.remove('closed');
+        }
+        if (mobileTablet.matches) {
+          wrapper.classList.add('closed');
+        }
       }
     //  console.log(mobileTablet.matches);
     });

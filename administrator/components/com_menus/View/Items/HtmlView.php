@@ -394,17 +394,17 @@ class HtmlView extends BaseHtmlView
 					$childBar->trash('items.trash')->listCheck(true);
 				}
 			}
-		}
 
-		// Add a batch button
-		if (!$protected && $user->authorise('core.create', 'com_menus')
-			&& $user->authorise('core.edit', 'com_menus')
-			&& $user->authorise('core.edit.state', 'com_menus'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
+			// Add a batch button
+			if (!$protected && $user->authorise('core.create', 'com_menus')
+				&& $user->authorise('core.edit', 'com_menus')
+				&& $user->authorise('core.edit.state', 'com_menus'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 		}
 
 		if (Factory::getUser()->authorise('core.admin'))

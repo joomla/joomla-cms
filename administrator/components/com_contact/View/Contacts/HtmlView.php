@@ -197,25 +197,25 @@ class HtmlView extends BaseHtmlView
 			{
 				$childBar->trash('contacts.trash')->listCheck(true);
 			}
-		}
 
-		// Add a batch button
-		if ($user->authorise('core.create', 'com_contact')
-			&& $user->authorise('core.edit', 'com_contact')
-			&& $user->authorise('core.edit.state', 'com_contact'))
-		{
-			$toolbar->popupButton('batch')
-				->text('JTOOLBAR_BATCH')
-				->selector('collapseModal')
-				->listCheck(true);
-		}
+			// Add a batch button
+			if ($user->authorise('core.create', 'com_contact')
+				&& $user->authorise('core.edit', 'com_contact')
+				&& $user->authorise('core.edit.state', 'com_contact'))
+			{
+				$childBar->popupButton('batch')
+					->text('JTOOLBAR_BATCH')
+					->selector('collapseModal')
+					->listCheck(true);
+			}
 
-		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
-		{
-			$toolbar->delete('contacts.delete')
-				->text('JTOOLBAR_EMPTY_TRASH')
-				->message('JGLOBAL_CONFIRM_DELETE')
-				->listCheck(true);
+			if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
+			{
+				$childBar->delete('contacts.delete')
+					->text('JTOOLBAR_EMPTY_TRASH')
+					->message('JGLOBAL_CONFIRM_DELETE')
+					->listCheck(true);
+			}
 		}
 
 		if ($user->authorise('core.admin', 'com_contact') || $user->authorise('core.options', 'com_contact'))

@@ -359,7 +359,10 @@ class Toolbar
 			$html[] = $layout->render([]);
 		}
 
-		array_unshift($html, LayoutHelper::render('joomla.toolbar.breadcrumb', ['items' => $this->breadcrumbs]));
+		if (strtolower($this->getName()) === 'toolbar')
+		{
+			array_unshift($html, LayoutHelper::render('joomla.toolbar.breadcrumb', ['items' => $this->breadcrumbs]));
+		}
 
 		return implode('', $html);
 	}
