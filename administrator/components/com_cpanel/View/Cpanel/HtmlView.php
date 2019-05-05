@@ -95,7 +95,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		// Set toolbar items for the page
-		ToolbarHelper::title(Text::_($title, 'fa fa-home cpanel'));
+		ToolbarHelper::title($title, 'fa fa-home cpanel');
 		ToolbarHelper::help('screen.cpanel');
 
 		// Display the cpanel modules
