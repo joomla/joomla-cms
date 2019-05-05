@@ -142,8 +142,9 @@ services:
 
   - name: postgres
     image: postgres
+
 ---
 kind: signature
-hmac: aabc05597f4e53508fbafa12e26a250a9c1a97745c23ce9a4b38292285ddc694
+hmac: 8a414502ef7bcecd0fd9f58a24a3da2d9cfb5af662ca5dbfcd672f4537576627
 
 ...
