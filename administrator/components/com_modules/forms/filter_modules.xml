@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form addfieldprefix="Joomla\Component\Modules\Administrator\Field">
+	<field
+			name="client_id"
+			type="list"
+			filtermode="selector"
+			onchange="Joomla.resetFilters(this)"
+	>
+		<option value="0">JSITE</option>
+		<option value="1">JADMINISTRATOR</option>
+	</field>
 
 	<fields name="filter">
 		<field
