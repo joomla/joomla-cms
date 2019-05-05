@@ -12,10 +12,10 @@ namespace Joomla\Component\Users\Site\Model;
 defined('_JEXEC') or die;
 
 use Exception;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Access\Access;
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ItemModel;
-
-// Todo: UserModel to show user + list of articles
 
 /**
  * This models retrieves some data of a user.
@@ -67,23 +67,23 @@ class UserModel extends ItemModel
 	 */
 	protected function getArticles($id = null)
 	{
-		/** @var ContentModelArticles $model */
-		$model = BaseDatabaseModel::getInstance(
-			'ArticlesModel',
-			'Joomla\\Component\\Content\\Site\\Model\\',
-			array('ignore_request' => true)
-		);
+		$app     = Factory::getApplication();
+		$factory = $app->bootComponent('com_content')->getMVCFactory();
 
-		$model->setState('params', $this->params);
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 50);
-		$model->setState('filter.published', 1);
-		$model->setState('filter.author_id', (int) $id);
-		$model->setState('filter.created_by', (int) $id);
-		$model->setState('list.ordering', 'a.ordering');
-		$model->setState('list.direction', 'ASC');
-		$items = $model->getItems();
+		// Get an instance of the generic articles model
+		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
+		// Set application parameters in model
+		$appParams = $app->getParams();
+		$articles->setState('params', $appParams);
+
+		// Set the filters based on the module params
+		$articles->setState('list.start', 0);
+		$articles->setState('list.limit', 50);
+		$articles->setState('filter.published', 1);
+		$articles->setState('filter.author_id', $id);
+		$articles->setState('filter.author_id.include', 1);
+		$items = $articles->getItems();
 
 		return $items;
 	}

@@ -14,8 +14,18 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 HTMLHelper::_('behavior.formvalidator');
+?>
 
-$params = $this->params;
-print"<pre>";
-print_r($this->item);
-print"</pre>";
+ID: <?php echo $this->item->id; ?><br>
+Name: <?php echo $this->item->name; ?><br>
+<br><br>
+
+<?php if ($this->item->articles): ?>
+	<?php foreach ($this->item->articles as $article): ?>
+		<?php echo $article->id; ?>
+		<?php echo $article->title; ?>
+		<?php echo $article->created; ?>
+		<?php echo $article->hits; ?>
+        <br>
+	<?php endforeach; ?>
+<?php endif; ?>
