@@ -9,8 +9,11 @@
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -18,7 +21,7 @@ use Joomla\Utilities\ArrayHelper;
  *
  * @since  3.9.0
  */
-class PlgUserTerms extends JPlugin
+class PlgUserTerms extends CMSPlugin
 {
 	/**
 	 * Load the language file on instantiation.
@@ -56,7 +59,7 @@ class PlgUserTerms extends JPlugin
 	{
 		parent::__construct($subject, $config);
 
-		JFormHelper::addFieldPath(__DIR__ . '/field');
+		FormHelper::addFieldPath(__DIR__ . '/field');
 	}
 
 	/**
@@ -87,7 +90,7 @@ class PlgUserTerms extends JPlugin
 		}
 
 		// Add the terms and conditions fields to the form.
-		JForm::addFormPath(__DIR__ . '/terms');
+		Form::addFormPath(__DIR__ . '/terms');
 		$form->loadFile('terms');
 
 		$termsarticle = $this->params->get('terms_article');
@@ -172,7 +175,7 @@ class PlgUserTerms extends JPlugin
 		);
 
 		/* @var ActionlogsModelActionlog $model */
-		$model = JModelLegacy::getInstance('Actionlog', 'ActionlogsModel');
+		$model = BaseDatabaseModel::getInstance('Actionlog', 'ActionlogsModel');
 		$model->addLog(array($message), 'PLG_USER_TERMS_LOGGING_CONSENT_TO_TERMS', 'plg_user_terms', $userId);
 	}
 }

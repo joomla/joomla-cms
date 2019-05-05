@@ -76,6 +76,9 @@ switch ($config->error_reporting)
 		break;
 }
 
-define('JDEBUG', $config->debug);
+if (!defined('JDEBUG'))
+{
+	define('JDEBUG', $config->debug);
+}
 
 unset($config);
