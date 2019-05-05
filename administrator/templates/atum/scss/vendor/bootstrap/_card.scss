@@ -2,7 +2,7 @@
 
 @import "../../variables";
 
-.card-body {
+.card, .card-body {
   background: $white;
   box-shadow: $atum-box-shadow;
 }

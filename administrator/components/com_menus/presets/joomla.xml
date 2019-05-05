@@ -19,6 +19,7 @@
 	>
 		<menuitem
 				title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
+				quicktask-title="MOD_MENU_COM_CONTENT_NEW_ARTICLE"
 				type="component"
 				element="com_content"
 				link="index.php?option=com_content"
@@ -27,6 +28,7 @@
 		</menuitem>
 		<menuitem
 				title="MOD_MENU_COM_CONTENT_CATEGORY_MANAGER"
+				quicktask-title="MOD_MENU_COM_CONTENT_NEW_CATEGORY"
 				type="component"
 				element="com_categories"
 				link="index.php?option=com_categories&amp;extension=com_content"
@@ -73,6 +75,7 @@
 		/>
 		<menuitem
 				title="MOD_MENU_EXTENSIONS_MODULE_MANAGER_SITE"
+				quicktask-title="MOD_MENU_COM_CONTENT_NEW_MODULE"
 				type="component"
 				element="com_modules"
 				link="index.php?option=com_modules&amp;client_id=0"
@@ -126,6 +129,7 @@
 				sql_order="a.id DESC">
 			<menuitem
 					title="{sql:title} "
+					quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
 					type="component"
 					element="com_menus"
 					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
@@ -144,6 +148,7 @@
 				sql_order="id DESC">
 			<menuitem
 					title="{sql:title}"
+					quicktask-title="MOD_MENU_MENU_MANAGER_NEW_MENU_ITEM"
 					type="component"
 					element="com_menus"
 					link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
@@ -170,6 +175,7 @@
 	>
 		<menuitem
 				title="MOD_MENU_COM_USERS_USER_MANAGER"
+				quicktask-title="MOD_MENU_COM_USERS_ADD_USER"
 				type="component"
 				element="com_users"
 				link="index.php?option=com_users&amp;view=users"

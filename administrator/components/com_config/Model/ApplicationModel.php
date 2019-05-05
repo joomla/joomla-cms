@@ -603,6 +603,12 @@ class ApplicationModel extends FormModel
 			throw new \RuntimeException(Text::_('COM_CONFIG_ERROR_WRITE_FAILED'));
 		}
 
+		// Invalidates the cached configuration file
+		if (function_exists('opcache_invalidate'))
+		{
+			opcache_invalidate($file);
+		}
+
 		// Attempt to make the file unwriteable if using FTP.
 		if (!$ftp['enabled'] && Path::isOwner($file) && !Path::setPermissions($file, '0444'))
 		{

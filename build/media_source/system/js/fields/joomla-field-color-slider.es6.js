@@ -16,7 +16,7 @@
    * @type {RegExp}
    */
   const rgbRegex = new RegExp(
-      /^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i,
+    /^rgba?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)(?:[\D]+([0-9](?:.\d+)?))?\)$/i,
   );
 
   /**
@@ -24,7 +24,7 @@
    * @type {RegExp}
    */
   const hslRegex = new RegExp(
-      /^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i,
+    /^hsla?\(([0-9]+)[\D]+([0-9]+)[\D]+([0-9]+)[\D]+([0-9](?:.\d+)?)?\)$/i,
   );
 
   /**
@@ -131,13 +131,13 @@
       // The initial value can be also a color defined in css
       const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
       const value = cssValue || this.color || this.default || '';
-      let hsl = [];
+      let hsl = [this.hue, this.saturation, this.light, this.alpha];
 
       if (!value) {
         return;
       }
 
-      if (typeof value === 'number') {
+      if (/^[0-9]+$/.test(value)) {
         if (this.display.indexOf('hue') !== -1) {
           hsl[0] = value;
         }
@@ -170,10 +170,8 @@
       this.setSliderValues(hsl);
       this.setInputValue(hsl);
 
-      if (typeof value !== 'number') {
-        this.input.style.border = `2px solid ${this.getRgbString(
-            this.hslToRgb(hsl),
-        )}`;
+      if (/^[0-9]+$/.test(value) === false) {
+        this.input.style.border = `2px solid ${this.getRgbString(this.hslToRgb(hsl))}`;
       }
     }
 
@@ -281,7 +279,7 @@
      */
     getRgbString([r, g, b, a]) {
       if (this.setAlpha) {
-        let alpha = a || this.alpha;
+        const alpha = a || this.alpha;
         return `rgba(${r}, ${g}, ${b}, ${alpha})`;
       }
       return `rgb(${r}, ${g}, ${b})`;
@@ -299,7 +297,7 @@
       [h, s, l] = [h, s, l].map(value => Math.round(value));
 
       if (this.setAlpha) {
-        const a = a || this.alpha;
+        a = a || this.alpha;
         return `hsla(${h}, ${s}%, ${l}%, ${a})`;
       }
 

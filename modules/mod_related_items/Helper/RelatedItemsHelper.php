@@ -16,6 +16,7 @@ use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -40,21 +41,13 @@ abstract class RelatedItemsHelper
 		$input   = $app->input;
 		$groups  = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 		$maximum = (int) $params->get('maximum', 5);
+		$factory = $app->bootComponent('com_content')->getMVCFactory();
 
 		// Get an instance of the generic articles model
-		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_content/Model');
-		$articles = BaseDatabaseModel::getInstance('ArticlesModel', 'Joomla\\Component\\Content\\Site\\Model\\', array('ignore_request' => true));
-
-		if ($articles === false)
-		{
-			$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-			return array();
-		}
+		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
-		$appParams = $app->getParams();
-		$articles->setState('params', $appParams);
+		$articles->setState('params', $app->getParams());
 
 		$option = $input->get('option');
 		$view   = $input->get('view');
@@ -117,7 +110,7 @@ abstract class RelatedItemsHelper
 				$case_when = ' CASE WHEN ';
 				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
-				$a_id = $query->castAsChar('a.id');
+				$a_id      = $query->castAsChar('a.id');
 				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 				$case_when .= ' ELSE ';
 				$case_when .= $a_id . ' END as slug';
@@ -126,9 +119,10 @@ abstract class RelatedItemsHelper
 					->from('#__content AS a')
 					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
 					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-					->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state')
+					->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id')
+					->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id')
 					->where('a.id != ' . (int) $id)
-					->where('ws.condition = 1')
+					->where('ws.condition = ' . ContentComponent::CONDITION_PUBLISHED)
 					->where('a.access IN (' . $groups . ')');
 
 				$wheres = array();
@@ -171,7 +165,6 @@ abstract class RelatedItemsHelper
 					}
 
 					$articles->setState('filter.article_id', $articles_ids);
-					$articles->setState('filter.published', 1);
 					$related = $articles->getItems();
 				}
 

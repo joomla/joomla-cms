@@ -50,9 +50,9 @@ $filters = $data['view']->filterForm->getGroup('filter');
 				</div>
 			</div>
 			<div class="btn-group">
-                <span class="badge badge-pill badge-danger js-stools-filter-count"></span>
 				<button type="button" class="btn btn-primary hasTooltip js-stools-btn-filter">
-					<?php echo Text::_('JFILTER_OPTIONS'); ?>
+                    <span class="badge badge-pill badge-danger js-stools-filter-count"></span>
+                    <?php echo Text::_('JFILTER_OPTIONS'); ?>
 					<span class="fa fa-caret-down" aria-hidden="true"></span>
 				</button>
 			</div>
