@@ -70,13 +70,13 @@ abstract class QuickIconHelper
 		{
 			// Load mod_quickicon language file in case this method is called before rendering the module
 			$application->getLanguage()->load('mod_quickicon');
-			
+
 			// Update Panel, icons come from plugins quickicons
 			if ($params->get('icon_type', 'site') === 'update')
 			{
 				// Update Panel, icons come from plugins quickicons
 				$context = $params->get('context', 'mod_quickicon');
-				
+
 				// Include buttons defined by published quickicon plugins
 				PluginHelper::importPlugin('quickicon');
 
@@ -188,7 +188,7 @@ abstract class QuickIconHelper
 						'group'  => 'MOD_QUICKICON_SITE',
 					];
 				}
-		
+
 				if ($params->get('show_categories', '1'))
 				{
 					$amount = self::countArticleCategories();
@@ -256,7 +256,7 @@ abstract class QuickIconHelper
 
 		return self::$buttons[$key];
 	}
-	
+
 	/**
 	 * Method to get the number of published modules in frontend.
 	 * 
