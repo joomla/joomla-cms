@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_languages
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -105,7 +105,7 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 						</span>
 					</div>
 					<span id="refresh-status" class="help-block">
-						<span class="fa fa-refresh fa-spin" aria-hidden="true"></span>
+						<span class="fa fa-sync fa-spin" aria-hidden="true"></span>
 						<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 					</span>
 				</div>

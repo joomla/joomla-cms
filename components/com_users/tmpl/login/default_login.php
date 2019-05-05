@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -49,28 +49,10 @@ $usersConfig = ComponentHelper::getParams('com_users');
 	<form action="<?php echo Route::_('index.php?option=com_users&task=user.login'); ?>" method="post" class="com-users-login__form form-validate form-horizontal well">
 
 		<fieldset>
-			<?php foreach ($this->form->getFieldset('credentials') as $field) : ?>
-				<?php if (!$field->hidden) : ?>
-					<div class="com-users-login__input control-group">
-						<div class="control-label">
-							<?php echo $field->label; ?>
-						</div>
-						<div class="controls">
-							<?php echo $field->input; ?>
-						</div>
-					</div>
-				<?php endif; ?>
-			<?php endforeach; ?>
+			<?php echo $this->form->renderFieldset('credentials', ['class' => 'com-users-login__input']); ?>
 
 			<?php if ($this->tfa) : ?>
-				<div class="com-users-login__secretkey control-group">
-					<div class="control-label">
-						<?php echo $this->form->getField('secretkey')->label; ?>
-					</div>
-					<div class="controls">
-						<?php echo $this->form->getField('secretkey')->input; ?>
-					</div>
-				</div>
+				<?php echo $this->form->renderField('secretkey', ['class' => 'com-users-login__secretkey']); ?>
 			<?php endif; ?>
 
 			<?php if (PluginHelper::isEnabled('system', 'remember')) : ?>

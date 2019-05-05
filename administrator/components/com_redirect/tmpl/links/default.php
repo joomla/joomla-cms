@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -108,7 +108,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 						<th scope="row" class="break-word">
 							<?php if ($canEdit) : ?>
 								<a href="<?php echo Route::_('index.php?option=com_redirect&task=link.edit&id=' . $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape($item->old_url); ?>">
-									<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span><?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?></a>
+									<span class="fa fa-pen-square mr-2" aria-hidden="true"></span><?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?></a>
 							<?php else : ?>
 									<?php echo $this->escape(str_replace(Uri::root(), '', rawurldecode($item->old_url))); ?>
 							<?php endif; ?>

@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -145,12 +145,6 @@ class SearchesModel extends ListModel
 		{
 			PluginHelper::importPlugin('search');
 			$app = Factory::getApplication();
-
-			if (!class_exists('JSite'))
-			{
-				// This fools the routers in the search plugins into thinking it's in the frontend
-				\JLoader::register('JSite', \JPATH_ADMINISTRATOR . '/components/com_search/helpers/site.php');
-			}
 
 			foreach ($items as &$item)
 			{
