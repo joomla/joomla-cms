@@ -32,7 +32,7 @@ class HelpButton extends BasicButton
 	/**
 	 * Prepare options for this button.
 	 *
-	 * @param   array  &$options  The options about this button.
+	 * @param   array  $options  The options about this button.
 	 *
 	 * @return  void
 	 *
@@ -40,9 +40,8 @@ class HelpButton extends BasicButton
 	 */
 	protected function prepareOptions(array &$options)
 	{
-		$options['text'] = $options['text'] ?: 'JTOOLBAR_HELP';
 		$options['icon'] = $options['icon'] ?? 'fa fa-question';
-		$options['button_class'] = $options['button_class'] ?? 'btn btn-info';
+		$options['button_class'] = $options['button_class'] ?? '';
 		$options['onclick'] = $options['onclick'] ?? $this->_getCommand();
 
 		parent::prepareOptions($options);

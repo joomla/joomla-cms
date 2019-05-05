@@ -216,11 +216,11 @@
 }
 
 .icon-apply:before, .icon-save:before {
-    @extend .#{$fa-css-prefix}-floppy-o:before;
+    @extend .#{$fa-css-prefix}-save:before;
 }
 
 .icon-edit:before, .icon-pencil:before {
-    @extend .#{$fa-css-prefix}-pencil-square-o:before;
+    @extend .#{$fa-css-prefix}-pen-square:before;
 }
 
 .icon-pencil-2:before {
