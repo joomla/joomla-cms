@@ -87,10 +87,10 @@ class AddUserToGroupCommand extends AbstractCommand
 
 		$user = $this->getUser($this->username);
 		$this->userGroups = $this->getGroups($user);
+		$db = Factory::getDbo();
 
 		foreach ($this->userGroups as $userGroup)
 		{
-			$db = Factory::getDbo();
 			$querry = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
@@ -128,12 +128,12 @@ class AddUserToGroupCommand extends AbstractCommand
 		$option = $this->getApplication()->getConsoleInput()->getOption('group');
 		$list = array();
 		$currentGroups = array();
+		$db = Factory::getDbo();
 
 		if (!isset($option[0]))
 		{
 			foreach ($user->groups as $groupId)
 			{
-				$db = Factory::getDbo();
 				$query = $db->getQuery(true)
 					->select($db->quoteName('title'))
 					->from($db->quoteName('#__usergroups'))

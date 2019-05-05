@@ -215,10 +215,10 @@ class AddUserCommand extends AbstractCommand
 	protected function getUserGroups(): array
 	{
 		$option = $this->getApplication()->getConsoleInput()->getOption('usergroup');
+		$db = Factory::getDbo();
 
 		if (!isset($option[0]))
 		{
-			$db = Factory::getDbo();
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))

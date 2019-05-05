@@ -77,6 +77,7 @@ class DeleteUserCommand extends AbstractCommand
 		$this->ioStyle->title('Delete users');
 
 		$userId = UserHelper::getUserId($this->username);
+		$db = Factory::getDbo();
 
 		if (empty($userId))
 		{
@@ -92,7 +93,6 @@ class DeleteUserCommand extends AbstractCommand
 		{
 			if (Access::checkGroup($groupId, 'core.admin'))
 			{
-				$db = Factory::getDbo();
 				$query = $db->getQuery(true);
 				$query->select('COUNT(*)');
 				$query->from($db->quoteName('#__user_usergroup_map'));
