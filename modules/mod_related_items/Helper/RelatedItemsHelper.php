@@ -17,6 +17,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Content\Administrator\Extension\ContentComponent;
+use Joomla\Database\ParameterType;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -36,12 +37,13 @@ abstract class RelatedItemsHelper
 	 */
 	public static function getList(&$params)
 	{
-		$db      = Factory::getDbo();
-		$app     = Factory::getApplication();
-		$input   = $app->input;
-		$groups  = implode(',', Factory::getUser()->getAuthorisedViewLevels());
-		$maximum = (int) $params->get('maximum', 5);
-		$factory = $app->bootComponent('com_content')->getMVCFactory();
+		$db        = Factory::getDbo();
+		$app       = Factory::getApplication();
+		$input     = $app->input;
+		$groups    = Factory::getUser()->getAuthorisedViewLevels();
+		$maximum   = (int) $params->get('maximum', 5);
+		$factory   = $app->bootComponent('com_content')->getMVCFactory();
+		$condition = ContentComponent::CONDITION_PUBLISHED;
 
 		// Get an instance of the generic articles model
 		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
@@ -54,7 +56,7 @@ abstract class RelatedItemsHelper
 
 		$temp = $input->getString('id');
 		$temp = explode(':', $temp);
-		$id   = $temp[0];
+		$id   = (int) $temp[0];
 
 		$nullDate = $db->getNullDate();
 		$now      = Factory::getDate()->toSql();
@@ -66,7 +68,8 @@ abstract class RelatedItemsHelper
 			// Select the meta keywords from the item
 			$query->select('metakey')
 				->from('#__content')
-				->where('id = ' . (int) $id);
+				->where($db->quoteName('id') . ' = :id')
+				->bind(':id', $id, ParameterType::INTEGER);
 			$db->setQuery($query);
 
 			try
@@ -99,50 +102,64 @@ abstract class RelatedItemsHelper
 			{
 				// Select other items based on the metakey field 'like' the keys found
 				$query->clear()
-					->select('a.id')
-					->select('a.title')
-					->select('CAST(a.created AS DATE) as created')
-					->select('a.catid')
-					->select('a.language')
-					->select('cc.access AS cat_access')
-					->select('cc.published AS cat_state');
+					->select([
+						$db->quoteName(['a.id', 'a.title', 'a.catid', 'a.language']),
+						$db->quoteName(['cc.access', 'cc.published'], ['cat_access', 'cat_state']).
+						'CAST(' . $db->quoteName('a.created') . ' AS DATE) AS created'
+						]);
 
 				$case_when = ' CASE WHEN ';
-				$case_when .= $query->charLength('a.alias', '!=', '0');
+				$case_when .= $query->charLength($db->quoteName('a.alias'), '!=', '0');
 				$case_when .= ' THEN ';
-				$a_id      = $query->castAsChar('a.id');
-				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
+				$a_id      = $query->castAsChar($db->quoteName('a.id'));
+				$case_when .= $query->concatenate([$a_id, $db->quoteName('a.alias')], ':');
 				$case_when .= ' ELSE ';
-				$case_when .= $a_id . ' END as slug';
+				$case_when .= $a_id . ' END AS slug';
 
 				$query->select($case_when)
-					->from('#__content AS a')
-					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
-					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-					->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id')
-					->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id')
-					->where('a.id != ' . (int) $id)
-					->where('ws.condition = ' . ContentComponent::CONDITION_PUBLISHED)
-					->where('a.access IN (' . $groups . ')');
+					->from($db->quoteName('__content', 'a'))
+					->leftJoin($db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
+					->leftJoin($db->quoteName('#__content_frontpage', 'f'), $db->quoteName('f.content_id') . ' = ' . $db->quoteName('a.id'))
+					->leftJoin($db->quoteName('#__workflow_associations', 'wa'), $db->quoteName('wa.item_id') . ' = ' . $db->quoteName('a.id'))
+					->leftJoin($db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('wa.stage_id'))
+					->where($db->quoteName('a.id') . ' != :id')
+					->where($db->quoteName('ws.condition') . ' = :condition')
+					->whereIn($db->quoteName('a.access'), $groups)
+					->bind(':id', $id, ParameterType::INTEGER)
+					->bind(':condition', $condition, ParameterType::INTEGER);
 
-				$wheres = array();
+				$binds  = [];
+				$wheres = [];
 
 				foreach ($likes as $keyword)
 				{
-					$wheres[] = 'a.metakey LIKE ' . $db->quote('%' . $keyword . '%');
+					$binds[] = '%' . $keyword . '%';
+				}
+
+				$bindNames = $query->bindArray($binds, parameterType::STRING);
+
+				foreach ($bindNames as $keyword)
+				{
+					$wheres[] = 'a.metakey LIKE ' . $keyword;
 				}
 
 				$query->where('(' . implode(' OR ', $wheres) . ')')
-					->where('(a.publish_up = ' . $db->quote($nullDate) . ' OR a.publish_up <= ' . $db->quote($now) . ')')
-					->where('(a.publish_down = ' . $db->quote($nullDate) . ' OR a.publish_down >= ' . $db->quote($now) . ')');
+					->where('(a.publish_up = :nullDate1 OR a.publish_up <= :nowDate1)')
+					->where('(a.publish_down = :nullDate2 OR a.publish_down >= :nowDate2)')
+					->bind(':nullDate1', $nullDate)
+					->bind(':nullDate2', $nullDate)
+					->bind(':nowDate1', $now)
+					->bind(':nowDate2', $now);
 
 				// Filter by language
 				if (Multilanguage::isEnabled())
 				{
-					$query->where('a.language in (' . $db->quote(Factory::getLanguage()->getTag()) . ',' . $db->quote('*') . ')');
+					$query->whereIn($db->quoteName('a.language'), [Factory::getLanguage()->getTag(), '*'], ParameterType::STRING);
 				}
 
-				$db->setQuery($query, 0, $maximum);
+				$query->setLimit($maximum);
+
+				$db->setQuery($query);
 
 				try
 				{
@@ -152,7 +169,7 @@ abstract class RelatedItemsHelper
 				{
 					$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
-					return array();
+					return [];
 				}
 
 				if (count($temp))
