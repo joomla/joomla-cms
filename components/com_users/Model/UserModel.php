@@ -16,6 +16,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ItemModel;
+use Joomla\Database\ParameterType;
 
 /**
  * This models retrieves some data of a user.
@@ -47,25 +48,26 @@ class UserModel extends ItemModel
 			)
 			->from($db->quoteName('#__users', 'users'))
 			->where($db->quoteName('users.block') . ' = 0')
-			->where($db->quoteName('users.id') . ' = ' . (int) $id);
+			->where($db->quoteName('users.id') . ' = :user_id')
+			->bind(':user_id', $id, ParameterType::INTEGER);
 		$db->setQuery($query);
 
 		$item = $db->loadObject();
 
 		// Get all Articles written by this Author
-		$item->articles = $this->getarticles($id);
+		$item->articles = $this->getUsersArticles($id);
 
 		return $item;
 	}
 
 	/**
-	 * @param   integer  $id  ID of created_by user
+	 * @param   integer  $userId  ID of created_by user
 	 *
 	 * @return object
 	 * @throws Exception
 	 * @since  4.0
 	 */
-	protected function getArticles($id = null)
+	protected function getUsersArticles($userId = null)
 	{
 		$app     = Factory::getApplication();
 		$factory = $app->bootComponent('com_content')->getMVCFactory();
@@ -81,7 +83,7 @@ class UserModel extends ItemModel
 		$articles->setState('list.start', 0);
 		$articles->setState('list.limit', 50);
 		$articles->setState('filter.published', 1);
-		$articles->setState('filter.author_id', $id);
+		$articles->setState('filter.author_id', $userId);
 		$articles->setState('filter.author_id.include', 1);
 		$items = $articles->getItems();
 

@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -155,19 +156,23 @@ class UsersModel extends ListModel
 
 		if (is_numeric($groupIds))
 		{
-			$query->where($db->quoteName('usergroupmap.group_id') . ' = ' . (int) $groupIds);
+			$query->where($db->quoteName('usergroupmap.group_id') . ' = :group_id')
+				->bind(':group_id', $groupIds, ParameterType::INTEGER);
 		}
 		elseif (is_array($groupIds) && (count($groupIds) > 0))
 		{
 			$groupIds = ArrayHelper::toInteger($groupIds);
-			$query->where(
-				$db->quoteName('usergroupmap.group_id') . ' IN (' . implode(',', $groupIds) . ')'
+
+			// Todo: when Prepared Statements work with Arrays, add: ParameterType::INTEGER)
+			$query->whereIn(
+				$db->quoteName('usergroupmap.group_id'), $groupIds
 			);
 		}
 
 		if (is_numeric($excludedIds))
 		{
-			$query->where($db->quoteName('users.id') . ' <> ' . (int) $excludedIds);
+			$query->where($db->quoteName('users.id') . ' <> :excludedIds')
+				->bind(':excludedIds', $excludedIds, ParameterType::INTEGER);
 		}
 		elseif (is_array($excludedIds) && (count($excludedIds) > 0))
 		{
@@ -243,19 +248,7 @@ class UsersModel extends ListModel
 	{
 		$app    = Factory::getApplication();
 		$params = ComponentHelper::getParams('com_users');
-		/*
 
-				// Get list ordering default from the parameters
-				$menuParams = new Registry;
-
-				if ($menu = $app->getMenu()->getActive())
-				{
-					$menuParams->loadString($menu->params);
-				}
-
-				$mergedParams = clone $params;
-				$mergedParams->merge($menuParams);
-		*/
 		// List state information
 		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
 		$this->setState('list.limit', $value);

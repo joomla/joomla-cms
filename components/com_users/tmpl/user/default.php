@@ -42,7 +42,7 @@ use Joomla\CMS\Router\Route;
 
 					<td headers="categorylist_header_title" class="list-title">
 						<a href="<?php echo Route::_('index.php?option=com_content&view=article&id=' . $article->id); ?>">
-							<?php echo $article->title; ?>
+							<?php echo $this->escape($article->title); ?>
 						</a>
 					</td>
 					<td headers="categorylist_header_author" class="list-author">

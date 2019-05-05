@@ -35,6 +35,9 @@ HTMLHelper::_('behavior.formvalidator');
 <div class="com-users-users user-list">
 	<form action="<?php echo Route::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 		<table class="com-users-users__table users table table-striped table-bordered table-hover">
+			<caption id="captionTable" class="sr-only">
+				<?php echo Text::_('COM_USERS_USERS_TABLE_CAPTION'); ?>, <?php echo Text::_('JGLOBAL_SORTED_BY'); ?>
+			</caption>
 			<?php if ($params->get('show_headings')) : ?>
 				<thead>
 				<tr>
@@ -76,10 +79,9 @@ HTMLHelper::_('behavior.formvalidator');
 			<?php foreach ($this->items as $i => $item): ?>
 
 				<tr class="cat-list-row<?php $i % 2; ?>">
-
-					<td headers="categorylist_header_title" class="list-title">
+					<td>
 						<a href="<?php echo Route::_('index.php?option=com_users&view=user&id=' . $item->id); ?>">
-							<?php echo $item->name; ?>
+							<?php echo $this->escape($item->name); ?>
 						</a>
 					</td>
 					<?php if ($params->get('show_articles')) : ?>
@@ -88,17 +90,17 @@ HTMLHelper::_('behavior.formvalidator');
 						</td>
 					<?php endif; ?>
 					<?php if ($params->get('show_last_visited')) : ?>
-						<td headers="categorylist_header_author" class="list-author">
+						<td>
 							<?php echo HTMLHelper::_(
 								'date', $item->lastvisitDate,
 								$this->escape(
-								        $params->get('date_format', Text::_('DATE_FORMAT_LC1'))
-                                )
+									$params->get('date_format', Text::_('DATE_FORMAT_LC1'))
+								)
 							); ?>
 						</td>
 					<?php endif; ?>
 					<?php if ($params->get('show_online_status')) : ?>
-						<td headers="categorylist_header_hits" class="list-hits">
+						<td>
 							<?php if ($item->time): ?>
 								<span class="badge badge-success">
 									<?php echo Text::_('COM_USERS_ONLINE'); ?>
