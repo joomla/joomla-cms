@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="com_user_reset_view_default_title" option="com_user_reset_view_default_option">
+	<layout title="com_users_reset_view_default_title" option="com_users_reset_view_default_option">
 		<help
 			key="JHELP_MENUS_MENU_ITEM_USER_PASSWORD_RESET"
 		/>
