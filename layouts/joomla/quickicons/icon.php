@@ -22,21 +22,28 @@ $add	  = empty($displayData['addwhat']) ? '' : $displayData['addwhat'];
 // The information
 $text    = empty($displayData['text']) ? '' : ('<span class="j-links-link">' . $displayData['text'] . '</span>');
 
+$iconclass = isset($displayData['iconclass']) ? $displayData['iconclass'] : '';
+
 $class = '';
 
 if ($id !== '')
 {
 	$class = ($displayData['id'] === 'plg_quickicon_joomlaupdate'
 		|| $displayData['id'] === 'plg_quickicon_extensionupdate'
+		|| $displayData['id'] === 'plg_quickicon_privacycheck'
 		|| $displayData['id'] === 'plg_quickicon_overridecheck') ? ' class="pulse"' : '';
 }
 
 ?>
 <li class="col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>">
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
-
+		<?php if (isset($displayData['image'])): ?>
+			<div class="quickicon-icon d-flex align-items-end <?php isset($displayData['amount']) ? 'small' : 'big'; ?>">
+				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
+			</div>
+		<?php endif; ?>
 		<?php if (isset($displayData['amount'])): ?>
-			<div class="quickicon-amount">
+			<div class="quickicon-amount <?php isset($displayData['image']) ? 'small' : 'big'; ?>">
 				<?php
 				$amount = (int) $displayData['amount'];
 				if ($amount <  100000):
@@ -45,10 +52,6 @@ if ($id !== '')
 					echo floor($amount / 1000) . '<span class="thsd">' . $amount % 1000 . '</span>';
 				endif;
 				?>
-			</div>
-		<?php elseif (isset($displayData['image'])): ?>
-			<div class="quickicon-icon d-flex align-items-end">
-				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 			</div>
 		<?php endif; ?>
 		<?php // Name indicates the component
