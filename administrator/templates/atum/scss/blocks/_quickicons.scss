@@ -6,7 +6,6 @@
   background-color: $white;
   margin-bottom: 1rem;
   padding: 0.5rem 1.5rem;
-  box-shadow: $atum-box-shadow;
 
   ul {
     list-style: none;
@@ -96,7 +95,6 @@
 
     @include hover-focus-active {
       text-decoration: none;
-      box-shadow: $atum-box-shadow;
     }
 
     > div {
@@ -114,21 +112,25 @@
     .fa,
     .fab {
       margin: 5px auto 0;
-      font-size: 2.5rem;
+      font-size: 2rem;
     }
 
     &.warning {
-      color: var(--warning);
-      box-shadow: $quickicon-box-shadow-warning;
+      color: $danger-txt;
+      background: $danger-bg;
+      border: 1px solid lighten($danger-txt, 30%);
+
       &:hover {
         color:rgba(255,255,255,0.9);
-        background: var(--warning);
+        background: var(--danger);
       }
     }
 
     &.danger {
-      color: var(--danger);
-      box-shadow: $quickicon-box-shadow-danger;
+      color: $danger-txt;
+      background: $danger-bg;
+      border: 1px solid lighten($danger-txt, 30%);
+
       &:hover {
         color:rgba(255,255,255,0.9);
         background: var(--danger);
@@ -136,8 +138,11 @@
     }
 
     &.success {
-      color: var(--success);
-      box-shadow: $quickicon-box-shadow-success;
+      color: $success-txt;
+      background:  $success-bg;
+      border: 1px solid lighten($success-txt, 30%);
+
+
       &:hover {
         color:rgba(255,255,255,0.9);
         background: var(--success);
