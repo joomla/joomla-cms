@@ -36,7 +36,7 @@ echo HTMLHelper::_(
 		'modalWidth'  => '80',
 		'footer'      => '<a type="button" class="btn" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true">'
 			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-			. '<button type="button" class="btn btn-primary hidden" data-target="#saveBtn" aria-hidden="true">'
+			. '<button type="button" class="button-save  btn btn-sm btn-success hidden" data-target="#saveBtn" aria-hidden="true">'
 			. Text::_('JSAVE') . '</button>',
 	)
 );
