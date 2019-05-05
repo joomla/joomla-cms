@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Privacy\Administrator\Model\DashboardModel;
 
 /**
  * Dashboard view class
@@ -65,6 +66,14 @@ class HtmlView extends BaseHtmlView
 	protected $sendMailEnabled;
 
 	/**
+	 * Days when a request is considered urgent
+	 *
+	 * @var    integer
+	 * @since  3.9.0
+	 */
+	protected $urgentRequestDays = 14;
+
+	/**
 	 * The HTML markup for the sidebar
 	 *
 	 * @var    string
@@ -77,18 +86,19 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
+	 * @throws  \Exception
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
-	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables
-		$this->privacyPolicyInfo    = $this->get('PrivacyPolicyInfo');
-		$this->requestCounts        = $this->get('RequestCounts');
-		$this->requestFormPublished = $this->get('RequestFormPublished');
+		/** @var DashboardModel $model */
+		$model = $this->getModel();
+		$this->privacyPolicyInfo    = $model->getPrivacyPolicyInfo();
+		$this->requestCounts        = $model->getRequestCounts();
+		$this->requestFormPublished = $model->getRequestFormPublished();
 		$this->sendMailEnabled      = (bool) Factory::getConfig()->get('mailonline', 1);
 
 		/** @var PrivacyModelRequests $requestsModel */
@@ -106,9 +116,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		$this->sidebar = \JHtmlSidebar::render();
-
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**

@@ -18,6 +18,7 @@ use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Privacy\Administrator\Model\ConsentsModel;
 
 /**
  * Consents view class
@@ -81,20 +82,21 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise an Error object.
+	 * @return  void
 	 *
+	 * @throws  \Exception
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
-	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
-		// Initialise variables
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->state         = $this->get('State');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		/** @var ConsentsModel $model */
+		$model               = $this->getModel();
+		$this->items         = $model->getItems();
+		$this->pagination    = $model->getPagination();
+		$this->state         = $model->getState();
+		$this->filterForm    = $model->getFilterForm();
+		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
@@ -104,9 +106,7 @@ class HtmlView extends BaseHtmlView
 
 		$this->addToolbar();
 
-		$this->sidebar = \JHtmlSidebar::render();
-
-		return parent::display($tpl);
+		parent::display($tpl);
 	}
 
 	/**
