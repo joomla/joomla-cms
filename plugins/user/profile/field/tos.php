@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  User.profile
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -53,8 +53,6 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 		// Set required to true as this field is not displayed at all if not required.
 		$this->required = true;
 
-		HTMLHelper::_('behavior.modal');
-
 		// Build the class for the label.
 		$class = !empty($this->description) ? 'hasPopover' : '';
 		$class = $class . ' required';
@@ -66,18 +64,23 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
 			$label .= ' data-content="' . htmlspecialchars(
 				$this->translateDescription ? Text::_($this->description) : $this->description,
 				ENT_COMPAT,
 				'UTF-8'
 			) . '"';
+
+			if (Factory::getLanguage()->isRtl())
+			{
+				$label .= ' data-placement="left"';
+			}
 		}
 
 		$tosArticle = $this->element['article'] > 0 ? (int) $this->element['article'] : 0;
 
 		if ($tosArticle)
 		{
+			HTMLHelper::_('behavior.modal');
 			JLoader::register('ContentHelperRoute', JPATH_BASE . '/components/com_content/helpers/route.php');
 
 			$attribs          = array();
