@@ -37,7 +37,7 @@ if ($module->content) :
 
 	?>
 	<div class="module-wrapper">
-		<<?php echo $moduleTag; ?> class="card mb-3<?php echo $moduleClassSfx; ?>">
+		<<?php echo $moduleTag; ?> class="card mb-3 <?php echo $moduleClassSfx; ?>">
 			<?php if ($canEdit || $canChange) : ?>
 				<?php $dropdownPosition = Factory::getLanguage()->isRTL() ? 'left' : 'right'; ?>
 				<div class="module-actions dropdown">
