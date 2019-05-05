@@ -13,8 +13,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\ParameterType;
 use Joomla\Registry\Registry;
-use \Joomla\Database\ParameterType;
 
 /**
  * Contact Plugin
