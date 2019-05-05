@@ -508,3 +508,5 @@ JLoader::registerAlias('FinderIndexerQuery',                 '\\Joomla\\Componen
 JLoader::registerAlias('FinderIndexerResult',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Result', '5.0');
 JLoader::registerAlias('FinderIndexerTaxonomy',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Taxonomy', '5.0');
 JLoader::registerAlias('FinderIndexerToken',                 '\\Joomla\\Component\\Finder\\Administrator\\Indexer\\Token', '5.0');
+
+JLoader::registerAlias('JClassLoader',                      '\\Joomla\\CMS\\Autoload\\ClassLoader', '5.0');

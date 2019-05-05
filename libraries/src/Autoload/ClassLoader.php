@@ -1,15 +1,16 @@
 <?php
 /**
- * @package     Joomla.Libraries
- * @subpackage  Class
+ * Joomla! Content Management System
  *
- * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+namespace Joomla\CMS\Autoload;
 
 defined('_JEXEC') or die;
 
-use Composer\Autoload\ClassLoader;
+use Composer\Autoload\ClassLoader as ComposerClassLoader;
 
 /**
  * Decorate Composer ClassLoader for Joomla!
@@ -19,12 +20,12 @@ use Composer\Autoload\ClassLoader;
  *
  * @since  3.4
  */
-class JClassLoader
+class ClassLoader
 {
 	/**
-	 * The composer class loader
+	 * The Composer class loader
 	 *
-	 * @var    ClassLoader
+	 * @var    ComposerClassLoader
 	 * @since  3.4
 	 */
 	private $loader;
@@ -32,11 +33,11 @@ class JClassLoader
 	/**
 	 * Constructor
 	 *
-	 * @param   ClassLoader  $loader  Composer autoloader
+	 * @param   ComposerClassLoader  $loader  Composer autoloader
 	 *
 	 * @since   3.4
 	 */
-	public function __construct(ClassLoader $loader)
+	public function __construct(ComposerClassLoader $loader)
 	{
 		$this->loader = $loader;
 	}
@@ -54,7 +55,7 @@ class JClassLoader
 	{
 		if ($result = $this->loader->loadClass($class))
 		{
-			JLoader::applyAliasFor($class);
+			\JLoader::applyAliasFor($class);
 		}
 
 		return $result;
