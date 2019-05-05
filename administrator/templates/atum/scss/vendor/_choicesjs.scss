@@ -136,6 +136,10 @@
 	font-size: 1rem;
 }
 
+.choices__inner, .choices__input {
+	background-color: var(--white);
+}
+
 .choices__list--single {
 	padding: 0;
 	font-size: 1rem;

@@ -81,7 +81,7 @@ module.exports.compile = (options, path) => {
               },
               (error) => {
                 // eslint-disable-next-line no-console
-                console.error(`something exploded ${error}`);
+                console.error(error.formatted);
               },
             );
 

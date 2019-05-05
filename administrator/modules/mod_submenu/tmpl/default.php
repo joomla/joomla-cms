@@ -35,12 +35,13 @@ $user = $app->getIdentity();
 	<div class="row">
 	<?php foreach ($root->getChildren() as $child) : ?>
 		<?php if ($child->hasChildren()) : ?>
-			<div class="card mb-3 col-lg-<?php echo $columnSize; ?> col-md-<?php echo $columnSizeSmall; ?>">
-				<h2 class="card-header">
+			<div class="mb-3 col-lg-<?php echo $columnSize; ?> col-md-<?php echo $columnSizeSmall; ?>">
+				<div class="card">
+					<h2 class="card-header">
 					<?php if ($child->icon) : ?><span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
 					<?php echo Text::_($child->title); ?>
 				</h2>
-				<ul class="list-group list-group-flush">
+					<ul class="list-group list-group-flush">
 					<?php foreach ($child->getChildren() as $item) : ?>
 						<li class="list-group-item d-flex">
 							<?php $params = $item->getParams(); ?>
@@ -92,6 +93,7 @@ $user = $app->getIdentity();
 						</li>
 					<?php endforeach; ?>
 				</ul>
+				</div>
 			</div>
 		<?php endif; ?>
 	<?php endforeach; ?>

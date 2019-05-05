@@ -172,6 +172,11 @@
         });
 
         wrapper.classList.remove('closed');
+        localStorage.setItem('atum-sidebar', 'open');
+        if (menuToggleIcon.classList.contains('fa-toggle-off')){
+          menuToggleIcon.classList.toggle('fa-toggle-off');
+          menuToggleIcon.classList.toggle('fa-toggle-on');
+        }
         mainNav.classList.add('child-open');
 
         if (menuItem.parentNode.classList.contains('main-nav')) {
