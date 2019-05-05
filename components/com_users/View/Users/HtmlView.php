@@ -12,6 +12,7 @@ namespace Joomla\Component\Users\Site\View\Users;
 defined('_JEXEC') or die;
 
 use Exception;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use JPagination;
 
@@ -66,7 +67,9 @@ class HtmlView extends BaseHtmlView
 		$this->state      = $this->get('State');
 		$this->items      = $this->get('Items');
 		$this->pagination = $this->get('Pagination');
-		$this->params     = $this->state->get('params');
+
+		// Get params for active menu
+		$this->params = Factory::getApplication()->getMenu()->getActive()->params;
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))

@@ -1,32 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_USER_USERS_VIEW_DEFAULT_TITLE" option="COM_USER_USERS_VIEW_DEFAULT_OPTION">
+    <layout title="COM_USERS_GROUP_VIEW_DEFAULT_TITLE" option="COM_USERS_GROUP_VIEW_DEFAULT_OPTION">
         <help
                 key="JHELP_MENUS_MENU_ITEM_USER_USERS"
         />
         <message>
-            <![CDATA[COM_USER_USERS_VIEW_DEFAULT_DESC]]>
+            <![CDATA[COM_USERS_GROUP_VIEW_DEFAULT_DESC]]>
         </message>
     </layout>
 
     <!-- Add fields to the parameters object for the layout. -->
     <fields name="params">
-    <fieldset name="basic" label="COM_USERS_SELECT_GROUPS">
-    <field
-            name="layout_type"
-            type="hidden"
-            default="blog"
-    />
+        <fieldset name="basic" label="COM_USERS_TAB">
+            <field
+                    name="layout_type"
+                    type="hidden"
+                    default="blog"
+            />
             <field
                     name="groups"
                     addfieldprefix="Joomla\Component\Users\Administrator\Field"
                     type="groupparent"
-                    label="COM_USERS_HEADING_GROUPS"
+                    label="COM_USERS_GROUPS"
                     extension="com_users"
                     required="true"
                     multiple="true"
                     class="2do"
             />
+
+            <field
+                    name="show_page_heading"
+                    type="list"
+                    label="JGLOBAL_SHOW_HEADINGS_LABEL"
+                    useglobal="true"
+                    class="chzn-color"
+            >
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+            </field>
+
+            <field
+                    name="show_headings"
+                    type="list"
+                    label="JGLOBAL_SHOW_HEADINGS_LABEL"
+                    useglobal="true"
+                    class="chzn-color"
+            >
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+            </field>
+
+            <field
+                    name="show_articles"
+                    type="list"
+                    label="COM_USERS_PARAMS_SHOW_ARTICLES"
+                    useglobal="true"
+                    class="chzn-color"
+                    default="1"
+            >
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+            </field>
+
+            <field
+                    name="show_last_visited"
+                    type="list"
+                    label="COM_USERS_PARAMS_SHOW_LAST_VISITED"
+                    useglobal="true"
+                    class="chzn-color"
+                    default="1"
+            >
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+            </field>
+
+            <field
+                    name="date_format"
+                    type="text"
+                    label="JGLOBAL_DATE_FORMAT_LABEL"
+                    description="JGLOBAL_DATE_FORMAT_DESC"
+                    size="15"
+                    useglobal="true"
+                    showon="show_last_visited:1"
+            />
+
+            <field
+                    name="show_online_status"
+                    type="list"
+                    label="COM_USERS_PARAMS_SHOW_ONLINE_STATUS"
+                    useglobal="true"
+                    class="chzn-color"
+                    default="1"
+            >
+                <option value="0">JHIDE</option>
+                <option value="1">JSHOW</option>
+            </field>
+
         </fieldset>
     </fields>
 
