@@ -114,10 +114,12 @@ class PlgContentContact extends CMSPlugin
 		$query  = $db->getQuery(true);
 		$userid = (int) $created_by;
 
-		$query->select([
-			'MAX(' . $db->quoteName('contact.id') . ') AS contactid',
-			$db->quoteName(['contact.alias', 'contact.catid', 'contact.webpage', 'contact.email_to'])
-			])
+		$query->select(
+			[
+				'MAX(' . $db->quoteName('contact.id') . ') AS contactid',
+				$db->quoteName(['contact.alias', 'contact.catid', 'contact.webpage', 'contact.email_to'])
+			]
+		)
 			->from($db->quoteName('#__contact_details', 'contact'))
 			->where($db->quoteName('contact.published') . ' = 1')
 			->where($db->quoteName('contact.user_id') . ' = :createdby')
