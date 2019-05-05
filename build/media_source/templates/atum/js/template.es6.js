@@ -96,9 +96,12 @@
     const logoutBtn = doc.querySelector('.header-items a[href*="task=logout"]');
     const wrapper = doc.querySelector('.wrapper');
     const menu = doc.querySelector('.sidebar-menu');
-    const sidebar = doc.querySelector('.sidebar-wrapper');
+    const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
+    const sidebarNav = doc.querySelector('.sidebar-nav');
+    const subHeadToolbar = doc.querySelector('.subhead');
     const mobile = window.matchMedia('(max-width: 992px)');
     const mobileTablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
+    const mobileSmallLandscape = window.matchMedia('(max-width: 767.98px)');
     const mobileSmall = window.matchMedia('(max-width: 575.98px)');
 
     // Fade out login form when login was successful
@@ -118,8 +121,8 @@
       });
     }
 
-    // Make logo big or small like the sidebar
-    if (!sidebar || mobile.matches) {
+    // Make logo big or small like the sidebar-wrapper
+    if (!sidebarWrapper || mobile.matches) {
       changeLogo('closed');
     } else {
       changeLogo();
@@ -137,14 +140,22 @@
         wrapper.classList.remove('closed');
       }
     }
+
     if (mobileTablet.matches && menu){
         wrapper.classList.add('closed');
+    }
+
+    if(mobileSmallLandscape.matches){
+      if(sidebarNav) sidebarNav.classList.add('collapse');
+      if(subHeadToolbar) subHeadToolbar.classList.add('collapse');
     }
 
     window.addEventListener('resize', () => {
       /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
       (mobile.matches) ? changeLogo('closed') : changeLogo();
       (mobileSmall.matches) ? toggleArrowIcon() : toggleArrowIcon('top');
+      if(sidebarNav) (mobileSmallLandscape.matches)? sidebarNav.classList.add('collapse') :  sidebarNav.classList.remove('collapse');
+      if(subHeadToolbar) (mobileSmallLandscape.matches)? subHeadToolbar.classList.add('collapse') : subHeadToolbar.classList.remove('collapse');
 
       if(menu) {
         if (mobileSmall.matches) {
@@ -154,7 +165,7 @@
           wrapper.classList.add('closed');
         }
       }
-    //  console.log(mobileTablet.matches);
+
     });
   });
 })(window.Joomla, document);

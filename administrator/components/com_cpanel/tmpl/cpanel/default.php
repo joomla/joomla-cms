@@ -42,18 +42,16 @@ echo HTMLHelper::_(
 );
 ?>
 <?php if ($this->quickicons) : ?>
-<div class="row">
-	<div class="col-md-12">
-    	<?php
-		// Display the icon position modules
+<div id="cpanel-modules" class="row">
+    	<?php // Display the icon position modules
 		foreach ($this->quickicons as $iconmodule)
 		{
-			echo ModuleHelper::renderModule($iconmodule);
+			echo ModuleHelper::renderModule($iconmodule, array('style' => 'well'));
 		}
-		?>
-	</div>
+	?>
 </div>
 <?php endif; ?>
+
 <div id="cpanel-modules" class="row">
 	<?php
 	foreach ($this->modules as $module)
@@ -67,7 +65,7 @@ echo HTMLHelper::_(
 	<div class="col-md-6">
 		<a href="#moduleEditModal" data-toggle="modal" data-target="#moduleDashboardAddModal" role="button" class="cpanel-add-module text-center py-5 w-100 d-block">
 			<div class="cpanel-add-module-icon text-center">
-				<span class="fa fa-plus-square-o text-light mt-2"></span>
+				<span class="fa fa-plus-square text-light mt-2"></span>
 			</div>
 			<span><?php echo Text::_('COM_CPANEL_ADD_DASHBOARD_MODULE'); ?></span>
 		</a>

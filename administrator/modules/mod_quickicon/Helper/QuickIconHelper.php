@@ -68,15 +68,71 @@ abstract class QuickIconHelper
 
 		if (!isset(self::$buttons[$key]))
 		{
-			$context = $params->get('context', 'mod_quickicon');
+			// Load mod_quickicon language file in case this method is called before rendering the module
+			$application->getLanguage()->load('mod_quickicon');
 
-			self::$buttons[$key] = [];
+			// Update Panel, icons come from plugins quickicons
+			if ($params->get('icon_type', 'site') === 'update')
+			{
+				// Update Panel, icons come from plugins quickicons
+				$context = $params->get('context', 'mod_quickicon');
 
-			if ($context === 'mod_quickicon')
+				// Include buttons defined by published quickicon plugins
+				PluginHelper::importPlugin('quickicon');
+
+				$arrays = (array) $application->triggerEvent(
+					'onGetIcons',
+					new QuickIconsEvent('onGetIcons', ['context' => $context])
+				);
+
+				foreach ($arrays as $response)
+				{
+					foreach ($response as $icon)
+					{
+						$default = array(
+							'link'   => null,
+							'image'  => null,
+							'text'   => null,
+							'access' => true,
+							'class' => true,
+							'group'  => 'MOD_QUICKICON_EXTENSIONS',
+						);
+						$icon = array_merge($default, $icon);
+
+						if (!is_null($icon['link']) && !is_null($icon['text']))
+						{
+							self::$buttons[$key][] = $icon;
+						}
+					}
+				}
+			}
+			elseif ($params->get('icon_type', 'site') === 'system')
 			{
 				// Load mod_quickicon language file in case this method is called before rendering the module
 				$application->getLanguage()->load('mod_quickicon');
 				
+				if ($params->get('show_checkin', '1'))
+				{
+					self::$buttons[$key][] = [
+						'amount' => self::countCheckin(),
+						'link'   => Route::_('index.php?option=com_checkin'),
+						'image'  => 'fa fa-unlock',
+						'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
+						'access' => array('core.admin', 'com_checkin'),
+						'group'  => 'MOD_QUICKICON_SYSTEM'
+					];
+				}
+				if ($params->get('show_cache', '1'))
+				{
+					self::$buttons[$key][] = [
+						'amount' => '123kB',
+						'link'   => Route::_('index.php?option=com_chache'),
+						'image'  => 'fa fa-cloud',
+						'text'   => Text::_('MOD_QUICKICON_CACHE'),
+						'access' => array('core.admin', 'com_cache'),
+						'group'  => 'MOD_QUICKICON_SYTEM'
+					];
+				}
 				if ($params->get('show_global', '1'))
 				{				
 					self::$buttons[$key][] = [
@@ -84,10 +140,12 @@ abstract class QuickIconHelper
 						'image'  => 'fa fa-cog',
 						'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
-						'group'  => 'MOD_QUICKICON_CONFIGURATION',
+						'group'  => 'MOD_QUICKICON_SYSTEM',
 					];
 				}
-
+			}
+			elseif ($params->get('icon_type', 'site') === 'site')
+			{
 				if ($params->get('show_users', '1'))
 				{
 					$amount = self::countUsers();
@@ -95,11 +153,12 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_users'),
+						'image'  => 'fa fa-users',
 						'linkadd'   => Route::_('index.php?option=com_users&task=user.add'),
 						'addwhat' => Text::plural('MOD_QUICKICON_USER_MANAGER', 1),
 						'name'   => Text::plural('MOD_QUICKICON_USER_MANAGER', $amount),
 						'access' => array('core.manage', 'com_users', 'core.create', 'com_users'),
-						'group'  => 'MOD_QUICKICON_USERS',
+						'group'  => 'MOD_QUICKICON_SITE',
 					];
 				}
 
@@ -109,7 +168,8 @@ abstract class QuickIconHelper
 					
 					self::$buttons[$key][] = [
 						'amount' => $amount,
-						'link'   => Route::_('index.php?option=com_menus'),
+						'link'   => Route::_('index.php?option=com_menus'),						
+						'image'  => 'fa fa-list',
 						'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
 						'addwhat' => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', 1),
 						'name'   => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', $amount),
@@ -125,14 +185,15 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_content'),
+						'image'  => 'fa fa-files',
 						'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
 						'addwhat' => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', 1),
 						'name'   => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', $amount),
 						'access' => array('core.manage', 'com_content', 'core.create', 'com_content'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
+						'group'  => 'MOD_QUICKICON_SITE',
 					];
 				}
-		
+
 				if ($params->get('show_categories', '1'))
 				{
 					$amount = self::countArticleCategories();
@@ -140,11 +201,12 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_categories'),
+						'image'  => 'fa fa-folders',
 						'addwhat' => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', 1),
 						'linkadd'   => Route::_('index.php?option=com_categories&task=category.add'),
 						'name'   => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', $amount),
 						'access' => array('core.manage', 'com_categories', 'core.create', 'com_categories'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
+						'group'  => 'MOD_QUICKICON_SITE',
 					];
 				}
 
@@ -155,7 +217,7 @@ abstract class QuickIconHelper
 						'link'   => Route::_('index.php?option=com_media'),
 						'text'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media'),
-						'group'  => 'MOD_QUICKICON_CONTENT',
+						'group'  => 'MOD_QUICKICON_SITE',
 					];
 				}
 
@@ -166,9 +228,10 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_modules'),
+						'image'  => 'fa fa-grid',
 						'text'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
 						'access' => array('core.manage', 'com_modules'),
-						'group'  => 'MOD_QUICKICON_CONTENT'
+						'group'  => 'MOD_QUICKICON_SITE'
 					];
 				}
 
@@ -179,20 +242,10 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_plugins'),
+						'image'  => 'fa fa-plug',
 						'text'   => Text::plural('MOD_QUICKICON_PLUGIN_MANAGER', $amount),
 						'access' => array('core.manage', 'com_plugins'),
-						'group'  => 'MOD_QUICKICON_MAINTENANCE'
-					];
-				}
-
-				if ($params->get('show_checkin', '1'))
-				{
-					self::$buttons[$key][] = [
-						'amount' => self::countCheckin(),
-						'link'   => Route::_('index.php?option=com_checkin'),
-						'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
-						'access' => array('core.admin', 'com_checkin'),
-						'group'  => 'MOD_QUICKICON_CONTENT'
+						'group'  => 'MOD_QUICKICON_SITE'
 					];
 				}
 
@@ -200,50 +253,19 @@ abstract class QuickIconHelper
 				{
 					self::$buttons[$key][] = [
 						'amount' => self::countTemplates(),
+						'image'  => 'fa fa-edit',
 						'link'   => Route::_('index.php?option=com_templates&client_id=0'),
 						'text'   => Text::_('MOD_QUICKICON_TEMPLATES'),
 						'access' => array('core.admin', 'com_templates'),
-						'group'  => 'MOD_QUICKICON_TEMPLATES'
+						'group'  => 'MOD_QUICKICON_SITE'
 					];
-				}
-			}
-
-			// Include buttons defined by published quickicon plugins
-			PluginHelper::importPlugin('quickicon');
-
-			$arrays = (array) $application->triggerEvent(
-				'onGetIcons',
-				new QuickIconsEvent('onGetIcons', ['context' => $context])
-			);
-
-			foreach ($arrays as $response)
-			{
-				foreach ($response as $icon)
-				{
-					$default = array(
-						'amount' => null,
-						'link'   => null,
-						'addwhat'   => null,
-						'linkadd'   => null,
-						'name' => null,
-						'image'  => null,
-						'text'   => null,
-						'access' => true,
-						'group'  => 'MOD_QUICKICON_EXTENSIONS',
-					);
-					$icon = array_merge($default, $icon);
-
-					if (!is_null($icon['link']) && !is_null($icon['text']))
-					{
-						self::$buttons[$key][] = $icon;
-					}
 				}
 			}
 		}
 
 		return self::$buttons[$key];
 	}
-	
+
 	/**
 	 * Method to get the number of published modules in frontend.
 	 * 
