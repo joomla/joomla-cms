@@ -1,8 +1,10 @@
-pipeline:
-  clone:
+---
+clone:
+  git:
     image: plugins/git
     depth: 1
 
+pipeline:
   phpcs:
     image: joomlaprojects/docker-phpcs
     commands:
@@ -129,3 +131,8 @@ services:
 
   postgres:
     image: postgres
+---
+kind: signature
+hmac: 90faac857fd970613a3d48854424b8d7283ec015711978b537dffe9e45acd89b
+
+...

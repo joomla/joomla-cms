@@ -141,7 +141,7 @@ class CategoryField extends FormField
 			$html .= '<span class="input-group">';
 		}
 
-		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" disabled="disabled" size="35">';
+		$html .= '<input class="form-control" id="' . $this->id . '_name" type="text" value="' . $title . '" readonly size="35">';
 
 		if ($allowSelect || $allowNew || $allowEdit || $allowClear)
 		{
@@ -319,6 +319,6 @@ class CategoryField extends FormField
 	 */
 	protected function getLabel()
 	{
-		return str_replace($this->id, $this->id . '_id', parent::getLabel());
+		return str_replace($this->id, $this->id . '_name', parent::getLabel());
 	}
 }
