@@ -14,3 +14,7 @@ The javascript tests test the Joomla-specific Javascript code. For further infor
 System tests
 ==========
 The system tests test the user interface in a real browser. For further information on the tests and on how to run them, please go to https://github.com/joomla/test-system
+
+API tests
+==========
+The API tests check the webservices API of Joomla with the help of Codeception. For further information on the tests and on how to run them, please check out tests/Api/README.md
