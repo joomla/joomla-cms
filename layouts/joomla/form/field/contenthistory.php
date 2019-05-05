@@ -64,6 +64,6 @@ echo HTMLHelper::_(
 
 ?>
 <button type="button" onclick="document.getElementById('versionsModal').open()" class="btn btn-secondary" data-toggle="modal">
-	<span class="fa fa-code-fork" aria-hidden="true"></span>
+	<span class="fa fa-code-branch" aria-hidden="true"></span>
 	<?php echo $label; ?>
 </button>

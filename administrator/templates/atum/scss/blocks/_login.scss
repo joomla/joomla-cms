@@ -31,8 +31,8 @@
     width: 100vw;
     height: 100vh;
     background-image: linear-gradient(45deg,
-            rgba(color("atum-bg-dark"), .9) 30%,
-            rgba(color("login-light-bg"), .2) 100%);
+            rgba(var(--atum-bg-dark), .9) 30%,
+            rgba(color("atum-bg-light"), .2) 100%);
   }
 
   .login-initial {

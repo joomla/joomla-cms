@@ -57,6 +57,8 @@ class ItemsModel extends ListModel
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 				'parent_id', 'a.parent_id',
+				'publish_up', 'a.publish_up',
+				'publish_down', 'a.publish_down',
 				'a.ordering'
 			);
 
@@ -261,12 +263,14 @@ class ItemsModel extends ListModel
 					array(
 						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
 						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
-						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
+						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language',
+						'a.client_id', 'a.publish_up', 'a.publish_down'
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
 						null, 'a.published', null, null, null, null,
-						null, null, null, null, null, null, null, null, null
+						null, null, null, null, null, null, null, null,
+						null, 'publish_up', 'publish_down'
 					)
 				)
 			)

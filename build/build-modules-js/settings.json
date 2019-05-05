@@ -169,34 +169,24 @@
         "dependencies": [],
         "licenseFilename": "LICENSE.md"
       },
-	  "roboto-fontface": {
-		"name": "roboto-fontface",
-		"filesExtra": {
-		  "css": "scss",
-		  "fonts": "fonts"
-		},
-        "dependencies": [],
-		"licenseFilename": "LICENSE"
-	  },
-      "font-awesome": {
-        "name": "font-awesome",
+      "@fortawesome/fontawesome-free": {
+        "name": "fontawesome-free",
         "css": {
-          "css/font-awesome.css": "css/font-awesome.css",
-          "css/font-awesome.min.css": "css/font-awesome.min.css"
+          "css/fontawesome.css": "css/fontawesome.css",
+          "css/fontawesome.min.css": "css/fontawesome.min.css"
         },
         "filesExtra": {
-          "css/font-awesome.css.map": "css/font-awesome.css.map",
           "scss": "scss",
-          "fonts": "fonts"
+          "webfonts": "webfonts"
         },
         "provideAssets": [
           {
             "name": null,
-            "css": ["font-awesome.min.css"]
+            "css": ["fontawesome.min.css"]
           }
         ],
         "dependencies": [],
-        "licenseFilename": ""
+        "licenseFilename": "LICENSE.txt"
       },
       "jquery": {
         "name": "jquery",

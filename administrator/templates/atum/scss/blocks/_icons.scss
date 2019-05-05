@@ -53,12 +53,12 @@
   }
 
   .icon-featured {
-    color: var(--primary);
-    border-color: var(--primary);
+    color: var(--atum-special-color);
+    border-color: var(--atum-special-color);
   }
 
   .icon-archive {
-    color: $gray-700;
+    color: var(--atum-text-dark);
     border-color: $gray-700;
   }
 
@@ -67,7 +67,7 @@
     height: auto;
     font-size: 1.2rem;
     line-height: 1rem;
-    color: $gray-700;
+    color: var(--atum-text-dark);
     border: 0;
   }
 }

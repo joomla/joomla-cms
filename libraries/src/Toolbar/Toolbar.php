@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Toolbar\Button\BasicButton;
 use Joomla\CMS\Toolbar\Button\ConfirmButton;
@@ -286,6 +287,15 @@ class Toolbar
 	 */
 	public function render(array $options = [])
 	{
+		// Load the mod_menu language file for the breadcrumbs
+		$app = Factory::getApplication();
+		$language = $app->getLanguage();
+		$language->load('mod_menu');
+
+		// Get the breadcrumb items
+		/** @var \Joomla\CMS\Pathway\AdministratorPathway $pathway */
+		$items['breadcrumbs'] = $app->getPathway()->getPathWay();
+
 		$html = [];
 
 		$isChild = !empty($options['is_child']);
@@ -303,10 +313,20 @@ class Toolbar
 		{
 			if ($button instanceof ToolbarButton)
 			{
-				// Child dropdown only support new syntax
-				$button->setOption('is_child', $isChild);
+				switch (strtolower($button->getName()))
+				{
+					// Special buttons shown on the breadcrumb bar
+					case 'options':
+					case 'help':
+						$items['buttons'][] = $button->render();
+						break;
+					default:
+						// Child dropdown only support new syntax
+						$button->setOption('is_child', $isChild);
 
-				$html[] = $button->render();
+						$html[] = $button->render();
+						break;
+				}
 			}
 			// B/C
 			else
@@ -322,6 +342,8 @@ class Toolbar
 
 			$html[] = $layout->render([]);
 		}
+
+		array_unshift($html, LayoutHelper::render('joomla.toolbar.breadcrumb', ['items' => $items]));
 
 		return implode('', $html);
 	}

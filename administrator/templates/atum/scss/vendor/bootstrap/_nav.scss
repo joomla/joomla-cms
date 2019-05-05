@@ -9,7 +9,7 @@
   padding: 0;
   margin: 0 0 1rem;
   text-align: center;
-  background-color: var(--primary);
+  background-color: theme-color("atum-bg-dark");
 
   @include media-breakpoint-only(xl) {
     flex-wrap: unset;

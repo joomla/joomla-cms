@@ -7,6 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+namespace Joomla\CMS\MVC\View;
+
 defined('JPATH_PLATFORM') or die;
 
 /**
@@ -14,6 +16,6 @@ defined('JPATH_PLATFORM') or die;
  *
  * @since  4.0
  */
-class JViewGenericdataexception extends RuntimeException
+class GenericDataException extends \RuntimeException
 {
 }

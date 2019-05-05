@@ -17,7 +17,7 @@
       padding: .5rem 0 .2rem;
       margin-bottom: .2rem;
       font-size: .9rem;
-      color: $gray-700;
+      color: var(--atum-text-dark);
       border-bottom: 1px solid $gray-400;
     }
 
@@ -26,7 +26,7 @@
     }
 
     a {
-      color: darken(theme-color("primary"), 12%);
+      color: var(--atum-link-color);
     }
   }
 }
