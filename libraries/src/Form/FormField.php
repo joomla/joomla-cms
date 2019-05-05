@@ -948,7 +948,7 @@ abstract class FormField
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel'))
+		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->class === 'switcher')
 		{
 			$options['hiddenLabel'] = true;
 		}
