@@ -353,7 +353,8 @@
     height: .5rem;
     color: var(--atum-text-light);
     content: "\f054";
-    font-family: "FontAwesome";
+	font-weight: 900;
+	font-family: "Font Awesome 5 Free";
     transition: all .3s ease-out;
   }
 
@@ -452,7 +453,7 @@
       color:var(--toggle-color);
 
       &:before{
-        font: normal normal normal 30px/1 FontAwesome;
+        font: normal normal normal 30px/1 'Font Awesome 5 Free';
         content: "\f00d";
         color:var(--toggle-color);
 
