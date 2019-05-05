@@ -9,8 +9,8 @@
 namespace Joomla\CMS\Application;
 
 use Joomla\CMS\Extension\ExtensionManagerInterface;
-use Joomla\CMS\User\User;
 use Joomla\CMS\Menu\AbstractMenu;
+use Joomla\CMS\User\User;
 use Joomla\Session\SessionInterface;
 
 /**
