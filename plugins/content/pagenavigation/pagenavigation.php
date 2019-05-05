@@ -15,6 +15,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
+use Joomla\Database\ParameterType;
 
 /**
  * Pagenavigation plugin class.
@@ -48,14 +49,12 @@ class PlgContentPagenavigation extends CMSPlugin
 
 		if ($context === 'com_content.article' && $view === 'article' && $params->get('show_item_navigation'))
 		{
-			$db       = Factory::getDbo();
-			$user     = Factory::getUser();
-			$lang     = Factory::getLanguage();
-			$nullDate = $db->getNullDate();
-
-			$date = Factory::getDate();
-			$now  = $date->toSql();
-
+			$db         = Factory::getDbo();
+			$user       = Factory::getUser();
+			$lang       = Factory::getLanguage();
+			$nullDate   = $db->getNullDate();
+			$now        = Factory::getDate()->toSql();
+			$query      = $db->getQuery(true);
 			$uid        = $row->id;
 			$option     = 'com_content';
 			$canPublish = $user->authorise('core.edit.state', $option . '.article.' . $row->id);
@@ -84,7 +83,29 @@ class PlgContentPagenavigation extends CMSPlugin
 
 			// Get the order code
 			$orderDate = $params->get('order_date');
-			$queryDate = $this->getQueryDate($orderDate);
+
+			switch ($orderDate)
+			{
+				// Use created if modified is not set
+				case 'modified' :
+					$queryDate = ' CASE WHEN ' . $db->quoteName('a.modified') . ' = :modifiedDate THEN ' .
+						$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.modified') . ' END';
+					$query->bind(':modifiedDate', $nullDate);
+					break;
+
+				// Use created if publish_up is not set
+				case 'published' :
+					$queryDate = ' CASE WHEN ' . $db->quoteName('a.publish_up') . ' = :publishup THEN ' .
+						$db->quoteName('a.created') . ' ELSE ' . $db->quoteName('a.publish_up') . ' END ';
+					$query->bind(':publishup', $nullDate);
+					break;
+
+				// Use created as default
+				case 'created' :
+				default :
+					$queryDate = $db->quoteName('a.created');
+					break;
+			}
 
 			// Determine sort order.
 			switch ($order_method)
@@ -93,74 +114,86 @@ class PlgContentPagenavigation extends CMSPlugin
 					$orderby = $queryDate;
 					break;
 				case 'rdate' :
-					$orderby = $queryDate . ' DESC ';
+					$orderby = $queryDate . ' DESC';
 					break;
 				case 'alpha' :
-					$orderby = 'a.title';
+					$orderby = $db->quoteName('a.title') ;
 					break;
 				case 'ralpha' :
-					$orderby = 'a.title DESC';
+					$orderby = $db->quoteName('a.title') . ' DESC';
 					break;
 				case 'hits' :
-					$orderby = 'a.hits';
+					$orderby = $db->quoteName('a.hits');
 					break;
 				case 'rhits' :
-					$orderby = 'a.hits DESC';
+					$orderby = $db->quoteName('a.hits DESC');
 					break;
 				case 'order' :
-					$orderby = 'a.ordering';
+					$orderby = $db->quoteName('a.ordering');
 					break;
 				case 'author' :
-					$orderby = 'a.created_by_alias, u.name';
+					$orderby = $db->quoteName(['a.created_by_alias', 'u.name']);
 					break;
 				case 'rauthor' :
-					$orderby = 'a.created_by_alias DESC, u.name DESC';
+					$orderby = $db->quoteName('a.created_by_alias') . ' DESC, ' .
+						$db->quoteName('u.name') . ' DESC';
 					break;
 				case 'front' :
-					$orderby = 'f.ordering';
+					$orderby = $db->quoteName('f.ordering');
 					break;
 				default :
-					$orderby = 'a.ordering';
+					$orderby = $db->quoteName('a.ordering');
 					break;
 			}
 
-			$xwhere = ' AND (ws.condition = 1 OR ws.condition = -2)'
-				. ' AND (publish_up = ' . $db->quote($nullDate) . ' OR publish_up <= ' . $db->quote($now) . ')'
-				. ' AND (publish_down = ' . $db->quote($nullDate) . ' OR publish_down >= ' . $db->quote($now) . ')';
+			$query->order($orderby);
 
-			// Array of articles in same category correctly ordered.
-			$query = $db->getQuery(true);
 
-			$case_when = ' CASE WHEN ' . $query->charLength('a.alias', '!=', '0')
-				. ' THEN ' . $query->concatenate(array($query->castAsChar('a.id'), 'a.alias'), ':')
-				. ' ELSE a.id END AS slug';
+			$case_when = ' CASE WHEN ' . $query->charLength($db->quoteName('a.alias') . '!=', '0')
+				. ' THEN ' . $query->concatenate(array($query->castAsChar($db->quoteName('a.id')), $db->quoteName('a.alias')), ':')
+				. ' ELSE ' . $db->quoteName('a.id') . ' END AS slug';
 
-			$case_when1 = ' CASE WHEN ' . $query->charLength('cc.alias', '!=', '0')
-				. ' THEN ' . $query->concatenate(array($query->castAsChar('cc.id'), 'cc.alias'), ':')
-				. ' ELSE cc.id END AS catslug';
+			$case_when1 = ' CASE WHEN ' . $query->charLength($db->quoteName('cc.alias'), '!=', '0')
+				. ' THEN ' . $query->concatenate(array($query->castAsChar($db->quoteName('cc.id')), $db->quoteName('cc.alias')), ':')
+				. ' ELSE ' . $db->quoteName('cc.id') . ' END AS catslug';
 
-			$query->select('a.id, a.title, a.catid, a.language')
-				->select($case_when)
-				->select($case_when1)
-				->from('#__content AS a')
-				->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
-				->join('LEFT', '#__workflow_stages AS ws ON ws.id = a.state');
+			$query->select([
+				$db->quoteName(['a.id, a.title, a.catid, a.language']),
+				$case_when, $case_when1]
+			)
+				->from($db->quoteName('#__content', 'a'))
+				->leftJoin($db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
+				->leftJoin($db->quoteName('#__workflow_stages', 'ws'), $db->quoteName('ws.id') . ' = ' . $db->quoteName('a.state'));
 
 			if ($order_method === 'author' || $order_method === 'rauthor')
 			{
-				$query->select('a.created_by, u.name');
-				$query->join('LEFT', '#__users AS u ON u.id = a.created_by');
+				$query->select($db->quoteName(['a.created_by', 'u.name']));
+				$query->leftJoin($db->quoteName('#__users', 'u'), $db->quoteName('u.id') . ' = ' . $db->quoteName('a.created_by'));
 			}
 
-			$query->where(
-					'a.catid = ' . (int) $row->catid . ' AND a.state = ' . (int) $row->state
-						. ($canPublish ? '' : ' AND a.access IN (' . implode(',', Access::getAuthorisedViewLevels($user->id)) . ') ') . $xwhere
-				);
-			$query->order($orderby);
+			$catid = (int) $row->catid;
+			$state = (int) $row->state;
+			$query->where($db->quoteName('a.catid') . ' = :catid AND ' . $db->quoteName('a.state') . ' = :state')
+				->bind(':catid', $catid, ParameterType::INTEGER)
+				->bind(':state', $state, ParameterType::INTEGER);
+
+			if ($canPublish) {
+				$query->whereIn($db->quoteName('a.access'), Access::getAuthorisedViewLevels($user->id));
+			}
+
+			$query->where([
+				'(' . $db->quoteName('ws.condition') . ' = 1 OR ' . $db->quoteName('ws.condition') . ' = -2)',
+				'(' . $db->quoteName('publish_up') . ' = :nullDate1 OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
+				'(' . $db->quoteName('publish_down') . ' = :nullDate2 OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)'
+			])
+				->bind(':nullDate1', $nullDate)
+				->bind(':nullDate2', $nullDate)
+				->bind(':nowDate1', $now)
+				->bind(':nowDate2', $now);
 
 			if ($app->isClient('site') && $app->getLanguageFilter())
 			{
-				$query->where('a.language in (' . $db->quote($lang->getTag()) . ',' . $db->quote('*') . ')');
+				$query->whereIn($db->quoteName('a.language'), [$lang->getTag(), '*'], ParameterType::STRING);
 			}
 
 			$db->setQuery($query);
@@ -232,40 +265,5 @@ class PlgContentPagenavigation extends CMSPlugin
 				$row->paginationrelative = $this->params->get('relative', 0);
 			}
 		}
-	}
-
-	/**
-	 * Translate an order code to a field for primary ordering.
-	 *
-	 * @param   string  $orderDate  The ordering code.
-	 *
-	 * @return  string  The SQL field(s) to order by.
-	 *
-	 * @since   3.3
-	 */
-	private static function getQueryDate($orderDate)
-	{
-		$db = Factory::getDbo();
-
-		switch ($orderDate)
-		{
-			// Use created if modified is not set
-			case 'modified' :
-				$queryDate = ' CASE WHEN a.modified = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.modified END';
-				break;
-
-			// Use created if publish_up is not set
-			case 'published' :
-				$queryDate = ' CASE WHEN a.publish_up = ' . $db->quote($db->getNullDate()) . ' THEN a.created ELSE a.publish_up END ';
-				break;
-
-			// Use created as default
-			case 'created' :
-			default :
-				$queryDate = ' a.created ';
-				break;
-		}
-
-		return $queryDate;
 	}
 }
