@@ -83,7 +83,7 @@ INSERT INTO `#__assets` (`id`, `parent_id`, `lft`, `rgt`, `level`, `name`, `titl
 (53, 18, 86, 87, 2, 'com_modules.module.86', 'Joomla Version', '{}'),
 (54, 16, 54, 55, 2, 'com_menus.menu.1', 'Main Menu', '{}'),
 (55, 18, 88, 89, 2, 'com_modules.module.87', 'Sample Data', '{}'),
-(56, 8, 20, 37, 2, 'com_content.workflow.1', 'COM_WORKFLOW_DEFAULT_WORKFLOW', '{}'),
+(56, 8, 20, 37, 2, 'com_content.workflow.1', 'Joomla! Default', '{}'),
 (57, 56, 21, 22, 3, 'com_content.state.1', 'Unpublished', '{}'),
 (58, 56, 23, 24, 3, 'com_content.state.2', 'Published', '{}'),
 (59, 56, 25, 26, 3, 'com_content.state.3', 'Trashed', '{}'),
@@ -2265,7 +2265,7 @@ CREATE TABLE IF NOT EXISTS `#__workflows` (
 --
 
 INSERT INTO `#__workflows` (`id`, `asset_id`, `published`, `title`, `description`, `extension`, `default`, `core`, `ordering`, `created`, `created_by`, `modified`, `modified_by`) VALUES
-(1, 56, 1, 'COM_WORKFLOW_DEFAULT_WORKFLOW', '', 'com_content', 1, 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
+(1, 56, 1, 'Joomla! Default', '', 'com_content', 1, 1, 1, '0000-00-00 00:00:00', 0, '0000-00-00 00:00:00', 0);
 
 --
 -- Table structure for table `#__workflow_associations`

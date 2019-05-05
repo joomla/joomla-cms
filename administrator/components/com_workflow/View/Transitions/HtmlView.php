@@ -18,6 +18,7 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Workflow\Administrator\Helper\WorkflowHelper;
+use Joomla\Component\Workflow\Administrator\Table\WorkflowTable;
 
 /**
  * Workflows view class for the Workflow package.
@@ -147,9 +148,19 @@ class HtmlView extends BaseHtmlView
 
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		$workflow = !empty($this->state->get('active_workflow', '')) ? Text::_($this->state->get('active_workflow', '')) . ': ' : '';
+		$workflow = '';
+		if (!empty($this->workflowID)) {
 
-		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_LIST', $this->escape($workflow)), 'address contact');
+			$dbo = Factory::getDbo();
+			$table = new WorkflowTable($dbo);
+
+			if ($table->load($this->workflowID))
+			{
+				$workflow = $table->title . ': ';
+			}
+		}
+
+		ToolbarHelper::title(Text::sprintf('COM_WORKFLOW_TRANSITIONS_TITLE', $this->escape($workflow)), 'last');
 
 		$isCore = $this->workflow->core;
 		$arrow  = Factory::getLanguage()->isRtl() ? 'arrow-right' : 'arrow-left';

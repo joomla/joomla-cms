@@ -7,6 +7,16 @@
 			label="COM_WORKFLOW_FILTER_SEARCH_LABEL"
 			hint="JSEARCH_FILTER"
 		/>
+        <field
+                name="workflow_id"
+                type="sql"
+                label="COM_WORKFLOW_SELECT_WORKFLOW"
+                onchange="this.form.submit();"
+                sql_select="id as value, title as workflow_id"
+                sql_from="#__workflows"
+        >
+            <option value="">COM_WORKFLOW_SELECT_WORKFLOW</option>
+        </field>
 		<field
 			name="published"
 			type="status"
