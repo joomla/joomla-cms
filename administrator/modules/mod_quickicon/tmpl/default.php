@@ -15,8 +15,8 @@ use Joomla\CMS\Language\Text;
 $html = HTMLHelper::_('icons.buttons', $buttons);
 ?>
 <?php if (!empty($html)) : ?>
-	<nav  class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL'); ?>">
-		<ul class="nav flex-wrap row">
+	<nav  class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL') . ' ' . $module->title; ?>">
+		<ul class="nav flex-wrap row-fluid">
 			<?php echo $html; ?>
 		</ul>
 	</nav>

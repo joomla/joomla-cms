@@ -98,9 +98,7 @@
     const menu = doc.querySelector('.sidebar-menu');
     const sidebarWrapper = doc.querySelector('.sidebar-wrapper');
     const sidebarNav = doc.querySelector('.sidebar-nav');
-    const sidebarNavBtn = doc.querySelector ('.navbar-toggler');
     const subHeadToolbar = doc.querySelector('.subhead');
-    const subHeadBtn = doc.querySelector('.btn-subhead');
     const mobile = window.matchMedia('(max-width: 992px)');
     const mobileTablet = window.matchMedia('(min-width: 576px) and (max-width:991.98px)');
     const mobileSmallLandscape = window.matchMedia('(max-width: 767.98px)');
@@ -148,16 +146,16 @@
     }
 
     if(mobileSmallLandscape.matches){
-      sidebarNav.classList.add('collapse');
-      subHeadToolbar.classList.add('collapse');
+      if(sidebarNav) sidebarNav.classList.add('collapse');
+      if(subHeadToolbar) subHeadToolbar.classList.add('collapse');
     }
 
     window.addEventListener('resize', () => {
       /* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
       (mobile.matches) ? changeLogo('closed') : changeLogo();
       (mobileSmall.matches) ? toggleArrowIcon() : toggleArrowIcon('top');
-      (mobileSmallLandscape.matches)? sidebarNav.classList.add('collapse') :  sidebarNav.classList.remove('collapse');
-      (mobileSmallLandscape.matches)? subHeadToolbar.classList.add('collapse') : subHeadToolbar.classList.remove('collapse');
+      if(sidebarNav) (mobileSmallLandscape.matches)? sidebarNav.classList.add('collapse') :  sidebarNav.classList.remove('collapse');
+      if(subHeadToolbar) (mobileSmallLandscape.matches)? subHeadToolbar.classList.add('collapse') : subHeadToolbar.classList.remove('collapse');
 
       if(menu) {
         if (mobileSmall.matches) {

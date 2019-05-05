@@ -64,7 +64,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 			<li class="nav-item dropdown">
 				<button class="nav-link dropdown-toggle <?php echo ($hideLinks ? 'disabled' : ''); ?>" data-toggle="dropdown" type="button"
 					title="<?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?>">
-					<span class="fa fa-bell-o" aria-hidden="true"></span>
+					<span class="fa fa-bell" aria-hidden="true"></span>
 					<span class="sr-only"><?php echo Text::_('MOD_STATUS_POST_INSTALLATION_MESSAGES'); ?></span>
 					<span class="fa fa-angle-down" aria-hidden="true"></span>
 					<?php if (count($messages) > 0) : ?>
@@ -110,7 +110,7 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				<?php $route = 'index.php?option=com_users&task=user.edit&id=' . $user->id . '&return=' . base64_encode($uri); ?>
 				<div class="dropdown-item">
 					<a href="<?php echo Route::_($route); ?>">
-						<span class="fa fa-user-o"></span>
+						<span class="fa fa-user"></span>
 						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?>
 					</a>
 				</div>
