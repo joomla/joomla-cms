@@ -15,9 +15,16 @@ defined('JPATH_BASE') or die;
  * @var  array $items The items to render
  */
 extract($displayData, EXTR_OVERWRITE);
+
+$buttons = false;
+
+if (array_key_exists('buttons', $items))
+{
+    $buttons = true;
+}
 ?>
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-11">
         <nav role="navigation">
         <ol itemscope itemtype="https://schema.org/BreadcrumbList" class="breadcrumb">
             <li class="float-left">
@@ -39,7 +46,9 @@ extract($displayData, EXTR_OVERWRITE);
         </ol>
         </nav>
     </div>
-    <div class="col-md-2">
-        <?php echo implode(' ', $items['buttons']); ?>
-    </div>
+    <?php if ($buttons) : ?>
+        <div class="col-md-1">
+            <?php echo implode(' ', $items['buttons']); ?>
+        </div>
+    <?php endif; ?>
 </div>
