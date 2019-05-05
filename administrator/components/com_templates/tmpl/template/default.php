@@ -242,7 +242,6 @@ if ($this->type == 'font')
 	</div>
 </div>
 <?php echo HTMLHelper::_('uitab.endTab'); ?>
-
 <?php echo HTMLHelper::_('uitab.addTab', 'myTab', 'overrides', Text::_('COM_TEMPLATES_TAB_OVERRIDES')); ?>
 <div class="row mt-2">
 	<div class="col-md-12">
