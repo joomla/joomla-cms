@@ -2,6 +2,9 @@
 kind: pipeline
 name: default
 
+clone:
+  depth: 42
+
 steps:
   - name: phpcs
     image: joomlaprojects/docker-phpcs
