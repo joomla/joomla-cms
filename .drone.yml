@@ -13,6 +13,17 @@ steps:
       - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - ./tests/javascript/node_modules
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
+
   - name: javascript
     image: joomlaprojects/docker-systemtests:latest
     commands:
@@ -29,6 +40,17 @@ steps:
       - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+       rebuild: true
+       mount:
+        - ./tests/javascript/node_modules
+       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
+
   - name: analysis3x
     image: rips/rips-cli:1.2.1
     when:
@@ -43,10 +65,15 @@ steps:
       RIPS_PASSWORD:
         from_secret: RIPS_PASSWORD
 
+volumes:
+- name: cache
+  host:
+    path: /tmp/cache
+
 branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: b283d63791320fcef7d4927dcb8d1d377555cb67cd3295abeecd4543625e1e47
+hmac: bca7023df94074ab90d7516946dbd607887f1bafef994eaf922221b8bb27e692
 
 ...
