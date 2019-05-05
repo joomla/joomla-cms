@@ -40,7 +40,7 @@ steps:
       - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 
-  - name: restore-cache
+  - name: rebuild-cache
     image: drillster/drone-volume-cache
     settings:
        rebuild: true
@@ -74,6 +74,6 @@ branches:
   exclude: [ l10n_* ]
 ---
 kind: signature
-hmac: bca7023df94074ab90d7516946dbd607887f1bafef994eaf922221b8bb27e692
+hmac: f8aa0f7552eb7c32c5585668552afffadd07a23cbbc9c1bb41bfad4df6679b3c
 
 ...
