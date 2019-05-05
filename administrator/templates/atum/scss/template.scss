@@ -8,13 +8,11 @@
 @import "mixin";
 
 // Bootstrap other
-@import "../../../../media/vendor/bootstrap/scss/mixins";
-@import "../../../../media/vendor/bootstrap/scss/variables";
-@import "../../../../media/vendor/bootstrap/scss/root";
-@import "../../../../media/vendor/bootstrap/scss/custom-forms";
+@import "vendor/bootstrap";
 
 // Fonts
 @import "../../../../media/vendor/roboto-fontface/scss/roboto/sass/roboto-fontface";
+@import "fonts/fontawesome";
 
 // Alert
 @import "../../../../build/media_source/system/scss/jalert";
