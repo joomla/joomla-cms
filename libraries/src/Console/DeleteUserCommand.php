@@ -14,6 +14,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
+use Joomla\CMS\Access\Access;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -89,6 +90,24 @@ class DeleteUserCommand extends AbstractCommand
 
 		foreach ($groups as $groupId)
 		{
+			if (Access::checkGroup($groupId, 'core.admin'))
+			{
+				$db = Factory::getDbo();
+				$query = $db->getQuery(true);
+				$query->select('COUNT(*)');
+				$query->from($db->quoteName('#__user_usergroup_map'));
+				$query->where($db->quoteName('group_id') . " = " . $db->quote($groupId));
+				$db->setQuery($query);
+				$count = $db->loadResult();
+
+				if ($count < 2)
+				{
+					$this->ioStyle->error("Last super user can't be deleted! At least one super user needs to be exist!");
+
+					return 1;
+				}
+			}
+
 			$removed = UserHelper::removeUserFromGroup($userId, $groupId);
 
 			if ($removed == false)
@@ -99,7 +118,6 @@ class DeleteUserCommand extends AbstractCommand
 			}
 		}
 
-		$db = Factory::getDbo();
 		$conditions = array(
 			$db->quoteName('id') . ' = ' . $userId,
 		);
