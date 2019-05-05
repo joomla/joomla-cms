@@ -1,13 +1,13 @@
 <template>
-    <media-modal v-if="$store.state.showShareModal" :size="'md'" @close="close()" :show-close="false">
-        <h3 slot="header" class="modal-title">{{ translate('COM_MEDIA_SHARE') }}</h3>
+    <media-modal v-if="$store.state.showShareModal" :size="'md'" @close="close()" :show-close="false" label-element="shareTitle">
+        <h3 slot="header" id="shareTitle" class="modal-title">{{ translate('COM_MEDIA_SHARE') }}</h3>
         <div slot="body">
             <div class="desc">
                 {{ translate('COM_MEDIA_SHARE_DESC') }}
                 
                 <template v-if="!url">
                     <div class="control">
-                        <a class="btn btn-success btn-block" role="button" @click="generateUrl">{{ translate('COM_MEDIA_ACTION_SHARE') }}</a>
+                        <button class="btn btn-success btn-block" type="button" @click="generateUrl">{{ translate('COM_MEDIA_ACTION_SHARE') }}</button>
                     </div>
                 </template>
                 <template v-else>
@@ -15,9 +15,9 @@
                         <span class="input-group">
                             <input id="url" ref="urlText" readonly v-model="url" class="form-control input-xxlarge" placeholder="URL" autocomplete="off">
                             <span class="input-group-append">
-                                <a class="btn btn-secondary" role="button" @click="copyToClipboard" title="Copy to clipboard">
+                                <button class="btn btn-secondary" type="button" @click="copyToClipboard" :title="translate('COM_MEDIA_SHARE_COPY')">
                                     <span class="fa fa-clipboard" aria-hidden="true"></span>
-                                </a>
+                                </button>
                             </span>
                         </span>     
                     </div>
@@ -25,7 +25,7 @@
             </div>
         </div>
         <div slot="footer">
-            <button class="btn btn-link" @click="close()">{{ translate('JCANCEL') }}</button>
+            <button class="btn btn-secondary" @click="close()">{{ translate('JCANCEL') }}</button>
         </div>
     </media-modal>
 </template>
@@ -37,7 +37,6 @@
         name: 'media-share-modal',
         computed: {
             item() {
-                // TODO @DN this is not allowed in vuex strict mode!
                 return this.$store.state.selectedItems[this.$store.state.selectedItems.length - 1];
             },
 

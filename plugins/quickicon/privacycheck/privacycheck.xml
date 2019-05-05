@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.9" type="plugin" group="quickicon" method="upgrade">
+	<name>plg_quickicon_privacycheck</name>
+	<author>Joomla! Project</author>
+	<creationDate>June 2018</creationDate>
+	<copyright>Copyright (C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
+	<license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+	<authorEmail>admin@joomla.org</authorEmail>
+	<authorUrl>www.joomla.org</authorUrl>
+	<version>3.9.0</version>
+	<description>PLG_QUICKICON_PRIVACYCHECK_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="privacycheck">privacycheck.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">en-GB.plg_quickicon_privacycheck.ini</language>
+		<language tag="en-GB">en-GB.plg_quickicon_privacycheck.sys.ini</language>
+	</languages>
+</extension>

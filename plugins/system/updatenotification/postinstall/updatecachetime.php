@@ -3,9 +3,11 @@
  * @package     Joomla.Plugin
  * @subpackage  System.updatenotification
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
+use Joomla\CMS\Factory;
 
 /**
  * Checks if the com_installer config for the cache Hours are eq 0 and the updatenotification Plugin is enabled
@@ -50,6 +52,6 @@ function updatecachetime_postinstall_action()
 	if (!$table->store())
 	{
 		// If there is an error show it to the admin
-		JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+		Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 	}
 }

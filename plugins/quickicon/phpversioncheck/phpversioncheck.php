@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  Quickicon.phpversioncheck
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -171,10 +171,10 @@ class PlgQuickiconPhpVersionCheck extends CMSPlugin
 			}
 
 			// If the version is still supported, check if it has reached eol minus 3 month
-			$interval = new DateInterval('P3M');
-			$phpEndOfSupport->sub($interval);
+			$securityWarningDate = clone $phpEndOfSupport;
+			$securityWarningDate->sub(new DateInterval('P3M'));
 
-			if (!$phpNotSupported && $today > $phpEndOfSupport)
+			if (!$phpNotSupported && $today > $securityWarningDate)
 			{
 				$supportStatus['status']  = self::PHP_SECURITY_ONLY;
 				$supportStatus['message'] = Text::sprintf(

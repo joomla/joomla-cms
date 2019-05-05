@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -20,7 +20,7 @@ use Joomla\Event\DispatcherAwareTrait;
 /**
  * Web Asset Manager class
  *
- * @since  __DEPLOY_VERSION__
+ * @since  4.0.0
  */
 class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterface
 {
@@ -31,7 +31,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const ASSET_STATE_INACTIVE = 0;
 
@@ -40,7 +40,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const ASSET_STATE_ACTIVE = 1;
 
@@ -49,7 +49,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    integer
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	const ASSET_STATE_DEPENDENCY = 2;
 
@@ -58,7 +58,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    WebAssetRegistry
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $registry;
 
@@ -68,7 +68,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    array
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $activeAssets = [];
 
@@ -77,7 +77,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @var    bool
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected $useVersioning = true;
 
@@ -95,7 +95,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @param   WebAssetRegistry  $registry  The WebAsset Registry instance
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function __construct(WebAssetRegistry $registry)
 	{
@@ -107,7 +107,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return   WebAssetRegistry
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getRegistry(): WebAssetRegistry
 	{
@@ -123,7 +123,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function enableAsset(string $name): WebAssetManagerInterface
 	{
@@ -156,7 +156,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function disableAsset(string $name): WebAssetManagerInterface
 	{
@@ -177,7 +177,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAssetState(string $name): int
 	{
@@ -207,7 +207,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function isAssetActive(string $name): bool
 	{
@@ -224,7 +224,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 * @throws  UnknownAssetException  When Asset cannot be found
 	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function getAssets(bool $sort = false): array
 	{
@@ -256,7 +256,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function enableDependencies(WebAssetItem $asset = null): self
 	{
@@ -302,7 +302,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  self
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	public function attachActiveAssetsToDocument(Document $doc): WebAssetManagerInterface
 	{
@@ -358,7 +358,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  WebAssetItem[]
 	 *
-	 * @since  __DEPLOY_VERSION__
+	 * @since  4.0.0
 	 */
 	protected function calculateOrderOfActiveAssets(): array
 	{
@@ -485,7 +485,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getConnectionsGraph (array $assets): array
 	{
@@ -525,7 +525,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	protected function getDependenciesForAsset(WebAssetItem $asset, $recursively = false, WebAssetItem $recursionRoot = null): array
 	{
@@ -568,7 +568,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  self
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function useVersioning(bool $useVersioning): self
 	{
@@ -582,7 +582,7 @@ class WebAssetManager implements WebAssetManagerInterface, DispatcherAwareInterf
 	 *
 	 * @return  array
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   4.0.0
 	 */
 	public function debugAssets(): array
 	{

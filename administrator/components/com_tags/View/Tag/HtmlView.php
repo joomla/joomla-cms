@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -15,6 +15,7 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -77,7 +78,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -108,9 +109,9 @@ class HtmlView extends BaseHtmlView
 		// Build the actions for new and existing records.
 		if ($isNew)
 		{
+			ToolbarHelper::apply('tag.apply');
 			ToolbarHelper::saveGroup(
 				[
-					['apply', 'tag.apply'],
 					['save', 'tag.save'],
 					['save2new', 'tag.save2new']
 				],
@@ -129,7 +130,7 @@ class HtmlView extends BaseHtmlView
 			// Can't save the record if it's checked out and editable
 			if (!$checkedOut && $itemEditable)
 			{
-				$toolbarButtons[] = ['apply', 'tag.apply'];
+				ToolbarHelper::apply('tag.apply');
 				$toolbarButtons[] = ['save', 'tag.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.
