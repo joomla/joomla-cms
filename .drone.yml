@@ -20,7 +20,7 @@ steps:
       mount:
         - ./node_modules
         - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_BUILD_NUMBER ]
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
         path: /cache
@@ -43,7 +43,7 @@ steps:
       mount:
         - ./node_modules
         - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_BUILD_NUMBER ]
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
         path: /cache
@@ -138,6 +138,6 @@ services:
 
 ---
 kind: signature
-hmac: 8c12c67d55206d5a79ed496eb79ac70f58fe7e38d797cc6cefdc275ba8c491d5
+hmac: f3eae41827965607dda5cd8996aacbafdf964a112187fca705746f5a069b6639
 
 ...
