@@ -41,7 +41,7 @@ use Joomla\CMS\Router\Route;
 				<tr class="cat-list-row<?php $i % 2; ?>">
 
 					<td headers="categorylist_header_title" class="list-title">
-						<a href="<?php echo Route::_('index.php?option=com_users&view=user&id=' . $article->id); ?>">
+						<a href="<?php echo Route::_('index.php?option=com_content&view=article&id=' . $article->id); ?>">
 							<?php echo $article->title; ?>
 						</a>
 					</td>
