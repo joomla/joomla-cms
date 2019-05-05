@@ -5,7 +5,7 @@
  *
  * Basic com_content (article) tests
  */
-class contentCest
+class ContentCest
 {
 	public function _before(ApiTester $I)
 	{

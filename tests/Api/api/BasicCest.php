@@ -5,7 +5,7 @@
  *
  * Basic API function tests
  */
-class basicCest
+class BasicCest
 {
 	public function _before(ApiTester $I)
 	{
