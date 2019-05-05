@@ -3,7 +3,7 @@
  * @package     Joomla.Plugin
  * @subpackage  System.Debug
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -153,12 +153,12 @@ class PlgSystemDebug extends CMSPlugin
 		$this->debugLang = $this->app->get('debug_lang');
 
 		// Skip the plugin if debug is off
-		if ($this->debugLang === '0' && $this->app->get('debug') === '0')
+		if (!$this->debugLang && !$this->app->get('debug'))
 		{
 			return;
 		}
 
-		$this->app->getConfig()->set('gzip', 0);
+		$this->app->getConfig()->set('gzip', false);
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -196,8 +196,13 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterDispatch()
 	{
 		// Only if debugging or language debug is enabled.
-		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug())
+		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && strtolower($this->app->getDocument()->getType()) === 'html')
 		{
+			// Use our own jQuery and fontawesome instead of the debug bar shipped version
+			$assetManager = $this->app->getDocument()->getWebAssetManager();
+			$assetManager->enableAsset('jquery-noconflict');
+			$assetManager->enableAsset('fontawesome-free');
+
 			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
 			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));
 		}
@@ -219,7 +224,7 @@ class PlgSystemDebug extends CMSPlugin
 	public function onAfterRespond()
 	{
 		// Do not render if debugging or language debug is not enabled.
-		if (!JDEBUG && !$this->debugLang || $this->isAjax)
+		if (!JDEBUG && !$this->debugLang || $this->isAjax || strtolower($this->app->getDocument()->getType()) !== 'html')
 		{
 			return;
 		}
@@ -284,13 +289,16 @@ class PlgSystemDebug extends CMSPlugin
 		$debugBarRenderer->setOpenHandlerUrl($openHandlerUrl);
 		$debugBarRenderer->setBaseUrl(JUri::root(true) . '/media/vendor/debugbar/');
 
-		// Use our own jQuery and font-awesome instead of the debug bar shipped version
-		$assetManager = $this->app->getDocument()->getWebAssetManager();
-		$assetManager->enableAsset('jquery-noconflict');
-		$assetManager->enableAsset('font-awesome');
 		$debugBarRenderer->disableVendor('jquery');
 		$debugBarRenderer->setEnableJqueryNoConflict(false);
 		$debugBarRenderer->disableVendor('fontawesome');
+
+		/**
+		 * @todo disable highlightjs from the DebugBar, import it through NPM
+		 *       and deliver it through Joomla's API
+		 *       Also every DebuBar script and stylesheet needs to use Joomla's API
+		 *       $debugBarRenderer->disableVendor('highlightjs');
+		 */
 
 		// Only render for HTML output.
 		if (Factory::getDocument()->getType() !== 'html')
@@ -318,9 +326,7 @@ class PlgSystemDebug extends CMSPlugin
 			return;
 		}
 
-		$contents = str_replace('</head>', $debugBarRenderer->renderHead() . '</head>', $contents);
-
-		echo str_replace('</body>', $debugBarRenderer->render() . '</body>', $contents);
+		echo str_replace('</body>', $debugBarRenderer->renderHead() . $debugBarRenderer->render() . '</body>', $contents);
 	}
 
 	/**

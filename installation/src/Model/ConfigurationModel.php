@@ -3,7 +3,7 @@
  * @package     Joomla.Installation
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -124,6 +124,7 @@ class ConfigurationModel extends BaseInstallationModel
 		// Debug settings.
 		$registry->set('debug', false);
 		$registry->set('debug_lang', false);
+		$registry->set('debug_lang_const', true);
 
 		// Database settings.
 		$registry->set('dbtype', $options->db_type);

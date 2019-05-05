@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -79,8 +79,8 @@ class ModuleRenderer extends DocumentRenderer
 			$module->params = (string) $params;
 		}
 
-		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
-		$cachemode = $params->get('cachemode', 'oldstatic');
+		// Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
+		$cachemode = $params->get('cachemode', 'static');
 
 		if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{
