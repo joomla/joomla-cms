@@ -201,7 +201,6 @@ class ColorField extends FormField
 			$this->position = isset($this->element['position']) ? (string) $this->element['position'] : 'default';
 			$this->preview  = isset($this->element['preview']) ? (string) $this->element['preview'] : false;
 			$this->split    = isset($this->element['split']) ? (int) $this->element['split'] : 3;
-			$this->value    = (string) $this->element['value'];
 		}
 
 		return $return;
@@ -370,7 +369,6 @@ class ColorField extends FormField
 			'default' => $this->default,
 			'display' => $this->display,
 			'preview' => $this->preview,
-			'value'   => $this->value,
 		);
 	}
 }
