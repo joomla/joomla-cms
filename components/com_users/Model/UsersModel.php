@@ -163,7 +163,6 @@ class UsersModel extends ListModel
 		{
 			$groupIds = ArrayHelper::toInteger($groupIds);
 
-			// Todo: when Prepared Statements work with Arrays, add: ParameterType::INTEGER)
 			$query->whereIn(
 				$db->quoteName('usergroupmap.group_id'), $groupIds
 			);
