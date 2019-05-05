@@ -177,7 +177,7 @@ class UsersModel extends ListModel
 		{
 			$excludedIds = ArrayHelper::toInteger($excludedIds);
 			$query->where(
-				$db->quoteName('users.id') . ' NOT IN (' . implode(',', $excludedIds) . ')'
+				$db->quoteName('users.id') . ' NOT IN (' . implode(',', $db->bindArray($excludedIds)) . ')'
 			);
 		}
 
