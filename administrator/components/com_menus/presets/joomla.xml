@@ -14,7 +14,7 @@
 	<menuitem
 			title="MOD_MENU_COM_CONTENT"
 			type="heading"
-			class="class:file-text"
+			class="class:file-alt"
 			dashboard="content"
 	>
 		<menuitem
