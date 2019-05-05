@@ -96,7 +96,6 @@ steps:
 
   - name: analysis4x
     image: rips/rips-cli:1.2.1
-    secrets:  [rips_username, rips_password]
     when:
       branch: 4.0-dev
     commands:
@@ -138,6 +137,6 @@ services:
 
 ---
 kind: signature
-hmac: f3eae41827965607dda5cd8996aacbafdf964a112187fca705746f5a069b6639
+hmac: 2112baeb140bcfc7f7137fa633704ca31a88bbafacb363fa258a8a6a17b79899
 
 ...
