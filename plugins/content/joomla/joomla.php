@@ -506,7 +506,7 @@ class PlgContentJoomla extends CMSPlugin
 		{
 			return (int) $db->setQuery($query)->loadResult();
 		}
-		catch (Exception $ex)
+		catch (Exception $e)
 		{
 			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 		}
