@@ -41,9 +41,11 @@ if ($saveOrder && !empty($this->items))
 	$saveOrderingUrl = 'index.php?option=com_fields&task=groups.saveOrderAjax&tmpl=component&' . Session::getFormToken() . '=1';
 	HTMLHelper::_('draggablelist.draggable');
 }
+
+$context = $this->escape($this->state->get('filter.context'));
 ?>
 
-<form action="<?php echo Route::_('index.php?option=com_fields&view=groups'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo Route::_('index.php?option=com_fields&view=groups&context=' . $context); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
 		<?php if (!empty($this->sidebar)) { ?>
 		<div id="j-sidebar-container" class="col-md-2">
@@ -174,7 +176,7 @@ if ($saveOrder && !empty($this->items))
 				<?php endif; ?>
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="boxchecked" value="0">
-				<?php echo HTMLHelper::_('form.token'); ?>
+                <?php echo HTMLHelper::_('form.token'); ?>
 			</div>
 		</div>
 	</div>
