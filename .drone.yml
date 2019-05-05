@@ -20,7 +20,8 @@ steps:
       mount:
         - ./node_modules
         - ./libraries/vendor
-      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+        - ./administrator/components/com_media/node_modules
+     cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
         path: /cache
@@ -43,6 +44,7 @@ steps:
       mount:
         - ./node_modules
         - ./libraries/vendor
+        - ./administrator/components/com_media/node_modules
       cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
     volumes:
       - name: cache
