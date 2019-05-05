@@ -49,12 +49,12 @@ if ($saveOrder && !empty($this->items))
 						</caption>
 						<thead>
 							<tr>
-								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
-									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
-								</th>
 								<td style="width:1%"  class="text-center">
 									<?php echo HTMLHelper::_('grid.checkall'); ?>
 								</td>
+								<th scope="col" style="width:1%" class="text-center d-none d-md-table-cell">
+									<?php echo HTMLHelper::_('searchtools.sort', '', 'a.ordering', $listDirn, $listOrder, null, 'asc', 'JGRID_HEADING_ORDERING', 'icon-menu-2'); ?>
+								</th>
 								<th scope="col" style="width:1%" class="text-center">
 									<?php echo HTMLHelper::_('searchtools.sort', 'JSTATUS', 'a.published', $listDirn, $listOrder); ?>
 								</th>
@@ -92,6 +92,9 @@ if ($saveOrder && !empty($this->items))
 							$canChange = $user->authorise('core.edit.state', 'com_languages');
 						?>
 							<tr class="row<?php echo $i % 2; ?>">
+								<td>
+									<?php echo HTMLHelper::_('grid.id', $i, $item->lang_id); ?>
+								</td>
 								<td class="order text-center d-none d-md-table-cell">
 									<?php if ($canChange) :
 										$disableClassName = '';
@@ -102,7 +105,7 @@ if ($saveOrder && !empty($this->items))
 											$disableClassName = 'inactive tip-top';
 										endif; ?>
 										<span class="sortable-handler hasTooltip <?php echo $disableClassName; ?>" title="<?php echo $disabledLabel; ?>">
-											<span class="icon-menu" aria-hidden="true"></span>
+											<span class="fa fa-ellipsis-v" aria-hidden="true"></span>
 										</span>
 										<input type="text" style="display:none" name="order[]" size="5" value="<?php echo $item->ordering; ?>" class="width-20 text-area-order">
 									<?php else : ?>
@@ -110,9 +113,6 @@ if ($saveOrder && !empty($this->items))
 											<span class="icon-menu" aria-hidden="true"></span>
 										</span>
 									<?php endif; ?>
-								</td>
-								<td>
-									<?php echo HTMLHelper::_('grid.id', $i, $item->lang_id); ?>
 								</td>
 								<td class="text-center">
 									<?php echo HTMLHelper::_('jgrid.published', $item->published, $i, 'languages.', $canChange); ?>
