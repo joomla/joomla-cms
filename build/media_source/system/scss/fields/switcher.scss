@@ -48,7 +48,7 @@ $switcher-height: 28px;
 .switcher .toggle-outside {
   height: 100%;
   overflow: hidden;
-  transition: 0.25s ease all;
+  transition: 0.2s ease all;
   background: $off-background-colour;
   position: absolute;
   width: 58px;
@@ -62,17 +62,12 @@ $switcher-height: 28px;
 
 .switcher .toggle-inside {
   height: $switcher-height;
-  width: $switcher-height;
+  width: ($switcher-width - 6) / 2;
   background: white;
   position: absolute;
-  transition: 0.25s ease all;
+  transition: 0.4s ease all;
 }
-.switcher input ~ input:checked ~ .toggle-outside {
-  .toggle-inside {
-    height: ($switcher-height - 2);
-    width: (($switcher-width - 10) /2);
-  }
-}
+
 .switcher input ~ input:checked ~ .toggle-outside .toggle-inside {
   left: ($switcher-width / 2) - 1;
 }
