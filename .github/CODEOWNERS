@@ -13,13 +13,6 @@ plugins/systems/fields/*  @laoneo
 #plugins/content/finder/*
 #plugins/finder/*
 
-# Language strings
-administrator/language/en-GB/*  @brianteeman
-installation/language/en-GB/*  @brianteeman
-language/en-GB/*  @brianteeman
-README.md  @brianteeman
-README.txt  @brianteeman
-
 # CodeMirror
 media/editors/codemirror/*  @okonomiyaki3000
 plugins/editors/codemirror/*  @okonomiyaki3000

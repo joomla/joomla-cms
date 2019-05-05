@@ -55,7 +55,7 @@ $this->setTitle($this->error->getCode() . ' - ' . htmlspecialchars($this->error-
 			</ol>
 			<p><strong><?php echo JText::_('JERROR_LAYOUT_PLEASE_TRY_ONE_OF_THE_FOLLOWING_PAGES'); ?></strong></p>
 			<ul>
-				<li><a href="<?php echo JUri::root(true); ?>/index.php" title="<?php echo JText::_('JERROR_LAYOUT_GO_TO_THE_HOME_PAGE'); ?>"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></li>
+				<li><a href="<?php echo JUri::root(true); ?>/index.php"><?php echo JText::_('JERROR_LAYOUT_HOME_PAGE'); ?></a></li>
 			</ul>
 			<p><?php echo JText::_('JERROR_LAYOUT_PLEASE_CONTACT_THE_SYSTEM_ADMINISTRATOR'); ?></p>
 			<div id="techinfo">

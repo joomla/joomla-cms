@@ -24,10 +24,7 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 <div id="installer-database" class="clearfix">
 	<form action="<?php echo Route::_('index.php?option=com_installer&view=database'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
-			<div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-			</div>
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
 					<div class="control-group">
 						<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
@@ -58,14 +55,10 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											<?php echo Text::_('COM_INSTALLER_HEADING_PROBLEMS'); ?>
 										</th>
 										<th scope="col" class="d-none d-md-table-cell text-right" style="width:10%">
-											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>"
-											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_DATABASE_SCHEMA'); ?>
 											</span>
 										</th>
 										<th scope="col" class="d-none d-md-table-cell" style="width:10%">
-											<span class="hasPopover" data-original-title="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>"
-											    data-content="<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION_DESC'); ?>" data-placement="top">
 												<?php echo Text::_('COM_INSTALLER_HEADING_UPDATE_VERSION'); ?>
 											</span>
 										</th>
@@ -88,11 +81,11 @@ $listDirection = $this->escape($this->state->get('list.direction'));
 											</td>
 											<th scope="row">
 												<label for="cb<?php echo $i; ?>">
-													<span class="hasPopover" data-original-title="<?php echo $extension->name; ?>"
-														data-content="<?php echo Text::_($manifest->description) ?: Text::_('COM_INSTALLER_MSG_UPDATE_NODESC'); ?>">
-														<?php echo $extension->name; ?>
-													</span>
+													<?php echo $extension->name; ?>
 												</label>
+												<div class="small">
+													<?php echo Text::_($manifest->description); ?>
+												</div>
 											</th>
 											<td>
 												<?php echo $extension->client_translated; ?>

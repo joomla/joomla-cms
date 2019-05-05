@@ -438,6 +438,7 @@ abstract class UserHelper
 			/** @var PHPassHandler $handler */
 			$handler = $container->get(PHPassHandler::class);
 		}
+		// Check for Argon2id hashes
 		elseif (strpos($hash, '$argon2id') === 0)
 		{
 			/** @var Argon2idHandler $handler */
@@ -445,6 +446,7 @@ abstract class UserHelper
 
 			$passwordAlgorithm = PASSWORD_ARGON2ID;
 		}
+		// Check for Argon2i hashes
 		elseif (strpos($hash, '$argon2i') === 0)
 		{
 			/** @var Argon2iHandler $handler */

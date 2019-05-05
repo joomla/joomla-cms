@@ -102,7 +102,7 @@ HTMLHelper::_('script', 'com_menus/admin-menus-default.min.js', array('version' 
 									<div class="name break-word">
 										<?php if ($canEdit) : ?>
 											<a href="<?php echo Route::_('index.php?option=com_menus&task=menu.edit&id=' . $item->id); ?>">
-												<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>
+												<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>
 												<span class="sr-only"><?php echo Text::_('COM_MENUS_EDIT_MENU'); ?></span><?php echo $this->escape($item->title); ?>
 											</a>
 										<?php else : ?>

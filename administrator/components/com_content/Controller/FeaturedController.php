@@ -13,7 +13,6 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
-use Joomla\CMS\Session\Session;
 
 /**
  * Featured content controller class.
@@ -32,7 +31,7 @@ class FeaturedController extends ArticlesController
 	public function delete()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$user = Factory::getUser();
 		$ids  = $this->input->get('cid', array(), 'array');

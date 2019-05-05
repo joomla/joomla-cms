@@ -168,6 +168,15 @@ class HtmlView extends BaseHtmlView
 				if (empty($support['catid']))
 				{
 					$this->filterForm->setFieldAttribute('category_id', 'extension', $extensionName, 'filter');
+
+					if ($this->getLayout() == 'modal')
+					{
+						// We need to change the category filter to only show categories tagged to All or to the forced language.
+						if ($forcedLanguage = Factory::getApplication()->input->get('forcedLanguage', '', 'CMD'))
+						{
+							$this->filterForm->setFieldAttribute('category_id', 'language', '*,' . $forcedLanguage, 'filter');
+						}
+					}
 				}
 
 				$this->items      = $this->get('Items');

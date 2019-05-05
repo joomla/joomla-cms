@@ -12,16 +12,13 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('predefinedlist');
 
 /**
  * Field to show a list of available date ranges to filter on last visit date.
  *
  * @since  3.6
  */
-class LastvisitdaterangeField extends \JFormFieldPredefinedList
+class LastvisitdaterangeField extends PredefinedlistField
 {
 	/**
 	 * Method to instantiate the form field object.

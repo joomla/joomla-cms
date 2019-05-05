@@ -34,6 +34,7 @@ use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareInterface;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Registry\Registry;
+use Joomla\String\StringHelper;
 
 /**
  * Joomla! CMS Application class
@@ -406,7 +407,7 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 				$container = Factory::getContainer();
 			}
 
-			if ($container->exists($classname))
+			if ($container->has($classname))
 			{
 				static::$instances[$name] = $container->get($classname);
 			}
@@ -997,6 +998,42 @@ abstract class CMSApplication extends WebApplication implements ContainerAwareIn
 
 		$router = static::getRouter();
 		$result = $router->parse($uri, true);
+
+		$active = $this->getMenu()->getActive();
+
+		if ($active !== null && $active->type === 'alias')
+		{
+			$item = $this->getMenu()->getItem($active->params->get('aliasoptions'));
+
+			if ($item !== null)
+			{
+				$oldUri = clone \JUri::getInstance();
+
+				if ($oldUri->getVar('Itemid') == $active->id)
+				{
+					$oldUri->setVar('Itemid', $item->id);
+				}
+
+				$base = \JUri::base(true);
+				$oldPath = StringHelper::strtolower(substr($oldUri->getPath(), strlen($base) + 1));
+				$activePathPrefix = StringHelper::strtolower($active->route);
+
+				$position = strpos($oldPath, $activePathPrefix);
+
+				if ($position !== false)
+				{
+					$oldUri->setPath($base . '/' . substr_replace($oldPath, $item->route, $position, strlen($activePathPrefix)));
+
+					$this->setHeader('Expires', 'Wed, 17 Aug 2005 00:00:00 GMT', true);
+					$this->setHeader('Last-Modified', gmdate('D, d M Y H:i:s') . ' GMT', true);
+					$this->setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0', false);
+					$this->setHeader('Pragma', 'no-cache');
+					$this->sendHeaders();
+
+					$this->redirect((string) $oldUri, 301);
+				}
+			}
+		}
 
 		foreach ($result as $key => $value)
 		{

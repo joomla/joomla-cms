@@ -328,6 +328,18 @@
 		</field>
 
 		<field
+			name="record_hits"
+			type="radio"
+			label="JGLOBAL_RECORD_HITS_LABEL"
+			description="JGLOBAL_RECORD_HITS_DESC"
+			class="switcher"
+			default="1"
+			>
+			<option value="0">JNO</option>
+			<option value="1">JYES</option>
+		</field>
+
+		<field
 			name="show_noauth"
 			type="radio"
 			label="JGLOBAL_SHOW_UNAUTH_LINKS_LABEL"

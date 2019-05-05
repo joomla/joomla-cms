@@ -22,10 +22,7 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 <div id="installer-manage" class="clearfix">
 	<form action="<?php echo Route::_('index.php?option=com_installer&view=manage'); ?>" method="post" name="adminForm" id="adminForm">
 		<div class="row">
-			<div id="j-sidebar-container" class="col-md-2">
-				<?php echo $this->sidebar; ?>
-			</div>
-			<div class="col-md-10">
+			<div class="col-md-12">
 				<div id="j-main-container" class="j-main-container">
 					<?php if ($this->showMessage) : ?>
 						<?php echo $this->loadTemplate('message'); ?>
@@ -107,14 +104,34 @@ $listDirn  = $this->escape($this->state->get('list.direction'));
 									<?php echo $item->type_translated; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo @$item->version != '' ? $item->version : '&#160;'; ?>
+									<?php if ($item->version !== '') : ?>
+										<?php if ($item->changelogurl !== null) : ?>
+											<a href="#changelogModal<?php echo $item->extension_id; ?>" onclick="Joomla.loadChangelog(<?php echo $item->extension_id; ?>, 'manage'); return false;" data-toggle="modal">
+												<?php echo $item->version?>
+											</a>
+											<?php
+											echo HTMLHelper::_(
+												'bootstrap.renderModal',
+												'changelogModal' . $item->extension_id,
+												array(
+													'title' => Text::sprintf('COM_INSTALLER_CHANGELOG_TITLE', $item->name, $item->version),
+												),
+												''
+											);
+											?>
+										<?php else : ?>
+											<?php echo $item->version; ?>
+										<?php endif; ?>
+									<?php else :
+										echo '&#160;';
+									endif; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
-									<?php echo @$item->creationDate != '' ? $item->creationDate : '&#160;'; ?>
+									<?php echo isset($item->creationDate) && $item->creationDate !== '' ? $item->creationDate : '&#160;'; ?>
 								</td>
 								<td class="d-none d-md-table-cell">
 									<span class="editlinktip hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_INSTALLER_AUTHOR_INFORMATION'), $item->author_info, 0); ?>">
-										<?php echo @$item->author != '' ? $item->author : '&#160;'; ?>
+										<?php echo isset($item->author) && $item->author !== '' ? $item->author : '&#160;'; ?>
 									</span>
 								</td>
 								<td class="d-none d-md-table-cell">

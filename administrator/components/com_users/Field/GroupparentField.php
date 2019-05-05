@@ -14,10 +14,7 @@ defined('JPATH_BASE') or die;
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Field\ListField;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * User Group Parent field..

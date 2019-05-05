@@ -11,6 +11,7 @@ namespace Joomla\Component\Languages\Administrator\Helper;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
 
 /**
@@ -49,29 +50,16 @@ class LanguagesHelper
 	/**
 	 * Method for parsing ini files.
 	 *
-	 * @param   string  $filename  Path and name of the ini file to parse.
+	 * @param   string  $fileName  Path and name of the ini file to parse.
 	 *
 	 * @return  array   Array of strings found in the file, the array indices will be the keys. On failure an empty array will be returned.
 	 *
 	 * @since   2.5
+	 * @deprecated   3.9.0 Use \Joomla\CMS\Language\LanguageHelper::parseIniFile() instead.
 	 */
-	public static function parseFile($filename)
+	public static function parseFile($fileName)
 	{
-		if (!is_file($filename))
-		{
-			return array();
-		}
-
-		$contents = file_get_contents($filename);
-		$contents = str_replace('"_QQ_"', '\\"', $contents);
-		$strings  = @parse_ini_string($contents, INI_SCANNER_RAW);
-
-		if ($strings === false)
-		{
-			return array();
-		}
-
-		return $strings;
+		return LanguageHelper::parseIniFile($fileName);
 	}
 
 	/**

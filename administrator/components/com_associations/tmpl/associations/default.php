@@ -94,29 +94,31 @@ HTMLHelper::_('script', 'com_associations/admin-associations-default.min.js', ['
 									</td>
 								<?php endif; ?>
 								<th scope="row" class="has-context">
-									<?php if (isset($item->level)) : ?>
-										<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
-									<?php endif; ?>
-									<?php if ($canCheckin && $isCheckout) : ?>
-										<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
-									<?php endif; ?>
-									<?php if ($canEdit) : ?>
-										<?php $editIcon = $isCheckout ? '' : '<span class="fa fa-pencil-square mr-2" aria-hidden="true"></span>'; ?>
-										<a class="hasTooltip" href="<?php echo Route::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
-											<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
-									<?php else : ?>
-										<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
-									<?php endif; ?>
-									<?php if (!empty($this->typeFields['alias'])) : ?>
-										<span class="small">
-											<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
-										</span>
-									<?php endif; ?>
-									<?php if (!empty($this->typeFields['catid'])) : ?>
-										<div class="small">
-											<?php echo Text::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
-										</div>
-									<?php endif; ?>
+									<div class="float-left break-word">
+										<?php if (isset($item->level)) : ?>
+											<?php echo LayoutHelper::render('joomla.html.treeprefix', array('level' => $item->level)); ?>
+										<?php endif; ?>
+										<?php if ($canCheckin && $isCheckout) : ?>
+											<?php echo HTMLHelper::_('jgrid.checkedout', $i, $item->editor, $item->checked_out_time, 'associations.', $canCheckin); ?>
+										<?php endif; ?>
+										<?php if ($canEdit) : ?>
+											<?php $editIcon = $isCheckout ? '' : '<span class="fa fa-pen-square mr-2" aria-hidden="true"></span>'; ?>
+											<a class="hasTooltip" href="<?php echo Route::_($this->editUri . '&id=' . (int) $item->id); ?>" title="<?php echo Text::_('JACTION_EDIT'); ?> <?php echo $this->escape(addslashes($item->title)); ?>">
+												<?php echo $editIcon; ?><?php echo $this->escape($item->title); ?></a>
+										<?php else : ?>
+											<span title="<?php echo Text::sprintf('JFIELD_ALIAS_LABEL', $this->escape($item->alias)); ?>"><?php echo $this->escape($item->title); ?></span>
+										<?php endif; ?>
+										<?php if (!empty($this->typeFields['alias'])) : ?>
+											<span class="small">
+												<?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+											</span>
+										<?php endif; ?>
+										<?php if (!empty($this->typeFields['catid'])) : ?>
+											<div class="small">
+												<?php echo Text::_('JCATEGORY') . ": " . $this->escape($item->category_title); ?>
+											</div>
+										<?php endif; ?>
+									</div>
 								</th>
 								<td class="small">
 									<?php echo LayoutHelper::render('joomla.content.language', $item); ?>

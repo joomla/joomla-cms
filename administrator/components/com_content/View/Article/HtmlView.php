@@ -15,13 +15,17 @@ use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\CMS\Session\Session;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\Component\Content\Administrator\Helper\PreviewHelper;
+
+\JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
 /**
  * View to edit an article.
@@ -90,7 +94,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// If we are forcing a language in modal (used for associations).
@@ -142,7 +146,7 @@ class HtmlView extends BaseHtmlView
 		if ($isNew && (count($user->getAuthorisedCategories('com_content', 'core.create')) > 0))
 		{
 			$apply = $toolbar->apply('article.apply');
-			
+
 			$saveGroup = $toolbar->dropdownButton('save-group');
 
 			$saveGroup->configure(
@@ -194,7 +198,12 @@ class HtmlView extends BaseHtmlView
 
 			if (!$isNew)
 			{
-				$url = PreviewHelper::url($this->item);
+				$url = Route::link(
+					'site',
+					\ContentHelperRoute::getArticleRoute($this->item->id, $this->item->catid, $this->item->language),
+					true
+				);
+
 				$toolbar->preview($url, 'JGLOBAL_PREVIEW')
 					->bodyHeight(80)
 					->modalWidth(90);
@@ -254,6 +263,13 @@ class HtmlView extends BaseHtmlView
 				echo '<input type="hidden" class="form-control" id="' . $modalId . '_name" value="">';
 				echo '<input type="hidden" id="' . $modalId . '_id" value="0">';
 			}
+		}
+
+		if (Associations::isEnabled() && ComponentHelper::isEnabled('com_associations'))
+		{
+			$toolbar->standardButton('contract')
+			->text('JTOOLBAR_ASSOCIATIONS')
+			->task('article.editAssociations');
 		}
 
 		$toolbar->cancel('article.cancel', 'JTOOLBAR_CLOSE');

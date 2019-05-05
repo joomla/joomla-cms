@@ -54,7 +54,7 @@
                 return (this.isGridView) ? 'fa fa-list' : 'fa fa-th';
             },
             toggleSelectAllBtnIcon() {
-                return (this.allItemsSelected) ? 'fa fa-check-square-o' : 'fa fa-square-o'
+                return (this.allItemsSelected) ? 'fa fa-check-square' : 'fa fa-square'
             },
             isLoading() {
                 return this.$store.state.isLoading;

@@ -420,7 +420,7 @@ class PlgUserJoomla extends CMSPlugin
 		{
 			if (!$instance->save())
 			{
-				Log::add('Error in autoregistration for user ' . $user['username'] . '.', Log::WARNING, 'error');
+				Log::add('Failed to automatically create account for user ' . $user['username'] . '.', Log::WARNING, 'error');
 			}
 		}
 		else

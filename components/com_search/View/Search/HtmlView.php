@@ -240,6 +240,9 @@ class HtmlView extends BaseHtmlView
 			$total      = $this->get('total');
 			$pagination = $this->get('pagination');
 
+			// Flag indicates to not add limitstart=0 to URL
+			$pagination->hideEmptyLimitstart = true;
+
 			if ($state->get('match') === 'exact')
 			{
 				$searchWords = array($searchWord);

@@ -66,7 +66,6 @@ if (!empty($list))
 	$grouped                    = false;
 	$article_grouping           = $params->get('article_grouping', 'none');
 	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-	$item_heading               = $params->get('item_heading');
 
 	if ($article_grouping !== 'none')
 	{
@@ -76,11 +75,20 @@ if (!empty($list))
 		{
 			case 'year' :
 			case 'month_year' :
-				$list = ArticlesCategoryHelper::groupByDate($list, $article_grouping_direction, $article_grouping, $params->get('month_year_format', 'F Y'));
+				$list = ArticlesCategoryHelper::groupByDate(
+					$list,
+					$article_grouping_direction,
+					$article_grouping,
+					$params->get('month_year_format', 'F Y'),
+					$params->get('date_grouping_field', 'created')
+				);
 				break;
 			case 'author' :
 			case 'category_title' :
 				$list = ArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
+				break;
+			case 'tags' :
+				$list = ModArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
 				break;
 			default:
 				break;

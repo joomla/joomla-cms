@@ -105,7 +105,7 @@ HTMLHelper::_('script', 'com_languages/admin-override-edit-refresh-searchstring.
 						</span>
 					</div>
 					<span id="refresh-status" class="help-block">
-						<span class="fa fa-refresh fa-spin" aria-hidden="true"></span>
+						<span class="fa fa-sync fa-spin" aria-hidden="true"></span>
 						<?php echo Text::_('COM_LANGUAGES_VIEW_OVERRIDE_REFRESHING'); ?>
 					</span>
 				</div>

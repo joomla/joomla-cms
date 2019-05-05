@@ -81,8 +81,6 @@ class HtmlView extends InstallerViewDefault
 		ToolbarHelper::custom('update.purge', 'purge', 'purge', 'COM_INSTALLER_TOOLBAR_PURGE', false);
 		ToolbarHelper::divider();
 
-		\JHtmlSidebar::setAction('index.php?option=com_installer&view=manage');
-
 		parent::addToolbar();
 		ToolbarHelper::help('JHELP_EXTENSIONS_EXTENSION_MANAGER_UPDATE');
 	}

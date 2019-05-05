@@ -82,7 +82,8 @@ class CategoryModel extends ListModel
 				'sortname',
 				'sortname1', 'a.sortname1',
 				'sortname2', 'a.sortname2',
-				'sortname3', 'a.sortname3'
+				'sortname3', 'a.sortname3',
+				'featuredordering', 'a.featured'
 			);
 		}
 
@@ -205,6 +206,11 @@ class CategoryModel extends ListModel
 				->order($db->escape('a.sortname2') . ' ' . $db->escape($this->getState('list.direction', 'ASC')))
 				->order($db->escape('a.sortname3') . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
 		}
+		elseif ($this->getState('list.ordering') === 'featuredordering')
+		{
+			$query->order($db->escape('a.featured') . ' DESC')
+			->order($db->escape('a.ordering') . ' ASC');
+		}
 		else
 		{
 			$query->order($db->escape($this->getState('list.ordering', 'a.ordering')) . ' ' . $db->escape($this->getState('list.direction', 'ASC')));
@@ -230,12 +236,29 @@ class CategoryModel extends ListModel
 		$app = Factory::getApplication();
 		$params = ComponentHelper::getParams('com_contact');
 
+		// Get list ordering default from the parameters
+		$menuParams = new Registry;
+
+		if ($menu = $app->getMenu()->getActive())
+		{
+			$menuParams->loadString($menu->params);
+		}
+
+		$mergedParams = clone $params;
+		$mergedParams->merge($menuParams);
+
 		// List state information
 		$format = $app->input->getWord('format');
+
+		$numberOfContactsToDisplay = $mergedParams->get('contacts_display_num');
 
 		if ($format === 'feed')
 		{
 			$limit = $app->get('feed_limit');
+		}
+		elseif (isset($numberOfContactsToDisplay))
+		{
+			$limit = $numberOfContactsToDisplay;
 		}
 		else
 		{
@@ -251,17 +274,6 @@ class CategoryModel extends ListModel
 		$itemid = $app->input->get('Itemid', 0, 'int');
 		$search = $app->getUserStateFromRequest('com_contact.category.list.' . $itemid . '.filter-search', 'filter-search', '', 'string');
 		$this->setState('list.filter', $search);
-
-		// Get list ordering default from the parameters
-		$menuParams = new Registry;
-
-		if ($menu = $app->getMenu()->getActive())
-		{
-			$menuParams->loadString($menu->params);
-		}
-
-		$mergedParams = clone $params;
-		$mergedParams->merge($menuParams);
 
 		$orderCol = $app->input->get('filter_order', $mergedParams->get('initial_sort', 'ordering'));
 

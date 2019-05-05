@@ -17,7 +17,6 @@ use Joomla\CMS\Filter\InputFilter;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
 
 /**
@@ -145,7 +144,7 @@ class ItemController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model = $this->getModel('Item', 'Administrator', array());
@@ -167,7 +166,7 @@ class ItemController extends FormController
 	 */
 	public function cancel($key = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$result = parent::cancel();
 
@@ -260,9 +259,7 @@ class ItemController extends FormController
 	public function save($key = null, $urlVar = null)
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
-
-		$app      = $this->app;
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Menus\Administrator\Model\ItemModel $model */
 		$model    = $this->getModel('Item', 'Administrator', array());
@@ -270,6 +267,7 @@ class ItemController extends FormController
 		$data     = $this->input->post->get('jform', array(), 'array');
 		$task     = $this->getTask();
 		$context  = 'com_menus.edit.item';
+		$app      = $this->app;
 
 		// Set the menutype should we need it.
 		if ($data['menutype'] !== '')
@@ -519,7 +517,7 @@ class ItemController extends FormController
 	 */
 	public function setType()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = $this->app;
 

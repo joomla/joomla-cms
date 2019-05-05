@@ -15,7 +15,7 @@ use Joomla\CMS\Router\Route;
 
 HTMLHelper::_('behavior.keepalive');
 ?>
-<form class="mod-login-logout form-vertical" action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form">
+<form class="mod-login-logout form-vertical" action="<?php echo Route::_('index.php', true); ?>" method="post" id="login-form-<?php echo $module->id; ?>">
 <?php if ($params->get('greeting', 1)) : ?>
 	<div class="mod-login-logout__login-greeting login-greeting">
 	<?php if (!$params->get('name', 0)) : ?>

@@ -9,7 +9,8 @@
 
 namespace Joomla\Plugin\System\Debug\Storage;
 
-use Joomla\Filesystem\Folder;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
 
 /**
  * Stores collected data into files
@@ -37,7 +38,7 @@ class FileStorage extends \DebugBar\Storage\FileStorage
 
 		$dataStr = '<?php die(); ?>#(^-^)#' . json_encode($data);
 
-		file_put_contents($this->makeFilename($id), $dataStr);
+		File::write($this->makeFilename($id), $dataStr);
 	}
 
 	/**

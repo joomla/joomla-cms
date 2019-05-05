@@ -58,6 +58,27 @@ class UserController extends FormController
 	}
 
 	/**
+	 * Override parent cancel to redirect when using status edit account.
+	 *
+	 * @param   string  $key  The name of the primary key of the URL variable.
+	 *
+	 * @return  boolean  True if access level checks pass, false otherwise.
+	 *
+	 * @since  4.0.0
+	 */
+	public function cancel($key = null)
+	{
+		$result = parent::cancel();
+
+		if ($return = $this->input->get('return', '', 'BASE64'))
+		{
+			$this->app->redirect(base64_decode($return));
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Method to run batch operations.
 	 *
 	 * @param   object  $model  The model.
@@ -68,7 +89,7 @@ class UserController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('User', 'Administrator', array());

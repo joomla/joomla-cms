@@ -53,6 +53,10 @@ class SampleField extends RadioField
 		{
 			$type = 'postgresql';
 		}
+		elseif ($type === 'pgsql')
+		{
+			$type = 'postgresql';
+		}
 
 		// Get a list of files in the search path with the given filter.
 		$files = Folder::files(JPATH_INSTALLATION . '/sql/' . $type, '^sample.*\.sql$');

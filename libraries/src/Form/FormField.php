@@ -84,7 +84,7 @@ abstract class FormField
 	protected $form;
 
 	/**
-	 * The form control prefix for field names from the JForm object attached to the form field.
+	 * The form control prefix for field names from the Form object attached to the form field.
 	 *
 	 * @var    string
 	 * @since  1.7.0
@@ -551,7 +551,7 @@ abstract class FormField
 	/**
 	 * Method to attach a Form object to the field.
 	 *
-	 * @param   Form  $form  The JForm object to attach to the form field.
+	 * @param   Form  $form  The Form object to attach to the form field.
 	 *
 	 * @return  FormField  The form field object so that the method can be used in a chain.
 	 *
@@ -580,7 +580,7 @@ abstract class FormField
 	 */
 	public function setup(\SimpleXMLElement $element, $value, $group = null)
 	{
-		// Make sure there is a valid JFormField XML element.
+		// Make sure there is a valid FormField XML element.
 		if ((string) $element->getName() != 'field')
 		{
 			return false;
@@ -608,7 +608,7 @@ abstract class FormField
 		{
 			$this->value = (array) json_decode($value);
 		}
-		else 
+		else
 		{
 			$this->value = $value;
 		}
@@ -948,7 +948,7 @@ abstract class FormField
 
 		$options['rel'] = '';
 
-		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel'))
+		if (empty($options['hiddenLabel']) && $this->getAttribute('hiddenLabel') || $this->class === 'switcher')
 		{
 			$options['hiddenLabel'] = true;
 		}
@@ -1008,7 +1008,7 @@ abstract class FormField
 				return call_user_func(explode('::', $filter), $value);
 			}
 
-			// Load the JFormRule object for the field. JFormRule objects take precedence over PHP functions
+			// Load the FormRule object for the field. FormRule objects take precedence over PHP functions
 			$obj = FormHelper::loadFilterType($filter);
 
 			// Run the filter rule.
@@ -1027,7 +1027,7 @@ abstract class FormField
 	}
 
 	/**
-	 * Method to validate a JFormField object based on field data.
+	 * Method to validate a FormField object based on field data.
 	 *
 	 * @param   mixed     $value  The optional value to use as the default for the field.
 	 * @param   string    $group  The optional dot-separated form group path on which to find the field.
@@ -1073,7 +1073,7 @@ abstract class FormField
 		// Get the field validation rule.
 		if ($type = (string) $this->element['validate'])
 		{
-			// Load the JFormRule object for the field.
+			// Load the FormRule object for the field.
 			$rule = FormHelper::loadRuleType($type);
 
 			// If the object could not be loaded return an error message.

@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Methods supporting a list of newsfeed records.
@@ -287,8 +288,7 @@ class NewsfeedsModel extends ListModel
 		}
 		elseif (is_array($tagId))
 		{
-			ArrayHelper::toInteger($tagId);
-			$tagId = implode(',', $tagId);
+			$tagId = implode(',', ArrayHelper::toInteger($tagId));
 
 			if (!empty($tagId))
 			{

@@ -131,7 +131,8 @@ $url    = ($readonly ? ''
 			'width'  => '100%',
 			'modalWidth'  => '80',
 			'bodyHeight'  => '60',
-			'footer'      => '<button class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button><button class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>'
+			'footer'      => '<button type="button" class="btn btn-secondary button-save-selected">' . Text::_('JSELECT') . '</button>'
+				. '<button type="button" class="btn btn-secondary" data-dismiss="modal">' . Text::_('JCANCEL') . '</button>',
 		)
 	);
 

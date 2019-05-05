@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
@@ -89,7 +90,8 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 			'js-joomla-update',
 			[
 				'url'     => Uri::base() . 'index.php?option=com_joomlaupdate',
-				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&' . Session::getFormToken() . '=1',
+				'ajaxUrl' => Uri::base() . 'index.php?option=com_installer&view=update&task=update.ajax&'
+					. Session::getFormToken() . '=1&eid=' . ExtensionHelper::getExtensionRecord('files_joomla')->extension_id,
 				'version' => JVERSION,
 			]
 		);
@@ -103,7 +105,7 @@ class PlgQuickiconJoomlaupdate extends CMSPlugin implements SubscriberInterface
 		$result[] = [
 			[
 				'link'  => 'index.php?option=com_joomlaupdate',
-				'image' => 'fa fa-joomla',
+				'image' => 'fab fa-joomla',
 				'icon'  => '',
 				'text'  => Text::_('PLG_QUICKICON_JOOMLAUPDATE_CHECKING'),
 				'id'    => 'plg_quickicon_joomlaupdate',

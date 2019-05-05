@@ -15,7 +15,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Log\Log;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Uri\Uri;
 
 /**
  * Utility class for JavaScript behaviors
@@ -58,29 +57,12 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   3.3
+	 *
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
 	 */
 	public static function core()
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		HTMLHelper::_('form.csrf');
-		Factory::getDocument()->getWebAssetManager()->enableAsset('core');
-
-		// Add core and base uri paths so javascript scripts can use them.
-		Factory::getDocument()->addScriptOptions(
-			'system.paths',
-			[
-				'root' => Uri::root(true),
-				'rootFull' => Uri::root(),
-				'base' => Uri::base(true),
-			]
-		);
-
-		static::$loaded[__METHOD__] = true;
+		Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('core');
 	}
 
 	/**
@@ -393,42 +375,12 @@ abstract class JHtmlBehavior
 	 * @return  void
 	 *
 	 * @since   1.5
+	 *
+	 * @deprecated 5.0  Use Joomla\CMS\WebAsset\WebAssetManager::enableAsset();
 	 */
 	public static function keepalive()
 	{
-		// Only load once
-		if (isset(static::$loaded[__METHOD__]))
-		{
-			return;
-		}
-
-		$app            = Factory::getApplication();
-		$sessionHandler = $app->get('session_handler', 'database');
-
-		// If the handler is not 'Database', we set a fixed, small refresh value (here: 5 min)
-		$refreshTime = 300;
-
-		if ($sessionHandler === 'database')
-		{
-			$lifeTime    = $app->getSession()->getExpire();
-			$refreshTime = $lifeTime <= 60 ? 45 : $lifeTime - 60;
-
-			// The longest refresh period is one hour to prevent integer overflow.
-			if ($refreshTime > 3600 || $refreshTime <= 0)
-			{
-				$refreshTime = 3600;
-			}
-		}
-
-		// If we are in the frontend or logged in as a user, we can use the ajax component to reduce the load
-		$uri = 'index.php' . ($app->isClient('site') || !Factory::getUser()->guest ? '?option=com_ajax&format=json' : '');
-
-		// Add keepalive script options.
-		Factory::getDocument()->addScriptOptions('system.keepalive', array('interval' => $refreshTime * 1000, 'uri' => Route::_($uri)));
-
-		Factory::getDocument()->getWebAssetManager()->enableAsset('keepalive');
-
-		static::$loaded[__METHOD__] = true;
+		Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('keepalive');
 
 		return;
 	}

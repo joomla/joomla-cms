@@ -60,7 +60,7 @@ Text::script('INSTL_FTP_SETTINGS_CORRECT');
 				</div>
 				<div class="j-header-help">
 					<a href="https://docs.joomla.org/Special:MyLanguage/J4.x:Installing_Joomla">
-						<span class="fa fa-lightbulb-o" aria-hidden="true"></span>
+						<span class="fa fa-lightbulb" aria-hidden="true"></span>
 						<span class="sr-only"><?php echo Text::_('INSTL_HELP_LINK'); ?></span>
 					</a>
 				</div>

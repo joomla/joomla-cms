@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 
@@ -67,7 +68,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		Factory::getApplication()->input->set('hidemainmenu', true);
@@ -118,7 +119,7 @@ class HtmlView extends BaseHtmlView
 		if ($isNew)
 		{
 			ToolbarHelper::apply('field.apply');
-			
+
 			ToolbarHelper::saveGroup(
 				[
 					['save', 'field.save'],
@@ -140,7 +141,7 @@ class HtmlView extends BaseHtmlView
 			if (!$checkedOut && $itemEditable)
 			{
 				ToolbarHelper::apply('field.apply');
-				
+
 				$toolbarButtons[] = ['save', 'field.save'];
 
 				// We can save this record, but check the create permission to see if we can return to make a new one.

@@ -15,6 +15,8 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Table\CoreContent;
 use Joomla\CMS\Table\Table;
 use Joomla\CMS\Table\TableInterface;
+use Joomla\CMS\UCM\UCMContent;
+use Joomla\CMS\UCM\UCMType;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -65,7 +67,7 @@ class TagsHelper extends CMSHelper
 		$db = $table->getDbo();
 		$key = $table->getKeyName();
 		$item = $table->$key;
-		$ucm = new \JUcmType($this->typeAlias, $db);
+		$ucm = new UCMType($this->typeAlias, $db);
 		$typeId = $ucm->getTypeId();
 
 		// Insert the new tag maps
@@ -750,7 +752,7 @@ class TagsHelper extends CMSHelper
 				$data = $this->getRowData($table);
 				$ucmContentTable = Table::getInstance('Corecontent');
 
-				$ucm = new \JUcmContent($table, $this->typeAlias);
+				$ucm = new UCMContent($table, $this->typeAlias);
 				$ucmData = $data ? $ucm->mapData($data) : $ucm->ucmData;
 
 				$primaryId = $ucm->getPrimaryKey($ucmData['common']['core_type_id'], $ucmData['common']['core_content_item_id']);

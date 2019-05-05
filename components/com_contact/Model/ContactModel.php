@@ -423,6 +423,7 @@ class ContactModel extends FormModel
 	 * @return  mixed    The contact object on success, false on failure
 	 *
 	 * @throws  \Exception  On database failure
+	 * @deprecated  4.0    Use ContactModelContact::getItem() instead
 	 */
 	protected function getContactQuery($pk = null)
 	{

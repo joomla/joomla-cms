@@ -64,7 +64,6 @@ class JFormFieldTos extends \Joomla\CMS\Form\Field\RadioField
 		// If a description is specified, use it to build a tooltip.
 		if (!empty($this->description))
 		{
-			$label .= ' title="' . htmlspecialchars(trim($text, ':'), ENT_COMPAT, 'UTF-8') . '"';
 			$label .= ' data-content="' . htmlspecialchars(
 				$this->translateDescription ? Text::_($this->description) : $this->description,
 				ENT_COMPAT,

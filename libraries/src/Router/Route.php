@@ -54,7 +54,7 @@ class Route
 		}
 		catch (\RuntimeException $e)
 		{
-			// Before __DEPLOY_VERSION__ this method failed silently on router error. This B/C will be removed in Joomla 4.0.
+			// Before 3.9.0 this method failed silently on router error. This B/C will be removed in Joomla 4.0.
 			return null;
 		}
 	}
@@ -75,7 +75,7 @@ class Route
 	 *
 	 * @throws  \RuntimeException
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public static function link($client, $url, $xhtml = true, $ssl = null)
 	{

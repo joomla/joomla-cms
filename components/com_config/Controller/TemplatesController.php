@@ -18,9 +18,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\CMS\Uri\Uri;
-use Joomla\Component\Templates\Administrator\Controller\Style;
 
 /**
  * Component Controller
@@ -71,12 +69,7 @@ class TemplatesController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		if (!Session::checkToken())
-		{
-			$this->setRedirect('index.php', Text::_('JINVALID_TOKEN'));
-
-			return false;
-		}
+		$this->checkToken();
 
 		// Check if the user is authorized to do this.
 		if (!Factory::getUser()->authorise('core.admin'))

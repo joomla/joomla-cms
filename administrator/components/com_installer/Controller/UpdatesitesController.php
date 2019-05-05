@@ -60,7 +60,7 @@ class UpdatesitesController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids    = $this->input->get('cid', array(), 'array');
 		$values = array('publish' => 1, 'unpublish' => 0);
@@ -101,7 +101,7 @@ class UpdatesitesController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->get('cid', array(), 'array');
 
@@ -126,7 +126,7 @@ class UpdatesitesController extends BaseController
 	public function rebuild()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Rebuild the update sites.
 		$this->getModel('Updatesites')->rebuild();

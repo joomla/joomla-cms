@@ -14,5 +14,5 @@ use Joomla\CMS\Language\Text;
 $title = Text::_('JTOOLBAR_DELETE');
 ?>
 <button id="mediaDelete" class="btn btn-sm btn-danger" onclick="MediaManager.Event.fire('onClickDelete');">
-    <span class="icon-delete" title="<?php echo $title; ?>"></span> <?php echo $title; ?>
+    <span class="icon-delete"></span> <?php echo $title; ?>
 </button>

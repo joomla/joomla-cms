@@ -39,8 +39,7 @@ class ModulesPositionField extends ListField
 	 */
 	public function getOptions()
 	{
-		$clientId = Factory::getApplication()->getUserState('com_modules.modules.client_id', 0);
-		$options  = ModulesHelper::getPositions($clientId);
+		$options  = ModulesHelper::getPositions(Factory::getApplication()->getUserState('com_modules.modules.client_id', 0, 'int'));
 
 		return array_merge(parent::getOptions(), $options);
 	}

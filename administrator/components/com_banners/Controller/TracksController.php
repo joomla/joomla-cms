@@ -15,7 +15,6 @@ use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\CMS\Session\Session;
 
 /**
  * Tracks list controller class.
@@ -58,7 +57,7 @@ class TracksController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get the model.
 		/** @var \Joomla\Component\Banners\Administrator\Model\TracksModel $model */

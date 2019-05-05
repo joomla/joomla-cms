@@ -34,16 +34,6 @@
 		<fieldset name="params"
 			label="COM_CONTACT_BASIC_OPTIONS_FIELDSET_LABEL"
 		>
-			<field
-				name="presentation_style"
-				type="list"
-				label="COM_CONTACT_FIELD_PRESENTATION_LABEL"
-				useglobal="true"
-				>
-				<option value="sliders">COM_CONTACT_FIELD_VALUE_SLIDERS</option>
-				<option value="tabs">COM_CONTACT_FIELD_VALUE_TABS</option>
-				<option value="plain">COM_CONTACT_FIELD_VALUE_PLAIN</option>
-			</field>
 
 			<field
 				name="show_contact_category"
@@ -313,6 +303,18 @@
 				<option value="250">J250</option>
 				<option value="300">J300</option>
 				<option value="0">JALL</option>
+			</field>
+
+			<field 
+				name="show_profile" 
+				type="list"
+				label="COM_CONTACT_FIELD_PROFILE_SHOW_LABEL"
+				description="COM_CONTACT_FIELD_PROFILE_SHOW_DESC"
+				useglobal="true"
+				class="chzn-color"
+				>
+				<option value="0">JHIDE</option>
+				<option value="1">JSHOW</option>
 			</field>
 
 			<field

@@ -72,7 +72,6 @@ class TemplateController extends BaseController
 	 */
 	public function close()
 	{
-		$app  = Factory::getApplication();
 		$file = base64_encode('home');
 		$id   = $this->input->get('id');
 		$url  = 'index.php?option=com_templates&view=template&id=' . $id . '&file=' . $file;
@@ -89,9 +88,8 @@ class TemplateController extends BaseController
 	public function publish()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
-		$app  = Factory::getApplication();
 		$file = $this->input->get('file');
 		$id   = $this->input->get('id');
 
@@ -147,7 +145,7 @@ class TemplateController extends BaseController
 	public function copy()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$app = $this->app;
 		$this->input->set('installtype', 'folder');
@@ -282,7 +280,7 @@ class TemplateController extends BaseController
 	public function save()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$data         = $this->input->post->get('jform', array(), 'array');
 		$task         = $this->getTask();
@@ -425,7 +423,7 @@ class TemplateController extends BaseController
 	public function delete()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model = $this->getModel();
@@ -464,7 +462,7 @@ class TemplateController extends BaseController
 	public function createFile()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -511,7 +509,7 @@ class TemplateController extends BaseController
 	public function uploadFile()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -545,7 +543,7 @@ class TemplateController extends BaseController
 	public function createFolder()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -584,7 +582,7 @@ class TemplateController extends BaseController
 	public function deleteFolder()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model    = $this->getModel();
@@ -628,7 +626,7 @@ class TemplateController extends BaseController
 	public function renameFile()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		/* @var \Joomla\Component\Templates\Administrator\Model\TemplateModel $model */
 		$model   = $this->getModel();
@@ -742,7 +740,7 @@ class TemplateController extends BaseController
 	public function copyFile()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$id       = $this->input->get('id');
 		$file     = $this->input->get('file');
@@ -781,7 +779,7 @@ class TemplateController extends BaseController
 	public function extractArchive()
 	{
 		// Check for request forgeries
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$id    = $this->input->get('id');
 		$file  = $this->input->get('file');
@@ -818,7 +816,7 @@ class TemplateController extends BaseController
 		{
 			$app->setHeader('status', 403, true);
 			$app->sendHeaders();
-			echo Text::_('JINVALID_TOKEN');
+			echo Text::_('JINVALID_TOKEN_NOTICE');
 			$app->close();
 		}
 

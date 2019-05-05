@@ -16,7 +16,6 @@ use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Controller\AdminController;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Router\Route;
-use Joomla\CMS\Session\Session;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -69,7 +68,7 @@ class ItemsController extends AdminController
 	 */
 	public function rebuild()
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$this->setRedirect('index.php?option=com_menus&view=items');
 
@@ -102,7 +101,7 @@ class ItemsController extends AdminController
 	public function setDefault()
 	{
 		// Check for request forgeries
-		Session::checkToken('request') or die(Text::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = $this->app;
 
@@ -162,7 +161,7 @@ class ItemsController extends AdminController
 	public function publish()
 	{
 		// Check for request forgeries
-		Session::checkToken() or die(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Get items to publish from the request.
 		$cid = $this->input->get('cid', array(), 'array');
@@ -244,7 +243,7 @@ class ItemsController extends AdminController
 	public function checkin()
 	{
 		// Check for request forgeries.
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		$ids = $this->input->post->get('cid', array(), 'array');
 

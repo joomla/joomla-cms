@@ -15,7 +15,6 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\CategoryView;
 use Joomla\CMS\Plugin\PluginHelper;
-use Joomla\Component\Content\Site\Helper\QueryHelper;
 use Joomla\Registry\Registry;
 
 /**
@@ -32,7 +31,7 @@ class HtmlView extends CategoryView
 	protected $lead_items = array();
 
 	/**
-	 * @var    array  Array of intro (multicolumn display) items for blog display
+	 * @var    array  Array of intro items for blog display
 	 * @since  3.2
 	 */
 	protected $intro_items = array();
@@ -42,12 +41,6 @@ class HtmlView extends CategoryView
 	 * @since  3.2
 	 */
 	protected $link_items = array();
-
-	/**
-	 * @var    integer  Number of columns in a multi column display
-	 * @since  3.2
-	 */
-	protected $columns = 1;
 
 	/**
 	 * @var    string  The name of the extension for the category
@@ -77,6 +70,9 @@ class HtmlView extends CategoryView
 	public function display($tpl = null)
 	{
 		parent::commonCategoryDisplay();
+
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
 
 		// Prepare the data
 		// Get the metrics for the structural page layout.
@@ -148,16 +144,6 @@ class HtmlView extends CategoryView
 				{
 					continue;
 				}
-			}
-
-			$this->columns = max(1, $params->def('num_columns', 1));
-
-			$order = $params->def('multi_column_order', 1);
-
-			if ($order == 0 && $this->columns > 1)
-			{
-				// Call order down helper
-				$this->intro_items = QueryHelper::orderDownColumns($this->intro_items, $this->columns);
 			}
 		}
 

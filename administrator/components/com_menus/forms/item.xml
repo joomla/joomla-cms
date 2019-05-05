@@ -78,6 +78,32 @@
 		</field>
 
 		<field
+			name="publish_up"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_UP_LABEL"
+			id="publish_up"
+			class="inputbox"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+			showon="home:0"
+		/>
+
+		<field
+			name="publish_down"
+			type="calendar"
+			label="JGLOBAL_FIELD_PUBLISH_DOWN_LABEL"
+			id="publish_down"
+			class="inputbox"
+			translateformat="true"
+			showtime="true"
+			size="22"
+			filter="user_utc"
+		   	showon="home:0"
+		/>
+
+		<field
 			name="parent_id"
 			type="MenuParent"
 			label="COM_MENUS_ITEM_FIELD_PARENT_LABEL"

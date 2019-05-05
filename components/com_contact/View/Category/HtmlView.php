@@ -60,6 +60,9 @@ class HtmlView extends CategoryView
 	{
 		parent::commonCategoryDisplay();
 
+		// Flag indicates to not add limitstart=0 to URL
+		$this->pagination->hideEmptyLimitstart = true;
+
 		// Prepare the data.
 		// Compute the contact slug.
 		foreach ($this->items as $item)

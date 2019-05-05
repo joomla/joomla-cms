@@ -556,9 +556,10 @@ class PackageAdapter extends InstallerAdapter
 		}
 		else
 		{
-			$this->extension->name    = $this->name;
-			$this->extension->type    = 'package';
-			$this->extension->element = $this->element;
+			$this->extension->name         = $this->name;
+			$this->extension->type         = 'package';
+			$this->extension->element      = $this->element;
+			$this->extension->changelogurl = $this->changelogurl;
 
 			// There is no folder for packages
 			$this->extension->folder    = '';

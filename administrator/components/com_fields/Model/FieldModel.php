@@ -528,7 +528,7 @@ class FieldModel extends AdminModel
 
 		// Get the form.
 		$form = $this->loadForm(
-			'com_fields.field' . $context, 'field',
+			'com_fields.field.' . $context, 'field',
 			array(
 				'control'   => 'jform',
 				'load_data' => true,
@@ -986,7 +986,7 @@ class FieldModel extends AdminModel
 				throw new SectionNotFoundException;
 			}
 
-			$cat = $componentObject->getCategory();
+			$cat = $componentObject->getCategory([], $section ?: '');
 
 			if ($cat->get('root')->hasChildren())
 			{

@@ -6,8 +6,8 @@
   'use strict';
 
   document.addEventListener('DOMContentLoaded', () => {
-    const folders = [].slice.call(document.querySelectorAll('.folder-url, .component-folder-url, .layout-folder-url'));
-    const innerLists = [].slice.call(document.querySelectorAll('.folder ul, .component-folder ul, .layout-folder ul'));
+    const folders = [].slice.call(document.querySelectorAll('.folder-url, .component-folder-url, .plugin-folder-url, .layout-folder-url'));
+    const innerLists = [].slice.call(document.querySelectorAll('.folder ul, .component-folder ul, .plugin-folder ul, .layout-folder ul'));
     const openLists = [].slice.call(document.querySelectorAll('.show > ul'));
     const fileModalFolders = [].slice.call(document.querySelectorAll('#fileModal .folder-url'));
     const folderModalFolders = [].slice.call(document.querySelectorAll('#folderModal .folder-url'));

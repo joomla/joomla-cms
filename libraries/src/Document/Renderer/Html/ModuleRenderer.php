@@ -79,8 +79,8 @@ class ModuleRenderer extends DocumentRenderer
 			$module->params = (string) $params;
 		}
 
-		// Default for compatibility purposes. Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
-		$cachemode = $params->get('cachemode', 'oldstatic');
+		// Set cachemode parameter or use JModuleHelper::moduleCache from within the module instead
+		$cachemode = $params->get('cachemode', 'static');
 
 		if ($params->get('cache', 0) == 1 && Factory::getApplication()->get('caching') >= 1 && $cachemode != 'id' && $cachemode != 'safeuri')
 		{

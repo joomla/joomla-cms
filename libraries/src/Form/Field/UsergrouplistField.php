@@ -12,17 +12,14 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\UserGroupsHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Field to load a dropdown list of available user groups
  *
  * @since  3.2
  */
-class UsergrouplistField extends \JFormFieldList
+class UsergrouplistField extends ListField
 {
 	/**
 	 * The form field type.

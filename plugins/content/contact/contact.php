@@ -55,19 +55,36 @@ class PlgContentContact extends CMSPlugin
 			return true;
 		}
 
+		// Return if an alias is used
+		if ((int) $this->params->get('link_to_alias', 0) === 0 && $row->created_by_alias != '')
+		{
+			return true;
+		}
+
 		// Return if we don't have a valid article id
 		if (!isset($row->id) || !(int) $row->id)
 		{
 			return true;
 		}
 
-		$contact = $this->getContactId($row->created_by);
+		$contact        = $this->getContactData($row->created_by);
 		$row->contactid = $contact->contactid;
+		$row->webpage   = $contact->webpage;
+		$row->email     = $contact->email_to;
+		$url            = $this->params->get('url', 'url');
 
-		if ($row->contactid)
+		if ($row->contactid && $url === 'url')
 		{
 			JLoader::register('ContactHelperRoute', JPATH_SITE . '/components/com_contact/helpers/route.php');
 			$row->contact_link = Route::_(ContactHelperRoute::getContactRoute($contact->contactid . ':' . $contact->alias, $contact->catid));
+		}
+		elseif ($row->webpage && $url === 'webpage')
+		{
+			$row->contact_link = $row->webpage;
+		}
+		elseif ($row->email && $url === 'email')
+		{
+			$row->contact_link = 'mailto:' . $row->email;
 		}
 		else
 		{
@@ -84,7 +101,7 @@ class PlgContentContact extends CMSPlugin
 	 *
 	 * @return  mixed|null|integer
 	 */
-	protected function getContactId($created_by)
+	protected function getContactData($created_by)
 	{
 		static $contacts = array();
 
@@ -95,7 +112,7 @@ class PlgContentContact extends CMSPlugin
 
 		$query = $this->db->getQuery(true);
 
-		$query->select('MAX(contact.id) AS contactid, contact.alias, contact.catid');
+		$query->select('MAX(contact.id) AS contactid, contact.alias, contact.catid, contact.webpage, contact.email_to');
 		$query->from($this->db->quoteName('#__contact_details', 'contact'));
 		$query->where('contact.published = 1');
 		$query->where('contact.user_id = ' . (int) $created_by);

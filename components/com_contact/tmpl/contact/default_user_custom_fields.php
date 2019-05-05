@@ -14,7 +14,6 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
 $params             = $this->item->params;
-$presentation_style = $params->get('presentation_style');
 
 $displayGroups      = $params->get('show_user_custom_fields');
 $userFieldGroups    = array();
@@ -36,13 +35,7 @@ $userFieldGroups    = array();
 
 <?php foreach ($userFieldGroups as $groupTitle => $fields) : ?>
 	<?php $id = ApplicationHelper::stringURLSafe($groupTitle); ?>
-	<?php if ($presentation_style == 'sliders') : ?>
-		<?php echo HTMLHelper::_('bootstrap.addSlide', 'slide-contact', $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS'), 'display-' . $id); ?>
-	<?php elseif ($presentation_style == 'tabs') : ?>
-		<?php echo HTMLHelper::_('bootstrap.addTab', 'myTab', 'display-' . $id, $groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')); ?>
-	<?php elseif ($presentation_style == 'plain') : ?>
-		<?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
-	<?php endif; ?>
+	<?php echo '<h3>' . ($groupTitle ?: Text::_('COM_CONTACT_USER_FIELDS')) . '</h3>'; ?>
 
 	<div class="com-contact__user-fields contact-profile" id="user-custom-fields-<?php echo $id; ?>">
 		<dl class="dl-horizontal">
@@ -59,10 +52,4 @@ $userFieldGroups    = array();
 		<?php endforeach; ?>
 		</dl>
 	</div>
-
-	<?php if ($presentation_style == 'sliders') : ?>
-		<?php echo HTMLHelper::_('bootstrap.endSlide'); ?>
-	<?php elseif ($presentation_style == 'tabs') : ?>
-		<?php echo HTMLHelper::_('bootstrap.endTab'); ?>
-	<?php endif; ?>
 <?php endforeach; ?>

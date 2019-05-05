@@ -39,10 +39,14 @@ JLoader::registerPrefix('J', JPATH_PLATFORM . '/cms', false, true);
 // Create the Composer autoloader
 /** @var \Composer\Autoload\ClassLoader $loader */
 $loader = require JPATH_LIBRARIES . '/vendor/autoload.php';
+
+// We need to pull our decorated class loader into memory before unregistering Composer's loader
+class_exists('\\Joomla\\CMS\\Autoload\\ClassLoader');
+
 $loader->unregister();
 
 // Decorate Composer autoloader
-spl_autoload_register([new JClassLoader($loader), 'loadClass'], true, true);
+spl_autoload_register([new \Joomla\CMS\Autoload\ClassLoader($loader), 'loadClass'], true, true);
 
 // Register the class aliases for Framework classes that have replaced their Platform equivalents
 require_once JPATH_LIBRARIES . '/classmap.php';
@@ -67,8 +71,3 @@ JLoader::register('Crypto', JPATH_PLATFORM . '/php-encryption/Crypto.php');
 
 // Register the PasswordHash library.
 JLoader::register('PasswordHash', JPATH_PLATFORM . '/phpass/PasswordHash.php');
-
-// Create class name aliases for the legacy application classes.
-// @deprecated  4.0
-JLoader::registerAlias('JAdministrator', 'JApplicationAdministrator');
-JLoader::registerAlias('JSite', 'JApplicationSite');

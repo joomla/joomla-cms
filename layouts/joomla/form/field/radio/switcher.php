@@ -9,6 +9,7 @@
 
 defined('JPATH_BASE') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 
 extract($displayData, null);
@@ -48,6 +49,9 @@ if (empty($options))
 	return '';
 }
 
+// Load the css files
+Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('switcher');
+
 /**
  * The format of the input tag to be filled in using sprintf.
  *     %1 - id
@@ -55,55 +59,27 @@ if (empty($options))
  *     %3 - value
  *     %4 = any other attributes
  */
-$format     = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
-$alt        = preg_replace('/[^a-zA-Z0-9_\-]/', '_', $name);
-
-HTMLHelper::_('webcomponent', 'system/fields/joomla-field-switcher.min.js', ['version' => 'auto', 'relative' => true]);
-
-// Set the type of switcher
-$type = '';
-
-if ($pos = strpos($class, 'switcher-'))
-{
-	$type = 'type="' . strtok(substr($class, $pos + 9), ' ') . '"';
-}
-
-// Add the attributes of the fieldset in an array
-$attribs = [
-	'id="' . $id . '"',
-	$type,
-	'off-text="' . $options[0]->text . '"',
-	'on-text="' . $options[1]->text . '"',
-];
-
-if (!empty($disabled))
-{
-	$attribs[] = 'disabled';
-}
-
-if (!empty($onclick))
-{
-	$attribs[] = 'onclick="' . $onclick . '()"';
-}
-
-if (!empty($onchange))
-{
-	$attribs[] = 'onchange="' . $onchange . '()"';
-}
+$input    = '<input type="radio" id="%1$s" name="%2$s" value="%3$s" %4$s>';
 
 ?>
-<joomla-field-switcher <?php echo implode(' ', $attribs); ?>>
+<fieldset>
+	<legend class="switcher__legend">
+		<?php echo $label; ?>
+	</legend>
+	<div class="switcher" role="switch">
 	<?php foreach ($options as $i => $option) : ?>
 		<?php
 		// Initialize some option attributes.
-		$checked = ((string) $option->value == $value) ? 'checked="checked"' : '';
-		$active  = ((string) $option->value == $value) ? 'class="active"' : '';
-
-		// Initialize some JavaScript option attributes.
-		$oid        = $id . $i;
-		$ovalue     = htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
-		$attributes = array_filter(array($checked, $active, null));
+		$checked	= ((string) $option->value == $value) ? 'checked="checked"' : '';
+		$active		= ((string) $option->value == $value) ? 'class="active"' : '';
+		$oid		= $id . $i;
+		$ovalue		= htmlspecialchars($option->value, ENT_COMPAT, 'UTF-8');
+		$attributes	= array_filter(array($checked, $active, null));
+		$text		= $options[$i]->text;
 		?>
-		<?php echo sprintf($format, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+		<?php echo sprintf($input, $oid, $name, $ovalue, implode(' ', $attributes)); ?>
+		<?php echo '<label for="' . $oid . '">' . $text . '</label>'; ?>
 	<?php endforeach; ?>
-</joomla-field-switcher>
+	<span class="toggle-outside"><span class="toggle-inside"></span></span>
+	</div>
+</fieldset>

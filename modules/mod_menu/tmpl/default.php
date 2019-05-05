@@ -9,7 +9,10 @@
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Helper\ModuleHelper;
+
+HTMLHelper::_('script', 'mod_menu/menu.min.js', array('version' => 'auto', 'relative' => true));
 
 $id = '';
 
@@ -20,7 +23,7 @@ if ($tagId = $params->get('tag_id', ''))
 
 // The menu class is deprecated. Use mod-menu instead
 ?>
-<ul<?php echo $id; ?> class="mod-menu nav<?php echo $class_sfx; ?>">
+<ul<?php echo $id; ?> class="mod-menu nav<?php echo $class_sfx; ?> mod-list">
 <?php foreach ($list as $i => &$item)
 {
 	$class = 'nav-item';

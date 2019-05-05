@@ -141,6 +141,8 @@ if ($clientId === 1)
 							'parent_id',
 							'menuordering',
 							'published',
+							'publish_up',
+							'publish_down',
 							'home',
 							'access',
 							'language',
@@ -150,6 +152,8 @@ if ($clientId === 1)
 						if ($this->item->type != 'component')
 						{
 							$this->fields = array_diff($this->fields, array('home'));
+							$this->form->setFieldAttribute('publish_up', 'showon', '');
+							$this->form->setFieldAttribute('publish_down', 'showon', '');
 						}
 
 						echo LayoutHelper::render('joomla.edit.global', $this); ?>

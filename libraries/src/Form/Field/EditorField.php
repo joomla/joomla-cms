@@ -12,9 +12,6 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Editor\Editor;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('textarea');
 
 /**
  * A textarea field for content creation
@@ -22,7 +19,7 @@ FormHelper::loadFieldClass('textarea');
  * @see    JEditor
  * @since  1.6
  */
-class EditorField extends \JFormFieldTextarea
+class EditorField extends TextareaField
 {
 	/**
 	 * The form field type.
@@ -329,7 +326,9 @@ class EditorField extends \JFormFieldTextarea
 	 *
 	 * @return  string  The JEditor object output.
 	 *
-	 * @since   1.6
+	 * @since       1.6
+	 * @deprecated  4.0  Will be removed without replacement
+	 * @see         Editor::save()
 	 */
 	public function save()
 	{

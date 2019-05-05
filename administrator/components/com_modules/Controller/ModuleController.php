@@ -81,6 +81,11 @@ class ModuleController extends FormController
 		$this->app->setUserState('com_modules.add.module.extension_id', null);
 		$this->app->setUserState('com_modules.add.module.params', null);
 
+		if ($return = $this->input->get('return', '', 'BASE64'))
+		{
+			$this->app->redirect(base64_decode($return));
+		}
+
 		return $result;
 	}
 
@@ -151,7 +156,7 @@ class ModuleController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		$model = $this->getModel('Module', 'Administrator', array());
@@ -203,10 +208,7 @@ class ModuleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!Session::checkToken())
-		{
-			Factory::getApplication()->redirect('index.php', Text::_('JINVALID_TOKEN'));
-		}
+		$this->checkToken();
 
 		if (Factory::getDocument()->getType() == 'json')
 		{
@@ -258,8 +260,8 @@ class ModuleController extends FormController
 		// Check if user token is valid.
 		if (!Session::checkToken('get'))
 		{
-			$app->enqueueMessage(Text::_('JINVALID_TOKEN'), 'error');
-			echo new  JsonResponse;
+			$app->enqueueMessage(Text::_('JINVALID_TOKEN_NOTICE'), 'error');
+			echo new JsonResponse;
 			$app->close();
 		}
 

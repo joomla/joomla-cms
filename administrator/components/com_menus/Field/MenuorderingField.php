@@ -12,17 +12,15 @@ namespace Joomla\Component\Menus\Administrator\Field;
 defined('JPATH_BASE') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\CMS\Language\Text;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Menu Ordering field.
  *
  * @since  1.6
  */
-class MenuOrderingField extends \JFormFieldList
+class MenuOrderingField extends ListField
 {
 	/**
 	 * The form field type.

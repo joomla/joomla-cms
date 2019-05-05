@@ -88,7 +88,7 @@
         // Do some binding
         this.linkedOptions = this.linkedOptions.bind(this);
 
-        // Attach events to referenced element, to check condition on change
+        // Attach events to referenced element, to check condition on change and keyup
         Object.keys(this.fields).forEach((key) => {
           if (this.fields[key].origin.length) {
             this.fields[key].origin.forEach((elem) => {
@@ -97,6 +97,7 @@
 
               // Setup listeners
               elem.addEventListener('change', () => { self.linkedOptions(key); });
+              elem.addEventListener('keyup', () => { self.linkedOptions(key); });
             });
           }
         });
@@ -187,7 +188,12 @@
         });
 
         // If conditions are satisfied show the target field(s), else hide
-        field.style.display = (showfield) ? 'block' : 'none';
+        if (field.tagName !== 'option') {
+          field.style.display = (showfield) ? 'block' : 'none';
+        } else {
+          // TODO: If chosen or choices.js is active we should update them
+          field.disabled = !showfield;
+        }
       });
     }
   }

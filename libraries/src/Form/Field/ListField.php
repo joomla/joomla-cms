@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\Form\FormHelper;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Multilanguage;
@@ -129,6 +130,14 @@ class ListField extends FormField
 			$tmp['onclick']  = (string) $option['onclick'];
 			$tmp['onchange'] = (string) $option['onchange'];
 
+			if ((string) $option['showon'])
+			{
+				$tmp['optionattr'] = " data-showon='" .
+					json_encode(
+						FormHelper::parseShowOnConditions((string) $option['showon'], $this->formControl, $this->group)
+					)
+					. "'";
+			}
 			// Add the option object to the result set.
 			$options[] = (object) $tmp;
 		}

@@ -77,7 +77,6 @@ use Joomla\CMS\Language\Text;
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_type'); ?>
 					<?php echo $this->form->getInput('db_type'); ?>
-					<p class="form-text text-muted small"><?php echo Text::_('INSTL_DATABASE_TYPE_DESC'); ?></p>
 				</div>
 				<div class="form-group">
 					<?php echo $this->form->getLabel('db_host'); ?>

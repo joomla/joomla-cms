@@ -126,7 +126,7 @@ class CategoryController extends FormController
 	 */
 	public function batch($model = null)
 	{
-		Session::checkToken() or jexit(Text::_('JINVALID_TOKEN'));
+		$this->checkToken();
 
 		// Set the model
 		/** @var \Joomla\Component\Categories\Administrator\Model\CategoryModel $model */

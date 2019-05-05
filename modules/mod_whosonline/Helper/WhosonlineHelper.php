@@ -50,7 +50,6 @@ class WhosonlineHelper
 		}
 		catch (\RuntimeException $e)
 		{
-			// Don't worry be happy
 			$sessions = [];
 		}
 

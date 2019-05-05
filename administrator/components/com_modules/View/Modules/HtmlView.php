@@ -17,6 +17,7 @@ use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\CMS\Language\Multilanguage;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
@@ -95,7 +96,7 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// We do not need the Language filter when modules are not filtered
@@ -163,11 +164,6 @@ class HtmlView extends BaseHtmlView
 		{
 			$toolbar->standardButton('new', 'JTOOLBAR_NEW')
 				->onclick("location.href='index.php?option=com_modules&amp;view=select'");
-
-			$toolbar->standardButton('copy')
-				->text('JTOOLBAR_DUPLICATE')
-				->task('modules.duplicate')
-				->listCheck(true);
 		}
 
 		if ($canDo->get('core.edit.state') || Factory::getUser()->authorise('core.admin'))
@@ -206,6 +202,14 @@ class HtmlView extends BaseHtmlView
 			$toolbar->popupButton('batch')
 				->text('JTOOLBAR_BATCH')
 				->selector('collapseModal')
+				->listCheck(true);
+		}
+
+		if ($canDo->get('core.create'))
+		{
+			$toolbar->standardButton('copy')
+				->text('JTOOLBAR_DUPLICATE')
+				->task('modules.duplicate')
 				->listCheck(true);
 		}
 
