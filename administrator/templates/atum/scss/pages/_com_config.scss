@@ -21,12 +21,14 @@
     background-color: $white;
   }
 
-  .options-menu{
-    .burger-toggler-icon:before{
+  .options-menu {
+    .burger-toggler-icon:before {
       font: normal normal normal 16px/1 FontAwesome;
       content: "\f039 ";
     }
-  .revert-controls .controls {
-    margin-left: 0;
+
+    .revert-controls .controls {
+      margin-left: 0;
+    }
   }
 }
