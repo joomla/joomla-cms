@@ -18,6 +18,7 @@ use Joomla\CMS\Installer\Installer;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\FileLayout;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Table\Extension;
 use Joomla\Component\Templates\Administrator\Table\StyleTable;
 use Joomla\Database\DatabaseQuery;
@@ -152,10 +153,11 @@ class ManageModel extends InstallerModel
 			{
 				$table->enabled = $value;
 			}
-		
+
 			$context = $this->option . '.' . $this->name;
-			JPluginHelper::importPlugin('extension');
-			JEventDispatcher::getInstance()->trigger('onExtensionChangeState', array($context, $eid, $value));
+
+			PluginHelper::importPlugin('extension');
+			Factory::getApplication()->triggerEvent('onExtensionChangeState', array($context, $eid, $value));
 
 			if (!$table->store())
 			{
@@ -410,6 +412,7 @@ class ManageModel extends InstallerModel
 					array(
 						'extensions.element',
 						'extensions.type',
+						'extensions.folder',
 						'extensions.changelogurl',
 						'extensions.manifest_cache',
 						'extensions.client_id'
