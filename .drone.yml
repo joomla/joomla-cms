@@ -52,6 +52,8 @@ steps:
     group: unit
     image: joomlaprojects/docker-php70:develop
     commands:
+      - ls
+      - ls ./libraries
       - ./libraries/vendor/bin/phpunit
 
   - name: php71-unit
@@ -138,6 +140,6 @@ services:
 
 ---
 kind: signature
-hmac: f3eae41827965607dda5cd8996aacbafdf964a112187fca705746f5a069b6639
+hmac: dba516d8ec23ab1bfb3147923045057c619b8d555e7412a2c85cfa708f8a6539
 
 ...
