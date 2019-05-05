@@ -103,12 +103,13 @@ class UsersModel extends ListModel
 	 */
 	protected function getListQuery()
 	{
-		$app        = Factory::getApplication();
-		$menu       = $app->getMenu();
-		$active     = $menu->getActive();
-		$itemId     = $active->id;
-		$menuParams = $menu->getParams($itemId);
-		$groupIds   = $menuParams->get('groups', 0, 'array');
+		$app         = Factory::getApplication();
+		$menu        = $app->getMenu();
+		$active      = $menu->getActive();
+		$itemId      = $active->id;
+		$menuParams  = $menu->getParams($itemId);
+		$groupIds    = $menuParams->get('groups', 0, 'array');
+		$excludedIds = $menuParams->get('excluded', 0, 'array');
 
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
@@ -161,6 +162,18 @@ class UsersModel extends ListModel
 			$groupIds = ArrayHelper::toInteger($groupIds);
 			$query->where(
 				$db->quoteName('usergroupmap.group_id') . ' IN (' . implode(',', $groupIds) . ')'
+			);
+		}
+
+		if (is_numeric($excludedIds))
+		{
+			$query->where($db->quoteName('users.id') . ' <> ' . (int) $excludedIds);
+		}
+		elseif (is_array($excludedIds) && (count($excludedIds) > 0))
+		{
+			$excludedIds = ArrayHelper::toInteger($excludedIds);
+			$query->where(
+				$db->quoteName('users.id') . ' NOT IN (' . implode(',', $excludedIds) . ')'
 			);
 		}
 
@@ -230,19 +243,19 @@ class UsersModel extends ListModel
 	{
 		$app    = Factory::getApplication();
 		$params = ComponentHelper::getParams('com_users');
-/*
+		/*
 
-		// Get list ordering default from the parameters
-		$menuParams = new Registry;
+				// Get list ordering default from the parameters
+				$menuParams = new Registry;
 
-		if ($menu = $app->getMenu()->getActive())
-		{
-			$menuParams->loadString($menu->params);
-		}
+				if ($menu = $app->getMenu()->getActive())
+				{
+					$menuParams->loadString($menu->params);
+				}
 
-		$mergedParams = clone $params;
-		$mergedParams->merge($menuParams);
-*/
+				$mergedParams = clone $params;
+				$mergedParams->merge($menuParams);
+		*/
 		// List state information
 		$value = $app->input->get('limit', $app->get('list_limit', 0), 'uint');
 		$this->setState('list.limit', $value);

@@ -19,13 +19,21 @@
             />
             <field
                     name="groups"
-                    addfieldprefix="Joomla\Component\Users\Administrator\Field"
-                    type="groupparent"
-                    label="COM_USERS_GROUPS"
-                    extension="com_users"
+                    type="usergrouplist"
+                    label="COM_USERS_PARAMS_SELECT_GROUPS"
                     required="true"
                     multiple="true"
                     class="2do"
+            />
+
+            <field
+                    name="excluded"
+                    addfieldprefix="Joomla\Component\Users\Administrator\Field"
+                    type="users"
+                    label="COM_USERS_PARAMS_EXCLUDE_USERS"
+                    extension="com_users"
+                    required="false"
+                    multiple="true"
             />
 
             <field
