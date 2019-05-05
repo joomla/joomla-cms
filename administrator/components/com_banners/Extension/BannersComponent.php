@@ -58,6 +58,6 @@ class BannersComponent extends MVCComponent implements BootableExtensionInterfac
 	 */
 	protected function getTableNameForSection(string $section = null)
 	{
-		return '#__banners';
+		return 'banners';
 	}
 }

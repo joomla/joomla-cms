@@ -78,8 +78,7 @@ class BreadcrumbsHelper
 	/**
 	 * Set the breadcrumbs separator for the breadcrumbs display.
 	 *
-	 * @param   string  $custom  Custom xhtml complient string to separate the
-	 * items of the breadcrumbs
+	 * @param   string  $custom  Custom xhtml compliant string to separate the items of the breadcrumbs
 	 *
 	 * @return  string	Separator string
 	 *
