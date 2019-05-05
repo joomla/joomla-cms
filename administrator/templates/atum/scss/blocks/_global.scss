@@ -173,7 +173,7 @@ body .container-main {
 }
 
 // extern links with icons
-a[href*="//"]:not([href*="javascript://"]):before {
+a[target="_blank"]:before {
   font: normal normal normal 14px/1 FontAwesome;
   content: "\f08e  ";
 }
