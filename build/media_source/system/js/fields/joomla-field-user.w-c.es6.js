@@ -76,7 +76,9 @@
         this.buttonSelect.removeEventListener('click', this);
       }
 
-      this.modal.removeEventListener('hide', this);
+      if (this.modal) {
+        this.modal.removeEventListener('hide', this);
+      }
     }
 
     buttonClick(event) {
