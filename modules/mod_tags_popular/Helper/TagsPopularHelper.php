@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\Database\ParameterType;
 
 /**
  * Helper for mod_tags_popular
@@ -35,18 +36,18 @@ abstract class TagsPopularHelper
 	{
 		$db          = Factory::getDbo();
 		$user        = Factory::getUser();
-		$groups      = implode(',', $user->getAuthorisedViewLevels());
+		$groups      = $user->getAuthorisedViewLevels();
 		$timeframe   = $params->get('timeframe', 'alltime');
 		$maximum     = $params->get('maximum', 5);
 		$order_value = $params->get('order_value', 'title');
 		$nowDate     = Factory::getDate()->toSql();
-		$nullDate    = $db->quote($db->getNullDate());
+		$nullDate    = $db->getNullDate();
 
 		$query = $db->getQuery(true)
 			->select(
 				array(
 					'MAX(' . $db->quoteName('tag_id') . ') AS tag_id',
-					' COUNT(*) AS count', 'MAX(t.title) AS title',
+					' COUNT(*) AS count', 'MAX(' . $db->quoteName('t.title') . ') AS title',
 					'MAX(' . $db->quoteName('t.access') . ') AS access',
 					'MAX(' . $db->quoteName('t.alias') . ') AS alias',
 					'MAX(' . $db->quoteName('t.params') . ') AS params',
@@ -54,7 +55,7 @@ abstract class TagsPopularHelper
 			)
 			->group($db->quoteName(array('tag_id', 'title', 'access', 'alias')))
 			->from($db->quoteName('#__contentitem_tag_map', 'm'))
-			->where($db->quoteName('t.access') . ' IN (' . $groups . ')');
+			->whereIn($db->quoteName('t.access'), $groups);
 
 		// Only return published tags
 		$query->where($db->quoteName('t.published') . ' = 1 ');
@@ -64,7 +65,7 @@ abstract class TagsPopularHelper
 
 		if ($parentTags)
 		{
-			$query->where($db->quoteName('t.parent_id') . ' IN (' . implode(',', $parentTags) . ')');
+			$query->whereIn($db->quoteName('t.parent_id'), $parentTags);
 		}
 
 		// Optionally filter on language
@@ -77,15 +78,16 @@ abstract class TagsPopularHelper
 				$language = ContentHelper::getCurrentLanguage();
 			}
 
-			$query->where($db->quoteName('t.language') . ' IN (' . $db->quote($language) . ', ' . $db->quote('*') . ')');
+			$query->whereIn($db->quoteName('t.language'), [$language, '*'], ParameterType::STRING);
 		}
 
 		if ($timeframe !== 'alltime')
 		{
-			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd($db->quote($nowDate), '-1', strtoupper($timeframe)));
+			$query->where($db->quoteName('tag_date') . ' > ' . $query->dateAdd(':nowDate1', '-1', strtoupper($timeframe)))
+				->bind(':nowDate1', $nowDate);
 		}
 
-		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = t.id')
+		$query->join('INNER', $db->quoteName('#__tags', 't') . ' ON ' . $db->quoteName('tag_id') . ' = ' . $db->quoteName('t.id'))
 			->join(
 				'INNER',
 				$db->quoteName('#__ucm_content', 'c') . ' ON ' . $db->quoteName('m.core_content_id') . ' = ' . $db->quoteName('c.core_content_id')
@@ -95,10 +97,14 @@ abstract class TagsPopularHelper
 
 		// Only return tags connected to published articles
 		$query->where($db->quoteName('c.core_state') . ' = 1')
-			->where('(' . $db->quoteName('c.core_publish_up') . ' = ' . $nullDate
-				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= ' . $db->quote($nowDate) . ')')
-			->where('(' . $db->quoteName('c.core_publish_down') . ' = ' . $nullDate
-				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= ' . $db->quote($nowDate) . ')');
+			->where('(' . $db->quoteName('c.core_publish_up') . ' = :nullDate2'
+				. ' OR ' . $db->quoteName('c.core_publish_up') . ' <= :nowDate2)')
+			->where('(' . $db->quoteName('c.core_publish_down') . ' = :nullDate3'
+				. ' OR  ' . $db->quoteName('c.core_publish_down') . ' >= :nowDate3)')
+			->bind(':nullDate2', $nullDate)
+			->bind(':nowDate2', $nowDate)
+			->bind(':nullDate3', $nullDate)
+			->bind(':nowDate3', $nowDate);
 
 		// Set query depending on order_value param
 		if ($order_value === 'rand()')
