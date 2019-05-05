@@ -1,18 +1,18 @@
----
-clone:
-  git:
-    image: plugins/git
-    depth: 1
+kind: pipeline
+name: default
 
-pipeline:
-  phpcs:
+clone:
+  depth: 42
+
+steps:
+  - name: phpcs
     image: joomlaprojects/docker-phpcs
     commands:
       - echo $(date)
       - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
-  javascript:
+  - name: javascript
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - echo $(date)
@@ -28,7 +28,7 @@ pipeline:
       - tests/javascript/node_modules/karma/bin/karma start karma.conf.js --single-run
       - echo $(date)
 
-  analysis3x:
+  - name: analysis3x
     image: rips/rips-cli:1.2.1
     secrets:  [rips_username, rips_password]
     when:
@@ -40,22 +40,5 @@ pipeline:
       - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
       - rips-cli rips:scan:start -a 1 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
 
-  analysis4x:
-    image: rips/rips-cli:1.2.1
-    secrets:  [rips_username, rips_password]
-    when:
-      branch: 4.0-dev
-    commands:
-      - export RIPS_BASE_URI='https://api.rips.joomla.org'
-      - export RIPS_USERNAME=$RIPS_USERNAME
-      - export RIPS_PASSWORD=$RIPS_PASSWORD
-      - if [ $DRONE_REPO_OWNER != 'joomla' ]; then echo "The analysis check only run on the main repos"; exit 0; fi
-      - rips-cli rips:scan:start -a 3 -t 1 -p $(pwd) -t 1 -R -k -T $DRONE_REPO_OWNER-$DRONE_BRANCH ||  { echo "Please contact the security team at security@joomla.org"; exit 1; }
-
 branches:
   exclude: [ l10n_* ]
----
-kind: signature
-hmac: 0c87549364af0a32ff9e77d26cf00b2e714afc516ebc1dcb0aa5f298129840de
-
-...
