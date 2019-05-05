@@ -187,7 +187,7 @@
 				title="MOD_MENU_FIELDS"
 				type="component"
 				element="com_fields"
-				link="index.php?option=com_fields&amp;context=com_users.user"
+				link="index.php?option=com_fields&amp;view=fields&amp;context=com_users.user"
 		/>
 		<menuitem
 				title="MOD_MENU_FIELDS_GROUP"
@@ -224,7 +224,7 @@
 				title="MOD_MENU_COM_ACTIONLOGS"
 				type="component"
 				element="com_actionlogs"
-				link="index.php?option=com_actionlogs"
+				link="index.php?option=com_actionlogs&amp;view=actionlogs"
 				class="class:userlogs"
 		/>
 		<menuitem
