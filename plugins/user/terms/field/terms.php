@@ -3,21 +3,25 @@
  * @package     Joomla.Plugin
  * @subpackage  User.terms
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 
-JFormHelper::loadFieldClass('radio');
+FormHelper::loadFieldClass('radio');
 
 /**
  * Provides input for privacyterms
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.0
  */
 class JFormFieldterms extends JFormFieldRadio
 {
@@ -25,7 +29,7 @@ class JFormFieldterms extends JFormFieldRadio
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.0
 	 */
 	protected $type = 'terms';
 
@@ -34,7 +38,7 @@ class JFormFieldterms extends JFormFieldRadio
 	 *
 	 * @return  string   The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getInput()
 	{
@@ -50,7 +54,7 @@ class JFormFieldterms extends JFormFieldRadio
 	 *
 	 * @return  string  The field label markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	protected function getLabel()
 	{
@@ -110,9 +114,9 @@ class JFormFieldterms extends JFormFieldRadio
 			$db->setQuery($query);
 			$article = $db->loadObject();
 
-			if (JLanguageAssociations::isEnabled())
+			if (Associations::isEnabled())
 			{
-				$termsAssociated = JLanguageAssociations::getAssociations('com_content', '#__content', 'com_content.item', $termsArticle);
+				$termsAssociated = Associations::getAssociations('com_content', '#__content', 'com_content.item', $termsArticle);
 			}
 
 			$currentLang = Factory::getLanguage()->getTag();
@@ -124,13 +128,13 @@ class JFormFieldterms extends JFormFieldRadio
 					$termsAssociated[$currentLang]->catid,
 					$termsAssociated[$currentLang]->language
 				);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
+				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
 			else
 			{
 				$slug = $article->alias ? ($article->id . ':' . $article->alias) : $article->id;
 				$url  = ContentHelperRoute::getArticleRoute($slug, $article->catid, $article->language);
-				$link = JHtml::_('link', JRoute::_($url . '&tmpl=component'), $text, $attribs);
+				$link = HTMLHelper::_('link', Route::_($url . '&tmpl=component'), $text, $attribs);
 			}
 		}
 		else

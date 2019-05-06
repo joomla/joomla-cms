@@ -153,12 +153,12 @@ class PlgSystemDebug extends CMSPlugin
 		$this->debugLang = $this->app->get('debug_lang');
 
 		// Skip the plugin if debug is off
-		if ($this->debugLang === '0' && $this->app->get('debug') === '0')
+		if (!$this->debugLang && !$this->app->get('debug'))
 		{
 			return;
 		}
 
-		$this->app->getConfig()->set('gzip', 0);
+		$this->app->getConfig()->set('gzip', false);
 		ob_start();
 		ob_implicit_flush(false);
 
@@ -198,10 +198,10 @@ class PlgSystemDebug extends CMSPlugin
 		// Only if debugging or language debug is enabled.
 		if ((JDEBUG || $this->debugLang) && $this->isAuthorisedDisplayDebug() && strtolower($this->app->getDocument()->getType()) === 'html')
 		{
-			// Use our own jQuery and font-awesome instead of the debug bar shipped version
+			// Use our own jQuery and fontawesome instead of the debug bar shipped version
 			$assetManager = $this->app->getDocument()->getWebAssetManager();
 			$assetManager->enableAsset('jquery-noconflict');
-			$assetManager->enableAsset('font-awesome');
+			$assetManager->enableAsset('fontawesome-free');
 
 			HTMLHelper::_('stylesheet', 'plg_system_debug/debug.css', array('version' => 'auto', 'relative' => true));
 			HTMLHelper::_('script', 'plg_system_debug/debug.min.js', array('version' => 'auto', 'relative' => true));

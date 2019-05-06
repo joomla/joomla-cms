@@ -8,7 +8,7 @@
       "name": "template.atum.base",
       "dependencies": [
         "core",
-        "font-awesome",
+        "fontawesome",
         "bootstrap.css",
         "css-vars-ponyfill"
       ],
@@ -36,10 +36,10 @@
         "bootstrap.min.css"
       ]
     },
-    "font-awesome": {
-      "name": "font-awesome",
+    "fontawesome": {
+      "name": "fontawesome",
       "css": [
-        "font-awesome.min.css"
+        "fontawesome.min.css"
       ]
     }
   }

@@ -1071,10 +1071,24 @@ abstract class AdminModel extends FormModel
 
 					return false;
 				}
+
+				// Prune items that are already at the given state
+				if ($table->get($table->getColumnAlias('published'), $value) == $value)
+				{
+					unset($pks[$i]);
+
+					continue;
+				}
 			}
 		}
 
-		// Trigger the change state event.
+		// Check if there are items to change
+		if (!count($pks))
+		{
+			return true;
+		}
+
+		// Trigger the before change state event.
 		$result = Factory::getApplication()->triggerEvent($this->event_before_change_state, array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
@@ -1545,7 +1559,7 @@ abstract class AdminModel extends FormModel
 	 *
 	 * @return  boolean  True if successful, false otherwise.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.0
 	 */
 	public function editAssociations($data)
 	{
