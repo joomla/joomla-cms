@@ -195,3 +195,14 @@ a[target="_blank"]:before {
   float: right;
   min-width: 1rem;
 }
+
+.cpanel-system .card-columns {
+  @include media-breakpoint-up(md) {
+    column-count: 3;
+  }
+}
+.card-columns {
+  @include media-breakpoint-up(md) {
+    column-count: 2;
+  }
+}
