@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 
 /**
- * Console command for deleting an user
+ * Console command for deleting a user
  *
  * @since  __DEPLOY_VERSION__
  */
