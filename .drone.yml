@@ -13,6 +13,18 @@ steps:
       - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=build/phpcs/Joomla .
       - echo $(date)
 
+  - name: restore-cache
+    image: drillster/drone-volume-cache
+    settings:
+      restore: true
+      mount:
+        - ./node_modules
+        - ./libraries/vendor
+        - ./administrator/components/com_media/node_modules
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
 
   - name: prepare
     image: joomlaprojects/docker-tools:develop
@@ -27,6 +39,18 @@ steps:
       - npm --version
       - npm install --unsafe-perm
 
+  - name: rebuild-cache
+    image: drillster/drone-volume-cache
+    settings:
+      rebuild: true
+      mount:
+        - ./node_modules
+        - ./libraries/vendor
+        - ./administrator/components/com_media/node_modules
+      cache_key: [ DRONE_REPO_NAMESPACE, DRONE_REPO_NAME, DRONE_BRANCH, DRONE_STAGE_NUMBER ]
+    volumes:
+      - name: cache
+        path: /cache
 
   - name: php70-unit
     group: unit
