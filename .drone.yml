@@ -23,6 +23,8 @@ steps:
       #- composer update joomla/test-api --no-progress --no-suggest
       #- composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
       #- composer update joomla-projects/joomla-browser --no-progress --no-suggest
+      - node --version
+      - npm --version
       - npm install  -ddd --unsafe-perm
 
 
