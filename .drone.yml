@@ -23,6 +23,7 @@ steps:
       - composer update joomla/test-api --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
       - composer update joomla-projects/joomla-browser --no-progress --no-suggest
+      - npm config set registry http://registry.npmjs.com/
       - npm install --maxsockets=5 -ddd --unsafe-perm
 
 
