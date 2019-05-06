@@ -55,21 +55,18 @@ steps:
 
   - name: php70-unit
     depends_on: [ rebuild-cache ]
-    group: unit
     image: joomlaprojects/docker-php70:develop
     commands:
       - ./libraries/vendor/bin/phpunit
 
   - name: php71-unit
     depends_on: [ rebuild-cache ]
-    group: unit
     image: joomlaprojects/docker-php71:develop
     commands:
       - ./libraries/vendor/bin/phpunit
 
   - name: php72-unit
     depends_on: [ rebuild-cache ]
-    group: unit
     image: joomlaprojects/docker-php72:develop
     commands:
       - ./libraries/vendor/bin/phpunit
@@ -150,6 +147,6 @@ services:
 
 ---
 kind: signature
-hmac: 1764a0f7bab5fba4ef69f912e0ff77acef76dbce347b0436c4565d9b02b926f0
+hmac: 820e2021962202c01514b4ffe5eb893640c83fb5542345a70c4ca01e4ccfd43c
 
 ...
