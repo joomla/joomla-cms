@@ -28,14 +28,14 @@ $listDirn   = $this->escape($this->state->get('list.direction'));
 $now        = JFactory::getDate();
 $stateIcons = array(-1 => 'trash', 0 => 'archive', 1 => 'publish');
 $stateMsgs  = array(
-		-1 => Text::_('COM_PRIVACY_CONSENTS_STATE_INVALIDATED'),
-		0 => Text::_('COM_PRIVACY_CONSENTS_STATE_OBSOLETE'),
-		1 => Text::_('COM_PRIVACY_CONSENTS_STATE_VALID')
+	-1 => Text::_('COM_PRIVACY_CONSENTS_STATE_INVALIDATED'),
+	0 => Text::_('COM_PRIVACY_CONSENTS_STATE_OBSOLETE'),
+	1 => Text::_('COM_PRIVACY_CONSENTS_STATE_VALID')
 );
 
 ?>
 <form action="<?php echo Route::_('index.php?option=com_privacy&view=consents'); ?>" method="post" name="adminForm" id="adminForm">
-    <div id="j-main-container">
+	<div id="j-main-container">
 		<?php echo LayoutHelper::render('joomla.searchtools.default', array('view' => $this)); ?>
 		<div class="clearfix"> </div>
 		<?php if (empty($this->items)) : ?>

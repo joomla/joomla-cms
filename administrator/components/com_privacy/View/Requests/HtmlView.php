@@ -101,14 +101,14 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
 		/** @var RequestsModel $model */
-		$model = $this->getModel();
+		$model                  = $this->getModel();
 		$this->items            = $model->getItems();
 		$this->pagination       = $model->getPagination();
 		$this->state            = $model->getState();

@@ -88,9 +88,9 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @return  void
 	 *
-	 * @throws  \Exception
 	 * @see     BaseHtmlView::loadTemplate()
 	 * @since   3.9.0
+	 * @throws  \Exception
 	 */
 	public function display($tpl = null)
 	{
