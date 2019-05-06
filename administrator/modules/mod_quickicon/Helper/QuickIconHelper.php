@@ -232,7 +232,7 @@ abstract class QuickIconHelper
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_modules'),
 						'image'  => 'fa fa-puzzle-piece',
-						'text'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
+						'name'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
 						'addwhat' => Text::plural('MOD_QUICKICON_MODULE_MANAGER', 1),
 						'linkadd'   => Route::_('index.php?option=com_categories&task=type.select'),
 						'access' => array('core.manage', 'com_modules'),
