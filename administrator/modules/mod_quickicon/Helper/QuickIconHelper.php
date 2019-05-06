@@ -129,7 +129,7 @@ abstract class QuickIconHelper
 				{
 					self::$buttons[$key][] = [
 						'amount' => '123kB',
-						'link'   => Route::_('index.php?option=com_chache'),
+						'link'   => Route::_('index.php?option=com_cache'),
 						'image'  => 'fa fa-cloud',
 						'name'   => Text::_('MOD_QUICKICON_CACHE'),
 						'access' => array('core.admin', 'com_cache'),
