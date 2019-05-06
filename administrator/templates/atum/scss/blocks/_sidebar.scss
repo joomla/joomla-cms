@@ -104,6 +104,11 @@
     }
   }
 
+  .card {
+    background: var(--atum-bg-dark);
+    box-shadow: none;
+  }
+
 
 }
 
@@ -146,7 +151,6 @@
     .menu-dashboard, .menu-quicktask {
       position: relative;
       display:inline-block;
-      top: -1px;
       > a {
         padding: 0;
         display: inline-block;
@@ -188,9 +192,8 @@
 	  word-break: break-word;
       padding:0.8rem 0;
 
-
       @include media-breakpoint-up(sm) {
-		max-width: 9rem !important;
+		max-width: 11rem !important;
 		display: inline-block;
 	  }
 	  @include media-breakpoint-down(xs) {
@@ -245,8 +248,9 @@
 
     a {
       display: block;
-      padding: 0 1.25rem 0 1.25rem;
+      padding: 0 1rem 0 1rem;
       color: var(--atum-text-light);
+      font-size:0.9rem;
 
       &[href]:hover:not(.menu-dashboard):not(.menu-quicktask) {
         color: $white;
@@ -348,7 +352,7 @@
   .has-arrow::after {
     position: absolute;
     top: 0.8rem;
-    right: 0.9em;
+    right: 1.4rem;
     width: .5rem;
     height: .5rem;
     color: var(--atum-text-light);

@@ -131,13 +131,13 @@
       // The initial value can be also a color defined in css
       const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
       const value = cssValue || this.color || this.default || '';
-      let hsl = [];
+      let hsl = [this.hue, this.saturation, this.light, this.alpha];
 
       if (!value) {
         return;
       }
 
-      if (typeof value === 'number') {
+      if (/^[0-9]+$/.test(value)) {
         if (this.display.indexOf('hue') !== -1) {
           hsl[0] = value;
         }
@@ -170,7 +170,7 @@
       this.setSliderValues(hsl);
       this.setInputValue(hsl);
 
-      if (typeof value !== 'number') {
+      if (/^[0-9]+$/.test(value) === false) {
         this.input.style.border = `2px solid ${this.getRgbString(this.hslToRgb(hsl))}`;
       }
     }

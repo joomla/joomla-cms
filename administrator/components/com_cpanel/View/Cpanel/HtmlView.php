@@ -59,6 +59,7 @@ class HtmlView extends BaseHtmlView
 		$extension = ApplicationHelper::stringURLSafe($app->input->getCmd('dashboard'));
 
 		$title = Text::_('COM_CPANEL_DASHBOARD_BASE_TITLE');
+		$icon = Text::_('COM_CPANEL_DASHBOARD_BASE_ICON');
 
 		$position = ApplicationHelper::stringURLSafe($extension);
 
@@ -86,16 +87,24 @@ class HtmlView extends BaseHtmlView
 
 			$sectionkey = !empty($parts[1]) ?   '_' . strtoupper($parts[1]) : '';
 			$key = $prefix . $sectionkey . '_TITLE';
+			$keyIcon = $prefix . $sectionkey . '_ICON';
+
 
 			// Search for a component title
 			if ($lang->hasKey($key))
 			{
 				$title = Text::_($key);
 			}
+			
+			// Search for Icon
+			if ($lang->hasKey($keyIcon))
+			{
+				$icon = Text::_($keyIcon);
+			}
 		}
 
 		// Set toolbar items for the page
-		ToolbarHelper::title(Text::_($title, 'fa fa-home cpanel'));
+		ToolbarHelper::title($title, $icon . ' cpanel');
 		ToolbarHelper::help('screen.cpanel');
 
 		// Display the cpanel modules

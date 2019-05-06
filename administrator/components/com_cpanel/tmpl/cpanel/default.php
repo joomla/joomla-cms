@@ -42,25 +42,26 @@ echo HTMLHelper::_(
 );
 ?>
 <?php if ($this->quickicons) : ?>
-<div id="cpanel-modules" class="row">
+<div class="cpanel-modules masonry">
     	<?php // Display the icon position modules
 		foreach ($this->quickicons as $iconmodule)
 		{
-			echo ModuleHelper::renderModule($iconmodule, array('style' => 'well'));
+			echo ModuleHelper::renderModule($iconmodule, array('style' => 'quickicon'));
 		}
 	?>
 </div>
 <?php endif; ?>
 
-<div id="cpanel-modules" class="row">
+<div class="cpanel-modules masonry">
 	<?php
 	foreach ($this->modules as $module)
 	{
-		echo ModuleHelper::renderModule($module, array('style' => 'well'));
+		echo ModuleHelper::renderModule($module, array('style' => 'masonry'));
 	}
 	?>
 	<?php if ($user->authorise('core.create', 'com_modules')) : ?>
 </div>
+
 <div class="row">
 	<div class="col-md-6">
 		<a href="#moduleEditModal" data-toggle="modal" data-target="#moduleDashboardAddModal" role="button" class="cpanel-add-module text-center py-5 w-100 d-block">
