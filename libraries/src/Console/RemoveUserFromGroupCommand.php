@@ -23,7 +23,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 
 /**
- * Console command to remove an user from group
+ * Console command to remove a user from group
  *
  * @since  __DEPLOY_VERSION__
  */

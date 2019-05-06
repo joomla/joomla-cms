@@ -18,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 /**
- * Console command to lis existing users
+ * Console command to list existing users
  *
  * @since  __DEPLOY_VERSION__
  */
@@ -139,7 +139,7 @@ class ListUserCommand extends AbstractCommand
 		$this->setDescription('List all users');
 		$this->setHelp(
 <<<EOF
-The <info>%command.name%</info> command list all users
+The <info>%command.name%</info> command lists all users
 
 <info>php %command.full_name%</info>
 EOF

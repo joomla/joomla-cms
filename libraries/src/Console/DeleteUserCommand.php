@@ -103,7 +103,7 @@ class DeleteUserCommand extends AbstractCommand
 
 				if ($count < 2)
 				{
-					$this->ioStyle->error("Last super user can't be deleted! At least one super user needs to be exist!");
+					$this->ioStyle->error("Last super user can't be deleted! At least one super user needs to exist!");
 
 					return 1;
 				}
@@ -148,7 +148,7 @@ class DeleteUserCommand extends AbstractCommand
 
 		if ($result == false)
 		{
-			$this->ioStyle->error("Can't remove " . $this->username . ' form usergroup map');
+			$this->ioStyle->error("Can't remove " . $this->username . ' from usergroup map');
 
 			return 1;
 		}
@@ -160,7 +160,7 @@ class DeleteUserCommand extends AbstractCommand
 	}
 
 	/**
-	 * Method to get an value from option
+	 * Method to get a value from option
 	 *
 	 * @param   string  $option    set the option name
 	 *

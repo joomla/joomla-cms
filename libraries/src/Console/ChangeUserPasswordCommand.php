@@ -143,7 +143,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	}
 
 	/**
-	 * Method to get an value from option
+	 * Method to get a value from option
 	 *
 	 * @param   string  $option    set the option name
 	 *
@@ -201,10 +201,10 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	{
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
-		$this->setDescription('Changes a users password');
+		$this->setDescription("Changes a user's password");
 		$this->setHelp(
 <<<EOF
-The <info>%command.name%</info> command changes the user password
+The <info>%command.name%</info> command changes the user's password
 
 <info>php %command.full_name%</info>
 EOF

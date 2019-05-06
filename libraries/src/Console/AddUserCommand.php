@@ -175,7 +175,7 @@ class AddUserCommand extends AbstractCommand
 	}
 
 	/**
-	 * Method to get an value from option
+	 * Method to get a value from option
 	 *
 	 * @param   string  $option    set the option name
 	 *
@@ -308,7 +308,7 @@ class AddUserCommand extends AbstractCommand
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
 		$this->addOption('email', null, InputOption::VALUE_OPTIONAL, 'email address');
 		$this->addOption('usergroup', null, InputOption::VALUE_OPTIONAL, 'usergroup (separate multiple groups with comma ",")');
-		$this->setDescription('Adds a user');
+		$this->setDescription('Add a user');
 		$this->setHelp(
 <<<EOF
 The <info>%command.name%</info> command adds a user

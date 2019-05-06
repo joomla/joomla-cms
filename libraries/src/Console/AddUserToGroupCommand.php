@@ -214,7 +214,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	}
 
 	/**
-	 * Method to get groupId by groupNme
+	 * Method to get groupId by groupName
 	 *
 	 * @param   string  $groupName  name of group
 	 *
@@ -262,7 +262,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	}
 
 	/**
-	 * Method to get an value from option
+	 * Method to get a value from option
 	 *
 	 * @param   string  $option    set the option name
 	 *
