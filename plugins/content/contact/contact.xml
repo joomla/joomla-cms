@@ -37,7 +37,7 @@
 					label="PLG_CONTENT_CONTACT_PARAM_ALIAS_LABEL"
 					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
 					default="0"
-					class="btn-group btn-group-yesno"
+					class="switcher"
 					filter="integer"
 					>
 					<option value="0">JNO</option>
