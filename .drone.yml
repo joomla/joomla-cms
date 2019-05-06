@@ -23,7 +23,7 @@ steps:
       #- composer update joomla/test-api --no-progress --no-suggest
       #- composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
       #- composer update joomla-projects/joomla-browser --no-progress --no-suggest
-      - npm install --maxsockets=5 --registry=http://registry.npmjs.com/ -ddd --unsafe-perm
+      - npm ci --no-audit --unsafe-perm
 
 
   - name: php70-unit
