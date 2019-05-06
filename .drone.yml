@@ -35,7 +35,7 @@ steps:
       - composer update joomla/test-api --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
       - composer update joomla-projects/joomla-browser --no-progress --no-suggest
-      - npm install --verbose --unsafe-perm
+      - npm install -ddd --verbose --unsafe-perm
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
