@@ -17,12 +17,12 @@ steps:
   - name: prepare
     image: joomlaprojects/docker-tools:develop
     commands:
-      # - composer install --no-progress --no-suggest
+      - composer install --no-progress --no-suggest
       # needed for system testing
-      # - composer update joomla/test-system --no-progress --no-suggest
-      #- composer update joomla/test-api --no-progress --no-suggest
-      #- composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
-      #- composer update joomla-projects/joomla-browser --no-progress --no-suggest
+       - composer update joomla/test-system --no-progress --no-suggest
+      - composer update joomla/test-api --no-progress --no-suggest
+      - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
+      - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - node --version
       - npm --version
       - npm install  -ddd --unsafe-perm
