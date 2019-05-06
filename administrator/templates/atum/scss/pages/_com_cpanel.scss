@@ -177,11 +177,17 @@
     background:var(--toolbar-bg);
   }
 
-  .list-group-item a span.fa {
+  .list-group-item a > span.fa {
     background: var(--atum-link-color);
     color: rgba(255,255,255,.9);
     display: block;
-    width: 2.675rem;
-    height: 2.675rem;
+    padding: 0.675rem;
+    box-shadow: $atum-box-shadow;
+
+    &:hover {
+      background: var(--atum-link-hover-color);
+    }
+
   }
+
 }
