@@ -58,7 +58,7 @@ if ($id !== '')
 			if (isset($displayData['name'])): ?>
 			<div class="quickicon-name d-flex align-items-end"><?php echo htmlspecialchars($displayData['name']); ?></div>
 		<?php endif; ?>
-		<?php // Information or action
+		<?php // Information or action from plugins
 			if (isset($displayData['text'])): ?>
 				<div class="quickicon-text d-flex align-items-center"><?php echo $text; ?></div>
 		<?php endif; ?>

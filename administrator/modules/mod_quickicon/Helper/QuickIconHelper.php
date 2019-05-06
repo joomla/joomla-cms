@@ -120,7 +120,7 @@ abstract class QuickIconHelper
 						'amount' => self::countCheckin(),
 						'link'   => Route::_('index.php?option=com_checkin'),
 						'image'  => 'fa fa-lock-open',
-						'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
+						'name'   => Text::_('MOD_QUICKICON_CHECKINS'),
 						'access' => array('core.admin', 'com_checkin'),
 						'group'  => 'MOD_QUICKICON_SYSTEM'
 					];
