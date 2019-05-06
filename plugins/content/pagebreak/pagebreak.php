@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\Utility\Utility;
 use Joomla\String\StringHelper;
@@ -379,44 +380,32 @@ class PlgContentPagebreak extends CMSPlugin
 	 */
 	protected function _createNavigation(&$row, $page, $n)
 	{
-		$pnSpace = '';
+		$links = array(
+			'next' => '',
+			'previous' => ''
+		);
 
-		if (Text::_('JGLOBAL_LT') || Text::_('JGLOBAL_LT'))
-		{
-			$pnSpace = ' ';
-		}
 
 		if ($page < $n - 1)
 		{
-			$page_next = $page + 1;
-
-			$link_next = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . $page_next);
-
-			// Next >>
-			$next = '<a href="' . $link_next . '">' . Text::_('JNEXT') . $pnSpace . Text::_('JGLOBAL_GT') . Text::_('JGLOBAL_GT') . '</a>';
-		}
-		else
-		{
-			$next = Text::_('JNEXT');
+			$links['next'] = Route::_(ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language) . '&limitstart=' . ($page + 1));
 		}
 
 		if ($page > 0)
 		{
-			$link_prev = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
+			$links['previous'] = ContentHelperRoute::getArticleRoute($row->slug, $row->catid, $row->language);
 
 			if ($page > 1)
 			{
-				$link_prev .= '&limitstart=' . ($page - 1);
+				$links['previous'] .= '&limitstart=' . ($page - 1);
 			}
 
-			// << Prev
-			$prev = '<a href="' . Route::_($link_prev) . '">' . Text::_('JGLOBAL_LT') . Text::_('JGLOBAL_LT') . $pnSpace . Text::_('JPREV') . '</a>';
-		}
-		else
-		{
-			$prev = Text::_('JPREV');
+			$links['previous'] = Route::_($links['previous']);
 		}
 
-		$row->text .= '<ul><li>' . $prev . ' </li><li>' . $next . '</li></ul>';
+		$path = PluginHelper::getLayoutPath('content', 'pagebreak', 'navigation');
+		ob_start();
+		include $path;
+		$row->text .= ob_get_clean();
 	}
 }

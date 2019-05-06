@@ -26,21 +26,23 @@ $user = $app->getIdentity();
 ?>
 <div class="col-md-<?php echo $bootstrapSize; ?>">
 	<?php if (Factory::getUser()->authorise('core.edit', 'com_modules')) : ?>
-	<div class="module-actions">
-		<a href="<?php echo 'index.php?option=com_modules&task=module.edit&id=' . (int) $module->id; ?>">
-			<span class="fa fa-edit"><span class="sr-only"><?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?></span></span>
-		</a>
-	</div>
+
 	<?php endif; ?>
 	<div class="row">
 	<?php foreach ($root->getChildren() as $child) : ?>
 		<?php if ($child->hasChildren()) : ?>
-			<div class="card mb-3 col-lg-<?php echo $columnSize; ?> col-md-<?php echo $columnSizeSmall; ?>">
-				<h2 class="card-header">
+			<div class="mb-3 col-lg-<?php echo $columnSize; ?> col-md-<?php echo $columnSizeSmall; ?>">
+				<div class="card">
+					<div class="module-actions">
+						<a href="<?php echo 'index.php?option=com_modules&task=module.edit&id=' . (int) $module->id; ?>">
+							<span class="fa fa-edit"><span class="sr-only"><?php echo Text::_('JACTION_EDIT') . ' ' . $module->title; ?></span></span>
+						</a>
+					</div>
+					<h2 class="card-header">
 					<?php if ($child->icon) : ?><span class="fa fa-<?php echo $child->icon; ?>" aria-hidden="true"></span><?php endif; ?>
 					<?php echo Text::_($child->title); ?>
 				</h2>
-				<ul class="list-group list-group-flush">
+					<ul class="list-group list-group-flush">
 					<?php foreach ($child->getChildren() as $item) : ?>
 						<li class="list-group-item d-flex">
 							<?php $params = $item->getParams(); ?>
@@ -92,6 +94,7 @@ $user = $app->getIdentity();
 						</li>
 					<?php endforeach; ?>
 				</ul>
+				</div>
 			</div>
 		<?php endif; ?>
 	<?php endforeach; ?>

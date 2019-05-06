@@ -359,7 +359,7 @@ class Toolbar
 			$html[] = $layout->render([]);
 		}
 
-		if (strtolower($this->getName()) === 'toolbar')
+		if (strtolower($this->getName()) === 'toolbar' && Factory::getApplication()->input->get('layout') !== 'edit')
 		{
 			array_unshift($html, LayoutHelper::render('joomla.toolbar.breadcrumb', ['items' => $this->breadcrumbs]));
 		}

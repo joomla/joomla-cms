@@ -40,14 +40,6 @@ joomla-toolbar-button {
     }
   }
 
-  .btn-group {
-    .btn {
-      .fa:first-child, [class^=icon-]:first-child{
-        margin-right: 0;
-      }
-    }
-  }
-
   .btn {
     background: $white;
     border-color: $gray-500;
@@ -277,10 +269,10 @@ joomla-toolbar-button {
       }
 
       &::after {
-        border: none;
+        border: 1px solid var(--border);
         content: '\f078';
-        font-family: FontAwesome;
-        vertical-align: 0;
+        font-family: 'Font Awesome 5 Free';
+        vertical-align: middle;
         width: 2.375rem;
       }
     }
@@ -311,7 +303,7 @@ joomla-toolbar-button {
       &::after {
         border: none;
         content: '\f078';
-        font-family: FontAwesome;
+        font-family: 'Font Awesome 5 Free';
         height: 100%;
         margin: 0 -22px 0 16px;
         vertical-align: 0;

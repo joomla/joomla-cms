@@ -31,6 +31,11 @@ abstract class JHtmlIcons
 	 */
 	public static function buttons($buttons)
 	{
+		if (empty($buttons))
+		{
+			return;
+		}
+
 		$html = array();
 
 		foreach ($buttons as $button)

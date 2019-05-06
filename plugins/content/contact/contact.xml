@@ -24,7 +24,7 @@
 					type="list"
 					label="PLG_CONTENT_CONTACT_PARAM_URL_LABEL"
 					description="PLG_CONTENT_CONTACT_PARAM_URL_DESCRIPTION"
-					default="0"
+					default="url"
 					>
 					<option value="url">PLG_CONTENT_CONTACT_PARAM_URL_URL</option>
 					<option value="webpage">PLG_CONTENT_CONTACT_PARAM_URL_WEBPAGE</option>
@@ -38,6 +38,7 @@
 					description="PLG_CONTENT_CONTACT_PARAM_ALIAS_DESCRIPTION"
 					default="0"
 					class="btn-group btn-group-yesno"
+					filter="integer"
 					>
 					<option value="0">JNO</option>
 					<option value="1">JYES</option>
