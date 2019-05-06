@@ -85,7 +85,19 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 		$this->username = $this->getStringFromOption('username', 'Please enter a username');
 		$this->ioStyle->title('Remove user from group');
 
-		$user = $this->getUser($this->username);
+		$userId = $this->getUserId($this->username);
+
+		if (empty($userId))
+		{
+			$this->ioStyle->error("The user " . $this->username . " does not exist!");
+
+			return 1;
+		}
+		else
+		{
+			$user = User::getInstance($userId);
+		}
+
 		$this->userGroups = $this->getGroups($user);
 		$db = Factory::getDbo();
 
@@ -140,18 +152,12 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 					->where($db->quoteName('id') . ' = ' . $groupId);
 				$db->setQuery($query);
 
-				$result = $db->loadObject();
+				$result = $db->loadColumn();
 
-				array_push($currentGroups, $result);
+				array_push($currentGroups, "'" . $result[0] . "'");
 			}
 
-			$prefix = $currentTitle = '';
-
-			foreach ($currentGroups as $group)
-			{
-				$currentTitle .= $prefix . "'" . $group->title . "'";
-				$prefix = ', ';
-			}
+			$currentTitle = implode(", ", $currentGroups);
 
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
@@ -159,16 +165,11 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 				->where($db->quoteName('title') . 'IN(' . $currentTitle . ')');
 			$db->setQuery($query);
 
-			$result = $db->loadObjectList();
-
-			foreach ($result as $key => $value)
-			{
-				$list[$key] = $value->title;
-			}
+			$result = $db->loadColumn();
 
 			$choice = new ChoiceQuestion(
 				'Please select a usergroup (multiple select comma separated)',
-				$list
+				$result
 			);
 			$choice->setMultiselect(true);
 
@@ -237,11 +238,11 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 *
 	 * @param   string  $username  username
 	 *
-	 * @return  object
+	 * @return  integer
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getUser($username)
+	protected function getUserId($username)
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -251,9 +252,8 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 		$db->setQuery($query);
 
 		$userId = $db->loadResult();
-		$user = User::getInstance($userId);
 
-		return $user;
+		return $userId;
 	}
 
 	/**

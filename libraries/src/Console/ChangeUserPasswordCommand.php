@@ -83,7 +83,19 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		$this->ioStyle->title('Change password');
 
-		$oldUserObj = $this->getUser($this->username);
+		$userId = $this->getUserId($this->username);
+
+		if (empty($userId))
+		{
+			$this->ioStyle->error("The user " . $this->username . " does not exist!");
+
+			return 1;
+		}
+		else
+		{
+			$oldUserObj = User::getInstance($userId);
+		}
+
 		$user['username'] = $this->username;
 		$user['password'] = $this->password;
 		$user['name'] = $oldUserObj->name;
@@ -115,7 +127,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getUser($username)
+	protected function getUserId($username)
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -125,9 +137,8 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		$db->setQuery($query);
 
 		$userId = $db->loadResult();
-		$user = User::getInstance($userId);
 
-		return $user;
+		return $userId;
 	}
 
 	/**

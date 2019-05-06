@@ -85,17 +85,29 @@ class AddUserToGroupCommand extends AbstractCommand
 		$this->username = $this->getStringFromOption('username', 'Please enter a username');
 		$this->ioStyle->title('Add user to group');
 
-		$user = $this->getUser($this->username);
+		$userId = $this->getUserId($this->username);
+
+		if (empty($userId))
+		{
+			$this->ioStyle->error("The user " . $this->username . " does not exist!");
+
+			return 1;
+		}
+		else
+		{
+			$user = User::getInstance($userId);
+		}
+
 		$this->userGroups = $this->getGroups($user);
 		$db = Factory::getDbo();
 
 		foreach ($this->userGroups as $userGroup)
 		{
-			$querry = $db->getQuery(true)
+			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('id') . ' = ' . $userGroup);
-			$db->setQuery($querry);
+				->where($db->quoteName('id') . ' = ' . $db->quote($userGroup));
+			$db->setQuery($query);
 
 			$result = $db->loadResult();
 
@@ -137,21 +149,15 @@ class AddUserToGroupCommand extends AbstractCommand
 				$query = $db->getQuery(true)
 					->select($db->quoteName('title'))
 					->from($db->quoteName('#__usergroups'))
-					->where($db->quoteName('id') . ' = ' . $groupId);
+					->where($db->quoteName('id') . ' = ' . $db->quote($groupId));
 				$db->setQuery($query);
 
-				$result = $db->loadObject();
+				$result = $db->loadColumn();
 
-				array_push($currentGroups, $result);
+				array_push($currentGroups, "'" . $result[0] . "'");
 			}
 
-			$prefix = $currentTitle = '';
-
-			foreach ($currentGroups as $group)
-			{
-				$currentTitle .= $prefix . "'" . $group->title . "'";
-				$prefix = ', ';
-			}
+			$currentTitle = implode(", ", $currentGroups);
 
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
@@ -159,16 +165,11 @@ class AddUserToGroupCommand extends AbstractCommand
 				->where($db->quoteName('title') . 'NOT IN(' . $currentTitle . ')');
 			$db->setQuery($query);
 
-			$result = $db->loadObjectList();
-
-			foreach ($result as $key => $value)
-			{
-				$list[$key] = $value->title;
-			}
+			$result = $db->loadColumn();
 
 			$choice = new ChoiceQuestion(
 				'Please select a usergroup (multiple select comma separated)',
-				$list
+				$result
 			);
 			$choice->setMultiselect(true);
 
@@ -241,7 +242,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	protected function getUser($username)
+	protected function getUserId($username)
 	{
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
@@ -251,9 +252,8 @@ class AddUserToGroupCommand extends AbstractCommand
 		$db->setQuery($query);
 
 		$userId = $db->loadResult();
-		$user = User::getInstance($userId);
 
-		return $user;
+		return $userId;
 	}
 
 	/**
