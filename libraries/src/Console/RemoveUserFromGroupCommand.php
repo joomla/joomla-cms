@@ -213,7 +213,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	}
 
 	/**
-	 * Method to get groupId by groupNme
+	 * Method to get groupId by groupName
 	 *
 	 * @param   string  $groupName  name of group
 	 *
