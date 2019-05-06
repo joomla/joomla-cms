@@ -36,7 +36,6 @@ steps:
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
       - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - ls -la ./node_modules
-      - ls -la ./node_modules/.staging
       - npm install -ddd --verbose --unsafe-perm
 
   - name: rebuild-cache
