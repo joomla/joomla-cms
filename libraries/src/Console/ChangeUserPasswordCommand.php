@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Joomla\CMS\User\User;
 
 /**
- * Console command for change a users password
+ * Console command  to change a user's password
  *
  * @since  __DEPLOY_VERSION__
  */
