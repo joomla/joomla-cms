@@ -721,22 +721,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/joomla-framework/database.git",
-                "reference": "f4e9b67de1743983d69f4d80e893364572b20c01"
+                "reference": "a48b1a53fd2501ca3a331f4e724e1a7709a88c26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joomla-framework/database/zipball/f4e9b67de1743983d69f4d80e893364572b20c01",
-                "reference": "f4e9b67de1743983d69f4d80e893364572b20c01",
+                "url": "https://api.github.com/repos/joomla-framework/database/zipball/a48b1a53fd2501ca3a331f4e724e1a7709a88c26",
+                "reference": "a48b1a53fd2501ca3a331f4e724e1a7709a88c26",
                 "shasum": ""
             },
             "require": {
-                "joomla/event": "~2.0@dev",
+                "joomla/event": "~2.0",
                 "php": "~7.0",
                 "psr/log": "~1.0"
             },
             "require-dev": {
+                "joomla/archive": "~2.0",
                 "joomla/coding-standards": "~2.0@alpha",
+                "joomla/console": "~2.0",
                 "joomla/di": "~1.0|~2.0",
+                "joomla/filesystem": "~1.3|~2.0",
                 "joomla/registry": "^1.4.5|~2.0",
                 "joomla/test": "~1.2",
                 "phpunit/dbunit": "~3.0",
@@ -747,7 +750,10 @@
                 "ext-pdo": "To connect to a MySQL, Oracle, PostgreSQL, or SQLite database via PDO",
                 "ext-pgsql": "To connect to a PostgreSQL database",
                 "ext-sqlsrv": "To connect to a SQL Server database",
+                "joomla/archive": "To use the ExportCommand class, install joomla/archive",
+                "joomla/console": "To use the ExportCommand and ImportCommand classes, install joomla/console",
                 "joomla/di": "To use the Database ServiceProviderInterface objects, install joomla/di.",
+                "joomla/filesystem": "To use the ExportCommand and ImportCommand classes, install joomla/filesystem",
                 "joomla/registry": "To use the Database ServiceProviderInterface objects, install joomla/registry."
             },
             "type": "joomla-package",
@@ -772,7 +778,7 @@
                 "framework",
                 "joomla"
             ],
-            "time": "2019-04-18T23:40:12+00:00"
+            "time": "2019-05-05T16:05:23+00:00"
         },
         {
             "name": "joomla/di",
