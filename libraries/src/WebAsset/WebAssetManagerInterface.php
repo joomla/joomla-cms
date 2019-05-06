@@ -11,6 +11,8 @@ namespace Joomla\CMS\WebAsset;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Document\Document;
+use Joomla\CMS\WebAsset\Exception\UnknownAssetException;
+use Joomla\CMS\WebAsset\Exception\UnsatisfiedDependencyException;
 use Joomla\CMS\WebAsset\Exception\InvalidActionException;
 
 /**
@@ -27,7 +29,8 @@ interface WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
-	 * @throws InvalidActionException When the Manager already attached to a Document
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
 	 *
 	 * @since  4.0.0
 	 */
@@ -40,7 +43,8 @@ interface WebAssetManagerInterface
 	 *
 	 * @return self
 	 *
-	 * @throws InvalidActionException When the Manager already attached to a Document
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  InvalidActionException When the Manager already attached to a Document
 	 *
 	 * @since  4.0.0
 	 */
@@ -53,6 +57,8 @@ interface WebAssetManagerInterface
 	 *
 	 * @return  bool
 	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 *
 	 * @since  4.0.0
 	 */
 	public function isAssetActive(string $name): bool;
@@ -63,6 +69,9 @@ interface WebAssetManagerInterface
 	 * @param   bool  $sort  Whether need to sort the assets to follow the dependency Graph
 	 *
 	 * @return  WebAssetItemInterface[]
+	 *
+	 * @throws  UnknownAssetException  When Asset cannot be found
+	 * @throws  UnsatisfiedDependencyException When Dependency cannot be found
 	 *
 	 * @since  4.0.0
 	 */

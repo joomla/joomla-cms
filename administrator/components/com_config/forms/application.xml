@@ -266,7 +266,7 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_DEBUG_CONST_LANG_LABEL"
 			description="COM_CONFIG_FIELD_DEBUG_CONST_LANG_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			filter="integer"
 			showon="debug_lang:1"
@@ -817,13 +817,13 @@
 			type="radio"
 			label="COM_CONFIG_FIELD_REDIS_PERSISTENT_LABEL"
 			description="COM_CONFIG_FIELD_REDIS_PERSISTENT_DESC"
-			class="btn-group btn-group-yesno"
+			class="switcher"
 			default="1"
 			filter="integer"
 			showon="session_handler:redis"
 			>
-			<option value="1">JYES</option>
 			<option value="0">JNO</option>
+			<option value="1">JYES</option>
 		</field>
 
 		<field
