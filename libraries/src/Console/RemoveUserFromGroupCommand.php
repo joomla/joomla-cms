@@ -170,7 +170,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 			$result = $db->loadColumn();
 
 			$choice = new ChoiceQuestion(
-				'Please select a usergroup (multiple select comma separated)',
+				'Please select a usergroup (separate multiple groups with a comma)',
 				$result
 			);
 			$choice->setMultiselect(true);
@@ -261,7 +261,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	}
 
 	/**
-	 * Method to get an value from option
+	 * Method to get a value from option
 	 *
 	 * @param   string  $option    set the option name
 	 *
@@ -310,12 +310,12 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->setDescription('Remove an user from group');
+		$this->setDescription('Remove a user from group');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
 		$this->setHelp(
 <<<EOF
-The <info>%command.name%</info> command remove an user from group
+The <info>%command.name%</info> command removes a user from group
 
 <info>php %command.full_name%</info>
 EOF

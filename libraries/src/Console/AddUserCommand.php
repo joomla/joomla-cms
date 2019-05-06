@@ -235,7 +235,7 @@ class AddUserCommand extends AbstractCommand
 			}
 
 			$choice = new ChoiceQuestion(
-				'Please select a usergroup (multiple select comma separated)',
+				'Please select a usergroup (separate multiple groups with a comma)',
 				$list
 			);
 			$choice->setMultiselect(true);

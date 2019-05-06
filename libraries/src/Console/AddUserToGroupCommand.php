@@ -171,7 +171,7 @@ class AddUserToGroupCommand extends AbstractCommand
 			$result = $db->loadColumn();
 
 			$choice = new ChoiceQuestion(
-				'Please select a usergroup (multiple select comma separated)',
+				'Please select a usergroup (separate multiple groups with a comma)',
 				$result
 			);
 			$choice->setMultiselect(true);
@@ -311,12 +311,12 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function configure()
 	{
-		$this->setDescription('Add an user to group');
+		$this->setDescription('Add a user to group');
 		$this->addOption('username', null, InputOption::VALUE_OPTIONAL, 'username');
 		$this->addOption('group', null, InputOption::VALUE_OPTIONAL, 'group');
 		$this->setHelp(
 <<<EOF
-The <info>%command.name%</info> command add an user to group
+The <info>%command.name%</info> command adds a user to group
 
 <info>php %command.full_name%</info>
 EOF
