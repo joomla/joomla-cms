@@ -19,7 +19,7 @@ steps:
     commands:
       - composer install --no-progress --no-suggest
       # needed for system testing
-       - composer update joomla/test-system --no-progress --no-suggest
+      - composer update joomla/test-system --no-progress --no-suggest
       - composer update joomla/test-api --no-progress --no-suggest
       - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
       - composer update joomla-projects/joomla-browser --no-progress --no-suggest
