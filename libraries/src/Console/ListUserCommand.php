@@ -62,26 +62,29 @@ class ListUserCommand extends AbstractCommand
 
 		$users[] = array();
 
+		$queryUserGroupMap = $db->getQuery(true)
+			->select($db->quoteName('group_id'))
+			->from($db->quoteName('#__user_usergroup_map'))
+			->where($db->quoteName('user_id') . ' = :userId');
+
+		$queryUserGroup = $db->getQuery(true)
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__usergroups'))
+			->where($db->quoteName('id') . ' = :groupId');
+
 		foreach ($db->loadObjectList() as $user)
 		{
 			$user = json_decode(json_encode($user), true);
-
-			$query = $db->getQuery(true)
-				->select($db->quoteName('group_id'))
-				->from($db->quoteName('#__user_usergroup_map'))
-				->where($db->quoteName('user_id') . ' = ' . $user['id']);
-			$db->setQuery($query);
+			$queryUserGroupMap->bind(':userId', $user['id']);
+			$db->setQuery($queryUserGroupMap);
 
 			$allGroups = '';
 
 			foreach ($db->loadObjectList() as $group)
 			{
 				$group = json_decode(json_encode($group), true);
-				$query = $db->getQuery(true)
-					->select($db->quoteName('title'))
-					->from($db->quoteName('#__usergroups'))
-					->where($db->quoteName('id') . ' = ' . $group['group_id']);
-				$db->setQuery($query);
+				$queryUserGroup->bind(':groupId', $group['group_id']);
+				$db->setQuery($queryUserGroup);
 
 				$groupName = $db->loadResult();
 

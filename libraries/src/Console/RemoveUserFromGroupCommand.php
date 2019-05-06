@@ -100,20 +100,21 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 		$this->userGroups = $this->getGroups($user);
 		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__usergroups'))
+			->where($db->quoteName('id') . ' = :userGroup');
 
 		foreach ($this->userGroups as $userGroup)
 		{
-			$querry = $db->getQuery(true)
-				->select($db->quoteName('title'))
-				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('id') . ' = ' . $userGroup);
-			$db->setQuery($querry);
+			$query->bind(':userGroup', $userGroup);
+			$db->setQuery($query);
 
 			$result = $db->loadResult();
 
 			if (UserHelper::removeUserFromGroup($user->id, $userGroup))
 			{
-				$this->ioStyle->success("Remove '" . $user->username . "' successfully from group '" . $result . "'!");
+				$this->ioStyle->success("Remove '" . $user->username . "' from group '" . $result . "'!");
 			}
 			else
 			{
@@ -141,15 +142,16 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 		$list = array();
 		$currentGroups = array();
 		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__usergroups'))
+			->where($db->quoteName('id') . ' = :groupId');
 
 		if (!isset($option[0]))
 		{
 			foreach ($user->groups as $groupId)
 			{
-				$query = $db->getQuery(true)
-					->select($db->quoteName('title'))
-					->from($db->quoteName('#__usergroups'))
-					->where($db->quoteName('id') . ' = ' . $groupId);
+				$query->bind(':groupId', $groupId);
 				$db->setQuery($query);
 
 				$result = $db->loadColumn();
@@ -225,7 +227,8 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('title') . '=' . $db->quote($groupName));
+			->where($db->quoteName('title') . '= :groupName')
+			->bind(':groupName', $groupName);
 		$db->setQuery($query);
 
 		$groupID = $db->loadResult();
@@ -248,7 +251,8 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . '=' . $db->quote($username));
+			->where($db->quoteName('username') . '= :username')
+			->bind(':username', $username);
 		$db->setQuery($query);
 
 		$userId = $db->loadResult();

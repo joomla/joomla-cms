@@ -100,20 +100,21 @@ class AddUserToGroupCommand extends AbstractCommand
 
 		$this->userGroups = $this->getGroups($user);
 		$db = Factory::getDbo();
+		$query = $db->getQuery(true)
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__usergroups'))
+			->where($db->quoteName('id') . ' = :userGroup');
 
 		foreach ($this->userGroups as $userGroup)
 		{
-			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
-				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('id') . ' = ' . $db->quote($userGroup));
+			$query->bind(':userGroup', $userGroup);
 			$db->setQuery($query);
 
 			$result = $db->loadResult();
 
 			if (UserHelper::addUserToGroup($user->id, $userGroup))
 			{
-				$this->ioStyle->success("Add '" . $user->username . "' successfully to group '" . $result . "'!");
+				$this->ioStyle->success("Add '" . $user->username . "' to group '" . $result . "'!");
 			}
 			else
 			{
@@ -144,12 +145,14 @@ class AddUserToGroupCommand extends AbstractCommand
 
 		if (!isset($option[0]))
 		{
+			$query = $db->getQuery(true)
+				->select($db->quoteName('title'))
+				->from($db->quoteName('#__usergroups'))
+				->where($db->quoteName('id') . ' = :groupId');
+
 			foreach ($user->groups as $groupId)
 			{
-				$query = $db->getQuery(true)
-					->select($db->quoteName('title'))
-					->from($db->quoteName('#__usergroups'))
-					->where($db->quoteName('id') . ' = ' . $db->quote($groupId));
+				$query->bind(':groupId', $groupId);
 				$db->setQuery($query);
 
 				$result = $db->loadColumn();
@@ -225,7 +228,8 @@ class AddUserToGroupCommand extends AbstractCommand
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('title') . '=' . $db->quote($groupName));
+			->where($db->quoteName('title') . '= :groupName')
+			->bind(':groupName', $groupName);
 		$db->setQuery($query);
 
 		$groupID = $db->loadResult();
@@ -248,7 +252,8 @@ class AddUserToGroupCommand extends AbstractCommand
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . '=' . $db->quote($username));
+			->where($db->quoteName('username') . '= :username')
+			->bind(':username', $username);
 		$db->setQuery($query);
 
 		$userId = $db->loadResult();

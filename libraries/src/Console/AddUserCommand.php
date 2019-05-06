@@ -134,9 +134,9 @@ class AddUserCommand extends AbstractCommand
 			switch ($userObj->getError())
 			{
 				case "LIB_DATABASE_ERROR_USERNAME_INUSE":
-					$this->ioStyle->error("The username is already exist!");
+					$this->ioStyle->error("The username is already exists!");
 				case "JLIB_DATABASE_ERROR_EMAIL_INUSE  ":
-					$this->ioStyle->error("The email address is already exist!");
+					$this->ioStyle->error("The email address is already exists!");
 				case "JLIB_DATABASE_ERROR_VALID_MAIL":
 					$this->ioStyle->error("The email address is invalid!");
 			}
@@ -165,7 +165,8 @@ class AddUserCommand extends AbstractCommand
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('title') . '=' . $db->quote($groupName));
+			->where($db->quoteName('title') . ' = :groupName')
+			->bind(':groupName', $groupName);
 		$db->setQuery($query);
 
 		$groupID = $db->loadResult();
@@ -307,10 +308,10 @@ class AddUserCommand extends AbstractCommand
 		$this->addOption('password', null, InputOption::VALUE_OPTIONAL, 'password');
 		$this->addOption('email', null, InputOption::VALUE_OPTIONAL, 'email address');
 		$this->addOption('usergroup', null, InputOption::VALUE_OPTIONAL, 'usergroup (separate multiple groups with comma ",")');
-		$this->setDescription('Adds an user');
+		$this->setDescription('Adds a user');
 		$this->setHelp(
 <<<EOF
-The <info>%command.name%</info> command adds an user
+The <info>%command.name%</info> command adds a user
 
 <info>php %command.full_name%</info>
 EOF

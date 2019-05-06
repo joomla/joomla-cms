@@ -112,7 +112,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 			return 1;
 		}
 
-		$this->ioStyle->success("set password successfully!");
+		$this->ioStyle->success("set password!");
 		$this->ioStyle->table(['user', 'password'],  [array($oldUserObj->username, $this->password)]);
 
 		return 0;
@@ -133,7 +133,8 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . '=' . $db->quote($username));
+			->where($db->quoteName('username') . '= :username')
+			->bind(':username', $username);
 		$db->setQuery($query);
 
 		$userId = $db->loadResult();

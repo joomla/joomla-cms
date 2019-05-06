@@ -88,15 +88,16 @@ class DeleteUserCommand extends AbstractCommand
 
 		Factory::getApplication()->triggerEvent('onUserBeforeDelete', array(User::getInstance($userId)));
 		$groups = UserHelper::getUserGroups($userId);
+		$query = $db->getQuery(true);
+		$query->select('COUNT(*)');
+		$query->from($db->quoteName('#__user_usergroup_map'));
+		$query->where($db->quoteName('group_id') . " = :groupId");
 
 		foreach ($groups as $groupId)
 		{
 			if (Access::checkGroup($groupId, 'core.admin'))
 			{
-				$query = $db->getQuery(true);
-				$query->select('COUNT(*)');
-				$query->from($db->quoteName('#__user_usergroup_map'));
-				$query->where($db->quoteName('group_id') . " = " . $db->quote($groupId));
+				$query->bind(':groupId', $groupId);
 				$db->setQuery($query);
 				$count = $db->loadResult();
 
@@ -152,7 +153,7 @@ class DeleteUserCommand extends AbstractCommand
 			return 1;
 		}
 
-		$this->ioStyle->success('Delete ' . $this->username . ' successfully!');
+		$this->ioStyle->success('Delete ' . $this->username . '!');
 		Factory::getApplication()->triggerEvent('onUserAfterDelete', array(User::getInstance($userId)));
 
 		return 0;
