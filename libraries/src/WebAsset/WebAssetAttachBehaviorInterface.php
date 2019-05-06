@@ -29,5 +29,5 @@ interface WebAssetAttachBehaviorInterface
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAttachCallback(Document $doc): void;
+	public function onAttachCallback(Document $doc);
 }
