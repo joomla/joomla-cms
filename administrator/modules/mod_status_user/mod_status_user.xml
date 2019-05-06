@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.1" client="administrator" method="upgrade">
-	<name>mod_status_template</name>
+	<name>mod_status_user</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>
 	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
@@ -8,16 +8,16 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
-	<description>MOD_STATUS_XML_DESCRIPTION</description>
+	<description>MOD_STATUS_USER_XML_DESCRIPTION</description>
 	<files>
-		<filename module="mod_status">mod_status_template.php</filename>
+		<filename module="mod_status">mod_status_user.php</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_status_template.ini</language>
-		<language tag="en-GB">en-GB.mod_status_template.sys.ini</language>
+		<language tag="en-GB">en-GB.mod_status_user.ini</language>
+		<language tag="en-GB">en-GB.mod_status_user.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_STATUS" />
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_STATUS_USER" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">
