@@ -22,7 +22,7 @@ HTMLHelper::_('script', 'system/fields/passwordview.min.js', array('version' => 
 Text::script('JSHOW');
 Text::script('JHIDE');
 ?>
-<form id="login-form" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
+<form id="login-form-<?php echo $module->id; ?>" class="mod-login" action="<?php echo Route::_('index.php', true); ?>" method="post">
 
 	<?php if ($params->get('pretext')) : ?>
 		<div class="mod-login__pretext pretext">

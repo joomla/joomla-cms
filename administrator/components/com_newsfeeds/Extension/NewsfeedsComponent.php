@@ -53,4 +53,32 @@ class NewsfeedsComponent extends MVCComponent implements
 	{
 		$this->getRegistry()->register('newsfeedsadministrator', new AdministratorService);
 	}
+
+	/**
+	 * Returns the table for the count items functions for the given section.
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getTableNameForSection(string $section = null)
+	{
+		return $section === 'category' ? 'categories' : 'newsfeeds';
+	}
+
+	/**
+	 * Returns the state column for the count items functions for the given section.
+	 *
+	 * @param   string  $section  The section
+	 *
+	 * @return  string|null
+	 *
+	 * @since   4.0.0
+	 */
+	protected function getStateColumnForSection(string $section = null)
+	{
+		return 'published';
+	}
 }

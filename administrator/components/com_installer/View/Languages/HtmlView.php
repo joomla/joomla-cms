@@ -14,6 +14,7 @@ defined('_JEXEC') or die;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\Language\LanguageHelper;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
@@ -53,7 +54,7 @@ class HtmlView extends InstallerViewDefault
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		parent::display($tpl);
