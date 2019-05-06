@@ -258,7 +258,7 @@ abstract class QuickIconHelper
 				{
 					self::$buttons[$key][] = [
 						'amount' => self::countTemplates(),
-						'image'  => 'fa fa-edit',
+						'image'  => 'fa fa-paint-brush',
 						'link'   => Route::_('index.php?option=com_templates&client_id=0'),
 						'name'   => Text::_('MOD_QUICKICON_TEMPLATES'),
 						'access' => array('core.admin', 'com_templates'),
