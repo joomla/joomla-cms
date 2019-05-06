@@ -14,9 +14,6 @@
 		<testsuite name="libraries-platform">
 			<directory>tests/unit/suites/libraries/joomla</directory>
 		</testsuite>
-		<testsuite name="libraries-legacy">
-			<directory>tests/unit/suites/libraries/legacy</directory>
-		</testsuite>
 		<testsuite name="FinderIndexer">
 			<directory>tests/unit/suites/finderIndexer</directory>
 		</testsuite>

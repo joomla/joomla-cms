@@ -3,15 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Fields\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Categories\Categories;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -84,7 +88,7 @@ class FieldsModel extends ListModel
 		$this->setState('filter.context', $context);
 
 		// Split context into component and optional section
-		$parts = \FieldsHelper::extract($context);
+		$parts = FieldsHelper::extract($context);
 
 		if ($parts)
 		{
@@ -131,8 +135,8 @@ class FieldsModel extends ListModel
 		// Create a new query object.
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user  = \JFactory::getUser();
-		$app   = \JFactory::getApplication();
+		$user  = Factory::getUser();
+		$app   = Factory::getApplication();
 
 		// Select the required fields from the table.
 		$query->select(
@@ -160,7 +164,7 @@ class FieldsModel extends ListModel
 		$query->select('ua.name AS author_name')->join('LEFT', '#__users AS ua ON ua.id = a.created_user_id');
 
 		// Join over the field groups.
-		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state');
+		$query->select('g.title AS group_title, g.access as group_access, g.state AS group_state, g.note as group_note');
 		$query->join('LEFT', '#__fields_groups AS g ON g.id = a.group_id');
 
 		// Filter by context
@@ -187,12 +191,18 @@ class FieldsModel extends ListModel
 		{
 			$categories = (array) $categories;
 			$categories = ArrayHelper::toInteger($categories);
-			$parts = \FieldsHelper::extract($context);
+			$parts = FieldsHelper::extract($context);
 
 			if ($parts)
 			{
 				// Get the category
-				$cat = \JCategories::getInstance(str_replace('com_', '', $parts[0]));
+				$cat = Categories::getInstance(str_replace('com_', '', $parts[0]) . '.' . $parts[1]);
+
+				// If there is no category for the component and section, so check the component only
+				if (!$cat)
+				{
+					$cat = Categories::getInstance(str_replace('com_', '', $parts[0]));
+				}
 
 				if ($cat)
 				{
@@ -376,7 +386,7 @@ class FieldsModel extends ListModel
 	 */
 	public function getGroups()
 	{
-		$user       = \JFactory::getUser();
+		$user       = Factory::getUser();
 		$viewlevels = ArrayHelper::toInteger($user->getAuthorisedViewLevels());
 
 		$db    = $this->getDbo();

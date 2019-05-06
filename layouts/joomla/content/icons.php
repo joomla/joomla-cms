@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,18 +11,17 @@ defined('JPATH_BASE') or die;
 
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
-
-HTMLHelper::_('bootstrap.framework');
+use Joomla\CMS\Factory;
 
 $canEdit   = $displayData['params']->get('access-edit');
 $articleId = $displayData['item']->id;
-
 ?>
 
 <div class="icons">
 	<?php if (empty($displayData['print'])) : ?>
 
 		<?php if ($canEdit || $displayData['params']->get('show_print_icon') || $displayData['params']->get('show_email_icon')) : ?>
+			<?php Factory::getApplication()->getDocument()->getWebAssetManager()->enableAsset('bootstrap.js.bundle'); ?>
 			<div class="btn-group float-right">
 				<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton-<?php echo $articleId; ?>" aria-label="<?php echo Text::_('JUSER_TOOLS'); ?>"
 					data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  Layout
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -17,6 +17,7 @@ use Joomla\CMS\Router\Route;
 
 <?php if (!empty($displayData['item']->associations)) : ?>
 <?php $associations = $displayData['item']->associations; ?>
+
 <dd class="association">
 	<?php echo Text::_('JASSOCIATIONS'); ?>
 	<?php foreach ($associations as $association) : ?>
@@ -25,7 +26,7 @@ use Joomla\CMS\Router\Route;
 			&nbsp;<a href="<?php echo Route::_($association['item']); ?>"><?php echo $flag; ?></a>&nbsp;
 		<?php else : ?>
 			<?php $class = 'badge badge-secondary label-' . $association['language']->sef; ?>
-			&nbsp;<a class="' . <?php echo $class; ?> . '" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
+			&nbsp;<a class="<?php echo $class; ?>" href="<?php echo Route::_($association['item']); ?>"><?php echo strtoupper($association['language']->sef); ?></a>&nbsp;
 		<?php endif; ?>
 	<?php endforeach; ?>
 </dd>

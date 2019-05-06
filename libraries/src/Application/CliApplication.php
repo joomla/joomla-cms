@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -14,25 +14,28 @@ use Joomla\Application\AbstractApplication;
 use Joomla\CMS\Application\CLI\CliInput;
 use Joomla\CMS\Application\CLI\CliOutput;
 use Joomla\CMS\Application\CLI\Output\Stdout;
-use Joomla\Input\Cli;
-use Joomla\Input\Input;
+use Joomla\CMS\Event\BeforeExecuteEvent;
+use Joomla\CMS\Extension\ExtensionManagerTrait;
+use Joomla\CMS\Factory;
 use Joomla\DI\Container;
 use Joomla\DI\ContainerAwareTrait;
 use Joomla\Event\DispatcherAwareInterface;
 use Joomla\Event\DispatcherAwareTrait;
 use Joomla\Event\DispatcherInterface;
+use Joomla\Input\Cli;
+use Joomla\Input\Input;
 use Joomla\Registry\Registry;
 use Joomla\Session\SessionInterface;
 
 /**
  * Base class for a Joomla! command line application.
  *
- * @since       11.4
+ * @since       2.5.0
  * @deprecated  5.0  Use the ConsoleApplication instead
  */
 abstract class CliApplication extends AbstractApplication implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use Autoconfigurable, DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
 
 	/**
 	 * Output object
@@ -54,7 +57,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 * The application instance.
 	 *
 	 * @var    CliApplication
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected static $instance;
 
@@ -75,7 +78,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *                                            will be created based on the application's loadDispatcher() method.
 	 * @param   Container            $container   Dependency injection container.
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function __construct(Input $input = null, Registry $config = null, CliOutput $output = null, CliInput $cliInput = null,
 		DispatcherInterface $dispatcher = null, Container $container = null)
@@ -86,7 +89,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 			$this->close();
 		}
 
-		$container = $container ?: \JFactory::getContainer();
+		$container = $container ?: Factory::getContainer();
 		$this->setContainer($container);
 
 		$this->output   = $output ?: new Stdout;
@@ -102,9 +105,6 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 		// Set the current directory.
 		$this->set('cwd', getcwd());
 
-		// Load the configuration object.
-		$this->loadConfiguration($this->fetchConfigurationData());
-
 		// Set up the environment
 		$this->input->set('format', 'cli');
 	}
@@ -118,7 +118,7 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  CliApplication
 	 *
-	 * @since       11.1
+	 * @since       1.7.0
 	 * @deprecated  5.0 Load the app through the container
 	 * @throws  \RuntimeException
 	 */
@@ -143,12 +143,15 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	 *
 	 * @return  void
 	 *
-	 * @since   11.1
+	 * @since   1.7.0
 	 */
 	public function execute()
 	{
-		// Trigger the onBeforeExecute event.
-		$this->triggerEvent('onBeforeExecute');
+		// Trigger the onBeforeExecute event
+		$this->getDispatcher()->dispatch(
+			'onBeforeExecute',
+			new BeforeExecuteEvent('onBeforeExecute', ['subject' => $this, 'container' => $this->getContainer()])
+		);
 
 		// Perform application routines.
 		$this->doExecute();
@@ -283,6 +286,18 @@ abstract class CliApplication extends AbstractApplication implements DispatcherA
 	public function getSession()
 	{
 		return $this->container->get(SessionInterface::class);
+	}
+
+	/**
+	 * Retrieve the application configuration object.
+	 *
+	 * @return  Registry
+	 *
+	 * @since   4.0.0
+	 */
+	public function getConfig()
+	{
+		return $this->config;
 	}
 
 	/**

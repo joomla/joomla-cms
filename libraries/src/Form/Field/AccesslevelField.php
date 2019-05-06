@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,53 +10,29 @@ namespace Joomla\CMS\Form\Field;
 
 defined('JPATH_PLATFORM') or die;
 
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('list');
-
 /**
  * Form Field class for the Joomla Platform.
  * Provides a list of access levels. Access levels control what users in specific
  * groups can see.
  *
  * @see    JAccess
- * @since  11.1
+ * @since  1.7.0
  */
-class AccesslevelField extends \JFormFieldList
+class AccesslevelField extends ListField
 {
 	/**
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  11.1
+	 * @since  1.7.0
 	 */
 	protected $type = 'Accesslevel';
 
 	/**
-	 * Method to get the field input markup.
+	 * Name of the layout being used to render the field
 	 *
-	 * @return  string  The field input markup.
-	 *
-	 * @since   11.1
+	 * @var    string
+	 * @since  4.0.0
 	 */
-	protected function getInput()
-	{
-		$attr = '';
-
-		// Initialize some field attributes.
-		$attr .= !empty($this->class) ? ' class="custom-select ' . $this->class . '"' : ' class="custom-select"';
-		$attr .= $this->disabled ? ' disabled' : '';
-		$attr .= !empty($this->size) ? ' size="' . $this->size . '"' : '';
-		$attr .= $this->multiple ? ' multiple' : '';
-		$attr .= $this->required ? ' required aria-required="true"' : '';
-		$attr .= $this->autofocus ? ' autofocus' : '';
-
-		// Initialize JavaScript field attributes.
-		$attr .= $this->onchange ? ' onchange="' . $this->onchange . '"' : '';
-
-		// Get the field options.
-		$options = $this->getOptions();
-
-		return \JHtml::_('access.level', $this->name, $this->value, $attr, $options, $this->id);
-	}
+	protected $layout = 'joomla.form.field.accesslevel';
 }

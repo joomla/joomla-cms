@@ -3,15 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Table;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseDriver;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
 
@@ -25,11 +29,11 @@ class FilterTable extends Table
 	/**
 	 * Constructor
 	 *
-	 * @param   \JDatabaseDriver  $db  \JDatabaseDriver connector object.
+	 * @param   DatabaseDriver  $db  Database Driver connector object.
 	 *
 	 * @since   2.5
 	 */
-	public function __construct(\JDatabaseDriver $db)
+	public function __construct(DatabaseDriver $db)
 	{
 		parent::__construct('#__finder_filters', 'filter_id', $db);
 	}
@@ -90,7 +94,7 @@ class FilterTable extends Table
 
 		if (trim(str_replace('-', '', $this->alias)) === '')
 		{
-			$this->alias = \JFactory::getDate()->format('Y-m-d-H-i-s');
+			$this->alias = Factory::getDate()->format('Y-m-d-H-i-s');
 		}
 
 		$params = new Registry($this->params);
@@ -106,6 +110,11 @@ class FilterTable extends Table
 			$params->set('d1', $d2);
 			$params->set('d2', $d1);
 			$this->params = (string) $params;
+		}
+
+		if (empty($this->modified))
+		{
+			$this->modified = $nullDate;
 		}
 
 		return true;
@@ -144,7 +153,7 @@ class FilterTable extends Table
 			// Nothing to set publishing state on, return false.
 			else
 			{
-				$this->setError(\JText::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
+				$this->setError(Text::_('JLIB_DATABASE_ERROR_NO_ROWS_SELECTED'));
 
 				return false;
 			}
@@ -154,7 +163,7 @@ class FilterTable extends Table
 		$where = $k . '=' . implode(' OR ' . $k . '=', $pks);
 
 		// Determine if there is checkin support for the table.
-		if (!property_exists($this, 'checked_out') || !property_exists($this, 'checked_out_time'))
+		if (!$this->hasField('checked_out') || !$this->hasField('checked_out_time'))
 		{
 			$checkin = '';
 		}
@@ -217,15 +226,14 @@ class FilterTable extends Table
 	 */
 	public function store($updateNulls = false)
 	{
-		$date = \JFactory::getDate()->toSql();
-		$userId = \JFactory::getUser()->id;
-
-		$this->modified = $date;
+		$date = Factory::getDate()->toSql();
+		$userId = Factory::getUser()->id;
 
 		if ($this->filter_id)
 		{
 			// Existing item
 			$this->modified_by = $userId;
+			$this->modified    = $date;
 		}
 		else
 		{
@@ -254,11 +262,11 @@ class FilterTable extends Table
 		}
 
 		// Verify that the alias is unique
-		$table = new Filter($this->getDbo());
+		$table = new static($this->getDbo());
 
 		if ($table->load(array('alias' => $this->alias)) && ($table->filter_id != $this->filter_id || $this->filter_id == 0))
 		{
-			$this->setError(\JText::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
+			$this->setError(Text::_('JLIB_DATABASE_ERROR_ARTICLE_UNIQUE_ALIAS'));
 
 			return false;
 		}

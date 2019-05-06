@@ -3,15 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_plugins
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Plugins\Administrator\Model;
 
 defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Utilities\ArrayHelper;
 
@@ -93,6 +95,7 @@ class PluginsModel extends ListModel
 		$id .= ':' . $this->getState('filter.access');
 		$id .= ':' . $this->getState('filter.enabled');
 		$id .= ':' . $this->getState('filter.folder');
+		$id .= ':' . $this->getState('filter.element');
 
 		return parent::getStoreId($id);
 	}
@@ -182,7 +185,7 @@ class PluginsModel extends ListModel
 	 */
 	protected function translate(&$items)
 	{
-		$lang = \JFactory::getLanguage();
+		$lang = Factory::getLanguage();
 
 		foreach ($items as &$item)
 		{
@@ -190,7 +193,7 @@ class PluginsModel extends ListModel
 			$extension = 'plg_' . $item->folder . '_' . $item->element;
 			$lang->load($extension . '.sys', JPATH_ADMINISTRATOR, null, false, true)
 				|| $lang->load($extension . '.sys', $source, null, false, true);
-			$item->name = \JText::_($item->name);
+			$item->name = Text::_($item->name);
 		}
 	}
 
@@ -249,6 +252,12 @@ class PluginsModel extends ListModel
 		if ($folder = $this->getState('filter.folder'))
 		{
 			$query->where('a.folder = ' . $db->quote($folder));
+		}
+
+		// Filter by element.
+		if ($element = $this->getState('filter.element'))
+		{
+			$query->where('a.element = ' . $db->quote($element));
 		}
 
 		// Filter by search in name or id.

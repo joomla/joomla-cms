@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -11,8 +11,15 @@ namespace Joomla\CMS\Menu;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Cache\CacheControllerFactoryInterface;
+use Joomla\CMS\Cache\Controller\CallbackController;
+use Joomla\CMS\Cache\Exception\CacheExceptionInterface;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Language;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\Database\DatabaseDriver;
+use Joomla\Database\Exception\ExecutionFailureException;
 
 /**
  * Menu class
@@ -32,7 +39,7 @@ class SiteMenu extends AbstractMenu
 	/**
 	 * Database driver
 	 *
-	 * @var    \JDatabaseDriver
+	 * @var    DatabaseDriver
 	 * @since  3.5
 	 */
 	protected $db;
@@ -55,9 +62,9 @@ class SiteMenu extends AbstractMenu
 	public function __construct($options = array())
 	{
 		// Extract the internal dependencies before calling the parent constructor since it calls $this->load()
-		$this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : \JFactory::getApplication();
-		$this->db       = isset($options['db']) && $options['db'] instanceof \JDatabaseDriver ? $options['db'] : \JFactory::getDbo();
-		$this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : \JFactory::getLanguage();
+		$this->app      = isset($options['app']) && $options['app'] instanceof CMSApplication ? $options['app'] : Factory::getApplication();
+		$this->db       = isset($options['db']) && $options['db'] instanceof DatabaseDriver ? $options['db'] : Factory::getDbo();
+		$this->language = isset($options['language']) && $options['language'] instanceof Language ? $options['language'] : Factory::getLanguage();
 
 		parent::__construct($options);
 	}
@@ -73,6 +80,8 @@ class SiteMenu extends AbstractMenu
 	{
 		$loader = function ()
 		{
+			$nulldate    = $this->db->quote($this->db->getNullDate());
+			$currentDate = Factory::getDate()->toSql();
 			$query = $this->db->getQuery(true)
 				->select('m.id, m.menutype, m.title, m.alias, m.note, m.path AS route, m.link, m.type, m.level, m.language')
 				->select($this->db->quoteName('m.browserNav') . ', m.access, m.params, m.home, m.img, m.template_style_id, m.component_id, m.parent_id')
@@ -82,6 +91,8 @@ class SiteMenu extends AbstractMenu
 				->where('m.published = 1')
 				->where('m.parent_id > 0')
 				->where('m.client_id = 0')
+				->where('(m.publish_up = ' . $nulldate . ' OR m.publish_up <= ' . $this->db->quote($currentDate) . ')')
+				->where('(m.publish_down = ' . $nulldate . ' OR m.publish_down >= ' . $this->db->quote($currentDate) . ')')
 				->order('m.lft');
 
 			// Set the query
@@ -92,27 +103,27 @@ class SiteMenu extends AbstractMenu
 
 		try
 		{
-			/** @var \JCacheControllerCallback $cache */
-			$cache = \JFactory::getCache('com_menus', 'callback');
+			/** @var CallbackController $cache */
+			$cache = Factory::getContainer()->get(CacheControllerFactoryInterface::class)->createCacheController('callback', ['defaultgroup' => 'com_menus']);
 
 			$this->items = $cache->get($loader, array(), md5(get_class($this)), false);
 		}
-		catch (\JCacheException $e)
+		catch (CacheExceptionInterface $e)
 		{
 			try
 			{
 				$this->items = $loader();
 			}
-			catch (\JDatabaseExceptionExecuting $databaseException)
+			catch (ExecutionFailureException $databaseException)
 			{
-				$this->app->enqueueMessage(\JText::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()), 'warning');
+				$this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $databaseException->getMessage()), 'warning');
 
 				return false;
 			}
 		}
-		catch (\JDatabaseExceptionExecuting $e)
+		catch (ExecutionFailureException $e)
 		{
-			$this->app->enqueueMessage(\JText::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'warning');
+			$this->app->enqueueMessage(Text::sprintf('JERROR_LOADING_MENUS', $e->getMessage()), 'warning');
 
 			return false;
 		}
@@ -124,6 +135,7 @@ class SiteMenu extends AbstractMenu
 
 			if (isset($this->getMenu()[$item->parent_id]))
 			{
+				$item->setParent($this->getMenu()[$item->parent_id]);
 				$parent_tree  = $this->getMenu()[$item->parent_id]->tree;
 			}
 
@@ -165,7 +177,7 @@ class SiteMenu extends AbstractMenu
 				if (Multilanguage::isEnabled())
 				{
 					$attributes[] = 'language';
-					$values[]     = array(\JFactory::getLanguage()->getTag(), '*');
+					$values[]     = array(Factory::getLanguage()->getTag(), '*');
 				}
 			}
 			elseif ($values[$key] === null)

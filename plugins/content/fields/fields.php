@@ -3,11 +3,14 @@
  * @package     Joomla.Plugin
  * @subpackage  Content.Fields
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die();
+
+use Joomla\CMS\Plugin\CMSPlugin;
+use Joomla\Component\Fields\Administrator\Helper\FieldsHelper;
 
 /**
  * Plug-in to show a custom field in eg an article
@@ -15,7 +18,7 @@ defined('_JEXEC') or die();
  *
  * @since  3.7.0
  */
-class PlgContentFields extends JPlugin
+class PlgContentFields extends CMSPlugin
 {
 	/**
 	 * Plugin that shows a custom field
@@ -31,9 +34,14 @@ class PlgContentFields extends JPlugin
 	 */
 	public function onContentPrepare($context, &$item, &$params, $page = 0)
 	{
-		// Don't run this plugin when the content is being indexed
-		if ($context == 'com_finder.indexer')
+		// If the item has a context, overwrite the existing one
+		if ($context === 'com_finder.indexer' && !empty($item->context))
 		{
+			$context = $item->context;
+		}
+		elseif ($context === 'com_finder.indexer')
+		{
+			// Don't run this plugin when the content is being indexed and we have no real context
 			return;
 		}
 
@@ -48,9 +56,6 @@ class PlgContentFields extends JPlugin
 		{
 			return;
 		}
-
-		// Register FieldsHelper
-		JLoader::register('FieldsHelper', JPATH_ADMINISTRATOR . '/components/com_fields/helpers/fields.php');
 
 		// Prepare the text
 		if (isset($item->text))
@@ -111,14 +116,13 @@ class PlgContentFields extends JPlugin
 			// $match[0] is the full pattern match, $match[1] is the type (field or fieldgroup) and $match[2] the ID and optional the layout
 			$explode = explode(',', $match[2]);
 			$id      = (int) $explode[0];
-			$layout  = !empty($explode[1]) ? trim($explode[1]) : 'render';
 			$output  = '';
 
-
-			if ($match[1] == 'field' && $id)
+			if ($match[1] === 'field' && $id)
 			{
 				if (isset($fieldsById[$id]))
 				{
+					$layout = !empty($explode[1]) ? trim($explode[1]) : $fieldsById[$id]->params->get('layout', 'render');
 					$output = FieldsHelper::render(
 						$context,
 						'field.' . $layout,
@@ -144,6 +148,7 @@ class PlgContentFields extends JPlugin
 
 				if ($renderFields)
 				{
+					$layout = !empty($explode[1]) ? trim($explode[1]) : 'render';
 					$output = FieldsHelper::render(
 						$context,
 						'fields.' . $layout,

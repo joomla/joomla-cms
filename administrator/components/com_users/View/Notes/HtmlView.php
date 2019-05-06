@@ -3,17 +3,25 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\View\Notes;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-use Joomla\Registry\Registry;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\Toolbar;
+use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\CMS\User\User;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
+use Joomla\Registry\Registry;
 
 /**
  * User notes list view
@@ -41,7 +49,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var    \JObject
+	 * @var    CMSObject
 	 * @since  2.5
 	 */
 	protected $state;
@@ -49,7 +57,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var    \JUser
+	 * @var    User
 	 * @since  2.5
 	 */
 	protected $user;
@@ -83,7 +91,7 @@ class HtmlView extends BaseHtmlView
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
 	 *
-	 * @return  mixed  A string if successful, otherwise a \JError object.
+	 * @return  void
 	 *
 	 * @since   2.5
 	 */
@@ -102,11 +110,8 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
-
-		// Get the component HTML helpers
-		\JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 
 		// Turn parameters into registry objects
 		foreach ($this->items as $item)
@@ -115,7 +120,7 @@ class HtmlView extends BaseHtmlView
 		}
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
+		$this->sidebar = HTMLHelper::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -130,44 +135,57 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_users', 'category', $this->state->get('filter.category_id'));
 
-		\JToolbarHelper::title(\JText::_('COM_USERS_VIEW_NOTES_TITLE'), 'users user');
+		ToolbarHelper::title(Text::_('COM_USERS_VIEW_NOTES_TITLE'), 'users user');
+
+		// Get the toolbar object instance
+		$toolbar = Toolbar::getInstance('toolbar');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('note.add');
+			$toolbar->addNew('note.add');
 		}
 
-		if ($canDo->get('core.edit.state'))
+		if ($canDo->get('core.edit.state') || $canDo->get('core.admin'))
 		{
-			\JToolbarHelper::divider();
-			\JToolbarHelper::publish('notes.publish', 'JTOOLBAR_PUBLISH', true);
-			\JToolbarHelper::unpublish('notes.unpublish', 'JTOOLBAR_UNPUBLISH', true);
+			$dropdown = $toolbar->dropdownButton('status-group')
+					->text('JTOOLBAR_CHANGE_STATUS')
+					->toggleSplit(false)
+					->icon('fa fa-globe')
+					->buttonClass('btn btn-info')
+					->listCheck(true);
 
-			\JToolbarHelper::divider();
-			\JToolbarHelper::archiveList('notes.archive');
-			\JToolbarHelper::checkin('notes.checkin');
+			$childBar = $dropdown->getChildToolbar();
+
+			if ($canDo->get('core.edit.state'))
+			{
+				$childBar->publish('notes.publish')->listCheck(true);
+				$childBar->unpublish('notes.unpublish')->listCheck(true);
+				$childBar->archive('notes.archive')->listCheck(true);
+				$childBar->checkin('notes.checkin')->listCheck(true);
+			}
+
+			if (!$this->state->get('filter.published') == -2 && $canDo->get('core.edit.state'))
+			{
+				$childBar->trash('notes.trash');
+			}
 		}
 
 		if ($this->state->get('filter.published') == -2 && $canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'notes.delete', 'JTOOLBAR_EMPTY_TRASH');
-			\JToolbarHelper::divider();
-		}
-		elseif ($canDo->get('core.edit.state'))
-		{
-			\JToolbarHelper::trash('notes.trash');
-			\JToolbarHelper::divider();
+			$toolbar->delete('notes.delete')
+				->text('JTOOLBAR_EMPTY_TRASH')
+				->message('JGLOBAL_CONFIRM_DELETE')
+				->listCheck(true);
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_users');
-			\JToolbarHelper::divider();
+			$toolbar->preferences('com_users');
 		}
 
-		\JToolbarHelper::help('JHELP_USERS_USER_NOTES');
+		$toolbar->help('JHELP_USERS_USER_NOTES');
 
-		\JHtmlSidebar::setAction('index.php?option=com_users&view=notes');
+		HTMLHelper::_('sidebar.setAction', 'index.php?option=com_users&view=notes');
 	}
 
 	/**
@@ -180,12 +198,12 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'u.name'        => \JText::_('COM_USERS_USER_HEADING'),
-			'a.subject'     => \JText::_('COM_USERS_SUBJECT_HEADING'),
-			'c.title'       => \JText::_('COM_USERS_CATEGORY_HEADING'),
-			'a.state'       => \JText::_('JSTATUS'),
-			'a.review_time' => \JText::_('COM_USERS_REVIEW_HEADING'),
-			'a.id'          => \JText::_('JGRID_HEADING_ID')
+			'u.name'        => Text::_('COM_USERS_USER_HEADING'),
+			'a.subject'     => Text::_('COM_USERS_SUBJECT_HEADING'),
+			'c.title'       => Text::_('COM_USERS_CATEGORY_HEADING'),
+			'a.state'       => Text::_('JSTATUS'),
+			'a.review_time' => Text::_('COM_USERS_REVIEW_HEADING'),
+			'a.id'          => Text::_('JGRID_HEADING_ID')
 		);
 	}
 }

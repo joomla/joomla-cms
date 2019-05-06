@@ -30,9 +30,7 @@
 				label="JTAG"
 				description="JTAG_FIELD_SELECT_DESC"
 				multiple="true"
-				>
-				<option value="">JNONE</option>
-			</field>
+			/>
 		</fieldset>
 	</fields>
 
@@ -332,6 +330,7 @@
 				name="article_layout" type="componentlayout"
 				label="JGLOBAL_FIELD_LAYOUT_LABEL"
 				description="JGLOBAL_FIELD_LAYOUT_DESC"
+				class="custom-select"
 				menuitems="true"
 				extension="com_content"
 				view="article"

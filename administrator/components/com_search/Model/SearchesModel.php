@@ -3,16 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_search
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Search\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Plugin\PluginHelper;
 
 /**
@@ -142,13 +144,7 @@ class SearchesModel extends ListModel
 		if ($this->getState('show_results'))
 		{
 			PluginHelper::importPlugin('search');
-			$app = \JFactory::getApplication();
-
-			if (!class_exists('JSite'))
-			{
-				// This fools the routers in the search plugins into thinking it's in the frontend
-				\JLoader::register('JSite', \JPATH_ADMINISTRATOR . '/components/com_search/helpers/site.php');
-			}
+			$app = Factory::getApplication();
 
 			foreach ($items as &$item)
 			{
@@ -166,7 +162,7 @@ class SearchesModel extends ListModel
 	}
 
 	/**
-	 * Method to reset the seach log table.
+	 * Method to reset the search log table.
 	 *
 	 * @return  boolean
 	 *

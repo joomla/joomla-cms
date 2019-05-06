@@ -3,12 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_admin
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Extension\ExtensionHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\File;
+use Joomla\CMS\Filesystem\Folder;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\Database\UTF8MB4SupportInterface;
 
 /**
@@ -29,8 +36,8 @@ class JoomlaInstallerScript
 	/**
 	 * Function to act prior to installation process begins
 	 *
-	 * @param   string      $action     Which action is happening (install|uninstall|discover_install|update)
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   string     $action     Which action is happening (install|uninstall|discover_install|update)
+	 * @param   Installer  $installer  The class calling this method
 	 *
 	 * @return  boolean  True on success
 	 *
@@ -62,7 +69,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to update Joomla!
 	 *
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   Installer  $installer  The class calling this method
 	 *
 	 * @return  void
 	 */
@@ -71,11 +78,11 @@ class JoomlaInstallerScript
 		$options['format']    = '{DATE}\t{TIME}\t{LEVEL}\t{CODE}\t{MESSAGE}';
 		$options['text_file'] = 'joomla_update.php';
 
-		JLog::addLogger($options, JLog::INFO, array('Update', 'databasequery', 'jerror'));
+		Log::addLogger($options, Log::INFO, array('Update', 'databasequery', 'jerror'));
 
 		try
 		{
-			JLog::add(JText::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), JLog::INFO, 'Update');
+			Log::add(Text::_('COM_JOOMLAUPDATE_UPDATE_LOG_DELETE_FILES'), Log::INFO, 'Update');
 		}
 		catch (RuntimeException $exception)
 		{
@@ -105,7 +112,7 @@ class JoomlaInstallerScript
 	 */
 	protected function clearStatsCache()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		try
 		{
@@ -121,7 +128,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
 		}
@@ -149,7 +156,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
 		}
@@ -162,7 +169,7 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabase()
 	{
-		if (JFactory::getDbo()->getServerType() === 'mysql')
+		if (Factory::getDbo()->getServerType() === 'mysql')
 		{
 			$this->updateDatabaseMysql();
 		}
@@ -175,7 +182,7 @@ class JoomlaInstallerScript
 	 */
 	protected function updateDatabaseMysql()
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		$db->setQuery('SHOW ENGINES');
 
@@ -185,7 +192,7 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
 		}
@@ -205,7 +212,7 @@ class JoomlaInstallerScript
 			}
 			catch (Exception $e)
 			{
-				echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+				echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 				return;
 			}
@@ -221,10 +228,10 @@ class JoomlaInstallerScript
 	 */
 	protected function updateManifestCaches()
 	{
-		$extensions = JExtensionHelper::getCoreExtensions();
+		$extensions = ExtensionHelper::getCoreExtensions();
 
 		// Attempt to refresh manifest caches
-		$db    = JFactory::getDbo();
+		$db    = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__extensions');
@@ -247,18 +254,18 @@ class JoomlaInstallerScript
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return;
 		}
 
-		$installer = new JInstaller;
+		$installer = new Installer;
 
 		foreach ($extensions as $extension)
 		{
 			if (!$installer->refreshManifestCache($extension->extension_id))
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br>';
+				echo Text::sprintf('FILES_JOOMLA_ERROR_MANIFEST', $extension->type, $extension->element, $extension->name, $extension->client_id) . '<br>';
 			}
 		}
 	}
@@ -924,6 +931,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_languages/helpers/languages.php',
 			'/administrator/components/com_languages/helpers/multilangstatus.php',
 			'/administrator/components/com_languages/languages.php',
+			'/administrator/components/com_languages/layouts/joomla/searchtools/default/bar.php',
 			'/administrator/components/com_languages/models/forms/filter_installed.xml',
 			'/administrator/components/com_languages/models/forms/filter_languages.xml',
 			'/administrator/components/com_languages/models/forms/language.xml',
@@ -1080,6 +1088,7 @@ class JoomlaInstallerScript
 			'/administrator/components/com_modules/controllers/module.php',
 			'/administrator/components/com_modules/controllers/modules.php',
 			'/administrator/components/com_modules/helpers/xml.php',
+			'/administrator/components/com_modules/layouts/toolbar/newmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesmodule.php',
 			'/administrator/components/com_modules/models/fields/modulesposition.php',
 			'/administrator/components/com_modules/models/forms/advanced.xml',
@@ -3648,6 +3657,8 @@ class JoomlaInstallerScript
 			'/media/system/images/modal/closebox.png',
 			'/media/system/images/modal/spinner.gif',
 			'/media/system/js/associations-edit-uncompressed.js',
+			'/media/system/js/associations-edit.js',
+			'/media/system/js/associations-edit.min.js',
 			'/media/system/js/calendar-setup-uncompressed.js',
 			'/media/system/js/calendar-setup.js',
 			'/media/system/js/calendar-uncompressed.js',
@@ -3938,23 +3949,19 @@ class JoomlaInstallerScript
 			'/media/jui/less',
 		);
 
-		jimport('joomla.filesystem.file');
-
 		foreach ($files as $file)
 		{
-			if (JFile::exists(JPATH_ROOT . $file) && !JFile::delete(JPATH_ROOT . $file))
+			if (File::exists(JPATH_ROOT . $file) && !File::delete(JPATH_ROOT . $file))
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
+				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $file) . '<br>';
 			}
 		}
 
-		jimport('joomla.filesystem.folder');
-
 		foreach ($folders as $folder)
 		{
-			if (JFolder::exists(JPATH_ROOT . $folder) && !JFolder::delete(JPATH_ROOT . $folder))
+			if (Folder::exists(JPATH_ROOT . $folder) && !Folder::delete(JPATH_ROOT . $folder))
 			{
-				echo JText::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
+				echo Text::sprintf('FILES_JOOMLA_ERROR_FILE_FOLDER', $folder) . '<br>';
 			}
 		}
 	}
@@ -3962,7 +3969,7 @@ class JoomlaInstallerScript
 	/**
 	 * Method to create assets for newly installed components
 	 *
-	 * @param   JInstaller  $installer  The class calling this method
+	 * @param   Installer  $installer  The class calling this method
 	 *
 	 * @return  boolean
 	 *
@@ -3972,6 +3979,7 @@ class JoomlaInstallerScript
 	{
 		// List all components added since 4.0
 		$newComponents = array(
+			'com_csp',
 		);
 
 		foreach ($newComponents as $component)
@@ -3993,7 +4001,7 @@ class JoomlaInstallerScript
 			if (!$asset->store())
 			{
 				// Install failed, roll back changes
-				$installer->abort(JText::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
+				$installer->abort(Text::sprintf('JLIB_INSTALLER_ABORT_COMP_INSTALL_ROLLBACK', $asset->getError(true)));
 
 				return false;
 			}
@@ -4015,7 +4023,7 @@ class JoomlaInstallerScript
 		 * The session may have not been started yet (e.g. CLI-based Joomla! update scripts). Let's make sure we do
 		 * have a valid session.
 		 */
-		$session = JFactory::getSession();
+		$session = Factory::getSession();
 
 		/**
 		 * Restarting the Session require a new login for the current user so lets check if we have an active session
@@ -4033,7 +4041,7 @@ class JoomlaInstallerScript
 			return true;
 		}
 
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		try
 		{
@@ -4047,14 +4055,14 @@ class JoomlaInstallerScript
 				// Non-MySQL databases, use a simple DELETE FROM query
 				default:
 					$query = $db->getQuery(true)
-						->delete($db->qn('#__session'));
+						->delete($db->quoteName('#__session'));
 					$db->setQuery($query)->execute();
 					break;
 			}
 		}
 		catch (Exception $e)
 		{
-			echo JText::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
+			echo Text::sprintf('JLIB_DATABASE_ERROR_FUNCTION_FAILED', $e->getCode(), $e->getMessage()) . '<br>';
 
 			return false;
 		}
@@ -4073,7 +4081,7 @@ class JoomlaInstallerScript
 	 */
 	public function convertTablesToUtf8mb4($doDbFixMsg = false)
 	{
-		$db = JFactory::getDbo();
+		$db = Factory::getDbo();
 
 		if (!($db instanceof UTF8MB4SupportInterface))
 		{
@@ -4102,12 +4110,12 @@ class JoomlaInstallerScript
 		catch (Exception $e)
 		{
 			// Render the error message from the Exception object
-			JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 
 			if ($doDbFixMsg)
 			{
 				// Show an error message telling to check database problems
-				JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 			}
 
 			return;
@@ -4164,7 +4172,7 @@ class JoomlaInstallerScript
 						$converted = 0;
 
 						// Still render the error message from the Exception object
-						JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+						Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
 					}
 				}
 			}
@@ -4173,7 +4181,7 @@ class JoomlaInstallerScript
 		if ($doDbFixMsg && $converted == 0)
 		{
 			// Show an error message telling to check database problems
-			JFactory::getApplication()->enqueueMessage(JText::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_DATABASE_UPGRADE_FAILED'), 'error');
 		}
 
 		// Set flag in database if the update is done.

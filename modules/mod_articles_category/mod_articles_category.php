@@ -3,15 +3,15 @@
  * @package     Joomla.Site
  * @subpackage  mod_articles_category
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ModuleHelper;
 use Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper;
-use Joomla\CMS\Factory;
 
 $input = Factory::getApplication()->input;
 
@@ -52,9 +52,9 @@ switch ($mode)
 
 $cacheid = md5(serialize(array ($idbase, $module->module, $module->id)));
 
-$cacheparams               = new stdClass;
+$cacheparams               = new \stdClass;
 $cacheparams->cachemode    = 'id';
-$cacheparams->class        = 'Joomla\Module\ArticlesCategory\Site\Helper\ArticlesCategoryHelper';
+$cacheparams->class        = ArticlesCategoryHelper::class;
 $cacheparams->method       = 'getList';
 $cacheparams->methodparams = $params;
 $cacheparams->modeparams   = $cacheid;
@@ -66,7 +66,6 @@ if (!empty($list))
 	$grouped                    = false;
 	$article_grouping           = $params->get('article_grouping', 'none');
 	$article_grouping_direction = $params->get('article_grouping_direction', 'ksort');
-	$item_heading               = $params->get('item_heading');
 
 	if ($article_grouping !== 'none')
 	{
@@ -76,11 +75,20 @@ if (!empty($list))
 		{
 			case 'year' :
 			case 'month_year' :
-				$list = ArticlesCategoryHelper::groupByDate($list, $article_grouping_direction, $article_grouping, $params->get('month_year_format', 'F Y'));
+				$list = ArticlesCategoryHelper::groupByDate(
+					$list,
+					$article_grouping_direction,
+					$article_grouping,
+					$params->get('month_year_format', 'F Y'),
+					$params->get('date_grouping_field', 'created')
+				);
 				break;
 			case 'author' :
 			case 'category_title' :
 				$list = ArticlesCategoryHelper::groupBy($list, $article_grouping, $article_grouping_direction);
+				break;
+			case 'tags' :
+				$list = ModArticlesCategoryHelper::groupByTags($list, $article_grouping_direction);
 				break;
 			default:
 				break;

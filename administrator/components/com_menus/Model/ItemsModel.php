@@ -3,17 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Associations;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Menu Item List Model for Menus.
@@ -52,6 +56,8 @@ class ItemsModel extends ListModel
 				'client_id', 'a.client_id',
 				'home', 'a.home',
 				'parent_id', 'a.parent_id',
+				'publish_up', 'a.publish_up',
+				'publish_down', 'a.publish_down',
 				'a.ordering'
 			);
 
@@ -80,7 +86,7 @@ class ItemsModel extends ListModel
 	 */
 	protected function populateState($ordering = 'a.lft', $direction = 'asc')
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = Factory::getApplication();
 
 		$forcedLanguage = $app->input->get('forcedLanguage', '', 'cmd');
 
@@ -114,6 +120,12 @@ class ItemsModel extends ListModel
 		// Watch changes in client_id and menutype and keep sync whenever needed.
 		$currentClientId = $app->getUserState($this->context . '.client_id', 0);
 		$clientId        = $app->input->getInt('client_id', $currentClientId);
+
+		// Load mod_menu.ini file when client is administrator
+		if ($clientId == 1)
+		{
+			Factory::getLanguage()->load('mod_menu', JPATH_ADMINISTRATOR, null, false, true);
+		}
 
 		$currentMenuType = $app->getUserState($this->context . '.menutype', '');
 		$menuType        = $app->input->getString('menutype', $currentMenuType);
@@ -240,7 +252,7 @@ class ItemsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select all fields from the table.
 		$query->select(
@@ -250,12 +262,14 @@ class ItemsModel extends ListModel
 					array(
 						'a.id', 'a.menutype', 'a.title', 'a.alias', 'a.note', 'a.path', 'a.link', 'a.type', 'a.parent_id',
 						'a.level', 'a.published', 'a.component_id', 'a.checked_out', 'a.checked_out_time', 'a.browserNav',
-						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language', 'a.client_id'
+						'a.access', 'a.img', 'a.template_style_id', 'a.params', 'a.lft', 'a.rgt', 'a.home', 'a.language',
+						'a.client_id', 'a.publish_up', 'a.publish_down'
 					),
 					array(
 						null, null, null, null, null, null, null, null, null,
 						null, 'a.published', null, null, null, null,
-						null, null, null, null, null, null, null, null, null
+						null, null, null, null, null, null, null, null,
+						null, 'publish_up', 'publish_down'
 					)
 				)
 			)
@@ -295,7 +309,7 @@ class ItemsModel extends ListModel
 
 		// Join over the menu types.
 		$query->select($db->quoteName(array('mt.id', 'mt.title'), array('menutype_id', 'menutype_title')))
-			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->qn('mt.menutype') . ' = ' . $db->qn('a.menutype'));
+			->join('LEFT', $db->quoteName('#__menu_types', 'mt') . ' ON ' . $db->quoteName('mt.menutype') . ' = ' . $db->quoteName('a.menutype'));
 
 		// Join over the associations.
 		$assoc = Associations::isEnabled();
@@ -394,7 +408,28 @@ class ItemsModel extends ListModel
 
 		if (!empty($parentId))
 		{
-			$query->where('a.parent_id = ' . (int) $parentId);
+			$level = $this->getState('filter.level');
+
+			// Create a subquery for the sub-items list
+			$subQuery = $db->getQuery(true)
+				->select('sub.id')
+				->from('#__menu as sub')
+				->join('INNER', '#__menu as this ON sub.lft > this.lft AND sub.rgt < this.rgt')
+				->where('this.id = ' . (int) $parentId);
+
+			if ($level)
+			{
+				$subQuery->where('sub.level <= this.level + ' . (int) ($level - 1));
+			}
+
+			// Add the subquery to the main query
+			$query->where('(a.parent_id = ' . (int) $parentId . ' OR a.parent_id IN (' . (string) $subQuery . '))');
+		}
+
+		// Filter on the level.
+		elseif ($level = $this->getState('filter.level'))
+		{
+			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter the items over the menu id if set.
@@ -405,13 +440,13 @@ class ItemsModel extends ListModel
 		{
 			// Load all menu types we have manage access
 			$query2 = $this->getDbo()->getQuery(true)
-				->select($this->getDbo()->qn(array('id', 'menutype')))
+				->select($this->getDbo()->quoteName(array('id', 'menutype')))
 				->from('#__menu_types')
 				->where('client_id = ' . (int) $this->getState('filter.client_id'))
 				->order('title');
 
 			// Show protected items on explicit filter only
-			$query->where('a.menutype != ' . $db->q('main'));
+			$query->where('a.menutype != ' . $db->quote('main'));
 
 			$menuTypes = $this->getDbo()->setQuery($query2)->loadObjectList();
 
@@ -423,7 +458,7 @@ class ItemsModel extends ListModel
 				{
 					if ($user->authorise('core.manage', 'com_menus.menu.' . (int) $type->id))
 					{
-						$types[] = $query->q($type->menutype);
+						$types[] = $query->quote($type->menutype);
 					}
 				}
 
@@ -456,12 +491,6 @@ class ItemsModel extends ListModel
 			{
 				$query->where('a.access IN (' . implode(',', $groups) . ')');
 			}
-		}
-
-		// Filter on the level.
-		if ($level = $this->getState('filter.level'))
-		{
-			$query->where('a.level <= ' . (int) $level);
 		}
 
 		// Filter on the language.
@@ -509,10 +538,10 @@ class ItemsModel extends ListModel
 	/**
 	 * Get the client id for a menu
 	 *
-	 * @param   string  $menuType  The menutype identifier for the menu
-	 * @param   bool    $check     Flag whether to perform check against ACL as well as existence
+	 * @param   string   $menuType  The menutype identifier for the menu
+	 * @param   boolean  $check     Flag whether to perform check against ACL as well as existence
 	 *
-	 * @return  int
+	 * @return  integer
 	 *
 	 * @since   3.7.0
 	 */
@@ -521,8 +550,8 @@ class ItemsModel extends ListModel
 		$query = $this->_db->getQuery(true);
 
 		$query->select('a.*')
-			->from($this->_db->qn('#__menu_types', 'a'))
-			->where('menutype = ' . $this->_db->q($menuType));
+			->from($this->_db->quoteName('#__menu_types', 'a'))
+			->where('menutype = ' . $this->_db->quote($menuType));
 
 		$cMenu = $this->_db->setQuery($query)->loadObject();
 
@@ -531,14 +560,14 @@ class ItemsModel extends ListModel
 			// Check if menu type exists.
 			if (!$cMenu)
 			{
-				\JLog::add(\JText::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), \JLog::ERROR, 'jerror');
+				Log::add(Text::_('COM_MENUS_ERROR_MENUTYPE_NOT_FOUND'), Log::ERROR, 'jerror');
 
 				return false;
 			}
 			// Check if menu type is valid against ACL.
-			elseif (!\JFactory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
+			elseif (!Factory::getUser()->authorise('core.manage', 'com_menus.menu.' . $cMenu->id))
 			{
-				\JLog::add(\JText::_('JERROR_ALERTNOAUTHOR'), \JLog::ERROR, 'jerror');
+				Log::add(Text::_('JERROR_ALERTNOAUTHOR'), Log::ERROR, 'jerror');
 
 				return false;
 			}
@@ -552,7 +581,7 @@ class ItemsModel extends ListModel
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{
@@ -560,8 +589,9 @@ class ItemsModel extends ListModel
 
 		if (!isset($this->cache[$store]))
 		{
-			$items = parent::getItems();
-			$lang  = \JFactory::getLanguage();
+			$items  = parent::getItems();
+			$lang   = Factory::getLanguage();
+			$client = $this->state->get('filter.client_id');
 
 			if ($items)
 			{
@@ -574,7 +604,10 @@ class ItemsModel extends ListModel
 					}
 
 					// Translate component name
-					$item->title = \JText::_($item->title);
+					if ($client === 1)
+					{
+						$item->title = Text::_($item->title);
+					}
 				}
 			}
 

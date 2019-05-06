@@ -3,9 +3,10 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\Model;
 
 defined('_JEXEC') or die;
@@ -199,7 +200,7 @@ class ClientsModel extends ListModel
 		// Load the list items.
 		$items = parent::getItems();
 
-		// If emtpy or an error, just return.
+		// If empty or an error, just return.
 		if (empty($items))
 		{
 			return array();

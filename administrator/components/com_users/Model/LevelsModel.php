@@ -3,17 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\CMS\Table\Table;
+use Joomla\Database\DatabaseQuery;
 
 /**
  * Methods supporting a list of user access level records.
@@ -89,7 +93,7 @@ class LevelsModel extends ListModel
 	/**
 	 * Build an SQL query to load the list data.
 	 *
-	 * @return  \JDatabaseQuery
+	 * @return  DatabaseQuery
 	 */
 	protected function getListQuery()
 	{
@@ -145,7 +149,7 @@ class LevelsModel extends ListModel
 	{
 		// Sanitize the id and adjustment.
 		$pk = (!empty($pk)) ? $pk : (int) $this->getState('level.id');
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Get an instance of the record's table.
 		$table = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
@@ -163,7 +167,7 @@ class LevelsModel extends ListModel
 
 		if (!$allow)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'));
 
 			return false;
 		}
@@ -181,17 +185,21 @@ class LevelsModel extends ListModel
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  Order position
 	 *
-	 * @return  boolean|\JException  Boolean true on success, boolean false or \JException instance on error
+	 * @return  boolean  Boolean true on success, boolean false
+	 *
+	 * @throws  \Exception
 	 */
 	public function saveorder($pks, $order)
 	{
 		$table = Table::getInstance('viewlevel', 'Joomla\\CMS\Table\\');
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$conditions = array();
 
 		if (empty($pks))
 		{
-			return \JFactory::getApplication()->enqueueMessage(\JText::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_('COM_USERS_ERROR_LEVELS_NOLEVELS_SELECTED'), 'error');
+
+			return false;
 		}
 
 		// Update ordering values
@@ -206,7 +214,7 @@ class LevelsModel extends ListModel
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
+				Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), 'error');
 			}
 			elseif ($table->ordering != $order[$i])
 			{

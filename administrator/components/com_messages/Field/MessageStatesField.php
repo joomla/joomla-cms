@@ -3,24 +3,23 @@
  * @package     Joomla.Administrator
  * @subpackage  com_messages
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Messages\Administrator\Field;
 
 defined('JPATH_BASE') or die;
 
-use Joomla\CMS\Form\FormHelper;
+use Joomla\CMS\Form\Field\ListField;
 use Joomla\Component\Messages\Administrator\Helper\MessagesHelper;
-
-FormHelper::loadFieldClass('list');
 
 /**
  * Message States field.
  *
  * @since  3.6.0
  */
-class MessageStatesField extends \JFormFieldList
+class MessageStatesField extends ListField
 {
 	/**
 	 * The form field type.

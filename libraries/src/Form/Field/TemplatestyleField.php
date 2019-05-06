@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,16 +12,15 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-
-FormHelper::loadFieldClass('groupedlist');
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
 /**
  * Supports a select grouped list of template styles
  *
  * @since  1.6
  */
-class TemplatestyleField extends \JFormFieldGroupedList
+class TemplatestyleField extends GroupedlistField
 {
 	/**
 	 * The form field type.
@@ -50,7 +49,7 @@ class TemplatestyleField extends \JFormFieldGroupedList
 	/**
 	 * Method to get certain otherwise inaccessible properties from the form field object.
 	 *
-	 * @param   string  $name  The property name for which to the the value.
+	 * @param   string  $name  The property name for which to get the value.
 	 *
 	 * @return  mixed  The property value or null.
 	 *
@@ -71,7 +70,7 @@ class TemplatestyleField extends \JFormFieldGroupedList
 	/**
 	 * Method to set certain otherwise inaccessible properties of the form field object.
 	 *
-	 * @param   string  $name   The property name for which to the the value.
+	 * @param   string  $name   The property name for which to set the value.
 	 * @param   mixed   $value  The value of the property.
 	 *
 	 * @return  void
@@ -172,7 +171,7 @@ class TemplatestyleField extends \JFormFieldGroupedList
 				$template = $style->template;
 				$lang->load('tpl_' . $template . '.sys', $client->path, null, false, true)
 					|| $lang->load('tpl_' . $template . '.sys', $client->path . '/templates/' . $template, null, false, true);
-				$name = \JText::_($style->name);
+				$name = Text::_($style->name);
 
 				// Initialize the group if necessary.
 				if (!isset($groups[$name]))
@@ -180,7 +179,7 @@ class TemplatestyleField extends \JFormFieldGroupedList
 					$groups[$name] = array();
 				}
 
-				$groups[$name][] = \JHtml::_('select.option', $style->id, $style->title);
+				$groups[$name][] = HTMLHelper::_('select.option', $style->id, $style->title);
 			}
 		}
 

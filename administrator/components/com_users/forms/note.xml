@@ -16,7 +16,6 @@
 			type="user"
 			label="COM_USERS_FIELD_USER_ID_LABEL"
 			size="50"
-			class="input-medium"
 			required="true"
 		/>
 

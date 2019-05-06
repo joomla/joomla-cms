@@ -3,7 +3,7 @@
  * @package     Joomla.Site
  * @subpackage  mod_related_items
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,11 @@ namespace Joomla\Module\RelatedItems\Site\Helper;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\Language\Multilanguage;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Router\Route;
+use Joomla\Component\Content\Administrator\Extension\ContentComponent;
 
 \JLoader::register('ContentHelperRoute', JPATH_SITE . '/components/com_content/helpers/route.php');
 
@@ -38,21 +41,13 @@ abstract class RelatedItemsHelper
 		$input   = $app->input;
 		$groups  = implode(',', Factory::getUser()->getAuthorisedViewLevels());
 		$maximum = (int) $params->get('maximum', 5);
+		$factory = $app->bootComponent('com_content')->getMVCFactory();
 
 		// Get an instance of the generic articles model
-		BaseDatabaseModel::addIncludePath(JPATH_SITE . '/components/com_content/Model');
-		$articles = BaseDatabaseModel::getInstance('ArticlesModel', 'Joomla\\Component\\Content\\Site\\Model\\', array('ignore_request' => true));
-
-		if ($articles === false)
-		{
-			$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
-
-			return array();
-		}
+		$articles = $factory->createModel('Articles', 'Site', ['ignore_request' => true]);
 
 		// Set application parameters in model
-		$appParams = $app->getParams();
-		$articles->setState('params', $appParams);
+		$articles->setState('params', $app->getParams());
 
 		$option = $input->get('option');
 		$view   = $input->get('view');
@@ -62,7 +57,7 @@ abstract class RelatedItemsHelper
 		$id   = $temp[0];
 
 		$nullDate = $db->getNullDate();
-		$now      = \JFactory::getDate()->toSql();
+		$now      = Factory::getDate()->toSql();
 		$related  = [];
 		$query    = $db->getQuery(true);
 
@@ -80,7 +75,7 @@ abstract class RelatedItemsHelper
 			}
 			catch (\RuntimeException $e)
 			{
-				$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+				$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 				return array();
 			}
@@ -115,7 +110,7 @@ abstract class RelatedItemsHelper
 				$case_when = ' CASE WHEN ';
 				$case_when .= $query->charLength('a.alias', '!=', '0');
 				$case_when .= ' THEN ';
-				$a_id = $query->castAsChar('a.id');
+				$a_id      = $query->castAsChar('a.id');
 				$case_when .= $query->concatenate(array($a_id, 'a.alias'), ':');
 				$case_when .= ' ELSE ';
 				$case_when .= $a_id . ' END as slug';
@@ -124,8 +119,10 @@ abstract class RelatedItemsHelper
 					->from('#__content AS a')
 					->join('LEFT', '#__content_frontpage AS f ON f.content_id = a.id')
 					->join('LEFT', '#__categories AS cc ON cc.id = a.catid')
+					->join('LEFT', '#__workflow_associations AS wa ON wa.item_id = a.id')
+					->join('LEFT', '#__workflow_stages AS ws ON ws.id = wa.stage_id')
 					->where('a.id != ' . (int) $id)
-					->where('a.state = 1')
+					->where('ws.condition = ' . ContentComponent::CONDITION_PUBLISHED)
 					->where('a.access IN (' . $groups . ')');
 
 				$wheres = array();
@@ -153,7 +150,7 @@ abstract class RelatedItemsHelper
 				}
 				catch (\RuntimeException $e)
 				{
-					$app->enqueueMessage(\JText::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
+					$app->enqueueMessage(Text::_('JERROR_AN_ERROR_HAS_OCCURRED'), 'error');
 
 					return array();
 				}
@@ -168,11 +165,10 @@ abstract class RelatedItemsHelper
 					}
 
 					$articles->setState('filter.article_id', $articles_ids);
-					$articles->setState('filter.published', 1);
 					$related = $articles->getItems();
 				}
 
-				unset ($temp);
+				unset($temp);
 			}
 		}
 
@@ -182,7 +178,7 @@ abstract class RelatedItemsHelper
 			foreach ($related as &$item)
 			{
 				$item->slug  = $item->id . ':' . $item->alias;
-				$item->route = \JRoute::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
+				$item->route = Route::_(\ContentHelperRoute::getArticleRoute($item->slug, $item->catid, $item->language));
 			}
 		}
 

@@ -1,130 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <form>
 	<fieldset addfieldprefix="Joomla\Component\Content\Administrator\Field">
-		<field 
-			name="id" 
-			type="number" 
+		<field
+			name="id"
+			type="number"
 			label="JGLOBAL_FIELD_ID_LABEL"
-			class="readonly" 
-			size="10" 
+			class="readonly"
 			default="0"
-			readonly="true" 
+			readonly="true"
 		/>
 
-		<field 
-			name="asset_id" 
-			type="hidden" 
-			filter="unset" 
+		<field
+			name="asset_id"
+			type="hidden"
+			filter="unset"
 		/>
 
-		<field 
-			name="title" 
-			type="text" 
+		<field
+			name="title"
+			type="text"
 			label="JGLOBAL_TITLE"
-			class="input-xxlarge"
 			size="40"
 			required="true" />
 
-		<field 
-			name="alias" 
-			type="text" 
+		<field
+			name="alias"
+			type="text"
 			label="JFIELD_ALIAS_LABEL"
 			hint="JFIELD_ALIAS_PLACEHOLDER"
-			size="40" 
+			size="40"
 		/>
 
-		<field 
-			name="version_note" 
-			type="text" 
+		<field
+			name="note"
+			type="text"
+			label="COM_CONTENT_FIELD_NOTE_LABEL"
+			class="span12"
+			size="40"
+			maxlength="255"
+		/>
+
+		<field
+			name="version_note"
+			type="text"
 			label="JGLOBAL_FIELD_VERSION_NOTE_LABEL"
 			maxlength="255"
 			size="45"
 		/>
 
-		<field 
-			name="articletext" 
+		<field
+			name="articletext"
 			type="editor"
-			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL" 
+			label="COM_CONTENT_FIELD_ARTICLETEXT_LABEL"
 			filter="JComponentHelper::filterText"
-			buttons="true" 
+			buttons="true"
 		/>
 
-		<field 
-			name="state" 
-			type="list" 
-			label="JSTATUS"
-			class="custom-select-color-state"
-			filter="intval" 
-			size="1" 
-			default="1"
-			>
-			<option value="1">JPUBLISHED</option>
-			<option value="0">JUNPUBLISHED</option>
-			<option value="2">JARCHIVED</option>
-			<option value="-2">JTRASHED</option>
-		</field>
-
-		<field 
+		<field
 			name="catid"
 			type="categoryedit"
-			class="advancedSelect"
 			label="JCATEGORY"
 			addfieldprefix="Joomla\Component\Categories\Administrator\Field"
 			required="true"
 			default=""
 		/>
 
-		<field 
+		<field
+			name="transition"
+			type="transition"
+			extension="com_content"
+			label="COM_CONTENT_TRANSITION"
+		>
+		</field>
+
+		<field
 			name="tags"
 			type="tag"
 			label="JTAG"
-			class="advancedSelect col-md-12"
 			multiple="true"
 		/>
 
 		<field
 			name="buttonspacer"
-			type="spacer" 
-			description="JGLOBAL_ACTION_PERMISSIONS_DESCRIPTION"
+			type="spacer"
 		/>
 
-		<field 
-			name="created" 
-			type="calendar" 
+		<field
+			name="created"
+			type="calendar"
 			label="COM_CONTENT_FIELD_CREATED_LABEL"
 			translateformat="true"
 			showtime="true"
 			size="22"
-			filter="user_utc" 
-		/>
-
-		<field 
-			name="created_by" 
-			type="user"
-			label="COM_CONTENT_FIELD_CREATED_BY_LABEL" 
-		/>
-
-		<field 
-			name="created_by_alias" 
-			type="text"
-			label="COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL" 
-			size="20" 
+			filter="user_utc"
 		/>
 
 		<field
-			name="modified" 
-			type="calendar" 
-			label="JGLOBAL_FIELD_MODIFIED_LABEL" 
+			name="created_by"
+			type="user"
+			label="COM_CONTENT_FIELD_CREATED_BY_LABEL"
+		/>
+
+		<field
+			name="created_by_alias"
+			type="text"
+			label="COM_CONTENT_FIELD_CREATED_BY_ALIAS_LABEL"
+			size="20"
+		/>
+
+		<field
+			name="modified"
+			type="calendar"
+			label="JGLOBAL_FIELD_MODIFIED_LABEL"
 			class="form-control"
 			translateformat="true"
 			showtime="true"
 			size="22"
 			readonly="true"
-			filter="user_utc" 
+			filter="user_utc"
 		/>
 
-		<field 
-			name="modified_by" 
+		<field
+			name="modified_by"
 			type="user"
 			label="JGLOBAL_FIELD_MODIFIED_BY_LABEL"
 			class="readonly"
@@ -132,99 +129,98 @@
 			filter="unset"
 		/>
 
-		<field 
-			name="checked_out" 
-			type="hidden" 
-			filter="unset" 
+		<field
+			name="checked_out"
+			type="hidden"
+			filter="unset"
 		/>
 
-		<field 
-			name="checked_out_time" 
-			type="hidden" 
-			filter="unset" 
+		<field
+			name="checked_out_time"
+			type="hidden"
+			filter="unset"
 		/>
 
-		<field 
+		<field
 			name="publish_up"
 			type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_UP_LABEL"
 			translateformat="true"
 			showtime="true"
 			size="22"
-			filter="user_utc" 
+			filter="user_utc"
 		/>
 
-		<field 
+		<field
 			name="publish_down"
 			type="calendar"
 			label="COM_CONTENT_FIELD_PUBLISH_DOWN_LABEL"
 			translateformat="true"
 			showtime="true"
 			size="22"
-			filter="user_utc" 
+			filter="user_utc"
 		/>
 
 		<field
-			name="version" 
-			type="text" 
-			label="COM_CONTENT_FIELD_VERSION_LABEL" 
-			size="6" 
+			name="version"
+			type="text"
+			label="COM_CONTENT_FIELD_VERSION_LABEL"
+			size="6"
 			class="readonly"
-			readonly="true" 
-			filter="unset" 
+			readonly="true"
+			filter="unset"
 		/>
 
-		<field 
-			name="ordering" 
-			type="text" 
+		<field
+			name="ordering"
+			type="text"
 			label="JFIELD_ORDERING_LABEL"
 			size="6"
-			default="0" 
+			default="0"
 		/>
 
-		<field 
-			name="metakey" 
+		<field
+			name="metakey"
 			type="textarea"
-			label="JFIELD_META_KEYWORDS_LABEL" 
-			rows="3" 
+			label="JFIELD_META_KEYWORDS_LABEL"
+			rows="3"
 			cols="30"
 		/>
 
-		<field 
-			name="metadesc" 
+		<field
+			name="metadesc"
 			type="textarea"
-			label="JFIELD_META_DESCRIPTION_LABEL" 
-			rows="3" 
-			cols="30" 
-		/>
-
-		<field 
-			name="access" 
-			type="accesslevel" 
-			label="JFIELD_ACCESS_LABEL"
-			size="1" 
-		/>
-
-		<field 
-			name="hits" 
-			type="number" 
-			label="JGLOBAL_HITS"
-			class="readonly" 
-			size="6"
-			readonly="true" 
-			filter="unset" 
+			label="JFIELD_META_DESCRIPTION_LABEL"
+			rows="3"
+			cols="30"
 		/>
 
 		<field
-			name="language" 
-			type="contentlanguage" 
+			name="access"
+			type="accesslevel"
+			label="JFIELD_ACCESS_LABEL"
+			size="1"
+		/>
+
+		<field
+			name="hits"
+			type="number"
+			label="JGLOBAL_HITS"
+			class="readonly"
+			readonly="true"
+			filter="unset"
+		/>
+
+		<field
+			name="language"
+			type="contentlanguage"
 			label="JFIELD_LANGUAGE_LABEL"
 			>
 			<option value="*">JALL</option>
 		</field>
 
-		<field 
-			name="featured" 
+		<field
+			name="featured"
 			type="radio"
 			label="JFEATURED"
 			class="switcher"
@@ -234,14 +230,14 @@
 			<option value="1">JYES</option>
 		</field>
 
-		<field 
-			name="rules" 
-			type="rules" 
+		<field
+			name="rules"
+			type="rules"
 			label="JFIELD_RULES_LABEL"
-			translate_label="false" 
+			translate_label="false"
 			filter="rules"
-			component="com_content" 
-			section="article" 
+			component="com_content"
+			section="article"
 			validate="rules"
 		/>
 
@@ -250,12 +246,13 @@
 	<fields name="attribs" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 		<fieldset name="basic" label="COM_CONTENT_ATTRIBS_FIELDSET_LABEL">
 
-			<field 
-				name="article_layout" 
+			<field
+				name="article_layout"
 				type="componentlayout"
 				label="JFIELD_ALT_LAYOUT_LABEL"
+				class="custom-select"
 				useglobal="true"
-				extension="com_content" 
+				extension="com_content"
 				view="article"
 			/>
 
@@ -279,7 +276,7 @@
 				<option value="1">JYES</option>
 			</field>
 
-			<field 
+			<field
 				name="show_tags"
 				type="list"
 				label="COM_CONTENT_FIELD_SHOW_TAGS_LABEL"
@@ -290,7 +287,7 @@
 				<option value="0">JHIDE</option>
 			</field>
 
-			<field 
+			<field
 				name="show_intro"
 				type="list"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
@@ -512,19 +509,19 @@
 				hr="true"
 			/>
 
-			<field 
-				name="alternative_readmore" 
+			<field
+				name="alternative_readmore"
 				type="text"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
-				size="25" 
+				size="25"
 			/>
 
-			<field 
-				name="article_page_title" 
+			<field
+				name="article_page_title"
 				type="text"
 				label="COM_CONTENT_FIELD_BROWSER_PAGE_TITLE_LABEL"
-				size="25" 
+				size="25"
 			/>
 		</fieldset>
 
@@ -587,7 +584,7 @@
 				label="JGLOBAL_LINKED_TITLES_LABEL"
 			/>
 
-			<field 
+			<field
 				name="show_intro"
 				type="hidden"
 				label="JGLOBAL_SHOW_INTRO_LABEL"
@@ -693,16 +690,16 @@
 				description="JGLOBAL_SHOW_UNAUTH_LINKS_DESC"
 			/>
 
-			<field 
-				name="alternative_readmore" 
+			<field
+				name="alternative_readmore"
 				type="hidden"
 				label="JFIELD_READMORE_LABEL"
 				description="JFIELD_READMORE_DESC"
-				size="25" 
+				size="25"
 			/>
 
-			<field 
-				name="article_layout" 
+			<field
+				name="article_layout"
 				type="hidden"
 				label="JFIELD_ALT_LAYOUT_LABEL"
 				useglobal="true"
@@ -711,12 +708,12 @@
 		</fieldset>
 	</fields>
 
-	<field 
-		name="xreference" 
+	<field
+		name="xreference"
 		type="text"
 		label="JFIELD_KEY_REFERENCE_LABEL"
 		description="JFIELD_KEY_REFERENCE_DESC"
-		size="20" 
+		size="20"
 	/>
 
 	<fields name="images" label="COM_CONTENT_FIELD_IMAGE_OPTIONS">
@@ -725,7 +722,7 @@
 			type="media"
 			label="COM_CONTENT_FIELD_INTRO_LABEL"
 		/>
-		
+
 		<field
 			name="float_intro"
 			type="list"
@@ -736,15 +733,15 @@
 			<option value="left">COM_CONTENT_LEFT</option>
 			<option value="none">COM_CONTENT_NONE</option>
 		</field>
-		
-		<field 
+
+		<field
 			name="image_intro_alt"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 			size="20"
 		/>
 
-		<field 
+		<field
 			name="image_intro_caption"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
@@ -774,14 +771,14 @@
 			<option value="none">COM_CONTENT_NONE</option>
 		</field>
 
-		<field 
+		<field
 			name="image_fulltext_alt"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_ALT_LABEL"
 			size="20"
 		/>
-			
-		<field 
+
+		<field
 			name="image_fulltext_caption"
 			type="text"
 			label="COM_CONTENT_FIELD_IMAGE_CAPTION_LABEL"
@@ -798,7 +795,7 @@
 			relative="true"
 		/>
 
-		<field 
+		<field
 			name="urlatext"
 			type="text"
 			label="COM_CONTENT_FIELD_URLA_LINK_TEXT_LABEL"
@@ -834,7 +831,7 @@
 			relative="true"
 		/>
 
-		<field 
+		<field
 			name="urlbtext"
 			type="text"
 			label="COM_CONTENT_FIELD_URLB_LINK_TEXT_LABEL"
@@ -897,7 +894,7 @@
 		<fieldset name="jmetadata"
 			label="JGLOBAL_FIELDSET_METADATA_OPTIONS">
 
-			<field 
+			<field
 				name="robots"
 				type="list"
 				label="JFIELD_METADATA_ROBOTS_LABEL"
@@ -909,42 +906,42 @@
 				<option value="noindex, nofollow">JGLOBAL_NOINDEX_NOFOLLOW</option>
 			</field>
 
-			<field 
-				name="author" 
+			<field
+				name="author"
 				type="text"
 				label="JAUTHOR"
-				size="20" 
+				size="20"
 			/>
 
-			<field 
-				name="rights" 
-				type="textarea" 
+			<field
+				name="rights"
+				type="textarea"
 				label="JFIELD_META_RIGHTS_LABEL"
 				filter="string"
-				cols="30" 
-				rows="2" 
+				cols="30"
+				rows="2"
 			/>
 
-			<field 
-				name="xreference" 
+			<field
+				name="xreference"
 				type="text"
 				label="COM_CONTENT_FIELD_XREFERENCE_LABEL"
 				description="COM_CONTENT_FIELD_XREFERENCE_DESC"
-				size="20" 
+				size="20"
 			/>
 
 		</fieldset>
 	</fields>
 	<!-- These fields are used to get labels for the Content History Preview and Compare Views -->
 	<fields>
-		<field 
-			name="introtext" 
-			label="COM_CONTENT_FIELD_INTROTEXT" 
+		<field
+			name="introtext"
+			label="COM_CONTENT_FIELD_INTROTEXT"
 		/>
 
-		<field 
-			name="fulltext" 
-			label="COM_CONTENT_FIELD_FULLTEXT" 
+		<field
+			name="fulltext"
+			label="COM_CONTENT_FIELD_FULLTEXT"
 		/>
 	</fields>
 

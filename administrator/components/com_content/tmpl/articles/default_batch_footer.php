@@ -3,25 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_content
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 defined('_JEXEC') or die;
 
-JFactory::getDocument()->addScriptDeclaration("
-	jQuery('#exampleModal').on('hide.bs.modal', function (e) {
-		document.getElementById('batch-category-id').value = '';
-		document.getElementById('batch-access').value = '';
-		document.getElementById('batch-language-id').value = '';
-		document.getElementById('batch-user-id').value = '';
-		document.getElementById('batch-tag-id').value = '';
-	});
-");
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('script', 'com_content/admin-articles-default-batch-footer.js', ['version' => 'auto', 'relative' => true]);
 ?>
-<a class="btn btn-secondary" type="button" data-dismiss="modal">
-	<?php echo JText::_('JCANCEL'); ?>
-</a>
-<button class="btn btn-success" type="submit" onclick="Joomla.submitbutton('article.batch');">
-	<?php echo JText::_('JGLOBAL_BATCH_PROCESS'); ?>
+<button type="button" class="btn btn-secondary" data-dismiss="modal">
+	<?php echo Text::_('JCANCEL'); ?>
+</button>
+<button type="submit" id='batch-submit-button-id' class="btn btn-success" data-submit-task='article.batch'>
+	<?php echo Text::_('JGLOBAL_BATCH_PROCESS'); ?>
 </button>

@@ -3,13 +3,15 @@
  * @package     Joomla.Administrator
  * @subpackage  com_templates
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 namespace Joomla\Component\Templates\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\FormController;
 
 /**
@@ -39,24 +41,20 @@ class StyleController extends FormController
 	 */
 	public function save($key = null, $urlVar = null)
 	{
-		if (!\JSession::checkToken())
+		$this->checkToken();
+
+		$document = Factory::getDocument();
+
+		if ($document->getType() === 'json')
 		{
-			\JFactory::getApplication()->redirect('index.php', \JText::_('JINVALID_TOKEN'));
-		}
-
-		$document = \JFactory::getDocument();
-
-		if ($document->getType() == 'json')
-		{
-
-			$app   = \JFactory::getApplication();
-			$model = $this->getModel();
+			$app   = Factory::getApplication();
+			$model = $this->getModel('Style', 'Administrator');
 			$table = $model->getTable();
 			$data  = $this->input->post->get('params', array(), 'array');
-			$checkin = property_exists($table, 'checked_out');
+			$checkin = $table->hasField('checked_out');
 			$context = $this->option . '.edit.' . $this->context;
 
-			$item = $model->getItem($app->getTemplate('template')->id);
+			$item = $model->getItem($app->getTemplate(true)->id);
 
 			// Setting received params
 			$item->set('params', $data);
@@ -69,13 +67,12 @@ class StyleController extends FormController
 			// Access check.
 			if (!$this->allowSave($data, $key))
 			{
-
-				$app->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+				$app->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 
 				return false;
 			}
 
-			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/models/forms');
+			\JForm::addFormPath(JPATH_ADMINISTRATOR . '/components/com_templates/forms');
 
 			// Validate the posted data.
 			// Sometimes the form needs some posted data, such as for plugins and modules.
@@ -126,7 +123,7 @@ class StyleController extends FormController
 				// Save the data in the session.
 				$app->setUserState($context . '.data', $validData);
 
-				$app->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
+				$app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_SAVE_FAILED', $model->getError()), 'error');
 
 				return false;
 			}
@@ -138,7 +135,7 @@ class StyleController extends FormController
 				$app->setUserState($context . '.data', $validData);
 
 				// Check-in failed, so go back to the record and display a notice.
-				$app->enqueueMessage(\JText::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
+				$app->enqueueMessage(Text::sprintf('JLIB_APPLICATION_ERROR_CHECKIN_FAILED', $model->getError()), 'error');
 
 				return false;
 			}
@@ -154,11 +151,8 @@ class StyleController extends FormController
 			$this->postSaveHook($model, $validData);
 
 			return true;
+		}
 
-		}
-		else
-		{
-			parent::save($key, $urlVar);
-		}
+		return parent::save($key, $urlVar);
 	}
 }

@@ -3,16 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_tags
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Tags\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Categories\CategoryServiceInterface;
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Tags Component Tags Model
@@ -126,13 +129,13 @@ class TagsModel extends ListModel
 		// Create a new query object.
 		$db = $this->getDbo();
 		$query = $db->getQuery(true);
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		// Select the required fields from the table.
 		$query->select(
 			$this->getState(
 				'list.select',
-				'a.id, a.title, a.alias, a.note, a.published, a.access' .
+				'a.id, a.title, a.alias, a.note, a.published, a.access, a.description' .
 					', a.checked_out, a.checked_out_time, a.created_user_id' .
 					', a.path, a.parent_id, a.level, a.lft, a.rgt' .
 					', a.language'
@@ -226,102 +229,11 @@ class TagsModel extends ListModel
 	}
 
 	/**
-	 * Method override to check-in a record or an array of record
-	 *
-	 * @param   mixed  $pks  The ID of the primary key or an array of IDs
-	 *
-	 * @return  mixed  Boolean false if there is an error, otherwise the count of records checked in.
-	 *
-	 * @since   12.2
-	 */
-	public function checkin($pks = array())
-	{
-		$pks = (array) $pks;
-
-		/* @var \Joomla\Component\Tags\Administrator\Table\Tag $table */
-		$table = $this->getTable();
-		$count = 0;
-
-		if (empty($pks))
-		{
-			$pks = array((int) $this->getState($this->getName() . '.id'));
-		}
-
-		// Check in all items.
-		foreach ($pks as $pk)
-		{
-			if ($table->load($pk))
-			{
-				if ($table->checked_out > 0)
-				{
-					// Only attempt to check the row in if it exists.
-					if ($pk)
-					{
-						$user = \JFactory::getUser();
-
-						// Get an instance of the row to checkin.
-						$table = $this->getTable();
-
-						if (!$table->load($pk))
-						{
-							$this->setError($table->getError());
-
-							return false;
-						}
-
-						// Check if this is the user having previously checked out the row.
-						if ($table->checked_out > 0 && $table->checked_out != $user->get('id') && !$user->authorise('core.admin', 'com_checkin'))
-						{
-							$this->setError(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'));
-
-							return false;
-						}
-
-						// Attempt to check the row in.
-						if (!$table->checkin($pk))
-						{
-							$this->setError($table->getError());
-
-							return false;
-						}
-					}
-
-					$count++;
-				}
-			}
-			else
-			{
-				$this->setError($table->getError());
-
-				return false;
-			}
-		}
-
-		return $count;
-	}
-
-	/**
-	 * Method to get a table object, load it if necessary.
-	 *
-	 * @param   string  $type    The table name. Optional.
-	 * @param   string  $prefix  The class prefix. Optional.
-	 * @param   array   $config  Configuration array for model. Optional.
-	 *
-	 * @return  \Joomla\CMS\Table\Table  A Table object
-	 *
-	 * @since   3.1
-	 */
-	public function getTable($type = 'Tag', $prefix = 'Administrator', $config = array())
-	{
-		return parent::getTable($type, $prefix, $config);
-	}
-
-	/**
 	 * Method to get an array of data items.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
 	 *
-	 * @since   12.2
+	 * @since   3.0.1
 	 */
 	public function getItems()
 	{
@@ -350,29 +262,17 @@ class TagsModel extends ListModel
 	public function countItems(&$items, $extension)
 	{
 		$parts = explode('.', $extension);
-		$component = $parts[0];
-		$section = null;
 
 		if (count($parts) < 2)
 		{
 			return;
 		}
 
-		// Try to find the component helper.
-		$eName = str_replace('com_', '', $component);
-		$file = \JPath::clean(JPATH_ADMINISTRATOR . '/components/' . $component . '/helpers/' . $eName . '.php');
+		$component = Factory::getApplication()->bootComponent($parts[0]);
 
-		if (file_exists($file))
+		if ($component instanceof CategoryServiceInterface)
 		{
-			$prefix = ucfirst(str_replace('com_', '', $component));
-			$cName = $prefix . 'Helper';
-
-			\JLoader::register($cName, $file);
-
-			if (class_exists($cName) && is_callable(array($cName, 'countTagItems')))
-			{
-				$cName::countTagItems($items, $extension);
-			}
+			$component->countTagItems($items, $extension);
 		}
 	}
 }

@@ -3,26 +3,27 @@
  * @package     Joomla.Administrator
  * @subpackage  com_finder
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Finder\Administrator\Field;
 
 defined('JPATH_BASE') or die();
 
 use Joomla\CMS\Factory;
-use Joomla\CMS\Form\FormHelper;
-use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Form\Field\ListField;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\Component\Finder\Administrator\Helper\FinderHelperLanguage;
-
-FormHelper::loadFieldClass('list');
+use Joomla\Utilities\ArrayHelper;
 
 /**
  * Content Types Filter field for the Finder package.
  *
  * @since  3.6.0
  */
-class ContenttypesField extends \JFormFieldList
+class ContenttypesField extends ListField
 {
 	/**
 	 * The form field type.
@@ -59,14 +60,14 @@ class ContenttypesField extends \JFormFieldList
 		}
 		catch (\RuntimeException $e)
 		{
-			\JFactory::getApplication()->enqueueMessage($db->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($db->getMessage(), 'error');
 		}
 
 		// Translate.
 		foreach ($contentTypes as $contentType)
 		{
 			$key = FinderHelperLanguage::branchSingular($contentType->text);
-			$contentType->translatedText = $lang->hasKey($key) ? \JText::_($key) : $contentType->text;
+			$contentType->translatedText = $lang->hasKey($key) ? Text::_($key) : $contentType->text;
 		}
 
 		// Order by title.
@@ -75,7 +76,7 @@ class ContenttypesField extends \JFormFieldList
 		// Convert the values to options.
 		foreach ($contentTypes as $contentType)
 		{
-			$options[] = \JHtml::_('select.option', $contentType->value, $contentType->translatedText);
+			$options[] = HTMLHelper::_('select.option', $contentType->value, $contentType->translatedText);
 		}
 
 		// Merge any additional options in the XML definition.

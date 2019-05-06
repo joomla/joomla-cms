@@ -3,14 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_banners
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Banners\Administrator\View\Tracks;
 
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
-
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Factory;
+use Joomla\CMS\MVC\View\GenericDataException;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * View class for a list of tracks.
@@ -36,15 +39,15 @@ class RawView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$document = \JFactory::getDocument();
+		$document = Factory::getDocument();
 		$document->setMimeEncoding($mimetype);
-		\JFactory::getApplication()
+		Factory::getApplication()
 			->setHeader(
 				'Content-disposition',
-				'attachment; filename="' . $basename . '.' . $filetype . '"; creation-date="' . \JFactory::getDate()->toRFC822() . '"',
+				'attachment; filename="' . $basename . '.' . $filetype . '"; creation-date="' . Factory::getDate()->toRFC822() . '"',
 				true
 			);
 		echo $content;

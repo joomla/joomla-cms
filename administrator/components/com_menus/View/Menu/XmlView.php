@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,8 +12,11 @@ namespace Joomla\Component\Menus\Administrator\View\Menu;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\Menu\MenuHelper;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Router\Route;
 use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 
 /**
@@ -48,24 +51,24 @@ class XmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app      = \JFactory::getApplication();
+		$app      = Factory::getApplication();
 		$menutype = $app->input->getCmd('menutype');
 
 		if ($menutype)
 		{
-			$items = MenusHelper::getMenuItems($menutype, true);
+			$root = MenusHelper::getMenuItems($menutype, true);
 		}
 
-		if (empty($items))
+		if ($root->hasChildren())
 		{
-			\JLog::add(\JText::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), \JLog::WARNING, 'jerror');
+			Log::add(Text::_('COM_MENUS_SELECT_MENU_FIRST_EXPORT'), Log::WARNING, 'jerror');
 
-			$app->redirect(\JRoute::_('index.php?option=com_menus&view=menus', false));
+			$app->redirect(Route::_('index.php?option=com_menus&view=menus', false));
 
 			return;
 		}
 
-		$this->items = MenuHelper::createLevels($items);
+		$this->items = $root->getChildren();
 
 		$xml = new \SimpleXMLElement('<menu ' .
 			'xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ' .
@@ -80,7 +83,7 @@ class XmlView extends BaseHtmlView
 
 		if (headers_sent($file, $line))
 		{
-			\JLog::add("Headers already sent at $file:$line.", \JLog::ERROR, 'jerror');
+			Log::add("Headers already sent at $file:$line.", Log::ERROR, 'jerror');
 
 			return;
 		}

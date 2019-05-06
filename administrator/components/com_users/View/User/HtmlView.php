@@ -3,15 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\View\User;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 
 /**
  * User view class.
@@ -52,7 +58,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state
 	 *
-	 * @var  \JObject
+	 * @var  CMSObject
 	 */
 	protected $state;
 
@@ -93,11 +99,11 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		// Prevent user from modifying own group(s)
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if ((int) $user->id != (int) $this->item->id || $user->authorise('core.admin'))
 		{
@@ -118,18 +124,19 @@ class HtmlView extends BaseHtmlView
 	 * @return void
 	 *
 	 * @since   1.6
+	 * @throws  \Exception
 	 */
 	protected function addToolbar()
 	{
-		\JFactory::getApplication()->input->set('hidemainmenu', true);
+		Factory::getApplication()->input->set('hidemainmenu', true);
 
-		$user      = \JFactory::getUser();
+		$user      = Factory::getUser();
 		$canDo     = ContentHelper::getActions('com_users');
 		$isNew     = ($this->item->id == 0);
 		$isProfile = $this->item->id == $user->id;
 
-		\JToolbarHelper::title(
-			\JText::_(
+		ToolbarHelper::title(
+			Text::_(
 				$isNew ? 'COM_USERS_VIEW_NEW_USER_TITLE' : ($isProfile ? 'COM_USERS_VIEW_EDIT_PROFILE_TITLE' : 'COM_USERS_VIEW_EDIT_USER_TITLE')
 			),
 			'user ' . ($isNew ? 'user-add' : ($isProfile ? 'user-profile' : 'user-edit'))
@@ -139,7 +146,7 @@ class HtmlView extends BaseHtmlView
 
 		if ($canDo->get('core.edit') || $canDo->get('core.create'))
 		{
-			$toolbarButtons[] = ['apply', 'user.apply'];
+			ToolbarHelper::apply('user.apply');
 			$toolbarButtons[] = ['save', 'user.save'];
 		}
 
@@ -148,21 +155,21 @@ class HtmlView extends BaseHtmlView
 			$toolbarButtons[] = ['save2new', 'user.save2new'];
 		}
 
-		\JToolbarHelper::saveGroup(
+		ToolbarHelper::saveGroup(
 			$toolbarButtons,
 			'btn-success'
 		);
 
 		if (empty($this->item->id))
 		{
-			\JToolbarHelper::cancel('user.cancel');
+			ToolbarHelper::cancel('user.cancel');
 		}
 		else
 		{
-			\JToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
+			ToolbarHelper::cancel('user.cancel', 'JTOOLBAR_CLOSE');
 		}
 
-		\JToolbarHelper::divider();
-		\JToolbarHelper::help('JHELP_USERS_USER_MANAGER_EDIT');
+		ToolbarHelper::divider();
+		ToolbarHelper::help('JHELP_USERS_USER_MANAGER_EDIT');
 	}
 }

@@ -3,13 +3,16 @@
  * @package     Joomla.Site
  * @subpackage  mod_feed
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace Joomla\Module\Feed\Site\Helper;
 
 defined('_JEXEC') or die;
+
+use Joomla\CMS\Feed\FeedFactory;
+use Joomla\CMS\Language\Text;
 
 /**
  * Helper for mod_feed
@@ -33,17 +36,17 @@ class FeedHelper
 		// Get RSS parsed object
 		try
 		{
-			$feed   = new \JFeedFactory;
+			$feed   = new FeedFactory;
 			$rssDoc = $feed->getFeed($rssurl);
 		}
 		catch (Exception $e)
 		{
-			return \JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		if (empty($rssDoc))
 		{
-			return \JText::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
+			return Text::_('MOD_FEED_ERR_FEED_NOT_RETRIEVED');
 		}
 
 		if ($rssDoc)

@@ -3,25 +3,28 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Application\ApplicationHelper;
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Filesystem\Path;
 use Joomla\CMS\Language\Associations;
 use Joomla\CMS\Language\LanguageHelper;
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\CMS\Plugin\PluginHelper;
+use Joomla\CMS\Uri\Uri;
+use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
-use Joomla\Component\Menus\Administrator\Helper\MenusHelper;
-
-jimport('joomla.filesystem.path');
 
 /**
  * Menu Item Model for Menus.
@@ -33,40 +36,40 @@ class ItemModel extends AdminModel
 	/**
 	 * The type alias for this content type.
 	 *
-	 * @var      string
-	 * @since    3.4
+	 * @var    string
+	 * @since  3.4
 	 */
 	public $typeAlias = 'com_menus.item';
 
 	/**
 	 * The context used for the associations table
 	 *
-	 * @var      string
-	 * @since    3.4.4
+	 * @var    string
+	 * @since  3.4.4
 	 */
 	protected $associationsContext = 'com_menus.item';
 
 	/**
-	 * @var        string    The prefix to use with controller messages.
-	 * @since   1.6
+	 * @var    string  The prefix to use with controller messages.
+	 * @since  1.6
 	 */
 	protected $text_prefix = 'COM_MENUS_ITEM';
 
 	/**
-	 * @var        string    The help screen key for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen key for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpKey = 'JHELP_MENUS_MENU_ITEM_MANAGER_EDIT';
 
 	/**
-	 * @var        string    The help screen base URL for the menu item.
-	 * @since   1.6
+	 * @var    string  The help screen base URL for the menu item.
+	 * @since  1.6
 	 */
 	protected $helpURL;
 
 	/**
-	 * @var        boolean    True to use local lookup for the help screen.
-	 * @since   1.6
+	 * @var    boolean  True to use local lookup for the help screen.
+	 * @since  1.6
 	 */
 	protected $helpLocal = false;
 
@@ -74,14 +77,14 @@ class ItemModel extends AdminModel
 	 * Batch copy/move command. If set to false,
 	 * the batch copy/move command is not supported
 	 *
-	 * @var string
+	 * @var   string
 	 */
 	protected $batch_copymove = 'menu_id';
 
 	/**
 	 * Allowed batch commands
 	 *
-	 * @var array
+	 * @var   array
 	 */
 	protected $batch_commands = array(
 		'assetgroup_id' => 'batchAccess',
@@ -99,7 +102,7 @@ class ItemModel extends AdminModel
 	 */
 	protected function canDelete($record)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		if (!empty($record->id))
 		{
@@ -136,7 +139,7 @@ class ItemModel extends AdminModel
 		$menuTypeId = !empty($record->menutype) ? $this->getMenuTypeId($record->menutype) : 0;
 		$assetKey   = $menuTypeId ? 'com_menus.menu.' . (int) $menuTypeId : 'com_menus';
 
-		return \JFactory::getUser()->authorise('core.edit.state', $assetKey);
+		return Factory::getUser()->authorise('core.edit.state', $assetKey);
 	}
 
 	/**
@@ -177,7 +180,7 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Non-fatal error
-					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
@@ -195,13 +198,13 @@ class ItemModel extends AdminModel
 		}
 
 		// Check that user has create permission for menus
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$menuTypeId = (int) $this->getMenuTypeId($menuType);
 
 		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
-			$this->setError(\JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			$this->setError(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
 			return false;
 		}
@@ -246,7 +249,7 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -303,6 +306,7 @@ class ItemModel extends AdminModel
 
 				return false;
 			}
+
 			// Store the row.
 			if (!$table->store())
 			{
@@ -381,27 +385,27 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Non-fatal error
-					$this->setError(\JText::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
+					$this->setError(Text::_('JGLOBAL_BATCH_MOVE_PARENT_NOT_FOUND'));
 					$parentId = 0;
 				}
 			}
 		}
 
 		// Check that user has create and edit permission for menus
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 
 		$menuTypeId = (int) $this->getMenuTypeId($menuType);
 
 		if (!$user->authorise('core.create', 'com_menus.menu.' . $menuTypeId))
 		{
-			$this->setError(\JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
+			$this->setError(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_CREATE'));
 
 			return false;
 		}
 
 		if (!$user->authorise('core.edit', 'com_menus.menu.' . $menuTypeId))
 		{
-			$this->setError(\JText::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
+			$this->setError(Text::_('COM_MENUS_BATCH_MENU_ITEM_CANNOT_EDIT'));
 
 			return false;
 		}
@@ -425,7 +429,7 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JGLOBAL_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -517,7 +521,7 @@ class ItemModel extends AdminModel
 	 */
 	protected function canSave($data = array(), $key = 'id')
 	{
-		return \JFactory::getUser()->authorise('core.edit', $this->option);
+		return Factory::getUser()->authorise('core.edit', $this->option);
 	}
 
 	/**
@@ -601,7 +605,7 @@ class ItemModel extends AdminModel
 	{
 		// Check the session for previously entered form data, providing it has an ID and it is the same.
 		$itemData = (array) $this->getItem();
-		$sessionData = (array) \JFactory::getApplication()->getUserState('com_menus.edit.item.data', array());
+		$sessionData = (array) Factory::getApplication()->getUserState('com_menus.edit.item.data', array());
 
 		// Only merge if there is a session and itemId or itemid is null.
 		if (isset($sessionData['id']) && isset($itemData['id']) && $sessionData['id'] === $itemData['id']
@@ -618,11 +622,11 @@ class ItemModel extends AdminModel
 		if ($this->getItem()->id == 0)
 		{
 			// Get selected fields
-			$filters = \JFactory::getApplication()->getUserState('com_menus.items.filter');
+			$filters = Factory::getApplication()->getUserState('com_menus.items.filter');
 			$data['parent_id'] = (isset($filters['parent_id']) ? $filters['parent_id'] : null);
 			$data['published'] = (isset($filters['published']) ? $filters['published'] : null);
 			$data['language'] = (isset($filters['language']) ? $filters['language'] : null);
-			$data['access'] = (!empty($filters['access']) ? $filters['access'] : \JFactory::getConfig()->get('access'));
+			$data['access'] = (!empty($filters['access']) ? $filters['access'] : Factory::getApplication()->get('access'));
 		}
 
 		if (isset($data['menutype']) && !$this->getState('item.menutypeid'))
@@ -631,6 +635,8 @@ class ItemModel extends AdminModel
 
 			$this->setState('item.menutypeid', $menuTypeId);
 		}
+
+		$data = (object) $data;
 
 		$this->preprocessData('com_menus.item', $data);
 
@@ -694,7 +700,6 @@ class ItemModel extends AdminModel
 		// If the link has been set in the state, possibly changing link type.
 		if ($link = $this->getState('item.link'))
 		{
-
 			// Check if we are changing away from the actual link type.
 			if (MenusHelper::getLinkKey($table->link) !== MenusHelper::getLinkKey($link) && (int) $table->id === (int) $this->getState('item.id'))
 			{
@@ -737,7 +742,7 @@ class ItemModel extends AdminModel
 				if (isset($args['option']))
 				{
 					// Load the language file for the component.
-					$lang = \JFactory::getLanguage();
+					$lang = Factory::getLanguage();
 					$lang->load($args['option'], JPATH_ADMINISTRATOR, null, false, true)
 					|| $lang->load($args['option'], JPATH_ADMINISTRATOR . '/components/' . $args['option'], null, false, true);
 
@@ -870,7 +875,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Get the list of all view levels
 	 *
-	 * @return  \stdClass[]|bool  An array of all view levels (id, title).
+	 * @return  \stdClass[]|boolean  An array of all view levels (id, title).
 	 *
 	 * @since   3.4
 	 */
@@ -908,7 +913,7 @@ class ItemModel extends AdminModel
 	 * @param   string  $prefix  A prefix for the table class name. Optional.
 	 * @param   array   $config  Configuration array for model. Optional.
 	 *
-	 * @return  JTable|JTableNested  A database object.
+	 * @return  \Joomla\Cms\Table\Table|\Joomla\Cms\Table\Nested  A database object.
 	 *
 	 * @since   1.6
 	 */
@@ -929,7 +934,9 @@ class ItemModel extends AdminModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array('menutype = ' . $this->_db->quote($table->get('menutype')));
+		return [
+			$this->_db->quoteName('menutype') . ' = ' . $this->_db->quote($table->menutype),
+		];
 	}
 
 	/**
@@ -943,7 +950,7 @@ class ItemModel extends AdminModel
 	 */
 	protected function populateState()
 	{
-		$app = \JFactory::getApplication('administrator');
+		$app = Factory::getApplication();
 
 		// Load the User state.
 		$pk = $app->input->getInt('id');
@@ -1119,7 +1126,7 @@ class ItemModel extends AdminModel
 					$base . '/view/' . $view . '/tmpl',
 					$base . '/tmpl/' . $view
 				);
-				$path = \JPath::find($tplFolders, $layout . '.xml');
+				$path = Path::find($tplFolders, $layout . '.xml');
 
 				if (is_file($path))
 				{
@@ -1132,7 +1139,7 @@ class ItemModel extends AdminModel
 				{
 					list($altTmpl, $altLayout) = explode(':', $layout);
 
-					$templatePath = \JPath::clean($clientInfo->path . '/templates/' . $altTmpl . '/html/' . $option . '/' . $view . '/' . $altLayout . '.xml');
+					$templatePath = Path::clean($clientInfo->path . '/templates/' . $altTmpl . '/html/' . $option . '/' . $view . '/' . $altLayout . '.xml');
 
 					if (is_file($templatePath))
 					{
@@ -1150,9 +1157,9 @@ class ItemModel extends AdminModel
 						$base . '/view/' . $view,
 						$base . '/views/' . $view
 					);
-					$metaPath = \JPath::find($metadataFolders, 'metadata.xml');
+					$metaPath = Path::find($metadataFolders, 'metadata.xml');
 
-					if (is_file($path = \JPath::clean($metaPath)))
+					if (is_file($path = Path::clean($metaPath)))
 					{
 						$formFile = $path;
 					}
@@ -1160,7 +1167,7 @@ class ItemModel extends AdminModel
 				else
 				{
 					// Now check for a component manifest file
-					$path = \JPath::clean($base . '/metadata.xml');
+					$path = Path::clean($base . '/metadata.xml');
 
 					if (is_file($path))
 					{
@@ -1177,13 +1184,13 @@ class ItemModel extends AdminModel
 
 			if ($form->loadFile($formFile, true, '/metadata') == false)
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Attempt to load the xml file.
 			if (!$xml = simplexml_load_file($formFile))
 			{
-				throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+				throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 			}
 
 			// Get the help data from the XML file if present.
@@ -1192,13 +1199,13 @@ class ItemModel extends AdminModel
 		else
 		{
 			// We don't have a component. Load the form XML to get the help path
-			$xmlFile = \JPath::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
+			$xmlFile = Path::find(JPATH_ADMINISTRATOR . '/components/com_menus/models/forms', $typeFile . '.xml');
 
 			if ($xmlFile)
 			{
 				if (!$xml = simplexml_load_file($xmlFile))
 				{
-					throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+					throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 				}
 
 				// Get the help data from the XML file if present.
@@ -1219,7 +1226,7 @@ class ItemModel extends AdminModel
 
 		if (!$form->loadFile($typeFile, true, false))
 		{
-			throw new \Exception(\JText::_('JERROR_LOADFILE_FAILED'));
+			throw new \Exception(Text::_('JERROR_LOADFILE_FAILED'));
 		}
 
 		// Association menu items, we currently do not support this for admin menu… may be later
@@ -1248,6 +1255,7 @@ class ItemModel extends AdminModel
 					$field->addAttribute('new', 'true');
 					$field->addAttribute('edit', 'true');
 					$field->addAttribute('clear', 'true');
+					$field->addAttribute('propagate', 'true');
 					$option = $field->addChild('option', 'COM_MENUS_ITEM_FIELD_ASSOCIATION_NO_VALUE');
 					$option->addAttribute('value', '');
 				}
@@ -1263,7 +1271,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method rebuild the entire nested set tree.
 	 *
-	 * @return  boolean|\JException  Boolean true on success, boolean false or \JException instance on error
+	 * @return  boolean  Boolean true on success, boolean false
 	 *
 	 * @since   1.6
 	 */
@@ -1304,7 +1312,9 @@ class ItemModel extends AdminModel
 		}
 		catch (\RuntimeException $e)
 		{
-			return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+			Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+			return false;
 		}
 
 		foreach ($items as &$item)
@@ -1323,7 +1333,9 @@ class ItemModel extends AdminModel
 			}
 			catch (\RuntimeException $e)
 			{
-				return \JFactory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+				Factory::getApplication()->enqueueMessage($e->getMessage(), 'error');
+
+				return false;
 			}
 
 			unset($registry);
@@ -1431,7 +1443,7 @@ class ItemModel extends AdminModel
 		}
 
 		// Trigger the before save event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew));
+		$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, &$table, $isNew, $data));
 
 		// Store the data.
 		if (in_array(false, $result, true)|| !$table->store())
@@ -1442,7 +1454,7 @@ class ItemModel extends AdminModel
 		}
 
 		// Trigger the after save event.
-		\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
+		Factory::getApplication()->triggerEvent($this->event_after_save, array($context, &$table, $isNew));
 
 		// Rebuild the tree path.
 		if (!$table->rebuildPath($table->id))
@@ -1477,7 +1489,7 @@ class ItemModel extends AdminModel
 
 			if ($all_language && !empty($associations))
 			{
-				\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
+				Factory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_ALL_LANGUAGE_ASSOCIATED'), 'notice');
 			}
 
 			// Get associationskey for edited item
@@ -1498,7 +1510,8 @@ class ItemModel extends AdminModel
 			if ($associations)
 			{
 				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')'
+				);
 			}
 			else
 			{
@@ -1556,8 +1569,8 @@ class ItemModel extends AdminModel
 
 		if (isset($data['link']))
 		{
-			$base = \JUri::base();
-			$juri = \JUri::getInstance($base . $data['link']);
+			$base = Uri::base();
+			$juri = Uri::getInstance($base . $data['link']);
 			$option = $juri->getVar('option');
 
 			// Clean the cache
@@ -1600,7 +1613,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the home state of one or more items.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the home state.
 	 *
 	 * @return  boolean  True on success.
@@ -1628,13 +1641,13 @@ class ItemModel extends AdminModel
 					if ($table->home == $value)
 					{
 						unset($pks[$i]);
-						\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_ALREADY_HOME'), 'notice');
+						Factory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_ALREADY_HOME'), 'notice');
 					}
 					elseif ($table->menutype == 'main')
 					{
 						// Prune items that you can't change.
 						unset($pks[$i]);
-						\JFactory::getApplication()->enqueueMessage(\JText::_('COM_MENUS_ERROR_MENUTYPE_HOME'), 'error');
+						Factory::getApplication()->enqueueMessage(Text::_('COM_MENUS_ERROR_MENUTYPE_HOME'), 'error');
 					}
 					else
 					{
@@ -1649,19 +1662,19 @@ class ItemModel extends AdminModel
 						{
 							// Prune items that you can't change.
 							unset($pks[$i]);
-							\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
+							Factory::getApplication()->enqueueMessage(Text::_('JLIB_APPLICATION_ERROR_SAVE_NOT_PERMITTED'), 'error');
 						}
 						elseif (!$table->check())
 						{
 							// Prune the items that failed pre-save checks.
 							unset($pks[$i]);
-							\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+							Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 						}
 						elseif (!$table->store())
 						{
 							// Prune the items that could not be stored.
 							unset($pks[$i]);
-							\JFactory::getApplication()->enqueueMessage($table->getError(), 'error');
+							Factory::getApplication()->enqueueMessage($table->getError(), 'error');
 						}
 					}
 				}
@@ -1672,7 +1685,7 @@ class ItemModel extends AdminModel
 					if (!$onehome)
 					{
 						$onehome = true;
-						\JFactory::getApplication()->enqueueMessage(\JText::sprintf('COM_MENUS_ERROR_ONE_HOME'), 'notice');
+						Factory::getApplication()->enqueueMessage(Text::sprintf('COM_MENUS_ERROR_ONE_HOME'), 'notice');
 					}
 				}
 			}
@@ -1687,7 +1700,7 @@ class ItemModel extends AdminModel
 	/**
 	 * Method to change the published state of one or more records.
 	 *
-	 * @param   array    &$pks   A list of the primary keys to change.
+	 * @param   array    $pks    A list of the primary keys to change.
 	 * @param   integer  $value  The value of the published state.
 	 *
 	 * @return  boolean  True on success.
@@ -1707,7 +1720,7 @@ class ItemModel extends AdminModel
 				if ($table->load($pk) && $table->home && $table->language == '*')
 				{
 					// Prune items that you can't change.
-					\JFactory::getApplication()->enqueueMessage(\JText::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'), 'error');
+					Factory::getApplication()->enqueueMessage(Text::_('JLIB_DATABASE_ERROR_MENU_UNPUBLISH_DEFAULT_HOME'), 'error');
 					unset($pks[$i]);
 					break;
 				}

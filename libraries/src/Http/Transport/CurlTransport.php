@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,6 +10,7 @@ namespace Joomla\CMS\Http\Transport;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Factory;
 use Joomla\CMS\Http\Response;
 use Joomla\CMS\Http\TransportInterface;
 use Joomla\CMS\Uri\Uri;
@@ -21,7 +22,7 @@ use Zend\Diactoros\Stream as StreamResponse;
 /**
  * HTTP transport class for using cURL.
  *
- * @since  11.3
+ * @since  1.7.3
  */
 class CurlTransport extends AbstractTransport implements TransportInterface
 {
@@ -37,7 +38,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  \RuntimeException
 	 */
 	public function request($method, UriInterface $uri, $data = null, array $headers = [], $timeout = null, $userAgent = null)
@@ -150,15 +151,15 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		}
 
 		// Proxy configuration
-		$config = \JFactory::getConfig();
+		$app = Factory::getApplication();
 
-		if ($config->get('proxy_enable'))
+		if ($app->get('proxy_enable'))
 		{
-			$options[CURLOPT_PROXY] = $config->get('proxy_host') . ':' . $config->get('proxy_port');
+			$options[CURLOPT_PROXY] = $app->get('proxy_host') . ':' . $app->get('proxy_port');
 
-			if ($user = $config->get('proxy_user'))
+			if ($user = $app->get('proxy_user'))
 			{
-				$options[CURLOPT_PROXYUSERPWD] = $user . ':' . $config->get('proxy_pass');
+				$options[CURLOPT_PROXYUSERPWD] = $user . ':' . $app->get('proxy_pass');
 			}
 		}
 
@@ -207,10 +208,12 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 		if ($response->code >= 301 && $response->code < 400 && isset($response->headers['Location']) && (bool) $this->getOption('follow_location', true))
 		{
 			$redirect_uri = new Uri($response->headers['Location']);
+
 			if (in_array($redirect_uri->getScheme(), array('file', 'scp')))
 			{
 				throw new \RuntimeException('Curl redirect cannot be used in file or scp requests.');
 			}
+
 			$response = $this->request($method, $redirect_uri, $data, $headers, $timeout, $userAgent);
 		}
 
@@ -226,7 +229,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  Response
 	 *
-	 * @since   11.3
+	 * @since   1.7.3
 	 * @throws  InvalidResponseCodeException
 	 */
 	protected function getResponse($content, $info)
@@ -288,7 +291,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return boolean true if available, else false
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	public static function isSupported()
 	{
@@ -300,7 +303,7 @@ class CurlTransport extends AbstractTransport implements TransportInterface
 	 *
 	 * @return  boolean
 	 *
-	 * @since   12.1
+	 * @since   3.0.0
 	 */
 	private function redirectsAllowed()
 	{

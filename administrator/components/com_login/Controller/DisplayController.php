@@ -3,14 +3,17 @@
  * @package     Joomla.Administrator
  * @subpackage  com_login
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Login\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Uri\Uri;
 
 /**
  * Login Controller.
@@ -42,7 +45,7 @@ class DisplayController extends BaseController
 		// For non-html formats we do not have login view, so just display 403 instead
 		if ($this->input->get('format', 'html') !== 'html')
 		{
-			throw new \RuntimeException(\JText::_('JERROR_ALERTNOAUTHOR'), 403);
+			throw new \RuntimeException(Text::_('JERROR_ALERTNOAUTHOR'), 403);
 		}
 
 		/**
@@ -65,7 +68,7 @@ class DisplayController extends BaseController
 	public function login()
 	{
 		// Check for request forgeries.
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = $this->app;
 
@@ -78,7 +81,7 @@ class DisplayController extends BaseController
 		if ($result && !($result instanceof \Exception))
 		{
 			// Only redirect to an internal URL.
-			if (\JUri::isInternal($return))
+			if (Uri::isInternal($return))
 			{
 				// If &tmpl=component - redirect to index.php
 				if (strpos($return, 'tmpl=component') === false)
@@ -102,7 +105,7 @@ class DisplayController extends BaseController
 	 */
 	public function logout()
 	{
-		\JSession::checkToken('request') or jexit(\JText::_('JINVALID_TOKEN'));
+		$this->checkToken('request');
 
 		$app = $this->app;
 
@@ -129,7 +132,7 @@ class DisplayController extends BaseController
 			$return = $model->getState('return');
 
 			// Only redirect to an internal URL.
-			if (\JUri::isInternal($return))
+			if (Uri::isInternal($return))
 			{
 				$app->redirect($return);
 			}

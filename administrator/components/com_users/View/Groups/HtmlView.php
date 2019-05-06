@@ -3,15 +3,21 @@
  * @package     Joomla.Administrator
  * @subpackage  com_users
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Users\Administrator\View\Groups;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
+use Joomla\CMS\Object\CMSObject;
+use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\Component\Users\Administrator\Helper\UsersHelper;
 
 /**
@@ -40,7 +46,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * The model state.
 	 *
-	 * @var   \JObject
+	 * @var   CMSObject
 	 * @since 1.6
 	 */
 	protected $state;
@@ -89,11 +95,11 @@ class HtmlView extends BaseHtmlView
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
-		$this->sidebar = \JHtmlSidebar::render();
+		$this->sidebar = HTMLHelper::_('sidebar.render');
 		parent::display($tpl);
 	}
 
@@ -108,26 +114,26 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_users');
 
-		\JToolbarHelper::title(\JText::_('COM_USERS_VIEW_GROUPS_TITLE'), 'users groups');
+		ToolbarHelper::title(Text::_('COM_USERS_VIEW_GROUPS_TITLE'), 'users groups');
 
 		if ($canDo->get('core.create'))
 		{
-			\JToolbarHelper::addNew('group.add');
+			ToolbarHelper::addNew('group.add');
 		}
 
 		if ($canDo->get('core.delete'))
 		{
-			\JToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'groups.delete', 'JTOOLBAR_DELETE');
-			\JToolbarHelper::divider();
+			ToolbarHelper::deleteList('JGLOBAL_CONFIRM_DELETE', 'groups.delete', 'JTOOLBAR_DELETE');
+			ToolbarHelper::divider();
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
 		{
-			\JToolbarHelper::preferences('com_users');
-			\JToolbarHelper::divider();
+			ToolbarHelper::preferences('com_users');
+			ToolbarHelper::divider();
 		}
 
-		\JToolbarHelper::help('JHELP_USERS_GROUPS');
+		ToolbarHelper::help('JHELP_USERS_GROUPS');
 	}
 
 	/**
@@ -140,8 +146,8 @@ class HtmlView extends BaseHtmlView
 	protected function getSortFields()
 	{
 		return array(
-			'a.title' => \JText::_('COM_USERS_HEADING_GROUP_TITLE'),
-			'a.id'    => \JText::_('JGRID_HEADING_ID'),
+			'a.title' => Text::_('COM_USERS_HEADING_GROUP_TITLE'),
+			'a.id'    => Text::_('JGRID_HEADING_ID'),
 		);
 	}
 }

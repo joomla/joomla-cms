@@ -72,6 +72,21 @@
 			type="separator"
 		/>
 		<menuitem
+			title="MOD_MENU_FIELDS"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;context=com_users.user"
+		/>
+		<menuitem
+			title="MOD_MENU_FIELDS_GROUP"
+			type="component"
+			element="com_fields"
+			link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
+		/>
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			title="MOD_MENU_COM_USERS_NOTES"
 			type="component"
 			element="com_users"
@@ -84,17 +99,22 @@
 			link="index.php?option=com_categories&amp;view=categories&amp;extension=com_users">
 		</menuitem>
 		<menuitem
-			title="MOD_MENU_FIELDS"
-			type="component"
-			element="com_fields"
-			link="index.php?option=com_fields&amp;context=com_users.user"
+			type="separator"
 		/>
 		<menuitem
-			title="MOD_MENU_FIELDS_GROUP"
+			title="MOD_MENU_COM_PRIVACY"
 			type="component"
-			element="com_fields"
-			link="index.php?option=com_fields&amp;view=groups&amp;context=com_users.user"
+			element="com_privacy"
+			link="index.php?option=com_privacy"
+			class="class:privacy"
 		/>
+		<menuitem
+			title="MOD_MENU_COM_ACTIONLOGS"
+			type="component"
+			element="com_actionlogs"
+			link="index.php?option=com_actionlogs"
+			class="class:userlogs"
+		/>		
 		<menuitem
 			type="separator"
 		/>
@@ -148,9 +168,9 @@
 			sql_where="a.client_id = 0"
 			sql_leftjoin="#__menu AS m ON m.menutype = a.menutype AND m.home = 1 LEFT JOIN #__languages AS l ON l.lang_code = m.language"
 			sql_group="a.id, a.title, a.menutype, m.language, l.image"
-			sql_order="a.title ASC">
+			sql_order="a.id DESC">
 			<menuitem
-				title="{sql:title}"
+				title="{sql:title} "
 				type="component"
 				element="com_menus"
 				link="index.php?option=com_menus&amp;view=items&amp;menutype={sql:menutype}"
@@ -172,7 +192,7 @@
 			sql_select="title, menutype"
 			sql_from="#__menu_types"
 			sql_where="client_id = 1"
-			sql_order="title ASC">
+			sql_order="id DESC">
 			<menuitem
 				title="{sql:title}"
 				type="component"
@@ -198,7 +218,7 @@
 	<menuitem
 		title="MOD_MENU_COM_CONTENT"
 		type="heading"
-		class="class:file-text"
+		class="class:file-alt"
 		>
 		<menuitem
 			title="MOD_MENU_COM_CONTENT_ARTICLE_MANAGER"
@@ -213,6 +233,30 @@
 			link="index.php?option=com_categories&amp;extension=com_content">
 		</menuitem>
 		<menuitem
+			title="MOD_MENU_COM_CONTENT_FEATURED"
+			type="component"
+			element="com_content"
+			link="index.php?option=com_content&amp;view=featured">
+		</menuitem>
+		<menuitem
+			title="MOD_MENU_COM_CONTENT_WORKFLOW"
+			type="component"
+			element="com_workflow"
+			link="index.php?option=com_workflow&amp;extension=com_content">
+		</menuitem>
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
+			title="MOD_MENU_COM_CONTENT_WORKFLOW"
+			type="component"
+			element="com_workflow"
+			link="index.php?option=com_workflow&amp;extension=com_content">
+		</menuitem>
+		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			title="MOD_MENU_FIELDS"
 			type="component"
 			element="com_fields"
@@ -223,12 +267,6 @@
 			type="component"
 			element="com_fields"
 			link="index.php?option=com_fields&amp;view=groups&amp;context=com_content.article"
-		/>
-		<menuitem
-			title="MOD_MENU_COM_CONTENT_FEATURED"
-			type="component"
-			element="com_content"
-			link="index.php?option=com_content&amp;view=featured"
 		/>
 	</menuitem>
 	<menuitem
@@ -363,6 +401,9 @@
 			scope="help"
 		/>
 		<menuitem
+			type="separator"
+		/>
+		<menuitem
 			type="url"
 			target="_blank"
 			title="MOD_MENU_HELP_SUPPORT_OFFICIAL_FORUM"
@@ -389,6 +430,9 @@
 			title="MOD_MENU_HELP_DOCUMENTATION"
 			link="https://docs.joomla.org"
 			scope="help"
+		/>
+		<menuitem
+			type="separator"
 		/>
 		<menuitem
 			type="url"

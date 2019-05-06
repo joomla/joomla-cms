@@ -3,16 +3,19 @@
  * @package     Joomla.Administrator
  * @subpackage  com_menus
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Menus\Administrator\View\Menutypes;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 
 /**
  * The HTML Menus Menu Item TYpes View.
@@ -48,7 +51,7 @@ class HtmlView extends BaseHtmlView
 	 */
 	public function display($tpl = null)
 	{
-		$app            = \JFactory::getApplication();
+		$app            = Factory::getApplication();
 		$this->recordId = $app->input->getInt('recordId');
 
 		$types = $this->get('TypeOptions');
@@ -63,14 +66,14 @@ class HtmlView extends BaseHtmlView
 
 			foreach ($list as $item)
 			{
-				$tmp[\JText::_($item->title)] = $item;
+				$tmp[Text::_($item->title)] = $item;
 			}
 
-			ksort($tmp);
-			$sortedTypes[\JText::_($name)] = $tmp;
+			uksort($tmp, 'strcasecmp');
+			$sortedTypes[Text::_($name)] = $tmp;
 		}
 
-		ksort($sortedTypes);
+		uksort($sortedTypes, 'strcasecmp');
 
 		$this->types = $sortedTypes;
 
@@ -89,13 +92,13 @@ class HtmlView extends BaseHtmlView
 	protected function addToolbar()
 	{
 		// Add page title
-		ToolbarHelper::title(\JText::_('COM_MENUS'), 'list menumgr');
+		ToolbarHelper::title(Text::_('COM_MENUS'), 'list menumgr');
 
 		// Get the toolbar object instance
 		$bar = Toolbar::getInstance('toolbar');
 
 		// Cancel
-		$title = \JText::_('JTOOLBAR_CANCEL');
+		$title = Text::_('JTOOLBAR_CANCEL');
 		$dhtml = "<button onClick=\"location.href='index.php?option=com_menus&view=items'\" class=\"btn\">
 					<span class=\"icon-remove\" title=\"$title\"></span>
 					$title</button>";
@@ -105,7 +108,7 @@ class HtmlView extends BaseHtmlView
 	/**
 	 * Method to add system link types to the link types array
 	 *
-	 * @param   array  &$types  The list of link types
+	 * @param   array  $types  The list of link types
 	 *
 	 * @return  void
 	 *

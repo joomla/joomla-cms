@@ -2,7 +2,7 @@
 /**
  * Joomla! Content Management System
  *
- * @copyright  Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright  Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -10,11 +10,19 @@ namespace Joomla\CMS\MVC\Model;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Form\FormFactoryInterface;
+use Joomla\CMS\Language\Associations;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Log\Log;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\Object\CMSObject;
 use Joomla\CMS\Table\Table;
 use Joomla\Registry\Registry;
 use Joomla\String\StringHelper;
 use Joomla\Utilities\ArrayHelper;
+use Joomla\CMS\Language\LanguageHelper;
 
 /**
  * Prototype admin model.
@@ -23,6 +31,14 @@ use Joomla\Utilities\ArrayHelper;
  */
 abstract class AdminModel extends FormModel
 {
+	/**
+	 * The type alias for this content type (for example, 'com_content.article').
+	 *
+	 * @var    string
+	 * @since  3.8.6
+	 */
+	public $typeAlias;
+
 	/**
 	 * The prefix to use with controller messages.
 	 *
@@ -64,6 +80,14 @@ abstract class AdminModel extends FormModel
 	protected $event_before_save = null;
 
 	/**
+	 * The event to trigger before changing the published state of the data.
+	 *
+	 * @var    string
+	 * @since  4.0.0
+	 */
+	protected $event_before_change_state = null;
+
+	/**
 	 * The event to trigger after changing the published state of the data.
 	 *
 	 * @var    string
@@ -90,6 +114,7 @@ abstract class AdminModel extends FormModel
 		'assetgroup_id' => 'batchAccess',
 		'language_id' => 'batchLanguage',
 		'tag' => 'batchTag',
+		'workflowstage_id' => 'batchWorkflowStage',
 	);
 
 	/**
@@ -151,15 +176,16 @@ abstract class AdminModel extends FormModel
 	/**
 	 * Constructor.
 	 *
-	 * @param   array                $config   An array of configuration options (name, state, dbo, table_path, ignore_request).
-	 * @param   MVCFactoryInterface  $factory  The factory.
+	 * @param   array                 $config       An array of configuration options (name, state, dbo, table_path, ignore_request).
+	 * @param   MVCFactoryInterface   $factory      The factory.
+	 * @param   FormFactoryInterface  $formFactory  The form factory.
 	 *
 	 * @since   1.6
 	 * @throws  \Exception
 	 */
-	public function __construct($config = array(), MVCFactoryInterface $factory = null)
+	public function __construct($config = array(), MVCFactoryInterface $factory = null, FormFactoryInterface $formFactory = null)
 	{
-		parent::__construct($config, $factory);
+		parent::__construct($config, $factory, $formFactory);
 
 		if (isset($config['event_after_delete']))
 		{
@@ -195,6 +221,15 @@ abstract class AdminModel extends FormModel
 		elseif (empty($this->event_before_save))
 		{
 			$this->event_before_save = 'onContentBeforeSave';
+		}
+
+		if (isset($config['event_before_change_state']))
+		{
+			$this->event_before_change_state = $config['event_before_change_state'];
+		}
+		elseif (empty($this->event_before_change_state))
+		{
+			$this->event_before_change_state = 'onContentBeforeChangeState';
 		}
 
 		if (isset($config['event_change_state']))
@@ -253,7 +288,7 @@ abstract class AdminModel extends FormModel
 
 		if (empty($pks))
 		{
-			$this->setError(\JText::_('JGLOBAL_NO_ITEM_SELECTED'));
+			$this->setError(Text::_('JGLOBAL_NO_ITEM_SELECTED'));
 
 			return false;
 		}
@@ -277,6 +312,7 @@ abstract class AdminModel extends FormModel
 					{
 						$contexts[$new] = $contexts[$old];
 					}
+
 					$pks = array_values($result);
 				}
 				else
@@ -307,7 +343,7 @@ abstract class AdminModel extends FormModel
 
 		if (!$done)
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_INSUFFICIENT_BATCH_INFORMATION'));
 
 			return false;
 		}
@@ -351,7 +387,7 @@ abstract class AdminModel extends FormModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -409,7 +445,7 @@ abstract class AdminModel extends FormModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -461,6 +497,8 @@ abstract class AdminModel extends FormModel
 			// Get the new item ID
 			$newId = $this->table->get('id');
 
+			$this->cleanupPostBatchCopy($this->table, $newId, $pk);
+
 			// Add the new ID to the array
 			$newIds[$pk] = $newId;
 		}
@@ -469,6 +507,21 @@ abstract class AdminModel extends FormModel
 		$this->cleanCache();
 
 		return $newIds;
+	}
+
+	/**
+	 * Function that can be overriden to do any data cleanup after batch copying data
+	 *
+	 * @param   \JTableInterface  $table  The table object containing the newly created item
+	 * @param   integer           $newId  The id of the new item
+	 * @param   integer           $oldId  The original item id
+	 *
+	 * @return  void
+	 *
+	 * @since  3.8.12
+	 */
+	protected function cleanupPostBatchCopy(\JTableInterface $table, $newId, $oldId)
+	{
 	}
 
 	/**
@@ -504,7 +557,7 @@ abstract class AdminModel extends FormModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -544,7 +597,7 @@ abstract class AdminModel extends FormModel
 		{
 			if (!$this->user->authorise('core.edit', $contexts[$pk]))
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -562,7 +615,7 @@ abstract class AdminModel extends FormModel
 				else
 				{
 					// Not fatal error
-					$this->setError(\JText::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
+					$this->setError(Text::sprintf('JLIB_APPLICATION_ERROR_BATCH_MOVE_ROW_NOT_FOUND', $pk));
 					continue;
 				}
 			}
@@ -639,7 +692,7 @@ abstract class AdminModel extends FormModel
 			}
 			else
 			{
-				$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
+				$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_EDIT'));
 
 				return false;
 			}
@@ -662,7 +715,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function canDelete($record)
 	{
-		return \JFactory::getUser()->authorise('core.delete', $this->option);
+		return Factory::getUser()->authorise('core.delete', $this->option);
 	}
 
 	/**
@@ -676,7 +729,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function canEditState($record)
 	{
-		return \JFactory::getUser()->authorise('core.edit.state', $this->option);
+		return Factory::getUser()->authorise('core.edit.state', $this->option);
 	}
 
 	/**
@@ -770,7 +823,7 @@ abstract class AdminModel extends FormModel
 					$context = $this->option . '.' . $this->name;
 
 					// Trigger the before delete event.
-					$result = \JFactory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
+					$result = Factory::getApplication()->triggerEvent($this->event_before_delete, array($context, $table));
 
 					if (in_array(false, $result, true))
 					{
@@ -780,7 +833,7 @@ abstract class AdminModel extends FormModel
 					}
 
 					// Multilanguage: if associated, delete the item in the _associations table
-					if ($this->associationsContext && \JLanguageAssociations::isEnabled())
+					if ($this->associationsContext && Associations::isEnabled())
 					{
 						$db = $this->getDbo();
 						$query = $db->getQuery(true)
@@ -819,7 +872,7 @@ abstract class AdminModel extends FormModel
 					}
 
 					// Trigger the after event.
-					\JFactory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
+					Factory::getApplication()->triggerEvent($this->event_after_delete, array($context, $table));
 				}
 				else
 				{
@@ -829,13 +882,13 @@ abstract class AdminModel extends FormModel
 
 					if ($error)
 					{
-						\JLog::add($error, \JLog::WARNING, 'jerror');
+						Log::add($error, Log::WARNING, 'jerror');
 
 						return false;
 					}
 					else
 					{
-						\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+						Log::add(Text::_('JLIB_APPLICATION_ERROR_DELETE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
 						return false;
 					}
@@ -885,7 +938,7 @@ abstract class AdminModel extends FormModel
 	 *
 	 * @param   integer  $pk  The id of the primary key.
 	 *
-	 * @return  \JObject|boolean  Object on success, false on failure.
+	 * @return  CMSObject|boolean  Object on success, false on failure.
 	 *
 	 * @since   1.6
 	 */
@@ -908,9 +961,9 @@ abstract class AdminModel extends FormModel
 			}
 		}
 
-		// Convert to the \JObject before adding other data.
+		// Convert to the CMSObject before adding other data.
 		$properties = $table->getProperties(1);
-		$item = ArrayHelper::toObject($properties, '\JObject');
+		$item = ArrayHelper::toObject($properties, CMSObject::class);
 
 		if (property_exists($item, 'params'))
 		{
@@ -932,7 +985,7 @@ abstract class AdminModel extends FormModel
 	 */
 	protected function getReorderConditions($table)
 	{
-		return array();
+		return [];
 	}
 
 	/**
@@ -948,11 +1001,11 @@ abstract class AdminModel extends FormModel
 		$key = $table->getKeyName();
 
 		// Get the pk of the record from the request.
-		$pk = \JFactory::getApplication()->input->getInt($key);
+		$pk = Factory::getApplication()->input->getInt($key);
 		$this->setState($this->getName() . '.id', $pk);
 
 		// Load the parameters.
-		$value = \JComponentHelper::getParams($this->option);
+		$value = ComponentHelper::getParams($this->option);
 		$this->setState('params', $value);
 	}
 
@@ -982,9 +1035,11 @@ abstract class AdminModel extends FormModel
 	 */
 	public function publish(&$pks, $value = 1)
 	{
-		$user = \JFactory::getUser();
+		$user = Factory::getUser();
 		$table = $this->getTable();
 		$pks = (array) $pks;
+
+		$context = $this->option . '.' . $this->name;
 
 		// Include the plugins for the change of state event.
 		\JPluginHelper::importPlugin($this->events_map['change_state']);
@@ -1001,22 +1056,46 @@ abstract class AdminModel extends FormModel
 					// Prune items that you can't change.
 					unset($pks[$i]);
 
-					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 
 					return false;
 				}
 
 				// If the table is checked out by another user, drop it and report to the user trying to change its state.
-				if (property_exists($table, 'checked_out') && $table->checked_out && ($table->checked_out != $user->id))
+				if ($table->hasField('checked_out') && $table->checked_out && ($table->checked_out != $user->id))
 				{
-					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_CHECKIN_USER_MISMATCH'), Log::WARNING, 'jerror');
 
 					// Prune items that you can't change.
 					unset($pks[$i]);
 
 					return false;
 				}
+
+				// Prune items that are already at the given state
+				if ($table->get($table->getColumnAlias('published'), $value) == $value)
+				{
+					unset($pks[$i]);
+
+					continue;
+				}
 			}
+		}
+
+		// Check if there are items to change
+		if (!count($pks))
+		{
+			return true;
+		}
+
+		// Trigger the before change state event.
+		$result = Factory::getApplication()->triggerEvent($this->event_before_change_state, array($context, $pks, $value));
+
+		if (in_array(false, $result, true))
+		{
+			$this->setError($table->getError());
+
+			return false;
 		}
 
 		// Attempt to change the state of the records.
@@ -1027,10 +1106,8 @@ abstract class AdminModel extends FormModel
 			return false;
 		}
 
-		$context = $this->option . '.' . $this->name;
-
 		// Trigger the change state event.
-		$result = \JFactory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
+		$result = Factory::getApplication()->triggerEvent($this->event_change_state, array($context, $pks, $value));
 
 		if (in_array(false, $result, true))
 		{
@@ -1078,7 +1155,7 @@ abstract class AdminModel extends FormModel
 					// Prune items that you can't change.
 					unset($pks[$i]);
 					$this->checkin($pk);
-					\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+					Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 					$allowed = false;
 					continue;
 				}
@@ -1172,7 +1249,7 @@ abstract class AdminModel extends FormModel
 			}
 
 			// Trigger the before save event.
-			$result = \JFactory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
+			$result = Factory::getApplication()->triggerEvent($this->event_before_save, array($context, $table, $isNew, $data));
 
 			if (in_array(false, $result, true))
 			{
@@ -1193,7 +1270,7 @@ abstract class AdminModel extends FormModel
 			$this->cleanCache();
 
 			// Trigger the after save event.
-			\JFactory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
+			Factory::getApplication()->triggerEvent($this->event_after_save, array($context, $table, $isNew, $data));
 		}
 		catch (\Exception $e)
 		{
@@ -1209,7 +1286,7 @@ abstract class AdminModel extends FormModel
 
 		$this->setState($this->getName() . '.new', $isNew);
 
-		if ($this->associationsContext && \JLanguageAssociations::isEnabled() && !empty($data['associations']))
+		if ($this->associationsContext && Associations::isEnabled() && !empty($data['associations']))
 		{
 			$associations = $data['associations'];
 
@@ -1228,8 +1305,8 @@ abstract class AdminModel extends FormModel
 			// Show a warning if the item isn't assigned to a language but we have associations.
 			if ($associations && $table->language === '*')
 			{
-				\JFactory::getApplication()->enqueueMessage(
-					\JText::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
+				Factory::getApplication()->enqueueMessage(
+					Text::_(strtoupper($this->option) . '_ERROR_ALL_LANGUAGE_ASSOCIATED'),
 					'warning'
 				);
 			}
@@ -1237,26 +1314,26 @@ abstract class AdminModel extends FormModel
 			// Get associationskey for edited item
 			$db    = $this->getDbo();
 			$query = $db->getQuery(true)
-				->select($db->qn('key'))
-				->from($db->qn('#__associations'))
-				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext))
-				->where($db->qn('id') . ' = ' . (int) $table->$key);
+				->select($db->quoteName('key'))
+				->from($db->quoteName('#__associations'))
+				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext))
+				->where($db->quoteName('id') . ' = ' . (int) $table->$key);
 			$db->setQuery($query);
 			$old_key = $db->loadResult();
 
 			// Deleting old associations for the associated items
 			$query = $db->getQuery(true)
-				->delete($db->qn('#__associations'))
-				->where($db->qn('context') . ' = ' . $db->quote($this->associationsContext));
+				->delete($db->quoteName('#__associations'))
+				->where($db->quoteName('context') . ' = ' . $db->quote($this->associationsContext));
 
 			if ($associations)
 			{
-				$query->where('(' . $db->qn('id') . ' IN (' . implode(',', $associations) . ') OR '
-					. $db->qn('key') . ' = ' . $db->q($old_key) . ')');
+				$query->where('(' . $db->quoteName('id') . ' IN (' . implode(',', $associations) . ') OR '
+					. $db->quoteName('key') . ' = ' . $db->quote($old_key) . ')');
 			}
 			else
 			{
-				$query->where($db->qn('key') . ' = ' . $db->q($old_key));
+				$query->where($db->quoteName('key') . ' = ' . $db->quote($old_key));
 			}
 
 			$db->setQuery($query);
@@ -1294,7 +1371,7 @@ abstract class AdminModel extends FormModel
 	 * @param   array    $pks    An array of primary key ids.
 	 * @param   integer  $order  +1 or -1
 	 *
-	 * @return  boolean|\JException  Boolean true on success, false on failure, or \JException if no items are selected
+	 * @return  boolean  Boolean true on success, false on failure
 	 *
 	 * @since   1.6
 	 */
@@ -1307,7 +1384,9 @@ abstract class AdminModel extends FormModel
 
 		if (empty($pks))
 		{
-			return \JFactory::getApplication()->enqueueMessage(\JText::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
+			Factory::getApplication()->enqueueMessage(Text::_($this->text_prefix . '_ERROR_NO_ITEMS_SELECTED'), 'error');
+
+			return false;
 		}
 
 		$orderingField = $this->table->getColumnAlias('ordering');
@@ -1322,16 +1401,11 @@ abstract class AdminModel extends FormModel
 			{
 				// Prune items that you can't change.
 				unset($pks[$i]);
-				\JLog::add(\JText::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), \JLog::WARNING, 'jerror');
+				Log::add(Text::_('JLIB_APPLICATION_ERROR_EDITSTATE_NOT_PERMITTED'), Log::WARNING, 'jerror');
 			}
 			elseif ($this->table->$orderingField != $order[$i])
 			{
 				$this->table->$orderingField = $order[$i];
-
-				if ($this->type)
-				{
-					$this->createTagsHelper($this->tagsObserver, $this->type, $pk, $this->typeAlias, $this->table);
-				}
 
 				if (!$this->table->store())
 				{
@@ -1401,7 +1475,7 @@ abstract class AdminModel extends FormModel
 				}
 				else
 				{
-					$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+					$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 					return false;
 				}
@@ -1410,18 +1484,18 @@ abstract class AdminModel extends FormModel
 
 		if (empty($categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_MOVE_CATEGORY_NOT_FOUND'));
 
 			return false;
 		}
 
 		// Check that the user has create permission for the component
-		$extension = \JFactory::getApplication()->input->get('option', '');
-		$user = \JFactory::getUser();
+		$extension = Factory::getApplication()->input->get('option', '');
+		$user = Factory::getUser();
 
 		if (!$user->authorise('core.create', $extension . '.category.' . $categoryId))
 		{
-			$this->setError(\JText::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
+			$this->setError(Text::_('JLIB_APPLICATION_ERROR_BATCH_CANNOT_CREATE'));
 
 			return false;
 		}
@@ -1462,7 +1536,7 @@ abstract class AdminModel extends FormModel
 			$this->batchSet = true;
 
 			// Get current user
-			$this->user = \JFactory::getUser();
+			$this->user = Factory::getUser();
 
 			// Get table
 			$this->table = $this->getTable();
@@ -1476,5 +1550,100 @@ abstract class AdminModel extends FormModel
 			$this->type = $this->contentType->getTypeByTable($this->tableClassName)
 				?: $this->contentType->getTypeByAlias($this->typeAlias);
 		}
+	}
+
+	/**
+	 * Method to load an item in com_associations.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True if successful, false otherwise.
+	 *
+	 * @since   3.9.0
+	 */
+	public function editAssociations($data)
+	{
+		// Save the item
+		$this->save($data);
+
+		$app = \JFactory::getApplication();
+		$id  = $data['id'];
+
+		// Deal with categories associations
+		if ($this->text_prefix === 'COM_CATEGORIES')
+		{
+			$extension       = $app->input->get('extension', 'com_content');
+			$this->typeAlias = $extension . '.category';
+			$component       = strtolower($this->text_prefix);
+			$view            = 'category';
+		}
+		else
+		{
+			$aliasArray = explode('.', $this->typeAlias);
+			$component  = $aliasArray[0];
+			$view       = $aliasArray[1];
+			$extension  = '';
+		}
+
+		// Menu item redirect needs admin client
+		$client = $component === 'com_menus' ? '&client_id=0' : '';
+
+		if ($id == 0)
+		{
+			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOCIATIONS_NEW_ITEM_WARNING'), 'error');
+			$app->redirect(
+				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		if ($data['language'] === '*')
+		{
+			$app->enqueueMessage(\JText::_('JGLOBAL_ASSOC_NOT_POSSIBLE'), 'notice');
+			$app->redirect(
+				\JRoute::_('index.php?option=' . $component . '&view=' . $view . $client . '&layout=edit&id=' . $id . $extension, false)
+			);
+
+			return false;
+		}
+
+		$languages = LanguageHelper::getContentLanguages(array(0, 1));
+		$target    = '';
+
+		/* If the site contains only 2 languages and an association exists for the item
+		   load directly the associated target item in the side by side view
+		   otherwise select already the target language
+		*/
+		if (count($languages) === 2)
+		{
+			foreach ($languages as $language)
+			{
+				$lang_code[] = $language->lang_code;
+			}
+
+			$refLang    = array($data['language']);
+			$targetLang = array_diff($lang_code, $refLang);
+			$targetLang = implode(',', $targetLang);
+			$targetId   = $data['associations'][$targetLang];
+
+			if ($targetId)
+			{
+				$target = '&target=' . $targetLang . '%3A' . $targetId . '%3Aedit';
+			}
+			else
+			{
+				$target = '&target=' . $targetLang . '%3A0%3Aadd';
+			}
+		}
+
+		$app->redirect(
+			\JRoute::_(
+				'index.php?option=com_associations&view=association&layout=edit&itemtype=' . $this->typeAlias
+				. '&task=association.edit&id=' . $id . $target, false
+			)
+		);
+
+		return true;
 	}
 }

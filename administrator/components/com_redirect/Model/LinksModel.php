@@ -3,16 +3,18 @@
  * @package     Joomla.Administrator
  * @subpackage  com_redirect
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Redirect\Administrator\Model;
 
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
-use Joomla\CMS\MVC\Model\ListModel;
+use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
+use Joomla\CMS\MVC\Model\ListModel;
 
 /**
  * Methods supporting a list of redirect links.
@@ -62,7 +64,7 @@ class LinksModel extends ListModel
 
 		$query = $db->getQuery(true);
 
-		$query->delete('#__redirect_links')->where($db->qn('published') . '= 0');
+		$query->delete('#__redirect_links')->where($db->quoteName('published') . '= 0');
 
 		$db->setQuery($query);
 
@@ -195,12 +197,15 @@ class LinksModel extends ListModel
 	 *
 	 * @param   array  $batch_urls  Array of URLs to enter into the database
 	 *
-	 * @return bool
+	 * @return boolean
 	 */
 	public function batchProcess($batch_urls)
 	{
 		$db    = $this->getDbo();
 		$query = $db->getQuery(true);
+
+		$params = ComponentHelper::getParams('com_redirect');
+		$state  = (int) $params->get('defaultImportState', 0);
 
 		$columns = array(
 			$db->quoteName('old_url'),
@@ -230,8 +235,8 @@ class LinksModel extends ListModel
 
 			$query->insert($db->quoteName('#__redirect_links'), false)
 				->values(
-					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, 0, ' .
-					$db->quote(\JFactory::getDate()->toSql())
+					$db->quote($old_url) . ', ' . $db->quote($new_url) . ' ,' . $db->quote('') . ', ' . $db->quote('') . ', 0, ' . $state . ', ' .
+					$db->quote(Factory::getDate()->toSql())
 				);
 		}
 

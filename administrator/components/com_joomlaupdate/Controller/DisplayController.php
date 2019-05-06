@@ -3,15 +3,16 @@
  * @package     Joomla.Administrator
  * @subpackage  com_joomlaupdate
  *
- * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Joomlaupdate\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\Client\ClientHelper;
 use Joomla\CMS\MVC\Controller\BaseController;
-use Joomla\Component\Installer\Administrator\Model\WarningsModel;
 
 /**
  * Joomla! Update Controller
@@ -33,7 +34,7 @@ class DisplayController extends BaseController
 	public function display($cachable = false, $urlparams = false)
 	{
 		// Get the document object.
-		$document = \JFactory::getDocument();
+		$document = $this->app->getDocument();
 
 		// Set the default view name and format from the Request.
 		$vName   = $this->input->get('view', 'Joomlaupdate');
@@ -43,14 +44,15 @@ class DisplayController extends BaseController
 		// Get and render the view.
 		if ($view = $this->getView($vName, $vFormat))
 		{
-			$ftp = \JClientHelper::setCredentialsFromRequest('ftp');
+			$ftp = ClientHelper::setCredentialsFromRequest('ftp');
 			$view->ftp = &$ftp;
 
 			// Get the model for the view.
 			/* @var \Joomla\Component\Joomlaupdate\Administrator\Model\UpdateModel $model */
 			$model = $this->getModel('Update');
 
-			$warningsModel = new WarningsModel;
+			$warningsModel = $this->app->bootComponent('com_installer')
+				->getMVCFactory()->createModel('Warnings', 'Administrator', ['ignore_request' => true]);
 
 			if (is_object($warningsModel))
 			{

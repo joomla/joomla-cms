@@ -11,9 +11,7 @@
 
 	<!-- Exclude 3rd party libraries and Framework code. -->
 	<exclude-pattern type="relative">libraries/compat/password/*</exclude-pattern>
-	<exclude-pattern type="relative">libraries/idna_convert/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/php-encryption/*</exclude-pattern>
-	<exclude-pattern type="relative">libraries/simplepie/*</exclude-pattern>
 	<exclude-pattern type="relative">libraries/phpass/*</exclude-pattern>
 	<exclude-pattern type="relative">*/vendor/*</exclude-pattern>
 	<!-- Temporarily exclude the old FOF Library code. TODO: Should be made compliant!! -->
@@ -36,6 +34,9 @@
 	<exclude-pattern type="relative">tests/unit/suites/libraries/joomla/view/layouts2/olivia.php</exclude-pattern>
 	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component1/controller.json.php</exclude-pattern>
 	<exclude-pattern type="relative">tests/unit/suites/libraries/legacy/controller/stubs/component2/controller.php</exclude-pattern>
+
+	<!-- exclude file because of the use of unsupported class definition -->
+	<exclude-pattern type="relative">*/services/provider.php</exclude-pattern>
 
 	<!-- Exclude the RoboFile.php -->
 	<exclude-pattern type="relative">RoboFile.php</exclude-pattern>
@@ -85,12 +86,7 @@
 	<rule ref="Generic.PHP.DeprecatedFunctions" />
 	<rule ref="Generic.PHP.ForbiddenFunctions"/>
 	<rule ref="Generic.PHP.LowerCaseConstant" />
-	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent">
-		<!-- These exceptions are temporary for now -->
-		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
-		<exclude-pattern type="relative">components/*</exclude-pattern>
-		<exclude-pattern type="relative">libraries/cms/*</exclude-pattern>
-	</rule>
+	<rule ref="Generic.WhiteSpace.DisallowSpaceIndent" />
 
 	<!-- Include some additional sniffs from the PEAR standard -->
 	<rule ref="PEAR.Classes.ClassDeclaration" />
@@ -165,6 +161,14 @@
 		<exclude-pattern type="relative">templates/*</exclude-pattern>
 		<exclude-pattern type="relative">layouts/*</exclude-pattern>
 		<exclude-pattern type="relative">tests/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.MissingParamTag">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
+	</rule>
+
+	<rule ref="Joomla.Commenting.FunctionComment.ParamNameNoMatch">
+		<exclude-pattern type="relative">administrator/components/*</exclude-pattern>
 	</rule>
 
 	<rule ref="Joomla.Commenting.SingleComment">
