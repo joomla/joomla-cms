@@ -80,7 +80,6 @@ class ChangeUserPasswordCommand extends AbstractCommand
 	{
 		$this->configureIO($input, $output);
 		$this->username = $this->getStringFromOption('username', 'Please enter a username');
-		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		$this->ioStyle->title('Change password');
 
 		$userId = $this->getUserId($this->username);
@@ -94,6 +93,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		else
 		{
 			$oldUserObj = User::getInstance($userId);
+			$this->password = $this->getStringFromOption('password', 'Please enter a password');
 		}
 
 		$user['username'] = $this->username;
