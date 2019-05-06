@@ -648,8 +648,8 @@ class PlgContentJoomla extends CMSPlugin
 				continue;
 			}
 
-			$assoc = $workflow->getAssociation($pk);
-			$stageId = (int)$assoc->stage_id;
+			$assoc   = $workflow->getAssociation($pk);
+			$stageId = (int) $assoc->stage_id;
 
 			// Load new transitions
 			$query = $db->getQuery(true)
