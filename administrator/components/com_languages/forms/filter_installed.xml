@@ -3,6 +3,7 @@
 	<field
 		name="client_id"
 		type="list"
+		label="COM_LANGUAGES_INSTALLED_SELECT_CLIENT"
 		onchange="Joomla.resetFilters(this)"
 		filtermode="selector"
 		>

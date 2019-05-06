@@ -50,11 +50,13 @@ $filtersClass = isset($data['view']->activeFilters) && $data['view']->activeFilt
 	<?php // Add the itemtype and language selectors before the form filters. ?>
 	<div class="js-stools-container-selector-first">
 		<div class="js-stools-field-selector js-stools-itemtype">
+			<span class="sr-only"><?php echo $itemTypeField->label; ?></span>
 			<?php echo $itemTypeField->input; ?>
 		</div>
 	</div>
 	<div class="js-stools-container-selector">
 		<div class="js-stools-field-selector js-stools-language">
+			<span class="sr-only"><?php echo $languageField->label; ?></span>
 			<?php echo $languageField->input; ?>
 		</div>
 	</div>
