@@ -25,7 +25,7 @@ steps:
       - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - node --version
       - npm --version
-      - npm install  -ddd --unsafe-perm
+      - npm install --unsafe-perm
 
 
   - name: php70-unit
