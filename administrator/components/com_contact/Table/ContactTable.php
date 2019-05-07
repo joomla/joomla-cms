@@ -249,7 +249,7 @@ class ContactTable extends Table
 			$this->metadata = '{}';
 		}
 
-		// Set publish_up, publish_down, modified to null if not set
+		// Set publish_up, publish_down to null if not set
 		if (!$this->publish_up)
 		{
 			$this->publish_up = null;
