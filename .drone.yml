@@ -15,6 +15,7 @@ steps:
 
   - name: restore-cache
     image: drillster/drone-volume-cache
+    depends_on: [ phpcs ]
     settings:
       restore: true
       mount:
@@ -28,6 +29,7 @@ steps:
 
   - name: prepare
     image: joomlaprojects/docker-tools:develop
+    depends_on: [ restore-cache ]
     commands:
       - composer install --no-progress --no-suggest
       # needed for system testing
@@ -38,6 +40,7 @@ steps:
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
+    depends_on: [ prepare ]
     settings:
       rebuild: true
       mount:
@@ -50,24 +53,25 @@ steps:
         path: /cache
 
   - name: php70-unit
-    group: unit
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-php70:develop
     commands:
       - ./libraries/vendor/bin/phpunit
 
   - name: php71-unit
-    group: unit
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-php71:develop
     commands:
       - ./libraries/vendor/bin/phpunit
 
   - name: php72-unit
-    group: unit
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-php72:develop
     commands:
       - ./libraries/vendor/bin/phpunit
 
   - name: javascript-cs
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -77,6 +81,7 @@ steps:
       - npm run lint:js
 
   - name: javascript-tests
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -86,17 +91,20 @@ steps:
       - npm run test
 
   - name: system-tests
+    depends_on: [ javascript-tests ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - bash tests/Codeception/drone-system-run.sh "$(pwd)"
 
   - name: api-tests
+    depends_on: [ system-tests ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - bash tests/Api/drone-api-run.sh "$(pwd)"
 
   - name: analysis4x
     image: rips/rips-cli:1.2.1
+    depends_on: [ api-tests ]
     when:
       branch: 4.0-dev
     commands:
@@ -138,6 +146,6 @@ services:
 
 ---
 kind: signature
-hmac: 99046ba4aa79fb2b73a19f0ad8f4cec317721f311d2d4281031532df5a5b3a13
+hmac: 3fd8997ea05d0a71277ab5a9b8004ec48f8f14605a8c3c7f66493453de2a0b30
 
 ...
