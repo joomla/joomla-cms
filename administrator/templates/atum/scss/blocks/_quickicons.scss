@@ -112,7 +112,7 @@
     .fa,
     .fab {
       margin: 5px auto 0;
-      font-size: 2rem;
+      font-size: 1.3rem;
     }
 
     &.warning {
@@ -156,4 +156,14 @@
     position: absolute;
     right: 1.25rem;
   }
+}
+
+.masonry { /* Masonry container */
+  column-count: 2;
+  column-gap: 1em;
+}
+
+.masonry .module-wrapper { /* Masonry bricks or child elements */
+  display: inline-block;
+  width: 100%;
 }

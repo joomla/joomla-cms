@@ -120,7 +120,7 @@ abstract class QuickIconHelper
 						'amount' => self::countCheckin(),
 						'link'   => Route::_('index.php?option=com_checkin'),
 						'image'  => 'fa fa-lock-open',
-						'text'   => Text::_('MOD_QUICKICON_CHECKINS'),
+						'name'   => Text::_('MOD_QUICKICON_CHECKINS'),
 						'access' => array('core.admin', 'com_checkin'),
 						'group'  => 'MOD_QUICKICON_SYSTEM'
 					];
@@ -131,7 +131,7 @@ abstract class QuickIconHelper
 						'amount' => '123kB',
 						'link'   => Route::_('index.php?option=com_chache'),
 						'image'  => 'fa fa-cloud',
-						'text'   => Text::_('MOD_QUICKICON_CACHE'),
+						'name'   => Text::_('MOD_QUICKICON_CACHE'),
 						'access' => array('core.admin', 'com_cache'),
 						'group'  => 'MOD_QUICKICON_SYTEM'
 					];
@@ -141,7 +141,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'link'   => Route::_('index.php?option=com_config'),
 						'image'  => 'fa fa-cog',
-						'text'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
+						'name'   => Text::_('MOD_QUICKICON_GLOBAL_CONFIGURATION'),
 						'access' => array('core.manage', 'com_config', 'core.admin', 'com_config'),
 						'group'  => 'MOD_QUICKICON_SYSTEM',
 					];
@@ -159,7 +159,7 @@ abstract class QuickIconHelper
 						'image'  => 'fa fa-users',
 						'linkadd'   => Route::_('index.php?option=com_users&task=user.add'),
 						'addwhat' => Text::plural('MOD_QUICKICON_USER_MANAGER', 1),
-						'text'   => Text::plural('MOD_QUICKICON_USER_MANAGER', $amount),
+						'name'   => Text::plural('MOD_QUICKICON_USER_MANAGER', $amount),
 						'access' => array('core.manage', 'com_users', 'core.create', 'com_users'),
 						'group'  => 'MOD_QUICKICON_SITE',
 					];
@@ -175,7 +175,7 @@ abstract class QuickIconHelper
 						'image'  => 'fa fa-list',
 						'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
 						'addwhat' => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', 1),
-						'text'   => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', $amount),
+						'name'   => Text::plural('MOD_QUICKICON_MENUITEMS_MANAGER', $amount),
 						'access' => array('core.manage', 'com_menus', 'core.create', 'com_menus'),
 						'group'  => 'MOD_QUICKICON_STRUCTURE',
 					];
@@ -232,7 +232,7 @@ abstract class QuickIconHelper
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_modules'),
 						'image'  => 'fa fa-puzzle-piece',
-						'text'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
+						'name'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
 						'addwhat' => Text::plural('MOD_QUICKICON_MODULE_MANAGER', 1),
 						'linkadd'   => Route::_('index.php?option=com_categories&task=type.select'),
 						'access' => array('core.manage', 'com_modules'),

@@ -34,15 +34,15 @@ echo HTMLHelper::_(
 		'url'         => Route::_('index.php?option=com_cpanel&task=addModule&function=jSelectModuleType&position=' . $this->escape($this->position)),
 		'bodyHeight'  => '70',
 		'modalWidth'  => '80',
-		'footer'      => '<a type="button" class="btn" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true">'
-			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
-			. '<button type="button" class="btn btn-primary hidden" data-target="#saveBtn" aria-hidden="true">'
+		'footer'      => '<button type="button" class="button-cancel  btn btn-sm btn-danger" data-dismiss="modal" data-target="#closeBtn" aria-hidden="true"><span class="icon-cancel" aria-hidden="true"></span>'
+			. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
+			. '<button type="button" class="button-save  btn btn-sm btn-success hidden" data-target="#saveBtn" aria-hidden="true"><span class="icon-save" aria-hidden="true"></span>'
 			. Text::_('JSAVE') . '</button>',
 	)
 );
 ?>
 <?php if ($this->quickicons) : ?>
-<div id="cpanel-modules" class="row">
+<div class="cpanel-modules masonry">
     	<?php // Display the icon position modules
 		foreach ($this->quickicons as $iconmodule)
 		{
@@ -52,15 +52,16 @@ echo HTMLHelper::_(
 </div>
 <?php endif; ?>
 
-<div id="cpanel-modules" class="row">
+<div class="cpanel-modules masonry">
 	<?php
 	foreach ($this->modules as $module)
 	{
-		echo ModuleHelper::renderModule($module, array('style' => 'well'));
+		echo ModuleHelper::renderModule($module, array('style' => 'masonry'));
 	}
 	?>
 	<?php if ($user->authorise('core.create', 'com_modules')) : ?>
 </div>
+
 <div class="row">
 	<div class="col-md-6">
 		<a href="#moduleEditModal" data-toggle="modal" data-target="#moduleDashboardAddModal" role="button" class="cpanel-add-module text-center py-5 w-100 d-block">
