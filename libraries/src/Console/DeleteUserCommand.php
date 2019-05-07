@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\ParameterType;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -86,27 +87,41 @@ class DeleteUserCommand extends AbstractCommand
 			return 1;
 		}
 
-		Factory::getApplication()->triggerEvent('onUserBeforeDelete', array(User::getInstance($userId)));
+		$user = User::getInstance($userId);
+		Factory::getApplication()->triggerEvent('onUserBeforeDelete', array($user));
 		$groups = UserHelper::getUserGroups($userId);
-		$query = $db->getQuery(true);
-		$query->select('COUNT(*)');
-		$query->from($db->quoteName('#__user_usergroup_map'));
-		$query->where($db->quoteName('group_id') . " = :groupId");
+		$queryUserGroupMap = $db->getQuery(true);
+		$queryUserGroupMap->select($db->quoteName('user_id'));
+		$queryUserGroupMap->from($db->quoteName('#__user_usergroup_map'));
+		$queryUserGroupMap->where($db->quoteName('group_id') . " = :groupId");
+
+
+
 
 		foreach ($groups as $groupId)
 		{
 			if (Access::checkGroup($groupId, 'core.admin'))
 			{
-				$query->bind(':groupId', $groupId);
-				$db->setQuery($query);
-				$count = $db->loadResult();
+				$queryUserGroupMap->bind(':groupId', $groupId);
+				$db->setQuery($queryUserGroupMap);
+				$users = $db->loadColumn();
 
-				if ($count < 2)
+				$queryUser = $db->getQuery(true);
+				$queryUser->select('COUNT(*)')
+					->from($db->quoteName('#__users'))
+					->whereIn($db->quoteName('id'), $users, ParameterType::INTEGER)
+					->where($db->quoteName('block') . " = 0");
+
+				$db->setQuery($queryUser);
+				$activeSuperUser = $db->loadResult();
+
+				if ($activeSuperUser < 2 && $user->block == 0)
 				{
-					$this->ioStyle->error("Last super user can't be deleted! At least one super user needs to exist!");
+					$this->ioStyle->error("Last active super user can't be deleted! At least one active super user needs to exist!");
 
 					return 1;
 				}
+
 			}
 
 			$removed = UserHelper::removeUserFromGroup($userId, $groupId);
