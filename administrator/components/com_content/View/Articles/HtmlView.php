@@ -101,7 +101,7 @@ class HtmlView extends BaseHtmlView
 		$this->vote          = PluginHelper::isEnabled('content', 'vote');
 
 		// Check for errors.
-		if ((count($errors = $this->get('Errors'))) || (!$this->transitions))
+		if ((count($errors = $this->get('Errors'))) || $this->transitions === false)
 		{
 			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
 		}
