@@ -46,7 +46,7 @@ class MenutypeField extends ListField
 		$html     = array();
 		$recordId = (int) $this->form->getValue('id');
 		$size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : 'class="form-control"';
+		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : ' class="form-control"';
 		$required = (string) $this->element['required'] ? ' required="required"' : '';
 		$clientId = (int) $this->element['clientid'] ?: 0;
 
