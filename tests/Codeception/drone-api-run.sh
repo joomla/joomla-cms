@@ -81,7 +81,7 @@ cd $JOOMLA_BASE
 apache2ctl -D FOREGROUND &
 google-chrome --version
 chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
-cp libraries/vendor/joomla/test-system/src/acceptance.suite.dist.yml libraries/vendor/joomla/test-system/src/acceptance.suite.yml
+cp tests/Codeception/acceptance.suite.dist.yml tests/Codeception/acceptance.suite.yml
 libraries/vendor/bin/robo run:install
 
 # Setting up api tests

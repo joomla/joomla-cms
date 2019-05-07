@@ -88,12 +88,12 @@ steps:
   - name: system-tests
     image: joomlaprojects/docker-systemtests:develop
     commands:
-      - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
+      - bash tests/Codeception/drone-system-run.sh "$(pwd)"
 
   - name: api-tests
     image: joomlaprojects/docker-systemtests:latest
     commands:
-      - bash tests/Api/drone-run.sh "$(pwd)"
+      - bash tests/Api/drone-api-run.sh "$(pwd)"
 
   - name: analysis4x
     image: rips/rips-cli:1.2.1
@@ -138,6 +138,6 @@ services:
 
 ---
 kind: signature
-hmac: e0625c8aaa91283a2854307f9310ca3abaab9ab5c892852e28dd2f508a04240e
+hmac: 8aa5446bfea3fbb295ae9ca362c72f82738cca714f5670f9bf70da1c02d1ad45
 
 ...
