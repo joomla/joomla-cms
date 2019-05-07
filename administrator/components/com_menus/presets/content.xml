@@ -7,6 +7,7 @@
     <menuitem
             title="MOD_MENU_COM_CONTENT"
             type="heading"
+			icon="file-alt"
             class="class:file-alt"
     >
         <menuitem
@@ -36,6 +37,7 @@
     <menuitem
             title="MOD_MENU_COM_CONTENT_MANAGE"
             type="heading"
+			icon="cog"
             class="class:file-alt"
     >
         <menuitem
@@ -60,6 +62,7 @@
     <menuitem
             title="MOD_MENU_COM_CONTENT_MISC"
             type="heading"
+			icon="cubes"
             class="class:file-alt"
             dashboard="content"
     >

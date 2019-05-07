@@ -114,7 +114,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_users');
 
-		ToolbarHelper::title(Text::_('COM_USERS_VIEW_GROUPS_TITLE'), 'users groups');
+		ToolbarHelper::title(Text::_('COM_USERS_VIEW_GROUPS_TITLE'), 'users-cog groups');
 
 		if ($canDo->get('core.create'))
 		{

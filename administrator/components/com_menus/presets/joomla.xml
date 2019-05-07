@@ -14,6 +14,7 @@
 	<menuitem
 			title="MOD_MENU_COM_CONTENT"
 			type="heading"
+			icon="file-alt"
 			class="class:file-alt"
 			dashboard="content"
 	>
@@ -93,6 +94,7 @@
 	<menuitem
 			title="MOD_MENU_MENUS"
 			type="heading"
+			icon="list"
 			class="class:list"
 			dashboard="menus"
 	>
@@ -162,13 +164,14 @@
 	<menuitem
 			title="MOD_MENU_COMPONENTS"
 			type="container"
-			class="class:cube"
+			class="class:puzzle-piece"
 			dashboard="components"
 	/>
 
 	<menuitem
 			title="MOD_MENU_COM_USERS_USERS"
 			type="heading"
+			icon="users"
 			class="class:users"
 			alias="users"
 			dashboard="users"
