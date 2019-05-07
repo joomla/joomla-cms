@@ -262,7 +262,7 @@ class ContactTable extends Table
 
 		if (!$this->modified)
 		{
-			$this->modified = null;
+			$this->modified = $this->created;
 		}
 
 		return true;
