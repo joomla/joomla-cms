@@ -7,7 +7,12 @@
   .content {
     background-color: transparent;
   }
-
+  
+  .tab-content {
+    background-color: $white;
+    padding: 1rem;
+  }
+  
   [class^='col-'] {
 
     > fieldset {

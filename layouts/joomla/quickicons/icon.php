@@ -44,14 +44,7 @@ if ($id !== '')
 		<?php endif; ?>
 		<?php if (isset($displayData['amount'])): ?>
 			<div class="quickicon-amount <?php isset($displayData['image']) ? 'small' : 'big'; ?>">
-				<?php
-				$amount = (int) $displayData['amount'];
-				if ($amount <  100000):
-					echo $amount;
-				else:
-					echo floor($amount / 1000) . '<span class="thsd">' . $amount % 1000 . '</span>';
-				endif;
-				?>
+				<?php echo $displayData['amount']; ?>
 			</div>
 		<?php endif; ?>
 		<?php // Name indicates the component
