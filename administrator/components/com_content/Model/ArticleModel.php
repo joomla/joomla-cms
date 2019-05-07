@@ -387,7 +387,8 @@ class ArticleModel extends AdminModel
 				->from($db->quoteName('#__workflow_stages', 'ws'))
 				->from($db->quoteName('#__workflow_stages', 'ws2'))
 				->from($db->quoteName('#__workflow_associations', 'wa'))
-				->whereIn($db->quoteName('wt.from_stage_id'), [-1, $db->quoteName('wa.stage_id')])
+				->where('(' . $db->quoteName('wt.from_stage_id') . ' = -1 OR ' .
+					$db->quoteName('wt.from_stage_id') . ' = ' . $db->quoteName('wa.stage_id') . ')')
 				->where($db->quoteName('wt.to_stage_id') . ' = ' . $db->quoteName('ws.id'))
 				->where($db->quoteName('wa.stage_id') . ' = ' . $db->quoteName('ws2.id'))
 				->where($db->quoteName('wt.workflow_id') . ' = ' . $db->quoteName('ws.workflow_id'))
