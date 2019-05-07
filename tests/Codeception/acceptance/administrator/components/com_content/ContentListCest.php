@@ -84,6 +84,7 @@ class ContentListCest
 		$I->see('Alias: ' . $testArticle['alias']);
 	}
 
+	// phpcs:disable
 	// TODO publish article using toolbar button
 	// TODO publish article using inline button
 	// TODO unpublish article using toolbar button
@@ -160,4 +161,5 @@ class ContentListCest
 //		$I->unPublishArticle($this->articleTitle);
 //		$I->trashArticle($this->articleTitle);
 	}
+	// phpcs:ensable
 }

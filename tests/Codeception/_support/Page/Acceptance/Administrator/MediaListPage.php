@@ -379,7 +379,7 @@ class MediaListPage extends AdminListPage
 	 */
 	public static function itemAction($itemName, $actionName)
 	{
-		return self::itemXpath($itemName) . '//button[@class= \''. $actionName .'\']';
+		return self::itemXpath($itemName) . '//button[@class= \'' . $actionName . '\']';
 	}
 
 	/**

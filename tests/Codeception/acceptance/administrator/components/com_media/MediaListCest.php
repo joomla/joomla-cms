@@ -9,9 +9,11 @@
 use Page\Acceptance\Administrator\MediaListPage;
 use Page\Acceptance\Administrator\MediaFilePage;
 
+// phpcs:disable
 // TODO test d&d upload of files
 // TODO test download of files
 // TODO enable skipped tests
+// phpcs:enable
 
 /**
  * Media manager list tests
@@ -681,10 +683,12 @@ class MediaListCest
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function resizeThumbnails(\Step\Acceptance\Administrator\Media $I) {
+	public function resizeThumbnails(\Step\Acceptance\Administrator\Media $I)
+	{
 		$I->wantToTest('that it is possible to resize the thumbnails.');
 		$I->amOnPage(MediaListPage::$url);
 		$I->waitForMediaLoaded();
+
 		// Resize to max
 		$I->seeElement(MediaListPage::$itemsContainerMedium);
 		$I->click(MediaListPage::$increaseThumbnailSizeButton);
@@ -692,6 +696,7 @@ class MediaListCest
 		$I->click(MediaListPage::$increaseThumbnailSizeButton);
 		$I->seeElement(MediaListPage::$itemsContainerExtraLarge);
 		$I->seeElement(MediaListPage::$increaseThumbnailSizeButtonDisabled);
+
 		// Resize to min
 		$I->click(MediaListPage::$decreaseThumbnailSizeButton);
 		$I->seeElement(MediaListPage::$itemsContainerLarge);

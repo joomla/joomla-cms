@@ -31,6 +31,7 @@ class Category extends Admin
 		$this->fillField(ContentCategoryListPage::$title, $title);
 		$this->click(ContentCategoryListPage::$dropDownToggle);
 		$this->clickToolbarButton("Save & Close");
+
 		// Qucikfix: we need to refactor the test
 		$this->seeInDatabase('categories', [
 			'title' => $title,

@@ -25,14 +25,17 @@ class Media extends Admin
 		{
 			$I->waitForElement(MediaListPage::$loader, 3);
 			$I->waitForElementNotVisible(MediaListPage::$loader);
+
 			// Add a small timeout to wait for rendering (otherwise it will fail when executed in headless browser)
 			$I->wait(0.2);
 		}
 		catch (NoSuchElementException $e)
 		{
-			// Continue if we cant find the loader within 3 seconds.
-			// In most cases this means that the loader disappeared so quickly, that selenium was not able to see it.
-			// Unfortunately we currently dont have any better technique to detect when vue components are loaded/updated
+			/*
+			 * Continue if we cant find the loader within 3 seconds.
+			 * In most cases this means that the loader disappeared so quickly, that selenium was not able to see it.
+			 * Unfortunately we currently dont have any better technique to detect when vue components are loaded/updated
+			 */
 		}
 	}
 
@@ -104,6 +107,7 @@ class Media extends Admin
 		$absolutePath = $this->absolutizePath($dirname);
 		$oldUmask     = @umask(0);
 		@mkdir($absolutePath, $mode, true);
+
 		// This was adjusted to make drone work: codeception is executed as root, joomla runs as www-data
 		// so we have to run chown after creating new directpries
 		if (!empty($user = $this->getLocalUser()))
