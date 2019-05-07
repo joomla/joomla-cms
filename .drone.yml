@@ -100,7 +100,7 @@ steps:
     depends_on: [ system-tests ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
-      - bash tests/Api/drone-api-run.sh "$(pwd)"
+      - bash tests/Codeception/drone-api-run.sh "$(pwd)"
 
   - name: analysis4x
     image: rips/rips-cli:1.2.1
@@ -146,6 +146,6 @@ services:
 
 ---
 kind: signature
-hmac: 3fd8997ea05d0a71277ab5a9b8004ec48f8f14605a8c3c7f66493453de2a0b30
+hmac: 3c09eaef4de32f4646a0f7d1dbe5a07835b6972cca9bbcc5116a5eaabf365d15
 
 ...
