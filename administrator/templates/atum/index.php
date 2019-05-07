@@ -204,7 +204,7 @@ $this->addStyleDeclaration($css);
 
 <?php // Header ?>
 <header id="header" class="header">
-	<div class="d-flex align-items-center">
+	<div class="d-flex">
 		<div class="header-title d-flex mr-auto">
 			<div class="d-flex">
 				<?php // No home link in edit mode (so users can not jump out) and control panel (for a11y reasons) ?>
@@ -224,7 +224,7 @@ $this->addStyleDeclaration($css);
 			<jdoc:include type="modules" name="title"/>
 		</div>
 		<div class="header-items d-flex ml-auto">
-			<jdoc:include type="modules" name="status" style="no"/>
+			<jdoc:include type="modules" name="status" style="header-element"/>
 		</div>
 	</div>
 </header>

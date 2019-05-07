@@ -87,7 +87,7 @@ class HtmlView extends BaseHtmlView
 		$isNew = ($this->item->id == 0);
 		$canDo = ContentHelper::getActions('com_users');
 
-		ToolbarHelper::title(Text::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'users levels-add');
+		ToolbarHelper::title(Text::_($isNew ? 'COM_USERS_VIEW_NEW_LEVEL_TITLE' : 'COM_USERS_VIEW_EDIT_LEVEL_TITLE'), 'user-lock levels-add');
 
 		$toolbarButtons = [];
 

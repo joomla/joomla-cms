@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="3.1" client="administrator" method="upgrade">
-	<name>mod_status</name>
+	<name>mod_status_messages</name>
 	<author>Joomla! Project</author>
 	<creationDate>Feb 2006</creationDate>
 	<copyright>(C) 2005 - 2019 Open Source Matters. All rights reserved.</copyright>
@@ -8,16 +8,16 @@
 	<authorEmail>admin@joomla.org</authorEmail>
 	<authorUrl>www.joomla.org</authorUrl>
 	<version>3.0.0</version>
-	<description>MOD_STATUS_XML_DESCRIPTION</description>
+	<description>MOD_STATUS_MESSAGES_XML_DESCRIPTION</description>
 	<files>
-		<filename module="mod_status">mod_status.php</filename>
+		<filename module="mod_status_messages">mod_status_messages.php</filename>
 		<folder>tmpl</folder>
 	</files>
 	<languages>
-		<language tag="en-GB">en-GB.mod_status.ini</language>
-		<language tag="en-GB">en-GB.mod_status.sys.ini</language>
+		<language tag="en-GB">en-GB.mod_status_messages.ini</language>
+		<language tag="en-GB">en-GB.mod_status_messages.sys.ini</language>
 	</languages>
-	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_STATUS" />
+	<help key="JHELP_EXTENSIONS_MODULE_MANAGER_ADMIN_STATUS_MESSAGES" />
 	<config>
 		<fields name="params">
 			<fieldset name="advanced">

@@ -6,6 +6,7 @@
     <menuitem
             title="MOD_MENU_COM_USERS_USERS"
             type="heading"
+			icon="users"
             class="class:users"
     >
         <menuitem
@@ -31,6 +32,7 @@
     <menuitem
             title="MOD_MENU_COM_USERS_FIELDS"
             type="heading"
+			icon="user-tag"
             class="class:users"
     >
         <menuitem
@@ -49,6 +51,7 @@
     <menuitem
             title="MOD_MENU_COM_USERS_MISC"
             type="heading"
+			icon="user-edit"
             class="class:users"
     >
         <menuitem

@@ -15,6 +15,7 @@ use Joomla\CMS\Access\Access;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
@@ -119,7 +120,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => self::countCheckin(),
 						'link'   => Route::_('index.php?option=com_checkin'),
-						'image'  => 'fa fa-lock-open',
+						'image'  => 'fa fa-unlock-alt',
 						'name'   => Text::_('MOD_QUICKICON_CHECKINS'),
 						'access' => array('core.admin', 'com_checkin'),
 						'group'  => 'MOD_QUICKICON_SYSTEM'
@@ -128,7 +129,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_cache', '1'))
 				{
 					self::$buttons[$key][] = [
-						'amount' => '123kB',
+						'amount' => self::countCache(),
 						'link'   => Route::_('index.php?option=com_cache'),
 						'image'  => 'fa fa-cloud',
 						'name'   => Text::_('MOD_QUICKICON_CACHE'),
@@ -188,7 +189,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_content'),
-						'image'  => 'fa fa-file',
+						'image'  => 'fa fa-file-alt',
 						'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
 						'addwhat' => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', 1),
 						'name'   => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', $amount),
@@ -204,7 +205,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_categories'),
-						'image'  => 'fa fa-folder',
+						'image'  => 'fa fa-folder-open',
 						'addwhat' => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', 1),
 						'linkadd'   => Route::_('index.php?option=com_categories&task=category.add'),
 						'name'   => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', $amount),
@@ -216,7 +217,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_media', '1'))
 				{
 					self::$buttons[$key][] = [
-						'image'  => 'fa fa-image',
+						'image'  => 'fa fa-images',
 						'link'   => Route::_('index.php?option=com_media'),
 						'name'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media'),
@@ -231,7 +232,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_modules'),
-						'image'  => 'fa fa-puzzle-piece',
+						'image'  => 'fa fa-cube',
 						'name'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
 						'addwhat' => Text::plural('MOD_QUICKICON_MODULE_MANAGER', 1),
 						'linkadd'   => Route::_('index.php?option=com_categories&task=type.select'),
@@ -310,15 +311,20 @@ abstract class QuickIconHelper
 		$model = $app->bootComponent('com_content')->getMVCFactory()
 			->createModel('Articles', 'Administrator', ['ignore_request' => true]);
 
-		// Count IDs
-		$model->setState('list.select', 'a.id');
-
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
 		$model->setState('filter.published', 1);
 
-		return count($model->getItems());
+		$amount = count($model->getItems());
+
+		// Too big amounts must be truncated
+		if ($amount > 9999)
+		{
+			$amount = floor($amount / 10000) . '<span class="thsd"> ' . Text::_('MOD_QUICKICON_AMOUNT_THSD' ) . '</span>';
+		}
+
+		return $amount;
 	}
 	
 	/**
@@ -446,5 +452,38 @@ abstract class QuickIconHelper
 		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel('Templates', 'Administrator', ['ignore_request' => true]);
 		
 		return count($model->getItems());
+	}
+	
+	/**
+	 * Method to get The Cache Size
+	 * 
+	 * @return  integer  The cache size in kB
+	 *
+	 * @since   4.0
+	 */
+	private static function countCache()
+	{
+		$app = Factory::getApplication();
+
+		$model = $app->bootComponent('com_cache')->getMVCFactory()->createModel('Cache', 'Administrator', ['ignore_request' => true]);
+
+		$data = $model->getData();
+
+		$size = 0;
+
+		if (!empty($data))
+		{
+			foreach ($data as $d)
+			{
+				$size += $d->size;
+			}
+		}
+
+		// Number bytes are returned in format xxx.xx MB
+		$mb = explode(' ', HTMLHelper::_('number.bytes', $size, 'MB', 1, false));
+		
+		// Return number only
+		return $mb[0];
+
 	}
 }
