@@ -56,7 +56,7 @@
     font-size: .9rem;
     line-height: 3.4rem;
     margin-top: 0.4rem;
-    border: 1px solid #ccc;
+    border: 1px solid $gray-400;
     text-decoration: none;
     box-shadow: $atum-box-shadow;
 
@@ -90,7 +90,7 @@
     width: 100%;
     transition: all .25s ease;
     text-align: center;
-    border: 1px solid #ccc;
+    border: 1px solid $gray-400;
     border-radius: 0.3rem;
 
     @include hover-focus-active {
