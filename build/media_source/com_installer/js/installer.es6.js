@@ -118,13 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.querySelector('#install_package');
   const button = document.querySelector('#select-file-button');
   const returnUrl = document.querySelector('#installer-return').value;
-  const progress = [].slice.call(document.querySelectorAll('.upload-progress'));
-  const progressBar = progress[0].find('.bar');
-  const percentage = progress[0].find('.uploading-number');
+  const progress = document.getElementById('upload-progress');
+  const progressBar = progress.querySelectorAll('.bar')[0];
+  const percentage = progress.querySelectorAll('.uploading-number')[0];
   let uploadUrl = 'index.php?option=com_installer&task=install.ajax_upload';
 
   function showError(res) {
-    dragZone.attr('data-state', 'pending');
+    dragZone.setAttribute('data-state', 'pending');
     let message = Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_UNKNOWN');
     if (res == null) {
       message = Joomla.JText._('PLG_INSTALLER_PACKAGEINSTALLER_UPLOAD_ERROR_EMPTY');
@@ -200,12 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     data.append('install_package', file);
     data.append('installtype', 'upload');
+    dragZone.setAttribute('data-state', 'uploading');
+    progressBar.setAttribute('aria-valuenow', 0);
 
-    dragZone.attr('data-state', 'uploading');
     uploading = true;
-    progressBar.css('width', 0);
-    progressBar.attr('aria-valuenow', 0);
-    percentage.text(0);
+    progressBar.style.width = 0;
+    percentage.textContent = '0';
 
     // Upload progress
     const progressCallback = (evt) => {
@@ -213,10 +213,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const percentComplete = evt.loaded / evt.total;
         const number = Math.round(percentComplete * 100);
         progressBar.css('width', `${number}%`);
-        progressBar.attr('aria-valuenow', number);
-        percentage.text(number);
+        progressBar.setAttribute('aria-valuenow', number);
+        percentage.textContent = `${number}`;
         if (number === 100) {
-          dragZone.attr('data-state', 'installing');
+          dragZone.setAttribute('data-state', 'installing');
         }
       }
     };
