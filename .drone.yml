@@ -15,6 +15,7 @@ steps:
 
   - name: restore-cache
     image: drillster/drone-volume-cache
+    depends_on: [ phpcs ]
     settings:
       restore: true
       mount:
@@ -28,6 +29,7 @@ steps:
 
   - name: prepare
     image: joomlaprojects/docker-tools:develop
+    depends_on: [ restore-cache ]
     commands:
       - composer install --no-progress --no-suggest
       # needed for system testing
@@ -39,6 +41,7 @@ steps:
 
   - name: rebuild-cache
     image: drillster/drone-volume-cache
+    depends_on: [ prepare ]
     settings:
       rebuild: true
       mount:
@@ -51,24 +54,25 @@ steps:
         path: /cache
 
   - name: php70-unit
-    group: unit
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-php70:develop
     commands:
       - ./libraries/vendor/bin/phpunit
 
   - name: php71-unit
-    group: unit
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-php71:develop
     commands:
       - ./libraries/vendor/bin/phpunit
 
   - name: php72-unit
-    group: unit
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-php72:develop
     commands:
       - ./libraries/vendor/bin/phpunit
 
   - name: javascript-cs
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -78,6 +82,7 @@ steps:
       - npm run lint:js
 
   - name: javascript-tests
+    depends_on: [ rebuild-cache ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - export DISPLAY=:0
@@ -87,17 +92,20 @@ steps:
       - npm run test
 
   - name: system-tests
+    depends_on: [ javascript-tests ]
     image: joomlaprojects/docker-systemtests:develop
     commands:
       - bash libraries/vendor/joomla/test-system/src/drone-run.sh "$(pwd)"
 
   - name: api-tests
+    depends_on: [ system-tests ]
     image: joomlaprojects/docker-systemtests:latest
     commands:
       - bash libraries/vendor/joomla/test-api/drone-run.sh "$(pwd)"
 
   - name: analysis4x
     image: rips/rips-cli:1.2.1
+    depends_on: [ api-tests ]
     when:
       branch: 4.0-dev
     commands:
@@ -139,6 +147,6 @@ services:
 
 ---
 kind: signature
-hmac: 8aa5446bfea3fbb295ae9ca362c72f82738cca714f5670f9bf70da1c02d1ad45
+hmac: 820e2021962202c01514b4ffe5eb893640c83fb5542345a70c4ca01e4ccfd43c
 
 ...

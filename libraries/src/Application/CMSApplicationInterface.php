@@ -9,6 +9,7 @@
 namespace Joomla\CMS\Application;
 
 use Joomla\CMS\Extension\ExtensionManagerInterface;
+use Joomla\CMS\Menu\AbstractMenu;
 use Joomla\CMS\User\User;
 use Joomla\Session\SessionInterface;
 
@@ -153,6 +154,18 @@ interface CMSApplicationInterface extends ExtensionManagerInterface
 	 * @since   4.0.0
 	 */
 	public function getIdentity();
+
+	/**
+	 * Get the menu object.
+	 *
+	 * @param   string  $name     The application name for the menu
+	 * @param   array   $options  An array of options to initialise the menu with
+	 *
+	 * @return  AbstractMenu|null  A AbstractMenu object or null if not set.
+	 *
+	 * @since   4.0.0
+	 */
+	public function getMenu($name = null, $options = array());
 
 	/**
 	 * Allows the application to load a custom or default identity.

@@ -46,7 +46,7 @@ class MenutypeField extends ListField
 		$html     = array();
 		$recordId = (int) $this->form->getValue('id');
 		$size     = (string) ($v = $this->element['size']) ? ' size="' . $v . '"' : '';
-		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : 'class="form-control"';
+		$class    = (string) ($v = $this->element['class']) ? ' class="form-control ' . $v . '"' : ' class="form-control"';
 		$required = (string) $this->element['required'] ? ' required="required"' : '';
 		$clientId = (int) $this->element['clientid'] ?: 0;
 
@@ -103,8 +103,8 @@ class MenutypeField extends ListField
 				'height'     => '300px',
 				'modalWidth' => 80,
 				'bodyHeight' => 70,
-				'footer'     => '<a type="button" class="btn btn-secondary" data-dismiss="modal" aria-hidden="true">'
-						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</a>'
+				'footer'     => '<button type="button" class="btn btn-secondary" data-dismiss="modal">'
+						. Text::_('JLIB_HTML_BEHAVIOR_CLOSE') . '</button>'
 			)
 		);
 		$html[] = '<input type="hidden" name="' . $this->name . '" value="'

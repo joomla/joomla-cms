@@ -278,21 +278,6 @@ final class SiteApplication extends CMSApplication
 	}
 
 	/**
-	 * Return a reference to the AbstractMenu object.
-	 *
-	 * @param   string  $name     The name of the application/client.
-	 * @param   array   $options  An optional associative array of configuration settings.
-	 *
-	 * @return  AbstractMenu  AbstractMenu object.
-	 *
-	 * @since   3.2
-	 */
-	public function getMenu($name = 'site', $options = array())
-	{
-		return parent::getMenu($name, $options);
-	}
-
-	/**
 	 * Get the application parameters
 	 *
 	 * @param   string  $option  The component option
