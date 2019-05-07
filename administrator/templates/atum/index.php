@@ -14,6 +14,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 use OzdemirBurak\Iris\Color\Hex;
+use OzdemirBurak\Iris\Color\Hsl;
 
 /** @var JDocumentHtml $this */
 
@@ -71,8 +72,18 @@ $root = [];
 
 $steps = 10;
 
-if ($this->params->get('bg-dark'))
-{
+//check if colors set to monochrome
+if($this->params->get('monochrome')){
+    if ($this->params->get('hue')) {
+        $bgcolor = new Hsl("hsl(" . $this->params->get('hue') . ",0%,26.1%)");
+        $root[] = '--atum-bg-dark: #' .$bgcolor->toHex() . ';';
+    }
+
+//normal colors
+}else{
+
+ if ($this->params->get('bg-dark'))
+ {
 	$bgcolor = trim($this->params->get('bg-dark'), '#');
 
 	list($red, $green, $blue) = str_split($bgcolor, 2);
@@ -100,25 +111,25 @@ if ($this->params->get('bg-dark'))
 	{
 
 	}
-}
+ }
 
-if ($this->params->get('bg-light'))
-{
+ if ($this->params->get('bg-light'))
+ {
 	$root[] = '--atum-bg-light: ' . $this->params->get('bg-light') . ';';
-}
+ }
 
-if ($this->params->get('text-dark'))
-{
+ if ($this->params->get('text-dark'))
+ {
 	$root[] = '--atum-text-dark: ' . $this->params->get('text-dark') . ';';
-}
+ }
 
-if ($this->params->get('text-light'))
-{
+ if ($this->params->get('text-light'))
+ {
 	$root[] = '--atum-text-light: ' . $this->params->get('text-light') . ';';
-}
+ }
 
-if ($this->params->get('link-color'))
-{
+ if ($this->params->get('link-color'))
+ {
 	$linkcolor = trim($this->params->get('link-color'), '#');
 
 	list($red, $green, $blue) = str_split($linkcolor, 2);
@@ -135,17 +146,18 @@ if ($this->params->get('link-color'))
 	{
 
 	}
-}
+ }
 
-if ($this->params->get('special-color'))
-{
+ if ($this->params->get('special-color'))
+ {
 	$root[] = '--atum-special-color: ' . $this->params->get('special-color') . ';';
-}
+ }
 
-if ($this->params->get('contrast-color'))
-{
+ if ($this->params->get('contrast-color'))
+ {
 	$root[] = '--atum-contrast: ' . $this->params->get('contrast-color') . ';';
-}
+ }
+}//end of else for monochrome
 
 if (count($root))
 {
