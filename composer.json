@@ -107,6 +107,9 @@
         "squizlabs/php_codesniffer": "~1.5",
         "joomla-projects/joomla-browser": "~4.0@dev",
         "joomla-projects/robo-joomla": "dev-develop",
-        "codeception/codeception": "~2.3"
+        "joomla-projects/selenium-server-standalone": "~v3",
+        "codeception/codeception": "~2.3",
+        "consolidation/robo": "^1.0.0"
+
     }
 }
