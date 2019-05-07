@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     Joomla.Administrator
- * @subpackage  mod_status
+ * @subpackage  mod_status_post_installation_messages
  *
  * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
@@ -36,4 +36,4 @@ $joomlaFilesExtensionId = ExtensionHelper::getExtensionRecord('files_joomla')->e
 // Load the com_postinstall language file
 Factory::getLanguage()->load('com_postinstall', JPATH_ADMINISTRATOR, 'en-GB', true);
 
-require ModuleHelper::getLayoutPath('mod_status', $params->get('layout', 'default'));
+require ModuleHelper::getLayoutPath('mod_status_post_installation_messages', $params->get('layout', 'default'));

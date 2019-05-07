@@ -7,14 +7,13 @@
   box-shadow: $atum-box-shadow;
   z-index: $zindex-header;
   border-top: 3px solid var(--atum-bg-dark);
+  color: var(--atum-special-color);
 
   @include media-breakpoint-down(lg) {
     .align-items-center{
       align-items: flex-start;
     }
   }
-
-
 
   .logo {
     display: inline-block;
@@ -65,6 +64,48 @@
 
   }
 
+  .header-element {
+    position: relative;
+
+    .header-element-content {
+      > *:first-child {
+        flex-direction: column;
+        height: 100%;
+        padding: 0 1rem;
+        color: var(--atum-special-color);
+
+        @media (max-width: 1023px) {
+          padding: 0 0.5rem;
+        }
+      }
+      a, button {
+        &:hover, &[aria-expanded="true"] {
+          background-color: var(--atum-bg-dark);
+          color: var(--atum-text-light);
+          text-decoration: none;
+        }
+      }
+      .dropdown-toggle {
+        // Overwrite default button styling
+        background-color: transparent;
+        border: $dropdown-border-width;
+
+        &::after {
+          display: none;
+        }
+      }
+      .joomlaversion {
+        min-width: 7rem;
+      }
+    }
+
+    .tiny {
+      text-align: center;
+      line-height: 0.8rem;
+      margin-top: 0.3rem;
+    }
+  }
+
   .nav-item:hover,
   .nav-item.show {
     background-color: var(--atum-bg-dark);
@@ -81,24 +122,9 @@
   .nav-link {
     position: relative;
     padding: 0;
-    margin: 0 0.8rem;
     line-height: $header-height;
     min-width: $header-height - 0.3125rem;
     display: inline;
-
-    .fa {
-      width: 1.5rem;
-      font-size: 1.2rem;
-      color: var(--atum-special-color);
-      vertical-align: middle;
-      transition: all .2s ease-in-out;
-    }
-
-    .badge {
-      position: absolute;
-      top: .4rem;
-      right: .4rem;
-    }
 
     &.dropdown-toggle {
       // Overwrite default button styling
@@ -115,10 +141,35 @@
     }
   }
 
+  .fa, .fab {
+    width: 1.5rem;
+    font-size: 1.2rem;
+    vertical-align: middle;
+    transition: all .2s ease-in-out;
+  }
+
   .dropdown-menu {
     min-width: 280px;
     padding: 0;
     z-index: 1041;
+  }
+
+  .badge {
+    position: absolute;
+    left: 50%;
+    top: 0.4rem;
+    margin-left: 1rem;
+  }
+
+  .fa-angle-down {
+    position: absolute;
+    left: 50%;
+    top: 0.9rem;
+    margin-left: -2.2rem;
+  }
+
+  .align-items-end {
+    min-height: 2rem;
   }
 
   .link-title {
@@ -137,6 +188,10 @@
       vertical-align: middle;
     }
 
+  }
+
+  a[target="_blank"]:before {
+    display: none;
   }
 
   .dropdown-menu {
@@ -183,19 +238,6 @@
     }
   }
 
-  .joomla-version {
-    margin-right: .9rem;
-    margin-bottom: 0;
-    font-size: $h5-font-size;
-    color: var(--atum-special-color);
-    font-size:$font-size-vsm;
-    &:before{
-      font: normal normal normal 23px/1 'Font Awesome 5 Brands';
-      content: "\f1aa  ";
-    }
-
-  }
-
   @include media-breakpoint-down(xs) {
     .header-items{
       background:var(--atum-bg-dark);
@@ -238,10 +280,14 @@
     .nav-item.show {
       background-color: var(--atum-bg-dark-70);
     }
-    .nav-item{
-      display: none;
+    .header-element-content{
+      display: none !important;
       &.footer-mobil-icon{
-        display:block;
+        color: var(--atum-text-light) !important;
+        display:block !important;
+        &>:first-child {
+          color: var(--atum-text-light) !important;
+        }
       }
     }
 
