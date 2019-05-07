@@ -32,10 +32,6 @@ steps:
     depends_on: [ restore-cache ]
     commands:
       - composer install --no-progress --no-suggest
-      # needed for system testing
-      - composer update joomla/test-system --no-progress --no-suggest
-      - composer update joomla-projects/selenium-server-standalone --no-progress --no-suggest
-      - composer update joomla-projects/joomla-browser --no-progress --no-suggest
       - npm install --unsafe-perm
 
   - name: rebuild-cache
@@ -146,6 +142,6 @@ services:
 
 ---
 kind: signature
-hmac: 3c09eaef4de32f4646a0f7d1dbe5a07835b6972cca9bbcc5116a5eaabf365d15
+hmac: f9563da53f6ef4fa5a90d50849a2dc697e0b1024f40369148e019c7b049ad304
 
 ...
