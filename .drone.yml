@@ -6,16 +6,8 @@ clone:
   depth: 42
 
 steps:
-  - name: phpcs
-    image: joomlaprojects/docker-phpcs
-    commands:
-      - echo $(date)
-      - /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
-      - echo $(date)
-
   - name: restore-cache
     image: drillster/drone-volume-cache
-    depends_on: [ phpcs ]
     settings:
       restore: true
       mount:
@@ -47,6 +39,14 @@ steps:
     volumes:
       - name: cache
         path: /cache
+
+  - name: phpcs
+	depends_on: [ rebuild-cache ]
+	image: joomlaprojects/docker-phpcs
+	commands:
+		- echo $(date)
+		- /root/.composer/vendor/bin/phpcs --report=full --encoding=utf-8 --extensions=php -p --standard=libraries/vendor/joomla/cms-coding-standards/lib/Joomla-CMS .
+		- echo $(date)
 
   - name: php72-unit
     depends_on: [ rebuild-cache ]
