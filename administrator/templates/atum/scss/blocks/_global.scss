@@ -206,3 +206,8 @@ a[target="_blank"]:before {
     column-count: 2;
   }
 }
+
+.tiny {
+  font-size: $font-size-vsm;
+  line-height: 1.4rem;
+}

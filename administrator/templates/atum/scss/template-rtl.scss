@@ -49,7 +49,14 @@ body {
   right: 0;
   left: auto;
 }
-
+.subhead {
+	.dropdown-toggle.btn-action::after {
+		margin: 0 16px 0 -22px;
+	}
+}
+.switcher {
+    float: right;
+}
 // Alerts
 .notify-alerts {
   margin-right: 125px;
@@ -86,7 +93,6 @@ body {
     content: "\f053";
   }
 }
-
 // Quickicons
 .quick-icons {
 
@@ -138,7 +144,7 @@ body {
   .has-arrow::after {
     left: 1rem;
     right: inherit;
-    transform: rotate(135deg) translate(0, -50%);
+    transform: rotate(180deg) translate(0, -180%);
   }
 
   ul a::before {

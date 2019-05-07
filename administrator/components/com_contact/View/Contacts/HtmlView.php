@@ -155,7 +155,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address contact');
+		ToolbarHelper::title(Text::_('COM_CONTACT_MANAGER_CONTACTS'), 'address-book contact');
 
 		if ($canDo->get('core.create') || count($user->getAuthorisedCategories('com_contact', 'core.create')) > 0)
 		{

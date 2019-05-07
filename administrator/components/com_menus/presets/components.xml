@@ -6,7 +6,7 @@
     <menuitem
             title="MOD_MENU_COMPONENTS"
             type="container"
-            class="class:cube"
+            class="class:puzzle-piece"
             dashboard="components"
     />
 </menu>

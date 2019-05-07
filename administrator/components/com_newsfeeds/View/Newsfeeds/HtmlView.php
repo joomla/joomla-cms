@@ -132,7 +132,7 @@ class HtmlView extends BaseHtmlView
 		// Get the toolbar object instance
 		$toolbar = Toolbar::getInstance('toolbar');
 
-		ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'feed newsfeeds');
+		ToolbarHelper::title(Text::_('COM_NEWSFEEDS_MANAGER_NEWSFEEDS'), 'rss newsfeeds');
 
 		if (count($user->getAuthorisedCategories('com_newsfeeds', 'core.create')) > 0)
 		{

@@ -16,8 +16,15 @@ defined('_JEXEC') or die;
 	$versionParts = explode("-", $version);
 	$versionNumber = $versionParts[0];
 	$versionName   = $versionParts[1]; ?>
-
-<div class="d-flex align-items-center joomlaversion"><span class="badge badge-pill badge-success"><?php echo $versionNumber; ?></span>
-	<p class="joomla-version w-100 text-center"><br><?php echo $versionName; ?></p>
-</div>
+<diV class="header-element-content">
+    <div class="joomlaversion d-flex">
+        <div class="d-flex align-items-end mx-auto">
+            <span class="fab fa-joomla" aria-hidden="true"></span>
+        </div>
+        <div class="d-flex align-items-center tiny mx-auto">
+            <?php echo $versionName; ?>
+        </div>
+        <span class="badge badge-pill badge-success"><?php echo $versionNumber; ?></span>
+    </div>
+</diV>
 <?php endif; ?>

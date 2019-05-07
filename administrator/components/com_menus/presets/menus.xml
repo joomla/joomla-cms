@@ -7,6 +7,7 @@
     <menuitem
             title="MOD_MENU_MENUS"
             type="heading"
+			icon="list"
             class="class:list"
     >
         <menuitem
@@ -31,6 +32,7 @@
     <menuitem
             type="separator"
             title="JSITE"
+			icon="desktop"
             hidden="false"
             sql_select="a.title, a.menutype, CASE COALESCE(SUM(m.home), 0) WHEN 0 THEN '' WHEN 1 THEN CASE m.language WHEN '*' THEN 'class:icon-home' ELSE CONCAT('image:mod_languages/', l.image, '.gif') END ELSE 'image:mod_languages/icon-16-language.png' END AS icon"
             sql_from="#__menu_types AS a"

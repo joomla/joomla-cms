@@ -6,6 +6,7 @@
 	<menuitem
 		title="MOD_MENU_SYSTEM"
 		type="heading"
+		icon="wrench"
 		class="class:wrench"
 		>
 		<menuitem
@@ -48,6 +49,7 @@
 	<menuitem
 		title="MOD_MENU_COM_USERS_USERS"
 		type="heading"
+		icon="users"
 		class="class:users"
 		>
 		<menuitem
@@ -129,6 +131,7 @@
 	<menuitem
 		title="MOD_MENU_MENUS"
 		type="heading"
+		icon="list"
 		class="class:list"
 		>
 		<menuitem
@@ -218,6 +221,7 @@
 	<menuitem
 		title="MOD_MENU_COM_CONTENT"
 		type="heading"
+		icon="file-alt"
 		class="class:file-alt"
 		>
 		<menuitem
@@ -272,11 +276,12 @@
 	<menuitem
 		title="MOD_MENU_COMPONENTS"
 		type="container"
-		class="class:cube"
+		class="class:puzzle-piece"
 	/>
 	<menuitem
 		title="MOD_MENU_EXTENSIONS_EXTENSIONS"
 		type="heading"
+		icon="cubes"
 		class="class:cubes"
 		>
 		<menuitem
@@ -391,6 +396,7 @@
 	<menuitem
 		title="MOD_MENU_HELP"
 		type="heading"
+		icon="info-circle"
 		class="class:info-circle"
 		>
 		<menuitem

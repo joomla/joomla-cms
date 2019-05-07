@@ -138,11 +138,11 @@ class HtmlView extends BaseHtmlView
 		// Set the title.
 		if ((int) $this->get('State')->get('client_id') === 1)
 		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_ADMIN'), 'eye thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_ADMIN'), 'paint-brush thememanager');
 		}
 		else
 		{
-			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_SITE'), 'eye thememanager');
+			ToolbarHelper::title(Text::_('COM_TEMPLATES_MANAGER_TEMPLATES_SITE'), 'paint-brush thememanager');
 		}
 
 		if ($canDo->get('core.admin') || $canDo->get('core.options'))
