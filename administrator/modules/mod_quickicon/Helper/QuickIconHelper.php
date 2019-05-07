@@ -311,9 +311,6 @@ abstract class QuickIconHelper
 		$model = $app->bootComponent('com_content')->getMVCFactory()
 			->createModel('Articles', 'Administrator', ['ignore_request' => true]);
 
-		// Count IDs
-		$model->setState('list.select', 'a.id');
-
 		// Set the Start and Limit to 'all'
 		$model->setState('list.start', 0);
 		$model->setState('list.limit', 0);
@@ -471,7 +468,7 @@ abstract class QuickIconHelper
 		$model = $app->bootComponent('com_cache')->getMVCFactory()->createModel('Cache', 'Administrator', ['ignore_request' => true]);
 
 		$data = $model->getData();
-		
+
 		$size = 0;
 
 		if (!empty($data))
@@ -481,12 +478,12 @@ abstract class QuickIconHelper
 				$size += $d->size;
 			}
 		}
-		
+
 		// Number bytes are returned in format xxx.xx MB
 		$mb = explode(' ', HTMLHelper::_('number.bytes', $size, 'MB', 1, false));
 		
 		// Return number only
 		return $mb[0];
-		
+
 	}
 }
