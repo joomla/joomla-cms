@@ -157,15 +157,13 @@ class AddUserToGroupCommand extends AbstractCommand
 
 				$result = $db->loadColumn();
 
-				array_push($currentGroups, "'" . $result[0] . "'");
+				array_push($currentGroups, $result[0]);
 			}
-
-			$currentTitle = implode(", ", $currentGroups);
 
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('title') . 'NOT IN(' . $currentTitle . ')');
+				->where($db->quoteName('title') . 'NOT IN(' . implode(", ", $db->quote($currentGroups)) . ')');
 			$db->setQuery($query);
 
 			$result = $db->loadColumn();
