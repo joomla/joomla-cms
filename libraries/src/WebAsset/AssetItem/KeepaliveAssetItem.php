@@ -33,7 +33,7 @@ class KeepaliveAssetItem extends WebAssetItem implements WebAssetAttachBehaviorI
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAttachCallback(Document $doc): void
+	public function onAttachCallback(Document $doc)
 	{
 		$app            = Factory::getApplication();
 		$sessionHandler = $app->get('session_handler', 'database');

@@ -33,7 +33,7 @@ class CoreAssetItem extends WebAssetItem implements WebAssetAttachBehaviorInterf
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-	public function onAttachCallback(Document $doc): void
+	public function onAttachCallback(Document $doc)
 	{
 		// Add core and base uri paths so javascript scripts can use them.
 		$doc->addScriptOptions(

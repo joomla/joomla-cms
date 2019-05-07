@@ -127,7 +127,7 @@ class HtmlView extends BaseHtmlView
 			0,
 			0,
 			'',
-			'',
+			'COM_MESSAGES_TOOLBAR_MY_SETTINGS',
 			'<button class="btn btn-secondary" type="button" data-dismiss="modal" aria-hidden="true">'
 			. Text::_('JCANCEL')
 			. '</button>'
