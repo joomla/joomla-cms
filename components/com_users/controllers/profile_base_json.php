@@ -28,6 +28,11 @@ class UsersControllerProfile_Base_Json extends JControllerLegacy
 	{
 		jimport('joomla.filesystem.file');
 
+		if (JFactory::getUser()->guest)
+		{
+			throw new Exception(JText::_('JERROR_ALERTNOAUTHOR'));
+		}
+
 		// Set FTP credentials, if given
 		JClientHelper::setCredentialsFromRequest('ftp');
 
