@@ -10,10 +10,10 @@ use Page\Acceptance\Administrator\MediaListPage;
 use Page\Acceptance\Administrator\MediaFilePage;
 
 /*
-// TODO test d&d upload of files
-// TODO test download of files
-// TODO enable skipped tests
-*/
+ * TODO test d&d upload of files
+ * TODO test download of files
+ * TODO enable skipped tests
+ */
 
 /**
  * Media manager list tests

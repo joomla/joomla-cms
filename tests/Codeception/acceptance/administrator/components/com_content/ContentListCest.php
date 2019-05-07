@@ -85,11 +85,11 @@ class ContentListCest
 	}
 
 	/*
-	// TODO publish article using toolbar button
-	// TODO publish article using inline button
-	// TODO unpublish article using toolbar button
-	// TODO unpublish article using inline button
-	*/
+	 * TODO publish article using toolbar button
+	 * TODO publish article using inline button
+	 * TODO unpublish article using toolbar button
+	 * TODO unpublish article using inline button
+	 */
 
 	/**
 	 * Test feature articles
