@@ -76,7 +76,7 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (41, 18, 64, 65, 2, 'com_modules.module.3', 'Popular Articles', '{}'),
 (42, 18, 66, 67, 2, 'com_modules.module.4', 'Recently Added Articles', '{}'),
 (43, 18, 68, 69, 2, 'com_modules.module.8', 'Toolbar', '{}'),
-(44, 18, 70, 71, 2, 'com_modules.module.9', 'Quick Icons', '{}'),
+(44, 18, 70, 71, 2, 'com_modules.module.9', 'Update Checks', '{}'),
 (45, 18, 72, 73, 2, 'com_modules.module.10', 'Logged-in Users', '{}'),
 (46, 18, 74, 75, 2, 'com_modules.module.12', 'Admin Menu', '{}'),
 (48, 18, 76, 77, 2, 'com_modules.module.14', 'User Status', '{}'),
@@ -99,7 +99,9 @@ INSERT INTO "#__assets" ("id", "parent_id", "lft", "rgt", "level", "name", "titl
 (65, 1, 105, 106, 1, 'com_privacy', 'com_privacy', '{}'),
 (66, 1, 107, 108, 1, 'com_actionlogs', 'com_actionlogs', '{}'),
 (67, 18, 74, 75, 2, 'com_modules.module.88', 'Latest Actions', '{}'),
-(68, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}');
+(68, 18, 76, 77, 2, 'com_modules.module.89', 'Privacy Dashboard', '{}'),
+(69, 18, 90, 91, 2, 'com_modules.module.104', 'Site', '{}'),
+(70, 18, 92, 93, 2, 'com_modules.module.105', 'System', '{}');
 
 SELECT setval('#__assets_id_seq', 69, false);
 
@@ -601,6 +603,7 @@ INSERT INTO "#__extensions" ("package_id", "name", "type", "element", "folder", 
 (0, 'mod_status_messages', 'module', 'mod_status_messages', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_status_post_installation_messages', 'module', 'mod_status_post_installation_messages', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_status_user', 'module', 'mod_status_user', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
+(0, 'mod_status_language', 'module', 'mod_status_language', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_title', 'module', 'mod_title', '', 1, 1, 1, 0, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_toolbar', 'module', 'mod_toolbar', '', 1, 1, 1, 1, '', '', 0, '1970-01-01 00:00:00', 0, 0),
 (0, 'mod_multilangstatus', 'module', 'mod_multilangstatus', '', 1, 1, 1, 0, '', '{"cache":"0"}', 0, '1970-01-01 00:00:00', 0, 0),
@@ -1456,7 +1459,7 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (3, 41, 'Popular Articles', '', '', 3, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_popular', 3, 1, '{"count":"5","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","bootstrap_size": "6"}', 1, '*'),
 (4, 42, 'Recently Added Articles', '', '', 4, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_latest', 3, 1, '{"count":"5","ordering":"c_dsc","catid":"","user_id":"0","layout":"_:default","moduleclass_sfx":"","cache":"0","bootstrap_size": "6"}', 1, '*'),
 (8, 43, 'Toolbar', '', '', 1, 'toolbar', 0, NULL, NULL, NULL, 1, 'mod_toolbar', 3, 1, '', 1, '*'),
-(9, 44, 'Quick Icons', '', '', 1, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 3, 1, '', 1, '*'),
+(9, 44, 'Update Checks', '', '', 1, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 3, 1, '{"icon_type":"update","context":"mod_quickicon","show_global":"1","show_checkin":"1","show_cache":"1","show_users":"1","show_articles":"1","show_categories":"1","show_media":"1","show_menuItems":"1","show_modules":"1","show_plugins":"1","show_templates":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"fa-check"}', 1, '*'),
 (10, 45, 'Logged-in Users', '', '', 2, 'cpanel', 0, NULL, NULL, NULL, 1, 'mod_logged', 3, 1, '{"count":"5","name":"1","layout":"_:default","moduleclass_sfx":"","cache":"0","bootstrap_size": "6"}', 1, '*'),
 (12, 46, 'Admin Menu', '', '', 1, 'menu', 0, NULL, NULL, NULL, 1, 'mod_menu', 3, 1, '{"layout":"","moduleclass_sfx":"","shownew":"1","showhelp":"1","cache":"0"}', 1, '*'),
 (15, 49, 'Title', '', '', 1, 'title', 0, NULL, NULL, NULL, 1, 'mod_title', 3, 1, '', 1, '*'),
@@ -1479,7 +1482,10 @@ INSERT INTO "#__modules" ("id", "asset_id", "title", "note", "content", "orderin
 (99, 0, 'Frontend Link', '', '', 2, 'status', 0, NULL, NULL, NULL, 1, 'mod_status_frontend', 3, 1, '', 1, '*'),
 (100, 0, 'Messages', '', '', 3, 'status', 0, NULL, NULL, NULL, 1, 'mod_status_messages', 3, 1, '', 1, '*'),
 (101, 0, 'Post Install Messages', '', '', 4, 'status', 0, NULL, NULL, NULL, 1, 'mod_status_post_installation_messages', 3, 1, '', 1, '*'),
-(102, 0, 'User Status', '', '', 5, 'status', 0, NULL, NULL, NULL, 1, 'mod_status_user', 3, 1, '', 1, '*');
+(102, 0, 'User Status', '', '', 5, 'status', 0, NULL, NULL, NULL, 1, 'mod_status_user', 3, 1, '', 1, '*'),
+(103, 0, 'Language Status', '', '', 5, 'status', 0, NULL, NULL, NULL, 1, 'mod_status_language', 3, 1, '', 1, '*'),
+(104, 69, 'Site', '', NULL, 3, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"icon_type":"site","context":"mod_quickicon","show_global":"1","show_checkin":"1","show_cache":"1","show_users":"1","show_articles":"1","show_categories":"1","show_media":"1","show_menuItems":"1","show_modules":"1","show_plugins":"1","show_templates":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"fa-chart-line"}', 1, '*'),
+(105, 70, 'System', '', NULL, 2, 'icon', 0, NULL, NULL, NULL, 1, 'mod_quickicon', 1, 1, '{"icon_type":"system","context":"mod_quickicon","show_global":"1","show_checkin":"1","show_cache":"1","show_users":"1","show_articles":"1","show_categories":"1","show_media":"1","show_menuItems":"1","show_modules":"1","show_plugins":"1","show_templates":"1","layout":"_:default","moduleclass_sfx":"","cache":1,"cache_time":900,"style":"0","module_tag":"div","bootstrap_size":"6","header_tag":"h3","header_class":"fa-wrench"}', 1, '*');
 
 SELECT setval('#__modules_id_seq', 90, false);
 
@@ -1529,7 +1535,10 @@ INSERT INTO "#__modules_menu" ("moduleid", "menuid") VALUES
 (99, 0),
 (100, 0),
 (101, 0),
-(102, 0);
+(102, 0),
+(103, 0),
+(104, 0),
+(105, 0);
 
 --
 -- Table structure for table `#__newsfeeds`
