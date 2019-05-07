@@ -303,7 +303,7 @@ CREATE TABLE IF NOT EXISTS "#__contact_details" (
   "created" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
   "created_by" integer NOT NULL DEFAULT 0,
   "created_by_alias" varchar(255) NOT NULL DEFAULT '',
-  "modified" timestamp without time zone,
+  "modified" timestamp without time zone NOT NULL DEFAULT '1970-01-01 00:00:00',
   "modified_by" integer NOT NULL DEFAULT 0,
   "metakey" text NOT NULL,
   "metadesc" text NOT NULL,
