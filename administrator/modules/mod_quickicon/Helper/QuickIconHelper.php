@@ -20,7 +20,6 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\Component\Categories\Administrator\Model\CategoriesModel;
-use Joomla\Component\Checkin\Administrator\Model\CheckinModel;
 use Joomla\Component\Content\Administrator\Model\ArticlesModel;
 use Joomla\Component\Content\Administrator\Model\ModulesModel;
 use Joomla\Component\Installer\Administrator\Model\ManageModel;
@@ -118,7 +117,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_checkin', '1'))
 				{
 					self::$buttons[$key][] = [
-						'amount' => self::countCheckin(),
+						'ajaxurl' => 'index.php?option=com_checkin&amp;task=getMenuBadgeData&amp;format=json',
 						'link'   => Route::_('index.php?option=com_checkin'),
 						'image'  => 'fa fa-unlock-alt',
 						'name'   => Text::_('MOD_QUICKICON_CHECKINS'),
@@ -420,22 +419,6 @@ abstract class QuickIconHelper
 		$model->setState('filter.extension', 'com_content');
 
 		return count($model->getItems());
-	}
-
-	/**
-	 * Method to get checkin
-	 * 
-	 * @return  integer  The amount of checkins
-	 *
-	 * @since   4.0
-	 */
-	private static function countCheckin()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_checkin')->getMVCFactory()->createModel('Checkin', 'Administrator', ['ignore_request' => true]);
-
-		return $model->getTotal();
 	}
 
 	/**

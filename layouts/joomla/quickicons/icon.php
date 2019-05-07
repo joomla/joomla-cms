@@ -37,14 +37,19 @@ if ($id !== '')
 ?>
 <li class="col mb-3 d-flex <?php echo !empty($displayData['linkadd']) ? 'flex-column' : ''; ?>">
 	<a <?php echo $id . $class; ?> href="<?php echo $displayData['link']; ?>"<?php echo $target . $onclick . $title; ?>>
+		
 		<?php if (isset($displayData['image'])): ?>
 			<div class="quickicon-icon d-flex align-items-end <?php isset($displayData['amount']) ? 'small' : 'big'; ?>">
 				<div class="<?php echo $displayData['image']; ?>" aria-hidden="true"></div>
 			</div>
 		<?php endif; ?>
-		<?php if (isset($displayData['amount'])): ?>
-			<div class="quickicon-amount <?php isset($displayData['image']) ? 'small' : 'big'; ?>">
-				<?php echo $displayData['amount']; ?>
+		<?php if (isset($displayData['ajaxurl'])|| isset($displayData['amount'])):?>
+			<div class="quickicon-amount">
+				<?php if (isset($displayData['ajaxurl'])):?>
+					<span class="fa fa-spinner quickicon-counter" data-url="<?php echo $displayData['ajaxurl']; ?>"></span>
+				<?php elseif (isset($displayData['amount'])): ?>
+					<?php echo $displayData['amount']; ?>
+				<?php endif; ?>
 			</div>
 		<?php endif; ?>
 		<?php // Name indicates the component
