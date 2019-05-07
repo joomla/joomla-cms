@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Database\ParameterType;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -159,12 +160,10 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 				array_push($currentGroups, "'" . $result[0] . "'");
 			}
 
-			$currentTitle = implode(", ", $currentGroups);
-
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('title') . 'IN(' . $currentTitle . ')');
+				->whereIn($db->quoteName('title'), $currentGroups, ParameterType::STRING);
 			$db->setQuery($query);
 
 			$result = $db->loadColumn();
