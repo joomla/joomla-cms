@@ -121,7 +121,6 @@ class DeleteUserCommand extends AbstractCommand
 
 					return 1;
 				}
-
 			}
 
 			$removed = UserHelper::removeUserFromGroup($userId, $groupId);
