@@ -117,7 +117,7 @@ class PlgContentPagenavigation extends CMSPlugin
 					$orderby = $queryDate . ' DESC';
 					break;
 				case 'alpha' :
-					$orderby = $db->quoteName('a.title') ;
+					$orderby = $db->quoteName('a.title');
 					break;
 				case 'ralpha' :
 					$orderby = $db->quoteName('a.title') . ' DESC';
@@ -157,9 +157,11 @@ class PlgContentPagenavigation extends CMSPlugin
 				. ' THEN ' . $query->concatenate(array($query->castAsChar($db->quoteName('cc.id')), $db->quoteName('cc.alias')), ':')
 				. ' ELSE ' . $db->quoteName('cc.id') . ' END AS catslug';
 
-			$query->select([
-				$db->quoteName(['a.id, a.title, a.catid, a.language']),
-				$case_when, $case_when1]
+			$query->select(
+				[
+					$db->quoteName(['a.id, a.title, a.catid, a.language']),
+					$case_when, $case_when1
+				]
 			)
 				->from($db->quoteName('#__content', 'a'))
 				->leftJoin($db->quoteName('#__categories', 'cc'), $db->quoteName('cc.id') . ' = ' . $db->quoteName('a.catid'))
@@ -177,15 +179,18 @@ class PlgContentPagenavigation extends CMSPlugin
 				->bind(':catid', $catid, ParameterType::INTEGER)
 				->bind(':state', $state, ParameterType::INTEGER);
 
-			if ($canPublish) {
+			if ($canPublish)
+			{
 				$query->whereIn($db->quoteName('a.access'), Access::getAuthorisedViewLevels($user->id));
 			}
 
-			$query->where([
-				'(' . $db->quoteName('ws.condition') . ' = 1 OR ' . $db->quoteName('ws.condition') . ' = -2)',
-				'(' . $db->quoteName('publish_up') . ' = :nullDate1 OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
-				'(' . $db->quoteName('publish_down') . ' = :nullDate2 OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)'
-			])
+			$query->where(
+				[
+					'(' . $db->quoteName('ws.condition') . ' = 1 OR ' . $db->quoteName('ws.condition') . ' = -2)',
+					'(' . $db->quoteName('publish_up') . ' = :nullDate1 OR ' . $db->quoteName('publish_up') . ' <= :nowDate1)',
+					'(' . $db->quoteName('publish_down') . ' = :nullDate2 OR ' . $db->quoteName('publish_down') . ' >= :nowDate2)'
+				]
+			)
 				->bind(':nullDate1', $nullDate)
 				->bind(':nullDate2', $nullDate)
 				->bind(':nowDate1', $now)
