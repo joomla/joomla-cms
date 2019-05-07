@@ -53,21 +53,29 @@ steps:
       - name: cache
         path: /cache
 
-  - name: php70-unit
-    depends_on: [ rebuild-cache ]
-    image: joomlaprojects/docker-php70:develop
-    commands:
-      - ./libraries/vendor/bin/phpunit
-
-  - name: php71-unit
-    depends_on: [ rebuild-cache ]
-    image: joomlaprojects/docker-php71:develop
-    commands:
-      - ./libraries/vendor/bin/phpunit
-
   - name: php72-unit
     depends_on: [ rebuild-cache ]
-    image: joomlaprojects/docker-php72:develop
+    image: php:7.2
+    commands:
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php73-unit
+    depends_on: [ rebuild-cache ]
+    image: php:7.3
+    commands:
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php74-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:7.4-dev
+    errignore: true
+    commands:
+      - ./libraries/vendor/bin/phpunit
+
+  - name: php80-unit
+    depends_on: [ rebuild-cache ]
+    image: phpdaily/php:8.0-dev
+    errignore: true
     commands:
       - ./libraries/vendor/bin/phpunit
 
@@ -147,6 +155,6 @@ services:
 
 ---
 kind: signature
-hmac: 820e2021962202c01514b4ffe5eb893640c83fb5542345a70c4ca01e4ccfd43c
+hmac: 646260a6b55de2b7e49933b73b0d44c503c0b2b444815692547a4a6e77f87577
 
 ...
