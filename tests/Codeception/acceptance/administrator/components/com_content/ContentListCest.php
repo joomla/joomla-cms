@@ -84,11 +84,12 @@ class ContentListCest
 		$I->see('Alias: ' . $testArticle['alias']);
 	}
 
-	// phpcs:disable
+	/*
 	// TODO publish article using toolbar button
 	// TODO publish article using inline button
 	// TODO unpublish article using toolbar button
 	// TODO unpublish article using inline button
+	*/
 
 	/**
 	 * Test feature articles
@@ -97,69 +98,74 @@ class ContentListCest
 	 *
 	 * @since   __DEPLOY_VERSION__
 	 */
-//	public function markArticleAsFeaturedUsingToolbarButton(\Step\Acceptance\Administrator\Content $I)
-//	{
-//		$I->wantToTest('that it is possible to mark an article as featured using toolbar button.');
-//
-//		$testArticle = [
-//			'title'     => 'Test Article',
-//			'alias'     => 'test-article',
-//			'introtext' => 'Test Article Introtext',
-//			'fulltext'  => 'Test Article Fulltext',
-//			'state'     => 1,
-//			'featured'  => 0
-//		];
-//		$I->haveInDatabase('content', $testArticle);
-//
-//		$I->amOnPage(ContentListPage::$url);
-//		$I->see($testArticle['title']);
-//		$I->see('Alias: ' . $testArticle['alias']);
-//	}
+	/**
+	public function markArticleAsFeaturedUsingToolbarButton(\Step\Acceptance\Administrator\Content $I)
+	{
+		$I->wantToTest('that it is possible to mark an article as featured using toolbar button.');
 
-	// TODO Feature article using inline button
-	// TODO Unfeature article using toolbar button
-	// TODO Unfeature article using inline button
+		$testArticle = [
+			'title'     => 'Test Article',
+			'alias'     => 'test-article',
+			'introtext' => 'Test Article Introtext',
+			'fulltext'  => 'Test Article Fulltext',
+			'state'     => 1,
+			'featured'  => 0
+		];
+		$I->haveInDatabase('content', $testArticle);
 
-	// TODO archive an article
+		$I->amOnPage(ContentListPage::$url);
+		$I->see($testArticle['title']);
+		$I->see('Alias: ' . $testArticle['alias']);
+	}
+*/
+	/*
+	 * TODO Feature article using inline button
+	 * TODO Unfeature article using toolbar button
+	 * TODO Unfeature article using inline button
 
-	// TODO check an article in
+	 * TODO archive an article
 
-	// TODO changeLanguageOfMultipleArticles
+	 * TODO check an article in
 
-	// TODO add Tags to multiple articles
+	 * TODO changeLanguageOfMultipleArticles
 
-	// TODO change access level of multiple articles
+	 * TODO add Tags to multiple articles
 
-	// TODO trash an article using toolbar button
+	 * TODO change access level of multiple articles
 
-	// TODO open article configuration
+	 * TODO trash an article using toolbar button
 
-	// TODO open article help
+	 * TODO open article configuration
 
-	// Change order of articles
+	 * TODO open article help
 
-	// Search articles
-	// Clear the search of articles
+	 * Change order of articles
 
-	// Sorting articles
-	// id
+	 * Search articles
+	 * Clear the search of articles
 
-	// Filter articles
-	// status
-	// category
-	// user
-	// tag
+	 * Sorting articles
+	 * id
 
-	// Change limit of articles
+	 * Filter articles
+	 * status
+	 * category
+	 * user
+	 * tag
 
-	// Paginate articles
+	 * Change limit of articles
+
+	 * Paginate articles
+	*/
 
 	public function Article(\Step\Acceptance\Administrator\Content $I)
 	{
-//		$I->featureArticle($this->articleTitle);
-//		$I->setArticleAccessLevel($this->articleTitle, $this->articleAccessLevel);
-//		$I->unPublishArticle($this->articleTitle);
-//		$I->trashArticle($this->articleTitle);
+		/**
+		$I->featureArticle($this->articleTitle);
+		$I->setArticleAccessLevel($this->articleTitle, $this->articleAccessLevel);
+		$I->unPublishArticle($this->articleTitle);
+		$I->trashArticle($this->articleTitle);
+		 */
 	}
-	// phpcs:ensable
+
 }

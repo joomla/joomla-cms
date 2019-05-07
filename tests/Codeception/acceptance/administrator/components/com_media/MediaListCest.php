@@ -9,11 +9,11 @@
 use Page\Acceptance\Administrator\MediaListPage;
 use Page\Acceptance\Administrator\MediaFilePage;
 
-// phpcs:disable
+/*
 // TODO test d&d upload of files
 // TODO test download of files
 // TODO enable skipped tests
-// phpcs:enable
+*/
 
 /**
  * Media manager list tests
