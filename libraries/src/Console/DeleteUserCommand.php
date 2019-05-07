@@ -95,9 +95,6 @@ class DeleteUserCommand extends AbstractCommand
 		$queryUserGroupMap->from($db->quoteName('#__user_usergroup_map'));
 		$queryUserGroupMap->where($db->quoteName('group_id') . " = :groupId");
 
-
-
-
 		foreach ($groups as $groupId)
 		{
 			if (Access::checkGroup($groupId, 'core.admin'))
