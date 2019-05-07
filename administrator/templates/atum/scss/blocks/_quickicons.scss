@@ -158,12 +158,3 @@
   }
 }
 
-.masonry { /* Masonry container */
-  column-count: 2;
-  column-gap: 1em;
-}
-
-.masonry .module-wrapper { /* Masonry bricks or child elements */
-  display: inline-block;
-  width: 100%;
-}
