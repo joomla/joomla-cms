@@ -41,5 +41,4 @@ cd $JOOMLA_BASE
 apache2ctl -D FOREGROUND &
 google-chrome --version
 chmod 755 libraries/vendor/joomla-projects/selenium-server-standalone/bin/webdrivers/chrome/linux/chromedriver
-cp tests/Codeception/acceptance.suite.dist.yml test/Codeception/acceptance.suite.yml
 libraries/vendor/bin/robo run:tests
