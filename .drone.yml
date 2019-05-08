@@ -57,12 +57,14 @@ steps:
     depends_on: [ rebuild-cache ]
     image: php:7.2
     commands:
+      - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php73-unit
     depends_on: [ rebuild-cache ]
     image: php:7.3
     commands:
+      - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php74-unit
@@ -70,6 +72,7 @@ steps:
     image: phpdaily/php:7.4-dev
     errignore: true
     commands:
+      - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: php80-unit
@@ -77,6 +80,7 @@ steps:
     image: phpdaily/php:8.0-dev
     errignore: true
     commands:
+      - php -v
       - ./libraries/vendor/bin/phpunit
 
   - name: javascript-cs
@@ -155,6 +159,6 @@ services:
 
 ---
 kind: signature
-hmac: 646260a6b55de2b7e49933b73b0d44c503c0b2b444815692547a4a6e77f87577
+hmac: ccc8d591031582b24518b4f77723665fc0cae6d4b2c670f12ce13ca2e37e7e90
 
 ...
