@@ -72,9 +72,7 @@ class ListUserCommand extends AbstractCommand
 
 		$users = [];
 
-		$test = $db->loadAssocList();
-		var_dump($test);
-		foreach ($test as $user)
+		foreach ($db->loadAssocList() as $user)
 		{
 			$user["groups"] = array_map(
 				function ($groupId) use ($groups) {
