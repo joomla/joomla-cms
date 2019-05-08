@@ -31,7 +31,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
  */
 class ConsoleApplication extends Application implements DispatcherAwareInterface, CMSApplicationInterface
 {
-	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait;
+	use DispatcherAwareTrait, EventAware, IdentityAware, ContainerAwareTrait, ExtensionManagerTrait, ExtensionNamespaceMapper;
 
 	/**
 	 * The application message queue.
@@ -88,6 +88,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 		{
 			$this->setDispatcher($dispatcher);
 		}
+
+		// Load extension namespaces
+		$this->createExtensionNamespaceMap();
 
 		// Set the execution datetime and timestamp;
 		$this->set('execution.datetime', gmdate('Y-m-d H:i:s'));
