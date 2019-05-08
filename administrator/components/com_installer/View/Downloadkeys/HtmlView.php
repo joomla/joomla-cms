@@ -52,7 +52,7 @@ class HtmlView extends InstallerViewDefault
 	 * @var    Form
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $filterForm = null;
+	public $filterForm = null;
 
 	/**
 	 * List of active filters
@@ -60,7 +60,7 @@ class HtmlView extends InstallerViewDefault
 	 * @var    array
 	 * @since  __DEPLOY_VERSION__
 	 */
-	protected $activeFilters = array();
+	public $activeFilters = array();
 
 	/**
 	 * Display the view

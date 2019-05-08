@@ -8,7 +8,6 @@
  */
 
 use Joomla\CMS\HTML\HTMLHelper;
-use Joomla\CMS\Language\Text;
 use Joomla\CMS\Router\Route;
 
 defined('_JEXEC') or die;
@@ -25,21 +24,16 @@ if ($this->modal != null)
 ?>
 <form action="<?php echo Route::_('index.php?option=com_installer&view=downloadkey&layout=edit&update_site_id=' . (int) $this->item->update_site_id . $tmp); ?>"
 	  method="post" name="adminForm" id="adminForm">
-	<div class="form-horizontal">
-		<fieldset class="adminform">
-			<legend><?php echo Text::_('COM_INSTALLER_DOWNLOADKEY_EDIT_DETAILS'); ?></legend>
-			<div class="row">
-				<div class="col">
-					<?php foreach ($this->form->getFieldset() as $field) : ?>
-						<div class="control-group">
-							<div class="control-label"><?php echo $field->label; ?></div>
-							<div class="controls"><?php echo $field->input; ?></div>
-						</div>
-					<?php endforeach; ?>
+	<div class="row">
+		<div class="col-md-12">
+			<?php foreach ($this->form->getFieldset() as $field) : ?>
+				<div class="control-group">
+					<div class="control-label"><?php echo $field->label; ?></div>
+					<div class="controls"><?php echo $field->input; ?></div>
 				</div>
-			</div>
-		</fieldset>
+			<?php endforeach; ?>
+		</div>
 	</div>
-	<input type="hidden" name="task" value="" />
+	<input type="hidden" name="task" value=""/>
 	<?php echo HTMLHelper::_('form.token'); ?>
 </form>

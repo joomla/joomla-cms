@@ -44,8 +44,6 @@ class DownloadkeyModel extends AdminModel
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
-		Form::addFieldPath('JPATH_ADMINISTRATOR/components/com_users/models/fields');
-
 		// Get the form.
 		$form = $this->loadForm('com_installer.downloadkey', 'downloadkey', array('control' => 'jform', 'load_data' => $loadData));
 
@@ -68,7 +66,7 @@ class DownloadkeyModel extends AdminModel
 	 */
 	public function save($data)
 	{
-		$data['extra_query'] = $data['dlidprefix'] . $data['extra_query'] . $data['dlidsuffix'];
+		$data['extra_query'] = $data['downloadIdPrefix'] . $data['extra_query'] . $data['downloadIdSuffix'];
 
 		return parent::save($data);
 	}
@@ -106,26 +104,27 @@ class DownloadkeyModel extends AdminModel
 			->select(
 				$db->quoteName(
 					array(
-						'e.type',
-						's.extra_query',
-						'e.element',
-						'e.folder',
-						'e.client_id'
+						'update_sites.extra_query',
+						'extensions.type',
+						'extensions.element',
+						'extensions.folder',
+						'extensions.client_id',
+						'extensions.checked_out'
 					)
 				)
 			)
-			->from($db->quoteName('#__update_sites', 's'))
+			->from($db->quoteName('#__update_sites', 'update_sites'))
 			->innerJoin(
-				$db->quoteName('#__update_sites_extensions', 'se') .
-				' ON ' . $db->quoteName('se.update_site_id') .
-				' = ' . $db->quoteName('s.update_site_id')
+				$db->quoteName('#__update_sites_extensions', 'update_sites_extensions') .
+				' ON ' . $db->quoteName('update_sites_extensions.update_site_id') .
+				' = ' . $db->quoteName('update_sites.update_site_id')
 			)
 			->innerJoin(
-				$db->quoteName('#__extensions', 'e') .
-				' ON ' . $db->quoteName('e.extension_id') .
-				' = ' . $db->quoteName('se.extension_id')
+				$db->quoteName('#__extensions', 'extensions') .
+				' ON ' . $db->quoteName('extensions.extension_id') .
+				' = ' . $db->quoteName('update_sites_extensions.extension_id')
 			)
-			->where($db->quoteName('s.update_site_id') . ' = ' . (int) $item->get('update_site_id'));
+			->where($db->quoteName('update_sites.update_site_id') . ' = ' . (int) $item->get('update_site_id'));
 
 		$db->setQuery($query);
 		$extension = $db->loadObject();
@@ -133,8 +132,9 @@ class DownloadkeyModel extends AdminModel
 		$downloadKey = InstallerHelper::getDownloadKey($extension);
 
 		$item->set('extra_query', $downloadKey['value']);
-		$item->set('dlidprefix', $downloadKey['prefix']);
-		$item->set('dlidsuffix', $downloadKey['suffix']);
+		$item->set('downloadIdPrefix', $downloadKey['prefix']);
+		$item->set('downloadIdSuffix', $downloadKey['suffix']);
+		$item->set('checked_out', $extension->checked_out);
 
 		return $item;
 	}

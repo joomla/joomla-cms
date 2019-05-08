@@ -15,6 +15,7 @@ use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\Input\Input;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\GenericDataException;
@@ -85,8 +86,6 @@ class HtmlView extends InstallerViewDefault
 			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
-		$this->addToolbar();
-
 		parent::display($tpl);
 	}
 
@@ -105,29 +104,24 @@ class HtmlView extends InstallerViewDefault
 
 		$user       = User::getInstance();
 		$userId     = $user->id;
-		$checkedOut = !($this->item->checked_out == 0 || $this->item->checked_out == $userId);
+		$checkedOut = !($this->item->checked_out === 0 || $this->item->checked_out === $userId);
 
 		$canDo = ContentHelper::getActions('com_installer', 'downloadkey');
 
-		ToolbarHelper::title(Text::_('COM_INSTALLER_DOWNLOADKEY_EDIT_TITLE'), 'bookmark downloadkeys');
+		$toolbar = Toolbar::getInstance();
 
-		$toolbarButtons = [];
+		ToolbarHelper::title(Text::_('COM_INSTALLER_DOWNLOADKEY_EDIT_TITLE'), 'bookmark downloadkeys');
 
 		// If not checked out, can save the item.
 		if (!$checkedOut && ($canDo->get('core.edit')))
 		{
-			$toolbarButtons[] = ['apply', 'downloadkey.apply'];
-			$toolbarButtons[] = ['save', 'downloadkey.save'];
+			$toolbar->apply('downloadkey.apply');
+			$toolbar->save('downloadkey.save');
 		}
-
-		ToolbarHelper::saveGroup(
-			$toolbarButtons,
-			'btn-success'
-		);
 
 		if (empty($this->item->update_site_id))
 		{
-			ToolbarHelper::cancel('downloadkey.cancel');
+			$toolbar->cancel('downloadkey.cancel');
 		}
 		else
 		{
@@ -139,10 +133,10 @@ class HtmlView extends InstallerViewDefault
 				ToolbarHelper::versions('com_installers.downloadkey', $this->item->id);
 			}
 
-			ToolbarHelper::cancel('downloadkey.cancel', 'JTOOLBAR_CLOSE');
+			$toolbar->cancel('downloadkey.cancel', 'JTOOLBAR_CLOSE');
 		}
 
 		ToolbarHelper::divider();
-		ToolbarHelper::help('JHELP_COMPONENTS_BANNERS_BANNERS_EDIT');
+		ToolbarHelper::help('JHELP_COMPONENTS_COM_INSTALLER_DOWNLOADKEYS_EDIT');
 	}
 }

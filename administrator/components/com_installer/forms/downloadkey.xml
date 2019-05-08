@@ -27,11 +27,11 @@
                 default=""
         />
         <field
-                name="dlidprefix"
+                name="downloadIdPrefix"
                 type="hidden"
         />
         <field
-                name="dlidsuffix"
+                name="downloadIdSuffix"
                 type="hidden"
         />
     </fieldset>

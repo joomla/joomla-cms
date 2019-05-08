@@ -172,6 +172,7 @@ class InstallerHelper
 			$extension->client_id,
 			$extension->folder
 		);
+
 		if (!$installXmlFile)
 		{
 			return null;
