@@ -144,17 +144,16 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 				return 1;
 			}
 
-			if (UserHelper::removeUserFromGroup($user->id, $userGroup))
-			{
-				$this->ioStyle->success("Remove '" . $user->username . "' from group '" . $result . "'!");
-			}
-			else
+			if (!UserHelper::removeUserFromGroup($user->id, $userGroup))
 			{
 				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'!");
 
 				return 1;
 			}
+
+			$this->ioStyle->success("Remove '" . $user->username . "' from group '" . $result . "'!");
 		}
+
 
 		return 0;
 	}
