@@ -129,7 +129,9 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 				if ($activeSuperUser < 2)
 				{
-					$this->ioStyle->error("Can't remove user '" . $user->username . "' from group '" . $result . "'! At least one active user needs to exists in this group!");
+					$this->ioStyle->error("Can't remove user '" . $user->username . "' from group '" . $result . "'! "
+						. $result . "needs at least one active user!"
+					);
 
 					return 1;
 				}
@@ -148,7 +150,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 			}
 			else
 			{
-
+				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'!");
 
 				return 1;
 			}
