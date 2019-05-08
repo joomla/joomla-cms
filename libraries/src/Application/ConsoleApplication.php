@@ -273,4 +273,19 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 
 		return $this;
 	}
+
+	/**
+	 * Returns the application \JMenu object.
+	 *
+	 * @param   string  $name     The name of the application/client.
+	 * @param   array   $options  An optional associative array of configuration settings.
+	 *
+	 * @return  AbstractMenu
+	 *
+	 * @since   3.2
+	 */
+	public function getMenu($name = null, $options = array())
+	{
+		return null;
+	}
 }
