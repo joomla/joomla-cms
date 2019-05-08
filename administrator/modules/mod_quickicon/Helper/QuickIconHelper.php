@@ -19,12 +19,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
-use Joomla\Component\Categories\Administrator\Model\CategoriesModel;
-use Joomla\Component\Content\Administrator\Model\ArticlesModel;
-use Joomla\Component\Content\Administrator\Model\ModulesModel;
 use Joomla\Component\Installer\Administrator\Model\ManageModel;
-use Joomla\Component\Menus\Administrator\Model\ItemsModel;
-use Joomla\Component\Plugins\Administrator\Model\PluginsModel;
 use Joomla\Module\Quickicon\Administrator\Event\QuickIconsEvent;
 use Joomla\Registry\Registry;
 use Joomla\Utilities\ArrayHelper;
@@ -63,7 +58,7 @@ abstract class QuickIconHelper
 		{
 			$application = Factory::getApplication();
 		}
-
+$amount=1;
 		$key = (string) $params;
 
 		if (!isset(self::$buttons[$key]))
@@ -128,7 +123,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_cache', '1'))
 				{
 					self::$buttons[$key][] = [
-						'amount' => self::countCache(),
+						'ajaxurl' => 'index.php?option=com_cache&amp;task=display.quickiconAmount&amp;format=json',
 						'link'   => Route::_('index.php?option=com_cache'),
 						'image'  => 'fa fa-cloud',
 						'name'   => Text::_('MOD_QUICKICON_CACHE'),
@@ -151,10 +146,8 @@ abstract class QuickIconHelper
 			{
 				if ($params->get('show_users', '1'))
 				{
-					$amount = self::countUsers();
-					
 					self::$buttons[$key][] = [
-						'amount' => $amount,
+						'ajaxurl' => 'index.php?option=com_users&amp;task=users.quickiconAmount&amp;format=json',
 						'link'   => Route::_('index.php?option=com_users'),
 						'image'  => 'fa fa-users',
 						'linkadd'   => Route::_('index.php?option=com_users&task=user.add'),
@@ -166,11 +159,9 @@ abstract class QuickIconHelper
 				}
 
 				if ($params->get('show_menuItems', '1'))
-				{
-					$amount = self::countMenuItems();
-					
+				{					
 					self::$buttons[$key][] = [
-						'amount' => $amount,
+						'ajaxurl' => 'index.php?option=com_menus&amp;task=items.quickiconAmount&amp;format=json',
 						'link'   => Route::_('index.php?option=com_menus'),						
 						'image'  => 'fa fa-list',
 						'linkadd'   => Route::_('index.php?option=com_menus&task=item.add'),
@@ -183,10 +174,8 @@ abstract class QuickIconHelper
 
 				if ($params->get('show_articles', '1'))
 				{
-					$amount = self::countArticles();
-					
 					self::$buttons[$key][] = [
-						'amount' => $amount,
+						'ajaxurl' => 'index.php?option=com_content&amp;task=articles.quickiconAmount&amp;format=json',
 						'link'   => Route::_('index.php?option=com_content'),
 						'image'  => 'fa fa-file-alt',
 						'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
@@ -199,10 +188,8 @@ abstract class QuickIconHelper
 
 				if ($params->get('show_categories', '1'))
 				{
-					$amount = self::countArticleCategories();
-					
 					self::$buttons[$key][] = [
-						'amount' => $amount,
+						'ajaxurl' => 'index.php?option=com_categories&amp;task=categories.quickiconAmount&amp;format=json',
 						'link'   => Route::_('index.php?option=com_categories'),
 						'image'  => 'fa fa-folder-open',
 						'addwhat' => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', 1),
@@ -225,11 +212,9 @@ abstract class QuickIconHelper
 				}
 
 				if ($params->get('show_modules', '1'))
-				{
-					$amount = self::countModules();
-					
+				{		
 					self::$buttons[$key][] = [
-						'amount' => $amount,
+						'ajaxurl' => 'index.php?option=com_modules&amp;task=modules.quickiconAmount&amp;format=json',
 						'link'   => Route::_('index.php?option=com_modules'),
 						'image'  => 'fa fa-cube',
 						'name'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
@@ -242,10 +227,8 @@ abstract class QuickIconHelper
 
 				if ($params->get('show_plugins', '1'))
 				{
-					$amount = self::countPlugins();
-					
 					self::$buttons[$key][] = [
-						'amount' => $amount,
+						'ajaxurl' => 'index.php?option=com_plugins&amp;task=plugins.quickiconAmount&amp;format=json',
 						'link'   => Route::_('index.php?option=com_plugins'),
 						'image'  => 'fa fa-plug',
 						'name'   => Text::plural('MOD_QUICKICON_PLUGIN_MANAGER', $amount),
@@ -257,7 +240,6 @@ abstract class QuickIconHelper
 				if ($params->get('show_templates', '1'))
 				{
 					self::$buttons[$key][] = [
-						'amount' => self::countTemplates(),
 						'image'  => 'fa fa-paint-brush',
 						'link'   => Route::_('index.php?option=com_templates&client_id=0'),
 						'name'   => Text::_('MOD_QUICKICON_TEMPLATES'),
@@ -269,204 +251,5 @@ abstract class QuickIconHelper
 		}
 
 		return self::$buttons[$key];
-	}
-
-	/**
-	 * Method to get the number of published modules in frontend.
-	 * 
-	 * @return  integer  The amount of published modules in frontend
-	 *
-	 * @since   4.0
-	 */
-	private static function countModules()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_modules')->getMVCFactory()
-			->createModel('Modules', 'Administrator', ['ignore_request' => true]);
-
-		$model->setState('list.select', '*');
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.published', 1);
-		$model->setState('filter.client_id', 0);
-
-		return  count($model->getItems());
-	}
-	/**
-	 * Method to get the number of published articles.
-	 * 
-	 * @return  integer  The amount of published articles
-	 *
-	 * @since   4.0
-	 */
-	private static function countArticles()
-	{
-		$app = Factory::getApplication();
-		
-		// Get an instance of the generic articles model (administrator)
-		$model = $app->bootComponent('com_content')->getMVCFactory()
-			->createModel('Articles', 'Administrator', ['ignore_request' => true]);
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.published', 1);
-
-		$amount = count($model->getItems());
-
-		// Too big amounts must be truncated
-		if ($amount > 9999)
-		{
-			$amount = floor($amount / 10000) . '<span class="thsd"> ' . Text::_('MOD_QUICKICON_AMOUNT_THSD' ) . '</span>';
-		}
-
-		return $amount;
-	}
-	
-	/**
-	 * Method to get the number of published menu tems.
-	 * 
-	 * @return  integer  The amount of active menu Items
-	 *
-	 * @since   4.0
-	 */
-	private static function countMenuItems()
-	{
-		$app = Factory::getApplication();
-		
-		// Get an instance of the menuitems model (administrator)
-		$model = $app->bootComponent('com_menus')->getMVCFactory()->createModel('Items', 'Administrator', ['ignore_request' => true]);
-
-		// Count IDs
-		$model->setState('list.select', 'a.id');
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.published', 1);
-		$model->setState('filter.client_id', 0);
-
-		return count($model->getItems());
-	}
-	
-	/**
-	 * Method to get the number of users
-	 * 
-	 * @return  integer  The amount of active users
-	 *
-	 * @since   4.0
-	 */
-	private static function countUsers()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_users')->getMVCFactory()->createModel('Users', 'Administrator', ['ignore_request' => true]);
-
-		$model->setState('list.select', '*');
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.state', 0);
-
-		return count($model->getItems());
-	}
-
-	/**
-	 * Method to get the number of enabled Plugins
-	 * 
-	 * @return  integer  The amount of enabled plugins
-	 *
-	 * @since   4.0
-	 */
-	private static function countPlugins()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_plugins')->getMVCFactory()->createModel('Plugins', 'Administrator', ['ignore_request' => true]);
-
-		$model->setState('list.select', '*');
-
-		// Set the Start and Limit to 'all'
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.enabled', 1);
-
-		return count($model->getItems());
 	}	
-	
-	/**
-	 * Method to get the number of content categories
-	 * 
-	 * @return  integer  The amount of published content categories
-	 *
-	 * @since   4.0
-	 */
-	private static function countArticleCategories()
-	{
-		$app = Factory::getApplication();
-		
-		$model = $app->bootComponent('com_categories')->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
-
-		$model->setState('list.select', 'a.id');
-
-		$model->setState('list.start', 0);
-		$model->setState('list.limit', 0);
-		$model->setState('filter.published', 1);
-		$model->setState('filter.extension', 'com_content');
-
-		return count($model->getItems());
-	}
-
-	/**
-	 * Method to get Templates
-	 * 
-	 * @return  integer  The amount of Templates
-	 *
-	 * @since   4.0
-	 */
-	private static function countTemplates()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_templates')->getMVCFactory()->createModel('Templates', 'Administrator', ['ignore_request' => true]);
-		
-		return count($model->getItems());
-	}
-	
-	/**
-	 * Method to get The Cache Size
-	 * 
-	 * @return  integer  The cache size in kB
-	 *
-	 * @since   4.0
-	 */
-	private static function countCache()
-	{
-		$app = Factory::getApplication();
-
-		$model = $app->bootComponent('com_cache')->getMVCFactory()->createModel('Cache', 'Administrator', ['ignore_request' => true]);
-
-		$data = $model->getData();
-
-		$size = 0;
-
-		if (!empty($data))
-		{
-			foreach ($data as $d)
-			{
-				$size += $d->size;
-			}
-		}
-
-		// Number bytes are returned in format xxx.xx MB
-		$mb = explode(' ', HTMLHelper::_('number.bytes', $size, 'MB', 1, false));
-		
-		// Return number only
-		return $mb[0];
-
-	}
 }
