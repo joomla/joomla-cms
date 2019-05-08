@@ -106,7 +106,7 @@ class PrivacyHelper extends ContentHelper
 	 *
 	 * @return  integer  The privacyconsent system plugin extension id.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.2
 	 */
 	public static function getPrivacyConsentPluginId()
 	{

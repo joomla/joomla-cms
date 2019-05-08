@@ -79,7 +79,7 @@ class HtmlView extends BaseHtmlView
 	 * Id of the system privacy consent plugin
 	 *
 	 * @var    integer
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.2
 	 */
 	protected $privacyConsentPluginId;
 

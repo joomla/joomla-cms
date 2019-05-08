@@ -3,7 +3,7 @@
  * @package     Joomla.Administrator
  * @subpackage  com_actionlogs
  *
- * @copyright   Copyright (C) 2005 - 2018 Open Source Matters, Inc. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2019 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
@@ -12,7 +12,7 @@ defined('JPATH_BASE') or die;
 /**
  * Information field.
  *
- * @since  __DEPLOY_VERSION__
+ * @since  3.9.2
  */
 class JFormFieldPluginInfo extends JFormField
 {
@@ -20,7 +20,7 @@ class JFormFieldPluginInfo extends JFormField
 	 * The form field type.
 	 *
 	 * @var    string
-	 * @since  __DEPLOY_VERSION__
+	 * @since  3.9.2
 	 */
 	protected $type = 'PluginInfo';
 
@@ -29,7 +29,7 @@ class JFormFieldPluginInfo extends JFormField
 	 *
 	 * @return  string	The field input markup.
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.2
 	 */
 	protected function getInput()
 	{

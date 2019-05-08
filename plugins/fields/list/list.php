@@ -25,7 +25,7 @@ class PlgFieldsList extends \Joomla\Component\Fields\Administrator\Plugin\Fields
 	 *
 	 * @return  object
 	 *
-	 * @since   __DEPLOY_VERSION__
+	 * @since   3.9.2
 	 */
 	public function onCustomFieldsPrepareField($context, $item, $field)
 	{
