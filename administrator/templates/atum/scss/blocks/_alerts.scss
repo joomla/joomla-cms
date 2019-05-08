@@ -15,21 +15,21 @@
   }
 
   &.alert-warning {
-    color: #462a16;
-    background-color: #fcd9b6;
-    border: 1px solid lighten(#462a16, 30%);
+    color: $state-warning-text;
+    background-color: $state-warning-bg;
+    border: 1px solid $state-warning-border;
   }
 
   &.alert-success {
-    color: #0f2f21;
-    background-color: #a2f5bf;
-    border: 1px solid lighten(#0f2f21, 30%);
+    color: $state-success-text;
+    background-color: $state-success-bg;
+    border: 1px solid $state-success-border;
   }
 
   &.alert-error {
-    color: #3b0d0c;
-    background-color: #f9acaa;
-    border: 1px solid lighten(#3b0d0c, 30%);
+    color: $state-error-text;
+    background-color: $state-error-bg;
+    border: 1px solid $state-error-border;
   }
 }
 

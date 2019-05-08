@@ -130,8 +130,8 @@
 
   input:focus,
   select:focus {
-    box-shadow: inset 0 0 1px 1px #3b97f9;
-    background: #fff;
+    box-shadow: inset 0 0 1px 1px var(--atum-contrast);
+    background: $white;
   }
 
   h1 {

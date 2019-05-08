@@ -60,7 +60,7 @@
 		}
 
 		&:focus {
-			box-shadow: 0 0 0 2px #00bcd4;
+			box-shadow: 0 0 0 2px var(--atum-bg-dark-80);
 		}
 	}
 
@@ -109,7 +109,7 @@
 		}
 
 		&::before {
-			color: #fff;
+			color: $white;
 		}
 	}
 
