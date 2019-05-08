@@ -83,8 +83,6 @@ if($this->params->get('monochrome')){
 
         try
         {
-
-
             $root[] = '--atum-contrast: ' . (clone $bgcolor)->lighten(-6)->spin(-30)->toHex() . ';';
             $root[] = '--atum-bg-dark-0: ' . (clone $bgcolor)->lighten(71.4)->spin(-6)->toHex() . ';';
             $root[] = '--atum-bg-dark-5: ' . (clone $bgcolor)->lighten(65.1)->spin(-6)->toHex() . ';';
