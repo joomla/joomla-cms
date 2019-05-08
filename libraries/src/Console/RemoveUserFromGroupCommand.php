@@ -11,6 +11,7 @@ namespace Joomla\CMS\Console;
 
 defined('JPATH_PLATFORM') or die;
 
+use Joomla\CMS\Access\Access;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
@@ -113,13 +114,41 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 			$result = $db->loadResult();
 
+			if (Access::checkGroup($userGroup, 'core.admin'))
+			{
+				$queryUser = $db->getQuery(true);
+				$queryUser->select('COUNT(*)')
+					->from($db->quoteName('#__users', 'u'))
+					->join('LEFT', '#__user_usergroup_map AS g', '(u.id = g.user_id)')
+					->where($db->quoteName('g.group_id') . " = :groupId")
+					->where($db->quoteName('u.block') . " = 0")
+					->bind(':groupId', $userGroup, ParameterType::INTEGER);
+
+				$db->setQuery($queryUser);
+				$activeSuperUser = $db->loadResult();
+
+				if ($activeSuperUser < 2)
+				{
+					$this->ioStyle->error("Can't remove user '" . $user->username . "' from group '" . $result . "'! At least one active user needs to exists in this group!");
+
+					return 1;
+				}
+			}
+
+			if (count($user->groups) < 2)
+			{
+				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'! Every user needs at least one group");
+
+				return 1;
+			}
+
 			if (UserHelper::removeUserFromGroup($user->id, $userGroup))
 			{
 				$this->ioStyle->success("Remove '" . $user->username . "' from group '" . $result . "'!");
 			}
 			else
 			{
-				$this->ioStyle->error("Can't remove '" . $user->username . "' from group '" . $result . "'!");
+
 
 				return 1;
 			}
