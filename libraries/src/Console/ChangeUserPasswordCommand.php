@@ -12,6 +12,7 @@ namespace Joomla\CMS\Console;
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
+use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
@@ -82,7 +83,7 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		$this->username = $this->getStringFromOption('username', 'Please enter a username');
 		$this->ioStyle->title('Change password');
 
-		$userId = $this->getUserId($this->username);
+		$userId = UserHelper::getUserId($this->username);
 
 		if (empty($userId))
 		{
@@ -90,22 +91,13 @@ class ChangeUserPasswordCommand extends AbstractCommand
 
 			return 1;
 		}
-		else
-		{
-			$oldUserObj = User::getInstance($userId);
-			$this->password = $this->getStringFromOption('password', 'Please enter a password');
-		}
 
-		$user['username'] = $this->username;
-		$user['password'] = $this->password;
-		$user['name'] = $oldUserObj->name;
-		$user['email'] = $oldUserObj->email;
-		$user['groups'] = $oldUserObj->groups;
-		$user['id'] = $oldUserObj->id;
-		$userObj = User::getInstance();
-		$userObj->bind($user);
+		$user = User::getInstance($userId);
+		$this->password = $this->getStringFromOption('password', 'Please enter a password');
 
-		if (!$userObj->save(true))
+		$user->password = UserHelper::hashPassword($this->password);
+
+		if (!$user->save(true))
 		{
 			$this->ioStyle->error($userObj->getError());
 
@@ -113,33 +105,8 @@ class ChangeUserPasswordCommand extends AbstractCommand
 		}
 
 		$this->ioStyle->success("set password!");
-		$this->ioStyle->table(['user', 'password'],  [array($oldUserObj->username, $this->password)]);
 
 		return 0;
-	}
-
-	/**
-	 * Method to get a user object
-	 *
-	 * @param   string  $username  username
-	 *
-	 * @return  object
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getUserId($username)
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . '= :username')
-			->bind(':username', $username);
-		$db->setQuery($query);
-
-		$userId = $db->loadResult();
-
-		return $userId;
 	}
 
 	/**
