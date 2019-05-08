@@ -90,26 +90,29 @@ class DeleteUserCommand extends AbstractCommand
 		$groups = UserHelper::getUserGroups($userId);
 		$user = User::getInstance($userId);
 
-		foreach ($groups as $groupId)
+		if ($user->block == 0)
 		{
-			if (Access::checkGroup($groupId, 'core.admin'))
+			foreach ($groups as $groupId)
 			{
-				$queryUser = $db->getQuery(true);
-				$queryUser->select('COUNT(*)')
-					->from($db->quoteName('#__users', 'u'))
-					->join('LEFT', '#__user_usergroup_map AS g', '(u.id = g.user_id)')
-					->where($db->quoteName('g.group_id') . " = :groupId")
-					->where($db->quoteName('u.block') . " = 0")
-					->bind(':groupId', $groupId, ParameterType::INTEGER);
-
-				$db->setQuery($queryUser);
-				$activeSuperUser = $db->loadResult();
-
-				if ($activeSuperUser < 2 && $user->block == 0)
+				if (Access::checkGroup($groupId, 'core.admin'))
 				{
-					$this->ioStyle->error("Last active super user can't be deleted! At least one active super user needs to exist!");
+					$queryUser = $db->getQuery(true);
+					$queryUser->select('COUNT(*)')
+						->from($db->quoteName('#__users', 'u'))
+						->join('LEFT', '#__user_usergroup_map AS g', '(u.id = g.user_id)')
+						->where($db->quoteName('g.group_id') . " = :groupId")
+						->where($db->quoteName('u.block') . " = 0")
+						->bind(':groupId', $groupId, ParameterType::INTEGER);
 
-					return 1;
+					$db->setQuery($queryUser);
+					$activeSuperUser = $db->loadResult();
+
+					if ($activeSuperUser < 20)
+					{
+						$this->ioStyle->error("Last active super user can't be deleted! At least one active super user needs to exist!");
+
+						return 1;
+					}
 				}
 			}
 		}
