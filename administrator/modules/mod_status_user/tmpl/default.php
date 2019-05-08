@@ -55,14 +55,14 @@ $hideLinks = $app->input->getBool('hidemainmenu');
 				<div class="dropdown-item">
 					<a href="<?php echo Route::_($route); ?>">
 						<span class="fa fa-user"></span>
-						<?php echo Text::_('MOD_STATUS_EDIT_ACCOUNT'); ?>
+						<?php echo Text::_('MOD_STATUS_USER_EDIT_ACCOUNT'); ?>
 					</a>
 				</div>
 				<div class="dropdown-item">
 					<?php // TODO: route to accessibility settings ?>
 					<a href="#">
 						<span class="fa fa-universal-access"></span>
-						<?php echo Text::_('MOD_STATUS_ACCESSIBILITY_SETTINGS'); ?>
+						<?php echo Text::_('MOD_STATUS_USER_ACCESSIBILITY_SETTINGS'); ?>
 					</a>
 				</div>
 				<div class="dropdown-item">
