@@ -16,6 +16,7 @@ use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
 use Joomla\Database\ParameterType;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -86,7 +87,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 		$this->username = $this->getStringFromOption('username', 'Please enter a username');
 		$this->ioStyle->title('Remove user from group');
 
-		$userId = $this->getUserId($this->username);
+		$userId = UserHelper::getUserId($this->username);
 
 		if (empty($userId))
 		{
@@ -94,12 +95,11 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 			return 1;
 		}
-		else
-		{
-			$user = User::getInstance($userId);
-		}
+
+		$user = User::getInstance($userId);
 
 		$this->userGroups = $this->getGroups($user);
+
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
@@ -140,30 +140,14 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 	protected function getGroups($user): array
 	{
 		$option = $this->getApplication()->getConsoleInput()->getOption('group');
-		$list = array();
-		$currentGroups = array();
 		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('title'))
-			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('id') . ' = :groupId');
 
-		if (!isset($option[0]))
+		if (!$option)
 		{
-			foreach ($user->groups as $groupId)
-			{
-				$query->bind(':groupId', $groupId);
-				$db->setQuery($query);
-
-				$result = $db->loadColumn();
-
-				array_push($currentGroups, "'" . $result[0] . "'");
-			}
-
 			$query = $db->getQuery(true)
 				->select($db->quoteName('title'))
 				->from($db->quoteName('#__usergroups'))
-				->whereIn($db->quoteName('title'), $currentGroups, ParameterType::STRING);
+				->where($db->quoteName('id') . ' IN (' . implode(", ", $user->groups) . ')');
 			$db->setQuery($query);
 
 			$result = $db->loadColumn();
@@ -176,39 +160,32 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 			$answer = (array) $this->ioStyle->askQuestion($choice);
 
-			$groupList = array();
+			$groupList = [];
 
 			foreach ($answer as $group)
 			{
-				array_push($groupList, $this->getGroupId($group));
+				$groupList[] = $this->getGroupId($group);
 			}
 
 			return $groupList;
 		}
-		else
+
+		$groupList = [];
+		$option = explode(',', $option);
+
+		foreach ($option as $group)
 		{
-			$groupList = array();
-			$option = explode(',', $option);
+			$groupId = $this->getGroupId($group);
 
-			foreach ($option as $group)
+			if (empty($groupId))
 			{
-				$groupId = $this->getGroupId($group);
-
-				if (empty($groupId))
-				{
-					$groupList = array(
-						"error",
-						$group,
-					);
-
-					return 	$groupList;
-				}
-
-				array_push($groupList, $this->getGroupId($group));
+				throw new InvalidOptionException("Invalid group name " . $group);
 			}
 
-			return $groupList;
+			$groupList[] = $this->getGroupId($group);
 		}
+
+		return $groupList;
 	}
 
 	/**
@@ -230,33 +207,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 			->bind(':groupName', $groupName);
 		$db->setQuery($query);
 
-		$groupID = $db->loadResult();
-
-		return $groupID;
-	}
-
-	/**
-	 * Method to get a user object
-	 *
-	 * @param   string  $username  username
-	 *
-	 * @return  integer
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	protected function getUserId($username)
-	{
-		$db = Factory::getDbo();
-		$query = $db->getQuery(true)
-			->select($db->quoteName('id'))
-			->from($db->quoteName('#__users'))
-			->where($db->quoteName('username') . '= :username')
-			->bind(':username', $username);
-		$db->setQuery($query);
-
-		$userId = $db->loadResult();
-
-		return $userId;
+		return $db->loadResult();
 	}
 
 	/**
@@ -276,9 +227,7 @@ class RemoveUserFromGroupCommand extends AbstractCommand
 
 		if (!$value)
 		{
-			$answer = (string) $this->ioStyle->ask($question);
-
-			return $answer;
+			return (string) $this->ioStyle->ask($question);
 		}
 
 		return $value;

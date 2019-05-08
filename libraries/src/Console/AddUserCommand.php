@@ -14,6 +14,8 @@ defined('JPATH_PLATFORM') or die;
 use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\Console\Command\AbstractCommand;
+use Joomla\Filter\InputFilter;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -92,7 +94,7 @@ class AddUserCommand extends AbstractCommand
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $userGroups = array();
+	private $userGroups = [];
 
 	/**
 	 * Internal function to execute the command.
@@ -121,11 +123,15 @@ class AddUserCommand extends AbstractCommand
 			return 1;
 		}
 
-		$user['username'] = $this->user;
+		// Get filter to remove invalid characters
+		$filter = new InputFilter;
+
+		$user['username'] = $filter->clean($this->user, 'USERNAME');
 		$user['password'] = $this->password;
-		$user['name'] = $this->name;
+		$user['name'] = $filter->clean($this->name, 'STRING');
 		$user['email'] = $this->email;
 		$user['groups'] = $this->userGroups;
+
 		$userObj = User::getInstance();
 		$userObj->bind($user);
 
@@ -148,7 +154,6 @@ class AddUserCommand extends AbstractCommand
 		}
 
 		$this->ioStyle->success("create user successfully!");
-		$this->ioStyle->table(['user', 'password'],  [array($this->user, $this->password)]);
 
 		return 0;
 	}
@@ -172,9 +177,7 @@ class AddUserCommand extends AbstractCommand
 			->bind(':groupName', $groupName);
 		$db->setQuery($query);
 
-		$groupID = $db->loadResult();
-
-		return $groupID;
+		return $db->loadResult();
 	}
 
 	/**
@@ -218,68 +221,55 @@ class AddUserCommand extends AbstractCommand
 	 */
 	protected function getUserGroups(): array
 	{
-		$option = $this->getApplication()->getConsoleInput()->getOption('usergroup');
+		$groups = $this->getApplication()->getConsoleInput()->getOption('usergroup');
 		$db = Factory::getDbo();
 
-		if (!isset($option[0]))
+		$groupList = [];
+
+		// Group names have been supplied as input arguments
+		if ($groups[0])
 		{
-			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
-				->from($db->quoteName('#__usergroups'))
-				->order('id ASC');
-			$db->setQuery($query);
+			$groups = explode(',', $groups);
 
-			$result = $db->loadObjectList();
-			$list = array();
-
-			foreach ($result as $key => $value)
-			{
-				$list[$key] = $value->title;
-			}
-
-			$choice = new ChoiceQuestion(
-				'Please select a usergroup (separate multiple groups with a comma)',
-				$list
-			);
-			$choice->setMultiselect(true);
-
-			$answer = (array) $this->ioStyle->askQuestion($choice);
-
-			$groupList = array();
-
-			foreach ($answer as $group)
-			{
-				array_push($groupList, $this->getGroupId($group));
-			}
-
-			return $groupList;
-		}
-		else
-		{
-			$groupList = array();
-			$option = explode(',', $option);
-
-			foreach ($option as $group)
+			foreach ($groups as $group)
 			{
 				$groupId = $this->getGroupId($group);
 
 				if (empty($groupId))
 				{
-					$groupList = array(
-						"error",
-						$group,
-					);
-
-					return 	$groupList;
+					throw new InvalidOptionException("Invalid group name " . $group);
 				}
 
-				array_push($groupList, $this->getGroupId($group));
+				$groupList[] = $this->getGroupId($group);
 			}
 
 			return $groupList;
 		}
-	}
 
+		// Generate select list for user
+		$query = $db->getQuery(true)
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__usergroups'))
+			->order('id ASC');
+		$db->setQuery($query);
+
+		$list = $db->loadColumn();
+
+		$choice = new ChoiceQuestion(
+			'Please select a usergroup (separate multiple groups with a comma)',
+			$list
+		);
+		$choice->setMultiselect(true);
+
+		$answer = (array) $this->ioStyle->askQuestion($choice);
+
+		foreach ($answer as $group)
+		{
+			$groupList[] = $this->getGroupId($group);
+		}
+
+		return $groupList;
+	}
 
 	/**
 	 * Configure the IO.

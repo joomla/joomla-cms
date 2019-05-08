@@ -15,6 +15,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\User\User;
 use Joomla\CMS\User\UserHelper;
 use Joomla\Console\Command\AbstractCommand;
+use Symfony\Component\Console\Exception\InvalidOptionException;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -67,7 +68,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	 *
 	 * @since  __DEPLOY_VERSION__
 	 */
-	private $userGroups = array();
+	private $userGroups = [];
 
 	/**
 	 * Internal function to execute the command.
@@ -93,12 +94,12 @@ class AddUserToGroupCommand extends AbstractCommand
 
 			return 1;
 		}
-		else
-		{
-			$user = User::getInstance($userId);
-		}
+
+		// Fetch user
+		$user = User::getInstance($userId);
 
 		$this->userGroups = $this->getGroups($user);
+
 		$db = Factory::getDbo();
 		$query = $db->getQuery(true)
 			->select($db->quoteName('title'))
@@ -127,10 +128,9 @@ class AddUserToGroupCommand extends AbstractCommand
 		return 0;
 	}
 
+
 	/**
 	 * Method to get a value from option
-	 *
-	 * @param   object  $user  user object
 	 *
 	 * @return  array
 	 *
@@ -138,77 +138,56 @@ class AddUserToGroupCommand extends AbstractCommand
 	 */
 	protected function getGroups($user): array
 	{
-		$option = $this->getApplication()->getConsoleInput()->getOption('group');
-		$list = array();
-		$currentGroups = array();
+		$groups = $this->getApplication()->getConsoleInput()->getOption('group');
+
 		$db = Factory::getDbo();
 
-		if (!isset($option[0]))
+		$groupList = [];
+
+		// Group names have been supplied as input arguments
+		if ($groups)
 		{
-			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
-				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('id') . ' = :groupId');
+			$groups = explode(',', $groups);
 
-			foreach ($user->groups as $groupId)
-			{
-				$query->bind(':groupId', $groupId);
-				$db->setQuery($query);
-
-				$result = $db->loadColumn();
-
-				array_push($currentGroups, $result[0]);
-			}
-
-			$query = $db->getQuery(true)
-				->select($db->quoteName('title'))
-				->from($db->quoteName('#__usergroups'))
-				->where($db->quoteName('title') . 'NOT IN(' . implode(", ", $db->quote($currentGroups)) . ')');
-			$db->setQuery($query);
-
-			$result = $db->loadColumn();
-
-			$choice = new ChoiceQuestion(
-				'Please select a usergroup (separate multiple groups with a comma)',
-				$result
-			);
-			$choice->setMultiselect(true);
-
-			$answer = (array) $this->ioStyle->askQuestion($choice);
-
-			$groupList = array();
-
-			foreach ($answer as $group)
-			{
-				array_push($groupList, $this->getGroupId($group));
-			}
-
-			return $groupList;
-		}
-		else
-		{
-			$groupList = array();
-			$option = explode(',', $option);
-
-			foreach ($option as $group)
+			foreach ($groups as $group)
 			{
 				$groupId = $this->getGroupId($group);
 
 				if (empty($groupId))
 				{
-					$groupList = array(
-						"error",
-						$group,
-					);
-
-					return 	$groupList;
+					throw new InvalidOptionException("Invalid group name " . $group);
 				}
 
-				array_push($groupList, $this->getGroupId($group));
+				$groupList[] = $this->getGroupId($group);
 			}
 
 			return $groupList;
 		}
+
+		// Generate select list for user
+		$query = $db->getQuery(true)
+			->select($db->quoteName('title'))
+			->from($db->quoteName('#__usergroups'))
+			->where('id NOT IN (' . implode(", ", $user->groups) . ')')
+			->order('id ASC');
+		$db->setQuery($query);
+
+		$list = $db->loadColumn();
+
+		$choice = new ChoiceQuestion(
+			'Please select a usergroup (separate multiple groups with a comma)',
+			$list
+		);
+		$choice->setMultiselect(true);
+
+		$answer = (array) $this->ioStyle->askQuestion($choice);
+
+		foreach ($answer as $group)
+		{
+			$groupList[] = $this->getGroupId($group);
+		}
+
+		return $groupList;
 	}
 
 	/**
@@ -223,6 +202,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	protected function getGroupId($groupName)
 	{
 		$db = Factory::getDbo();
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__usergroups'))
@@ -230,9 +210,7 @@ class AddUserToGroupCommand extends AbstractCommand
 			->bind(':groupName', $groupName);
 		$db->setQuery($query);
 
-		$groupID = $db->loadResult();
-
-		return $groupID;
+		return $db->loadResult();
 	}
 
 	/**
@@ -247,6 +225,7 @@ class AddUserToGroupCommand extends AbstractCommand
 	protected function getUserId($username)
 	{
 		$db = Factory::getDbo();
+
 		$query = $db->getQuery(true)
 			->select($db->quoteName('id'))
 			->from($db->quoteName('#__users'))
@@ -254,9 +233,7 @@ class AddUserToGroupCommand extends AbstractCommand
 			->bind(':username', $username);
 		$db->setQuery($query);
 
-		$userId = $db->loadResult();
-
-		return $userId;
+		return $db->loadResult();
 	}
 
 	/**
@@ -276,9 +253,7 @@ class AddUserToGroupCommand extends AbstractCommand
 
 		if (!$value)
 		{
-			$answer = (string) $this->ioStyle->ask($question);
-
-			return $answer;
+			return (string) $this->ioStyle->ask($question);
 		}
 
 		return $value;

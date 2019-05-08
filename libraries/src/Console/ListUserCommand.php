@@ -51,60 +51,31 @@ class ListUserCommand extends AbstractCommand
 	 */
 	protected function doExecute(InputInterface $input, OutputInterface $output): int
 	{
+		$db = Factory::getDbo();
+
 		$this->configureIO($input, $output);
 		$this->ioStyle->title('List users');
 
-		$db = Factory::getDbo();
+		$groupsQuery = $db->getQuery(true)
+			->select($db->quoteName(['title', 'id']))
+			->from($db->quoteName('#__usergroups'));
+
+		$groups = $db->setQuery($groupsQuery)->loadAssocList('id', 'title');
+
 		$query = $db->getQuery(true)
-			->select($db->quoteName(array('id', 'username', 'name', 'email', 'block')))
-			->from($db->quoteName('#__users'));
+			->select($db->quoteName(['u.id', 'u.username', 'u.name', 'u.email', 'u.block']))
+			->select('GROUP_CONCAT(g.group_id) AS groups')
+			->join('LEFT', $db->quoteName('#__user_usergroup_map', 'g'), 'u.id = g.user_id')
+			->from($db->quoteName('#__users', 'u'));
 		$db->setQuery($query);
 
-		$users[] = array();
+		$users = [];
 
-		$queryUserGroupMap = $db->getQuery(true)
-			->select($db->quoteName('group_id'))
-			->from($db->quoteName('#__user_usergroup_map'))
-			->where($db->quoteName('user_id') . ' = :userId');
-
-		$queryUserGroup = $db->getQuery(true)
-			->select($db->quoteName('title'))
-			->from($db->quoteName('#__usergroups'))
-			->where($db->quoteName('id') . ' = :groupId');
-
-		foreach ($db->loadObjectList() as $user)
+		foreach ($db->loadAssocList() as $user)
 		{
-			$user = json_decode(json_encode($user), true);
-			$queryUserGroupMap->bind(':userId', $user['id']);
-			$db->setQuery($queryUserGroupMap);
-
-			$allGroups = '';
-
-			foreach ($db->loadObjectList() as $group)
-			{
-				$group = json_decode(json_encode($group), true);
-				$queryUserGroup->bind(':groupId', $group['group_id']);
-				$db->setQuery($queryUserGroup);
-
-				$groupName = $db->loadResult();
-
-				if (preg_match_all('/\s/', $groupName))
-				{
-					$groupName = "'" . $groupName . "'";
-				}
-
-				if (empty($allGroups))
-				{
-					$allGroups = $groupName;
-				}
-				else
-				{
-					$allGroups = $allGroups . ', ' . $groupName;
-				}
-			}
-
-			array_push($user, $allGroups);
-			array_push($users, $user);
+			$user["groups"] = array_map(function($groupId) use ($groups) {return $groups[$groupId];}, explode(",", $user["groups"]));
+			$user["groups"] = implode(", ", $user["groups"]);
+			$users[] = $user;
 		}
 
 		$this->ioStyle->table(['id', 'username', 'name', 'email', 'blocked', 'groups'], $users);
