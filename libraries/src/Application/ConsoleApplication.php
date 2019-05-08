@@ -282,7 +282,7 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 *
 	 * @return  null
 	 *
-	 * @since   DEPLOY_VERSION
+	 * @since   __DEPLOY_VERSION__
 	 */
 	public function getMenu($name = null, $options = array())
 	{
