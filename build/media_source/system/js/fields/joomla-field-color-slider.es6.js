@@ -9,7 +9,7 @@
    * Regex for hex values e.g. #FF3929
    * @type {RegExp}
    */
-  const hexRegex = new RegExp(/^#([a-z0-9]{2})([a-z0-9]{2})([a-z0-9]{2})$/i);
+  const hexRegex = new RegExp(/^#([a-z0-9]{1,2})([a-z0-9]{1,2})([a-z0-9]{1,2})$/i);
 
   /**
    * Regex for rgb values e.g. rgba(255, 0, 24, 0.5);
@@ -75,7 +75,7 @@
      * Set selected value into input field and set it as its background-color.
      */
     updateValue(slider) {
-      const rgb = this.getValueAsRgb(slider.value, slider.dataset.type);
+      const rgb = this.getSliderValueAsRgb(slider.value, slider.dataset.type);
       const hsl = this.rgbToHsl(rgb);
       [this.hue, this.saturation, this.light, this.alpha] = hsl;
 
@@ -101,23 +101,23 @@
         slider.style.webkitAppearance = 'none';
 
         // Longer start color so slider selection matches displayed colors
-        colors.push(this.getValueAsRgb(0, slider.dataset.type));
+        colors.push(this.getSliderValueAsRgb(0, slider.dataset.type));
 
         if (slider.dataset.type === 'hue') {
           const steps = Math.floor(360 / 20);
           endValue = 360;
 
           for (let i = 0; i <= 360; i += steps) {
-            colors.push(this.getValueAsRgb(i, slider.dataset.type));
+            colors.push(this.getSliderValueAsRgb(i, slider.dataset.type));
           }
         } else {
           for (let i = 0; i <= 100; i += 10) {
-            colors.push(this.getValueAsRgb(i, slider.dataset.type));
+            colors.push(this.getSliderValueAsRgb(i, slider.dataset.type));
           }
         }
 
         // Longer end color so slider selection matches displayed colors
-        colors.push(this.getValueAsRgb(endValue, slider.dataset.type));
+        colors.push(this.getSliderValueAsRgb(endValue, slider.dataset.type));
 
         colors = colors.map(value => this.getRgbString(value));
         slider.style.background = `linear-gradient(90deg, ${colors.join(',')})`;
@@ -131,34 +131,30 @@
       // The initial value can be also a color defined in css
       const cssValue = window.getComputedStyle(this.input).getPropertyValue(this.default);
       const value = cssValue || this.color || this.default || '';
-      let hsl = [this.hue, this.saturation, this.light, this.alpha];
+      let hsl = [];
 
       if (!value) {
         return;
       }
 
+      // When given value is a number, use it as defined format and get rest from default value
       if (/^[0-9]+$/.test(value)) {
-        if (this.display.indexOf('hue') !== -1) {
+        hsl = this.default && this.getHsl(this.default);
+
+        if (this.format === 'hue') {
           hsl[0] = value;
         }
-        if (this.display.indexOf('saturation') !== -1) {
-          hsl[1] = value;
+        if (this.format === 'saturation') {
+          hsl[1] = value > 1 ? value / 100 : value;
         }
-        if (this.display.indexOf('light') !== -1) {
-          hsl[2] = value;
+        if (this.format === 'light') {
+          hsl[2] = value > 1 ? value / 100 : value;
         }
-        if (this.display.indexOf('alpha') !== -1) {
-          hsl[3] = value;
+        if (this.format === 'alpha') {
+          hsl[3] = value > 1 ? value / 100 : value;
         }
-      } else if (hexRegex.test(value)) {
-        hsl = this.hexToHsl(value);
-      } else if (rgbRegex.test(value)) {
-        hsl = this.rgbToHsl(value);
-      } else if (hslRegex.test(value)) {
-        const matches = value.match(hslRegex);
-        hsl = [matches[1], matches[2], matches[3], matches[4]];
       } else {
-        throw new Error(`Incorrect input value ${value}.`);
+        hsl = this.getHsl(value);
       }
 
       hsl[1] = hsl[1] > 1 ? hsl[1] / 100 : hsl[1];
@@ -173,6 +169,72 @@
       if (/^[0-9]+$/.test(value) === false) {
         this.input.style.border = `2px solid ${this.getRgbString(this.hslToRgb(hsl))}`;
       }
+    }
+
+    /**
+     * Convert value into HSLa e.g. #003E7C => [210, 100, 24]
+     * @param value
+     * @returns {array}
+     */
+    getHsl(value) {
+      let hsl = [];
+
+      if (hexRegex.test(value)) {
+        hsl = this.hexToHsl(value);
+      } else if (rgbRegex.test(value)) {
+        hsl = this.rgbToHsl(value);
+      } else if (hslRegex.test(value)) {
+        const matches = value.match(hslRegex);
+        hsl = [matches[1], matches[2], matches[3], matches[4]];
+      } else {
+        throw new Error(`Can not convert ${value} to HSL(a).`);
+      }
+
+      hsl[1] = hsl[1] > 1 ? hsl[1] / 100 : hsl[1];
+      hsl[2] = hsl[2] > 1 ? hsl[2] / 100 : hsl[2];
+
+      return hsl;
+    }
+
+    /**
+     * Calculates RGB value from color slider value
+     * @params {int} value convert this value
+     * @params {string} type type of value: hue, saturation, light or alpha
+     * @returns string|array
+     */
+    getSliderValueAsRgb(value, type) {
+      let h = this.hue;
+      let s = this.saturation;
+      let l = this.light;
+      let a = this.alpha;
+
+      switch (type) {
+        case 'alpha':
+          a = value;
+          break;
+        case 'saturation':
+          s = value;
+          break;
+        case 'light':
+          l = value;
+          break;
+        case 'hue':
+        default:
+          h = value;
+      }
+
+      // Percentage light and saturation
+      if (l > 1) {
+        l /= 100;
+      }
+      if (s > 1) {
+        s /= 100;
+      }
+      if (a > 1) {
+        a /= 100;
+      }
+
+      return this.hslToRgb([h, s, l, a]);
     }
 
     /**
@@ -233,47 +295,6 @@
     }
 
     /**
-     * Calculates RGB value from color slider value
-     * @params {int} value convert this value
-     * @params {string} type type of value: hue, saturation or light
-     * @returns string|array
-     */
-    getValueAsRgb(value, type) {
-      let h = this.hue;
-      let s = this.saturation;
-      let l = this.light;
-      let a = this.alpha;
-
-      switch (type) {
-        case 'alpha':
-          a = value;
-          break;
-        case 'saturation':
-          s = value;
-          break;
-        case 'light':
-          l = value;
-          break;
-        case 'hue':
-        default:
-          h = value;
-      }
-
-      // Percentage light and saturation
-      if (l > 1) {
-        l /= 100;
-      }
-      if (s > 1) {
-        s /= 100;
-      }
-      if (a > 1) {
-        a /= 100;
-      }
-
-      return this.hslToRgb([h, s, l, a]);
-    }
-
-    /**
      * Put RGB values into a string like 'rgb(<R>, <G>, <B>)'
      * @params {array} rgba
      */
@@ -314,10 +335,10 @@
       let g = rgb[1].toString(16).toUpperCase();
       let b = rgb[2].toString(16).toUpperCase();
 
-      // Add zero for '#' + 6 chars
-      r = r.length === 1 ? `0${r}` : r;
-      g = g.length === 1 ? `0${g}` : g;
-      b = b.length === 1 ? `0${b}` : b;
+      // Double value for hex with '#' and 6 chars
+      r = r.length === 1 ? `${r}${r}` : r;
+      g = g.length === 1 ? `${g}${g}` : g;
+      b = b.length === 1 ? `${b}${b}` : b;
 
       return `#${r}${g}${b}`;
     }
