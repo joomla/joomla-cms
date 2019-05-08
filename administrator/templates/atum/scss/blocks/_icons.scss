@@ -42,7 +42,7 @@
     height: 26px;
     font-size: 1rem;
     line-height: 22px;
-    color: #ccc;
+    color: $gray-400;
     border: 2px solid var(--border);
     border-radius: 50%;
   }
@@ -70,5 +70,42 @@
     color: var(--atum-text-dark);
     border: 0;
   }
+}
+.icon-joomla:before {
+	content:"\f1aa";
+	font-family: "Font Awesome 5 Brands"
+}
+.icon-shield-alt:before {
+	content:"\f3ed";
+}
+.icon-address-book:before {
+	content:"\f2b9";
+}
+.icon-images:before {
+	content:"\f302";
+}
+.info-circle:before {
+	content:"\f05a";
+}
+.icon-paint-brush:before {
+	content:"\f1fc";
+}
+.icon-language:before {
+	content:"\f1ab";
+}
+.icon-rss:before {
+	content:"\f09e";
+}
+.icon-map-signs:before {
+	content:"\f277";
+}
+.icon-envelope-open-text:before {
+	content:"\f658";
+}
+.icon-users-cog:before {
+	content:"\f509";
+}
+.icon-user-lock:before {
+	content:"\f502";
 }
 

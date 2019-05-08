@@ -118,7 +118,7 @@ class HtmlView extends BaseHtmlView
 	{
 		$canDo = ContentHelper::getActions('com_csp');
 
-		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'generic');
+		ToolbarHelper::title(Text::_('COM_CSP_REPORTS'), 'shield-alt');
 
 		if ($canDo->get('core.edit.state'))
 		{

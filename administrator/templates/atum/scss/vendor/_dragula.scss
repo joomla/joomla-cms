@@ -6,7 +6,7 @@
   z-index: $zindex-popover !important;
   margin: 0 !important;
   cursor: move;
-  background-color: $teal #90ee90;
+  background-color: $teal var(--success);
   opacity: .8;
 
   &.table {

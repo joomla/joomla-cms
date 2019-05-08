@@ -120,7 +120,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => self::countCheckin(),
 						'link'   => Route::_('index.php?option=com_checkin'),
-						'image'  => 'fa fa-lock-open',
+						'image'  => 'fa fa-unlock-alt',
 						'name'   => Text::_('MOD_QUICKICON_CHECKINS'),
 						'access' => array('core.admin', 'com_checkin'),
 						'group'  => 'MOD_QUICKICON_SYSTEM'
@@ -189,7 +189,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_content'),
-						'image'  => 'fa fa-file',
+						'image'  => 'fa fa-file-alt',
 						'linkadd'   => Route::_('index.php?option=com_content&task=article.add'),
 						'addwhat' => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', 1),
 						'name'   => Text::plural('MOD_QUICKICON_ARTICLE_MANAGER', $amount),
@@ -205,7 +205,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_categories'),
-						'image'  => 'fa fa-folder',
+						'image'  => 'fa fa-folder-open',
 						'addwhat' => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', 1),
 						'linkadd'   => Route::_('index.php?option=com_categories&task=category.add'),
 						'name'   => Text::plural('MOD_QUICKICON_CATEGORY_MANAGER', $amount),
@@ -217,7 +217,7 @@ abstract class QuickIconHelper
 				if ($params->get('show_media', '1'))
 				{
 					self::$buttons[$key][] = [
-						'image'  => 'fa fa-image',
+						'image'  => 'fa fa-images',
 						'link'   => Route::_('index.php?option=com_media'),
 						'name'   => Text::_('MOD_QUICKICON_MEDIA_MANAGER'),
 						'access' => array('core.manage', 'com_media'),
@@ -232,7 +232,7 @@ abstract class QuickIconHelper
 					self::$buttons[$key][] = [
 						'amount' => $amount,
 						'link'   => Route::_('index.php?option=com_modules'),
-						'image'  => 'fa fa-puzzle-piece',
+						'image'  => 'fa fa-cube',
 						'name'   => Text::plural('MOD_QUICKICON_MODULE_MANAGER', $amount),
 						'addwhat' => Text::plural('MOD_QUICKICON_MODULE_MANAGER', 1),
 						'linkadd'   => Route::_('index.php?option=com_categories&task=type.select'),

@@ -7,7 +7,7 @@
     <menuitem
         title="COM_CPANEL_SYSTEM_SETUP"
         type="heading"
-        icon="wrench"
+        icon="cog"
         permission="core.admin"
     >
         <menuitem
@@ -21,7 +21,7 @@
     <menuitem
         title="MOD_MENU_MAINTAIN"
         type="heading"
-        icon="refresh"
+        icon="tools"
     >
         <menuitem
             title="MOD_MENU_CLEAR_CACHE"
@@ -52,7 +52,7 @@
     <menuitem
         title="MOD_MENU_INFORMATION"
         type="heading"
-        icon="refresh"
+        icon="info-circle"
     >
         <menuitem
             title="MOD_MENU_INFORMATION_WARNINGS"
@@ -93,7 +93,7 @@
     <menuitem
         title="MOD_MENU_INSTALL"
         type="heading"
-        icon="download"
+        icon="cloud-download-alt"
         permission="core.manage;com_installer"
         >
         <menuitem
@@ -122,7 +122,7 @@
     <menuitem
         title="MOD_MENU_MANAGE"
         type="heading"
-        icon="refresh"
+        icon="tasks"
         >
         <menuitem
             title="MOD_MENU_MANAGE_EXTENSIONS"
@@ -200,7 +200,7 @@
     <menuitem
         title="MOD_MENU_UPDATE"
         type="heading"
-        icon="upload"
+        icon="sync"
         >
         <menuitem
                 title="MOD_MENU_UPDATE_JOOMLA"
@@ -232,7 +232,7 @@
     <menuitem
         title="MOD_MENU_TEMPLATES"
         type="heading"
-        icon="image"
+        icon="paint-brush"
         permission="core.manage;com_templates"
         >
         <menuitem
@@ -267,7 +267,7 @@
     <menuitem
         title="MOD_MENU_ACCESS"
         type="heading"
-        icon="lock"
+        icon="key"
         >
         <menuitem
                 title="MOD_MENU_ACCESS_GROUPS"
