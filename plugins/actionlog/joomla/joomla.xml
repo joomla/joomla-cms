@@ -12,5 +12,4 @@
 	<files>
 		<filename plugin="joomla">joomla.php</filename>
 	</files>
-	<config />
 </extension>
