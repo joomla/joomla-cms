@@ -280,9 +280,9 @@ class ConsoleApplication extends Application implements DispatcherAwareInterface
 	 * @param   string  $name     The name of the application/client.
 	 * @param   array   $options  An optional associative array of configuration settings.
 	 *
-	 * @return  AbstractMenu
+	 * @return  null
 	 *
-	 * @since   3.2
+	 * @since   DEPLOY_VERSION
 	 */
 	public function getMenu($name = null, $options = array())
 	{
