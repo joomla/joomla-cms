@@ -132,6 +132,8 @@ class AddUserToGroupCommand extends AbstractCommand
 	/**
 	 * Method to get a value from option
 	 *
+	 * @param   User  $user  a UserInstance
+	 *
 	 * @return  array
 	 *
 	 * @since   __DEPLOY_VERSION__
