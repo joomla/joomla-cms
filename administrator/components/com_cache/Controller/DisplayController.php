@@ -11,8 +11,10 @@ namespace Joomla\Component\Cache\Administrator\Controller;
 
 defined('_JEXEC') or die;
 
+use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\BaseController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Component\Cache\Administrator\Helper\CacheHelper;
 
 /**
@@ -64,6 +66,38 @@ class DisplayController extends BaseController
 
 			$view->display();
 		}
+	}
+
+		
+	/**
+	 * Method to get The Cache Size
+	 * 
+	 * @return  integer  The cache size in kB
+	 *
+	 * @since   4.0
+	 */
+	public function quickiconAmount()
+	{
+		$model = $this->getModel('Cache');
+		
+		$data = $model->getData();
+
+		$size = 0;
+
+		if (!empty($data))
+		{
+			foreach ($data as $d)
+			{
+				$size += $d->size;
+			}
+		}
+
+		// Number bytes are returned in format xxx.xx MB
+		$mb = explode(' ', HTMLHelper::_('number.bytes', $size, 'MB', 1, false));
+		
+		// Return number only
+		echo new JsonResponse($mb[0]);
+
 	}
 
 	/**

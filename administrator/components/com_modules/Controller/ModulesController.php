@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\Utilities\ArrayHelper;
 
 /**
@@ -70,5 +71,24 @@ class ModulesController extends AdminController
 	public function getModel($name = 'Module', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
+	}
+			
+	/**
+	 * Method to get the number of frontend modules
+	 * 
+	 * @return  integer  The amount of modules
+	 *
+	 * @since   4.0
+	 */
+	public function quickiconAmount()
+	{
+		$model = $this->getModel('Modules');
+
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.published', 1);
+		$model->setState('filter.client_id', 0);
+
+		echo new JsonResponse(count($model->getItems()));
 	}
 }

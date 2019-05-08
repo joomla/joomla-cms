@@ -12,6 +12,7 @@ namespace Joomla\Component\Plugins\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 
 /**
  * Plugins list controller class.
@@ -34,5 +35,23 @@ class PluginsController extends AdminController
 	public function getModel($name = 'Plugin', $prefix = 'Administrator', $config = array('ignore_request' => true))
 	{
 		return parent::getModel($name, $prefix, $config);
+	}
+	
+	/**
+	 * Method to get the number of activated plugins
+	 * 
+	 * @return  integer  The amount of items
+	 *
+	 * @since   4.0
+	 */
+	public function quickiconAmount()
+	{
+		$model = $this->getModel('Plugins');
+
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.enabled', 1);
+
+		echo new JsonResponse(count($model->getItems()));
 	}
 }

@@ -13,6 +13,7 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Controller\AdminController;
+use Joomla\CMS\Response\JsonResponse;
 use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
@@ -38,7 +39,26 @@ class CategoriesController extends AdminController
 	{
 		return parent::getModel($name, $prefix, $config);
 	}
+	
+	/**
+	 * Method to get the number of content categories
+	 * 
+	 * @return  integer  The amount of published content categories
+	 *
+	 * @since   4.0
+	 */
+	public function quickiconAmount()
+	{
+		$model = $this->getModel('Categories');
 
+		$model->setState('list.start', 0);
+		$model->setState('list.limit', 0);
+		$model->setState('filter.published', 1);
+		$model->setState('filter.extension', 'com_content');
+
+		echo new JsonResponse(count($model->getItems()));
+	}
+	
 	/**
 	 * Rebuild the nested set tree.
 	 *
