@@ -27,7 +27,7 @@ class DownloadkeysModel extends InstallerModel
 	 * @param   array                $config   An optional associative array of configuration settings.
 	 * @param   MvcFactoryInterface  $factory  The factory.
 	 *
-	 * @see     \Joomla\CMS\Model\ListModel
+	 * @see     \Joomla\CMS\MVC\Model\ListModel
 	 * @since   __DEPLOY_VERSION__
 	 */
 	public function __construct($config = array(), MvcFactoryInterface $factory = null)
@@ -110,8 +110,7 @@ class DownloadkeysModel extends InstallerModel
 	 */
 	protected function getListQuery()
 	{
-		$db = $this->getDbo();
-
+		$db    = $this->getDbo();
 		$query = $db->getQuery(true)
 			->select(
 				array(
@@ -175,8 +174,6 @@ class DownloadkeysModel extends InstallerModel
 		{
 			$query->where($db->quoteName('s.update_site_id') . ' = ' . $db->quote((int) substr($search, 3)));
 		}
-
-		// Note: The search for name, ordering and pagination are processed by the parent InstallerModel class (in extension.php).
 
 		return $query;
 	}

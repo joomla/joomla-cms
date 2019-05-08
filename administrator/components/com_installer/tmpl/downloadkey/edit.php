@@ -19,7 +19,7 @@ $tmp = null;
 
 if ($this->modal != null)
 {
-	$tmp = "&tmpl=" . $this->modal;
+	$tmp = '&tmpl=' . $this->modal;
 }
 
 ?>

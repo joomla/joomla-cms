@@ -6,10 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\Model;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Component\Installer\Administrator\Helper\InstallerHelper;
@@ -37,8 +39,8 @@ class DownloadkeyModel extends AdminModel
 	 *
 	 * @return  Form|boolean  A \JForm object on success, false on failure
 	 *
-	 * @throws  \Exception
 	 * @since   __DEPLOY_VERSION__
+	 * @throws  Exception
 	 */
 	public function getForm($data = array(), $loadData = true)
 	{
@@ -53,6 +55,22 @@ class DownloadkeyModel extends AdminModel
 		}
 
 		return $form;
+	}
+
+	/**
+	 * Method to save the form data.
+	 *
+	 * @param   array  $data  The form data.
+	 *
+	 * @return  boolean  True on success, False on error.
+	 *
+	 * @since   __DEPLOY_VERSION__
+	 */
+	public function save($data)
+	{
+		$data['extra_query'] = $data['dlidprefix'] . $data['extra_query'] . $data['dlidsuffix'];
+
+		return parent::save($data);
 	}
 
 	/**
@@ -107,32 +125,17 @@ class DownloadkeyModel extends AdminModel
 				' ON ' . $db->quoteName('e.extension_id') .
 				' = ' . $db->quoteName('se.extension_id')
 			)
-			->where($db->quoteName('s.update_site_id') . ' = ' . $db->quote($item->update_site_id));
+			->where($db->quoteName('s.update_site_id') . ' = ' . (int) $item->get('update_site_id'));
+
 		$db->setQuery($query);
 		$extension = $db->loadObject();
 
 		$downloadKey = InstallerHelper::getDownloadKey($extension);
 
-		$item->extra_query = $downloadKey['value'];
-		$item->dlidprefix  = $downloadKey['prefix'];
-		$item->dlidsuffix  = $downloadKey['suffix'];
+		$item->set('extra_query', $downloadKey['value']);
+		$item->set('dlidprefix', $downloadKey['prefix']);
+		$item->set('dlidsuffix', $downloadKey['suffix']);
 
 		return $item;
-	}
-
-	/**
-	 * Method to save the form data.
-	 *
-	 * @param   array  $data  The form data.
-	 *
-	 * @return  boolean  True on success, False on error.
-	 *
-	 * @since   __DEPLOY_VERSION__
-	 */
-	public function save($data)
-	{
-		$data['extra_query'] = $data['dlidprefix'] . $data['extra_query'] . $data['dlidsuffix'];
-
-		return parent::save($data);
 	}
 }

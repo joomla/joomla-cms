@@ -6,14 +6,18 @@
  * @copyright   Copyright (C) 2005 - 2017 Open Source Matters, Inc. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+
 namespace Joomla\Component\Installer\Administrator\View\Downloadkey;
 
 defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Component\ComponentHelper;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
+use Joomla\Input\Input;
 use Joomla\CMS\Language\Text;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Joomla\CMS\User\User;
 use Joomla\Component\Installer\Administrator\Model\DownloadkeyModel;
@@ -45,6 +49,14 @@ class HtmlView extends InstallerViewDefault
 	protected $item;
 
 	/**
+	 * Set if we are in a modal
+	 *
+	 * @var    string
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $modal = '';
+
+	/**
 	 * Display the view.
 	 *
 	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
@@ -52,22 +64,25 @@ class HtmlView extends InstallerViewDefault
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  Exception
 	 */
 	public function display($tpl = null)
 	{
 		/** @var DownloadkeyModel $model */
-		$model = $this->getModel();
+		$model       = $this->getModel();
 		$this->form  = $model->getForm();
 		$this->item  = $model->getItem();
-		$this->state  = $model->getState();
+		$this->state = $model->getState();
 
-		$jinput = \JFactory::getApplication()->input;
-		$this->modal = $jinput->getString('tmpl', '');
+		/** @var Input $input */
+		$input       = Factory::getApplication()->input;
+		$this->modal = $input->getString('tmpl', '');
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericDataException(implode("\n", $errors), 500);
 		}
 
 		$this->addToolbar();
@@ -81,6 +96,8 @@ class HtmlView extends InstallerViewDefault
 	 * @return  void
 	 *
 	 * @since   __DEPLOY_VERSION__
+	 *
+	 * @throws  Exception
 	 */
 	protected function addToolbar()
 	{

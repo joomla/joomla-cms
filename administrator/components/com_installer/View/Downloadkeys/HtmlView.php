@@ -12,18 +12,19 @@ namespace Joomla\Component\Installer\Administrator\View\Downloadkeys;
 defined('_JEXEC') or die;
 
 use Exception;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Helper\ContentHelper;
 use Joomla\CMS\HTML\HTMLHelper;
+use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\Pagination\Pagination;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+use Joomla\Component\Installer\Administrator\Model\DownloadkeysModel;
 use Joomla\Component\Installer\Administrator\View\Installer\HtmlView as InstallerViewDefault;
 
 /**
  * Extension Manager Update Sites View
  *
- * @package     Joomla.Administrator
- * @subpackage  com_installer
- * @since       __DEPLOY_VERSION__
+ * @since  __DEPLOY_VERSION__
  */
 class HtmlView extends InstallerViewDefault
 {
@@ -46,6 +47,22 @@ class HtmlView extends InstallerViewDefault
 	protected $pagination;
 
 	/**
+	 * The search filter form
+	 *
+	 * @var    Form
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $filterForm = null;
+
+	/**
+	 * List of active filters
+	 *
+	 * @var    array
+	 * @since  __DEPLOY_VERSION__
+	 */
+	protected $activeFilters = array();
+
+	/**
 	 * Display the view
 	 *
 	 * @param   string  $tpl  Template
@@ -58,16 +75,17 @@ class HtmlView extends InstallerViewDefault
 	 */
 	public function display($tpl = null)
 	{
-		// Get data from the model
-		$this->items         = $this->get('Items');
-		$this->pagination    = $this->get('Pagination');
-		$this->filterForm    = $this->get('FilterForm');
-		$this->activeFilters = $this->get('ActiveFilters');
+		/** @var DownloadkeysModel $model */
+		$model = $this->getModel();
+		$this->items         = $model->getItems();
+		$this->pagination    = $model->getPagination();
+		$this->filterForm    = $model->getFilterForm();
+		$this->activeFilters = $model->getActiveFilters();
 
 		// Check for errors.
 		if (count($errors = $this->get('Errors')))
 		{
-			throw new \JViewGenericdataexception(implode("\n", $errors), 500);
+			throw new GenericdataException(implode("\n", $errors), 500);
 		}
 
 		// Include the component HTML helpers.
