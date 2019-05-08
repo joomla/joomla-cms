@@ -128,10 +128,10 @@ class HtmlView extends BaseHtmlView
 			0,
 			'',
 			'COM_MESSAGES_TOOLBAR_MY_SETTINGS',
-			'<button class="btn btn-secondary" type="button" data-dismiss="modal" aria-hidden="true">'
+			'<button type="button" class="btn btn-secondary" data-dismiss="modal">'
 			. Text::_('JCANCEL')
 			. '</button>'
-			. '<button class="btn btn-success" type="button" data-dismiss="modal" aria-hidden="true"'
+			. '<button type="button" class="btn btn-success" data-dismiss="modal"'
 			. ' onclick="Joomla.iframeButtonClick({iframeSelector: \'#modal-cog\', buttonSelector: \'#saveBtn\'})">'
 			. Text::_('JSAVE')
 			. '</button>'
