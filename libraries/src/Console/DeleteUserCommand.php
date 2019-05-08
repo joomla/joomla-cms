@@ -107,7 +107,7 @@ class DeleteUserCommand extends AbstractCommand
 					$db->setQuery($queryUser);
 					$activeSuperUser = $db->loadResult();
 
-					if ($activeSuperUser < 20)
+					if ($activeSuperUser < 2)
 					{
 						$this->ioStyle->error("Last active super user can't be deleted! At least one active super user needs to exist!");
 
