@@ -12,10 +12,9 @@ defined('_JEXEC') or die;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 
+HTMLHelper::_('script', 'mod_quickicon/quickicon.js', ['version' => 'auto', 'relative' => true]);
+
 $html = HTMLHelper::_('icons.buttons', $buttons);
-
-HTMLHelper::_('script', 'mod_quickicons/quickicons.min.js', array('version' => 'auto', 'relative' => true));
-
 ?>
 <?php if (!empty($html)) : ?>
 	<nav  class="quick-icons" aria-label="<?php echo Text::_('MOD_QUICKICON_NAV_LABEL') . ' ' . $module->title; ?>">
