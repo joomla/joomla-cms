@@ -76,7 +76,7 @@ $tparams = $this->item->params;
 
 		<?php if ($this->item->image && $tparams->get('show_image')) : ?>
 			<div class="com-contact__thumbnail thumbnail float-right">
-				<?php echo HTMLHelper::_('image', $this->item->image, $this->item->name, array('itemprop' => 'image')); ?>
+				<?php echo HTMLHelper::_('image', $this->item->image, htmlspecialchars($this->contact->name,  ENT_QUOTES, 'UTF-8'), array('itemprop' => 'image')); ?>
 			</div>
 		<?php endif; ?>
 

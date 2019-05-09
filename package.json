@@ -8,7 +8,7 @@
     "url": "https://github.com/joomla/joomla-cms.git"
   },
   "engines": {
-    "node": ">=8.11.4 <12.0.0",
+    "node": ">=8.11.4",
     "npm": ">=5.7.0"
   },
   "scripts": {
@@ -18,7 +18,7 @@
     "lint:js": "npx eslint .",
     "test": "npx karma start tests/javascript/karma.conf.js --single-run",
     "install": "node build.js --copy-assets && node build.js --build-pages",
-    "postinstall": "node build.js --compile-js && node build.js --compile-css && cd administrator/components/com_media && npm ci && npm run build",
+    "postinstall": "node build.js --compile-js && node build.js --compile-css && cd administrator/components/com_media && npm install && npm run build",
     "update": "node build.js --copy-assets && node build.js --build-pages && node build.js --compile-js && node build.js --compile-css",
     "gzip": "node -e 'require(\"./build/build-modules-js/gzip-assets.es6.js\").gzipFiles()'"
   },

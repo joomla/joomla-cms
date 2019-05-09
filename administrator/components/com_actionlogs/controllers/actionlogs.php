@@ -10,6 +10,10 @@
 defined('_JEXEC') or die;
 
 use Joomla\CMS\Component\ComponentHelper;
+use Joomla\CMS\Date\Date;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Router\Route;
 use Joomla\Utilities\ArrayHelper;
 
 JLoader::register('ActionlogsHelper', JPATH_ADMINISTRATOR . '/components/com_actionlogs/helpers/actionlogs.php');
@@ -89,8 +93,8 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			}
 			catch (InvalidArgumentException $exception)
 			{
-				$this->setMessage(JText::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
-				$this->setRedirect(JRoute::_('index.php?option=com_actionlogs&view=actionlogs', false));
+				$this->setMessage(Text::_('COM_ACTIONLOGS_ERROR_COULD_NOT_EXPORT_DATA'), 'error');
+				$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
 
 				return;
 			}
@@ -98,12 +102,12 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 			// Destroy the iterator now
 			unset($data);
 
-			$date     = new JDate('now', new DateTimeZone('UTC'));
+			$date     = new Date('now', new DateTimeZone('UTC'));
 			$filename = 'logs_' . $date->format('Y-m-d_His_T');
 
 			$csvDelimiter = ComponentHelper::getComponent('com_actionlogs')->getParams()->get('csv_delimiter', ',');
 
-			$app = JFactory::getApplication();
+			$app = Factory::getApplication();
 			$app->setHeader('Content-Type', 'application/csv', true)
 				->setHeader('Content-Disposition', 'attachment; filename="' . $filename . '.csv"', true)
 				->setHeader('Cache-Control', 'must-revalidate', true)
@@ -122,8 +126,8 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 		}
 		else
 		{
-			$this->setMessage(JText::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));
-			$this->setRedirect(JRoute::_('index.php?option=com_actionlogs&view=actionlogs', false));
+			$this->setMessage(Text::_('COM_ACTIONLOGS_NO_LOGS_TO_EXPORT'));
+			$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false));
 		}
 	}
 
@@ -143,13 +147,13 @@ class ActionlogsControllerActionlogs extends JControllerAdmin
 
 		if ($model->purge())
 		{
-			$message = JText::_('COM_ACTIONLOGS_PURGE_SUCCESS');
+			$message = Text::_('COM_ACTIONLOGS_PURGE_SUCCESS');
 		}
 		else
 		{
-			$message = JText::_('COM_ACTIONLOGS_PURGE_FAIL');
+			$message = Text::_('COM_ACTIONLOGS_PURGE_FAIL');
 		}
 
-		$this->setRedirect(JRoute::_('index.php?option=com_actionlogs&view=actionlogs', false), $message);
+		$this->setRedirect(Route::_('index.php?option=com_actionlogs&view=actionlogs', false), $message);
 	}
 }
