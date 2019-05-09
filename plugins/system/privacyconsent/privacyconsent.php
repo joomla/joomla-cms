@@ -320,7 +320,8 @@ class PlgSystemPrivacyconsent extends JPlugin
 			 */
 			if ($option == 'com_users' && in_array($task, array('profile.save', 'profile.apply', 'user.logout', 'user.menulogout'))
 				|| ($option == 'com_content' && $view == 'article' && $id == $privacyArticleId)
-				|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit'))
+				|| ($option == 'com_users' && $view == 'profile' && $layout == 'edit')
+				|| $option == 'com_ajax')
 			{
 				return;
 			}
