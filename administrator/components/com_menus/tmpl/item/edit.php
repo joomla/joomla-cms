@@ -102,7 +102,7 @@ if ($clientId === 1)
 
 				if ($this->item->type == 'alias')
 				{
-					echo $this->form->renderFieldset('aliasoptions');
+					echo $this->form->renderField('aliasoptions', 'params');
 				}
 
 				if ($this->item->type == 'separator')
@@ -119,6 +119,11 @@ if ($clientId === 1)
 				}
 
 				echo $this->form->renderField('link');
+
+				if ($this->item->type == 'alias')
+				{
+					echo $this->form->renderField('alias_redirect', 'params');
+				}
 
 				echo $this->form->renderField('browserNav');
 				echo $this->form->renderField('template_style_id');
