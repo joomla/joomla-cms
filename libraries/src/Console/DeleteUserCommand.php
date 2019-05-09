@@ -8,7 +8,6 @@
 
 namespace Joomla\CMS\Console;
 
-
 defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Access\Access;
