@@ -28,12 +28,12 @@ $maxSize = FilesystemHelper::fileUploadMaxSize();
 <hr>
 
 <div id="uploader-wrapper">
-	<div id="dragarea">
+	<div id="dragarea" data-state="pending">
 		<div id="dragarea-content" class="text-center">
 			<p>
 				<span id="upload-icon" class="icon-upload" aria-hidden="true"></span>
 			</p>
-			<div class="upload-progress">
+			<div id="upload-progress" class="upload-progress">
 				<div class="progress progress-striped active">
 					<div class="bar bar-success"
 						 style="width: 0;"
