@@ -85,7 +85,8 @@ class HelpButton extends BasicButton
 	{
 		// Get Help URL
 		$url = Help::createUrl($this->getRef(), $this->getUseComponent(), $this->getUrl(), $this->getComponent());
-		$url = htmlspecialchars($url, ENT_QUOTES);
+		$url = json_encode(htmlspecialchars($url, ENT_QUOTES));
+		$url = substr($url, 1, -1);
 		$cmd = "Joomla.popupWindow('$url', '" . Text::_('JHELP', true) . "', 700, 500, 1)";
 
 		return $cmd;

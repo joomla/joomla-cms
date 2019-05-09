@@ -135,6 +135,12 @@ class PlgFieldsRepeatable extends FieldsPlugin
 			// Determine the value if it is available from the data
 			$value = key_exists($field->name, $fieldsData) ? $fieldsData[$field->name] : null;
 
+			// Handle json encoded values
+			if (!is_array($value))
+			{
+				$value = json_decode($value, true);
+			}
+
 			// Setting the value for the field and the item
 			$model->setFieldValue($field->id, $item->get('id'), json_encode($value));
 		}
