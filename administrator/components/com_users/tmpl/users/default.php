@@ -14,6 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
+use Joomla\CMS\Plugin\PluginHelper;
 use Joomla\CMS\Router\Route;
 use Joomla\CMS\String\PunycodeHelper;
 
@@ -23,6 +24,8 @@ HTMLHelper::_('behavior.tabstate');
 $listOrder  = $this->escape($this->state->get('list.ordering'));
 $listDirn   = $this->escape($this->state->get('list.direction'));
 $loggeduser = Factory::getUser();
+$tfa        = PluginHelper::isEnabled('twofactorauth');
+
 ?>
 <form action="<?php echo Route::_('index.php?option=com_users&view=users'); ?>" method="post" name="adminForm" id="adminForm">
 	<div class="row">
@@ -66,6 +69,11 @@ $loggeduser = Factory::getUser();
 								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
 									<?php echo HTMLHelper::_('searchtools.sort', 'COM_USERS_HEADING_ACTIVATED', 'a.activation', $listDirn, $listOrder); ?>
 								</th>
+								<?php if ($tfa) : ?> 
+								<th scope="col" style="width:5%" class="text-center d-none d-md-table-cell">
+									<?php echo Text::_('COM_USERS_HEADING_TFA'); ?>
+								</th>
+								<?php endif; ?>
 								<th scope="col" style="width:12%">
 									<?php echo Text::_('COM_USERS_HEADING_GROUPS'); ?>
 								</th>
@@ -150,6 +158,17 @@ $loggeduser = Factory::getUser();
 									echo HTMLHelper::_('jgrid.state', HTMLHelper::_('users.activateStates'), $activated, $i, 'users.', (boolean) $activated);
 									?>
 								</td>
+								<?php if ($tfa) : ?> 
+								<td class="text-center d-none d-md-table-cell tbody-icon">
+									<?php if (!empty($item->otpKey)) : ?>
+										<span class="icon-publish" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_ACTIVE'); ?></span>
+									<?php else : ?> 
+										<span class="icon-unpublish" aria-hidden="true"></span>
+										<span class="sr-only"><?php echo Text::_('COM_USERS_TFA_NOTACTIVE'); ?></span>
+									<?php endif; ?>
+								</td>
+								<?php endif; ?>
 								<td>
 									<?php if (substr_count($item->group_names, "\n") > 1) : ?>
 										<span class="hasTooltip" title="<?php echo HTMLHelper::_('tooltipText', Text::_('COM_USERS_HEADING_GROUPS'), nl2br($item->group_names), 0); ?>"><?php echo Text::_('COM_USERS_USERS_MULTIPLE_GROUPS'); ?></span>
